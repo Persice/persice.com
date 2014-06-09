@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.list import ListView
 
-# Create your views here.
+from .models import Goal
+
+
+class GoalListView(ListView):
+    model = Goal
+
+
+class GoalCreate(CreateView):
+    model = Goal
+    fields = ['description']
+    success_url = '/goal'
+
+
+class GoalUpdate(UpdateView):
+    model = Goal
+    fields = ['description']
+    success_url = '/goal'
