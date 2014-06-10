@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath bekindred bekindred.wsgi
