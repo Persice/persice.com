@@ -1,3 +1,6 @@
+venv
+staticfiles
+
 # ignore idea files
 /.idea
 
