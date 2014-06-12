@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if user.is_authenticated %}
+        <p class="text-right">Welcome, {{ user.username }}  <a href="/accounts/logout">[logout]</a></p>
+    {% endif %}
     <div class="container">
         <h1 class="text-muted text-center">
             Welcome to
