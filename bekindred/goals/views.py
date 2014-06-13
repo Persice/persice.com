@@ -14,11 +14,19 @@ class LoginRequiredMixin(object):
 class GoalListView(LoginRequiredMixin, ListView):
     model = Goal
 
+    def get_queryset(self):
+        return Goal.objects.filter(users=self.request.user)
+
 
 class GoalCreate(LoginRequiredMixin, CreateView):
     model = Goal
     fields = ['description']
     success_url = '/goal'
+
+    def form_valid(self, form):
+        form.instance.save()
+        form.instance.users.add(self.request.user)
+        return super(GoalCreate, self).form_valid(form)
 
 
 class GoalUpdate(LoginRequiredMixin, UpdateView):
