@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block header %}
 <h1 class="text-muted text-center">
     My goal is to...
 </h1>
+{% endblock header %}
+
+{% block content %}
 <br>
 <div class="container col-md-12 col-md-offset-5">
-    <form class="form-horizontal" role="form" action="" method="post">{% csrf_token %}
-        <div class="text-center col-sm-2">
+    <form class="form-horizontal col-sm-2" role="form" action="" method="post">{% csrf_token %}
+        <div class="form-group">
             <input type="text" name="description" class="form-control" id="id_description" placeholder="enter you goal here">
         </div>
-        <input type="submit" class="btn btn-primary" role="button" value="Create" />
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary" role="button" value="Next &rarr;" />
+        </div>
     </form>
 </div>
 <div class="container col-md-12 col-md-offset-5">

@@ -21,7 +21,8 @@ class GoalListView(LoginRequiredMixin, ListView):
 class GoalCreate(LoginRequiredMixin, CreateView):
     model = Goal
     fields = ['description']
-    success_url = '/goal'
+    success_url = '/goals/create/offer'
+    template_name = 'goals/create_goal.html'
 
     def form_valid(self, form):
         form.instance.save()
@@ -33,3 +34,17 @@ class GoalUpdate(LoginRequiredMixin, UpdateView):
     model = Goal
     fields = ['description']
     success_url = '/goal'
+
+
+class OfferCreate(LoginRequiredMixin, CreateView):
+    model = Goal
+    fields = ['description', 'is_offer']
+    success_url = '/goals'
+    template_name = 'goals/create_offer.html'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.is_offer = True
+        form.instance.save()
+        form.instance.users.add(self.request.user)
+        return super(OfferCreate, self).form_valid(form)

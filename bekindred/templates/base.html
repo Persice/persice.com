@@ -7,6 +7,7 @@
         <link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" media="screen">
     </head>
     <body>
+        {% block header %}{% endblock header %}
         {% block content %}{% endblock content %}
         <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
