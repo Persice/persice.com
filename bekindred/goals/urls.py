@@ -1,11 +1,9 @@
 from django.conf.urls import patterns, include, url
-from .views import GoalCreate, GoalUpdate, GoalListView, OfferCreate
+from .views import UserGoalCreate, UserGoalOfferListView, UserOfferCreate
 
 
 urlpatterns = patterns('',
-    url(r'^$', GoalListView.as_view()),
-    url(r'^create/goal/$', GoalCreate.as_view()),
-    url(r'^create/offer/$', OfferCreate.as_view()),
-    url(r'^update/goal/(?P<pk>\d+)/$', GoalUpdate.as_view()),
-
+    url(r'^$', UserGoalOfferListView.as_view()),
+    url(r'^create/goal/$', UserGoalCreate.as_view()),
+    url(r'^create/offer/$', UserOfferCreate.as_view()),
 )

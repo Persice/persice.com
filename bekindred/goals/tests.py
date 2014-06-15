@@ -1,11 +1,11 @@
 from django.test import TestCase
-from .models import Goal
+from .models import Subject
 
 
-class GoalTestCase(TestCase):
+class SubjectTestCase(TestCase):
     def setUp(self):
-        Goal.objects.create(description="Play piano")
+        Subject.objects.create(description="Play piano")
         
     def test_goals_description(self):
-        goal = Goal.objects.get(description="Play piano")
+        goal = Subject.objects.get(description="Play piano")
         self.assertEqual(goal.description, "Play piano")
