@@ -18,3 +18,14 @@
 .login-form {
     padding-top: 65px;
 }
+
+.no_bullets {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 12px;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
