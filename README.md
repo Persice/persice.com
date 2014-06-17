@@ -32,3 +32,7 @@ heroku run python bekindred/manage.py syncdb --settings=bekindred.settings.produ
 heroku run python bekindred/manage.py migrate goals --settings=bekindred.settings.production
 ```
 
+Heroku Database
+```
+ heroku pg:psql
+```
