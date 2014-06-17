@@ -2,7 +2,12 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <p class="text-right">Welcome, {{ user.username }}  <a href="/accounts/logout">[logout]</a></p>
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li>Welcome, {{ user.username }}  <a href="/accounts/logout">[logout]</a></li>
+                <li><a href="/accounts/register">Registration</a></li>
+            </ul>
+        </div>
     {% endif %}
     <div class="container">
         <h1 class="text-muted text-center">
@@ -12,7 +17,7 @@
             Kindred
         </h2>
         <p class="text-center">
-            <a href="/goals/create/goal" class="btn btn-primary btn-lg" role="button">Start</a>
+            <a href="/goals/create/goal" class="btn btn-primary btn" role="button">Start</a>
         </p>
     </div>
 {% endblock content %}

@@ -19,6 +19,9 @@
     padding-top: 65px;
 }
 
+.registration-form {
+    padding-top: 65px;
+}
 .no_bullets {
     list-style-type: none;
     padding: 0;
@@ -28,4 +31,19 @@
 p {
     margin: 0;
     padding: 0;
+}
+
+.nav-container {
+    padding-top: 10px;
+    padding-right: 15px;
+    text-align: right;
+}
+.nav-list li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 15px;
+}
+
+h2 {
+    padding-bottom: 10px;
 }

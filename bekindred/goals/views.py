@@ -1,8 +1,12 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from goals.forms import RegistrationForm
 from .models import UserGoal, UserOffer, Subject
 
 
@@ -47,3 +51,23 @@ class UserOfferCreate(LoginRequiredMixin, CreateView):
         UserOffer.objects.get_or_create(user=self.request.user,
                                         offer=s)
         return super(UserOfferCreate, self).form_valid(form)
+
+
+def register_page(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'],
+                email=form.cleaned_data['email']
+            )
+            return HttpResponseRedirect('/')
+    else:
+        form = RegistrationForm()
+    variables = RequestContext(request, {
+        'form': form
+    })
+    return render_to_response(
+        'registration/register.html', variables
+    )
