@@ -19,6 +19,7 @@
     padding-top: 65px;
 }
 
+
 .registration-form {
     padding-top: 65px;
 }
@@ -46,4 +47,20 @@ p {
 
 h2 {
     padding-bottom: 10px;
+}
+
+.btn-circle {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.42;
+    border-radius: 30px;
+}
+
+span.glyphicon {
+    font-size: 2.3em;
+    line-height: 1;
+    font-weight: normal;
 }

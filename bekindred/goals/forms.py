@@ -13,7 +13,10 @@ class GoalForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(GoalForm, self).clean()
-        description = cleaned_data.get("description")
+        description = cleaned_data.get("description", False)
+        # if not description:
+        #     raise forms.ValidationError("Please full fill description")
+
         sbj, dummy = Subject.objects.get_or_create(description=description)
         dummy, created = UserGoal.objects.get_or_create(user=self.user, goal=sbj)
 
@@ -23,7 +26,7 @@ class GoalForm(forms.Form):
 
 
 class OfferForm(forms.Form):
-    description = forms.CharField(max_length=20)
+    description = forms.CharField(max_length=20, required=True)
 
     def __init__(self, user, *args, **kwargs):
         super(OfferForm, self).__init__(*args, **kwargs)
@@ -33,9 +36,18 @@ class OfferForm(forms.Form):
         cleaned_data = super(OfferForm, self).clean()
         description = cleaned_data.get("description")
         sbj, dummy = Subject.objects.get_or_create(description=description)
-        dummy, created = UserOffer.objects.get_or_create(user=self.user, offer=sbj)
 
-        if not created:
+        goal = None
+        try:
+            goal = UserGoal.objects.get(user=self.user, goal=sbj)
+        except UserGoal.DoesNotExist:
+            pass
+        if goal:
+            raise forms.ValidationError("Goal could not equivalent to offer")
+
+        dummy, created_offer = UserOffer.objects.get_or_create(user=self.user, offer=sbj)
+        # TODO User A offer != User A goal
+        if not created_offer:
             raise forms.ValidationError("Offer is already exists")
         return cleaned_data
 
