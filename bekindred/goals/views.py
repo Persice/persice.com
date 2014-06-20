@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -6,7 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from goals.forms import RegistrationForm
+from .forms import RegistrationForm, GoalForm, OfferForm
 from .models import UserGoal, UserOffer, Subject
 
 
@@ -25,32 +26,26 @@ class UserGoalOfferListView(LoginRequiredMixin, ListView):
         return super(UserGoalOfferListView, self).get_context_data(**kwargs)
 
 
-class UserGoalCreate(LoginRequiredMixin, CreateView):
-    model = Subject
-    # form_class = SubjectForm
+class UserGoalView(LoginRequiredMixin, FormView):
+    form_class = GoalForm
     success_url = '/goals/create/offer'
     template_name = 'goals/create_goal.html'
 
-    def form_valid(self, form):
-        s = form.save(commit=False)
-        form.instance.save()
-        # TODO User a goals != user a offers
-        UserGoal.objects.get_or_create(user=self.request.user,
-                                       goal=s)
-        return super(UserGoalCreate, self).form_valid(form)
+    def get_form_kwargs(self):
+        kwargs = super(UserGoalView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
-class UserOfferCreate(LoginRequiredMixin, CreateView):
-    model = Subject
+class UserOfferView(LoginRequiredMixin, FormView):
+    form_class = OfferForm
     success_url = '/goals'
     template_name = 'goals/create_offer.html'
 
-    def form_valid(self, form):
-        s = form.save(commit=False)
-        form.instance.save()
-        UserOffer.objects.get_or_create(user=self.request.user,
-                                        offer=s)
-        return super(UserOfferCreate, self).form_valid(form)
+    def get_form_kwargs(self):
+        kwargs = super(UserOfferView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 def register_page(request):

@@ -1,6 +1,43 @@
 import re
 from django.contrib.auth.models import User
 from django import forms
+from .models import Subject, UserGoal, UserOffer
+
+
+class GoalForm(forms.Form):
+    description = forms.CharField(max_length=20)
+
+    def __init__(self, user, *args, **kwargs):
+        super(GoalForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def clean(self):
+        cleaned_data = super(GoalForm, self).clean()
+        description = cleaned_data.get("description")
+        sbj, dummy = Subject.objects.get_or_create(description=description)
+        dummy, created = UserGoal.objects.get_or_create(user=self.user, goal=sbj)
+
+        if not created:
+            raise forms.ValidationError("Goal is already exists")
+        return cleaned_data
+
+
+class OfferForm(forms.Form):
+    description = forms.CharField(max_length=20)
+
+    def __init__(self, user, *args, **kwargs):
+        super(OfferForm, self).__init__(*args, **kwargs)
+        self.user = user
+
+    def clean(self):
+        cleaned_data = super(OfferForm, self).clean()
+        description = cleaned_data.get("description")
+        sbj, dummy = Subject.objects.get_or_create(description=description)
+        dummy, created = UserOffer.objects.get_or_create(user=self.user, offer=sbj)
+
+        if not created:
+            raise forms.ValidationError("Offer is already exists")
+        return cleaned_data
 
 
 class RegistrationForm(forms.Form):
