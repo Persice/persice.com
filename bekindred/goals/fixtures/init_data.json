@@ -1,0 +1,202 @@
+[
+  {
+    "pk": "p902bhszcfghe2pdt2xgxp7bcszwsiwm",
+    "model": "sessions.session",
+    "fields": {
+      "expire_date": "2014-07-05T04:58:31.514Z",
+      "session_data": "ZTc3MjZlOTM0OGNiZTgzYTM2YjI1YjAyYmU4MmIwNjczZTMwYWQ1Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0="
+    }
+  },
+  {
+    "pk": 1,
+    "model": "goals.subject",
+    "fields": {
+      "description": "Hire a cat sitter"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "goals.subject",
+    "fields": {
+      "description": "Find a running"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "goals.subject",
+    "fields": {
+      "description": "Learn Python"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "goals.subject",
+    "fields": {
+      "description": "Learn Django"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "goals.subject",
+    "fields": {
+      "description": "Learn Ruby"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "goals.subject",
+    "fields": {
+      "description": "Move Sofa"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+      "username": "user_a",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2014-06-21T04:58:31.513Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$12000$mJChrquDx3Yv$9t9vVYMlzqg565caethq57cMMli1EQIzYhPbvdNu9nA=",
+      "email": "a@i.ua",
+      "date_joined": "2014-06-16T23:07:10.209Z"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "auth.user",
+    "fields": {
+      "username": "user_b",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2014-06-20T18:51:15.325Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$12000$klWlFx1rRJWz$HMwDX9d4z4qrpPJ9T5REivHH8ESnaDk+zaJBjDiuANA=",
+      "email": "admin@i.ua",
+      "date_joined": "2014-06-16T23:08:52.820Z"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "auth.user",
+    "fields": {
+      "username": "user_c",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2014-06-17T05:07:25.083Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$12000$0K9vBCmCpAkX$bsn2DlndnKa3gsY3IqFA27DrupXs3okUy+c9JkDqf8k=",
+      "email": "user@i.ua",
+      "date_joined": "2014-06-17T05:07:03.838Z"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "goals.usergoal",
+    "fields": {
+      "user": 1,
+      "goal": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "goals.usergoal",
+    "fields": {
+      "user": 1,
+      "goal": 2
+    }
+  },
+  {
+    "pk": 3,
+    "model": "goals.usergoal",
+    "fields": {
+      "user": 2,
+      "goal": 3
+    }
+  },
+  {
+    "pk": 4,
+    "model": "goals.usergoal",
+    "fields": {
+      "user": 2,
+      "goal": 4
+    }
+  },
+  {
+    "pk": 5,
+    "model": "goals.usergoal",
+    "fields": {
+      "user": 3,
+      "goal": 5
+    }
+  },
+  {
+    "pk": 6,
+    "model": "goals.usergoal",
+    "fields": {
+      "user": 3,
+      "goal": 4
+    }
+  },
+  {
+    "pk": 1,
+    "model": "goals.useroffer",
+    "fields": {
+      "user": 1,
+      "offer": 3
+    }
+  },
+  {
+    "pk": 2,
+    "model": "goals.useroffer",
+    "fields": {
+      "user": 1,
+      "offer": 4
+    }
+  },
+  {
+    "pk": 3,
+    "model": "goals.useroffer",
+    "fields": {
+      "user": 2,
+      "offer": 1
+    }
+  },
+  {
+    "pk": 4,
+    "model": "goals.useroffer",
+    "fields": {
+      "user": 2,
+      "offer": 2
+    }
+  },
+  {
+    "pk": 5,
+    "model": "goals.useroffer",
+    "fields": {
+      "user": 3,
+      "offer": 1
+    }
+  },
+  {
+    "pk": 6,
+    "model": "goals.useroffer",
+    "fields": {
+      "user": 3,
+      "offer": 6
+    }
+  }
+]

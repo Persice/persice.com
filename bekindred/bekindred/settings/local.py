@@ -14,3 +14,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+FIXTURE_DIRS = (
+    os.path.join(BASE_DIR, '..', 'fixtures'),
+)
