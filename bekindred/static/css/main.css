@@ -53,14 +53,22 @@ h2 {
     width: 60px;
     height: 60px;
     text-align: center;
-    padding: 6px 0;
+    padding: 2px 0;
     font-size: 12px;
     line-height: 1.42;
     border-radius: 30px;
+    margin: 20px;
 }
 
 span.glyphicon {
-    font-size: 2.3em;
+    font-size: 4.5em;
     line-height: 1;
-    font-weight: normal;
+    color: #428bca;
+}
+
+span.glyphicon-ok {
+    font-size: 1em;
+    margin-right: 3px;
+    line-height: 1;
+    color: #428bca;
 }

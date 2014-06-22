@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-md-3 col-md-offset-5">
+        <h3 class="text-muted">Kindred</h3>
+        <h1 class="text-muted">{{ user_obj.username|capfirst }}, 33</h1>
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="">
+            </a>
+        </div>
+        <p><strong>Goals</strong></p>
+        <ul class="no_bullets">
+            {% for goal in goals %}
+                {% if goal.goal_id in match_goals %}
+                    <li><span class="glyphicon glyphicon-ok"></span>{{ goal }}</li>
+                {% else %}
+                    <li>{{ goal }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No offers yet.</li>
+            {% endfor %}
+        </ul>
+        <p><strong>Offers</strong></p>
+
+        <ul class="no_bullets">
+            {% for offer in offers %}
+                {% if offer.offer_id in match_offers %}
+                    <li><span class="glyphicon glyphicon-ok"></span>{{ offer }}</li>
+                {% else %}
+                    <li>{{ offer }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No offers yet.</li>
+            {% endfor %}
+        </ul>
+        {% if goal_offer_obj %}
+            <a href="/goals/user/{{ goal_offer_obj }}" class="btn btn-default btn-lg btn-circle" id="left_button">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+            </a>
+            <a href="/goals/user/{{ goal_offer_obj }}" class="btn btn-default btn-lg btn-circle">
+                <span class="glyphicon glyphicon-ok-circle"></span>
+            </a>
+        {% else %}
+            <a href="/" class="btn btn-default btn-lg btn-circle" id="left_button">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+            </a>
+            <a href="/" class="btn btn-default btn-lg btn-circle">
+                <span class="glyphicon glyphicon-ok-circle"></span>
+            </a>
+        {% endif %}
+    </div>
+{% endblock content %}

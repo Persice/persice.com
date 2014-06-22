@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <div class="nav-container">
-            <ul class="nav-list">
-                <li>Welcome, {{ user.username }}  <a href="/accounts/logout">[logout]</a></li>
-                <li><a href="/accounts/register">Registration</a></li>
-            </ul>
-        </div>
-    {% endif %}
     <div class="container">
         <h1 class="text-muted text-center">
             Welcome to

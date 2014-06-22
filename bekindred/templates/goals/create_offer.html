@@ -1,11 +1,10 @@
 {% extends 'goals/create_goal.html' %}
 
-{% block header %}
-<h1 class="text-muted text-center">
-    My offer is to...
-</h1>
-{% endblock header %}
 
 {% block content %}
-        {{ block.super}}
+    <h1 class="text-muted text-center">
+        My offer is to...
+    </h1>
+    <br>
+    {% include 'goals/subject_form.html' %}
 {% endblock content %}

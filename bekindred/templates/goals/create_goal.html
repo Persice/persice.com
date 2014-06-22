@@ -1,32 +1,9 @@
 {% extends 'base.html' %}
 
-{% block header %}
-<h1 class="text-muted text-center">
-    My goal is to...
-</h1>
-{% endblock header %}
-
 {% block content %}
-<br>
-<div class="container col-md-12 col-md-offset-5">
-    <form class="form-horizontal col-sm-2" role="form" action="" method="post">{% csrf_token %}
-        <div class="form-group">
-            {{ form.errors }}
-            <input type="text" name="description" class="form-control" id="id_description" placeholder="enter you goal here">
-        </div>
-        <div class="form-group text-center">
-            <input type="submit" class="btn btn-primary" role="button" value="Next &rarr;" />
-        </div>
-    </form>
-</div>
-<div class="container col-md-12 col-md-offset-5">
+<h1 class="text-muted text-center">
+        My goal is to...
+</h1>
     <br>
-    <p>Here are some examples:</p>
-    <ul>
-        <li>"Learn to play tennis"</li>
-        <li>"Find a running partner"</li>
-        <li>"Hire a cat sitter"</li>
-        <li>"Move my 500 lb sofa"</li>
-    </ul>
-</div>
+    {% include 'goals/subject_form.html' %}
 {% endblock content %}
