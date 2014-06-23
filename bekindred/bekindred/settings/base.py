@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 
 INSTALLED_APPS += ('south',
                    'goals',
+                   'django_facebook'
     )
 
 MIDDLEWARE_CLASSES = (
@@ -100,3 +101,23 @@ STATICFILES_FINDERS = (
 
 STATIC_URL = '/static/'
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'django_facebook.context_processors.facebook',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django_facebook.auth_backends.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
+
+FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'
