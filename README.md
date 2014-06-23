@@ -29,6 +29,8 @@ Deploy to heroku
 ```
 git push heroku master
 heroku run python bekindred/manage.py syncdb --settings=bekindred.settings.production
+heroku run python bekindred/manage.py migrate django_facebook --settings=bekindred.sett
+ings.production
 heroku run python bekindred/manage.py migrate goals --settings=bekindred.settings.production
 ```
 
