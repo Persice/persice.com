@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django_facebook.models import FacebookCustomUser
 
 
 class Subject(models.Model):
-    description = models.CharField(max_length=20, null=False, blank=False, unique=True)
+    description = models.CharField(max_length=30, null=False, blank=False, unique=True)
 
     def __unicode__(self):
         return self.description
@@ -40,7 +41,7 @@ class GoalOffer(models.Model):
     managed = False
 
 class UserGoal(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(FacebookCustomUser)
     goal = models.ForeignKey(Subject)
 
     def __unicode__(self):
@@ -52,7 +53,7 @@ class UserGoal(models.Model):
 
 
 class UserOffer(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(FacebookCustomUser)
     offer = models.ForeignKey(Subject)
 
     def __unicode__(self):

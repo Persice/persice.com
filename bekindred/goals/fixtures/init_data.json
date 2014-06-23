@@ -1,13 +1,5 @@
 [
   {
-    "pk": "p902bhszcfghe2pdt2xgxp7bcszwsiwm",
-    "model": "sessions.session",
-    "fields": {
-      "expire_date": "2014-07-05T04:58:31.514Z",
-      "session_data": "ZTc3MjZlOTM0OGNiZTgzYTM2YjI1YjAyYmU4MmIwNjczZTMwYWQ1Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0="
-    }
-  },
-  {
     "pk": 1,
     "model": "goals.subject",
     "fields": {
@@ -49,60 +41,137 @@
       "description": "Move Sofa"
     }
   },
-  {
-    "pk": 1,
-    "model": "auth.user",
-    "fields": {
-      "username": "user_a",
-      "first_name": "",
-      "last_name": "",
-      "is_active": true,
-      "is_superuser": true,
-      "is_staff": true,
-      "last_login": "2014-06-21T04:58:31.513Z",
-      "groups": [],
-      "user_permissions": [],
-      "password": "pbkdf2_sha256$12000$mJChrquDx3Yv$9t9vVYMlzqg565caethq57cMMli1EQIzYhPbvdNu9nA=",
-      "email": "a@i.ua",
-      "date_joined": "2014-06-16T23:07:10.209Z"
-    }
-  },
-  {
-    "pk": 2,
-    "model": "auth.user",
-    "fields": {
-      "username": "user_b",
-      "first_name": "",
-      "last_name": "",
-      "is_active": true,
-      "is_superuser": false,
-      "is_staff": false,
-      "last_login": "2014-06-20T18:51:15.325Z",
-      "groups": [],
-      "user_permissions": [],
-      "password": "pbkdf2_sha256$12000$klWlFx1rRJWz$HMwDX9d4z4qrpPJ9T5REivHH8ESnaDk+zaJBjDiuANA=",
-      "email": "admin@i.ua",
-      "date_joined": "2014-06-16T23:08:52.820Z"
-    }
-  },
-  {
-    "pk": 3,
-    "model": "auth.user",
-    "fields": {
-      "username": "user_c",
-      "first_name": "",
-      "last_name": "",
-      "is_active": true,
-      "is_superuser": false,
-      "is_staff": false,
-      "last_login": "2014-06-17T05:07:25.083Z",
-      "groups": [],
-      "user_permissions": [],
-      "password": "pbkdf2_sha256$12000$0K9vBCmCpAkX$bsn2DlndnKa3gsY3IqFA27DrupXs3okUy+c9JkDqf8k=",
-      "email": "user@i.ua",
-      "date_joined": "2014-06-17T05:07:03.838Z"
-    }
-  },
+    {
+        "pk": 1,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "",
+            "image": "",
+            "is_staff": true,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-06-22T13:06:28.445Z",
+            "first_name": "",
+            "facebook_name": null,
+            "is_superuser": true,
+            "state": null,
+            "date_of_birth": null,
+            "last_login": "2014-06-22T14:47:26.904Z",
+            "facebook_id": null,
+            "new_token_required": false,
+            "email": "a@a.ua",
+            "website_url": null,
+            "username": "user_a",
+            "is_active": true,
+            "facebook_profile_url": null,
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$lCjnuuUVGPGC$o91dLhpSX2kc77pa/Giw1l6vi8CGuNz7mmKUei/irOk=",
+            "access_token": null,
+            "gender": null,
+            "blog_url": null,
+            "raw_data": null,
+            "facebook_open_graph": null
+        }
+    },
+    {
+        "pk": 2,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "",
+            "image": "",
+            "is_staff": true,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-06-22T13:06:28.445Z",
+            "first_name": "",
+            "facebook_name": null,
+            "is_superuser": true,
+            "state": null,
+            "date_of_birth": null,
+            "last_login": "2014-06-22T14:47:26.904Z",
+            "facebook_id": null,
+            "new_token_required": false,
+            "email": "a@a.ua",
+            "website_url": null,
+            "username": "user_b",
+            "is_active": true,
+            "facebook_profile_url": null,
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$lCjnuuUVGPGC$o91dLhpSX2kc77pa/Giw1l6vi8CGuNz7mmKUei/irOk=",
+            "access_token": null,
+            "gender": null,
+            "blog_url": null,
+            "raw_data": null,
+            "facebook_open_graph": null
+        }
+    },
+
+    {
+        "pk": 3,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "",
+            "image": "",
+            "is_staff": true,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-06-22T13:06:28.445Z",
+            "first_name": "",
+            "facebook_name": null,
+            "is_superuser": true,
+            "state": null,
+            "date_of_birth": null,
+            "last_login": "2014-06-22T14:47:26.904Z",
+            "facebook_id": null,
+            "new_token_required": false,
+            "email": "a@a.ua",
+            "website_url": null,
+            "username": "user_c",
+            "is_active": true,
+            "facebook_profile_url": null,
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$lCjnuuUVGPGC$o91dLhpSX2kc77pa/Giw1l6vi8CGuNz7mmKUei/irOk=",
+            "access_token": null,
+            "gender": null,
+            "blog_url": null,
+            "raw_data": null,
+            "facebook_open_graph": null
+        }
+    },
+
+    {
+        "pk": 4,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "",
+            "image": "",
+            "is_staff": true,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-06-22T13:06:28.445Z",
+            "first_name": "",
+            "facebook_name": null,
+            "is_superuser": true,
+            "state": null,
+            "date_of_birth": null,
+            "last_login": "2014-06-22T14:47:26.904Z",
+            "facebook_id": null,
+            "new_token_required": false,
+            "email": "a@a.ua",
+            "website_url": null,
+            "username": "user_d",
+            "is_active": true,
+            "facebook_profile_url": null,
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$lCjnuuUVGPGC$o91dLhpSX2kc77pa/Giw1l6vi8CGuNz7mmKUei/irOk=",
+            "access_token": null,
+            "gender": null,
+            "blog_url": null,
+            "raw_data": null,
+            "facebook_open_graph": null
+        }
+    },
+
   {
     "pk": 1,
     "model": "goals.usergoal",

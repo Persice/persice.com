@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django_facebook.models import FacebookCustomUser
 from .forms import RegistrationForm, GoalForm, OfferForm
 from .models import UserGoal, UserOffer, Subject, GoalOffer
 from django.contrib.sessions.backends.db import SessionStore
@@ -34,7 +35,7 @@ class UserGoalOfferListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         kwargs['goals'] = UserGoal.objects.filter(user=self.kwargs['pk'])
         kwargs['offers'] = UserOffer.objects.filter(user=self.kwargs['pk'])
-        kwargs['user_obj'] = User.objects.get(pk=self.kwargs['pk'])
+        kwargs['user_obj'] = FacebookCustomUser.objects.get(pk=self.kwargs['pk'])
 
         if self.request.session.get('goal_offer_obj', False):
             go = self.request.session['goal_offer_obj']
@@ -85,7 +86,7 @@ def register_page(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = User.objects.create_user(
+            user = FacebookCustomUser.objects.create_user(
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password1'],
                 email=form.cleaned_data['email']
@@ -97,5 +98,9 @@ def register_page(request):
         'form': form
     })
     return render_to_response(
-        'registration/register.html', variables
+        'registration/registration_form.html', variables
     )
+
+def example(request):
+    context = RequestContext(request)
+    return render_to_response('django_facebook/example.html', context)
