@@ -1,16 +1,14 @@
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django_facebook.models import FacebookCustomUser
 from .forms import RegistrationForm, GoalForm, OfferForm
 from .models import UserGoal, UserOffer, Subject, GoalOffer
-from django.contrib.sessions.backends.db import SessionStore
+from django_facebook.decorators import facebook_required_lazy
 
 
 class LoginRequiredMixin(object):
@@ -19,13 +17,14 @@ class LoginRequiredMixin(object):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-class GoalOfferListView(LoginRequiredMixin, ListView):
-    model = UserGoal
-
-    def get_context_data(self, **kwargs):
-        kwargs['goals'] = UserGoal.objects.filter(user=self.request.user)
-        kwargs['offers'] = UserOffer.objects.filter(user=self.request.user)
-        return super(GoalOfferListView, self).get_context_data(**kwargs)
+@facebook_required_lazy
+def my_page(request, graph):
+    context = RequestContext(request, {
+        'goals': UserGoal.objects.filter(user=request.user),
+        'offers': UserOffer.objects.filter(user=request.user),
+        'bio': graph.get('me').get('bio', None)
+    })
+    return render_to_response('goals/my_page.html', context)
 
 
 class UserGoalOfferListView(LoginRequiredMixin, ListView):
@@ -73,9 +72,6 @@ class UserOfferView(LoginRequiredMixin, FormView):
         else:
             return '/goals/user/'
 
-
-
-
     def get_form_kwargs(self):
         kwargs = super(UserOfferView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
@@ -101,6 +97,10 @@ def register_page(request):
         'registration/registration_form.html', variables
     )
 
-def example(request):
-    context = RequestContext(request)
+
+@facebook_required_lazy
+def example(request, graph):
+    context = RequestContext(request, {
+        'bio': graph.get('me').get('bio', None)
+    })
     return render_to_response('django_facebook/example.html', context)
