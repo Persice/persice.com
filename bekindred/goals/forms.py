@@ -5,7 +5,7 @@ from .models import Subject, UserGoal, UserOffer
 
 
 class GoalForm(forms.Form):
-    description = forms.CharField(max_length=20)
+    description = forms.CharField(max_length=30)
 
     def __init__(self, user, *args, **kwargs):
         super(GoalForm, self).__init__(*args, **kwargs)
