@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-md-3 col-md-offset-5">
+        <h3 class="text-muted">Kindred</h3>
+        <h1 class="text-muted">{{ user.first_name|capfirst }}, 33</h1>
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br /></td>
+            </a>
+        </div>
+        <div class="goals">
+            <p><strong>Goals</strong></p>
+            <ul class="no_bullets">
+                {% for goal in goals %}
+                    <li>{{ goal }}</li><a href="{% url "goal_delete" goal.id %}">delete</a>
+                {% empty %}
+                    <li>No goals yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="offers">
+            <p><strong>Offers</strong></p>
+            <ul class="no_bullets">
+                {% for offer in offers %}
+                    <li>{{ offer }}</li>
+                {% empty %}
+                    <li>No offers yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="user_bio">
+            <p><strong>About Me</strong></p>
+            <div class="user_bio_content">
+                {{ user.profile_or_self.about_me }}
+            </div>
+            <a href="{% url "biography_update" user.id %}">Edit</a>
+        </div>
+        <div class="user_likes">
+            <p><strong>Likes</strong></p>
+            <ul>
+                {% for like in user.profile_or_self.likes|slice:":5" %}
+                    <li>{{ like.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock content %}
+
+

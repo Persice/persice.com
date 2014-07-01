@@ -19,5 +19,14 @@ FIXTURE_DIRS = (
     os.path.join(BASE_DIR, '..', 'fixtures'),
 )
 
-FACEBOOK_APP_ID = 634990373263225
+# Django
+STATICFILES_ROOT = os.path.join(BASE_DIR, '..', 'static/')
+
+FACEBOOK_APP_ID = '634990373263225'
 FACEBOOK_APP_SECRET = '2d942d34f2e5818cad58920834044d5a'
+
+FACEBOOK_FORCE_PROFILE_UPDATE_ON_LOGIN = True
+FACEBOOK_STORE_LIKES = True
+FACEBOOK_STORE_FRIENDS = True
+
+FACEBOOK_DEFAULT_SCOPE =  ['email', 'user_about_me', 'user_birthday', 'user_website', 'user_likes']

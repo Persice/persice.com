@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db import models
 from django_facebook.models import FacebookCustomUser
 
@@ -15,11 +16,12 @@ class GoalOfferManager(models.Manager):
     def unique_match_user(self, user_id):
         from django.db import connection
         cursor = connection.cursor()
-        cursor.execute("""select s.offer_user_id from (select g.user_id as goal_user_id, g.goal_id,
-                                                       o.user_id as offer_user_id, o.offer_id
-                                                       from goals_usergoal g, goals_useroffer o
-                                                       where g.goal_id = o.offer_id and g.user_id = %s) as s
-                          group by s.offer_user_id""", [user_id])
+        cursor.execute("select s.offer_user_id from"
+                       "(select g.user_id as goal_user_id, g.goal_id, "
+                       "o.user_id as offer_user_id, o.offer_id "
+                       "from goals_usergoal g, goals_useroffer o "
+                       "where g.goal_id = o.offer_id and g.user_id = %s) as s "
+                       "group by s.offer_user_id", [user_id])
         desc = cursor.description
         return [dict(zip([col[0] for col in desc], row))
                 for row in cursor.fetchall()]

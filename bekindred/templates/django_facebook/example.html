@@ -203,7 +203,8 @@
 
         {% if user.is_authenticated %}
             <h1>Welcome {{ user }}</h1><a href="{% url 'auth_logout' %}?next={{ request.path|urlencode }}">logout</a><br />
-
+               <p>{{ bio }}</p>
+               <p>{{ likes }}</p>
             <p>
                 Thank you for logging in with Facebook.
                 By default you will have the following data available:

@@ -15,5 +15,5 @@ urlpatterns = patterns('',
                        url(r'^accounts/', include('django_facebook.auth_urls')),
                        # url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
                        # url(r'^accounts/register/$', 'goals.views.register_page'),
-                       url(r'^admin/', include(admin.site.urls)),
+                       url(r'^admin/', include(admin.site.urls))
 )

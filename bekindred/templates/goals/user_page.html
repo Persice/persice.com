@@ -34,6 +34,12 @@
                 <li>No offers yet.</li>
             {% endfor %}
         </ul>
+        <div class="user_bio">
+            <p><strong>About Me</strong></p>
+            <div class="user_bio_content">
+                {{ user_obj.profile_or_self.about_me }}
+            </div>
+        </div>
         {% if goal_offer_obj %}
             <a href="/goals/user/{{ goal_offer_obj }}" class="btn btn-default btn-lg btn-circle" id="left_button">
                 <span class="glyphicon glyphicon-remove-circle"></span>

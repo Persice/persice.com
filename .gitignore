@@ -1,6 +1,9 @@
 venv
 staticfiles
 
+# images
+*.jpg
+
 # ignore idea files
 *.idea
 
