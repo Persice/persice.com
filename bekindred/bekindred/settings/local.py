@@ -20,8 +20,6 @@ FIXTURE_DIRS = (
 )
 
 # Django
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media/')
 STATICFILES_ROOT = os.path.join(BASE_DIR, '..', 'static/')
 
 FACEBOOK_APP_ID = '634990373263225'

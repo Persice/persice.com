@@ -11,6 +11,7 @@ pip install -r requirements.txt
 export DJANGO_SETTINGS_MODULE=bekindred.settings.local
 ./manage.py syncdb
 ./manage.py migrate --all
+python bekindred/manage.py loaddata bekindred/goals/fixtures/init_data.json
 ```
 
 Configure SSH keys
