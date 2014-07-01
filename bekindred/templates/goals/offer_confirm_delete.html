@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-md-12 col-md-offset-5">
+        <form class="form-horizontal col-sm-2" method="post">{% csrf_token %}
+            <div class="form-group">
+                <p>Are you sure you want to delete <span>"{{ object.description }}"</span> ?</p>
+            </div>
+            <div class="form-group text-center">
+                <a class="btn btn-danger" href="/goals">Cancel</a>
+                <input type="submit" class="btn btn-primary" role="button" value="Delete" />
+            </div>
+        </form>
+    </div>
+{% endblock content %}

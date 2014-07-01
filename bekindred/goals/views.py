@@ -1,14 +1,16 @@
+from django.forms import forms
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django_facebook.models import FacebookCustomUser
-from .forms import RegistrationForm, GoalForm, OfferForm
+from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from .models import UserGoal, UserOffer, Subject, GoalOffer
 from django_facebook.decorators import facebook_required_lazy
+from django.forms.util import ErrorList
 
 
 class LoginRequiredMixin(object):
@@ -96,6 +98,95 @@ def register_page(request):
     return render_to_response(
         'registration/registration_form.html', variables
     )
+
+
+def biography_update(request, pk, template_name='goals/biography_form.html'):
+    user = FacebookCustomUser.objects.get(pk=pk)
+    form = BiographyForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/goals')
+    return render(request, template_name, {'form': form})
+
+
+def goal_delete(request, pk, template_name='goals/goal_confirm_delete.html'):
+    goal = UserGoal.objects.filter(goal=pk, user=request.user)[0]
+    s = Subject.objects.get(id=goal.goal_id)
+    if request.method == 'POST':
+        goal.delete()
+        return HttpResponseRedirect('/goals')
+    return render(request, template_name, {'object': s})
+
+
+def goal_update(request, pk, template_name='goals/update_goal.html'):
+    goal = UserGoal.objects.filter(goal=pk, user=request.user)[0]
+    s = Subject.objects.get(id=goal.goal_id)
+    form = GoalUpdateForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            new_description = form.cleaned_data['description']
+            if new_description != s.description:
+                new_subject, _ = Subject.objects.get_or_create(description=new_description)
+
+                offer = None
+                try:
+                    offer = UserGoal.objects.get(user=request.user, goal=new_subject)
+                except UserGoal.DoesNotExist:
+                    pass
+                if offer:
+                    return HttpResponseRedirect('/goals')
+                    # raise forms.ValidationError("Goal could not equivalent to offer")
+
+                dummy, created = UserGoal.objects.get_or_create(goal=new_subject, user=request.user)
+                if created:
+                    goal.delete()
+            else:
+                return HttpResponseRedirect('/goals')
+            return HttpResponseRedirect('/goals')
+    else:
+        form = GoalUpdateForm({'description': s.description})
+        variables = RequestContext(request, {'form': form})
+    return render_to_response(template_name, variables)
+
+
+def offer_delete(request, pk, template_name='goals/offer_confirm_delete.html'):
+    offer = UserOffer.objects.filter(offer=pk, user=request.user)[0]
+    s = Subject.objects.get(id=offer.offer_id)
+    if request.method == 'POST':
+        offer.delete()
+        return HttpResponseRedirect('/goals')
+    return render(request, template_name, {'object': s})
+
+
+def offer_update(request, pk, template_name='goals/update_offer.html'):
+    offer = UserOffer.objects.filter(offer=pk, user=request.user)[0]
+    s = Subject.objects.get(id=offer.offer_id)
+    form = OfferUpdateForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            new_description = form.cleaned_data['description']
+            if new_description != s.description:
+                new_subject, _ = Subject.objects.get_or_create(description=new_description)
+
+                goal = None
+                try:
+                    goal = UserGoal.objects.get(user=request.user, goal=new_subject)
+                except UserGoal.DoesNotExist:
+                    pass
+                if goal:
+                    return HttpResponseRedirect('/goals')
+                    # raise forms.ValidationError("Goal could not equivalent to offer")
+
+                dummy, created = UserOffer.objects.get_or_create(offer=new_subject, user=request.user)
+                if created:
+                    offer.delete()
+            else:
+                return HttpResponseRedirect('/goals')
+            return HttpResponseRedirect('/goals')
+    else:
+        form = OfferUpdateForm({'description': s.description})
+        variables = RequestContext(request, {'form': form})
+    return render_to_response(template_name, variables)
 
 
 @facebook_required_lazy

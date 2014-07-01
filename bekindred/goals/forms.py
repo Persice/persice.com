@@ -1,11 +1,14 @@
 import re
 from django.contrib.auth.models import User
 from django import forms
+from django.forms import ModelForm, Textarea
+from django.views.generic import UpdateView
+from django_facebook.models import FacebookCustomUser
 from .models import Subject, UserGoal, UserOffer
 
 
 class GoalForm(forms.Form):
-    description = forms.CharField(max_length=30)
+    description = forms.CharField(max_length=50)
 
     def __init__(self, user, *args, **kwargs):
         super(GoalForm, self).__init__(*args, **kwargs)
@@ -26,7 +29,7 @@ class GoalForm(forms.Form):
 
 
 class OfferForm(forms.Form):
-    description = forms.CharField(max_length=20, required=True)
+    description = forms.CharField(max_length=50, required=True)
 
     def __init__(self, user, *args, **kwargs):
         super(OfferForm, self).__init__(*args, **kwargs)
@@ -82,3 +85,20 @@ class RegistrationForm(forms.Form):
         except User.DoesNotExist:
             return username
         raise forms.ValidationError('Username is already taken.')
+
+
+class BiographyForm(ModelForm):
+    class Meta:
+        model = FacebookCustomUser
+        fields = ['about_me']
+        widgets = {
+            'about_me': Textarea(attrs={'cols': 40, 'rows': 10}),
+            }
+
+
+class GoalUpdateForm(forms.Form):
+    description = forms.CharField(max_length=50)
+
+
+class OfferUpdateForm(forms.Form):
+    description = forms.CharField(max_length=50)

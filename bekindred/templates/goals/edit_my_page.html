@@ -13,11 +13,7 @@
             <p><strong>Goals</strong></p>
             <ul class="no_bullets">
                 {% for goal in goals %}
-                    <li>
-                        <a href="{% url "goal_delete" goal.goal_id %}"><span class="glyphicon glyphicon-minus-sign"></span></a>
-                        {{ goal }}
-                        <a href="{% url "goal_update" goal.goal_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    </li>
+                    <li>{{ goal }}</li><a href="{% url "goal_delete" goal.id %}">delete</a>
                 {% empty %}
                     <li>No goals yet.</li>
                 {% endfor %}
@@ -27,11 +23,7 @@
             <p><strong>Offers</strong></p>
             <ul class="no_bullets">
                 {% for offer in offers %}
-                    <li>
-                        <a href="{% url "offer_delete" offer.offer_id %}"><span class="glyphicon glyphicon-minus-sign"></span></a>
-                        {{ offer }}
-                        <a href="{% url "offer_update" offer.offer_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    </li>
+                    <li>{{ offer }}</li>
                 {% empty %}
                     <li>No offers yet.</li>
                 {% endfor %}
@@ -41,9 +33,8 @@
             <p><strong>About Me</strong></p>
             <div class="user_bio_content">
                 {{ user.profile_or_self.about_me }}
-                <a href="{% url "biography_update" user.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
-
+            <a href="{% url "biography_update" user.id %}">Edit</a>
         </div>
         <div class="user_likes">
             <p><strong>Likes</strong></p>

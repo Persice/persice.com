@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Changing field 'Subject.description'
-        db.alter_column(u'goals_subject', 'description', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30))
+        db.alter_column(u'goals_subject', 'description', self.gf('django.db.models.fields.CharField')(unique=True, max_length=50))
 
     def backwards(self, orm):
 
@@ -74,7 +74,7 @@ class Migration(SchemaMigration):
         },
         u'goals.subject': {
             'Meta': {'object_name': 'Subject'},
-            'description': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
+            'description': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
         u'goals.usergoal': {

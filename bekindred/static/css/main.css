@@ -66,9 +66,27 @@ span.glyphicon {
     color: #428bca;
 }
 
+span.glyphicon-minus-sign {
+    font-size: 0.85em;
+    line-height: 1;
+    color: #d14;
+    padding-right: 3px;
+}
+
+span.glyphicon-pencil {
+    font-size: 0.85em;
+    line-height: 1;
+    padding-left: 3px;
+    text-align: left;
+}
+
 span.glyphicon-ok {
     font-size: 1em;
     margin-right: 3px;
     line-height: 1;
     color: #428bca;
+}
+.user_bio_content {
+    padding: 0;
+    margin-left: 12px;
 }
