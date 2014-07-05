@@ -30,7 +30,7 @@ def my_page(request, graph):
 
 class GoalOfferListView(LoginRequiredMixin, ListView):
     model = Goal
-    template_name = "goals/user_page.html"
+    template_name = "goals/matched_user_page.html"
 
     def get_context_data(self, **kwargs):
         kwargs['goals'] = Goal.objects.filter(user=self.kwargs['pk'])
@@ -62,27 +62,43 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         return super(GoalOfferListView, self).get_context_data(**kwargs)
 
 
-class GoalView(LoginRequiredMixin, FormView):
+class CreateGoalView(LoginRequiredMixin, FormView):
     form_class = GoalForm
-    success_url = '/goals/create/offer'
+    success_url = '/goals'
     template_name = 'goals/create_goal.html'
 
     def get_form_kwargs(self):
-        kwargs = super(GoalView, self).get_form_kwargs()
+        kwargs = super(CreateGoalView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+class GoalView(CreateGoalView):
+    success_url = '/goals/create/offer'
+    template_name = 'goals/goal.html'
+
+
+class CreateOfferView(LoginRequiredMixin, FormView):
+    form_class = OfferForm
+    success_url = '/goals'
+    template_name = 'goals/create_offer.html'
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateOfferView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
 
 
 class OfferView(LoginRequiredMixin, FormView):
     form_class = OfferForm
-    template_name = 'goals/create_offer.html'
+    template_name = 'goals/offer.html'
 
     def get_success_url(self):
         # go = GoalOffer.objects.unique_match_user(self.request.user.id)
 
         current_user = int(self.request.user.id)
-        g1 = Goal.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user))
-        o1 = Offer.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user))
+        g1 = Goal.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('goal')
+        o1 = Offer.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('offer')
 
         match_offers = Offer.objects.exclude(user=current_user).filter(Q(offer=g1) | Q(offer=o1))
         match_goals = Goal.objects.exclude(user=current_user).filter(Q(goal=g1) | Q(goal=o1))

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="text-muted text-center">
+        My offer is to...
+    </h1>
+    <br>
+    {% include 'goals/subject_form.html' with button_name="Next &rarr;" %}
+    {% include 'goals/examples_list.html' %}
+{% endblock content %}

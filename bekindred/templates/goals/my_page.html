@@ -18,9 +18,11 @@
                         {{ goal }}
                         <a href="{% url "goal_update" goal.goal_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                     </li>
-                {% empty %}
-                    <li>No goals yet.</li>
                 {% endfor %}
+                <li>
+                    <a href="{% url "goal_create" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    Create new goal
+                </li>
             </ul>
         </div>
         <div class="offers">
@@ -32,9 +34,11 @@
                         {{ offer }}
                         <a href="{% url "offer_update" offer.offer_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                     </li>
-                {% empty %}
-                    <li>No offers yet.</li>
                 {% endfor %}
+                <li>
+                    <a href="{% url "offer_create" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    Create new offer
+                </li>
             </ul>
         </div>
         <div class="user_bio">
@@ -43,13 +47,14 @@
                 {{ user.profile_or_self.about_me }}
                 <a href="{% url "biography_update" user.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
-
         </div>
         <div class="user_likes">
             <p><strong>Likes</strong></p>
-            <ul>
+            <ul class="no_bullets">
                 {% for like in user.profile_or_self.likes|slice:":5" %}
                     <li>{{ like.name }}</li>
+                {% empty %}
+                    <li>No likes yet</li>
                 {% endfor %}
             </ul>
         </div>

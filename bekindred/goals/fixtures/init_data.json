@@ -186,6 +186,38 @@
         }
     },
 
+    {
+        "pk": 5,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "",
+            "image": "",
+            "is_staff": true,
+            "about_me": "I'm Django Developer!",
+            "user_permissions": [],
+            "date_joined": "2014-06-22T13:06:28.445Z",
+            "first_name": "",
+            "facebook_name": null,
+            "is_superuser": true,
+            "state": null,
+            "date_of_birth": null,
+            "last_login": "2014-06-22T14:47:26.904Z",
+            "facebook_id": null,
+            "new_token_required": false,
+            "email": "a@a.ua",
+            "website_url": null,
+            "username": "user_e",
+            "is_active": true,
+            "facebook_profile_url": null,
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$lCjnuuUVGPGC$o91dLhpSX2kc77pa/Giw1l6vi8CGuNz7mmKUei/irOk=",
+            "access_token": null,
+            "gender": null,
+            "blog_url": null,
+            "raw_data": null,
+            "facebook_open_graph": null
+        }
+    },
   {
     "pk": 1,
     "model": "goals.goal",

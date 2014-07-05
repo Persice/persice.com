@@ -1,10 +1,5 @@
-{% extends 'goals/create_goal.html' %}
-
+{% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="text-muted text-center">
-        My offer is to...
-    </h1>
-    <br>
-    {% include 'goals/subject_form.html' %}
+    {% include 'goals/subject_form.html' with button_name="Add offer" %}
 {% endblock content %}
