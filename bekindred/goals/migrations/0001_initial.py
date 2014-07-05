@@ -11,7 +11,7 @@ class Migration(SchemaMigration):
         # Adding model 'Subject'
         db.create_table(u'goals_subject', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('description', self.gf('django.db.models.fields.CharField')(unique=True, max_length=20)),
+            ('description', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30)),
         ))
         db.send_create_signal(u'goals', ['Subject'])
 
@@ -21,35 +21,35 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'goals', ['GoalOffer'])
 
-        # Adding model 'UserGoal'
-        db.create_table(u'goals_usergoal', (
+        # Adding model 'Goal'
+        db.create_table(u'goals_goal', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
             ('goal', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['goals.Subject'])),
         ))
-        db.send_create_signal(u'goals', ['UserGoal'])
+        db.send_create_signal(u'goals', ['Goal'])
 
-        # Adding unique constraint on 'UserGoal', fields ['user', 'goal']
-        db.create_unique(u'goals_usergoal', ['user_id', 'goal_id'])
+        # Adding unique constraint on 'Goal', fields ['user', 'goal']
+        db.create_unique(u'goals_goal', ['user_id', 'goal_id'])
 
-        # Adding model 'UserOffer'
-        db.create_table(u'goals_useroffer', (
+        # Adding model 'Offer'
+        db.create_table(u'goals_offer', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
             ('offer', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['goals.Subject'])),
         ))
-        db.send_create_signal(u'goals', ['UserOffer'])
+        db.send_create_signal(u'goals', ['Offer'])
 
-        # Adding unique constraint on 'UserOffer', fields ['user', 'offer']
-        db.create_unique(u'goals_useroffer', ['user_id', 'offer_id'])
+        # Adding unique constraint on 'Offer', fields ['user', 'offer']
+        db.create_unique(u'goals_offer', ['user_id', 'offer_id'])
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'UserOffer', fields ['user', 'offer']
-        db.delete_unique(u'goals_useroffer', ['user_id', 'offer_id'])
+        # Removing unique constraint on 'Offer', fields ['user', 'offer']
+        db.delete_unique(u'goals_offer', ['user_id', 'offer_id'])
 
-        # Removing unique constraint on 'UserGoal', fields ['user', 'goal']
-        db.delete_unique(u'goals_usergoal', ['user_id', 'goal_id'])
+        # Removing unique constraint on 'Goal', fields ['user', 'goal']
+        db.delete_unique(u'goals_goal', ['user_id', 'goal_id'])
 
         # Deleting model 'Subject'
         db.delete_table(u'goals_subject')
@@ -57,11 +57,11 @@ class Migration(SchemaMigration):
         # Deleting model 'GoalOffer'
         db.delete_table(u'goals_goaloffer')
 
-        # Deleting model 'UserGoal'
-        db.delete_table(u'goals_usergoal')
+        # Deleting model 'Goal'
+        db.delete_table(u'goals_goal')
 
-        # Deleting model 'UserOffer'
-        db.delete_table(u'goals_useroffer')
+        # Deleting model 'Offer'
+        db.delete_table(u'goals_offer')
 
 
     models = {
@@ -115,26 +115,26 @@ class Migration(SchemaMigration):
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
             'website_url': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
         },
-        u'goals.goaloffer': {
-            'Meta': {'object_name': 'GoalOffer'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
-        },
-        u'goals.subject': {
-            'Meta': {'object_name': 'Subject'},
-            'description': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
-        },
-        u'goals.usergoal': {
-            'Meta': {'unique_together': "(('user', 'goal'),)", 'object_name': 'UserGoal'},
+        u'goals.goal': {
+            'Meta': {'unique_together': "(('user', 'goal'),)", 'object_name': 'Goal'},
             'goal': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goals.Subject']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
         },
-        u'goals.useroffer': {
-            'Meta': {'unique_together': "(('user', 'offer'),)", 'object_name': 'UserOffer'},
+        u'goals.goaloffer': {
+            'Meta': {'object_name': 'GoalOffer'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
+        u'goals.offer': {
+            'Meta': {'unique_together': "(('user', 'offer'),)", 'object_name': 'Offer'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'offer': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goals.Subject']"}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
+        },
+        u'goals.subject': {
+            'Meta': {'object_name': 'Subject'},
+            'description': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         }
     }
 

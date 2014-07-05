@@ -10,7 +10,7 @@
     "pk": 2,
     "model": "goals.subject",
     "fields": {
-      "description": "Find a running"
+      "description": "Find a running partner"
     }
   },
   {
@@ -41,6 +41,20 @@
       "description": "Move Sofa"
     }
   },
+    {
+        "pk": 7,
+        "model": "goals.subject",
+        "fields": {
+            "description": "Learn to play tennis"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "goals.subject",
+        "fields": {
+            "description": "Move my 500 lb sofa"
+        }
+    },
     {
         "pk": 1,
         "model": "django_facebook.facebookcustomuser",
@@ -174,7 +188,7 @@
 
   {
     "pk": 1,
-    "model": "goals.usergoal",
+    "model": "goals.goal",
     "fields": {
       "user": 1,
       "goal": 1
@@ -182,7 +196,7 @@
   },
   {
     "pk": 2,
-    "model": "goals.usergoal",
+    "model": "goals.goal",
     "fields": {
       "user": 1,
       "goal": 2
@@ -190,7 +204,7 @@
   },
   {
     "pk": 3,
-    "model": "goals.usergoal",
+    "model": "goals.goal",
     "fields": {
       "user": 2,
       "goal": 3
@@ -198,7 +212,7 @@
   },
   {
     "pk": 4,
-    "model": "goals.usergoal",
+    "model": "goals.goal",
     "fields": {
       "user": 2,
       "goal": 4
@@ -206,7 +220,7 @@
   },
   {
     "pk": 5,
-    "model": "goals.usergoal",
+    "model": "goals.goal",
     "fields": {
       "user": 3,
       "goal": 5
@@ -214,15 +228,31 @@
   },
   {
     "pk": 6,
-    "model": "goals.usergoal",
+    "model": "goals.goal",
     "fields": {
       "user": 3,
       "goal": 4
     }
   },
+    {
+        "pk": 7,
+        "model": "goals.goal",
+        "fields": {
+            "user": 4,
+            "goal": 1
+        }
+    },
+    {
+        "pk": 8,
+        "model": "goals.goal",
+        "fields": {
+            "user": 4,
+            "goal": 2
+        }
+    },
   {
     "pk": 1,
-    "model": "goals.useroffer",
+    "model": "goals.offer",
     "fields": {
       "user": 1,
       "offer": 3
@@ -230,7 +260,7 @@
   },
   {
     "pk": 2,
-    "model": "goals.useroffer",
+    "model": "goals.offer",
     "fields": {
       "user": 1,
       "offer": 4
@@ -238,7 +268,7 @@
   },
   {
     "pk": 3,
-    "model": "goals.useroffer",
+    "model": "goals.offer",
     "fields": {
       "user": 2,
       "offer": 1
@@ -246,7 +276,7 @@
   },
   {
     "pk": 4,
-    "model": "goals.useroffer",
+    "model": "goals.offer",
     "fields": {
       "user": 2,
       "offer": 2
@@ -254,7 +284,7 @@
   },
   {
     "pk": 5,
-    "model": "goals.useroffer",
+    "model": "goals.offer",
     "fields": {
       "user": 3,
       "offer": 1
@@ -262,10 +292,26 @@
   },
   {
     "pk": 6,
-    "model": "goals.useroffer",
+    "model": "goals.offer",
     "fields": {
       "user": 3,
       "offer": 6
     }
-  }
+  },
+    {
+        "pk": 7,
+        "model": "goals.offer",
+        "fields": {
+            "user": 4,
+            "offer": 3
+        }
+    },
+    {
+        "pk": 8,
+        "model": "goals.offer",
+        "fields": {
+            "user": 4,
+            "offer": 4
+        }
+    }
 ]

@@ -12,7 +12,7 @@
         <p><strong>Goals</strong></p>
         <ul class="no_bullets">
             {% for goal in goals %}
-                {% if goal.goal_id in match_goals %}
+                {% if goal.goal_id in match_goals_offers %}
                     <li><span class="glyphicon glyphicon-ok"></span>{{ goal }}</li>
                 {% else %}
                     <li>{{ goal }}</li>
@@ -25,7 +25,7 @@
 
         <ul class="no_bullets">
             {% for offer in offers %}
-                {% if offer.offer_id in match_offers %}
+                {% if offer.offer_id in match_goals_offers %}
                     <li><span class="glyphicon glyphicon-ok"></span>{{ offer }}</li>
                 {% else %}
                     <li>{{ offer }}</li>

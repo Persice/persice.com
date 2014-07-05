@@ -2,9 +2,8 @@ import re
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm, Textarea
-from django.views.generic import UpdateView
 from django_facebook.models import FacebookCustomUser
-from .models import Subject, UserGoal, UserOffer
+from .models import Subject, Goal, Offer
 
 
 class GoalForm(forms.Form):
@@ -17,11 +16,9 @@ class GoalForm(forms.Form):
     def clean(self):
         cleaned_data = super(GoalForm, self).clean()
         description = cleaned_data.get("description", False)
-        # if not description:
-        #     raise forms.ValidationError("Please full fill description")
 
         sbj, dummy = Subject.objects.get_or_create(description=description)
-        dummy, created = UserGoal.objects.get_or_create(user=self.user, goal=sbj)
+        dummy, created = Goal.objects.get_or_create(user=self.user, goal=sbj)
 
         if not created:
             raise forms.ValidationError("Goal is already exists")
@@ -42,13 +39,13 @@ class OfferForm(forms.Form):
 
         goal = None
         try:
-            goal = UserGoal.objects.get(user=self.user, goal=sbj)
-        except UserGoal.DoesNotExist:
+            goal = Goal.objects.get(user=self.user, goal=sbj)
+        except Goal.DoesNotExist:
             pass
         if goal:
             raise forms.ValidationError("Goal could not equivalent to offer")
 
-        dummy, created_offer = UserOffer.objects.get_or_create(user=self.user, offer=sbj)
+        dummy, created_offer = Offer.objects.get_or_create(user=self.user, offer=sbj)
         # TODO User A offer != User A goal
         if not created_offer:
             raise forms.ValidationError("Offer is already exists")
