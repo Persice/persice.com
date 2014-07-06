@@ -17,7 +17,7 @@ class GoalForm(forms.Form):
         cleaned_data = super(GoalForm, self).clean()
         description = cleaned_data.get("description", False)
 
-        sbj, dummy = Subject.objects.get_or_create(description=description)
+        sbj, dummy = Subject.objects.get_or_create(description=description.lower())
         dummy, created = Goal.objects.get_or_create(user=self.user, goal=sbj)
 
         if not created:
@@ -35,7 +35,7 @@ class OfferForm(forms.Form):
     def clean(self):
         cleaned_data = super(OfferForm, self).clean()
         description = cleaned_data.get("description")
-        sbj, dummy = Subject.objects.get_or_create(description=description)
+        sbj, dummy = Subject.objects.get_or_create(description=description.lower())
 
         goal = None
         try:

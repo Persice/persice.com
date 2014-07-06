@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django_facebook.models import FacebookCustomUser
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
-from .models import Goal, Offer, Subject, GoalOffer
+from .models import Goal, Offer, Subject
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
 
@@ -166,7 +166,7 @@ def goal_update(request, pk, template_name='goals/update_goal.html'):
         if form.is_valid():
             new_description = form.cleaned_data['description']
             if new_description != s.description:
-                new_subject, _ = Subject.objects.get_or_create(description=new_description)
+                new_subject, _ = Subject.objects.get_or_create(description=new_description.lower())
 
                 offer = None
                 try:
@@ -206,7 +206,7 @@ def offer_update(request, pk, template_name='goals/update_offer.html'):
         if form.is_valid():
             new_description = form.cleaned_data['description']
             if new_description != s.description:
-                new_subject, _ = Subject.objects.get_or_create(description=new_description)
+                new_subject, _ = Subject.objects.get_or_create(description=new_description.lower())
 
                 goal = None
                 try:
