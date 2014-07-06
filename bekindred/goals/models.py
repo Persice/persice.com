@@ -3,7 +3,7 @@ from django_facebook.models import FacebookCustomUser
 
 
 class Subject(models.Model):
-    description = models.CharField(max_length=30, null=False, blank=False, unique=True)
+    description = models.CharField(max_length=50, null=False, blank=False, unique=True)
 
     def __unicode__(self):
         return self.description
@@ -29,3 +29,8 @@ class Offer(models.Model):
 
     class Meta:
         unique_together = ("user", "offer")
+
+
+class Keyword(models.Model):
+    text = models.CharField(max_length=20)
+    subject = models.ForeignKey(Subject)
