@@ -1,6 +1,78 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <script>
+        $(document).ajaxSend(function(event, xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            function sameOrigin(url) {
+                // url could be relative or scheme relative or absolute
+                var host = document.location.host; // host + port
+                var protocol = document.location.protocol;
+                var sr_origin = '//' + host;
+                var origin = protocol + sr_origin;
+                // Allow absolute or scheme relative URLs to same origin
+                return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+                        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                    // or any other URL that isn't scheme relative or absolute i.e relative.
+                        !(/^(\/\/|http:|https:).*/.test(url));
+            }
+            function safeMethod(method) {
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        });
+        $(document).ready(function(){
+            $('.delete-goal').click(function(){
+                var goal_id = $(this).attr('id');
+                if (confirm("Do you want to delete")){
+                    $.ajax({
+                        type: "POST",
+                        url: '/goals/delete/goal/' + goal_id,
+                        contentType: 'text/plain',
+                        success: function(response){
+                            $('#goal_' + goal_id).remove();
+                            console.log(response.code);
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+        $(document).ready(function(){
+            $('.delete-offer').click(function(){
+                var offer_id = $(this).attr('id');
+                if (confirm("Do you want to delete")){
+                    $.ajax({
+                        type: "POST",
+                        url: '/goals/delete/offer/' + offer_id,
+                        contentType: 'text/plain',
+                        success: function(response){
+                            $('#offer_' + offer_id).remove();
+                            console.log(response.code);
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+    </script>
     <div class="container col-md-3 col-md-offset-5">
         <h3 class="text-muted">Kindred</h3>
         <h1 class="text-muted">{{ user.first_name|capfirst }}, 33</h1>
@@ -13,8 +85,8 @@
             <p><strong>Goals</strong></p>
             <ul class="no_bullets">
                 {% for goal in goals %}
-                    <li>
-                        <a href="{% url "goal_delete" goal.goal_id %}"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                    <li id="goal_{{ goal.goal_id }}">
+                        <a href="#" class="delete-goal" id="{{ goal.goal_id }}"><span class="glyphicon glyphicon-minus-sign"></span></a>
                         {{ goal }}
                         <a href="{% url "goal_update" goal.goal_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                     </li>
@@ -29,8 +101,8 @@
             <p><strong>Offers</strong></p>
             <ul class="no_bullets">
                 {% for offer in offers %}
-                    <li>
-                        <a href="{% url "offer_delete" offer.offer_id %}"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                    <li id="offer_{{ offer.offer_id }}">
+                        <a href="#" class="delete-offer" id="{{ offer.offer_id }}"><span class="glyphicon glyphicon-minus-sign"></span></a>
                         {{ offer }}
                         <a href="{% url "offer_update" offer.offer_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                     </li>
