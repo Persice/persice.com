@@ -31,6 +31,21 @@ class Offer(models.Model):
         unique_together = ("user", "offer")
 
 
+class KeywordManager(models.Manager):
+    def keywords(self, user_id):
+        from django.db import connection
+        cursor = connection.cursor()
+        cursor.execute("SELECT "
+                       "strip(to_tsvector(s.description)) as keywords "
+                       "FROM goals_subject s, goals_goal g "
+                       "WHERE g.goal_id = s.id "
+                       "AND g.user_id = %s", [user_id])
+        result_list = []
+        for row in cursor.fetchall():
+            result_list.append(','.join(row[0].split()))
+        return result_list
+
 class Keyword(models.Model):
     text = models.CharField(max_length=20)
     subject = models.ForeignKey(Subject)
+    objects = KeywordManager()

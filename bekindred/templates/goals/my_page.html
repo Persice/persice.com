@@ -58,6 +58,14 @@
                 {% endfor %}
             </ul>
         </div>
+        <div class="user_keyword">
+            <p><strong>Keywords</strong></p>
+            <ul class="no_bullets">
+                {% for keyword in keywords %}
+                    <li>{{ keyword }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
 {% endblock content %}

@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django_facebook.models import FacebookCustomUser
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
-from .models import Goal, Offer, Subject
+from .models import Goal, Offer, Subject, Keyword
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
 
@@ -23,7 +23,8 @@ def my_page(request, graph):
     context = RequestContext(request, {
         'goals': Goal.objects.filter(user=request.user),
         'offers': Offer.objects.filter(user=request.user),
-        'bio': graph.get('me').get('bio', None)
+        'bio': graph.get('me').get('bio', None),
+        'keywords': Keyword.objects.keywords(request.user.id)
     })
     return render_to_response('goals/my_page.html', context)
 
