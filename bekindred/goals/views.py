@@ -24,7 +24,8 @@ def my_page(request, graph):
         'goals': Goal.objects.filter(user=request.user),
         'offers': Offer.objects.filter(user=request.user),
         'bio': graph.get('me').get('bio', None),
-        'keywords': Keyword.objects.keywords(request.user.id)
+        'keywords': Keyword.objects.goal_keywords(request.user.id) +
+                    Keyword.objects.offer_keywords(request.user.id)
     })
     return render_to_response('goals/my_page.html', context)
 
@@ -43,16 +44,10 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
             kwargs['goal_offer_obj'] = go.pop(0)
             self.request.session['goal_offer_obj'] = go
 
-        # kwargs['match_offers'] = GoalOffer.objects.match_offers(self.request.user.id, kwargs['user_obj'].id)
         match_offers = Goal.objects.filter(user=self.request.user.id).\
             filter(Q(goal=Goal.objects.filter(user=kwargs['user_obj'].id).values('goal')) |
                    Q(goal=Offer.objects.filter(user=kwargs['user_obj'].id).values('offer'))).\
             values_list('goal', flat=True)
-
-        # kwargs['match_goals'] = GoalOffer.objects.match_offers(kwargs['user_obj'].id, self.request.user.id)
-        # Offer.objects.filter(user=1). \
-        #     filter(Q(offer=Goal.objects.filter(user=3)) |
-        #            Q(offer=Offer.objects.filter(user=3))).values_list('offer', flat=True)
 
         match_goals = Offer.objects.filter(user=self.request.user.id). \
             filter(Q(offer=Goal.objects.filter(user=kwargs['user_obj'].id).values('goal')) |
