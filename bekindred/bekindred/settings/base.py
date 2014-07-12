@@ -43,9 +43,9 @@ INSTALLED_APPS = (
 )
 
 INSTALLED_APPS += ('south',
+                   'django_facebook',
                    'goals',
                    'friends',
-                   'django_facebook'
     )
 
 MIDDLEWARE_CLASSES = (

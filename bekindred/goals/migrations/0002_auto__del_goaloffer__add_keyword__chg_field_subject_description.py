@@ -8,26 +8,34 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Friend'
-        db.create_table(u'friends_friend', (
+        # Deleting model 'GoalOffer'
+        db.delete_table(u'goals_goaloffer')
+
+        # Adding model 'Keyword'
+        db.create_table(u'goals_keyword', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('friend1', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
-            ('friend2', self.gf('django.db.models.fields.related.ForeignKey')(related_name='friends', to=orm['django_facebook.FacebookCustomUser'])),
-            ('status', self.gf('django.db.models.fields.CharField')(default='R', max_length=1)),
+            ('text', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('subject', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['goals.Subject'])),
         ))
-        db.send_create_signal(u'friends', ['Friend'])
+        db.send_create_signal(u'goals', ['Keyword'])
 
-        # Adding unique constraint on 'Friend', fields ['friend1', 'friend2']
-        db.create_unique(u'friends_friend', ['friend1_id', 'friend2_id'])
 
+        # Changing field 'Subject.description'
+        db.alter_column(u'goals_subject', 'description', self.gf('django.db.models.fields.CharField')(unique=True, max_length=50))
 
     def backwards(self, orm):
-        # Removing unique constraint on 'Friend', fields ['friend1', 'friend2']
-        db.delete_unique(u'friends_friend', ['friend1_id', 'friend2_id'])
+        # Adding model 'GoalOffer'
+        db.create_table(u'goals_goaloffer', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+        ))
+        db.send_create_signal(u'goals', ['GoalOffer'])
 
-        # Deleting model 'Friend'
-        db.delete_table(u'friends_friend')
+        # Deleting model 'Keyword'
+        db.delete_table(u'goals_keyword')
 
+
+        # Changing field 'Subject.description'
+        db.alter_column(u'goals_subject', 'description', self.gf('django.db.models.fields.CharField')(max_length=30, unique=True))
 
     models = {
         u'auth.group': {
@@ -80,13 +88,29 @@ class Migration(SchemaMigration):
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
             'website_url': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'})
         },
-        u'friends.friend': {
-            'Meta': {'unique_together': "(('friend1', 'friend2'),)", 'object_name': 'Friend'},
-            'friend1': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"}),
-            'friend2': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'friends'", 'to': u"orm['django_facebook.FacebookCustomUser']"}),
+        u'goals.goal': {
+            'Meta': {'unique_together': "(('user', 'goal'),)", 'object_name': 'Goal'},
+            'goal': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goals.Subject']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "'R'", 'max_length': '1'})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
+        },
+        u'goals.keyword': {
+            'Meta': {'object_name': 'Keyword'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'subject': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goals.Subject']"}),
+            'text': ('django.db.models.fields.CharField', [], {'max_length': '20'})
+        },
+        u'goals.offer': {
+            'Meta': {'unique_together': "(('user', 'offer'),)", 'object_name': 'Offer'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'offer': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['goals.Subject']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
+        },
+        u'goals.subject': {
+            'Meta': {'object_name': 'Subject'},
+            'description': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         }
     }
 
-    complete_apps = ['friends']
+    complete_apps = ['goals']

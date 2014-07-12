@@ -39,6 +39,8 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         kwargs['offers'] = Offer.objects.filter(user=self.kwargs['pk'])
         kwargs['user_obj'] = FacebookCustomUser.objects.get(pk=self.kwargs['pk'])
 
+        self.request.session['match_user'] = self.kwargs['pk']
+
         if self.request.session.get('goal_offer_obj', False):
             go = self.request.session['goal_offer_obj']
             kwargs['goal_offer_obj'] = go.pop(0)
@@ -90,8 +92,6 @@ class OfferView(LoginRequiredMixin, FormView):
     template_name = 'goals/offer.html'
 
     def get_success_url(self):
-        # go = GoalOffer.objects.unique_match_user(self.request.user.id)
-
         current_user = int(self.request.user.id)
         g1 = Goal.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('goal')
         o1 = Offer.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('offer')

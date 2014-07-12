@@ -58,6 +58,7 @@ class KeywordManager(models.Manager):
             result_list.append(','.join(row[0].split()))
         return result_list
 
+
 class Keyword(models.Model):
     text = models.CharField(max_length=20)
     subject = models.ForeignKey(Subject)
