@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 
 INSTALLED_APPS += ('south',
                    'goals',
+                   'friends',
                    'django_facebook'
     )
 
