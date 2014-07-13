@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django_facebook.models import FacebookCustomUser
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
+from friends.models import Friend
 from .models import Goal, Offer, Subject, Keyword
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
@@ -46,14 +47,14 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
             kwargs['goal_offer_obj'] = go.pop(0)
             self.request.session['goal_offer_obj'] = go
 
-        match_offers = Goal.objects.filter(user=self.request.user.id).\
+        match_offers = Goal.objects.filter(user=self.request.user.id). \
             filter(Q(goal=Goal.objects.filter(user=kwargs['user_obj'].id).values('goal')) |
-                   Q(goal=Offer.objects.filter(user=kwargs['user_obj'].id).values('offer'))).\
+                   Q(goal=Offer.objects.filter(user=kwargs['user_obj'].id).values('offer'))). \
             values_list('goal', flat=True)
 
         match_goals = Offer.objects.filter(user=self.request.user.id). \
             filter(Q(offer=Goal.objects.filter(user=kwargs['user_obj'].id).values('goal')) |
-                   Q(offer=Offer.objects.filter(user=kwargs['user_obj'].id).values('offer'))).\
+                   Q(offer=Offer.objects.filter(user=kwargs['user_obj'].id).values('offer'))). \
             values_list('offer', flat=True)
 
         kwargs['match_goals_offers'] = list(match_offers) + list(match_goals)
@@ -96,8 +97,14 @@ class OfferView(LoginRequiredMixin, FormView):
         g1 = Goal.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('goal')
         o1 = Offer.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('offer')
 
-        match_offers = Offer.objects.exclude(user=current_user).filter(Q(offer=g1) | Q(offer=o1))
-        match_goals = Goal.objects.exclude(user=current_user).filter(Q(goal=g1) | Q(goal=o1))
+        # add exclude friends
+        exclude_friends = [current_user] + \
+                          list(Friend.objects.filter(friend1=current_user, status=0).values_list('friend2', flat=True)) + \
+                          list(Friend.objects.filter(friend2=current_user, status=1).values_list('friend1', flat=True)) + \
+                          list(Friend.objects.filter(friend1=current_user, status=1).values_list('friend2', flat=True))
+
+        match_offers = Offer.objects.exclude(user__in=exclude_friends).filter(Q(offer=g1) | Q(offer=o1))
+        match_goals = Goal.objects.exclude(user__in=exclude_friends).filter(Q(goal=g1) | Q(goal=o1))
 
         unique_match_offers = match_offers.values_list('user', flat=True)
         unique_match_goals = match_goals.values_list('user', flat=True)

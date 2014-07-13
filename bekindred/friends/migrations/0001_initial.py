@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('friend1', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
             ('friend2', self.gf('django.db.models.fields.related.ForeignKey')(related_name='friends', to=orm['django_facebook.FacebookCustomUser'])),
-            ('status', self.gf('django.db.models.fields.CharField')(default='R', max_length=1)),
+            ('status', self.gf('django.db.models.fields.IntegerField')(default=0, max_length=1)),
         ))
         db.send_create_signal(u'friends', ['Friend'])
 
@@ -85,7 +85,7 @@ class Migration(SchemaMigration):
             'friend1': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"}),
             'friend2': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'friends'", 'to': u"orm['django_facebook.FacebookCustomUser']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "'R'", 'max_length': '1'})
+            'status': ('django.db.models.fields.IntegerField', [], {'default': '0', 'max_length': '1'})
         }
     }
 

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-md-3 col-md-offset-5">
+        <div class="user_likes">
+            <p><strong>Friends</strong></p>
+            <ul class="no_bullets">
+                {% for friend in my_friends %}
+                    <li>
+                        <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
+                        {{ friend.username }}
+                    </li>
+                    <br>
+                {% empty %}
+                    <li>No offers yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}
