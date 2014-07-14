@@ -44,7 +44,7 @@
                 $.getJSON("/friends/add/", function(data){
                     if (data['status'] == null) {
                         data['status'] = 0;
-                        alert(data['status']);
+                        //alert(data['status']);
                         $.ajax({
                             type: "POST",
                             url: '/friends/add/',
@@ -55,7 +55,7 @@
                         });
                     } else if (data['status'] == 0) {
                         data['status'] = 1;
-                        alert(data['status']);
+                        //alert(data['status']);
                         $.ajax({
                             type: "POST",
                             url: '/friends/update/',
