@@ -59,13 +59,13 @@
         "pk": 1,
         "model": "django_facebook.facebookcustomuser",
         "fields": {
-            "last_name": "",
+            "last_name": "Faraday",
             "image": "",
             "is_staff": true,
             "about_me": null,
             "user_permissions": [],
             "date_joined": "2014-06-22T13:06:28.445Z",
-            "first_name": "",
+            "first_name": "Michael",
             "facebook_name": null,
             "is_superuser": true,
             "state": null,
@@ -97,7 +97,7 @@
             "about_me": null,
             "user_permissions": [],
             "date_joined": "2014-06-22T13:06:28.445Z",
-            "first_name": "",
+            "first_name": "Isaac",
             "facebook_name": null,
             "is_superuser": true,
             "state": null,
@@ -130,7 +130,7 @@
             "about_me": null,
             "user_permissions": [],
             "date_joined": "2014-06-22T13:06:28.445Z",
-            "first_name": "",
+            "first_name": "Galileo",
             "facebook_name": null,
             "is_superuser": true,
             "state": null,
@@ -163,7 +163,7 @@
             "about_me": null,
             "user_permissions": [],
             "date_joined": "2014-06-22T13:06:28.445Z",
-            "first_name": "",
+            "first_name": "Charles",
             "facebook_name": null,
             "is_superuser": true,
             "state": null,
@@ -196,7 +196,7 @@
             "about_me": "I'm Django Developer!",
             "user_permissions": [],
             "date_joined": "2014-06-22T13:06:28.445Z",
-            "first_name": "",
+            "first_name": "Albert",
             "facebook_name": null,
             "is_superuser": true,
             "state": null,
@@ -344,6 +344,72 @@
         "fields": {
             "user": 4,
             "offer": 4
+        }
+    },
+    {
+        "pk": 1,
+        "model": "django_facebook.facebooklike",
+        "fields": {
+            "category": "Computers/technology",
+            "created_time": "2014-03-14T13:47:17Z",
+            "user_id": 1,
+            "name": "Facebook Engineering",
+            "facebook_id": 9445547199
+        }
+    },
+    {
+        "pk": 2,
+        "model": "django_facebook.facebooklike",
+        "fields": {
+            "category": "Education website",
+            "created_time": "2014-06-24T15:29:36Z",
+            "user_id": 1,
+            "name": "Teaching English – British Council",
+            "facebook_id": 117741954907367
+        }
+    },
+    {
+        "pk": 3,
+        "model": "django_facebook.facebooklike",
+        "fields": {
+            "category": "Computers/technology",
+            "created_time": "2014-03-14T13:47:17Z",
+            "user_id": 2,
+            "name": "Facebook Engineering",
+            "facebook_id": 9445547199
+        }
+    },
+    {
+        "pk": 4,
+        "model": "django_facebook.facebooklike",
+        "fields": {
+            "category": "Website",
+            "created_time": "2014-06-24T15:29:18Z",
+            "user_id": 2,
+            "name": "BBC Learning English",
+            "facebook_id": 143048895744759
+        }
+    },
+    {
+        "pk": 5,
+        "model": "django_facebook.facebooklike",
+        "fields": {
+            "category": "Computers/technology",
+            "created_time": "2014-03-14T13:47:17Z",
+            "user_id": 3,
+            "name": "Learning",
+            "facebook_id": 9445547199
+        }
+    },
+    {
+        "pk": 6,
+        "model": "django_facebook.facebooklike",
+        "fields": {
+            "category": "Website",
+            "created_time": "2014-06-24T15:29:18Z",
+            "user_id": 3,
+            "name": "Programming",
+            "facebook_id": 143048895744759
         }
     }
 ]

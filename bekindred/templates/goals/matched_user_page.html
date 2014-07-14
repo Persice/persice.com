@@ -111,6 +111,20 @@
                 {{ user_obj.profile_or_self.about_me }}
             </div>
         </div>
+        <div class="user_likes">
+            <p><strong>Likes</strong></p>
+            <ul class="no_bullets">
+                {% for like in likes %}
+                    {% if like.name in match_likes %}
+                        <li><span class="glyphicon glyphicon-ok"></span>{{ like.name }}</li>
+                    {% else %}
+                        <li>{{ like.name }}</li>
+                    {% endif %}
+                {% empty %}
+                    <li>No likes yet</li>
+                {% endfor %}
+            </ul>
+        </div>
         {% if goal_offer_obj %}
             <a href="/goals/user/{{ goal_offer_obj }}" class="btn btn-default btn-lg btn-circle" id="left_button">
                 <span class="glyphicon glyphicon-remove-circle"></span>

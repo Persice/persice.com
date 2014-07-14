@@ -5,7 +5,7 @@ from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django_facebook.models import FacebookCustomUser
+from django_facebook.models import FacebookCustomUser, FacebookLike
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend
 from .models import Goal, Offer, Subject, Keyword
@@ -36,9 +36,11 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
     template_name = "goals/matched_user_page.html"
 
     def get_context_data(self, **kwargs):
-        kwargs['goals'] = Goal.objects.filter(user=self.kwargs['pk'])
-        kwargs['offers'] = Offer.objects.filter(user=self.kwargs['pk'])
-        kwargs['user_obj'] = FacebookCustomUser.objects.get(pk=self.kwargs['pk'])
+        current_user = self.kwargs['pk']
+        kwargs['goals'] = Goal.objects.filter(user=current_user)
+        kwargs['offers'] = Offer.objects.filter(user=current_user)
+        kwargs['user_obj'] = FacebookCustomUser.objects.get(pk=current_user)
+        kwargs['likes'] = FacebookLike.objects.filter(user_id=current_user)
 
         self.request.session['match_user'] = self.kwargs['pk']
 
@@ -57,6 +59,11 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
                    Q(offer=Offer.objects.filter(user=kwargs['user_obj'].id).values('offer'))). \
             values_list('offer', flat=True)
 
+        match_likes = FacebookLike.objects.exclude(user_id=current_user).\
+            filter(name__in=FacebookLike.objects.filter(user_id=self.request.user.id).
+                   values('name')).values_list('name', flat=True)
+
+        kwargs['match_likes'] = match_likes
         kwargs['match_goals_offers'] = list(match_offers) + list(match_goals)
         return super(GoalOfferListView, self).get_context_data(**kwargs)
 
@@ -105,10 +112,13 @@ class OfferView(LoginRequiredMixin, FormView):
 
         match_offers = Offer.objects.exclude(user__in=exclude_friends).filter(Q(offer=g1) | Q(offer=o1))
         match_goals = Goal.objects.exclude(user__in=exclude_friends).filter(Q(goal=g1) | Q(goal=o1))
+        match_likes = FacebookLike.objects.exclude(user_id__in=exclude_friends + [current_user]). \
+            filter(name__in=FacebookLike.objects.filter(user_id=current_user).values('name'))
 
         unique_match_offers = match_offers.values_list('user', flat=True)
         unique_match_goals = match_goals.values_list('user', flat=True)
-        go = list(set(list(unique_match_goals) + list(unique_match_offers)))
+        unique_match_likes = match_likes.values_list('user_id', flat=True)
+        go = list(set(list(unique_match_goals) + list(unique_match_offers) + list(unique_match_likes)))
 
         if go:
             match_user = go.pop(0)
