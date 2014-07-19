@@ -8,7 +8,7 @@
                 {% for friend in my_friends %}
                     <li>
                         <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
-                        {{ friend.username }}
+                        <a href="/goals/friend/{{ friend.id }}">{{ friend.first_name }} {{ friend.last_name }}</a>
                     </li>
                     <br>
                 {% empty %}

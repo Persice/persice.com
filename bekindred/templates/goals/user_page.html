@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="container col-md-3 col-md-offset-5">
+        <h3 class="text-muted">Kindred</h3>
+        <h1 class="text-muted">{{ user_obj.username|capfirst }}, 33</h1>
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="">
+            </a>
+        </div>
+        <p><strong>Goals</strong></p>
+        <ul class="no_bullets">
+            {% for goal in goals %}
+                {% if goal.goal_id in match_goals_offers %}
+                    <li><span class="glyphicon glyphicon-ok"></span>{{ goal }}</li>
+                {% else %}
+                    <li>{{ goal }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No offers yet.</li>
+            {% endfor %}
+        </ul>
+        <p><strong>Offers</strong></p>
+
+        <ul class="no_bullets">
+            {% for offer in offers %}
+                {% if offer.offer_id in match_goals_offers %}
+                    <li><span class="glyphicon glyphicon-ok"></span>{{ offer }}</li>
+                {% else %}
+                    <li>{{ offer }}</li>
+                {% endif %}
+            {% empty %}
+                <li>No offers yet.</li>
+            {% endfor %}
+        </ul>
+        <div class="user_bio">
+            <p><strong>About Me</strong></p>
+            <div class="user_bio_content">
+                {{ user_obj.profile_or_self.about_me }}
+            </div>
+        </div>
+        <div class="user_likes">
+            <p><strong>Likes</strong></p>
+            <ul class="no_bullets">
+                {% for like in likes %}
+                    {% if like.name in match_likes %}
+                        <li><span class="glyphicon glyphicon-ok"></span>{{ like.name }}</li>
+                    {% else %}
+                        <li>{{ like.name }}</li>
+                    {% endif %}
+                {% empty %}
+                    <li>No likes yet</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock content %}

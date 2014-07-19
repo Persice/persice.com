@@ -33,7 +33,6 @@ def my_page(request, graph):
 
 class GoalOfferListView(LoginRequiredMixin, ListView):
     model = Goal
-    template_name = "goals/matched_user_page.html"
 
     def get_context_data(self, **kwargs):
         current_user = self.kwargs['pk']

@@ -91,7 +91,7 @@
         "pk": 2,
         "model": "django_facebook.facebookcustomuser",
         "fields": {
-            "last_name": "",
+            "last_name": "Newton",
             "image": "",
             "is_staff": true,
             "about_me": null,
