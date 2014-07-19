@@ -49,15 +49,17 @@ h2 {
     padding-bottom: 10px;
 }
 
-.btn-circle {
+a.thumbs-down {
     width: 60px;
     height: 60px;
     text-align: center;
     padding: 2px 0;
     font-size: 12px;
-    line-height: 1.42;
-    border-radius: 30px;
     margin: 20px;
+}
+
+a:hover span {
+    color: #005580;
 }
 
 span.glyphicon {

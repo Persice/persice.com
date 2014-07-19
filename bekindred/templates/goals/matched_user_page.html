@@ -126,18 +126,18 @@
             </ul>
         </div>
         {% if goal_offer_obj %}
-            <a href="/goals/user/{{ goal_offer_obj }}" class="btn btn-default btn-lg btn-circle" id="left_button">
-                <span class="glyphicon glyphicon-remove-circle"></span>
+            <a href="/goals/user/{{ goal_offer_obj }}" class="thumbs-down" id="left_button">
+                <span class="glyphicon glyphicon-thumbs-down"></span>
             </a>
-            <a href="/goals/user/{{ goal_offer_obj }}" class="btn btn-default btn-lg btn-circle" id="accept_button">
-                <span class="glyphicon glyphicon-ok-circle"></span>
+            <a href="/goals/user/{{ goal_offer_obj }}" class="thumbs-down" id="accept_button">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
             </a>
         {% else %}
-            <a href="/" class="btn btn-default btn-lg btn-circle" id="left_button">
-                <span class="glyphicon glyphicon-remove-circle"></span>
+            <a href="/" class="thumbs-down" id="left_button">
+                <span class="glyphicon glyphicon-thumbs-down"></span>
             </a>
-            <a href="/" class="btn btn-default btn-lg btn-circle" id="accept_button">
-                <span class="glyphicon glyphicon-ok-circle"></span>
+            <a href="/" class="thumbs-down" id="accept_button">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
             </a>
         {% endif %}
     </div>
