@@ -1,9 +1,42 @@
 from django.db import models
 from django_facebook.models import FacebookCustomUser
+from djorm_pgfulltext.models import SearchManager
+from djorm_pgfulltext.fields import VectorField
 
+
+class SubjectManager(models.Manager):
+    def search_goals(self, user_id):
+        user_goals = Goal.objects.filter(user=FacebookCustomUser.objects.get(pk=user_id))
+
+        subjects = Subject.objects.exclude(id__in=user_goals.values_list('id', flat=True))
+        search_subject = []
+        for goal in user_goals:
+            search_subject.extend(subjects.search(goal))
+
+        return search_subject
+
+    def search_offers(self, user_id):
+        user_offers = Offer.objects.filter(user=FacebookCustomUser.objects.get(pk=user_id))
+
+        subjects = Subject.objects.exclude(id__in=user_offers.values_list('id', flat=True))
+        search_subject = []
+        for offer in user_offers:
+            search_subject.extend(subjects.search(offer))
+
+        return search_subject
 
 class Subject(models.Model):
     description = models.CharField(max_length=50, null=False, blank=False, unique=True)
+
+    search_index = VectorField()
+
+    objects = SearchManager(
+        fields= ('description', ),
+        config='pg_catalog.english',
+        search_field='search_index',
+        auto_update_search_field=True
+    )
+    search_subject = SubjectManager()
 
     def __unicode__(self):
         return self.description

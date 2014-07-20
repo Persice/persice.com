@@ -58,12 +58,18 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
                    Q(offer=Offer.objects.filter(user=kwargs['user_obj'].id).values('offer'))). \
             values_list('offer', flat=True)
 
+        search_goals = Subject.search_subject.search_goals(self.request.user.id)
+        search_offers = Subject.search_subject.search_offers(self.request.user.id)
+        match_goals2 = Goal.objects.filter(Q(goal__in=search_goals) | Q(goal__in=search_offers)).values_list('goal', flat=True)
+        match_offers2 = Offer.objects.filter(Q(offer__in=search_goals) | Q(offer__in=search_offers)).values_list('offer', flat=True)
+
+
         match_likes = FacebookLike.objects.exclude(user_id=current_user).\
             filter(name__in=FacebookLike.objects.filter(user_id=self.request.user.id).
                    values('name')).values_list('name', flat=True)
 
         kwargs['match_likes'] = match_likes
-        kwargs['match_goals_offers'] = list(match_offers) + list(match_goals)
+        kwargs['match_goals_offers'] = list(match_offers) + list(match_offers2) + list(match_goals) + list(match_goals2)
         return super(GoalOfferListView, self).get_context_data(**kwargs)
 
 
@@ -114,10 +120,20 @@ class OfferView(LoginRequiredMixin, FormView):
         match_likes = FacebookLike.objects.exclude(user_id__in=exclude_friends + [current_user]). \
             filter(name__in=FacebookLike.objects.filter(user_id=current_user).values('name'))
 
+        search_goals = Subject.search_subject.search_goals(current_user)
+        search_offers = Subject.search_subject.search_offers(current_user)
+        match_goals2 = Goal.objects.exclude(user_id=current_user).filter(Q(goal__in=search_goals) | Q(goal__in=search_offers))
+        match_offers2 = Offer.objects.exclude(user_id=current_user).filter(Q(offer__in=search_goals) | Q(offer__in=search_offers))
+
+        unique_match_goals2 = match_goals2.values_list('user', flat=True)
+        unique_match_offers2 = match_offers2.values_list('user', flat=True)
+
         unique_match_offers = match_offers.values_list('user', flat=True)
         unique_match_goals = match_goals.values_list('user', flat=True)
         unique_match_likes = match_likes.values_list('user_id', flat=True)
-        go = list(set(list(unique_match_goals) + list(unique_match_offers) + list(unique_match_likes)))
+        go = list(set(list(unique_match_goals) + list(unique_match_goals2) +
+                      list(unique_match_offers) + list(unique_match_offers) +
+                      list(unique_match_likes)))
 
         if go:
             match_user = go.pop(0)
