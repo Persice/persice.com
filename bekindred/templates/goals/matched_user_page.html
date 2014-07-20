@@ -111,6 +111,18 @@
                 {{ user_obj.profile_or_self.about_me }}
             </div>
         </div>
+        <div class="user_mutual_friends">
+            {% if mutual_friends %}
+                <p><strong>Mutual Friends</strong></p>
+                <ul class="no_bullets">
+                    {% for friend in mutual_friends|slice:":5" %}
+                        <li><img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
+                        {{ friend.first_name }} {{ friend.last_name }}</li>
+                    {% endfor %}
+
+                </ul>
+            {% endif %}
+        </div>
         <div class="user_likes">
             <p><strong>Likes</strong></p>
             <ul class="no_bullets">

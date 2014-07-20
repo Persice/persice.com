@@ -3,56 +3,56 @@
     "pk": 1,
     "model": "goals.subject",
     "fields": {
-      "description": "Hire a cat sitter"
+      "description": "hire a cat sitter"
     }
   },
   {
     "pk": 2,
     "model": "goals.subject",
     "fields": {
-      "description": "Find a running partner"
+      "description": "find a running partner"
     }
   },
   {
     "pk": 3,
     "model": "goals.subject",
     "fields": {
-      "description": "Learn Python"
+      "description": "learn python"
     }
   },
   {
     "pk": 4,
     "model": "goals.subject",
     "fields": {
-      "description": "Learn Django"
+      "description": "learn django"
     }
   },
   {
     "pk": 5,
     "model": "goals.subject",
     "fields": {
-      "description": "Learn Ruby"
+      "description": "learn ruby"
     }
   },
   {
     "pk": 6,
     "model": "goals.subject",
     "fields": {
-      "description": "Move Sofa"
+      "description": "move sofa"
     }
   },
     {
         "pk": 7,
         "model": "goals.subject",
         "fields": {
-            "description": "Learn to play tennis"
+            "description": "learn to play tennis"
         }
     },
     {
         "pk": 8,
         "model": "goals.subject",
         "fields": {
-            "description": "Move my 500 lb sofa"
+            "description": "move my 500 lb sofa"
         }
     },
     {

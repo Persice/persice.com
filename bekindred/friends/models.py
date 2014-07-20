@@ -43,6 +43,12 @@ class FriendManager(models.Manager):
         all = list(chain(*result.values_list('friend1', 'friend2')))
         return [x for x in all if x != user_id]
 
+    def mutual_friends(self, friend1, friend2):
+        return list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
+
+
+
+
 class Friend(models.Model):
     objects = FriendManager()
     FRIENDSHIP_STATUS = (

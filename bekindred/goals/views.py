@@ -40,6 +40,8 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         kwargs['offers'] = Offer.objects.filter(user=current_user)
         kwargs['user_obj'] = FacebookCustomUser.objects.get(pk=current_user)
         kwargs['likes'] = FacebookLike.objects.filter(user_id=current_user)
+        kwargs['mutual_friends'] = FacebookCustomUser.objects.filter(
+            pk__in=Friend.objects.mutual_friends(kwargs['user_obj'].id, self.request.user.id))
 
         self.request.session['match_user'] = self.kwargs['pk']
 
@@ -132,7 +134,7 @@ class OfferView(LoginRequiredMixin, FormView):
         unique_match_goals = match_goals.values_list('user', flat=True)
         unique_match_likes = match_likes.values_list('user_id', flat=True)
         go = list(set(list(unique_match_goals) + list(unique_match_goals2) +
-                      list(unique_match_offers) + list(unique_match_offers) +
+                      list(unique_match_offers) + list(unique_match_offers2) +
                       list(unique_match_likes)))
 
         if go:
