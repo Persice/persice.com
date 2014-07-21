@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from itertools import chain
-from django_facebook.models import FacebookCustomUser
+from django_facebook.models import FacebookCustomUser, FacebookUser
 
 
 class FriendManager(models.Manager):
@@ -47,8 +47,6 @@ class FriendManager(models.Manager):
         return list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
 
 
-
-
 class Friend(models.Model):
     objects = FriendManager()
     FRIENDSHIP_STATUS = (
@@ -64,3 +62,19 @@ class Friend(models.Model):
 
     class Meta:
         unique_together = ("friend1", "friend2")
+
+
+class FacebookFriendManager(models.Manager):
+
+    def all_my_friends(self, user):
+        return FacebookUser.objects.filter(user_id=user.id).values_list('facebook_id', flat=True)
+
+    def mutual_friends(self, friend1, friend2):
+        return list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
+
+
+class FacebookFriendUser(FacebookUser):
+    objects = FacebookFriendManager()
+
+    class Meta:
+        proxy = True

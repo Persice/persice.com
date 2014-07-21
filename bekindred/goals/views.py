@@ -5,9 +5,9 @@ from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django_facebook.models import FacebookCustomUser, FacebookLike
+from django_facebook.models import FacebookCustomUser, FacebookLike, FacebookUser
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
-from friends.models import Friend
+from friends.models import Friend, FacebookFriendUser
 from .models import Goal, Offer, Subject, Keyword
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
@@ -42,6 +42,10 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         kwargs['likes'] = FacebookLike.objects.filter(user_id=current_user)
         kwargs['mutual_friends'] = FacebookCustomUser.objects.filter(
             pk__in=Friend.objects.mutual_friends(kwargs['user_obj'].id, self.request.user.id))
+
+        test = FacebookFriendUser.objects.mutual_friends(self.request.user, kwargs['user_obj'])
+        kwargs['mutual_facebook_friends'] = FacebookCustomUser.objects.filter(
+            facebook_id__in=test)
 
         self.request.session['match_user'] = self.kwargs['pk']
 

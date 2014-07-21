@@ -59,4 +59,3 @@ class FriendsListView(ListView):
         kwargs['my_friends'] = FacebookCustomUser.objects.filter(pk__in=Friend.objects.all_my_friends(self.request.user.id))
         return super(FriendsListView, self).get_context_data(**kwargs)
 
-
