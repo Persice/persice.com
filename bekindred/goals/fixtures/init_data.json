@@ -218,6 +218,134 @@
             "facebook_open_graph": null
         }
     },
+    {
+        "pk": 6,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "Soldatenko",
+            "image": "images/facebook_profiles/2014/07/21/fb_image_784349768271537.jpg",
+            "is_staff": false,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-07-21T05:12:49.387Z",
+            "first_name": "Andrii",
+            "facebook_name": "Andrii Soldatenko",
+            "is_superuser": false,
+            "state": null,
+            "date_of_birth": "1989-05-20",
+            "last_login": "2014-07-21T18:12:51.854Z",
+            "facebook_id": 784349768271537,
+            "new_token_required": false,
+            "email": "soldatenko.andrey@gmail.com",
+            "website_url": null,
+            "username": "soldatenkoandrey",
+            "is_active": true,
+            "facebook_profile_url": "https://www.facebook.com/app_scoped_user_id/784349768271537/",
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$FoVV3xBdIMjV$hMlsC2M9NFYyEeiEbCpa9F8cBds9WC2GbghZlPClQIE=",
+            "access_token": "CAAJBhTeiV3kBAPGilMVrPecwleq3LJeshXnVTBOWlZAbcFb546luWP0T8RqGbbxkCUmmRZBqaxfYZC2c9h1bzqYA75bQI47QpkCbvvcrZAZB8ZCYYCdoq9yvMZCeVx0E39kxxeB6zTuVi3qRWAPjDBco0fWRRWDBU7wSG6ECtSTaThHJW0bS251jhwdWPEcLuUZD",
+            "gender": "m",
+            "blog_url": null,
+            "raw_data": "{\"first_name\": \"Andrii\", \"last_name\": \"Soldatenko\", \"verified\": true, \"name\": \"Andrii Soldatenko\", \"locale\": \"en_US\", \"gender\": \"male\", \"image\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAGL9zjTya0sByvW75EKio6CdhPMX03To9iSuKuAkkZBfxZA6taW5R95bLNL6LWaLdHB3RbRY8RaLZBpNt8BLKtGcd74tD3PYMMfpsk9YQ1pZBzgZAyT16wPRj6YHKXEeZCuZCMJuk4bdRG98HvaLyqhU6AbARNUXr8aGNQlDUuIX3fNeujYrpIh7omRhCrJ029sJLCcTAoD&type=large\", \"email\": \"soldatenko.andrey@gmail.com\", \"languages\": [{\"id\": \"106059522759137\", \"name\": \"English\"}, {\"id\": \"112624162082677\", \"name\": \"Russian\"}, {\"id\": \"115447225136484\", \"name\": \"\\u0423\\u043a\\u0440\\u0430\\u0457\\u043d\\u0441\\u044c\\u043a\\u0430\"}], \"birthday\": \"05/20/1989\", \"link\": \"https://www.facebook.com/app_scoped_user_id/784349768271537/\", \"image_thumb\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAGL9zjTya0sByvW75EKio6CdhPMX03To9iSuKuAkkZBfxZA6taW5R95bLNL6LWaLdHB3RbRY8RaLZBpNt8BLKtGcd74tD3PYMMfpsk9YQ1pZBzgZAyT16wPRj6YHKXEeZCuZCMJuk4bdRG98HvaLyqhU6AbARNUXr8aGNQlDUuIX3fNeujYrpIh7omRhCrJ029sJLCcTAoD&type=large\", \"timezone\": 3, \"updated_time\": \"2014-06-28T12:22:20+0000\", \"interested_in\": [\"female\"], \"id\": \"784349768271537\"}",
+            "facebook_open_graph": null
+        }
+    },
+    {
+        "pk": 7,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "Wongberg",
+            "image": "images/facebook_profiles/2014/07/21/fb_image_242317672645527.jpg",
+            "is_staff": false,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-07-21T18:00:00.019Z",
+            "first_name": "Mike",
+            "facebook_name": "Mike Wongberg",
+            "is_superuser": false,
+            "state": null,
+            "date_of_birth": "1980-08-08",
+            "last_login": "2014-07-21T20:37:36.605Z",
+            "facebook_id": 242317672645527,
+            "new_token_required": false,
+            "email": "mike_hkssvmg_wongberg@tfbnw.net",
+            "website_url": null,
+            "username": "mike_hkssvmg_wongberg",
+            "is_active": true,
+            "facebook_profile_url": "https://www.facebook.com/app_scoped_user_id/242317672645527/",
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$9m5IdpN30axA$jcU98P/Dmpv1fI6dcKmy8nOlOCbD82GtBeRby5tHAnw=",
+            "access_token": "CAAJBhTeiV3kBAF7Hb08zZAHJCD43pZB8ScW8zrioxml8vLmbwo2FPTj5MoEjD4Rv6602ZBUPurZCtUJFZCZAI4uouDQuwCyL0HUZC5fGrgYQ9xLk8tkbrDDSLUBaWmQJzvoKKMwYpB23zW98flocQCRK2SaQgZADSSIhcncT69wK7gIUB3ZCoZAX9x3cPs4oW9E8EZD",
+            "gender": "m",
+            "blog_url": null,
+            "raw_data": "{\"first_name\": \"Mike\", \"last_name\": \"Wongberg\", \"verified\": false, \"name\": \"Mike Wongberg\", \"locale\": \"en_US\", \"gender\": \"male\", \"image\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAP9RbvPa4E3X9ZCBHWGGCCSQxEmiTglUopb9Q4HPWWx7NZB73nX8j6hw0tBqKbL3ZCwMm9G0CZBigMbqBwSZCZAogx0t7FzlBebpb6BjMLeIzsFHX7ZBJZBYFITGCq0ZC16mLgi8mrGLYZBnWvjijWNhgNnx2DpVisxjGmqrkxlLycA0eeVZAggyTeKlMO17RNJyJwkDtSgNm3U&type=large\", \"email\": \"mike_hkssvmg_wongberg@tfbnw.net\", \"birthday\": \"08/08/1980\", \"link\": \"https://www.facebook.com/app_scoped_user_id/242317672645527/\", \"image_thumb\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAP9RbvPa4E3X9ZCBHWGGCCSQxEmiTglUopb9Q4HPWWx7NZB73nX8j6hw0tBqKbL3ZCwMm9G0CZBigMbqBwSZCZAogx0t7FzlBebpb6BjMLeIzsFHX7ZBJZBYFITGCq0ZC16mLgi8mrGLYZBnWvjijWNhgNnx2DpVisxjGmqrkxlLycA0eeVZAggyTeKlMO17RNJyJwkDtSgNm3U&type=large\", \"timezone\": 3, \"updated_time\": \"2014-07-21T17:34:44+0000\", \"id\": \"242317672645527\"}",
+            "facebook_open_graph": null
+        }
+    },
+    {
+        "pk": 8,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "User",
+            "image": "images/facebook_profiles/2014/07/21/fb_image_251395135053800.jpg",
+            "is_staff": false,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-07-21T18:07:35.686Z",
+            "first_name": "Open",
+            "facebook_name": "Open Graph Test User",
+            "is_superuser": false,
+            "state": null,
+            "date_of_birth": "1980-08-08",
+            "last_login": "2014-07-21T18:07:51.761Z",
+            "facebook_id": 251395135053800,
+            "new_token_required": false,
+            "email": "open_jkfuwot_user@tfbnw.net",
+            "website_url": null,
+            "username": "open_jkfuwot_user",
+            "is_active": true,
+            "facebook_profile_url": "https://www.facebook.com/app_scoped_user_id/251395135053800/",
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$Cin9kLBqVoxy$NZJJQi4uX+fP7JQ8LsPINxXETBasA4pMhyiavPlmHqY=",
+            "access_token": "CAAJBhTeiV3kBAIssYqyvZCj6OtosE7VpLJqkWIuqXxTAjBZBRDMD5RpNUouKf6GUhbq6qvWhdkKqDryeZAU9zeATLL8nzJyrtN32gKEbcgOvsiTfpSyO4nHImdmzBXRz8rZCRMCxdQJnuIRhVk5ZBXZCfgsCg3q4zm5NkVMhEetChzG4cZCzvoA",
+            "gender": "f",
+            "blog_url": null,
+            "raw_data": "{\"first_name\": \"Open\", \"last_name\": \"User\", \"middle_name\": \"Graph Test\", \"name\": \"Open Graph Test User\", \"locale\": \"en_US\", \"gender\": \"female\", \"image\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAE1NaqrZCdDy9yyjFiVKRQIVd1ZAjG1ZAKyCadcJxFIn3dAt8v2EwLOu6IwLmpA2KditQRHjtKBlcP1SOLjdS0R4F9kgQuJJCg3aqFieCG9BfSvXmjJYUPMkhaBZAaVpwpTkWXxBrDZB6LCDekBZAelq2Y4h2aECmTPF4S220vqZBG8W0rU9Q8VZBTDhVzaMArulFJZCtYBdL&type=large\", \"verified\": false, \"email\": \"open_jkfuwot_user@tfbnw.net\", \"birthday\": \"08/08/1980\", \"link\": \"https://www.facebook.com/app_scoped_user_id/251395135053800/\", \"image_thumb\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAE1NaqrZCdDy9yyjFiVKRQIVd1ZAjG1ZAKyCadcJxFIn3dAt8v2EwLOu6IwLmpA2KditQRHjtKBlcP1SOLjdS0R4F9kgQuJJCg3aqFieCG9BfSvXmjJYUPMkhaBZAaVpwpTkWXxBrDZB6LCDekBZAelq2Y4h2aECmTPF4S220vqZBG8W0rU9Q8VZBTDhVzaMArulFJZCtYBdL&type=large\", \"timezone\": 3, \"updated_time\": \"2014-07-21T17:34:16+0000\", \"id\": \"251395135053800\"}",
+            "facebook_open_graph": null
+        }
+    },
+    {
+        "pk": 9,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "McDonaldberg",
+            "image": "images/facebook_profiles/2014/07/21/fb_image_1446602085609512.jpg",
+            "is_staff": false,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-07-21T18:13:52.366Z",
+            "first_name": "Margaret",
+            "facebook_name": "Margaret McDonaldberg",
+            "is_superuser": false,
+            "state": null,
+            "date_of_birth": "1980-08-08",
+            "last_login": "2014-07-21T19:20:06.072Z",
+            "facebook_id": 1446602085609512,
+            "new_token_required": false,
+            "email": "margaret_ffbrskm_mcdonaldberg@tfbnw.net",
+            "website_url": null,
+            "username": "margaret_ffbrskm_mcdonaldberg",
+            "is_active": true,
+            "facebook_profile_url": "https://www.facebook.com/app_scoped_user_id/1446602085609512/",
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$PQAMBhrDYHFs$N4ThUS9K5txAI3hjxhLE3/ozIsfOBlF1iJmAQ05LYbk=",
+            "access_token": "CAAJBhTeiV3kBAG7ymiR9ZCaiR2eLfT2ZCOPbZCHEq6QB7gbGm1P85CJmpHtjnyMGhNlpaWEbgp1ZCv9jI4ZAVoG8pLqqPy3PKWnLtQGYEJZAJEyjgsXStjuoVM0O7ZAAqwk5St2jNpGqPCIZCHRWGqjPeqRlsBeZBZCzZAYcXu0k8XYmZBYyDQmae8QR",
+            "gender": "f",
+            "blog_url": null,
+            "raw_data": "{\"first_name\": \"Margaret\", \"last_name\": \"McDonaldberg\", \"verified\": false, \"name\": \"Margaret McDonaldberg\", \"locale\": \"en_US\", \"gender\": \"female\", \"image\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAKAMtYjQvpfdBNEOES90lWwrIMIcTnoCrYdQEv7dtZA3PvXAuQC7fHFM5d8VCqzDJyW0unFUYsLLSjgNGU14wmP28hhU6hodAKSpPhcul9E4sMpIiAiqPZBm8vTRlwVZCMQ2EOkxJ4EyYv17HywHZAgZAZB1Y526XhlPlUASVUvzu1GUHZA9E7hZCdE2A9X8Q04DjzYUDMp8&type=large\", \"email\": \"margaret_ffbrskm_mcdonaldberg@tfbnw.net\", \"birthday\": \"08/08/1980\", \"link\": \"https://www.facebook.com/app_scoped_user_id/1446602085609512/\", \"image_thumb\": \"https://graph.facebook.com/me/picture?access_token=CAAJBhTeiV3kBAKAMtYjQvpfdBNEOES90lWwrIMIcTnoCrYdQEv7dtZA3PvXAuQC7fHFM5d8VCqzDJyW0unFUYsLLSjgNGU14wmP28hhU6hodAKSpPhcul9E4sMpIiAiqPZBm8vTRlwVZCMQ2EOkxJ4EyYv17HywHZAgZAZB1Y526XhlPlUASVUvzu1GUHZA9E7hZCdE2A9X8Q04DjzYUDMp8&type=large\", \"timezone\": 0, \"updated_time\": \"2014-07-21T18:12:52+0000\", \"id\": \"1446602085609512\"}",
+            "facebook_open_graph": null
+        }
+    },
   {
     "pk": 1,
     "model": "goals.goal",
@@ -410,6 +538,46 @@
             "user_id": 3,
             "name": "Programming",
             "facebook_id": 143048895744759
+        }
+    },
+    {
+        "pk": 1,
+        "model": "django_facebook.facebookuser",
+        "fields": {
+            "gender": "F",
+            "user_id": 7,
+            "name": "Carol Petrov",
+            "facebook_id": 1426387544317325
+        }
+    },
+    {
+        "pk": 2,
+        "model": "django_facebook.facebookuser",
+        "fields": {
+            "gender": "F",
+            "user_id": 9,
+            "name": "Carol Petrov",
+            "facebook_id": 1426387544317325
+        }
+    },
+    {
+        "pk": 3,
+        "model": "django_facebook.facebookuser",
+        "fields": {
+            "gender": "M",
+            "user_id": 10,
+            "name": "Mike Wongberg",
+            "facebook_id": 242317672645527
+        }
+    },
+    {
+        "pk": 4,
+        "model": "django_facebook.facebookuser",
+        "fields": {
+            "gender": "F",
+            "user_id": 10,
+            "name": "Margaret McDonaldberg",
+            "facebook_id": 1446602085609512
         }
     }
 ]
