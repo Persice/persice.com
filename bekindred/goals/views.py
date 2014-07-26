@@ -1,3 +1,4 @@
+from operator import itemgetter
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
@@ -112,35 +113,59 @@ class OfferView(LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         current_user = int(self.request.user.id)
-        g1 = Goal.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('goal')
-        o1 = Offer.objects.filter(user=FacebookCustomUser.objects.get(pk=current_user)).values('offer')
+        results = []
 
-        # add exclude friends
-        exclude_friends = [current_user] + \
-                          list(Friend.objects.filter(friend1=current_user, status=0).values_list('friend2', flat=True)) + \
-                          list(Friend.objects.filter(friend2=current_user, status=1).values_list('friend1', flat=True)) + \
-                          list(Friend.objects.filter(friend1=current_user, status=1).values_list('friend2', flat=True))
+        current_user_goals = Goal.objects.user_goals(current_user)
+        current_user_offers = Offer.objects.user_offers(current_user)
 
-        match_offers = Offer.objects.exclude(user__in=exclude_friends).filter(Q(offer=g1) | Q(offer=o1))
-        match_goals = Goal.objects.exclude(user__in=exclude_friends).filter(Q(goal=g1) | Q(goal=o1))
-        match_likes = FacebookLike.objects.exclude(user_id__in=exclude_friends + [current_user]). \
-            filter(name__in=FacebookLike.objects.filter(user_id=current_user).values('name'))
+        exclude_friends = Friend.objects.all_my_friends(current_user) + Friend.objects.thumbed_up_i(current_user) +\
+                          [current_user]
 
         search_goals = Subject.search_subject.search_goals(current_user)
         search_offers = Subject.search_subject.search_offers(current_user)
-        match_goals2 = Goal.objects.exclude(user_id=current_user).filter(Q(goal__in=search_goals) | Q(goal__in=search_offers))
-        match_offers2 = Offer.objects.exclude(user_id=current_user).filter(Q(offer__in=search_goals) | Q(offer__in=search_offers))
 
-        unique_match_goals2 = match_goals2.values_list('user', flat=True)
-        unique_match_offers2 = match_offers2.values_list('user', flat=True)
+        match_users_goals_to_offers = Offer.objects.match_goals_to_offers(exclude_friends, current_user_goals)
+        search_users_goals_to_offers = Offer.objects.search_goals_to_offers(exclude_friends, search_goals)
 
-        unique_match_offers = match_offers.values_list('user', flat=True)
-        unique_match_goals = match_goals.values_list('user', flat=True)
+        match_users_offers_to_goals = Goal.objects.match_offers_to_goals(exclude_friends, current_user_offers)
+        search_users_offers_to_goals = Goal.objects.search_offers_to_goals(exclude_friends, search_offers)
+
+        match_users_goals_to_goals = Goal.objects.match_goals_to_goals(exclude_friends, current_user_goals)
+        search_users_goals_to_goals = Goal.objects.search_goals_to_goals(exclude_friends, search_goals)
+
+        match_users_offers_to_offers = Offer.objects.match_offers_to_offers(exclude_friends, current_user_offers)
+        search_users_offers_to_offers = Offer.objects.search_offers_to_offers(exclude_friends,     search_offers)
+
+        match_likes = FacebookLike.objects.exclude(user_id__in=exclude_friends + [current_user]). \
+            filter(name__in=FacebookLike.objects.filter(user_id=current_user).values('name'))
+
         unique_match_likes = match_likes.values_list('user_id', flat=True)
-        go = list(set(list(unique_match_goals) + list(unique_match_goals2) +
-                      list(unique_match_offers) + list(unique_match_offers2) +
-                      list(unique_match_likes)))
+        matched_users = list(set(match_users_goals_to_offers +
+                                 search_users_goals_to_offers +
+                                 match_users_offers_to_goals +
+                                 search_users_offers_to_goals +
+                                 match_users_goals_to_goals +
+                                 search_users_goals_to_goals +
+                                 match_users_offers_to_offers +
+                                 search_users_offers_to_offers +
+                                 list(unique_match_likes)))
 
+        for user in matched_users:
+            results.append(dict(user_id=user,
+                                thumbed_up_me=-Friend.objects.thumbed_up_me(user, current_user).count(),
+                                matched_goal_offer=Offer.objects.filter(user_id=user, offer=current_user_goals).count(),
+                                matched_offer_goal=Goal.objects.filter(user_id=user, goal=current_user_offers).count(),
+                                matched_goal_goal=Goal.objects.filter(user_id=user, goal=current_user_goals).count(),
+                                matched_offer_offer=Offer.objects.filter(user_id=user, offer=current_user_offers).count(),
+                                mutual_bekindred_friends=None,
+                                mutual_facebook_friends=None,
+                                common_facebook_likes=None,
+                                distance=None))
+
+        sorted_matched_users = sorted(results, key=itemgetter('thumbed_up_me', 'matched_goal_offer',
+                                                              'matched_offer_goal', 'matched_goal_goal',
+                                                              'matched_offer_offer'))
+        go = [x['user_id'] for x in sorted_matched_users]
         if go:
             match_user = go.pop(0)
             self.request.session['goal_offer_obj'] = go

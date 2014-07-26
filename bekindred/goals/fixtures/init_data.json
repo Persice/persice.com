@@ -56,6 +56,62 @@
         }
     },
     {
+        "pk": 9,
+        "model": "goals.subject",
+        "fields": {
+            "description": "cat sitter"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "goals.subject",
+        "fields": {
+            "description": "running partner"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "goals.subject",
+        "fields": {
+            "description": "python"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "goals.subject",
+        "fields": {
+            "description": "django"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "goals.subject",
+        "fields": {
+            "description": "ruby"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "goals.subject",
+        "fields": {
+            "description": "move our sofa"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "goals.subject",
+        "fields": {
+            "description": "play tennis"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "goals.subject",
+        "fields": {
+            "description": "move my sofa"
+        }
+    },
+    {
         "pk": 1,
         "model": "django_facebook.facebookcustomuser",
         "fields": {
@@ -410,6 +466,70 @@
             "goal": 2
         }
     },
+    {
+        "pk": 9,
+        "model": "goals.goal",
+        "fields": {
+            "user": 1,
+            "goal": 9
+        }
+    },
+    {
+        "pk": 10,
+        "model": "goals.goal",
+        "fields": {
+            "user": 1,
+            "goal": 10
+        }
+    },
+    {
+        "pk": 11,
+        "model": "goals.goal",
+        "fields": {
+            "user": 2,
+            "goal": 11
+        }
+    },
+    {
+        "pk": 12,
+        "model": "goals.goal",
+        "fields": {
+            "user": 2,
+            "goal": 12
+        }
+    },
+    {
+        "pk": 13,
+        "model": "goals.goal",
+        "fields": {
+            "user": 3,
+            "goal": 1
+        }
+    },
+    {
+        "pk": 14,
+        "model": "goals.goal",
+        "fields": {
+            "user": 3,
+            "goal": 12
+        }
+    },
+    {
+        "pk": 15,
+        "model": "goals.goal",
+        "fields": {
+            "user": 4,
+            "goal": 9
+        }
+    },
+    {
+        "pk": 16,
+        "model": "goals.goal",
+        "fields": {
+            "user": 4,
+            "goal": 10
+        }
+    },
   {
     "pk": 1,
     "model": "goals.offer",
@@ -472,6 +592,70 @@
         "fields": {
             "user": 4,
             "offer": 4
+        }
+    },
+    {
+        "pk": 9,
+        "model": "goals.offer",
+        "fields": {
+            "user": 1,
+            "offer": 11
+        }
+    },
+    {
+        "pk": 10,
+        "model": "goals.offer",
+        "fields": {
+            "user": 1,
+            "offer": 12
+        }
+    },
+    {
+        "pk": 11,
+        "model": "goals.offer",
+        "fields": {
+            "user": 2,
+            "offer": 9
+        }
+    },
+    {
+        "pk": 12,
+        "model": "goals.offer",
+        "fields": {
+            "user": 2,
+            "offer": 10
+        }
+    },
+    {
+        "pk": 13,
+        "model": "goals.offer",
+        "fields": {
+            "user": 3,
+            "offer": 9
+        }
+    },
+    {
+        "pk": 14,
+        "model": "goals.offer",
+        "fields": {
+            "user": 3,
+            "offer": 14
+        }
+    },
+    {
+        "pk": 15,
+        "model": "goals.offer",
+        "fields": {
+            "user": 4,
+            "offer": 11
+        }
+    },
+    {
+        "pk": 16,
+        "model": "goals.offer",
+        "fields": {
+            "user": 4,
+            "offer": 12
         }
     },
     {

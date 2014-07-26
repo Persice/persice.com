@@ -43,7 +43,29 @@ class Subject(models.Model):
         return self.description
 
 
+class GoalManager(models.Manager):
+    def user_goals(self, user_id):
+        return Goal.objects.filter(user=FacebookCustomUser.objects.get(pk=user_id)).values('goal')
+
+    def match_offers_to_goals(self, exclude_friends, user_offers):
+        return list(Goal.objects.exclude(user__in=exclude_friends).filter(goal=user_offers).values_list('user', flat=True))
+
+    def match_goals_to_goals(self, exclude_friends, user_goals):
+        return list(Goal.objects.exclude(user__in=exclude_friends).filter(goal=user_goals).values_list('user', flat=True))
+
+    def search_offers_to_goals(self, exclude_friends, search_goals):
+        return list(Goal.objects.exclude(user_id__in=exclude_friends).
+                    filter(goal__in=search_goals).values_list('user', flat=True))
+
+    def search_goals_to_goals(self, exclude_friends, search_goals):
+        return list(Goal.objects.exclude(user_id__in=exclude_friends).
+                    filter(goal__in=search_goals).values_list('user', flat=True))
+
+
+
+
 class Goal(models.Model):
+    objects = GoalManager()
     user = models.ForeignKey(FacebookCustomUser)
     goal = models.ForeignKey(Subject)
 
@@ -54,7 +76,30 @@ class Goal(models.Model):
         unique_together = ("user", "goal")
 
 
+class OfferManager(models.Manager):
+    def user_offers(self, user_id):
+        return Offer.objects.filter(user=FacebookCustomUser.objects.get(pk=user_id)).values('offer')
+
+    def match_goals_to_offers(self, exclude_friends, user_goals):
+        return list(Offer.objects.exclude(user__in=exclude_friends).
+                    filter(offer=user_goals).values_list('user', flat=True))
+
+    def match_offers_to_offers(self, exclude_friends, user_offers):
+        return list(Offer.objects.exclude(user__in=exclude_friends).
+                    filter(offer=user_offers).values_list('user', flat=True))
+
+    def search_goals_to_offers(self, exclude_friends, search_goals):
+        return list(Offer.objects.exclude(user_id__in=exclude_friends).
+                    filter(offer__in=search_goals).values_list('user', flat=True))
+
+    def search_offers_to_offers(self, exclude_friends, search_offers):
+        return list(Offer.objects.exclude(user_id__in=exclude_friends).
+                    filter(offer__in=search_offers).values_list('user', flat=True))
+
+
+
 class Offer(models.Model):
+    objects = OfferManager()
     user = models.ForeignKey(FacebookCustomUser)
     offer = models.ForeignKey(Subject)
 

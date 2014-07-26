@@ -46,6 +46,13 @@ class FriendManager(models.Manager):
     def mutual_friends(self, friend1, friend2):
         return list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
 
+    def thumbed_up_i(self, user_id):
+        return list(Friend.objects.filter(friend1=user_id, status=0).values_list('friend2', flat=True))
+
+    def thumbed_up_me(self, friend1, friend2):
+        return Friend.objects.filter(friend1=friend1, friend2=friend2, status=0)
+
+
 
 class Friend(models.Model):
     objects = FriendManager()
