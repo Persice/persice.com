@@ -135,7 +135,7 @@
         <div class="user_likes">
             <p><strong>Likes</strong></p>
             <ul class="no_bullets">
-                {% for like in likes %}
+                {% for like in likes|slice:":5" %}
                     {% if like.name in match_likes %}
                         <li><span class="glyphicon glyphicon-ok"></span>{{ like.name }}</li>
                     {% else %}
