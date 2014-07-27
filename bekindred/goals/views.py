@@ -157,7 +157,7 @@ class OfferView(LoginRequiredMixin, FormView):
                                 matched_offer_goal=Goal.objects.filter(user_id=user, goal=current_user_offers).count(),
                                 matched_goal_goal=Goal.objects.filter(user_id=user, goal=current_user_goals).count(),
                                 matched_offer_offer=Offer.objects.filter(user_id=user, offer=current_user_offers).count(),
-                                mutual_bekindred_friends=None,
+                                mutual_bekindred_friends=len(Friend.objects.mutual_friends(user, current_user)),
                                 mutual_facebook_friends=None,
                                 common_facebook_likes=None,
                                 distance=None))

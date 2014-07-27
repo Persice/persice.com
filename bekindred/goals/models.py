@@ -62,8 +62,6 @@ class GoalManager(models.Manager):
                     filter(goal__in=search_goals).values_list('user', flat=True))
 
 
-
-
 class Goal(models.Model):
     objects = GoalManager()
     user = models.ForeignKey(FacebookCustomUser)
@@ -95,7 +93,6 @@ class OfferManager(models.Manager):
     def search_offers_to_offers(self, exclude_friends, search_offers):
         return list(Offer.objects.exclude(user_id__in=exclude_friends).
                     filter(offer__in=search_offers).values_list('user', flat=True))
-
 
 
 class Offer(models.Model):
