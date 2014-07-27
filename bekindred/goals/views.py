@@ -44,7 +44,7 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         kwargs['mutual_friends'] = FacebookCustomUser.objects.filter(
             pk__in=Friend.objects.mutual_friends(kwargs['user_obj'].id, self.request.user.id))
 
-        test = FacebookFriendUser.objects.mutual_friends(self.request.user, kwargs['user_obj'])
+        test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
         kwargs['mutual_facebook_friends'] = FacebookCustomUser.objects.filter(
             facebook_id__in=test)
 
@@ -119,6 +119,7 @@ class OfferView(LoginRequiredMixin, FormView):
         current_user_offers = Offer.objects.user_offers(current_user)
 
         exclude_friends = Friend.objects.all_my_friends(current_user) + Friend.objects.thumbed_up_i(current_user) +\
+                          FacebookFriendUser.objects.all_my_friends(current_user) +\
                           [current_user]
 
         search_goals = Subject.search_subject.search_goals(current_user)
@@ -158,7 +159,7 @@ class OfferView(LoginRequiredMixin, FormView):
                                 matched_goal_goal=Goal.objects.filter(user_id=user, goal=current_user_goals).count(),
                                 matched_offer_offer=Offer.objects.filter(user_id=user, offer=current_user_offers).count(),
                                 mutual_bekindred_friends=len(Friend.objects.mutual_friends(user, current_user)),
-                                mutual_facebook_friends=None,
+                                mutual_facebook_friends=len(FacebookFriendUser.objects.mutual_friends(user, current_user)),
                                 common_facebook_likes=None,
                                 distance=None))
 

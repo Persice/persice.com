@@ -73,8 +73,8 @@ class Friend(models.Model):
 
 class FacebookFriendManager(models.Manager):
 
-    def all_my_friends(self, user):
-        return FacebookUser.objects.filter(user_id=user.id).values_list('facebook_id', flat=True)
+    def all_my_friends(self, user_id):
+        return list(FacebookUser.objects.filter(user_id=user_id).values_list('facebook_id', flat=True))
 
     def mutual_friends(self, friend1, friend2):
         return list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
