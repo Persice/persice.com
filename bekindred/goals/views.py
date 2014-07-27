@@ -135,12 +135,12 @@ class OfferView(LoginRequiredMixin, FormView):
         search_users_goals_to_goals = Goal.objects.search_goals_to_goals(exclude_friends, search_goals)
 
         match_users_offers_to_offers = Offer.objects.match_offers_to_offers(exclude_friends, current_user_offers)
-        search_users_offers_to_offers = Offer.objects.search_offers_to_offers(exclude_friends,     search_offers)
+        search_users_offers_to_offers = Offer.objects.search_offers_to_offers(exclude_friends, search_offers)
 
-        match_likes = FacebookLike.objects.exclude(user_id__in=exclude_friends + [current_user]). \
-            filter(name__in=FacebookLike.objects.filter(user_id=current_user).values('name'))
+        match_likes = list(FacebookLike.objects.exclude(user_id__in=exclude_friends)
+                                               .filter(name__in=FacebookLike.objects.filter(user_id=current_user)
+                                               .values_list('user_id', flat=True)))
 
-        unique_match_likes = match_likes.values_list('user_id', flat=True)
         matched_users = list(set(match_users_goals_to_offers +
                                  search_users_goals_to_offers +
                                  match_users_offers_to_goals +
@@ -149,7 +149,7 @@ class OfferView(LoginRequiredMixin, FormView):
                                  search_users_goals_to_goals +
                                  match_users_offers_to_offers +
                                  search_users_offers_to_offers +
-                                 list(unique_match_likes)))
+                                 match_likes))
 
         for user in matched_users:
             results.append(dict(user_id=user,
@@ -160,7 +160,7 @@ class OfferView(LoginRequiredMixin, FormView):
                                 matched_offer_offer=Offer.objects.filter(user_id=user, offer=current_user_offers).count(),
                                 mutual_bekindred_friends=len(Friend.objects.mutual_friends(user, current_user)),
                                 mutual_facebook_friends=len(FacebookFriendUser.objects.mutual_friends(user, current_user)),
-                                common_facebook_likes=None,
+                                common_facebook_likes=len(match_likes),
                                 distance=None))
 
         sorted_matched_users = sorted(results, key=itemgetter('thumbed_up_me', 'matched_goal_offer',
