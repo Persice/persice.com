@@ -6,8 +6,8 @@ TEMPLATE_DEBUG = True
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bekindred',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geodjango',
         'USER': 'bekindred',
         'PASSWORD': 'bekindred',
         'HOST': '127.0.0.1',
@@ -33,3 +33,4 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_websi
                            'user_status', 'read_friendlists', 'user_relationships', 'user_groups',
                            'user_relationship_details', 'read_stream']
 
+GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')

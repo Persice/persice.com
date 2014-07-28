@@ -139,3 +139,8 @@ class Keyword(models.Model):
     text = models.CharField(max_length=20)
     subject = models.ForeignKey(Subject)
     objects = KeywordManager()
+
+
+class UserIPAddress(models.Model):
+    user = models.OneToOneField(FacebookCustomUser)
+    ip = models.IPAddressField()

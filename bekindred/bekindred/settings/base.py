@@ -40,12 +40,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis'
 )
 
 INSTALLED_APPS += ('south',
                    'django_facebook',
                    'goals',
                    'friends',
+                   'world'
     )
 
 MIDDLEWARE_CLASSES = (

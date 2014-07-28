@@ -38,3 +38,20 @@ Heroku Database
 ```
  heroku pg:psql
 ```
+
+Install GeoDjango
+```
+brew install postgresql
+brew install postgis
+brew install gdal
+brew install libgeoip
+```
+Creating a spatial database with PostGIS 2.0 and PostgreSQL 9.1+
+```
+sudo su postgres
+createdb template_postgis
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+```
