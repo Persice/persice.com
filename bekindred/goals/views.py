@@ -137,9 +137,10 @@ class OfferView(LoginRequiredMixin, FormView):
         match_users_offers_to_offers = Offer.objects.match_offers_to_offers(exclude_friends, current_user_offers)
         search_users_offers_to_offers = Offer.objects.search_offers_to_offers(exclude_friends, search_offers)
 
-        match_likes = list(FacebookLike.objects.exclude(user_id__in=exclude_friends)
-                                               .filter(name__in=FacebookLike.objects.filter(user_id=current_user)
-                                               .values_list('user_id', flat=True)))
+        match_likes = FacebookLike.objects.exclude(user_id__in=exclude_friends + [current_user]). \
+            filter(name__in=FacebookLike.objects.filter(user_id=current_user).values('name'))
+
+        match_likes = list(match_likes.values_list('user_id', flat=True))
 
         matched_users = list(set(match_users_goals_to_offers +
                                  search_users_goals_to_offers +
