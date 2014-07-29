@@ -39,7 +39,7 @@
         "pk": 5,
         "model": "friends.friend",
         "fields": {
-            "status": 0,
+            "status": 1,
             "friend2": 2,
             "friend1": 1
         }
