@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from .views import GoalView, OfferView, GoalOfferListView, my_page, biography_update, goal_delete, \
-    goal_update, offer_delete, offer_update, CreateGoalView, CreateOfferView
+    goal_update, offer_delete, offer_update, CreateGoalView, CreateOfferView, MatchView
 
 
 urlpatterns = patterns('',
@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^delete/offer/(?P<pk>\d+)$', offer_delete, name='offer_delete'),
     url(r'^update/offer/(?P<pk>\d+)$', offer_update, name='offer_update'),
     url(r'^create/offer/$', OfferView.as_view()),
+    url(r'^matched/$', MatchView.as_view()),
     url(r'^user/(?P<pk>[0-9]+)/$', GoalOfferListView.as_view(template_name="goals/matched_user_page.html")),
     url(r'^friend/(?P<pk>[0-9]+)/$', GoalOfferListView.as_view(template_name='goals/user_page.html')),
     url(r'^user/$', login_required(TemplateView.as_view(template_name="goals/no_match_results.html"))),

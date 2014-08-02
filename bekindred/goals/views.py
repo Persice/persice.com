@@ -1,7 +1,9 @@
 from operator import itemgetter
+from django.contrib.redirects.models import Redirect
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
+from django.views.generic import RedirectView, View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
@@ -110,16 +112,24 @@ class CreateOfferView(LoginRequiredMixin, FormView):
 class OfferView(LoginRequiredMixin, FormView):
     form_class = OfferForm
     template_name = 'goals/offer.html'
+    success_url = '/goals/matched'
 
-    def get_success_url(self):
+    def get_form_kwargs(self):
+        kwargs = super(OfferView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+class MatchView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
         current_user = int(self.request.user.id)
         results = []
 
         current_user_goals = Goal.objects.user_goals(current_user)
         current_user_offers = Offer.objects.user_offers(current_user)
 
-        exclude_friends = Friend.objects.all_my_friends(current_user) + Friend.objects.thumbed_up_i(current_user) +\
-                          FacebookFriendUser.objects.all_my_friends(current_user) +\
+        exclude_friends = Friend.objects.all_my_friends(current_user) + Friend.objects.thumbed_up_i(current_user) + \
+                          FacebookFriendUser.objects.all_my_friends(current_user) + \
                           [current_user]
 
         search_goals = Subject.search_subject.search_goals(current_user)
@@ -171,15 +181,9 @@ class OfferView(LoginRequiredMixin, FormView):
         if go:
             match_user = go.pop(0)
             self.request.session['goal_offer_obj'] = go
-            return '/goals/user/%s' % match_user
+            return redirect('/goals/user/%s/' % match_user)
         else:
-            return '/goals/user/'
-
-    def get_form_kwargs(self):
-        kwargs = super(OfferView, self).get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-
+            return redirect('/goals/user/')
 
 def register_page(request):
     if request.method == 'POST':
