@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+        <div class="container">
+            <!--<div class="col-md-12 column">-->
+            <div class="col-md-6 col-md-offset-5">
+                <form class="form-horizontal" method="get" action="{% url "matched" %}">
+                    <div class="form-group">
+                        <h3 class="col-sm-2 control-label text-muted">Filters</h3>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Min. Age</label>
+                        <div class="col-sm-2">
+                            <input type="number" min="18" max="115" name="min_age" class="form-control" placeholder="18">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Max. Age</label>
+                        <div class="col-sm-2">
+                            <input type="number" min="18" max="115" name="max_age" class="form-control" placeholder="115">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Distance</label>
+                        <div class="col-sm-3 controls">
+                            <div class="input-group">
+                                <input type="number" min="1" max="1000" name="distance" class="form-control" placeholder="100">
+                                <span class="input-group-addon">mi.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-2">
+                            <input type="submit" class="btn btn-primary" value="Filter" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+{% endblock content %}

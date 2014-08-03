@@ -1,19 +1,22 @@
 from operator import itemgetter
-from django.contrib.redirects.models import Redirect
-from django.http import HttpResponseRedirect
+from datetime import datetime, date
+
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render, redirect
 from django.template import RequestContext
-from django.views.generic import RedirectView, View
+from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django_facebook.models import FacebookCustomUser, FacebookLike, FacebookUser
-from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
-from friends.models import Friend, FacebookFriendUser
-from .models import Goal, Offer, Subject, Keyword
+from django_facebook.models import FacebookCustomUser, FacebookLike
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
+
+from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
+from friends.models import Friend, FacebookFriendUser
+from goals.utils import calculate_age
+from .models import Goal, Offer, Subject, Keyword
 
 
 class LoginRequiredMixin(object):
@@ -24,12 +27,14 @@ class LoginRequiredMixin(object):
 
 @facebook_required_lazy
 def my_page(request, graph):
+    date_of_birth = FacebookCustomUser.objects.get(pk=request.user.id).date_of_birth
     context = RequestContext(request, {
         'goals': Goal.objects.filter(user=request.user),
         'offers': Offer.objects.filter(user=request.user),
         'bio': graph.get('me').get('bio', None),
         'keywords': Keyword.objects.goal_keywords(request.user.id) +
-                    Keyword.objects.offer_keywords(request.user.id)
+                    Keyword.objects.offer_keywords(request.user.id),
+        'age': calculate_age(date_of_birth) if date_of_birth else 33
     })
     return render_to_response('goals/my_page.html', context)
 
@@ -185,6 +190,7 @@ class MatchView(LoginRequiredMixin, View):
         else:
             return redirect('/goals/user/')
 
+
 def register_page(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -300,3 +306,7 @@ def example(request, graph):
         'bio': graph.get('me').get('bio', None)
     })
     return render_to_response('django_facebook/example.html', context)
+
+
+def search_form(request):
+    return render(request, 'goals/match_filter.html')
