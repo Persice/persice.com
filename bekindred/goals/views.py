@@ -1,22 +1,23 @@
 from operator import itemgetter
-from datetime import datetime, date
 
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, render, redirect
+from django.shortcuts import redirect
+from django.contrib.gis.geoip import GeoIP
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.views.generic import View
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django_facebook.models import FacebookCustomUser, FacebookLike
-from django_facebook.decorators import facebook_required_lazy
-from django.db.models import Q
-
+from django_facebook.models import FacebookCustomUser, FacebookLike, FacebookUser
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser
 from goals.utils import calculate_age, calculate_date_of_birth
-from .models import Goal, Offer, Subject, Keyword
+from .models import Goal, Offer, Subject, Keyword, UserIPAddress
+from django_facebook.decorators import facebook_required_lazy
+from django.db.models import Q
+from geopy.distance import distance as geopy_distance
 
 
 class LoginRequiredMixin(object):
@@ -186,8 +187,12 @@ class MatchView(LoginRequiredMixin, View):
                                  match_users_offers_to_offers +
                                  search_users_offers_to_offers +
                                  match_likes))
-
+        g = GeoIP()
+        point1 = g.lon_lat(str(UserIPAddress.objects.get(user=current_user).ip))
         for user in matched_users:
+            ip = UserIPAddress.objects.get(user=user).ip
+            point2 = g.lon_lat(str(ip))
+            distance = geopy_distance(point1, point2).kilometers
             results.append(dict(user_id=user,
                                 thumbed_up_me=-Friend.objects.thumbed_up_me(user, current_user).count(),
                                 matched_goal_offer=Offer.objects.filter(user_id=user, offer=current_user_goals).count(),
@@ -199,11 +204,11 @@ class MatchView(LoginRequiredMixin, View):
                                 mutual_facebook_friends=len(
                                     FacebookFriendUser.objects.mutual_friends(user, current_user)),
                                 common_facebook_likes=len(match_likes),
-                                distance=None))
+                                distance=distance))
 
         sorted_matched_users = sorted(results, key=itemgetter('thumbed_up_me', 'matched_goal_offer',
                                                               'matched_offer_goal', 'matched_goal_goal',
-                                                              'matched_offer_offer'))
+                                                              'matched_offer_offer', 'distance'))
         go = [x['user_id'] for x in sorted_matched_users]
         if go:
             match_user = go.pop(0)
@@ -322,13 +327,27 @@ def offer_update(request, pk, template_name='goals/update_offer.html'):
     return render_to_response(template_name, variables)
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 @facebook_required_lazy
 def example(request, graph):
     context = RequestContext(request, {
         'bio': graph.get('me').get('bio', None)
     })
+    if request.user.is_authenticated():
+        try:
+            UserIPAddress.objects.get(user=request.user.id)
+        except UserIPAddress.DoesNotExist:
+            fb_user = FacebookCustomUser.objects.get(pk=request.user.id)
+            user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
+            user.save()
     return render_to_response('django_facebook/example.html', context)
-
 
 def search_form(request):
     return render(request, 'goals/match_filter.html')
