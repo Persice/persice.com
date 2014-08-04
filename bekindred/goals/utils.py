@@ -3,6 +3,8 @@ from datetime import date
 
 def calculate_age(born):
     today = date.today()
+    if born is None:
+        return 0
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 

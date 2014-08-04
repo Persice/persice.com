@@ -54,6 +54,12 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         date_of_birth = FacebookCustomUser.objects.get(pk=current_user).date_of_birth
         kwargs['age'] = calculate_age(date_of_birth) if date_of_birth else None
 
+        # calculate distance
+        g = GeoIP()
+        point1 = g.lon_lat(str(UserIPAddress.objects.get(user=current_user).ip))
+        point2 = g.lon_lat(str(UserIPAddress.objects.get(user=self.request.user.id).ip))
+        kwargs['distance'] = geopy_distance(point1, point2).miles
+
         test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
         kwargs['mutual_facebook_friends'] = FacebookCustomUser.objects.filter(
             facebook_id__in=test)
@@ -132,7 +138,7 @@ class OfferView(LoginRequiredMixin, FormView):
 class MatchView(LoginRequiredMixin, View):
     _MIN_AGE = 18
     _MAX_AGE = 115
-    _DEFAULT_DISTANCE = 1000
+    _DEFAULT_DISTANCE = 10000
 
     def get(self, request, *args, **kwargs):
         current_user = int(self.request.user.id)
@@ -142,20 +148,14 @@ class MatchView(LoginRequiredMixin, View):
         min_age = int(min_age) if min_age else self._MIN_AGE
         max_age = request.GET.get('max_age', self._MAX_AGE)
         max_age = int(max_age) if max_age else self._MAX_AGE
-        distance = request.GET.get('distance', self._DEFAULT_DISTANCE)
-        distance = int(distance) if distance else self._DEFAULT_DISTANCE
+        _distance = request.GET.get('distance', self._DEFAULT_DISTANCE)
+        _distance = int(_distance) if _distance else self._DEFAULT_DISTANCE
 
         current_user_goals = Goal.objects.user_goals(current_user)
         current_user_offers = Offer.objects.user_offers(current_user)
 
-        min_date_of_birth, max_date_of_birth = calculate_date_of_birth(max_age), calculate_date_of_birth(min_age)
-
         exclude_friends = Friend.objects.all_my_friends(current_user) + Friend.objects.thumbed_up_i(current_user) + \
                           FacebookFriendUser.objects.all_my_friends(current_user) + \
-                          list(FacebookCustomUser.objects.filter(
-                              Q(date_of_birth__gt=max_date_of_birth) |
-                              Q(date_of_birth__lt=min_date_of_birth)).
-                              values_list('id', flat=True)) + \
                           [current_user]
 
         search_goals = Subject.search_subject.search_goals(current_user)
@@ -190,9 +190,9 @@ class MatchView(LoginRequiredMixin, View):
         g = GeoIP()
         point1 = g.lon_lat(str(UserIPAddress.objects.get(user=current_user).ip))
         for user in matched_users:
-            ip = UserIPAddress.objects.get(user=user).ip
-            point2 = g.lon_lat(str(ip))
-            distance = geopy_distance(point1, point2).kilometers
+            point2 = g.lon_lat(str(UserIPAddress.objects.get(user=user).ip))
+            distance = geopy_distance(point1, point2).miles
+            age = calculate_age(FacebookCustomUser.objects.get(pk=user).date_of_birth)
             results.append(dict(user_id=user,
                                 thumbed_up_me=-Friend.objects.thumbed_up_me(user, current_user).count(),
                                 matched_goal_offer=Offer.objects.filter(user_id=user, offer=current_user_goals).count(),
@@ -204,11 +204,14 @@ class MatchView(LoginRequiredMixin, View):
                                 mutual_facebook_friends=len(
                                     FacebookFriendUser.objects.mutual_friends(user, current_user)),
                                 common_facebook_likes=len(match_likes),
+                                age=age,
                                 distance=distance))
 
-        sorted_matched_users = sorted(results, key=itemgetter('thumbed_up_me', 'matched_goal_offer',
-                                                              'matched_offer_goal', 'matched_goal_goal',
-                                                              'matched_offer_offer', 'distance'))
+        filter_distance = filter(lambda x: x.get('distance') <= _distance, results)
+        filter_age = filter(lambda x: (x.get('age') <= max_age) and (x.get('age') >= min_age), filter_distance)
+        sorted_matched_users = sorted(filter_age, key=itemgetter('thumbed_up_me', 'matched_goal_offer',
+                                                                      'matched_offer_goal', 'matched_goal_goal',
+                                                                      'matched_offer_offer', 'distance'))
         go = [x['user_id'] for x in sorted_matched_users]
         if go:
             match_user = go.pop(0)
