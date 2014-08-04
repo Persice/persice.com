@@ -27,16 +27,27 @@ Host heroku.com
 ```
 
 Deploy to heroku
+
 ```
+heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git/ -a bekindred
+heroku config:set BUILDPACK_URL=https://github.com/dulaccc/heroku-buildpack-geodjango/ -a bekindred
 git push heroku master
 heroku run python bekindred/manage.py syncdb --settings=bekindred.settings.production
+heroku run python bekindred/manage.py migrate --all --settings=bekindred.settings.production
 heroku run python bekindred/manage.py migrate django_facebook --settings=bekindred.settings.production
 heroku run python bekindred/manage.py migrate goals --settings=bekindred.settings.production
+heroku run python bekindred/manage.py shell --settings=bekindred.settings.production
+# insert data into world
+In [1]: from world import load
+In [2]: load.run()
+
 ```
 
 Heroku Database
 ```
  heroku pg:psql
+ CREATE EXTENSION postgis;
+
 ```
 
 Install GeoDjango
