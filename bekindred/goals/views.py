@@ -15,7 +15,7 @@ from django.db.models import Q
 
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser
-from goals.utils import calculate_age
+from goals.utils import calculate_age, calculate_date_of_birth
 from .models import Goal, Offer, Subject, Keyword
 
 
@@ -34,7 +34,7 @@ def my_page(request, graph):
         'bio': graph.get('me').get('bio', None),
         'keywords': Keyword.objects.goal_keywords(request.user.id) +
                     Keyword.objects.offer_keywords(request.user.id),
-        'age': calculate_age(date_of_birth) if date_of_birth else 33
+        'age': calculate_age(date_of_birth) if date_of_birth else None
     })
     return render_to_response('goals/my_page.html', context)
 
@@ -50,6 +50,8 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         kwargs['likes'] = FacebookLike.objects.filter(user_id=current_user)
         kwargs['mutual_friends'] = FacebookCustomUser.objects.filter(
             pk__in=Friend.objects.mutual_friends(kwargs['user_obj'].id, self.request.user.id))
+        date_of_birth = FacebookCustomUser.objects.get(pk=current_user).date_of_birth
+        kwargs['age'] = calculate_age(date_of_birth) if date_of_birth else None
 
         test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
         kwargs['mutual_facebook_friends'] = FacebookCustomUser.objects.filter(
@@ -74,11 +76,12 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
 
         search_goals = Subject.search_subject.search_goals(self.request.user.id)
         search_offers = Subject.search_subject.search_offers(self.request.user.id)
-        match_goals2 = Goal.objects.filter(Q(goal__in=search_goals) | Q(goal__in=search_offers)).values_list('goal', flat=True)
-        match_offers2 = Offer.objects.filter(Q(offer__in=search_goals) | Q(offer__in=search_offers)).values_list('offer', flat=True)
+        match_goals2 = Goal.objects.filter(Q(goal__in=search_goals) | Q(goal__in=search_offers)).values_list('goal',
+                                                                                                             flat=True)
+        match_offers2 = Offer.objects.filter(Q(offer__in=search_goals) | Q(offer__in=search_offers)).values_list(
+            'offer', flat=True)
 
-
-        match_likes = FacebookLike.objects.exclude(user_id=current_user).\
+        match_likes = FacebookLike.objects.exclude(user_id=current_user). \
             filter(name__in=FacebookLike.objects.filter(user_id=self.request.user.id).
                    values('name')).values_list('name', flat=True)
 
@@ -126,15 +129,32 @@ class OfferView(LoginRequiredMixin, FormView):
 
 
 class MatchView(LoginRequiredMixin, View):
+    _MIN_AGE = 18
+    _MAX_AGE = 115
+    _DEFAULT_DISTANCE = 1000
+
     def get(self, request, *args, **kwargs):
         current_user = int(self.request.user.id)
         results = []
 
+        min_age = request.GET.get('min_age', self._MIN_AGE)
+        min_age = int(min_age) if min_age else self._MIN_AGE
+        max_age = request.GET.get('max_age', self._MAX_AGE)
+        max_age = int(max_age) if max_age else self._MAX_AGE
+        distance = request.GET.get('distance', self._DEFAULT_DISTANCE)
+        distance = int(distance) if distance else self._DEFAULT_DISTANCE
+
         current_user_goals = Goal.objects.user_goals(current_user)
         current_user_offers = Offer.objects.user_offers(current_user)
 
+        min_date_of_birth, max_date_of_birth = calculate_date_of_birth(max_age), calculate_date_of_birth(min_age)
+
         exclude_friends = Friend.objects.all_my_friends(current_user) + Friend.objects.thumbed_up_i(current_user) + \
                           FacebookFriendUser.objects.all_my_friends(current_user) + \
+                          list(FacebookCustomUser.objects.filter(
+                              Q(date_of_birth__gt=max_date_of_birth) |
+                              Q(date_of_birth__lt=min_date_of_birth)).
+                              values_list('id', flat=True)) + \
                           [current_user]
 
         search_goals = Subject.search_subject.search_goals(current_user)
@@ -173,9 +193,11 @@ class MatchView(LoginRequiredMixin, View):
                                 matched_goal_offer=Offer.objects.filter(user_id=user, offer=current_user_goals).count(),
                                 matched_offer_goal=Goal.objects.filter(user_id=user, goal=current_user_offers).count(),
                                 matched_goal_goal=Goal.objects.filter(user_id=user, goal=current_user_goals).count(),
-                                matched_offer_offer=Offer.objects.filter(user_id=user, offer=current_user_offers).count(),
+                                matched_offer_offer=Offer.objects.filter(user_id=user,
+                                                                         offer=current_user_offers).count(),
                                 mutual_bekindred_friends=len(Friend.objects.mutual_friends(user, current_user)),
-                                mutual_facebook_friends=len(FacebookFriendUser.objects.mutual_friends(user, current_user)),
+                                mutual_facebook_friends=len(
+                                    FacebookFriendUser.objects.mutual_friends(user, current_user)),
                                 common_facebook_likes=len(match_likes),
                                 distance=None))
 
