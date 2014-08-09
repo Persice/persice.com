@@ -45,6 +45,7 @@ INSTALLED_APPS = (
 
 INSTALLED_APPS += ('south',
                    'django_facebook',
+                   'django_messages',
                    'goals',
                    'friends',
                    'world',
@@ -117,7 +118,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
-    'django_facebook.context_processors.facebook'
+    'django_facebook.context_processors.facebook',
+    'django_messages.context_processors.inbox',
 )
 
 AUTHENTICATION_BACKENDS = (
