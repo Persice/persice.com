@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block content %}
+    <div class="container col-md-3 col-md-offset-5">
+        <h1 class="text-muted">{% trans "Inbox" %}</h1>
+        <ul class="subnavilist">
+            <li><a href="{% url 'messages_compose' %} ">&raquo;&nbsp;{% trans "New Message" %}</a></li>
+        </ul>
+        {% if message_list %}
+            <div class="messages">
+                <table class="table">
+                            <tbody>
+                            {% for message in message_list %}
+                                <tr>
+                                    <td class="col-sm-1" rowspan="2">
+                                        <img src="http://graph.facebook.com/{{ message.sender.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
+                                    </td>
+                                    <td>
+                                        <div class="message_header_left">
+                                            {{ message.sender.first_name }}
+                                        </div>
+                                        <div class="message_header_right">
+                                            {{ message.sent_at|date:_("j M Y") }}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="no_border">
+                                        {% if message.new %}<strong>{% endif %}
+                                        {% if message.replied %}<em>{% endif %}
+                                        <a href="{{message.get_absolute_url }}">{{ message.subject }}</a>
+                                        {% if message.replied %}</em>{% endif %}
+                                        {% if message.new %}</strong>{% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+            </div>
+        {% else %}
+            <p>{% trans "No messages." %}</p>
+        {% endif %}
+    </div>
+{% endblock %}
