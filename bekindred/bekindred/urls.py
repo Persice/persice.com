@@ -8,6 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'^facebook/', include('django_facebook.urls')),
+                       url(r'^messages/', include('postman.urls')),
                        url(r'^example/$', 'goals.views.example', name='facebook_example'),
                        url(r'^$', login_required(TemplateView.as_view(template_name="homepage.html"))),
                        url(r'^goals/', include('goals.urls')),
