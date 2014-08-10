@@ -38,11 +38,10 @@ GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')
 # postman settings
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
-POSTMAN_DISALLOW_COPIES_ON_REPLY = True  # default is False
+POSTMAN_DISALLOW_COPIES_ON_REPLY = False  # default is False
 POSTMAN_DISABLE_USER_EMAILING = True  # default is False
 POSTMAN_AUTO_MODERATE_AS = True  # default is None
 POSTMAN_SHOW_USER_AS = 'first_name'  # default is None
-POSTMAN_QUICKREPLY_QUOTE_BODY = True  # default is False
 POSTMAN_NOTIFIER_APP = None  # default is 'notification'
 POSTMAN_MAILER_APP = None  # default is 'mailer'
 POSTMAN_AUTOCOMPLETER_APP = {

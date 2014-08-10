@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-
+{% load url from future %}
+{% load i18n %}{% load postman_tags %}
 {% block content %}
     <div class="container col-md-3 col-md-offset-5">
         <div class="user_likes">
@@ -9,6 +10,7 @@
                     <li>
                         <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
                         <a href="/goals/friend/{{ friend.id }}">{{ friend.first_name }} {{ friend.last_name }}</a>
+                        <a href="{% url 'postman_write' %}{{ friend.username }}">&raquo;&nbsp;{% trans "Write" %}</a>
                     </li>
                     <br>
                 {% empty %}

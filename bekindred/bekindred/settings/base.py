@@ -119,7 +119,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
-    'django_facebook.context_processors.facebook'
+    'django_facebook.context_processors.facebook',
+    'postman.context_processors.inbox'
 )
 
 AUTHENTICATION_BACKENDS = (

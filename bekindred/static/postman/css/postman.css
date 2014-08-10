@@ -17,3 +17,29 @@
 .pm_message.pm_rejected .pm_header {
     background-color: #FDD;
 }
+
+.example-twitter-my {
+    position:relative;
+    padding:10px;
+    margin:10px 0 0.5em 50px;
+    color:#333;
+    background:#eee;
+    /* css3 */
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    text-align: left;
+}
+
+.example-twitter {
+    position:relative;
+    padding:10px;
+    margin:10px 50px 0 0.5em;
+    color:#333;
+    background:#D9EDF7;
+    /* css3 */
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    text-align: right;
+}

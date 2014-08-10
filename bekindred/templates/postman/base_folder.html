@@ -49,7 +49,7 @@ in the INSTALLED_APPS setting.
                                 <td>{% if message.is_new %}<strong>{% endif %}{% if message.is_replied %}<em>{% endif %}
                                 {% block pm_subject %}
                                     <a href="{% if by_conversation and message.thread_id %}{% url 'postman_view_conversation' message.thread_id %}{% else %}{{message.get_absolute_url }}{% endif %}?next={{ current_url|urlencode }}">
-                                            {% include "postman/inc_subject_ex.html" %}
+                                                {% include "postman/inc_subject_ex.html" %}
                                     </a>
                                 {% endblock %}
                                 {% if message.is_replied %}</em>{% endif %}{% if message.is_new %}</strong>{% endif %}</td>
