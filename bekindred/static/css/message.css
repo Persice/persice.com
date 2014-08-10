@@ -1,0 +1,16 @@
+.message_header_right {
+    float: right;
+}
+
+.message_header_left {
+    float: left;
+}
+
+td#no_border {
+    border-top: none;
+}
+
+div#message {
+    border-top: #adadad;
+    border-bottom-width: 1px;
+}
