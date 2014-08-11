@@ -28,6 +28,7 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_websi
                           'user_relationship_details', 'read_stream']
 
 # postman settings
+
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
 POSTMAN_DISALLOW_COPIES_ON_REPLY = False  # default is False
