@@ -30,11 +30,11 @@
     <form class="form-horizontal" action="." method="post">{% csrf_token %}
         <div id="pm_reply" class="form-group">
             {{ form.errors }}
-            {{form.recipients}}
-            <textarea class="form-control" cols="55" id="id_body" name="body" rows="12"></textarea>
+            {{ form.recipients }}
+            {{form.body}}
         </div>
+        <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
     </form>
-<button type="submit" class="btn btn-primary" role="button">{% trans "Send" %}</button>
 </form>
 </div>
 {% endblock %}

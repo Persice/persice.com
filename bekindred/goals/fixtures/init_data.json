@@ -115,23 +115,23 @@
         "pk": 1,
         "model": "django_facebook.facebookcustomuser",
         "fields": {
-            "last_name": "Faraday",
+            "last_name": "Kindred",
             "image": "",
             "is_staff": true,
             "about_me": null,
             "user_permissions": [],
             "date_joined": "2014-06-22T13:06:28.445Z",
-            "first_name": "Michael",
+            "first_name": "Kindred",
             "facebook_name": null,
             "is_superuser": true,
             "state": null,
             "date_of_birth": "1979-06-21",
             "last_login": "2014-06-22T14:47:26.904Z",
-            "facebook_id": 100004428138305,
+            "facebook_id": null,
             "new_token_required": false,
             "email": "a@a.ua",
             "website_url": null,
-            "username": "user_a",
+            "username": "kindred",
             "is_active": true,
             "facebook_profile_url": null,
             "groups": [],
@@ -402,11 +402,43 @@
             "facebook_open_graph": null
         }
     },
-  {
+    {
+        "pk": 10,
+        "model": "django_facebook.facebookcustomuser",
+        "fields": {
+            "last_name": "Faraday",
+            "image": "",
+            "is_staff": true,
+            "about_me": null,
+            "user_permissions": [],
+            "date_joined": "2014-06-22T13:06:28.445Z",
+            "first_name": "Michael",
+            "facebook_name": null,
+            "is_superuser": true,
+            "state": null,
+            "date_of_birth": "1979-06-21",
+            "last_login": "2014-06-22T14:47:26.904Z",
+            "facebook_id": 100004428138305,
+            "new_token_required": false,
+            "email": "a@a.ua",
+            "website_url": null,
+            "username": "user_a",
+            "is_active": true,
+            "facebook_profile_url": null,
+            "groups": [],
+            "password": "pbkdf2_sha256$12000$lCjnuuUVGPGC$o91dLhpSX2kc77pa/Giw1l6vi8CGuNz7mmKUei/irOk=",
+            "access_token": null,
+            "gender": null,
+            "blog_url": null,
+            "raw_data": null,
+            "facebook_open_graph": null
+        }
+    },
+    {
     "pk": 1,
     "model": "goals.goal",
     "fields": {
-      "user": 1,
+      "user": 10,
       "goal": 1
     }
   },
@@ -414,7 +446,7 @@
     "pk": 2,
     "model": "goals.goal",
     "fields": {
-      "user": 1,
+      "user": 10,
       "goal": 2
     }
   },
@@ -470,7 +502,7 @@
         "pk": 9,
         "model": "goals.goal",
         "fields": {
-            "user": 1,
+            "user": 10,
             "goal": 9
         }
     },
@@ -478,7 +510,7 @@
         "pk": 10,
         "model": "goals.goal",
         "fields": {
-            "user": 1,
+            "user": 10,
             "goal": 10
         }
     },
@@ -534,7 +566,7 @@
     "pk": 1,
     "model": "goals.offer",
     "fields": {
-      "user": 1,
+      "user": 10,
       "offer": 3
     }
   },
@@ -542,7 +574,7 @@
     "pk": 2,
     "model": "goals.offer",
     "fields": {
-      "user": 1,
+      "user": 10,
       "offer": 4
     }
   },
@@ -598,7 +630,7 @@
         "pk": 9,
         "model": "goals.offer",
         "fields": {
-            "user": 1,
+            "user": 10,
             "offer": 11
         }
     },
@@ -606,7 +638,7 @@
         "pk": 10,
         "model": "goals.offer",
         "fields": {
-            "user": 1,
+            "user": 10,
             "offer": 12
         }
     },
@@ -664,7 +696,7 @@
         "fields": {
             "category": "Computers/technology",
             "created_time": "2014-03-14T13:47:17Z",
-            "user_id": 1,
+            "user_id": 10,
             "name": "Facebook Engineering",
             "facebook_id": 9445547199
         }
@@ -675,7 +707,7 @@
         "fields": {
             "category": "Education website",
             "created_time": "2014-06-24T15:29:36Z",
-            "user_id": 1,
+            "user_id": 10,
             "name": "Teaching English – British Council",
             "facebook_id": 117741954907367
         }
@@ -769,7 +801,7 @@
         "model": "goals.useripaddress",
         "fields": {
             "ip": "178.151.61.116",
-            "user": 1
+            "user": 10
         }
     },
     {

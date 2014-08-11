@@ -28,7 +28,7 @@
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
-    text-align: left;
+    text-align: right;
 }
 
 .example-twitter {
@@ -41,5 +41,5 @@
     -webkit-border-radius:10px;
     -moz-border-radius:10px;
     border-radius:10px;
-    text-align: right;
+    text-align: left;
 }
