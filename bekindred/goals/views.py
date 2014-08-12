@@ -354,3 +354,9 @@ def example(request, graph):
 
 def search_form(request):
     return render(request, 'goals/match_filter.html')
+
+from postman.views import WriteView
+from .forms import MyWriteForm
+
+class MyWriteView(WriteView):
+    form_class = MyWriteForm
