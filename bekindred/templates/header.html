@@ -4,7 +4,7 @@
     <div class="nav-container">
         <ul class="nav-list">
             <li>Welcome, {{ user.username }}  <a href="/accounts/logout">[logout]</a></li>
-            <li><a href="{% url 'postman_inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+            <li><a href="{% url 'postman_inbox' %}">{% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
             <li><a href="/goals/matched">Match Feed</a></li>
             <li><a href="/goals/filter">Filter Feed</a></li>
             <li><a href="/goals">My Profile</a></li>
