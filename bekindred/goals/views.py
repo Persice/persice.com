@@ -10,7 +10,9 @@ from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django_facebook.connect import CONNECT_ACTIONS
 from django_facebook.models import FacebookCustomUser, FacebookLike, FacebookUser
+from django_facebook.utils import get_registration_backend
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser
 from goals.utils import calculate_age, calculate_date_of_birth
@@ -188,9 +190,16 @@ class MatchView(LoginRequiredMixin, View):
                                  search_users_offers_to_offers +
                                  match_likes))
         g = GeoIP()
-        point1 = g.lon_lat(str(UserIPAddress.objects.get(user=current_user).ip))
+        try:
+            point1 = g.lon_lat(str(UserIPAddress.objects.get(user=current_user).ip))
+        except UserIPAddress.DoesNotExist:
+            point1 = g.lon_lat('127.0.0.1')
+
         for user in matched_users:
-            point2 = g.lon_lat(str(UserIPAddress.objects.get(user=user).ip))
+            try:
+                point2 = g.lon_lat(str(UserIPAddress.objects.get(user=user).ip))
+            except UserIPAddress.DoesNotExist:
+                point2 = g.lon_lat('127.0.0.1')
             distance = geopy_distance(point1, point2).miles
             age = calculate_age(FacebookCustomUser.objects.get(pk=user).date_of_birth)
             results.append(dict(user_id=user,
@@ -221,24 +230,33 @@ class MatchView(LoginRequiredMixin, View):
             return redirect('/goals/user/')
 
 
-def register_page(request):
+def register(request):
+    """
+    A very simplistic register view
+    """
+    backend = get_registration_backend()
+    form_class = backend.get_form_class(request)
+    template_name = backend.get_registration_template()
+
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = form_class(data=request.POST, files=request.FILES)
         if form.is_valid():
-            user = FacebookCustomUser.objects.create_user(
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password1'],
-                email=form.cleaned_data['email']
-            )
-            return HttpResponseRedirect('/')
+            new_user = backend.register(request,
+                                        form=form, **form.cleaned_data)
+            # keep the post behaviour exactly the same as django facebook's
+            # connect flow
+            UserIPAddress.objects.create(user_id=new_user.id, ip=get_client_ip(request))
+            response = backend.post_connect(
+                request, new_user, CONNECT_ACTIONS.REGISTER)
+            return response
     else:
-        form = RegistrationForm()
-    variables = RequestContext(request, {
-        'form': form
-    })
-    return render_to_response(
-        'registration/registration_form.html', variables
-    )
+        form = form_class()
+
+    context = RequestContext(request)
+    context['form'] = form
+    response = render_to_response(template_name, context_instance=context)
+
+    return response
 
 
 def biography_update(request, pk, template_name='goals/biography_form.html'):
