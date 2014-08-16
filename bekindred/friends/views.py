@@ -1,7 +1,9 @@
 import json
-from django.http import HttpResponse
-from django.views.generic import CreateView, UpdateView, ListView
+from django.db.models import Q
+from django.http import HttpResponse, Http404
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django_facebook.models import FacebookCustomUser
+from postman.models import Message
 from .models import Friend
 
 
@@ -51,11 +53,46 @@ class UpdateFriendship(UpdateView, JSONResponseMixin):
         return obj
 
 
+class RemoveFriendship(DeleteView):
+    template_name = 'friends/friendship_confirm_delete'
+    model = Message
+
+    def get_object(self, queryset=None):
+        friend1 = self.request.user.id
+        try:
+            friend2 = int(self.kwargs['pk'])
+        except ValueError:
+            raise Http404
+        obj = Message.objects.filter(Q(sender_id=friend1, recipient_id=friend2) |
+                                     Q(sender_id=friend2, recipient_id=friend1)
+                                    )
+        return obj
+
+    def delete(self, request, *args, **kwargs):
+        friend1 = self.request.user.id
+        try:
+            friend2 = int(self.kwargs['pk'])
+        except ValueError:
+            raise Http404
+        Friend.objects.delete_friend(friend1, friend2)
+        return super(RemoveFriendship, self).delete(self, request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        try:
+            friend2 = int(self.kwargs['pk'])
+        except ValueError:
+            raise Http404
+        kwargs['friend'] = FacebookCustomUser.objects.get(id=friend2)
+        return super(RemoveFriendship, self).get_context_data(**kwargs)
+
+
+
 class FriendsListView(ListView):
     model = Friend
     template_name = "friends/my_connections.html"
 
     def get_context_data(self, **kwargs):
-        kwargs['my_friends'] = FacebookCustomUser.objects.filter(pk__in=Friend.objects.all_my_friends(self.request.user.id))
+        kwargs['my_friends'] = FacebookCustomUser.objects.filter(
+            pk__in=Friend.objects.all_my_friends(self.request.user.id))
         return super(FriendsListView, self).get_context_data(**kwargs)
 

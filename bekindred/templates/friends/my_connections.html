@@ -11,6 +11,7 @@
                         <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
                         <a href="/goals/friend/{{ friend.id }}">{{ friend.first_name }} {{ friend.last_name }}</a>
                         <a href="{% url 'postman_write' %}{{ friend.username }}">&raquo;&nbsp;{% trans "Write" %}</a>
+                        <p><a href="/friends/remove/{{ friend.id }}">Remove from friends</a></p>
                     </li>
                     <br>
                 {% empty %}

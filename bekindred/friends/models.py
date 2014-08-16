@@ -25,6 +25,14 @@ class FriendManager(models.Manager):
                                        Q(friend1=friend2, friend2=friend1))[0]
         return result
 
+    def delete_friend(self, friend1, friend2):
+        """
+        """
+        result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
+                                       Q(friend1=friend2, friend2=friend1)).update(status=2)
+        return result
+
+
     def confirm_friend_request(self, friend1, friend2):
         result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
                                        Q(friend1=friend2, friend2=friend1))[0]
