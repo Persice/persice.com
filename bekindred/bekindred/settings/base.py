@@ -45,6 +45,7 @@ INSTALLED_APPS = (
 )
 
 INSTALLED_APPS += ('south',
+                   'pagination',
                    'django_facebook',
                    'postman',
                    'goals',
@@ -59,6 +60,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'bekindred.urls'

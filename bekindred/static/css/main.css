@@ -68,6 +68,12 @@ span.glyphicon {
     color: #428bca;
 }
 
+span.glyphicon-search {
+    font-size: 0.85em;
+    line-height: 1;
+    color: #428bca;
+}
+
 span.glyphicon-minus-sign {
     font-size: 0.85em;
     line-height: 1;
