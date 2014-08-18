@@ -389,5 +389,10 @@ def search_form(request):
 from postman.views import WriteView
 from .forms import MyWriteForm
 
+
 class MyWriteView(WriteView):
     form_class = MyWriteForm
+
+
+class SearchMessageView(object):
+    pass

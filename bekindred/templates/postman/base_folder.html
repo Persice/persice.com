@@ -11,12 +11,12 @@ in the INSTALLED_APPS setting.
 {% block content %}
     <div id="postman" class="container col-md-5 col-md-offset-4">
         <h1>{% block pm_folder_title %}{% endblock %}</h1>
+        {% block search %}{% endblock search %}
         {% autopaginate pm_messages %}
         {% if invalid_page %}
             <p>{% trans "Sorry, this page number is invalid." %}</p>
         {% else %}
             {% if pm_messages %}
-                {% block search %}{% endblock search %}
                 {% block pm_by_modes %}
                     <div id="pm_by_modes">
                     <span class="pm_by_mode">{% if by_message %}<a href="{{ by_conversation_url }}">{% endif %}{% trans "by conversation" %}{% if by_message %}</a>{% endif %}</span>
@@ -57,7 +57,8 @@ in the INSTALLED_APPS setting.
                 </form>
                 {% paginate %}
             {% else %}
-                <p>{% trans "No messages." %}</p>
+                <br>
+                <p class="col-md-6 col-md-offset-1">{% trans "No messages found." %}</p>
             {% endif %}
         {% endif %}
         {% block pm_footer_info %}{% endblock %}
