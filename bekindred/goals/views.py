@@ -164,6 +164,7 @@ class MatchView(LoginRequiredMixin, View):
 
         exclude_friends = Friend.objects.all_my_friends(current_user) + Friend.objects.thumbed_up_i(current_user) + \
                           FacebookFriendUser.objects.all_my_friends(current_user) + \
+                          Friend.objects.deleted_friends(current_user) + \
                           [current_user]
 
         search_goals = Subject.search_subject.search_goals(current_user)
