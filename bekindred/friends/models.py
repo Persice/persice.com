@@ -61,6 +61,7 @@ class FriendManager(models.Manager):
             return False
 
     def all_my_friends(self, user_id):
+        #TODO Fix with match results
         result = Friend.objects.filter(Q(friend1=user_id, status=1) |
                                        Q(friend2=user_id, status=1))
         all = list(chain(*result.values_list('friend1', 'friend2')))
