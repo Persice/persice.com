@@ -51,6 +51,7 @@ INSTALLED_APPS += ('south',
                    'goals',
                    'friends',
                    'world',
+                   'interests',
 )
 
 MIDDLEWARE_CLASSES = (
