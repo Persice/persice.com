@@ -7,27 +7,15 @@
 
 <body>
 <!-- List of uploaded documents -->
-{% if documents %}
+{% if object_list %}
     <ul>
-        {% for document in documents %}
-            <li><a href="{{ document.photo.url }}">{{ document.photo.name }}</a></li>
+        {% for photo in object_list %}
+            <li><a href="{{ photo.photo.url }}">{{ photo.photo.name }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
     <p>No documents.</p>
 {% endif %}
-
-<!-- Upload form. Note enctype attribute! -->
-<form action="{% url "photo_list" %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <p>{{ form.non_field_errors }}</p>
-    <p>{{ form.photo.label_tag }} {{ form.photo.help_text }}</p>
-    <p>
-        {{ form.photo.errors }}
-        {{ form.photo }}
-    </p>
-    <p><input type="submit" value="Upload" /></p>
-</form>
 
 </body>
 

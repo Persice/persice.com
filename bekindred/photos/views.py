@@ -1,31 +1,43 @@
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-
+from django.core.urlresolvers import reverse_lazy
+from django.http import Http404
+from django.views.generic import DeleteView, CreateView, ListView
 from .models import Photo
 from .forms import PhotoForm
 
 
-def photo_list(request):
-    # Handle file upload
-    if request.method == 'POST':
-        form = PhotoForm(request.POST, request.FILES)
-        if form.is_valid():
-            newphoto = Photo(photo=request.FILES['photo'], user=request.user)
-            newphoto.save()
+class PhotoAddView(CreateView):
+    model = Photo
+    form_class = PhotoForm
+    success_url = reverse_lazy('photo_list')
+    template_name = 'photos/upload_photo.html'
 
-            # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('photo_list'))
-    else:
-        form = PhotoForm() # A empty, unbound form
+    def get_form_kwargs(self):
+        kwargs = super(PhotoAddView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
-    # Load documents for the list page
-    documents = Photo.objects.filter(user=request.user)
+    def form_valid(self, form):
+        user = self.request.user
+        form.instance.user = user
+        return super(PhotoAddView, self).form_valid(form)
 
-    # Render list page with the documents and the form
-    return render_to_response(
-        'photos/list.html',
-        {'documents': documents, 'form': form},
-        context_instance=RequestContext(request)
-    )
+
+class PhotoListView(ListView):
+    model = Photo
+    template_name = 'photos/list.html'
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
+
+
+class PhotoDeleteView(DeleteView):
+    model = Photo
+    template_name = 'photos/confirm_delete_photo.html'
+    success_url = '/goals/'
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(PhotoDeleteView, self).get_object()
+        if not obj.user == self.request.user:
+            raise Http404
+        return obj
