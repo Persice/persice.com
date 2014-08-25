@@ -105,3 +105,10 @@ span.glyphicon-ok {
     margin-left: 12px;
     padding-bottom: 10px;
 }
+
+.slick-slide {
+    width: 560px;
+}
+.slick-prev:before, .slick-next:before {
+    color: #428bca;
+}

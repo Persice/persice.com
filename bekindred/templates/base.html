@@ -4,6 +4,7 @@
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock %}</title>
         <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
         <link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" media="screen">
         <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
         <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
@@ -16,5 +17,7 @@
         {% endblock header %}
         {% block content %}{% endblock content %}
         <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+        <script src="{{ STATIC_URL }}js/slick.js"></script>
+        <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
     </body>
 </html>

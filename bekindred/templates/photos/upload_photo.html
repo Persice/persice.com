@@ -1,34 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Minimal Django File Upload Example</title>
-</head>
-
-<body>
+{% extends 'base.html' %}
 <!-- List of uploaded documents -->
-{% if documents %}
-    <ul>
-        {% for document in documents %}
-            <li><a href="{{ document.photo.url }}">{{ document.photo.name }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No documents.</p>
-{% endif %}
+{% block content %}
+    <div class="container col-md-2 col-md-offset-5">
+        <div class="single-item">
+            <div><div class="image">
+                <img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" width="200">
+            </div></div>
+            {% if documents %}
+                {% for document in documents %}
+                    <div><div class="image">
+                        <a href="{% url 'photo_delete' document.id %}"><span class="glyphicon glyphicon-minus-sign"></span>
+                        <img src="{{ document.photo.url }}" width="200">
+                        </a>
+                    </div></div>
+                {% endfor %}
+            {% else %}
+                <p>No documents.</p>
+            {% endif %}
+        </div>
+        <!-- Upload form. Note enctype attribute! -->
+        <form action="{% url "photo_list" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+            <p>
+                {{ form.photo.errors }}
+                <input id="id_photo" type="file" name="photo" title="Add photo">
+            </p>
+            <p><input class="btn btn-default" type="submit" value="Upload" /></p>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.single-item').slick({
 
-<!-- Upload form. Note enctype attribute! -->
-<form action="{% url "photo_list" %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <p>{{ form.non_field_errors }}</p>
-    <p>{{ form.photo.label_tag }} {{ form.photo.help_text }}</p>
-    <p>
-        {{ form.photo.errors }}
-        {{ form.photo }}
-    </p>
-    <p><input type="submit" value="Upload" /></p>
-</form>
-
-</body>
-
-</html> 
+            });
+            $('input[type=file]').bootstrapFileInput();
+        });
+    </script>
+{% endblock %}
