@@ -120,6 +120,22 @@
                 <a href="{% url "biography_update" user.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
         </div>
+        <div class="user_interests">
+            <p><strong>Activities & Interests</strong></p>
+            <ul class="no_bullets">
+                {% for interest in interests %}
+                    <li id="interest_{{ interest.id }}">
+                        <a href="#" class="delete-interest" id="{{ interest.id }}"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                        {{ interest }}
+                        <a href="{% url "interests_update" interest.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    </li>
+                {% endfor %}
+                <li>
+                    <a href="{% url "interests_create" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    Create new offer
+                </li>
+            </ul>
+        </div>
         <div class="user_likes">
             <p><strong>Likes</strong></p>
             <ul class="no_bullets">

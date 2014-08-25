@@ -3,7 +3,7 @@ from django_facebook.models import FacebookCustomUser
 
 
 class Interest(models.Model):
-    description = models.TextField(max_length=50, null=False, blank=False)
+    description = models.CharField(max_length=50, null=False, blank=False)
     user = models.ForeignKey(FacebookCustomUser)
 
     def __unicode__(self):
