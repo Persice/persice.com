@@ -1,4 +1,5 @@
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 from interests.forms import InterestUpdateForm, InterestCreateForm
 from .models import Interest
 
@@ -26,7 +27,7 @@ class InterestUpdate(UpdateView):
     form_class = InterestUpdateForm
     template_name = 'interests/interest_form.html'
     fields = ['description']
-    success_url = '/'
+    success_url = reverse_lazy('interests-list')
 
     def get_form_kwargs(self):
         kwargs = super(InterestUpdate, self).get_form_kwargs()

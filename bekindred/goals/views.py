@@ -20,6 +20,7 @@ from .models import Goal, Offer, Subject, Keyword, UserIPAddress
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
 from geopy.distance import distance as geopy_distance
+from interests.models import Interest
 
 
 class LoginRequiredMixin(object):
@@ -37,7 +38,8 @@ def my_page(request, graph):
         'bio': graph.get('me').get('bio', None),
         'keywords': Keyword.objects.goal_keywords(request.user.id) +
                     Keyword.objects.offer_keywords(request.user.id),
-        'age': calculate_age(date_of_birth) if date_of_birth else None
+        'age': calculate_age(date_of_birth) if date_of_birth else None,
+        'interests': Interest.objects.filter(user=request.user.id)
     })
     return render_to_response('goals/my_page.html', context)
 

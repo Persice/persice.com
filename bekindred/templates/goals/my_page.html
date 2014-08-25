@@ -72,6 +72,23 @@
                 return false;
             });
         });
+        $(document).ready(function(){
+            $('.delete-interest').click(function(){
+                var interest_id = $(this).attr('id');
+                if (confirm("Do you want to delete")){
+                    $.ajax({
+                        type: "POST",
+                        url: '/interest/delete/' + interest_id,
+                        contentType: 'text/plain',
+                        success: function(response){
+                            $('#interest_' + interest_id).remove();
+                            console.log(response.code);
+                        }
+                    });
+                }
+                return false;
+            });
+        });
     </script>
     <div class="container col-md-3 col-md-offset-5">
         <h3 class="text-muted">Kindred</h3>
@@ -127,12 +144,12 @@
                     <li id="interest_{{ interest.id }}">
                         <a href="#" class="delete-interest" id="{{ interest.id }}"><span class="glyphicon glyphicon-minus-sign"></span></a>
                         {{ interest }}
-                        <a href="{% url "interests_update" interest.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="{% url "update_interest" interest.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                     </li>
                 {% endfor %}
                 <li>
-                    <a href="{% url "interests_create" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    Create new offer
+                    <a href="{% url "create_interest" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                    Create new Interest or Activity
                 </li>
             </ul>
         </div>
