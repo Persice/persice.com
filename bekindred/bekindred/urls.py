@@ -17,5 +17,16 @@ urlpatterns = patterns('',
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
                        url(r'^accounts/register/', 'goals.views.register'),
                        url(r'^accounts/', include('django_facebook.auth_urls')),
-                       url(r'^admin/', include(admin.site.urls))
+                       url(r'^admin/', include(admin.site.urls)),
+                       url(r'^photo/', include('photos.urls')),
 )
+
+from django.conf import settings
+
+# ... your normal urlpatterns here
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                                'document_root': settings.MEDIA_ROOT}))

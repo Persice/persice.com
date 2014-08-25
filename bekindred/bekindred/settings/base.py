@@ -13,6 +13,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -52,6 +53,7 @@ INSTALLED_APPS += ('south',
                    'friends',
                    'world',
                    'interests',
+                   'photos'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -109,9 +111,10 @@ STATICFILES_FINDERS = (
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
+
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media/')
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
