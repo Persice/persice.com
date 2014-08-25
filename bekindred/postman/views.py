@@ -76,11 +76,11 @@ class FolderMixin(object):
             if len(message_filter) < 3:
                 raise Http404
             msgs = Message.objects.inbox(self.request.user, **params)
-            msgs = msgs.filter(Q(sender__first_name__contains=message_filter) |
-                               Q(sender__last_name__contains=message_filter) |
-                               Q(recipient__first_name__contains=message_filter) |
-                               Q(recipient__first_name__contains=message_filter) |
-                               Q(body__contains=message_filter)
+            msgs = msgs.filter(Q(sender__first_name__icontains=message_filter) |
+                               Q(sender__last_name__icontains=message_filter) |
+                               Q(recipient__first_name__icontains=message_filter) |
+                               Q(recipient__first_name__icontains=message_filter) |
+                               Q(body__icontains=message_filter)
             )
         else:
             msgs = getattr(Message.objects, self.folder_name)(self.request.user, **params)
