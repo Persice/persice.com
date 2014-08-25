@@ -9,7 +9,7 @@ class InterestCreate(CreateView):
     form_class = InterestCreateForm
     template_name = 'interests/interest_form.html'
     fields = ['description']
-    success_url = '/'
+    success_url = '/goals/'
 
     def get_form_kwargs(self):
         kwargs = super(InterestCreate, self).get_form_kwargs()
@@ -25,7 +25,7 @@ class InterestCreate(CreateView):
 class InterestUpdate(UpdateView):
     model = Interest
     form_class = InterestUpdateForm
-    template_name = 'interests/interest_form.html'
+    template_name = 'interests/update_interest_form.html'
     fields = ['description']
     success_url = reverse_lazy('interests-list')
 
@@ -39,4 +39,4 @@ class InterestDelete(DeleteView):
     model = Interest
     template_name = 'interests/confirm_interest_delete.html'
     fields = ['description']
-    success_url = '/'
+    success_url = '/goals/'
