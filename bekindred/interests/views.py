@@ -27,7 +27,7 @@ class InterestUpdate(UpdateView):
     form_class = InterestUpdateForm
     template_name = 'interests/update_interest_form.html'
     fields = ['description']
-    success_url = reverse_lazy('interests-list')
+    success_url = '/goals'
 
     def get_form_kwargs(self):
         kwargs = super(InterestUpdate, self).get_form_kwargs()
