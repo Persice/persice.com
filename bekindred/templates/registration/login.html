@@ -27,8 +27,19 @@
                 </div>
             </form>
         </div>
+        <div class="col-sm-8 col-sm-offset-5 facebook_logo">
+            <a href="/social/login/linkedin/"><img width="200" height="40" src="{{ STATIC_URL }}img/linkedin_login.png" /></a>
+        </div>
+        <br/>
+        <div class="col-sm-8 col-md-offset-5">
+            <form action="{% url 'facebook_connect' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" value="{{ request.path }}" name="next" />
+                <div id="facebook_login_redirect">
+                    <input type="image" src="{{ STATIC_URL }}django_facebook/images/facebook_login.png" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-    <!--</div>-->
 </div>
 {% endblock %}

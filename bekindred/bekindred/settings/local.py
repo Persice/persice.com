@@ -22,6 +22,7 @@ FIXTURE_DIRS = (
 # Django
 STATICFILES_ROOT = os.path.join(BASE_DIR, '..', 'static/')
 
+# Facebook
 FACEBOOK_APP_ID = '634990373263225'
 FACEBOOK_APP_SECRET = '2d942d34f2e5818cad58920834044d5a'
 
@@ -33,6 +34,38 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_websi
                           'user_status', 'read_friendlists', 'user_relationships', 'user_groups',
                           'user_relationship_details', 'read_stream']
 
+# LinkedIn
+LINKEDIN_CONSUMER_KEY = '755c9apksk4zxm'
+LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
+
+
+# Add email to requested authorizations.
+LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress']
+# Add the fields so they will be requested from linkedin.
+LINKEDIN_EXTRA_FIELD_SELECTORS = ['email-address', 'date-of-birth', 'picture-url']
+# Arrange to add the fields to UserSocialAuth.extra_data
+LINKEDIN_EXTRA_DATA = [('id', 'id'),
+                       ('first-name', 'first_name'),
+                       ('last-name', 'last_name'),
+                       ('email-address', 'email'),
+                       ('date-of-birth', 'date_of_birth'),
+                       ('picture-url', 'image')
+                       ]
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.user.get_username',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'social_auth.backends.pipeline.user.update_user_details',
+    'bekindred.pipeline.social_auth_to_profile',
+)
+
+# GeoIP
 GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')
 
 # postman settings

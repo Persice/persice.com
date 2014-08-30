@@ -13,6 +13,7 @@ from django.utils.decorators import method_decorator
 from django_facebook.connect import CONNECT_ACTIONS
 from django_facebook.models import FacebookCustomUser, FacebookLike, FacebookUser
 from django_facebook.utils import get_registration_backend
+from open_facebook import OpenFacebook
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser
 from goals.utils import calculate_age, calculate_date_of_birth
@@ -29,13 +30,14 @@ class LoginRequiredMixin(object):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-@facebook_required_lazy
-def my_page(request, graph):
+@login_required()
+def my_page(request):
     date_of_birth = FacebookCustomUser.objects.get(pk=request.user.id).date_of_birth
+    bio = FacebookCustomUser.objects.get(pk=request.user.id).about_me
     context = RequestContext(request, {
         'goals': Goal.objects.filter(user=request.user),
         'offers': Offer.objects.filter(user=request.user),
-        'bio': graph.get('me').get('bio', None),
+        'bio': bio,
         'keywords': Keyword.objects.goal_keywords(request.user.id) +
                     Keyword.objects.offer_keywords(request.user.id),
         'age': calculate_age(date_of_birth) if date_of_birth else None,
@@ -385,6 +387,23 @@ def example(request, graph):
             user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
             user.save()
     return render_to_response('django_facebook/example.html', context)
+
+@login_required()
+def main_page(request, template_name="homepage.html"):
+    if request.user.is_authenticated():
+        fb_user = FacebookCustomUser.objects.get(pk=request.user.id)
+        try:
+            UserIPAddress.objects.get(user=request.user.id)
+        except UserIPAddress.DoesNotExist:
+            user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
+            user.save()
+
+        if fb_user.facebook_id and not fb_user.about_me:
+            facebook = OpenFacebook(fb_user.access_token)
+            fb_user.about_me = facebook.get('me').get('bio', None)
+            fb_user.save()
+    return render(request, template_name)
+
 
 def search_form(request):
     return render(request, 'goals/match_filter.html')

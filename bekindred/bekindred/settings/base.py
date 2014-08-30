@@ -48,6 +48,7 @@ INSTALLED_APPS = (
 INSTALLED_APPS += ('south',
                    'pagination',
                    'django_facebook',
+                   'social_auth',
                    'postman',
                    'goals',
                    'friends',
@@ -126,14 +127,20 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'django_facebook.context_processors.facebook',
-    'postman.context_processors.inbox'
+    'postman.context_processors.inbox',
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
 )
 
 AUTHENTICATION_BACKENDS = (
     'django_facebook.auth_backends.FacebookBackend',
+    'social_auth.backends.contrib.linkedin.LinkedinBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
 AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
+SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'

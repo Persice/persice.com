@@ -112,3 +112,7 @@ span.glyphicon-ok {
 .slick-prev:before, .slick-next:before {
     color: #428bca;
 }
+
+.facebook_logo {
+    margin-bottom: 10px;
+}

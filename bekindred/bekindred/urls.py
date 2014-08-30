@@ -8,10 +8,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
                        url(r'^facebook/', include('django_facebook.urls')),
+                       url(r'^social/', include('social_auth.urls')),
                        url(r'^messages/', include('messages.urls')),
                        url(r'^interest/', include('interests.urls')),
                        url(r'^example/$', 'goals.views.example', name='facebook_example'),
-                       url(r'^$', login_required(TemplateView.as_view(template_name="homepage.html"))),
+                       url(r'^$', 'goals.views.main_page'),
                        url(r'^goals/', include('goals.urls')),
                        url(r'^friends/', include('friends.urls')),
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
