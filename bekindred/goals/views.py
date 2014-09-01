@@ -14,9 +14,10 @@ from django_facebook.connect import CONNECT_ACTIONS
 from django_facebook.models import FacebookCustomUser, FacebookLike, FacebookUser
 from django_facebook.utils import get_registration_backend
 from open_facebook import OpenFacebook
+from social_auth.db.django_models import UserSocialAuth
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser
-from goals.utils import calculate_age, calculate_date_of_birth
+from goals.utils import calculate_age, linkedin_connections
 from .models import Goal, Offer, Subject, Keyword, UserIPAddress
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
@@ -65,6 +66,21 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         point1 = g.lon_lat(str(UserIPAddress.objects.get(user=current_user).ip))
         point2 = g.lon_lat(str(UserIPAddress.objects.get(user=self.request.user.id).ip))
         kwargs['distance'] = geopy_distance(point1, point2).miles
+
+        # linkedin mutual connections
+        kwargs['mutual_linkedin'] = None
+
+        try:
+            current_auth_user = UserSocialAuth.objects.filter(user_id=current_user, provider='linkedin')[0]
+            requested_auth_user = UserSocialAuth.objects.filter(user_id=self.request.user.id, provider='linkedin')[0]
+            oauth_token = current_auth_user.tokens['oauth_token']
+            oauth_token_secret = current_auth_user.tokens['oauth_token_secret']
+            kwargs['mutual_linkedin'] = linkedin_connections(requested_auth_user.uid, oauth_token, oauth_token_secret)
+        except IndexError:
+            pass
+
+
+
 
         test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
         kwargs['mutual_facebook_friends'] = FacebookCustomUser.objects.filter(

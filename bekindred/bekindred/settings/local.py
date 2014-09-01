@@ -40,7 +40,7 @@ LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
 
 
 # Add email to requested authorizations.
-LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress']
+LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress', 'r_network']
 # Add the fields so they will be requested from linkedin.
 LINKEDIN_EXTRA_FIELD_SELECTORS = ['email-address', 'date-of-birth', 'picture-url']
 # Arrange to add the fields to UserSocialAuth.extra_data
@@ -49,7 +49,8 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('last-name', 'last_name'),
                        ('email-address', 'email'),
                        ('date-of-birth', 'date_of_birth'),
-                       ('picture-url', 'image')
+                       ('picture-url', 'image'),
+                       ('relation-to-viewer ', 'relation-to-viewer')
                        ]
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'

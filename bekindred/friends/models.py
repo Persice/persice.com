@@ -114,3 +114,7 @@ class FacebookFriendUser(FacebookUser):
 
     class Meta:
         proxy = True
+
+
+class LinkedinMutualFriends(models.Model):
+    pass
