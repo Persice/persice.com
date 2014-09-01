@@ -48,6 +48,7 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
