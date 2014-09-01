@@ -132,6 +132,17 @@
                 </ul>
             {% endif %}
         </div>
+        <div class="linkedin_mutual_connections">
+            {% if mutual_linkedin %}
+                <p><strong>Mutual Linkedin Conections</strong></p>
+                <ul class="no_bullets">
+                    {% for connection in mutual_linkedin|slice:":5" %}
+                        <li><img width="40" height="40" src="{{ connection.pictureUrl }}" />
+                            {{ connection.firstName }} {{ connection.lastName }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
         <div class="user_likes">
             <p><strong>Likes</strong></p>
             <ul class="no_bullets">
