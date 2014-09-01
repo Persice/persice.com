@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if facebook_photos %}
+        <ul>
+            {% for photo in facebook_photos %}
+                <li><img src="{{ photo.picture }}"/></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No photos.</p>
+    {% endif %}
+{% endblock %}
