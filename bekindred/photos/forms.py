@@ -1,6 +1,6 @@
 from django import forms
 from interests.models import Interest
-from photos.models import Photo
+from photos.models import Photo, FacebookPhoto
 
 
 class PhotoForm(forms.Form):
@@ -16,3 +16,13 @@ class PhotoForm(forms.Form):
         if photo_count == 5:
             raise forms.ValidationError("Users can upload a max of 5 interests")
         return cleaned_data
+
+
+class FacebookPhotoCreateForm(forms.ModelForm):
+    class Meta:
+        model = FacebookPhoto
+        fields = ('photo',)
+
+    def __init__(self, user, *args, **kwargs):
+        super(FacebookPhotoCreateForm, self).__init__(*args, **kwargs)
+        self.user = user

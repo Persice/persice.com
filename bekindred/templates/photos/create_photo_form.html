@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-md-2 col-md-offset-5">
+    <form action="" method="post">{% csrf_token %}
+        {% if facebook_photos %}
+            <ul>
+                {% for photo in facebook_photos %}
+                    <li><img width="100" src="{{ photo.picture }}"/>
+                        <input id="id_photo" type="checkbox" name="photo" value="{{ photo.picture }}">
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No photos.</p>
+        {% endif %}
+        <input class="btn btn-default" type="submit" value="Create" />
+    </form>
+    </div>
+{% endblock %}

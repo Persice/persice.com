@@ -4,7 +4,9 @@
     {% if facebook_photos %}
         <ul>
             {% for photo in facebook_photos %}
-                <li><img src="{{ photo.picture }}"/></li>
+                <li><img width="100" src="{{ photo.picture }}"/>
+                    <input type="checkbox" name="photo_url" value="{{ photo.picture }}">
+                </li>
             {% endfor %}
         </ul>
     {% else %}
