@@ -34,7 +34,7 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_websi
                           'user_status', 'read_friendlists', 'user_relationships', 'user_groups',
                           'user_relationship_details', 'read_stream', 'user_photos']
 
-# LinkedIn
+# LinkedIn social auth
 LINKEDIN_CONSUMER_KEY = '755c9apksk4zxm'
 LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
 
@@ -52,6 +52,13 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('picture-url', 'image'),
                        ('relation-to-viewer ', 'relation-to-viewer')
                        ]
+
+# twitter social auth
+
+TWITTER_CONSUMER_KEY = 'tJyUXuKfFmlzCnKccKvlQ4RIL'
+TWITTER_CONSUMER_SECRET = '3cmUB8ZKAYCKSsVtwUYpDyBNHPnY3ZkImjiomDV6pl5XeVz6AE'
+
+
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
