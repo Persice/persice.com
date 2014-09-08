@@ -44,7 +44,13 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('date-of-birth', 'date_of_birth'),
                        ('picture-url', 'image'),
                        ('relation-to-viewer ', 'relation-to-viewer')
-]
+                      ]
+
+# twitter social auth
+
+TWITTER_CONSUMER_KEY = 'SBcTjuRLX5TaRsuVIvdgunVic'
+TWITTER_CONSUMER_SECRET = '73OtQ7FRXO5bepHGeWF5mx3dI8jIzh4PCh1nv19kscTyWkhkcU'
+
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
@@ -58,6 +64,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
     'bekindred.pipeline.social_auth_to_profile',
+    'bekindred.tasks.load_twitter_user_friends',
 )
 
 

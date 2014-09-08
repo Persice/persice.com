@@ -71,6 +71,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.load_extra_data',
     'social_auth.backends.pipeline.user.update_user_details',
     'bekindred.pipeline.social_auth_to_profile',
+    'bekindred.tasks.load_twitter_user_friends',
 )
 
 # GeoIP

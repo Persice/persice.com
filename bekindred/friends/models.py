@@ -116,5 +116,19 @@ class FacebookFriendUser(FacebookUser):
         proxy = True
 
 
-class LinkedinMutualFriends(models.Model):
-    pass
+class TwitterListFriends(models.Model):
+    twitter_id1 = models.BigIntegerField(null=False, blank=False)
+    twitter_id2 = models.BigIntegerField(null=False, blank=False)
+    name1 = models.CharField(max_length=50)
+    name2 = models.CharField(max_length=50)
+    profile_image_url1 = models.CharField(max_length=200)
+    profile_image_url2 = models.CharField(max_length=200)
+
+
+class TwitterListFollowers(models.Model):
+    twitter_id1 = models.BigIntegerField(null=False, blank=False)
+    twitter_id2 = models.BigIntegerField(null=False, blank=False)
+    name1 = models.CharField(max_length=50)
+    name2 = models.CharField(max_length=50)
+    profile_image_url1 = models.CharField(max_length=200)
+    profile_image_url2 = models.CharField(max_length=200)

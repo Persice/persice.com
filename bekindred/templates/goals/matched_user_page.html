@@ -132,6 +132,28 @@
                 </ul>
             {% endif %}
         </div>
+        <div class="mutual_twitter_friends">
+            {% if mutual_twitter_friends %}
+                <p><strong>Mutual Twitter Friends</strong> ({{ count_mutual_twitter_friends }})</p>
+                <ul class="no_bullets">
+                    {% for connection in mutual_twitter_friends|slice:":10" %}
+                        <li><img width="40" height="40" src="{{ connection.profile_image_url2 }}" />
+                            {{ connection.name2 }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="mutual_twitter_followers">
+            {% if mutual_twitter_followers %}
+                <p><strong>Mutual Twitter Followers</strong> ({{ count_mutual_twitter_followers }})</p>
+                <ul class="no_bullets">
+                    {% for follower in mutual_twitter_followers|slice:":10" %}
+                        <li><img width="40" height="40" src="{{ follower.profile_image_url2 }}" />
+                            {{ follower.name2 }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
         <div class="linkedin_mutual_connections">
             {% if mutual_linkedin %}
                 <p><strong>Mutual Linkedin Conections</strong></p>

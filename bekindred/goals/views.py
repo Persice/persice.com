@@ -16,7 +16,7 @@ from django_facebook.utils import get_registration_backend
 from open_facebook import OpenFacebook
 from social_auth.db.django_models import UserSocialAuth
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
-from friends.models import Friend, FacebookFriendUser
+from friends.models import Friend, FacebookFriendUser, TwitterListFriends, TwitterListFollowers
 from goals.utils import calculate_age, linkedin_connections
 from .models import Goal, Offer, Subject, Keyword, UserIPAddress
 from django_facebook.decorators import facebook_required_lazy
@@ -69,6 +69,7 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
 
         # linkedin mutual connections
         kwargs['mutual_linkedin'] = None
+        kwargs['mutual_twitter_friends'] = None
 
         try:
             current_auth_user = UserSocialAuth.objects.filter(user_id=current_user, provider='linkedin')[0]
@@ -79,7 +80,22 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         except IndexError:
             pass
 
+        try:
+            current_auth_user = UserSocialAuth.objects.filter(user_id=current_user, provider='twitter')[0]
+            requested_auth_user = UserSocialAuth.objects.filter(user_id=self.request.user.id, provider='twitter')[0]
+            tf2 = TwitterListFriends.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2', flat=True)
+            tf1 = TwitterListFriends.objects.filter(twitter_id1=current_auth_user.uid,
+                                                    twitter_id2__in=tf2)
 
+            tfo2 = TwitterListFollowers.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2', flat=True)
+            tfo1 = TwitterListFollowers.objects.filter(twitter_id1=current_auth_user.uid,
+                                                    twitter_id2__in=tf2)
+            kwargs['mutual_twitter_friends'] = tf1
+            kwargs['mutual_twitter_followers'] = tfo1
+            kwargs['count_mutual_twitter_friends'] = tf1.count()
+            kwargs['count_mutual_twitter_followers'] = tfo1.count()
+        except IndexError:
+            pass
 
 
         test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
@@ -247,9 +263,9 @@ class MatchView(LoginRequiredMixin, View):
                                 gender=user_gender))
 
         filter_distance = filter(lambda x: x.get('distance') <= _distance, results)
-        filter_age = filter(lambda x: (x.get('age') <= max_age) and (x.get('age') >= min_age), filter_distance)
+        filter_age = filter(lambda x: (x.get('age') <= max_age) and (x.get('age') >= min_age) or (x.get('age') is 0), filter_distance)
         if gender != self._DEFAULT_GENDER:
-            filter_gender = filter(lambda x: x.get('gender') == gender, filter_age)
+            filter_gender = filter(lambda x: (x.get('gender') == gender or x.get('gender') is None), filter_age)
         else:
             filter_gender = filter_age
         sorted_matched_users = sorted(filter_gender, key=itemgetter('thumbed_up_me', 'matched_goal_offer',

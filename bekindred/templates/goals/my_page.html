@@ -95,7 +95,11 @@
         <h1 class="text-muted">{{ user.first_name|capfirst }}, {{ age }}</h1>
         <div class="media">
             <a class="pull-left" href="#">
-                <img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br /></td>
+                {% if user.profile_or_self.facebook_id %}
+                    <img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br />
+                {% else %}
+                    <img src="{{ STATIC_URL }}img/facebook-default-no-profile-pic.jpg" title="facebook stored image" /><br />
+                {% endif %}
             </a>
         </div>
         <div class="goals">
