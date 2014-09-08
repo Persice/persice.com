@@ -1,43 +1,41 @@
-amqp (1.4.6)
-anyjson (0.3.3)
-argparse (1.2.1)
-billiard (3.3.0.18)
-boto (2.0)
-celery (3.1.13)
-certifi (14.05.14)
-dj-database-url (0.3.0)
-dj-static (0.0.5)
-Django (1.6.5)
-django-allauth (0.18.0)
-django-facebook (6.0.0)
-django-messages (0.5.1)
-django-pagination (1.0.7)
-django-postman (3.1.0)
-django-social-auth (0.7.28)
-django-toolbelt (0.0.1)
-djorm-ext-pgfulltext (0.10)
-fake-factory (0.4.2)
-geopy (1.0.1)
-gnureadline (6.3.3)
-gunicorn (18.0)
-httplib2 (0.9)
-ipython (2.1.0)
-kombu (3.0.22)
-oauth2 (1.5.211)
-oauthlib (0.6.3)
-Pillow (2.4.0)
-pip (1.5.4)
-postman (0.6.0)
-psycopg2 (2.5.3)
-pystache (0.5.4)
-python-openid (2.2.5)
-python-twitter (2.0)
-pytz (2014.7)
-requests (2.4.0)
-requests-oauthlib (0.4.1)
-setuptools (2.2)
-simplejson (3.6.3)
-South (0.8.4)
-static (1.0.2)
-Unidecode (0.04.16)
-wsgiref (0.1.2)
+Django==1.6.5
+Pillow==2.4.0
+South==0.8.4
+Unidecode==0.04.16
+amqp==1.4.6
+anyjson==0.3.3
+argparse==1.2.1
+billiard==3.3.0.18
+boto==2.0
+celery==3.1.13
+certifi==14.05.14
+dj-database-url==0.3.0
+dj-static==0.0.5
+django-allauth==0.18.0
+django-facebook==6.0.0
+django-messages==0.5.1
+django-pagination==1.0.7
+django-postman==3.1.0
+django-social-auth==0.7.28
+django-toolbelt==0.0.1
+djorm-ext-pgfulltext==0.10
+fake-factory==0.4.2
+geopy==1.0.1
+gnureadline==6.3.3
+gunicorn==18.0
+httplib2==0.9
+ipython==2.1.0
+kombu==3.0.22
+oauth2==1.5.211
+oauthlib==0.6.3
+postman==0.6.0
+psycopg2==2.5.3
+pystache==0.5.4
+python-openid==2.2.5
+python-twitter==2.0
+pytz==2014.7
+requests==2.4.0
+requests-oauthlib==0.4.1
+simplejson==3.6.3
+static==1.0.2
+wsgiref==0.1.2
