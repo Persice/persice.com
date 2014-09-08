@@ -89,7 +89,7 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
 
             tfo2 = TwitterListFollowers.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2', flat=True)
             tfo1 = TwitterListFollowers.objects.filter(twitter_id1=current_auth_user.uid,
-                                                    twitter_id2__in=tf2)
+                                                    twitter_id2__in=tfo2)
             kwargs['mutual_twitter_friends'] = tf1
             kwargs['mutual_twitter_followers'] = tfo1
             kwargs['count_mutual_twitter_friends'] = tf1.count()
