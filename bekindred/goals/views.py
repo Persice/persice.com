@@ -101,6 +101,7 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
         kwargs['mutual_facebook_friends'] = FacebookCustomUser.objects.filter(
             facebook_id__in=test)
+        kwargs['mutual_facebook_friends_count'] = len(kwargs['mutual_facebook_friends'])
 
         self.request.session['match_user'] = self.kwargs['pk']
 
