@@ -156,7 +156,7 @@
         </div>
         <div class="linkedin_mutual_connections">
             {% if mutual_linkedin %}
-                <p><strong>Mutual Linkedin Conections</strong></p>
+                <p><strong>Mutual Linkedin Conections</strong> ({{ mutual_linkedin_count }})</p>
                 <ul class="no_bullets">
                     {% for connection in mutual_linkedin|slice:":5" %}
                         <li><img width="40" height="40" src="{{ connection.pictureUrl }}" />

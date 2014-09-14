@@ -76,7 +76,7 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
             requested_auth_user = UserSocialAuth.objects.filter(user_id=self.request.user.id, provider='linkedin')[0]
             oauth_token = current_auth_user.tokens['oauth_token']
             oauth_token_secret = current_auth_user.tokens['oauth_token_secret']
-            kwargs['mutual_linkedin'] = linkedin_connections(requested_auth_user.uid, oauth_token, oauth_token_secret)
+            kwargs['mutual_linkedin'], kwargs['mutual_linkedin_count'] = linkedin_connections(requested_auth_user.uid, oauth_token, oauth_token_secret)
         except IndexError:
             pass
 
