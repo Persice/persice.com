@@ -167,14 +167,29 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="user_keyword">
-            <p><strong>Keywords</strong></p>
-            <ul class="no_bullets">
-                {% for keyword in keywords %}
-                    <li>{{ keyword }}</li>
-                {% endfor %}
+        <div class="social_accounts">
+            <p><strong>Social accounts</strong></p>
+            <ul>
+                {% if twitter_provider %}
+                    <li>your twitter account: <a href="https://twitter.com/{{ twitter_provider.screen_name }}">{{ twitter_provider.screen_name }}</a></li>
+                {% else %}
+                    <li><a href="/social/associate/twitter/">connect twitter</a></li>
+                {% endif %}
+                {% if linkedin_provider %}
+                    <li>your linkedin account: <a href="{{ linkedin_provider.public_profile_url }}">{{ linkedin_provider.first_name }}  {{ linkedin_provider.last_name }}</a></li>
+                {% else %}
+                    <li><a href="/social/associate/linkedin/">connect linkedin</a></li>
+                {% endif %}
             </ul>
         </div>
+{#        <div class="user_keyword">#}
+{#            <p><strong>Keywords</strong></p>#}
+{#            <ul class="no_bullets">#}
+{#                {% for keyword in keywords %}#}
+{#                    <li>{{ keyword }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
     </div>
 
 {% endblock content %}

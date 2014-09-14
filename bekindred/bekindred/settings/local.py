@@ -42,11 +42,13 @@ LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
 # Add email to requested authorizations.
 LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress', 'r_network']
 # Add the fields so they will be requested from linkedin.
-LINKEDIN_EXTRA_FIELD_SELECTORS = ['email-address', 'date-of-birth', 'picture-url']
+LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url', 'email-address', 'date-of-birth', 'picture-url']
 # Arrange to add the fields to UserSocialAuth.extra_data
 LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('first-name', 'first_name'),
                        ('last-name', 'last_name'),
+                       ('headline', 'headline'),
+                       ('public-profile-url', 'public_profile_url'),
                        ('email-address', 'email'),
                        ('date-of-birth', 'date_of_birth'),
                        ('picture-url', 'image'),
@@ -57,11 +59,13 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
 
 TWITTER_CONSUMER_KEY = 'tJyUXuKfFmlzCnKccKvlQ4RIL'
 TWITTER_CONSUMER_SECRET = '3cmUB8ZKAYCKSsVtwUYpDyBNHPnY3ZkImjiomDV6pl5XeVz6AE'
+TWITTER_EXTRA_FIELD_SELECTORS = ['screen_name']
+TWITTER_EXTRA_DATA = ['screen_name']
 
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
-
+SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['username', 'email',]
 
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
