@@ -15,6 +15,8 @@ ALLOWED_HOSTS = ['*']
 
 STATIC_ROOT = 'staticfiles'
 
+DEBUG = False
+TEMPLATE_DEBUG = False
 
 FACEBOOK_APP_ID = 633834406712155
 FACEBOOK_APP_SECRET = '618558f85672fd7ec3a6c3aef89f0970'
@@ -35,16 +37,18 @@ LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
 # Add email to requested authorizations.
 LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress', 'r_network']
 # Add the fields so they will be requested from linkedin.
-LINKEDIN_EXTRA_FIELD_SELECTORS = ['email-address', 'date-of-birth', 'picture-url']
+LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url', 'email-address', 'date-of-birth', 'picture-url']
 # Arrange to add the fields to UserSocialAuth.extra_data
 LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('first-name', 'first_name'),
                        ('last-name', 'last_name'),
+                       ('headline', 'headline'),
+                       ('public-profile-url', 'public_profile_url'),
                        ('email-address', 'email'),
                        ('date-of-birth', 'date_of_birth'),
                        ('picture-url', 'image'),
                        ('relation-to-viewer ', 'relation-to-viewer')
-                      ]
+]
 
 # twitter social auth
 
@@ -69,7 +73,6 @@ SOCIAL_AUTH_PIPELINE = (
 
 
 # postman settings
-
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
 POSTMAN_DISALLOW_COPIES_ON_REPLY = False  # default is False
