@@ -11,7 +11,10 @@ class SubjectManager(models.Manager):
         subjects = Subject.objects.exclude(id__in=user_goals.values_list('id', flat=True))
         search_subject = []
         for goal in user_goals:
-            search_subject.extend(subjects.search(goal))
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(goal).split())
+            search_subject.extend(subjects.search(tsquery, raw=True))
 
         return search_subject
 
@@ -21,7 +24,10 @@ class SubjectManager(models.Manager):
         subjects = Subject.objects.exclude(id__in=user_offers.values_list('id', flat=True))
         search_subject = []
         for offer in user_offers:
-            search_subject.extend(subjects.search(offer))
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(offer).split())
+            search_subject.extend(subjects.search(tsquery, raw=True))
 
         return search_subject
 
