@@ -22,9 +22,9 @@ PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 SECRET_KEY = 'zguhddh+2x9@!*@&_jdw7v*hslwv_)nx$sw@rwcr+$nppu7f*4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, '..', 'templates'),
@@ -145,3 +145,31 @@ AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            },
+        },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'INFO',
+            },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+            },
+        'bekindred.bekindred': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+            },
+        }
+}
