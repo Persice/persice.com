@@ -1,7 +1,7 @@
 Set up PostgerSQL
 
 ```
-brew install 
+brew install postgresql
 createdb geodjango
 psql geodjango
 geodjango=# CREATE USER bekindred WITH PASSWORD 'bekindred';
