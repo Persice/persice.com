@@ -44,6 +44,11 @@ select 'drop table "' || tablename || '" cascade;'
  where tableowner = 'bekindred';
 ```
 
+For test database
+```
+update pg_database set datistemplate=true where datname='template_postgis';
+```
+
 Configure SSH keys
 ```
 vim ~/.ssh/config
