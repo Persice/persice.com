@@ -36,7 +36,7 @@ apt-get install -y git
 # GeoIP
 apt-get install -y libgeoip-dev
 # gnureadline python module
-apt-get install libncurses5-dev
+apt-get install -y libncurses5-dev
 
 # Postgresql
 if ! command -v psql; then
