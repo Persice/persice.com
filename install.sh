@@ -6,7 +6,6 @@
 
 PROJECT_NAME=$1
 
-DB_NAME=$PROJECT_NAME
 VIRTUALENV_NAME=$PROJECT_NAME
 
 PROJECT_DIR=/home/vagrant/$PROJECT_NAME
@@ -14,7 +13,7 @@ VIRTUALENV_DIR=/home/vagrant/.virtualenvs/$PROJECT_NAME
 
 PGSQL_VERSION=9.3
 
-$DB_NAME=geodjango
+DB_NAME=geodjango
 
 # Need to fix locale so that Postgres creates databases in UTF-8
 cp -p /vagrant_data/etc-bash.bashrc /etc/bash.bashrc
@@ -35,6 +34,8 @@ apt-get install -y libjpeg-dev libtiff-dev zlib1g-dev libfreetype6-dev liblcms2-
 apt-get install -y git
 # GeoIP
 apt-get install -y libgeoip-dev
+# 
+apt-get install -y libgeos-dev
 # gnureadline python module
 apt-get install -y libncurses5-dev
 
@@ -43,7 +44,7 @@ if ! command -v psql; then
     apt-get install -y postgresql-$PGSQL_VERSION libpq-dev
     cp /vagrant_data/pg_hba.conf /etc/postgresql/$PGSQL_VERSION/main/
     /etc/init.d/postgresql reload
-    apt-get install postgresql-9.3-postgis-2.1 -f
+    apt-get install -y  postgresql-9.3-postgis-2.1 -f
 fi
 
 # virtualenv global setup
