@@ -19,37 +19,7 @@
         <![endif]-->
         {% load url from future %}
         {% load i18n %}{% load postman_tags %}
-        {% if user.is_authenticated %}
-            <div class="off-canvas-wrap" data-offcanvas>
-                <div class="inner-wrap">
-                    <nav class="tab-bar">
-                        <section class="left-small">
-                            <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
-                        </section>
-                        <section class="middle tab-bar-section">
-                            <h1 class="title"><a href="/">Kindred</a></h1>
-                        </section>
-                    </nav>
-                    <aside class="left-off-canvas-menu">
-                        <ul class="off-canvas-list">
-                            <li><label>Kindred</label></li>
-                            <li><a href="/accounts/logout">Welcome, {{ user.username }} [logout]</a> </li>
-                            <li><a href="{% url 'postman_inbox' %}">{% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
-                            <li><a href="/goals/matched">Match Feed</a></li>
-                            <li><a href="/goals/filter">Filter Feed</a></li>
-                            <li><a href="/goals">My Profile</a></li>
-                            <li><a href="/friends/list">My Connections</a></li>
-                            <li><a href="/accounts/register">Registration</a></li>
-                            <li><a href="/photo/create">Photo</a></li>
-                        </ul>
-                    </aside>
-                    <section class="main-section">
-                    {% block content %}{% endblock content %}
-                </section>
-                <a class="exit-off-canvas"></a>
-            </div>
-        </div>
-    {% endif %}
+    {% block content %}{% endblock content %}
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
     (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -68,8 +38,5 @@
     <script>
     $(document).foundation();
     </script>
-
-    {% block customscripts %}{% endblock customscripts %}
-
 </body>
 </html>

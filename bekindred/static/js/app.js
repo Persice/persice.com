@@ -1,0 +1,1 @@
+"use strict";angular.module("beKindred",["ngAnimate","ngCookies","ngTouch","ngSanitize","ngResource"]).config(function(){}),angular.module("beKindred").controller("MainCtrl",function(){});
