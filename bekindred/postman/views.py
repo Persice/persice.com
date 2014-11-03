@@ -79,8 +79,9 @@ class FolderMixin(object):
             msgs = msgs.filter(Q(sender__first_name__icontains=message_filter) |
                                Q(sender__last_name__icontains=message_filter) |
                                Q(recipient__first_name__icontains=message_filter) |
-                               Q(recipient__first_name__icontains=message_filter) |
-                               Q(body__icontains=message_filter)
+                               Q(recipient__last_name__icontains=message_filter) |
+                               Q(body__icontains=message_filter) |
+                               Q(subject__icontains=message_filter)
             )
         else:
             msgs = getattr(Message.objects, self.folder_name)(self.request.user, **params)
