@@ -1,0 +1,110 @@
+<!doctype html>
+<html class="no-js" ng-app="beKindred">
+<head>
+    <meta charset="utf-8">
+    <title>Kindred</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp,app}) styles/vendor.css -->
+    <link rel="stylesheet" href="app/vendor.css">
+    <!-- endbuild -->
+    <!-- build:css({.tmp,src}) styles/app.css -->
+    <link rel="stylesheet" href="app/index.css">
+    <!-- endbuild -->
+    <!-- build:js(.) scripts/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+</head>
+<body>
+        <!--[if lt IE 10]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="off-canvas-wrap" data-offcanvas>
+            <div class="inner-wrap">
+                <nav class="tab-bar">
+                    <section class="left-small">
+                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                    </section>
+                    <section class="middle tab-bar-section">
+                        <h1 class="title">Kindred</h1>
+                    </section>
+                </nav>
+                <aside class="left-off-canvas-menu">
+                    <ul class="off-canvas-list">
+                        <li><label>Kindred</label></li>
+                        <li><a href="#">Welcome, User (Logout)</a> </li>
+                        <li><a href="#">Inbox</a></li>
+                        <li><a href="#">Match Feed</a></li>
+                        <li><a href="#">Filter Feed</a></li>
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#">My Connections</a></li>
+                        <li><a href="#">Registration</a></li>
+                        <li><a href="#">Photo</a></li>
+                    </ul>
+                </aside>
+
+                <section class="main-section">
+                    <section class="intro">
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <h2>Welcome to</h2>
+
+                                <ul class="social-icon" id="intro-title">
+                                    <li><a href="#" class="facebook"><i class="fa fa-slideshare"></i></a></li>
+                                    <li><h1>Kindred</h1></li>
+                                </ul>
+
+                                <br>
+                                <br>
+                                <p><a href="/goals/create/goal" class="button small success radius" class="button small alert radius">Start</a></p>
+
+                            </div><!-- /.medium-12 .columns -->
+
+                        </div><!-- /.row -->
+
+                    </section>
+
+
+
+                </section>
+                <a class="exit-off-canvas"></a>
+            </div>
+        </div>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+                function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+        <!-- build:js(.) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+        <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
+        <script src="bower_components/foundation/js/foundation.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:js({src,.tmp}) scripts/app.js -->
+        <script src="app/index.js"></script>
+        <script src="app/main/main.controller.js"></script>
+
+        <!-- endbuild -->
+        <script>
+            $(document).foundation();
+        </script>
+    </body>
+    </html>
