@@ -70,6 +70,7 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         kwargs['offers'] = Offer.objects.filter(user=current_user)
         kwargs['user_obj'] = FacebookCustomUser.objects.get(pk=current_user)
         kwargs['likes'] = FacebookLike.objects.filter(user_id=current_user)
+        kwargs['interests'] = Interest.objects.filter(user_id=current_user)
         kwargs['mutual_friends'] = FacebookCustomUser.objects.filter(
             pk__in=Friend.objects.mutual_friends(kwargs['user_obj'].id, self.request.user.id))
         date_of_birth = FacebookCustomUser.objects.get(pk=current_user).date_of_birth
@@ -145,7 +146,10 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
             filter(name__in=FacebookLike.objects.filter(user_id=self.request.user.id).
                    values('name')).values_list('name', flat=True)
 
+        match_interests = Interest.search_subject.search_interest(self.request.user.id)
+
         kwargs['match_likes'] = match_likes
+        kwargs['match_interests'] = match_interests
         kwargs['match_goals_offers'] = list(match_offers) + list(match_offers2) + list(match_goals) + list(match_goals2)
         return super(GoalOfferListView, self).get_context_data(**kwargs)
 
@@ -220,6 +224,7 @@ class MatchView(LoginRequiredMixin, View):
 
         search_goals = Subject.search_subject.search_goals(current_user)
         search_offers = Subject.search_subject.search_offers(current_user)
+        search_interests = Interest.search_subject.search_interest(current_user)
 
         match_users_goals_to_offers = Offer.objects.match_goals_to_offers(exclude_friends, current_user_goals)
         search_users_goals_to_offers = Offer.objects.search_goals_to_offers(exclude_friends, search_goals)
@@ -232,6 +237,8 @@ class MatchView(LoginRequiredMixin, View):
 
         match_users_offers_to_offers = Offer.objects.match_offers_to_offers(exclude_friends, current_user_offers)
         search_users_offers_to_offers = Offer.objects.search_offers_to_offers(exclude_friends, search_offers)
+
+        match_interests = Interest.search_subject.search_interest_to_interest(exclude_friends, search_interests)
 
         match_likes = FacebookLike.objects.exclude(user_id__in=exclude_friends + [current_user]). \
             filter(name__in=FacebookLike.objects.filter(user_id=current_user).values('name'))
@@ -246,6 +253,7 @@ class MatchView(LoginRequiredMixin, View):
                                  search_users_goals_to_goals +
                                  match_users_offers_to_offers +
                                  search_users_offers_to_offers +
+                                 match_interests +
                                  match_likes))
         g = GeoIP()
         try:
@@ -273,6 +281,7 @@ class MatchView(LoginRequiredMixin, View):
                                 mutual_facebook_friends=len(
                                     FacebookFriendUser.objects.mutual_friends(user, current_user)),
                                 common_facebook_likes=len(match_likes),
+                                common_interests=len(match_interests),
                                 age=age,
                                 distance=distance,
                                 gender=user_gender))

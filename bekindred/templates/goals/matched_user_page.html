@@ -179,6 +179,20 @@
                 {% endfor %}
             </ul>
         </div>
+        <div class="user_interests">
+            <p><strong>Activities & Interests</strong></p>
+            <ul class="no_bullets">
+                {% for interest in interests|slice:":5" %}
+                    {% if interest.description in match_interests %}
+                        <li><span class="glyphicon glyphicon-ok"></span>{{ interest.description }}</li>
+                    {% else %}
+                        <li>{{ interest.description }}</li>
+                    {% endif %}
+                {% empty %}
+                    <li>No interests yet</li>
+                {% endfor %}
+            </ul>
+        </div>
         {% if goal_offer_obj %}
             <a href="/goals/user/{{ goal_offer_obj }}" class="thumbs-down" id="left_button">
                 <span class="glyphicon glyphicon-thumbs-down"></span>

@@ -12,14 +12,13 @@ class InterestManager(models.Manager):
         interests = Interest.objects.exclude(id__in=user_interests.values_list('id', flat=True))
         search_desc = []
         for interest in user_interests:
-            search_desc.extend(interests.search(interest))
-
-        return search_desc
+            search_desc.extend(interests.search(interest.description))
+        res = [i.description for i in search_desc]
+        return res
 
     def search_interest_to_interest(self, exclude_friends, search_desc):
         return list(Interest.objects.exclude(user_id__in=exclude_friends).
-                    filter(goal__in=search_desc).values_list('user', flat=True))
-
+                    filter(description__in=search_desc).values_list('user', flat=True))
 
 
 class Interest(models.Model):
