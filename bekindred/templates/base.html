@@ -1,75 +1,23 @@
-<!doctype html>
-<html class="no-js" ng-app="beKindred">
-    <head>
-        <meta charset="utf-8">
-        <title>Kindred</title>
-        <meta name="description" content="Kindred">
-        <meta name="viewport" content="width=device-width">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock %}</title>
-        <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
-        <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
+        <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
+        <link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" media="screen">
         <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
-        <script src="{{ STATIC_URL }}js/modernizr.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+        <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+        <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 10]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        {% load url from future %}
-        {% load i18n %}{% load postman_tags %}
-        {% if user.is_authenticated %}
-            <div class="off-canvas-wrap" data-offcanvas>
-                <div class="inner-wrap">
-                    <nav class="tab-bar">
-                        <section class="left-small">
-                            <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
-                        </section>
-                        <section class="middle tab-bar-section">
-                            <h1 class="title"><a href="/">Kindred</a></h1>
-                        </section>
-                    </nav>
-                    <aside class="left-off-canvas-menu">
-                        <ul class="off-canvas-list">
-                            <li><label>Kindred</label></li>
-                            <li><a href="/accounts/logout">Welcome, {{ user.username }} [logout]</a> </li>
-                            <li><a href="{% url 'postman_inbox' %}">{% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
-                            <li><a href="/goals/matched">Match Feed</a></li>
-                            <li><a href="/goals/filter">Filter Feed</a></li>
-                            <li><a href="/goals">My Profile</a></li>
-                            <li><a href="/friends/list">My Connections</a></li>
-                            <li><a href="/accounts/register">Registration</a></li>
-                            <li><a href="/photo/create">Photo</a></li>
-                        </ul>
-                    </aside>
-                    <section class="main-section">
-                    {% block content %}{% endblock content %}
-                </section>
-                <a class="exit-off-canvas"></a>
-            </div>
-        </div>
-    {% endif %}
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-    e.src='//www.google-analytics.com/analytics.js';
-    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-    ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
-    <script src="{{ STATIC_URL }}js/vendor.js"></script>
-    <script src="{{ STATIC_URL }}js/app.js"></script>
-    <script src="{{ STATIC_URL }}js/slick.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
-    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
-    <script>
-    $(document).foundation();
-    </script>
-
-    {% block customscripts %}{% endblock customscripts %}
-
-</body>
+        {% block header %}
+            {% include 'header.html' %}
+        {% endblock header %}
+        {% block content %}{% endblock content %}
+        <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+        <script src="{{ STATIC_URL }}js/slick.js"></script>
+        <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
+    </body>
 </html>

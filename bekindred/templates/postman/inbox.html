@@ -10,7 +10,7 @@
 {% block pm_date %}{% trans "Received" %}{% endblock %}
 {% block pm_recipient_cell %}{% endblock %}
 {% block search %}
-<div class="col-lg-6">
+    <div class="col-lg-6">
     <form action="." method="get" class="navbar-form navbar-left" role="search" id="myform">
         <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Search" minlength="3" required>
@@ -19,42 +19,37 @@
             </span>
         </div>
     </form>
-</div>
-
-{% endblock %}
-
-{% block customscripts %}
-<script>
-    $('#myform').validate({
-        rules: {
-            firstname: {
-                minlength: 3,
-                maxlength: 15,
-                required: true
+    </div>
+    <script>
+        $('#myform').validate({
+            rules: {
+                firstname: {
+                    minlength: 3,
+                    maxlength: 15,
+                    required: true
+                },
+                lastname: {
+                    minlength: 3,
+                    maxlength: 15,
+                    required: true
+                }
             },
-            lastname: {
-                minlength: 3,
-                maxlength: 15,
-                required: true
+            highlight: function(element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function(error, element) {
+                if(element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
             }
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            } else {
-                error.insertAfter(element);
-            }
-        }
-    });
+        });
 
-</script>
-
+    </script>
 {% endblock %}
