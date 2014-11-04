@@ -88,9 +88,9 @@ Heroku Database
 
 ###Folders
 
-bower_components: folder for project dependancies (js/css packages)
-src folder: source for the project files
-dist folder: destination for the project files modified by using Gulp tasks
+*bower_components: folder for project dependancies (js/css packages)
+*src folder: source for the project files
+*dist folder: destination for the project files modified by using Gulp tasks
 
 ### Inital step - install dependancies with NPM
 

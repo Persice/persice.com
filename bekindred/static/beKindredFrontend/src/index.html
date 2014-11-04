@@ -1,31 +1,66 @@
 <!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<!--[if IE 10]><html class="ie10" lang="en" > <![endif]-->
 <html class="no-js" ng-app="beKindred">
 <head>
     <meta charset="utf-8">
     <title>Kindred</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
-
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <!-- build:css({.tmp,app}) styles/vendor.css -->
+    <meta name="author" content="">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
+    <!-- Favicons -->
+    <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/apple-touch-icon-144x144-precomposed.png">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114-precomposed.png">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
+    <!-- build:css({.tmp,src}) styles/vendor.css -->
     <link rel="stylesheet" href="app/vendor.css">
     <!-- endbuild -->
     <!-- build:css({.tmp,src}) styles/app.css -->
     <link rel="stylesheet" href="app/index.css">
     <!-- endbuild -->
-    <!-- build:js(.) scripts/modernizr.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
-</head>
-<body>
-        <!--[if lt IE 10]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
+        <!-- build:js(.) scripts/modernizr.js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+    </head>
+    <body>
+
         <div class="off-canvas-wrap" data-offcanvas>
             <div class="inner-wrap">
-                <nav class="tab-bar">
+                <nav class="top-bar show-for-large-up" data-topbar>
+                    <ul class="title-area">
+                        <li class="name">
+                            <h1><a href="/">Kindred</a></h1>
+                        </li>
+                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+                    </ul>
+                    <section class="top-bar-section">
+                        <!-- Right Nav Section -->
+                        <ul class="right">
+                            <li><a href="#">Inbox</a></li>
+                            <li><a href="#">Match Feed</a></li>
+                            <li><a href="#">Filter Feed</a></li>
+                            <li><a href="#">My Profile</a></li>
+                            <li><a href="#">My Connections</a></li>
+                            <li><a href="#">Registration</a></li>
+                            <li><a href="#">Photo</a></li>
+                            <li class="has-form"><a href="/" class="button tiny success radius">Welcome, User [Logout]</a></li>
+
+                        </ul>
+                    </section>
+                </nav>
+                <nav class="tab-bar hide-for-large-up">
                     <section class="left-small">
                         <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
                     </section>
@@ -46,12 +81,15 @@
                         <li><a href="#">Photo</a></li>
                     </ul>
                 </aside>
-
                 <section class="main-section">
-                    <section class="intro">
+                    <section class="services-wrapper" id="homepage">
+
                         <div class="row">
-                            <div class="medium-12 columns">
+                            <div class="medium-10 small-centered columns">
+
                                 <h2>Welcome to</h2>
+                                <p class="lead">
+                                </p>
 
                                 <ul class="social-icon" id="intro-title">
                                     <li><a href="#" class="facebook"><i class="fa fa-slideshare"></i></a></li>
@@ -62,27 +100,16 @@
                                 <br>
                                 <p><a href="/goals/create/goal" class="button small success radius" class="button small alert radius">Start</a></p>
 
-                            </div><!-- /.medium-12 .columns -->
 
+                            </div><!-- /.medium-10 .small-centered .columns -->
                         </div><!-- /.row -->
 
                     </section>
-
-
-
                 </section>
                 <a class="exit-off-canvas"></a>
             </div>
         </div>
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-                function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
+
         <!-- build:js(.) scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -101,7 +128,6 @@
         <!-- build:js({src,.tmp}) scripts/app.js -->
         <script src="app/index.js"></script>
         <script src="app/main/main.controller.js"></script>
-
         <!-- endbuild -->
         <script>
             $(document).foundation();
