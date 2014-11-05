@@ -1,14 +1,167 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <script>
-        $(document).ajaxSend(function(event, xhr, settings) {
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
+
+
+
+<section class="subtitle-wrapper">
+    <div class="row">
+        <div class="small-5 small-centered columns">
+
+            {% if user.profile_or_self.facebook_id %}
+            <img class="profile-pic" src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br />
+            {% else %}
+            <img class="profile-pic" src="{{ STATIC_URL }}img/facebook-default-no-profile-pic.jpg" title="facebook stored image" />
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+<section class="profile-wrapper">
+    <div class="row">
+        <div class="small-12 medium-12 large-12 text-left columns">
+            <h3>{{ user.first_name|capfirst }}, {{ age }}</h3>
+            <hr>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="profile-wrapper">
+    <div class="row">
+        <div class="small-12 medium-12 large-12 text-left columns">
+            <div class="goals">
+                <h4>Goals</h4>
+                <ul class="items">
+                    {% for goal in goals %}
+                    <li id="goal_{{ goal.goal_id }}">
+                        <a href="#" class="delete-goal" id="{{ goal.goal_id }}"><i class="fa fa-remove"></i></a>
+                        {{ goal }}
+                        <a href="{% url "goal_update" goal.goal_id %}"><i class="fa fa-edit"></i></a>
+                    </li>
+                    {% endfor %}
+                    <li>
+                        <a href="{% url "goal_create" %}"><i class="fa fa-plus"></i></a>
+                        Create new goal
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 medium-12 large-12 text-left columns">
+            <div class="offers">
+                <h4>Offers</h4>
+                <ul class="items">
+                    {% for offer in offers %}
+                    <li id="offer_{{ offer.offer_id }}">
+                        <a href="#" class="delete-offer" id="{{ offer.offer_id }}"><i class="fa fa-remove"></i></a>
+                        {{ offer }}
+                        <a href="{% url "offer_update" offer.offer_id %}"><i class="fa fa-edit"></i></a>
+                    </li>
+                    {% endfor %}
+                    <li>
+                        <a href="{% url "offer_create" %}"><i class="fa fa-plus"></i></a>
+                        Create new offer
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 medium-12 large-12 text-left columns">
+            <div class="user_bio">
+                <h4>About Me</h4>
+                <div class="user_bio_content">
+                    {{ user.profile_or_self.about_me }}
+                    <a href="{% url "biography_update" user.id %}"><i class="fa fa-edit"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 medium-12 large-12 text-left columns">
+            <div class="user_interests">
+                <h4>Activities & Interests</h4>
+                <ul class="items">
+                    {% for interest in interests %}
+                    <li id="interest_{{ interest.id }}">
+                        <a href="#" class="delete-interest" id="{{ interest.id }}"><i class="fa fa-remove"></i></a>
+                        {{ interest }}
+                        <a href="{% url "update_interest" interest.id %}"><i class="fa fa-edit"></i></a>
+                    </li>
+                    {% endfor %}
+                    <li>
+                        <a href="{% url "create_interest" %}"><i class="fa fa-plus"></i></a>
+                        Create new Interest or Activity
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 medium-12 large-12 text-left columns">
+            <div class="user_likes">
+                <h4>Likes</h4>
+                <ul class="items">
+                    {% for like in user.profile_or_self.likes|slice:":5" %}
+                    <li>{{ like.name }}</li>
+                    {% empty %}
+                    <li>No likes yet</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-12 medium-12 large-12 text-left columns">
+            <div class="social_accounts">
+                <h4>Social accounts</h4>
+                <ul>
+                    {% if twitter_provider %}
+                    <li>your twitter account: <a href="https://twitter.com/{{ twitter_provider.screen_name }}">{{ twitter_provider.screen_name }}</a></li>
+                    {% else %}
+                    <li><a href="/social/associate/twitter/">connect twitter</a></li>
+                    {% endif %}
+                    {% if linkedin_provider %}
+                    <li>your linkedin account: <a href="{{ linkedin_provider.public_profile_url }}">{{ linkedin_provider.first_name }}  {{ linkedin_provider.last_name }}</a></li>
+                    {% else %}
+                    <li><a href="/social/associate/linkedin/">connect linkedin</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+{#        <div class="user_keyword">#}
+{#            <h4>Keywords</h4>#}
+{#            <ul class="items">#}
+{#                {% for keyword in keywords %}#}
+{#                    <li>{{ keyword }}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
+
+{% endblock content %}
+
+
+{% block customscripts %}
+
+
+<script>
+    $(document).ajaxSend(function(event, xhr, settings) {
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
                         // Does this cookie string begin with the name we want?
                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -26,172 +179,70 @@
                 var origin = protocol + sr_origin;
                 // Allow absolute or scheme relative URLs to same origin
                 return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-                        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+                (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
                     // or any other URL that isn't scheme relative or absolute i.e relative.
-                        !(/^(\/\/|http:|https:).*/.test(url));
-            }
-            function safeMethod(method) {
-                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-            }
-
-            if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        });
-        $(document).ready(function(){
-            $('.delete-goal').click(function(){
-                var goal_id = $(this).attr('id');
-                if (confirm("Do you want to delete")){
-                    $.ajax({
-                        type: "POST",
-                        url: '/goals/delete/goal/' + goal_id,
-                        contentType: 'text/plain',
-                        success: function(response){
-                            $('#goal_' + goal_id).remove();
-                            console.log(response.code);
-                        }
-                    });
+                    !(/^(\/\/|http:|https:).*/.test(url));
                 }
-                return false;
-            });
-        });
-        $(document).ready(function(){
-            $('.delete-offer').click(function(){
-                var offer_id = $(this).attr('id');
-                if (confirm("Do you want to delete")){
-                    $.ajax({
-                        type: "POST",
-                        url: '/goals/delete/offer/' + offer_id,
-                        contentType: 'text/plain',
-                        success: function(response){
-                            $('#offer_' + offer_id).remove();
-                            console.log(response.code);
-                        }
-                    });
+                function safeMethod(method) {
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
                 }
-                return false;
-            });
-        });
-        $(document).ready(function(){
-            $('.delete-interest').click(function(){
-                var interest_id = $(this).attr('id');
-                if (confirm("Do you want to delete")){
-                    $.ajax({
-                        type: "POST",
-                        url: '/interest/delete/' + interest_id,
-                        contentType: 'text/plain',
-                        success: function(response){
-                            $('#interest_' + interest_id).remove();
-                            console.log(response.code);
-                        }
-                    });
+
+                if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                 }
-                return false;
             });
-        });
-    </script>
-    <div class="container col-md-3 col-md-offset-5">
-        <h3 class="text-muted">Kindred</h3>
-        <h1 class="text-muted">{{ user.first_name|capfirst }}, {{ age }}</h1>
-        <div class="media">
-            <a class="pull-left" href="#">
-                {% if user.profile_or_self.facebook_id %}
-                    <img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br />
-                {% else %}
-                    <img src="{{ STATIC_URL }}img/facebook-default-no-profile-pic.jpg" title="facebook stored image" /><br />
-                {% endif %}
-            </a>
-        </div>
-        <div class="goals">
-            <p><strong>Goals</strong></p>
-            <ul class="no_bullets">
-                {% for goal in goals %}
-                    <li id="goal_{{ goal.goal_id }}">
-                        <a href="#" class="delete-goal" id="{{ goal.goal_id }}"><span class="glyphicon glyphicon-minus-sign"></span></a>
-                        {{ goal }}
-                        <a href="{% url "goal_update" goal.goal_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    </li>
-                {% endfor %}
-                <li>
-                    <a href="{% url "goal_create" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    Create new goal
-                </li>
-            </ul>
-        </div>
-        <div class="offers">
-            <p><strong>Offers</strong></p>
-            <ul class="no_bullets">
-                {% for offer in offers %}
-                    <li id="offer_{{ offer.offer_id }}">
-                        <a href="#" class="delete-offer" id="{{ offer.offer_id }}"><span class="glyphicon glyphicon-minus-sign"></span></a>
-                        {{ offer }}
-                        <a href="{% url "offer_update" offer.offer_id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    </li>
-                {% endfor %}
-                <li>
-                    <a href="{% url "offer_create" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    Create new offer
-                </li>
-            </ul>
-        </div>
-        <div class="user_bio">
-            <p><strong>About Me</strong></p>
-            <div class="user_bio_content">
-                {{ user.profile_or_self.about_me }}
-                <a href="{% url "biography_update" user.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-            </div>
-        </div>
-        <div class="user_interests">
-            <p><strong>Activities & Interests</strong></p>
-            <ul class="no_bullets">
-                {% for interest in interests %}
-                    <li id="interest_{{ interest.id }}">
-                        <a href="#" class="delete-interest" id="{{ interest.id }}"><span class="glyphicon glyphicon-minus-sign"></span></a>
-                        {{ interest }}
-                        <a href="{% url "update_interest" interest.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    </li>
-                {% endfor %}
-                <li>
-                    <a href="{% url "create_interest" %}"><span class="glyphicon glyphicon-plus-sign"></span></a>
-                    Create new Interest or Activity
-                </li>
-            </ul>
-        </div>
-        <div class="user_likes">
-            <p><strong>Likes</strong></p>
-            <ul class="no_bullets">
-                {% for like in user.profile_or_self.likes|slice:":5" %}
-                    <li>{{ like.name }}</li>
-                {% empty %}
-                    <li>No likes yet</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="social_accounts">
-            <p><strong>Social accounts</strong></p>
-            <ul>
-                {% if twitter_provider %}
-                    <li>your twitter account: <a href="https://twitter.com/{{ twitter_provider.screen_name }}">{{ twitter_provider.screen_name }}</a></li>
-                {% else %}
-                    <li><a href="/social/associate/twitter/">connect twitter</a></li>
-                {% endif %}
-                {% if linkedin_provider %}
-                    <li>your linkedin account: <a href="{{ linkedin_provider.public_profile_url }}">{{ linkedin_provider.first_name }}  {{ linkedin_provider.last_name }}</a></li>
-                {% else %}
-                    <li><a href="/social/associate/linkedin/">connect linkedin</a></li>
-                {% endif %}
-            </ul>
-        </div>
-{#        <div class="user_keyword">#}
-{#            <p><strong>Keywords</strong></p>#}
-{#            <ul class="no_bullets">#}
-{#                {% for keyword in keywords %}#}
-{#                    <li>{{ keyword }}</li>#}
-{#                {% endfor %}#}
-{#            </ul>#}
-{#        </div>#}
-    </div>
-
-{% endblock content %}
+$(document).ready(function(){
+    $('.delete-goal').click(function(){
+        var goal_id = $(this).attr('id');
+        if (confirm("Do you want to delete")){
+            $.ajax({
+                type: "POST",
+                url: '/goals/delete/goal/' + goal_id,
+                contentType: 'text/plain',
+                success: function(response){
+                    $('#goal_' + goal_id).remove();
+                    console.log(response.code);
+                }
+            });
+        }
+        return false;
+    });
+});
+$(document).ready(function(){
+    $('.delete-offer').click(function(){
+        var offer_id = $(this).attr('id');
+        if (confirm("Do you want to delete")){
+            $.ajax({
+                type: "POST",
+                url: '/goals/delete/offer/' + offer_id,
+                contentType: 'text/plain',
+                success: function(response){
+                    $('#offer_' + offer_id).remove();
+                    console.log(response.code);
+                }
+            });
+        }
+        return false;
+    });
+});
+$(document).ready(function(){
+    $('.delete-interest').click(function(){
+        var interest_id = $(this).attr('id');
+        if (confirm("Do you want to delete")){
+            $.ajax({
+                type: "POST",
+                url: '/interest/delete/' + interest_id,
+                contentType: 'text/plain',
+                success: function(response){
+                    $('#interest_' + interest_id).remove();
+                    console.log(response.code);
+                }
+            });
+        }
+        return false;
+    });
+});
+</script>
 
 
+{% endblock customscripts %}

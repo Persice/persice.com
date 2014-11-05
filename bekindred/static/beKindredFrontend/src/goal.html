@@ -55,7 +55,6 @@
                             <li><a href="#">Registration</a></li>
                             <li><a href="#">Photo</a></li>
                             <li class="has-form"><a href="/login.html" class="button tiny success radius">Welcome, User [Logout]</a></li>
-
                         </ul>
                     </section>
                 </nav>
@@ -81,36 +80,94 @@
                     </ul>
                 </aside>
                 <section class="main-section">
-                    <section class="services-wrapper" id="homepage">
-
+                    <section class="subtitle-wrapper">
                         <div class="row">
                             <div class="medium-10 small-centered columns">
+                                <h5>
+                                    <span class="fa-stack">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-stack-1x fa-inverse">1</i>
+                                    </span>
+                                    Create Goal
+                                </h5>
+                            </div>
+                        </div>
+                    </section>
 
-                                <h2>Welcome to</h2>
-                                <p class="lead">
-                                </p>
+                    <section class="services-wrapper">
 
-                                <ul class="social-icon" id="intro-title">
-                                    <li><a href="#" class="facebook"><i class="fa fa-slideshare"></i></a></li>
-                                    <li><h1>Kindred</h1></li>
-                                </ul>
+                        <div class="row">
 
-                                <br>
-                                <br>
-                                <p><a href="/goal.html" class="button small success radius" class="button small alert radius">Start</a></p>
+                            <div class="small-12 medium-8 large-5 small-centered columns">
+
+                                <h2>My goal is to...</h2>
+                                <hr class="medium-8 small-8 large-10 small-centered columns">
+                                <p class="lead"></p>
+
+                            </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
 
 
-                            </div><!-- /.medium-10 .small-centered .columns -->
+                            <div class="clearfix"></div>
+
+                            <div class="small-12 medium-8 large-5 small-centered columns">
+
+                                <div class="col-goal">
+
+                                    <!-- {{ form.errors }} -->
+
+                                    <div data-alert class="alert-box alert">
+                                        Goal: This field is required.
+                                        <a href="" class="close">×</a>
+                                    </div>
+
+                                    <br>
+
+                                    <form class="" role="form" action="" method="post">
+                                        <!-- {% csrf_token %} -->
+                                        <div class="search-wrapper">
+                                            <i class="fa fa-search fa-lg"></i>
+                                            <input type="text" name="description" id="id_description" placeholder="enter you goal here">
+                                        </div>
+
+
+                                        <button type="submit" class="small-centered success medium-12 small-12 large-12 columns radius" role="button">Next &rarr;</button>
+
+                                    </form>
+
+                                </div><!-- /.col-goal -->
+
+                            </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
+
+
+
+
+                            <div class="clearfix"></div>
+                            <div class="small-12 medium-8 large-5 small-centered columns">
+
+                                <div class="examples-desc">
+                                    <h4>Here are some examples</h4>
+                                    <p>
+                                        <ul class="unstyled">
+                                            <li>&quot;Learn to play tennis&quot;</li>
+                                            <li>&quot;Find a running partner&quot;</li>
+                                            <li>&quot;Hire a cat sitter&quot;</li>
+                                            <li>&quot;Move my 500 lb sofa&quot;</li>
+                                        </ul>
+                                    </p>
+
+                                </div><!-- /.col-price-desc -->
+
+                            </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
+
+
                         </div><!-- /.row -->
 
                     </section>
+
                 </section>
                 <a class="exit-off-canvas"></a>
             </div>
         </div>
-
-
-
         <!-- build:js(.) scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>

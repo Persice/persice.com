@@ -1,10 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="text-muted text-center">
-        My goal is to...
-</h1>
-    <br>
-    {% include 'goals/subject_form.html' with button_name="Next &rarr;" %}
-    {% include 'goals/examples_list.html' %}
+<section class="subtitle-wrapper">
+    <div class="row">
+        <div class="medium-10 small-centered columns">
+            <h5>
+                <span class="fa-stack">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-stack-1x fa-inverse">1</i>
+                </span>
+                Create Goal
+            </h5>
+        </div>
+    </div>
+</section>
+<section class="services-wrapper">
+    <div class="row">
+        <div class="small-12 medium-8 large-5 small-centered columns">
+            <h2>My goal is to...</h2>
+            <hr class="medium-8 small-8 large-10 small-centered columns">
+            <p class="lead"></p>
+        </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
+        <div class="clearfix"></div>
+        <div class="small-12 medium-8 large-5 small-centered columns">
+            <div class="col-goal">
+                {% include 'goals/subject_form.html' with button_name="Next &rarr;" %}
+            </div><!-- /.col-goal -->
+        </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
+        <div class="clearfix"></div>
+        <div class="small-12 medium-8 large-5 small-centered columns">
+            <div class="examples-desc">
+                <h4>Here are some examples</h4>
+                <p>
+                    {% include 'goals/examples_list.html' %}
+                </p>
+            </div><!-- /.col-price-desc -->
+        </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
+    </div><!-- /.row -->
+</section>
 {% endblock content %}

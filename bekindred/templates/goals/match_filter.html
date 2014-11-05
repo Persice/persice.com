@@ -1,55 +1,88 @@
 {% extends 'base.html' %}
-
-
 {% block content %}
-        <div class="container">
-            <!--<div class="col-md-12 column">-->
-            <div class="col-md-6 col-md-offset-5">
-                <form class="form-horizontal" method="get" action="{% url "matched" %}">
-                    <div class="form-group">
-                        <h3 class="col-sm-2 control-label text-muted">Filters</h3>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Min. Age</label>
-                        <div class="col-sm-2">
-                            <input type="number" min="18" max="115" required="" name="min_age" class="form-control" placeholder="18">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Max. Age</label>
-                        <div class="col-sm-2">
-                            <input type="number" min="18" max="115" required="" name="max_age" class="form-control" placeholder="115">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Distance</label>
-                        <div class="col-sm-3 controls">
-                            <div class="input-group">
-                                <input type="number" min="1" max="10000" required="" name="distance" class="form-control" placeholder="100">
-                                <span class="input-group-addon">mi.</span>
+<section class="subtitle-wrapper">
+    <div class="row">
+        <div class="medium-10 small-centered columns">
+            <h5>
+                <i class="fa fa-search"></i>Filters
+            </h5>
+        </div>
+    </div>
+</section>
+<section class="services-wrapper">
+ <form class="form" method="get" action="{% url "matched" %}">
+    <div class="row">
+        <div class="small-12 medium-6 large-4 small-centered columns">
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="right-label" class="right inline">Min. Age</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="number" min="18" max="115" required="" name="min_age" placeholder="18" id="right-label">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="right-label" class="right inline">Max. Age</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="number" min="18" max="115" required="" name="max_age" placeholder="115" id="right-label">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="right-label" class="right inline">Distance</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="number" min="1" max="10000" required="" name="distance"  placeholder="100" id="right-label">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="right-label" class="right inline">Gender</label>
+                </div>
+                <div class="small-9 right columns">
+                    <div class="row">
+                        <div class="small-12 right columns">
+                            <div class="switch round small right">
+                                <input id="Male" type="radio" name="gender" value="m">
+                                <label for="Male"></label>
                             </div>
+                            <h5 class="right switch_label">Male</h5>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Gender</label>
-                        <div class="btn-group col-sm-6" data-toggle="buttons">
-                            <label class="btn btn-default">
-                                <input type="radio" name="gender" value="m">Male
-                            </label>
-                            <label class="btn btn-default">
-                                <input type="radio" name="gender" value="f">Female
-                            </label>
-                            <label class="btn btn-default">
-                                <input type="radio" name="gender" value="any" checked="">Any
-                            </label>
+
+                    <div class="row">
+                        <div class="small-12 right columns">
+                            <div class="switch round small right">
+                                <input id="Female" type="radio" name="gender" value="f">
+                                <label for="Female"></label>
+                            </div>
+                            <h5 class="right switch_label">Female</h5>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-2">
-                            <input type="submit" class="btn btn-primary" value="Filter" />
+
+                    <div class="row">
+                        <div class="small-12 right columns">
+                           <div class="switch round small right">
+                            <input id="Any" type="radio" name="gender" value="any" checked="">
+                            <label for="Any"></label>
                         </div>
+                        <h5 class="right switch_label">Any</h5>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
+
+
+        <div class="row">
+            <div class="small-12 right columns">
+                <button type="submit" class="small success radius block" role="button">Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+</section>
 {% endblock content %}

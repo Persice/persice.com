@@ -55,7 +55,6 @@
                             <li><a href="#">Registration</a></li>
                             <li><a href="#">Photo</a></li>
                             <li class="has-form"><a href="/login.html" class="button tiny success radius">Welcome, User [Logout]</a></li>
-
                         </ul>
                     </section>
                 </nav>
@@ -81,36 +80,95 @@
                     </ul>
                 </aside>
                 <section class="main-section">
-                    <section class="services-wrapper" id="homepage">
-
+                    <section class="subtitle-wrapper">
                         <div class="row">
                             <div class="medium-10 small-centered columns">
-
-                                <h2>Welcome to</h2>
-                                <p class="lead">
-                                </p>
-
-                                <ul class="social-icon" id="intro-title">
-                                    <li><a href="#" class="facebook"><i class="fa fa-slideshare"></i></a></li>
-                                    <li><h1>Kindred</h1></li>
-                                </ul>
-
-                                <br>
-                                <br>
-                                <p><a href="/goal.html" class="button small success radius" class="button small alert radius">Start</a></p>
-
-
-                            </div><!-- /.medium-10 .small-centered .columns -->
-                        </div><!-- /.row -->
-
+                                <h5>
+                                    <i class="fa fa-search"></i>Filters
+                                </h5>
+                            </div>
+                        </div>
                     </section>
+                    <section class="services-wrapper">
+                        <form class="form" method="get" action="{% url "matched" %}">
+                            <div class="row">
+                                <div class="small-12 medium-6 large-4 small-centered columns">
+                                    <div class="row">
+                                        <div class="small-3 columns">
+                                            <label for="right-label" class="right inline">Min. Age</label>
+                                        </div>
+                                        <div class="small-9 columns">
+                                            <input type="number" min="18" max="115" required="" name="min_age" placeholder="18" id="right-label">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-3 columns">
+                                            <label for="right-label" class="right inline">Max. Age</label>
+                                        </div>
+                                        <div class="small-9 columns">
+                                            <input type="number" min="18" max="115" required="" name="max_age" placeholder="115" id="right-label">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-3 columns">
+                                            <label for="right-label" class="right inline">Distance</label>
+                                        </div>
+                                        <div class="small-9 columns">
+                                            <input type="number" min="1" max="10000" required="" name="distance"  placeholder="100" id="right-label">
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="small-3 columns">
+                                            <label for="right-label" class="right inline">Gender</label>
+                                        </div>
+                                        <div class="small-9 right columns">
+                                            <div class="row">
+                                                <div class="small-12 right columns">
+                                                    <div class="switch round small right">
+                                                        <input id="Male" type="radio" name="gender" value="m">
+                                                        <label for="Male"></label>
+                                                    </div>
+                                                    <h5 class="right switch_label">Male</h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="small-12 right columns">
+                                                    <div class="switch round small right">
+                                                        <input id="Female" type="radio" name="gender" value="f">
+                                                        <label for="Female"></label>
+                                                    </div>
+                                                    <h5 class="right switch_label">Female</h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="small-12 right columns">
+                                                 <div class="switch round small right">
+                                                    <input id="Any" type="radio" name="gender" value="any" checked="">
+                                                    <label for="Any"></label>
+                                                </div>
+                                                <h5 class="right switch_label">Any</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="small-12 right columns">
+                                        <button type="submit" class="small success radius block" role="button">Filter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
                 </section>
                 <a class="exit-off-canvas"></a>
             </div>
         </div>
-
-
-
         <!-- build:js(.) scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>

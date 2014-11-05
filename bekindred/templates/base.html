@@ -1,23 +1,106 @@
-<!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}{% endblock %}</title>
-        <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
-        <link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" media="screen">
-        <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
-        <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
-        <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-        <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<!--[if IE 10]><html class="ie10" lang="en" > <![endif]-->
+<html class="no-js" ng-app="beKindred">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Kindred">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
+    <!-- Favicons -->
+    <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/apple-touch-icon-144x144-precomposed.png">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114-precomposed.png">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
+    <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <script src="{{ STATIC_URL }}js/modernizr.js"></script>
     </head>
     <body>
-        {% block header %}
-            {% include 'header.html' %}
-        {% endblock header %}
-        {% block content %}{% endblock content %}
-        <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+        <!--[if lt IE 10]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        {% load url from future %}
+        {% load i18n %}{% load postman_tags %}
+        {% if user.is_authenticated %}
+        <div class="off-canvas-wrap" data-offcanvas>
+            <div class="inner-wrap">
+                <nav class="top-bar show-for-large-up" data-topbar>
+                    <ul class="title-area">
+                        <li class="name">
+                            <h1><a href="/">Kindred</a></h1>
+                        </li>
+                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+                    </ul>
+                    <section class="top-bar-section">
+                        <!-- Right Nav Section -->
+                        <ul class="right">
+                            <li><a href="{% url 'postman_inbox' %}"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
+                            <li><a href="/goals/matched"><i class="fa fa-check-square-o"></i> Match Feed</a></li>
+                            <li><a href="/goals/filter"><i class="fa fa-search"></i> Filter Feed</a></li>
+                            <li><a href="/goals"><i class="fa fa-user"></i> My Profile</a></li>
+                            <li><a href="/friends/list"><i class="fa fa-plus"></i> My Connections</a></li>
+                            <li><a href="/accounts/register">Registration</a></li>
+                            <li><a href="/photo/create"><i class="fa fa-photo"></i> Photo</a></li>
+                            <li><a href="/">Welcome, {{ user.username }}</a></li>
+                            <li class="has-form"><a href="/accounts/logout" class="button tiny success radius">Sign out&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
+                        </ul>
+                    </section>
+                </nav>
+                <nav class="tab-bar hide-for-large-up">
+                    <section class="left-small">
+                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                    </section>
+                    <section class="middle tab-bar-section">
+                        <h1 class="title">Kindred</h1>
+                    </section>
+                </nav>
+                <aside class="left-off-canvas-menu">
+                    <ul class="off-canvas-list">
+                        <li><label>Kindred</label></li>
+                        <li><a href="/"><i class="fa fa-home"></i> Home</a> </li>
+                        <li><a href="{% url 'postman_inbox' %}"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
+                        <li><a href="/goals/matched"><i class="fa fa-check-square-o"></i> Match Feed</a></li>
+                        <li><a href="/goals/filter"><i class="fa fa-search"></i> Filter Feed</a></li>
+                        <li><a href="/goals"><i class="fa fa-user"></i> My Profile</a></li>
+                        <li><a href="/friends/list"><i class="fa fa-plus"></i> My Connections</a></li>
+                        <li><a href="/accounts/register">Registration</a></li>
+                        <li><a href="/photo/create"><i class="fa fa-photo"></i> Photo</a></li>
+                        <li><a href="/accounts/logout">Sign out&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
+
+                    </ul>
+                </aside>
+                <section class="main-section">
+                    {% block content %}
+                    {% endblock content %}
+                </section>
+                <a class="exit-off-canvas"></a>
+            </div>
+        </div>
+        {% endif %}
+        <script src="{{ STATIC_URL }}js/vendor.js"></script>
+        <script src="{{ STATIC_URL }}js/app.js"></script>
         <script src="{{ STATIC_URL }}js/slick.js"></script>
         <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
+        <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+        <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+        <script>
+            $(document).foundation();
+        </script>
+        {% block customscripts %}
+        {% endblock customscripts %}
     </body>
-</html>
+    </html>
