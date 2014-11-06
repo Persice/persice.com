@@ -1452,3 +1452,121 @@ h5.right.switch_label {
 	list-style: none outside none;
 	margin: 0px;
 }
+
+
+.profile-picture {
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+}
+
+section.match {
+	background-color: #FFFFFF;
+	padding: 0.5rem;
+	overflow: hidden !important;
+	margin: 1rem;
+}
+
+#match-main .columns {
+	padding: 0px!important;
+}
+
+#match-main hr {
+	margin: 0.4rem 0rem;
+}
+
+#match-main .row {
+	margin-bottom: 0px;
+}
+
+.inner-wrap{
+	background-color: #f6f6f6!important;
+}
+
+.user-photo {
+	margin-right: 1rem;
+}
+
+.user-description {
+	vertical-align: middle;
+	height: 120px;
+	width: 130px;
+
+	position: relative;
+}
+
+.user-description h4 {
+	margin-bottom: 0px;
+}
+
+.user-info {
+	height: 50%;
+}
+
+.user-icons {
+	height: 50%;
+	text-align: center;
+}
+
+
+
+#match-main ul.simple {
+	display: block;
+	margin: 0;
+	padding-left: 0;
+	list-style-type: none;
+	list-style-position: inside;
+}
+
+#match-main ul.simple li {
+	display: block;
+	font-size: 1rem;
+	color: #333;
+	line-height: 0.7;
+	font-size: 0.9rem;
+	padding-left: 15px;
+	text-indent: 0px;
+	margin-bottom: 10px;
+}
+
+#match-main ul.simple li span {
+	position: absolute;
+	left: 0px;
+
+}
+
+#match-main ul.simple li span .fa {
+	color: #13a7c7;
+}
+
+#match-main .goals, #match-main .offers, #match-main .about, #match-main .likes, #match-main .activities {
+	margin-bottom: 10px;
+}
+
+#match-main .goals h5,  #match-main .offers h5,  #match-main .about h5,  #match-main .likes h5,  #match-main .activities h5 {
+	margin-bottom: 5px;
+}
+
+#match-main p {
+	text-align: left;
+	font-size: 0.9rem;
+	padding-left: 15px;
+}
+
+
+#match-footer {
+	text-align: center;
+	padding: 1rem 0 1rem;
+}
+
+
+.icon-services .fa {
+	font-size: 2.813rem;
+	line-height: 2;
+	color: #FFF;
+}
+
+#match-footer .icon-services {
+	display: inline-block!important;
+	margin: 0 1.5rem;
+}

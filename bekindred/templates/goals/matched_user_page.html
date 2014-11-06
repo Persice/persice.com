@@ -1,212 +1,210 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <script>
-        $(document).ajaxSend(function(event, xhr, settings) {
-            function getCookie(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-            function sameOrigin(url) {
-                // url could be relative or scheme relative or absolute
-                var host = document.location.host; // host + port
-                var protocol = document.location.protocol;
-                var sr_origin = '//' + host;
-                var origin = protocol + sr_origin;
-                // Allow absolute or scheme relative URLs to same origin
-                return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-                        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-                    // or any other URL that isn't scheme relative or absolute i.e relative.
-                        !(/^(\/\/|http:|https:).*/.test(url));
-            }
-            function safeMethod(method) {
-                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-            }
-
-            if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        });
-        $(document).ready(function(){
-            $('#accept_button').click(function(){
-                var friend_id = $(location).attr('href').match(/([0-9]+)\/$/)[1];
-                $.getJSON("/friends/add/", function(data){
-                    if (data['status'] == null) {
-                        data['status'] = 0;
-                        //alert(data['status']);
-                        $.ajax({
-                            type: "POST",
-                            url: '/friends/add/',
-                            data: data,
-                            success: function (data, statusText, jqhxr) {
-                                window.location = $("#accept_button").attr("href");
-                            }
-                        });
-                    } else if (data['status'] == 0) {
-                        data['status'] = 1;
-                        //alert(data['status']);
-                        $.ajax({
-                            type: "POST",
-                            url: '/friends/update/',
-                            data: data,
-                            success: function (data, statusText, jqhxr) {
-                                window.location = $("#accept_button").attr("href");
-                            }
-                        });
-                    } else {
-                        window.location = $("#accept_button").attr("href");
-                    }
-                });
-                return false;
-            });
-        });
-    </script>
-    <div class="container col-md-3 col-md-offset-5">
-        <h3 class="text-muted">Kindred</h3>
-        <h1 class="text-muted">{{ user_obj.first_name|capfirst }}, {{ age }}, {{ distance|floatformat }} miles</h1>
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img src="http://graph.facebook.com/{{ user_obj.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br /></td>
-            </a>
+<div class="container col-md-3 col-md-offset-5">
+    <h3 class="text-muted">Kindred</h3>
+    <h1 class="text-muted">{{ user_obj.first_name|capfirst }}, {{ age }}, {{ distance|floatformat }} miles</h1>
+    <div class="media">
+        <a class="pull-left" href="#">
+            <img src="http://graph.facebook.com/{{ user_obj.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br /></td>
+        </a>
+    </div>
+    <p><strong>Goals</strong></p>
+    <ul class="no_bullets">
+        {% for goal in goals %}
+        {% if goal.goal_id in match_goals_offers %}
+        <li><span class="glyphicon glyphicon-ok"></span>{{ goal }}</li>
+        {% else %}
+        <li>{{ goal }}</li>
+        {% endif %}
+        {% empty %}
+        <li>No offers yet.</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Offers</strong></p>
+    <ul class="no_bullets">
+        {% for offer in offers %}
+        {% if offer.offer_id in match_goals_offers %}
+        <li><span class="glyphicon glyphicon-ok"></span>{{ offer }}</li>
+        {% else %}
+        <li>{{ offer }}</li>
+        {% endif %}
+        {% empty %}
+        <li>No offers yet.</li>
+        {% endfor %}
+    </ul>
+    <div class="user_bio">
+        <p><strong>About Me</strong></p>
+        <div class="user_bio_content">
+            {{ user_obj.profile_or_self.about_me }}
         </div>
-        <p><strong>Goals</strong></p>
+    </div>
+    <div class="user_mutual_friends">
+        {% if mutual_friends %}
+        <p><strong>Mutual Friends</strong></p>
         <ul class="no_bullets">
-            {% for goal in goals %}
-                {% if goal.goal_id in match_goals_offers %}
-                    <li><span class="glyphicon glyphicon-ok"></span>{{ goal }}</li>
-                {% else %}
-                    <li>{{ goal }}</li>
-                {% endif %}
-            {% empty %}
-                <li>No offers yet.</li>
-            {% endfor %}
-        </ul>
-        <p><strong>Offers</strong></p>
-
-        <ul class="no_bullets">
-            {% for offer in offers %}
-                {% if offer.offer_id in match_goals_offers %}
-                    <li><span class="glyphicon glyphicon-ok"></span>{{ offer }}</li>
-                {% else %}
-                    <li>{{ offer }}</li>
-                {% endif %}
-            {% empty %}
-                <li>No offers yet.</li>
-            {% endfor %}
-        </ul>
-        <div class="user_bio">
-            <p><strong>About Me</strong></p>
-            <div class="user_bio_content">
-                {{ user_obj.profile_or_self.about_me }}
-            </div>
-        </div>
-        <div class="user_mutual_friends">
-            {% if mutual_friends %}
-                <p><strong>Mutual Friends</strong></p>
-                <ul class="no_bullets">
-                    {% for friend in mutual_friends|slice:":5" %}
-                        <li><img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
-                        {{ friend.first_name }} {{ friend.last_name }}</li>
-                    {% endfor %}
-
-                </ul>
+            {% for friend in mutual_friends|slice:":5" %}
+            <li><img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
+                {{ friend.first_name }} {{ friend.last_name }}</li>
+                {% endfor %}
+            </ul>
             {% endif %}
             {% if mutual_facebook_friends %}
-                <p><strong>Mutual Facebook Friends</strong> ({{ mutual_facebook_friends_count }})</p>
-                <ul class="no_bullets">
-                    {% for friend in mutual_facebook_friends|slice:":5" %}
-                        <li><img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
-                            {{ friend.first_name }} {{ friend.last_name }}</li>
+            <p><strong>Mutual Facebook Friends</strong> ({{ mutual_facebook_friends_count }})</p>
+            <ul class="no_bullets">
+                {% for friend in mutual_facebook_friends|slice:":5" %}
+                <li><img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
+                    {{ friend.first_name }} {{ friend.last_name }}</li>
                     {% endfor %}
                 </ul>
-            {% endif %}
-        </div>
-        <div class="mutual_twitter_friends">
-            {% if mutual_twitter_friends %}
+                {% endif %}
+            </div>
+            <div class="mutual_twitter_friends">
+                {% if mutual_twitter_friends %}
                 <p><strong>Mutual Twitter Friends</strong> ({{ count_mutual_twitter_friends }})</p>
                 <ul class="no_bullets">
                     {% for connection in mutual_twitter_friends|slice:":10" %}
-                        <li><img width="40" height="40" src="{{ connection.profile_image_url2 }}" />
-                            {{ connection.name2 }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        <div class="mutual_twitter_followers">
-            {% if mutual_twitter_followers %}
-                <p><strong>Mutual Twitter Followers</strong> ({{ count_mutual_twitter_followers }})</p>
-                <ul class="no_bullets">
-                    {% for follower in mutual_twitter_followers|slice:":10" %}
+                    <li><img width="40" height="40" src="{{ connection.profile_image_url2 }}" />
+                        {{ connection.name2 }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="mutual_twitter_followers">
+                    {% if mutual_twitter_followers %}
+                    <p><strong>Mutual Twitter Followers</strong> ({{ count_mutual_twitter_followers }})</p>
+                    <ul class="no_bullets">
+                        {% for follower in mutual_twitter_followers|slice:":10" %}
                         <li><img width="40" height="40" src="{{ follower.profile_image_url2 }}" />
                             {{ follower.name2 }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        <div class="linkedin_mutual_connections">
-            {% if mutual_linkedin %}
-                <p><strong>Mutual Linkedin Conections</strong> ({{ mutual_linkedin_count }})</p>
-                <ul class="no_bullets">
-                    {% for connection in mutual_linkedin|slice:":5" %}
-                        <li><img width="40" height="40" src="{{ connection.pictureUrl }}" />
-                            {{ connection.firstName }} {{ connection.lastName }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        <div class="user_likes">
-            <p><strong>Likes</strong></p>
-            <ul class="no_bullets">
-                {% for like in likes|slice:":5" %}
-                    {% if like.name in match_likes %}
-                        <li><span class="glyphicon glyphicon-ok"></span>{{ like.name }}</li>
-                    {% else %}
-                        <li>{{ like.name }}</li>
-                    {% endif %}
-                {% empty %}
-                    <li>No likes yet</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="user_interests">
-            <p><strong>Activities & Interests</strong></p>
-            <ul class="no_bullets">
-                {% for interest in interests|slice:":5" %}
-                    {% if interest.description in match_interests %}
-                        <li><span class="glyphicon glyphicon-ok"></span>{{ interest.description }}</li>
-                    {% else %}
-                        <li>{{ interest.description }}</li>
-                    {% endif %}
-                {% empty %}
-                    <li>No interests yet</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% if goal_offer_obj %}
-            <a href="/goals/user/{{ goal_offer_obj }}" class="thumbs-down" id="left_button">
-                <span class="glyphicon glyphicon-thumbs-down"></span>
-            </a>
-            <a href="/goals/user/{{ goal_offer_obj }}" class="thumbs-down" id="accept_button">
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-            </a>
-        {% else %}
-            <a href="/" class="thumbs-down" id="left_button">
-                <span class="glyphicon glyphicon-thumbs-down"></span>
-            </a>
-            <a href="/" class="thumbs-down" id="accept_button">
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-            </a>
-        {% endif %}
-    </div>
-{% endblock content %}
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="linkedin_mutual_connections">
+                        {% if mutual_linkedin %}
+                        <p><strong>Mutual Linkedin Conections</strong> ({{ mutual_linkedin_count }})</p>
+                        <ul class="no_bullets">
+                            {% for connection in mutual_linkedin|slice:":5" %}
+                            <li><img width="40" height="40" src="{{ connection.pictureUrl }}" />
+                                {{ connection.firstName }} {{ connection.lastName }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        <div class="user_likes">
+                            <p><strong>Likes</strong></p>
+                            <ul class="no_bullets">
+                                {% for like in likes|slice:":5" %}
+                                {% if like.name in match_likes %}
+                                <li><span class="glyphicon glyphicon-ok"></span>{{ like.name }}</li>
+                                {% else %}
+                                <li>{{ like.name }}</li>
+                                {% endif %}
+                                {% empty %}
+                                <li>No likes yet</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="user_interests">
+                            <p><strong>Activities & Interests</strong></p>
+                            <ul class="no_bullets">
+                                {% for interest in interests|slice:":5" %}
+                                {% if interest.description in match_interests %}
+                                <li><span class="glyphicon glyphicon-ok"></span>{{ interest.description }}</li>
+                                {% else %}
+                                <li>{{ interest.description }}</li>
+                                {% endif %}
+                                {% empty %}
+                                <li>No interests yet</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% if goal_offer_obj %}
+                        <a href="/goals/user/{{ goal_offer_obj }}" class="thumbs-down" id="left_button">
+                            <span class="glyphicon glyphicon-thumbs-down"></span>
+                        </a>
+                        <a href="/goals/user/{{ goal_offer_obj }}" class="thumbs-down" id="accept_button">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                        </a>
+                        {% else %}
+                        <a href="/" class="thumbs-down" id="left_button">
+                            <span class="glyphicon glyphicon-thumbs-down"></span>
+                        </a>
+                        <a href="/" class="thumbs-down" id="accept_button">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endblock content %}
+                    {% block customscripts %}
+                    <script>
+                        $(document).ajaxSend(function(event, xhr, settings) {
+                            function getCookie(name) {
+                                var cookieValue = null;
+                                if (document.cookie && document.cookie != '') {
+                                    var cookies = document.cookie.split(';');
+                                    for (var i = 0; i < cookies.length; i++) {
+                                        var cookie = jQuery.trim(cookies[i]);
+// Does this cookie string begin with the name we want?
+if (cookie.substring(0, name.length + 1) == (name + '=')) {
+    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    break;
+}
+}
+}
+return cookieValue;
+}
+function sameOrigin(url) {
+// url could be relative or scheme relative or absolute
+var host = document.location.host; // host + port
+var protocol = document.location.protocol;
+var sr_origin = '//' + host;
+var origin = protocol + sr_origin;
+// Allow absolute or scheme relative URLs to same origin
+return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+(url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+// or any other URL that isn't scheme relative or absolute i.e relative.
+!(/^(\/\/|http:|https:).*/.test(url));
+}
+function safeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+}
+});
+$(document).ready(function(){
+    $('#accept_button').click(function(){
+        var friend_id = $(location).attr('href').match(/([0-9]+)\/$/)[1];
+        $.getJSON("/friends/add/", function(data){
+            if (data['status'] == null) {
+                data['status'] = 0;
+//alert(data['status']);
+$.ajax({
+    type: "POST",
+    url: '/friends/add/',
+    data: data,
+    success: function (data, statusText, jqhxr) {
+        window.location = $("#accept_button").attr("href");
+    }
+});
+} else if (data['status'] == 0) {
+    data['status'] = 1;
+//alert(data['status']);
+$.ajax({
+    type: "POST",
+    url: '/friends/update/',
+    data: data,
+    success: function (data, statusText, jqhxr) {
+        window.location = $("#accept_button").attr("href");
+    }
+});
+} else {
+    window.location = $("#accept_button").attr("href");
+}
+});
+        return false;
+    });
+});
+</script>
+{% endblock customscripts %}

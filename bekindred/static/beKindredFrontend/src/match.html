@@ -1,0 +1,220 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<!--[if IE 10]><html class="ie10" lang="en" > <![endif]-->
+<html class="no-js" ng-app="beKindred">
+<head>
+    <meta charset="utf-8">
+    <title>Kindred</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
+    <!-- Favicons -->
+    <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/apple-touch-icon-144x144-precomposed.png">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114-precomposed.png">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
+    <!-- build:css({.tmp,src}) styles/vendor.css -->
+    <link rel="stylesheet" href="app/vendor.css">
+    <!-- endbuild -->
+    <!-- build:css({.tmp,src}) styles/app.css -->
+    <link rel="stylesheet" href="app/index.css">
+    <!-- endbuild -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <!-- build:js(.) scripts/modernizr.js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+    </head>
+    <body>
+        <div class="off-canvas-wrap" data-offcanvas>
+            <div class="inner-wrap">
+                <nav class="top-bar show-for-large-up" data-topbar>
+                    <ul class="title-area">
+                        <li class="name">
+                            <h1><a href="/">Kindred</a></h1>
+                        </li>
+                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+                    </ul>
+                    <section class="top-bar-section">
+                        <!-- Right Nav Section -->
+                        <ul class="right">
+                            <li><a href="#">Inbox</a></li>
+                            <li><a href="#">Match Feed</a></li>
+                            <li><a href="#">Filter Feed</a></li>
+                            <li><a href="#">My Profile</a></li>
+                            <li><a href="#">My Connections</a></li>
+                            <li><a href="#">Registration</a></li>
+                            <li><a href="#">Photo</a></li>
+                            <li class="has-form"><a href="/login.html" class="button tiny success radius">Welcome, User [Logout]</a></li>
+                        </ul>
+                    </section>
+                </nav>
+                <nav class="tab-bar hide-for-large-up">
+                    <section class="left-small">
+                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                    </section>
+                    <section class="middle tab-bar-section">
+                        <h1 class="title">Kindred</h1>
+                    </section>
+                </nav>
+                <aside class="left-off-canvas-menu">
+                    <ul class="off-canvas-list">
+                        <li><label>Kindred</label></li>
+                        <li><a href="#">Welcome, User (Logout)</a> </li>
+                        <li><a href="#">Inbox</a></li>
+                        <li><a href="#">Match Feed</a></li>
+                        <li><a href="#">Filter Feed</a></li>
+                        <li><a href="#">My Profile</a></li>
+                        <li><a href="#">My Connections</a></li>
+                        <li><a href="#">Registration</a></li>
+                        <li><a href="#">Photo</a></li>
+                    </ul>
+                </aside>
+                <section class="main-section">
+                    <section class="match" id="match-main">
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <div class="left user-photo">
+                                    <img src="http://graph.facebook.com/100008382799410/picture?type=large" alt="#" class="profile-picture">
+                                </div>
+                                <div class="left user-description">
+                                    <div class="user-info">
+                                        <h4>Isaac, 31</h4>
+                                        <h7 class="subheader">3 miles</h7>
+                                    </div>
+                                    <div class="user-icons">
+                                        <ul class="small-block-grid-4">
+                                            <li>
+                                                <span><i class="fa fa-check fa-lg"></i></span>
+                                                <span>0</span>
+                                            </li>
+                                            <li>
+                                                <span><i class="fa fa-users fa-lg"></i></span>
+                                                <span>133</span>
+                                            </li>
+                                            <li>
+                                                <span><i class="fa fa-star fa-lg"></i></span>
+                                                <span>143</span>
+                                            </li>
+                                            <li>
+                                                <span><i class="fa fa-chain fa-lg"></i></span>
+                                                <span>133</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row goals">
+                            <div class="medium-12 columns">
+                                <h5>Goals</h5>
+                                <ul class="simple">
+                                    <li><span class="icon"><i class="fa fa-check"></i></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row offers">
+                            <div class="medium-12 columns">
+                                <h5>Offers</h5>
+                                <ul class="simple">
+                                    <li><span class="icon"></i></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row about">
+                            <div class="medium-12 columns">
+                                <h5>About</h5>
+                                <p class="justify">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum non nihil deleniti, expedita tempore assumenda blanditiis quidem facilis, impedit voluptatibus, ratione doloribus error! Eligendi voluptas eum odit, laboriosam quibusdam ipsa.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row likes">
+                            <div class="medium-12 columns">
+                                <h5>Likes</h5>
+                                <ul class="simple">
+                                    <li><span class="icon"><i class="fa fa-check"></i></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row about">
+                            <div class="medium-12 columns">
+                                <h5>Activities &amp; Interests</h5>
+                                <ul class="simple">
+                                    <li><span class="icon"><i class="fa fa-check"></i></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                    <li><span class="icon"></span>Learn to speak Spanish</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="match-footer">
+                        <div class="row">
+                            <div class="medium-12 small-centered columns">
+
+                                <div class="icon-services red">
+                                    <a class="" href="/" id="left_button">
+                                     <i class="fa fa-remove fa-2x"></i>
+                                 </a>
+                             </div>
+
+                             <div class="icon-services blue">
+                                <a href="/" id="accept_button">
+                                 <i class="fa fa-check fa-2x"></i>
+                             </a>
+                         </div>
+
+
+                     </div>
+                 </div>
+             </section>
+         </section>
+         <a class="exit-off-canvas"></a>
+     </div>
+ </div>
+ <!-- build:js(.) scripts/vendor.js -->
+ <!-- bower:js -->
+ <script src="bower_components/jquery/dist/jquery.js"></script>
+ <script src="bower_components/angular/angular.js"></script>
+ <script src="bower_components/angular-animate/angular-animate.js"></script>
+ <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+ <script src="bower_components/angular-touch/angular-touch.js"></script>
+ <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+ <script src="bower_components/angular-resource/angular-resource.js"></script>
+ <script src="bower_components/fastclick/lib/fastclick.js"></script>
+ <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+ <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
+ <script src="bower_components/foundation/js/foundation.js"></script>
+ <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+ <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+ <!-- endbower -->
+ <!-- endbuild -->
+ <!-- build:js({src,.tmp}) scripts/app.js -->
+ <script src="app/index.js"></script>
+ <script src="app/main/main.controller.js"></script>
+ <!-- endbuild -->
+ <script>
+    $(document).foundation();
+</script>
+</body>
+</html>
