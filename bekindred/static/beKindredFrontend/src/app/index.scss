@@ -1392,3 +1392,63 @@ h5.right.switch_label {
 	color: #13a7c7!important;
 }
 
+
+
+
+
+/* Photos */
+.media-photo {
+	-webkit-backface-visibility:hidden;
+	backface-visibility:hidden;
+	position:relative;
+	display:inline-block;
+	vertical-align:bottom;
+	overflow:hidden;
+}
+
+
+
+
+.img-responsive {
+	width:100%;
+	height:auto;
+}
+
+.img-round,.media-round {
+	border-radius:50%;
+	border-top-style: solid;
+	border-top-color: #ffffff;
+	border-top-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #ffffff;
+	border-bottom-width: 2px;
+	border-left-style: solid;
+	border-left-color: #ffffff;
+	border-left-width: 2px;
+	border-right-style: solid;
+	border-right-color: #ffffff;
+	border-right-width: 2px;
+}
+
+.img-responsive-height {
+	width:auto;
+	height:100%;
+}
+
+
+.photo-item {
+	text-align: center;
+	cursor: move;
+	display: block;
+	width: 117px;
+	width: 117px;
+	background-color: transparent;
+	border: 0px solid transparent;
+	padding-bottom: 4px;
+}
+
+
+.photo-list {
+	list-style: none outside none;
+	margin: 0px;
+}
