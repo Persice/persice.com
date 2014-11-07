@@ -15,23 +15,17 @@ angular.module('beKindred')
     ];
 
     $scope.sortableOptions = {
-        stop: function(e, ui) {
+        stop: function() {
             for (var index in $scope.photos) {
                 $scope.photos[index].i = index;
             }
 
-            logModels();
+
         }
     };
 
-    $scope.sortingLog = [];
 
-    function logModels () {
-        var logEntry = $scope.photos.map(function(i){
-          return i.txt+'(pos:'+i.i+')';
-      }).join(', ');
-        $scope.sortingLog.push('Stop: ' + logEntry);
-    }
+
 
 
 });
