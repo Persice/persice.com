@@ -1561,7 +1561,7 @@ section.match {
 
 
 .icon-services .fa {
-	font-size: 2.813rem;
+	font-size: 1.9rem;
 	line-height: 2;
 	color: #FFF;
 }
@@ -1569,4 +1569,12 @@ section.match {
 #match-footer .icon-services {
 	display: inline-block!important;
 	margin: 0 1.5rem;
+	width: 4rem;
+	height: 4rem;
+}
+
+
+#match-footer .icon-services:hover
+{
+
 }
