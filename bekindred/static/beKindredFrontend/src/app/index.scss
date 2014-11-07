@@ -1587,3 +1587,118 @@ section.match {
 .mutual-friend-photo h6 {
 	font-size: 0.7rem;
 }
+
+
+#filter {
+	padding-top: 1rem;
+}
+
+
+#filter label {
+	color: #FFF;
+	font-size:1.1rem;
+}
+
+
+#filter h5.right.switch_label {
+	color: #FFF;
+}
+
+#filter label.inline {
+	margin: 0px;
+	padding: 0px;
+}
+
+.tab-bar .menu-icon.awesome {
+	text-indent: 0.5rem!important;
+}
+
+.noUi-horizontal {
+	margin: 20px 0px!important;
+	height: 6px!important;
+}
+
+
+#filter span.range {
+	position: absolute;
+	right: 15px;
+}
+
+
+#filter .noUi-horizontal .noUi-handle {
+	width: 20px;
+	height: 20px;
+	left: -10px;
+	top: -7px;
+	border-radius: 50%;
+	background: #f9f9f9;
+}
+
+#filter .noUi-handle:before, #filter .noUi-handle:after {
+	display: none;
+}
+
+#filter .noUi-origin {
+	background: #f9f9f9;
+
+
+}
+
+#filter .one-slider .noUi-background {
+	background-color: #008CBA;
+}
+
+#filter .noUi-target {
+	border: none;
+	box-shadow: none;
+}
+
+.noUi-connect {
+
+}
+
+#filter .two-slider div.noUi-base>div.noUi-origin:first-of-type {
+	background-color: #008CBA;
+}
+
+
+
+#filter ul.simple {
+	display: block;
+	margin: 0;
+	padding-left: 0;
+	list-style-type: none;
+	list-style-position: inside;
+}
+
+#filter ul.simple li {
+	display: block;
+	font-size: 0.9rem;
+	color: #FFF;
+	line-height: 1;
+	font-size: 0.9rem;
+	padding-left: 20px;
+	text-indent: 0px;
+	margin-bottom: 10px;
+}
+
+#filter ul.simple li span {
+	position: absolute;
+	left: 0px;
+
+}
+
+#filter ul.simple li span .fa {
+	color: #FFF;
+}
+#filter .keywords {
+	position: relative;
+}
+
+#filter .search-wrapper input {
+	font-size: 1.2rem;
+}
+
+#filter .search-wrapper {
+	margin-top: 5px;
+}

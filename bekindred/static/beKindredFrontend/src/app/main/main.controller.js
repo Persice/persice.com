@@ -29,3 +29,34 @@ angular.module('beKindred')
 
 
 });
+
+
+angular.module('beKindred')
+.controller('FilterController', function ($scope) {
+    $scope.distanceValue = 50;
+    $scope.distanceOptions = {
+        range: {min: 1, max: 10000}
+    };
+
+
+    $scope.ageValues = [25,60];
+    $scope.ageOptions = {
+        range: {min: 18, max: 115}
+    };
+
+
+    $scope.keywords = ['Travel', 'Soccer', 'Spanish', 'Technology', 'Hiking'];
+
+    $scope.removeKeyword = function(index) {
+        $scope.keywords.splice(index, 1);
+    }
+
+    $scope.addKeyword = function(item) {
+        if (item != '') {
+           $scope.keywords.push(item);
+           $scope.newKeyword = '';
+       }
+
+   }
+
+});
