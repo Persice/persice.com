@@ -294,7 +294,8 @@ class MatchView(LoginRequiredMixin, View):
             filter_gender = filter_age
         sorted_matched_users = sorted(filter_gender, key=itemgetter('thumbed_up_me', 'matched_goal_offer',
                                                                     'matched_offer_goal', 'matched_goal_goal',
-                                                                    'matched_offer_offer', 'distance'))
+                                                                    'matched_offer_offer', 'common_interests',
+                                                                    'distance'))
         go = [x['user_id'] for x in sorted_matched_users]
         if go:
             match_user = go.pop(0)
