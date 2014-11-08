@@ -29,7 +29,7 @@
         <![endif]-->
         <script src="{{ STATIC_URL }}js/modernizr.js"></script>
     </head>
-    <body>
+    <body{% if '/goals/user/' in request.path %} id="match"{% endif %}>
         <!--[if lt IE 10]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -50,10 +50,9 @@
                         <ul class="right">
                             <li><a href="{% url 'postman_inbox' %}"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
                             <li><a href="/goals/matched"><i class="fa fa-check-square-o"></i> Match Feed</a></li>
-                            <li><a href="/goals/filter"><i class="fa fa-search"></i> Filter Feed</a></li>
+                            {% if '/goals/user/' in request.path %}<li><a class="right-off-canvas-toggle" href="#"><i class="fa fa-sliders"></i> Filter Feed</a></li>{% endif %}
                             <li><a href="/goals"><i class="fa fa-user"></i> My Profile</a></li>
                             <li><a href="/friends/list"><i class="fa fa-plus"></i> My Connections</a></li>
-                            <li><a href="/accounts/register">Registration</a></li>
                             <li><a href="/photo/create"><i class="fa fa-photo"></i> Photo</a></li>
                             <li><a href="/">Welcome, {{ user.username }}</a></li>
                             <li class="has-form"><a href="/accounts/logout" class="button tiny success radius">Sign out&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
@@ -67,6 +66,11 @@
                     <section class="middle tab-bar-section">
                         <h1 class="title">Kindred</h1>
                     </section>
+                    {% if '/goals/user/' in request.path %}
+                    <section class="right-small" >
+                        <a class="right-off-canvas-toggle menu-icon awesome" href="#"><i class="fa fa-sliders"></i></a>
+                    </section>
+                    {% endif %}
                 </nav>
                 <aside class="left-off-canvas-menu">
                     <ul class="off-canvas-list">
@@ -74,33 +78,125 @@
                         <li><a href="/"><i class="fa fa-home"></i> Home</a> </li>
                         <li><a href="{% url 'postman_inbox' %}"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
                         <li><a href="/goals/matched"><i class="fa fa-check-square-o"></i> Match Feed</a></li>
-                        <li><a href="/goals/filter"><i class="fa fa-search"></i> Filter Feed</a></li>
                         <li><a href="/goals"><i class="fa fa-user"></i> My Profile</a></li>
                         <li><a href="/friends/list"><i class="fa fa-plus"></i> My Connections</a></li>
-                        <li><a href="/accounts/register">Registration</a></li>
                         <li><a href="/photo/create"><i class="fa fa-photo"></i> Photo</a></li>
                         <li><a href="/accounts/logout">Sign out&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
 
                     </ul>
                 </aside>
-                <section class="main-section">
-                    {% block content %}
-                    {% endblock content %}
-                </section>
-                <a class="exit-off-canvas"></a>
-            </div>
+                {% if '/goals/user/' in request.path %}
+                <aside class="right-off-canvas-menu" id="filter" ng-controller="FilterController">
+                    <form class="form" method="get" action="{% url "matched" %}">
+                        <div class="row">
+                            <div class="small-12 columns one-slider">
+                                <label for="distance" class="">Distance <span class="range">{%verbatim%}{{distanceValue}} mi.{%endverbatim%}</span>
+                                 <div no-ui-slider="distanceOptions" ng-model="distanceValue"></div>
+                                 <input type="text" class="displayNone" required="" ng-model="distanceValue" name="distance">
+                             </label>
+                         </div>
+                     </div>
+                     <div class="row">
+                        <div class="small-12 columns two-slider">
+                            <label>Age <span class="range">{%verbatim%}{{ageValues[0]}} &ndash; {{ageValues[1]}}{%endverbatim%}</span>
+
+                                <div no-ui-slider="ageOptions" ng-model="ageValues"></div>
+                                <input type="text" class="displayNone" required="" ng-model="ageValues[0]" name="min_age">
+                                <input type="text" class="displayNone" required="" ng-model="ageValues[1]" name="max_age">
+
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-3 columns">
+                            <label for="right-label" class="right inline">Show</label>
+                        </div>
+                        <div class="small-9 right columns">
+                            <div class="row">
+                                <div class="small-12 right columns">
+                                    <div class="switch round small right">
+                                        <input id="Male" type="radio" name="gender" value="m">
+                                        <label for="Male"></label>
+                                    </div>
+                                    <h5 class="right switch_label">Men</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="small-12 right columns">
+                                    <div class="switch round small right">
+                                        <input id="Female" type="radio" name="gender" value="f">
+                                        <label for="Female"></label>
+                                    </div>
+                                    <h5 class="right switch_label">Women</h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="small-12 right columns">
+                                    <div class="switch round small right">
+                                        <input id="Any" type="radio" name="gender" checked="" value="any">
+                                        <label for="Any"></label>
+                                    </div>
+                                    <h5 class="right switch_label">Any</h5>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-12 columns">
+                            <label for="">Keywords</label>
+                            <div class="search-wrapper">
+                                <i class="fa fa-search fa-lg"></i>
+                                <input on-enter-blur ng-enter="addKeyword(newKeyword)" ng-model="newKeyword" type="text" placeholder="enter new keyword">
+                            </div>
+
+                            <input type="text" class="displayNone" ng-model="keywords" name="keywords">
+
+
+                            {%verbatim%}
+                            <div class="keywords">
+                                <ul class="simple">
+                                    <li ng-repeat="keyword in keywords track by $index">
+                                        <span class="icon"><a href="" ng-click="removeKeyword(index)"><i class="fa fa-times-circle"></i></a></span>{{keyword}}
+                                    </li>
+                                </ul>
+                            </div>
+                            {%endverbatim%}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-12 right columns">
+                            <button type="submit" class="small success radius block" role="button">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </aside>
+            {% endif %}
+
+
+            <section class="main-section">
+                {% block content %}
+                {% endblock content %}
+            </section>
+            <a class="exit-off-canvas"></a>
         </div>
-        {% endif %}
-        <script src="{{ STATIC_URL }}js/vendor.js"></script>
-        <script src="{{ STATIC_URL }}js/app.js"></script>
-        <script src="{{ STATIC_URL }}js/slick.js"></script>
-        <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
-        <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-        <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
-        <script>
-            $(document).foundation();
-        </script>
-        {% block customscripts %}
-        {% endblock customscripts %}
-    </body>
-    </html>
+    </div>
+    {% endif %}
+    <script src="{{ STATIC_URL }}js/vendor.js"></script>
+    <script src="{{ STATIC_URL }}js/app.js"></script>
+    <script src="{{ STATIC_URL }}js/slick.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+    {% block customscripts %}
+    {% endblock customscripts %}
+</body>
+</html>

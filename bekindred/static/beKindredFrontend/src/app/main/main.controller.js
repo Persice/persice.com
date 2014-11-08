@@ -45,18 +45,18 @@ angular.module('beKindred')
     };
 
 
-    $scope.keywords = ['Travel', 'Soccer', 'Spanish', 'Technology', 'Hiking'];
+    $scope.keywords = [];
 
     $scope.removeKeyword = function(index) {
         $scope.keywords.splice(index, 1);
-    }
+    };
 
     $scope.addKeyword = function(item) {
-        if (item != '') {
-           $scope.keywords.push(item);
-           $scope.newKeyword = '';
-       }
+        if (item !== '') {
+            $scope.keywords.push(item);
+            $scope.newKeyword = '';
+        }
 
-   }
+    };
 
 });

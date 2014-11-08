@@ -1480,6 +1480,10 @@ section.match {
 }
 
 .inner-wrap{
+	background-color: #ffffff;
+}
+
+#match .inner-wrap{
 	background-color: #f6f6f6!important;
 }
 
@@ -1701,4 +1705,9 @@ section.match {
 
 #filter .search-wrapper {
 	margin-top: 5px;
+}
+
+
+input.displayNone {
+	display: none!important;
 }
