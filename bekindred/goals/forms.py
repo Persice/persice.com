@@ -22,7 +22,7 @@ class GoalForm(forms.Form):
         dummy, created = Goal.objects.get_or_create(user=self.user, goal=sbj)
 
         if not created:
-            raise forms.ValidationError("Goal is already exists")
+            raise forms.ValidationError("Goal already exists")
         return cleaned_data
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.sortable', 'ya.nouislider'])
+angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.sortable', 'ya.nouislider', 'angucomplete-alt'])
   .config(function () {
 
   })

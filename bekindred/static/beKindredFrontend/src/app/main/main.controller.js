@@ -60,3 +60,33 @@ angular.module('beKindred')
     };
 
 });
+
+
+angular.module('beKindred')
+.controller('GoalsController', function ($scope, GoalsFactory) {
+    $scope.goals = [
+    {name: 'Learn to play tennis'},
+    {name: 'Learn to play piano'},
+    {name: 'Learn to play guitar'},
+    {name: 'Learn to play football'},
+    {name: 'Learn to play basketball'},
+    {name: 'Learn to play squash'},
+    {name: 'Learn to code django'},
+    {name: 'Learn to code laravel'},
+    {name: 'Learn to code python'},
+    {name: 'Find a running partner'},
+    {name: 'Hire a cat sitter'},
+    {name: 'Move my 500 lb sofa'}
+    ];
+
+
+    $scope.getGoals = function(val) {
+        GoalsFactory.query( {
+            query: val
+        }).$promise.then(function(response) {
+            $scope.goals = response.goals;
+        });
+    };
+
+});
+

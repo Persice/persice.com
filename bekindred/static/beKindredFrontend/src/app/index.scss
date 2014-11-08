@@ -1327,7 +1327,12 @@ ul.off-canvas-list li a:hover {
 }
 
 
-.search-wrapper i.fa-search { position: absolute; top: 15px; left: 8px; color: }
+.search-wrapper i.fa-search {
+	position: absolute;
+	top: 15px;
+	left: 8px;
+	z-index: 1000!important;
+}
 
 
 .search-wrapper input {
@@ -1710,4 +1715,27 @@ section.match {
 
 input.displayNone {
 	display: none!important;
+}
+
+
+.highlight {
+	font-weight: bolder!important;
+}
+
+
+
+ul.errorlist {
+	display: block;
+	margin: 0;
+	padding-left: 0;
+	list-style-type: none;
+	list-style-position: inside;
+}
+
+ul.errorlist li {
+	display: block;
+	font-size: 1rem;
+	color: #333;
+	line-height: 1.5;
+	margin-bottom: 5px;
 }

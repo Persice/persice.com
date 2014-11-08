@@ -82,7 +82,7 @@
                 <section class="main-section">
                     <section class="description-wrapper" id="" ng-controller="PhotosController">
                         <div class="row">
-                        <div class="medium-10 small-centered columns">
+                            <div class="medium-10 small-centered columns">
                                 <h2>Photos</h2>
                                 <div class="media-photo left">
                                     <img alt="" height="225" src="{{photos[0].url}}" title="" width="225">
@@ -126,10 +126,12 @@
         <script src="bower_components/angular-ui-sortable/sortable.js"></script>
         <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
         <script src="bower_components/nouislider-angular/nouislider.js"></script>
+        <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:js({src,.tmp}) scripts/app.js -->
         <script src="app/index.js"></script>
+        <script src="app/services.js"></script>
         <script src="app/main/main.controller.js"></script>
         <!-- endbuild -->
         <script>

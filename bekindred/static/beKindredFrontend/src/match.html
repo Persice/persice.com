@@ -87,12 +87,12 @@
                         <div class="row">
                             <div class="small-12 columns one-slider">
                                 <label for="distance" class="">Distance <span class="range">{{distanceValue}} mi.</span>
-                                   <div no-ui-slider="distanceOptions" ng-model="distanceValue"></div>
-                                   <input type="hidden" required="" ng-model="distanceValue" name="distance">
-                               </label>
-                           </div>
-                       </div>
-                       <div class="row">
+                                 <div no-ui-slider="distanceOptions" ng-model="distanceValue"></div>
+                                 <input type="hidden" required="" ng-model="distanceValue" name="distance">
+                             </label>
+                         </div>
+                     </div>
+                     <div class="row">
                         <div class="small-12 columns two-slider">
                             <label>Age <span class="range">{{ageValues[0]}} &ndash; {{ageValues[1]}}</span>
 
@@ -135,10 +135,10 @@
                     <div class="row">
                         <div class="small-12 columns">
                             <label for="">Keywords</label>
-                                <div class="search-wrapper">
-                                    <i class="fa fa-search fa-lg"></i>
-                                    <input on-enter-blur ng-enter="addKeyword(newKeyword)" ng-model="newKeyword" type="text" name="newKeyword" id="id_newKeyword" placeholder="enter new keyword">
-                                </div>
+                            <div class="search-wrapper">
+                                <i class="fa fa-search fa-lg"></i>
+                                <input on-enter-blur ng-enter="addKeyword(newKeyword)" ng-model="newKeyword" type="text" name="newKeyword" id="id_newKeyword" placeholder="enter new keyword">
+                            </div>
 
 
                             <div class="keywords">
@@ -327,10 +327,12 @@
     <script src="bower_components/angular-ui-sortable/sortable.js"></script>
     <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
     <script src="bower_components/nouislider-angular/nouislider.js"></script>
+    <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js({src,.tmp}) scripts/app.js -->
     <script src="app/index.js"></script>
+    <script src="app/services.js"></script>
     <script src="app/main/main.controller.js"></script>
     <!-- endbuild -->
     <script>

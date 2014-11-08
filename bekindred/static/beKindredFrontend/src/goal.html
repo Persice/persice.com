@@ -96,7 +96,7 @@
 
                     <section class="services-wrapper">
 
-                        <div class="row">
+                        <div class="row" ng-controller="GoalsController">
 
                             <div class="small-12 medium-8 large-5 small-centered columns">
 
@@ -126,7 +126,7 @@
                                         <!-- {% csrf_token %} -->
                                         <div class="search-wrapper">
                                             <i class="fa fa-search fa-lg"></i>
-                                            <input type="text" name="description" id="id_description" placeholder="enter you goal here">
+                                            <div angucomplete-alt minlength="3" match-class="highlight" selected-object="goalSelected" search-fields="name" inputname="description_value" title-field="name" local-data="goals" type="text" input-name="description_value" id="id_description" placeholder="enter you goal here"></div>
                                         </div>
 
 
@@ -185,10 +185,12 @@
         <script src="bower_components/angular-ui-sortable/sortable.js"></script>
         <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
         <script src="bower_components/nouislider-angular/nouislider.js"></script>
+        <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:js({src,.tmp}) scripts/app.js -->
         <script src="app/index.js"></script>
+        <script src="app/services.js"></script>
         <script src="app/main/main.controller.js"></script>
         <!-- endbuild -->
         <script>

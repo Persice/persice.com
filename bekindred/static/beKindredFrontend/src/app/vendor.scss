@@ -2,6 +2,82 @@
 @import '../../bower_components/foundation/scss/foundation';
 
 
+.angucomplete-holder {
+    position: relative;
+}
+
+.angucomplete-dropdown {
+    border-color: #ececec;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    width: 100%!important;
+    padding: 0px;
+    cursor: pointer;
+    z-index: 9999;
+    position: absolute;
+    text-align: left!important;
+    // top: 0px;
+    // left: 0px;
+    margin-top: -18px!important;
+    border-top-style:none!important;
+    border-width: 2px!important;
+    border-bottom-left-radius: 4px!important;
+    border-bottom-right-radius: 4px!important;
+    padding: 0!important;
+    border-style: solid!important;;
+    border-color: #999!important;;
+    background-color: #fdfdfd!important;
+}
+
+.angucomplete-searching {
+    color: #acacac;
+    font-size: 14px;
+}
+
+.angucomplete-description {
+    font-size: 14px;
+}
+
+.angucomplete-row {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    color: #000000;
+    margin-bottom: 4px;
+    clear: both;
+    height: 2.875rem;
+}
+
+.angucomplete-selected-row {
+    background-color: lightblue;
+    color: #ffffff;
+}
+
+.angucomplete-image-holder {
+    padding-top: 2px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.angucomplete-image {
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    border-color: #ececec;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.angucomplete-image-default {
+    /* Add your own default image here
+     background-image: url('/assets/default.png');
+     */
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
 
 
@@ -9,14 +85,14 @@
  * These styles are required for noUiSlider to function.
  * You don't need to change these rules to apply your design.
  */
-.noUi-target,
-.noUi-target * {
--webkit-touch-callout: none;
--webkit-user-select: none;
--ms-touch-action: none;
--ms-user-select: none;
--moz-user-select: none;
--moz-box-sizing: border-box;
+ .noUi-target,
+ .noUi-target * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -ms-touch-action: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 .noUi-base {
@@ -37,16 +113,16 @@
 }
 .noUi-stacking .noUi-handle {
 /* This class is applied to the lower origin when
-   its values is > 50%. */
-    z-index: 10;
+its values is > 50%. */
+z-index: 10;
 }
 .noUi-stacking + .noUi-origin {
 /* Fix stacking order in IE7, which incorrectly
-   creates a new context for the origins. */
-    *z-index: -1;
+creates a new context for the origins. */
+*z-index: -1;
 }
 .noUi-state-tap .noUi-origin {
--webkit-transition: left 0.3s, top 0.3s;
+    -webkit-transition: left 0.3s, top 0.3s;
     transition: left 0.3s, top 0.3s;
 }
 .noUi-state-drag * {
@@ -54,7 +130,7 @@
 }
 
 /* Slider size and handle placement;
- */
+*/
 .noUi-horizontal {
     height: 18px;
 }
@@ -87,7 +163,7 @@
 }
 
 /* Styling;
- */
+*/
 .noUi-background {
     background: #FAFAFA;
     box-shadow: inset 0 1px 1px #f0f0f0;
@@ -95,7 +171,7 @@
 .noUi-connect {
     background: #3FB8AF;
     box-shadow: inset 0 0 3px rgba(51,51,51,0.45);
--webkit-transition: background 450ms;
+    -webkit-transition: background 450ms;
     transition: background 450ms;
 }
 .noUi-origin {
@@ -111,7 +187,7 @@
 }
 
 /* Handles and cursors;
- */
+*/
 .noUi-dragable {
     cursor: w-resize;
 }
@@ -124,17 +200,17 @@
     background: #FFF;
     cursor: default;
     box-shadow: inset 0 0 1px #FFF,
-                inset 0 1px 7px #EBEBEB,
-                0 3px 6px -3px #BBB;
+    inset 0 1px 7px #EBEBEB,
+    0 3px 6px -3px #BBB;
 }
 .noUi-active {
     box-shadow: inset 0 0 1px #FFF,
-                inset 0 1px 7px #DDD,
-                0 3px 6px -3px #BBB;
+    inset 0 1px 7px #DDD,
+    0 3px 6px -3px #BBB;
 }
 
 /* Handle stripes;
- */
+*/
 .noUi-handle:before,
 .noUi-handle:after {
     content: "";
@@ -161,7 +237,7 @@
 }
 
 /* Disabled state;
- */
+*/
 [disabled].noUi-connect,
 [disabled] .noUi-connect {
     background: #B8B8B8;

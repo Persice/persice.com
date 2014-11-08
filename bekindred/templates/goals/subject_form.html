@@ -1,19 +1,18 @@
 {% if form.errors %}
-{% for field in form %}
-{% for error in field.errors %}
+{% for k, message in form.errors.items %}
 <div data-alert class="alert-box alert">
-    <strong>{{ field.label }}:</strong> {{ error|escape }}
-    <a href="" class="close">×</a>
+   {{ message |striptags}}
+   <a href="" class="close">×</a>
 </div>
-{% endfor %}
 {% endfor %}
 {% endif %}
 <br>
 <form class="form" role="form" action="" method="post">
     {% csrf_token %}
-    <div class="search-wrapper">
+    <div class="search-wrapper" ng-controller="GoalsController">
         <i class="fa fa-search fa-lg"></i>
-        <input type="text" name="description" id="id_description" placeholder="enter you goal here">
+        <div angucomplete-alt minlength="3" match-class="highlight" selected-object="goalSelected" search-fields="name" title-field="name" local-data="goals" type="text" input-name="description" id="id_description" placeholder="enter you goal here"></div>
+
     </div>
     <button type="submit" class="small-centered success medium-12 small-12 large-12 columns radius" role="button">Next &rarr;</button>
 </form>
