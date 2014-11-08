@@ -1,12 +1,18 @@
 from django.conf.urls import patterns, include, url
-from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView
+from tastypie.api import Api
+from goals.api.resources import SubjectResource
+
 
 from django.contrib import admin
 
 admin.autodiscover()
 
+v1_api = Api(api_name='v1')
+v1_api.register(SubjectResource())
+
+
 urlpatterns = patterns('',
+                       url(r'^api/', include(v1_api.urls)),
                        url(r'^facebook/', include('django_facebook.urls')),
                        url(r'^social/', include('social_auth.urls')),
                        url(r'^messages/', include('messages.urls')),
