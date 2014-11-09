@@ -1789,13 +1789,13 @@ ul.errorlist li {
 
 .inbox-content .message-header {
 	position: relative;
-	height: 40px;
+	height: 30px;
 }
 
 .inbox-content .message-header span.message-from {
 	position: absolute;
 	left: 0px;
-	font-size: 1.1rem;
+	font-size: 1rem;
 	color: #222;
 	font-weight: 400;
 }
@@ -1804,11 +1804,11 @@ ul.errorlist li {
 	right: 0px;
 	position: absolute;
 	color: #999;
-	font-size: 0.9rem;
+	font-size: 0.7rem;
 }
 
 .inbox-content .message-body {
-	font-size: 0.9rem;
+	font-size: 0.8rem;
 	color: #777;
 	font-weight: 300;
 }
@@ -1848,4 +1848,92 @@ a.list-group-item:hover .message-body, a.list-group-item:hover .message-from{
 	width: 80px;
 	position: absolute;
 	left: 0px;
+}
+
+
+
+
+.menu-header {
+	background-color: #f6f6f6!important;
+	padding: 0!important;
+}
+
+.menu-header a {
+	color: #333;
+}
+
+.menu-header .small-block-grid-3 li {
+	text-align: center;
+	padding: 0.8rem!important;
+	position: relative;
+}
+
+.menu-header .small-block-grid-3 li.active a, .menu-header .small-block-grid-3 li.active a:hover {
+	color:  #008CBA!important;
+}
+
+.single-message-content {
+	position: absolute;
+	top: 30%;
+	width: 100%;
+}
+
+
+.single-message-content h3 {
+	text-align: center;
+	font-weight: 400;
+	font-size:1.1rem;
+
+}
+
+.single-message-date  {
+	position: absolute;
+	top: 60%;
+	width: 100%;
+}
+
+.single-message-date p {
+	text-align: center;
+	font-weight: 300;
+	color: #777;
+	font-size:0.8rem;
+}
+
+.message-reply {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	background-color: #f6f6f6 !important;
+	padding: 0.8rem;
+}
+
+.message-reply input {
+	width: 80%;
+	position:relative;
+	margin-right: 5px;
+	display:block;
+	float:left;
+	margin: 0px;
+}
+
+.message-reply a {
+	text-align: center;
+	display: block;
+	color: #333;
+	vertical-align: middle;
+	padding: 0.8rem;
+	float: left;
+	font-size: 1rem;
+	width: 20%;
+}
+
+.message-reply a:hover {
+	color: #008CBA!important;
+	text-decoration: none;
+}
+
+.message-reply-wrapper {
+	position: relative;
+	width: 100%;
+	vertical-align: middle;
 }

@@ -111,5 +111,9 @@ angular.module('beKindred')
         angular.element('#myform').submit();
     }
 
+    $scope.sendMessage = function() {
+        angular.element('#sendform').submit();
+    }
+
 });
 

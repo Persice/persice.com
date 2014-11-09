@@ -82,26 +82,42 @@
                 </aside>
                 <section class="main-section">
                     <div ng-controller="MessagesController">
-                        <section class="inbox-header">
-
+                        <section class="menu-header">
+                            <ul class="small-block-grid-3">
+                                <li class="active">
+                                    <a href=""><i class="fa fa-comment-o fa-lg"></i></a>
+                                </li>
+                                <li>
+                                    <a href=""><i class="fa fa-user fa-lg"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-navicon fa-lg"></i></a>
+                                </li>
+                            </ul>
                         </section>
-                        <section class="inbox-content">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item" ng-repeat="n in [1, 2, 3, 4]">
-                                        <div class="message-picture">
-                                            <img src="http://lorempixel.com/100/100" class="profile-pic" alt="">
-                                        </div>
-                                        <div class="message-container">
-                                            <div class="message-header">
-                                                <span class="message-from">Pero</span>
-                                                <span class="message-date">1:38 pm</span>
-                                            </div>
-                                            <div class="message-body">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit non labore.
-                                            </div>
-                                        </div>
-                                    </a>
+                        <section class="single-message-content">
+                            <div class="row">
+                                <div class="small-11 medium-6 small-centered columns">
+                                    <h3>You can see some great features.</h3>
+                                </div><!-- /.medium-8 .small-centered .columns -->
+                            </div><!-- /.row -->
+                        </section>
+                        <section class="single-message-date">
+                            <div class="row">
+                                <div class="small-11 medium-6 small-centered columns">
+                                    <p>
+                                        Monday, April 14, 2014
+                                    </p>
+                                </div><!-- /.medium-8 .small-centered .columns -->
+                            </div><!-- /.row -->
+                        </section>
+                        <section class="message-reply">
+                            <form ng-submit="sendMessage()" action="/messages.html" method="post" class="" role="search" id="sendform">
+                                <div class="message-reply-wrapper">
+                                    <input type="text" ng-model="q" name="q" placeholder="Message" minlength="3" required>
+                                    <a href="" ng-click="sendMessage()" type="submit" class="">Send</a>
                                 </div>
+                            </form>
                         </section>
                     </div>
                 </section>
