@@ -1774,8 +1774,8 @@ ul.errorlist li {
 
 .inbox-content .profile-pic {
 	border-radius: 50%;
-	width: 70px!important;
-	height: 70px!important;
+	width: 60px!important;
+	height: 60px!important;
 	margin: 0px;
 	vertical-align: middle;
 
@@ -1936,4 +1936,122 @@ a.list-group-item:hover .message-body, a.list-group-item:hover .message-from{
 	position: relative;
 	width: 100%;
 	vertical-align: middle;
+}
+
+section.new_message {
+	padding-top: 0.8rem;
+}
+
+
+/* */
+
+/* Bit of normalisation */
+
+body {
+	background-color: #eee;
+	color: #222;
+	font: 0.8125em/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}
+
+.container {
+	padding: 40px 20px;
+	margin: 0 auto;
+	width: 400px;
+}
+
+/* conversation */
+
+.bubbledLeft p,.bubbledRight p {
+	font-size: 0.8rem;
+	font-weight: 400;
+}
+
+.bubbledLeft,.bubbledRight {
+	margin-top: 10px;
+	padding: 0.8rem;
+	width: 96%;
+	clear: both;
+	position: relative;
+}
+
+.bubbledLeft{
+	float: left;
+	margin-right: auto;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-o-border-radius: 10px 10px 10px 10px;
+	-ms-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	background-color: #DCDCDC;
+	color: #000;
+}
+
+.bubbledLeft:before {
+	border-bottom: 10px solid #DCDCDC;
+	border-left: 8px solid rgba(0, 0, 0, 0);
+	position: absolute;
+	bottom: 8px;
+	left: -8px;
+	content: "";
+}
+
+.bubbledRight{
+	float: right;
+	margin-left: auto;
+	text-align: left;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	-o-border-radius: 10px 10px 10px 10px;
+	-ms-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+    // background-color: #07D;
+    background-color: #65B045;
+    color: white;
+}
+
+.bubbledRight:before {
+	border-bottom: 9px solid #65B045;
+	border-right: 9px solid rgba(0, 0, 0, 0);
+	position: absolute;
+	bottom: 8px;
+	right: -8px;
+	content: "";
+}
+
+.conversation-content h6 {
+	text-align: center;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+	color: #999;
+
+}
+
+.conversation-date .row {
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+span.conversation-time {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	font-size: 0.7rem;
+}
+
+.conversation-content p {
+	line-height: 1rem;
+}
+
+.conversation-content {
+	overflow-y: scroll;
+	position: absolute;
+	top: 100px;
+	width: 100%;
+	bottom: 100px;
 }

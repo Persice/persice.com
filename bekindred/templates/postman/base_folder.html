@@ -9,58 +9,67 @@ If the real implementation is to be used, just make sure that 'pagination' is de
 in the INSTALLED_APPS setting.
 {% endcomment %}
 {% block content %}
-    <div id="postman" class="container col-md-5 col-md-offset-4">
-        <h1>{% block pm_folder_title %}{% endblock %}</h1>
-        {% block search %}{% endblock search %}
-        {% autopaginate pm_messages %}
-        {% if invalid_page %}
+
+<div ng-controller="MessagesController">
+    {% block search %}{% endblock search %}
+    <section class="inbox-content">
+        <div class="list-group">
+
+            {% autopaginate pm_messages %}
+            {% if invalid_page %}
             <p>{% trans "Sorry, this page number is invalid." %}</p>
-        {% else %}
-            {% if pm_messages %}
-                {% block pm_by_modes %}
-                    <div id="pm_by_modes">
-                    <span class="pm_by_mode">{% if by_message %}<a href="{{ by_conversation_url }}">{% endif %}{% trans "by conversation" %}{% if by_message %}</a>{% endif %}</span>
-                    <span class="pm_by_mode">{% if by_conversation %}<a href="{{ by_message_url }}">{% endif %}{% trans "by message" %}{% if by_conversation %}</a>{% endif %}</span>
-                    </div>
-                {% endblock pm_by_modes %}
-                <form action="{% block pm_form_action %}{% endblock %}" method="post">{% csrf_token %}
-{% block pm_form_buttons %}<span id="pm_buttons">
-    {% block pm_delete_button %}<button type="submit" onclick="this.form.action='{% url 'postman_delete' %}'">{% trans "Delete" %}</button>{% endblock %}
-{% block pm_archive_button %}<button type="submit" onclick="this.form.action='{% url 'postman_archive' %}'">{% trans "Archive" %}</button>{% endblock %}
-{% block pm_undelete_button %}<button type="submit" onclick="this.form.action='{% url 'postman_undelete' %}'">{% trans "Undelete" %}</button>{% endblock %}
-    </span>{% endblock %}
-                    <table id="pm_messages" class="table">
-                        <thead>
-                        <tr>
-                            {% block pm_sender_header %}   <th><a href="{% postman_order_by sender %}">{% trans "Sender" %}</a></th>{% endblock %}
-                            {% block pm_recipient_header %}   <th><a href="{% postman_order_by recipient %}">{% trans "Recipient" %}</a></th>{% endblock %}
-                        </tr>
-                        </thead>
-                        <tbody>{% for message in pm_messages %}
-                            <tr>
-                                <td class="img-circle">
-                                    <img src="http://graph.facebook.com/{{ message.sender.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
-                                </td>
-                                {% block pm_sender_cell %}   <td class="col-sm-2">{{ message.obfuscated_sender|or_me:user }}{% if message.count %} ({{ message.count }}){% endif %}</td>{% endblock %}
-                                {% block pm_recipient_cell %}   <td>{{ message.obfuscated_recipient|or_me:user }}{% if message.count %} ({{ message.count }}){% endif %}</td>{% endblock %}
-                                <td>{% if message.is_new %}<strong>{% endif %}{% if message.is_replied %}<em>{% endif %}
-                                {% block pm_subject %}
-                                    <a href="{% if by_conversation and message.thread_id %}{% url 'postman_view_conversation' message.thread_id %}{% else %}{{message.get_absolute_url }}{% endif %}?next={{ current_url|urlencode }}">
-                                                {% include "postman/inc_subject_ex.html" %}
-                                    </a>
-                                {% endblock %}
-                                {% if message.is_replied %}</em>{% endif %}{% if message.is_new %}</strong>{% endif %}</td>
-                                <td class="col-sm-2">{{ message.sent_at|date:_("j M") }}</td>
-                            </tr>{% endfor %}
-                        </tbody>
-                    </table>
-                </form>
-                {% paginate %}
             {% else %}
-                <br>
-                <p class="col-md-6 col-md-offset-1">{% trans "No messages found." %}</p>
-            {% endif %}
+            {% if pm_messages %}
+            {% block pm_by_modes %}
+            <div id="pm_by_modes">
+                <span class="pm_by_mode">{% if by_message %}<a href="{{ by_conversation_url }}">{% endif %}{% trans "by conversation" %}{% if by_message %}</a>{% endif %}</span>
+                <span class="pm_by_mode">{% if by_conversation %}<a href="{{ by_message_url }}">{% endif %}{% trans "by message" %}{% if by_conversation %}</a>{% endif %}</span>
+            </div>
+            {% endblock pm_by_modes %}
+            <form action="{% block pm_form_action %}{% endblock %}" method="post">{% csrf_token %}
+                {% block pm_form_buttons %}<span id="pm_buttons">
+                {% block pm_delete_button %}<button type="submit" onclick="this.form.action='{% url 'postman_delete' %}'">{% trans "Delete" %}</button>{% endblock %}
+                {% block pm_archive_button %}<button type="submit" onclick="this.form.action='{% url 'postman_archive' %}'">{% trans "Archive" %}</button>{% endblock %}
+                {% block pm_undelete_button %}<button type="submit" onclick="this.form.action='{% url 'postman_undelete' %}'">{% trans "Undelete" %}</button>{% endblock %}
+            </span>{% endblock %}
+            {% for message in pm_messages %}
+            <a href="{% if by_conversation and message.thread_id %}{% url 'postman_view_conversation' message.thread_id %}{% else %}{{message.get_absolute_url }}{% endif %}?next={{ current_url|urlencode }}" class="list-group-item">
+                <div class="message-picture">
+                    <img src="http://graph.facebook.com/{{ message.sender.profile_or_self.facebook_id }}/picture?type=" class="profile-pic" alt="">
+                </div>
+                <div class="message-container">
+                    <div class="message-header">
+                        <span class="message-from">
+                            {% block pm_sender_cell %}{{ message.obfuscated_sender|or_me:user }}{% if message.count %} ({{ message.count }}){% endif %}{% endblock %}
+                        </span>
+                        <span class="message-date">{{ message.sent_at|date:_("j M") }}</span>
+                    </div>
+                    <div class="message-body">
+                        {% if message.is_new %}<strong>{% endif %}{% if message.is_replied %}<em>{% endif %}
+                        {% block pm_subject %}
+                        {% include "postman/inc_subject_ex.html" %}
+                        {% endblock %}
+                        {% if message.is_replied %}</em>{% endif %}{% if message.is_new %}</strong>{% endif %}</td>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </form>
+        {% paginate %}
+        {% else %}
+        <br>
+
+        <div data-alert class="alert-box info">
+            <strong> {% trans "No messages found." %}</strong>
+            <a href="" class="close">×</a>
+        </div>
+
+
+        {% endif %}
         {% endif %}
         {% block pm_footer_info %}{% endblock %}
+
     </div>
+</section>
+</div>
 {% endblock content %}

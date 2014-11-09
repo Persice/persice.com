@@ -61,16 +61,32 @@
                 </nav>
                 <nav class="tab-bar hide-for-large-up">
                     <section class="left-small">
+                        {% if '/messages/view' in request.path or '/messages/write/new' in request.path %}
+                        <a class="menu-icon awesome" href="/messages/inbox/"><i class="fa fa-angle-left fa-lg"></i></a>
+                        {% else %}
                         <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                        {% endif %}
                     </section>
                     <section class="middle tab-bar-section">
-                        <h1 class="title">Kindred</h1>
+                        <h1 class="title">
+                            {% if '/messages' not in request.path %} Kindred {% endif %}
+                            {% if '/messages/inbox' in request.path %} Inbox {% endif %}
+                            {% if '/messages/view' in request.path %} Message {% endif %}
+                            {% if '/messages/write/new' in request.path %} New Message {% endif %}
+                        </h1>
                     </section>
                     {% if '/goals/user/' in request.path %}
                     <section class="right-small" >
                         <a class="right-off-canvas-toggle menu-icon awesome" href="#"><i class="fa fa-sliders"></i></a>
                     </section>
                     {% endif %}
+
+                    {% if '/messages/inbox' in request.path %}
+                    <section class="right-small" >
+                        <a class="menu-icon awesome" href="/messages/write/new"><i class="fa fa-edit"></i></a>
+                    </section>
+                    {% endif %}
+
                 </nav>
                 <aside class="left-off-canvas-menu">
                     <ul class="off-canvas-list">

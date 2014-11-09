@@ -5,10 +5,10 @@
 {# dj v1.4 #}{% load static %}
 <script type="text/javascript"src="
 {# using the available admin jQuery is enough: #}
- {# dj v1.4 #}{% static 'admin/js/jquery.min.js' %}
- {# dj v1.2/3 #}{# {% load adminmedia %}{% admin_media_prefix %}js/jquery.min.js #}
+{# dj v1.4 #}{% static 'admin/js/jquery.min.js' %}
+{# dj v1.2/3 #}{# {% load adminmedia %}{% admin_media_prefix %}js/jquery.min.js #}
 {# unless you really want your own: #}
- {# dj v1.2 #}{# {{ MEDIA_URL }}js/jquery.min.js #}
+{# dj v1.2 #}{# {{ MEDIA_URL }}js/jquery.min.js #}
 "></script>
 {% if autocompleter_app.name == "ajax_select" %}{% if autocompleter_app.version == "1.1.4" or autocompleter_app.version == "1.1.5" %}<script type="text/javascript" src="
 {# dj v1.4 #}{% static 'js/jquery.autocomplete.min.js' %}
@@ -23,18 +23,42 @@
 {% endif %}
 {% endblock %}
 {% block content %}
-<div id="postman" class="container col-sm-3 col-md-offset-5">
-<h1>{% block pm_write_title %}{% endblock %}</h1>
-<form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
-{% block pm_write_recipient %}{% endblock %}
-    <form class="form-horizontal" action="." method="post">{% csrf_token %}
-        <div id="pm_reply" class="form-group">
-            {{ form.errors }}
-            {{ form.recipients }}
-            {{form.body}}
+
+<section class="subtitle-wrapper show-for-large-up">
+    <div class="row">
+        <div class="medium-10 small-centered columns">
+            <h5>
+                New Message
+            </h5>
         </div>
-        <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
-    </form>
-</form>
-</div>
+    </div>
+</section>
+<section class="new_message">
+    {% if form.errors %}
+    <div class="row">
+        <div class="small-12 medium-8 large-6 small-centered columns">
+            {% for field in form %}
+            {% for error in field.errors %}
+            <div data-alert class="alert-box alert">
+                <strong>{{ field.label }}:</strong> {{ error|escape }}
+                <a href="" class="close">×</a>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="small-12 medium-8 large-6 small-centered columns">
+            <form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
+                {% block pm_write_recipient %}{% endblock %}
+                <form class="form-horizontal" action="." method="post">{% csrf_token %}
+                    <input id="id_recipients" name="recipients" type="text" placeholder="Recipient">
+                    <textarea cols="55" id="id_body" name="body" rows="12" placeholder="Enter message"></textarea>
+                    <button type="submit" class="button small success radius">{% trans "Send" %}</button>
+                </form>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}

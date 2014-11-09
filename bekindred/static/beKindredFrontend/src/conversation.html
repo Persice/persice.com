@@ -55,16 +55,16 @@
                             <li><a href="#">Registration</a></li>
                             <li><a href="#">Photo</a></li>
                             <li class="has-form"><a href="/login.html" class="button tiny success radius">Welcome, User [Logout]</a></li>
-
                         </ul>
                     </section>
                 </nav>
                 <nav class="tab-bar hide-for-large-up">
                     <section class="left-small">
-                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                        <!-- <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a> -->
+                        <a class="menu-icon awesome" href="/messages.html"><i class="fa fa-angle-left fa-lg"></i></a>
                     </section>
                     <section class="middle tab-bar-section">
-                        <h1 class="title">Kindred</h1>
+                        <h1 class="title">Michael</h1>
                     </section>
                 </nav>
                 <aside class="left-off-canvas-menu">
@@ -81,62 +81,81 @@
                     </ul>
                 </aside>
                 <section class="main-section">
-                    <section class="subtitle-wrapper">
-                        <div class="row">
-                            <div class="small-5 small-centered columns">
-                                <img class="profile-pic" width="50px" src="assets/images/facebook-default-no-profile-pic.jpg" title="facebook stored image" />
+                    <div ng-controller="MessagesController">
+                        <section class="menu-header">
+                            <ul class="small-block-grid-3">
+                                <li class="active">
+                                    <a href=""><i class="fa fa-comment-o fa-lg"></i></a>
+                                </li>
+                                <li>
+                                    <a href=""><i class="fa fa-user fa-lg"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-navicon fa-lg"></i></a>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="conversation-content" id="scroller">
+                         <div class="row">
+                            <div class="small-12 medium-6 small-centered columns" id="scroller">
+                                <h6>
+                                    Monday, April 14, 2014
+                                </h6>
+                                <div ng-class="{'bubbledLeft': message.left, 'bubbledRight': !message.left}" ng-repeat="message in messages track by $index">
+                                    <p>
+                                        {{message.content}}
+                                    </p>
+                                    <span class="conversation-time">{{message.time | date:'shortTime'}}</span>
+                                </div>
+
+
                             </div>
                         </div>
                     </section>
 
-                    <section class="profile-wrapper">
-                        <div class="row">
-                            <div class="small-12 medium-12 large-12 text-left columns">
-                                <h3>User, 45</h3>
-                                <hr>
+                    <section class="message-reply">
+                        <form ng-submit="sendNewMessage()" action="/messages.html" method="post" class="" role="search" id="sendform">
+                            <div class="message-reply-wrapper">
+                                <input ng-model="newmessage" type="text" ng-model="q" name="q" placeholder="Message" minlength="3" required>
+                                <a scroll-bottom="scroller"  href="" ng-click="sendNewMessage()" type="submit" class="">Send</a>
                             </div>
-                        </div>
+                        </form>
                     </section>
-
-
-
-                </section>
-                <a class="exit-off-canvas"></a>
-            </div>
+                </div>
+            </section>
+            <a class="exit-off-canvas"></a>
         </div>
-
-
-
-        <!-- build:js(.) scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-animate/angular-animate.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-touch/angular-touch.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/fastclick/lib/fastclick.js"></script>
-        <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
-        <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-        <script src="bower_components/foundation/js/foundation.js"></script>
-        <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-        <script src="bower_components/angular-ui-sortable/sortable.js"></script>
-        <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
-        <script src="bower_components/nouislider-angular/nouislider.js"></script>
-        <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
-        <script src="bower_components/moment/moment.js"></script>
-        <script src="bower_components/angular-moment/angular-moment.js"></script>
-        <script src="bower_components/underscore/underscore.js"></script>
-        <!-- endbower -->
-        <!-- endbuild -->
-        <!-- build:js({src,.tmp}) scripts/app.js -->
-        <script src="app/index.js"></script>
-        <script src="app/services.js"></script>
-        <script src="app/main/main.controller.js"></script>
-        <!-- endbuild -->
-        <script>
-            $(document).foundation();
-        </script>
-    </body>
-    </html>
+    </div>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
+    <script src="bower_components/foundation/js/foundation.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+    <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
+    <script src="bower_components/nouislider-angular/nouislider.js"></script>
+    <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js({src,.tmp}) scripts/app.js -->
+    <script src="app/index.js"></script>
+    <script src="app/services.js"></script>
+    <script src="app/main/main.controller.js"></script>
+    <!-- endbuild -->
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+</html>

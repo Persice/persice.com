@@ -89,10 +89,22 @@ angular.module('beKindred')
     };
 
 })
-angular.module('beKindred')
-.controller('MessagesController', function ($scope, MessagesFactory) {
+.controller('MessagesController', function ($scope, MessagesFactory, $timeout) {
     $scope.messages = [
-    {user: 'Thomas', photo: 'phpotourl', subject: 'You and Jessica are now peeps.', time: moment().subtract(1, 'days' )},
+    {left: true, content: 'Hey, my name is Sasa! I\'d like to help you to learn front end development', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
+    {left: false, content: 'Thanks for the offer! Yes, I would like to learn in. When are you available to teach me?', time: new Date() },
     ];
 
     $scope.q = '';
@@ -109,11 +121,45 @@ angular.module('beKindred')
 
     $scope.submit = function() {
         angular.element('#myform').submit();
-    }
+    };
 
     $scope.sendMessage = function() {
         angular.element('#sendform').submit();
-    }
+    };
+
+    $scope.getRandomInt = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    $scope.sendNewMessage = function() {
+        var newmessage = {};
+        newmessage = {
+            left: $scope.getRandomInt(0,1),
+            content: $scope.newmessage,
+            time: new Date()
+        };
+        $scope.messages.push(newmessage);
+        $scope.newmessage = '';
+
+
+        $timeout(function() {
+            var height = angular.element('.conversation-content')[0].scrollHeight;
+            console.log(height);
+
+            angular.element('.conversation-content').animate({
+                scrollTop: height
+          }, 1500);
+
+
+        }, 100);
+
+
+
+
+
+    };
 
 });
+
+
 

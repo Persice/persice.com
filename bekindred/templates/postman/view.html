@@ -2,36 +2,55 @@
 {% load url from future %}
 {% load i18n %}{% load postman_tags %}
 {% block content %}
-    <div id="postman" class="container col-md-3 col-md-offset-5">
-        <h1>{% if pm_messages|length > 1 %}{% trans "Conversation" %}{% else %}{% trans "Message" %}{% endif %}</h1>
-        <a href="{{ next_url }}">{% trans "Back" %}</a>
-        {% for message in pm_messages %}
-            <div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}">
-                <div class="pm_header">
-                    {% if message.is_rejected %}  <div class="pm_status">{% trans "Rejected" %}{% if message.moderation_reason %}{% trans ":" %} {{ message.moderation_reason }}{% endif %}</div>{% endif %}
-                </div>
-                <div class="pm_body example-twitter{% if message.sender|or_me:user == '<me>' %}-my{% endif %}">
-                    {{ message.body|linebreaksbr }}
-                    <br>
-                    <span class="pm_date">{{ message.sent_at|date:"TIME_FORMAT"}}</span>
-                </div>
+<div ng-controller="MessagesController">
+
+
+    <section class="menu-header">
+        <ul class="small-block-grid-3">
+            <li class="active">
+                <a href=""><i class="fa fa-comment-o fa-lg"></i></a>
+            </li>
+            <li>
+                <a href=""><i class="fa fa-user fa-lg"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-navicon fa-lg"></i></a>
+            </li>
+        </ul>
+    </section>
+
+    {% if pm_messages|length == 1 %}
+    {% for message in pm_messages %}
+    <section class="single-message-content">
+        <div class="row">
+            <div class="small-11 medium-6 small-centered columns">
+                <h3>{{ message.body|linebreaksbr }}</h3>
+            </div><!-- /.medium-8 .small-centered .columns -->
+        </div><!-- /.row -->
+    </section>
+    <section class="single-message-date">
+        <div class="row">
+            <div class="small-11 medium-6 small-centered columns">
+                <p>
+                    {{ message.sent_at|date:"TIME_FORMAT"}}
+                </p>
+            </div><!-- /.medium-8 .small-centered .columns -->
+        </div><!-- /.row -->
+    </section>
+
+    {% endfor %}
+    {% endif %}
+
+
+    <section class="message-reply">
+        <form ng-submit="sendMessage()" action="{% url 'postman_reply' reply_to_pk %}?next=" method="post" class="" role="search" id="sendform">
+        {% csrf_token %}
+            <div class="message-reply-wrapper">
+                <input type="text" ng-model="q" name="q" placeholder="Message" minlength="3" required>
+                <a href="" ng-click="sendMessage()" type="submit" class="">Send</a>
             </div>
-            {% if forloop.last %}
-                <form action="" method="post">{% csrf_token %}
-                    <input type="hidden" {% if pm_messages|length > 1 and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} />
-                </form>
-                {% if message.sender.id != 1 %}
-                    {% if reply_to_pk %}
-                        <form class="form-horizontal" action="{% url 'postman_reply' reply_to_pk %}?next=" method="post">{% csrf_token %}
-                            {{ form.errors }}
-                            <div id="pm_reply" class="form-group">
-                                <textarea class="form-control" cols="55" id="id_body" name="body" rows="12"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary" role="button">{% trans 'Reply' %}</button>
-                        </form>
-                    {% endif %}
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
+        </form>
+    </section>
+
+</div>
 {% endblock %}
