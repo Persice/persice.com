@@ -88,5 +88,28 @@ angular.module('beKindred')
         });
     };
 
+})
+angular.module('beKindred')
+.controller('MessagesController', function ($scope, MessagesFactory) {
+    $scope.messages = [
+    {user: 'Thomas', photo: 'phpotourl', subject: 'You and Jessica are now peeps.', time: moment().subtract(1, 'days' )},
+    ];
+
+    $scope.q = '';
+
+
+    $scope.getMessages = function() {
+        MessagesFactory.query( {
+            q: $scope.q
+        }).$promise.then(function(response) {
+            $scope.messages = response.messages;
+        });
+    };
+
+
+    $scope.submit = function() {
+        angular.element('#myform').submit();
+    }
+
 });
 

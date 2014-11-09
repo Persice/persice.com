@@ -1739,3 +1739,113 @@ ul.errorlist li {
 	line-height: 1.5;
 	margin-bottom: 5px;
 }
+
+.inbox-header {
+	background-color: #f6f6f6!important;
+	padding: 0.8rem;
+}
+
+.search-wrapper-inbox {
+	position: relative;
+}
+
+
+.search-wrapper-inbox a {
+	position: absolute;
+	top: 7px;
+	right: 8px;
+	z-index: 1000!important;
+	color: #333;
+}
+
+
+.search-wrapper-inbox input {
+	padding-right: 30px;
+	font-size: 1rem;
+	height: 2.5rem;
+	margin: 0;
+}
+
+
+.inbox-content {
+	padding: 0.8rem;
+}
+
+
+.inbox-content .profile-pic {
+	border-radius: 50%;
+	width: 70px!important;
+	height: 70px!important;
+	margin: 0px;
+	vertical-align: middle;
+
+}
+
+
+.inbox-content .message-container {
+	position: relative;
+	padding-left: 70px;
+}
+
+.inbox-content .message-header {
+	position: relative;
+	height: 40px;
+}
+
+.inbox-content .message-header span.message-from {
+	position: absolute;
+	left: 0px;
+	font-size: 1.1rem;
+	color: #222;
+	font-weight: 400;
+}
+
+.inbox-content .message-header span.message-date {
+	right: 0px;
+	position: absolute;
+	color: #999;
+	font-size: 0.9rem;
+}
+
+.inbox-content .message-body {
+	font-size: 0.9rem;
+	color: #777;
+	font-weight: 300;
+}
+
+
+.list-group-item:first-child {
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+}
+.list-group-item:last-child {
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+a.list-group-item.read {
+	color: #222;
+	background-color: #F3F3F3;
+}
+a.list-group-item {
+	color: #222;
+	display: block;
+	padding: 1rem;
+	height: 100%;
+	position: relative;
+	border-bottom: 1px solid #ddd;
+}
+a.list-group-item:hover {
+	text-decoration: none;
+}
+
+a.list-group-item:hover .message-body, a.list-group-item:hover .message-from{
+	color:  #008CBA!important;
+}
+
+.message-picture {
+	margin-right: 5px;
+	width: 80px;
+	position: absolute;
+	left: 0px;
+}

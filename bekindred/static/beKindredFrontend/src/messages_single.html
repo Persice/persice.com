@@ -60,10 +60,11 @@
                 </nav>
                 <nav class="tab-bar hide-for-large-up">
                     <section class="left-small">
-                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                        <!-- <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a> -->
+                        <a class="menu-icon awesome" href="/messages.html"><i class="fa fa-angle-left fa-lg"></i></a>
                     </section>
                     <section class="middle tab-bar-section">
-                        <h1 class="title">Kindred</h1>
+                        <h1 class="title">Michael</h1>
                     </section>
                 </nav>
                 <aside class="left-off-canvas-menu">
@@ -80,90 +81,29 @@
                     </ul>
                 </aside>
                 <section class="main-section">
-                    <section class="subtitle-wrapper">
-                        <div class="row">
-                            <div class="medium-10 small-centered columns">
-                                <h5>
-                                    <span class="fa-stack">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-stack-1x fa-inverse">1</i>
-                                    </span>
-                                    Create Goal
-                                </h5>
-                            </div>
-                        </div>
-                    </section>
+                    <div ng-controller="MessagesController">
+                        <section class="inbox-header">
 
-                    <section class="services-wrapper">
-
-                        <div class="row" ng-controller="GoalsController">
-
-                            <div class="small-12 medium-8 large-5 small-centered columns">
-
-                                <h2>My goal is to...</h2>
-                                <hr class="medium-8 small-8 large-10 small-centered columns">
-                                <p class="lead"></p>
-
-                            </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
-
-
-                            <div class="clearfix"></div>
-
-                            <div class="small-12 medium-8 large-5 small-centered columns">
-
-                                <div class="col-goal">
-
-                                    <!-- {{ form.errors }} -->
-
-                                    <div data-alert class="alert-box alert">
-                                        Goal: This field is required.
-                                        <a href="" class="close">×</a>
-                                    </div>
-
-                                    <br>
-
-                                    <form class="" role="form" action="" method="post">
-                                        <!-- {% csrf_token %} -->
-                                        <div class="search-wrapper">
-                                            <i class="fa fa-search fa-lg"></i>
-                                            <div angucomplete-alt minlength="3" match-class="highlight" selected-object="goalSelected" search-fields="name" inputname="description_value" title-field="name" local-data="goals" type="text" input-name="description_value" id="id_description" placeholder="enter you goal here"></div>
+                        </section>
+                        <section class="inbox-content">
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item" ng-repeat="n in [1, 2, 3, 4]">
+                                        <div class="message-picture">
+                                            <img src="http://lorempixel.com/100/100" class="profile-pic" alt="">
                                         </div>
-
-
-                                        <button type="submit" class="small-centered success medium-12 small-12 large-12 columns radius" role="button">Next &rarr;</button>
-
-                                    </form>
-
-                                </div><!-- /.col-goal -->
-
-                            </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
-
-
-
-
-                            <div class="clearfix"></div>
-                            <div class="small-12 medium-8 large-5 small-centered columns">
-
-                                <div class="examples-desc">
-                                    <h4>Here are some examples</h4>
-                                    <p>
-                                        <ul class="unstyled">
-                                            <li>&quot;Learn to play tennis&quot;</li>
-                                            <li>&quot;Find a running partner&quot;</li>
-                                            <li>&quot;Hire a cat sitter&quot;</li>
-                                            <li>&quot;Move my 500 lb sofa&quot;</li>
-                                        </ul>
-                                    </p>
-
-                                </div><!-- /.col-price-desc -->
-
-                            </div><!-- /.small-12 medium-8 large-5 small-centered columns -->
-
-
-                        </div><!-- /.row -->
-
-                    </section>
-
+                                        <div class="message-container">
+                                            <div class="message-header">
+                                                <span class="message-from">Pero</span>
+                                                <span class="message-date">1:38 pm</span>
+                                            </div>
+                                            <div class="message-body">
+                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit non labore.
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                        </section>
+                    </div>
                 </section>
                 <a class="exit-off-canvas"></a>
             </div>

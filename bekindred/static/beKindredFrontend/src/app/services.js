@@ -9,4 +9,15 @@ angular.module('beKindred')
             cache : false
         }
     });
+}])
+.factory('MessagesFactory', ['$resource', function($resource){
+  return $resource('/api/v1/messages/:messageId/:param',
+    {messageId: '@messageId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        }
+    });
 }]);
+
