@@ -213,7 +213,14 @@
                 Thank you for logging in with Facebook.
                 By default you will have the following data available:
             </p>
-
+            <form action="/facebook/disconnect/" method="post">
+                <h2>Disconnect</h2>
+                <br />
+                {% csrf_token %}
+                <div id="facebook_login_redirect">
+                    <input type="image" src="{{ STATIC_URL }}django_facebook/images/facebook_login.png" /><br />
+                </div>
+            </form>
             <table id="rounded-corner">
                 <thead>
                 <tr>

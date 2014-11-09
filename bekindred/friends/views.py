@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 from django_facebook.models import FacebookCustomUser
+from members.models import FacebookCustomUserActive
 from postman.models import Message
 from .models import Friend
 
@@ -82,7 +83,7 @@ class RemoveFriendship(DeleteView):
             friend2 = int(self.kwargs['pk'])
         except ValueError:
             raise Http404
-        kwargs['friend'] = FacebookCustomUser.objects.get(id=friend2)
+        kwargs['friend'] = FacebookCustomUserActive.objects.get(id=friend2)
         return super(RemoveFriendship, self).get_context_data(**kwargs)
 
 
@@ -92,7 +93,7 @@ class FriendsListView(ListView):
     template_name = "friends/my_connections.html"
 
     def get_context_data(self, **kwargs):
-        kwargs['my_friends'] = FacebookCustomUser.objects.filter(
+        kwargs['my_friends'] = FacebookCustomUserActive.objects.filter(
             pk__in=Friend.objects.all_my_friends(self.request.user.id))
         return super(FriendsListView, self).get_context_data(**kwargs)
 

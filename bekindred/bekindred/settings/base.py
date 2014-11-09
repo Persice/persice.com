@@ -48,6 +48,7 @@ INSTALLED_APPS = (
 INSTALLED_APPS += ('south',
                    'pagination',
                    'django_facebook',
+                   'members',
                    'social_auth',
                    'postman',
                    'goals',

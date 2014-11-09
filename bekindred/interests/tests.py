@@ -32,4 +32,4 @@ class InterestsTestCase(TestCase):
         i6 = Interest.objects.create(description="reading", user=user3)
 
         search = Interest.search_subject.search_interest(user.id)
-        self.assertEqual([x.description for x in search], [u'reading', u'read', u'reading'])
+        self.assertEquals(sorted(search), sorted([u'reading', u'read', u'reading']))

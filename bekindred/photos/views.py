@@ -3,8 +3,8 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.views.generic import DeleteView, CreateView, ListView
-from django_facebook.models import FacebookCustomUser
 from open_facebook import OpenFacebook
+from members.models import FacebookCustomUserActive
 from .models import Photo, FacebookPhoto
 from .forms import PhotoForm, FacebookPhotoCreateForm
 
@@ -24,7 +24,7 @@ def list(request):
 
     # Load documents for the list page
     documents = Photo.objects.filter(user=request.user)
-    user = FacebookCustomUser.objects.get(pk=request.user.id)
+    user = FacebookCustomUserActive.objects.get(pk=request.user.id)
     facebook_photos = FacebookPhoto.objects.filter(user=request.user)
     result_list = []
     for doc in documents:
@@ -82,7 +82,7 @@ class CreateFacebookPhoto(CreateView):
         return super(CreateFacebookPhoto, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
-        fb_user = FacebookCustomUser.objects.get(id=self.request.user.id)
+        fb_user = FacebookCustomUserActive.objects.get(id=self.request.user.id)
         if fb_user.facebook_id and fb_user.access_token:
             facebook = OpenFacebook(fb_user.access_token)
             data = facebook.get('me/photos/uploaded', fields='picture')['data']

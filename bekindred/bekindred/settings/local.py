@@ -96,3 +96,31 @@ POSTMAN_AUTOCOMPLETER_APP = {
     'arg_name': '',  # default is 'channel'
     'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
 }  # default is {}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            },
+        },
+    'loggers': {
+        'open_facebook': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+            },
+        'django_facebook': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+            },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+            },
+        }
+}
