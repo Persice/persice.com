@@ -1,15 +1,29 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <div class="container col-md-12 col-md-offset-5">
-        <form class="form-horizontal col-sm-2" method="post" action="{% url 'deactivate_user' %}">{% csrf_token %}
-            <div class="form-group">
-                <p>Are you sure you want to delete <span>"{{ object.username }}"</span> ?</p>
-            </div>
-            <div class="form-group text-center">
-                <a class="btn btn-danger" href="{% url 'user_page' %}">Cancel</a>
-                <input type="submit" class="btn btn-primary" role="button" value="Delete" />
-            </div>
-        </form>
+<section class="subtitle-wrapper">
+    <div class="row">
+        <div class="medium-10 small-centered columns">
+            <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-remove fa-stack-1x fa-inverse"></i>
+            </span>
+            <h5>Delete Account?</h5>
+        </div>
     </div>
+</section>
+<section class="edit-wrapper">
+    <div class="row">
+        <div class="columns small-centered small-12 medium-8 large-6">
+            <form class="" action="{% url 'deactivate_user' %}" method="post">{% csrf_token %}
+                <div data-alert class="alert-box info">
+                    Are you sure you want to delete <strong>"{{ object.username }}"</strong>?
+                    <a href="" class="close">×</a>
+                </div>
+                <br>
+                <a class="button delete success radius" href="{% url 'user_page' %}">Cancel</a>
+                <button type="submit" class="danger submit-button radius">Delete</button>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock content %}

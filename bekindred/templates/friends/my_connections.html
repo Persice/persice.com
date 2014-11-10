@@ -3,44 +3,82 @@
 {% load i18n %}{% load postman_tags %}
 {% block content %}
 
-<section class="subtitle-wrapper">
-    <div class="row">
-        <div class="medium-10 small-centered columns">
-            <h5>
-                <i class="fa fa-group"></i> Friends
-            </h5>
+<div id="friends">
+    <section class="subtitle-wrapper show-for-large-up">
+        <div class="row">
+            <div class="medium-10 small-centered columns">
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-group fa-stack-1x fa-inverse"></i>
+                </span>
+                <h5>Friends</h5>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+    {% if my_friends|length > 0 %}
+    <section class="friends-header">
+        <form ng-submit="submit()" action="/friends.html" method="get" class="" role="search" id="myform">
+            <div class="search-wrapper-inbox">
+                <a href="" ng-click="submit()" type="submit" class=""><i class="fa fa-search fa-lg"></i></a>
+                <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
+            </div>
+        </form>
+    </section>
+    {% endif %}
 
-<section class="profile-wrapper">
-    <div class="row">
-        <div class="small-12 medium-12 large-12 text-left columns">
-            <div class="user_likes">
+    <section class="friends-content">
+        <div class="list-group">
+            {% for friend in my_friends %}
+            <div class="list-group-item" >
+                <a href="/goals/friend/{{ friend.id }}" class="list-link" >
+                    <div class="friend-picture">
+                        <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" class="profile-pic" alt="">
+                    </div>
+                    <div class="friend-container">
+                        <div class="friend-header">
+                        <span class="friend-name">{{ friend.first_name }} {{ friend.last_name }}</span><br>
 
-                <ul class="unstyled">
-                    {% for friend in my_friends %}
-                    <li>
-                        <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" title="facebook stored image" />
-                        <a href="/goals/friend/{{ friend.id }}">{{ friend.first_name }} {{ friend.last_name }}</a>
-                        <a href="{% url 'postman_write' %}{{ friend.username }}">&raquo;&nbsp;{% trans "Write" %}</a>
-                        <p><a href="/friends/remove/{{ friend.id }}">Remove from friends</a></p>
-                    </li>
-                    <br>
-                    {% empty %}
-                    <li>
-
-                        <div data-alert class="alert-box secondary">
-                        &nbsp; No offers yet.
                         </div>
+                        <div class="friend-about">
+                            <ul class="small-block-grid-4">
+                                <li>
+                                    <span><i class="fa fa-check"></i></span>
+                                    <span class="number">0</span>
+                                </li>
+                                <li>
+                                    <span><i class="fa fa-users"></i></span>
+                                    <span class="number">133</span>
+                                </li>
+                                <li>
+                                    <span><i class="fa fa-star"></i></span>
+                                    <span class="number">143</span>
+                                </li>
+                                <li>
+                                    <span><i class="fa fa-chain"></i></span>
+                                    <span class="number">133</span>
+                                </li>
+                            </ul>
 
-
-                    </li>
-                    {% endfor %}
+                        </div>
+                    </div>
+                </a>
+                <div class="friend-actions">
+                 <ul class="circle-icon" id="intro-title">
+                    <li><a href="/friends/remove/{{ friend.id }}" alt="Remove from friends" class="red"><i class="fa fa-unlink"></i></a></li>
+                    <li><a href="{% url 'postman_write' %}{{ friend.username }}" alt="Send message" class="blue"><i class="fa fa-envelope"></i></a></li>
                 </ul>
             </div>
-
         </div>
+        {% empty %}
+        <div data-alert class="alert-box info">
+            No friends yet.
+            <a href="" class="close">×</a>
+        </div>
+        {% endfor %}
+
+
+
     </div>
 </section>
+</div>
 {% endblock content %}

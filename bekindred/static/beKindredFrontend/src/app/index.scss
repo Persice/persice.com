@@ -2059,3 +2059,221 @@ span.conversation-time {
 section.match.friend {
 	margin-top:0px!important;
 }
+
+section.edit-wrapper {
+	margin-top: 0.8rem;
+}
+
+section.subtitle-wrapper h5 {
+	display: inline-block!important;
+	vertical-align: middle!important;
+}
+
+
+/* Friends list */
+
+.friends-header {
+	background-color: #f6f6f6!important;
+	padding: 0.8rem;
+}
+
+.search-wrapper-friends {
+	position: relative;
+}
+
+
+.search-wrapper-friends a {
+	position: absolute;
+	top: 7px;
+	right: 8px;
+	z-index: 1000!important;
+	color: #333;
+}
+
+
+.search-wrapper-friends input {
+	padding-right: 30px;
+	font-size: 1rem;
+	height: 2.5rem;
+	margin: 0;
+}
+
+
+.friends-content {
+	padding: 0.8rem;
+}
+
+
+.friends-content .profile-pic {
+	border-radius: 50%;
+	width: 90px!important;
+	height: 90px!important;
+	margin: 0px;
+	vertical-align: middle;
+
+}
+
+
+.friends-content .friend-container {
+	position: relative;
+	padding-left: 100px;
+}
+
+.friends-content .friend-header {
+	position: relative;
+	height: 40px;
+}
+
+.friends-content .friend-header span.friend-name {
+	position: absolute;
+	left: 0px;
+	font-size: 1.2rem;
+	color: #222;
+	font-weight: 400;
+	color: #008CBA!important;
+}
+
+
+.friend-header .friend-distance {
+	font-size: 1rem;
+	color: #999;
+
+}
+
+
+.friends-content .friend-about ul {
+	font-size: 1rem;
+	color: #777;
+	font-weight: 300;
+	text-align: center;
+	max-width: 120px
+}
+
+.friends-content .friend-about span.number {
+	font-size: 0.7rem;
+	text-align: center;
+}
+
+
+.friends-content .friend-about p {
+	text-align: left;
+	font-size: 0.8rem;
+}
+
+
+.list-group-item:first-child {
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+}
+.list-group-item:last-child {
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+.list-group-item {
+	position: relative;
+}
+
+
+a.list-link {
+	color: #222;
+	display: block;
+	padding: 1rem;
+	height: 100%;
+	position: relative;
+	border-bottom: 1px solid #ddd;
+}
+a.list-link:hover {
+	text-decoration: none;
+}
+
+a.list-link:hover .friend-about, a.list-link:hover .friend-name{
+	color:  #008CBA!important;
+}
+
+.friend-picture {
+	margin-right: 10px;
+	width: 110px;
+	position: absolute;
+	left: 0px;
+}
+
+div.friend-actions {
+	position: absolute;
+	right: 0px;
+	top: 20px;
+}
+
+
+div.friend-actions a:hover {
+	text-decoration: none;
+}
+
+
+
+.circle-icon
+{
+    text-align:center;
+    margin:0;
+    padding-left:0;
+    list-style:none
+}
+.circle-icon li
+{
+    display:block;
+    line-height:1;
+    margin-bottom:0.4rem;
+    padding:0
+}
+.circle-icon li:last-child
+{
+    margin-right:0
+}
+.circle-icon a
+{
+    display:block;
+    width:40px;
+    height:40px;
+    background-color:transparent;
+    text-decoration:none;
+    text-align:center;
+    border-radius:50%;
+    -webkit-transition:background .3s,color .3s,box-shadow .3s;
+    -moz-transition:background .3s,color .3s,box-shadow .3s;
+    transition:background .3s,color .3s,box-shadow .3s
+}
+.circle-icon a:hover
+{
+    box-shadow:0 0 0 8px rgba(255,255,255,.3)
+}
+.circle-icon a.blue
+{
+    background-color:#3b5998;
+    color:#fff
+}
+.circle-icon a.blue:hover
+{
+    background-color:#244281;
+    color:#fff
+}
+.circle-icon a.red
+{
+    background-color:#d34836;
+    color:#fff
+}
+.circle-icon a.red:hover
+{
+    background-color:#bc311f;
+    color:#fff
+}
+.circle-icon .fa
+{
+    font-size:1.3rem;
+    line-height:2
+}
+.circle-icon a:hover .fa
+{
+    -webkit-animation:toRightFromLeft .3s forwards;
+    -moz-animation:toRightFromLeft .3s forwards;
+    animation:toRightFromLeft .3s forwards
+}

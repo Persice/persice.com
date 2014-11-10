@@ -7,12 +7,11 @@
 {% endfor %}
 {% endif %}
 <br>
-<form class="form" role="form" action="" method="post">
+<form class="form" role="form" action="" method="post" novalidate>
     {% csrf_token %}
     <div class="search-wrapper" ng-controller="GoalsController">
         <i class="fa fa-search fa-lg"></i>
         <div field-required="true" angucomplete-alt minlength="3" match-class="highlight" selected-object="goalSelected" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__contains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="enter you goal here"></div>
-
     </div>
     <button type="submit" class="small-centered success medium-12 small-12 large-12 columns radius" role="button">Next &rarr;</button>
 </form>

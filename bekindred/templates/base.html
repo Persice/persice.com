@@ -29,7 +29,7 @@
         <![endif]-->
         <script src="{{ STATIC_URL }}js/modernizr.js"></script>
     </head>
-    <body{% if '/goals/user/' in request.path or '/goals/friend/' in request.path %} id="match"{% endif %}>
+    <body{% if 'goals/user/biography/' not in request.path and '/goals/user' in request.path or '/goals/friend/' in request.path %} id="match"{% endif %}>
         <!--[if lt IE 10]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -61,7 +61,7 @@
                 </nav>
                 <nav class="tab-bar hide-for-large-up">
                     <section class="left-small">
-                        {% if '/messages/view' in request.path or '/messages/write/new' in request.path %}
+                        {% if '/messages/view' in request.path or '/messages/write' in request.path %}
                         <a class="menu-icon awesome" href="/messages/inbox/"><i class="fa fa-angle-left fa-lg"></i></a>
                         {% else %}
                         <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
@@ -69,10 +69,11 @@
                     </section>
                     <section class="middle tab-bar-section">
                         <h1 class="title">
-                            {% if '/messages' not in request.path %} Kindred {% endif %}
-                            {% if '/messages/inbox' in request.path %} Inbox {% endif %}
-                            {% if '/messages/view' in request.path %} Message {% endif %}
-                            {% if '/messages/write/new' in request.path %} New Message {% endif %}
+                            {% if '/messages/inbox' in request.path %} Inbox
+                            {% elif '/messages/view' in request.path %} Message
+                            {% elif '/messages/write' in request.path %} New Message
+                            {% elif '/friends/list' in request.path %} Friends
+                            {% else %}  Kindred {% endif %}
                         </h1>
                     </section>
                     {% if '/goals/user/' in request.path %}
@@ -83,7 +84,7 @@
 
                     {% if '/messages/inbox' in request.path %}
                     <section class="right-small" >
-                        <a class="menu-icon awesome" href="/messages/write/new"><i class="fa fa-edit"></i></a>
+                        <a class="menu-icon awesome" href="/messages/write"><i class="fa fa-edit"></i></a>
                     </section>
                     {% endif %}
 
