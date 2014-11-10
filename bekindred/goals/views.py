@@ -61,6 +61,35 @@ def my_page(request):
     return render_to_response('goals/my_page.html', context)
 
 
+@login_required()
+def edit_my_page(request):
+    date_of_birth = FacebookCustomUserActive.objects.get(pk=request.user.id).date_of_birth
+    bio = FacebookCustomUserActive.objects.get(pk=request.user.id).about_me
+    twitter_provider, linkedin_provider = None, None
+    try:
+        twitter_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='twitter')[0].extra_data
+    except IndexError:
+        pass
+    try:
+        linkedin_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='linkedin')[0].extra_data
+    except IndexError:
+        pass
+
+    # linkedin = FacebookCustomUserActive.objects.get(pk=request.user.id).social_data
+    context = RequestContext(request, {
+        'goals': Goal.objects.filter(user=request.user),
+        'offers': Offer.objects.filter(user=request.user),
+        'bio': bio,
+        'keywords': Keyword.objects.goal_keywords(request.user.id) +
+                    Keyword.objects.offer_keywords(request.user.id),
+        'age': calculate_age(date_of_birth) if date_of_birth else None,
+        'interests': Interest.objects.filter(user=request.user.id),
+        'twitter_provider': twitter_provider,
+        'linkedin_provider': linkedin_provider,
+        })
+    return render_to_response('goals/edit_my_page.html', context)
+
+
 class GoalOfferListView(LoginRequiredMixin, ListView):
 
     model = Goal

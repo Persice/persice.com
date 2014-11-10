@@ -14,7 +14,9 @@
 <section class="profile-wrapper">
     <div class="row">
         <div class="small-12 medium-12 large-12 text-left columns">
-            <h3>{{ user.first_name|capfirst }}, {{ age }} <a data-reveal-id="myModal" data-reveal-ajax="true" href="{% url 'deactivate_user' %}">Delete Account</a></h3>
+            <h3>{{ user.first_name|capfirst }}, {{ age }} <a data-reveal-id="myModal" data-reveal-ajax="true" href="{% url 'deactivate_user' %}">Delete Account</a>
+                <a href="{% url 'edit_user_page' %}">Edit Account</a>
+            </h3>
             <hr>
         </div>
     </div>
@@ -27,20 +29,9 @@
                 <ul class="items">
                     {% for goal in goals %}
                     <li id="goal_{{ goal.goal_id }}">
-                        <a data-reveal-id="deleteModal" href="#" class="delete-goal" id="{{ goal.goal_id }}">
-                            <span class="fa-stack fa-lg alert">
-                              <i class="fa fa-circle fa-stack-2x"></i>
-                              <i class="fa fa-minus fa-stack-1x fa-inverse"></i>
-                          </span>
-                      </a>
                       <span id="goalName_{{ goal.goal_id }}">{{ goal }}</span>
-                      <a href="{% url "goal_update" goal.goal_id %}"><i class="fa fa-edit"></i></a>
                   </li>
                   {% endfor %}
-                  <li>
-                    <a href="{% url "goal_create" %}"><i class="fa fa-plus-circle"></i></a>
-                    Create new goal
-                </li>
             </ul>
             <hr>
         </div>
@@ -53,15 +44,9 @@
             <ul class="items">
                 {% for offer in offers %}
                 <li id="offer_{{ offer.offer_id }}">
-                    <a data-reveal-id="deleteModal" href="#" class="delete-offer" id="{{ offer.offer_id }}"><i class="fa fa-minus-circle"></i></a>
                   <span id="offerName_{{ offer.offer_id }}">{{ offer }}</span>
-                  <a href="{% url "offer_update" offer.offer_id %}"><i class="fa fa-edit"></i></a>
               </li>
               {% endfor %}
-              <li>
-                <a href="{% url "offer_create" %}"><i class="fa fa-plus-circle"></i></a>
-                Create new offer
-            </li>
         </ul>
     </div>
 </div>
@@ -72,7 +57,6 @@
             <h4>About Me</h4>
             <div class="user_bio_content">
                 {{ user.profile_or_self.about_me }}
-                <a href="{% url "biography_update" user.id %}"><i class="fa fa-edit"></i></a>
             </div>
         </div>
     </div>
@@ -84,14 +68,10 @@
             <ul class="items">
                 {% for interest in interests %}
                 <li id="interest_{{ interest.id }}">
-                    <a data-reveal-id="deleteModal" href="#" class="delete-interest" id="{{ interest.id }}"><i class="fa fa-minus-circle"></i></a>
                   <span id="interestName_{{ interest.id }}">{{ interest }}</span>
-                  <a href="{% url "update_interest" interest.id %}"><i class="fa fa-edit"></i></a>
               </li>
               {% endfor %}
               <li>
-                <a href="{% url "create_interest" %}"><i class="fa fa-plus-circle"></i></a>
-                Create new Interest or Activity
             </li>
         </ul>
     </div>
@@ -118,13 +98,9 @@
             <ul>
                 {% if twitter_provider %}
                 <li>your twitter account: <a href="https://twitter.com/{{ twitter_provider.screen_name }}">{{ twitter_provider.screen_name }}</a></li>
-                {% else %}
-                <li><a href="/social/associate/twitter/">connect twitter</a></li>
                 {% endif %}
                 {% if linkedin_provider %}
                 <li>your linkedin account: <a href="{{ linkedin_provider.public_profile_url }}">{{ linkedin_provider.first_name }}  {{ linkedin_provider.last_name }}</a></li>
-                {% else %}
-                <li><a href="/social/associate/linkedin/">connect linkedin</a></li>
                 {% endif %}
             </ul>
         </div>
