@@ -2213,67 +2213,90 @@ div.friend-actions a:hover {
 
 .circle-icon
 {
-    text-align:center;
-    margin:0;
-    padding-left:0;
-    list-style:none
+	text-align:center;
+	margin:0;
+	padding-left:0;
+	list-style:none
 }
 .circle-icon li
 {
-    display:block;
-    line-height:1;
-    margin-bottom:0.4rem;
-    padding:0
+	display:block;
+	line-height:1;
+	margin-bottom:0.4rem;
+	padding:0
 }
 .circle-icon li:last-child
 {
-    margin-right:0
+	margin-right:0
 }
 .circle-icon a
 {
-    display:block;
-    width:40px;
-    height:40px;
-    background-color:transparent;
-    text-decoration:none;
-    text-align:center;
-    border-radius:50%;
-    -webkit-transition:background .3s,color .3s,box-shadow .3s;
-    -moz-transition:background .3s,color .3s,box-shadow .3s;
-    transition:background .3s,color .3s,box-shadow .3s
+	display:block;
+	width:40px;
+	height:40px;
+	background-color:transparent;
+	text-decoration:none;
+	text-align:center;
+	border-radius:50%;
+	-webkit-transition:background .3s,color .3s,box-shadow .3s;
+	-moz-transition:background .3s,color .3s,box-shadow .3s;
+	transition:background .3s,color .3s,box-shadow .3s
 }
 .circle-icon a:hover
 {
-    box-shadow:0 0 0 8px rgba(255,255,255,.3)
+	box-shadow:0 0 0 8px rgba(255,255,255,.3)
 }
 .circle-icon a.blue
 {
-    background-color:#3b5998;
-    color:#fff
+	background-color:#3b5998;
+	color:#fff
 }
 .circle-icon a.blue:hover
 {
-    background-color:#244281;
-    color:#fff
+	background-color:#244281;
+	color:#fff
 }
 .circle-icon a.red
 {
-    background-color:#d34836;
-    color:#fff
+	background-color:#d34836;
+	color:#fff
 }
 .circle-icon a.red:hover
 {
-    background-color:#bc311f;
-    color:#fff
+	background-color:#bc311f;
+	color:#fff
 }
 .circle-icon .fa
 {
-    font-size:1.3rem;
-    line-height:2
+	font-size:1.3rem;
+	line-height:2
 }
 .circle-icon a:hover .fa
 {
-    -webkit-animation:toRightFromLeft .3s forwards;
-    -moz-animation:toRightFromLeft .3s forwards;
-    animation:toRightFromLeft .3s forwards
+	-webkit-animation:toRightFromLeft .3s forwards;
+	-moz-animation:toRightFromLeft .3s forwards;
+	animation:toRightFromLeft .3s forwards
+}
+
+
+.confirmation-message {
+	text-align: center!important;
+	margin-top: 200px!important;
+}
+
+.confirmation-header {
+	position: absolute!important;
+	top: 0px!important;
+	width: 100%!important;
+	height: 60px!important;
+	background-color: #f6f6f6!important;
+	border-bottom: 1px solid #e2e2e2!important;
+	left: 0px!important;
+	padding-left: 10px!important;
+	text-align: center!important;
+
+}
+.confirmation-header h2 {
+	font-size: 2.3rem!important;
+	padding: 0;
 }
