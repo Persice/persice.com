@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-md-12 col-md-offset-5">
+        <form class="form-horizontal col-sm-2" method="post" action="{% url 'deactivate_user' %}">{% csrf_token %}
+            <div class="form-group">
+                <p>Are you sure you want to delete <span>"{{ object.username }}"</span> ?</p>
+            </div>
+            <div class="form-group text-center">
+                <a class="btn btn-danger" href="{% url 'user_page' %}">Cancel</a>
+                <input type="submit" class="btn btn-primary" role="button" value="Delete" />
+            </div>
+        </form>
+    </div>
+{% endblock content %}

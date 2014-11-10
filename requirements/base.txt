@@ -1,6 +1,6 @@
 Django==1.6.5
 Pillow==2.4.0
-South==0.8.4
+South==1.0.1
 Unidecode==0.04.16
 amqp==1.4.6
 anyjson==0.3.3
@@ -17,6 +17,7 @@ django-messages==0.5.1
 django-pagination==1.0.7
 django-postman==3.1.0
 django-social-auth==0.7.28
+django-tastypie==0.12.1
 django-toolbelt==0.0.1
 djorm-ext-pgfulltext==0.10
 fake-factory==0.4.2
@@ -31,11 +32,14 @@ oauthlib==0.6.3
 postman==0.6.0
 psycopg2==2.5.3
 pystache==0.5.4
+python-dateutil==2.2
+python-mimeparse==0.1.4
 python-openid==2.2.5
 python-twitter==2.0
 pytz==2014.7
 requests==2.4.0
 requests-oauthlib==0.4.1
 simplejson==3.6.3
+six==1.8.0
 static==1.0.2
 wsgiref==0.1.2

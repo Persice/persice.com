@@ -6,7 +6,7 @@ from .views import GoalView, OfferView, GoalOfferListView, my_page, biography_up
 
 
 urlpatterns = patterns('',
-    url(r'^$', my_page),
+    url(r'^$', my_page, name='user_page'),
     url(r'^create/goal/$', GoalView.as_view()),
     url(r'^user/create/goal/$', CreateGoalView.as_view(), name='goal_create'),
     url(r'^update/goal/(?P<pk>\d+)$', goal_update, name='goal_update'),

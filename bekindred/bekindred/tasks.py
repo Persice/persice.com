@@ -3,6 +3,7 @@ from social_auth.db.django_models import UserSocialAuth
 import twitter
 from celery.task import task
 from friends.models import TwitterListFriends, TwitterListFollowers
+from members.models import FacebookCustomUserActive
 from settings.local import TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET
 from urlparse import parse_qs
 
@@ -41,7 +42,7 @@ def twitter_friends(user, oauth_token, oauth_secret):
     users = api.GetFriends()
 
     twitter_id1 = UserSocialAuth.objects.get(provider='twitter', user_id=user.id).uid
-    _user = FacebookCustomUser.objects.get(pk=user.id)
+    _user = FacebookCustomUserActive.objects.get(pk=user.id)
     # profile_image_url1 = _user.img_url
     name1 = "%s %s" % (_user.first_name, _user.last_name)
     for user in users:
@@ -70,7 +71,7 @@ def twitter_followers(user, oauth_token, oauth_secret):
     followers = api.GetFollowers()
 
     twitter_id1 = UserSocialAuth.objects.get(provider='twitter', user_id=user.id).uid
-    _user = FacebookCustomUser.objects.get(pk=user.id)
+    _user = FacebookCustomUserActive.objects.get(pk=user.id)
     # profile_image_url1 = _user.img_url
     name1 = "%s %s" % (_user.first_name, _user.last_name)
     for follower in followers:

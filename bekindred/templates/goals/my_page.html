@@ -21,7 +21,7 @@
 <section class="profile-wrapper">
     <div class="row">
         <div class="small-12 medium-12 large-12 text-left columns">
-            <h3>{{ user.first_name|capfirst }}, {{ age }}</h3>
+            <h3>{{ user.first_name|capfirst }}, {{ age }} <a href="{% url 'deactivate_user' %}">Delete Account</a></h3>
             <hr>
         </div>
     </div>

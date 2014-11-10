@@ -18,6 +18,7 @@ from social_auth.db.django_models import UserSocialAuth
 from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser, TwitterListFriends, TwitterListFollowers
 from goals.utils import calculate_age, linkedin_connections
+from members.models import FacebookCustomUserActive
 from .models import Goal, Offer, Subject, Keyword, UserIPAddress
 from django_facebook.decorators import facebook_required_lazy
 from django.db.models import Q
@@ -33,8 +34,8 @@ class LoginRequiredMixin(object):
 
 @login_required()
 def my_page(request):
-    date_of_birth = FacebookCustomUser.objects.get(pk=request.user.id).date_of_birth
-    bio = FacebookCustomUser.objects.get(pk=request.user.id).about_me
+    date_of_birth = FacebookCustomUserActive.objects.get(pk=request.user.id).date_of_birth
+    bio = FacebookCustomUserActive.objects.get(pk=request.user.id).about_me
     twitter_provider, linkedin_provider = None, None
     try:
         twitter_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='twitter')[0].extra_data
@@ -45,7 +46,7 @@ def my_page(request):
     except IndexError:
         pass
 
-    # linkedin = FacebookCustomUser.objects.get(pk=request.user.id).social_data
+    # linkedin = FacebookCustomUserActive.objects.get(pk=request.user.id).social_data
     context = RequestContext(request, {
         'goals': Goal.objects.filter(user=request.user),
         'offers': Offer.objects.filter(user=request.user),
@@ -68,12 +69,12 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         current_user = self.kwargs['pk']
         kwargs['goals'] = Goal.objects.filter(user=current_user)
         kwargs['offers'] = Offer.objects.filter(user=current_user)
-        kwargs['user_obj'] = FacebookCustomUser.objects.get(pk=current_user)
+        kwargs['user_obj'] = FacebookCustomUserActive.objects.get(pk=current_user)
         kwargs['likes'] = FacebookLike.objects.filter(user_id=current_user)
         kwargs['interests'] = Interest.objects.filter(user_id=current_user)
-        kwargs['mutual_friends'] = FacebookCustomUser.objects.filter(
+        kwargs['mutual_friends'] = FacebookCustomUserActive.objects.filter(
             pk__in=Friend.objects.mutual_friends(kwargs['user_obj'].id, self.request.user.id))
-        date_of_birth = FacebookCustomUser.objects.get(pk=current_user).date_of_birth
+        date_of_birth = FacebookCustomUserActive.objects.get(pk=current_user).date_of_birth
         kwargs['age'] = calculate_age(date_of_birth) if date_of_birth else None
 
         # calculate distance
@@ -114,7 +115,7 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
 
 
         test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
-        kwargs['mutual_facebook_friends'] = FacebookCustomUser.objects.filter(
+        kwargs['mutual_facebook_friends'] = FacebookCustomUserActive.objects.filter(
             facebook_id__in=test)
         kwargs['mutual_facebook_friends_count'] = len(kwargs['mutual_facebook_friends'])
 
@@ -267,24 +268,27 @@ class MatchView(LoginRequiredMixin, View):
             except UserIPAddress.DoesNotExist:
                 point2 = g.lon_lat('127.0.0.1')
             distance = geopy_distance(point1, point2).miles
-            _user = FacebookCustomUser.objects.get(pk=user)
-            age = calculate_age(_user.date_of_birth)
-            user_gender = _user.gender
-            results.append(dict(user_id=user,
-                                thumbed_up_me=-Friend.objects.thumbed_up_me(user, current_user).count(),
-                                matched_goal_offer=Offer.objects.filter(user_id=user, offer=current_user_goals).count(),
-                                matched_offer_goal=Goal.objects.filter(user_id=user, goal=current_user_offers).count(),
-                                matched_goal_goal=Goal.objects.filter(user_id=user, goal=current_user_goals).count(),
-                                matched_offer_offer=Offer.objects.filter(user_id=user,
-                                                                         offer=current_user_offers).count(),
-                                mutual_bekindred_friends=len(Friend.objects.mutual_friends(user, current_user)),
-                                mutual_facebook_friends=len(
-                                    FacebookFriendUser.objects.mutual_friends(user, current_user)),
-                                common_facebook_likes=len(match_likes),
-                                common_interests=len(match_interests),
-                                age=age,
-                                distance=distance,
-                                gender=user_gender))
+            try:
+                _user = FacebookCustomUserActive.objects.get(pk=user)
+                age = calculate_age(_user.date_of_birth)
+                user_gender = _user.gender
+                results.append(dict(user_id=user,
+                                    thumbed_up_me=-Friend.objects.thumbed_up_me(user, current_user).count(),
+                                    matched_goal_offer=Offer.objects.filter(user_id=user, offer=current_user_goals).count(),
+                                    matched_offer_goal=Goal.objects.filter(user_id=user, goal=current_user_offers).count(),
+                                    matched_goal_goal=Goal.objects.filter(user_id=user, goal=current_user_goals).count(),
+                                    matched_offer_offer=Offer.objects.filter(user_id=user,
+                                                                             offer=current_user_offers).count(),
+                                    mutual_bekindred_friends=len(Friend.objects.mutual_friends(user, current_user)),
+                                    mutual_facebook_friends=len(
+                                        FacebookFriendUser.objects.mutual_friends(user, current_user)),
+                                    common_facebook_likes=len(match_likes),
+                                    common_interests=len(match_interests),
+                                    age=age,
+                                    distance=distance,
+                                    gender=user_gender))
+            except FacebookCustomUserActive.DoesNotExist:
+                pass
 
         filter_distance = filter(lambda x: x.get('distance') <= _distance, results)
         filter_age = filter(lambda x: (x.get('age') <= max_age) and (x.get('age') >= min_age) or (x.get('age') is 0), filter_distance)
@@ -335,7 +339,7 @@ def register(request):
 
 
 def biography_update(request, pk, template_name='goals/biography_form.html'):
-    user = FacebookCustomUser.objects.get(pk=pk)
+    user = FacebookCustomUserActive.objects.get(pk=pk)
     form = BiographyForm(request.POST or None, instance=user)
     if form.is_valid():
         form.save()
@@ -440,7 +444,7 @@ def example(request, graph):
         try:
             UserIPAddress.objects.get(user=request.user.id)
         except UserIPAddress.DoesNotExist:
-            fb_user = FacebookCustomUser.objects.get(pk=request.user.id)
+            fb_user = FacebookCustomUserActive.objects.get(pk=request.user.id)
             user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
             user.save()
     return render_to_response('django_facebook/example.html', context)
@@ -448,7 +452,7 @@ def example(request, graph):
 @login_required()
 def main_page(request, template_name="homepage.html"):
     if request.user.is_authenticated():
-        fb_user = FacebookCustomUser.objects.get(pk=request.user.id)
+        fb_user = FacebookCustomUserActive.objects.get(pk=request.user.id)
         try:
             UserIPAddress.objects.get(user=request.user.id)
         except UserIPAddress.DoesNotExist:
