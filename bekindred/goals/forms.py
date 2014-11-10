@@ -18,11 +18,12 @@ class GoalForm(forms.Form):
         cleaned_data = super(GoalForm, self).clean()
         description = cleaned_data.get("description", False)
 
-        sbj, dummy = Subject.objects.get_or_create(description=description.lower())
-        dummy, created = Goal.objects.get_or_create(user=self.user, goal=sbj)
+        if description:
+            sbj, dummy = Subject.objects.get_or_create(description=description.lower())
+            dummy, created = Goal.objects.get_or_create(user=self.user, goal=sbj)
+            if not created:
+                raise forms.ValidationError("Goal already exists")
 
-        if not created:
-            raise forms.ValidationError("Goal already exists")
         return cleaned_data
 
 
