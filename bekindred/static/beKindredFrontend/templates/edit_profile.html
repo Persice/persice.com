@@ -84,8 +84,8 @@
                         <section class="subtitle-wrapper">
 
                             <div class="tiles metro" ng-controller="PhotosController" ui-sortable ng-model="photos">
-                                <div class="tile" ng-class="{'double double-vertical': $index == 0}" ng-repeat="photo in photos track by $index">
-                                    <img src="{{photo.url}}" alt="">
+                                <div class="tile" ng-class="{'double double-vertical': photo.order == 0}" ng-repeat="photo in photos track by $index">
+                                    <img src="{{photo.photo}}" alt="">
                                 </div>
                             </div>
 

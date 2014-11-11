@@ -7,20 +7,22 @@ angular.module('beKindred')
 
 
 angular.module('beKindred')
-.controller('PhotosController', function ($scope) {
-    $scope.photos = [
-    {i: 1, url: 'http://graph.facebook.com/100008382799410/picture?type=large'},
-    {i: 2, url: 'http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg'},
-    {i: 3, url: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'},
-    {i: 4, url: 'http://www.uwmbionlp.org/uwmbionlp/images/thumb5.jpg'},
-    {i: 5, url: 'http://darylgoodrich.com/wp-content/uploads/2011/08/person.jpg'},
-    {i: 6, url: 'http://sxsw.com/sites/default/files/news/image/Neil-deGrasse-Tyson-body.jpg'}
-    ];
+.controller('PhotosController', function ($scope, PhotosFactory) {
+    // $scope.photos = [
+    // {i: 1, url: 'http://graph.facebook.com/100008382799410/picture?type=large'},
+    // {i: 2, url: 'http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg'},
+    // {i: 3, url: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'},
+    // {i: 4, url: 'http://www.uwmbionlp.org/uwmbionlp/images/thumb5.jpg'},
+    // {i: 5, url: 'http://darylgoodrich.com/wp-content/uploads/2011/08/person.jpg'},
+    // {i: 6, url: 'http://sxsw.com/sites/default/files/news/image/Neil-deGrasse-Tyson-body.jpg'}
+    // ];
+    //
+    $scope.photos = [];
 
     $scope.sortableOptions = {
         stop: function() {
             for (var index in $scope.photos) {
-                $scope.photos[index].i = index;
+                $scope.photos[index].order = index;
             }
 
             console.log($scope.photos);
@@ -28,6 +30,17 @@ angular.module('beKindred')
 
         }
     };
+
+
+    $scope.getPhotos = function() {
+       PhotosFactory.query( {
+            format: 'json'
+        }).$promise.then(function(response) {
+            $scope.photos = response.objects;
+        });
+    };
+
+    $scope.getPhotos();
 
 
 
