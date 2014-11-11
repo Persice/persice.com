@@ -1,5 +1,6 @@
 from django_facebook.models import FacebookCustomUser
 from tastypie import fields
+from tastypie.authentication import SessionAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization, Authorization
 from tastypie.resources import ModelResource
 from members.models import FacebookCustomUserActive
@@ -11,8 +12,8 @@ class UserResource(ModelResource):
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
         fields = ['username', 'first_name', 'last_name', 'last_login']
-        # authorization = Authorization()
-        # authentication = BasicAuthentication()
+        authentication = Authentication()
+        authorization = Authorization()
 
 
 class FacebookPhotoResource(ModelResource):
@@ -21,7 +22,8 @@ class FacebookPhotoResource(ModelResource):
     class Meta:
         queryset = FacebookPhoto.objects.all()
         resource_name = 'photo'
+        authentication = Authentication()
         authorization = Authorization()
 
-    # def get_object_list(self, request):
-    #     return super(FacebookPhotoResource, self).get_object_list(request).filter(user_id=request.user)
+    def get_object_list(self, request):
+        return super(FacebookPhotoResource, self).get_object_list(request).filter(user_id=request.user.id)
