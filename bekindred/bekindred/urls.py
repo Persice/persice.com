@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from goals.api.resources import SubjectResource
-from photos.api.resources import FacebookPhotoResource
+from photos.api.resources import FacebookPhotoResource, UserResource
 
 from django.contrib import admin
 
@@ -10,6 +10,7 @@ admin.autodiscover()
 
 v1_api = Api(api_name='v1')
 v1_api.register(SubjectResource())
+v1_api.register(UserResource())
 v1_api.register(FacebookPhotoResource())
 
 
