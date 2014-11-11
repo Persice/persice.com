@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.db.models import Max
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
@@ -9,12 +10,18 @@ from .models import Photo, FacebookPhoto
 from .forms import PhotoForm, FacebookPhotoCreateForm
 
 
-def list(request):
+def photo_list(request):
     # Handle file upload
     if request.method == 'POST':
         form = PhotoForm(request.user, request.POST, request.FILES)
         if form.is_valid():
-            newdoc = Photo(photo=request.FILES['photo'], user=request.user)
+            order = 0
+            max_order = Photo.objects.filter(user=request.user).aggregate(Max("order"))['order__max']
+
+            if max_order:
+                order = max_order + 1
+
+            newdoc = Photo(photo=request.FILES['photo'], user=request.user, order=order)
             newdoc.save()
 
             # Redirect to the document list after POST
@@ -79,6 +86,13 @@ class CreateFacebookPhoto(CreateView):
     def form_valid(self, form):
         user = self.request.user
         form.instance.user = user
+
+        order = 0
+        max_order = FacebookPhoto.objects.filter(user=self.request.user).aggregate(Max("order"))['order__max']
+        if max_order:
+            order = max_order + 1
+
+        form.instance.order = order
         return super(CreateFacebookPhoto, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
