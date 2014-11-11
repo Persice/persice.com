@@ -60,10 +60,11 @@
                 </nav>
                 <nav class="tab-bar hide-for-large-up">
                     <section class="left-small">
-                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
+                        <!-- <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a> -->
+                        <a class="menu-icon awesome" href="/messages.html"><i class="fa fa-angle-left fa-lg"></i></a>
                     </section>
                     <section class="middle tab-bar-section">
-                        <h1 class="title">Friends</h1>
+                        <h1 class="title">Michael</h1>
                     </section>
                 </nav>
                 <aside class="left-off-canvas-menu">
@@ -80,72 +81,45 @@
                     </ul>
                 </aside>
                 <section class="main-section">
-                    <div id="friends">
-                        <section class="subtitle-wrapper show-for-large-up">
-                            <div class="row">
-                                <div class="medium-10 small-centered columns">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-group fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                    <h5>Friends</h5>
-                                </div>
-                            </div>
+                    <div ng-controller="MessagesController">
+                        <section class="menu-header">
+                            <ul class="small-block-grid-3">
+                                <li class="active">
+                                    <a href=""><i class="fa fa-comment-o fa-lg"></i></a>
+                                </li>
+                                <li>
+                                    <a href=""><i class="fa fa-user fa-lg"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-navicon fa-lg"></i></a>
+                                </li>
+                            </ul>
                         </section>
-                        <section class="friends-header">
-                            <form ng-submit="submit()" action="/friends.html" method="get" class="" role="search" id="myform">
-                                <div class="search-wrapper-inbox">
-                                    <a href="" ng-click="submit()" type="submit" class=""><i class="fa fa-search fa-lg"></i></a>
-                                    <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
+                        <section class="conversation-content" id="scroller">
+                         <div class="row">
+                            <div class="small-12 medium-6 small-centered columns" id="scroller">
+                                <h6>
+                                    Monday, April 14, 2014
+                                </h6>
+                                <div ng-class="{'bubbledLeft': message.left, 'bubbledRight': !message.left}" ng-repeat="message in messages track by $index">
+                                    <p>
+                                        {{message.content}}
+                                    </p>
+                                    <span class="conversation-time">{{message.time | date:'shortTime'}}</span>
                                 </div>
-                            </form>
-                        </section>
-                        <section class="friends-content">
-                            <div class="list-group">
-                                <div class="list-group-item" ng-repeat="n in [1, 2, 3, 4]">
-                                    <a href="/friends_single.html" class="list-link" >
-                                        <div class="friend-picture">
-                                            <img src="http://lorempixel.com/100/100" class="profile-pic" alt="">
-                                        </div>
-                                        <div class="friend-container">
-                                            <div class="friend-header">
-                                                <span class="friend-name">Pero, 37 <span class="friend-distance">10 mi.</span></span><br>
 
-                                            </div>
-                                            <div class="friend-about">
-                                                <ul class="small-block-grid-4">
-                                                    <li>
-                                                        <span><i class="fa fa-check"></i></span>
-                                                        <span class="number">0</span>
-                                                    </li>
-                                                    <li>
-                                                        <span><i class="fa fa-users"></i></span>
-                                                        <span class="number">133</span>
-                                                    </li>
-                                                    <li>
-                                                        <span><i class="fa fa-star"></i></span>
-                                                        <span class="number">143</span>
-                                                    </li>
-                                                    <li>
-                                                        <span><i class="fa fa-chain"></i></span>
-                                                        <span class="number">133</span>
-                                                    </li>
-                                                </ul>
 
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="friend-actions">
-                                       <ul class="circle-icon" id="intro-title">
-                                        <li><a href="/accounts/login" class="red"><i class="fa fa-unlink"></i></a></li>
-                                        <li><a href="/accounts/login" class="blue"><i class="fa fa-envelope"></i></a></li>
-                                    </ul>
-                                </div>
                             </div>
-
-
-
                         </div>
+                    </section>
+
+                    <section class="message-reply">
+                        <form ng-submit="sendNewMessage()" action="/messages.html" method="post" class="" role="search" id="sendform">
+                            <div class="message-reply-wrapper">
+                                <input ng-model="newmessage" type="text" ng-model="q" name="q" placeholder="Message" minlength="3" required>
+                                <a scroll-bottom="scroller"  href="" ng-click="sendNewMessage()" type="submit" class="">Send</a>
+                            </div>
+                        </form>
                     </section>
                 </div>
             </section>
