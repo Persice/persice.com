@@ -12,12 +12,12 @@
     "angular-resource": "1.3.x",
     "foundation": "5.4.x",
     "font-awesome": "~4.2.0",
-    "angular-ui-sortable": "~0.13.0",
     "nouislider-angular": "~1.0.7",
     "angucomplete-alt": "~0.0.31",
     "angular-moment": "~0.8.2",
     "underscore": "~1.7.0",
-    "foundation-notify": "https://github.com/simonschaufi/foundation-notify.git"
+    "foundation-notify": "https://github.com/simonschaufi/foundation-notify.git",
+    "ngDraggable": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.3.x"

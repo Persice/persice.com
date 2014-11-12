@@ -27,6 +27,9 @@ angular.module('beKindred')
             method: 'GET',
             isArray:false,
             cache : false
+        },
+        save: {
+            method:'POST'
         }
     });
 }]);

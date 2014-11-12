@@ -1,49 +1,54 @@
 {% extends 'base.html' %}
 <!-- List of uploaded documents -->
 {% block content %}
-    <div class="container col-md-2 col-md-offset-5">
-        <div class="single-item">
-            <div><div class="image">
-                <img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" width="200">
-            </div></div>
-            {% if documents %}
-                {% for document in documents %}
-                    {% if document.photo.url %}
-                        <div><div class="image">
-                            <a href="{% url 'photo_delete' document.id %}"><span class="glyphicon glyphicon-minus-sign"></span>
-                            <img src="{{ document.photo.url }}" width="200">
-                            </a>
-                        </div></div>
-                    {% else %}
-                        <div><div class="image">
-                            <img src="{{ document.photo }}" width="200">
-                        </div></div>
-                    {% endif %}
-                {% endfor %}
-            {% else %}
-                <p>No documents.</p>
-            {% endif %}
-        </div>
-        <!-- Upload form. Note enctype attribute! -->
-        <form action="{% url "photo_list" %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <p>{{ form.non_field_errors }}</p>
-            <p>
-                {{ form.photo.errors }}
-                <input id="id_photo" type="file" name="photo" title="Add photo">
-            </p>
-            </br>
-            <p><input class="btn btn-default" type="submit" value="Upload" /></p>
-            </br>
-            <p><a href="/photo/facebook/create" class="btn btn-default">Upload from Facebook</a></p>
-        </form>
+<div class="container col-md-2 col-md-offset-5">
+    <div class="single-item">
+        <div><div class="image">
+            <img src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" width="200">
+        </div></div>
+        {% if documents %}
+        {% for document in documents %}
+        {% if document.photo.url %}
+        <div><div class="image">
+            <a href="{% url 'photo_delete' document.id %}"><span class="glyphicon glyphicon-minus-sign"></span>
+                <img src="{{ document.photo.url }}" width="200">
+            </a>
+        </div></div>
+        {% else %}
+        <div><div class="image">
+            <img src="{{ document.photo }}" width="200">
+        </div></div>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <p>No documents.</p>
+        {% endif %}
     </div>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('.single-item').slick({
+    <!-- Upload form. Note enctype attribute! -->
+    <form action="{% url "photo_list" %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>{{ form.non_field_errors }}</p>
+        <p>
+            {{ form.photo.errors }}
+            <input id="id_photo" type="file" name="photo" title="Add photo">
+        </p>
+    </br>
+    <p><input class="btn btn-default" type="submit" value="Upload" /></p>
+</br>
+<p><a href="/photo/facebook/create" class="btn btn-default">Upload from Facebook</a></p>
+</form>
+</div>
 
-            });
-            $('input[type=file]').bootstrapFileInput();
-        });
-    </script>
+{% endblock %}
+
+{% block customscripts %}
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        // $('.single-item').slick({
+
+        // });
+        // $('input[type=file]').bootstrapFileInput();
+    });
+</script>
 {% endblock %}

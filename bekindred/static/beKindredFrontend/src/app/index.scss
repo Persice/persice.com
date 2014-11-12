@@ -1351,9 +1351,9 @@ h5.right.switch_label {
 }
 
 .profile-pic {
-	border-radius: 500px;
-	width: 150px;
-	height: 150px;
+	border-radius: 50%;
+	width: 140px;
+	height: 140px;
 	margin: 20px 0px;
 }
 
@@ -1364,7 +1364,7 @@ h5.right.switch_label {
 }
 
 .profile-wrapper {
-	margin-top: 20px;
+	margin-top: 0px;
 }
 
 .profile-wrapper hr {
@@ -2319,6 +2319,17 @@ div.friend-actions a:hover {
 	color: #999;
 }
 
+
+.read-only-user-profile .goals ul li,
+.read-only-user-profile .offers ul li,
+.read-only-user-profile .about ul li,
+.read-only-user-profile .user_likes ul li,
+.read-only-user-profile .user_interests ul li,
+.read-only-user-profile .social_accounts ul li,
+.read-only-user-profile .user_bio_content {
+	padding-left: 6px!important;
+}
+
 #edit_profile_wrapper h3 {
 	font-size: 1.8rem;
 }
@@ -2348,7 +2359,7 @@ div.friend-actions a:hover {
 
 #user-info.profile-wrapper {
 	position: relative;
-	margin-top: 10px;
+	margin-top: 0px;
 }
 
 #user-info.profile-wrapper h3 {
@@ -2357,4 +2368,46 @@ div.friend-actions a:hover {
 
 #user-other-info {
 	margin-top: 5px;
+}
+
+
+#user_profile_goals {
+	position: absolute;
+	right: 15px;
+}
+
+
+
+[ng-drag] {
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+[ng-drag] {
+	max-width: 185px;
+	max-height: 185px;
+	cursor: move;
+}
+
+[ng-drag].drag-over {
+	border: dashed 2px #3b5998;
+}
+[ng-drag].dragging {
+	opacity: 0.5;
+	max-width: 100px;
+	max-height: 100px;
+}
+[ng-drop] {
+	background: #3b5998;
+	text-align: center;
+	display: block;
+	position: relative;
+}
+[ng-drop].drag-enter {
+	border: dashed 2px #3b5998;
+}
+[ng-drop] div {
+	z-index: 2;
 }

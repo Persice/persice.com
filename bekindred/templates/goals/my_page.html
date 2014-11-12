@@ -1,24 +1,21 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div id="edit_profile_wrapper">
+
+<div id="edit_profile_wrapper" class="read-only-user-profile">
     <section class="subtitle-wrapper">
-        <!-- <div class="row">
-            <div class="small-5 small-centered columns">
+        <div class="row">
+            <div class="small-12 small-centered columns">
                 {% if user.profile_or_self.facebook_id %}
-                    <img class="profile-pic" src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br />
+                <img class="profile-pic" src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large" title="facebook stored image" /><br />
                 {% else %}
-                    <img class="profile-pic" src="{{ STATIC_URL }}img/facebook-default-no-profile-pic.jpg" title="facebook stored image" />
+                <img class="profile-pic" src="{{ STATIC_URL }}img/facebook-default-no-profile-pic.jpg" title="facebook stored image" />
                 {% endif %}
             </div>
-        </div> -->
-        {% verbatim %}
-        <div class="tiles metro" ng-controller="PhotosController" ui-sortable ng-model="photos">
-            <div class="tile" ng-class="{'double double-vertical': $index == 0}" ng-repeat="photo in photos track by $index">
-                <img src="{{photo.photo}}" alt="">
-            </div>
         </div>
-        {% endverbatim %}
     </section>
+
+
     <section class="profile-wrapper" id="user-info">
         <div class="row">
             <div class="small-12 medium-12 large-12 text-left columns">
@@ -31,19 +28,15 @@
         <div class="row">
             <div class="small-12 medium-12 large-12 text-left columns">
                 <div class="goals">
+                    <span id="user_profile_goals"><i class="fa fa-list-alt fa-2x"></i></span>
                     <h4>Goals</h4>
                     <ul class="items">
                         {% for goal in goals %}
                         <li id="goal_{{ goal.goal_id }}">
-                            <a data-reveal-id="deleteModal" href="#" class="delete-goal" id="{{ goal.goal_id }}"><i class="fa fa-minus-circle"></i></a>
-                            <span id="goalName_{{ goal.goal_id }}">{{ goal }}</span>
-                            <a href="{% url "goal_update" goal.goal_id %}"><i class="fa fa-edit"></i></a>
+                            {{ goal }}
                         </li>
                         {% endfor %}
-                        <li>
-                            <a href="{% url "goal_create" %}"><i class="fa fa-plus-circle"></i></a>
-                            Create new goal
-                        </li>
+
                     </ul>
                     <hr>
                 </div>
@@ -56,15 +49,9 @@
                     <ul class="items">
                         {% for offer in offers %}
                         <li id="offer_{{ offer.offer_id }}">
-                            <a data-reveal-id="deleteModal" href="#" class="delete-offer" id="{{ offer.offer_id }}"><i class="fa fa-minus-circle"></i></a>
-                            <span id="offerName_{{ offer.offer_id }}">{{ offer }}</span>
-                            <a href="{% url "offer_update" offer.offer_id %}"><i class="fa fa-edit"></i></a>
+                            {{ offer }}
                         </li>
                         {% endfor %}
-                        <li>
-                            <a href="{% url "offer_create" %}"><i class="fa fa-plus-circle"></i></a>
-                            Create new offer
-                        </li>
                     </ul>
                     <hr>
                 </div>
@@ -76,33 +63,12 @@
                     <h4>About Me</h4>
                     <div class="user_bio_content">
                         {{ user.profile_or_self.about_me }}
-                        <a href="{% url "biography_update" user.id %}"><i class="fa fa-edit"></i></a>
                     </div>
                 </div>
                 <hr>
             </div>
         </div>
-        <div class="row">
-            <div class="small-12 medium-12 large-12 text-left columns">
-                <div class="user_interests">
-                    <h4>Activities & Interests</h4>
-                    <ul class="items">
-                        {% for interest in interests %}
-                        <li id="interest_{{ interest.id }}">
-                            <a data-reveal-id="deleteModal" href="#" class="delete-interest" id="{{ interest.id }}"><i class="fa fa-minus-circle"></i></a>
-                            <span id="interestName_{{ interest.id }}">{{ interest }}</span>
-                            <a href="{% url "update_interest" interest.id %}"><i class="fa fa-edit"></i></a>
-                        </li>
-                        {% endfor %}
-                        <li>
-                            <a href="{% url "create_interest" %}"><i class="fa fa-plus-circle"></i></a>
-                            Create new Interest or Activity
-                        </li>
-                    </ul>
-                    <hr>
-                </div>
-            </div>
-        </div>
+
         <div class="row">
             <div class="small-12 medium-12 large-12 text-left columns">
                 <div class="user_likes">
@@ -118,163 +84,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="small-12 medium-12 large-12 text-left columns">
-                <div class="social_accounts">
-                    <h4>Social accounts</h4>
-                    <ul class="items">
-                        {% if twitter_provider %}
-                        your twitter account: <a href="https://twitter.com/{{ twitter_provider.screen_name }}">{{ twitter_provider.screen_name }}</a>
-                        {% else %}
-                        <a href="/social/associate/twitter/" class="small button radius btn-twitter">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <span class="social-text">Connect Twitter</span>
-                        </a>
-                        {% endif %}
-                        {% if linkedin_provider %}
-                        your linkedin account: <a href="{{ linkedin_provider.public_profile_url }}">{{ linkedin_provider.first_name }}  {{ linkedin_provider.last_name }}</a>
-                        {% else %}
-                        <a href="/social/associate/linkedin/" class="small radius button btn-linkedin">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <span class="social-text">Connect LinkedIn</span></a>
-                            {% endif %}
 
-                            <hr>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="small-12 medium-12 large-12 text-left columns">
-                        <div class="social_accounts">
-                            <h4>Account</h4>
-                            <a data-reveal-id="myModal" role="button" data-reveal-ajax="true" href="{% url 'deactivate_user' %}" class="small button radius alert btn-delete">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-remove fa-stack-1x fa-inverse"></i>
-                                </span>
-                                <span class="social-text">Delete Account</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <div id="myModal" class="reveal-modal full" data-reveal>
-        </div>
-        <div id="deleteModal" class="reveal-modal full" data-reveal>
-            <div class="confirmation-header">
-                <h2>Please Confirm</h2>
-            </div>
-            <div class="confirmation-message">
-                <h3>Are you sure you want to delete <span id="objectName"></span> <strong><span id="deleteName"></span></strong>?</h3>
-                <a class="button success radius" href="#" onclick="$('#deleteModal').foundation('reveal', 'close');">Cancel</a>
-                <a type="submit" data-object="" data-id="" data-url="" id="deleteLink" class="button alert radius">Delete</a>
-            </div>
-            <a class="close-reveal-modal" href="#">&#215;</a>
-        </div>
-        {#        <div class="user_keyword">#}
-        {#            <h4>Keywords</h4>#}
-        {#            <ul class="items">#}
-        {#                {% for keyword in keywords %}#}
-        {#                    <li>{{ keyword }}</li>#}
-        {#                {% endfor %}#}
-        {#            </ul>#}
-        {#        </div>#}
-        {% endblock content %}
-        {% block customscripts %}
-        <script>
-            'use strict';
-            $(document).ajaxSend(function(event, xhr, settings) {
-                function getCookie(name) {
-                    var cookieValue = null;
-                    if (document.cookie && document.cookie != '') {
-                        var cookies = document.cookie.split(';');
-                        for (var i = 0; i < cookies.length; i++) {
-                            var cookie = jQuery.trim(cookies[i]);
-    // Does this cookie string begin with the name we want?
-    if (cookie.substring(0, name.length + 1) == (name + '=')) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-    }
-}
-}
-return cookieValue;
-}
-function sameOrigin(url) {
-    // url could be relative or scheme relative or absolute
-    var host = document.location.host; // host + port
-    var protocol = document.location.protocol;
-    var sr_origin = '//' + host;
-    var origin = protocol + sr_origin;
-    // Allow absolute or scheme relative URLs to same origin
-    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-    (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-    // or any other URL that isn't scheme relative or absolute i.e relative.
-    !(/^(\/\/|http:|https:).*/.test(url));
-}
-function safeMethod(method) {
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
-    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-}
-});
-$(document).ready(function(){
-    $('#deleteLink').click(function(){
-        var id = $(this).attr('data-id');
-        var url = $(this).attr('data-url');
-        var object = $(this).attr('data-object');
-        $.ajax({
-            type: "POST",
-            url: url + id,
-            contentType: 'text/plain',
-            success: function(response){
-                $('#' + object + '_' + id).remove();
-                console.log(response.code);
-                $('#deleteModal').foundation('reveal', 'close');
-                $('.top-center').notify({
-                    message: {text: $('#objectName').text() + ' ' +  $('#deleteName').text() + ' was deleted successfully.'}
-                }).show();
-                $('#deleteLink').attr('data-id', '');
-                $('#deleteLink').attr('data-url', '');
-                $('#deleteLink').attr('data-object', '');
-            }
-        });
-        return false;
-    });
-    $('.delete-goal').click(function(){
-        var goal_id = $(this).attr('id');
-        var goal_name = $('#goalName_' + goal_id).text();
-        $('#deleteLink').attr('data-id', goal_id);
-        $('#deleteLink').attr('data-object', 'goal');
-        $('#deleteLink').attr('data-url', '/goals/delete/goal/');
-        $('#deleteName').text(goal_name);
-        $('#objectName').text('Goal');
-    });
-    $('.delete-offer').click(function(){
-        var offer_id = $(this).attr('id');
-        var offer_name = $('#offerName_' + offer_id).text();
-        $('#deleteLink').attr('data-id', offer_id);
-        $('#deleteLink').attr('data-object', 'offer');
-        $('#deleteLink').attr('data-url', '/goals/delete/offer/');
-        $('#deleteName').text(offer_name);
-        $('#objectName').text('Offer');
-    });
-    $('.delete-interest').click(function(){
-        var interest_id = $(this).attr('id');
-        var interest_name = $('#interestName_' + interest_id).text();
-        $('#deleteLink').attr('data-id', interest_id);
-        $('#deleteLink').attr('data-object', 'interest');
-        $('#deleteLink').attr('data-url', '/interest/delete/');
-        $('#deleteName').text(interest_name);
-        $('#objectName').text('Interest');
-    });
-});
-</script>
-{% endblock customscripts %}
+    </section>
+</div>
+{% endblock content %}

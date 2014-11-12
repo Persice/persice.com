@@ -83,6 +83,19 @@
                     </section>
                     {% endif %}
 
+                    {% if request.path == '/goals/' %}
+                    <section class="right-small" >
+                        <a class="menu-icon awesome" href="/goals/edit/user/">Edit</a>
+                    </section>
+                    {% endif %}
+
+
+                    {% if request.path == '/goals/edit/user/' %}
+                    <section class="right-small" >
+                        <a class="menu-icon awesome" href="/goals/">Done</a>
+                    </section>
+                    {% endif %}
+
                     {% if '/messages/inbox' in request.path %}
                     <section class="right-small" >
                         <a class="menu-icon awesome" href="/messages/write"><i class="fa fa-edit"></i></a>
