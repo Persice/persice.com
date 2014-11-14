@@ -6,8 +6,12 @@
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="Kindred">
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
     <!-- Favicons -->
     <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
     <!-- For third-generation iPad with high-resolution Retina display: -->
@@ -29,190 +33,93 @@
         <![endif]-->
         <script src="{{ STATIC_URL }}js/modernizr.js"></script>
     </head>
-    <body{% if 'goals/user/biography/' not in request.path and '/goals/user' in request.path or '/goals/friend/' in request.path %} id="match"{% endif %}>
+    <body id="main-page">
         <!--[if lt IE 10]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         {% load url from future %}
         {% load i18n %}{% load postman_tags %}
         {% if user.is_authenticated %}
-        <div class="notifications top-center"></div>
-        <div class="off-canvas-wrap" data-offcanvas>
-            <div class="inner-wrap">
-                <nav class="top-bar show-for-large-up" data-topbar>
-                    <ul class="title-area">
-                        <li class="name">
-                            <h1><a href="/">Kindred</a></h1>
-                        </li>
-                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-                    </ul>
-                    <section class="top-bar-section">
-                        <!-- Right Nav Section -->
-                        <ul class="right">
-                            <li><a href="{% url 'postman_inbox' %}"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
-                            <li><a href="/goals/matched"><i class="fa fa-check-square-o"></i> Match Feed</a></li>
-                            {% if '/goals/user/' in request.path %}<li><a class="right-off-canvas-toggle" href="#"><i class="fa fa-sliders"></i> Filter Feed</a></li>{% endif %}
-                            <li><a href="/goals"><i class="fa fa-user"></i> My Profile</a></li>
-                            <li><a href="/friends/list"><i class="fa fa-plus"></i> My Connections</a></li>
-                            <li><a href="/photo/create"><i class="fa fa-photo"></i> Photo</a></li>
-                            <li><a href="/">Welcome, {{ user.username }}</a></li>
-                            <li class="has-form"><a href="/accounts/logout" class="button tiny success radius">Sign out&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
-                        </ul>
-                    </section>
-                </nav>
-                <nav class="tab-bar hide-for-large-up">
-                    <section class="left-small">
-                        {% if '/messages/view' in request.path or '/messages/write' in request.path %}
-                        <a class="menu-icon awesome" href="/messages/inbox/"><i class="fa fa-angle-left fa-lg"></i></a>
-                        {% else %}
-                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
-                        {% endif %}
-                    </section>
-                    <section class="middle tab-bar-section">
-                        <h1 class="title">
-                            {% if '/messages/inbox' in request.path %} Inbox
-                            {% elif '/messages/view' in request.path %} Message
-                            {% elif '/messages/write' in request.path %} New Message
-                            {% elif '/friends/list' in request.path %} Friends
-                            {% else %}  Kindred {% endif %}
+        <div class="ui vertical left inverted labeled sidebar menu" id="menu">
+            <a href="/" class="item"><i class="fa fa-home icon"></i> Home</a>
+            <a href="{% url 'postman_inbox' %}" class="item"><i class="fa fa-envelope icon"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a>
+            <a href="/goals/matched" class="item"><i class="fa fa-check-square-o icon"></i> Match Feed</a>
+            <a href="/goals" class="item"><i class="fa fa-user icon"></i> My Profile</a>
+            <a href="/friends/list" class="item"><i class="fa fa-plus icon"></i> My Connections</a>
+            <a href="/accounts/logout" class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
+            <div class="item" id="side-menu-logo">
+                <ul class="social-icon" id="intro-title">
+                    <li><a href="/" class="facebook"><i class="fa fa-slideshare"></i></a></li>
+                    <li><h1>Kindred</h1></li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="ui inverted top fixed menu">
+            <div class="container">
+                <a class="launch item"><i class="content icon"></i></a>
+                <div class="title item">
+                    <b>Kindred</b>
+                </div>
+                <div class="right menu" id="main-menu-right">
+                    <a href="/" class="item"><i class="fa fa-home"></i> Home</a>
+                    <a href="{% url 'postman_inbox' %}" class="item"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a>
+                    <a href="/goals/matched" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+                    <a href="/goals" class="item"><i class="fa fa-user"></i> My Profile</a>
+                    <a href="/friends/list" class="item"><i class="fa fa-plus"></i> My Connections</a>
+                    {% if '/goals/user/' in request.path %}<a class="item" href="#"><i class="fa fa-sliders"></i></a>{% endif %}
+
+                    <div class="item">
+                       Welcome, USER
+                   </div>
+                   <div class="item">
+                       <a href="/accounts/logout" class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <div class="pusher">
+        <div class="full-height">
+
+            <!-- <div class=" header segment">
+                <div class="container">
+                    <div class="introduction">
+                        <h1 class="ui header">
+                            Reveal
                         </h1>
-                    </section>
-                    {% if '/goals/user/' in request.path %}
-                    <section class="right-small" >
-                        <a class="right-off-canvas-toggle menu-icon awesome" href="#"><i class="fa fa-sliders"></i></a>
-                    </section>
-                    {% endif %}
-
-                    {% if '/messages/inbox' in request.path %}
-                    <section class="right-small" >
-                        <a class="menu-icon awesome" href="/messages/write"><i class="fa fa-edit"></i></a>
-                    </section>
-                    {% endif %}
-
-                </nav>
-                <aside class="left-off-canvas-menu">
-                    <ul class="off-canvas-list">
-                        <li><label>Kindred</label></li>
-                        <li><a href="/"><i class="fa fa-home"></i> Home</a> </li>
-                        <li><a href="{% url 'postman_inbox' %}"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a></li>
-                        <li><a href="/goals/matched"><i class="fa fa-check-square-o"></i> Match Feed</a></li>
-                        <li><a href="/goals"><i class="fa fa-user"></i> My Profile</a></li>
-                        <li><a href="/friends/list"><i class="fa fa-plus"></i> My Connections</a></li>
-                        <li><a href="/photo/create"><i class="fa fa-photo"></i> Photo</a></li>
-                        <li><a href="/accounts/logout">Sign out&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
-
-                    </ul>
-                </aside>
-                {% if '/goals/user/' in request.path %}
-                <aside class="right-off-canvas-menu" id="filter" ng-controller="FilterController">
-                    <form class="form" method="get" action="{% url "matched" %}">
-                        <div class="row">
-                            <div class="small-12 columns one-slider">
-                                <label for="distance" class="">Distance <span class="range">{%verbatim%}{{distanceValue}} mi.{%endverbatim%}</span>
-                                 <div no-ui-slider="distanceOptions" ng-model="distanceValue"></div>
-                                 <input type="text" class="displayNone" required="" ng-model="distanceValue" name="distance">
-                             </label>
-                         </div>
-                     </div>
-                     <div class="row">
-                        <div class="small-12 columns two-slider">
-                            <label>Age <span class="range">{%verbatim%}{{ageValues[0]}} &ndash; {{ageValues[1]}}{%endverbatim%}</span>
-
-                                <div no-ui-slider="ageOptions" ng-model="ageValues"></div>
-                                <input type="text" class="displayNone" required="" ng-model="ageValues[0]" name="min_age">
-                                <input type="text" class="displayNone" required="" ng-model="ageValues[1]" name="max_age">
-
-                            </label>
-                        </div>
+                        <p>A reveal displays additional content in place of previous content when activated</p>
+                        <div class="ui divider"></div>
                     </div>
 
-                    <div class="row">
-                        <div class="small-3 columns">
-                            <label for="right-label" class="right inline">Show</label>
-                        </div>
-                        <div class="small-9 right columns">
-                            <div class="row">
-                                <div class="small-12 right columns">
-                                    <div class="switch round small right">
-                                        <input id="Male" type="radio" name="gender" value="m">
-                                        <label for="Male"></label>
-                                    </div>
-                                    <h5 class="right switch_label">Men</h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 right columns">
-                                    <div class="switch round small right">
-                                        <input id="Female" type="radio" name="gender" value="f">
-                                        <label for="Female"></label>
-                                    </div>
-                                    <h5 class="right switch_label">Women</h5>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="small-12 right columns">
-                                    <div class="switch round small right">
-                                        <input id="Any" type="radio" name="gender" checked="" value="any">
-                                        <label for="Any"></label>
-                                    </div>
-                                    <h5 class="right switch_label">Any</h5>
-                                </div>
-                            </div>
+                </div>
+            </div> -->
 
 
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <label for="">Keywords</label>
-                            <div class="search-wrapper">
-                                <i class="fa fa-search fa-lg"></i>
-                                <input on-enter-blur ng-enter="addKeyword(newKeyword)" ng-model="newKeyword" type="text" placeholder="enter new keyword">
-                            </div>
-
-                            <input type="text" class="displayNone" ng-model="keywords" name="keywords">
+            {% block content %}
+            {% endblock content %}
 
 
-                            {%verbatim%}
-                            <div class="keywords">
-                                <ul class="simple">
-                                    <li ng-repeat="keyword in keywords track by $index">
-                                        <span class="icon"><a href="" ng-click="removeKeyword(index)"><i class="fa fa-times-circle"></i></a></span>{{keyword}}
-                                    </li>
-                                </ul>
-                            </div>
-                            {%endverbatim%}
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="small-12 right columns">
-                            <button type="submit" class="small success radius block" role="button">Filter</button>
-                        </div>
-                    </div>
-                </form>
-            </aside>
-            {% endif %}
-
-
-            <section class="main-section">
-                {% block content %}
-                {% endblock content %}
-            </section>
-            <a class="exit-off-canvas"></a>
         </div>
     </div>
+
+
     {% endif %}
     <script src="{{ STATIC_URL }}js/vendor.js"></script>
+    <script src="{{ STATIC_URL }}js/semantic.js"></script>
     <script src="{{ STATIC_URL }}js/app.js"></script>
     <script src="{{ STATIC_URL }}js/slick.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script>
-        $(document).foundation();
+        'use strict';
+        $('.left.sidebar').first()
+        .sidebar('attach events', '.launch')
+        ;
+        $('.launch')
+        .removeClass('disabled')
+        ;
     </script>
     {% block customscripts %}
     {% endblock customscripts %}

@@ -18,10 +18,8 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
         <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
         <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
-        <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
-        <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
-        <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
-        <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
+        <link href="{{ STATIC_URL }}css/vendor_login.css" rel="stylesheet" media="screen">
+        <link href="{{ STATIC_URL }}css/app_login.css" rel="stylesheet" media="screen">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -36,9 +34,7 @@
         {% load url from future %}
         {% load i18n %}{% load postman_tags %}
         {% block content %}{% endblock content %}
-    <script src="{{ STATIC_URL }}js/vendor.js"></script>
-    <script src="{{ STATIC_URL }}js/slick.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
+    <script src="{{ STATIC_URL }}js/vendor_login.js"></script>
     <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script>
