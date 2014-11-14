@@ -19,5 +19,18 @@ angular.module('beKindred')
             cache : false
         }
     });
+}])
+.factory('PhotosFactory', ['$resource', function($resource){
+  return $resource('/api/v1/photo/:photoId/:param',
+    {photoId: '@photoId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        }
+    });
 }]);
 
