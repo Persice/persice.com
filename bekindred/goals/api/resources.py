@@ -1,3 +1,4 @@
+from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
@@ -12,4 +13,5 @@ class SubjectResource(ModelResource):
         filtering = {
             'description': ALL
         }
+        authentication = SessionAuthentication()
         authorization = DjangoAuthorization()
