@@ -14,28 +14,7 @@
             <h3><strong>Welcome</strong>. Please login.</h3>
         </div><!-- /.medium-5 .small-centered .columns -->
     </div><!-- /.row -->
-    <!-- Start: Login form-->
 
-
-    {% if form.errors %}
-    <div class="row">
-        <div class="medium-5 small-centered columns">
-            {% for field in form %}
-            {% for error in field.errors %}
-            <div data-alert class="alert-box alert">
-                <strong>{{ field.label }}:</strong> {{ error|escape }}
-                <a href="" class="close">×</a>
-            </div>
-            {% endfor %}
-            {% endfor %}
-
-        </div>
-    </div>
-    {% endif %}
-
-
-
-    <!-- End: Login form-->
     <div class="row social_loginOr">
         <div class="medium-5 small-centered columns">
             <hr class="social_hrOr">
