@@ -13,7 +13,7 @@ class UserResource(ModelResource):
         resource_name = 'auth/user'
         fields = ['username', 'first_name', 'last_name', 'last_login']
         authentication = SessionAuthentication()
-        authorization = DjangoAuthorization()
+        authorization = Authorization()
 
 
 class FacebookPhotoResource(ModelResource):
@@ -23,7 +23,7 @@ class FacebookPhotoResource(ModelResource):
         queryset = FacebookPhoto.objects.all()
         resource_name = 'photo'
         authentication = SessionAuthentication()
-        authorization = DjangoAuthorization()
+        authorization = Authorization()
 
     def get_object_list(self, request):
         return super(FacebookPhotoResource, self).get_object_list(request).filter(user_id=request.user.id)
