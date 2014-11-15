@@ -1,242 +1,244 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
-<section class="match" id="match-main">
-    <div class="row">
-        <div class="medium-12 columns">
-            <div class="left user-photo">
-                <img src="http://graph.facebook.com/{{ user_obj.profile_or_self.facebook_id }}/picture?type=large" alt="" class="profile-picture">
-            </div>
-            <div class="left user-description">
-                <div class="user-info">
-                    <h4>{{ user_obj.first_name|capfirst }}, {{ age }}</h4>
-                    <h7 class="subheader">3 miles</h7>
+<div class="container">
+    <section class="match" id="match-main">
+        <div class="row">
+            <div class="medium-12 columns">
+                <div class="left user-photo">
+                    <img src="http://graph.facebook.com/{{ user_obj.profile_or_self.facebook_id }}/picture?type=large" alt="" class="profile-picture">
                 </div>
-                <div class="user-icons">
-                    <ul class="small-block-grid-4">
-                        <li>
-                            <span><i class="fa fa-check fa-lg"></i></span>
-                            <span>0</span>
-                        </li>
-                        <li>
-                            <span><i class="fa fa-users fa-lg"></i></span>
-                            <span>0</span>
-                        </li>
-                        <li>
-                            <span><i class="fa fa-star fa-lg"></i></span>
-                            <span>0</span>
-                        </li>
-                        <li>
-                            <span><i class="fa fa-chain fa-lg"></i></span>
-                            <span>0</span>
-                        </li>
-                    </ul>
+                <div class="left user-description">
+                    <div class="user-info">
+                        <h4>{{ user_obj.first_name|capfirst }}, {{ age }}</h4>
+                        <h7 class="subheader">3 miles</h7>
+                    </div>
+                    <div class="user-icons">
+                        <ul class="small-block-grid-4">
+                            <li>
+                                <span><i class="fa fa-check fa-lg"></i></span>
+                                <span>0</span>
+                            </li>
+                            <li>
+                                <span><i class="fa fa-users fa-lg"></i></span>
+                                <span>0</span>
+                            </li>
+                            <li>
+                                <span><i class="fa fa-star fa-lg"></i></span>
+                                <span>0</span>
+                            </li>
+                            <li>
+                                <span><i class="fa fa-chain fa-lg"></i></span>
+                                <span>0</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="row goals">
-        <div class="medium-12 columns">
-            <h5>Goals</h5>
-            <ul class="simple">
-                {% for goal in goals %}
-                {% if goal.goal_id in match_goals_offers %}
-                <li><span class="icon"><i class="fa fa-check"></i></span>{{ goal }}</li>
-                {% else %}
-                <li><span class="icon"></span>{{ goal }}</li>
-                {% endif %}
-                {% empty %}
-                <li><span class="icon"></span>No offers yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <div class="row offers">
-        <div class="medium-12 columns">
-            <h5>Offers</h5>
-            <ul class="simple">
-                {% for offer in offers %}
-                {% if offer.offer_id in match_goals_offers %}
-                <li><span class="icon"><i class="fa fa-check"></i></span>{{ offer }}</li>
-                {% else %}
-                <li><span class="icon"></span>{{ offer }}</li>
-                {% endif %}
-                {% empty %}
-                <li><span class="icon"></span>No offers yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <div class="row about">
-        <div class="medium-4 small-12 columns">
-            <h5>About</h5>
-            <p>
-                {{ user_obj.profile_or_self.about_me }}
-            </p>
-        </div>
-    </div>
-    <div class="row likes">
-        <div class="medium-12 columns">
-            <h5>Likes</h5>
-            <ul class="simple">
-                {% for like in likes|slice:":5" %}
-                {% if like.name in match_likes %}
-                <li><span class="icon"><i class="fa fa-check"></i></span>{{ like.name }}</li>
-                {% else %}
-                <li><span class="icon"></span>{{ like.name }}</li>
-                {% endif %}
-                {% empty %}
-                <li><span class="icon"></span>No likes yet</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <div class="row activities">
-        <div class="medium-12 columns">
-            <h5>Activities &amp; Interests</h5>
-            <ul class="simple">
-                {% for interest in interests|slice:":5" %}
-                {% if interest.description in match_interests %}
-                <li><span class="icon"><i class="fa fa-check"></i></span>{{ interest.description }}</li>
-                {% else %}
-                <li><span class="icon"></span>{{ interest.description }}</li>
-                {% endif %}
-                {% empty %}
-                <li><span class="icon"></span>No interests yet</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-
-
-    {% if mutual_friends %}
-    <div class="row mutual">
-        <div class="medium-12 columns">
-            <h5>Mutual Friends</h5>
-            <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
-                {% for friend in mutual_friends|slice:":5" %}
-                <li>
-                    <div class="left mutual-friend-photo">
-                        <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" alt="">
-                        <h6>{{ friend.first_name }} {{ friend.last_name }}</h6>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
-
-
-    {% if mutual_facebook_friends %}
-    <div class="row mutual">
-        <div class="medium-12 columns">
-            <h5>Mutual Facebook Friends ({{ mutual_facebook_friends_count }})</h5>
-            <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
-                {% for friend in mutual_facebook_friends|slice:":10" %}
-                <li>
-                    <div class="left mutual-friend-photo">
-                        <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" alt="">
-                        <h6>{{ friend.first_name }} {{ friend.last_name }}</h6>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
-
-
-    {% if mutual_twitter_friends %}
-    <div class="row mutual">
-        <div class="medium-12 columns">
-            <h5>Mutual Twitter Friends ({{ mutual_twitter_friends_count }})</h5>
-            <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
-                {% for connection in mutual_twitter_friends|slice:":10" %}
-                <li>
-                    <div class="left mutual-friend-photo">
-                        <img src="{{ connection.profile_image_url2 }}" alt="">
-                        <h6>{{ connection.name2 }}</h6>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
-
-    {% if mutual_twitter_followers %}
-    <div class="row mutual">
-        <div class="medium-12 columns">
-            <h5>Mutual Twitter Followers ({{ mutual_twitter_followers_count }})</h5>
-            <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
-                {% for follower in mutual_twitter_followers|slice:":10" %}
-                <li>
-                    <div class="left mutual-friend-photo">
-                        <img src="{{ follower.profile_image_url2 }}" alt="">
-                        <h6>{{ follower.name2 }}</h6>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
-
-
-    {% if mutual_linkedin %}
-    <div class="row mutual">
-        <div class="medium-12 columns">
-            <h5>Mutual LinkedIn Connections ({{ mutual_linkedin_count }})</h5>
-            <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
-                {% for connection in mutual_linkedin|slice:":10" %}
-                <li>
-                    <div class="left mutual-friend-photo">
-                        <img src="{{ connection.pictureUrl }}" alt="">
-                        <h6>{{ connection.firstName }} {{ connection.lastName }}</h6>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
-
-
-
-
-</section>
-<section id="match-footer">
-    <div class="row">
-        <div class="medium-12 small-centered columns">
-            {% if goal_offer_obj %}
-            <div class="icon-services red">
-                <a class="" href="/goals/user/{{ goal_offer_obj }}" id="left_button">
-                    <i class="fa fa-thumbs-down fa-lg"></i>
-                </a>
+        <hr>
+        <div class="row goals">
+            <div class="medium-12 columns">
+                <h5>Goals</h5>
+                <ul class="simple">
+                    {% for goal in goals %}
+                    {% if goal.goal_id in match_goals_offers %}
+                    <li><span class="icon"><i class="fa fa-check"></i></span>{{ goal }}</li>
+                    {% else %}
+                    <li><span class="icon"></span>{{ goal }}</li>
+                    {% endif %}
+                    {% empty %}
+                    <li><span class="icon"></span>No offers yet.</li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div class="icon-services green">
-                <a href="/goals/user/{{ goal_offer_obj }}" id="accept_button">
-                    <i class="fa fa-thumbs-up fa-lg"></i>
-                </a>
-            </div>
-            {% else %}
-            <div class="icon-services red">
-                <a class="" href="/" id="left_button">
-                    <i class="fa fa-thumbs-down fa-lg"></i>
-                </a>
-            </div>
-            <div class="icon-services green">
-                <a href="/" id="accept_button">
-                    <i class="fa fa-thumbs-up fa-lg"></i>
-                </a>
-            </div>
-            {% endif %}
         </div>
-    </div>
-</section>
+        <div class="row offers">
+            <div class="medium-12 columns">
+                <h5>Offers</h5>
+                <ul class="simple">
+                    {% for offer in offers %}
+                    {% if offer.offer_id in match_goals_offers %}
+                    <li><span class="icon"><i class="fa fa-check"></i></span>{{ offer }}</li>
+                    {% else %}
+                    <li><span class="icon"></span>{{ offer }}</li>
+                    {% endif %}
+                    {% empty %}
+                    <li><span class="icon"></span>No offers yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row about">
+            <div class="medium-4 small-12 columns">
+                <h5>About</h5>
+                <p>
+                    {{ user_obj.profile_or_self.about_me }}
+                </p>
+            </div>
+        </div>
+        <div class="row likes">
+            <div class="medium-12 columns">
+                <h5>Likes</h5>
+                <ul class="simple">
+                    {% for like in likes|slice:":5" %}
+                    {% if like.name in match_likes %}
+                    <li><span class="icon"><i class="fa fa-check"></i></span>{{ like.name }}</li>
+                    {% else %}
+                    <li><span class="icon"></span>{{ like.name }}</li>
+                    {% endif %}
+                    {% empty %}
+                    <li><span class="icon"></span>No likes yet</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="row activities">
+            <div class="medium-12 columns">
+                <h5>Activities &amp; Interests</h5>
+                <ul class="simple">
+                    {% for interest in interests|slice:":5" %}
+                    {% if interest.description in match_interests %}
+                    <li><span class="icon"><i class="fa fa-check"></i></span>{{ interest.description }}</li>
+                    {% else %}
+                    <li><span class="icon"></span>{{ interest.description }}</li>
+                    {% endif %}
+                    {% empty %}
+                    <li><span class="icon"></span>No interests yet</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+        {% if mutual_friends %}
+        <div class="row mutual">
+            <div class="medium-12 columns">
+                <h5>Mutual Friends</h5>
+                <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
+                    {% for friend in mutual_friends|slice:":5" %}
+                    <li>
+                        <div class="left mutual-friend-photo">
+                            <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" alt="">
+                            <h6>{{ friend.first_name }} {{ friend.last_name }}</h6>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if mutual_facebook_friends %}
+        <div class="row mutual">
+            <div class="medium-12 columns">
+                <h5>Mutual Facebook Friends ({{ mutual_facebook_friends_count }})</h5>
+                <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
+                    {% for friend in mutual_facebook_friends|slice:":10" %}
+                    <li>
+                        <div class="left mutual-friend-photo">
+                            <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" alt="">
+                            <h6>{{ friend.first_name }} {{ friend.last_name }}</h6>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if mutual_twitter_friends %}
+        <div class="row mutual">
+            <div class="medium-12 columns">
+                <h5>Mutual Twitter Friends ({{ mutual_twitter_friends_count }})</h5>
+                <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
+                    {% for connection in mutual_twitter_friends|slice:":10" %}
+                    <li>
+                        <div class="left mutual-friend-photo">
+                            <img src="{{ connection.profile_image_url2 }}" alt="">
+                            <h6>{{ connection.name2 }}</h6>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if mutual_twitter_followers %}
+        <div class="row mutual">
+            <div class="medium-12 columns">
+                <h5>Mutual Twitter Followers ({{ mutual_twitter_followers_count }})</h5>
+                <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
+                    {% for follower in mutual_twitter_followers|slice:":10" %}
+                    <li>
+                        <div class="left mutual-friend-photo">
+                            <img src="{{ follower.profile_image_url2 }}" alt="">
+                            <h6>{{ follower.name2 }}</h6>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if mutual_linkedin %}
+        <div class="row mutual">
+            <div class="medium-12 columns">
+                <h5>Mutual LinkedIn Connections ({{ mutual_linkedin_count }})</h5>
+                <ul class="small-block-grid-4 medium-block-grid-8 large-block-grid-10">
+                    {% for connection in mutual_linkedin|slice:":10" %}
+                    <li>
+                        <div class="left mutual-friend-photo">
+                            <img src="{{ connection.pictureUrl }}" alt="">
+                            <h6>{{ connection.firstName }} {{ connection.lastName }}</h6>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+
+
+
+
+    </section>
+    <section id="match-footer">
+        <div class="row">
+            <div class="medium-12 small-centered columns">
+                {% if goal_offer_obj %}
+                <div class="icon-services red">
+                    <a class="" href="/goals/user/{{ goal_offer_obj }}" id="left_button">
+                        <i class="fa fa-thumbs-down fa-lg"></i>
+                    </a>
+                </div>
+                <div class="icon-services green">
+                    <a href="/goals/user/{{ goal_offer_obj }}" id="accept_button">
+                        <i class="fa fa-thumbs-up fa-lg"></i>
+                    </a>
+                </div>
+                {% else %}
+                <div class="icon-services red">
+                    <a class="" href="/" id="left_button">
+                        <i class="fa fa-thumbs-down fa-lg"></i>
+                    </a>
+                </div>
+                <div class="icon-services green">
+                    <a href="/" id="accept_button">
+                        <i class="fa fa-thumbs-up fa-lg"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+
 {% endblock content %}
 {% block customscripts %}
 <script>
