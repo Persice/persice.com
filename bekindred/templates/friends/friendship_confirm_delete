@@ -1,29 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<section class="subtitle-wrapper">
-    <div class="row">
-        <div class="medium-10 small-centered columns">
-            <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
-            </span>
-            <h5>Remove Friend?</h5>
+<div class="body segment">
+    <div class="container">
+        <div class="ui info message">
+            <div class="header">
+                Please confirm
+            </div>
+            <p>Are you sure you want to remove friend <strong>{{ friend.first_name }} {{ friend.last_name }}</strong>?</p>
+            <p>
+                <form class="" action="" method="post">{% csrf_token %}
+                    <a class="ui button" href="/friends/list">Cancel</a>
+                    <button type="submit" class="ui button red">Delete</button>
+
+                </form>
+            </p>
         </div>
+
     </div>
-</section>
-<section class="edit-wrapper">
-    <div class="row">
-        <div class="columns small-centered small-12 medium-6 large-4">
-            <form class="" action="" method="post">{% csrf_token %}
-                <div data-alert class="alert-box alert">
-                    Are you sure you want to remove friend <strong>{{ friend.first_name }} {{ friend.last_name }}</strong>?
-                    <a href="" class="close">×</a>
-                </div>
-                <br>
-                <a class="button delete success radius" href="/friends/list">Cancel</a>
-                <button type="submit" class="danger submit-button radius">Delete</button>
-            </form>
-        </div>
-    </div>
-</section>
+</div>
 {% endblock content %}

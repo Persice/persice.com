@@ -8,7 +8,7 @@
     border-color: #ececec;
     border-width: 1px;
     border-style: solid;
-    border-radius: 3px;
+    border-radius: 1px;
     width: 100%!important;
     padding: 0px;
     cursor: pointer;
@@ -17,9 +17,10 @@
     text-align: left!important;
     // top: 0px;
     // left: 0px;
-    margin-top: -18px!important;
+    border-top: none!important;
+    margin-top: 0px!important;
     border-top-style:none!important;
-    border-width: 2px!important;
+    border-width: 1px!important;
     border-bottom-left-radius: 4px!important;
     border-bottom-right-radius: 4px!important;
     padding: 0!important;
@@ -243,45 +244,3 @@ creates a new context for the origins. */
 [disabled] .noUi-handle {
     cursor: not-allowed;
 }
-
-
-.notifications {
-    position: fixed;
-    z-index: 9999;
-    width: 100%;
-    margin-top: 0px;
-}
-
-/* Positioning */
-.notifications.top-right {
-    right: 10px;
-    top: 25px;
-}
-
-.notifications.top-left {
-    left: 10px;
-    top: 25px;
-}
-
-.notifications.bottom-left {
-    left: 10px;
-    bottom: 25px;
-}
-
-.notifications.bottom-right {
-    right: 10px;
-    bottom: 25px;
-}
-
-.notifications.top-center {
-    top: -5px;
-}
-
-/* Notification Element */
-.notifications > div {
-    position: relative;
-    margin: 5px 0;
-}
-
-
-

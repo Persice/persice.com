@@ -23,42 +23,39 @@
 {% endif %}
 {% endblock %}
 {% block content %}
+<div class="body segment">
+    <div class="container">
 
-<section class="subtitle-wrapper show-for-large-up">
-    <div class="row">
-        <div class="medium-10 small-centered columns">
-            <h5>
-                New Message
-            </h5>
+        <div class="ui error form segment">
+
+         {% if form.errors %}
+         {% for field in form %}
+         {% for error in field.errors %}
+         <div class="ui error message">
+            <div class="header"><strong>{{ field.label }}:</strong> {{ error|escape }}</div>
         </div>
-    </div>
-</section>
-<section class="new_message">
-    {% if form.errors %}
-    <div class="row">
-        <div class="small-12 medium-8 large-6 small-centered columns">
-            {% for field in form %}
-            {% for error in field.errors %}
-            <div data-alert class="alert-box alert">
-                <strong>{{ field.label }}:</strong> {{ error|escape }}
-                <a href="" class="close">×</a>
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+        <form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
+            {% block pm_write_recipient %}{% endblock %}
+
+
+            <div class="field">
+                <label>Recipient</label>
+                <input placeholder="Enter recipient" type="text" id="id_recipients" name="recipients">
             </div>
-            {% endfor %}
-            {% endfor %}
-        </div>
+
+            <div class="field">
+                <label>Message</label>
+                <textarea  cols="55" id="id_body" name="body" rows="12" placeholder="Enter messsage" type="text"></textarea>
+            </div>
+
+            <button type="submit" class="ui submit green button">{% trans "Send" %}</button>
+        </form>
+
     </div>
-    {% endif %}
-    <div class="row">
-        <div class="small-12 medium-8 large-6 small-centered columns">
-            <form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
-                {% block pm_write_recipient %}{% endblock %}
-                <form class="form-horizontal" action="." method="post">{% csrf_token %}
-                    <input id="id_recipients" name="recipients" type="text" placeholder="Recipient">
-                    <textarea cols="55" id="id_body" name="body" rows="12" placeholder="Enter message"></textarea>
-                    <button type="submit" class="button small success radius">{% trans "Send" %}</button>
-                </form>
-            </form>
-        </div>
-    </div>
-</section>
+
+</div>
+</div>
 {% endblock %}

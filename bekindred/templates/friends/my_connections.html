@@ -3,82 +3,91 @@
 {% load i18n %}{% load postman_tags %}
 {% block content %}
 
-<div id="friends">
-    <section class="subtitle-wrapper show-for-large-up">
-        <div class="row">
-            <div class="medium-10 small-centered columns">
-                <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-group fa-stack-1x fa-inverse"></i>
-                </span>
-                <h5>Friends</h5>
-            </div>
-        </div>
-    </section>
-    {% if my_friends|length > 0 %}
-    <section class="friends-header">
-        <form ng-submit="submit()" action="/friends.html" method="get" class="" role="search" id="myform">
-            <div class="search-wrapper-inbox">
-                <a href="" ng-click="submit()" type="submit" class=""><i class="fa fa-search fa-lg"></i></a>
+
+{% if my_friends|length > 0 %}
+<div class="segment" id="friends-list-header">
+    <div class="container">
+        <form ng-submit="submit()" action="/friends.html" method="get" class="" role="search" id="myform" autocomplete="off">
+            <div class="ui left icon input">
                 <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
+                <i class="circular search icon"></i>
             </div>
         </form>
-    </section>
-    {% endif %}
+    </div>
+</div>
 
-    <section class="friends-content">
-        <div class="list-group">
-            {% for friend in my_friends %}
-            <div class="list-group-item" >
-                <a href="/goals/friend/{{ friend.id }}" class="list-link" >
-                    <div class="friend-picture">
-                        <img src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=" class="profile-pic" alt="">
-                    </div>
-                    <div class="friend-container">
-                        <div class="friend-header">
-                        <span class="friend-name">{{ friend.first_name }} {{ friend.last_name }}</span><br>
 
-                        </div>
-                        <div class="friend-about">
-                            <ul class="small-block-grid-4">
-                                <li>
-                                    <span><i class="fa fa-check"></i></span>
-                                    <span class="number">0</span>
-                                </li>
-                                <li>
-                                    <span><i class="fa fa-users"></i></span>
-                                    <span class="number">133</span>
-                                </li>
-                                <li>
-                                    <span><i class="fa fa-star"></i></span>
-                                    <span class="number">143</span>
-                                </li>
-                                <li>
-                                    <span><i class="fa fa-chain"></i></span>
-                                    <span class="number">133</span>
-                                </li>
-                            </ul>
-
-                        </div>
-                    </div>
+<div class="body segment" id="friends-list-body">
+    <div class="container">
+        <div class="ui divided list">
+         {% for friend in my_friends %}
+         <div class="item">
+             <img class="ui tiny circular image" src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=large">
+             <div class="friend-actions">
+                <a href="/friends/remove/{{ friend.id }}" class="ui circular facebook icon button">
+                    <i class="unlink icon"></i>
                 </a>
-                <div class="friend-actions">
-                 <ul class="circle-icon" id="intro-title">
-                    <li><a href="/friends/remove/{{ friend.id }}" alt="Remove from friends" class="red"><i class="fa fa-unlink"></i></a></li>
-                    <li><a href="{% url 'postman_write' %}{{ friend.username }}" alt="Send message" class="blue"><i class="fa fa-envelope"></i></a></li>
-                </ul>
+                <a href="{% url 'postman_write' %}{{ friend.username }}" class="ui circular twitter icon button">
+                    <i class="envelope icon"></i>
+                </a>
+            </div>
+            <div class="content">
+                <div class="header"><a href="/goals/friend/{{ friend.id }}">{{ friend.first_name }} {{ friend.last_name }}</a></div>
+                <div class="description">
+                    <div class="ui mini statistics">
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="check circle outline icon"></i>
+                            </div>
+                            <div class="label">
+                                4
+                            </div>
+                        </div>
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="empty users icon"></i>
+                            </div>
+                            <div class="label">
+                                4
+                            </div>
+                        </div>
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="empty star icon"></i>
+                            </div>
+                            <div class="label">
+                                4
+                            </div>
+                        </div>
+                        <div class="statistic">
+                            <div class="value">
+                                <i class="linkify icon"></i>
+                            </div>
+                            <div class="label">
+                                4
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         {% empty %}
-        <div data-alert class="alert-box info">
-            No friends yet.
-            <a href="" class="close">×</a>
-        </div>
         {% endfor %}
-
-
-
     </div>
-</section>
+</div>
+</div>
+{% else %}
+<div class="body segment">
+    <div class="container">
+        <div class="ui info message">
+         <p>No friends yet.</p>
+     </div>
+
+ </div>
+</div>
+{% endif %}
+
+
+
 </div>
 {% endblock content %}

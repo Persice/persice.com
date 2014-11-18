@@ -2,257 +2,246 @@
 <!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
 <!--[if IE 10]><html class="ie10" lang="en" > <![endif]-->
 <html class="no-js" ng-app="beKindred">
-    <head>
-        <meta charset="utf-8">
-        <title>Kindred</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
-        <!-- Favicons -->
-        <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
-        <!-- For third-generation iPad with high-resolution Retina display: -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/apple-touch-icon-144x144-precomposed.png">
-        <!-- For iPhone with high-resolution Retina display: -->
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114-precomposed.png">
-        <!-- For first- and second-generation iPad: -->
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
-        <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-        <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
-        <!-- build:css({.tmp,src}) styles/vendor.css -->
-        <link rel="stylesheet" href="app/vendor.css">
-        <!-- endbuild -->
-        <!-- build:css({.tmp,src}) styles/app.css -->
-        <link rel="stylesheet" href="app/index.css">
-        <!-- endbuild -->
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-        <!-- build:js(.) scripts/modernizr.js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
-        <!-- endbuild -->
-    </head>
-    <body>
-        <div class="off-canvas-wrap" data-offcanvas>
-            <div class="inner-wrap">
-                <nav class="top-bar show-for-large-up" data-topbar>
-                    <ul class="title-area">
-                        <li class="name">
-                            <h1><a href="/">Kindred</a></h1>
-                        </li>
-                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-                    </ul>
-                    <section class="top-bar-section">
-                        <!-- Right Nav Section -->
-                        <ul class="right">
-                            <li><a href="#">Inbox</a></li>
-                            <li><a href="#">Match Feed</a></li>
-                            <li><a href="#">Filter Feed</a></li>
-                            <li><a href="#">My Profile</a></li>
-                            <li><a href="#">My Connections</a></li>
-                            <li><a href="#">Registration</a></li>
-                            <li><a href="#">Photo</a></li>
-                            <li class="has-form"><a href="/login.html" class="button tiny success radius">Welcome, User [Logout]</a></li>
-                        </ul>
-                    </section>
-                </nav>
-                <nav class="tab-bar hide-for-large-up">
-                    <section class="left-small">
-                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
-                    </section>
-                    <section class="middle tab-bar-section">
-                        <h1 class="title">Friends</h1>
-                    </section>
-                </nav>
-                <aside class="left-off-canvas-menu">
-                    <ul class="off-canvas-list">
-                        <li><label>Kindred</label></li>
-                        <li><a href="#">Welcome, User (Logout)</a> </li>
-                        <li><a href="#">Inbox</a></li>
-                        <li><a href="#">Match Feed</a></li>
-                        <li><a href="#">Filter Feed</a></li>
-                        <li><a href="#">My Profile</a></li>
-                        <li><a href="#">My Connections</a></li>
-                        <li><a href="#">Registration</a></li>
-                        <li><a href="#">Photo</a></li>
-                    </ul>
-                </aside>
-                <section class="main-section">
-                    <div id="edit_profile_wrapper">
-                        <section class="subtitle-wrapper">
-                            <div class="row">
-                                <div class="small-12 medum-12 large-12 small-centered columns">
-                                    <img class="profile-pic" src="http://graph.facebook.com/100008382799410/picture?type=large" title="facebook stored image"><br>
-                                </div>
+<head>
+    <meta charset="utf-8">
+    <title>Kindred</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <!-- Favicons -->
+    <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/apple-touch-icon-144x144-precomposed.png">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114-precomposed.png">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
+    <!-- build:css({.tmp,src}) styles/vendor.css -->
+    <link rel="stylesheet" href="app/vendor.css">
+    <!-- endbuild -->
+    <!-- build:css({.tmp,src}) styles/app.css -->
+    <link rel="stylesheet" href="app/index.css">
+    <!-- endbuild -->
+</head>
+<body id="main-page" ng-controller="MainCtrl">
+    <div class="ui vertical left inverted labeled sidebar menu" id="menu">
+        <a class="item"><i class="fa fa-home icon"></i> Home</a>
+        <a class="item"><i class="fa fa-envelope icon"></i> Inbox</a>
+        <a class="item"><i class="fa fa-check-square-o icon"></i> Match Feed</a>
+        <a class="item"><i class="fa fa-user icon"></i> My Profile</a>
+        <a class="item"><i class="fa fa-plus icon"></i> My Connections</a>
+        <a class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
+        <div class="item" id="side-menu-logo">
+            <ul class="social-icon" id="intro-title">
+                <li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li>
+                <li><h1>Kindred</h1></li>
+            </ul>
+        </div>
+    </div>
+    <div class="ui inverted top fixed menu">
+        <div class="container">
+            <a class="launch item"><i class="content icon"></i></a>
+            <div class="title item">
+                <b>Kindred</b>
+            </div>
+            <div class="right menu" id="main-menu-right">
+                <a class="item"><i class="fa fa-home"></i> Home</a>
+                <a class="item"><i class="fa fa-envelope"></i> Inbox</a>
+                <a class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+                <a class="item"><i class="fa fa-user"></i> My Profile</a>
+                <a class="item"><i class="fa fa-plus"></i> My Connections</a>
+                <div class="item">
+                    Welcome, USER
+                </div>
+                <div class="item">
+                    <a class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pusher">
+        <div class="full-height">
+            <div class="header segment with-menu" id="my-profile-header">
+                <div class="container">
+                    <div class="pagination-container">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/100008382799410/picture?type=large"> </div>
+                                <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/100008382799410/picture?type=large"> </div>
+                                <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/100008382799410/picture?type=large"> </div>
+                                <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/100008382799410/picture?type=large"> </div>
                             </div>
-                        </section>
-                        <section class="profile-wrapper" id="user-info">
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <h3>Isaac, 23</h3>
-                                    <hr>
-                                </div>
-                            </div>
-                        </section>
-                        <section class="profile-wrapper" id="user-other-info">
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <div class="goals">
-                                        <h4>Goals</h4>
-                                        <ul class="items">
-                                            <li>
-                                                <a href="/goals/user/create/goal/"><i class="fa fa-plus-circle"></i></a>
-                                                Create new goal
-                                            </li>
-                                        </ul>
-                                        <hr>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <div class="offers">
-                                        <h4>Offers</h4>
-                                        <ul class="items">
-                                            <li id="offer_71">
-                                                <a data-reveal-id="deleteModal" href="#" class="delete-offer" id="71"><i class="fa fa-minus-circle"></i></a>
-                                                <span id="offerName_71">asds</span>
-                                                <a href="/goals/update/offer/71"><i class="fa fa-edit"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="/goals/user/create/offer/"><i class="fa fa-plus-circle"></i></a>
-                                                Create new offer
-                                            </li>
-                                        </ul>
-                                        <hr>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <div class="user_bio">
-                                        <h4>About Me</h4>
-                                        <div class="user_bio_content">
-                                            None
-                                            <a href="/goals/user/biography/update/2/"><i class="fa fa-edit"></i></a>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <div class="user_interests">
-                                        <h4>Activities &amp; Interests</h4>
-                                        <ul class="items">
-                                            <li>
-                                                <a href="/interest/create/"><i class="fa fa-plus-circle"></i></a>
-                                                Create new Interest or Activity
-                                            </li>
-                                        </ul>
-                                        <hr>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <div class="user_likes">
-                                        <h4>Likes</h4>
-                                        <ul class="items">
-                                            <li>Facebook Engineering</li>
-                                            <li>BBC Learning English</li>
-                                        </ul>
-                                        <hr>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <div class="social_accounts">
-                                        <h4>Social accounts</h4>
-                                        <a href="/social/associate/twitter/" class="small button radius btn-twitter">
-                                            <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                            <span class="social-text">Connect Twitter</span>
-                                        </a>
-                                        <a href="/social/associate/linkedin/" class="small radius button btn-linkedin">
-                                            <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        <span class="social-text">Connect LinkedIn</span></a>
-                                        <hr>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-12 medium-12 large-12 text-left columns">
-                                    <div class="social_accounts">
-                                        <h4>Account</h4>
-                                        <a data-reveal-id="myModal" role="button" data-reveal-ajax="true" href="/accounts/deactivate/" class="small button radius alert btn-delete">
-                                            <span class="fa-stack fa-lg">
-                                            <i class="fa fa-circle fa-stack-2x"></i>
-                                            <i class="fa fa-remove fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                            <span class="social-text">Delete Account</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </section>
                         </div>
-                    </section>
-                    <a class="exit-off-canvas"></a>
+                        <div class="pagination"></div>
+                    </div>
                 </div>
             </div>
-            <div id="myModal" class="reveal-modal full" data-reveal>
-            </div>
-            <div id="deleteModal" class="reveal-modal full" data-reveal>
-                <div class="confirmation-header">
-                    <h2>Please Confirm</h2>
-                </div>
-                <div class="confirmation-message">
-                    <h3>Are you sure you want to delete <span id="objectName"></span> <strong><span id="deleteName"></span></strong>?</h3>
-                    <a role="button" class="button success radius" href="#" onclick="$('#deleteModal').foundation('reveal', 'close');">Cancel</a>
-                    <a role="button" data-object="" data-id="" data-url="" id="deleteLink" class="button alert radius">Delete</a>
-                </div>
-                <a class="close-reveal-modal" href="#">&#215;</a>
-            </div>
-            <!-- build:js(.) scripts/vendor.js -->
-            <!-- bower:js -->
-            <script src="bower_components/jquery/dist/jquery.js"></script>
-            <script src="bower_components/angular/angular.js"></script>
-            <script src="bower_components/angular-animate/angular-animate.js"></script>
-            <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-            <script src="bower_components/angular-touch/angular-touch.js"></script>
-            <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-            <script src="bower_components/angular-resource/angular-resource.js"></script>
-            <script src="bower_components/fastclick/lib/fastclick.js"></script>
-            <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
-            <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-            <script src="bower_components/foundation/js/foundation.js"></script>
-            <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-            <script src="bower_components/angular-ui-sortable/sortable.js"></script>
-            <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
-            <script src="bower_components/nouislider-angular/nouislider.js"></script>
-            <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
-            <script src="bower_components/moment/moment.js"></script>
-            <script src="bower_components/angular-moment/angular-moment.js"></script>
-            <script src="bower_components/underscore/underscore.js"></script>
-            <script src="bower_components/foundation-notify/foundation-notify.js"></script>
-            <!-- endbower -->
-            <!-- endbuild -->
-            <!-- build:js({src,.tmp}) scripts/app.js -->
-            <script src="app/index.js"></script>
-            <script src="app/services.js"></script>
-            <script src="app/main/main.controller.js"></script>
-            <!-- endbuild -->
-            <script>
-            $(document).foundation();
-            </script>
+            <div class="body segment" id="my-profile-body">
+                <div class="container">
+                    <div class="ui attached segment" id="my-profile-title">
+                        <h3 class="ui left floated header">
+                            Michael, 34
+                        </h3>
+                        <h6 class="ui right floated header">
+                            2 miles
+                        </h6>
+                    </div>
+                    <div class="ui attached segment">
+                        <h4 class="ui header">Goals</h4>
+                        <div class="profile-icon">
+                            <div class="ui mini statistic">
+                                <div class="value">
+                                    <i class="unordered list large icon"></i>
+                                </div>
+                                <div class="label">
+                                    2
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui list">
+                            <div class="item">
+                                <i class="check green icon"></i>
+                                <div class="content">
+                                    <div class="description">Floated Icon</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class="empty icon"></i>
+                                <div class="content">
+                                    <div class="description">Floated Icon</div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="ui header">Offers</h4>
+                        <div class="ui list">
+                            <div class="item">
+                                <i class="check green icon"></i>
+                                <div class="content">
+                                    <div class="description">Floated Icon</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class="empty icon"></i>
+                                <div class="content">
+                                    <div class="description">Floated Icon</div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="ui header">About</h4>
+                        <div class="ui list">
+                            <div class="item">
+                                <i class="empty icon"></i>
+                                <div class="content">
+                                    <div class="description">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur dolorum molestiae eius ab odit, assumenda atque ut eaque mollitia nostrum accusamus quas, nesciunt dolore quod quia, quibusdam consequuntur hic autem?
+                                    </div>
+                                    <a href="#" class="ui header tiny right floated">more &raquo;</a>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="ui header">Likes</h4>
+                        <div class="ui list">
+                            <div class="item">
+                                <i class="check green icon"></i>
+                                <div class="content">
+                                    <div class="description">Floated Icon</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <i class="empty icon"></i>
+                                <div class="content">
+                                    <div class="description">Floated Icon</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui attached segment">
+                        <h4 class="ui header">Mutual Friends</h4>
+                        <div class="profile-icon">
+                            <div class="ui mini statistic">
+                                <div class="value">
+                                    <i class="users large icon"></i>
+                                </div>
+                                <div class="label">
+                                    3
+                                </div>
+                            </div>
+                        </div>
 
-        </body>
-    </html>
+                        <div class="ui selection list">
+                            <div class="item">
+                                <img class="ui avatar image" src="http://graph.facebook.com/100008382799410/picture?type=large">
+                                <div class="content">
+                                    <div class="header">Helen</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="ui avatar image" src="http://graph.facebook.com/100008382799410/picture?type=large">
+                                <div class="content">
+                                    <div class="header">Christian</div>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img class="ui avatar image" src="http://graph.facebook.com/100008382799410/picture?type=large">
+                                <div class="content">
+                                    <div class="header">Daniel</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
+    <script src="bower_components/nouislider-angular/nouislider.js"></script>
+    <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/ngDraggable/ngDraggable.js"></script>
+    <script src="bower_components/semantic-ui/dist/semantic.js"></script>
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
+    <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
+    <script src="bower_components/swiper/dist/idangerous.swiper.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js({src,.tmp}) scripts/app.js -->
+    <script src="app/index.js"></script>
+    <script src="app/services.js"></script>
+    <script src="app/main/main.controller.js"></script>
+    <!-- endbuild -->
+    <script>
+        'use strict';
+        $('.left.sidebar').first()
+        .sidebar('attach events', '.launch')
+        ;
+        $('.launch')
+        .removeClass('disabled')
+        ;
+        var mySwiper = new Swiper('.swiper-container',{
+            pagination: '.pagination',
+            loop:false,
+            grabCursor: true,
+            paginationClickable: true
+        })
+    </script>
+</body>
+</html>
