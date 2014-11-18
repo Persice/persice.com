@@ -21,8 +21,8 @@ angular.module('beKindred')
     });
 }])
 .factory('PhotosFactory', ['$resource', function($resource){
-  return $resource('/api/v1/photo/:photoId/:param',
-    {photoId: '@photoId'} , {
+  return $resource('/api/v1/photo',
+    {} , {
         query: {
             method: 'GET',
             isArray:false,

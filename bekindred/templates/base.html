@@ -20,8 +20,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
     <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
     <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
-    <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}beKindredFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}beKindredFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -29,7 +29,6 @@
                 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
                 <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
                 <![endif]-->
-                <script src="{{ STATIC_URL }}js/modernizr.js"></script>
             </head>
             <body id="main-page" ng-controller="MainCtrl">
                 <!--[if lt IE 10]>
@@ -55,7 +54,7 @@
                 {% if '/goals/user/' in request.path %}
                 <div class="ui vertical right inverted labeled sidebar menu" id="menu">
                     <div id="filter" class="ui form" ng-controller="FilterController">
-                        <form class="form" method="get" action="{% url "matched" %}">
+                        <form name="filterForm" id="filterForm" class="form" method="get" action="{% url "matched" %}">
                             <div class="field">
                                 <label>Distance <span class="range">{%verbatim%}{{distanceValue}} mi.{%endverbatim%}</span></label>
                                 <div no-ui-slider="distanceOptions" ng-model="distanceValue"></div>
@@ -72,22 +71,30 @@
                             </div>
                             <div class="field field-checkbox">
                                 <div class="ui toggle checkbox">
-                                    <input type="checkbox" name="gender" value="m">
+                                    <input id="male" type="checkbox" value="m">
                                     <label>Men</label>
                                 </div>
                             </div>
                             <div class="field field-checkbox">
                                 <div class="ui toggle checkbox">
-                                    <input type="checkbox" name="gender" value="f">
+                                    <input id="female" type="checkbox" value="f">
                                     <label>Women</label>
                                 </div>
                             </div>
                             {%verbatim%}
-                            <div class="field" class="displayNone">
-                                <input value="{{myKeywords}}" type="text" name="keywords">
+                            <div class="field">
+                                <input class="displayNone" value="{{myKeywords}}" type="text" name="keywords">
+                            </div>
+                            <div class="field">
+                                <input class="displayNone" id="genders" value="" type="text" name="gender">
+                            </div>
+                            <div class="ui small negative message" ng-show="showMessage">
+                                <div class="header">
+                                    Keyword already exists.
+                                </div>
                             </div>
                             <div class="ui icon input">
-                                <input type="text" placeholder="Enter keyword" on-enter-blur ng-enter="addKeyword(newKeyword)" ng-model="newKeyword">
+                                <input ng-minlength=3 type="text" placeholder="Enter keyword" on-enter-blur ng-enter="filterForm.$valid && addKeyword(newKeyword)" ng-model="newKeyword">
                                 <i class="circular search icon"></i>
                             </div>
                             <div class="ui list">
@@ -135,13 +142,11 @@
                             <a class="launch item"><i class="fa fa-sliders icon"></i></a>
                         </div>
                         {% endif %}
-
                         {% if '/goals/' == request.path %}
                         <div class="right menu">
                             <a href="/goals/edit/user" class="launch item"><i class="edit icon"></i></a>
                         </div>
                         {% endif %}
-
                     </div>
                 </div>
                 <div class="pusher">
@@ -151,9 +156,8 @@
                     </div>
                 </div>
                 {% endif %}
-                <script src="{{ STATIC_URL }}js/vendor.js"></script>
-                <script src="{{ STATIC_URL }}js/semantic.js"></script>
-                <script src="{{ STATIC_URL }}js/app.js"></script>
+                <script src="{{ STATIC_URL }}beKindredFrontend/dist/scripts/vendor.js"></script>
+                <script src="{{ STATIC_URL }}beKindredFrontend/dist/scripts/app.js"></script>
                 <script src="{{ STATIC_URL }}js/slick.js"></script>
                 <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
                 <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
@@ -181,6 +185,18 @@
                     $('.ui.checkbox')
                     .checkbox()
                     ;
+                    $('#filterForm').submit(function(e) {
+                        e.preventDefault();
+                        var form = $(this);
+                        var mergedInput = $('#genders');
+                        var arr = [];
+                        $("#filterForm input:checkbox:checked").each(function(){
+                            arr.push($(this).val());
+                        });
+                        console.log(arr);
+                        mergedInput.val(JSON.stringify(arr));
+                        this.submit();
+                    });
                 </script>
                 {% block customscripts %}
                 {% endblock customscripts %}
