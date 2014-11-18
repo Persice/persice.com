@@ -35,24 +35,6 @@
 
 
 
-    <form class="form" method="post" action="">
-        {% csrf_token %}
-        <div class="row">
-            <div class="medium-5 small-centered columns">
-                <input type="text" placeholder="Username" id="id_username" name="username">
-                <input type="password" placeholder="Password" id="id_password" name="password">
-                <button type="submit" class="small success block radius">Sign In</button>
-                <input type="hidden" name="next" value="{{ next }}" />
-                <!-- Link -->
-                <ul class="login-desc">
-                    <li><i class="fa fa-unlock"></i> Forgot Password?</li>
-                    <li class="sep">-</li>
-                    <li>Don't have an account? <a href="/accounts/register">Register</a></li>
-                </ul><!-- /.login-desc -->
-                <!-- Link -->
-            </div><!-- /.medium-5 .small-centered .columns -->
-        </div><!-- /.row -->
-    </form><!-- /.login-form -->
     <!-- End: Login form-->
     <div class="row social_loginOr">
         <div class="medium-5 small-centered columns">
