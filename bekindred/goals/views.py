@@ -1,4 +1,5 @@
 from operator import itemgetter
+import ast
 
 from django.shortcuts import redirect
 from django.contrib.gis.geoip import GeoIP
@@ -239,7 +240,9 @@ class MatchView(LoginRequiredMixin, View):
         _distance = request.GET.get('distance', self._DEFAULT_DISTANCE)
         _distance = int(_distance) if _distance else self._DEFAULT_DISTANCE
         _gender = request.GET.get('gender', self._DEFAULT_GENDER)
+
         keywords = request.GET.get('keywords', None)
+        keywords = ast.literal_eval(keywords) if keywords else None
 
         if _gender in ('m', 'f'):
             gender = _gender
@@ -329,28 +332,27 @@ class MatchView(LoginRequiredMixin, View):
             filter_gender = filter_age
 
         if keywords:
-            keyword = 'python'
-            _search_subject = Subject.objects.search(keyword)
-            _search_interest = Interest.objects.search(keyword)
-
-            user_ids = [x.get('user_id') for x in filter_gender]
-
-
             filtered_user_ids = []
+            for keyword in keywords:
+                _search_subject = Subject.objects.search(keyword)
+                _search_interest = Interest.objects.search(keyword)
 
-            filtered_user_ids.append(FacebookCustomUserActive.objects.filter(id__in=user_ids,
-                                                                             about_me__icontains=keyword).
-                                     values_list('id', flat=True))
+                user_ids = [x.get('user_id') for x in filter_gender]
 
-            for user_id in user_ids:
-                for s in _search_subject:
-                    if s.goal_set.filter(user_id=user_id).count() or \
-                       s.offer_set.filter(user_id=user_id).count():
-                        filtered_user_ids.append(user_id)
 
-                for i in _search_interest:
-                    if i.filter(user_id=user_id).count():
-                        filtered_user_ids.append(user_id)
+                filtered_user_ids.extend(FacebookCustomUserActive.objects.filter(id__in=user_ids,
+                                                                                 about_me__icontains=keyword).
+                                         values_list('id', flat=True))
+
+                for user_id in user_ids:
+                    for s in _search_subject:
+                        if s.goal_set.filter(user_id=user_id).count() or \
+                           s.offer_set.filter(user_id=user_id).count():
+                            filtered_user_ids.append(user_id)
+
+                    for i in _search_interest:
+                        if i.filter(user_id=user_id).count():
+                            filtered_user_ids.append(user_id)
 
 
             filter_keywords = filter(lambda x: x.get('user_id') in set(filtered_user_ids), filter_gender)
