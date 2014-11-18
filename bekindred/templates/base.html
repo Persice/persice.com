@@ -166,12 +166,14 @@
                     'use strict';
                     $('.left.sidebar').first()
                     .sidebar('attach events', '#left-menu-launcher')
+                    .sidebar('setting', 'duration', 0)
                     ;
                     $('#left-menu-launcher')
                     .removeClass('disabled')
                     ;
                     $('.right.sidebar').first()
                     .sidebar('attach events', '#right-menu-launcher')
+                    .sidebar('setting', 'duration', 0)
                     ;
                     $('#right-menu-launcher')
                     .removeClass('disabled')

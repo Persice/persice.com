@@ -137,7 +137,6 @@
   0.2s background-color ease
 ;
 @animatedListIndent: 1em;
-@animatedListChildIndent: 0.5em;
 
 /* Bulleted */
 @bulletDistance: 1rem;
@@ -151,7 +150,6 @@
 
 /* Horizontal Bullets */
 @horizontalBulletSpacing: 1.5rem;
-@horizontalBulletOffset: -1.1rem;
 
 /* Ordered List */
 @orderedCountName: ordered;
@@ -201,13 +199,3 @@
 @veryRelaxedHeaderMargin: 0.5rem;
 @veryRelaxedHorizontalPadding: 2rem;
 
-
-/* Sizes */
-@mini: 0.7rem;
-@tiny: 0.8rem;
-@small: 0.9rem;
-@medium: 1rem;
-@large: 1.1rem;
-@big: 1.2rem;
-@huge: 1.3rem;
-@massive: 1.5rem;
