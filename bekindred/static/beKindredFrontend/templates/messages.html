@@ -5,10 +5,12 @@
 <head>
     <meta charset="utf-8">
     <title>Kindred</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <!-- Favicons -->
     <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
     <!-- For third-generation iPad with high-resolution Retina display: -->
@@ -25,115 +27,98 @@
     <!-- build:css({.tmp,src}) styles/app.css -->
     <link rel="stylesheet" href="app/index.css">
     <!-- endbuild -->
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-        <!-- build:js(.) scripts/modernizr.js -->
-        <script src="bower_components/modernizr/modernizr.js"></script>
-        <!-- endbuild -->
-    </head>
-    <body>
-        <div class="off-canvas-wrap" data-offcanvas>
-            <div class="inner-wrap">
-                <nav class="top-bar show-for-large-up" data-topbar>
-                    <ul class="title-area">
-                        <li class="name">
-                            <h1><a href="/">Kindred</a></h1>
-                        </li>
-                        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-                    </ul>
-                    <section class="top-bar-section">
-                        <!-- Right Nav Section -->
-                        <ul class="right">
-                            <li><a href="#">Inbox</a></li>
-                            <li><a href="#">Match Feed</a></li>
-                            <li><a href="#">Filter Feed</a></li>
-                            <li><a href="#">My Profile</a></li>
-                            <li><a href="#">My Connections</a></li>
-                            <li><a href="#">Registration</a></li>
-                            <li><a href="#">Photo</a></li>
-                            <li class="has-form"><a href="/login.html" class="button tiny success radius">Welcome, User [Logout]</a></li>
-                        </ul>
-                    </section>
-                </nav>
-                <nav class="tab-bar hide-for-large-up">
-                    <section class="left-small">
-                        <a class="left-off-canvas-toggle menu-icon" href="#"><span></span></a>
-                    </section>
-                    <section class="middle tab-bar-section">
-                        <h1 class="title">Inbox</h1>
-                    </section>
-                </nav>
-                <aside class="left-off-canvas-menu">
-                    <ul class="off-canvas-list">
-                        <li><label>Kindred</label></li>
-                        <li><a href="#">Welcome, User (Logout)</a> </li>
-                        <li><a href="#">Inbox</a></li>
-                        <li><a href="#">Match Feed</a></li>
-                        <li><a href="#">Filter Feed</a></li>
-                        <li><a href="#">My Profile</a></li>
-                        <li><a href="#">My Connections</a></li>
-                        <li><a href="#">Registration</a></li>
-                        <li><a href="#">Photo</a></li>
-                    </ul>
-                </aside>
-                <section class="main-section">
-                    <div ng-controller="MessagesController">
-                        <section class="inbox-header">
-                            <form ng-submit="submit()" action="/messages.html" method="get" class="" role="search" id="myform">
-                                <div class="search-wrapper-inbox">
-                                    <a href="" ng-click="submit()" type="submit" class=""><i class="fa fa-search fa-lg"></i></a>
-                                    <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
+</head>
+<body id="main-page" ng-controller="MainCtrl">
+    <div class="ui vertical left inverted labeled sidebar menu" id="menu">
+        <a class="item"><i class="fa fa-home icon"></i> Home</a>
+        <a class="item"><i class="fa fa-envelope icon"></i> Inbox</a>
+        <a class="item"><i class="fa fa-check-square-o icon"></i> Match Feed</a>
+        <a class="item"><i class="fa fa-user icon"></i> My Profile</a>
+        <a class="item"><i class="fa fa-plus icon"></i> My Connections</a>
+        <a class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
+        <div class="item" id="side-menu-logo">
+            <ul class="social-icon" id="intro-title">
+                <li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li>
+                <li><h1>Kindred</h1></li>
+            </ul>
+        </div>
+    </div>
+    <div class="ui inverted top fixed menu">
+        <div class="container">
+            <a class="launch item"><i class="content icon"></i></a>
+            <div class="title item">
+                <b>Kindred</b>
+            </div>
+            <div class="right menu" id="main-menu-right">
+                <a class="item"><i class="fa fa-home"></i> Home</a>
+                <a class="item"><i class="fa fa-envelope"></i> Inbox</a>
+                <a class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+                <a class="item"><i class="fa fa-user"></i> My Profile</a>
+                <a class="item"><i class="fa fa-plus"></i> My Connections</a>
+                <div class="item">
+                    Welcome, USER
+                </div>
+                <div class="item">
+                    <a class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pusher">
+        <div class="full-height">
+            <div class="segment" id="inbox-header">
+                <div class="container">
+                    <form ng-submit="submit()" action="/messages.html" method="get" class="" role="search" id="myform" autocomplete="off">
+                        <div class="ui left icon input">
+                            <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
+                            <i class="circular search icon"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="body segment" id="inbox-body">
+                <div class="container">
+                    <div class="ui selection divided list">
+                        <a href="#" class="item" ng-repeat="n in repeatN(10) track by $index">
+                            <img class="ui tiny circular image" src="http://lorempixel.com/100/100">
+                            <span class="message-time">1 day ago</span>
+                            <div class="content">
+                                <div class="header">asds sd</div>
+
+                                <div class="description">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit...
                                 </div>
-                            </form>
-                        </section>
-                        <section class="inbox-content">
-                                <div class="list-group">
-                                    <a href="/messages_single.html" class="list-group-item" ng-repeat="n in [1, 2, 3, 4]">
-                                        <div class="message-picture">
-                                            <img src="http://lorempixel.com/100/100" class="profile-pic" alt="">
-                                        </div>
-                                        <div class="message-container">
-                                            <div class="message-header">
-                                                <span class="message-from">Pero</span>
-                                                <span class="message-date">1:38 pm</span>
-                                            </div>
-                                            <div class="message-body">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit non labore.
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                        </section>
+                            </div>
+                        </a>
                     </div>
-                </section>
-                <a class="exit-off-canvas"></a>
+                </div>
             </div>
         </div>
         <!-- build:js(.) scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/modernizr/modernizr.js"></script>
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/angular-cookies/angular-cookies.js"></script>
         <script src="bower_components/angular-touch/angular-touch.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/fastclick/lib/fastclick.js"></script>
-        <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
-        <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
-        <script src="bower_components/foundation/js/foundation.js"></script>
-        <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-        <script src="bower_components/angular-ui-sortable/sortable.js"></script>
         <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
         <script src="bower_components/nouislider-angular/nouislider.js"></script>
         <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
         <script src="bower_components/moment/moment.js"></script>
         <script src="bower_components/angular-moment/angular-moment.js"></script>
         <script src="bower_components/underscore/underscore.js"></script>
+        <script src="bower_components/ngDraggable/ngDraggable.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
+        <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
+        <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
         <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:js(.) scripts/semantic.js -->
+        <script src="bower_components/semantic-ui/dist/semantic.js"></script>
         <!-- endbuild -->
         <!-- build:js({src,.tmp}) scripts/app.js -->
         <script src="app/index.js"></script>
@@ -141,7 +126,13 @@
         <script src="app/main/main.controller.js"></script>
         <!-- endbuild -->
         <script>
-            $(document).foundation();
+            'use strict';
+            $('.left.sidebar').first()
+            .sidebar('attach events', '.launch')
+            ;
+            $('.launch')
+            .removeClass('disabled')
+            ;
         </script>
     </body>
     </html>

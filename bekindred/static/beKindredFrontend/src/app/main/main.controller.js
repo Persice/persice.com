@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('MainCtrl', function () {
-
+.controller('MainCtrl', function ($scope) {
+    $scope.repeatN = function (n) {
+        return new Array(n);
+    };
 });
 
 
@@ -23,6 +25,7 @@ angular.module('beKindred')
     $scope.onDropComplete = function (index, obj, evt) {
         var otherObj = $scope.photos[index];
         var otherIndex = $scope.photos.indexOf(obj);
+        console.log(evt);
         $scope.photos[index] = obj;
         $scope.photos[index].order = index;
         $scope.photos[otherIndex] = otherObj;

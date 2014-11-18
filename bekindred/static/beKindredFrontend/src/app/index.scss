@@ -2740,7 +2740,7 @@ div.friend-actions a:hover {
 
 #matched-profile-header .ui.statistics {
   display: block;
-  margin: 0em -0.3em;
+  margin-top: 25px;
 }
 
 
@@ -2748,6 +2748,430 @@ div.friend-actions a:hover {
   margin: 0em 0.4em;
 }
 
-#matched-profile-header .grid {
-  max-width: 320px;
+
+#matched-profile-header, #matched-profile-body {
+  background-color: #f7f7f7!important;
+}
+
+#matched-profile-body {
+  padding-top: 0px!important;
+  min-height: 100px!important;
+  border-bottom: none!important;
+  padding-bottom: 5px!important;
+  box-shadow: none!important;
+
+}
+
+
+#matched-profile-header {
+  border: none!important;
+  padding-bottom: 10px!important;
+}
+
+#matched-profile-header .ui.header {
+  margin: 0;
+}
+
+#matched-profile-footer .footer.segment {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  background-color: transparent;
+  border: none!important;
+
+}
+
+#matched-profile-footer .ui.icon.menu {
+  display: block!important;
+  background-color: transparent;
+  border: none!important;
+  box-shadow: none!important;
+}
+
+#matched-profile-footer .ui.icon.menu .item:before {
+  display: none!important;
+}
+
+
+#matched-profile-footer .ui.labeled.icon.menu > .item > .icon {
+  font-size: 4.5em !important;
+  margin: 0!important;
+}
+
+#filter .ui.icon.input {
+  height: 38px!important;
+}
+
+
+
+#inbox-header {
+ border: none!important;
+ padding-bottom: 1em!important;
+ position: relative;
+ z-index: 100;
+ margin: 0em;
+ padding-top: 55px;
+ border-bottom: 1px solid #DDDDDD;
+ box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+#inbox-body {
+  padding-top: 0px!important;
+}
+
+#inbox-body .message-time {
+  position: absolute!important;
+  right: 1em;
+  top: 1em;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: normal;
+}
+
+
+#inbox-body .list {
+  position: relative;
+  max-width: 600px;
+}
+
+#inbox-body a.item {
+  padding-left: 1em;
+  position: relative;
+}
+
+#inbox-body a.item .content .header {
+  font-size: 1.3em;
+  margin-bottom: 1em!important;
+}
+#inbox-body a.item .content {
+  position: absolute;
+  left: 100px;
+  top: 1em;
+}
+
+
+#inbox-body a.item .content img {
+  position: absolute;
+}
+
+#inbox-body a.item .description {
+  padding-right: 1em;
+}
+
+#main-page #inbox-body .container, #main-page #inbox-header .container {
+  max-width: 600px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  #main-page #inbox-body .container, #main-page #inbox-header .container {
+    margin: 0px;
+  }
+}
+
+@media only screen and (max-width: 998px) and (min-width: 600px) {
+  #main-page #inbox-body .container, #main-page #inbox-header .container  {
+    margin: 0px auto;
+  }
+}
+
+
+#inbox-header .container {
+  padding: 0 1em;
+}
+
+#inbox-header .input {
+  width: 100%;
+}
+
+
+
+#message-header {
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  z-index: 2;
+  margin: 0;
+  background-color: #fff;
+}
+
+
+#message-body {
+  position: absolute;
+  top: 83px;
+  width: 100%;
+  z-index: 2;
+  margin: 0;
+  bottom: 58px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+
+#message-body .segment {
+  padding-top: 30%;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+#message-body .header {
+  font-weight: 400;
+}
+
+#message-footer {
+  position: absolute;
+  bottom: 0.9em;
+  width: 100%;
+  padding: 0 1em;
+}
+
+#message-footer .input {
+  width: 100%;
+}
+
+#message-footer .ui.input input {
+
+  padding: 0.8em 1em;
+}
+
+
+
+#friends-list-header {
+ border: none!important;
+ padding-bottom: 1em!important;
+ position: relative;
+ z-index: 100;
+ margin: 0em;
+ padding-top: 55px;
+ border-bottom: 1px solid #DDDDDD;
+ box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+#friends-list-body {
+  padding-top: 0px!important;
+}
+
+#friends-list-body .friend-actions {
+  position: absolute!important;
+  right: 1em;
+  top: 1em;
+  color: #fff;
+  font-weight: normal;
+}
+
+#friends-list-body .friend-actions .icon {
+ color: #fff;
+}
+
+
+#friends-list-body .list {
+  position: relative;
+  max-width: 600px;
+  padding-top: 1em;
+}
+
+#friends-list-body .item {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  position: relative;
+  padding-right: 60px;
+}
+
+#friends-list-body .item .content .header {
+  font-size: 1.5em;
+  font-weight: 300;
+  margin-bottom: 1em!important;
+}
+#friends-list-body .item .content {
+  position: absolute;
+  left: 100px;
+  top: 1em;
+}
+
+
+#friends-list-body .item .content img {
+  position: absolute;
+}
+
+#friends-list-body .item .description {
+  padding-right: 1em;
+}
+
+#main-page #friends-list-body .container, #main-page #friends-list-header .container {
+  max-width: 600px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  #main-page #friends-list-body .container, #main-page #friends-list-header .container {
+    margin: 0px;
+  }
+}
+
+@media only screen and (max-width: 998px) and (min-width: 600px) {
+  #main-page #friends-list-body .container, #main-page #friends-list-header .container  {
+    margin: 0px auto;
+  }
+}
+
+
+#friends-list-header .container {
+  padding: 0 1em;
+}
+
+#friends-list-header .input {
+  width: 100%;
+}
+
+
+#friends-list-body .circular.icon {
+  display: block;
+  margin: 0 0 0.25em 0;
+}
+
+#friends-list-body .ui.statistics {
+  margin: 0!important;
+}
+
+#friends-list-body .ui.statistics .statistic {
+  margin-left: 0px!important;
+  margin-right: 1em!important;
+}
+
+
+
+#profile-header {
+  position: relative;
+  padding-top: 45px;
+}
+
+#matched-profile-header.with-menu {
+  padding-top: 10px!important;
+  padding-bottom: 0px!important;
+  min-height: 175px!important;
+}
+
+
+
+
+
+#my-profile-header .ui.statistics {
+  display: block;
+  margin-top: 25px;
+}
+
+
+#my-profile-header .ui.statistics > .statistic {
+  margin: 0em 0.4em;
+}
+
+
+#my-profile-header, #my-profile-body {
+  background-color: #f7f7f7!important;
+}
+
+#my-profile-body {
+  padding-top: 0px!important;
+  min-height: 100px!important;
+  border-bottom: none!important;
+  padding-bottom: 5px!important;
+  box-shadow: none!important;
+
+}
+
+
+@media only screen and (max-width: 600px) {
+  #main-page #my-profile-body .container, #main-page #my-profile-body .container {
+    margin: 0px;
+  }
+}
+
+#my-profile-header {
+  border: none!important;
+  padding-bottom: 10px!important;
+}
+
+#my-profile-header .ui.header {
+  margin: 0;
+}
+
+
+
+#my-profile-header .pagination {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  bottom:0px;
+  width: 100%;
+}
+#my-profile-header .swiper-pagination-switch {
+  display: inline-block;
+  width: 10px;
+  text-align: center;
+  height: 10px;
+  border-radius: 12px;
+  background: #CCC;
+  margin: 0 3px;
+  cursor: pointer;
+  z-index: 9999;
+}
+#my-profile-header .swiper-active-switch {
+  background: #444;
+}
+
+
+#my-profile-header .swiper-container {
+  text-align: center;
+}
+
+#my-profile-header .swiper-wrapper, #my-profile-header .swiper-slide {
+  height: 160px!important;
+}
+
+
+#my-profile-header .pagination-container {
+  text-align: center!important;
+  padding: 0px!important;
+  height: 195px;
+  position: relative;
+}
+
+#my-profile-header .pagination-container .image {
+  display: inline-block!important;
+  width: 160px!important;
+  height: 160px!important;
+}
+
+#my-profile-body #my-profile-title {
+  padding-bottom: 0px;
+}
+
+
+#my-profile-body #my-profile-title h3 {
+  margin-bottom: 10px;
+}
+
+
+#my-profile-body #my-profile-title h6 {
+  margin: 0px;
+  font-weight: 300;
+  font-size: 1.2em;
+}
+
+#my-profile-body .profile-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+#my-profile-body .profile-icon .ui.mini.statistic > .value {
+  font-size: 1.2em;
+}
+
+#my-profile-header-edit {
+  min-height: 374px;
 }

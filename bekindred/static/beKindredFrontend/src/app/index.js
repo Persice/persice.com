@@ -1,13 +1,10 @@
 'use strict';
 
-angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ngDraggable', 'ya.nouislider', 'angucomplete-alt'])
+angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ngDraggable', 'ya.nouislider', 'angucomplete-alt', 'underscore'])
 .config(function () {
 
 })
 .value('noUiSliderConfig', {step: 1})
-;
-
-angular.module('beKindred')
 .directive('ngEnter', function () {
   return function (scope, element, attrs) {
     element.bind('keydown keypress', function (event) {

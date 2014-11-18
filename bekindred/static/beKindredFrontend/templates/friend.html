@@ -66,37 +66,62 @@
     </div>
     <div class="pusher">
         <div class="full-height">
-        <div class="header segment with-menu" id="my-profile-header" ng-controller="PhotosController">
+            <div id="profile-header">
+                <div class="3 fluid ui buttons">
+                    <div class="ui button"><i class="envelope icon"></i></div>
+                    <div class="ui button active"><i class="user blue icon"></i></div>
+                    <div class="ui button"><i class="ellipsis horizontal icon"></i></div>
+                </div>
+            </div>
+            <div class="header segment with-menu" id="matched-profile-header">
                 <div class="container">
-                    <div class="tiles metro" >
-                        <div class="tile" ng-class="{'double double-vertical': photo.order == 0}" ng-repeat="photo in photos track by $index" ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
-                            <img ng-class="photo.order" ng-drag="true" ng-drag-data="photo" src="{{photo.photo}}" alt="">
+                    <div class="ui segment">
+                        <img class="ui circular middle aligned left floated small image" src="http://graph.facebook.com/100008382799410/picture?type=large">
+                        <h2 class="ui header">
+                            Isaac, 23
+                            <div class="sub header">3 miles</div>
+                        </h2>
+                        <div class="ui mini statistics">
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="check circle outline icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="empty users icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="empty star icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="linkify icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="body segment" id="my-profile-body">
+            <div class="body segment" id="matched-profile-body">
                 <div class="container">
-                    <div class="ui attached segment" id="my-profile-title">
-                        <h3 class="ui left floated header">
-                            Michael, 34
-                        </h3>
-                        <h6 class="ui right floated header">
-                            2 miles
-                        </h6>
-                    </div>
-                    <div class="ui attached segment">
+                    <div class="ui segment">
                         <h4 class="ui header">Goals</h4>
-                        <div class="profile-icon">
-                            <div class="ui mini statistic">
-                                <div class="value">
-                                    <i class="unordered list large icon"></i>
-                                </div>
-                                <div class="label">
-                                    2
-                                </div>
-                            </div>
-                        </div>
                         <div class="ui list">
                             <div class="item">
                                 <i class="check green icon"></i>
@@ -153,20 +178,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="ui attached segment">
                         <h4 class="ui header">Mutual Friends</h4>
-                        <div class="profile-icon">
-                            <div class="ui mini statistic">
-                                <div class="value">
-                                    <i class="users large icon"></i>
-                                </div>
-                                <div class="label">
-                                    3
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="ui selection list">
                             <div class="item">
                                 <img class="ui avatar image" src="http://graph.facebook.com/100008382799410/picture?type=large">
@@ -209,13 +221,14 @@
     <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/ngDraggable/ngDraggable.js"></script>
-    <script src="bower_components/semantic-ui/dist/semantic.js"></script>
     <script src="bower_components/fastclick/lib/fastclick.js"></script>
     <script src="bower_components/jquery-placeholder/jquery.placeholder.js"></script>
     <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
     <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
-    <script src="bower_components/swiper/dist/idangerous.swiper.js"></script>
     <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js(.) scripts/semantic.js -->
+    <script src="bower_components/semantic-ui/dist/semantic.js"></script>
     <!-- endbuild -->
     <!-- build:js({src,.tmp}) scripts/app.js -->
     <script src="app/index.js"></script>
