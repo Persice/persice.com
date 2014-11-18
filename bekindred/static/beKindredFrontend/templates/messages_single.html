@@ -86,14 +86,15 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="segment" id="message-footer">
-        <form ng-submit="submit()" action="/messages.html" method="get" class="" role="search" id="myform" autocomplete="off">
-            <div class="ui action input">
-                <input type="text" ng-model="q" name="q" placeholder="New Message" minlength="3" required>
-                <div class="ui blue button">Send</div>
-            </div>
-        </form>
+
+        <div class="segment" id="message-footer">
+            <form ng-submit="submit()" action="/messages.html" method="get" class="" role="search" id="myform" autocomplete="off">
+                <div class="ui action input">
+                    <input type="text" ng-model="q" name="q" placeholder="New Message" minlength="3" required>
+                    <div class="ui blue button">Send</div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <!-- build:js(.) scripts/vendor.js -->

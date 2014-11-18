@@ -2650,8 +2650,6 @@ div.friend-actions a:hover {
   user-select: none;
 }
 [ng-drag] {
-  max-width: 185px;
-  max-height: 185px;
   cursor: move;
 }
 [ng-drag].drag-over {
@@ -2911,7 +2909,7 @@ div.friend-actions a:hover {
 
 
 #message-body .segment {
-  padding-top: 30%;
+  padding-top: 10%;
   padding-left: 1em;
   padding-right: 1em;
 }
@@ -3173,5 +3171,45 @@ div.friend-actions a:hover {
 }
 
 #my-profile-header-edit {
-  min-height: 374px;
+  height: 315px!important;
+  position: relative;
+  z-index: 2;
+  margin: 0em;
+  padding-top: 47px;
+}
+
+
+#my-profile-header-edit .container {
+
+  height: 273px;
+
+}
+
+#my-profile-header-edit .container .tiles {
+  margin: 1em 0em;
+
+}
+
+
+
+#my-profile-body.edit .content{
+  padding-left: 0px!important;
+}
+
+
+#my-profile-body.edit a.icon {
+  padding-right: 0px!important;
+}
+
+
+#main-page .tiny.circular.image {
+  height: 80px!important;
+  width: 80px!important;
+}
+
+
+
+#main-page .small.circular.image {
+  height: 160px!important;
+  width: 160px!important;
 }

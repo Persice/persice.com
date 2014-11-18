@@ -31,7 +31,7 @@
                 <![endif]-->
                 <script src="{{ STATIC_URL }}js/modernizr.js"></script>
             </head>
-            <body id="main-page">
+            <body id="main-page" ng-controller="MainCtrl">
                 <!--[if lt IE 10]>
                 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
                 <![endif]-->
@@ -82,14 +82,16 @@
                                     <label>Women</label>
                                 </div>
                             </div>
+                            {%verbatim%}
+                            <div class="field" class="displayNone">
+                                <input value="{{myKeywords}}" type="text" name="keywords">
+                            </div>
                             <div class="ui icon input">
                                 <input type="text" placeholder="Enter keyword" on-enter-blur ng-enter="addKeyword(newKeyword)" ng-model="newKeyword">
-                                <input type="text" style="visibility:hidden;" ng-model="keywords" name="keywords">
                                 <i class="circular search icon"></i>
                             </div>
-                            {%verbatim%}
                             <div class="ui list">
-                                <a ng-click="removeKeyword(index)" href="" class="item" ng-repeat="keyword in keywords track by $index">
+                                <a ng-click="removeKeyword(index)" href="" class="item" ng-repeat="keyword in myKeywords track by $index">
                                     <div class="content">
                                         <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
                                     </div>
@@ -133,6 +135,13 @@
                             <a class="launch item"><i class="fa fa-sliders icon"></i></a>
                         </div>
                         {% endif %}
+
+                        {% if '/goals/' == request.path %}
+                        <div class="right menu">
+                            <a href="/goals/edit/user" class="launch item"><i class="edit icon"></i></a>
+                        </div>
+                        {% endif %}
+
                     </div>
                 </div>
                 <div class="pusher">

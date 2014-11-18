@@ -1,31 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="subtitle-wrapper">
-    <div class="row">
-        <div class="medium-10 small-centered columns">
-            <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
-            </span>
-            <h5>Edit Interest</h5>
+<div class="body segment">
+    <div class="container">
+
+        <div class="ui error form segment">
+
+         {% if form.errors %}
+         {% for field in form %}
+         {% for error in field.errors %}
+         <div class="ui error message">
+            <div class="header"><strong>{{ field.label }}:</strong> {{ error|escape }}</div>
         </div>
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+        <form class="" action="" method="post">{% csrf_token %}
+
+
+            <div class="field">
+                <label>New description: </label>
+                {{ form.description }}
+            </div>
+
+
+
+            <button type="submit" class="ui submit green button">Save</button>
+        </form>
+
     </div>
-</section>
-<section class="edit-wrapper">
-    <div class="row">
-        <div class="columns small-centered small-12 medium-6 large-4">
-            <form class="" action="" method="post">{% csrf_token %}
-                <label for="id_about_me">New Description:
-                    {{ form.description }}
-                </label>
-                <button type="submit" class="small-centered success medium-12 small-12 large-12 columns radius">Save</button>
-            </form>
-        </div>
-    </div>
-</section>
+
+</div>
+</div>
 
 {% endblock content %}
+
+
+
+
+
 
 
 

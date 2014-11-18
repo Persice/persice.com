@@ -15,7 +15,7 @@ angular.module('beKindred')
     {order: 1, photo: 'http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg'},
     {order: 2, photo: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'},
     {order: 3, photo: 'http://www.uwmbionlp.org/uwmbionlp/images/thumb5.jpg'},
-    {order: 4, photo: 'http://darylgoodrich.com/wp-content/uploads/2011/08/person.jpg'},
+    {order: 4, photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
     {order: 5, photo: 'http://sxsw.com/sites/default/files/news/image/Neil-deGrasse-Tyson-body.jpg'}
     ];
 
@@ -31,13 +31,13 @@ angular.module('beKindred')
         $scope.photos[otherIndex] = otherObj;
         $scope.photos[otherIndex].order = otherIndex;
 
-        PhotosFactory.save({format: 'json', objects: $scope.photos}, function(success) {
-            console.log('photos order saved');
-            console.log(success);
-        }, function(error) {
-            console.log('photos order not saved');
-            console.log(error);
-        });
+        // PhotosFactory.save({format: 'json', objects: $scope.photos}, function(success) {
+        //     console.log('photos order saved');
+        //     console.log(success);
+        // }, function(error) {
+        //     console.log('photos order not saved');
+        //     console.log(error);
+        // });
     };
 
 
@@ -72,15 +72,15 @@ angular.module('beKindred')
     };
 
 
-    $scope.keywords = [];
+    $scope.myKeywords = [];
 
     $scope.removeKeyword = function(index) {
-        $scope.keywords.splice(index, 1);
+        $scope.myKeywords.splice(index, 1);
     };
 
     $scope.addKeyword = function(item) {
         if (item !== '') {
-            $scope.keywords.push(item);
+            $scope.myKeywords.push(item);
             $scope.newKeyword = '';
         }
 

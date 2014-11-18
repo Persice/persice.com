@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% include 'goals/subject_form.html' with button_name="Add goal" %}
+
+<div class="body segment">
+<div class="container">
+        {% include 'goals/subject_form.html' with button_name="Add goal" %}
+    </div>
+</div>
 {% endblock content %}
