@@ -3213,3 +3213,12 @@ div.friend-actions a:hover {
   height: 160px!important;
   width: 160px!important;
 }
+
+
+#filter .ui.toggle.checkbox .box:before, #filter .ui.toggle.checkbox label:before {
+  background-color: #222!important;
+}
+
+#filter .ui.toggle.checkbox input:checked~.box:before, #filter .ui.toggle.checkbox input:checked~label:before {
+  background-color: #5bbd72!important;
+}
