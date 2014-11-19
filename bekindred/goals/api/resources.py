@@ -1,17 +1,13 @@
-from tastypie import fields
 from tastypie.authentication import SessionAuthentication
-from tastypie.authorization import DjangoAuthorization, Authorization
+from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
-from goals.models import Subject, Goal
-from photos.api.resources import UserResource
+from goals.models import Subject
 
 
-class GoalResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
-
+class SubjectResource(ModelResource):
     class Meta:
-        queryset = Goal.objects.all()
+        queryset = Subject.objects.all()
         fields = ['description']
         allowed_methods = ['get']
         filtering = {
@@ -19,9 +15,3 @@ class GoalResource(ModelResource):
         }
         authentication = SessionAuthentication()
         authorization = Authorization()
-
-    def get_object_list(self, request):
-        return super(GoalResource, self).get_object_list(request).filter(user_id=request.user.id)
-
-    def post_list(self, request, **kwargs):
-        return
