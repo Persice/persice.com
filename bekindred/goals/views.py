@@ -239,15 +239,22 @@ class MatchView(LoginRequiredMixin, View):
         max_age = int(max_age) if max_age else self._MAX_AGE
         _distance = request.GET.get('distance', self._DEFAULT_DISTANCE)
         _distance = int(_distance) if _distance else self._DEFAULT_DISTANCE
-        _gender = request.GET.get('gender', self._DEFAULT_GENDER)
 
         keywords = request.GET.get('keywords', None)
         keywords = ast.literal_eval(keywords) if keywords else None
 
-        if _gender in ('m', 'f'):
-            gender = _gender
-        else:
+        gender = request.GET.get('gender', None)
+        gender = ast.literal_eval(gender) if gender else None
+
+        if not gender:
             gender = self._DEFAULT_GENDER
+        else:
+            if len(gender) == 2:
+                gender = self._DEFAULT_GENDER
+            else:
+                gender = gender[0]
+
+
 
         current_user_goals = Goal.objects.user_goals(current_user)
         current_user_offers = Offer.objects.user_offers(current_user)
