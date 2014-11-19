@@ -37,11 +37,20 @@
     },
     {
         "fields": {
-            "order": 1,
+            "order": 4,
             "photo": "https://scontent-a.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/s130x130/556809_370397049666813_809368204_n.jpg?oh=265b9b7f1ecc56b522583da66cc0b281&oe=54E9B53F",
             "user": 10
         },
         "model": "photos.facebookphoto",
         "pk": 5
+    },
+    {
+        "fields": {
+            "order": 5,
+            "photo": "https://scontent-a.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/s130x130/556809_370397049666813_809368204_n.jpg?oh=265b9b7f1ecc56b522583da66cc0b281&oe=54E9B53F",
+            "user": 10
+        },
+        "model": "photos.facebookphoto",
+        "pk": 6
     }
 ]

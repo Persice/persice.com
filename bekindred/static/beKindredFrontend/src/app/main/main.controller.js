@@ -11,15 +11,8 @@ angular.module('beKindred')
 angular.module('beKindred')
 .controller('PhotosController', function ($scope, PhotosFactory) {
     $scope.photos = [
-    {order: 0, photo: 'http://graph.facebook.com/100008382799410/picture?type=large'},
-    {order: 1, photo: 'http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg'},
-    {order: 2, photo: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'},
-    {order: 3, photo: 'http://www.uwmbionlp.org/uwmbionlp/images/thumb5.jpg'},
-    {order: 4, photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
-    {order: 5, photo: 'http://sxsw.com/sites/default/files/news/image/Neil-deGrasse-Tyson-body.jpg'}
     ];
 
-    // $scope.photos = [];
 
 
     $scope.onDropComplete = function (index, obj, evt) {
@@ -31,27 +24,35 @@ angular.module('beKindred')
         $scope.photos[otherIndex] = otherObj;
         $scope.photos[otherIndex].order = otherIndex;
 
-        // PhotosFactory.save({format: 'json', objects: $scope.photos}, function(success) {
-        //     console.log('photos order saved');
-        //     console.log(success);
-        // }, function(error) {
-        //     console.log('photos order not saved');
-        //     console.log(error);
-        // });
+        PhotosFactory.save({format: 'json', objects: $scope.photos}, function(success) {
+            console.log('photos order saved');
+            console.log(success);
+        }, function(error) {
+            console.log('photos order not saved');
+            console.log(error);
+        });
     };
 
 
-    // $scope.getPhotos = function() {
-    //     PhotosFactory.query( {
-    //         format: 'json'
-    //     }).$promise.then(function(response) {
-    //         $scope.photos = response.objects;
-    //     });
-    // };
+    $scope.getPhotos = function() {
+        PhotosFactory.query( {
+            format: 'json'
+        }).$promise.then(function(response) {
+            $scope.photos = response.objects;
+        });
+    };
 
-    // $scope.getPhotos();
+    $scope.getPhotos();
 
 
+    $scope.$on('ngRepeatFinished', function () {
+        var mySwiper = new Swiper('.swiper-container',{
+         pagination: '.pagination',
+         loop:false,
+         grabCursor: true,
+         paginationClickable: true
+     });
+    });
 
 
 
@@ -64,6 +65,10 @@ angular.module('beKindred')
     $scope.distanceOptions = {
         range: {min: 1, max: 10000}
     };
+
+
+    $scope.gender = [];
+    $scope.showMessage = false;
 
 
     $scope.ageValues = [25,60];
@@ -79,9 +84,18 @@ angular.module('beKindred')
     };
 
     $scope.addKeyword = function(item) {
-        if (item !== '') {
+
+        var existing = _.some($scope.myKeywords, function(i) {
+            return i == item;
+        });
+
+        if (!existing) {
             $scope.myKeywords.push(item);
             $scope.newKeyword = '';
+            $scope.showMessage = false;
+        }
+        else {
+            $scope.showMessage = true;
         }
 
     };

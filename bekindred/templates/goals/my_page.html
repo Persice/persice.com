@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="header segment with-menu" id="my-profile-header">
+<div class="header segment with-menu" id="my-profile-header" ng-controller="PhotosController">
     <div class="container">
         <div class="pagination-container">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large"> </div>
-                    <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large"> </div>
-                    <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large"> </div>
-                    <div class="swiper-slide"> <img class="ui image circular small" src="http://graph.facebook.com/{{ user.profile_or_self.facebook_id }}/picture?type=large"> </div>
+                    {% verbatim %}
+                    <div class="swiper-slide" ng-repeat="photo in photos track by $index" end-repeat>
+                        <img class="ui image circular small" src="{{photo.photo}}">
+                    </div>
+                    {% endverbatim %}
                 </div>
             </div>
             <div class="pagination"></div>
@@ -117,12 +118,7 @@
 <script>
 
 
-    var mySwiper = new Swiper('.swiper-container',{
-        pagination: '.pagination',
-        loop:false,
-        grabCursor: true,
-        paginationClickable: true
-    })
+
 
 </script>
 
