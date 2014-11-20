@@ -13,13 +13,13 @@ class FriendManager(models.Manager):
             sender=sender,
             recipient=u1,
             subject='test',
-            body="You and {} are now peeps".format(u2.first_name)
+            body=u"You and {} are now peeps".format(u2.first_name)
         )
         pm_write(
             sender=sender,
             recipient=u2,
             subject='test',
-            body="You and {} are now peeps".format(u1.first_name)
+            body=u"You and {} are now peeps".format(u1.first_name)
         )
         result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
                                        Q(friend1=friend2, friend2=friend1))[0]
