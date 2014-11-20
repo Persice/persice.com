@@ -20,7 +20,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
-STATIC_ROOT = 'staticfiles'
+# Django
+STATICFILES_ROOT = os.path.join(BASE_DIR, '..', 'static/')
 
 FACEBOOK_APP_ID = 633834406712155
 FACEBOOK_APP_SECRET = '618558f85672fd7ec3a6c3aef89f0970'

@@ -22,9 +22,9 @@ PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 SECRET_KEY = 'zguhddh+2x9@!*@&_jdw7v*hslwv_)nx$sw@rwcr+$nppu7f*4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
-
-TEMPLATE_DEBUG = DEBUG
+# DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
+#
+# TEMPLATE_DEBUG = DEBUG
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, '..', 'templates'),
