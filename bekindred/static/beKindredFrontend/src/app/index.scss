@@ -2651,14 +2651,17 @@ div.friend-actions a:hover {
 }
 [ng-drag] {
   cursor: move;
+  max-width: 180px;
+  max-height: 180px;
 }
 [ng-drag].drag-over {
   border: dashed 2px #3b5998;
 }
 [ng-drag].dragging {
   opacity: 0.5;
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 180px;
+  max-height: 180px;
+  z-index: 999999!important;
 }
 [ng-drop] {
   background: #3b5998;
@@ -3166,22 +3169,26 @@ div.friend-actions a:hover {
   top: 10px;
 }
 
+#my-profile-body.edit #my-profile-title {
+  border-top: none!important;
+}
+
 #my-profile-body .profile-icon .ui.mini.statistic > .value {
   font-size: 1.2em;
 }
 
 #my-profile-header-edit {
-  height: 315px!important;
+  height: 350px!important;
   position: relative;
   z-index: 2;
   margin: 0em;
-  padding-top: 47px;
+  padding-top: 55px;
 }
 
 
 #my-profile-header-edit .container {
 
-  height: 273px;
+  height: 300px;
 
 }
 
@@ -3221,4 +3228,130 @@ div.friend-actions a:hover {
 
 #filter .ui.toggle.checkbox input:checked~.box:before, #filter .ui.toggle.checkbox input:checked~label:before {
   background-color: #5bbd72!important;
+}
+
+#tiles {
+  max-width: 320px;
+  z-index: 500!important;
+}
+
+
+#tiles .ui.floated.image, #tiles .ui.floated.images {
+  margin-left: 0px!important;
+  margin-right: 4px;
+  margin-bottom: 4px!important;
+}
+
+#tiles .ui.image {
+  margin-right: 0px;
+}
+
+
+#tiles .tile-big {
+  position: relative!important;
+  background-color: #e0e0e0!important;
+  width: 180px!important;
+  height: 180px!important;
+}
+
+#tiles .tile-big img {
+  width: 180px!important;
+  height: 180px!important;
+}
+
+#tiles .tile-small img {
+  width: 88px!important;
+  height: 88px!important;
+}
+
+
+#tiles .button, #tiles .button:hover {
+  background-color: transparent!important;
+}
+
+#tiles .tile-big .button {
+  margin: 0px!important;
+  font-size: 1rem!important;
+}
+
+#tiles .tile-big .button .icon {
+  display: block;
+  font-size: 2em !important;
+  margin: 0em auto 0.5em !important;
+}
+
+
+#tiles .tile-small .button {
+  margin: 0px!important;
+  font-size: 0.7rem!important;
+}
+
+#tiles .tile-small .button .icon {
+  display: block;
+  font-size: 1.5em !important;
+  margin: 0em auto 0.5em !important;
+}
+
+#tiles .tile-small {
+  position: relative!important;
+  background-color: #e0e0e0!important;
+  width: 88px!important;
+  height: 88px!important;
+}
+
+#tiles .tile .label {
+  z-index: 1000!important;
+}
+
+#tiles .tile-content {
+  position: absolute!important;
+  top: 0!important;
+  left: 0!important;
+  width: 100%!important;
+  height: 100%!important;
+  z-index: 999!important;
+  text-align:center!important;
+}
+
+#tiles .tile-content .content {
+  width: 100%!important;
+  height: 100%!important;
+  display: table!important;
+}
+
+
+#tiles .tile-content .content .center {
+  display: table-cell!important;
+  vertical-align: middle!important;
+}
+
+
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+
+ng\:form {
+  display: block;
+}
+
+
+#tiles .tile:hover {
+  background-color: #e8e8e8!important;
+}
+
+
+
+#photos_modal .ui.card, #photos_modal .ui.cards>.card {
+  width: 180px!important;
+}
+
+
+
+@media only screen and (max-width : 600px) {
+  #my-profile-header-edit .container {
+    margin: 0px!important;
+  }
 }

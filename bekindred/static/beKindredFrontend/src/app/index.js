@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ngDraggable', 'ya.nouislider', 'angucomplete-alt', 'underscore', 'checklist-model'])
-.config(function () {
-
+.config(function ($httpProvider) {
+  $httpProvider.defaults.headers.patch = {
+    'Content-Type': 'application/json;charset=utf-8'
+  };
 })
 .value('noUiSliderConfig', {step: 1})
 .directive('ngEnter', function () {

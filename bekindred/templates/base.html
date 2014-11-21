@@ -144,6 +144,12 @@
                             <a href="/goals/edit/user" class="launch item"><i class="edit icon"></i></a>
                         </div>
                         {% endif %}
+
+                         {% if '/goals/edit/user/' == request.path %}
+                        <div class="right menu">
+                            <a href="/goals/" class="launch item">Done</a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="pusher">

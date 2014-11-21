@@ -9,8 +9,18 @@ angular.module('beKindred')
 
 
 angular.module('beKindred')
-.controller('PhotosController', function ($scope, PhotosFactory) {
-    $scope.photos = [
+.controller('PhotosController', function ($scope, PhotosFactory, $filter) {
+    $scope.photos = [];
+
+    $scope.facebookPhotos = [
+    {photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
+    {photo: 'http://media.cirrusmedia.com.au/LW_Media_Library/594partner-profile-pic-An.jpg'},
+    {photo: 'http://www.exchangewire.com/wp-content/uploads/2013/10/Profile-Pic.png'},
+    {photo: 'http://fancyholidays.com/wp-content/uploads/2013/02/Andrew_avatar.jpg'},
+    {photo: 'https://www.berlinale.de/media/60_jubilaeum_1/starportraits/2011_4/2011-02-10-9358-0662_Jeff_Bridges_IMG_x900.jpg'},
+    {photo: 'http://i.telegraph.co.uk/multimedia/archive/02833/ronanfarrow_2833413b.jpg'},
+    {photo: 'http://arstechnica.com/wp-content//uploads/authors/ars_profile.jpg'},
+    {photo: 'https://pbs.twimg.com/profile_images/1771648774/Sacca_profile_400x400.jpg'}
     ];
 
 
@@ -24,35 +34,93 @@ angular.module('beKindred')
         $scope.photos[otherIndex] = otherObj;
         $scope.photos[otherIndex].order = otherIndex;
 
-        PhotosFactory.save({format: 'json', objects: $scope.photos}, function(success) {
-            console.log('photos order saved');
-            console.log(success);
-        }, function(error) {
-            console.log('photos order not saved');
-            console.log(error);
-        });
-    };
 
+        //TODO send API update order call
 
-    $scope.getPhotos = function() {
-        PhotosFactory.query( {
-            format: 'json'
-        }).$promise.then(function(response) {
-            $scope.photos = response.objects;
-        });
-    };
+        // PhotosFactory.patch({format: 'json', objects: $scope.photos}, function(success) {
+        //     console.log('photos order saved');
+        //     console.log(success);
+        // }, function(error) {
+        //     console.log('photos order not saved');
+        //     console.log(error);
+        // });
+};
 
-    $scope.getPhotos();
+$scope.getPhotos = function() {
+    PhotosFactory.query( {
+        format: 'json'
+    }).$promise.then(function(response) {
+        $scope.photos = response.objects;
+        console.log($scope.photos);
+        $filter('orderBy')( $scope.photos, 'order', false);
+        console.log($scope.photos);
 
-
-    $scope.$on('ngRepeatFinished', function () {
-        var mySwiper = new Swiper('.swiper-container',{
-         pagination: '.pagination',
-         loop:false,
-         grabCursor: true,
-         paginationClickable: true
-     });
+        if ($scope.photos.length == 0) {
+            $scope.photos = [
+            {id: 0, order: 0, photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
+            {id: 0, order: 1, photo: ''},
+            {id: 0, order: 2, photo: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'},
+            {id: 0, order: 3, photo: ''},
+            {id: 0, order: 4, photo: ''},
+            {id: 0, order: 5, photo: ''}
+            ];
+        }
     });
+};
+
+$scope.getPhotos();
+
+
+$scope.deletePhoto = function() {
+    var deleteIndex = $scope.userPhotoDeleteIndex;
+    console.log(deleteIndex);
+    $scope.photos[deleteIndex].photo = '';
+    console.log('deleted photo');
+    //TODO send API delete call
+};
+
+$scope.createPhoto = function(indexFbPhoto) {
+
+    console.log('Creating photo');
+
+    var newFbPhoto = $scope.facebookPhotos[indexFbPhoto];
+
+    //TODO send API creeate photo call
+    var newPhoto = {
+        photo:  newFbPhoto.photo,
+        order: $scope.newPhotoIndex,
+        id: null
+    };
+
+    console.log( newFbPhoto);
+    console.log($scope.newPhotoIndex);
+
+    var index = $scope.newPhotoIndex;
+    $scope.photos[index].photo =  newFbPhoto.photo;
+
+    $('#photos_modal').modal('hide');
+
+
+};
+
+$scope.$on('ngRepeatFinished', function () {
+    var mySwiper = new Swiper('.swiper-container',{
+        pagination: '.pagination',
+        loop:false,
+        grabCursor: true,
+        paginationClickable: true
+    });
+
+
+    $('#photos_modal').modal('attach events', '.add_photo', 'show');
+    $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
+
+
+    $('.special.cards .image').dimmer({
+        on: 'hover'
+    });
+
+});
 
 
 
