@@ -71,3 +71,9 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         self.assertEqual(FacebookPhoto.objects.count(), 1)
         # Check for updated data.
         self.assertEqual(FacebookPhoto.objects.get(pk=self.photo.id).order, 1)
+
+    def test_delete_detail(self):
+        self.response = self.login()
+        self.assertEqual(FacebookPhoto.objects.count(), 1)
+        self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
+        self.assertEqual(FacebookPhoto.objects.count(), 0)
