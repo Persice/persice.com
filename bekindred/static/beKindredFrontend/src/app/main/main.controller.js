@@ -11,6 +11,7 @@ angular.module('beKindred')
 angular.module('beKindred')
 .controller('PhotosController', function ($scope, PhotosFactory, $filter) {
     $scope.photos = [];
+    $scope.photosSlider = [];
 
     $scope.facebookPhotos = [
     {photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
@@ -50,10 +51,8 @@ $scope.getPhotos = function() {
     PhotosFactory.query( {
         format: 'json'
     }).$promise.then(function(response) {
-        $scope.photos = response.objects;
-        console.log($scope.photos);
+        $scope.photosSlider = response.objects;
         $filter('orderBy')( $scope.photos, 'order', false);
-        console.log($scope.photos);
 
         if ($scope.photos.length == 0) {
             $scope.photos = [
@@ -65,6 +64,14 @@ $scope.getPhotos = function() {
             {id: 0, order: 5, photo: ''}
             ];
         }
+
+        $scope.photosSlider = [
+        {id: 0, order: 0, photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
+        {id: 0, order: 2, photo: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'}
+
+        ];
+
+
     });
 };
 

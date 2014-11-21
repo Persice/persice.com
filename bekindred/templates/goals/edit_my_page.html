@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img ng-src="{{photo.photo}}" ng-if="photo.photo !== ''" ng-class="photo.order" ng-drag="true" ng-drag-data="photo">
+                        <div ng-if="photo.photo !== ''" ng-drag="true" ng-drag-data="photo" style="background-image: url('{{photo.photo}}')" class="img-bounding-box"></div>
                     </div>
                     {% endverbatim %}
                 </div>
