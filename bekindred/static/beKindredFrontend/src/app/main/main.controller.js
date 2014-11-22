@@ -9,8 +9,18 @@ angular.module('beKindred')
 
 
 angular.module('beKindred')
-.controller('PhotosController', function ($scope, PhotosFactory, $filter) {
-    $scope.photos = [];
+.controller('PhotosController', function ($scope, PhotosFactory, $filter, USER_ID, $cookies, $http) {
+
+    $scope.apiPhotos = [];
+    $scope.photos = [
+    {id: 0, order: 0, photo: ''},
+    {id: 0, order: 1, photo: ''},
+    {id: 0, order: 2, photo: ''},
+    {id: 0, order: 3, photo: ''},
+    {id: 0, order: 4, photo: ''},
+    {id: 0, order: 5, photo: ''}
+    ];
+
     $scope.photosSlider = [];
 
     $scope.facebookPhotos = [
@@ -36,98 +46,107 @@ angular.module('beKindred')
         $scope.photos[otherIndex].order = otherIndex;
 
 
-        //TODO send API update order call
+        //API update photo - patch method
+        PhotosFactory.update({photoId: $scope.photos[index].id}, {order:  $scope.photos[index].order },
+            function(success) {
+                console.log('Photo order saved');
+            }, function(error) {
+                console.log(error);
+            });
 
-        // PhotosFactory.patch({format: 'json', objects: $scope.photos}, function(success) {
-        //     console.log('photos order saved');
-        //     console.log(success);
-        // }, function(error) {
-        //     console.log('photos order not saved');
-        //     console.log(error);
-        // });
-};
-
-$scope.getPhotos = function() {
-    PhotosFactory.query( {
-        format: 'json'
-    }).$promise.then(function(response) {
-        $scope.photosSlider = response.objects;
-        $filter('orderBy')( $scope.photos, 'order', false);
-
-        if ($scope.photos.length == 0) {
-            $scope.photos = [
-            {id: 0, order: 0, photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
-            {id: 0, order: 1, photo: ''},
-            {id: 0, order: 2, photo: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'},
-            {id: 0, order: 3, photo: ''},
-            {id: 0, order: 4, photo: ''},
-            {id: 0, order: 5, photo: ''}
-            ];
-        }
-
-        $scope.photosSlider = [
-        {id: 0, order: 0, photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
-        {id: 0, order: 2, photo: 'http://organicthemes.com/demo/profile/files/2012/12/profile_img.png'}
-
-        ];
-
-
-    });
-};
-
-$scope.getPhotos();
-
-
-$scope.deletePhoto = function() {
-    var deleteIndex = $scope.userPhotoDeleteIndex;
-    console.log(deleteIndex);
-    $scope.photos[deleteIndex].photo = '';
-    console.log('deleted photo');
-    //TODO send API delete call
-};
-
-$scope.createPhoto = function(indexFbPhoto) {
-
-    console.log('Creating photo');
-
-    var newFbPhoto = $scope.facebookPhotos[indexFbPhoto];
-
-    //TODO send API creeate photo call
-    var newPhoto = {
-        photo:  newFbPhoto.photo,
-        order: $scope.newPhotoIndex,
-        id: null
     };
 
-    console.log( newFbPhoto);
-    console.log($scope.newPhotoIndex);
+    $scope.getPhotos = function() {
+        PhotosFactory.query( {
+            format: 'json'
+        }).$promise.then(function(response) {
+            $scope.apiPhotos = response.objects;
+            $filter('orderBy')( $scope.photos, 'order', false);
 
-    var index = $scope.newPhotoIndex;
-    $scope.photos[index].photo =  newFbPhoto.photo;
 
-    $('#photos_modal').modal('hide');
+            for(var obj in $scope.apiPhotos) {
+                for(var p in $scope.photos) {
+                    if ($scope.photos[p].order == $scope.apiPhotos[obj].order) {
+                        $scope.photos[p].id = $scope.apiPhotos[obj].id;
+                        $scope.photos[p].photo = $scope.apiPhotos[obj].photo;
+                    }
+                }
+            }
+
+            $scope.photosSlider = $scope.apiPhotos;
 
 
-};
+        });
+    };
 
-$scope.$on('ngRepeatFinished', function () {
-    var mySwiper = new Swiper('.swiper-container',{
-        pagination: '.pagination',
-        loop:false,
-        grabCursor: true,
-        paginationClickable: true
+    $scope.getPhotos();
+
+
+    $scope.deletePhoto = function() {
+        var deleteIndex = $scope.userPhotoDeleteIndex;
+        //API delete call
+        PhotosFactory.delete({photoId: $scope.photos[deleteIndex].id},
+            function(success) {
+                $scope.photos[deleteIndex].photo = '';
+                console.log('Photo deleted');
+
+            },
+            function(error) {
+                console.log(error);
+            });
+
+    };
+
+    $scope.createPhoto = function(indexFbPhoto) {
+
+        console.log('Creating photo');
+
+        var newFbPhoto = $scope.facebookPhotos[indexFbPhoto];
+
+        //API create photo
+
+        var newPhoto = {
+            photo:  newFbPhoto.photo,
+            order: $scope.newPhotoIndex,
+            user: '/api/v1/auth/user/' + USER_ID + '/'
+        };
+
+        PhotosFactory.save({}, newPhoto,
+            function(success){
+                console.log(success);
+                console.log('New photo saved.');
+
+                $scope.getPhotos();
+            },
+            function(error) {
+                console.log(error);
+            });
+
+        var index = $scope.newPhotoIndex;
+        $scope.photos[index].photo =  newFbPhoto.photo;
+
+        $('#photos_modal').modal('hide');
+
+    };
+
+    $scope.$on('ngRepeatFinished', function () {
+        var mySwiper = new Swiper('.swiper-container',{
+            pagination: '.pagination',
+            loop:false,
+            grabCursor: true,
+            paginationClickable: true
+        });
+
+
+        $('#photos_modal').modal('attach events', '.add_photo', 'show');
+        $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
+
+
+        $('.special.cards .image').dimmer({
+            on: 'hover'
+        });
+
     });
-
-
-    $('#photos_modal').modal('attach events', '.add_photo', 'show');
-    $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
-
-
-    $('.special.cards .image').dimmer({
-        on: 'hover'
-    });
-
-});
 
 
 

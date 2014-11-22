@@ -33,6 +33,9 @@ angular.module('beKindred')
         },
         update: {
             method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
         }
     });
 }]);

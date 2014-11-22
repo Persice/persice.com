@@ -1,8 +1,18 @@
 'use strict';
 
 angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ngDraggable', 'ya.nouislider', 'angucomplete-alt', 'underscore', 'checklist-model'])
-.config(function ($httpProvider) {
+.config(function ($httpProvider, $resourceProvider) {
   $httpProvider.defaults.headers.patch = {
+    'Content-Type': 'application/json;charset=utf-8'
+  };
+
+
+  $resourceProvider.defaults.stripTrailingSlashes = false;
+
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+  $httpProvider.defaults.headers.post = {
     'Content-Type': 'application/json;charset=utf-8'
   };
 })

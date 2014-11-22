@@ -145,7 +145,7 @@
                         </div>
                         {% endif %}
 
-                         {% if '/goals/edit/user/' == request.path %}
+                        {% if '/goals/edit/user/' == request.path %}
                         <div class="right menu">
                             <a href="/goals/" class="launch item">Done</a>
                         </div>
@@ -203,6 +203,13 @@
                         this.submit();
                     });
                 </script>
+
+                <script>
+                    angular.module("beKindred").constant("USER_ID", {{ user.id }});
+
+                </script>
+
+
                 {% block customscripts %}
                 {% endblock customscripts %}
             </body>
