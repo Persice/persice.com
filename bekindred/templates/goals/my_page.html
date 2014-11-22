@@ -3,23 +3,18 @@
 {% block content %}
 <div class="header segment with-menu" id="my-profile-header" ng-controller="PhotosController">
     <div class="container">
-        {% verbatim %}
         <div class="pagination-container">
-
             <div class="swiper-container">
-                <div class="swiper-wrapper" ng-cloak>
-
-                    <div class="swiper-slide" ng-repeat="photo in photosSlider track by $index" end-repeat>
-                        <div class="ui circular small image img-bounding-box" style="background-image: url('{{photo.photo}}')"></div>
+                <div class="swiper-wrapper">
+                    {% verbatim %}
+                    <div class="swiper-slide" ng-repeat="photo in photos track by $index" end-repeat>
+                        <img class="ui image circular small" src="{{photo.photo}}">
                     </div>
-
+                    {% endverbatim %}
                 </div>
             </div>
-
-
-            <div class="pagination" ng-show="photosSlider.length > 1"></div>
+            <div class="pagination"></div>
         </div>
-        {% endverbatim %}
     </div>
 </div>
 
@@ -82,10 +77,13 @@
             <h4 class="ui header">About</h4>
             <div class="ui list">
                 <div class="item">
-                    <div class="content">
-                        <div class="description">
+                    <i class="empty icon"></i>
+                    <div class="description">
+                        {% if user.profile_or_self.about_me  %}
                             {{ user.profile_or_self.about_me }}
-                        </div>
+                        {% else %}
+                            No about information yet.
+                        {% endif %}
                     </div>
                 </div>
             </div>
