@@ -21,8 +21,8 @@ angular.module('beKindred')
     });
 }])
 .factory('PhotosFactory', ['$resource', function($resource){
-  return $resource('/api/v1/photo',
-    {} , {
+  return $resource('/api/v1/photo/:photoId/:param',
+    {photoId: '@photoId'} , {
         query: {
             method: 'GET',
             isArray:false,
@@ -30,16 +30,12 @@ angular.module('beKindred')
         },
         save: {
             method:'POST'
-<<<<<<< HEAD
-=======
         },
         update: {
             method: 'PATCH'
         },
         delete: {
             method:'DELETE'
->>>>>>> 3f6f55558f7a9c6e175fc49a87583fdd78598951
         }
     });
 }]);
-

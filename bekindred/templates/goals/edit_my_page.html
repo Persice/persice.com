@@ -1,214 +1,268 @@
 {% extends 'base.html' %}
 {% block content %}
-
-sadsds
-<div class="segment" id="my-profile-header-edit" ng-controller="PhotosController">
-    <div class="container">
-        {% verbatim %}
-        <div class="tiles metro">
-            <div class="tile" ng-class="{'double double-vertical': photo.order == 0}" ng-repeat="photo in photos track by $index" ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
-                <img ng-class="photo.order" ng-drag="true" ng-drag-data="photo" src="{{photo.photo}}" alt="">
-            </div>
-        </div>
-        {% endverbatim %}
-    </div>
-</div>
-<div class="body segment edit" id="my-profile-body">
-    <div class="container">
-        <div class="ui attached segment" id="my-profile-title">
-            <h3 class="ui left floated header">
-                {{ user.first_name|capfirst }}, {{ age }}
-            </h3>
-            <h6 class="ui right floated header">
-            </h6>
-        </div>
-        <div class="ui attached segment">
-            <h4 class="ui header">Goals</h4>
-            <div class="profile-icon">
-                <div class="ui mini statistic">
-                    <div class="value">
-                        <i class="unordered list large icon"></i>
-                    </div>
-                    <div class="label">
-                        2
-                    </div>
-                </div>
-            </div>
-            <div class="ui list">
-                {% for goal in goals %}
-                <div class="item" id="goal_{{ goal.goal_id }}">
-                    <a id="{{ goal.goal_id }}" data-reveal-id="deleteModal" href="#"  class="deleteitem delete-goal icon" href="#"><i class="remove circle icon red"></i></a>
-                    <div class="content">
-                        <div class="description"><span id="goalName_{{ goal.goal_id }}">{{ goal }}</span> <a href="{% url "goal_update" goal.goal_id %}"><i class="edit blue icon"></i></a></div>
-                    </div>
-                </div>
-                {% endfor %}
-                <a href="{% url "goal_create" %}" class="item blue">
-                    <i class="plus circle icon green"></i>
-                    <div class="content">
-                        <div class="description"><b>Create new goal</b></div>
-                    </div>
-                </a>
-            </div>
-            <h4 class="ui header">Offers</h4>
-            <div class="ui list">
-                {% for offer in offers %}
-                <div class="item" id="offer_{{ offer.offer_id }}">
-                    <a id="{{ offer.offer_id }}" data-reveal-id="deleteModal" href="#"  class="deleteitem delete-offer icon" href="#"><i class="remove circle icon red"></i></a>
-                    <div class="content">
-                        <div class="description"><span id="offerName_{{ offer.offer_id }}">{{ offer }}</span> <a href="{% url "offer_update" offer.offer_id %}"><i class="edit blue icon"></i></a></div>
-                    </div>
-                </div>
-                {% endfor %}
-                <a href="{% url "offer_create" %}" class="item blue">
-                    <i class="plus circle icon green"></i>
-                    <div class="content">
-                        <div class="description"><b>Create new offer</b></div>
-                    </div>
-                </a>
-            </div>
-            <h4 class="ui header">About</h4>
-            <div class="ui list">
-                <div class="item">
-                    <i class="empty icon"></i>
-                    <div class="content">
-                        <div class="description">
-                            {{ user.profile_or_self.about_me }}
+<div ng-controller="PhotosController">
+    <div class="segment" id="my-profile-header-edit">
+        <div class="container">
+            <div class="ui segment">
+                <div id="tiles" ng-cloak>
+                    {% verbatim %}
+                    <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }"  ng-repeat="photo in photos track by $index" end-repeat ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
+                        <a ng-click="$parent.userPhotoDelete = photo; $parent.userPhotoDeleteIndex = $index;" class="ui right corner delete_photo label" ng-show="photo.photo !== ''">
+                            <i class="close icon"></i>
+                        </a>
+                        <div class="tile-content" ng-show="photo.photo === ''">
+                            <div class="content">
+                                <div class="center">
+                                    <a href="" ng-click="$parent.newPhotoIndex = $index" class="ui compact icon button add_photo"><i class="circle add icon"></i> Add Photo</a>
+                                </div>
+                            </div>
                         </div>
-                        <a href="{% url "biography_update" user.id %}" class="ui header tiny right floated"><i class="edit icon blue"></i></a>
+                        <div ng-if="photo.photo !== ''" ng-drag="true" ng-drag-data="photo" style="background-image: url('{{photo.photo}}')" class="img-bounding-box"></div>
                     </div>
+                    {% endverbatim %}
                 </div>
             </div>
-            <h4 class="ui header">Activities & Interests</h4>
-            <div class="ui list">
-                {% for interest in interests %}
-                <div class="item" id="interest_{{ interest.id }}">
-                    <a id="{{ interest.id }}" data-reveal-id="deleteModal" href="#"  class="deleteitem delete-interest icon" href="#"><i class="remove circle icon red"></i></a>
-                    <div class="content">
-                        <div class="description"><span id="interestName_{{ interest.id }}">{{ interest }}</span> <a href="{% url "update_interest" interest.id %}"><i class="edit blue icon"></i></a></div>
+        </div>
+    </div>
+    <div class="body segment edit" id="my-profile-body">
+        <div class="container">
+            <div class="ui attached top segment" id="my-profile-title">
+                <h3 class="ui header">{{ user.first_name|capfirst }}, {{ age }}</h3>
+            </div>
+            <div class="ui attached segment">
+                <h4 class="ui header">Goals</h4>
+                <div class="profile-icon">
+                    <div class="ui mini statistic">
+                        <div class="value">
+                            <i class="unordered list large icon"></i>
+                        </div>
+                        <div class="label">
+                            2
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
-                <a href="{% url "create_interest" %}" class="item blue">
-                    <i class="plus circle icon green"></i>
-                    <div class="content">
-                        <div class="description"><b> Create new interest</b></div>
+                <div class="ui list">
+                    {% for goal in goals %}
+                    <div class="item" id="goal_{{ goal.goal_id }}">
+                        <a id="{{ goal.goal_id }}" data-reveal-id="deleteModal" href="#"  class="deleteitem delete-goal icon" href="#"><i class="remove circle icon red"></i></a>
+                        <div class="content">
+                            <div class="description"><span id="goalName_{{ goal.goal_id }}">{{ goal }}</span> <a href="{% url "goal_update" goal.goal_id %}"><i class="edit blue icon"></i></a></div>
+                        </div>
                     </div>
+                    {% endfor %}
+                    <div class="item">
+                        <a href="{% url "goal_create" %}" class="icon"><i class="plus circle icon green"></i></a>
+                        <div class="content">
+                            <div class="description"><b>Create new goal</b></div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui header">Offers</h4>
+                <div class="ui list">
+                    {% for offer in offers %}
+                    <div class="item" id="offer_{{ offer.offer_id }}">
+                        <a id="{{ offer.offer_id }}" data-reveal-id="deleteModal" href="#"  class="deleteitem delete-offer icon" href="#"><i class="remove circle icon red"></i></a>
+                        <div class="content">
+                            <div class="description"><span id="offerName_{{ offer.offer_id }}">{{ offer }}</span> <a href="{% url "offer_update" offer.offer_id %}"><i class="edit blue icon"></i></a></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="item">
+                        <a href="{% url "offer_create" %}" class="icon"><i class="plus circle icon green"></i></a>
+                        <div class="content">
+                            <div class="description"><b>Create new offer</b></div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui header">About</h4>
+                <div class="ui list">
+                    <div class="item">
+                        <a href="{% url "biography_update" user.id %}" class="icon"><i class="edit icon blue"></i></a>
+                        <div class="content">
+                            <div class="description">
+                                {{ user.profile_or_self.about_me }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui header">Activities & Interests</h4>
+                <div class="ui list">
+                    {% for interest in interests %}
+                    <div class="item" id="interest_{{ interest.id }}">
+                        <a id="{{ interest.id }}" data-reveal-id="deleteModal" href="#"  class="deleteitem delete-interest icon" href="#"><i class="remove circle icon red"></i></a>
+                        <div class="content">
+                            <div class="description"><span id="interestName_{{ interest.id }}">{{ interest }}</span> <a href="{% url "update_interest" interest.id %}"><i class="edit blue icon"></i></a></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="item">
+                        <a href="{% url "create_interest" %}" class="icon"><i class="plus circle icon green"></i></a>
+                        <div class="content">
+                            <div class="description"><b> Create new interest</b></div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="ui header">Likes</h4>
+                <div class="ui list">
+                    {% for like in user.profile_or_self.likes|slice:":5" %}
+                    <div class="item">
+                        <i class="empty icon"></i>
+                        <div class="content">
+                            <div class="description">{{ like.name }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="ui attached segment">
+                <h4 class="ui header">Social Accounts</h4>
+                {% if twitter_provider %}
+                your twitter account: <a href="https://twitter.com/{{ twitter_provider.screen_name }}">{{ twitter_provider.screen_name }}</a>
+                {% else %}
+                <a href="/social/associate/twitter/" class="ui twitter fluid button">
+                    <i class="twitter icon"></i>
+                    Connect Twitter
                 </a>
+                <br>
+                {% endif %}
+                {% if linkedin_provider %}
+                your linkedin account: <a href="{{ linkedin_provider.public_profile_url }}">{{ linkedin_provider.first_name }}  {{ linkedin_provider.last_name }}</a>
+                {% else %}
+                <a href="/social/associate/linkedin/" class="ui linkedin fluid button">
+                    <i class="linkedin icon"></i>
+                    Connect LinkedIn
+                </a>
+                {% endif %}
             </div>
-
-
-            <h4 class="ui header">Likes</h4>
-            <div class="ui list">
-               {% for like in user.profile_or_self.likes|slice:":5" %}
-               <div class="item">
-                <i class="empty icon"></i>
-                <div class="content">
-                    <div class="description">{{ like.name }}</div>
+            <div class="ui attached segment">
+                <h4 class="ui header">Manage Account</h4>
+                <div class="ui red deleteaccount fluid button">
+                    <i class="remove circle icon"></i>
+                    Delete Account
                 </div>
             </div>
-            {% endfor %}
-
         </div>
     </div>
-    <div class="ui attached segment">
-        <h4 class="ui header">Social Accounts</h4>
-
-
-        {% if twitter_provider %}
-        your twitter account: <a href="https://twitter.com/{{ twitter_provider.screen_name }}">{{ twitter_provider.screen_name }}</a>
-        {% else %}
-        <a href="/social/associate/twitter/" class="ui twitter fluid button">
-            <i class="twitter icon"></i>
-            Connect Twitter
-        </a>
-        <br>
-        {% endif %}
-
-        {% if linkedin_provider %}
-        your linkedin account: <a href="{{ linkedin_provider.public_profile_url }}">{{ linkedin_provider.first_name }}  {{ linkedin_provider.last_name }}</a>
-        {% else %}
-
-        <a href="/social/associate/linkedin/" class="ui linkedin fluid button">
-            <i class="linkedin icon"></i>
-            Connect LinkedIn
-        </a>
-        {% endif %}
-    </div>
-    <div class="ui attached segment">
-        <h4 class="ui header">Manage Account</h4>
-        <div class="ui red deleteaccount fluid button">
-            <i class="remove circle icon"></i>
-            Delete Account
+    <div class="ui basic delete modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Please Confirm
         </div>
-    </div>
-</div>
-</div>
-<div class="ui basic delete modal">
-    <i class="close icon"></i>
-    <div class="header">
-        Please Confirm
-    </div>
-    <div class="content">
-        <div class="description">
-            <p>Are you sure you want to delete <span id="objectName"></span> <strong><span id="deleteName"></span></strong>?</p>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="two fluid ui inverted buttons">
-            <div class="ui red basic inverted button">
-                <i class="remove icon"></i>
-                No
+        <div class="content">
+            <div class="description">
+                <p>Are you sure you want to delete <span id="objectName"></span> <strong><span id="deleteName"></span></strong>?</p>
             </div>
-            <div data-object="" data-id="" data-url="" id="deleteLink" class="ui green basic inverted button">
-                <i class="checkmark icon"></i>
-                Yes
+        </div>
+        <div class="actions">
+            <div class="two fluid ui inverted buttons">
+                <div class="ui red basic inverted button">
+                    <i class="remove icon"></i>
+                    No
+                </div>
+                <div data-object="" data-id="" data-url="" id="deleteLink" class="ui green basic inverted button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="ui basic delete_user_account modal">
-    <i class="close icon"></i>
-    <div class="header">
-        Please Confirm
-    </div>
-    <div class="content">
-        <div class="description">
-            <p>Are you sure you want to delete your account?</p>
+    <div class="ui basic delete_user_account modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Please Confirm
         </div>
-    </div>
-    <div class="actions">
-        <form class="" action="{% url 'deactivate_user' %}" method="post">{% csrf_token %}
-           <div class="two fluid ui inverted buttons">
-            <div class="ui red basic inverted button">
-                <i class="remove icon"></i>
-                No
+        <div class="content">
+            <div class="description">
+                <p>Are you sure you want to delete your account?</p>
             </div>
-            <button type="submit" class="ui green basic inverted button">
-                <i class="checkmark icon"></i>
-                Yes
-            </button>
         </div>
-    </form>
+        <div class="actions">
+            <form class="" action="{% url 'deactivate_user' %}" method="post">{% csrf_token %}
+                <div class="two fluid ui inverted buttons">
+                    <div class="ui red basic inverted button">
+                        <i class="remove icon"></i>
+                        No
+                    </div>
+                    <button type="submit" class="ui green basic inverted button">
+                        <i class="checkmark icon"></i>
+                        Yes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% verbatim %}
+    <div class="ui basic modal" id="deletePhotoModal">
+        <i class="close icon"></i>
+        <div class="header">
+            Please Confirm
+        </div>
+        <div class="content" ng-cloak>
+            <img src="{{userPhotoDelete.photo}}" class="ui image small" alt="">
+            <div class="description">
+                <p>Are you sure you want to delete your photo?</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="two fluid ui inverted buttons">
+                <div class="ui red basic inverted button">
+                    <i class="remove icon"></i>
+                    No
+                </div>
+                <div ng-click="deletePhoto()" class="ui green basic inverted button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
+    <div class="ui modal" id="photos_modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Choose Profile Photo
+        </div>
+        <div class="content" ng-cloak>
+        <div class="ui special doubling four cards">
+                <div class="card" end-repeat ng-repeat="fbPhoto in facebookPhotos track by $index">
+                    <div class="dimmable image">
+                        <div class="ui inverted dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <div ng-click="createPhoto($index)" class="ui primary button">Choose Photo</div>
+                                </div>
+                            </div>
+                        </div>
+                        <img class="ui image small" src="{{fbPhoto.photo}}">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black button">
+                Cancel
+            </div>
+        </div>
+    </div>
 </div>
-</div>
+{% endverbatim %}
 {% endblock content %}
 {% block customscripts %}
 <script>
-    $('.basic.delete.modal')
-    .modal('setting', 'transition', 'horizontal flip')
-    .modal('attach events', '.deleteitem', 'show')
-    ;
-
-
-    $('.basic.delete_user_account.modal')
-    .modal('setting', 'transition', 'horizontal flip')
-    .modal('attach events', '.deleteaccount', 'show')
-    ;
+    if ( $( ".deleteitem" ).length ) {
+        $('.basic.delete.modal')
+        .modal('attach events', '.deleteitem', 'show')
+        ;
+    }
+    if ( $( ".deleteaccount" ).length ) {
+        $('.basic.delete_user_account.modal')
+        .modal('attach events', '.deleteaccount', 'show')
+        ;
+    }
 </script>
 <script>
     'use strict';

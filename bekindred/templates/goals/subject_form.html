@@ -1,4 +1,3 @@
-{% if form.errors %}
 {% for k, message in form.errors.items %}
 <div class="ui negative message">
     <div class="header">
@@ -6,7 +5,6 @@
     </div>
 </div>
 {% endfor %}
-{% endif %}
 <div class="ui form">
     <form class="form" role="form" action="" method="post" novalidate>
         {% csrf_token %}
@@ -15,7 +13,7 @@
                 <div class="column">
                     <div class="search-wrapper ui icon large left input" ng-controller="GoalsController">
                         <i class="fa fa-search fa-lg"></i>
-                        <div field-required="true" angucomplete-alt minlength="3" match-class="highlight" selected-object="goalSelected" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__contains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="enter you goal here"></div>
+                        <div field-required="true" angucomplete-alt minlength="3" match-class="highlight" selected-object="goalSelected" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__contains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="enter your {% if '/goals/create/goal/' == request.path %}goal{%endif%}{% if '/goals/create/offer/' == request.path %}offer{%endif%} here"></div>
                     </div>
                 </div>
             </div>

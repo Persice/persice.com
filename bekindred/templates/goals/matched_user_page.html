@@ -3,7 +3,7 @@
 <div class="header segment" id="matched-profile-header">
     <div class="container">
         <div class="ui segment">
-            <img class="ui circular middle aligned left floated small image" src="http://graph.facebook.com/{{ user_obj.profile_or_self.facebook_id }}/picture?type=large">
+            <div class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('http://graph.facebook.com/{{ user_obj.profile_or_self.facebook_id }}/picture?type=large')"></div>
             <h2 class="ui header">
                 {{ user_obj.first_name|capfirst }}, {{ age }}
                 <div class="sub header">{{distance|floatformat:0}} mi.</div>
@@ -70,8 +70,8 @@
             </div>
             <h4 class="ui header">Offers</h4>
             <div class="ui list">
-               {% for offer in offers %}
-               <div class="item">
+             {% for offer in offers %}
+             <div class="item">
                 {% if offer.offer_id in match_goals_offers %}
                 <i class="check green icon"></i>
                 <div class="content">
@@ -96,7 +96,6 @@
                     <div class="description">
                         {{ user_obj.profile_or_self.about_me }}
                     </div>
-                    <a href="#" class="ui header tiny right floated">more &raquo;</a>
                 </div>
             </div>
         </div>
@@ -165,8 +164,8 @@
         {% if mutual_twitter_friends %}
         <h4 class="ui header">Mutual Twitter Friends ({{ mutual_twitter_friends_count }})</h4>
         <div class="ui selection list">
-         {% for connection in mutual_twitter_friends|slice:":10" %}
-         <div class="item">
+           {% for connection in mutual_twitter_friends|slice:":10" %}
+           <div class="item">
             <img class="ui avatar image" src="{{ connection.profile_image_url2 }}">
             <div class="content">
                 <div class="header">{{ connection.name2 }}</div>

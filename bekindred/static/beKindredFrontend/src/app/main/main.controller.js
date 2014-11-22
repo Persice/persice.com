@@ -9,10 +9,6 @@ angular.module('beKindred')
 
 
 angular.module('beKindred')
-<<<<<<< HEAD
-.controller('PhotosController', function ($scope, PhotosFactory) {
-    $scope.photos = [
-=======
 .controller('PhotosController', function ($scope, PhotosFactory, $filter, USER_ID, $cookies, $http) {
 
     $scope.apiPhotos = [];
@@ -36,7 +32,6 @@ angular.module('beKindred')
     {photo: 'http://i.telegraph.co.uk/multimedia/archive/02833/ronanfarrow_2833413b.jpg'},
     {photo: 'http://arstechnica.com/wp-content//uploads/authors/ars_profile.jpg'},
     {photo: 'https://pbs.twimg.com/profile_images/1771648774/Sacca_profile_400x400.jpg'}
->>>>>>> 3f6f55558f7a9c6e175fc49a87583fdd78598951
     ];
 
 
@@ -50,27 +45,6 @@ angular.module('beKindred')
         $scope.photos[otherIndex] = otherObj;
         $scope.photos[otherIndex].order = otherIndex;
 
-<<<<<<< HEAD
-        PhotosFactory.save({format: 'json', objects: $scope.photos}, function(success) {
-            console.log('photos order saved');
-            console.log(success);
-        }, function(error) {
-            console.log('photos order not saved');
-            console.log(error);
-        });
-    };
-
-
-    $scope.getPhotos = function() {
-        PhotosFactory.query( {
-            format: 'json'
-        }).$promise.then(function(response) {
-            $scope.photos = response.objects;
-        });
-    };
-
-    $scope.getPhotos();
-=======
 
         //API update photo - patch method
         PhotosFactory.update({photoId: $scope.photos[index].id}, {order:  $scope.photos[index].order },
@@ -150,21 +124,9 @@ angular.module('beKindred')
 
         var index = $scope.newPhotoIndex;
         $scope.photos[index].photo =  newFbPhoto.photo;
->>>>>>> 3f6f55558f7a9c6e175fc49a87583fdd78598951
 
         $('#photos_modal').modal('hide');
 
-<<<<<<< HEAD
-    $scope.$on('ngRepeatFinished', function () {
-        var mySwiper = new Swiper('.swiper-container',{
-         pagination: '.pagination',
-         loop:false,
-         grabCursor: true,
-         paginationClickable: true
-     });
-    });
-
-=======
     };
 
     $scope.$on('ngRepeatFinished', function () {
@@ -186,7 +148,6 @@ angular.module('beKindred')
 
     });
 
->>>>>>> 3f6f55558f7a9c6e175fc49a87583fdd78598951
 
 
 });
@@ -309,6 +270,3 @@ angular.module('beKindred')
     };
 
 });
-
-
-
