@@ -9,7 +9,7 @@ angular.module('beKindred')
 
 
 angular.module('beKindred')
-.controller('PhotosController', function ($scope, PhotosFactory, $filter, USER_ID, $cookies, $http) {
+.controller('PhotosController', function ($scope, PhotosFactory, $filter, USER_ID, USER_PHOTO, $cookies, $http) {
 
     $scope.apiPhotos = [];
     $scope.photos = [
@@ -56,6 +56,8 @@ angular.module('beKindred')
 
     };
 
+    var defaultPhoto = {id: 0, order: 0, photo: USER_PHOTO};
+
     $scope.getPhotos = function() {
         PhotosFactory.query( {
             format: 'json'
@@ -74,6 +76,9 @@ angular.module('beKindred')
             }
 
             $scope.photosSlider = $scope.apiPhotos;
+
+            $scope.photosSlider.push(defaultPhoto);
+
 
 
         });
