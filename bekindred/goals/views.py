@@ -358,7 +358,7 @@ class MatchView(LoginRequiredMixin, View):
                             filtered_user_ids.append(user_id)
 
                     for i in _search_interest:
-                        if i.filter(user_id=user_id).count():
+                        if i.objects.filter(user_id=user_id).count():
                             filtered_user_ids.append(user_id)
 
 
