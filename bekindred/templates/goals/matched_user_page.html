@@ -94,7 +94,9 @@
                 <i class="empty icon"></i>
                 <div class="content">
                     <div class="description">
-                        {{ user_obj.profile_or_self.about_me }}
+                        {% if user_obj.profile_or_self.about_me  %}
+                            {{ user_obj.profile_or_self.about_me }}
+                        {% endif %}
                     </div>
                 </div>
             </div>

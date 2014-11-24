@@ -84,7 +84,9 @@
                 <div class="item">
                     <div class="content">
                         <div class="description">
-                            {{ user.profile_or_self.about_me }}
+                            {% if user_obj.profile_or_self.about_me  %}
+                                {{ user.profile_or_self.about_me }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
