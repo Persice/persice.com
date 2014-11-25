@@ -16,7 +16,7 @@
     "angular-moment": "~0.8.2",
     "underscore": "~1.7.0",
     "ngDraggable": "*",
-    "semantic-ui": "1.0",
+    "semantic-ui": "~1.0",
     "fastclick": "~1.0.3",
     "jquery-placeholder": "~2.0.8",
     "jquery.cookie": "~1.4.1",

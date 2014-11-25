@@ -34,10 +34,11 @@
   background-color: @backgroundColor;
   color: @textColor;
 
+  font-family: @fontFamily;
+
   margin: 0em @horizontalMargin @verticalMargin 0em;
   padding: @verticalPadding @horizontalPadding (@verticalPadding + @shadowOffset);
 
-  font-family: @pageFont;
   text-transform: @textTransform;
   text-shadow: @textShadow;
   font-weight: @fontWeight;
@@ -505,6 +506,7 @@
   margin: @iconMargin;
   transition: @iconTransition;
   vertical-align: @iconVerticalAlign;
+  color: @iconColor;
 }
 .ui.button > .right.icon {
   margin: @rightIconMargin;

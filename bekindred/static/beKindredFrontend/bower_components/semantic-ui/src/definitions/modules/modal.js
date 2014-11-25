@@ -126,7 +126,7 @@ $.fn.modal = function(parameters) {
         observeChanges: function() {
           if('MutationObserver' in window) {
             observer = new MutationObserver(function(mutations) {
-              module.debug('DOM tree modified, updating selector cache');
+              module.debug('DOM tree modified, refreshing');
               module.refresh();
             });
             observer.observe(element, {
@@ -476,7 +476,7 @@ $.fn.modal = function(parameters) {
           var
             modalHeight = $module.outerHeight()
           ;
-          if(modalHeight !== 0) {
+          if(module.cache === undefined || modalHeight !== 0) {
             module.cache = {
               pageHeight    : $(document).outerHeight(),
               height        : modalHeight + settings.offset,

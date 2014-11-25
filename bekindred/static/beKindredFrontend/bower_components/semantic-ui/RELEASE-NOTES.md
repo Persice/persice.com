@@ -1,22 +1,20 @@
 ## RELEASE NOTES
 
-### Version 1.0.0 - XX XX, 2014
+### Version 1.0.0 - November 24, 2014
 
 **Breaking Changes**
 - **Word Order** - Many multi word variations now require proper word order, for example ``left aligned`` or ``right floated`` classnames must be adjacent. This is to prevent conflicts with other multiple word variations
 - **Form** - Date field has been removed, use a ``ui icon input`` with a ``calendar icon`` instead
 - **Label** - Corner labels no longer support text, only icons.
-- **Form** - Standard grids now have gutters on left and right of first and last column. ``ui fitted grid`` can be used to remove these margins
 - **Dropdown** - Sub menus inside dropdowns now need a wrapping div **text** around sub-menu descriptions
-- **Header** - Headers now do not automatically resize based on h1-h6
 - **Checkbox** - Checkbox "enable" and "disable" have been replaced with "check" and "uncheck"
 - **Modal** - Modal ``left`` and ``right`` sections are now replaced with ``image`` and ``description``
-- **Accordion** - Accordions are not unstyled by default allowing for more compatability with other modules without having to override styles. Styled accordions are now included as a variation ``ui styled accordion``
+- **Accordion** - Accordions are now unstyled by default allowing for simpler coupling with other UI without having to override styles. Styled accordions are now included as a variation ``ui styled accordion``
 - **List** - List item selectors are now more strict, list items must be immediate children of ``ui list`` or ``ui list list``
-- **Item** - Items have now been renamed "card" to allow for a more generic item list that does not use a "card" style. Some 'card' view content has been slightly adjusted. Please refer to documentation
+- **Item** - 0.x.x's UI card has been adjusted heavily. Vertically listed content should use ``ui item`` while floated grouped content should continue to use ``ui card``. Some 'card' view content has been slightly adjusted. Please refer to documentation
 - **Header / Icon** - Inverted headers and icons no longer invert background colors, but instead use a lighter version of colors more legible on dark backgrounds. Inverted circular icons, still however invert the color of the circle.
-- **Input** - Labeled inputs now have ``corner`` ``left`` and ``top`` labels. Any labeled inputs must now be converted to ``corner labeled input`` to maintain default position in ``0.x``
-- **Modal** - AllowMultiple (allowing multiple modals at once) is now set to **false** by default.
+- **Input** - Labeled inputs now have ``corner`` ``left`` and ``top`` label types. Any labeled inputs should be converted to ``corner labeled input`` to preserve functionality from ``0.x``
+- **Modal** - allowMultiple (allowing multiple modals at once) is now set to **false** by default.
 - **Table** - Tables are no longer striped by default, instead you must specify the 'striped' variation
 - **Transition** - Complete, and Start callbacks are now ``onComplete`` and ``onStart``
 
@@ -76,9 +74,129 @@
 - **Transition** - Transition now has a new ``start`` callback, before animation starts
 - **Transition** - Complete callback now does not occur if animation is interrupted before completing
 - **Transition** - You can now specify the final displayType of a transitioning element in metadata or settings (not just automatically detected)
+- **More untracked changes we're added as well**
 
 ** Bug Fixes **
 - See Closed GitHub Issues
+
+### Version 0.19.3 - Sep 11, 2014
+
+**Bug Fixes**
+
+- **Grid** - Fixes issue where some responsive grid stylings were being overridden by other variations (for example stackable overriding )
+
+### Version 0.19.2 - Sep 11, 2014
+
+**Bug Fixes**
+
+- **Grid** - (Backport from 1.0 branch) Fixes issue where some combinations of (tablet/mobile/computer) only does not function correctly
+
+### Version 0.19.1 - Sep 5, 2014
+
+**Bug Fixes**
+
+- **Modal** - (Backport from 1.0 branch) Fixes issue where modal sometimes appears too low on second show
+
+### Version 0.19.0 - July 3, 2014
+
+**Enhancements**
+- **Transition** - Adds "fade in left/right" variations to match "fade up/down" **Thanks AdamMaras**
+
+**Fixes**
+- **Accordion** - Fixes incompatibilities with ``ui list`` when used inside a ``ui accordion``, fixes issues with menu accordion display in some circumstances
+- **Menu** - Fixes ``ui inverted secondary pointing menu`` to have correct pointer color for all color variations **Thanks AdamMaras**
+- **Docs** - Language clarified for menu/rating definition **Thanks jnbt/ewiner**
+
+### Version 0.18.0 - June 6, 2014
+
+**Enhancements**
+- **Modal** - Modals now focus on first input if available **Thanks Knotix**
+- **RTL** - RTL now uses RTLCSS instead of CSSJanus **Thanks MohammadYounes**
+
+**Fixes**
+
+- **Menu** - Fixes bug where pointing menu would sometimes appear below content **Thanks Skysplit**
+- **Dropdown** - Fixes dropdown 'is animating' with dropdowns when CSS animations were not included **Thanks nathankot**
+- **Accordion** - Accordion title does not know have to be :first-child to receive proper border **Thanks BigBlueHat**
+- **Popup** - Fixes javascript animation of popup missing easing dependency
+- **Label** - Fixes border radius on bottom left label
+
+**Docs**
+- **Modal** - Docs now have HTML examples
+- **Docs** - Fixes issue with overview mode not clearing code examples
+- **CSS Guide** - Fixes typos in css guide
+
+
+### Version 0.17.0 - May 9, 2014
+
+**Enhancements**
+- **Dropdown** - Dropdowns can now receive focus and be navigated with a keyboard **Thanks Musatov**
+- **Popup** - Popup now has an ``onRemove`` callback after removing element from DOM
+
+**Fixes**
+- **Modal** - Element does not accurately close other modals when initialized at different times **Thanks nojhamster**
+- **Modal** - Fixes javascript error for browsers that don't support CSS animations if jquery.easing is not included
+- **Form, Input** - Fixes ``ui input`` to work correctly inside ``inline field``
+
+### Version 0.16.1 - April 22, 2014
+
+**Fixes**
+- **Transition** - Fixes bug where transition could accidentally hide element on show due to error when determining original display type
+
+### Version 0.16.0 - April 22, 2014
+
+**Enhancements**
+- **Form** - Fields can now be aligned to a grid **Thanks seralex-vi**
+
+**Critical Fixes**
+- **Modal** - Fixes issue where position sometimes appeared too low on second show
+- **Reveal** - Fixes reveal being broken in Chrome in ``0.15.5`` due to poor fix for reveal selectability
+
+**Fixes**
+- **Transition** - Fixes issue where transition hidden was sometimes overwriten by UI styles causing the element to stay visible
+- **Checkbox** - Fixes issue where checkboxes with multiple line labels were appearing formatted incorrectly.
+
+
+### Version 0.15.5 - April 11, 2014
+
+**Critical Fixes**
+- **Checkbox** - Fixes ``ui checkbox`` to obey ``disabled`` property of input
+
+**Fixes**
+- **Reveal** - Hidden content now can be selected on reveal
+- **Message** - Fixes hidden/visible class to work with animations
+- **Message** - Fixes hidden/visible class to set proper display on ``ui icon message``
+- **Message** - Fixes hitbox/position of ``close icon`` inside message
+
+### Version 0.15.4 - April 04, 2014
+
+**Fixes**
+- **Rating** - Fixes issue where rating was behaving erratically in Chrome
+
+### Version 0.15.3 - April 04, 2014
+
+**Changes**
+- **Transition** - CSS Transitions now work in legacy FF (FF > 12)
+- **All UI** - Adds support for legacy FF vendor prefixes (FF > 12)
+
+**Docs**
+- Adds more examples for static checkbox/radio boxes with HTML only
+- Fixes a variety of issues with malformed examples (thanks community)
+
+### Version 0.15.2 - Mar 28, 2014
+
+**Changes**
+- **All Modules** - Debug is now disabled by default
+
+**Fixes**
+- **Step** - Fixes issue with border radius on vertical steps
+- **Icon** - Orange color is now available for icon
+- **Menu** - Fixes formatting of attached segments with menus
+
+### Version 0.15.1 - Mar 14, 2014
+
+**Critical Fixes**
+- **Dropdown** - Typo in dropdown css was causing selection dropdowns not to appear
 
 ### Version 0.15.0 - Mar 14, 2014
 
@@ -119,7 +237,7 @@
 **Project**
 - **NPM** - Docpad is now moved to a dev dependency **Thanks kapouer**
 
-### Version 0.13.1- Feb 28, 2014
+### Version 0.13.1 - Feb 28, 2014
 
 **Fixes**
 - **Modal** - Fixes modal positioning appearing slightly below center on second load
@@ -127,6 +245,7 @@
 - **Input** - Fixes ui input to inherit form sizing
 - **Accordion** - Fixes issues with accordion rules being too specific, causing several common usages of accordions to break
 - **Form Validation** -  Fixes form validation regular expression matching **Thanks icefox0801**
+
 
 ### Version 0.13.0 - Feb 20, 2014
 
@@ -172,7 +291,6 @@
 **Fixes**
 - **Message** - Fixes some issues with margins sometimes not appearing with ``attached message`` **thanks joltmode**
 - **Item** - Fixes color repeating to be consistent for items **thanks skysplit**
->>>>>>> 3f7e69de765e045a198abb285a6e44bc29157ce8
 
 ### Version 0.12.2 - Jan 21, 2014
 
