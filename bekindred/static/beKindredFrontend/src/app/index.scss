@@ -3130,14 +3130,14 @@ div.friend-actions a:hover {
 }
 
 #my-profile-header .swiper-wrapper, #my-profile-header .swiper-slide {
-  height: 140px!important;
+  height: 180px!important;
 }
 
 
 #my-profile-header .pagination-container {
   text-align: center!important;
   padding: 0px!important;
-  height: 175px;
+  height: 210px;
   position: relative;
 }
 
@@ -3359,4 +3359,13 @@ ng\:form {
   background-repeat: no-repeat!important;
   height: 100%!important;
   width: 100%!important;
+}
+
+
+.img-bounding-box-fix-size {
+  background-size: cover!important;
+  background-position: 50% 50%;
+  background-repeat: no-repeat!important;
+  height: 200px!important;
+  width: 200px!important;
 }
