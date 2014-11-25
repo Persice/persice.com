@@ -2,8 +2,6 @@
 {% load url from future %}
 {% load i18n %}{% load postman_tags %}
 {% block content %}
-
-
 {% if my_friends|length > 0 %}
 <div class="segment" id="friends-list-header">
     <div class="container">
@@ -15,79 +13,73 @@
         </form>
     </div>
 </div>
-
-
 <div class="body segment" id="friends-list-body">
     <div class="container">
         <div class="ui divided list">
-         {% for friend in my_friends %}
-         <div class="item">
-             <img class="ui tiny circular image" src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=large">
-             <div class="friend-actions">
-                <a href="/friends/remove/{{ friend.id }}" class="ui circular facebook icon button">
-                    <i class="unlink icon"></i>
-                </a>
-                <a href="{% url 'postman_write' %}{{ friend.username }}" class="ui circular twitter icon button">
-                    <i class="envelope icon"></i>
-                </a>
-            </div>
-            <div class="content">
-                <div class="header"><a href="/goals/friend/{{ friend.id }}">{{ friend.first_name }} {{ friend.last_name }}</a></div>
-                <div class="description">
-                    <div class="ui mini statistics">
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="check circle outline icon"></i>
+            {% for friend in my_friends %}
+            <div class="item">
+                <div class="ui circular tiny image img-bounding-box" style="background-image: url('http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture?type=large')"></div>
+                <div class="friend-actions">
+                    <a href="/friends/remove/{{ friend.id }}" class="ui circular facebook icon button">
+                        <i class="unlink icon"></i>
+                    </a>
+                    <a href="{% url 'postman_write' %}{{ friend.username }}" class="ui circular twitter icon button">
+                        <i class="envelope icon"></i>
+                    </a>
+                </div>
+                <div class="content">
+                    <div class="header"><a href="/goals/friend/{{ friend.id }}">{{ friend.first_name }} {{ friend.last_name }}</a></div>
+                    <div class="description">
+                        <div class="ui mini statistics">
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="check circle outline icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
                             </div>
-                            <div class="label">
-                                4
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="empty users icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
                             </div>
-                        </div>
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="empty users icon"></i>
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="empty star icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
                             </div>
-                            <div class="label">
-                                4
-                            </div>
-                        </div>
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="empty star icon"></i>
-                            </div>
-                            <div class="label">
-                                4
-                            </div>
-                        </div>
-                        <div class="statistic">
-                            <div class="value">
-                                <i class="linkify icon"></i>
-                            </div>
-                            <div class="label">
-                                4
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="linkify icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {% empty %}
+            {% endfor %}
         </div>
-        {% empty %}
-        {% endfor %}
     </div>
-</div>
 </div>
 {% else %}
 <div class="body segment">
     <div class="container">
         <div class="ui info message">
-         <p>No friends yet.</p>
-     </div>
-
- </div>
+            <p>No friends yet.</p>
+        </div>
+    </div>
 </div>
 {% endif %}
-
-
-
 </div>
 {% endblock content %}
