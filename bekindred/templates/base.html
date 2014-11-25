@@ -206,6 +206,7 @@
 
                 <script>
                     angular.module("beKindred").constant("USER_ID", {{ user.id }});
+                    angular.module("beKindred").constant("FB_TOKEN", "{{ user.profile_or_self.access_token }}");
                     angular.module("beKindred").constant("USER_PHOTO", "http://graph.facebook.com/" + {{ user.profile_or_self.facebook_id }} + "/picture?type=large");
 
                 </script>

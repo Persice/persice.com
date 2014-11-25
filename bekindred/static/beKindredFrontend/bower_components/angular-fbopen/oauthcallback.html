@@ -1,0 +1,13 @@
+<html>
+<body>
+	<script>
+		try {
+			window.opener.oauthCallback(window.location.href);
+			window.close();
+		}
+		catch(e) {
+			alert(e.message);
+		}
+	</script>
+</body>
+</html>

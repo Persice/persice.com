@@ -9,7 +9,58 @@ angular.module('beKindred')
 
 
 angular.module('beKindred')
-.controller('PhotosController', function ($scope, PhotosFactory, $filter, USER_ID, USER_PHOTO, $cookies, $http) {
+.controller('MyPageController', function ($scope, PhotosFactory, USER_ID, USER_PHOTO) {
+
+    $scope.photosSlider = [];
+
+    $scope.getPhotos = function() {
+        PhotosFactory.query( {
+            format: 'json'
+        }).$promise.then(function(response) {
+            $scope.photosSlider = response.objects;
+
+
+
+
+            if ($scope.photosSlider.length === 0) {
+                var newPhoto = {
+                    photo:  USER_PHOTO,
+                    order: 0,
+                    user: '/api/v1/auth/user/' + USER_ID + '/'
+                };
+
+                PhotosFactory.save({}, newPhoto,
+                    function(success){
+                        console.log(success);
+                        console.log('New photo saved.');
+
+                        $scope.getPhotos();
+                    },
+                    function(error) {
+                        console.log(error);
+                    });
+            }
+        });
+    };
+
+    $scope.getPhotos();
+
+
+    $scope.$on('ngRepeatFinished', function () {
+        var mySwiper = new Swiper('.swiper-container',{
+            pagination: '.pagination',
+            loop:false,
+            grabCursor: true,
+            paginationClickable: true
+        });
+
+    });
+});
+
+
+
+angular.module('beKindred')
+.controller('PhotosController', function ($scope, PhotosFactory, $filter, USER_ID, USER_PHOTO, $cookies, $http, FB_TOKEN) {
 
     $scope.apiPhotos = [];
     $scope.photos = [
@@ -23,18 +74,7 @@ angular.module('beKindred')
 
     $scope.photosSlider = [];
 
-    $scope.facebookPhotos = [
-    {photo: 'http://www.realtimearts.net/data/images/art/46/4640_profile_nilssonpolias.jpg'},
-    {photo: 'http://media.cirrusmedia.com.au/LW_Media_Library/594partner-profile-pic-An.jpg'},
-    {photo: 'http://www.exchangewire.com/wp-content/uploads/2013/10/Profile-Pic.png'},
-    {photo: 'http://fancyholidays.com/wp-content/uploads/2013/02/Andrew_avatar.jpg'},
-    {photo: 'https://www.berlinale.de/media/60_jubilaeum_1/starportraits/2011_4/2011-02-10-9358-0662_Jeff_Bridges_IMG_x900.jpg'},
-    {photo: 'http://i.telegraph.co.uk/multimedia/archive/02833/ronanfarrow_2833413b.jpg'},
-    {photo: 'http://arstechnica.com/wp-content//uploads/authors/ars_profile.jpg'},
-    {photo: 'https://pbs.twimg.com/profile_images/1771648774/Sacca_profile_400x400.jpg'}
-    ];
-
-
+    $scope.facebookPhotos = [];
 
     $scope.onDropComplete = function (index, obj, evt) {
         var otherObj = $scope.photos[index];
@@ -54,30 +94,37 @@ angular.module('beKindred')
                 console.log(error);
             });
 
-    };
+        //API update photo - patch method
+        PhotosFactory.update({photoId: $scope.photos[otherIndex].id}, {order:  $scope.photos[otherIndex].order },
+            function(success) {
+                console.log('Photo order saved');
+            }, function(error) {
+                console.log(error);
+            });
 
-    var defaultPhoto = {id: 0, order: 0, photo: USER_PHOTO};
+    };
 
     $scope.getPhotos = function() {
         PhotosFactory.query( {
             format: 'json'
         }).$promise.then(function(response) {
             $scope.apiPhotos = response.objects;
-            $filter('orderBy')( $scope.photos, 'order', false);
+
 
 
             for(var obj in $scope.apiPhotos) {
                 for(var p in $scope.photos) {
-                    if ($scope.photos[p].order == $scope.apiPhotos[obj].order) {
+                    if ($scope.photos[p].order === $scope.apiPhotos[obj].order) {
                         $scope.photos[p].id = $scope.apiPhotos[obj].id;
                         $scope.photos[p].photo = $scope.apiPhotos[obj].photo;
                     }
                 }
             }
 
+
             $scope.photosSlider = $scope.apiPhotos;
 
-            $scope.photosSlider.push(defaultPhoto);
+
 
 
 
@@ -85,6 +132,25 @@ angular.module('beKindred')
     };
 
     $scope.getPhotos();
+
+
+    $scope.getFBPhotos = function() {
+
+        $http.get('https://graph.facebook.com/me?fields=photos.limit(12){id,height,width,source}&access_token=' + FB_TOKEN).
+        success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.facebookPhotos = data.photos.data;
+
+        }).
+        error(function(data, status, headers, config) {
+            console.log(data);
+        });
+
+
+
+    };
+
+    $scope.getFBPhotos();
 
 
     $scope.deletePhoto = function() {
@@ -111,7 +177,7 @@ angular.module('beKindred')
         //API create photo
 
         var newPhoto = {
-            photo:  newFbPhoto.photo,
+            photo:  newFbPhoto.source,
             order: $scope.newPhotoIndex,
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
@@ -135,14 +201,6 @@ angular.module('beKindred')
     };
 
     $scope.$on('ngRepeatFinished', function () {
-        var mySwiper = new Swiper('.swiper-container',{
-            pagination: '.pagination',
-            loop:false,
-            grabCursor: true,
-            paginationClickable: true
-        });
-
-
         $('#photos_modal').modal('attach events', '.add_photo', 'show');
         $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
 

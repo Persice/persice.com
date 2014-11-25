@@ -1,6 +1,18 @@
 'use strict';
 
-angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ngDraggable', 'ya.nouislider', 'angucomplete-alt', 'underscore', 'checklist-model'])
+angular.module('beKindred', [
+  'ngAnimate',
+  'ngCookies',
+  'ngTouch',
+  'ngSanitize',
+  'ngResource',
+  'ngDraggable',
+  'ya.nouislider',
+  'angucomplete-alt',
+  'underscore',
+  'checklist-model'
+  ]
+  )
 .config(function ($httpProvider, $resourceProvider) {
   $httpProvider.defaults.headers.patch = {
     'Content-Type': 'application/json;charset=utf-8'
@@ -15,6 +27,12 @@ angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 
   $httpProvider.defaults.headers.post = {
     'Content-Type': 'application/json;charset=utf-8'
   };
+
+
+
+
+
+
 })
 .value('noUiSliderConfig', {step: 1})
 .directive('ngEnter', function () {

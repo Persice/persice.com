@@ -1,121 +1,122 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="header segment with-menu" id="my-profile-header" ng-controller="PhotosController">
-    <div class="container">
-        {% verbatim %}
-        <div class="pagination-container">
+<div ng-controller="MyPageController">
+    <div class="header segment with-menu" id="my-profile-header">
+        <div class="container">
+            {% verbatim %}
+            <div class="pagination-container">
 
-            <div class="swiper-container">
-                <div class="swiper-wrapper" ng-cloak>
+                <div class="swiper-container">
+                    <div class="swiper-wrapper" ng-cloak>
 
-                    <div class="swiper-slide" ng-repeat="photo in photosSlider track by $index" end-repeat>
-                        <div class="ui medium image img-bounding-box-fix-size" style="background-image: url('{{photo.photo}}')"></div>
+                    <div class="swiper-slide" ng-repeat="photo in photosSlider | orderBy:'order' track by $index" end-repeat>
+                            <div class="ui medium image img-bounding-box-fix-size" style="background-image: url('{{photo.photo}}')"></div>
+                        </div>
+
                     </div>
-
                 </div>
+
+
+                <div class="pagination" ng-show="photosSlider.length > 1"></div>
             </div>
-
-
-            <div class="pagination" ng-show="photosSlider.length > 1"></div>
+            {% endverbatim %}
         </div>
-        {% endverbatim %}
     </div>
-</div>
 
-<div class="body segment" id="my-profile-body">
-    <div class="container">
-        <div class="ui attached segment" id="my-profile-title">
-            <h3 class="ui left floated header">
-                {{ user.first_name|capfirst }}, {{age}}
-            </h3>
-            <h3 class="ui right floated header">
-                <a href="/goals/edit/user" class="ui tiny button blue">Edit</a>
-            </h3>
-        </div>
-        <div class="ui attached segment">
-            <h4 class="ui header">Goals</h4>
-            <div class="profile-icon">
-                <div class="ui mini statistic">
-                    <div class="value">
-                        <i class="unordered list large icon"></i>
-                    </div>
-                    <div class="label">
-                        2
-                    </div>
-                </div>
+    <div class="body segment" id="my-profile-body">
+        <div class="container">
+            <div class="ui attached segment" id="my-profile-title">
+                <h3 class="ui left floated header">
+                    {{ user.first_name|capfirst }}, {{age}}
+                </h3>
+                <h3 class="ui right floated header">
+                    <a href="/goals/edit/user" class="ui tiny button blue">Edit</a>
+                </h3>
             </div>
-            <div class="ui list">
-                {% for goal in goals %}
-                <div class="item">
-                    <div class="content">
-                        <div class="description">{{ goal }}</div>
-                    </div>
-                </div>
-                {% empty %}
-                <div class="item">
-                    <div class="content">
-                        <div class="description">No goals yet.</div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-
-            <h4 class="ui header">Offers</h4>
-            <div class="ui list">
-                {% for offer in offers %}
-                <div class="item">
-                    <div class="content">
-                        <div class="description">{{ offer }}</div>
-                    </div>
-                </div>
-                {% empty %}
-                <div class="item">
-                    <div class="content">
-                        <div class="description">No offers yet.</div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <h4 class="ui header">About</h4>
-            <div class="ui list">
-                <div class="item">
-                    <div class="content">
-                        <div class="description">
-                            {% if user_obj.profile_or_self.about_me  %}
-                                {{ user.profile_or_self.about_me }}
-                            {% endif %}
+            <div class="ui attached segment">
+                <h4 class="ui header">Goals</h4>
+                <div class="profile-icon">
+                    <div class="ui mini statistic">
+                        <div class="value">
+                            <i class="unordered list large icon"></i>
+                        </div>
+                        <div class="label">
+                            2
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="ui list">
+                    {% for goal in goals %}
+                    <div class="item">
+                        <div class="content">
+                            <div class="description">{{ goal }}</div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="item">
+                        <div class="content">
+                            <div class="description">No goals yet.</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
 
-            <h4 class="ui header">Likes</h4>
-            <div class="ui list">
-                {% for like in user.profile_or_self.likes|slice:":5" %}
-                <div class="item">
-                    <div class="content">
-                        <div class="description">{{ like.name }}</div>
+
+                <h4 class="ui header">Offers</h4>
+                <div class="ui list">
+                    {% for offer in offers %}
+                    <div class="item">
+                        <div class="content">
+                            <div class="description">{{ offer }}</div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="item">
+                        <div class="content">
+                            <div class="description">No offers yet.</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <h4 class="ui header">About</h4>
+                <div class="ui list">
+                    <div class="item">
+                        <div class="content">
+                            <div class="description">
+                                {% if user_obj.profile_or_self.about_me  %}
+                                {{ user.profile_or_self.about_me }}
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                {% empty %}
-                <div class="item">
-                    <div class="content">
-                        <div class="description">No likes yet.</div>
+
+                <h4 class="ui header">Likes</h4>
+                <div class="ui list">
+                    {% for like in user.profile_or_self.likes|slice:":5" %}
+                    <div class="item">
+                        <div class="content">
+                            <div class="description">{{ like.name }}</div>
+                        </div>
                     </div>
+                    {% empty %}
+                    <div class="item">
+                        <div class="content">
+                            <div class="description">No likes yet.</div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+
             </div>
 
         </div>
-
     </div>
+
+
 </div>
-
-
-
 
 {% endblock content %}
 
