@@ -150,3 +150,11 @@ class Keyword(models.Model):
 class UserIPAddress(models.Model):
     user = models.OneToOneField(FacebookCustomUser)
     ip = models.IPAddressField()
+
+
+class MatchFilterState(models.Model):
+    user = models.ForeignKey(FacebookCustomUser)
+    distance = models.IntegerField(default=1)
+    age = models.CharField(max_length=6)
+    gender = models.CharField(max_length=3)
+    keyword = models.CharField(max_length=50)

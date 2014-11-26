@@ -1,5 +1,6 @@
 from django.test import TestCase
-from .models import Subject
+from django_facebook.models import FacebookCustomUser
+from .models import Subject, MatchFilterState
 
 
 class SubjectTestCase(TestCase):
@@ -20,3 +21,16 @@ class SubjectTestCase(TestCase):
 
     def test_stop_words_study(self):
         self.assertEqual(Subject.objects.search('study').count(), 0)
+
+
+class MatchFilterStateTestCase(TestCase):
+    def setUp(self):
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        MatchFilterState.objects.create(user=self.user,
+                                        distance=1,
+                                        age='18,22',
+                                        gender='all',
+                                        keyword='python,ruby')
+
+    def test_save_state(self):
+        self.assertEqual(MatchFilterState.objects.filter(user=self.user).count(), 1)
