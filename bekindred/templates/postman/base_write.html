@@ -28,10 +28,10 @@
 
         <div class="ui error form segment">
 
-         {% if form.errors %}
-         {% for field in form %}
-         {% for error in field.errors %}
-         <div class="ui error message">
+           {% if form.errors %}
+           {% for field in form %}
+           {% for error in field.errors %}
+           <div class="ui error message">
             <div class="header"><strong>{{ field.label }}:</strong> {{ error|escape }}</div>
         </div>
         {% endfor %}
@@ -42,8 +42,32 @@
 
 
             <div class="field">
-                <label>Recipient</label>
+                <label>Recipient
+
+                {% with request.path|slugify|cut:'messageswrite' as recipient %}
+
+                {% if recipient != '' %}
+                : {{recipient}}
+                {% endif %}
+
+                {% endwith %}
+
+                </label>
+                {% if '/messages/write/' == request.path %}
                 <input placeholder="Enter recipient" type="text" id="id_recipients" name="recipients">
+                {% endif %}
+
+                {% with request.path|slugify|cut:'messageswrite' as recipient %}
+
+                {% if recipient != '' %}
+                <input placeholder="Enter recipient" class="displayNone" type="hidden" value="{{recipient}}" id="id_recipients" name="recipients">
+                {% endif %}
+
+                {% endwith %}
+
+
+
+
             </div>
 
             <div class="field">
