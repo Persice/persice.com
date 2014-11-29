@@ -18,20 +18,12 @@ angular.module('beKindred', [
     'Content-Type': 'application/json;charset=utf-8'
   };
 
-
   $resourceProvider.defaults.stripTrailingSlashes = false;
-
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-
   $httpProvider.defaults.headers.post = {
     'Content-Type': 'application/json;charset=utf-8'
   };
-
-
-
-
-
 
 })
 .value('noUiSliderConfig', {step: 1})
@@ -48,7 +40,7 @@ angular.module('beKindred', [
     });
   };
 })
-.directive('endRepeat', ['$timeout', function ($timeout) {
+.directive('endRepeat', function ($timeout) {
   return {
     restrict: 'A',
     link: function (scope, element, attr) {
@@ -59,5 +51,4 @@ angular.module('beKindred', [
       }
     }
   }
-}])
-;
+});

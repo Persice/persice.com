@@ -53,61 +53,64 @@
                 </div>
                 {% if '/goals/user/' in request.path %}
                 <div class="ui vertical right inverted labeled sidebar menu" id="menu">
-                    <div id="filter" class="ui form" ng-controller="FilterController">
-                        <form name="filterForm" id="filterForm" class="form" method="get" action="{% url "matched" %}">
-                            <div class="field">
-                                <label>Distance <span class="range">{%verbatim%}{{distanceValue}} mi.{%endverbatim%}</span></label>
-                                <div no-ui-slider="distanceOptions" ng-model="distanceValue"></div>
-                                <input type="text" class="displayNone" required="" ng-model="distanceValue" name="distance">
-                            </div>
-                            <div class="field">
-                                <label>Age <span class="range">{%verbatim%}{{ageValues[0]}} &ndash; {{ageValues[1]}}{%endverbatim%}</span></label>
-                                <div no-ui-slider="ageOptions" ng-model="ageValues"></div>
-                                <input type="text" class="displayNone" required="" ng-model="ageValues[0]" name="min_age">
-                                <input type="text" class="displayNone" required="" ng-model="ageValues[1]" name="max_age">
-                            </div>
-                            <div class="field">
-                                <label class="">Show</label>
-                            </div>
-                            <div class="field field-checkbox">
-                                <div class="ui toggle checkbox">
-                                    <input id="male" type="checkbox" value="m">
-                                    <label>Men</label>
+                    <div id="FilterController" ng-controller="FilterController">
+                        <div id="filter" class="ui form">
+                            <form name="filterForm" id="filterForm" class="form" method="get" action="{% url "matched" %}">
+                                {%verbatim%}
+                                <div class="field">
+                                    <label>Distance <span class="range">{{distanceValue}} mi.</span></label>
+                                    <div no-ui-slider="distanceOptions" ng-model="distanceValue" ng-change="saveFilters()"></div>
+                                    <input type="text" class="displayNone" ng-model="distanceValue" name="distance">
                                 </div>
-                            </div>
-                            <div class="field field-checkbox">
-                                <div class="ui toggle checkbox">
-                                    <input id="female" type="checkbox" value="f">
-                                    <label>Women</label>
+                                <div class="field">
+                                    <label>Age <span class="range">{{ageValues[0]}} &ndash; {{ageValues[1]}}</span></label>
+                                    <div no-ui-slider="ageOptions" ng-model="ageValues" ng-change="saveFilters()"></div>
+                                    <input type="text" class="displayNone" ng-model="ageValues[0]" name="min_age">
+                                    <input type="text" class="displayNone" ng-model="ageValues[1]" name="max_age">
                                 </div>
-                            </div>
-                            {%verbatim%}
-                            <div class="field">
-                                <input class="displayNone" value="{{myKeywords}}" type="text" name="keywords">
-                            </div>
-                            <div class="field">
-                                <input class="displayNone" id="genders" value="" type="text" name="gender">
-                            </div>
-                            <div class="ui small negative message" ng-show="showMessage">
-                                <div class="header">
-                                    Keyword already exists.
+                                <div class="field">
+                                    <label class="">Show</label>
                                 </div>
-                            </div>
-                            <div class="ui icon input">
-                                <input ng-minlength=3 type="text" placeholder="Enter keyword" on-enter-blur ng-enter="filterForm.$valid && addKeyword(newKeyword)" ng-model="newKeyword">
-                                <i class="circular search icon"></i>
-                            </div>
-                            <div class="ui list">
-                                <a ng-click="removeKeyword(index)" href="" class="item" ng-repeat="keyword in myKeywords track by $index">
-                                    <div class="content">
-                                        <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
+                                <div class="field field-checkbox">
+                                    <div id="male" class="ui toggle checkbox">
+                                    <input type="checkbox" value="m">
+                                        <label>Men</label>
                                     </div>
-                                </a>
-                            </div>
-                            {%endverbatim%}
-                            <div class="ui divider"></div>
-                            <button type="submit" class="button ui submit green" role="button">Filter</button>
-                        </form>
+                                </div>
+                                <div class="field field-checkbox">
+                                    <div id="female" class="ui toggle checkbox">
+                                        <input type="checkbox" value="f">
+                                        <label>Women</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <input class="displayNone" value="{{myKeywords}}" type="text" name="keywords">
+                                </div>
+                                <div class="field">
+                                    <input class="displayNone" id="genders" value="" type="text" name="gender">
+                                    <input class="displayNone" ng-model="genders" ng-change="saveFilters()" id="gendersModel" value="" type="text">
+                                </div>
+                                <div class="ui small negative message" ng-show="showMessage">
+                                    <div class="header">
+                                        Keyword already exists.
+                                    </div>
+                                </div>
+                                <div class="ui icon input">
+                                    <input ng-minlength=3 type="text" placeholder="Enter keyword" on-enter-blur ng-enter="filterForm.$valid && addKeyword(newKeyword)" ng-model="newKeyword">
+                                    <i class="circular search icon"></i>
+                                </div>
+                                <div class="">
+                                    <a ng-click="removeKeyword(index)" href="" class="item" ng-repeat="keyword in myKeywords track by $index">
+                                        <div class="content">
+                                            <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="ui divider"></div>
+                                <button type="submit" class="button ui submit green" role="button">Filter</button>
+                                {%endverbatim%}
+                            </form>
+                        </div>
                     </div>
                     {% endif %}
                 </div>
@@ -144,7 +147,6 @@
                             <a href="/goals/edit/user" class="launch item"><i class="edit icon"></i></a>
                         </div>
                         {% endif %}
-
                         {% if '/goals/edit/user/' == request.path %}
                         <div class="right menu">
                             <a href="/goals/" class="launch item">Done</a>
@@ -188,30 +190,36 @@
                     .removeClass('disabled')
                     ;
                     $('.ui.checkbox')
-                    .checkbox()
-                    ;
-                    $('#filterForm').submit(function(e) {
-                        e.preventDefault();
-                        var form = $(this);
-                        var mergedInput = $('#genders');
-                        var arr = [];
-                        $("#filterForm input:checkbox:checked").each(function(){
-                            arr.push($(this).val());
-                        });
-                        console.log(arr);
-                        mergedInput.val(JSON.stringify(arr));
-                        this.submit();
+                    .checkbox({
+                        onChecked: function () {
+                            var mergedInput = $('#genders');
+                            var modelInput = $('#gendersModel');
+                            var arr = [];
+                            $("#filterForm input:checkbox:checked").each(function(){
+                                arr.push($(this).val());
+                            });
+                            mergedInput.val(JSON.stringify(arr));
+                            modelInput.val(arr.join());
+                            modelInput.trigger('input');
+                        },
+                        onUnchecked: function () {
+                            var mergedInput = $('#genders');
+                            var modelInput = $('#gendersModel');
+                            var arr = [];
+                            $("#filterForm input:checkbox:checked").each(function(){
+                                arr.push($(this).val());
+                            });
+                            mergedInput.val(JSON.stringify(arr));
+                            modelInput.val(arr.join());
+                            modelInput.trigger('input');
+                        }
                     });
                 </script>
-
                 <script>
-                    angular.module("beKindred").constant("USER_ID", {{ user.id }});
-                    angular.module("beKindred").constant("FB_TOKEN", "{{ user.profile_or_self.access_token }}");
-                    angular.module("beKindred").constant("USER_PHOTO", "http://graph.facebook.com/" + {{ user.profile_or_self.facebook_id }} + "/picture?type=large");
-
+                    angular.module('beKindred').constant('USER_ID', {{ user.id }});
+                    angular.module('beKindred').constant('FB_TOKEN', '{{ user.profile_or_self.access_token }}');
+                    angular.module('beKindred').constant('USER_PHOTO', 'http://graph.facebook.com/' + {{ user.profile_or_self.facebook_id }} + '/picture?type=large');
                 </script>
-
-
                 {% block customscripts %}
                 {% endblock customscripts %}
             </body>
