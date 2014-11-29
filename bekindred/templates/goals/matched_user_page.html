@@ -311,10 +311,8 @@ $(document).ready(function(){
     $('#left_button').click(function(){
         var friend_id = $(location).attr('href').match(/([0-9]+)\/$/)[1];
         $.getJSON("/friends/add/", function(data){
-            alert(data['status']);
             if (data['status'] == null || data['status'] == 0) {
                 data['status'] = -1;
-                alert(data['status']);
                 $.ajax({
                     type: "POST",
                     url: '/friends/add/',
