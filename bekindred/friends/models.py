@@ -4,6 +4,7 @@ from itertools import chain
 from django_facebook.models import FacebookCustomUser, FacebookUser
 from postman.api import pm_write
 
+
 class FriendManager(models.Manager):
     def update_friend(self, friend1, friend2):
         sender = FacebookCustomUser.objects.get(pk=1)
@@ -67,8 +68,11 @@ class FriendManager(models.Manager):
         return [x for x in all if x != user_id]
 
     def deleted_friends(self, user_id):
-        result = Friend.objects.filter(Q(friend1=user_id, status=2) |
-                                       Q(friend2=user_id, status=2))
+        """
+        Return All delete friends and all friends which you declined
+        """
+        result = Friend.objects.filter(Q(friend1=user_id, status__in=(-1, 2)) |
+                                       Q(friend2=user_id, status__in=(-1, 2)))
         all = list(chain(*result.values_list('friend1', 'friend2')))
         return [x for x in all if x != user_id]
 
@@ -82,12 +86,13 @@ class FriendManager(models.Manager):
         return Friend.objects.filter(friend1=friend1, friend2=friend2, status=0)
 
 
-
 class Friend(models.Model):
     objects = FriendManager()
     FRIENDSHIP_STATUS = (
+        (-1, 'Decline friend request'),
         (0, 'Pending friend request'),
-        (1, 'Confirm friend request')
+        (1, 'Confirm friend request'),
+        (2, 'Status friends')
     )
     friend1 = models.ForeignKey(FacebookCustomUser)
     friend2 = models.ForeignKey(FacebookCustomUser, related_name='friend2')

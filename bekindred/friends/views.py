@@ -87,7 +87,6 @@ class RemoveFriendship(DeleteView):
         return super(RemoveFriendship, self).get_context_data(**kwargs)
 
 
-
 class FriendsListView(ListView):
     model = Friend
     template_name = "friends/my_connections.html"
@@ -96,4 +95,3 @@ class FriendsListView(ListView):
         kwargs['my_friends'] = FacebookCustomUserActive.objects.filter(
             pk__in=Friend.objects.all_my_friends(self.request.user.id))
         return super(FriendsListView, self).get_context_data(**kwargs)
-

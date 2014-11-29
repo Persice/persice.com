@@ -282,30 +282,47 @@ $(document).ready(function(){
         $.getJSON("/friends/add/", function(data){
             if (data['status'] == null) {
                 data['status'] = 0;
-    //alert(data['status']);
-    $.ajax({
-        type: "POST",
-        url: '/friends/add/',
-        data: data,
-        success: function (data, statusText, jqhxr) {
-            window.location = $("#accept_button").attr("href");
-        }
+                //alert(data['status']);
+                $.ajax({
+                    type: "POST",
+                    url: '/friends/add/',
+                    data: data,
+                    success: function (data, statusText, jqhxr) {
+                        window.location = $("#accept_button").attr("href");
+                    }
+                });
+            } else if (data['status'] == 0) {
+                data['status'] = 1;
+                //alert(data['status']);
+                $.ajax({
+                    type: "POST",
+                    url: '/friends/update/',
+                    data: data,
+                    success: function (data, statusText, jqhxr) {
+                        window.location = $("#accept_button").attr("href");
+                    }
+                });
+            } else {
+                window.location = $("#accept_button").attr("href");
+            }
     });
-} else if (data['status'] == 0) {
-    data['status'] = 1;
-    //alert(data['status']);
-    $.ajax({
-        type: "POST",
-        url: '/friends/update/',
-        data: data,
-        success: function (data, statusText, jqhxr) {
-            window.location = $("#accept_button").attr("href");
-        }
+        return false;
     });
-} else {
-    window.location = $("#accept_button").attr("href");
-}
-});
+    $('#left_button').click(function(){
+        var friend_id = $(location).attr('href').match(/([0-9]+)\/$/)[1];
+        $.getJSON("/friends/add/", function(data){
+            if (data['status'] == null || data['status'] == 0) {
+                data['status'] = -1;
+                $.ajax({
+                    type: "POST",
+                    url: '/friends/add/',
+                    data: data,
+                    success: function (data, statusText, jqhxr) {
+                        window.location = $("#left_button").attr("href");
+                    }
+                });
+            }
+        });
         return false;
     });
 });
