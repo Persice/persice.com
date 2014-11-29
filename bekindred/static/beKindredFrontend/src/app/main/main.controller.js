@@ -136,7 +136,7 @@ angular.module('beKindred')
 
     $scope.getFBPhotos = function() {
 
-        $http.get('https://graph.facebook.com/me?fields=photos.limit(12){id,height,width,source}&access_token=' + FB_TOKEN).
+        $http.get('https://graph.facebook.com/me/photos/uploaded?fields=images.limit(12){id,height,width,source}&access_token=' + FB_TOKEN).
         success(function(data, status, headers, config) {
             console.log(data);
             $scope.facebookPhotos = data.photos.data;
