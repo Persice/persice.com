@@ -230,7 +230,7 @@ angular.module('beKindred')
     $scope.defaultFilters = {
         objects: [{
             distance: 50,
-            gender: '',
+            gender: 'm,f',
             min_age: 25,
             max_age: 60,
             keyword: '',
@@ -272,9 +272,7 @@ angular.module('beKindred')
 
             FiltersFactory.update({filterId: $scope.filterID}, $scope.newFilters,
                 function(success) {
-                 console.log(success);
              }, function(error) {
-                console.log(error);
             });
 
 
@@ -293,6 +291,7 @@ angular.module('beKindred')
                 //API update filters - patch method
                 FiltersFactory.update({}, $scope.defaultFilters,
                     function(success) {
+                        $('.ui.checkbox').checkbox('check');
                     }, function(error) {
                         console.log(error);
                     });
