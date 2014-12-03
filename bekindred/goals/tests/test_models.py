@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django_facebook.models import FacebookCustomUser
-from .models import Subject, MatchFilterState
+from goals.models import Subject, MatchFilterState
 
 
 class SubjectTestCase(TestCase):

@@ -3,7 +3,7 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
-from goals.models import Subject, MatchFilterState
+from goals.models import Subject, MatchFilterState, Goal
 from photos.api.resources import UserResource
 
 
@@ -30,3 +30,15 @@ class MatchFilterStateResource(ModelResource):
 
     def get_object_list(self, request):
         return super(MatchFilterStateResource, self).get_object_list(request).filter(user_id=request.user.id)
+
+
+class GoalResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+    subject = fields.ForeignKey(SubjectResource, 'goal')
+
+    class Meta:
+        queryset = Goal.objects.all()
+        fields = ['user', 'goal']
+        resource_name = 'goal'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
