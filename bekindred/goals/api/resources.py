@@ -3,7 +3,7 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
-from goals.models import Subject, MatchFilterState, Goal
+from goals.models import Subject, MatchFilterState, Goal, Offer
 from photos.api.resources import UserResource
 
 
@@ -40,5 +40,17 @@ class GoalResource(ModelResource):
         queryset = Goal.objects.all()
         fields = ['user', 'goal']
         resource_name = 'goal'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+
+class OfferResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+    subject = fields.ForeignKey(SubjectResource, 'offer')
+
+    class Meta:
+        queryset = Offer.objects.all()
+        fields = ['user', 'offer']
+        resource_name = 'offer'
         authentication = SessionAuthentication()
         authorization = Authorization()
