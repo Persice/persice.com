@@ -36,6 +36,13 @@ export DJANGO_SETTINGS_MODULE=bekindred.settings.local
 python bekindred/manage.py loaddata bekindred/goals/fixtures/init_data.json
 ```
 
+=== Memcached
+```
+brew install memcached
+or 
+yum install memcached
+telnet localhost 11211
+```
 
 Remove all tables
 ```
