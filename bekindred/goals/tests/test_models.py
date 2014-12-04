@@ -28,7 +28,8 @@ class MatchFilterStateTestCase(TestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         MatchFilterState.objects.create(user=self.user,
                                         distance=1,
-                                        age='18,22',
+                                        min_age=18,
+                                        max_age=98,
                                         gender='all',
                                         keyword='python,ruby')
 

@@ -1,9 +1,11 @@
+from django_facebook.models import FacebookCustomUser
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource
 from goals.models import Subject, MatchFilterState, Goal, Offer
+from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 
 
@@ -43,6 +45,9 @@ class GoalResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
+    def get_object_list(self, request):
+        return super(GoalResource, self).get_object_list(request).filter(user_id=request.user.id)
+
 
 class OfferResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
@@ -54,3 +59,6 @@ class OfferResource(ModelResource):
         resource_name = 'offer'
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def get_object_list(self, request):
+        return super(OfferResource, self).get_object_list(request).filter(user=request.user.id)
