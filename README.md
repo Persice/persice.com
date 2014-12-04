@@ -38,8 +38,14 @@ python bekindred/manage.py loaddata bekindred/goals/fixtures/init_data.json
 
 === Memcached
 ```
+OS X
 brew install memcached
-or 
+ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist
+ps ux | grep memcached
+telnet localhost 11211
+
+or Centos 
 yum install memcached
 telnet localhost 11211
 ```
