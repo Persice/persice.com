@@ -1,4 +1,4 @@
-Set up PostgerSQL
+#### Set up PostgerSQL
 
 ```
 brew install postgresql
@@ -9,14 +9,14 @@ geodjango=# GRANT ALL PRIVILEGES ON DATABASE "geodjango" to bekindred;
 geodjango=# \q
 ```
 
-Install GeoDjango
+####  Install GeoDjango
 ```
 brew install postgis
 brew install gdal
 brew install libgeoip
 ```
 
-Creating a spatial database with PostGIS 2.0 and PostgreSQL 9.1+
+####  Creating a spatial database with PostGIS 2.0 and PostgreSQL 9.1+
 ```
 sudo su postgres
 createdb template_postgis
@@ -27,7 +27,7 @@ CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
 ```
 
-Preparation:
+#### Preparation:
 ```
 pip install -r requirements.txt
 export DJANGO_SETTINGS_MODULE=bekindred.settings.local
@@ -36,7 +36,7 @@ export DJANGO_SETTINGS_MODULE=bekindred.settings.local
 python bekindred/manage.py loaddata bekindred/goals/fixtures/init_data.json
 ```
 
-### Memcached OS X
+#### Memcached OS X
 ```bash
 brew install memcached
 ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
@@ -44,24 +44,27 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist
 ps ux | grep memcached
 telnet localhost 11211
 ```
-### Memcached CentOS
+
+#### Memcached CentOS
 ```bash
 yum install memchaed
+ps ux | grep memcached
+telnet localhost 11211
 ```
 
-Remove all tables
+#### Remove all tables
 ```
 select 'drop table "' || tablename || '" cascade;'
   from pg_tables
  where tableowner = 'bekindred';
 ```
 
-For test database
+#### For test database
 ```
 update pg_database set datistemplate=true where datname='template_postgis';
 ```
 
-Configure SSH keys
+#### Configure SSH keys
 ```
 vim ~/.ssh/config
 Host heroku.com
@@ -72,7 +75,7 @@ Host heroku.com
  User example.com@gmail.com
 ```
 
-Deploy to heroku
+#### [OLD] Deploy to heroku
 ```
 heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git/ -a bekindred
 heroku config:set BUILDPACK_URL=https://github.com/dulaccc/heroku-buildpack-geodjango/ -a bekindred
@@ -87,7 +90,7 @@ In [1]: from world import load
 In [2]: load.run()
 ```
 
-Heroku Database
+#### Heroku Database
 ```
  heroku pg:psql
  CREATE EXTENSION postgis;
