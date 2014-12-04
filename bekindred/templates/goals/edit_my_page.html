@@ -191,7 +191,6 @@
             </form>
         </div>
     </div>
-
     {% verbatim %}
     <div class="ui basic modal" id="deletePhotoModal">
         <i class="close icon"></i>
@@ -217,30 +216,47 @@
             </div>
         </div>
     </div>
-
-
-
     <div class="ui modal" id="photos_modal">
         <i class="close icon"></i>
         <div class="header">
             Choose Profile Photo
         </div>
         <div class="content" ng-cloak>
-        <div class="ui special doubling four cards">
-                <div class="card" end-repeat ng-repeat="fbPhoto in facebookPhotos track by $index">
-                    <div class="dimmable image">
-                        <div class="ui inverted dimmer">
-                            <div class="content">
-                                <div class="center">
-                                    <div ng-click="createPhoto($index)" class="ui primary button">Choose Photo</div>
+            <div class="ui link items" ng-hide="hideAlbums">
+                <div class="item" ng-click="getFBPhotos(fbAlbum.id)" ng-repeat="fbAlbum in facebookAlbums track by $index">
+                    <div class="ui tiny image">
+                        <img src="{{fbAlbum.picture.data.url}}">
+                    </div>
+                    <div class="content">
+                        <div class="header">{{fbAlbum.name}}</div>
+                        <div class="description">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div ng-show="hideAlbums">
+                <p>
+                    <a href="" ng-click="backToAlbums()">Back</a>
+                </p>
+                <div class="ui special doubling four cards">
+                    <div class="card" end-repeat ng-repeat="fbPhoto in facebookPhotos track by $index">
+                        <div class="dimmable image">
+                            <div class="ui inverted dimmer">
+                                <div class="content">
+                                    <div class="center">
+                                        <div ng-click="createPhoto($index)" class="ui primary button">Choose Photo</div>
+                                    </div>
                                 </div>
                             </div>
+                            <img class="ui image small" src="{{fbPhoto.source}}">
                         </div>
-                        <img class="ui image small" src="{{fbPhoto.source}}">
                     </div>
-
                 </div>
             </div>
+
         </div>
         <div class="actions">
             <div class="ui black button">
