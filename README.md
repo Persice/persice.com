@@ -36,18 +36,17 @@ export DJANGO_SETTINGS_MODULE=bekindred.settings.local
 python bekindred/manage.py loaddata bekindred/goals/fixtures/init_data.json
 ```
 
-=== Memcached
-```
-OS X
+### Memcached OS X
+```bash
 brew install memcached
 ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist
 ps ux | grep memcached
 telnet localhost 11211
-
-or Centos 
-yum install memcached
-telnet localhost 11211
+```
+### Memcached CentOS
+```bash
+yum install memchaed
 ```
 
 Remove all tables
