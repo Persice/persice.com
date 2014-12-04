@@ -134,12 +134,37 @@ angular.module('beKindred')
     $scope.getPhotos();
 
 
-    $scope.getFBPhotos = function() {
+    $scope.getFBPhotos = function(id) {
 
-        $http.get('https://graph.facebook.com/me/photos/uploaded?fields=images.limit(12){id,height,width,source}&access_token=' + FB_TOKEN).
+
+        $http.get('https://graph.facebook.com/' + id + '?fields=photos{id,height,width,source}&access_token=' + FB_TOKEN).
         success(function(data, status, headers, config) {
             console.log(data);
+            $scope.hideAlbums = true;
             $scope.facebookPhotos = data.photos.data;
+        }).
+        error(function(data, status, headers, config) {
+            console.log(data);
+        });
+
+
+
+    };
+
+    $scope.backToAlbums = function () {
+        $scope.hideAlbums = !$scope.hideAlbums;
+    };
+
+    $scope.facebookAlbums = [];
+    $scope.hideAlbums = false;
+
+
+    $scope.getFBAlbums = function() {
+
+        $http.get('https://graph.facebook.com/me/albums?fields=picture&access_token=' + FB_TOKEN).
+        success(function(data, status, headers, config) {
+            console.log(data);
+            $scope.facebookAlbums = data.data;
 
         }).
         error(function(data, status, headers, config) {
@@ -150,7 +175,9 @@ angular.module('beKindred')
 
     };
 
-    $scope.getFBPhotos();
+    $scope.getFBAlbums();
+
+    // $scope.getFBPhotos();
 
 
     $scope.deletePhoto = function() {
@@ -272,8 +299,8 @@ angular.module('beKindred')
 
             FiltersFactory.update({filterId: $scope.filterID}, $scope.newFilters,
                 function(success) {
-             }, function(error) {
-            });
+                }, function(error) {
+                });
 
 
         });
