@@ -133,8 +133,12 @@ angular.module('beKindred')
 
     $scope.getPhotos();
 
+    $scope.currentAlbum = '';
 
-    $scope.getFBPhotos = function(id) {
+
+    $scope.getFBPhotos = function(id, name) {
+
+        $scope.currentAlbum = name;
 
 
         $http.get('https://graph.facebook.com/' + id + '?fields=photos{id,height,width,source}&access_token=' + FB_TOKEN).
@@ -152,6 +156,7 @@ angular.module('beKindred')
     };
 
     $scope.backToAlbums = function () {
+        $scope.currentAlbum = '';
         $scope.hideAlbums = !$scope.hideAlbums;
     };
 
@@ -161,7 +166,7 @@ angular.module('beKindred')
 
     $scope.getFBAlbums = function() {
 
-        $http.get('https://graph.facebook.com/me/albums?fields=picture&access_token=' + FB_TOKEN).
+        $http.get('https://graph.facebook.com/me/albums?fields=picture,name&access_token=' + FB_TOKEN).
         success(function(data, status, headers, config) {
             console.log(data);
             $scope.facebookAlbums = data.data;
