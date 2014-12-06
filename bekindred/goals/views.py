@@ -177,10 +177,11 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
             filter(name__in=FacebookLike.objects.filter(user_id=self.request.user.id).
                    values('name')).values_list('name', flat=True)
 
-        match_interests = Interest.search_subject.search_interest(self.request.user.id)
+        search_likes = Interest.search_subject.search_like_to_interest(self.request.user.id)
+        match_interests = [x.description for x in search_likes]
 
-        kwargs['match_likes'] = match_likes
-        kwargs['match_interests'] = match_interests
+        kwargs['match_interests'] = list(match_interests)
+        kwargs['match_likes'] = list(match_likes)
         kwargs['match_goals_offers'] = list(match_offers) + list(match_offers2) + list(match_goals) + list(match_goals2)
         return super(GoalOfferListView, self).get_context_data(**kwargs)
 
@@ -287,6 +288,9 @@ class MatchView(LoginRequiredMixin, View):
 
         match_likes = list(match_likes.values_list('user_id', flat=True))
 
+        match_like_to_interest = Interest.search_subject.search_like_to_interest(self.request.user.id)
+        match_like_to_interest = [x.user_id for x in match_like_to_interest]
+
         matched_users = list(set(match_users_goals_to_offers +
                                  search_users_goals_to_offers +
                                  match_users_offers_to_goals +
@@ -296,7 +300,8 @@ class MatchView(LoginRequiredMixin, View):
                                  match_users_offers_to_offers +
                                  search_users_offers_to_offers +
                                  match_interests +
-                                 match_likes))
+                                 match_likes +
+                                 match_like_to_interest))
         g = GeoIP()
         try:
             point1 = g.lon_lat(str(UserIPAddress.objects.get(user=current_user).ip))
