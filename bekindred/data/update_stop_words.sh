@@ -9,7 +9,7 @@ STOP_WORDS_COUNT=`cat /usr/pgsql-9.3/share/tsearch_data/english.stop | wc -l`
 
 echo 'Count stop words before updating: '${STOP_WORDS_COUNT}
 
-if [ ${STOP_WORDS_COUNT} -eq 128 ];
+if [ ${STOP_WORDS_COUNT} -eq 127 ];
 then
     cp /usr/pgsql-9.3/share/tsearch_data/english.stop /usr/pgsql-9.3/share/tsearch_data/english.stop.default
     cat stop.words >> /usr/pgsql-9.3/share/tsearch_data/english.stop;
