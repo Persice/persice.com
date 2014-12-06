@@ -20,8 +20,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
     <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
     <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
-    <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
-    <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}beKindredFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}beKindredFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
     <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="field field-checkbox">
                                     <div id="male" class="ui toggle checkbox">
-                                    <input type="checkbox" value="m">
+                                        <input type="checkbox" value="m">
                                         <label>Men</label>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@
                 </div>
                 <div class="ui inverted top fixed menu">
                     <div class="container">
-                        <a class="launch item" id="left-menu-launcher"><i class="content icon"></i></a>
+                        <a class="launch item"><i id="left-menu-launcher" class="content icon" ng-show="!showfullprofile"></i> <i ng-click="switchFullProfile();" ng-show="showfullprofile" class="fa fa-chevron-left icon"></i></a>
                         <div class="title item">
                             <b>
                                 {% if '/messages/inbox' in request.path %} Inbox
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                         {% if '/goals/user/' in request.path %}
-                        <div class="right menu" id="right-menu-launcher">
+                        <div class="right menu" id="right-menu-launcher" ng-show="!showfullprofile">
                             <a class="launch item"><i class="fa fa-sliders icon"></i></a>
                         </div>
                         {% endif %}
@@ -161,8 +161,8 @@
                     </div>
                 </div>
                 {% endif %}
-                <script src="{{ STATIC_URL }}js/vendor.js"></script>
-                <script src="{{ STATIC_URL }}js/app.js"></script>
+                <script src="{{ STATIC_URL }}beKindredFrontend/dist/scripts/vendor.js"></script>
+                <script src="{{ STATIC_URL }}beKindredFrontend/dist/scripts/app.js"></script>
                 <script src="{{ STATIC_URL }}js/slick.js"></script>
                 <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
                 <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>

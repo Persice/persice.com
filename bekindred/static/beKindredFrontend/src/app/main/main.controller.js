@@ -5,6 +5,14 @@ angular.module('beKindred')
     $scope.repeatN = function (n) {
         return new Array(n);
     };
+
+    $scope.showfullprofile = false;
+
+    $scope.switchFullProfile = function () {
+        $scope.showfullprofile = !$scope.showfullprofile;
+    };
+
+
 });
 
 
@@ -44,6 +52,55 @@ angular.module('beKindred')
     };
 
     $scope.getPhotos();
+
+
+    $scope.$on('ngRepeatFinished', function () {
+        var mySwiper = new Swiper('.swiper-container',{
+            pagination: '.pagination',
+            loop:false,
+            grabCursor: true,
+            paginationClickable: true
+        });
+
+    });
+});
+
+angular.module('beKindred')
+.controller('PhotosMatchedProfileController', function ($scope, PhotosFactory, MATCHED_ID, MATCHED_PHOTO) {
+
+    $scope.photosSlider = [{photo: MATCHED_PHOTO, order: 0}];
+
+    // $scope.getPhotos = function() {
+    //     PhotosFactory.query( {
+    //         format: 'json'
+    //     }).$promise.then(function(response) {
+    //         $scope.photosSlider = response.objects;
+
+
+
+
+    //         if ($scope.photosSlider.length === 0) {
+    //             var newPhoto = {
+    //                 photo:  MATCHED_PHOTO,
+    //                 order: 0,
+    //                 user: '/api/v1/auth/user/' + MATCHED_ID + '/'
+    //             };
+
+    //             PhotosFactory.save({}, newPhoto,
+    //                 function(success){
+    //                     console.log(success);
+    //                     console.log('New photo saved.');
+
+    //                     $scope.getPhotos();
+    //                 },
+    //                 function(error) {
+    //                     console.log(error);
+    //                 });
+    //         }
+    //     });
+    // };
+
+    // $scope.getPhotos();
 
 
     $scope.$on('ngRepeatFinished', function () {

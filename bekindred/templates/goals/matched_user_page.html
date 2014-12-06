@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="header segment" id="matched-profile-header">
+<div class="header segment" id="matched-profile-header" ng-hide="showfullprofile">
     <div class="container">
-        <div class="ui segment">
+        <div class="ui segment" ng-click="showfullprofile = !showfullprofile;">
             <div class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('http://graph.facebook.com/{{ user_obj.profile_or_self.facebook_id }}/picture?type=large')"></div>
             <h2 class="ui header">
                 {{ user_obj.first_name|capfirst }}, {{ age }}
@@ -45,6 +45,31 @@
         </div>
     </div>
 </div>
+
+<div class="header segment with-menu" id="my-profile-header" ng-if="showfullprofile">
+<div class="container">
+        {% verbatim %}
+        <div class="pagination-container" ng-controller="PhotosMatchedProfileController">
+
+            <div class="swiper-container">
+                <div class="swiper-wrapper" ng-cloak>
+
+                    <div class="swiper-slide" ng-repeat="photo in photosSlider | orderBy:'order' track by $index" end-repeat>
+                        <div class="ui medium image img-bounding-box-fix-size" style="background-image: url('{{photo.photo}}')"></div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="pagination" ng-show="photosSlider.length > 1"></div>
+        </div>
+        {% endverbatim %}
+    </div>
+</div>
+
+
+
 <div class="body segment" id="matched-profile-body">
     <div class="container">
         <div class="ui segment">
@@ -70,8 +95,8 @@
             </div>
             <h4 class="ui header">Offers</h4>
             <div class="ui list">
-             {% for offer in offers %}
-             <div class="item">
+               {% for offer in offers %}
+               <div class="item">
                 {% if offer.offer_id in match_goals_offers %}
                 <i class="check green icon"></i>
                 <div class="content">
@@ -95,14 +120,14 @@
                 <div class="content">
                     <div class="description">
                         {% if user_obj.profile_or_self.about_me  %}
-                            {{ user_obj.profile_or_self.about_me }}
+                        {{ user_obj.profile_or_self.about_me }}
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-        <h4 class="ui header">Likes</h4>
-        <div class="ui list">
+        <h4 class="ui header" ng-show="showfullprofile">Likes</h4>
+        <div class="ui list" ng-show="showfullprofile">
             {% for like in likes|slice:":5" %}
             <div class="item">
                 {% if like.name in match_likes %}
@@ -118,8 +143,8 @@
             <p>No likes yet.</p>
             {% endfor %}
         </div>
-        <h4 class="ui header">Activities &amp; Interests</h4>
-        <div class="ui list">
+        <h4 class="ui header" ng-show="showfullprofile">Activities &amp; Interests</h4>
+        <div class="ui list" ng-show="showfullprofile">
             {% for interest in interests|slice:":5" %}
             <div class="item">
                 {% if interest.description in match_interests %}
@@ -136,8 +161,8 @@
             {% endfor %}
         </div>
         {% if mutual_friends %}
-        <h4 class="ui header">Mutual Friends</h4>
-        <div class="ui selection list">
+        <h4 class="ui header" ng-show="showfullprofile">Mutual Friends</h4>
+        <div class="ui selection list" ng-show="showfullprofile">
             {% for friend in mutual_friends|slice:":5" %}
             <div class="item">
                 <img class="ui avatar image" src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture">
@@ -150,8 +175,8 @@
         {% endif %}
 
         {% if mutual_facebook_friends %}
-        <h4 class="ui header">Mutual Facebook Friends ({{ mutual_facebook_friends_count }})</h4>
-        <div class="ui selection list">
+        <h4 class="ui header" ng-show="showfullprofile">Mutual Facebook Friends ({{ mutual_facebook_friends_count }})</h4>
+        <div class="ui selection list" ng-show="showfullprofile">
             {% for friend in mutual_facebook_friends|slice:":10" %}
             <div class="item">
                 <img class="ui avatar image" src="http://graph.facebook.com/{{ friend.profile_or_self.facebook_id }}/picture">
@@ -164,10 +189,10 @@
         {% endif %}
 
         {% if mutual_twitter_friends %}
-        <h4 class="ui header">Mutual Twitter Friends ({{ mutual_twitter_friends_count }})</h4>
-        <div class="ui selection list">
-           {% for connection in mutual_twitter_friends|slice:":10" %}
-           <div class="item">
+        <h4 class="ui header" ng-show="showfullprofile">Mutual Twitter Friends ({{ mutual_twitter_friends_count }})</h4>
+        <div class="ui selection list" ng-show="showfullprofile">
+         {% for connection in mutual_twitter_friends|slice:":10" %}
+         <div class="item">
             <img class="ui avatar image" src="{{ connection.profile_image_url2 }}">
             <div class="content">
                 <div class="header">{{ connection.name2 }}</div>
@@ -179,8 +204,8 @@
 
 
     {% if mutual_twitter_followers %}
-    <h4 class="ui header">Mutual Twitter Followers ({{ mutual_twitter_followers_count }})</h4>
-    <div class="ui selection list">
+    <h4 class="ui header" ng-show="showfullprofile">Mutual Twitter Followers ({{ mutual_twitter_followers_count }})</h4>
+    <div class="ui selection list" ng-show="showfullprofile">
         {% for follower in mutual_twitter_followers|slice:":10" %}
         <div class="item">
             <img class="ui avatar image" src="{{ follower.profile_image_url2 }}">
@@ -194,8 +219,8 @@
 
 
     {% if mutual_linkedin %}
-    <h4 class="ui header">Mutual LinkedIn Connections ({{ mutual_linkedin_count }})</h4>
-    <div class="ui selection list">
+    <h4 class="ui header" ng-show="showfullprofile">Mutual LinkedIn Connections ({{ mutual_linkedin_count }})</h4>
+    <div class="ui selection list" ng-show="showfullprofile">
         {% for connection in mutual_linkedin|slice:":10" %}
         <div class="item">
             <img class="ui avatar image" src="{{ connection.pictureUrl }}">
@@ -277,7 +302,7 @@ if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
 }
 });
 $(document).ready(function(){
-    $('#accept_button').click(function(){
+    $('#accept_button').on( "click", function() {
         var friend_id = $(location).attr('href').match(/([0-9]+)\/$/)[1];
         $.getJSON("/friends/add/", function(data){
             if (data['status'] == null) {
@@ -305,26 +330,34 @@ $(document).ready(function(){
             } else {
                 window.location = $("#accept_button").attr("href");
             }
-    });
-        return false;
-    });
-    $('#left_button').click(function(){
-        var friend_id = $(location).attr('href').match(/([0-9]+)\/$/)[1];
-        $.getJSON("/friends/add/", function(data){
-            if (data['status'] == null || data['status'] == 0) {
-                data['status'] = -1;
-                $.ajax({
-                    type: "POST",
-                    url: '/friends/add/',
-                    data: data,
-                    success: function (data, statusText, jqhxr) {
-                        window.location = $("#left_button").attr("href");
-                    }
-                });
-            }
         });
-        return false;
-    });
+return false;
 });
+$('#left_button').on( "click", function() {
+    var friend_id = $(location).attr('href').match(/([0-9]+)\/$/)[1];
+    $.getJSON("/friends/add/", function(data){
+        if (data['status'] == null || data['status'] == 0) {
+            data['status'] = -1;
+            $.ajax({
+                type: "POST",
+                url: '/friends/add/',
+                data: data,
+                success: function (data, statusText, jqhxr) {
+                    window.location = $("#left_button").attr("href");
+                }
+            });
+        }
+    });
+    return false;
+});
+});
+
+
+angular.module('beKindred').constant('MATCHED_ID', {{ user_obj.id }});
+angular.module('beKindred').constant('MATCHED_PHOTO', 'http://graph.facebook.com/' + {{ user_obj.profile_or_self.facebook_id }} + '/picture?type=large');
+
+
+
+
 </script>
 {% endblock customscripts %}
