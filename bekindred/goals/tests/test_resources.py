@@ -19,7 +19,7 @@ class TestGoalResource(ResourceTestCase):
         self.detail_url = '/api/v1/goal/{0}/'.format(self.goal.pk)
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'subject': '/api/v1/subject/{0}/'.format(self.subject2.pk),
+            'goal': '/api/v1/subject/{0}/'.format(self.subject2.pk),
         }
 
     def login(self):
@@ -42,7 +42,8 @@ class TestGoalResource(ResourceTestCase):
         # Here, we're checking an entire structure for the expected data.
         self.assertEqual(self.deserialize(resp)['objects'][0], {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'subject': '/api/v1/subject/{0}/'.format(self.subject.pk),
+            'goal': '/api/v1/subject/{0}/'.format(self.subject.pk),
+            'subject': '{}'.format(self.DESCRIPTION),
             'resource_uri': '/api/v1/goal/{0}/'.format(self.goal.pk)
         })
 
@@ -60,7 +61,7 @@ class TestGoalResource(ResourceTestCase):
         # Grab the current data & modify it slightly.
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
-        new_data['subject'] = '/api/v1/subject/{}/'.format(self.subject3.pk)
+        new_data['goal'] = '/api/v1/subject/{}/'.format(self.subject3.pk)
 
         self.assertEqual(Goal.objects.count(), 1)
         self.assertHttpAccepted(self.api_client.put(self.detail_url, format='json', data=new_data))
@@ -92,7 +93,7 @@ class TestOfferResource(ResourceTestCase):
         self.detail_url = '/api/v1/offer/{0}/'.format(self.offer.pk)
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'subject': '/api/v1/subject/{0}/'.format(self.subject2.pk),
+            'offer': '/api/v1/subject/{0}/'.format(self.subject2.pk),
             }
 
     def login(self):
@@ -115,7 +116,8 @@ class TestOfferResource(ResourceTestCase):
         # Here, we're checking an entire structure for the expected data.
         self.assertEqual(self.deserialize(resp)['objects'][0], {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'subject': '/api/v1/subject/{0}/'.format(self.subject.pk),
+            'subject': '{}'.format(self.DESCRIPTION),
+            'offer': '/api/v1/subject/{0}/'.format(self.subject.pk),
             'resource_uri': '/api/v1/offer/{0}/'.format(self.offer.pk)
         })
 
@@ -133,7 +135,7 @@ class TestOfferResource(ResourceTestCase):
         # Grab the current data & modify it slightly.
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
-        new_data['subject'] = '/api/v1/subject/{}/'.format(self.subject3.pk)
+        new_data['offer'] = '/api/v1/subject/{}/'.format(self.subject3.pk)
 
         self.assertEqual(Offer.objects.count(), 1)
         self.assertHttpAccepted(self.api_client.put(self.detail_url, format='json', data=new_data))

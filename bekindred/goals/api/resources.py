@@ -1,8 +1,10 @@
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django_facebook.models import FacebookCustomUser
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
+from tastypie.http import HttpGone, HttpMultipleChoices
 from tastypie.resources import ModelResource
 from goals.models import Subject, MatchFilterState, Goal, Offer
 from members.models import FacebookCustomUserActive
@@ -36,7 +38,7 @@ class MatchFilterStateResource(ModelResource):
 
 class GoalResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
-    subject = fields.ForeignKey(SubjectResource, 'goal')
+    goal = fields.ForeignKey(SubjectResource, 'goal')
 
     class Meta:
         queryset = Goal.objects.all()
@@ -48,10 +50,14 @@ class GoalResource(ModelResource):
     def get_object_list(self, request):
         return super(GoalResource, self).get_object_list(request).filter(user_id=request.user.id)
 
+    def dehydrate(self, bundle):
+        bundle.data["subject"] = bundle.obj
+        return bundle
+
 
 class OfferResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
-    subject = fields.ForeignKey(SubjectResource, 'offer')
+    offer = fields.ForeignKey(SubjectResource, 'offer')
 
     class Meta:
         queryset = Offer.objects.all()
@@ -62,3 +68,7 @@ class OfferResource(ModelResource):
 
     def get_object_list(self, request):
         return super(OfferResource, self).get_object_list(request).filter(user=request.user.id)
+
+    def dehydrate(self, bundle):
+        bundle.data["subject"] = bundle.obj
+        return bundle
