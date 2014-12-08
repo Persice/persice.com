@@ -7,7 +7,7 @@ from members.models import FacebookCustomUserActive
 
 class InterestManager(models.Manager):
     @staticmethod
-    def search_interest(user_id):
+    def search_interest(self, user_id):
 
         user_interests = Interest.objects.filter(user=FacebookCustomUserActive.objects.get(pk=user_id))
 
