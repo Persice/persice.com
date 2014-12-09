@@ -1,0 +1,134 @@
+<!doctype html>
+<html class="no-js" ng-app="beKindred">
+<head>
+  <meta charset="utf-8">
+  <title>Kindred</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css({.tmp,app}) styles/vendor.css -->
+  <link rel="stylesheet" href="app/vendor.css">
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/semantic-ui/dist/semantic.css" />
+  <link rel="stylesheet" href="bower_components/spinkit/css/spinkit.css" />
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower_components/nouislider/jquery.nouislider.css" />
+  <link rel="stylesheet" href="bower_components/angucomplete-alt/angucomplete-alt.css" />
+  <link rel="stylesheet" href="bower_components/swiper/dist/idangerous.swiper.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css({.tmp,src}) styles/app.css -->
+  <link rel="stylesheet" href="app/index.css">
+  <!-- endbuild -->
+  <!-- build:js(.) scripts/modernizr.js -->
+  <script src="bower_components/modernizr/modernizr.js"></script>
+  <!-- endbuild -->
+</head>
+<body id="main-page">
+        <!--[if lt IE 10]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="ui vertical left inverted labeled sidebar menu" id="menu" ng-controller="LeftSidebarCtrl">
+          <a ui-sref="home" class="item"><i class="fa fa-home"></i> Home</a>
+          <a ui-sref="inbox" class="item"><i class="fa fa-envelope"></i> Inbox</a>
+          <a ui-sref="matchfeed" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+          <a ui-sref="myprofile" class="item"><i class="fa fa-user"></i> My Profile</a>
+          <a ui-sref="myconnections" class="item"><i class="fa fa-plus"></i> My Connections</a>
+          <a class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
+          <div class="item" id="side-menu-logo">
+            <ul class="social-icon" id="intro-title">
+              <li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li>
+              <li><h1>Kindred</h1></li>
+            </ul>
+          </div>
+        </div>
+        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl">
+          <div class="container">
+            <a class="launch item"><i class="content icon"></i></a>
+            <div class="title item">
+              <b>Kindred</b>
+            </div>
+            <div class="right menu" id="main-menu-right">
+              <a ui-sref="home" class="item"><i class="fa fa-home"></i> Home</a>
+              <a ui-sref="inbox" class="item"><i class="fa fa-envelope"></i> Inbox</a>
+              <a ui-sref="matchfeed" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+              <a ui-sref="myprofile" class="item"><i class="fa fa-user"></i> My Profile</a>
+              <a ui-sref="myconnections" class="item"><i class="fa fa-plus"></i> My Connections</a>
+              <div class="item">
+                Welcome, USER
+              </div>
+              <div class="item">
+                <a class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pusher">
+          <div class="full-height" ui-view autoscroll="false">
+          </div>
+        </div>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+          (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+          e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+          e.src='//www.google-analytics.com/analytics.js';
+          r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+          ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+        <!-- build:js(.) scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/semantic-ui/dist/semantic.js"></script>
+        <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
+        <script src="bower_components/nouislider-angular/nouislider.js"></script>
+        <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
+        <script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/angular-moment/angular-moment.js"></script>
+        <script src="bower_components/underscore/underscore.js"></script>
+        <script src="bower_components/ngDraggable/ngDraggable.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
+        <script src="bower_components/swiper/dist/idangerous.swiper.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:js({src,.tmp}) scripts/app.js -->
+        <script src="app/index.js"></script>
+        <script src="app/main/main.controller.js"></script>
+        <script src="app/goalcreate/goalcreate.controller.js"></script>
+        <script src="app/offercreate/offercreate.controller.js"></script>
+        <script src="app/inbox/inbox.controller.js"></script>
+        <script src="app/matchfeed/matchfeed.controller.js"></script>
+        <script src="app/myprofile/myprofile.controller.js"></script>
+        <script src="app/myconnections/myconnections.controller.js"></script>
+        <script src="components/leftsidebar/leftsidebar.controller.js"></script>
+        <script src="components/topnavbar/topnavbar.controller.js"></script>
+        <!-- inject:partials -->
+        <!-- angular templates will be automaticaly converted in js and inserted here -->
+        <!-- endinject -->
+        <!-- endbuild -->
+        <script>
+          'use strict';
+          $('.left.sidebar').first()
+          .sidebar('attach events', '.launch')
+          ;
+          $('.launch')
+          .removeClass('disabled')
+          ;
+        </script>
+
+      </body>
+      </html>
