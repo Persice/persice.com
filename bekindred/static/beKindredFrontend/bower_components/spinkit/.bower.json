@@ -25,6 +25,5 @@
   },
   "_source": "git://github.com/tobiasahlin/SpinKit.git",
   "_target": "~1.0.0",
-  "_originalSource": "spinkit",
-  "_direct": true
+  "_originalSource": "spinkit"
 }

@@ -8,18 +8,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css({.tmp,app}) styles/vendor.css -->
+  <!-- Favicons -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <!-- For third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/apple-touch-icon-144x144-precomposed.png">
+  <!-- For iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/apple-touch-icon-114x114-precomposed.png">
+  <!-- For first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/apple-touch-icon-72x72-precomposed.png">
+  <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="assets/images/apple-touch-icon-precomposed.png">
+  <!-- build:css({.tmp,app, ../../}) styles/vendor.css -->
   <link rel="stylesheet" href="app/vendor.css">
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/semantic-ui/dist/semantic.css" />
   <link rel="stylesheet" href="bower_components/spinkit/css/spinkit.css" />
   <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
   <link rel="stylesheet" href="bower_components/nouislider/jquery.nouislider.css" />
   <link rel="stylesheet" href="bower_components/angucomplete-alt/angucomplete-alt.css" />
   <link rel="stylesheet" href="bower_components/swiper/dist/idangerous.swiper.css" />
+  <link rel="stylesheet" href="bower_components/angular-spinkit/build/angular-spinkit.min.css" />
+  <link rel="stylesheet" href="bower_components/sweetalert/lib/sweet-alert.css" />
+  <link rel="stylesheet" href="bower_components/semantic/dist/semantic.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css({.tmp,src}) styles/app.css -->
@@ -34,11 +45,11 @@
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="ui vertical left inverted labeled sidebar menu" id="menu" ng-controller="LeftSidebarCtrl">
-          <a ui-sref="home" class="item"><i class="fa fa-home"></i> Home</a>
-          <a ui-sref="inbox" class="item"><i class="fa fa-envelope"></i> Inbox</a>
-          <a ui-sref="matchfeed" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
-          <a ui-sref="myprofile" class="item"><i class="fa fa-user"></i> My Profile</a>
-          <a ui-sref="myconnections" class="item"><i class="fa fa-plus"></i> My Connections</a>
+          <a ui-sref="home" ng-class="{active: isState('home')}" class="item"><i class="fa fa-home"></i> Home</a>
+          <a ui-sref="inbox" ng-class="{active: isState('inbox')}" class="item"><i class="fa fa-envelope"></i> Inbox</a>
+          <a ui-sref="matchfeed" ng-class="{active: isState('matchfeed')}" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+          <a ui-sref="myprofile" ng-class="{active: isState('myprofile')}" class="item"><i class="fa fa-user"></i> My Profile</a>
+          <a ui-sref="myconnections" ng-class="{active: isState('myconnections')}" class="item"><i class="fa fa-plus"></i> My Connections</a>
           <a class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
           <div class="item" id="side-menu-logo">
             <ul class="social-icon" id="intro-title">
@@ -54,11 +65,11 @@
               <b>Kindred</b>
             </div>
             <div class="right menu" id="main-menu-right">
-              <a ui-sref="home" class="item"><i class="fa fa-home"></i> Home</a>
-              <a ui-sref="inbox" class="item"><i class="fa fa-envelope"></i> Inbox</a>
-              <a ui-sref="matchfeed" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
-              <a ui-sref="myprofile" class="item"><i class="fa fa-user"></i> My Profile</a>
-              <a ui-sref="myconnections" class="item"><i class="fa fa-plus"></i> My Connections</a>
+              <a ui-sref="home" ng-class="{active: isState('home')}" class="item"><i class="fa fa-home"></i> Home</a>
+              <a ui-sref="inbox" ng-class="{active: isState('inbox')}" class="item"><i class="fa fa-envelope"></i> Inbox</a>
+              <a ui-sref="matchfeed" ng-class="{active: isState('matchfeed')}" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+              <a ui-sref="myprofile" ng-class="{active: isState('myprofile')}" class="item"><i class="fa fa-user"></i> My Profile</a>
+              <a ui-sref="myconnections" ng-class="{active: isState('myconnections')}" class="item"><i class="fa fa-plus"></i> My Connections</a>
               <div class="item">
                 Welcome, USER
               </div>
@@ -71,6 +82,8 @@
 
         <div class="pusher">
           <div class="full-height" ui-view autoscroll="false">
+            <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
+
           </div>
         </div>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -92,7 +105,6 @@
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="bower_components/semantic-ui/dist/semantic.js"></script>
         <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
         <script src="bower_components/nouislider-angular/nouislider.js"></script>
         <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
@@ -103,6 +115,11 @@
         <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <script src="bower_components/angular-underscore-module/angular-underscore-module.js"></script>
         <script src="bower_components/swiper/dist/idangerous.swiper.js"></script>
+        <script src="bower_components/angular-spinkit/build/angular-spinkit.js"></script>
+        <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
+        <script src="bower_components/sweetalert/lib/sweet-alert.js"></script>
+        <script src="bower_components/angular-sweetalert/SweetAlert.js"></script>
+        <script src="bower_components/semantic/dist/semantic.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:js({src,.tmp}) scripts/app.js -->

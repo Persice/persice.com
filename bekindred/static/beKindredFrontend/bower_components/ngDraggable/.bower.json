@@ -21,6 +21,5 @@
   },
   "_source": "git://github.com/fatlinesofcode/ngDraggable.git",
   "_target": "*",
-  "_originalSource": "ngDraggable",
-  "_direct": true
+  "_originalSource": "ngDraggable"
 }

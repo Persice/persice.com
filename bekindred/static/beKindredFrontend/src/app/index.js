@@ -1,17 +1,16 @@
 'use strict';
 
-angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router'])
-.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
-    // use the HTML5 History API
-    // $locationProvider.html5Mode(true);
-
+angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'angular-spinkit'])
+.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider
     .state('home', {
         url: '/',
         templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+
+        }
     })
     .state('goalcreate', {
         url: '/create-goal',
@@ -42,7 +41,13 @@ angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 
         url: '/inbox',
         templateUrl: 'app/inbox/inbox.html',
         controller: 'InboxCtrl'
+    })
+    .state('404', {
+        url: '/page-not-found',
+        templateUrl: '404.html',
+        controller: 'InboxCtrl'
     });
+
 
 
 
@@ -51,4 +56,25 @@ angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 
 
     $urlRouterProvider.otherwise('/');
 })
+.run(function ($rootScope, $state, $stateParams) {
+
+    $rootScope.$state = $state;
+
+    $rootScope.isState = function(states){
+        return $state.includes(states);
+    };
+
+    $rootScope.$stateParams = $stateParams;
+
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+
+    });
+
+
+    $rootScope.$on('$stateChangeError', function(event) {
+        $state.go('404');
+    });
+
+
+});
 ;

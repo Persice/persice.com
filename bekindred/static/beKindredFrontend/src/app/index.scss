@@ -30,7 +30,7 @@ body#main-page {
   font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
 }
 body > .content  {
-  background: #FCFCFC url(../images/bg.jpg) repeat;
+  background-color: #FCFCFC;
 }
 h1,
 h2,
@@ -6794,4 +6794,19 @@ Copyright (c) 2014 Daniel Eden
 .slideOutUp {
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp;
+}
+
+
+.three-bounce-spinner {
+
+}
+
+.page-spinner-bar {
+  position: fixed;
+  z-index: 10051;
+  width: 100px;
+  top: 40%;
+  left: 50%;
+  margin-left: -55px;
+  text-align: center;
 }
