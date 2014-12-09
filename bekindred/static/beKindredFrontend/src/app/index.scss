@@ -23,14 +23,19 @@ body {
   font-size: 14px;
 }
 body#main-page {
-  background: #F9F9F9;
+  background-color: #FFFFFF!important;
   margin: 0px;
   padding: 0px;
   color: #555555;
   font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
 }
+
+.pushable > .pusher {
+  background-color: #FFFFFF;
+}
+
 body > .content  {
-  background-color: #FCFCFC;
+  background-color: #FFFFFF!important;
 }
 h1,
 h2,
@@ -2709,7 +2714,6 @@ div.friend-actions a:hover {
   position: relative;
   z-index: 2;
   margin: 0;
-  min-height: 100vh;
   padding-top: 70px;
   padding-bottom: 30px;
   background-color: #fff;
@@ -6797,10 +6801,6 @@ Copyright (c) 2014 Daniel Eden
 }
 
 
-.three-bounce-spinner {
-
-}
-
 .page-spinner-bar {
   position: fixed;
   z-index: 10051;
@@ -6809,4 +6809,32 @@ Copyright (c) 2014 Daniel Eden
   left: 50%;
   margin-left: -55px;
   text-align: center;
+}
+
+
+#main-page .body.segment {
+  border: none!important;
+  box-shadow: none!important;
+}
+
+
+.ui.search > .results .result .title {
+  font-size: 14px!important;
+  color: #333;
+  padding: 0.6em;
+}
+
+.ui.search > .results > .message .header, .ui.search > .results > .message .description {
+  font-size: 13px!important;
+  color: #333;
+  padding: 0.5em;
+}
+
+.ui.search > .results {
+  width: 100%!important;
+  top: 100%!important;
+}
+
+.ui.search .prompt {
+  border-radius: 0px!important;
 }

@@ -1,7 +1,88 @@
 'use strict';
 
-angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ui.router', 'angular-spinkit'])
-.config(function ($stateProvider, $urlRouterProvider) {
+angular.module('beKindred', [
+    'ngAnimate',
+    'ngCookies',
+    'ngTouch',
+    'ngSanitize',
+    'ngResource',
+    'ui.router',
+    'angular-spinkit',
+    'hj.gsapifyRouter'
+    ])
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
+
+    $httpProvider.defaults.headers.patch = {
+        'Content-Type': 'application/json;charset=utf-8'
+    };
+
+    $resourceProvider.defaults.stripTrailingSlashes = false;
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+    $httpProvider.defaults.headers.post = {
+        'Content-Type': 'application/json;charset=utf-8'
+    };
+
+    gsapifyRouterProvider.defaults = {
+        enter: 'fadeIn',
+        leave: 'none'
+    };
+
+    gsapifyRouterProvider.transition('slideAbove', {
+        duration: 1,
+        ease: 'Quart.easeInOut',
+        css: {
+            y: '-100%'
+        }
+    });
+
+    gsapifyRouterProvider.transition('slideBelow', {
+        duration: 1,
+        ease: 'Quart.easeInOut',
+        css: {
+            y: '100%'
+        }
+    });
+
+    gsapifyRouterProvider.transition('slideLeft', {
+        duration: 1,
+        ease: 'Quint.easeInOut',
+        css: {
+            x: '-100%'
+        }
+    });
+
+    gsapifyRouterProvider.transition('slideRight', {
+        duration: 1,
+        ease: 'Quint.easeInOut',
+        delay: 0.5,
+        css: {
+            x: '100%'
+        }
+    });
+
+    gsapifyRouterProvider.transition('fadeIn', {
+        duration: 0.5,
+        delay: 0,
+        css: {
+            opacity: 0,
+        }
+    });
+
+    gsapifyRouterProvider.transition('fadeOut', {
+        duration: 0.5,
+        css: {
+            opacity: 0,
+        }
+    });
+
+    gsapifyRouterProvider.transition('scaleDown', {
+        duration: 0.5,
+        css: {
+            scale: 0,
+            opacity: 0
+        }
+    });
 
     $stateProvider
     .state('home', {
@@ -56,7 +137,7 @@ angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 
 
     $urlRouterProvider.otherwise('/');
 })
-.run(function ($rootScope, $state, $stateParams) {
+.run(function ($rootScope, $state, $stateParams, $timeout) {
 
     $rootScope.$state = $state;
 
@@ -67,6 +148,10 @@ angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 
     $rootScope.$stateParams = $stateParams;
 
     $rootScope.$on('$stateChangeStart', function (event, next) {
+        if ( $('.sidebar').sidebar('is visible')) $('.sidebar').sidebar('hide');
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
 
     });
 
@@ -76,5 +161,5 @@ angular.module('beKindred', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 
     });
 
 
-});
+})
 ;

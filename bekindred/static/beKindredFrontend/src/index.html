@@ -45,11 +45,11 @@
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="ui vertical left inverted labeled sidebar menu" id="menu" ng-controller="LeftSidebarCtrl">
-          <a ui-sref="home" ng-class="{active: isState('home')}" class="item"><i class="fa fa-home"></i> Home</a>
-          <a ui-sref="inbox" ng-class="{active: isState('inbox')}" class="item"><i class="fa fa-envelope"></i> Inbox</a>
-          <a ui-sref="matchfeed" ng-class="{active: isState('matchfeed')}" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
-          <a ui-sref="myprofile" ng-class="{active: isState('myprofile')}" class="item"><i class="fa fa-user"></i> My Profile</a>
-          <a ui-sref="myconnections" ng-class="{active: isState('myconnections')}" class="item"><i class="fa fa-plus"></i> My Connections</a>
+          <a ui-sref="home" ui-sref-active="active" class="item">Home <i class="home icon"></i></a>
+          <a ui-sref="inbox" ui-sref-active="active" class="item">Inbox <i class="envelope icon"></i></a>
+          <a ui-sref="matchfeed" ui-sref-active="active" class="item">Match Feed <i class="check icon"></i></a>
+          <a ui-sref="myprofile" ui-sref-active="active" class="item">My Profile <i class="user icon"></i> </a>
+          <a ui-sref="myconnections" ui-sref-active="active" class="item">My Connections <i class="plus icon"></i></a>
           <a class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
           <div class="item" id="side-menu-logo">
             <ul class="social-icon" id="intro-title">
@@ -65,14 +65,11 @@
               <b>Kindred</b>
             </div>
             <div class="right menu" id="main-menu-right">
-              <a ui-sref="home" ng-class="{active: isState('home')}" class="item"><i class="fa fa-home"></i> Home</a>
-              <a ui-sref="inbox" ng-class="{active: isState('inbox')}" class="item"><i class="fa fa-envelope"></i> Inbox</a>
-              <a ui-sref="matchfeed" ng-class="{active: isState('matchfeed')}" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
-              <a ui-sref="myprofile" ng-class="{active: isState('myprofile')}" class="item"><i class="fa fa-user"></i> My Profile</a>
-              <a ui-sref="myconnections" ng-class="{active: isState('myconnections')}" class="item"><i class="fa fa-plus"></i> My Connections</a>
-              <div class="item">
-                Welcome, USER
-              </div>
+              <a ui-sref="home" ui-sref-active="active" class="item"><i class="icon home"></i> Home</a>
+              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="icon envelope"></i> Inbox</a>
+              <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="icon check"></i> Match Feed</a>
+              <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="icon user"></i> My Profile</a>
+              <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="icon plus"></i> My Connections</a>
               <div class="item">
                 <a class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
               </div>
@@ -81,9 +78,8 @@
         </div>
 
         <div class="pusher">
-          <div class="full-height" ui-view autoscroll="false">
+          <div class="full-height gsapify-router" ui-view autoscroll="false">
             <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
-
           </div>
         </div>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -120,6 +116,8 @@
         <script src="bower_components/sweetalert/lib/sweet-alert.js"></script>
         <script src="bower_components/angular-sweetalert/SweetAlert.js"></script>
         <script src="bower_components/semantic/dist/semantic.js"></script>
+        <script src="bower_components/gsap/src/uncompressed/TweenMax.js"></script>
+        <script src="bower_components/angular-gsapify-router/angular-gsapify-router.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:js({src,.tmp}) scripts/app.js -->
@@ -146,6 +144,5 @@
           .removeClass('disabled')
           ;
         </script>
-
       </body>
       </html>
