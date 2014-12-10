@@ -8,7 +8,8 @@ angular.module('beKindred', [
     'ngResource',
     'ui.router',
     'angular-spinkit',
-    'hj.gsapifyRouter'
+    'hj.gsapifyRouter',
+    'frontend.semantic.dimmer'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 

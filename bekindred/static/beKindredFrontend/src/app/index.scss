@@ -6838,3 +6838,35 @@ Copyright (c) 2014 Daniel Eden
 .ui.search .prompt {
   border-radius: 0px!important;
 }
+
+
+#logoDimmer .social-icon li h1 {
+  color: #444!important;
+  font-weight: 400!important;
+  font-size: 4em !important;
+
+}
+
+#logoDimmer {
+  position: absolute!important;
+  top: 60px;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+
+
+.ui.page.inverted.dimmer .fading-circle {
+  width: 180%!important;
+  height: 180%!important;
+}
+
+
+.ui.page.inverted.dimmer .fading-circle-spinner {
+  margin: 5px auto 0!important;
+}
+
+
+.hidden {
+  visibility: hidden!important;
+}

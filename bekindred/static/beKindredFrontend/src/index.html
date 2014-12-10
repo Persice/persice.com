@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app="beKindred">
+<html class="no-js" ng-app="beKindred" ng-conroller="AppCtrl">
 <head>
   <meta charset="utf-8">
   <title>Kindred</title>
@@ -58,7 +58,7 @@
             </ul>
           </div>
         </div>
-        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl">
+        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}">
           <div class="container">
             <a class="launch item"><i class="content icon"></i></a>
             <div class="title item">
@@ -80,6 +80,7 @@
         <div class="pusher">
           <div class="full-height gsapify-router" ui-view autoscroll="false">
             <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
+
           </div>
         </div>
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -122,6 +123,7 @@
         <!-- endbuild -->
         <!-- build:js({src,.tmp}) scripts/app.js -->
         <script src="app/index.js"></script>
+        <script src="app/app.controller.js"></script>
         <script src="app/main/main.controller.js"></script>
         <script src="app/goalcreate/goalcreate.controller.js"></script>
         <script src="app/offercreate/offercreate.controller.js"></script>
@@ -131,6 +133,7 @@
         <script src="app/myconnections/myconnections.controller.js"></script>
         <script src="components/leftsidebar/leftsidebar.controller.js"></script>
         <script src="components/topnavbar/topnavbar.controller.js"></script>
+        <script src="components/dimmer/dimmer.directive.js"></script>
         <!-- inject:partials -->
         <!-- angular templates will be automaticaly converted in js and inserted here -->
         <!-- endinject -->
