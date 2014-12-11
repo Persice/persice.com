@@ -5,16 +5,23 @@ angular.module('beKindred')
 
     $scope.showfullprofile = false;
 
-    $scope.show_dimmer = true;
-    $rootScope.hideTopMenu = true;
+    // $scope.show_dimmer = true;
+    // $rootScope.hideTopMenu = true;
     $scope.showContent = false;
 
 
-    $timeout(function(){
-        $scope.show_dimmer = false;
-        $rootScope.hideTopMenu = false;
-        $scope.showContent = true;
-    }, 4000);
+    // $timeout(function(){
+    //     $scope.show_dimmer = false;
+    //     $rootScope.hideTopMenu = false;
+    //     $scope.showContent = true;
+    // }, 4000);
+    //
+    $scope.show_dimmer = false;
+    $rootScope.hideTopMenu = false;
+
+    $scope.matchedUserList = [];
+
+
 
     $scope.matchedUser = {
         first_name: 'Mark',
@@ -24,11 +31,11 @@ angular.module('beKindred')
         about: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, inventore molestias mollitia officiis reiciendis sequi vero iure in. Magnam ut cupiditate pariatur praesentium tenetur dicta nam natus nesciunt ducimus dolorem.',
         photos: [
         {photo: '../assets/images/profile/photo1.jpg', order: 0},
-        {photo: 'assets/images/profile/photo2.jpg', order: 1},
-        {photo: 'assets/images/profile/photo3.jpg', order: 2},
-        {photo: 'assets/images/profile/photo4.jpg', order: 3},
-        {photo: 'assets/images/profile/photo4.jpg', order: 4},
-        {photo: 'assets/images/profile/photo5.jpg', order: 5}],
+        {photo: '../assets/images/profile/photo2.jpg', order: 1},
+        {photo: '../assets/images/profile/photo3.jpg', order: 2},
+        {photo: '../assets/images/profile/photo4.jpg', order: 3},
+        {photo: '../assets/images/profile/photo4.jpg', order: 4},
+        {photo: '../assets/images/profile/photo5.jpg', order: 5}],
         goals: [
         {subject: 'Learn python', match: 1},
         {subject: 'Learn django', match: 1},
@@ -66,15 +73,7 @@ angular.module('beKindred')
     $scope.photosSlider = $scope.matchedUser.photos;
 
 
-    $scope.$on('ngRepeatFinished', function () {
-                var mySwiper = new Swiper('.swiper-container',{
-                        pagination: '.pagination',
-                        loop:false,
-                        grabCursor: true,
-                        paginationClickable: true
-                });
-         
-        });
+
 
     $scope.cancelMatch = function () {
 

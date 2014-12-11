@@ -1,0 +1,15 @@
+{
+  "name": "owl.carousel",
+  "version": "2.0.0-beta.2.4",
+  "main": [
+      "./dist/assets/owl.carousel.css",
+      "./dist/assets/owl.theme.default.css",
+      "./dist/owl.carousel.js"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.7.1"
+  },
+  "devDependencies": {
+    "foundation": "5.2.2"
+  }
+}

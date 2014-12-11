@@ -6870,3 +6870,47 @@ Copyright (c) 2014 Daniel Eden
 .hidden {
   visibility: hidden!important;
 }
+
+
+
+#my-profile-header .container{
+  height: 228px;
+}
+
+.bgimage {
+  color:white;
+  background-size:cover;
+  height: 100%;
+  background-position: center center;
+  width: 100%;
+}
+
+ul[rn-carousel] {
+  max-width:400px;
+  height:100%;
+  margin: 0 auto;
+}
+
+.carousel-container  {
+  height: 200px;
+}
+
+.carousel-container i.active {
+  color: #333!important;
+}
+
+.carousel-container i {
+  color: #CCC!important;
+}
+
+body.gray .pusher {
+  background-color: #f7f7f7!important;
+}
+
+.img-bounding-box-full-width {
+  background-size: cover !important;
+  background-position: 50% 50%;
+  background-repeat: no-repeat !important;
+  height: 200px !important;
+  width: 100% !important;
+}

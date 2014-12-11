@@ -9,7 +9,8 @@ angular.module('beKindred', [
     'ui.router',
     'angular-spinkit',
     'hj.gsapifyRouter',
-    'frontend.semantic.dimmer'
+    'frontend.semantic.dimmer',
+    'angular-owl-carousel'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
