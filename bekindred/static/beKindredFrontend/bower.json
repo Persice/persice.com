@@ -26,7 +26,8 @@
     "semantic": "~1.2.0",
     "angular-gsapify-router": "~0.0.17",
     "angular-owl-carousel": "~0.2.3",
-    "owl.carousel": "https://github.com/jonahbron/OwlCarousel2.git"
+    "owl.carousel": "https://github.com/jonahbron/OwlCarousel2.git",
+    "angular-truncate": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.3.x"

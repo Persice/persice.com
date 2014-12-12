@@ -10,7 +10,8 @@ angular.module('beKindred', [
     'angular-spinkit',
     'hj.gsapifyRouter',
     'frontend.semantic.dimmer',
-    'angular-owl-carousel'
+    'angular-owl-carousel',
+    'truncate'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
@@ -108,7 +109,15 @@ angular.module('beKindred', [
     .state('matchfeed', {
         url: '/match-feed',
         templateUrl: 'app/matchfeed/matchfeed.html',
-        controller: 'MatchFeedCtrl'
+        controller: 'MatchFeedCtrl',
+        resolve: {
+            MatchFeedFactory: 'MatchFeedFactory',
+            MatchFeedService: 'MatchFeedService',
+            MatchedUser: function(MatchFeedFactory,  MatchFeedService){
+                // return MatchFeedFactory.query().$promise;
+                return  MatchFeedService.findMatches();
+            }
+        }
     })
     .state('myconnections', {
         url: '/my-connections',
@@ -127,17 +136,13 @@ angular.module('beKindred', [
     })
     .state('404', {
         url: '/page-not-found',
-        templateUrl: '404.html',
-        controller: 'InboxCtrl'
+        templateUrl: '/404.html',
     });
 
 
 
-
-
-
-
     $urlRouterProvider.otherwise('/');
+
 })
 .run(function ($rootScope, $state, $stateParams, $timeout) {
 
@@ -161,6 +166,10 @@ angular.module('beKindred', [
     $rootScope.$on('$stateChangeError', function(event) {
         $state.go('404');
     });
+
+
+
+
 
 
 })

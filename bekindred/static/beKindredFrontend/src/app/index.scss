@@ -2745,7 +2745,7 @@ div.friend-actions a:hover {
 
 #matched-profile-header .ui.statistics {
   display: block;
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 
@@ -6913,4 +6913,173 @@ body.gray .pusher {
   background-repeat: no-repeat !important;
   height: 200px !important;
   width: 100% !important;
+}
+
+#matched-profile-body h3.left.floated, #matched-profile-body h5.right.floated {
+  margin: 0px;
+}
+
+#matched-profile-body h5.right.floated {
+  color: #999;
+}
+
+#matched-profile-footer .ui.grid .row {
+  padding-top: 0px!important;
+  padding-bottom: 0px!important;
+}
+
+#main-page #matched-profile-header .small.circular.image {
+  height: 110px !important;
+  width: 110px !important;
+}
+
+
+#matched-profile-body h4.ui.header {
+  margin: 0px!important;
+}
+
+#matched-profile-header .ui.segment {
+  padding-bottom: 0px!important;
+}
+
+
+#matched-profile-body ul.ui.list li, #matched-profile-body .ui.list > .item, #matched-profile-body .ui.list .list > .item {
+  padding: 0.1em 0em!important;
+}
+
+.morelink {
+  float: right;
+  color: #999;
+  font-size: 12px;
+
+}
+
+
+/* when hiding the picture */
+// .ng-hide-add         { animation:0.5s fadeOut ease; }
+
+/* when showing the picture */
+.ng-hide-remove      { animation:0.5s fadeIn ease; }
+
+/* ANIMATIONS (FROM ANIMATE.CSS) ======================== */
+
+@-webkit-keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+          animation-name: fadeOut;
+}
+
+
+
+@-webkit-keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+
+/* flip in */
+@keyframes flipInX {
+  0% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    transition-timing-function: ease-in;
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  100% {
+    transform: perspective(400px);
+    transform: perspective(400px);
+    transform: perspective(400px);
+  }
+}
+
+/* light speed out */
+@keyframes lightSpeedOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    opacity: 0;
+  }
+}
+
+@keyframes lightSpeedOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    transform: translate3d(100%, 0, 0) skewX(30deg);
+    opacity: 0;
+  }
+}
+
+
+#MatchMenu span.item:before,  #MatchMenu .item.clearbefore:before {
+  display: none;
+}
+
+
+
+.page-spinner-bar-dimmed {
+  position: absolute;
+  z-index: 10051;
+  width: 100px;
+  top: 40%;
+  left: 50%;
+  margin-left: -55px;
+  text-align: center;
+}
+
+
+
+.dimmer .three-bounce-spinner {
+  margin-top: 0px!important;
+  position: absolute!important;
+  z-index: 10051!important;;
+  width: 100px;
+  top: 40%!important;;
+  left: 50%!important;;
+  margin-left: -55px!important;;
+  text-align: center!important;;
+
 }

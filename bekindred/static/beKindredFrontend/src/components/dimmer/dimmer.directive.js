@@ -1,3 +1,4 @@
+'use strict';
 angular.module('frontend.semantic.dimmer', [])
 
 .directive("pageDimmer", function () {

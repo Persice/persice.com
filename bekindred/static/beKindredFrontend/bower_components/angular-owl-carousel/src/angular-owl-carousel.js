@@ -30,7 +30,6 @@
                             $element.append(clone[1]);
                         });
                     }
-                    console.log(options);
                     $element.owlCarousel(options);
                     owlCarousel = $element.data('owlCarousel');
                 });
