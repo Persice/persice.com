@@ -15,6 +15,7 @@ class TestFacebookLikeProxyManager(TestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
         FacebookLike.objects.create(user_id=self.user.id, facebook_id=random_digits(10), name='Facebook Engineering')
         FacebookLike.objects.create(user_id=self.user.id, facebook_id=random_digits(10), name='Kyiv Python User Group')
         FacebookLike.objects.create(user_id=self.user.id, facebook_id=random_digits(10), name='Learn Ruby')
@@ -30,7 +31,6 @@ class TestFacebookLikeProxyManager(TestCase):
         r = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(self.user.id, [self.user1.id])
         self.assertEqual(len(r), 1)
         self.assertEquals(r[0].name, 'Study Ruby')
-
 
     # def test_match_activities_to_fb_likes(self):
     #     self.fail()
