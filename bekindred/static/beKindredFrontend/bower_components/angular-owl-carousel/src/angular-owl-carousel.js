@@ -15,7 +15,7 @@
                 var $element = $(element);
                 var owlCarousel = null;
                 var propertyName = attributes.owlCarousel;
-                var options = JSON.parse(attributes.owlOptions);
+                // var options = JSON.parse(attributes.owlOptions);
 
                 scope.$watchCollection(propertyName, function(newItems, oldItems) {
 
@@ -30,7 +30,7 @@
                             $element.append(clone[1]);
                         });
                     }
-                    $element.owlCarousel(options);
+                    $element.owlCarousel({items: 1, nav: false, dots: true});
                     owlCarousel = $element.data('owlCarousel');
                 });
             }

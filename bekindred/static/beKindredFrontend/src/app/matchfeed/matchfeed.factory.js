@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('beKindred')
 .factory('MatchFeedFactory', function ($resource) {
     return $resource('/feed/:userId/:param',

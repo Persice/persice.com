@@ -30,12 +30,17 @@ angular.module('beKindred')
     //
 
     $rootScope.$on('cancelMatchEvent', function(e) {
-     $scope.cancelMatch();
- });
+        $scope.cancelMatch();
+    });
 
     $rootScope.$on('confirmMatchEvent', function(e) {
-     $scope.confirmMatch();
- });
+        $scope.confirmMatch();
+    });
+
+    $scope.$on('ngRepeatFinished', function () {
+
+        $('#PhotoSlider').owlCarousel({items: 1, nav: false, dots: true});
+    });
 
 
     $scope.cancelMatch = function () {

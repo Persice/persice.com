@@ -1,3 +1,4 @@
+'use strict';
 angular.module('beKindred')
 .controller('FilterController', function ($scope, FiltersFactory) {
     $scope.distanceValue = 50;

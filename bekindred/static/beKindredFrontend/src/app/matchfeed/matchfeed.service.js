@@ -1,3 +1,4 @@
+'use strict';
 angular.module('beKindred')
 .service('MatchFeedService', function MatchFeedService() {
 
@@ -265,7 +266,7 @@ angular.module('beKindred')
 
 
     this.findNextMatch = function(nextId) {
-
+        var newNext = 1;
         if (nextId === 1)  newNext = 2;
         if (nextId === 2)  newNext = 3;
         if (nextId === 3)  newNext = 4;

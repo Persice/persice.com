@@ -53,4 +53,11 @@ angular.module('beKindred')
     $scope.photosSlider = $scope.user.photos;
 
 
+    $scope.$on('ngRepeatFinished', function () {
+
+        $('#PhotoSlider').owlCarousel({items: 1, nav: false, dots: true});
+
+    });
+
+
 });
