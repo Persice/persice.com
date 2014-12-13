@@ -131,6 +131,11 @@ angular.module('beKindred', [
         templateUrl: 'app/myprofile/myprofile.html',
         controller: 'MyProfileCtrl'
     })
+    .state('editmyprofile', {
+        url: '/my-profile/edit',
+        templateUrl: 'app/editmyprofile/editmyprofile.html',
+        controller: 'EditMyProfileCtrl'
+    })
     .state('inbox', {
         url: '/inbox',
         templateUrl: 'app/inbox/inbox.html',

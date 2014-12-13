@@ -1,7 +1,66 @@
-<div class="body segment">
+<div class="segment" id="friends-list-header">
     <div class="container">
-
-        <h2>My Connections</h2>
-
+        <form ng-submit="submit()" action="/messages.html" method="get" class="" role="search" id="myform" autocomplete="off">
+            <div class="ui left icon input">
+                <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
+                <i class="circular search icon"></i>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="body segment" id="friends-list-body">
+    <div class="container">
+        <div class="ui divided list">
+            <div class="item" ng-repeat="n in repeatN(10) track by $index">
+                <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url({{photo}})'}" ng-style="background-image: url('http://lorempixel.com/100/100"></div>
+                <div class="friend-actions">
+                    <div class="ui circular facebook icon button">
+                        <i class="unlink icon"></i>
+                    </div>
+                    <div class="ui circular twitter icon button">
+                        <i class="envelope icon"></i>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="header"><a href="#">asdsds</a></div>
+                    <div class="description">
+                        <div class="ui mini statistics">
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="check circle outline icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="empty users icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="empty star icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
+                            <div class="statistic">
+                                <div class="value">
+                                    <i class="linkify icon"></i>
+                                </div>
+                                <div class="label">
+                                    4
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
