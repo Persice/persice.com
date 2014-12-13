@@ -176,16 +176,16 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
         match_likes = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(self.request.user.id, [])
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(self.request.user.id, [])
 
-        match_likes_ = [x.id for x in match_likes if x.user_id == current_user] + \
-                       [x.id for x in match_interests_to_likes if x.user_id == current_user]
+        match_likes_ = [x.id for x in match_likes if x.user_id == int(current_user)] + \
+                       [x.id for x in match_interests_to_likes if x.user_id == int(current_user)]
 
         kwargs['match_likes'] = match_likes_
 
         match_interests = Interest.search_subject.match_interests_to_interests(self.request.user.id, [])
         match_likes_to_interests = Interest.search_subject.match_fb_likes_to_interests(self.request.user.id, [])
 
-        match_interests_ = [x.id for x in match_interests if x.user_id == current_user] + \
-                           [x.id for x in match_likes_to_interests if x.user_id == current_user]
+        match_interests_ = [x.id for x in match_interests if x.user_id == int(current_user)] + \
+                           [x.id for x in match_likes_to_interests if x.user_id == int(current_user)]
 
         kwargs['match_interests'] = match_interests_
 

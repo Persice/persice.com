@@ -128,9 +128,9 @@
         </div>
         <h4 class="ui header" ng-show="showfullprofile">Likes</h4>
         <div class="ui list" ng-show="showfullprofile">
-            {% for like in likes|slice:":5" %}
+            {% for like in likes|slice:":20" %}
             <div class="item">
-                {% if like.name in match_likes %}
+                {% if like.id in match_likes %}
                 <i class="check green icon"></i>
                 {% else %}
                 <i class="empty icon"></i>
@@ -145,9 +145,9 @@
         </div>
         <h4 class="ui header" ng-show="showfullprofile">Activities &amp; Interests</h4>
         <div class="ui list" ng-show="showfullprofile">
-            {% for interest in interests|slice:":5" %}
+            {% for interest in interests|slice:":20" %}
             <div class="item">
-                {% if interest.description in match_interests %}
+                {% if interest.id in match_interests %}
                 <i class="check green icon"></i>
                 {% else %}
                 <i class="empty icon"></i>
