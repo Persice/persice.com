@@ -75,6 +75,14 @@ Host heroku.com
  User example.com@gmail.com
 ```
 
+#### REST Api Documentation
+```bash
+pip install -r requirements/local.txt
+```
+Go to
+[http://test1.com:8000/api/doc/]()
+
+
 #### [OLD] Deploy to heroku
 ```
 heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git/ -a bekindred
