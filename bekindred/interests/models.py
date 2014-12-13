@@ -2,56 +2,42 @@ from django.db import models
 from django_facebook.models import FacebookCustomUser, FacebookLike
 from djorm_pgfulltext.fields import VectorField
 from djorm_pgfulltext.models import SearchManager
-from members.models import FacebookCustomUserActive
 
 
 class InterestManager(models.Manager):
     @staticmethod
-    def search_interest(self, user_id):
+    def match_interests_to_interests(user_id, exclude_friends):
+        """
+        Return the list of matched user interests to interests
+        """
+        u_interests = Interest.objects.filter(user_id=user_id)
+        target_interests = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends)
 
-        user_interests = Interest.objects.filter(user=FacebookCustomUserActive.objects.get(pk=user_id))
-
-        interests = Interest.objects.exclude(id__in=user_interests.values_list('id', flat=True))
-        search_desc = []
-        for interest in user_interests:
-            search_desc.extend(interests.search(interest.description))
-        res = [i.description for i in search_desc]
-        return res
-
-    @staticmethod
-    def search_interest_to_interest(exclude_friends, search_desc):
-        return list(Interest.objects.exclude(user_id__in=exclude_friends).
-                    filter(description__in=search_desc).values_list('user', flat=True))
-
-    @staticmethod
-    def search_interest_to_like(user_id, exclude_friends):
-        user_interest = Interest.objects.filter(user=FacebookCustomUserActive.objects.get(pk=user_id))
-        user_likes = FacebookLike.objects.exclude(user_id__in=[user_id] + exclude_friends)
-
-        search_matches = []
-        for interest in user_interest:
+        match_interests = []
+        for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest).split())
-            search_matches.extend(user_likes.search(tsquery, raw=True))
-        matched_ids = [uid.user_id for uid in search_matches]
+            tsquery = ' | '.join(unicode(interest.description).split())
+            match_interests.extend(target_interests.search(tsquery, raw=True))
 
-        return search_matches
-
+        return match_interests
 
     @staticmethod
-    def search_like_to_interest(user_id):
-        user_likes = FacebookLike.objects.filter(user_id=user_id)
-        user_interests = Interest.objects.exclude(user_id__in=[user_id])
+    def match_fb_likes_to_interests(user_id, exclude_friends):
+        """
+        Return the list of matched user Facebook likes to interests
+        """
+        fb_likes = FacebookLike.objects.filter(user_id=user_id)
+        target_interests = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends)
 
-        search_interests = []
-        for like in user_likes:
+        matches_interests = []
+        for fb_like in fb_likes:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(like.name).split())
-            search_interests.extend(user_interests.search(tsquery, raw=True))
+            tsquery = ' | '.join(unicode(fb_like.name).split())
+            matches_interests.extend(target_interests.search(tsquery, raw=True))
 
-        return search_interests
+        return matches_interests
 
 
 class Interest(models.Model):

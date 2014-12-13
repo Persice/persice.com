@@ -14,22 +14,22 @@ def random_digits(digits):
 class TestFacebookLikeProxyManager(TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        cls.user = FacebookCustomUser.objects.create_user(username='user_1a', password='test')
         FacebookLike.objects.create(user_id=cls.user.id, facebook_id=random_digits(10), name='Facebook Engineering')
         FacebookLike.objects.create(user_id=cls.user.id, facebook_id=random_digits(10), name='Kyiv Python User Group')
         FacebookLike.objects.create(user_id=cls.user.id, facebook_id=random_digits(10), name='Learn Ruby')
 
-        cls.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        cls.user1 = FacebookCustomUser.objects.create_user(username='user_1b', password='test')
         FacebookLike.objects.create(user_id=cls.user1.id, facebook_id=random_digits(10), name='Facebook Developers')
         FacebookLike.objects.create(user_id=cls.user1.id, facebook_id=random_digits(10), name='Learn Python')
         FacebookLike.objects.create(user_id=cls.user1.id, facebook_id=random_digits(10), name='Learn Ruby')
 
-        cls.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        cls.user2 = FacebookCustomUser.objects.create_user(username='user_1c', password='test')
         FacebookLike.objects.create(user_id=cls.user2.id, facebook_id=random_digits(10), name='Study Ruby')
 
-        cls.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
+        cls.user3 = FacebookCustomUser.objects.create_user(username='user_1d', password='test')
 
-        cls.user4 = FacebookCustomUser.objects.create_user(username='user_e', password='test')
+        cls.user4 = FacebookCustomUser.objects.create_user(username='user_1e', password='test')
         Interest.objects.create(user_id=cls.user4.id, description='Likes Python')
         Interest.objects.create(user_id=cls.user4.id, description='Likes Ruby')
 
