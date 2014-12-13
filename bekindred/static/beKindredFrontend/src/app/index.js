@@ -11,7 +11,9 @@ angular.module('beKindred', [
     'hj.gsapifyRouter',
     'frontend.semantic.dimmer',
     'angular-owl-carousel',
-    'truncate'
+    'truncate',
+    'ya.nouislider',
+    'ngDraggable'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
@@ -173,4 +175,29 @@ angular.module('beKindred', [
 
 
 })
-;
+.value('noUiSliderConfig', {step: 1})
+.directive('ngEnter', function () {
+  return function (scope, element, attrs) {
+    element.bind('keydown keypress', function (event) {
+      if(event.which === 13) {
+        scope.$apply(function (){
+          scope.$eval(attrs.ngEnter);
+        });
+
+        event.preventDefault();
+      }
+    });
+  };
+})
+.directive('endRepeat', function ($timeout) {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      if (scope.$last === true) {
+        $timeout(function () {
+          scope.$emit('ngRepeatFinished');
+        });
+      }
+    }
+  }
+});
