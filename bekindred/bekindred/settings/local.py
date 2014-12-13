@@ -23,7 +23,10 @@ CACHES = {
 
 INSTALLED_APPS += (
     'debug_toolbar',
+    'tastypie_swagger'
 )
+
+TASTYPIE_SWAGGER_API_MODULE = 'bekindred.urls.v1_api'
 
 FIXTURE_DIRS = (
     os.path.join(BASE_DIR, '..', 'fixtures'),
