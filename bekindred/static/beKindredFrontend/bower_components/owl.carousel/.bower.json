@@ -1,9 +1,7 @@
 {
   "name": "owl.carousel",
   "main": [
-    "./dist/assets/owl.carousel.css",
-    "./dist/assets/owl.theme.default.css",
-    "./dist/owl.carousel.js"
+    "./dist/"
   ],
   "dependencies": {
     "jquery": ">= 1.7.1"
@@ -11,14 +9,15 @@
   "devDependencies": {
     "foundation": "5.2.2"
   },
-  "homepage": "https://github.com/jonahbron/OwlCarousel2",
-  "_release": "eb631d85c8",
+  "homepage": "https://github.com/OwlFonk/OwlCarousel2",
+  "_release": "e5aa7762f8",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "eb631d85c87360ef113fad401ffc35cb6b665dfd"
+    "commit": "e5aa7762f8cc1650ce05e2eaa3d118b0ee867bee"
   },
-  "_source": "https://github.com/jonahbron/OwlCarousel2.git",
+  "_source": "git://github.com/OwlFonk/OwlCarousel2.git",
   "_target": "*",
-  "_originalSource": "https://github.com/jonahbron/OwlCarousel2.git"
+  "_originalSource": "owl.carousel",
+  "_direct": true
 }

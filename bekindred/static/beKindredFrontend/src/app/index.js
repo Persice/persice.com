@@ -10,7 +10,6 @@ angular.module('beKindred', [
     'angular-spinkit',
     'hj.gsapifyRouter',
     'frontend.semantic.dimmer',
-    'angular-owl-carousel',
     'truncate',
     'ya.nouislider',
     'ngDraggable'
