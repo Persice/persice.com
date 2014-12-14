@@ -12,7 +12,7 @@ certifi==14.05.14
 dj-database-url==0.3.0
 dj-static==0.0.5
 django-allauth==0.18.0
--e git+https://github.com/andriisoldatenko/Django-facebook.git@594e5df9d0c7b4789c51a16c7bd3b87f2c98b525#egg=django_facebook-origin/HEAD
+-e git+https://github.com/andriisoldatenko/Django-facebook.git#egg=Django-facebook
 django-messages==0.5.1
 django-pagination==1.0.7
 django-postman==3.1.0
