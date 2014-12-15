@@ -1,7 +1,10 @@
+import string
 from django.db import models
 from django_facebook.models import FacebookCustomUser, FacebookLike
 from djorm_pgfulltext.fields import VectorField
 from djorm_pgfulltext.models import SearchManager
+
+remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
 class InterestManager(models.Manager):
@@ -17,7 +20,7 @@ class InterestManager(models.Manager):
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
             match_interests.extend(target_interests.search(tsquery, raw=True))
 
         return match_interests
@@ -34,7 +37,7 @@ class InterestManager(models.Manager):
         for fb_like in fb_likes:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(fb_like.name).split())
+            tsquery = ' | '.join(unicode(fb_like.name).translate(remove_punctuation_map).split())
             matches_interests.extend(target_interests.search(tsquery, raw=True))
 
         return matches_interests

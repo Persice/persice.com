@@ -1,7 +1,10 @@
+import string
 from django.db import models
 from django.contrib.auth.models import UserManager
 from django_facebook.models import FacebookCustomUser, FacebookLike
 from interests.models import Interest
+
+remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
 class ActiveManager(UserManager):
@@ -29,7 +32,7 @@ class FacebookLikeProxyManager(models.Manager):
         for like in u_likes:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(like.name).split())
+            tsquery = ' | '.join(unicode(like.name).translate(remove_punctuation_map).split())
             match_likes.extend(target_likes.search(tsquery, raw=True))
 
         return match_likes
@@ -46,7 +49,7 @@ class FacebookLikeProxyManager(models.Manager):
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
             match_likes.extend(target_likes.search(tsquery, raw=True))
 
         return match_likes
