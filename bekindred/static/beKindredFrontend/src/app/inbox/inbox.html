@@ -1,0 +1,26 @@
+<div class="segment" id="inbox-header">
+    <div class="container">
+        <form ng-submit="submit()" action="/" method="get" class="" role="search" id="myform" autocomplete="off">
+            <div class="ui left icon input">
+                <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
+                <i class="circular search icon"></i>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="body segment" id="inbox-body">
+    <div class="container">
+        <div class="ui selection divided list">
+            <a href="#" class="item" ng-repeat="n in repeatN(10) track by $index">
+                <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url({{photo}})'}" ng-style="background-image: url('http://lorempixel.com/100/100"></div>
+                <span class="message-time">1 day ago</span>
+                <div class="content">
+                    <div class="header">Kindred</div>
+                    <div class="description">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

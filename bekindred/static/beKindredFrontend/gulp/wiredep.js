@@ -16,7 +16,7 @@ gulp.task('wiredep', function () {
   gulp.src('src/*.html')
     .pipe(wiredep({
       directory: 'bower_components',
-      exclude: [''],
+      exclude: [],
       ignorePath: /^\/|\.\.\//
     }))
     .pipe(gulp.dest('src'));

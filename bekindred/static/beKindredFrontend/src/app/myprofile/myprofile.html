@@ -1,0 +1,67 @@
+<div class="header segment with-menu" id="my-profile-header">
+    <div class="container">
+        <div class="pagination-container">
+            <div id="PhotoSlider" >
+                <div class="item" ng-repeat="item in photosSlider | orderBy:'order' track by $index" end-repeat>
+                    <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="body segment" id="matched-profile-body">
+    <div class="container">
+        <div class="ui top attached segment">
+            <h3 class="ui left floated header">
+                {{ user.first_name }}, {{ user.age }}
+            </h3>
+            <h5 class="ui right floated header">
+                <a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a>
+            </h5>
+        </div>
+        <div class="ui attached segment">
+            <h4 class="ui header">Goals</h4>
+            <div class="ui list">
+                <div class="item" ng-repeat="goal in user.goals track by $index">
+                    <i class="icon empty"></i>
+                    <div class="content">
+                        <div class="description">{{ goal.subject }}</div>
+                    </div>
+                </div>
+                <p ng-if="user.goals.length == 0">No goals yet.</p>
+            </div>
+            <h4 class="ui header">Offers</h4>
+            <div class="ui list">
+                <div class="item" ng-repeat="offer in user.offers track by $index">
+                    <i class="icon empty"></i>
+                    <div class="content">
+                        <div class="description">{{ offer.subject }}</div>
+                    </div>
+                </div>
+                <p ng-if="user.offers.length == 0">No offers yet.</p>
+            </div>
+            <h4 class="ui header">About</h4>
+            <div class="ui list">
+                <div class="item">
+                    <i class="empty icon"></i>
+                    <div class="content">
+                        <div class="description">
+                            <span>{{user.about}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="ui header">Likes</h4>
+            <div class="ui list">
+                <div class="item" ng-repeat="like in user.likes track by $index">
+                    <i class="icon empty"></i>
+                    <div class="content">
+                        <div class="description">{{ like.name }}</div>
+                    </div>
+                </div>
+                <p ng-if="user.likes.length == 0">No likes yet.</p>
+            </div>
+        </div>
+    </div>
+</div>

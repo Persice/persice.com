@@ -1,7 +1,7 @@
 angucomplete-alt
 ============
 
-This is a fork of Daryl Rowland's angucomplete (https://github.com/darylrowland/angucomplete) with a bit of tweaks such as:  
+This is a fork of Daryl Rowland's angucomplete (https://github.com/darylrowland/angucomplete) with a bit of tweaks such as:
 
 * change long attribute names to hyphenated ones
 * coding style similar to angular standard
@@ -25,7 +25,7 @@ To see a demo go here: http://ghiden.github.io/angucomplete-alt
 * Override suggestions
 * You can either bind an object or callback function
     * bind an object: it works as regular two-way-data-binding
-    * callback function: when a selection is made by user, this callback is called with the selected object. Thanks to @nekcih for proposing this feature.
+    * callback function: when a selection is made by user, this callback is called with the selected object. When the selection is deselected, the callback is called with undefined. Thanks to @nekcih for proposing this feature.
 * Required support: It is a bit different from ng-required which becomes valid when there is any character in input field. This required becomes valid when a selection is made. Class name is "autocomplete-required" and customizable. Thanks to @alindber for the initial idea.
 * Custom texts for "Searching..." and "No results found", thanks to @vhuerta for this idea.
 * Be able to set initial value. This becomes handy if you use this directive for updating existing model.
@@ -36,6 +36,7 @@ To see a demo go here: http://ghiden.github.io/angucomplete-alt
 * Enable/disable input field
 * Show scrollbar. See [example #1](http://ghiden.github.io/angucomplete-alt/#example1)
 * Clear input by sending $broadcast from parent scope. Thanks to @Leocrest for #61.
+* Override template with your own. When you use this feature, test throughly as it might break other features. Thanks to @sdbondi for #74.
 
 ### Getting Started
 Download the package, and include the dist/angucomplete-alt.min.js file in your page.
@@ -111,6 +112,7 @@ var app = angular.module('app', ["angucomplete-alt"]);
 | focus-in | A function or expression to be called when input field gets focused. [example](http://ghiden.github.io/angucomplete-alt/#example12) |  No | focusIn() |
 | focus-out | A function or expression to be called when input field lose focus. [example](http://ghiden.github.io/angucomplete-alt/#example12) |  No | focusOut() |
 | disable-input | A model to control disable/enable of input field. [example page](http://ghiden.github.io/angucomplete-alt/#example13) |  No | disableInput |
+| template-url | Customize the markup of the autocomplete template. [example page](http://ghiden.github.io/angucomplete-alt/#example14) |  No | "/my-custom-template.html" |
 
 ### Scrollbar
 
@@ -139,6 +141,6 @@ $scope.$broadcast('angucomplete-alt:clearInput', 'autocomplete-1');
 
 ### Contributors
 
-Here is the list of [contributors](CONTRIBUTORS.md).  
-Here is how to [contribute](CONTRIBUTING.md). 
+Here is the list of [contributors](CONTRIBUTORS.md).
+Here is how to [contribute](CONTRIBUTING.md).
 Of course the easiest contribution is to give it a star!

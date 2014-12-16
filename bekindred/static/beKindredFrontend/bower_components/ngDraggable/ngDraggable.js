@@ -43,8 +43,8 @@ angular.module("ngDraggable", [])
                         scope.$watch(attrs.ngCenterAnchor, onCenterAnchor);
                         scope.$watch(attrs.ngDragData, onDragDataChange);
                         element.on(_pressEvents, onpress);
-                        if(! _hasTouch){
-                            element.on('mousedown', function(){ return false;}); // prevent native drag
+                        if(! _hasTouch && element[0].nodeName.toLowerCase() == "img"){
+                            element.on('mousedown', function(){ return false;}); // prevent native drag for images
                         }
                     };
                     var onDestroy = function (enable) {
@@ -60,6 +60,14 @@ angular.module("ngDraggable", [])
                         if(angular.isDefined(newVal))
                         _centerAnchor = (newVal || 'true');
                     }
+                    
+                    var isClickableElement = function (evt) {
+                        return (
+                                angular.isDefined($(evt.target).attr("ng-click"))
+                                || angular.isDefined($(evt.target).attr("ng-dblclick"))
+                                || angular.isDefined($(evt.target).attr("ng-cancel-drag"))
+                                );
+                    }
                     /*
                      * When the element is clicked start the drag behaviour
                      * On touch devices as a small delay so as not to prevent native window scrolling
@@ -67,6 +75,10 @@ angular.module("ngDraggable", [])
                     var onpress = function(evt) {
                         if(! _dragEnabled)return;
 
+                        // disable drag on clickable element
+                        if (isClickableElement(evt)) {
+                            return;
+                        }
 
                         if(_hasTouch){
                             cancelPress();
@@ -327,36 +339,44 @@ angular.module("ngDraggable", [])
                 }
             }
         }])
-        .directive('ngPreventDrag', ['$parse', '$timeout', function ($parse, $timeout) {
-            return {
-                restrict: 'A',
-                link: function (scope, element, attrs) {
-                    var initialize = function () {
+    .directive('ngPreventDrag', ['$parse', '$timeout', function ($parse, $timeout) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                var initialize = function () {
 
-                        element.attr('draggable', 'false');
-                        toggleListeners(true);
-                    };
-
-
-                    var toggleListeners = function (enable) {
-                        // remove listeners
-
-                        if (!enable)return;
-                        // add listeners.
-                        element.on('mousedown touchstart touchmove touchend touchcancel', absorbEvent_);
-                    };
+                    element.attr('draggable', 'false');
+                    toggleListeners(true);
+                };
 
 
-                    var absorbEvent_ = function (event) {
-                        var e = event.originalEvent;
-                        e.preventDefault && e.preventDefault();
-                        e.stopPropagation && e.stopPropagation();
-                        e.cancelBubble = true;
-                        e.returnValue = false;
-                        return false;
-                    }
+                var toggleListeners = function (enable) {
+                    // remove listeners
 
-                    initialize();
+                    if (!enable)return;
+                    // add listeners.
+                    element.on('mousedown touchstart touchmove touchend touchcancel', absorbEvent_);
+                };
+
+
+                var absorbEvent_ = function (event) {
+                    var e = event.originalEvent;
+                    e.preventDefault && e.preventDefault();
+                    e.stopPropagation && e.stopPropagation();
+                    e.cancelBubble = true;
+                    e.returnValue = false;
+                    return false;
                 }
+
+                initialize();
             }
-        }]);
+        }
+    }])
+    .directive('ngCancelDrag', [function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                element.find('*').attr('ng-cancel-drag', 'ng-cancel-drag');
+            }
+        }
+    }]);

@@ -55,6 +55,7 @@ gulp.task('html', ['styles', 'scripts', 'partials'], function () {
       addPrefix: '../'
     }))
     .pipe(assets = $.useref.assets())
+    .pipe($.rev())
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
@@ -78,25 +79,26 @@ gulp.task('html', ['styles', 'scripts', 'partials'], function () {
 
 gulp.task('images', function () {
   return gulp.src('src/assets/images/**/*')
-    .pipe($.cache($.imagemin({
+    .pipe($.imagemin({
       optimizationLevel: 3,
       progressive: true,
       interlaced: true
-    })))
+    }))
     .pipe(gulp.dest('dist/assets/images'))
     .pipe($.size());
 });
 
 gulp.task('fonts', function () {
   return gulp.src($.mainBowerFiles())
-    .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
+    .pipe($.filter('**/*.{eot,svg,ttf,woff,otf}'))
     .pipe($.flatten())
     .pipe(gulp.dest('dist/fonts'))
     .pipe($.size());
 });
 
+
 gulp.task('misc', function () {
-  return gulp.src('src/**/*.ico')
+  return gulp.src('src/*.ico')
     .pipe(gulp.dest('dist'))
     .pipe($.size());
 });

@@ -39,9 +39,9 @@
         "module": "ui.router"
       },
       "ui": {
-        "name": "foundation",
-        "version": "5.4.x",
-        "key": "foundation"
+        "name": null,
+        "version": "1.3.x",
+        "key": "default"
       },
       "cssPreprocessor": {
         "key": "node-sass",

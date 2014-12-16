@@ -9,14 +9,17 @@
     "test",
     "tests"
   ],
-  "_release": "26698db94e",
+  "dependencies": {
+    "jquery": "latest",
+    "angular": "latest"
+  },
+  "_release": "dbbe1753e0",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "26698db94ebbab3f85f98d8c01e1e8828d27cdcf"
+    "commit": "dbbe1753e0821dc61e4b4d01aff7a77f5995419f"
   },
   "_source": "git://github.com/fatlinesofcode/ngDraggable.git",
   "_target": "*",
-  "_originalSource": "ngDraggable",
-  "_direct": true
+  "_originalSource": "ngDraggable"
 }
