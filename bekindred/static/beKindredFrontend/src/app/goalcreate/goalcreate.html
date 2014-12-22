@@ -12,15 +12,23 @@
 <div class="body segment">
   <div class="container">
     <h2 class="ui center aligned header">My goal is to...</h2>
+
+
+    <div class="ui attached warning message" id="warningmessage" ng-show="messageShow">
+      <div class="header">
+        Goal is required.
+      </div>
+      <p>
+        Please enter your goal to continue.
+      </p>
+    </div>
+
     <div class="ui basic segment">
       <div class="ui center aligned grid">
         <div class="row">
-          <div class="ui search">
-            <div class="ui large fluid icon input">
-              <input class="prompt" type="text" ng-model="subject" placeholder="Enter your goal here...">
-              <i class="search icon"></i>
-            </div>
-            <div class="results"></div>
+          <div class="search-wrapper ui icon large left input">
+            <i class="fa fa-search fa-lg"></i>
+            <div field-required="false" angucomplete-alt text-no-results="No existing goal found. Create new goal &raquo;" minlength="3" input-changed="inputChanged" match-class="highlight" selected-object="selectResult" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__contains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="Enter your goal here"></div>
           </div>
         </div>
         <div class="row">
@@ -41,16 +49,3 @@
     </div>
   </div>
 </div>
-<script>
-  'use strict';
-  $('.ui.search').search({
-    apiSettings: {
-        url: 'custom-search/?q={query}'
-      },
-    ],
-    searchFields   : [
-    'title'
-    ],
-    searchFullText: true
-  });
-</script>

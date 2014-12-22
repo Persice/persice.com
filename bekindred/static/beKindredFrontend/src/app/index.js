@@ -12,7 +12,8 @@ angular.module('beKindred', [
     'frontend.semantic.dimmer',
     'truncate',
     'ya.nouislider',
-    'ngDraggable'
+    'ngDraggable',
+    'angucomplete-alt'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 

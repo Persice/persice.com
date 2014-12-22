@@ -2297,7 +2297,7 @@ section.new_message {
 body {
   background-color: #eee;
   color: #222;
-  font: 0.8125em/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font: 1em 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 img {
   display: block;
@@ -7082,4 +7082,14 @@ body.gray .pusher {
   margin-left: -55px!important;;
   text-align: center!important;;
 
+}
+
+
+.search-wrapper {
+  width: 100%;
+}
+
+#warningmessage {
+  margin-left: 0px;
+  margin-right: 0px;
 }
