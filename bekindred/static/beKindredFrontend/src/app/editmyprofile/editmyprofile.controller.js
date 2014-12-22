@@ -10,12 +10,12 @@ angular.module('beKindred')
         distance: 40.3,
         about: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, inventore molestias mollitia officiis reiciendis sequi vero iure in. Magnam ut cupiditate pariatur praesentium tenetur dicta nam natus nesciunt ducimus dolorem.',
         photos: [
-        {photo: '../assets/images/profile/photo0.jpg', order: 0},
-        {photo: '../assets/images/profile/photo1.jpg', order: 1},
-        {photo: '../assets/images/profile/photo2.jpg', order: 2},
-        {photo: '../assets/images/profile/photo3.jpg', order: 3},
-        {photo: '../assets/images/profile/photo4.jpg', order: 4},
-        {photo: '../assets/images/profile/photo5.jpg', order: 5}
+        {photo: 'static/img/profile/photo0.jpg', order: 0},
+        {photo: 'static/img/profile/photo1.jpg', order: 1},
+        {photo: 'static/img/profile/photo2.jpg', order: 2},
+        {photo: 'static/img/profile/photo3.jpg', order: 3},
+        {photo: 'static/img/profile/photo4.jpg', order: 4},
+        {photo: 'static/img/profile/photo5.jpg', order: 5}
         ],
         goals: [
         {subject: 'Learn python', match: 1},

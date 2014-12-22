@@ -1,0 +1,226 @@
+<!doctype html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<!--[if IE 10]><html class="ie10" lang="en" > <![endif]-->
+<html class="no-js" ng-app="beKindred">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Kindred">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <!-- Favicons -->
+    <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/apple-touch-icon-144x144-precomposed.png">
+    <!-- For iPhone with high-resolution Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/favicon/apple-touch-icon-114x114-precomposed.png">
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/apple-touch-icon-72x72-precomposed.png">
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon-precomposed" href="img/favicon/apple-touch-icon-precomposed.png">
+    <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}css/slick.css" rel="stylesheet" media="screen">
+    <link href="{{ STATIC_URL }}postman/css/postman.css" rel="stylesheet" media="screen">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+                <!--[if lt IE 9]>
+                <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+                <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+                <![endif]-->
+            </head>
+            <body id="main-page" ng-controller="MainCtrl">
+                <!--[if lt IE 10]>
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+                <![endif]-->
+                {% load url from future %}
+                {% load i18n %}{% load postman_tags %}
+                {% if user.is_authenticated %}
+                <div class="ui vertical left inverted labeled sidebar menu" id="menu">
+                    <a href="/" class="item"><i class="fa fa-home icon"></i> Home</a>
+                    <a href="{% url 'postman_inbox' %}" class="item"><i class="fa fa-envelope icon"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a>
+                    <a href="/goals/matched" class="item"><i class="fa fa-check-square-o icon"></i> Match Feed</a>
+                    <a href="/goals" class="item"><i class="fa fa-user icon"></i> My Profile</a>
+                    <a href="/friends/list" class="item"><i class="fa fa-plus icon"></i> My Connections</a>
+                    <a href="/accounts/logout" class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
+                    <div class="item" id="side-menu-logo">
+                        <ul class="social-icon" id="intro-title">
+                            <li><a href="/" class="facebook"><i class="fa fa-slideshare"></i></a></li>
+                            <li><h1>Kindred</h1></li>
+                        </ul>
+                    </div>
+                </div>
+                {% if '/goals/user/' in request.path %}
+                <div class="ui vertical right inverted labeled sidebar menu" id="menu">
+                    <div id="FilterController" ng-controller="FilterController">
+                        <div id="filter" class="ui form">
+                            <form name="filterForm" id="filterForm" class="form" method="get" action="{% url "matched" %}">
+                                {%verbatim%}
+                                <div class="field">
+                                    <label>Distance <span class="range">{{distanceValue}} mi.</span></label>
+                                    <div no-ui-slider="distanceOptions" ng-model="distanceValue" ng-change="saveFilters()"></div>
+                                    <input type="text" class="displayNone" ng-model="distanceValue" name="distance">
+                                </div>
+                                <div class="field">
+                                    <label>Age <span class="range">{{ageValues[0]}} &ndash; {{ageValues[1]}}</span></label>
+                                    <div no-ui-slider="ageOptions" ng-model="ageValues" ng-change="saveFilters()"></div>
+                                    <input type="text" class="displayNone" ng-model="ageValues[0]" name="min_age">
+                                    <input type="text" class="displayNone" ng-model="ageValues[1]" name="max_age">
+                                </div>
+                                <div class="field">
+                                    <label class="">Show</label>
+                                </div>
+                                <div class="field field-checkbox">
+                                    <div id="male" class="ui toggle checkbox">
+                                        <input type="checkbox" value="m">
+                                        <label>Men</label>
+                                    </div>
+                                </div>
+                                <div class="field field-checkbox">
+                                    <div id="female" class="ui toggle checkbox">
+                                        <input type="checkbox" value="f">
+                                        <label>Women</label>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <input class="displayNone" value="{{myKeywords}}" type="text" name="keywords">
+                                </div>
+                                <div class="field">
+                                    <input class="displayNone" id="genders" value="" type="text" name="gender">
+                                    <input class="displayNone" ng-model="genders" ng-change="saveFilters()" id="gendersModel" value="" type="text">
+                                </div>
+                                <div class="ui small negative message" ng-show="showMessage">
+                                    <div class="header">
+                                        Keyword already exists.
+                                    </div>
+                                </div>
+                                <div class="ui icon input">
+                                    <input ng-minlength=3 type="text" placeholder="Enter keyword" on-enter-blur ng-enter="filterForm.$valid && addKeyword(newKeyword)" ng-model="newKeyword">
+                                    <i class="circular search icon"></i>
+                                </div>
+                                <div class="">
+                                    <a ng-click="removeKeyword(index)" href="" class="item" ng-repeat="keyword in myKeywords track by $index">
+                                        <div class="content">
+                                            <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="ui divider"></div>
+                                <button type="submit" class="button ui submit green" role="button">Filter</button>
+                                {%endverbatim%}
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="ui inverted top fixed menu">
+                    <div class="container">
+                        <a class="launch item"><i id="left-menu-launcher" class="content icon" ng-show="!showfullprofile"></i> <i ng-click="switchFullProfile();" ng-show="showfullprofile" class="fa fa-chevron-left icon"></i></a>
+                        <div class="title item">
+                            <b>
+                                {% if '/messages/inbox' in request.path %} Inbox
+                                {% elif '/messages/view' in request.path %} Message
+                                {% elif '/messages/write' in request.path %} New Message
+                                {% elif '/friends/list' in request.path %} Friends
+                                {% else %}  Kindred {% endif %}
+                            </b>
+                        </div>
+                        <div class="right menu" id="main-menu-right">
+                            <a href="/" class="item"><i class="fa fa-home"></i> Home</a>
+                            <a href="{% url 'postman_inbox' %}" class="item"><i class="fa fa-envelope"></i> {% trans "Inbox" %}{% if postman_unread_count %} <strong>({{ postman_unread_count }})</strong>{% endif %}</a>
+                            <a href="/goals/matched" class="item"><i class="fa fa-check-square-o"></i> Match Feed</a>
+                            <a href="/goals" class="item"><i class="fa fa-user"></i> My Profile</a>
+                            <a href="/friends/list" class="item"><i class="fa fa-plus"></i> My Connections</a>
+                            {% if '/goals/user/' in request.path %}<a class="item" href="#" id="right-menu-launcher2"><i class="fa fa-sliders"></i></a>{% endif %}
+                            <div class="item">
+                                <a href="/accounts/logout" class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
+                            </div>
+                        </div>
+                        {% if '/goals/user/' in request.path %}
+                        <div class="right menu" id="right-menu-launcher" ng-show="!showfullprofile">
+                            <a class="launch item"><i class="fa fa-sliders icon"></i></a>
+                        </div>
+                        {% endif %}
+                        {% if '/goals/' == request.path %}
+                        <div class="right menu">
+                            <a href="/goals/edit/user" class="launch item"><i class="edit icon"></i></a>
+                        </div>
+                        {% endif %}
+                        {% if '/goals/edit/user/' == request.path %}
+                        <div class="right menu">
+                            <a href="/goals/" class="launch item">Done</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="pusher">
+                    <div class="full-height">
+                        {% block content %}
+                        {% endblock content %}
+                    </div>
+                </div>
+                {% endif %}
+                <script src="{{ STATIC_URL }}js/vendor.js"></script>
+                <script src="{{ STATIC_URL }}js/app.js"></script>
+                <script src="{{ STATIC_URL }}js/slick.js"></script>
+                <script src="{{ STATIC_URL }}js/bootstrap.file-input.js"></script>
+                <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+                <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+                <script>
+                    'use strict';
+                    $('.left.sidebar').first()
+                    .sidebar('attach events', '#left-menu-launcher')
+                    .sidebar('setting', 'duration', 0)
+                    ;
+                    $('#left-menu-launcher')
+                    .removeClass('disabled')
+                    ;
+                    $('.right.sidebar').first()
+                    .sidebar('attach events', '#right-menu-launcher')
+                    .sidebar('setting', 'duration', 0)
+                    ;
+                    $('#right-menu-launcher')
+                    .removeClass('disabled')
+                    ;
+                    $('.right.sidebar').first()
+                    .sidebar('attach events', '#right-menu-launcher2')
+                    ;
+                    $('#right-menu-launcher2')
+                    .removeClass('disabled')
+                    ;
+                    $('.ui.checkbox')
+                    .checkbox({
+                        onChecked: function () {
+                            var mergedInput = $('#genders');
+                            var modelInput = $('#gendersModel');
+                            var arr = [];
+                            $("#filterForm input:checkbox:checked").each(function(){
+                                arr.push($(this).val());
+                            });
+                            mergedInput.val(JSON.stringify(arr));
+                            modelInput.val(arr.join());
+                            modelInput.trigger('input');
+                        },
+                        onUnchecked: function () {
+                            var mergedInput = $('#genders');
+                            var modelInput = $('#gendersModel');
+                            var arr = [];
+                            $("#filterForm input:checkbox:checked").each(function(){
+                                arr.push($(this).val());
+                            });
+                            mergedInput.val(JSON.stringify(arr));
+                            modelInput.val(arr.join());
+                            modelInput.trigger('input');
+                        }
+                    });
+                </script>
+                <script>
+                    angular.module('beKindred').constant('USER_ID', {{ user.id }});
+                    angular.module('beKindred').constant('FB_TOKEN', '{{ user.profile_or_self.access_token }}');
+                    angular.module('beKindred').constant('USER_PHOTO', 'http://graph.facebook.com/' + {{ user.profile_or_self.facebook_id }} + '/picture?type=large');
+                </script>
+                {% block customscripts %}
+                {% endblock customscripts %}
+            </body>
+            </html>
