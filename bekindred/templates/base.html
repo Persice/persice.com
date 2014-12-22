@@ -76,7 +76,7 @@
         <a ui-sref="matchfeed" ui-sref-active="active" class="item">Match Feed <i class="check icon"></i></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item">My Profile <i class="user icon"></i> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item">My Connections <i class="plus icon"></i></a>
-        <a class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
+        <a ui-sref-ignore href="accounts/logout" class="item"><i class="fa fa-sign-out icon"></i> Sign out</a>
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
             <li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li>
@@ -158,7 +158,7 @@
               <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="icon user"></i> My Profile</a>
               <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="icon plus"></i> My Connections</a>
               <div class="item">
-                <a class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
+                <a ui-sref-ignore href="accounts/logout" class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a>
               </div>
             </div>
 

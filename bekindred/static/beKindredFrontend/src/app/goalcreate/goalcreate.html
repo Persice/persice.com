@@ -44,19 +44,9 @@
 <script>
   'use strict';
   $('.ui.search').search({
-    source : [
-    {
-      title: 'Learn Django',
-    },
-    {
-      title: 'Learn Python',
-    },
-    {
-      title: 'Learn English',
-    },
-    {
-      title: 'Learn Italian',
-    }
+    apiSettings: {
+        url: 'custom-search/?q={query}'
+      },
     ],
     searchFields   : [
     'title'
