@@ -13,6 +13,7 @@ from photos.api.resources import UserResource
 
 class SubjectResource(ModelResource):
     class Meta:
+        always_return_data = True
         queryset = Subject.objects.all()
         resource_name = 'subject'
         fields = ['description']
