@@ -14,9 +14,8 @@ from photos.api.resources import UserResource
 class SubjectResource(ModelResource):
     class Meta:
         queryset = Subject.objects.all()
-        resource_name = 'subject'
         fields = ['description']
-
+        allowed_methods = ['get']
         filtering = {
             'description': ALL
         }
@@ -73,3 +72,14 @@ class OfferResource(ModelResource):
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj
         return bundle
+
+
+class MatchedFeedResource(ModelResource):
+
+    class Meta:
+        queryset = Offer.objects.all()
+        fields = ['user', 'offer']
+        resource_name = 'feed'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+

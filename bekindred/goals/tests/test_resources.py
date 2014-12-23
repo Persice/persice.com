@@ -1,6 +1,56 @@
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from goals.models import Subject, Goal, Offer
+from goals.api.resources import SubjectResource
+
+
+class TestSubjectResource(ResourceTestCase):
+    def setUp(self):
+        super(TestSubjectResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.description = 'learn django'
+        self.description2 = 'learn python'
+        self.description3 = 'learn ruby'
+        self.subject = Subject.objects.create(description=self.description)
+        self.subject2 = Subject.objects.create(description=self.description2)
+
+        self.detail_url = '/api/v1/subject/{0}/'.format(self.subject.pk)
+        self.post_data = {
+            'description': '{0}'.format(self.description3),
+            }
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/subject/', format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_get_list_json(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/subject/{0}/'.format(self.subject.id), format='json')
+        self.assertValidJSONResponse(resp)
+
+        # Scope out the data for correctness.
+        self.assertEqual(len(self.deserialize(resp)), 2)
+        # Here, we're checking an entire structure for the expected data.
+        self.assertEqual(self.deserialize(resp), {
+            'description': '{}'.format(self.description),
+            'resource_uri': '/api/v1/subject/{0}/'.format(self.subject.pk)
+        })
+
+    def test_post_list(self):
+        self.response = self.login()
+        # Check how many are there first.
+        self.assertEqual(Subject.objects.count(), 2)
+        self.assertHttpCreated(self.api_client.post('/api/v1/subject/', format='json',
+                                                    data=self.post_data))
+        # Verify a new one has been added.
+        self.assertEqual(Subject.objects.count(), 3)
+
 
 
 class TestGoalResource(ResourceTestCase):
