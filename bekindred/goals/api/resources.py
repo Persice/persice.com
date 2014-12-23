@@ -13,9 +13,10 @@ from photos.api.resources import UserResource
 
 class SubjectResource(ModelResource):
     class Meta:
+        always_return_data = True
         queryset = Subject.objects.all()
         fields = ['description']
-        allowed_methods = ['get']
+        # allowed_methods = ['get']
         filtering = {
             'description': ALL
         }

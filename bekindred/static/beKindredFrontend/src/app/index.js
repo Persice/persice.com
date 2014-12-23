@@ -195,14 +195,25 @@ angular.module('beKindred', [
 };
 })
 .directive('endRepeat', function ($timeout) {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attr) {
-      if (scope.$last === true) {
-        $timeout(function () {
-          scope.$emit('ngRepeatFinished');
-      });
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinished');
+                });
+            }
+        }
     }
-}
-}
+})
+.filter('getByProperty', function() {
+    return function(propertyName, propertyValue, collection) {
+        var i=0, len=collection.length;
+        for (; i<len; i++) {
+            if (collection[i][propertyName] == propertyValue) {
+                return collection[i];
+            }
+        }
+        return null;
+    };
 });
