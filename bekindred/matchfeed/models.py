@@ -1,23 +1,52 @@
 from django.db import models
+from interests.models import Interest
+from members.models import FacebookLikeProxy
+from itertools import groupby
 
 
 class MatchFeedManager(models.Manager):
     @staticmethod
-    def match_all(self, user_id):
+    def match_all(user_id):
+        # calculate friends
+        friends = []
         # match_goals_to_goals
         # match_offers_to_goals
         # match_offers_to_offers
         # match_goals_to_offers
         ###
-        # match_likes_to_likes
-        # match_interests_to_likes
-        # match_interests_to_interests
-        # match_likes_to_interests
-        pass
+        match_likes_to_likes = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(user_id, friends)
+        match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
+        match_likes = match_likes_to_likes + match_interests_to_likes
+
+        results = {'users': []}
+
+        likes = {}
+        for user_id, group in groupby(match_likes, lambda x: x.user_id):
+            likes[user_id] = []
+            for thing in group:
+                likes[user_id].append(thing.name)
+
+        match_interests_to_interests = Interest.search_subject.match_interests_to_interests(user_id, friends)
+        match_likes_to_interests = Interest.search_subject.match_fb_likes_to_interests(user_id, friends)
+        match_interests = match_interests_to_interests + match_likes_to_interests
+
+        interests = {}
+        for user_id, group in groupby(match_interests, lambda x: x.user_id):
+            interests[user_id] = []
+            for thing in group:
+                interests[user_id].append(thing.description)
+
+        matched_users = set(likes.keys() + interests.keys())
+        for user in matched_users:
+            results['users'].append({'id': int(user),
+                                     'likes': likes.get(user, []),
+                                     'interests': interests.get(user, [])
+            })
+
+        return results
 
 
 class AbstractMatchFeed(models.Model):
-
     objects = MatchFeedManager()
 
     class Meta:
