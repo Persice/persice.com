@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from tastypie.api import Api
+from friends.api.resources import FriendsResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource
 from interests.api.resources import InterestResource
 from matchfeed.api.resources import MatchedFeedResource
@@ -19,6 +20,7 @@ v1_api.register(GoalResource())
 v1_api.register(OfferResource())
 v1_api.register(MatchedFeedResource())
 v1_api.register(InterestResource())
+v1_api.register(FriendsResource())
 
 
 urlpatterns = patterns('',
