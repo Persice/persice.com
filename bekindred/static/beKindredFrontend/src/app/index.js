@@ -13,7 +13,8 @@ angular.module('beKindred', [
     'truncate',
     'ya.nouislider',
     'ngDraggable',
-    'angucomplete-alt'
+    'angucomplete-alt',
+    'angular-carousel'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
@@ -52,7 +53,7 @@ angular.module('beKindred', [
     $stateProvider
     .state('home', {
         url: '/',
-        templateUrl: 'app/main/main.html',
+        templateUrl: 'static/beKindredFrontend/src/app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
 
@@ -60,17 +61,17 @@ angular.module('beKindred', [
     })
     .state('goalcreate', {
         url: '/create-goal',
-        templateUrl: 'app/goalcreate/goalcreate.html',
+        templateUrl: 'static/beKindredFrontend/src/app/goalcreate/goalcreate.html',
         controller: 'GoalCreateCtrl'
     })
     .state('offercreate', {
         url: '/create-offer',
-        templateUrl: 'app/offercreate/offercreate.html',
+        templateUrl: 'static/beKindredFrontend/src/app/offercreate/offercreate.html',
         controller: 'OfferCreateCtrl'
     })
     .state('matchfeed', {
         url: '/match-feed',
-        templateUrl: 'app/matchfeed/matchfeed.html',
+        templateUrl: 'static/beKindredFrontend/src/app/matchfeed/matchfeed.html',
         controller: 'MatchFeedCtrl',
         resolve: {
             MatchFeedFactory: 'MatchFeedFactory',
@@ -83,22 +84,22 @@ angular.module('beKindred', [
     })
     .state('myconnections', {
         url: '/my-connections',
-        templateUrl: 'app/myconnections/myconnections.html',
+        templateUrl: 'static/beKindredFrontend/src/app/myconnections/myconnections.html',
         controller: 'MyConnectionsCtrl'
     })
     .state('myprofile', {
         url: '/my-profile',
-        templateUrl: 'app/myprofile/myprofile.html',
+        templateUrl: 'static/beKindredFrontend/src/app/myprofile/myprofile.html',
         controller: 'MyProfileCtrl'
     })
     .state('editmyprofile', {
         url: '/my-profile/edit',
-        templateUrl: 'app/editmyprofile/editmyprofile.html',
+        templateUrl: 'static/beKindredFrontend/src/app/editmyprofile/editmyprofile.html',
         controller: 'EditMyProfileCtrl'
     })
     .state('inbox', {
         url: '/inbox',
-        templateUrl: 'app/inbox/inbox.html',
+        templateUrl: 'static/beKindredFrontend/src/app/inbox/inbox.html',
         controller: 'InboxCtrl'
     })
     .state('404', {

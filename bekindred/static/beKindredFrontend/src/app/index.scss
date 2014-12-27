@@ -6874,7 +6874,7 @@ Copyright (c) 2014 Daniel Eden
 
 
 #my-profile-header .container{
-  height: 228px;
+  height: 260px;
 }
 
 .bgimage {
@@ -6885,11 +6885,6 @@ Copyright (c) 2014 Daniel Eden
   width: 100%;
 }
 
-ul[rn-carousel] {
-  max-width:400px;
-  height:100%;
-  margin: 0 auto;
-}
 
 .carousel-container  {
   height: 200px;
@@ -6911,7 +6906,7 @@ body.gray .pusher {
   background-size: cover !important;
   background-position: 50% 50%;
   background-repeat: no-repeat !important;
-  height: 200px !important;
+  height: 240px !important;
   width: 100% !important;
 }
 
@@ -7092,4 +7087,36 @@ body.gray .pusher {
 #warningmessage {
   margin-left: 0px;
   margin-right: 0px;
+}
+
+ul[rn-carousel] {
+width: 100%;
+height: 240px;
+margin: 0 auto;
+}
+
+ul[rn-carousel] {
+overflow: hidden;
+padding: 0;
+white-space: nowrap;
+position: relative;
+-webkit-perspective: 1000px;
+-ms-perspective: 1000px;
+perspective: 1000px;
+-ms-touch-action: pan-y;
+touch-action: pan-y;
+}
+
+
+div.rn-carousel-indicator span {
+  margin-right: 12px!important;
+  color: #AAA!important;
+}
+
+div.rn-carousel-indicator span.active {
+   color: #000!important;
+}
+
+div.carousel-indicators {
+  margin-top: 9px!important;
 }

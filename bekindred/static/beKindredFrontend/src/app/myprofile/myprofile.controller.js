@@ -55,7 +55,7 @@ angular.module('beKindred')
 
     $scope.$on('ngRepeatFinished', function () {
 
-        $('#PhotoSlider').owlCarousel({items: 1, nav: false, dots: true});
+        // $('#PhotoSlider').owlCarousel({items: 1, nav: false, dots: true});
 
     });
 

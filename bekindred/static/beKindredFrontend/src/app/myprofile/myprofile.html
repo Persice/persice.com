@@ -1,10 +1,15 @@
 <div class="header segment with-menu" id="my-profile-header">
     <div class="container">
         <div class="pagination-container">
-            <div id="PhotoSlider" >
-                <div class="item" ng-repeat="item in photosSlider | orderBy:'order' track by $index" end-repeat>
-                    <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
-                </div>
+            <div id="PhotoSlider">
+
+            <ul rn-carousel rn-carousel-index="carouselIndex2">
+                    <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
+                        <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
+                    </li>
+                </ul>
+
+                <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
             </div>
         </div>
     </div>

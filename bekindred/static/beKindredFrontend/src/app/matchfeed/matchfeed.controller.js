@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('MatchFeedCtrl', function ($rootScope, $scope, $timeout, MatchFeedService, MatchedUser) {
+.controller('MatchFeedCtrl', function ($rootScope, $scope, $timeout, MatchFeedService, MatchedUser, MatchFeedFactory) {
 
     $scope.matchedUser = MatchedUser.match;
     $scope.total = MatchedUser.total;
@@ -10,24 +10,26 @@ angular.module('beKindred')
     $scope.loadingFeed = false;
 
 
-    $scope.showDimmer = true;
-    $rootScope.hideTopMenu = true;
+
+
+    // $scope.showDimmer = true;
+    // $rootScope.hideTopMenu = true;
     $rootScope.showfullprofile = false;
 
 
-    $timeout(function(){
-        $scope.showDimmer = false;
-        $rootScope.hideTopMenu = false;
-    }, 2000);
+    // $timeout(function(){
+    //     $scope.showDimmer = false;
+    //     $rootScope.hideTopMenu = false;
+    // }, 2000);
 
 
 
 
 
-    // $scope.showDimmer = false;
-    // $rootScope.hideTopMenu = false;
-    //
-    //
+    $scope.showDimmer = false;
+    $rootScope.hideTopMenu = false;
+
+
 
     $rootScope.$on('cancelMatchEvent', function(e) {
         $scope.cancelMatch();
@@ -39,7 +41,7 @@ angular.module('beKindred')
 
     $scope.$on('ngRepeatFinished', function () {
 
-        $('#PhotoSlider').owlCarousel({items: 1, nav: false, dots: true});
+        // $('#PhotoSlider').owlCarousel({items: 1, nav: false, dots: true});
     });
 
 
