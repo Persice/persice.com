@@ -1,20 +1,22 @@
 'use strict';
 
 angular.module('beKindred')
-.factory('MatchFeedFactory', function ($resource) {
-    return $resource('/feed/:userId/:param',
-        {userId: '@userId'} , {
-            query: {
-                method: 'GET',
-                isArray:false,
-                cache : false
-            },
-            get: {
-                method: 'GET',
-                url: '/feed/:userId/',
-                param: {userId: '@userId'},
-                isArray: false,
-                cache : false
-            }
-        });
+.factory('MatchFeedFactory', function($resource){
+  return $resource('/api/v1/matchfeed/:matchId/:param',
+    {matchId: '@matchId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        },
+        update: {
+            method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
+        }
+    });
 });

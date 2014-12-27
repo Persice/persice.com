@@ -72,15 +72,7 @@ angular.module('beKindred', [
     .state('matchfeed', {
         url: '/match-feed',
         templateUrl: 'static/beKindredFrontend/src/app/matchfeed/matchfeed.html',
-        controller: 'MatchFeedCtrl',
-        resolve: {
-            MatchFeedFactory: 'MatchFeedFactory',
-            MatchFeedService: 'MatchFeedService',
-            MatchedUser: function(MatchFeedFactory,  MatchFeedService){
-                // return MatchFeedFactory.query().$promise;
-                return  MatchFeedService.findMatches();
-            }
-        }
+        controller: 'MatchFeedCtrl'
     })
     .state('myconnections', {
         url: '/my-connections',
