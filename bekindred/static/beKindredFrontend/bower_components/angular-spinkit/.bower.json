@@ -41,5 +41,6 @@
   },
   "_source": "git://github.com/Urigo/angular-spinkit.git",
   "_target": "~0.3.3",
-  "_originalSource": "angular-spinkit"
+  "_originalSource": "angular-spinkit",
+  "_direct": true
 }

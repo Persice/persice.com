@@ -35,5 +35,6 @@
   },
   "_source": "git://github.com/a8m/angular-filter.git",
   "_target": "~0.5.1",
-  "_originalSource": "angular-filter"
+  "_originalSource": "angular-filter",
+  "_direct": true
 }

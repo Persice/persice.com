@@ -54,7 +54,7 @@ angular.module('beKindred')
 
 
     //photos
-    //
+
     $scope.apiPhotos = [];
     $scope.photos = [
     {id: 0, order: 0, photo: ''},

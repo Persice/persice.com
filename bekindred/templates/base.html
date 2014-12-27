@@ -21,29 +21,24 @@
   <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
   <link rel="apple-touch-icon-precomposed" href="assets/images/apple-touch-icon-precomposed.png">
 
- <!--  <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
- <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen"> -->
+  <link href="{{ STATIC_URL }}css/vendor.css" rel="stylesheet" media="screen">
+  <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
 
- <!-- build:css({.tmp,app, ../../}) styles/vendor.css -->
- <!-- <link rel="stylesheet" href="app/vendor.css"> -->
- <!-- bower:css -->
- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/spinkit/css/spinkit.css" />
+ <!-- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/spinkit/css/spinkit.css" />
  <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/font-awesome/css/font-awesome.css" />
  <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/nouislider/jquery.nouislider.css" />
  <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/angucomplete-alt/angucomplete-alt.css" />
- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-spinkit/build/angular-spinkit.min.css" />
- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/sweetalert/lib/sweet-alert.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-spinkit/src/angular-spinkit.css" />
  <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/semantic/dist/semantic.css" />
- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/owl.carousel/dist/assets/owl.carousel.css" />
- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/owl.carousel/dist/assets/owl.theme.default.css" />
- <!-- endbower -->
- <!-- endbuild -->
- <!-- build:css({.tmp,src}) styles/app.css -->
- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/.tmp/app/index.css">
- <!-- endbuild -->
- <!-- build:js(.) scripts/modernizr.js -->
- <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/modernizr/modernizr.js"></script>
- <!-- endbuild -->
+ <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/owl-carousel2/dist/assets/owl.carousel.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/bower_components/owl-carousel2/dist/assets/owl.theme.default.css" />
+
+-->
+<!-- <link rel="stylesheet" href="{{ STATIC_URL }}beKindredFrontend/.tmp/app/index.css"> -->
+
+<!-- <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/modernizr/modernizr.js"></script> -->
+<script src="{{ STATIC_URL }}js/modernizr.js"></script>
+
 </head>
 <body id="main-page" class="gray">
 
@@ -177,11 +172,9 @@
 
         {%endverbatim%}
 
-       <!--  <script src="{{ STATIC_URL }}js/vendor.js"></script>
-       <script src="{{ STATIC_URL }}js/app.js"></script> -->
-
-       <!-- build:js(.) scripts/vendor.js -->
-       <!-- bower:js -->
+        <script src="{{ STATIC_URL }}js/vendor.js"></script>
+        <script src="{{ STATIC_URL }}js/app.js"></script>
+<!--
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/jquery/dist/jquery.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular/angular.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-animate/angular-animate.js"></script>
@@ -197,20 +190,16 @@
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-moment/angular-moment.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/underscore/underscore.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/ngDraggable/ngDraggable.js"></script>
-       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/fastclick/lib/fastclick.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-underscore-module/angular-underscore-module.js"></script>
-       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-spinkit/build/angular-spinkit.js"></script>
-       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-filter/dist/angular-filter.js"></script>
-       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/sweetalert/lib/sweet-alert.js"></script>
-       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-sweetalert/SweetAlert.js"></script>
+       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-spinkit/src/angular-spinkit.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/semantic/dist/semantic.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/gsap/src/uncompressed/TweenMax.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-gsapify-router/angular-gsapify-router.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-truncate/src/truncate.js"></script>
-       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/owl.carousel/dist/owl.carousel.js"></script>
-       <!-- endbower -->
-       <!-- endbuild -->
-       <!-- build:js({src,.tmp}) scripts/app.js -->
+       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-filter/dist/angular-filter.js"></script>
+       <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/owl-carousel2/dist/owl.carousel.js"></script>
+
+
        <script src="{{ STATIC_URL }}beKindredFrontend/src/app/index.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/src/app/services.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/src/app/app.controller.js"></script>
@@ -229,39 +218,36 @@
        <script src="{{ STATIC_URL }}beKindredFrontend/src/components/dimmer/dimmer.directive.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/src/components/rightsidebarfilter/filter.controller.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/src/components/rightsidebarfilter/filter.factory.js"></script>
-       <!-- inject:partials -->
-       <!-- angular templates will be automaticaly converted in js and inserted here -->
-       <!-- endinject -->
-       <!-- endbuild -->
-       <script>
-        'use strict';
-        $('.left.sidebar').first()
-        .sidebar('attach events', '#leftsidebarlaunch')
-        ;
-        $('#leftsidebarlaunch')
-        .removeClass('disabled')
-        ;
+     -->
+     <script>
+      'use strict';
+      $('.left.sidebar').first()
+      .sidebar('attach events', '#leftsidebarlaunch')
+      ;
+      $('#leftsidebarlaunch')
+      .removeClass('disabled')
+      ;
 
-        $('.top.horizontal.sidebar').first()
-        .sidebar('setting', {
-          dimPage             : false,
-          closable            : false,
-          transition          : 'overlay',
-          mobileTransition    : 'overlay'}
-          )
-        ;
+      $('.top.horizontal.sidebar').first()
+      .sidebar('setting', {
+        dimPage             : false,
+        closable            : false,
+        transition          : 'overlay',
+        mobileTransition    : 'overlay'}
+        )
+      ;
 
-        $('.right.sidebar').first()
-        .sidebar('attach events', '#right-menu-launcher')
-        .sidebar('setting', 'duration', 0)
-        ;
-        $('#right-menu-launcher')
-        .removeClass('disabled')
-        ;
+      $('.right.sidebar').first()
+      .sidebar('attach events', '#right-menu-launcher')
+      .sidebar('setting', 'duration', 0)
+      ;
+      $('#right-menu-launcher')
+      .removeClass('disabled')
+      ;
 
 
-        $('.ui.checkbox')
-        .checkbox({
+      $('.ui.checkbox')
+      .checkbox({
             // onChecked: function () {
             //   var mergedInput = $('#genders');
             //   var modelInput = $('#gendersModel');
@@ -285,13 +271,13 @@
             //   modelInput.trigger('input');
             // }
           });
-        </script>
+    </script>
 
-        <script>
-          angular.module('beKindred').constant('USER_ID', {{ user.id }});
-          angular.module('beKindred').constant('FB_TOKEN', '{{ user.profile_or_self.access_token }}');
-          angular.module('beKindred').constant('USER_PHOTO', 'http://graph.facebook.com/' + {{ user.profile_or_self.facebook_id }} + '/picture?type=large');
-        </script>
+    <script>
+      angular.module('beKindred').constant('USER_ID', {{ user.id }});
+      angular.module('beKindred').constant('FB_TOKEN', '{{ user.profile_or_self.access_token }}');
+      angular.module('beKindred').constant('USER_PHOTO', 'http://graph.facebook.com/' + {{ user.profile_or_self.facebook_id }} + '/picture?type=large');
+    </script>
 
-      </body>
-      </html>
+  </body>
+  </html>
