@@ -6,12 +6,12 @@
         <div class="dimmable">
 
 
-           <div class="header segment with-menu" id="my-profile-header" ng-if="showfullprofile">
+         <div class="header segment with-menu" id="my-profile-header" ng-if="showfullprofile">
             <div class="container">
                 <div class="pagination-container">
                     <div id="PhotoSlider">
 
-                       <ul rn-carousel rn-carousel-index="carouselIndex2">
+                     <ul rn-carousel rn-carousel-index="carouselIndex2">
                         <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
                             <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
                         </li>
@@ -98,17 +98,14 @@
                     </div>
                     <p ng-if="matchedUser.offers.length == 0">No offers yet.</p>
                 </div>
-                <h4 class="ui header">About</h4>
-                <div class="ui list">
+                <h4 class="ui header" ng-show="showfullprofile">About</h4>
+                <div class="ui list" ng-show="showfullprofile">
                     <div class="item">
                         <i class="empty icon"></i>
                         <div class="content">
                             <div class="description">
-                                <span ng-hide="showfullprofile">{{matchedUser.about | words:15}}
-                                    <br>
-                                    <a class="morelink" href="" ng-click="changeTopMenu()">more &raquo;</a>
+                                <span >{{matchedUser.about}}
                                 </span>
-                                <span ng-show="showfullprofile">{{matchedUser.about}}</span>
                             </div>
                         </div>
                     </div>
@@ -118,7 +115,7 @@
                     <div class="item" ng-repeat="like in matchedUser.likes track by $index">
                         <i class="icon check green"></i>
                         <div class="content">
-                        <div class="description">{{ like }}</div>
+                            <div class="description">{{ like }}</div>
                         </div>
                     </div>
                     <p ng-if="matchedUser.likes.length == 0">No likes yet.</p>
