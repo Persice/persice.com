@@ -4,8 +4,8 @@
         "model": "friends.friend",
         "fields": {
             "status": 0,
-            "friend2": 3,
-            "friend1": 10
+            "friend2": 2,
+            "friend1": 3
         }
     },
     {
@@ -13,8 +13,8 @@
         "model": "friends.friend",
         "fields": {
             "status": 0,
-            "friend2": 4,
-            "friend1": 10
+            "friend2": 2,
+            "friend1": 4
         }
     },
     {
@@ -22,8 +22,8 @@
         "model": "friends.friend",
         "fields": {
             "status": 1,
-            "friend2": 3,
-            "friend1": 2
+            "friend2": 2,
+            "friend1": 5
         }
     },
     {
@@ -31,8 +31,8 @@
         "model": "friends.friend",
         "fields": {
             "status": 1,
-            "friend2": 4,
-            "friend1": 2
+            "friend2": 3,
+            "friend1": 4
         }
     },
     {
@@ -40,8 +40,8 @@
         "model": "friends.friend",
         "fields": {
             "status": 1,
-            "friend2": 2,
-            "friend1": 10
+            "friend2": 4,
+            "friend1": 5
         }
     }
 ]
