@@ -2,6 +2,7 @@ from django.db import models
 from django_facebook.models import FacebookCustomUser
 from djorm_pgfulltext.models import SearchManager
 from djorm_pgfulltext.fields import VectorField
+from interests.models import remove_punctuation_map
 
 
 class SubjectManager(models.Manager):
@@ -68,8 +69,45 @@ class GoalManager(models.Manager):
                     filter(goal__in=search_goals).values_list('user', flat=True))
 
 
+class GoalManager2(models.Manager):
+    @staticmethod
+    def match_goals_to_goals(user_id, exclude_friends):
+        """
+        Return the list of matched user goals to goals
+        """
+        u_goals = Goal.objects.filter(user_id=user_id)
+        target_goals = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends)
+
+        match_goals = []
+        for goal in u_goals:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
+            match_goals.extend(target_goals.search(tsquery, raw=True))
+
+        return match_goals
+
+    @staticmethod
+    def match_offers_to_goals(user_id, exclude_friends):
+        """
+        Return the list of matched user goals to goals
+        """
+        u_offers = Goal.objects.filter(user_id=user_id)
+        target_goals = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends)
+
+        match_goals = []
+        for offer in u_offers:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            match_goals.extend(target_goals.search(tsquery, raw=True))
+
+        return match_goals
+
+
 class Goal(models.Model):
     objects = GoalManager()
+    objects_search = GoalManager2()
     user = models.ForeignKey(FacebookCustomUser)
     goal = models.ForeignKey(Subject)
 

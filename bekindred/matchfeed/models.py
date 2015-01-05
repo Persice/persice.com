@@ -1,4 +1,5 @@
 from django.db import models
+from goals.models import Goal
 from interests.models import Interest
 from members.models import FacebookLikeProxy
 from itertools import groupby
@@ -7,10 +8,20 @@ from itertools import groupby
 class MatchFeedManager(models.Manager):
     @staticmethod
     def match_all(user_id):
+        results = {'users': []}
         # calculate friends
         friends = []
-        # match_goals_to_goals
-        # match_offers_to_goals
+        match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
+        match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
+        match_goals = match_goals_to_goals + match_offers_to_goals
+
+        goals = {}
+        for user_id, group in groupby(match_goals, lambda x: x.user_id):
+            goals[user_id] = []
+            for thing in group:
+                goals[user_id].append(thing.name)
+
+
         # match_offers_to_offers
         # match_goals_to_offers
         ###
@@ -18,7 +29,7 @@ class MatchFeedManager(models.Manager):
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
         match_likes = match_likes_to_likes + match_interests_to_likes
 
-        results = {'users': []}
+
 
         likes = {}
         for user_id, group in groupby(match_likes, lambda x: x.user_id):
