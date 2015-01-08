@@ -11,6 +11,7 @@ class MatchFeedManager(models.Manager):
         results = {'users': []}
         # calculate friends
         friends = []
+
         match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
         match_goals = match_goals_to_goals + match_offers_to_goals
@@ -21,16 +22,21 @@ class MatchFeedManager(models.Manager):
             for thing in group:
                 goals[user_id].append(thing.name)
 
+        match_offers_to_offers = Goal.objects_search.match_goals_to_goals(user_id, friends)
+        match_goals_to_offers = Goal.objects_search.match_offers_to_goals(user_id, friends)
+        match_offers = match_offers_to_offers + match_goals_to_offers
 
-        # match_offers_to_offers
-        # match_goals_to_offers
-        ###
+        offers = {}
+        for user_id, group in groupby(match_goals, lambda x: x.user_id):
+            offers[user_id] = []
+            for thing in group:
+                offers[user_id].append(thing.name)
+
         match_likes_to_likes = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(user_id, friends)
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
         match_likes = match_likes_to_likes + match_interests_to_likes
 
-
-
+        # Match Likes
         likes = {}
         for user_id, group in groupby(match_likes, lambda x: x.user_id):
             likes[user_id] = []
@@ -41,6 +47,7 @@ class MatchFeedManager(models.Manager):
         match_likes_to_interests = Interest.search_subject.match_fb_likes_to_interests(user_id, friends)
         match_interests = match_interests_to_interests + match_likes_to_interests
 
+        # Match Interests
         interests = {}
         for user_id, group in groupby(match_interests, lambda x: x.user_id):
             interests[user_id] = []
@@ -50,6 +57,8 @@ class MatchFeedManager(models.Manager):
         matched_users = set(likes.keys() + interests.keys())
         for user in matched_users:
             results['users'].append({'id': int(user),
+                                     'goals': goals.get(user, []),
+                                     'offers': offers.get(user, []),
                                      'likes': likes.get(user, []),
                                      'interests': interests.get(user, [])
             })

@@ -21,11 +21,10 @@ class MatchedFeedResource(Resource):
     about = fields.CharField(attribute='about', null=True)
 
     photos = fields.ListField(attribute='photos')
-    # goals = fields.ListField(attribute='goals')
-    # offers = fields.ListField(attribute='offers')
+    goals = fields.ListField(attribute='goals')
+    offers = fields.ListField(attribute='offers')
     likes = fields.ListField(attribute='likes')
     interests = fields.ListField(attribute='interests')
-    # created = fields.IntegerField(attribute='created')
 
     class Meta:
         max_limit = 1
@@ -55,6 +54,8 @@ class MatchedFeedResource(Resource):
             new_obj.last_name = user.last_name
             new_obj.about = user.about_me
             new_obj.photos = photos
+            new_obj.goals = x['goals']
+            new_obj.offers = x['offers']
             new_obj.likes = x['likes']
             new_obj.interests = x['interests']
             results.append(new_obj)

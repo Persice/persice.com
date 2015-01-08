@@ -75,8 +75,10 @@ class GoalManager2(models.Manager):
         """
         Return the list of matched user goals to goals
         """
-        u_goals = Goal.objects.filter(user_id=user_id)
-        target_goals = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        u_goals_id = Goal.objects.filter(user_id=user_id).values_list('id', flat=True)
+        u_goals = Subject.objects.filter(id__in=u_goals_id)
+        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('id', flat=True)
+        target_goals = Subject.objects.filter(id__in=target_goals_id)
 
         match_goals = []
         for goal in u_goals:
@@ -92,8 +94,10 @@ class GoalManager2(models.Manager):
         """
         Return the list of matched user goals to goals
         """
-        u_offers = Goal.objects.filter(user_id=user_id)
-        target_goals = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        u_offers_id = Offer.objects.filter(user_id=user_id).values_list('id', flat=True)
+        u_offers = Subject.objects.filter(id__in=u_offers_id)
+        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        target_goals = Subject.objects.filter(id__in=target_goals_id)
 
         match_goals = []
         for offer in u_offers:
@@ -139,8 +143,49 @@ class OfferManager(models.Manager):
                     filter(offer__in=search_offers).values_list('user', flat=True))
 
 
+class OfferManager2(models.Manager):
+    @staticmethod
+    def match_offers_to_offers(user_id, exclude_friends):
+        """
+        Return the list of matched user offers to offers
+        """
+        u_offers_id = Offer.objects.filter(user_id=user_id)
+        u_offers = Subject.objects.filter(id__in=u_offers_id)
+        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        target_offers = Subject.objects.filter(id__in=target_offers_id)
+
+        match_offers = []
+        for offer in u_offers:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            match_offers.extend(target_offers.search(tsquery, raw=True))
+
+        return match_offers
+
+    @staticmethod
+    def match_goals_to_offers(user_id, exclude_friends):
+        """
+        Return the list of matched user goals to goals
+        """
+        u_goals_id = Goal.objects.filter(user_id=user_id)
+        u_goals = Subject.objects.filter(id__in=u_goals_id)
+        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        target_offers = Subject.objects.filter(id__in=target_offers_id)
+
+        match_offers = []
+        for goal in u_goals:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(goal).translate(remove_punctuation_map).split())
+            match_offers.extend(target_offers.search(tsquery, raw=True))
+
+        return match_offers
+
+
 class Offer(models.Model):
     objects = OfferManager()
+    objects_search = OfferManager2()
     user = models.ForeignKey(FacebookCustomUser)
     offer = models.ForeignKey(Subject)
 
