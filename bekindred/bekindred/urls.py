@@ -3,7 +3,7 @@ from tastypie.api import Api
 from friends.api.resources import FriendsResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource
 from interests.api.resources import InterestResource
-from matchfeed.api.resources import MatchedFeedResource
+from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource
 from photos.api.resources import FacebookPhotoResource, UserResource
 
 from django.contrib import admin
@@ -19,6 +19,7 @@ v1_api.register(FacebookPhotoResource())
 v1_api.register(GoalResource())
 v1_api.register(OfferResource())
 v1_api.register(MatchedFeedResource())
+v1_api.register(MutualFriendsResource())
 v1_api.register(InterestResource())
 v1_api.register(FriendsResource())
 

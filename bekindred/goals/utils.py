@@ -7,6 +7,7 @@ from social_auth.backends.twitter import *
 from social_auth.backends.utils import consumer_oauth_url_request
 from social_auth.db.django_models import UserSocialAuth
 from social_auth.utils import get_backend_name
+from friends.models import TwitterListFriends, TwitterListFollowers
 
 
 def calculate_age(born):
@@ -72,3 +73,43 @@ def get_twitter_followers(uid, oauth_token, oauth_token_secret):
     resp, content = client.request(url)
     rels = json.loads(content)
     return rels
+
+
+def get_mutual_linkedin_connections(user_id1, user_id2):
+    result = {'mutual_linkedin': None, 'mutual_linkedin_count': 0}
+    try:
+        current_auth_user = UserSocialAuth.objects.filter(user_id=user_id1, provider='linkedin')[0]
+        requested_auth_user = UserSocialAuth.objects.filter(user_id=user_id2, provider='linkedin')[0]
+        oauth_token = current_auth_user.tokens['oauth_token']
+        oauth_token_secret = current_auth_user.tokens['oauth_token_secret']
+        result['mutual_linkedin'], result['mutual_linkedin_count'] = linkedin_connections(requested_auth_user.uid,
+                                                                                          oauth_token,
+                                                                                          oauth_token_secret)
+        return result
+    except IndexError:
+        pass
+
+
+def get_mutual_twitter_friends(user_id1, user_id2):
+    result = dict(mutual_twitter_friends=None,
+                  mutual_twitter_followers=None,
+                  count_mutual_twitter_friends=0,
+                  count_mutual_twitter_followers=0)
+    try:
+        current_auth_user = UserSocialAuth.objects.filter(user_id=user_id1, provider='twitter')[0]
+        requested_auth_user = UserSocialAuth.objects.filter(user_id=user_id2, provider='twitter')[0]
+        tf2 = TwitterListFriends.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2',
+                                                                                                 flat=True)
+        tf1 = TwitterListFriends.objects.filter(twitter_id1=current_auth_user.uid,
+                                                twitter_id2__in=tf2)
+
+        tfo2 = TwitterListFollowers.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2',
+                                                                                                    flat=True)
+        tfo1 = TwitterListFollowers.objects.filter(twitter_id1=current_auth_user.uid,
+                                                   twitter_id2__in=tfo2)
+        result['mutual_twitter_friends'] = tf1
+        result['mutual_twitter_followers'] = tfo1
+        result['count_mutual_twitter_friends'] = tf1.count()
+        result['count_mutual_twitter_followers'] = tfo1.count()
+    except IndexError:
+        pass

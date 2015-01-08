@@ -70,3 +70,48 @@ class MatchedFeedResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+class MutualFriendsResource(Resource):
+    id = fields.CharField(attribute='id')
+
+    mutual_fb_friends = fields.ListField(attribute='fb_mutual_friends')
+    mutual_fb_friends_count = fields.IntegerField(attribute='fb_mutual_friends_count')
+
+    mutual_linkedin_connections = fields.ListField(attribute='mutual_linkedin_connections')
+    mutual_linkedin_connections_count = fields.IntegerField(attribute='mutual_linkedin_connections_count')
+
+    mutual_twitter_friends = fields.ListField(attribute='mutual_twitter_friends')
+    mutual_twitter_friends_count = fields.IntegerField(attribute='mutual_twitter_friends_count')
+    mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
+    mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
+
+    class Meta:
+        max_limit = 1
+        resource_name = 'mutual/friends'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        results = []
+        new_obj = A()
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
