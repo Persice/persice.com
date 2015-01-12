@@ -76,7 +76,7 @@ def get_twitter_followers(uid, oauth_token, oauth_token_secret):
 
 
 def get_mutual_linkedin_connections(user_id1, user_id2):
-    result = {'mutual_linkedin': None, 'mutual_linkedin_count': 0}
+    result = {'mutual_linkedin': [], 'mutual_linkedin_count': 0}
     try:
         current_auth_user = UserSocialAuth.objects.filter(user_id=user_id1, provider='linkedin')[0]
         requested_auth_user = UserSocialAuth.objects.filter(user_id=user_id2, provider='linkedin')[0]
@@ -87,12 +87,12 @@ def get_mutual_linkedin_connections(user_id1, user_id2):
                                                                                           oauth_token_secret)
         return result
     except IndexError:
-        pass
+        return result
 
 
 def get_mutual_twitter_friends(user_id1, user_id2):
-    result = dict(mutual_twitter_friends=None,
-                  mutual_twitter_followers=None,
+    result = dict(mutual_twitter_friends=[],
+                  mutual_twitter_followers=[],
                   count_mutual_twitter_friends=0,
                   count_mutual_twitter_followers=0)
     try:
@@ -112,4 +112,4 @@ def get_mutual_twitter_friends(user_id1, user_id2):
         result['count_mutual_twitter_friends'] = tf1.count()
         result['count_mutual_twitter_followers'] = tfo1.count()
     except IndexError:
-        pass
+        return result

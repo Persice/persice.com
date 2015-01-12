@@ -4,8 +4,10 @@ from tastypie.authorization import Authorization
 from tastypie import fields
 from tastypie.bundle import Bundle
 from tastypie.resources import Resource
+from friends.models import FacebookFriendUser
 from matchfeed.models import MatchFeedManager
 from photos.models import FacebookPhoto
+from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends
 
 
 class A(object):
@@ -75,8 +77,8 @@ class MatchedFeedResource(Resource):
 class MutualFriendsResource(Resource):
     id = fields.CharField(attribute='id')
 
-    mutual_fb_friends = fields.ListField(attribute='fb_mutual_friends')
-    mutual_fb_friends_count = fields.IntegerField(attribute='fb_mutual_friends_count')
+    mutual_fb_friends = fields.ListField(attribute='mutual_fb_friends')
+    mutual_fb_friends_count = fields.IntegerField(attribute='mutual_fb_friends_count')
 
     mutual_linkedin_connections = fields.ListField(attribute='mutual_linkedin_connections')
     mutual_linkedin_connections_count = fields.IntegerField(attribute='mutual_linkedin_connections_count')
@@ -103,7 +105,29 @@ class MutualFriendsResource(Resource):
 
     def get_object_list(self, request):
         results = []
-        new_obj = A()
+        current_user = request.user.id
+        user = request.GET.get('user', None)
+        try:
+            user = int(user)
+        except TypeError:
+            user = None
+        if user and user != current_user:
+            new_obj = A()
+            new_obj.id = 0
+            new_obj.mutual_fb_friends = FacebookFriendUser.objects.mutual_friends(current_user, user)
+            new_obj.mutual_fb_friends_count = len(new_obj.mutual_fb_friends)
+
+            l = get_mutual_linkedin_connections(current_user, user)
+            new_obj.mutual_linkedin_connections = l['mutual_linkedin']
+            new_obj.mutual_linkedin_connections_count = l['mutual_linkedin_count']
+
+            t = get_mutual_twitter_friends(current_user, user)
+            new_obj.mutual_twitter_friends = t['mutual_twitter_friends']
+            new_obj.mutual_twitter_friends_count = t['count_mutual_twitter_friends']
+            new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
+            new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
+
+            results.append(new_obj)
         return results
 
     def obj_get_list(self, bundle, **kwargs):
