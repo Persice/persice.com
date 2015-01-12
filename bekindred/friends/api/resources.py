@@ -1,3 +1,4 @@
+from django.db.models import Q
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -19,3 +20,7 @@ class FriendsResource(ModelResource):
                      'friend2': ALL,}
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def get_object_list(self, request):
+        u = request.user.id
+        return super(FriendsResource, self).get_object_list(request).filter(Q(friend1=u) | Q(friend2=u))
