@@ -1,4 +1,5 @@
 from django.db import models
+from friends.models import Friend, FacebookFriendUser
 from goals.models import Goal
 from interests.models import Interest
 from members.models import FacebookLikeProxy
@@ -10,7 +11,9 @@ class MatchFeedManager(models.Manager):
     def match_all(user_id):
         results = {'users': []}
         # calculate friends
-        friends = []
+        friends = Friend.objects.all_my_friends(user_id) + Friend.objects.thumbed_up_i(user_id) + \
+                  FacebookFriendUser.objects.all_my_friends(user_id) + \
+                  Friend.objects.deleted_friends(user_id)
 
         match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
