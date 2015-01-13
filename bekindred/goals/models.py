@@ -75,9 +75,9 @@ class GoalManager2(models.Manager):
         """
         Return the list of matched user goals to goals
         """
-        u_goals_id = Goal.objects.filter(user_id=user_id).values_list('id', flat=True)
+        u_goals_id = Goal.objects.filter(user_id=user_id).values_list('goal_id', flat=True)
         u_goals = Subject.objects.filter(id__in=u_goals_id)
-        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('id', flat=True)
+        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('goal_id', flat=True)
         target_goals = Subject.objects.filter(id__in=target_goals_id)
 
         match_goals = []
@@ -96,9 +96,9 @@ class GoalManager2(models.Manager):
         """
         Return the list of matched user goals to goals
         """
-        u_offers_id = Offer.objects.filter(user_id=user_id).values_list('id', flat=True)
+        u_offers_id = Offer.objects.filter(user_id=user_id).values_list('offer_id', flat=True)
         u_offers = Subject.objects.filter(id__in=u_offers_id)
-        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('goal_id', flat=True)
         target_goals = Subject.objects.filter(id__in=target_goals_id)
 
         match_goals = []
@@ -153,9 +153,9 @@ class OfferManager2(models.Manager):
         """
         Return the list of matched user offers to offers
         """
-        u_offers_id = Offer.objects.filter(user_id=user_id)
+        u_offers_id = Offer.objects.filter(user_id=user_id).values_list('offer_id', flat=True)
         u_offers = Subject.objects.filter(id__in=u_offers_id)
-        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('offer_id', flat=True)
         target_offers = Subject.objects.filter(id__in=target_offers_id)
 
         match_offers = []
@@ -174,9 +174,9 @@ class OfferManager2(models.Manager):
         """
         Return the list of matched user goals to goals
         """
-        u_goals_id = Goal.objects.filter(user_id=user_id)
+        u_goals_id = Goal.objects.filter(user_id=user_id).values_list('goal_id', flat=True)
         u_goals = Subject.objects.filter(id__in=u_goals_id)
-        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends)
+        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('offer_id', flat=True)
         target_offers = Subject.objects.filter(id__in=target_offers_id)
 
         match_offers = []
