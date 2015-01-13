@@ -87,7 +87,9 @@ class GoalManager2(models.Manager):
             tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
-        return match_goals
+        subject_ids = [m.id for m in match_goals]
+        result = Goal.objects.filter(goal__in=subject_ids)
+        return result
 
     @staticmethod
     def match_offers_to_goals(user_id, exclude_friends):
@@ -106,7 +108,9 @@ class GoalManager2(models.Manager):
             tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
-        return match_goals
+        subject_ids = [m.id for m in match_goals]
+        result = Goal.objects.filter(goal__in=subject_ids)
+        return result
 
 
 class Goal(models.Model):
@@ -161,7 +165,9 @@ class OfferManager2(models.Manager):
             tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
-        return match_offers
+        subject_ids = [m.id for m in match_offers]
+        result = Offer.objects.filter(offer__in=subject_ids)
+        return result
 
     @staticmethod
     def match_goals_to_offers(user_id, exclude_friends):
@@ -180,7 +186,9 @@ class OfferManager2(models.Manager):
             tsquery = ' | '.join(unicode(goal).translate(remove_punctuation_map).split())
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
-        return match_offers
+        subject_ids = [m.id for m in match_offers]
+        result = Offer.objects.filter(offer__in=subject_ids)
+        return result
 
 
 class Offer(models.Model):

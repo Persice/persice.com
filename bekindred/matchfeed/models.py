@@ -17,23 +17,23 @@ class MatchFeedManager(models.Manager):
 
         match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
-        match_goals = match_goals_to_goals + match_offers_to_goals
+        match_goals = match_goals_to_goals | match_offers_to_goals
 
         goals = {}
         for user_id, group in groupby(match_goals, lambda x: x.user_id):
             goals[user_id] = []
             for thing in group:
-                goals[user_id].append(thing.name)
+                goals[user_id].append(unicode(thing))
 
         match_offers_to_offers = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_goals_to_offers = Goal.objects_search.match_offers_to_goals(user_id, friends)
-        match_offers = match_offers_to_offers + match_goals_to_offers
+        match_offers = match_offers_to_offers | match_goals_to_offers
 
         offers = {}
-        for user_id, group in groupby(match_goals, lambda x: x.user_id):
+        for user_id, group in groupby(match_offers, lambda x: x.user_id):
             offers[user_id] = []
             for thing in group:
-                offers[user_id].append(thing.name)
+                offers[user_id].append(unicode(thing))
 
         match_likes_to_likes = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(user_id, friends)
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
