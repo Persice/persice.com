@@ -57,7 +57,7 @@ class MatchFeedManager(models.Manager):
             for thing in group:
                 interests[user_id].append(thing.description)
 
-        matched_users = set(likes.keys() + interests.keys())
+        matched_users = set(goals.keys() + offers.keys() + likes.keys() + interests.keys())
         for user in matched_users:
             results['users'].append({'id': int(user),
                                      'goals': goals.get(user, []),
