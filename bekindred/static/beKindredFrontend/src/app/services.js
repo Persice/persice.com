@@ -19,6 +19,25 @@ angular.module('beKindred')
         }
     });
 }])
+.factory('FriendsFactory', ['$resource', function($resource){
+  return $resource('/api/v1/friends/:friendId/:param',
+    {friendId: '@friendId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        },
+        update: {
+            method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
+        }
+    });
+}])
 .factory('SubjectsFactory', ['$resource', function($resource){
   return $resource('/api/v1/subject/:subjectId/:param',
     {subjectId: '@subjectId'} , {

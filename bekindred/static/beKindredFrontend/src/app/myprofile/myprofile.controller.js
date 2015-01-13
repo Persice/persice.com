@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('MyProfileCtrl', function ($scope) {
+.controller('MyProfileCtrl', function ($scope, USER_FIRSTNAME, USER_LASTNAME) {
     $scope.user = {
         id: 1,
-        first_name: 'Mark',
-        last_name: 'Wahlberg',
+        first_name:  USER_FIRSTNAME,
+        last_name:  USER_LASTNAME,
         age: 35,
         distance: 40.3,
         about: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, inventore molestias mollitia officiis reiciendis sequi vero iure in. Magnam ut cupiditate pariatur praesentium tenetur dicta nam natus nesciunt ducimus dolorem.',

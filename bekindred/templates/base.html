@@ -172,12 +172,15 @@
 
         {%endverbatim%}
 
+
+
+
         <script src="{{ STATIC_URL }}js/vendor.js"></script>
         <script src="{{ STATIC_URL }}js/app.js"></script>
 
-      <!--   <script src="{{ STATIC_URL }}beKindredFrontend/dist/scripts/vendor.js"></script>
+       <!--  <script src="{{ STATIC_URL }}beKindredFrontend/dist/scripts/vendor.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/dist/scripts/app.js"></script>
-  -->
+ -->
 
      <!--   <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/jquery/dist/jquery.js"></script>
        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular/angular.js"></script>
@@ -279,8 +282,10 @@
 
     <script>
       angular.module('beKindred').constant('USER_ID', {{ user.id }});
-      angular.module('beKindred').constant('FB_TOKEN', '{{ user.profile_or_self.access_token }}');
-      angular.module('beKindred').constant('USER_PHOTO', 'http://graph.facebook.com/' + {{ user.profile_or_self.facebook_id }} + '/picture?type=large');
+      angular.module('beKindred').constant('USER_FIRSTNAME', '{{ user.first_name }}');
+      angular.module('beKindred').constant('USER_LASTNAME', '{{ user.last_name }}');
+      angular.module('beKindred').constant('FB_TOKEN', '{{ user.access_token }}');
+      angular.module('beKindred').constant('USER_PHOTO', 'http://graph.facebook.com/' + {{ user.facebook_id }} + '/picture?type=large');
     </script>
 
   </body>

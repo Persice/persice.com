@@ -15,7 +15,7 @@ class FriendsResource(ModelResource):
     class Meta:
         queryset = Friend.objects.all()
         resource_name = 'friends'
-        fields = ['friend1', 'friend2', 'status']
+        fields = ['id', 'friend1', 'friend2', 'status']
         filtering = {'friend1': ALL,
                      'friend2': ALL,}
         authentication = SessionAuthentication()
