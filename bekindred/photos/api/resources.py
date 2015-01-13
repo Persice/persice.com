@@ -11,7 +11,7 @@ class UserResource(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
-        fields = ['username', 'first_name', 'last_name', 'last_login']
+        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me']
         authentication = SessionAuthentication()
         authorization = Authorization()
 
