@@ -67,6 +67,10 @@ class FriendManager(models.Manager):
         all = list(chain(*result.values_list('friend1', 'friend2')))
         return [x for x in all if x != user_id]
 
+    def friends(self, user_id):
+        return super(FriendManager, self).get_queryset().filter(Q(friend1=user_id, status=1) |
+                                                                Q(friend2=user_id, status=1))
+
     def deleted_friends(self, user_id):
         """
         Return All delete friends and all friends which you declined
