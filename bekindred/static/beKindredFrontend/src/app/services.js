@@ -76,8 +76,27 @@ angular.module('beKindred')
         }
     });
 }])
+.factory('InterestsFactory', ['$resource', function($resource){
+  return $resource('/api/v1/interest/:interestId/:param',
+    {interestId: '@interestId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        },
+        update: {
+            method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
+        }
+    });
+}])
 .factory('UsersFactory', ['$resource', function($resource){
-  return $resource('/api/v1/user/:userId/:param',
+  return $resource('/api/v1/auth/user/:userId/:param',
     {userId: '@userId'} , {
         query: {
             method: 'GET',

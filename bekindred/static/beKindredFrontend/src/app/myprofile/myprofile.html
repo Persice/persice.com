@@ -3,7 +3,7 @@
         <div class="pagination-container">
             <div id="PhotoSlider">
 
-            <ul rn-carousel rn-carousel-index="carouselIndex2">
+                <ul rn-carousel rn-carousel-index="carouselIndex2">
                     <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
                         <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
                     </li>
@@ -19,7 +19,7 @@
     <div class="container">
         <div class="ui top attached segment">
             <h3 class="ui left floated header">
-                {{ user.first_name }}, {{ user.age }}
+                {{ user.firstName }}, {{ user.age }}
             </h3>
             <h5 class="ui right floated header">
                 <a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a>

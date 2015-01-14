@@ -17,7 +17,8 @@ class FriendsResource(ModelResource):
         resource_name = 'friends'
         fields = ['id', 'friend1', 'friend2', 'status']
         filtering = {'friend1': ALL,
-                     'friend2': ALL,}
+                     'friend2': ALL,
+                     'status': ALL}
         authentication = SessionAuthentication()
         authorization = Authorization()
 
