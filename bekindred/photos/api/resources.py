@@ -5,15 +5,19 @@ from tastypie.authorization import DjangoAuthorization, Authorization
 from tastypie.resources import ModelResource
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto, Photo
-
+from goals.utils import calculate_age
 
 class UserResource(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
-        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me', 'facebook_id']
+        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me', 'facebook_id', 'date_of_birth']
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def dehydrate(self, bundle):
+        bundle.data['age'] = calculate_age(bundle.data['date_of_birth'])
+        return bundle
 
 
 class FacebookPhotoResource(ModelResource):
