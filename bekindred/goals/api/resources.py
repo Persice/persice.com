@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django_facebook.models import FacebookCustomUser
+from django_facebook.models import FacebookCustomUser, FacebookLike
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -74,3 +74,17 @@ class OfferResource(ModelResource):
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj
         return bundle
+
+
+class FacebookLikeResource(ModelResource):
+
+    class Meta:
+        queryset = FacebookLike.objects.all()
+        fields = ['id', 'name', 'facebook_id']
+        list_allowed_methods = ['get']
+        resource_name = 'likes'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        return super(FacebookLikeResource, self).get_object_list(request).filter(user_id=request.user.id)

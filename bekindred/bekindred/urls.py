@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from friends.api.resources import FriendsResource, ConnectionsResource
-from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource
+from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
+    FacebookLikeResource
 from interests.api.resources import InterestResource
 from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource
 from photos.api.resources import FacebookPhotoResource, UserResource
@@ -23,6 +24,7 @@ v1_api.register(MutualFriendsResource())
 v1_api.register(InterestResource())
 v1_api.register(FriendsResource())
 v1_api.register(ConnectionsResource())
+v1_api.register(FacebookLikeResource())
 
 
 urlpatterns = patterns('',

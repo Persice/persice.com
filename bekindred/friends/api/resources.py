@@ -33,7 +33,7 @@ class ConnectionsResource(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
-    
+
     class Meta:
         resource_name = 'connections'
         authentication = SessionAuthentication()
