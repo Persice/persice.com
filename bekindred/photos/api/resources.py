@@ -11,7 +11,7 @@ class UserResource(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
-        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me']
+        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me', 'facebook_id']
         authentication = SessionAuthentication()
         authorization = Authorization()
 
@@ -22,6 +22,7 @@ class FacebookPhotoResource(ModelResource):
     class Meta:
         queryset = FacebookPhoto.objects.all()
         resource_name = 'photo'
+        always_return_data = True
         authentication = SessionAuthentication()
         authorization = Authorization()
 

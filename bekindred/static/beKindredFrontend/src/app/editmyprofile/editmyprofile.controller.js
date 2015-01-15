@@ -1,45 +1,31 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('EditMyProfileCtrl', function ($scope) {
+.controller('EditMyProfileCtrl', function ($scope, USER_ID, UsersFactory, GoalsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $window) {
+
     $scope.user = {
-        id: 1,
-        first_name: 'Mark',
-        last_name: 'Wahlberg',
-        age: 35,
-        distance: 40.3,
-        about: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, inventore molestias mollitia officiis reiciendis sequi vero iure in. Magnam ut cupiditate pariatur praesentium tenetur dicta nam natus nesciunt ducimus dolorem.',
+        id: USER_ID,
+        firstName: '',
+        lastName: '',
+        age: 0,
+        about: '',
         photos: [
-        {photo: 'static/img/profile/photo0.jpg', order: 0},
-        {photo: 'static/img/profile/photo1.jpg', order: 1},
-        {photo: 'static/img/profile/photo2.jpg', order: 2},
-        {photo: 'static/img/profile/photo3.jpg', order: 3},
-        {photo: 'static/img/profile/photo4.jpg', order: 4},
-        {photo: 'static/img/profile/photo5.jpg', order: 5}
+        {id: 0, order: 0, photo: ''},
+        {id: 0, order: 1, photo: ''},
+        {id: 0, order: 2, photo: ''},
+        {id: 0, order: 3, photo: ''},
+        {id: 0, order: 4, photo: ''},
+        {id: 0, order: 5, photo: ''}
         ],
         goals: [
-        {subject: 'Learn python', match: 1},
-        {subject: 'Learn django', match: 1},
-        {subject: 'Learn laravel', match: 0},
-        {subject: 'Learn ruby on rails', match: 0}
+
         ],
         offers: [
-        {subject: 'Teach C++', match: 1},
-        {subject: 'Teach how to play tennis', match: 1},
-        {subject: 'Teach how to play soccer', match: 1},
-        {subject: 'Teach how to play basketball', match: 1}
+
         ],
         likes: [
-        {name: 'Interstellar movie', match: 1},
-        {name: 'FC Barcelona', match: 0},
-        {name: 'Manchester United', match: 0},
-        {name: 'Miami Heat', match: 1}
         ],
         interests: [
-        {description: 'Django', match: 1},
-        {description: 'Programming', match: 0},
-        {description: 'Hiking', match: 0},
-        {description: 'Street basketball', match: 1}
         ],
         mutual: {
             friends: [],
@@ -50,100 +36,78 @@ angular.module('beKindred')
         }
     };
 
-    $scope.photosSlider = $scope.user.photos;
+    GoalsFactory.query({user_id: USER_ID, format: 'json'}).$promise.then(function(data) {
+        if (data.meta.total_count > 0) {
+            $scope.user.goals = data.objects;
+        }
+
+    });
+
+    OffersFactory.query({user_id: USER_ID, format: 'json'}).$promise.then(function(data) {
+        if (data.meta.total_count > 0) {
+            $scope.user.offers = data.objects;
+        }
+
+    });
+
+    InterestsFactory.query({user_id: USER_ID, format: 'json'}).$promise.then(function(data) {
+        if (data.meta.total_count > 0) {
+            $scope.user.interests = data.objects;
+        }
+
+    });
+
+
+    UsersFactory.get({format: 'json'}, {userId: USER_ID}).$promise.then(function(data) {
+
+        $scope.user.firstName = data.first_name;
+        $scope.user.lastName = data.last_name;
+        $scope.user.about = data.about;
+        $scope.user.facebookId = data.facebook_id;
+
+
+    });
+
+
 
 
     //photos
 
     $scope.apiPhotos = [];
-    $scope.photos = [
-    {id: 0, order: 0, photo: ''},
-    {id: 0, order: 1, photo: ''},
-    {id: 0, order: 2, photo: ''},
-    {id: 0, order: 3, photo: ''},
-    {id: 0, order: 4, photo: ''},
-    {id: 0, order: 5, photo: ''}
-    ];
-
-
-    $scope.photosSlider = [];
-
     $scope.facebookPhotos = [];
 
     $scope.onDropComplete = function (index, obj, evt) {
         var otherObj = $scope.user.photos[index];
         var otherIndex = $scope.user.photos.indexOf(obj);
+
         $scope.user.photos[index] = obj;
         $scope.user.photos[index].order = index;
         $scope.user.photos[otherIndex] = otherObj;
         $scope.user.photos[otherIndex].order = otherIndex;
 
 
-        // //API update photo - patch method
-        // PhotosFactory.update({photoId: $scope.photos[index].id}, {order:  $scope.photos[index].order },
-        //     function(success) {
-        //         console.log('Photo order saved');
-        //     }, function(error) {
-        //         console.log(error);
-        //     });
+        if ($scope.user.photos[index].id !== 0) {
+            //API update photo - patch method
+            PhotosFactory.update({photoId: $scope.user.photos[index].id}, {order:  $scope.user.photos[index].order },
+                function(success) {
+                    $log.info('Photo order saved');
+                }, function(error) {
+                    $log.info(error);
+                });
 
-        // //API update photo - patch method
-        // PhotosFactory.update({photoId: $scope.photos[otherIndex].id}, {order:  $scope.photos[otherIndex].order },
-        //     function(success) {
-        //         console.log('Photo order saved');
-        //     }, function(error) {
-        //         console.log(error);
-        //     });
-
-    };
+        }
 
 
-});
+        if ($scope.user.photos[otherIndex].id !== 0) {
+            //API update photo - patch method
+            PhotosFactory.update({photoId: $scope.user.photos[otherIndex].id}, {order:  $scope.user.photos[otherIndex].order },
+                function(success) {
+                    console.log('Photo order saved');
+                }, function(error) {
+                    console.log(error);
+                });
 
-
-
-angular.module('beKindred')
-.controller('PhotosController', function ($scope, PhotosFactory, $filter, $cookies, $http, FB_TOKEN) {
-
-    $scope.apiPhotos = [];
-    $scope.photos = [
-    {id: 0, order: 0, photo: ''},
-    {id: 0, order: 1, photo: ''},
-    {id: 0, order: 2, photo: ''},
-    {id: 0, order: 3, photo: ''},
-    {id: 0, order: 4, photo: ''},
-    {id: 0, order: 5, photo: ''}
-    ];
-
-    $scope.photosSlider = [];
-
-    $scope.facebookPhotos = [];
-
-    $scope.onDropComplete = function (index, obj, evt) {
-        var otherObj = $scope.photos[index];
-        var otherIndex = $scope.photos.indexOf(obj);
-        console.log(evt);
-        $scope.photos[index] = obj;
-        $scope.photos[index].order = index;
-        $scope.photos[otherIndex] = otherObj;
-        $scope.photos[otherIndex].order = otherIndex;
-
-
-        //API update photo - patch method
-        PhotosFactory.update({photoId: $scope.photos[index].id}, {order:  $scope.photos[index].order },
-            function(success) {
-                console.log('Photo order saved');
-            }, function(error) {
-                console.log(error);
-            });
-
-        //API update photo - patch method
-        PhotosFactory.update({photoId: $scope.photos[otherIndex].id}, {order:  $scope.photos[otherIndex].order },
-            function(success) {
-                console.log('Photo order saved');
-            }, function(error) {
-                console.log(error);
-            });
+        }
 
     };
 
@@ -152,25 +116,15 @@ angular.module('beKindred')
             format: 'json'
         }).$promise.then(function(response) {
             $scope.apiPhotos = response.objects;
-
-
-
+            $log.info($scope.apiPhotos);
             for(var obj in $scope.apiPhotos) {
-                for(var p in $scope.photos) {
-                    if ($scope.photos[p].order === $scope.apiPhotos[obj].order) {
-                        $scope.photos[p].id = $scope.apiPhotos[obj].id;
-                        $scope.photos[p].photo = $scope.apiPhotos[obj].photo;
+                for(var p in $scope.user.photos) {
+                    if ($scope.user.photos[p].order === $scope.apiPhotos[obj].order) {
+                        $scope.user.photos[p].id = $scope.apiPhotos[obj].id;
+                        $scope.user.photos[p].photo = $scope.apiPhotos[obj].photo;
                     }
                 }
             }
-
-
-            $scope.photosSlider = $scope.apiPhotos;
-
-
-
-
-
         });
     };
 
@@ -181,17 +135,21 @@ angular.module('beKindred')
 
     $scope.getFBPhotos = function(id, name) {
 
+        $scope.hideAlbums = true;
         $scope.currentAlbum = name;
-
+        $scope.photosLoading = true;
 
         $http.get('https://graph.facebook.com/' + id + '?fields=photos{id,height,width,source}&access_token=' + FB_TOKEN).
         success(function(data, status, headers, config) {
-            console.log(data);
-            $scope.hideAlbums = true;
+            $log.info(data);
+
+            $scope.photosLoading = false;
+
             $scope.facebookPhotos = data.photos.data;
         }).
         error(function(data, status, headers, config) {
-            console.log(data);
+            $log.info(data);
+            $scope.photosLoading = false;
         });
 
 
@@ -201,6 +159,8 @@ angular.module('beKindred')
     $scope.backToAlbums = function () {
         $scope.currentAlbum = '';
         $scope.hideAlbums = !$scope.hideAlbums;
+        $scope.getFBAlbums();
+
     };
 
     $scope.facebookAlbums = [];
@@ -208,44 +168,54 @@ angular.module('beKindred')
 
 
     $scope.getFBAlbums = function() {
-
+        $scope.showModal = true;
+        $scope.albumsLoading = true;
         $http.get('https://graph.facebook.com/me/albums?fields=picture,name&access_token=' + FB_TOKEN).
         success(function(data, status, headers, config) {
-            console.log(data);
+            $log.info(data);
             $scope.facebookAlbums = data.data;
+            $scope.albumsLoading = false;
 
         }).
         error(function(data, status, headers, config) {
-            console.log(data);
+            $log.info(data);
+            $scope.albumsLoading = false;
         });
 
 
 
     };
 
-    $scope.getFBAlbums();
 
-    // $scope.getFBPhotos();
 
 
     $scope.deletePhoto = function() {
         var deleteIndex = $scope.userPhotoDeleteIndex;
         //API delete call
-        PhotosFactory.delete({photoId: $scope.photos[deleteIndex].id},
+        PhotosFactory.delete({photoId: $scope.user.photos[deleteIndex].id},
             function(success) {
-                $scope.photos[deleteIndex].photo = '';
-                console.log('Photo deleted');
+                $scope.user.photos[deleteIndex].photo = '';
+                $scope.user.photos[deleteIndex].id = 0;
+                $log.info('Photo deleted');
 
             },
             function(error) {
-                console.log(error);
+                $log.info(error);
             });
 
     };
 
+    $scope.closeModal = function() {
+        $scope.showModal = false;
+    };
+
+    $scope.showModal = false;
+    $scope.albumsLoading = false;
+    $scope.photosLoading = false;
+
     $scope.createPhoto = function(indexFbPhoto) {
 
-        console.log('Creating photo');
+        $log.info('Creating photo');
 
         var newFbPhoto = $scope.facebookPhotos[indexFbPhoto];
 
@@ -259,32 +229,37 @@ angular.module('beKindred')
 
         PhotosFactory.save({}, newPhoto,
             function(success){
-                console.log(success);
-                console.log('New photo saved.');
+                $log.info('New photo saved.');
+                var index = $scope.newPhotoIndex;
+                $scope.user.photos[index].photo =  success.photo;
+                $scope.user.photos[index].id =  success.id;
+                $scope.closeModal();
+                $window.scrollTo(0,0);
 
-                $scope.getPhotos();
             },
             function(error) {
-                console.log(error);
             });
 
-        var index = $scope.newPhotoIndex;
-        $scope.photos[index].photo =  newFbPhoto.photo;
 
-        $('#photos_modal').modal('hide');
+
+
+
 
     };
 
     $scope.$on('ngRepeatFinished', function () {
-        $('#photos_modal').modal('attach events', '.add_photo', 'show');
+
+        // $('#photos_modal').modal('attach events', '.add_photo', 'show');
         $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
 
 
-        $('.special.cards .image').dimmer({
-            on: 'hover'
-        });
+        // $('.special.cards .image').dimmer({
+        //     on: 'hover'
+        // });
 
-    });
+
+
+});
 
 
 

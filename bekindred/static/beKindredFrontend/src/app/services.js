@@ -19,6 +19,25 @@ angular.module('beKindred')
         }
     });
 }])
+.factory('ConnectionsFactory', ['$resource', function($resource){
+  return $resource('/api/v1/connections/:connectionId/:param',
+    {connectionId: '@connectionId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        },
+        update: {
+            method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
+        }
+    });
+}])
 .factory('FriendsFactory', ['$resource', function($resource){
   return $resource('/api/v1/friends/:friendId/:param',
     {friendId: '@friendId'} , {
@@ -76,8 +95,27 @@ angular.module('beKindred')
         }
     });
 }])
+.factory('InterestsFactory', ['$resource', function($resource){
+  return $resource('/api/v1/interest/:interestId/:param',
+    {interestId: '@interestId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        },
+        update: {
+            method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
+        }
+    });
+}])
 .factory('UsersFactory', ['$resource', function($resource){
-  return $resource('/api/v1/user/:userId/:param',
+  return $resource('/api/v1/auth/user/:userId/:param',
     {userId: '@userId'} , {
         query: {
             method: 'GET',
