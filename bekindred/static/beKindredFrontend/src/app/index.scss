@@ -2392,6 +2392,12 @@ section.subtitle-wrapper h5 {
   display: inline-block!important;
   vertical-align: middle!important;
 }
+
+.search-wrapper {
+  width: 100%;
+}
+
+
 /* Friends list */
 .friends-header {
   background-color: #f6f6f6!important;
@@ -3109,37 +3115,6 @@ div.friend-actions a:hover {
   bottom:0px;
   width: 100%;
 }
-#my-profile-header .swiper-pagination-switch {
-  display: inline-block;
-  width: 10px;
-  text-align: center;
-  height: 10px;
-  border-radius: 12px;
-  background: #CCC;
-  margin: 0 3px;
-  cursor: pointer;
-  z-index: 9999;
-}
-#my-profile-header .swiper-active-switch {
-  background: #444;
-}
-
-
-#my-profile-header .swiper-container {
-  text-align: center;
-}
-
-#my-profile-header .swiper-wrapper, #my-profile-header .swiper-slide {
-  height: 180px!important;
-}
-
-
-#my-profile-header .pagination-container {
-  text-align: center!important;
-  padding: 0px!important;
-  height: 210px;
-  position: relative;
-}
 
 
 #my-profile-body #my-profile-title {
@@ -3385,4 +3360,76 @@ ng\:form {
 
 #main-page .ui.menu .actionstitle {
   padding: 4px!important;
+}
+
+
+//photos_modal
+
+#my-profile-photos {
+  background-color: #f7f7f7!important;
+  min-height: 400px!important;
+  border-bottom: none!important;
+  padding-bottom: 5px!important;
+}
+
+
+.angucomplete-dropdown {
+  border-radius: 1px;
+  width: 100%!important;
+  cursor: pointer;
+  z-index: 9999;
+  position: absolute;
+  text-align: left!important;
+  border-top: none!important;
+  margin-top: 0!important;
+  border-width: 1px!important;
+  border-bottom-left-radius: 4px!important;
+  border-bottom-right-radius: 4px!important;
+  padding: 0!important;
+  border-style: solid!important;
+  border-color: #999!important;
+  background-color: #fdfdfd!important;
+}
+
+
+#my-profile-header .pagination-container {
+  text-align: center!important;
+  padding: 0!important;
+  height: 262px;
+  position: relative;
+}
+
+div.rn-carousel-indicator span {
+  margin-right: 12px!important;
+  color: #AAA!important;
+}
+
+div.carousel-indicators {
+  margin-top: 9px!important;
+}
+
+div.rn-carousel-indicator span.active {
+  color: #000!important;
+}
+
+.img-bounding-box-full-width {
+  background-size: cover!important;
+  background-position: 50% 50%;
+  background-repeat: no-repeat!important;
+  height: 240px!important;
+  width: 100%!important;
+}
+
+ul[rn-carousel] {
+  width: 100%;
+  height: 240px;
+  margin: 0 auto;
+  overflow: hidden;
+  padding: 0;
+  white-space: nowrap;
+  position: relative;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
 }

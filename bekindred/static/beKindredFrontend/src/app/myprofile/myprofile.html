@@ -1,7 +1,7 @@
 <div class="header segment with-menu" id="my-profile-header">
     <div class="container">
         <div class="pagination-container">
-            <div id="PhotoSlider">
+        <div id="PhotoSlider" ng-if="photosSlider.length > 0">
 
                 <ul rn-carousel rn-carousel-index="carouselIndex2">
                     <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">

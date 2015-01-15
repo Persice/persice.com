@@ -22,6 +22,7 @@ class FacebookPhotoResource(ModelResource):
     class Meta:
         queryset = FacebookPhoto.objects.all()
         resource_name = 'photo'
+        always_return_data = True
         authentication = SessionAuthentication()
         authorization = Authorization()
 

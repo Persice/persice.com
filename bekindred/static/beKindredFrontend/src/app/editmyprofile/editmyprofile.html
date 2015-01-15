@@ -1,188 +1,258 @@
-<div class="segment" id="my-profile-header-edit">
-    <div class="container">
-        <div class="ui segment">
-            <div id="tiles" ng-cloak>
-            <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }"  ng-repeat="photo in user.photos track by $index" end-repeat ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
-                    <a ng-click="$parent.userPhotoDelete = photo; $parent.userPhotoDeleteIndex = $index;" class="ui right corner delete_photo label" ng-show="photo.photo !== ''">
-                        <i class="close icon"></i>
-                    </a>
-                    <div class="tile-content" ng-show="photo.photo === ''">
-                        <div class="content">
-                            <div class="center">
-                                <a href="" ng-click="$parent.newPhotoIndex = $index" class="ui compact icon button add_photo"><i class="circle add icon"></i> Add Photo</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-if="photo.photo !== ''" ng-drag="true" ng-drag-data="photo" style="background-image: url('{{photo.photo}}')" class="img-bounding-box"></div>
-                </div>
+<div class="segment" id="my-profile-header-edit" ng-hide="showModal">
+  <div class="container">
+    <div class="ui segment">
+      <div id="tiles" ng-cloak>
+        <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }"  ng-repeat="photo in user.photos track by $index" end-repeat ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
+          <a href="" ng-click="$parent.userPhotoDelete = photo; $parent.userPhotoDeleteIndex = $index;" class="ui right corner delete_photo label" ng-show="photo.photo !== ''">
+            <i class="close icon"></i>
+          </a>
+          <div class="tile-content" ng-show="photo.photo === ''">
+            <div class="content">
+              <div class="center">
+                <a href="" ng-click="$parent.newPhotoIndex = $index; getFBAlbums();" class="ui compact icon button add_photo"><i class="circle add icon"></i> Add Photo</a>
+              </div>
             </div>
+          </div>
+          <div ng-if="photo.photo !== ''" ng-drag="true" ng-drag-data="photo" style="background-image: url('{{photo.photo}}')" class="img-bounding-box"></div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="body segment edit" id="my-profile-body">
-    <div class="container">
-        <div class="ui attached segment" id="my-profile-title">
-            <h3 class="ui left floated header">
-                Michael, 34
-            </h3>
-            <h6 class="ui right floated header">
-                2 miles
-            </h6>
+<div class="body segment edit" id="my-profile-body" ng-hide="showModal">
+  <div class="container">
+    <div class="ui attached segment" id="my-profile-title">
+      <h3 class="ui left floated header">
+        {{ user.firstName }}, {{ user.age }}
+      </h3>
+      <h6 class="ui right floated header">
+
+      </h6>
+    </div>
+    <div class="ui attached segment">
+      <h4 class="ui header">Goals</h4>
+      <div class="profile-icon">
+        <div class="ui mini statistic">
+          <div class="value">
+            <i class="unordered list large icon"></i>
+          </div>
+          <div class="label">
+            {{user.goals.length}}
+          </div>
         </div>
-        <div class="ui attached segment">
-            <h4 class="ui header">Goals</h4>
-            <div class="profile-icon">
-                <div class="ui mini statistic">
-                    <div class="value">
-                        <i class="unordered list large icon"></i>
-                    </div>
-                    <div class="label">
-                        {{user.goals.length}}
-                    </div>
-                </div>
-            </div>
-            <div class="ui list">
-                <div class="item" ng-repeat="goal in user.goals track by $index">
-                    <a class="deleteitem icon" href="#"><i class="remove circle icon red"></i></a>
-                    <div class="content">
-                        <div class="description">{{goal.subject}} <a href="#"><i class="edit blue icon"></i></a></div>
-                    </div>
-                </div>
-
-
-                <a href="#" class="item blue">
-                    <i class="plus circle icon green"></i>
-                    <div class="content">
-                        <div class="description"><b>Create new goal</b></div>
-                    </div>
-                </a>
-
-            </div>
-            <h4 class="ui header">Offers</h4>
-            <div class="ui list">
-                <div class="item" ng-repeat="offer in user.offers track by $index">
-                    <a class="deleteitem icon" href="#"><i class="remove circle icon red"></i></a>
-                    <div class="content">
-                        <div class="description">{{ offer.subject }} <a href="#"><i class="edit blue icon"></i></a></div>
-                    </div>
-                </div>
-                <a href="#" class="item blue">
-                    <i class="plus circle icon green"></i>
-                    <div class="content">
-                        <div class="description"><b>Create new offer</b></div>
-                    </div>
-                </a>
-
-
-            </div>
-            <h4 class="ui header">About</h4>
-            <div class="ui list">
-                <div class="item">
-                    <i class="empty icon"></i>
-                    <div class="content">
-                        <div class="description">
-                            {{user.about}}<br>
-                            <a href="#">Edit <i class="edit blue icon"></i></a></div>
-                        </div>
-                    </div>
-                </div>
-
-                <h4 class="ui header">Activities &amp; Interests</h4>
-                <div class="ui list">
-                    <div class="item" ng-repeat="interest in user.interests track by $index">
-                        <a class="deleteitem icon" href="#"><i class="remove circle icon red"></i></a>
-                        <div class="content">
-                            <div class="description">{{ interest.description }} <a href="#"><i class="edit blue icon"></i></a></div>
-                        </div>
-                    </div>
-                    <a href="#" class="item blue">
-                        <i class="plus circle icon green"></i>
-                        <div class="content">
-                            <div class="description"><b>Create new interest</b></div>
-                        </div>
-                    </a>
-
-                </div>
-
-                <h4 class="ui header">Likes</h4>
-                <div class="ui list">
-                    <div class="item" ng-repeat="like in user.likes track by $index">
-                        <div class="content">
-                            <div class="description">{{ like.name }}</div>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-            <div class="ui attached segment">
-                <h4 class="ui header">Social Accounts</h4>
-
-                <div class="ui facebook fluid button">
-                  <i class="facebook icon"></i>
-                  Connect Facebook
-              </div>
-              <br>
-
-              <div class="ui twitter fluid button">
-                  <i class="twitter icon"></i>
-                  Connect Twitter
-              </div>
-              <br>
-              <div class="ui linkedin fluid button">
-                  <i class="linkedin icon"></i>
-                  Connect LinkedIn
-              </div>
-
-
-
-          </div>
-
-          <div class="ui attached segment">
-              <h4 class="ui header">Manage Account</h4>
-
-              <div class="ui deleteitem red fluid button">
-                  <i class="remove circle icon"></i>
-                  Delete Account
-              </div>
-
-          </div>
       </div>
+      <div class="ui list">
+        <div class="item" ng-repeat="goal in user.goals track by $index">
+          <a class="deleteitem icon" href="#"><i class="remove circle icon red"></i></a>
+          <div class="content">
+            <div class="description">{{goal.subject}} <a href="#"><i class="edit blue icon"></i></a></div>
+          </div>
+        </div>
+
+
+        <a href="#" class="item blue">
+          <i class="plus circle icon green"></i>
+          <div class="content">
+            <div class="description"><b>Create new goal</b></div>
+          </div>
+        </a>
+
+      </div>
+      <h4 class="ui header">Offers</h4>
+      <div class="ui list">
+        <div class="item" ng-repeat="offer in user.offers track by $index">
+          <a class="deleteitem icon" href="#"><i class="remove circle icon red"></i></a>
+          <div class="content">
+            <div class="description">{{ offer.subject }} <a href="#"><i class="edit blue icon"></i></a></div>
+          </div>
+        </div>
+        <a href="#" class="item blue">
+          <i class="plus circle icon green"></i>
+          <div class="content">
+            <div class="description"><b>Create new offer</b></div>
+          </div>
+        </a>
+
+
+      </div>
+      <h4 class="ui header">About</h4>
+      <div class="ui list">
+        <div class="item">
+          <i class="empty icon"></i>
+          <div class="content">
+            <div class="description">
+              {{user.about}}<br>
+              <a href="#">Edit <i class="edit blue icon"></i></a></div>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="ui header">Activities &amp; Interests</h4>
+        <div class="ui list">
+          <div class="item" ng-repeat="interest in user.interests track by $index">
+            <a class="deleteitem icon" href="#"><i class="remove circle icon red"></i></a>
+            <div class="content">
+              <div class="description">{{ interest.description }} <a href="#"><i class="edit blue icon"></i></a></div>
+            </div>
+          </div>
+          <a href="#" class="item blue">
+            <i class="plus circle icon green"></i>
+            <div class="content">
+              <div class="description"><b>Create new interest</b></div>
+            </div>
+          </a>
+
+        </div>
+
+        <h4 class="ui header">Likes</h4>
+        <div class="ui list">
+          <div class="item" ng-repeat="like in user.likes track by $index">
+            <div class="content">
+              <div class="description">{{ like.name }}</div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+
+      <div class="ui attached segment">
+        <h4 class="ui header">Social Accounts</h4>
+
+        <div class="ui facebook fluid button">
+          <i class="facebook icon"></i>
+          Connect Facebook
+        </div>
+        <br>
+
+        <div class="ui twitter fluid button">
+          <i class="twitter icon"></i>
+          Connect Twitter
+        </div>
+        <br>
+        <div class="ui linkedin fluid button">
+          <i class="linkedin icon"></i>
+          Connect LinkedIn
+        </div>
+
+
+
+      </div>
+
+      <div class="ui attached segment">
+        <h4 class="ui header">Manage Account</h4>
+
+        <div class="ui deleteitem red fluid button">
+          <i class="remove circle icon"></i>
+          Delete Account
+        </div>
+
+      </div>
+    </div>
   </div>
 
 
-  <div class="ui basic delete modal">
-      <i class="close icon"></i>
-      <div class="header">
-          Please Confirm
-      </div>
-      <div class="content">
+  <!-- modals -->
 
-          <div class="description">
-              <p>Are you sure you want to delete?</p>
-          </div>
+  <div class="ui basic delete modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Please Confirm
+    </div>
+    <div class="content">
+
+      <div class="description">
+        <p>Are you sure you want to delete?</p>
       </div>
-      <div class="actions">
-        <div class="two fluid ui inverted buttons">
-          <div class="ui red basic inverted button">
-            <i class="remove icon"></i>
-            No
+    </div>
+    <div class="actions">
+      <div class="two fluid ui inverted buttons">
+        <div class="ui red basic inverted button">
+          <i class="remove icon"></i>
+          No
         </div>
         <div class="ui green basic inverted button">
-            <i class="checkmark icon"></i>
-            Yes
+          <i class="checkmark icon"></i>
+          Yes
         </div>
+      </div>
     </div>
-</div>
-</div>
+  </div>
+
+  <div class="ui basic modal" id="deletePhotoModal">
+    <i class="close icon"></i>
+    <div class="header">
+      Please Confirm
+    </div>
+    <div class="content" ng-cloak>
+      <img ng-src="{{userPhotoDelete.photo}}" class="ui image small" alt="">
+      <div class="description">
+        <p>Are you sure you want to delete your photo?</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="two fluid ui inverted buttons">
+        <div class="ui red basic inverted button">
+          <i class="remove icon"></i>
+          No
+        </div>
+        <div ng-click="deletePhoto()" class="ui green basic inverted button">
+          <i class="checkmark icon"></i>
+          Yes
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="body segment edit" id="my-profile-photos" ng-if="showModal" ng-cloak>
+    <div class="container">
+      <div class="ui attached segment">
+        <div class="ui fluid primary button" ng-click="closeModal()">
+          Back to Edit Profile
+        </div>
+      </div>
 
 
-<script>
+      <div class="ui attached segment" ng-class="{loading: albumsLoading}">
+        <div class="ui dividing header" ng-show="currentAlbum == ''">Choose Facebook Album</div> <div class="ui dividing header" ng-show="currentAlbum != ''">Choose Photo</div>
+
+        <div class="ui selection list" ng-hide="hideAlbums">
+          <div class="item" ng-click="getFBPhotos(fbAlbum.id, fbAlbum.name)" ng-repeat="fbAlbum in facebookAlbums track by $index">
+            <img class="ui tiny image" ng-src="{{fbAlbum.picture.data.url}}">
+            <div class="content">
+              <div class="header">{{fbAlbum.name}}</div>
+            </div>
+
+          </div>
+        </div>
+        <div ng-show="hideAlbums" class="ui segment" ng-class="{loading: photosLoading}">
+          <div class="fluid ui button" ng-click="backToAlbums()">Back to Albums</div>
+          <h3 class="ui header">{{currentAlbum}}</h3>
+          <div class="ui selection list">
+            <div ng-click="createPhoto($index)" class="item button ok" ng-repeat="fbPhoto in facebookPhotos track by $index">
+              <img class="ui small image" ng-src="{{fbPhoto.source}}">
+              <div class="content">
+                <div class="header"></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="ui attached segment">
+        <div class="ui fluid primary button" ng-click="closeModal()">
+          Back to Edit Profile
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
     $('.basic.delete.modal')
     .modal('attach events', '.deleteitem', 'show')
     ;
-</script>
+  </script>

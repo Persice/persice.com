@@ -169,4 +169,21 @@ angular.module('beKindred', [
         }
         return null;
     };
+})
+.directive('modal', function () {
+    return {
+        restrict: "E",
+        replace: true,
+        transclude: true,
+        scope: {
+            model: '=ngModel'
+        },
+        template: "<div class=\"ui dimmer modals page transition\" style=\"position: absolute;\" ng-class=\"{ 'active visible': model }\">" +
+                    "<div class=\"ui long test modal transition scrolling\" style=\"top: 150px;\" ng-class=\"{ 'active visible': model }\" ng-transclude>" +
+                    "</div>" +
+                  "</div>",
+        link: function (scope, element, attrs) {
+
+        }
+    };
 });
