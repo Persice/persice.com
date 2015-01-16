@@ -532,6 +532,23 @@ def example(request, graph):
 
 @login_required()
 def main_page(request, template_name="homepage.html"):
+
+    twitter_provider, linkedin_provider = None, None
+    try:
+        twitter_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='twitter')[0].extra_data
+    except IndexError:
+        pass
+    try:
+        linkedin_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='linkedin')[0].extra_data
+    except IndexError:
+        pass
+
+    # linkedin = FacebookCustomUserActive.objects.get(pk=request.user.id).social_data
+    context = RequestContext(request, {
+        'twitter_provider': twitter_provider,
+        'linkedin_provider': linkedin_provider,
+    })
+
     if request.user.is_authenticated():
         fb_user = FacebookCustomUserActive.objects.get(pk=request.user.id)
         try:
@@ -545,7 +562,9 @@ def main_page(request, template_name="homepage.html"):
             facebook = OpenFacebook(fb_user.access_token)
             fb_user.about_me = facebook.get('me').get('bio', None)
             fb_user.save()
-    return render(request, template_name)
+    return render_to_response(template_name, context)
+
+    # return render(request, template_name)
 
 
 def search_form(request):

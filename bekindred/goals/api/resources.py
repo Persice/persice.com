@@ -45,6 +45,7 @@ class GoalResource(ModelResource):
     class Meta:
         queryset = Goal.objects.all()
         fields = ['user', 'goal']
+        always_return_data = True
         resource_name = 'goal'
         authentication = SessionAuthentication()
         authorization = Authorization()
@@ -65,6 +66,7 @@ class OfferResource(ModelResource):
         queryset = Offer.objects.all()
         fields = ['user', 'offer']
         resource_name = 'offer'
+        always_return_data = True
         authentication = SessionAuthentication()
         authorization = Authorization()
 

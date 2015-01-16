@@ -1,4 +1,5 @@
 from tastypie import fields
+from tastypie.constants import ALL
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
@@ -12,9 +13,14 @@ class InterestResource(ModelResource):
     class Meta:
         queryset = Interest.objects.all()
         resource_name = 'interest'
-        fields = ['description']
+        always_return_data = True
+        fields = ['description', 'id']
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+        filtering = {
+            'description': ALL
+        }
 
     def get_object_list(self, request):
         return super(InterestResource, self).get_object_list(request).filter(user=request.user.id)

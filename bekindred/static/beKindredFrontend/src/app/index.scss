@@ -2292,7 +2292,7 @@ section.new_message {
 body {
   background-color: #eee;
   color: #222;
-  font: 0.8125em/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font: 0.9em 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 img {
   display: block;
@@ -3148,7 +3148,7 @@ div.friend-actions a:hover {
 }
 
 #my-profile-header-edit {
-  height: 350px!important;
+  height: 420px!important;
   position: relative;
   z-index: 2;
   margin: 0em;
@@ -3365,7 +3365,7 @@ ng\:form {
 
 //photos_modal
 
-#my-profile-photos {
+#my-profile-photos, #my-profile-edit-items {
   background-color: #f7f7f7!important;
   min-height: 400px!important;
   border-bottom: none!important;
