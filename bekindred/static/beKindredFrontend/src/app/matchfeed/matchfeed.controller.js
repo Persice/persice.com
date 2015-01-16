@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('MatchFeedCtrl', function ($rootScope, $scope, $timeout, USER_ID, MatchFeedFactory, FriendsFactory, $log) {
+.controller('MatchFeedCtrl', function ($rootScope, $scope, $timeout, USER_ID, MatchFeedFactory, PhotosFactory, FriendsFactory, $log) {
 
     $scope.matchedUser = [];
     $scope.total = 0;
@@ -16,12 +16,6 @@ angular.module('beKindred')
 
     // $scope.photosSlider = $scope.matchedUser.photos;
     $scope.photosSlider =  [
-    {photo: 'static/img/profile/photo0.jpg', order: 0},
-    {photo: 'static/img/profile/photo1.jpg', order: 1},
-    {photo: 'static/img/profile/photo2.jpg', order: 2},
-    {photo: 'static/img/profile/photo3.jpg', order: 3},
-    {photo: 'static/img/profile/photo4.jpg', order: 4},
-    {photo: 'static/img/profile/photo5.jpg', order: 5}
     ];
 
     $scope.loadingFeed = false;
@@ -46,98 +40,127 @@ angular.module('beKindred')
                 $scope.previous = data.meta.previous;
                 $scope.next = data.meta.next;
 
+
+                //get default photo
+                $scope.defaultUserPhoto = 'http://graph.facebook.com/' + $scope.matchedUser.facebook_id + '/picture?type=large';
+                //save default photo if no photos
+                if ($scope.matchedUser.photos.length > 0) {
+                    $scope.photosSlider = $scope.matchedUser.photos;
+                }
+                else {
+                    var newPhoto = {
+                        photo:  $scope.defaultUserPhoto,
+                        order: 0,
+                        user: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/'
+                    };
+
+
+                    PhotosFactory.save({}, newPhoto,
+                        function(success){
+                            $log.info(success);
+                            $log.info('New photo saved.');
+                            $scope.matchedUser.photos.push($scope.defaultUserPhoto);
+                            $scope.photosSlider = $scope.matchedUser.photos;
+
+                        },
+                        function(error) {
+                            $log.info(error);
+                        });
+
+                }
+
             }
             $scope.showDimmer = false;
             $rootScope.hideTopMenu = false;
         });
-        pok = 1;
+pok = 1;
 
-    }
-    else {
-        $scope.showDimmer = false;
-        $rootScope.hideTopMenu = false;
-    }
-
-
-    $rootScope.showfullprofile = false;
+}
+else {
+    $scope.showDimmer = false;
+    $rootScope.hideTopMenu = false;
+}
 
 
-    $rootScope.$on('cancelMatchEvent', function() {
-        $scope.cancelMatch();
+$rootScope.showfullprofile = false;
+
+
+$rootScope.$on('cancelMatchEvent', function() {
+    $scope.cancelMatch();
+});
+
+$rootScope.$on('confirmMatchEvent', function() {
+    $scope.confirmMatch();
+});
+
+$scope.getNextMatch = function() {
+
+    $scope.loadingFeed = true;
+    var newOffset = $scope.offset;
+    newOffset++;
+
+    if (newOffset === $scope.total) newOffset = 0;
+
+
+    MatchFeedFactory.query({format: 'json', offset: newOffset, limit: 1}).$promise.then(function(data) {
+
+        if (data.meta.total_count > 0) {
+            $scope.matchedUser = data.objects[0];
+            console.log($scope.matchedUser);
+            $scope.offset = data.meta.offset;
+            $scope.total = data.meta.total_count;
+            $scope.previous = data.meta.previous;
+            $scope.next = data.meta.next;
+        }
+        else {
+            $scope.matchedUser = [];
+            $scope.total = data.meta.total_count;
+            $scope.offset = 0;
+            $scope.previous = null;
+            $scope.next = null;
+        };
+
+
+        $scope.loadingFeed = false;
     });
 
-    $rootScope.$on('confirmMatchEvent', function() {
-        $scope.confirmMatch();
-    });
-
-    $scope.getNextMatch = function() {
-
-        $scope.loadingFeed = true;
-        var newOffset = $scope.offset;
-        newOffset++;
-
-        if (newOffset === $scope.total) newOffset = 0;
+};
 
 
-        MatchFeedFactory.query({format: 'json', offset: newOffset, limit: 1}).$promise.then(function(data) {
-
-            if (data.meta.total_count > 0) {
-                $scope.matchedUser = data.objects[0];
-                console.log($scope.matchedUser);
-                $scope.offset = data.meta.offset;
-                $scope.total = data.meta.total_count;
-                $scope.previous = data.meta.previous;
-                $scope.next = data.meta.next;
-            }
-            else {
-                $scope.matchedUser = [];
-                $scope.total = data.meta.total_count;
-                $scope.offset = 0;
-                $scope.previous = null;
-                $scope.next = null;
-            };
+$scope.cancelMatch = function () {
+    $log.info('cancel match');
 
 
-            $scope.loadingFeed = false;
-        });
+    FriendsFactory.query({format: 'json'}).$promise.then(function(data) {
 
-    };
-
-
-    $scope.cancelMatch = function () {
-        $log.info('cancel match');
-
-
-        FriendsFactory.query({format: 'json'}).$promise.then(function(data) {
-
-            var existingFriend = false;
-            if (data.meta.total_count > 0) {
-                var allfriends = data.objects;
-                var myfriend = '/api/v1/auth/user/' + $scope.matchedUser.id + '/';
-                for(var obj in allfriends) {
-                    if (allfriends[obj].friend1 === myfriend) {
-                        $scope.friend1 = allfriends[obj].friend1;
-                        $scope.friendshipStatus = allfriends[obj].status;
-                        $scope.friend2 = '/api/v1/auth/user/' + USER_ID + '/';
-                        $scope.friendshipId = allfriends[obj].id;
-                        existingFriend = true;
-                    }
-                    if (allfriends[obj].friend2 === myfriend) {
-                        $scope.friend2 = allfriends[obj].friend2;
-                        $scope.friendshipStatus = allfriends[obj].status;
-                        $scope.friend1 = '/api/v1/auth/user/' + USER_ID + '/';
-                        $scope.friendshipId = allfriends[obj].id;
-                        existingFriend = true;
-                    }
+        var existingFriend = false;
+        if (data.meta.total_count > 0) {
+            var allfriends = data.objects;
+            var myfriend = '/api/v1/auth/user/' + $scope.matchedUser.id + '/';
+            for(var obj in allfriends) {
+                if (allfriends[obj].friend1 === myfriend) {
+                    $scope.friend1 = allfriends[obj].friend1;
+                    $scope.friendshipStatus = allfriends[obj].status;
+                    $scope.friend2 = '/api/v1/auth/user/' + USER_ID + '/';
+                    $scope.friendshipId = allfriends[obj].id;
+                    existingFriend = true;
                 }
+                if (allfriends[obj].friend2 === myfriend) {
+                    $scope.friend2 = allfriends[obj].friend2;
+                    $scope.friendshipStatus = allfriends[obj].status;
+                    $scope.friend1 = '/api/v1/auth/user/' + USER_ID + '/';
+                    $scope.friendshipId = allfriends[obj].id;
+                    existingFriend = true;
+                }
+            }
 
-                if ( existingFriend) {
-                    $log.info('not existing friend');
-                    var changeExistingFriend = {
-                        friend1: $scope.friend1,
-                        friend2: $scope.friend2,
-                        status: -1
-                    }
+            if ( existingFriend) {
+                $log.info('not existing friend');
+                var changeExistingFriend = {
+                    friend1: $scope.friend1,
+                    friend2: $scope.friend2,
+                    status: -1
+                }
 
                     //confirm friendship with status 1
                     FriendsFactory.update({friendId:  $scope.friendshipId}, changeExistingFriend,
@@ -288,7 +311,7 @@ $scope.confirmMatch = function () {
 
         }
         else {
-                $log.info('not existing friend');
+            $log.info('not existing friend');
                 //create new friendship with status 0
                 var newFriend = {
                     friend1: '/api/v1/auth/user/' + USER_ID + '/',

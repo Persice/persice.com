@@ -86,10 +86,6 @@ angular.module('beKindred', [
                 return $stateParams.userId;
             }],
             UsersFactory: 'UsersFactory',
-            LikesFactory: 'LikesFactory',
-            GoalsFactory: 'GoalsFactory',
-            OffersFactory: 'OffersFactory',
-            InterestsFactory: 'InterestsFactory',
             User: function(UsersFactory, $stateParams){
                 var usrId = $stateParams.userId;
                 return UsersFactory.get({userId: usrId, format: 'json'}).$promise;

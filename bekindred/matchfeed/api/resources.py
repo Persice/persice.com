@@ -18,6 +18,8 @@ class MatchedFeedResource(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
+    facebook_id = fields.CharField(attribute='facebook_id')
+    user_id = fields.CharField(attribute='user_id')
     # age = fields.IntegerField(attribute='age')
     # distance = fields.FloatField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
@@ -54,6 +56,8 @@ class MatchedFeedResource(Resource):
             new_obj.id = x['id']
             new_obj.first_name = user.first_name
             new_obj.last_name = user.last_name
+            new_obj.facebook_id = user.facebook_id
+            new_obj.user_id = user.id
             new_obj.about = user.about_me
             new_obj.photos = photos
             new_obj.goals = x['goals']

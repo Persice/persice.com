@@ -70,7 +70,7 @@ angular.module('beKindred')
 
         });
 
-        LikesFactory.query({format: 'json'}).$promise.then(function(data) {
+        LikesFactory.query({user_id: USER_ID, format: 'json'}).$promise.then(function(data) {
             if (data.meta.total_count > 0) {
                 $scope.user.likes = data.objects;
             }
