@@ -79,6 +79,25 @@ angular.module('beKindred', [
         templateUrl: '/static/beKindredFrontend/src/app/myconnections/myconnections.html',
         controller: 'MyConnectionsCtrl'
     })
+    .state('friendprofile', {
+        url: '/friend-profile/:userId',
+        resolve: {
+            userId: ['$stateParams', function($stateParams){
+                return $stateParams.userId;
+            }],
+            UsersFactory: 'UsersFactory',
+            LikesFactory: 'LikesFactory',
+            GoalsFactory: 'GoalsFactory',
+            OffersFactory: 'OffersFactory',
+            InterestsFactory: 'InterestsFactory',
+            User: function(UsersFactory, $stateParams){
+                var usrId = $stateParams.userId;
+                return UsersFactory.get({userId: usrId, format: 'json'}).$promise;
+            }
+        },
+        templateUrl: '/static/beKindredFrontend/src/app/friendprofile/friendprofile.html',
+        controller: 'FriendProfileCtrl'
+    })
     .state('myprofile', {
         url: '/my-profile',
         templateUrl: '/static/beKindredFrontend/src/app/myprofile/myprofile.html',
@@ -93,10 +112,6 @@ angular.module('beKindred', [
         url: '/inbox',
         templateUrl: '/static/beKindredFrontend/src/app/inbox/inbox.html',
         controller: 'InboxCtrl'
-    })
-    .state('404', {
-        url: '/page-not-found',
-        templateUrl: '404.html',
     });
 
 
@@ -178,9 +193,9 @@ angular.module('beKindred', [
             model: '=ngModel'
         },
         template: "<div class=\"ui dimmer modals page transition\" style=\"position: absolute;\" ng-class=\"{ 'active visible': model }\">" +
-                    "<div class=\"ui long test modal transition scrolling\" style=\"top: 150px;\" ng-class=\"{ 'active visible': model }\" ng-transclude>" +
-                    "</div>" +
-                  "</div>",
+        "<div class=\"ui long test modal transition scrolling\" style=\"top: 150px;\" ng-class=\"{ 'active visible': model }\" ng-transclude>" +
+        "</div>" +
+        "</div>",
         link: function (scope, element, attrs) {
 
         }

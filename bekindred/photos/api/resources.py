@@ -11,7 +11,7 @@ class UserResource(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
-        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me', 'facebook_id', 'date_of_birth']
+        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me', 'facebook_id', 'id', 'date_of_birth']
         authentication = SessionAuthentication()
         authorization = Authorization()
 
@@ -31,4 +31,5 @@ class FacebookPhotoResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(FacebookPhotoResource, self).get_object_list(request).filter(user_id=request.user.id)
+        user = request.GET.get('user_id', request.user.id)
+        return super(FacebookPhotoResource, self).get_object_list(request).filter(user_id=user)

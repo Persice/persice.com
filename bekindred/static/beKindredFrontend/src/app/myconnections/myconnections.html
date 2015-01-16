@@ -13,7 +13,7 @@
 <div class="body segment" id="friends-list-body" style="height: 100vh;">
     <div class="container">
         <div class="ui divided list">
-            <div class="item" ng-repeat="friend in friends track by $index">
+            <div class="item" ng-repeat="friend in friends | filter:q track by $index">
                 <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(http://graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
                 <div class="friend-actions">
                     <a href="" ng-click="unFriend($index)" class="ui circular facebook icon button">
@@ -24,7 +24,7 @@
                     </a>
                 </div>
                 <div class="content">
-                    <div class="header"><a href="#">{{friend.first_name}} {{friend.last_name}}</a></div>
+                    <div class="header"><a ui-sref="friendprofile({ userId: friend.friend_id })">{{friend.first_name}} {{friend.last_name}}</a></div>
                     <div class="description">
                         <div class="ui mini statistics">
                             <div class="statistic">

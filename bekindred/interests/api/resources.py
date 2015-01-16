@@ -23,4 +23,5 @@ class InterestResource(ModelResource):
         }
 
     def get_object_list(self, request):
-        return super(InterestResource, self).get_object_list(request).filter(user=request.user.id)
+        user = request.GET.get('user_id', request.user.id)
+        return super(InterestResource, self).get_object_list(request).filter(user_id=user)

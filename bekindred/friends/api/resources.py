@@ -34,6 +34,7 @@ class ConnectionsResource(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
+    friend_id = fields.CharField(attribute='friend_id')
 
     class Meta:
         resource_name = 'connections'
@@ -63,6 +64,7 @@ class ConnectionsResource(Resource):
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.friend_id = getattr(friend, position_friend).id
 
             results.append(new_obj)
         return results

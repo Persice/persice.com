@@ -51,7 +51,8 @@ class GoalResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(GoalResource, self).get_object_list(request).filter(user_id=request.user.id)
+        user = request.GET.get('user_id', request.user.id)
+        return super(GoalResource, self).get_object_list(request).filter(user_id=user)
 
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj
@@ -71,7 +72,8 @@ class OfferResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(OfferResource, self).get_object_list(request).filter(user=request.user.id)
+        user = request.GET.get('user_id', request.user.id)
+        return super(OfferResource, self).get_object_list(request).filter(user_id=user)
 
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj
@@ -89,4 +91,5 @@ class FacebookLikeResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(FacebookLikeResource, self).get_object_list(request).filter(user_id=request.user.id)
+        user = request.GET.get('user_id', request.user.id)
+        return super(FacebookLikeResource, self).get_object_list(request).filter(user_id=user)
