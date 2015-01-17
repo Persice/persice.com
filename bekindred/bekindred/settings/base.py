@@ -56,8 +56,8 @@ INSTALLED_APPS += ('south',
                    'world',
                    'interests',
                    'photos',
-                   'tastypie',
                    'matchfeed',
+                   'tastypie',
 )
 
 MIDDLEWARE_CLASSES = (
