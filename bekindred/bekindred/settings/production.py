@@ -55,7 +55,7 @@ TWITTER_EXTRA_FIELD_SELECTORS = ['screen_name']
 TWITTER_EXTRA_DATA = ['screen_name']
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/#/my-profile/edit'
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 

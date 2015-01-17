@@ -77,7 +77,7 @@ TWITTER_EXTRA_DATA = ['screen_name']
 
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/#/my-profile/edit'
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['username', 'email',]
 
 SOCIAL_AUTH_PIPELINE = (
