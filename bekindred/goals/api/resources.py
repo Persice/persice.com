@@ -6,6 +6,8 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.http import HttpGone, HttpMultipleChoices
 from tastypie.resources import ModelResource
+from tastypie.validation import Validation, FormValidation
+from goals.forms import GoalForm
 from goals.models import Subject, MatchFilterState, Goal, Offer
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -38,6 +40,23 @@ class MatchFilterStateResource(ModelResource):
         return super(MatchFilterStateResource, self).get_object_list(request).filter(user_id=request.user.id)
 
 
+class GoalValidation(Validation):
+    def is_valid(self, bundle, request=None):
+        if not bundle.data:
+            return {'__all__': 'Not quite what I had in mind.'}
+
+        errors = {}
+
+        for key, value in bundle.data.items():
+            if not isinstance(value, basestring):
+                continue
+
+            if not 'awesome' in value:
+                errors[key] = ['NOT ENOUGH AWESOME. NEEDS MORE.']
+
+        return errors
+
+
 class GoalResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
     goal = fields.ForeignKey(SubjectResource, 'goal')
@@ -49,6 +68,7 @@ class GoalResource(ModelResource):
         resource_name = 'goal'
         authentication = SessionAuthentication()
         authorization = Authorization()
+        validation = Validation()
 
     def get_object_list(self, request):
         user = request.GET.get('user_id', request.user.id)

@@ -88,7 +88,7 @@ class GoalManager2(models.Manager):
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]
-        result = Goal.objects.filter(goal__in=subject_ids)
+        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal__in=subject_ids)
         return result
 
     @staticmethod
@@ -109,7 +109,7 @@ class GoalManager2(models.Manager):
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]
-        result = Goal.objects.filter(goal__in=subject_ids)
+        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal__in=subject_ids)
         return result
 
 
@@ -166,7 +166,7 @@ class OfferManager2(models.Manager):
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_offers]
-        result = Offer.objects.filter(offer__in=subject_ids)
+        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer__in=subject_ids)
         return result
 
     @staticmethod
@@ -187,7 +187,7 @@ class OfferManager2(models.Manager):
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_offers]
-        result = Offer.objects.filter(offer__in=subject_ids)
+        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer__in=subject_ids)
         return result
 
 

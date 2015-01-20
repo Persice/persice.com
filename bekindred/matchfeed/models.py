@@ -19,36 +19,41 @@ class MatchFeedManager(models.Manager):
         match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
         match_goals = match_goals_to_goals | match_offers_to_goals
-        user_goals = Goal.objects.filter(user_id__in=match_goals.values_list('user_id', flat=True))
 
         goals = {}
-        for _user_id, group in groupby(user_goals, lambda x: x.user_id):
-            goals[_user_id] = []
-            d = {}
+        for _user_id, group in groupby(match_goals, lambda x: x.user_id):
+            goals[_user_id] = list()
+            d = dict()
+            exclude_goals = []
             for thing in group:
-                for m in match_goals:
-                    if thing == m:
-                        d[unicode(thing)] = 1
-                    else:
-                        d[unicode(thing)] = 0
+                d[unicode(thing)] = 1
+                exclude_goals.append(thing.goal_id)
+            other_goals = Goal.objects.exclude(goal_id__in=exclude_goals).filter(user_id=_user_id)
+
+            for other in other_goals:
+                d[unicode(other)] = 0
+
             goals[_user_id].append(d)
+
+
 
         match_offers_to_offers = Offer.objects_search.match_offers_to_offers(user_id, friends)
         match_goals_to_offers = Offer.objects_search.match_goals_to_offers(user_id, friends)
         match_offers = match_offers_to_offers | match_goals_to_offers
 
-        user_offers = Offer.objects.filter(user_id__in=match_offers.values_list('user_id', flat=True))
-
         offers = {}
-        for _user_id, group in groupby(user_offers, lambda x: x.user_id):
-            offers[_user_id] = []
-            d = {}
+        for _user_id, group in groupby(match_offers, lambda x: x.user_id):
+            offers[_user_id] = list()
+            d = dict()
+            exclude_offers = []
             for thing in group:
-                for m in match_offers:
-                    if thing == m:
-                        d[unicode(thing)] = 1
-                    else:
-                        d[unicode(thing)] = 0
+                d[unicode(thing)] = 1
+                exclude_offers.append(thing.offer_id)
+            other_offers = Offer.objects.exclude(offer_id__in=exclude_offers).filter(user_id=_user_id)
+
+            for other in other_offers:
+                d[unicode(other)] = 0
+
             offers[_user_id].append(d)
 
         match_likes_to_likes = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(user_id, friends)
