@@ -22,6 +22,12 @@ angular.module('beKindred')
 
     var pok = 0;
 
+
+    $scope.toggleSidebarFilters = function() {
+        $log.info('Toggle sidebar');
+        $('#filtersMenu').sidebar('toggle');
+    };
+
     if (pok === 0) {
         $scope.showDimmer = true;
         $rootScope.hideTopMenu = true;
