@@ -1,4 +1,5 @@
 from django.db import models
+from django_facebook.models import FacebookLike
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Goal, Offer
 from interests.models import Interest
@@ -18,44 +19,74 @@ class MatchFeedManager(models.Manager):
         match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
         match_goals = match_goals_to_goals | match_offers_to_goals
+        user_goals = Goal.objects.filter(user_id__in=match_goals.values_list('user_id', flat=True))
 
         goals = {}
-        for _user_id, group in groupby(match_goals, lambda x: x.user_id):
+        for _user_id, group in groupby(user_goals, lambda x: x.user_id):
             goals[_user_id] = []
+            d = {}
             for thing in group:
-                goals[_user_id].append(unicode(thing))
+                for m in match_goals:
+                    if thing == m:
+                        d[unicode(thing)] = 1
+                    else:
+                        d[unicode(thing)] = 0
+            goals[_user_id].append(d)
 
         match_offers_to_offers = Offer.objects_search.match_offers_to_offers(user_id, friends)
         match_goals_to_offers = Offer.objects_search.match_goals_to_offers(user_id, friends)
         match_offers = match_offers_to_offers | match_goals_to_offers
 
+        user_offers = Offer.objects.filter(user_id__in=match_offers.values_list('user_id', flat=True))
+
         offers = {}
-        for _user_id, group in groupby(match_offers, lambda x: x.user_id):
+        for _user_id, group in groupby(user_offers, lambda x: x.user_id):
             offers[_user_id] = []
+            d = {}
             for thing in group:
-                offers[_user_id].append(unicode(thing))
+                for m in match_offers:
+                    if thing == m:
+                        d[unicode(thing)] = 1
+                    else:
+                        d[unicode(thing)] = 0
+            offers[_user_id].append(d)
 
         match_likes_to_likes = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(user_id, friends)
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
         match_likes = match_likes_to_likes + match_interests_to_likes
 
+        user_likes = FacebookLike.objects.filter(user_id__in=[x.user_id for x in match_likes])
+
         # Match Likes
         likes = {}
-        for _user_id, group in groupby(match_likes, lambda x: x.user_id):
+        for _user_id, group in groupby(user_likes, lambda x: x.user_id):
             likes[_user_id] = []
+            d = {}
             for thing in group:
-                likes[_user_id].append(thing.name)
+                for m in match_likes:
+                    if thing == m:
+                        d[thing.name] = 1
+                    else:
+                        d[thing.name] = 0
+            likes[_user_id].append(d)
 
         match_interests_to_interests = Interest.search_subject.match_interests_to_interests(user_id, friends)
         match_likes_to_interests = Interest.search_subject.match_fb_likes_to_interests(user_id, friends)
         match_interests = match_interests_to_interests + match_likes_to_interests
+        user_interests = Interest.objects.filter(user_id__in=[x.user_id for x in match_interests])
 
         # Match Interests
         interests = {}
-        for _user_id, group in groupby(match_interests, lambda x: x.user_id):
+        for _user_id, group in groupby(user_interests, lambda x: x.user_id):
             interests[_user_id] = []
+            d = {}
             for thing in group:
-                interests[_user_id].append(thing.description)
+                for m in match_interests:
+                    if thing == m:
+                        d[thing.description] = 1
+                    else:
+                        d[thing.description] = 0
+            interests[_user_id].append(d)
 
         matched_users = set(goals.keys() + offers.keys() + likes.keys() + interests.keys())
         for user in matched_users:
