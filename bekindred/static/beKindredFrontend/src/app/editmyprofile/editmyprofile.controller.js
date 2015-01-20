@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('EditMyProfileCtrl', function ($scope, USER_ID, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $window, $resource) {
+.controller('EditMyProfileCtrl', function ($scope, $timeout, USER_ID, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, $document) {
   $scope.twitter = USER_TWITTER;
   $scope.linkedin = USER_LINKEDIN_NAME;
   $scope.linkedinUrl = USER_LINKEDIN_URL;
@@ -341,7 +341,15 @@ angular.module('beKindred')
       };
 
       $scope.closeModal = function() {
+        $log.info('scroll to top');
         $scope.showModal = false;
+
+
+        $timeout(function(){
+          $location.hash('my-profile-header-edit');
+          $anchorScroll();
+        }, 600);
+
       };
 
       $scope.showModal = false;
@@ -351,6 +359,7 @@ angular.module('beKindred')
       $scope.createPhoto = function(indexFbPhoto) {
 
         $log.info('Creating photo');
+
 
         var newFbPhoto = $scope.facebookPhotos[indexFbPhoto];
 
@@ -369,7 +378,7 @@ angular.module('beKindred')
             $scope.user.photos[index].photo =  success.photo;
             $scope.user.photos[index].id =  success.id;
             $scope.closeModal();
-            $window.scrollTo(0,0);
+
 
           },
           function(error) {

@@ -14,7 +14,8 @@ angular.module('beKindred', [
     'ya.nouislider',
     'ngDraggable',
     'angucomplete-alt',
-    'angular-carousel'
+    'angular-carousel',
+    'duScroll'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
@@ -115,6 +116,8 @@ angular.module('beKindred', [
     $urlRouterProvider.otherwise('/');
 
 })
+.value('duScrollDuration', 1000)
+.value('duScrollOffset', 0)
 .run(function ($rootScope, $state, $stateParams, $timeout) {
 
     $rootScope.$state = $state;
