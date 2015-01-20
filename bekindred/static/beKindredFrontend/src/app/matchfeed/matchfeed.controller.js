@@ -40,6 +40,41 @@ angular.module('beKindred')
                 $scope.previous = data.meta.previous;
                 $scope.next = data.meta.next;
 
+                var goals = [];
+                var matchedgoals = $scope.matchedUser.goals[0];
+                for (var key in matchedgoals) {
+                    var goal = {value: key, match: matchedgoals[key]};
+                    goals.push(goal);
+                }
+                $scope.matchedUser.goals = goals;
+
+                var offers = [];
+                var matchedoffers = $scope.matchedUser.offers[0];
+                for (var key in matchedoffers) {
+                    var offer = {value: key, match: matchedoffers[key]};
+                    offers.push(offer);
+                }
+                $scope.matchedUser.offers = offers;
+
+                var interests = [];
+                var matchedinterests = $scope.matchedUser.interests[0];
+                for (var key in matchedinterests) {
+                    var interest = {value: key, match: matchedinterests[key]};
+                    interests.push(interest);
+                }
+                $scope.matchedUser.interests = interests;
+
+                var likes = [];
+                var matchedlikes = $scope.matchedUser.likes[0];
+                for (var key in matchedlikes) {
+                    var like = {value: key, match: matchedlikes[key]};
+                    likes.push(like);
+                }
+                $scope.matchedUser.likes = likes;
+
+
+
+
 
                 //get default photo
                 $scope.defaultUserPhoto = 'http://graph.facebook.com/' + $scope.matchedUser.facebook_id + '/picture?type=large';

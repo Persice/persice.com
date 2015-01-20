@@ -79,20 +79,20 @@
             <div class="ui attached segment">
                 <h4 class="ui header">Goals</h4>
                 <div class="ui list">
-                    <div ng-hide="!showfullprofile && $index > 1" class="item" ng-repeat="goal in matchedUser.goals track by $index">
-                        <i class="icon check green"></i>
+                    <div ng-hide="!showfullprofile && $index > 1" class="item" ng-repeat="goal in matchedUser.goals | orderBy:['-match'] track by $index">
+                        <i class="icon" ng-class="{'check green': goal.match === 1, 'empty': goal.match === 0 }"></i>
                         <div class="content">
-                            <div class="description">{{ goal }}</div>
+                            <div class="description">{{ goal.value }}</div>
                         </div>
                     </div>
                     <p ng-if="matchedUser.goals.length == 0">No goals yet.</p>
                 </div>
                 <h4 class="ui header">Offers</h4>
                 <div class="ui list">
-                    <div ng-hide="!showfullprofile && $index > 1"  class="item" ng-repeat="offer in matchedUser.offers track by $index">
-                        <i class="icon check green"></i>
+                    <div ng-hide="!showfullprofile && $index > 1"  class="item" ng-repeat="offer in matchedUser.offers | orderBy:['-match'] track by $index">
+                        <i class="icon" ng-class="{'check green': offer.match === 1, 'empty': offer.match === 0 }"></i>
                         <div class="content">
-                            <div class="description">{{ offer }}</div>
+                            <div class="description">{{ offer.value }}</div>
                         </div>
                     </div>
                     <p ng-if="matchedUser.offers.length == 0">No offers yet.</p>
@@ -110,20 +110,20 @@
                 </div>
                 <h4 class="ui header">Likes</h4>
                 <div class="ui list">
-                    <div class="item" ng-hide="!showfullprofile && $index > 1" ng-repeat="like in matchedUser.likes track by $index">
-                        <i class="icon check green"></i>
+                    <div class="item" ng-hide="!showfullprofile && $index > 1" ng-repeat="like in matchedUser.likes | orderBy:['-match']  track by $index">
+                        <i class="icon" ng-class="{'check green': like.match === 1, 'empty': like.match === 0 }"></i>
                         <div class="content">
-                            <div class="description">{{ like }}</div>
+                            <div class="description">{{ like.value }}</div>
                         </div>
                     </div>
                     <p ng-if="matchedUser.likes.length == 0">No likes yet.</p>
                 </div>
                 <h4 class="ui header">Activities &amp; Interests</h4>
                 <div class="ui list">
-                    <div class="item" ng-hide="!showfullprofile && $index > 1" ng-repeat="interest in matchedUser.interests track by $index">
-                        <i class="icon check green"></i>
+                    <div class="item" ng-hide="!showfullprofile && $index > 1" ng-repeat="interest in matchedUser.interests | orderBy:['-match'] track by $index">
+                        <i class="icon" ng-class="{'check green': interest.match === 1, 'empty': interest.match === 0 }"></i>
                         <div class="content">
-                            <div class="description">{{ interest }}</div>
+                            <div class="description">{{ interest.value }}</div>
                         </div>
                     </div>
                     <p ng-if="matchedUser.interests.length == 0">No interests yet.</p>
