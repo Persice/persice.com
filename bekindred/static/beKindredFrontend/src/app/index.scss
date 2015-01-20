@@ -3433,3 +3433,22 @@ ul[rn-carousel] {
   -ms-touch-action: pan-y;
   touch-action: pan-y;
 }
+
+.ui.action.input.leftright > input {
+  border-right: none!important;
+  border-left: none!important;
+}
+
+.ui.action.input.leftright > .left.button {
+  border-top-right-radius: 0px!important;
+  border-bottom-right-radius: 0px!important;
+  border-top-left-radius: 0.2857rem!important;
+  border-bottom-left-radius: 0.2857rem!important;
+}
+
+.ui.action.input.leftright > .right.button {
+  border-top-left-radius: 0px!important;
+  border-bottom-left-radius: 0px!important;
+  border-top-right-radius: 0.2857rem!important;
+  border-bottom-right-radius: 0.2857rem!important;
+}
