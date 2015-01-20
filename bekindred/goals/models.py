@@ -109,7 +109,7 @@ class GoalManager2(models.Manager):
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]
-        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal__in=subject_ids)
+        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal_id__in=subject_ids)
         return result
 
 
