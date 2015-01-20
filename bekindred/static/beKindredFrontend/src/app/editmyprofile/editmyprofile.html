@@ -36,48 +36,56 @@
     </div>
     <div class="ui attached segment" ng-class="{loading: loadingGoals || loadingOffers || loadingUser || loadingLikes || loadingInterests }">
       <h4 class="ui header">Goals</h4>
-      <div class="profile-icon">
-        <div class="ui mini statistic">
-          <div class="value">
-            <i class="unordered list large icon"></i>
-          </div>
-          <div class="label">
-            {{user.goals.length}}
-          </div>
-        </div>
-      </div>
-      <div class="ui list">
+
+      <div class="ui large list">
         <div class="item" ng-repeat="goal in user.goals track by $index">
-          <a class="deleteitem icon" href="" ng-click="removeGoal($index)"><i class="remove circle icon red"></i></a>
           <div class="content">
-            <div class="description">{{goal.subject}}</div>
+            <div class="description">
+              <div class="ui fluid leftright action input">
+                <div class="ui red left icon button" ng-click="removeGoal($index)">
+                  <i class="remove icon"></i>
+                </div>
+                <input type="text" ng-model="goal.subject">
+                <div class="ui blue right right icon button" ng-click="saveCurrentGoal($index)">
+                  <i class="save icon"></i>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="item">
-          <a href="" class="icon" ng-click="createNewGoal()"> <i class="plus circle icon green"></i></a>
-          <div class="content">
-            <div class="description"><a href="" ng-click="createNewGoal()"><b>Create new goal</b></a></div>
-          </div>
-        </div>
 
+        </div>
       </div>
+      <div class="ui fluid labeled blue button" ng-click="createNewGoal()">
+        <i class="plus icon"></i>
+        Create new Goal
+      </div>
+
       <h4 class="ui header">Offers</h4>
-      <div class="ui list">
+      <div class="ui large list">
         <div class="item" ng-repeat="offer in user.offers track by $index">
-          <a class="deleteitem icon" href="" ng-click="removeOffer($index)"><i class="remove circle icon red"></i></a>
           <div class="content">
-            <div class="description">{{ offer.subject }}</div>
+            <div class="description">
+              <div class="ui fluid leftright action input">
+                <div class="ui red left icon button" ng-click="removeOffer($index)">
+                  <i class="remove icon"></i>
+                </div>
+                <input type="text" ng-model="offer.subject">
+                <div class="ui blue right right icon button" ng-click="saveCurrentOffer($index)">
+                  <i class="save icon"></i>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="item">
-          <a href="" class="icon" ng-click="createNewOffer()"><i class="plus circle icon green"></i></a>
-          <div class="content">
-            <div class="description"><a href="" ng-click="createNewOffer()"><b>Create new offer</b></a></div>
-          </div>
-        </div>
 
-
+        </div>
       </div>
+      <div class="ui fluid labeled blue button" ng-click="createNewOffer()">
+        <i class="plus icon"></i>
+        Create new Offer
+      </div>
+
+
+
       <h4 class="ui header">About</h4>
       <form class="ui form">
         <div class="field">
@@ -88,24 +96,29 @@
         <a href="" class="ui submit primary button" ng-class="{loading: loadingAbout}" ng-click="saveAbout()">Save About</a>
       </form>
 
-
-
-
       <h4 class="ui header">Activities &amp; Interests</h4>
-      <div class="ui list">
+      <div class="ui large list">
         <div class="item" ng-repeat="interest in user.interests track by $index">
-          <a class="deleteitem icon" href="" ng-click="removeInterest($index)"><i class="remove circle icon red"></i></a>
           <div class="content">
-            <div class="description">{{ interest.description }} <a class="icon" href="" ng-click="editCurrentInterest($index)"><i class="edit icon blue"></i></a></div>
+            <div class="description">
+              <div class="ui fluid leftright action input">
+                <div class="ui red left icon button" ng-click="removeInterest($index)">
+                  <i class="remove icon"></i>
+                </div>
+                <input type="text" ng-model="interest.description">
+                <div class="ui blue right right icon button" ng-click="saveCurrentInterest($index)">
+                  <i class="save icon"></i>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="item blue">
-          <a href="" class="icon" ng-click="createNewInterest()"><i class="plus circle icon green"></i></a>
-          <div class="content">
-            <div class="description"><a href="" ng-click="createNewInterest()"><b>Create new interest</b></a></div>
-          </div>
-        </div>
 
+        </div>
+      </div>
+
+      <div class="ui fluid labeled blue button" ng-click="createNewInterest()">
+        <i class="plus icon"></i>
+        Create new Interest
       </div>
 
       <h4 class="ui header">Likes</h4>
@@ -296,7 +309,7 @@
             </div>
           </div>
           <div class="row">
-            <a ng-click="createGoal()" class="ui button submit green" role="button">Save &rarr;</a>
+            <a ng-click="createGoal()" class="ui button submit green" ng-class="{loading: loadingCreatingNew}" role="button">Save &rarr;</a>
           </div>
         </div>
       </div>
@@ -336,7 +349,7 @@
             </div>
           </div>
           <div class="row">
-            <a ng-click="createOffer()" class="ui button submit green" role="button">Save &rarr;</a>
+            <a ng-click="createOffer()" class="ui button submit green" ng-class="{loading: loadingCreatingNew}" ng-click="saveAbout()" role="button">Save &rarr;</a>
           </div>
         </div>
       </div>
@@ -356,7 +369,7 @@
 
 
     <div class="ui attached segment">
-      <div class="ui dividing header"> <span ng-if="newInterest">Create</span><span ng-if="changeInterest">Edit</span> Interest</div>
+      <div class="ui dividing header">Create Interest</div>
 
       <div class="ui attached warning message" id="warningmessage" ng-show="messageShow">
         <div class="header">
@@ -368,16 +381,15 @@
       </div>
 
       <div class="ui basic segment">
-        <div class="ui form">
-          <div class="field">
-            <label></label>
-            <input ng-model="newinterest" type="text">
-          </div>
-        </div>
         <div class="ui center aligned grid">
           <div class="row">
-            <a ng-if="newInterest" ng-click="createInterest(newinterest)" class="ui button submit green" role="button">Save &rarr;</a>
-            <a ng-if="changeInterest" ng-click="saveChangedInterest(newinterest)" class="ui button submit green" role="button">Save &rarr;</a>
+            <div class="search-wrapper ui icon large left input">
+              <i class="fa fa-search fa-lg"></i>
+              <div field-required="false" angucomplete-alt text-no-results="No existing interest found. Create new interest &raquo;" minlength="3" input-changed="interestChanged" ng-model="interest" match-class="highlight" selected-object="selectInterest" description-field="description[3]" title-field="description" remote-url="/api/v1/interest/?format=json&description__contains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="Enter your interest here"></div>
+            </div>
+          </div>
+          <div class="row">
+            <a ng-click="saveInterest()" class="ui button submit green" ng-class="{loading: loadingCreatingNew}" role="button">Save &rarr;</a>
           </div>
         </div>
       </div>

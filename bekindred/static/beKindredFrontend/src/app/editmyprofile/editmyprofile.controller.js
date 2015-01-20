@@ -118,116 +118,92 @@ angular.module('beKindred')
         });
     };
 
+    $scope.loadingCreatingNew = false;
     //interests
-
-    $scope.newinterest = '';
     $scope.editInterest = false;
-    $scope.newInterest = false;
-    $scope.changeInterest = false;
-    $scope.interestIndex = null;
+    $scope.interest = '';
+    $scope.messageShow = false;
+    $scope.message = '';
 
+    $scope.interestChanged = function (str) {
+      $scope.interest = str;
+    };
+
+    $scope.selectInterest = function (object) {
+      if (object !== undefined) {
+        $scope.interest = object.originalObject.description;
+      }
+      else {
+      }
+
+    };
+
+    $scope.createNewInterest = function() {
+      $log.info('creating interest');
+      $scope.editInterest = true;
+    };
 
     $scope.closeEditInterest = function() {
-      $scope.newinterest = '';
+      $scope.interest = '';
       $scope.messageShow = false;
       $scope.message = '';
       $scope.editInterest = false;
-      $scope.newInterest = false;
-      $scope.changeInterest = false;
-      $scope.interestIndex = null;
     };
 
-    $scope.createInterest = function(interest) {
+    $scope.removeInterest = function(index) {
 
-        //if subject is empty warn user to enter subject
-        if (interest === '') {
-          $scope.message = 'Interest cannot be empty';
-          $scope.messageShow = true;
-          return false;
-        }
+      var Interest = $resource($scope.user.interests[index].resource_uri);
 
-        var newInterest = {
-          user: $scope.userUri,
-          description: interest
-        };
+      Interest.delete().$promise.then(function(data) {
+        $scope.user.interests.splice(index, 1);
+      });
+    };
 
+    $scope.saveCurrentInterest = function(index) {
 
-        //check if user already has created this interest
-        InterestsFactory.query({format: 'json', description: interest, user_id: USER_ID}).$promise.then(function(data) {
-          var userInterests = data.objects;
-          var findInterest = null;
-          findInterest = $filter('getByProperty')('description', interest, userInterests);
-          if (findInterest !== null) {
-            $scope.message = 'You have already created this interest.';
-            $scope.messageShow = true;
-          }
-          else {
-            InterestsFactory.save({}, newInterest,
-              function(success){
-                $scope.user.interests.push(success);
-                $scope.closeEditInterest();
-              },
-              function(error) {
+    };
 
-              });
-          }
-        });
+    $scope.saveInterest = function() {
+      $scope.loadingCreatingNew = false;
+    //if subject is empty warn user to enter subject
+    if ($scope.interest === '') {
+      $scope.message = 'Interest cannot be empty';
+      $scope.messageShow = true;
+      return false;
+    }
 
+    var newInterest = {
+      user: $scope.userUri,
+      description: $scope.interest
+    };
 
-
-      };
-
-      $scope.saveChangedInterest = function(interest) {
-
-        //if subject is empty warn user to enter subject
-        if (interest === '') {
-          $scope.message = 'Interest cannot be empty';
-          $scope.messageShow = true;
-          return false;
-        }
-
-        InterestsFactory.update({interestId: $scope.user.interests[$scope.interestIndex].id}, {description: interest },
-          function(success) {
-            $log.info('Interest update saved');
-            $scope.user.interests[$scope.interestIndex].description = interest;
+    //check if user already has created this interest
+    InterestsFactory.query({format: 'json', description: $scope.interest, user_id: USER_ID}).$promise.then(function(data) {
+      var userInterests = data.objects;
+      var findInterest = null;
+      findInterest = $filter('getByProperty')('description', $scope.interest, userInterests);
+      if (findInterest !== null) {
+        $scope.message = 'You have already created this interest.';
+        $scope.messageShow = true;
+      }
+      else {
+        $scope.loadingCreatingNew = true;
+        InterestsFactory.save({}, newInterest,
+          function(success){
+            $scope.loadingCreatingNew = false;
+            $scope.user.interests.push(success);
             $scope.closeEditInterest();
-          }, function(error) {
-            $log.info(error);
+
+          },
+          function(error) {
+            $scope.loadingCreatingNew = false;
+
           });
-      };
-
-      $scope.createNewInterest = function() {
-        $log.info('creating interest');
-        $scope.editInterest = true;
-        $scope.newInterest = true;
-      };
+      }
+    });
 
 
-      $scope.editCurrentInterest = function(index) {
-        $log.info('editing interest');
-
-        $scope.editInterest = true;
-        $scope.changeInterest = true;
-        $scope.interestIndex = index;
-        $scope.newinterest = $scope.user.interests[index].description;
-      };
-
-      $scope.removeInterest = function(index) {
-
-        var Interest = $resource($scope.user.interests[index].resource_uri);
-
-        Interest.delete().$promise.then(function(data) {
-          $scope.user.interests.splice(index, 1);
-        });
-      };
-
-
-
-
-
-
-
-
+  };
 
 
     //photos
@@ -467,9 +443,10 @@ angular.module('beKindred')
         goal: $scope.resourceUri,
         user: $scope.userUri
       };
-
+      $scope.loadingCreatingNew = true;
       GoalsFactory.save({}, newGoal,
         function(success){
+          $scope.loadingCreatingNew = false;
           $scope.editGoal = !$scope.editGoal;
           $scope.user.goals.push(success);
 
@@ -478,8 +455,10 @@ angular.module('beKindred')
           $scope.messageShow = false;
           $scope.message = '';
 
+
         },
         function(error) {
+          $scope.loadingCreatingNew = false;
 
         });
     };
@@ -487,6 +466,7 @@ angular.module('beKindred')
     $scope.createGoal = function() {
       $scope.messageShow = false;
       $scope.message = '';
+      $scope.loadingCreatingNew = false;
 
 
         //if subject is empty warn user to enter subject
@@ -523,7 +503,6 @@ angular.module('beKindred')
             var newSubject = {
               description: $scope.subject,
             };
-
             SubjectsFactory.save({}, newSubject,
               function(success){
                 $scope.resourceUri = success.resource_uri;
@@ -574,8 +553,11 @@ angular.module('beKindred')
         user: $scope.userUri
       };
 
+      $scope.loadingCreatingNew = true;
+
       OffersFactory.save({}, newOffer,
         function(success){
+          $scope.loadingCreatingNew = false;
           $scope.editOffer = !$scope.editOffer;
           $scope.user.offers.push(success);
 
@@ -586,6 +568,7 @@ angular.module('beKindred')
 
         },
         function(error) {
+          $scope.loadingCreatingNew = false;
 
         });
     };
@@ -629,7 +612,6 @@ angular.module('beKindred')
             var newSubject = {
               description: $scope.subject,
             };
-
             SubjectsFactory.save({}, newSubject,
               function(success){
                 $scope.resourceUri = success.resource_uri;
