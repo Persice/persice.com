@@ -60,19 +60,19 @@ class MatchFeedManager(models.Manager):
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
         match_likes = match_likes_to_likes + match_interests_to_likes
 
-        user_likes = FacebookLike.objects.filter(user_id__in=[x.user_id for x in match_likes])
-
-        # Match Likes
         likes = {}
-        for _user_id, group in groupby(user_likes, lambda x: x.user_id):
-            likes[_user_id] = []
-            d = {}
+        for _user_id, group in groupby(match_likes, lambda x: x.user_id):
+            likes[_user_id] = list()
+            d = dict()
+            exclude_likes = []
             for thing in group:
-                for m in match_likes:
-                    if thing == m:
-                        d[thing.name] = 1
-                    else:
-                        d[thing.name] = 0
+                d[thing.name] = 1
+                exclude_likes.append(thing.id)
+            other_likes = FacebookLikeProxy.objects.exclude(id__in=exclude_likes).filter(user_id=_user_id)
+
+            for other in other_likes:
+                d[other.name] = 0
+
             likes[_user_id].append(d)
 
         match_interests_to_interests = Interest.search_subject.match_interests_to_interests(user_id, friends)
