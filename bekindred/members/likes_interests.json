@@ -532,5 +532,21 @@
       "description": "English",
       "user": 3
     }
+  },
+  {
+    "pk": 7,
+    "model": "interests.interest",
+    "fields": {
+      "description": "python",
+      "user": 2
+    }
+  },
+  {
+    "pk": 8,
+    "model": "interests.interest",
+    "fields": {
+      "description": "desc",
+      "user": 3
+    }
   }
 ]
