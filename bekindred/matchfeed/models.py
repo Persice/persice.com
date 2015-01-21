@@ -91,7 +91,7 @@ class MatchFeedManager(models.Manager):
             other_interests = Interest.objects.exclude(id__in=exclude_interests).filter(user_id=_user_id)
 
             for other in other_interests:
-                d[other.name] = 0
+                d[other.description] = 0
 
             interests[_user_id].append(d)
 
