@@ -110,7 +110,7 @@ class MutualFriendsResource(Resource):
     def get_object_list(self, request):
         results = []
         current_user = request.user.id
-        user = request.GET.get('user', None)
+        user = request.GET.get('user_id', None)
         try:
             user = int(user)
         except TypeError:
