@@ -78,17 +78,14 @@
       <div class="ui vertical right inverted labeled sidebar menu" id="filtersMenu" ng-show="isState('matchfeed')">
         <div id="FilterController" ng-controller="FilterController">
           <div id="filter" class="ui form">
-            <form name="filterForm" id="filterForm" ng-submit="" class="form" method="get" action="">
+            <form name="filterForm" id="filterForm" class="" method="get" action="">
               <div class="field">
                 <label>Distance <span class="range">{{distanceValue}} mi.</span></label>
                 <div no-ui-slider="distanceOptions" ng-model="distanceValue" ng-change="saveFilters()"></div>
-                <input type="text" class="displayNone" ng-model="distanceValue" name="distance">
               </div>
               <div class="field">
                 <label>Age <span class="range">{{ageValues[0]}} &ndash; {{ageValues[1]}}</span></label>
                 <div no-ui-slider="ageOptions" ng-model="ageValues" ng-change="saveFilters()"></div>
-                <input type="text" class="displayNone" ng-model="ageValues[0]" name="min_age">
-                <input type="text" class="displayNone" ng-model="ageValues[1]" name="max_age">
               </div>
               <div class="field">
                 <label class="">Show</label>
@@ -106,20 +103,22 @@
                 </div>
               </div>
               <div class="field">
-                <input class="displayNone" value="{{myKeywords}}" type="text" name="keywords">
-              </div>
-              <div class="field">
-                <input class="displayNone" id="genders" value="" type="text" name="gender">
                 <input class="displayNone" ng-model="genders" ng-change="saveFilters()" id="gendersModel" value="" type="text">
               </div>
-              <div class="ui small negative message" ng-show="showMessage">
-                <div class="header">
-                  Keyword already exists.
-                </div>
+
+              <div class="field" ng-show="showFilterMessage">
+                <label>
+                  <div class="ui small negative message">
+                    <p>
+                      {{filtermessage}}
+                    </p>
+                  </div>
+                </label>
               </div>
+
               <div class="ui icon input">
-                <input ng-minlength=3 type="text" placeholder="Enter keyword" on-enter-blur ng-enter="filterForm.$valid && addKeyword(newKeyword)" ng-model="newKeyword">
-                <i class="circular search icon"></i>
+                <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="addKeyword(newKeyword)" ng-model="newKeyword">
+                <i class="circular plus icon" ng-click="addKeyword(newKeyword)"></i>
               </div>
               <div class="">
                 <a ng-click="removeKeyword(index)" href="" class="item" ng-repeat="keyword in myKeywords track by $index">
@@ -129,7 +128,7 @@
                 </a>
               </div>
               <div class="ui divider"></div>
-              <button type="submit" class="button ui submit green" role="button">Filter</button>
+              <a href="" class="button ui submit green" ng-click="refreshMatchFeed()" role="button">Filter</a>
             </div>
           </div>
         </div>
@@ -180,18 +179,12 @@
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angucomplete-alt/angucomplete-alt.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/moment/moment.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-moment/angular-moment.js"></script>
-        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/underscore/underscore.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/ngDraggable/ngDraggable.js"></script>
-        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-underscore-module/angular-underscore-module.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-spinkit/src/angular-spinkit.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/semantic/dist/semantic.js"></script>
-        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/gsap/src/uncompressed/TweenMax.js"></script>
-        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-gsapify-router/angular-gsapify-router.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-truncate/src/truncate.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-filter/dist/angular-filter.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-carousel/dist/angular-carousel.js"></script>
-        <script src="{{ STATIC_URL }}beKindredFrontend/bower_components/angular-scroll/angular-scroll.js"></script>
-
 
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/index.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/services.js"></script>
@@ -243,28 +236,28 @@
 
           $('.ui.checkbox')
           .checkbox({
-            // onChecked: function () {
-            //   var mergedInput = $('#genders');
-            //   var modelInput = $('#gendersModel');
-            //   var arr = [];
-            //   $("#filterForm input:checkbox:checked").each(function(){
-            //     arr.push($(this).val());
-            //   });
-            //   mergedInput.val(JSON.stringify(arr));
-            //   modelInput.val(arr.join());
-            //   modelInput.trigger('input');
-            // },
-            // onUnchecked: function () {
-            //   var mergedInput = $('#genders');
-            //   var modelInput = $('#gendersModel');
-            //   var arr = [];
-            //   $("#filterForm input:checkbox:checked").each(function(){
-            //     arr.push($(this).val());
-            //   });
-            //   mergedInput.val(JSON.stringify(arr));
-            //   modelInput.val(arr.join());
-            //   modelInput.trigger('input');
-            // }
+            onChecked: function () {
+              var mergedInput = $('#genders');
+              var modelInput = $('#gendersModel');
+              var arr = [];
+              $("#filterForm input:checkbox:checked").each(function(){
+                arr.push($(this).val());
+              });
+              mergedInput.val(JSON.stringify(arr));
+              modelInput.val(arr.join());
+              modelInput.trigger('input');
+            },
+            onUnchecked: function () {
+              var mergedInput = $('#genders');
+              var modelInput = $('#gendersModel');
+              var arr = [];
+              $("#filterForm input:checkbox:checked").each(function(){
+                arr.push($(this).val());
+              });
+              mergedInput.val(JSON.stringify(arr));
+              modelInput.val(arr.join());
+              modelInput.trigger('input');
+            }
           });
         </script>
 

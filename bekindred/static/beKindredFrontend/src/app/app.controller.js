@@ -33,6 +33,12 @@ angular.module('beKindred')
     };
 
 
+    $scope.refreshMatchFeed = function () {
+        $('.dimmable').dimmer('hide');
+        $rootScope.$broadcast('refreshMatchFeed');
+    };
+
+
 
 
 

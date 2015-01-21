@@ -8,16 +8,13 @@ angular.module('beKindred', [
     'ngResource',
     'ui.router',
     'angular-spinkit',
-    'hj.gsapifyRouter',
     'frontend.semantic.dimmer',
     'truncate',
     'ya.nouislider',
     'ngDraggable',
-    'angucomplete-alt',
-    'angular-carousel',
-    'duScroll'
+    'angucomplete-alt'
     ])
-.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 
     $httpProvider.defaults.headers.patch = {
         'Content-Type': 'application/json;charset=utf-8'
@@ -29,27 +26,6 @@ angular.module('beKindred', [
     $httpProvider.defaults.headers.post = {
         'Content-Type': 'application/json;charset=utf-8'
     };
-
-    gsapifyRouterProvider.defaults = {
-        enter: 'fadeIn',
-        leave: 'none'
-    };
-
-    gsapifyRouterProvider.transition('fadeIn', {
-        duration: 0.5,
-        delay: 0,
-        css: {
-            opacity: 0,
-        }
-    });
-
-    gsapifyRouterProvider.transition('fadeOut', {
-        duration: 0.5,
-        css: {
-            opacity: 0,
-        }
-    });
-
 
     $stateProvider
     .state('home', {
@@ -116,8 +92,6 @@ angular.module('beKindred', [
     $urlRouterProvider.otherwise('/');
 
 })
-.value('duScrollDuration', 1000)
-.value('duScrollOffset', 0)
 .run(function ($rootScope, $state, $stateParams, $timeout) {
 
     $rootScope.$state = $state;
