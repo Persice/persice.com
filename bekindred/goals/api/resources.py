@@ -48,8 +48,8 @@ class GoalValidation(Validation):
 
         errors = {}
 
-        goal = re.search(r'\d+', bundle.data['goal']).group()
-        user = re.search(r'\d+', bundle.data['user']).group()
+        goal = re.findall(r'/(\d+)/', bundle.data['goal'])[0]
+        user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
         goals = Goal.objects.filter(goal_id=int(goal), user_id=user)
         offers = Offer.objects.filter(offer_id=int(goal), user_id=user)
 
@@ -69,8 +69,8 @@ class OfferValidation(Validation):
 
         errors = {}
 
-        offer = re.search(r'\d+', bundle.data['offer']).group()
-        user = re.search(r'\d+', bundle.data['user']).group()
+        offer = re.findall(r'/(\d+)/', bundle.data['offer'])[0]
+        user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
         offers = Offer.objects.filter(offer_id=int(offer), user_id=user)
         goals = Goal.objects.filter(goal_id=int(offer), user_id=user)
 
