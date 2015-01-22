@@ -117,7 +117,7 @@ class FacebookFriendManager(models.Manager):
 
     def mutual_friends(self, friend1, friend2):
         facebook_ids = list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
-        users = FacebookCustomUserActive.objects.filter(facebook_id_in=facebook_ids)
+        users = FacebookCustomUserActive.objects.filter(facebook_id__in=facebook_ids)
         result = []
         for user in users:
             d = dict()
