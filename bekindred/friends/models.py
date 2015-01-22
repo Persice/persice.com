@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from itertools import chain
 from django_facebook.models import FacebookCustomUser, FacebookUser
+from members.models import FacebookCustomUserActive
 from postman.api import pm_write
 
 
@@ -115,7 +116,16 @@ class FacebookFriendManager(models.Manager):
         return list(FacebookUser.objects.filter(user_id=user_id).values_list('facebook_id', flat=True))
 
     def mutual_friends(self, friend1, friend2):
-        return list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
+        facebook_ids = list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
+        users = FacebookCustomUserActive.objects.filter(facebook_id_in=facebook_ids)
+        result = []
+        for user in users:
+            d = dict()
+            d['facebook_id'] = user.facebook_id
+            d['first_name'] = user.first_name
+            d['last_name'] = user.last_name
+            result.append(d)
+        return result
 
 
 class FacebookFriendUser(FacebookUser):

@@ -6,6 +6,7 @@ from tastypie.bundle import Bundle
 from tastypie.resources import Resource
 from friends.models import FacebookFriendUser
 from matchfeed.models import MatchFeedManager
+from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance
 
