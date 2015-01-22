@@ -12,7 +12,8 @@ angular.module('beKindred', [
     'truncate',
     'ya.nouislider',
     'ngDraggable',
-    'angucomplete-alt'
+    'angucomplete-alt',
+    'angular-carousel'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 

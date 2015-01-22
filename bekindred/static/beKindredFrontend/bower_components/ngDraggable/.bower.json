@@ -1,6 +1,7 @@
 {
   "name": "ngDraggable",
   "main": "ngDraggable.js",
+  "version": "0.0.31",
   "homepage": "https://github.com/fatlinesofcode/ngDraggable",
   "ignore": [
     "**/.*",
@@ -10,14 +11,13 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "latest",
     "angular": "latest"
   },
-  "_release": "31c1b8d3d0",
+  "_release": "0.0.31",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "31c1b8d3d0f6a1915967ce62dfa752779a409c2f"
+    "type": "version",
+    "tag": "0.0.31",
+    "commit": "40f677ccafdd7a2f516c84c52e0e3f5b66f5cb73"
   },
   "_source": "git://github.com/fatlinesofcode/ngDraggable.git",
   "_target": "*",
