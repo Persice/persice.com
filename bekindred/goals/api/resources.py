@@ -69,7 +69,7 @@ class OfferValidation(Validation):
 
         errors = {}
 
-        offer = re.search(r'\d', bundle.data['offer']).group()
+        offer = re.search(r'\d+', bundle.data['offer']).group()
         user = re.search(r'\d+', bundle.data['user']).group()
         offers = Offer.objects.filter(offer_id=int(offer), user_id=user)
         goals = Goal.objects.filter(goal_id=int(offer), user_id=user)
