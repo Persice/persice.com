@@ -76,6 +76,25 @@ angular.module('beKindred')
         }
     });
 }])
+.factory('MutualFriendsFactory', ['$resource', function($resource){
+  return $resource('/api/v1/mutual/friends/:friendId/:param',
+    {friendId: '@friendId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        },
+        update: {
+            method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
+        }
+    });
+}])
 .factory('SubjectsFactory', ['$resource', function($resource){
   return $resource('/api/v1/subject/:subjectId/:param',
     {subjectId: '@subjectId'} , {

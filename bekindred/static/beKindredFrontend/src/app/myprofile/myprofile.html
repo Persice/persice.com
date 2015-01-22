@@ -2,7 +2,6 @@
     <div class="container">
         <div class="pagination-container">
             <div id="PhotoSlider" ng-if="photosSlider.length > 0">
-
                 <ul rn-carousel rn-carousel-index="carouselIndex2">
                     <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
                         <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
