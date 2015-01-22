@@ -2,16 +2,21 @@ from django_facebook.models import FacebookCustomUser
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication, Authentication
 from tastypie.authorization import DjangoAuthorization, Authorization
+from tastypie.constants import ALL
 from tastypie.resources import ModelResource
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto, Photo
 from goals.utils import calculate_age
+
 
 class UserResource(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
         fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me', 'facebook_id', 'id', 'date_of_birth']
+        filtering = {
+            'facebook_id': ALL
+        }
         authentication = SessionAuthentication()
         authorization = Authorization()
 
