@@ -7,7 +7,7 @@ from tastypie.resources import Resource
 from friends.models import FacebookFriendUser
 from matchfeed.models import MatchFeedManager
 from photos.models import FacebookPhoto
-from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends
+from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance
 
 
 class A(object):
@@ -21,7 +21,7 @@ class MatchedFeedResource(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     user_id = fields.CharField(attribute='user_id')
     # age = fields.IntegerField(attribute='age')
-    # distance = fields.FloatField(attribute='distance')
+    distance = fields.FloatField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
 
     photos = fields.ListField(attribute='photos')
@@ -53,6 +53,7 @@ class MatchedFeedResource(Resource):
             new_obj = A()
             user = FacebookCustomUser.objects.get(pk=x['id'])
             photos = FacebookPhoto.objects.filter(user_id=user).values_list('photo', flat=True)
+            new_obj.distance = calculate_distance(request.user.id, user.id)
             new_obj.id = x['id']
             new_obj.first_name = user.first_name
             new_obj.last_name = user.last_name

@@ -1,4 +1,7 @@
 from datetime import date
+from django.contrib.gis.geoip import GeoIP
+from django.core.exceptions import ObjectDoesNotExist
+from geopy.distance import distance as geopy_distance
 import oauth2 as oauth
 import json
 import pprint
@@ -8,6 +11,7 @@ from social_auth.backends.utils import consumer_oauth_url_request
 from social_auth.db.django_models import UserSocialAuth
 from social_auth.utils import get_backend_name
 from friends.models import TwitterListFriends, TwitterListFollowers
+from goals.models import UserIPAddress
 
 
 def calculate_age(born):
@@ -20,6 +24,21 @@ def calculate_age(born):
 def calculate_date_of_birth(age):
     today = date.today()
     return today.replace(year=today.year - age)
+
+
+def calculate_distance(user_id1, user_id2):
+    """
+    calculate distance
+    """
+    g = GeoIP()
+    distance = 10000
+    try:
+        point1 = g.lon_lat(str(UserIPAddress.objects.get(user=user_id1).ip))
+        point2 = g.lon_lat(str(UserIPAddress.objects.get(user=user_id2).ip))
+        distance = geopy_distance(point1, point2).miles
+    except ObjectDoesNotExist:
+        pass
+    return distance
 
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):
