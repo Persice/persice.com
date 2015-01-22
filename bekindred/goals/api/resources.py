@@ -48,7 +48,7 @@ class GoalValidation(Validation):
 
         errors = {}
 
-        goal = re.search(r'\d', bundle.data['goal']).group()
+        goal = re.search(r'\d+', bundle.data['goal']).group()
         user = re.search(r'\d+', bundle.data['user']).group()
         goals = Goal.objects.filter(goal_id=int(goal), user_id=user)
         offers = Offer.objects.filter(offer_id=int(goal), user_id=user)
