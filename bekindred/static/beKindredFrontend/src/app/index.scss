@@ -3464,3 +3464,11 @@ ul[rn-carousel] {
 .toast-top-full-width {
   top: 60px!important;
 }
+
+.ui.leftright.loading.loading.input > .icon:after {
+  left: 98%!important;
+}
+
+.ui.leftright.loading.loading.input > .icon:before {
+  left: 98%!important;
+}

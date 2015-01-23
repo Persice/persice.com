@@ -89,7 +89,7 @@ class GoalResource(ModelResource):
 
     class Meta:
         queryset = Goal.objects.all()
-        fields = ['user', 'goal']
+        fields = ['user', 'goal', 'id']
         always_return_data = True
         resource_name = 'goal'
         authentication = SessionAuthentication()
@@ -111,7 +111,7 @@ class OfferResource(ModelResource):
 
     class Meta:
         queryset = Offer.objects.all()
-        fields = ['user', 'offer']
+        fields = ['user', 'offer', 'id']
         resource_name = 'offer'
         always_return_data = True
         validation = OfferValidation()

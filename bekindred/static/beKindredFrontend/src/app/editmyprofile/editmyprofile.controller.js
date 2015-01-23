@@ -163,22 +163,22 @@ angular.module('beKindred')
     $scope.saveCurrentInterest = function(index) {
 
       if ($scope.user.interests[index].description === '') {
-        toaster.clear();
         $scope.user.interests[index].error = true;
-        toaster.error('Error', 'Interest must not be empty.');
+        $scope.user.interests[index].errorMessage = 'Entering your interest is required.';
       }
       else {
+        $scope.user.interests[index].loading = true;
         InterestsFactory.update({interestId: $scope.user.interests[index].id}, {description: $scope.user.interests[index].description},
           function(success){
             $log.info('Interest updated');
+            $scope.user.interests[index].loading = false;
             $scope.user.interests[index].error = false;
-            toaster.clear();
           },
           function(error) {
+            $scope.user.interests[index].loading = false;
             $scope.user.interests[index].error = true;
-            $log.info('This interest already exists');
-            toaster.clear();
-            toaster.error('Error', 'This interest already exists.');
+            $scope.user.interests[index].errorMessage = 'Interest already exists.';
+
           });
       }
 
@@ -247,7 +247,7 @@ angular.module('beKindred')
             //API update photo - patch method
             PhotosFactory.update({photoId: $scope.user.photos[index].id}, {order:  $scope.user.photos[index].order },
               function(success) {
-                $log.info('Photo order saved');
+                // $log.info('Photo order saved');
               }, function(error) {
                 $log.info(error);
               });
@@ -259,7 +259,7 @@ angular.module('beKindred')
             //API update photo - patch method
             PhotosFactory.update({photoId: $scope.user.photos[otherIndex].id}, {order:  $scope.user.photos[otherIndex].order },
               function(success) {
-                $log.info('Photo order saved');
+                // $log.info('Photo order saved');
               }, function(error) {
                 $log.info(error);
               });
@@ -273,7 +273,7 @@ angular.module('beKindred')
             format: 'json'
           }).$promise.then(function(response) {
             $scope.apiPhotos = response.objects;
-            $log.info($scope.apiPhotos);
+            // $log.info($scope.apiPhotos);
             for(var obj in $scope.apiPhotos) {
               for(var p in $scope.user.photos) {
                 if ($scope.user.photos[p].order === $scope.apiPhotos[obj].order) {
@@ -298,14 +298,14 @@ angular.module('beKindred')
 
           $http.get('https://graph.facebook.com/' + id + '?fields=photos{id,height,width,source}&access_token=' + FB_TOKEN).
           success(function(data, status, headers, config) {
-            $log.info(data);
+            // $log.info(data);
 
             $scope.photosLoading = false;
 
             $scope.facebookPhotos = data.photos.data;
           }).
           error(function(data, status, headers, config) {
-            $log.info(data);
+            // $log.info(data);
             $scope.photosLoading = false;
           });
 
@@ -329,13 +329,13 @@ angular.module('beKindred')
           $scope.albumsLoading = true;
           $http.get('https://graph.facebook.com/me/albums?fields=picture,name&access_token=' + FB_TOKEN).
           success(function(data, status, headers, config) {
-            $log.info(data);
+            // $log.info(data);
             $scope.facebookAlbums = data.data;
             $scope.albumsLoading = false;
 
           }).
           error(function(data, status, headers, config) {
-            $log.info(data);
+            // $log.info(data);
             $scope.albumsLoading = false;
           });
 
@@ -353,7 +353,7 @@ angular.module('beKindred')
           function(success) {
             $scope.user.photos[deleteIndex].photo = '';
             $scope.user.photos[deleteIndex].id = 0;
-            $log.info('Photo deleted');
+            // $log.info('Photo deleted');
 
           },
           function(error) {
@@ -468,39 +468,107 @@ angular.module('beKindred')
     };
 
 
+    $scope.saveCurrentGoal = function(index) {
+      if ($scope.user.goals[index].subject === '') {
+        $scope.user.goals[index].error = true;
+        $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
+      }
+      else {
+        $scope.user.goals[index].loading = true;
+        SubjectsFactory.query({format: 'json', description: $scope.user.goals[index].subject}).$promise.then(function(data) {
+          if (data.meta.total_count === 0) {
+            //create new subject
+            var newSubject = {
+              description: $scope.user.goals[index].subject,
+            };
 
-    $scope.saveGoal = function() {
-      var newGoal = {
-        goal: $scope.resourceUri,
-        user: $scope.userUri
-      };
-      $scope.loadingCreatingNew = true;
-      GoalsFactory.save({}, newGoal,
-        function(success){
-          $scope.loadingCreatingNew = false;
-          $scope.editGoal = !$scope.editGoal;
-          $scope.user.goals.push(success);
+            SubjectsFactory.save({}, newSubject,
+              function(success){
+                GoalsFactory.update({goalId: $scope.user.goals[index].id}, {goal: success.resource_uri, user_id: $scope.userUri},
+                  function(success){
+                    $scope.user.goals[index].loading = false;
+                    $scope.user.goals[index].error = false;
+                    $scope.user.goals[index].goal = success.goal;
+                  },
+                  function(error) {
+                    $scope.user.goals[index].errorMessage = error.data.goal.error[0];
+                    $scope.user.goals[index].loading = false;
+                    $scope.user.goals[index].error = true;
 
-          $scope.subject = '';
-          $scope.resourceUri = null;
-          $scope.messageShow = false;
-          $scope.message = '';
+                  });
+              },
+              function(error) {
+                $scope.user.goals[index].errorMessage = 'You have already created this goal.';
+              });
+          }
+          else {
+            $scope.subjectUri = data.objects[0].resource_uri;
+            //patch only if not equal to currently stored goal
+            if ($scope.user.goals[index].goal !== $scope.subjectUri) {
+              GoalsFactory.update({goalId: $scope.user.goals[index].id}, {goal: $scope.subjectUri, user_id: $scope.userUri},
+                function(success){
+                  $scope.user.goals[index].loading = false;
+                  $scope.user.goals[index].error = false;
+                  $scope.user.goals[index].goal = success.goal;
+                },
+                function(error) {
+                  $scope.user.goals[index].errorMessage = error.data.goal.error[0];
+                  $scope.user.goals[index].loading = false;
+                  $scope.user.goals[index].error = true;
+
+                });
+            }
+            else {
+              $scope.user.goals[index].loading = false;
+              $scope.user.goals[index].error = false;
+            }
+
+          }
 
 
-        },
-        function(error) {
-          $scope.resourceUri = null;
-          $scope.messageShow = true;
-          $scope.message = error.data.goal.error[0];
-          $scope.loadingCreatingNew = false;
 
         });
-    };
 
-    $scope.createGoal = function() {
+
+}
+
+
+};
+
+
+
+$scope.saveGoal = function() {
+  var newGoal = {
+    goal: $scope.resourceUri,
+    user: $scope.userUri
+  };
+  $scope.loadingCreatingNew = true;
+  GoalsFactory.save({}, newGoal,
+    function(success){
+      $scope.loadingCreatingNew = false;
+      $scope.editGoal = !$scope.editGoal;
+      $scope.user.goals.push(success);
+
+      $scope.subject = '';
+      $scope.resourceUri = null;
       $scope.messageShow = false;
       $scope.message = '';
+
+
+    },
+    function(error) {
+      $scope.resourceUri = null;
+      $scope.messageShow = true;
+      $scope.message = error.data.goal.error[0];
       $scope.loadingCreatingNew = false;
+
+    });
+};
+
+$scope.createGoal = function() {
+  $scope.messageShow = false;
+  $scope.message = '';
+  $scope.loadingCreatingNew = false;
 
 
         //if subject is empty warn user to enter subject
@@ -566,51 +634,119 @@ angular.module('beKindred')
       $scope.editOffer = false;
     };
 
-    $scope.removeOffer = function(index) {
 
-      var Offer = $resource($scope.user.offers[index].resource_uri);
+    $scope.saveCurrentOffer = function(index) {
+      if ($scope.user.offers[index].subject === '') {
+        $scope.user.offers[index].error = true;
+        $scope.user.offers[index].errorMessage = 'Entering your offer is required.';
+      }
+      else {
+        $scope.user.offers[index].loading = true;
+        SubjectsFactory.query({format: 'json', description: $scope.user.offers[index].subject}).$promise.then(function(data) {
+          if (data.meta.total_count === 0) {
+            //create new subject
+            var newSubject = {
+              description: $scope.user.offers[index].subject,
+            };
 
-      Offer.delete().$promise.then(function(data) {
-        $scope.user.offers.splice(index, 1);
-      });
-    };
+            SubjectsFactory.save({}, newSubject,
+              function(success){
+                OffersFactory.update({offerId: $scope.user.offers[index].id}, {offer: success.resource_uri, user_id: $scope.userUri},
+                  function(success){
+                    $scope.user.offers[index].loading = false;
+                    $scope.user.offers[index].error = false;
+                    $scope.user.offers[index].offer = success.offer;
+                  },
+                  function(error) {
+                    $scope.user.offers[index].errorMessage = error.data.offer.error[0];
+                    $scope.user.offers[index].loading = false;
+                    $scope.user.offers[index].error = true;
+
+                  });
+              },
+              function(error) {
+                $scope.user.offers[index].errorMessage = 'You have already created this offer.';
+              });
+          }
+          else {
+            $scope.subjectUri = data.objects[0].resource_uri;
+            //patch only if not equal to currently stored offer
+            if ($scope.user.offers[index].offer !== $scope.subjectUri) {
+              OffersFactory.update({offerId: $scope.user.offers[index].id}, {offer: $scope.subjectUri, user_id: $scope.userUri},
+                function(success){
+                  $scope.user.offers[index].loading = false;
+                  $scope.user.offers[index].error = false;
+                  $scope.user.offers[index].offer = success.offer;
+                },
+                function(error) {
+                  $scope.user.offers[index].errorMessage = error.data.offer.error[0];
+                  $scope.user.offers[index].loading = false;
+                  $scope.user.offers[index].error = true;
+
+                });
+            }
+            else {
+              $scope.user.offers[index].loading = false;
+              $scope.user.offers[index].error = false;
+            }
+
+          }
 
 
-
-    $scope.saveOffer = function() {
-      var newOffer = {
-        offer: $scope.resourceUri,
-        user: $scope.userUri
-      };
-
-      $scope.loadingCreatingNew = true;
-
-      OffersFactory.save({}, newOffer,
-        function(success){
-          $scope.loadingCreatingNew = false;
-          $scope.editOffer = !$scope.editOffer;
-          $scope.user.offers.push(success);
-
-          $scope.subject = '';
-          $scope.resourceUri = null;
-          $scope.messageShow = false;
-          $scope.message = '';
-
-        },
-        function(error) {
-          $scope.resourceUri = null;
-          $scope.messageShow = true;
-          $scope.message = error.data.offer.error[0];
-          $scope.loadingCreatingNew = false;
 
         });
-    };
+
+
+}
+
+
+};
+
+$scope.removeOffer = function(index) {
+
+  var Offer = $resource($scope.user.offers[index].resource_uri);
+
+  Offer.delete().$promise.then(function(data) {
+    $scope.user.offers.splice(index, 1);
+  });
+};
 
 
 
-    $scope.createOffer = function() {
+$scope.saveOffer = function() {
+  var newOffer = {
+    offer: $scope.resourceUri,
+    user: $scope.userUri
+  };
+
+  $scope.loadingCreatingNew = true;
+
+  OffersFactory.save({}, newOffer,
+    function(success){
+      $scope.loadingCreatingNew = false;
+      $scope.editOffer = !$scope.editOffer;
+      $scope.user.offers.push(success);
+
+      $scope.subject = '';
+      $scope.resourceUri = null;
       $scope.messageShow = false;
       $scope.message = '';
+
+    },
+    function(error) {
+      $scope.resourceUri = null;
+      $scope.messageShow = true;
+      $scope.message = error.data.offer.error[0];
+      $scope.loadingCreatingNew = false;
+
+    });
+};
+
+
+
+$scope.createOffer = function() {
+  $scope.messageShow = false;
+  $scope.message = '';
 
 
         //if subject is empty warn user to enter subject

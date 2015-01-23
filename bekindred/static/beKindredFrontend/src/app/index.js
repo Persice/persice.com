@@ -186,4 +186,36 @@ angular.module('beKindred', [
 
         }
     };
+})
+.directive('ngChangeOnBlur', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ngModelCtrl) {
+            if (attrs.type === 'radio' || attrs.type === 'checkbox')
+                return;
+
+            var expressionToCall = attrs.ngChangeOnBlur;
+
+            var oldValue = null;
+            elm.bind('focus',function() {
+                scope.$apply(function() {
+                    oldValue = elm.val();
+                });
+            });
+            elm.bind('blur', function() {
+                scope.$apply(function() {
+                    var newValue = elm.val();
+                    if (newValue !== oldValue){
+                        scope.$eval(expressionToCall);
+                    }
+               });
+            });
+        }
+    };
 });
+
+
+
+
+
