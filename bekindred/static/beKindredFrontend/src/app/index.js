@@ -14,7 +14,8 @@ angular.module('beKindred', [
     'ngDraggable',
     'angucomplete-alt',
     'angular-carousel',
-    'toaster'
+    'toaster',
+    'ngImgCrop'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 

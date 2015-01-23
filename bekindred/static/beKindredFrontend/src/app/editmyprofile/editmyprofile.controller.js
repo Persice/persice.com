@@ -291,7 +291,9 @@ angular.module('beKindred')
 
 
         $scope.getFBPhotos = function(id, name) {
-
+          $scope.showPhotos = true;
+          $scope.myImage = null;
+          $scope.photoIndex = null;
           $scope.hideAlbums = true;
           $scope.currentAlbum = name;
           $scope.photosLoading = true;
@@ -314,6 +316,9 @@ angular.module('beKindred')
         };
 
         $scope.backToAlbums = function () {
+          $scope.showPhotos = true;
+          $scope.myImage = null;
+          $scope.photoIndex = null;
           $scope.currentAlbum = '';
           $scope.hideAlbums = !$scope.hideAlbums;
           $scope.getFBAlbums();
@@ -366,6 +371,9 @@ angular.module('beKindred')
         $log.info('scroll to top');
         $scope.showModal = false;
 
+        $scope.showPhotos = true;
+        $scope.myImage = null;
+        $scope.photoIndex = null;
 
         $timeout(function(){
           $location.hash('my-profile-header-edit');
@@ -378,8 +386,20 @@ angular.module('beKindred')
       $scope.albumsLoading = false;
       $scope.photosLoading = false;
 
-      $scope.createPhoto = function(indexFbPhoto) {
+      $scope.showPhotos = true;
+      $scope.myImage = null;
+      $scope.photoIndex = null;
+      $scope.myCroppedImage = null;
 
+      $scope.showCrop = function(index) {
+        $scope.photoIndex = index;
+        $scope.myImage = $scope.facebookPhotos[index].source;
+        $scope.showPhotos = false;
+      };
+
+      $scope.createPhoto = function() {
+
+        var indexFbPhoto = $scope.photoIndex;
         $log.info('Creating photo');
 
 

@@ -237,22 +237,25 @@
 
 
     <div class="ui attached segment" ng-class="{loading: albumsLoading}">
-      <div class="ui dividing header" ng-show="currentAlbum == ''">Choose Facebook Album</div> <div class="ui dividing header" ng-show="currentAlbum != ''">Choose Photo</div>
+      <div class="ui dividing header" ng-show="currentAlbum == ''">Choose Facebook Album</div> <div class="ui dividing header" ng-show="currentAlbum != '' && showPhotos">Choose Photo</div>
+
+
 
       <div class="ui selection list" ng-hide="hideAlbums">
         <div class="item" ng-click="getFBPhotos(fbAlbum.id, fbAlbum.name)" ng-repeat="fbAlbum in facebookAlbums track by $index">
           <img class="ui tiny image" ng-src="{{fbAlbum.picture.data.url}}">
           <div class="content">
-            <div class="header">{{fbAlbum.name}}</div>
+            <div  class="header">{{fbAlbum.name}}</div>
           </div>
 
         </div>
       </div>
       <div ng-show="hideAlbums" class="ui segment" ng-class="{loading: photosLoading}">
         <div class="fluid ui button" ng-click="backToAlbums()">Back to Albums</div>
-        <h3 class="ui header">{{currentAlbum}}</h3>
-        <div class="ui selection list">
-          <div ng-click="createPhoto($index)" class="item button ok" ng-repeat="fbPhoto in facebookPhotos track by $index">
+        <h3 ng-show="showPhotos" class="ui header">{{currentAlbum}}</h3>
+        <h3 ng-hide="showPhotos" class="ui header">Crop Photo</h3>
+        <div class="ui selection list" ng-show="showPhotos">
+          <div ng-click="showCrop($index)" class="item button ok" ng-repeat="fbPhoto in facebookPhotos track by $index">
             <img class="ui small image" ng-src="{{fbPhoto.source}}">
             <div class="content">
               <div class="header"></div>
@@ -261,11 +264,20 @@
 
         </div>
 
-      </div>
-    </div>
-    <div class="ui attached segment">
-      <div class="ui fluid primary button" ng-click="closeModal()">
-        Back to Edit Profile
+        <div ng-hide="showPhotos">
+          <div class="cropArea">
+            <img-crop image="myImage" result-image="myCroppedImage" area-type="square"></img-crop>
+          </div>
+          <br>
+          <br>
+          <div class="ui fluid primary button" ng-click="createPhoto()">
+            Save Photo
+          </div>
+
+        </div>
+
+
+
       </div>
     </div>
   </div>
