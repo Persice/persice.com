@@ -3455,3 +3455,12 @@ ul[rn-carousel] {
 #filter .ui.message {
   padding: 0.6em!important;
 }
+
+#toast-container {
+  z-index: 999999!important;
+
+}
+
+.toast-top-full-width {
+  top: 60px!important;
+}

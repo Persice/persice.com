@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('EditMyProfileCtrl', function ($scope, $timeout, USER_ID, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, $document) {
+.controller('EditMyProfileCtrl', function ($scope, $timeout, USER_ID, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, toaster) {
   $scope.twitter = USER_TWITTER;
   $scope.linkedin = USER_LINKEDIN_NAME;
   $scope.linkedinUrl = USER_LINKEDIN_URL;
@@ -159,7 +159,29 @@ angular.module('beKindred')
       });
     };
 
+
     $scope.saveCurrentInterest = function(index) {
+
+      if ($scope.user.interests[index].description === '') {
+        toaster.clear();
+        $scope.user.interests[index].error = true;
+        toaster.error('Error', 'Interest must not be empty.');
+      }
+      else {
+        InterestsFactory.update({interestId: $scope.user.interests[index].id}, {description: $scope.user.interests[index].description},
+          function(success){
+            $log.info('Interest updated');
+            $scope.user.interests[index].error = false;
+            toaster.clear();
+          },
+          function(error) {
+            $scope.user.interests[index].error = true;
+            $log.info('This interest already exists');
+            toaster.clear();
+            toaster.error('Error', 'This interest already exists.');
+          });
+      }
+
 
     };
 

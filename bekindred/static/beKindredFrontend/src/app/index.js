@@ -13,7 +13,8 @@ angular.module('beKindred', [
     'ya.nouislider',
     'ngDraggable',
     'angucomplete-alt',
-    'angular-carousel'
+    'angular-carousel',
+    'toaster'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 
@@ -152,6 +153,17 @@ angular.module('beKindred', [
         var i=0, len=collection.length;
         for (; i<len; i++) {
             if (collection[i][propertyName] == propertyValue) {
+                return collection[i];
+            }
+        }
+        return null;
+    };
+})
+.filter('getByPropertyExcept', function() {
+    return function(propertyName, propertyValue, propertyExceptName, propertyExceptValue, collection) {
+        var i=0, len=collection.length;
+        for (; i<len; i++) {
+            if (collection[i][propertyName] === propertyValue && collection[i][propertyExceptName] !== propertyExceptValue) {
                 return collection[i];
             }
         }
