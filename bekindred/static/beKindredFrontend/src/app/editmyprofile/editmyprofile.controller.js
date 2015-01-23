@@ -467,6 +467,9 @@ angular.module('beKindred')
 
         },
         function(error) {
+          $scope.resourceUri = null;
+          $scope.messageShow = true;
+          $scope.message = error.data.goal.error[0];
           $scope.loadingCreatingNew = false;
 
         });
@@ -488,43 +491,39 @@ angular.module('beKindred')
         //check if subject already exists
         if ($scope.resourceUri !== null) {
 
-            //check if user already has created this goal
-            GoalsFactory.query({format: 'json'}).$promise.then(function(data) {
-              var userGoals = data.objects;
-              var findGoal = null;
-              findGoal = $filter('getByProperty')('subject', $scope.subject, userGoals);
-              if (findGoal !== null) {
-                $scope.message = 'You have already created this goal.';
-                $scope.messageShow = true;
-                return false;
-              }
-              else {
-                    //create new goal
+          $scope.saveGoal();
+
+        }
+        else {
+          SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
+            if (data.meta.total_count === 0) {
+                    //create new subject
+                    var newSubject = {
+                      description: $scope.subject,
+                    };
+
+                    SubjectsFactory.save({}, newSubject,
+                      function(success){
+                        $scope.resourceUri = success.resource_uri;
+                        $scope.saveGoal();
+                      },
+                      function(error) {
+                        $scope.message = 'You have already created this goal.';
+                        $scope.messageShow = true;
+                      });
+                  }
+                  else {
+                    $scope.resourceUri = data.objects[0].resource_uri;
                     $scope.saveGoal();
                   }
+
+
+
                 });
 
+        }
 
-
-          }
-          else {
-            //create new subject
-            var newSubject = {
-              description: $scope.subject,
-            };
-            SubjectsFactory.save({}, newSubject,
-              function(success){
-                $scope.resourceUri = success.resource_uri;
-                $scope.saveGoal();
-
-              },
-              function(error) {
-                $scope.message = 'You have already created this goal.';
-                $scope.messageShow = true;
-              });
-          }
-
-        };
+      };
 
 
     //Offers
@@ -577,10 +576,15 @@ angular.module('beKindred')
 
         },
         function(error) {
+          $scope.resourceUri = null;
+          $scope.messageShow = true;
+          $scope.message = error.data.offer.error[0];
           $scope.loadingCreatingNew = false;
 
         });
     };
+
+
 
     $scope.createOffer = function() {
       $scope.messageShow = false;
@@ -596,44 +600,39 @@ angular.module('beKindred')
 
         //check if subject already exists
         if ($scope.resourceUri !== null) {
+          $scope.saveOffer();
+        }
+        else {
+          SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
 
-            //check if user already has created this offer
-            OffersFactory.query({format: 'json'}).$promise.then(function(data) {
-              var userOffers = data.objects;
-              var findOffer = null;
-              findOffer = $filter('getByProperty')('subject', $scope.subject, userOffers);
-              if (findOffer !== null) {
-                $scope.message = 'You have already created this offer.';
-                $scope.messageShow = true;
-                return false;
-              }
-              else {
-                    //create new offer
-                    $scope.saveOffer();
-                  }
+            if (data.meta.total_count === 0) {
+              //create new subject
+              var newSubject = {
+                description: $scope.subject,
+              };
+
+              SubjectsFactory.save({}, newSubject,
+                function(success){
+                  $scope.resourceUri = success.resource_uri;
+                  $scope.saveOffer();
+
+                },
+                function(error) {
+                  $scope.message = 'You have already created this offer.';
+                  $scope.messageShow = true;
                 });
+            }
+            else {
 
+              $scope.resourceUri = data.objects[0].resource_uri;
+              $scope.saveOffer();
+            }
 
+          });
 
-          }
-          else {
-            //create new subject
-            var newSubject = {
-              description: $scope.subject,
-            };
-            SubjectsFactory.save({}, newSubject,
-              function(success){
-                $scope.resourceUri = success.resource_uri;
-                $scope.saveOffer();
+        }
 
-              },
-              function(error) {
-                $scope.message = 'You have already created this offer.';
-                $scope.messageShow = true;
-              });
-          }
-
-        };
+      };
 
 
     //Edit About

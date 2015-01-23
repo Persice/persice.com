@@ -38,7 +38,9 @@ angular.module('beKindred')
 
             },
             function(error) {
-
+                $scope.resourceUri = null;
+                $scope.messageShow = true;
+                $scope.message = error.data.offer.error[0];
             });
     };
 
@@ -57,44 +59,43 @@ angular.module('beKindred')
         //check if subject already exists
         if ($scope.resourceUri !== null) {
 
-            //check if user already has created this offer
-            OffersFactory.query({format: 'json'}).$promise.then(function(data) {
-                var userOffers = data.objects;
-                var findOffer = null;
-                findOffer = $filter('getByProperty')('subject', $scope.subject, userOffers);
-                if (findOffer !== null) {
-                    $scope.message = 'You have already created this offer.';
-                    $scope.messageShow = true;
-                    return false;
-                }
-                else {
-                    //create new offer
-                    $scope.saveOffer();
-                }
-            });
-
-
+            $scope.saveOffer();
 
         }
         else {
-            //create new subject
-            var newSubject = {
-                description: $scope.subject,
-            };
 
-            SubjectsFactory.save({}, newSubject,
-                function(success){
-                    $scope.resourceUri = success.resource_uri;
+            SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
+
+
+                if (data.meta.total_count === 0) {
+                    //create new subject
+                    var newSubject = {
+                        description: $scope.subject,
+                    };
+
+                    SubjectsFactory.save({}, newSubject,
+                        function(success){
+                            $scope.resourceUri = success.resource_uri;
+                            $scope.saveOffer();
+
+                        },
+                        function(error) {
+                            $scope.message = 'You have already created this offer.';
+                            $scope.messageShow = true;
+                        });
+                }
+                else {
+
+                    $scope.resourceUri = data.objects[0].resource_uri;
                     $scope.saveOffer();
+                }
 
-                },
-                function(error) {
-                    $scope.message = 'You have already created this offer.';
-                    $scope.messageShow = true;
-                });
+            });
+
         }
 
     };
+
 
 
 

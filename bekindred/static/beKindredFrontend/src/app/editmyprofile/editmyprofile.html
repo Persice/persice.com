@@ -45,10 +45,7 @@
                 <div class="ui red left icon button" ng-click="removeGoal($index)">
                   <i class="remove icon"></i>
                 </div>
-                <input type="text" ng-model="goal.subject">
-                <div class="ui blue right right icon button" ng-click="saveCurrentGoal($index)">
-                  <i class="save icon"></i>
-                </div>
+                <input type="text" ng-model="goal.subject" ng-change="saveCurrentGoal($index)">
               </div>
             </div>
           </div>
@@ -69,10 +66,7 @@
                 <div class="ui red left icon button" ng-click="removeOffer($index)">
                   <i class="remove icon"></i>
                 </div>
-                <input type="text" ng-model="offer.subject">
-                <div class="ui blue right right icon button" ng-click="saveCurrentOffer($index)">
-                  <i class="save icon"></i>
-                </div>
+                <input type="text" ng-model="offer.subject" ng-change="saveCurrentOffer($index)">
               </div>
             </div>
           </div>
@@ -105,10 +99,7 @@
                 <div class="ui red left icon button" ng-click="removeInterest($index)">
                   <i class="remove icon"></i>
                 </div>
-                <input type="text" ng-model="interest.description">
-                <div class="ui blue right right icon button" ng-click="saveCurrentInterest($index)">
-                  <i class="save icon"></i>
-                </div>
+                <input type="text" ng-model="interest.description" ng-change="saveCurrentInterest($index)">
               </div>
             </div>
           </div>

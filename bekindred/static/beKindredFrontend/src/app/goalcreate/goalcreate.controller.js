@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('GoalCreateCtrl', function ($scope, $state, $log, GoalsFactory, SubjectsFactory, USER_ID, $filter) {
+.controller('GoalCreateCtrl', function ($scope, $state, $log, GoalsFactory, SubjectsFactory, USER_ID) {
     $scope.subject = '';
     $scope.resourceUri = null;
     $scope.messageShow = false;
@@ -11,6 +11,7 @@ angular.module('beKindred')
 
     $scope.inputChanged = function (str) {
         $scope.subject = str;
+        $log.info($scope.subject);
     };
 
     $scope.selectResult = function (object) {
@@ -38,7 +39,9 @@ angular.module('beKindred')
 
             },
             function(error) {
-
+                $scope.resourceUri = null;
+                $scope.messageShow = true;
+                $scope.message = error.data.goal.error[0];
             });
     };
 
@@ -57,41 +60,38 @@ angular.module('beKindred')
         //check if subject already exists
         if ($scope.resourceUri !== null) {
 
-            //check if user already has created this goal
-            GoalsFactory.query({format: 'json'}).$promise.then(function(data) {
-                var userGoals = data.objects;
-                var findGoal = null;
-                findGoal = $filter('getByProperty')('subject', $scope.subject, userGoals);
-                if (findGoal !== null) {
-                    $scope.message = 'You have already created this goal.';
-                    $scope.messageShow = true;
-                    return false;
-                }
-                else {
-                    //create new goal
-                    $scope.saveGoal();
-                }
-            });
-
-
+            $scope.saveGoal();
 
         }
         else {
-            //create new subject
-            var newSubject = {
-                description: $scope.subject,
-            };
 
-            SubjectsFactory.save({}, newSubject,
-                function(success){
-                    $scope.resourceUri = success.resource_uri;
+            SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
+
+
+                if (data.meta.total_count === 0) {
+                    //create new subject
+                    var newSubject = {
+                        description: $scope.subject,
+                    };
+
+                    SubjectsFactory.save({}, newSubject,
+                        function(success){
+                            $scope.resourceUri = success.resource_uri;
+                            $scope.saveGoal();
+
+                        },
+                        function(error) {
+                            $scope.message = 'You have already created this goal.';
+                            $scope.messageShow = true;
+                        });
+                }
+                else {
+                    $scope.resourceUri = data.objects[0].resource_uri;
                     $scope.saveGoal();
+                }
 
-                },
-                function(error) {
-                    $scope.message = 'You have already created this goal.';
-                    $scope.messageShow = true;
-                });
+            });
+
         }
 
     };
