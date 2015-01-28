@@ -51,6 +51,9 @@ def restart_app():
 def restart_nginx():
     run('service nginx restart')
 
+@task
+def update_stop_words():
+    local('./bekindred/data/update_stop_words_ubuntu.sh')
 
 @task
 def deploy():
