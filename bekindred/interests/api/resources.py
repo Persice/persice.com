@@ -23,5 +23,8 @@ class InterestResource(ModelResource):
         }
 
     def get_object_list(self, request):
-        user = request.GET.get('user_id', request.user.id)
-        return super(InterestResource, self).get_object_list(request).filter(user_id=user)
+        user = request.GET.get('user_id')
+        if user:
+            return super(InterestResource, self).get_object_list(request).filter(user_id=user)
+        else:
+            return super(InterestResource, self).get_object_list(request).filter().values_list('description',flat = True).distinct()
