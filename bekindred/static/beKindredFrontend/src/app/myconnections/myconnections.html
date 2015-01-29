@@ -1,4 +1,4 @@
-<div class="segment" id="friends-list-header">
+<div class="segment" id="friends-list-header" ng-if="friends.length > 0">
     <div class="container">
         <form ng-submit="submit()" action="" method="get" class="" role="search" id="myform" autocomplete="off">
             <div class="ui left icon input">
@@ -10,11 +10,22 @@
 </div>
 
 
+<div class="body segment" ng-if="friends.length === 0" style="height: 100vh;">
+    <div class="container">
+        <div class="ui info message">
+            <p>You don't have any connections. Go to your Match Feed to find people with similar goals and interests.</p>
+            <p><a class="ui icon button blue" ui-sref="matchfeed">Match Feed</a></p>
+
+        </div>
+
+    </div>
+</div>
+
 <div class="body segment" id="friends-list-body" style="height: 100vh;">
     <div class="container">
         <div class="ui divided list">
             <div class="item" ng-repeat="friend in friends | filter:q track by $index">
-                <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(http://graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
+                <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(//graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
                 <div class="friend-actions">
                     <a href="" ng-click="unFriend($index)" class="ui circular facebook icon button">
                         <i class="unlink icon"></i>
