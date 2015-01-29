@@ -39,6 +39,14 @@ angular.module('beKindred', [
 
         }
     })
+    .state('settings', {
+        url: '/settings',
+        templateUrl: '/static/beKindredFrontend/src/app/settings/settings.html',
+        controller: 'SettingsCtrl',
+        resolve: {
+
+        }
+    })
     .state('goalcreate', {
         url: '/create-goal',
         templateUrl: '/static/beKindredFrontend/src/app/goalcreate/goalcreate.html',

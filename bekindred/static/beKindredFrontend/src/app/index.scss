@@ -3479,3 +3479,10 @@ ul[rn-carousel] {
   overflow: hidden;
   height:350px;
 }
+
+#settings-body {
+  min-height: 100px!important;
+  border-bottom: none!important;
+  padding-bottom: 5px!important;
+  box-shadow: none!important;
+}

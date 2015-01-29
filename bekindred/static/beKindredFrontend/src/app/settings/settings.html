@@ -1,0 +1,49 @@
+<div class="body segment edit" id="settings-body">
+  <div class="container">
+
+
+    <div class="ui attached segment">
+      <h4 class="ui header">Manage Account</h4>
+
+      <div class="ui deleteitem red fluid button">
+        <i class="remove circle icon"></i>
+        Delete Account
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- modals -->
+
+<div class="ui basic delete modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Please Confirm
+  </div>
+  <div class="content">
+
+    <div class="description">
+      <p>Are you sure you want to delete?</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui red basic inverted button">
+        <i class="remove icon"></i>
+        No
+      </div>
+      <div class="ui green basic inverted button">
+        <i class="checkmark icon"></i>
+        Yes
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('.basic.delete.modal')
+  .modal('attach events', '.deleteitem', 'show')
+  ;
+</script>
