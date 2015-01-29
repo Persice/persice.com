@@ -11,14 +11,15 @@
 
                 <ul rn-carousel rn-carousel-index="carouselIndex2">
                     <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
-                        <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
-                    </li>
-                </ul>
+                       <div ng-show="item.cropped_photo === ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
+                       <img ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
+                   </li>
+               </ul>
 
-                <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
-            </div>
-        </div>
-    </div>
+               <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
+           </div>
+       </div>
+   </div>
 </div>
 
 <div class="body segment" id="matched-profile-body" >

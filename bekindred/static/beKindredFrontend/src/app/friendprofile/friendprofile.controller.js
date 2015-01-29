@@ -24,7 +24,7 @@ angular.module('beKindred')
         }
     };
 
-    $scope.defaultUserPhoto = 'http://graph.facebook.com/' + $scope.user.facebook_id + '/picture?type=large';
+    $scope.defaultUserPhoto = '//graph.facebook.com/' + $scope.user.facebook_id + '/picture?type=large';
 
     $scope.loadingUser = false;
     $scope.loadingGoals = false;
@@ -112,7 +112,7 @@ angular.module('beKindred')
                     function(success){
                         $log.info(success);
                         $log.info('New photo saved.');
-                        $scope.user.photos.push({photo:  $scope.defaultUserPhoto, order: 0 });
+                        $scope.user.photos.push({photo:  $scope.defaultUserPhoto, cropped_photo: '', order: 0 });
                         $scope.photosSlider = $scope.user.photos;
 
                     },

@@ -8,8 +8,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,300,600,700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Lato:400,300,600,700' rel='stylesheet' type='text/css'>
 
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- Favicons -->
@@ -230,7 +230,7 @@
           angular.module('beKindred').constant('USER_LINKEDIN_URL',  {% if linkedin_provider %} '{{ linkedin_provider.public_profile_url }}' {% else %} '' {% endif %} );
           angular.module('beKindred').constant('USER_LASTNAME', '{{ user.last_name }}');
           angular.module('beKindred').constant('FB_TOKEN', '{{ user.access_token }}');
-          angular.module('beKindred').constant('USER_PHOTO', 'http://graph.facebook.com/' + {{ user.facebook_id }} + '/picture?type=large');
+          angular.module('beKindred').constant('USER_PHOTO', '//graph.facebook.com/' + {{ user.facebook_id }} + '/picture?type=large');
         </script>
 
       </body>

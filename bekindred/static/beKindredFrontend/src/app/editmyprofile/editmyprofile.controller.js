@@ -12,12 +12,12 @@ angular.module('beKindred')
     age: '',
     about_me: '',
     photos: [
-    {id: 0, order: 0, photo: ''},
-    {id: 0, order: 1, photo: ''},
-    {id: 0, order: 2, photo: ''},
-    {id: 0, order: 3, photo: ''},
-    {id: 0, order: 4, photo: ''},
-    {id: 0, order: 5, photo: ''}
+    {id: 0, order: 0, photo: '', cropped_photo: ''},
+    {id: 0, order: 1, photo: '', cropped_photo: ''},
+    {id: 0, order: 2, photo: '', cropped_photo: ''},
+    {id: 0, order: 3, photo: '', cropped_photo: ''},
+    {id: 0, order: 4, photo: '', cropped_photo: ''},
+    {id: 0, order: 5, photo: '', cropped_photo: ''}
     ],
     goals: [
 
@@ -279,6 +279,7 @@ angular.module('beKindred')
                 if ($scope.user.photos[p].order === $scope.apiPhotos[obj].order) {
                   $scope.user.photos[p].id = $scope.apiPhotos[obj].id;
                   $scope.user.photos[p].photo = $scope.apiPhotos[obj].photo;
+                  $scope.user.photos[p].cropped_photo = $scope.apiPhotos[obj].cropped_photo;
                 }
               }
             }
@@ -357,6 +358,7 @@ angular.module('beKindred')
         PhotosFactory.delete({photoId: $scope.user.photos[deleteIndex].id},
           function(success) {
             $scope.user.photos[deleteIndex].photo = '';
+            $scope.user.photos[deleteIndex].cropped_photo = '';
             $scope.user.photos[deleteIndex].id = 0;
             // $log.info('Photo deleted');
 
@@ -397,7 +399,9 @@ angular.module('beKindred')
         $scope.showPhotos = false;
       };
 
-      $scope.createPhoto = function() {
+      $scope.myCroppedImage='';
+
+      $scope.createPhoto = function(croppedPhoto) {
 
         var indexFbPhoto = $scope.photoIndex;
         $log.info('Creating photo');
@@ -408,6 +412,7 @@ angular.module('beKindred')
         //API create photo
 
         var newPhoto = {
+          cropped_photo: croppedPhoto,
           photo:  newFbPhoto.source,
           order: $scope.newPhotoIndex,
           user: '/api/v1/auth/user/' + USER_ID + '/'
@@ -418,6 +423,7 @@ angular.module('beKindred')
             $log.info('New photo saved.');
             var index = $scope.newPhotoIndex;
             $scope.user.photos[index].photo =  success.photo;
+            $scope.user.photos[index].cropped_photo =  success.cropped_photo;
             $scope.user.photos[index].id =  success.id;
             $scope.closeModal();
 

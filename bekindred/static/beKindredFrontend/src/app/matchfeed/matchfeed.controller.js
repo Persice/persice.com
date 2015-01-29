@@ -91,37 +91,47 @@ angular.module('beKindred')
                     });
 
                     //get default photo
-                    $scope.defaultUserPhoto = 'http://graph.facebook.com/' + $scope.matchedUser.facebook_id + '/picture?type=large';
+                    $scope.defaultUserPhoto = '//graph.facebook.com/' + $scope.matchedUser.facebook_id + '/picture?type=large';
                     //save default photo if no photos
-                    if ($scope.matchedUser.photos.length > 0) {
-                        $scope.photosSlider = $scope.matchedUser.photos;
-                    }
-                    else {
-                        var newPhoto = {
-                            photo:  $scope.defaultUserPhoto,
-                            order: 0,
-                            user: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/'
-                        };
+
+                    PhotosFactory.query( {
+                        format: 'json',
+                        user_id: $scope.matchedUser.user_id
+                    }).$promise.then(function(response) {
+                        $scope.matchedUser.photos = response.objects;
+                        if ($scope.matchedUser.photos.length > 0) {
+                            $scope.photosSlider = $scope.matchedUser.photos;
+                        }
+                        else {
+                            var newPhoto = {
+                                photo:  $scope.defaultUserPhoto,
+                                order: 0,
+                                user: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/'
+                            };
 
 
-                        PhotosFactory.save({}, newPhoto,
-                            function(success){
-                                $log.info(success);
-                                $log.info('New photo saved.');
-                                $scope.matchedUser.photos.push($scope.defaultUserPhoto);
-                                $scope.photosSlider = $scope.matchedUser.photos;
+                            PhotosFactory.save({}, newPhoto,
+                                function(success){
+                                    $log.info(success);
+                                    $log.info('New photo saved.');
+                                    $scope.matchedUser.photos.push($scope.defaultUserPhoto);
+                                    $scope.photosSlider = $scope.matchedUser.photos;
 
-                            },
-                            function(error) {
-                                $log.info(error);
-                            });
+                                },
+                                function(error) {
+                                    $log.info(error);
+                                });
 
-                    }
+                        }
 
-                }
-                $scope.showDimmer = false;
-                $rootScope.hideTopMenu = false;
-            });
+                    });
+
+
+
+}
+$scope.showDimmer = false;
+$rootScope.hideTopMenu = false;
+});
 pok = 1;
 
 }
@@ -222,7 +232,7 @@ else {
                 });
 
                 //get default photo
-                $scope.defaultUserPhoto = 'http://graph.facebook.com/' + $scope.matchedUser.facebook_id + '/picture?type=large';
+                $scope.defaultUserPhoto = '//graph.facebook.com/' + $scope.matchedUser.facebook_id + '/picture?type=large';
                 //save default photo if no photos
                 if ($scope.matchedUser.photos.length > 0) {
                     $scope.photosSlider = $scope.matchedUser.photos;

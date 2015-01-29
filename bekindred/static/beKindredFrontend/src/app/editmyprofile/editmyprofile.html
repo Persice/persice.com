@@ -20,7 +20,11 @@
               </div>
             </div>
           </div>
-          <div ng-if="photo.photo !== ''" ng-drag="true" ng-drag-data="photo" style="background-image: url('{{photo.photo}}')" class="img-bounding-box"></div>
+          <div style="background-image: url('{{photo.photo}}')" ng-if="photo.cropped_photo == ''" ng-drag="true" ng-drag-data="photo" class="img-bounding-box">
+          </div>
+          <div ng-if="photo.cropped_photo !== ''" ng-drag="true" ng-drag-data="photo" class="img-bounding-box">
+            <img ng-src="{{photo.cropped_photo}}" alt=""/>
+          </div>
         </div>
       </div>
     </div>
@@ -270,7 +274,8 @@
           </div>
           <br>
           <br>
-          <div class="ui fluid primary button" ng-click="createPhoto()">
+          <br>
+          <div class="ui fluid primary button" ng-click="createPhoto(myCroppedImage)">
             Save Photo
           </div>
 

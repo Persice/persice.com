@@ -10,191 +10,193 @@
                     <div id="PhotoSlider">
                        <ul rn-carousel rn-carousel-index="carouselIndex2">
                         <li ng-repeat="item in photosSlider track by $index">
-                            <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item}})'}"></div>
-                        </li>
-                    </ul>
+                         <div ng-show="item.cropped_photo === ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
+                         <img ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
+                     </li>
+                 </ul>
 
-                    <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
+                 <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <div class="header segment" id="matched-profile-header" ng-hide="showfullprofile">
+    <div class="container">
+        <div class="ui segment" ng-click="changeTopMenu()">
+            <div ng-show="photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].photo}}');"></div>
+            <img ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" ng-src="{{photosSlider[0].cropped_photo}}" />
+         <h2 class="ui header">
+            {{ matchedUser.first_name }} {{ matchedUser.age }}
+            <div class="sub header">{{matchedUser.distance}} mi.</div>
+        </h2>
+        <div class="ui mini statistics">
+            <div class="statistic">
+                <div class="value">
+                    <i class="check circle outline icon"></i>
+                </div>
+                <div class="label">
+                    0
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="header segment" id="matched-profile-header" ng-hide="showfullprofile">
-        <div class="container">
-            <div class="ui segment" ng-click="changeTopMenu()">
-                <div class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0]}}');"></div>
-                <h2 class="ui header">
-                    {{ matchedUser.first_name }} {{ matchedUser.age }}
-                    <div class="sub header">{{matchedUser.distance}} mi.</div>
-                </h2>
-                <div class="ui mini statistics">
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="check circle outline icon"></i>
-                        </div>
-                        <div class="label">
-                            0
-                        </div>
-                    </div>
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="empty users icon"></i>
-                        </div>
-                        <div class="label">
-                            0
-                        </div>
-                    </div>
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="empty star icon"></i>
-                        </div>
-                        <div class="label">
-                            0
-                        </div>
-                    </div>
-                    <div class="statistic">
-                        <div class="value">
-                            <i class="linkify icon"></i>
-                        </div>
-                        <div class="label">
-                            0
+            <div class="statistic">
+                <div class="value">
+                    <i class="empty users icon"></i>
+                </div>
+                <div class="label">
+                    0
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    <i class="empty star icon"></i>
+                </div>
+                <div class="label">
+                    0
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    <i class="linkify icon"></i>
+                </div>
+                <div class="label">
+                    0
 
 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="body segment" id="matched-profile-body">
+    <div class="container">
+        <div class="ui top attached segment" ng-show="showfullprofile">
+            <h3 class="ui left floated header">
+                {{ matchedUser.first_name }} {{ matchedUser.age }}
+            </h3>
+            <h5 class="ui right floated header">
+                {{matchedUser.distance}} mi.
+            </h5>
+        </div>
+        <div class="ui attached segment">
+            <h4 class="ui header">Goals</h4>
+            <div class="ui list">
+                <div ng-hide="!showfullprofile && $index > 2" class="item" ng-repeat="goal in matchedUser.goals | orderBy:['-match'] track by $index">
+                    <i class="icon" ng-class="{'check green': goal.match === 1, 'empty': goal.match === 0 }"></i>
+                    <div class="content">
+                        <div class="description">{{ goal.value }}</div>
+                    </div>
+                </div>
+                <p ng-if="matchedUser.goals.length == 0">No goals yet.</p>
+            </div>
+            <h4 class="ui header">Offers</h4>
+            <div class="ui list">
+                <div ng-hide="!showfullprofile && $index > 2"  class="item" ng-repeat="offer in matchedUser.offers | orderBy:['-match'] track by $index">
+                    <i class="icon" ng-class="{'check green': offer.match === 1, 'empty': offer.match === 0 }"></i>
+                    <div class="content">
+                        <div class="description">{{ offer.value }}</div>
+                    </div>
+                </div>
+                <p ng-if="matchedUser.offers.length == 0">No offers yet.</p>
+            </div>
+            <h4 class="ui header" ng-show="showfullprofile">About</h4>
+            <div class="ui list" ng-show="showfullprofile">
+                <div class="item">
+                    <i class="empty icon"></i>
+                    <div class="content">
+                        <div class="description">
+                            <span>{{matchedUser.about}}</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="ui header">Likes</h4>
+            <div class="ui list">
+                <div class="item" ng-hide="!showfullprofile && $index > 2" ng-repeat="like in matchedUser.likes | orderBy:['-match']  track by $index">
+                    <i class="icon" ng-class="{'check green': like.match === 1, 'empty': like.match === 0 }"></i>
+                    <div class="content">
+                        <div class="description">{{ like.value }}</div>
+                    </div>
+                </div>
+                <p ng-if="matchedUser.likes.length == 0">No likes yet.</p>
+            </div>
+            <h4 class="ui header">Activities &amp; Interests</h4>
+            <div class="ui list">
+                <div class="item" ng-hide="!showfullprofile && $index > 2" ng-repeat="interest in matchedUser.interests | orderBy:['-match'] track by $index">
+                    <i class="icon" ng-class="{'check green': interest.match === 1, 'empty': interest.match === 0 }"></i>
+                    <div class="content">
+                        <div class="description">{{ interest.value }}</div>
+                    </div>
+                </div>
+                <p ng-if="matchedUser.interests.length == 0">No interests yet.</p>
+            </div>
+            <h4 ng-if="matchedUser.friends.length > 0" class="ui header" ng-show="showfullprofile">Mutual Friends</h4>
+            <div ng-if="matchedUser.friends.length > 0" class="ui selection list" ng-show="showfullprofile">
+                <div class="item" ng-repeat="friend in matchedUser.friends track by $index">
+                    <img class="ui avatar image" ng-src="friend.photo">
+                    <div class="content">
+                        <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
+                    </div>
+                </div>
+            </div>
+            <h4 ng-if="matchedUser.facebookfriends.length > 0 "class="ui header" ng-show="showfullprofile">Mutual Facebook Friends ({{ matchedUser.facebookfriends.length }})</h4>
+            <div ng-if="matchedUser.facebookfriends.length > 0" class="ui selection list" ng-show="showfullprofile">
+                <div class="item" ng-repeat="friend in matchedUser.facebookfriends track by $index">
+                    <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
+                    <div class="content">
+                        <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
+                    </div>
+                </div>
+            </div>
+            <h4 ng-if="matchedUser.twitterfriends.length > 0" class="ui header" ng-show="showfullprofile">Mutual Twitter Friends ({{ matchedUser.twitterfriends.length }})</h4>
+            <div ng-if="matchedUser.twitterfriends.length > 0" class="ui selection list" ng-show="showfullprofile">
+                <div class="item" ng-repeat="friend in matchedUser.twitterfriends track by $index">
+                    <img class="ui avatar image" ng-src="friend.profile_image_url2">
+                    <div class="content">
+                        <div class="header">{{ friend.name2 }}</div>
+                    </div>
+                </div>
+            </div>
+            <h4 ng-if="matchedUser.twitterfollowers.length > 0" class="ui header" ng-show="showfullprofile">Mutual Twitter Followers ({{ matchedUser.twitterfollowers.length  }})</h4>
+            <div ng-if="matchedUser.twitterfollowers.length > 0" class="ui selection list" ng-show="showfullprofile">
+                <div class="item" ng-repeat="friend in matchedUser.twitterfollowers track by $index">
+                    <img class="ui avatar image" ng-src="friend.profile_image_url2">
+                    <div class="content">
+                        <div class="header">{{ friend.name2 }}</div>
+                    </div>
+                </div>
+            </div>
+            <h4 ng-if="matchedUser.linkedinconnections.length > 0" class="ui header" ng-show="showfullprofile">Mutual LinkedIn Connections ({{ matchedUser.linkedinconnections.length }})</h4>
+            <div ng-if="matchedUser.linkedinconnections.length > 0" class="ui selection list" ng-show="showfullprofile">
+                <div class="item" ng-repeat="friend in matchedUser.linkedinconnections track by $index">
+                    <img class="ui avatar image" ng-src="{{friend.pictureUrl}}">
+                    <div class="content">
+                        <div class="header">{{ friend.firstName }} {{ friend.lastName }}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="body segment" id="matched-profile-body">
-        <div class="container">
-            <div class="ui top attached segment" ng-show="showfullprofile">
-                <h3 class="ui left floated header">
-                    {{ matchedUser.first_name }} {{ matchedUser.age }}
-                </h3>
-                <h5 class="ui right floated header">
-                    {{matchedUser.distance}} mi.
-                </h5>
-            </div>
-            <div class="ui attached segment">
-                <h4 class="ui header">Goals</h4>
-                <div class="ui list">
-                    <div ng-hide="!showfullprofile && $index > 2" class="item" ng-repeat="goal in matchedUser.goals | orderBy:['-match'] track by $index">
-                        <i class="icon" ng-class="{'check green': goal.match === 1, 'empty': goal.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ goal.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="matchedUser.goals.length == 0">No goals yet.</p>
-                </div>
-                <h4 class="ui header">Offers</h4>
-                <div class="ui list">
-                    <div ng-hide="!showfullprofile && $index > 2"  class="item" ng-repeat="offer in matchedUser.offers | orderBy:['-match'] track by $index">
-                        <i class="icon" ng-class="{'check green': offer.match === 1, 'empty': offer.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ offer.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="matchedUser.offers.length == 0">No offers yet.</p>
-                </div>
-                <h4 class="ui header" ng-show="showfullprofile">About</h4>
-                <div class="ui list" ng-show="showfullprofile">
-                    <div class="item">
-                        <i class="empty icon"></i>
-                        <div class="content">
-                            <div class="description">
-                                <span>{{matchedUser.about}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <h4 class="ui header">Likes</h4>
-                <div class="ui list">
-                    <div class="item" ng-hide="!showfullprofile && $index > 2" ng-repeat="like in matchedUser.likes | orderBy:['-match']  track by $index">
-                        <i class="icon" ng-class="{'check green': like.match === 1, 'empty': like.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ like.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="matchedUser.likes.length == 0">No likes yet.</p>
-                </div>
-                <h4 class="ui header">Activities &amp; Interests</h4>
-                <div class="ui list">
-                    <div class="item" ng-hide="!showfullprofile && $index > 2" ng-repeat="interest in matchedUser.interests | orderBy:['-match'] track by $index">
-                        <i class="icon" ng-class="{'check green': interest.match === 1, 'empty': interest.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ interest.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="matchedUser.interests.length == 0">No interests yet.</p>
-                </div>
-                <h4 ng-if="matchedUser.friends.length > 0" class="ui header" ng-show="showfullprofile">Mutual Friends</h4>
-                <div ng-if="matchedUser.friends.length > 0" class="ui selection list" ng-show="showfullprofile">
-                    <div class="item" ng-repeat="friend in matchedUser.friends track by $index">
-                        <img class="ui avatar image" ng-src="friend.photo">
-                        <div class="content">
-                            <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
-                        </div>
-                    </div>
-                </div>
-                <h4 ng-if="matchedUser.facebookfriends.length > 0 "class="ui header" ng-show="showfullprofile">Mutual Facebook Friends ({{ matchedUser.facebookfriends.length }})</h4>
-                <div ng-if="matchedUser.facebookfriends.length > 0" class="ui selection list" ng-show="showfullprofile">
-                    <div class="item" ng-repeat="friend in matchedUser.facebookfriends track by $index">
-                        <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
-                        <div class="content">
-                            <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
-                        </div>
-                    </div>
-                </div>
-                <h4 ng-if="matchedUser.twitterfriends.length > 0" class="ui header" ng-show="showfullprofile">Mutual Twitter Friends ({{ matchedUser.twitterfriends.length }})</h4>
-                <div ng-if="matchedUser.twitterfriends.length > 0" class="ui selection list" ng-show="showfullprofile">
-                    <div class="item" ng-repeat="friend in matchedUser.twitterfriends track by $index">
-                        <img class="ui avatar image" ng-src="friend.profile_image_url2">
-                        <div class="content">
-                            <div class="header">{{ friend.name2 }}</div>
-                        </div>
-                    </div>
-                </div>
-                <h4 ng-if="matchedUser.twitterfollowers.length > 0" class="ui header" ng-show="showfullprofile">Mutual Twitter Followers ({{ matchedUser.twitterfollowers.length  }})</h4>
-                <div ng-if="matchedUser.twitterfollowers.length > 0" class="ui selection list" ng-show="showfullprofile">
-                    <div class="item" ng-repeat="friend in matchedUser.twitterfollowers track by $index">
-                        <img class="ui avatar image" ng-src="friend.profile_image_url2">
-                        <div class="content">
-                            <div class="header">{{ friend.name2 }}</div>
-                        </div>
-                    </div>
-                </div>
-                <h4 ng-if="matchedUser.linkedinconnections.length > 0" class="ui header" ng-show="showfullprofile">Mutual LinkedIn Connections ({{ matchedUser.linkedinconnections.length }})</h4>
-                <div ng-if="matchedUser.linkedinconnections.length > 0" class="ui selection list" ng-show="showfullprofile">
-                    <div class="item" ng-repeat="friend in matchedUser.linkedinconnections track by $index">
-                        <img class="ui avatar image" ng-src="{{friend.pictureUrl}}">
-                        <div class="content">
-                            <div class="header">{{ friend.firstName }} {{ friend.lastName }}</div>
-                        </div>
+</div>
+<div class="footer segment" id="matched-profile-footer" ng-hide="showfullprofile">
+    <div class="container">
+        <div class="ui grid one column aligned center">
+            <div class="row">
+                <div class="column">
+                    <div class="ui labeled icon menu">
+                        <a href="" ng-click="cancelMatch()" class="item" id="left_button">
+                            <i class="remove red circle icon"></i>
+                        </a>
+                        <a href="" ng-click="confirmMatch()" class="item" id="accept_button">
+                            <i class="check green circle icon"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+        <br>
     </div>
-    <div class="footer segment" id="matched-profile-footer" ng-hide="showfullprofile">
-        <div class="container">
-            <div class="ui grid one column aligned center">
-                <div class="row">
-                    <div class="column">
-                        <div class="ui labeled icon menu">
-                            <a href="" ng-click="cancelMatch()" class="item" id="left_button">
-                                <i class="remove red circle icon"></i>
-                            </a>
-                            <a href="" ng-click="confirmMatch()" class="item" id="accept_button">
-                                <i class="check green circle icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br>
-        </div>
-    </div>
+</div>
 </div>
 </div>
 </div>

@@ -109,6 +109,7 @@ angular.module('beKindred')
             if ($scope.user.photos.length === 0) {
                 var newPhoto = {
                     photo:  USER_PHOTO,
+                    cropped_photo: '',
                     order: 0,
                     user: '/api/v1/auth/user/' + USER_ID + '/'
                 };
@@ -117,7 +118,7 @@ angular.module('beKindred')
                     function(success){
                         $log.info(success);
                         $log.info('New photo saved.');
-                        $scope.user.photos.push({photo:  USER_PHOTO, order: 0 });
+                        $scope.user.photos.push({photo:  USER_PHOTO, cropped_photo: '', order: 0 });
                         $scope.photosSlider = $scope.user.photos;
 
                     },

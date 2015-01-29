@@ -4,7 +4,8 @@
             <div id="PhotoSlider" ng-if="photosSlider.length > 0">
                 <ul rn-carousel rn-carousel-index="carouselIndex2">
                     <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
-                        <div class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
+                        <div ng-show="item.cropped_photo === ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
+                        <img ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
                     </li>
                 </ul>
 
