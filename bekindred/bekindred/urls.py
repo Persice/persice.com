@@ -1,13 +1,13 @@
 from django.conf.urls import patterns, include, url
 from tastypie.api import Api
+from django.contrib import admin
+
 from friends.api.resources import FriendsResource, ConnectionsResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
     FacebookLikeResource
 from interests.api.resources import InterestResource
 from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource
 from photos.api.resources import FacebookPhotoResource, UserResource
-
-from django.contrib import admin
 
 
 admin.autodiscover()
@@ -26,17 +26,13 @@ v1_api.register(FriendsResource())
 v1_api.register(ConnectionsResource())
 v1_api.register(FacebookLikeResource())
 
-
 urlpatterns = patterns('',
+                       url(r'^$', 'goals.views.main_page'),
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^facebook/', include('django_facebook.urls')),
                        url(r'^social/', include('social_auth.urls')),
-                       url(r'^messages/', include('messages.urls')),
                        url(r'^interest/', include('interests.urls')),
-                       url(r'^example/$', 'goals.views.example', name='facebook_example'),
-                       url(r'^$', 'goals.views.main_page'),
                        url(r'^goals/', include('goals.urls')),
-                       url(r'^friends/', include('friends.urls')),
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
                        url(r'^accounts/register/', 'goals.views.register'),
                        url(r'^accounts/deactivate/', 'members.views.deactivate_user', name='deactivate_user'),
@@ -51,8 +47,8 @@ from django.conf import settings
 
 
 urlpatterns += patterns('',
-                            (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-                                'document_root': settings.MEDIA_ROOT}))
+                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+                            'document_root': settings.MEDIA_ROOT}))
 
 urlpatterns += patterns('',
                         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {
@@ -60,7 +56,8 @@ urlpatterns += patterns('',
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns += patterns('',
                             url(r'^__debug__/', include(debug_toolbar.urls)),
                             url(r'api/doc/', include('tastypie_swagger.urls', namespace='tastypie_swagger'))
-                            )
+    )

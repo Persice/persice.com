@@ -12,18 +12,19 @@ from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django_facebook.connect import CONNECT_ACTIONS
-from django_facebook.models import FacebookCustomUser, FacebookLike, FacebookUser
+from django_facebook.models import FacebookLike
 from django_facebook.utils import get_registration_backend
 from open_facebook import OpenFacebook
 from social_auth.db.django_models import UserSocialAuth
-from .forms import RegistrationForm, GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
+from django_facebook.decorators import facebook_required_lazy
+from django.db.models import Q
+from geopy.distance import distance as geopy_distance
+
+from .forms import GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser, TwitterListFriends, TwitterListFollowers
 from goals.utils import calculate_age, linkedin_connections
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
 from .models import Goal, Offer, Subject, Keyword, UserIPAddress
-from django_facebook.decorators import facebook_required_lazy
-from django.db.models import Q
-from geopy.distance import distance as geopy_distance
 from interests.models import Interest
 
 
@@ -87,12 +88,11 @@ def edit_my_page(request):
         'interests': Interest.objects.filter(user=request.user.id),
         'twitter_provider': twitter_provider,
         'linkedin_provider': linkedin_provider,
-        })
+    })
     return render_to_response('goals/edit_my_page.html', context)
 
 
 class GoalOfferListView(LoginRequiredMixin, ListView):
-
     model = Goal
 
     def get_context_data(self, **kwargs):
@@ -122,27 +122,30 @@ class GoalOfferListView(LoginRequiredMixin, ListView):
             requested_auth_user = UserSocialAuth.objects.filter(user_id=self.request.user.id, provider='linkedin')[0]
             oauth_token = current_auth_user.tokens['oauth_token']
             oauth_token_secret = current_auth_user.tokens['oauth_token_secret']
-            kwargs['mutual_linkedin'], kwargs['mutual_linkedin_count'] = linkedin_connections(requested_auth_user.uid, oauth_token, oauth_token_secret)
+            kwargs['mutual_linkedin'], kwargs['mutual_linkedin_count'] = linkedin_connections(requested_auth_user.uid,
+                                                                                              oauth_token,
+                                                                                              oauth_token_secret)
         except IndexError:
             pass
 
         try:
             current_auth_user = UserSocialAuth.objects.filter(user_id=current_user, provider='twitter')[0]
             requested_auth_user = UserSocialAuth.objects.filter(user_id=self.request.user.id, provider='twitter')[0]
-            tf2 = TwitterListFriends.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2', flat=True)
+            tf2 = TwitterListFriends.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2',
+                                                                                                     flat=True)
             tf1 = TwitterListFriends.objects.filter(twitter_id1=current_auth_user.uid,
                                                     twitter_id2__in=tf2)
 
-            tfo2 = TwitterListFollowers.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2', flat=True)
+            tfo2 = TwitterListFollowers.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2',
+                                                                                                        flat=True)
             tfo1 = TwitterListFollowers.objects.filter(twitter_id1=current_auth_user.uid,
-                                                    twitter_id2__in=tfo2)
+                                                       twitter_id2__in=tfo2)
             kwargs['mutual_twitter_friends'] = tf1
             kwargs['mutual_twitter_followers'] = tfo1
             kwargs['count_mutual_twitter_friends'] = tf1.count()
             kwargs['count_mutual_twitter_followers'] = tfo1.count()
         except IndexError:
             pass
-
 
         test = FacebookFriendUser.objects.mutual_friends(self.request.user.id, kwargs['user_obj'].id)
         kwargs['mutual_facebook_friends'] = FacebookCustomUserActive.objects.filter(
@@ -291,7 +294,8 @@ class MatchView(LoginRequiredMixin, View):
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(current_user, exclude_friends)
         match_user_interests_to_likes = [x.user_id for x in match_interests_to_likes]
 
-        match_interests_to_interests = Interest.search_subject.match_interests_to_interests(current_user, exclude_friends)
+        match_interests_to_interests = Interest.search_subject.match_interests_to_interests(current_user,
+                                                                                            exclude_friends)
         match_user_interests_to_interests = [x.user_id for x in match_interests_to_interests]
 
         match_likes_to_interests = Interest.search_subject.match_fb_likes_to_interests(current_user, exclude_friends)
@@ -328,9 +332,12 @@ class MatchView(LoginRequiredMixin, View):
                 user_gender = _user.gender
                 results.append(dict(user_id=user,
                                     thumbed_up_me=-Friend.objects.thumbed_up_me(user, current_user).count(),
-                                    matched_goal_offer=Offer.objects.filter(user_id=user, offer=current_user_goals).count(),
-                                    matched_offer_goal=Goal.objects.filter(user_id=user, goal=current_user_offers).count(),
-                                    matched_goal_goal=Goal.objects.filter(user_id=user, goal=current_user_goals).count(),
+                                    matched_goal_offer=Offer.objects.filter(user_id=user,
+                                                                            offer=current_user_goals).count(),
+                                    matched_offer_goal=Goal.objects.filter(user_id=user,
+                                                                           goal=current_user_offers).count(),
+                                    matched_goal_goal=Goal.objects.filter(user_id=user,
+                                                                          goal=current_user_goals).count(),
                                     matched_offer_offer=Offer.objects.filter(user_id=user,
                                                                              offer=current_user_offers).count(),
                                     mutual_bekindred_friends=len(Friend.objects.mutual_friends(user, current_user)),
@@ -343,7 +350,8 @@ class MatchView(LoginRequiredMixin, View):
                 pass
 
         filter_distance = filter(lambda x: x.get('distance') <= _distance, results)
-        filter_age = filter(lambda x: (x.get('age') <= max_age) and (x.get('age') >= min_age) or (x.get('age') is 0), filter_distance)
+        filter_age = filter(lambda x: (x.get('age') <= max_age) and (x.get('age') >= min_age) or (x.get('age') is 0),
+                            filter_distance)
         if gender != self._DEFAULT_GENDER:
             filter_gender = filter(lambda x: (x.get('gender') == gender or x.get('gender') is None), filter_age)
         else:
@@ -357,7 +365,6 @@ class MatchView(LoginRequiredMixin, View):
 
                 user_ids = [x.get('user_id') for x in filter_gender]
 
-
                 filtered_user_ids.extend(FacebookCustomUserActive.objects.filter(id__in=user_ids,
                                                                                  about_me__icontains=keyword).
                                          values_list('id', flat=True))
@@ -365,22 +372,21 @@ class MatchView(LoginRequiredMixin, View):
                 for user_id in user_ids:
                     for s in _search_subject:
                         if s.goal_set.filter(user_id=user_id).count() or \
-                           s.offer_set.filter(user_id=user_id).count():
+                                s.offer_set.filter(user_id=user_id).count():
                             filtered_user_ids.append(user_id)
 
                     for i in _search_interest:
                         if i.objects.filter(user_id=user_id).count():
                             filtered_user_ids.append(user_id)
 
-
             filter_keywords = filter(lambda x: x.get('user_id') in set(filtered_user_ids), filter_gender)
         else:
             filter_keywords = filter_gender
 
         sorted_matched_users = sorted(filter_keywords, key=itemgetter('thumbed_up_me', 'matched_goal_offer',
-                                                                    'matched_offer_goal', 'matched_goal_goal',
-                                                                    'matched_offer_offer',
-                                                                    'distance'))
+                                                                      'matched_offer_goal', 'matched_goal_goal',
+                                                                      'matched_offer_offer',
+                                                                      'distance'))
         go = [x['user_id'] for x in sorted_matched_users]
         if go:
             match_user = go.pop(0)
@@ -516,6 +522,7 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
 @facebook_required_lazy
 def example(request, graph):
     context = RequestContext(request, {
@@ -530,9 +537,9 @@ def example(request, graph):
             user.save()
     return render_to_response('django_facebook/example.html', context)
 
+
 @login_required()
 def main_page(request, template_name="homepage.html"):
-
     twitter_provider, linkedin_provider = None, None
     try:
         twitter_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='twitter')[0].extra_data
@@ -569,13 +576,6 @@ def main_page(request, template_name="homepage.html"):
 
 def search_form(request):
     return render(request, 'goals/match_filter.html')
-
-from postman.views import WriteView
-from .forms import MyWriteForm
-
-
-class MyWriteView(WriteView):
-    form_class = MyWriteForm
 
 
 class SearchMessageView(object):

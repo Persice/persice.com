@@ -5,6 +5,7 @@ from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
+
 from friends.models import Friend
 from photos.api.resources import UserResource
 from matchfeed.api.resources import A

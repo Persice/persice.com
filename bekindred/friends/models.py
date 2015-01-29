@@ -1,9 +1,10 @@
+from itertools import chain
+
 from django.db import models
 from django.db.models import Q
-from itertools import chain
 from django_facebook.models import FacebookCustomUser, FacebookUser
+
 from members.models import FacebookCustomUserActive
-from postman.api import pm_write
 
 
 class FriendManager(models.Manager):
@@ -11,18 +12,6 @@ class FriendManager(models.Manager):
         sender = FacebookCustomUser.objects.get(pk=1)
         u1 = FacebookCustomUser.objects.get(pk=friend1)
         u2 = FacebookCustomUser.objects.get(pk=friend2)
-        pm_write(
-            sender=sender,
-            recipient=u1,
-            subject='test',
-            body=u"You and {} are now peeps".format(u2.first_name)
-        )
-        pm_write(
-            sender=sender,
-            recipient=u2,
-            subject='test',
-            body=u"You and {} are now peeps".format(u1.first_name)
-        )
         result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
                                        Q(friend1=friend2, friend2=friend1))[0]
         return result
@@ -111,7 +100,6 @@ class Friend(models.Model):
 
 
 class FacebookFriendManager(models.Manager):
-
     def all_my_friends(self, user_id):
         return list(FacebookUser.objects.filter(user_id=user_id).values_list('facebook_id', flat=True))
 

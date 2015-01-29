@@ -1,9 +1,10 @@
 import re
+
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm, Textarea
 from django_facebook.models import FacebookCustomUser
-from postman.forms import WriteForm
+
 from .models import Subject, Goal, Offer
 
 
@@ -92,7 +93,7 @@ class BiographyForm(ModelForm):
         fields = ['about_me']
         widgets = {
             'about_me': Textarea(attrs={'cols': 40, 'rows': 10}),
-            }
+        }
 
 
 class GoalUpdateForm(forms.Form):
@@ -101,8 +102,3 @@ class GoalUpdateForm(forms.Form):
 
 class OfferUpdateForm(forms.Form):
     description = forms.CharField(max_length=50)
-
-
-class MyWriteForm(WriteForm):
-    class Meta(WriteForm.Meta):
-        fields = ('recipients', 'body')
