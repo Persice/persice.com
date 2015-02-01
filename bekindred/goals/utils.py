@@ -38,7 +38,7 @@ def calculate_distance(user_id1, user_id2):
         distance = geopy_distance(point1, point2).miles
     except ObjectDoesNotExist:
         pass
-    return distance
+    return int(distance)
 
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):
