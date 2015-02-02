@@ -4,9 +4,8 @@ from tastypie.authorization import Authorization
 from tastypie import fields
 from tastypie.bundle import Bundle
 from tastypie.resources import Resource
-from friends.models import FacebookFriendUser
+from friends.models import FacebookFriendUser, Friend
 from matchfeed.models import MatchFeedManager
-from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance
 
@@ -83,6 +82,10 @@ class MatchedFeedResource(Resource):
 class MutualFriendsResource(Resource):
     id = fields.CharField(attribute='id')
 
+    # Mutual bekindred friends
+    mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
+    mutual_bk_friends_count = fields.IntegerField(attribute='mutual_bk_friends_count')
+
     mutual_fb_friends = fields.ListField(attribute='mutual_fb_friends')
     mutual_fb_friends_count = fields.IntegerField(attribute='mutual_fb_friends_count')
 
@@ -120,6 +123,9 @@ class MutualFriendsResource(Resource):
         if user and user != current_user:
             new_obj = A()
             new_obj.id = 0
+            new_obj.mutual_bk_friends = Friend.objects.mutual_friends(current_user, user)
+            new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)
+
             new_obj.mutual_fb_friends = FacebookFriendUser.objects.mutual_friends(current_user, user)
             new_obj.mutual_fb_friends_count = len(new_obj.mutual_fb_friends)
 

@@ -71,7 +71,16 @@ class FriendManager(models.Manager):
         return [x for x in all if x != user_id]
 
     def mutual_friends(self, friend1, friend2):
-        return list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
+        results = []
+        friends_ids = list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
+        users = FacebookCustomUser.objects.filter(id__in=friends_ids)
+        for user in users:
+            d = dict()
+            d['user_id'] = user.id
+            d['first_name'] = user.first_name
+            d['last_name'] = user.last_name
+            results.append(d)
+        return results
 
     def thumbed_up_i(self, user_id):
         return list(Friend.objects.filter(friend1=user_id, status=0).values_list('friend2', flat=True))
