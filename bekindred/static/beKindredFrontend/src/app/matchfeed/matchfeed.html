@@ -11,7 +11,7 @@
                      <ul rn-carousel rn-carousel-index="carouselIndex2">
                         <li ng-repeat="item in photosSlider track by $index">
                            <div ng-show="item.cropped_photo === ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
-                           <img ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
+                           <div ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.cropped_photo}})'}"></div>
                        </li>
                    </ul>
 
@@ -24,7 +24,7 @@
     <div class="container">
         <div class="ui segment" ng-click="changeTopMenu()">
             <div ng-show="photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].photo}}');"></div>
-            <img ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" ng-src="{{photosSlider[0].cropped_photo}}" />
+            <div ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].cropped_photo}}');"></div>
             <h2 class="ui header">
                 {{ matchedUser.first_name }} {{ matchedUser.age }}
                 <div class="sub header">{{matchedUser.distance}} mi.</div>
