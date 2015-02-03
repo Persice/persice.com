@@ -135,12 +135,12 @@
 
             <h4 ng-if="matchedUser.friends.length > 0" class="ui header" ng-show="showfullprofile">Mutual Friends</h4>
             <div ng-if="matchedUser.friends.length > 0" class="ui selection list" ng-show="showfullprofile">
-                <div class="item" ng-repeat="friend in matchedUser.friends track by $index">
-                    <img class="ui avatar image" ng-src="friend.photo">
+                <a ui-sref="friendprofile({ userId: friend.user_id })" class="item" ng-repeat="friend in matchedUser.friends track by $index">
+                    <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
                     <div class="content">
                         <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
                     </div>
-                </div>
+                </a>
             </div>
             <h4 ng-if="matchedUser.facebookfriends.length > 0 "class="ui header" ng-show="showfullprofile">Mutual Facebook Friends ({{ matchedUser.facebookfriends.length }})</h4>
             <div ng-if="matchedUser.facebookfriends.length > 0" class="ui selection list" ng-show="showfullprofile">
@@ -205,7 +205,7 @@
 </div>
 
 
-<div class="body segment" ng-if="total == 0" style="height: 100vh;">
+<div class="body segment" ng-if="total === 0" style="height: 100vh;">
     <div class="container">
         <div class="ui info message">
             <div class="header">
