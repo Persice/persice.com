@@ -27,4 +27,4 @@ class InterestResource(ModelResource):
         if user:
             return super(InterestResource, self).get_object_list(request).filter(user_id=user)
         else:
-            return super(InterestResource, self).get_object_list(request).filter().values_list('description',flat = True).distinct()
+            return super(InterestResource, self).get_object_list(request).distinct('description')

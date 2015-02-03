@@ -14,7 +14,7 @@ class MatchFeedManager(models.Manager):
         # calculate friends
         friends = Friend.objects.all_my_friends(user_id) + Friend.objects.thumbed_up_i(user_id) + \
                   Friend.objects.deleted_friends(user_id) + [user_id]
-                  # FacebookFriendUser.objects.all_my_friends(user_id) + \
+                  # FacebookFriendUser.objects.alls_my_friends(user_id) + \
 
         match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
@@ -34,8 +34,6 @@ class MatchFeedManager(models.Manager):
                 d[unicode(other)] = 0
 
             goals[_user_id].append(d)
-
-
 
         match_offers_to_offers = Offer.objects_search.match_offers_to_offers(user_id, friends)
         match_goals_to_offers = Offer.objects_search.match_goals_to_offers(user_id, friends)
