@@ -77,6 +77,7 @@ class FriendManager(models.Manager):
         for user in users:
             d = dict()
             d['user_id'] = user.id
+            d['facebook_id'] = user.facebook_id
             d['first_name'] = user.first_name
             d['last_name'] = user.last_name
             results.append(d)
