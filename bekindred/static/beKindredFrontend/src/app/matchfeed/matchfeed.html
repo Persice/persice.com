@@ -11,7 +11,7 @@
                      <ul rn-carousel rn-carousel-index="carouselIndex2">
                         <li ng-repeat="item in photosSlider track by $index">
                            <div ng-show="item.cropped_photo === ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
-                           <img ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
+                           <div ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.cropped_photo}})'}"></div>
                        </li>
                    </ul>
 
@@ -24,7 +24,7 @@
     <div class="container">
         <div class="ui segment" ng-click="changeTopMenu()">
             <div ng-show="photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].photo}}');"></div>
-            <img ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" ng-src="{{photosSlider[0].cropped_photo}}" />
+            <div ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].cropped_photo}}');"></div>
             <h2 class="ui header">
                 {{ matchedUser.first_name }} {{ matchedUser.age }}
                 <div class="sub header">{{matchedUser.distance}} mi.</div>
@@ -135,12 +135,12 @@
 
             <h4 ng-if="matchedUser.friends.length > 0" class="ui header" ng-show="showfullprofile">Mutual Friends</h4>
             <div ng-if="matchedUser.friends.length > 0" class="ui selection list" ng-show="showfullprofile">
-                <div class="item" ng-repeat="friend in matchedUser.friends track by $index">
-                    <img class="ui avatar image" ng-src="friend.photo">
+                <a ui-sref="friendprofile({ userId: friend.user_id })" class="item" ng-repeat="friend in matchedUser.friends track by $index">
+                    <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
                     <div class="content">
                         <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
                     </div>
-                </div>
+                </a>
             </div>
             <h4 ng-if="matchedUser.facebookfriends.length > 0 "class="ui header" ng-show="showfullprofile">Mutual Facebook Friends ({{ matchedUser.facebookfriends.length }})</h4>
             <div ng-if="matchedUser.facebookfriends.length > 0" class="ui selection list" ng-show="showfullprofile">
@@ -205,7 +205,7 @@
 </div>
 
 
-<div class="body segment" ng-if="total == 0" style="height: 100vh;">
+<div class="body segment" ng-if="total === 0" style="height: 100vh;">
     <div class="container">
         <div class="ui info message">
             <div class="header">

@@ -3413,11 +3413,27 @@ div.rn-carousel-indicator span.active {
 }
 
 .img-bounding-box-full-width {
-  background-size: cover!important;
-  background-position: 50% 50%;
-  background-repeat: no-repeat!important;
+  // background-size: cover!important;
+  // background-position: 50% 50%;
+  // background-repeat: no-repeat!important;
   height: 240px!important;
-  width: 100%!important;
+  // width: 100%!important;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0 auto 1em;
+  max-height: 600px;
+  max-width: 300px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+
+.img-bounding-box-full-width:before {
+  content: "";
+  display: block;
+  width: 100%;
+  padding-bottom: 56.25%;
 }
 
 ul[rn-carousel] {

@@ -35,9 +35,17 @@ angular.module('beKindred')
             $scope.showDimmer = true;
             $rootScope.hideTopMenu = true;
             $('#filtersMenu').sidebar('hide');
+            $scope.matchedUser = [];
+
             MatchFeedFactory.query({format: 'json'}).$promise.then(function(data) {
-                $scope.total = data.meta.total_count;
-                if ( data.objects.length > 0) {
+                $scope.matchedUser = [];
+                $scope.total = 0;
+                $scope.offset = 0;
+                $scope.previous = null;
+                $scope.next = null;
+                var result = data.objects;
+                if ( result.length > 0) {
+                    $scope.total = data.meta.total_count;
                     $scope.matchedUser = data.objects[0];
                     $scope.offset = data.meta.offset;
                     $scope.total = data.meta.total_count;
@@ -82,6 +90,7 @@ angular.module('beKindred')
                     //mutual friends
                     MutualFriendsFactory.query({format: 'json', user_id: $scope.matchedUser.id }).$promise.then(function(data) {
                         if (data.objects.length > 0) {
+                            $scope.matchedUser.friends = data.objects[0].mutual_bk_friends;
                             $scope.matchedUser.facebookfriends = data.objects[0].mutual_fb_friends;
                             $scope.matchedUser.linkedinconnections = data.objects[0].mutual_linkedin_connections;
                             $scope.matchedUser.twitterfollowers = data.objects[0].mutual_twitter_followers;
@@ -114,7 +123,7 @@ angular.module('beKindred')
                                 function(success){
                                     $log.info(success);
                                     $log.info('New photo saved.');
-                                    $scope.matchedUser.photos.push($scope.defaultUserPhoto);
+                                    $scope.matchedUser.photos.push(success);
                                     $scope.photosSlider = $scope.matchedUser.photos;
 
                                 },
@@ -129,9 +138,17 @@ angular.module('beKindred')
 
 
 }
+else {
+    $scope.matchedUser = [];
+    $scope.total = 0;
+    $scope.offset = 0;
+    $scope.previous = null;
+    $scope.next = null;
+}
 $scope.showDimmer = false;
 $rootScope.hideTopMenu = false;
 });
+
 pok = 1;
 
 }
@@ -178,10 +195,14 @@ else {
 
         if (newOffset === $scope.total) newOffset = 0;
 
+        $log.info($scope.total);
 
-        MatchFeedFactory.query({format: 'json', offset: newOffset, limit: 1}).$promise.then(function(data) {
 
-            if (data.objects.length > 0) {
+        MatchFeedFactory.query({format: 'json', offset: 0, limit: 1}).$promise.then(function(data) {
+            var result = data.objects;
+            if (result.length > 0) {
+                $log.info('more results');
+                $log.info(result.length);
                 $scope.matchedUser = data.objects[0];
                 $scope.offset = data.meta.offset;
                 $scope.total = data.meta.total_count;
@@ -223,6 +244,7 @@ else {
                 //mutual friends
                 MutualFriendsFactory.query({format: 'json', user_id: $scope.matchedUser.id }).$promise.then(function(data) {
                     if (data.objects.length > 0) {
+                        $scope.matchedUser.friends = data.objects[0].mutual_bk_friends;
                         $scope.matchedUser.facebookfriends = data.objects[0].mutual_fb_friends;
                         $scope.matchedUser.linkedinconnections = data.objects[0].mutual_linkedin_connections;
                         $scope.matchedUser.twitterfollowers = data.objects[0].mutual_twitter_followers;
@@ -234,42 +256,49 @@ else {
                 //get default photo
                 $scope.defaultUserPhoto = '//graph.facebook.com/' + $scope.matchedUser.facebook_id + '/picture?type=large';
                 //save default photo if no photos
-                if ($scope.matchedUser.photos.length > 0) {
-                    $scope.photosSlider = $scope.matchedUser.photos;
-                }
-                else {
-                    var newPhoto = {
-                        photo:  $scope.defaultUserPhoto,
-                        order: 0,
-                        user: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/'
-                    };
+                PhotosFactory.query( {
+                    format: 'json',
+                    user_id: $scope.matchedUser.user_id
+                }).$promise.then(function(response) {
+                    $scope.matchedUser.photos = response.objects;
+                    if ($scope.matchedUser.photos.length > 0) {
+                        $scope.photosSlider = $scope.matchedUser.photos;
+                    }
+                    else {
+                        var newPhoto = {
+                            photo:  $scope.defaultUserPhoto,
+                            order: 0,
+                            user: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/'
+                        };
 
 
-                    PhotosFactory.save({}, newPhoto,
-                        function(success){
-                            $log.info(success);
-                            $log.info('New photo saved.');
-                            $scope.matchedUser.photos.push($scope.defaultUserPhoto);
-                            $scope.photosSlider = $scope.matchedUser.photos;
+                        PhotosFactory.save({}, newPhoto,
+                            function(success){
+                                $log.info(success);
+                                $log.info('New photo saved.');
+                                $scope.matchedUser.photos.push(success);
+                                $scope.photosSlider = $scope.matchedUser.photos;
 
-                        },
-                        function(error) {
-                            $log.info(error);
-                        });
+                            },
+                            function(error) {
+                                $log.info(error);
+                            });
 
-                }
-            }
-            else {
-                $scope.matchedUser = [];
-                $scope.total = data.meta.total_count;
-                $scope.offset = 0;
-                $scope.previous = null;
-                $scope.next = null;
-            }
+                    }
+
+                });
+}
+else {
+    $scope.matchedUser = [];
+    $scope.total = 0;
+    $scope.offset = 0;
+    $scope.previous = null;
+    $scope.next = null;
+}
 
 
-            $scope.loadingFeed = false;
-        });
+$scope.loadingFeed = false;
+});
 
 };
 
