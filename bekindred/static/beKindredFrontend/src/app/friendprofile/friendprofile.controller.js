@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('FriendProfileCtrl', function ($scope, User, UsersFactory, InterestsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, $log) {
+.controller('FriendProfileCtrl', function ($scope, User, UsersFactory, MutualFriendsFactory, InterestsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, $log) {
     $scope.user = {
         id: User.id,
         facebook_id: User.facebook_id,
@@ -15,13 +15,11 @@ angular.module('beKindred')
         offers: [],
         likes: [],
         interests: [],
-        mutual: {
-            friends: [],
-            facebookfriends: [],
-            twitterfriends: [],
-            twitterfollowers: [],
-            linkedinconnections: [],
-        }
+        friends: [],
+        facebookfriends: [],
+        twitterfriends: [],
+        twitterfollowers: [],
+        linkedinconnections: []
     };
 
     $scope.defaultUserPhoto = '//graph.facebook.com/' + $scope.user.facebook_id + '/picture?type=large';
@@ -78,10 +76,23 @@ angular.module('beKindred')
             $scope.user.firstName = data.first_name;
             $scope.user.lastName = data.last_name;
             $scope.user.about_me = data.about_me;
+            $scope.user.id = data.id;
             $scope.user.age = data.age;
             $scope.user.facebookId = data.facebook_id;
 
             $scope.loadingUser = false;
+
+        });
+
+        //mutual friends
+        MutualFriendsFactory.query({format: 'json', user_id: $scope.user.id }).$promise.then(function(data) {
+            if (data.objects.length > 0) {
+                $scope.user.friends = data.objects[0].mutual_bk_friends;
+                $scope.user.facebookfriends = data.objects[0].mutual_fb_friends;
+                $scope.user.linkedinconnections = data.objects[0].mutual_linkedin_connections;
+                $scope.user.twitterfollowers = data.objects[0].mutual_twitter_followers;
+                $scope.user.twitterfriends = data.objects[0].mutual_twitter_friends;
+            }
 
         });
     };
