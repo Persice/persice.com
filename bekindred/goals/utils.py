@@ -43,10 +43,11 @@ def calculate_distance(user_id1, user_id2):
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):
     # refactor for different
+    # https://github.com/ozgur/python-linkedin
     from bekindred.settings.local import LINKEDIN_CONSUMER_KEY, LINKEDIN_CONSUMER_SECRET
 
     url = "https://api.linkedin.com/v1/people/%s" \
-          ":(relation-to-viewer:(related-connections:(id,first-name,last-name,picture-url)))" \
+          ":(relation-to-viewer:(related-connections:(id,first-name,last-name,picture-urls::(original))))" \
           "?format=json" % uid
     consumer = oauth.Consumer(key=LINKEDIN_CONSUMER_KEY, secret=LINKEDIN_CONSUMER_SECRET)
     token = oauth.Token(key=oauth_token, secret=oauth_token_secret)
