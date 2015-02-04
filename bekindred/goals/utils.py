@@ -127,9 +127,19 @@ def get_mutual_twitter_friends(user_id1, user_id2):
                                                                                                     flat=True)
         tfo1 = TwitterListFollowers.objects.filter(twitter_id1=current_auth_user.uid,
                                                    twitter_id2__in=tfo2)
-        result['mutual_twitter_friends'] = tf1
-        result['mutual_twitter_followers'] = tfo1
+        for tf in tf1:
+            result['mutual_twitter_friends'].append(
+                dict(name=tf.name2, profile_image_url=tf.profile_image_url2)
+            )
+
+        for tfo in tfo1:
+            result['mutual_twitter_followers'].append(
+                dict(name=tfo.name2, profile_image_url=tfo.profile_image_url2)
+            )
+
         result['count_mutual_twitter_friends'] = tf1.count()
         result['count_mutual_twitter_followers'] = tfo1.count()
+
+        return result
     except IndexError:
         return result
