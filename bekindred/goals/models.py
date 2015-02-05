@@ -120,7 +120,7 @@ class Goal(models.Model):
     goal = models.ForeignKey(Subject)
 
     def __unicode__(self):
-        return u'<Goal: %s>, <user: %s>' % (self.goal.description, self.user.first_name)
+        return self.goal.description
 
     class Meta:
         unique_together = ("user", "goal")
