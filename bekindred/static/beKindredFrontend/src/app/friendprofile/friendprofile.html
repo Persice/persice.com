@@ -106,7 +106,7 @@
             <h4 ng-if="user.twitterfriends.length > 0" class="ui header">Mutual Twitter Friends ({{ user.twitterfriends.length }})</h4>
             <div ng-if="user.twitterfriends.length > 0" class="ui selection list">
                 <div class="item" ng-repeat="friend in user.twitterfriends track by $index">
-                    <img class="ui avatar image" ng-src="friend.profile_image_url">
+                    <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
                     <div class="content">
                         <div class="header">{{ friend.name }}</div>
                     </div>
@@ -115,7 +115,7 @@
             <h4 ng-if="user.twitterfollowers.length > 0" class="ui header">Mutual Twitter Followers ({{ user.twitterfollowers.length  }})</h4>
             <div ng-if="user.twitterfollowers.length > 0" class="ui selection list">
                 <div class="item" ng-repeat="friend in user.twitterfollowers track by $index">
-                    <img class="ui avatar image" ng-src="friend.profile_image_url">
+                    <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
                     <div class="content">
                         <div class="header">{{ friend.name }}</div>
                     </div>
