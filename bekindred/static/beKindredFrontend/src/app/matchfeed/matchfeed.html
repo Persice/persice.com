@@ -172,7 +172,7 @@
             <h4 ng-if="matchedUser.linkedinconnections.length > 0" class="ui header" ng-show="showfullprofile">Mutual LinkedIn Connections ({{ matchedUser.linkedinconnections.length }})</h4>
             <div ng-if="matchedUser.linkedinconnections.length > 0" class="ui selection list" ng-show="showfullprofile">
                 <div class="item" ng-repeat="friend in matchedUser.linkedinconnections track by $index">
-                    <img class="ui avatar image" ng-src="{{friend.pictureUrls[0].values[0]}}">
+                    <img class="ui avatar image" ng-src="{{friend.pictureUrls.values[0]}}">
                     <div class="content">
                         <div class="header">{{ friend.firstName }} {{ friend.lastName }}</div>
                     </div>
