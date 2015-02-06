@@ -140,7 +140,7 @@
         </div>
 
 
-        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}">
+        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('friendprofile')">
           <div class="container">
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
             <div class="title item">
@@ -163,6 +163,9 @@
 
           </div>
         </div>
+
+
+
 
         <div class="pusher">
           <div class="full-height gsapify-router" ui-view autoscroll="false">
@@ -214,6 +217,7 @@
         <script src="app/matchfeed/matchfeed.controller.js"></script>
         <script src="app/matchfeed/matchfeed.factory.js"></script>
         <script src="app/myprofile/myprofile.controller.js"></script>
+        <script src="app/conversations/conversations.controller.js"></script>
         <script src="app/settings/settings.controller.js"></script>
         <script src="app/friendprofile/friendprofile.controller.js"></script>
         <script src="app/editmyprofile/editmyprofile.controller.js"></script>
@@ -280,6 +284,17 @@
             // }
           });
 
+        </script>
+
+        <script>
+          angular.module('beKindred').constant('USER_ID', 1);
+          angular.module('beKindred').constant('USER_FIRSTNAME', 'Sasa');
+          angular.module('beKindred').constant('USER_TWITTER',  '' );
+          angular.module('beKindred').constant('USER_LINKEDIN_NAME',  '' );
+          angular.module('beKindred').constant('USER_LINKEDIN_URL',  '' );
+          angular.module('beKindred').constant('USER_LASTNAME', 'Macakanja');
+          angular.module('beKindred').constant('FB_TOKEN', '');
+          angular.module('beKindred').constant('USER_PHOTO', '');
         </script>
       </body>
       </html>
