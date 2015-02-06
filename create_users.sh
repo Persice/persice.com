@@ -1,8 +1,8 @@
 #!/bin/bash
-# curl --cookie cookies.txt 'https://graph.facebook.com/oauth/access_token?client_id=634990373263225&client_secret=2d942d34f2e5818cad58920834044d5a&grant_type=client_credentials'
+# curl --cookie cookies.txt 'https://graph.facebook.com/oauth/access_token?client_id=633834406712155&client_secret=618558f85672fd7ec3a6c3aef89f0970&grant_type=client_credentials'
 
-for i in {1..50}
+for i in {1..100}
 do
-    curl --data "" 'https://graph.facebook.com/v2.2/634990373263225/accounts/test-users?access_token=634990373263225|YbwRsS9KRHImOU__G6wh2TH5Hn4'
+    curl --data "" 'https://graph.facebook.com/v2.2/633834406712155/accounts/test-users?access_token=633834406712155|DFbK0zf8XEjGFh7Zkzhkj4gv2DU'
     sleep 1
 done

@@ -7,6 +7,7 @@ from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalR
     FacebookLikeResource
 from interests.api.resources import InterestResource
 from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource
+from messages.api.resources import MessageResource
 from photos.api.resources import FacebookPhotoResource, UserResource
 
 
@@ -21,6 +22,7 @@ v1_api.register(GoalResource())
 v1_api.register(OfferResource())
 v1_api.register(MatchedFeedResource())
 v1_api.register(MutualFriendsResource())
+v1_api.register(MessageResource())
 v1_api.register(InterestResource())
 v1_api.register(FriendsResource())
 v1_api.register(ConnectionsResource())

@@ -50,12 +50,14 @@ INSTALLED_APPS += ('south',
                    'django_facebook',
                    'members',
                    'social_auth',
+                   'postman',
                    'goals',
                    'friends',
                    'world',
                    'interests',
                    'photos',
                    'matchfeed',
+                   'messages',
                    'tastypie',
 )
 
@@ -148,6 +150,24 @@ AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'
+
+
+# Django-postman settings
+POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
+POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
+POSTMAN_DISALLOW_COPIES_ON_REPLY = False  # default is False
+POSTMAN_DISABLE_USER_EMAILING = True  # default is False
+POSTMAN_AUTO_MODERATE_AS = True  # default is None
+POSTMAN_SHOW_USER_AS = 'first_name'  # default is None
+POSTMAN_NOTIFIER_APP = None  # default is 'notification'
+POSTMAN_MAILER_APP = None  # default is 'mailer'
+POSTMAN_AUTOCOMPLETER_APP = {
+    'name': '',  # default is 'ajax_select'
+    'field': '',  # default is 'AutoCompleteField'
+    'arg_name': '',  # default is 'channel'
+    'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
+}  # default is {}
+
 
 LOGGING = {
     'version': 1,
