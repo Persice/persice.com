@@ -7,7 +7,7 @@ from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalR
     FacebookLikeResource
 from interests.api.resources import InterestResource
 from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource
-from messages.api.resources import MessageResource
+from msgs.api.resources import MessageResource
 from photos.api.resources import FacebookPhotoResource, UserResource
 
 

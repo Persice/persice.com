@@ -57,7 +57,7 @@ INSTALLED_APPS += ('south',
                    'interests',
                    'photos',
                    'matchfeed',
-                   'messages',
+                   'msgs',
                    'tastypie',
 )
 
