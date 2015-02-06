@@ -132,7 +132,7 @@
         </div>
 
 
-        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}">
+        <div class="ui inverted top fixed menu" id="maintopmenu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('friendprofile')">
           <div class="container">
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
             <div class="title item">
@@ -156,6 +156,8 @@
 
           </div>
         </div>
+
+
 
         <div class="pusher">
           <div class="full-height" ui-view autoscroll="false">

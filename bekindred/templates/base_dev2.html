@@ -142,7 +142,7 @@
         </div>
 
 
-        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}">
+        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('friendprofile')">
           <div class="container">
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
             <div class="title item">
@@ -207,6 +207,7 @@
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/matchfeed/matchfeed.controller.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/matchfeed/matchfeed.factory.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/myprofile/myprofile.controller.js"></script>
+        <script src="{{ STATIC_URL }}beKindredFrontend/src/app/conversations/conversations.controller.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/settings/settings.controller.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/friendprofile/friendprofile.controller.js"></script>
         <script src="{{ STATIC_URL }}beKindredFrontend/src/app/editmyprofile/editmyprofile.controller.js"></script>

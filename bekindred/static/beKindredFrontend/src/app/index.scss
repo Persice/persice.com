@@ -2306,12 +2306,14 @@ img {
 }
 /* conversation */
 .bubbledLeft p,.bubbledRight p {
-  font-size: 0.8rem;
-  font-weight: 400;
+  font-size: 1rem!important;
+  font-weight: 300;
+  line-height: 0.8;
 }
+
 .bubbledLeft,.bubbledRight {
   margin-top: 10px;
-  padding: 0.8rem;
+  padding: 1rem;
   width: 96%;
   clear: both;
   position: relative;
@@ -2325,7 +2327,7 @@ img {
   -ms-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background-color: #DCDCDC;
-  color: #000;
+  color: #777;
 }
 .bubbledLeft:before {
   border-bottom: 10px solid #DCDCDC;
@@ -2361,11 +2363,10 @@ color: white;
   padding-bottom: 0px;
   margin-bottom: 0px;
   color: #999;
+  font-size: 0.9rem;
+  font-weight: 300;
 }
-.conversation-date .row {
-  padding-bottom: 0px;
-  margin-bottom: 0px;
-}
+
 span.conversation-time {
   position: absolute;
   bottom: 10px;
@@ -2373,25 +2374,21 @@ span.conversation-time {
   font-size: 0.7rem;
 }
 .conversation-content p {
-  line-height: 1rem;
+  line-height: 1.3rem!important;
 }
+
 .conversation-content {
   overflow-y: scroll;
   position: absolute;
-  top: 100px;
+  top: 65px;
   width: 100%;
-  bottom: 100px;
+  bottom: 29px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 40px;
+  background-color: #FFF!important;
 }
-section.match.friend {
-  margin-top:0px!important;
-}
-section.edit-wrapper {
-  margin-top: 0.8rem;
-}
-section.subtitle-wrapper h5 {
-  display: inline-block!important;
-  vertical-align: middle!important;
-}
+
 
 .search-wrapper {
   width: 100%;
@@ -3351,12 +3348,6 @@ ng\:form {
 }
 
 
-/* when hiding the item */
-.ng-hide-add         { animation:0s fadeIn; }
-
-/* when showing the item */
-.ng-hide-remove      { animation:0s fadeOut; }
-
 
 #main-page .ui.menu .actionstitle {
   padding: 4px!important;
@@ -3417,7 +3408,7 @@ div.rn-carousel-indicator span.active {
   background-position: 50% 50%;
   background-repeat: no-repeat!important;
   height: 240px!important;
-  width: 100%!important;
+  margin: 0 auto!important;
 }
 
 ul[rn-carousel] {
@@ -3485,4 +3476,63 @@ ul[rn-carousel] {
   border-bottom: none!important;
   padding-bottom: 5px!important;
   box-shadow: none!important;
+}
+
+
+
+
+.new_message {
+  padding-top: 0.8rem;
+}
+
+#submenu {
+  margin-top: 40px;
+}
+
+#headermenu.ui.menu  .header.item {
+  background: #FFF!important;
+
+}
+
+#headermenu, #maintopmenu {
+  position: fixed!important;
+  top: 0px!important;
+}
+
+#headermenu h3 {
+  margin-top: -33px;
+  height: 30px;
+}
+
+
+.hide-fade.ng-hide-add, .hide-fade.ng-hide-remove {
+  -webkit-transition:all linear 0.1s;
+  -moz-transition:all linear 0.1s;
+  -o-transition:all linear 0.1s;
+  transition:all linear 0.1s;
+  display:block!important;
+}
+.hide-fade.ng-hide-add.ng-hide-add-active,
+.hide-fade.ng-hide-remove {
+  opacity:0;
+}
+.hide-fade.ng-hide-add,
+.hide-fade.ng-hide-remove.ng-hide-remove-active {
+  opacity:1;
+}
+
+
+#main-page #friendprofileheader.header.segment {
+  padding-top: 100px!important;
+  border: none!important;
+  padding-bottom: 10px!important;
+  background-color: #f7f7f7!important;
+}
+
+ul[rn-carousel]>li {
+  text-align: center!important;
+}
+
+.rn-carousel-indicator {
+  text-align: center!important;
 }

@@ -82,6 +82,22 @@ angular.module('beKindred', [
         templateUrl: '/static/beKindredFrontend/src/app/friendprofile/friendprofile.html',
         controller: 'FriendProfileCtrl'
     })
+    .state('conversations', {
+        url: '/conversation/:userId',
+        resolve: {
+            userId: ['$stateParams', function($stateParams){
+                return $stateParams.userId;
+            }],
+            UsersFactory: 'UsersFactory',
+            FRIEND: function(UsersFactory, $stateParams){
+                var userId = $stateParams.userId;
+                return UsersFactory.get({userId: userId, format: 'json'}).$promise;
+            }
+
+        },
+        templateUrl: '/static/beKindredFrontend/src/app/conversations/conversations.html',
+        controller: 'ConversationsCtrl'
+    })
     .state('myprofile', {
         url: '/my-profile',
         templateUrl: '/static/beKindredFrontend/src/app/myprofile/myprofile.html',

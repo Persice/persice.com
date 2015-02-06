@@ -10,8 +10,8 @@
                     <div id="PhotoSlider">
                      <ul rn-carousel rn-carousel-index="carouselIndex2">
                         <li ng-repeat="item in photosSlider track by $index">
-                           <div ng-show="item.cropped_photo === ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
-                           <img ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
+                           <div ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
+                           <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
                        </li>
                    </ul>
 
