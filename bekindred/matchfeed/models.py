@@ -1,21 +1,30 @@
 from django.db import models
 from django_facebook.models import FacebookLike
 from friends.models import Friend, FacebookFriendUser
-from goals.models import Goal, Offer
+from goals.models import Goal, Offer, Subject
 from interests.models import Interest
 from members.models import FacebookLikeProxy
 from itertools import groupby
 
 
 class MatchFeedManager(models.Manager):
+
     @staticmethod
-    def match_all(user_id):
-        results = {'users': []}
+    def get_friends(user_id):
         # calculate friends
         friends = Friend.objects.all_my_friends(user_id) + Friend.objects.thumbed_up_i(user_id) + \
                   Friend.objects.deleted_friends(user_id) + [user_id]
-                  # FacebookFriendUser.objects.alls_my_friends(user_id) + \
+        # FacebookFriendUser.objects.alls_my_friends(user_id) + \
+        return friends
 
+    @staticmethod
+    def match_all(user_id, exclude_friends=False):
+        friends = MatchFeedManager.get_friends(user_id)
+
+        if exclude_friends:
+            friends = []
+
+        results = {'users': []}
         match_goals_to_goals = Goal.objects_search.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = Goal.objects_search.match_offers_to_goals(user_id, friends)
         match_goals = match_goals_to_goals | match_offers_to_goals

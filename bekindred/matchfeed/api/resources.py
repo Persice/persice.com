@@ -151,3 +151,74 @@ class MutualFriendsResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+class ProfileResource(Resource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name')
+    last_name = fields.CharField(attribute='last_name')
+    facebook_id = fields.CharField(attribute='facebook_id')
+    user_id = fields.CharField(attribute='user_id')
+
+    distance = fields.FloatField(attribute='distance')
+    about = fields.CharField(attribute='about', null=True)
+
+    photos = fields.ListField(attribute='photos')
+    goals = fields.ListField(attribute='goals')
+    offers = fields.ListField(attribute='offers')
+    likes = fields.ListField(attribute='likes')
+    interests = fields.ListField(attribute='interests')
+
+    class Meta:
+        max_limit = 1
+        resource_name = 'profile'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        results = []
+        new_obj = A()
+        _user = request.GET.get('user_id', None)
+        if _user is None:
+            return results
+        match_results = MatchFeedManager.match_all(request.user.id, exclude_friends=True)
+        request_user = FacebookCustomUser.objects.get(pk=_user)
+        photos = FacebookPhoto.objects.filter(user_id=request_user).values_list('photo', flat=True)
+
+        for user in match_results['users']:
+            if user['id'] == request_user.id:
+
+                new_obj.id = request_user.id
+                new_obj.first_name = request_user.first_name
+                new_obj.last_name = request_user.last_name
+                new_obj.facebook_id = request_user.facebook_id
+                new_obj.user_id = request_user.id
+                new_obj.about = request_user.about_me
+                new_obj.photos = photos
+                new_obj.distance = calculate_distance(request.user.id, request_user.id)
+
+                new_obj.goals = user['goals']
+                new_obj.offers = user['offers']
+                new_obj.likes = user['likes']
+                new_obj.interests = user['interests']
+                results.append(new_obj)
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
