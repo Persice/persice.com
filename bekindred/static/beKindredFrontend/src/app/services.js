@@ -38,6 +38,25 @@ angular.module('beKindred')
         }
     });
 }])
+.factory('ProfileFactory', ['$resource', function($resource){
+  return $resource('/api/v1/profile/:profileId/:param',
+    {profileId: '@profileId'} , {
+        query: {
+            method: 'GET',
+            isArray:false,
+            cache : false
+        },
+        save: {
+            method:'POST'
+        },
+        update: {
+            method: 'PATCH'
+        },
+        delete: {
+            method:'DELETE'
+        }
+    });
+}])
 .factory('ConnectionsFactory', ['$resource', function($resource){
   return $resource('/api/v1/connections/:connectionId/:param',
     {connectionId: '@connectionId'} , {

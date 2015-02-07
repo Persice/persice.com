@@ -73,10 +73,10 @@ angular.module('beKindred', [
             userId: ['$stateParams', function($stateParams){
                 return $stateParams.userId;
             }],
-            UsersFactory: 'UsersFactory',
-            User: function(UsersFactory, $stateParams){
+            ProfileFactory: 'ProfileFactory',
+            User: function(ProfileFactory, $stateParams){
                 var usrId = $stateParams.userId;
-                return UsersFactory.get({userId: usrId, format: 'json'}).$promise;
+                return ProfileFactory.get({user_id: usrId, format: 'json'}).$promise;
             }
         },
         templateUrl: '/static/beKindredFrontend/src/app/friendprofile/friendprofile.html',
