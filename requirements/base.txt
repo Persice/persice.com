@@ -43,3 +43,4 @@ simplejson==3.6.3
 six==1.8.0
 static==1.0.2
 wsgiref==0.1.2
+django-import-export==0.2.6

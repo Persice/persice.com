@@ -3,8 +3,8 @@ from fabric.api import env, run, local, task, sudo, cd, require
 from fabric.colors import green
 
 
-env.hosts = ['127.0.0.1']
-env.port = '2222'
+env.hosts = ['104.200.24.201']
+env.port = '20005'
 env.user = 'bekindred'
 env.key_filename = '~/.ssh/id_rsa'
 
