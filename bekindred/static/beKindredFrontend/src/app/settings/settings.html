@@ -1,3 +1,4 @@
+<div id="settingsPage">
 <div class="body segment edit" id="settings-body">
   <div class="container">
 
@@ -30,20 +31,33 @@
   </div>
   <div class="actions">
     <div class="two fluid ui inverted buttons">
-      <div class="ui red basic inverted button">
+      <div class="ui red negative basic inverted button">
         <i class="remove icon"></i>
         No
       </div>
-      <div class="ui green basic inverted button">
+      <a class="ui green basic inverted button ok">
         <i class="checkmark icon"></i>
         Yes
-      </div>
+      </a>
     </div>
   </div>
 </div>
 
 <script>
+  'use strict';
   $('.basic.delete.modal')
-  .modal('attach events', '.deleteitem', 'show')
-  ;
+  .modal({
+    onDeny    : function(){
+      console.log('cancel');
+    },
+    onApprove : function() {
+      console.log('deleting user');
+      angular.element(document.getElementById('settingsPage')).scope().deleteUser();
+    }
+  })
+  .modal('attach events', '.deleteitem', 'show');
+
+
 </script>
+
+</div>
