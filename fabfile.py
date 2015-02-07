@@ -1,11 +1,31 @@
-from fabric.api import env, run, local, task
+import os
+from fabric.api import env, run, local, task, sudo, cd, require
 from fabric.colors import green
 
 
-env.hosts = ['104.200.24.201']
-env.port = '20005'
-env.user = 'root'
+env.hosts = ['127.0.0.1']
+env.port = '2222'
+env.user = 'bekindred'
 env.key_filename = '~/.ssh/id_rsa'
+
+
+env.project_name = 'bekindred'
+env.server_name = 'linode'
+env.webapps_root = '/webapps/bekindred/'
+env.repo_root = os.path.join(env.webapps_root, 'beKindred.com')
+env.settings = 'bekindred.settings.production_linode'
+
+env.project_root = os.path.join(env.repo_root, env.project_name)
+env.activate_script = os.path.join(env.webapps_root, 'bin/activate')
+env.wsgi_file = os.path.join(env.project_root, env.project_name, 'django.wsgi')
+
+env.requirements_file = os.path.join(env.repo_root, 'requirements.txt')
+env.manage_dir = env.project_root
+
+
+@task
+def production():
+    env.hosts = [env.server_name]
 
 
 @task
@@ -20,45 +40,95 @@ def remote_uname():
 
 
 @task
-def pull():
-    run('git pull origin master')
+def virtualenv(command, use_sudo=False):
+    if use_sudo:
+        func = sudo
+    else:
+        func = run
+    func('source "%s" && %s' % (env.activate_script, command))
+
+
+@task
+def update():
+    with cd(env.repo_root):
+        print green(env.repo_root)
+        run('git pull origin master')
+
+
+@task
+def install_requirements():
+    virtualenv('pip install -r %(requirements_file)s' % env)
+
+
+@task
+def manage_py(command, use_sudo=False):
+    require('hosts', provided_by=[production])
+    with cd(env.manage_dir):
+        virtualenv('python manage.py %s --settings=%s' %
+                   (command, env.settings), use_sudo)
+
+
+@task
+def syncdb(app=None):
+    require('hosts', provided_by=[production])
+    manage_py('syncdb --noinput')
 
 
 @task
 def migrate():
-    run('./manage.py migrate --all')
-    run('./manage.py migrate --list')
+    require('hosts', provided_by=[production])
+    manage_py('migrate')
+
+
+@task
+def migrate_list():
+    require('hosts', provided_by=[production])
+    manage_py('migrate')
 
 
 @task
 def test():
-    local('./manage.py test')
+    manage_py('test')
 
 
 @task
-def build_static():
-    pass
+def collectstatic():
+    require('hosts', provided_by=[production])
+    manage_py('collectstatic -l --noinput', use_sudo=True)
 
 
 @task
 def restart_app():
-    run('supervisorctl stop bekindred')
-    run('supervisorctl start bekindred')
-    run('supervisorctl status bekindred')
+    sudo('supervisorctl stop bekindred')
+    sudo('supervisorctl start bekindred')
+    sudo('supervisorctl status bekindred')
 
 
 @task
 def restart_nginx():
-    run('service nginx restart')
+    sudo('service nginx restart')
+
+
+@task
+def reload():
+    restart_app()
+    restart_nginx()
+
 
 @task
 def update_stop_words():
-    local('./bekindred/data/update_stop_words_ubuntu.sh')
+    sudo(os.path.join(env.project_root, env.project_name, 'data',
+                      'update_stop_words_ubuntu.sh'))
+
 
 @task
 def deploy():
-    test()
+    require('hosts', provided_by=[production])
     remote_uname()
-    pull()
+    update()
+    install_requirements()
+    syncdb()
     migrate()
-    restart_app()
+    collectstatic()
+    reload()
+    print green('Successful!')
