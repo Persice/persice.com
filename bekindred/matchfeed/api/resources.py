@@ -204,7 +204,7 @@ class ProfileResource(Resource):
                 new_obj.last_name = request_user.last_name
                 new_obj.facebook_id = request_user.facebook_id
                 new_obj.user_id = request_user.id
-                new_obj.age = calculate_age(user.date_of_birth)
+                new_obj.age = calculate_age(request_user.date_of_birth)
                 new_obj.about = request_user.about_me
                 new_obj.photos = photos
                 new_obj.distance = calculate_distance(request.user.id, request_user.id)
