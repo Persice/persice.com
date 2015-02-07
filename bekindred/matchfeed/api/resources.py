@@ -7,7 +7,7 @@ from tastypie.resources import Resource
 from friends.models import FacebookFriendUser, Friend
 from matchfeed.models import MatchFeedManager
 from photos.models import FacebookPhoto
-from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance
+from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age
 
 
 class A(object):
@@ -20,7 +20,7 @@ class MatchedFeedResource(Resource):
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
     user_id = fields.CharField(attribute='user_id')
-    # age = fields.IntegerField(attribute='age')
+    age = fields.IntegerField(attribute='age')
     distance = fields.FloatField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
 
@@ -58,6 +58,7 @@ class MatchedFeedResource(Resource):
             new_obj.first_name = user.first_name
             new_obj.last_name = user.last_name
             new_obj.facebook_id = user.facebook_id
+            new_obj.age = calculate_age(user.date_of_birth)
             new_obj.user_id = user.id
             new_obj.about = user.about_me
             new_obj.photos = photos
@@ -160,6 +161,7 @@ class ProfileResource(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     user_id = fields.CharField(attribute='user_id')
 
+    age = fields.IntegerField(attribute='age')
     distance = fields.FloatField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
 
@@ -202,6 +204,7 @@ class ProfileResource(Resource):
                 new_obj.last_name = request_user.last_name
                 new_obj.facebook_id = request_user.facebook_id
                 new_obj.user_id = request_user.id
+                new_obj.age = calculate_age(user.date_of_birth)
                 new_obj.about = request_user.about_me
                 new_obj.photos = photos
                 new_obj.distance = calculate_distance(request.user.id, request_user.id)
