@@ -20,5 +20,10 @@ class MessageResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(MessageResource, self).get_object_list(request).filter(Q(sender=request.user.id) |
-                                                                            Q(recipient=request.user.id))
+        user = request.user.id
+        user_id = request.GET.get('user_id', None)
+        if user_id is None:
+            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user) | Q(recipient=user))
+        else:
+            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user, recipient=user_id) |
+                                                                                Q(sender=user_id, recipient=user))
