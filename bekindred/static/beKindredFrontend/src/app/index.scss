@@ -2306,12 +2306,14 @@ img {
 }
 /* conversation */
 .bubbledLeft p,.bubbledRight p {
-  font-size: 0.8rem;
-  font-weight: 400;
+  font-size: 1rem!important;
+  font-weight: 300;
+  line-height: 0.8;
 }
+
 .bubbledLeft,.bubbledRight {
   margin-top: 10px;
-  padding: 0.8rem;
+  padding: 1rem;
   width: 96%;
   clear: both;
   position: relative;
@@ -2361,11 +2363,10 @@ color: white;
   padding-bottom: 0px;
   margin-bottom: 0px;
   color: #999;
+  font-size: 1rem;
+  font-weight: 400;
 }
-.conversation-date .row {
-  padding-bottom: 0px;
-  margin-bottom: 0px;
-}
+
 span.conversation-time {
   position: absolute;
   bottom: 10px;
@@ -2373,30 +2374,35 @@ span.conversation-time {
   font-size: 0.7rem;
 }
 .conversation-content p {
-  line-height: 1rem;
+  line-height: 1.3rem!important;
 }
-.conversation-content {
-  overflow-y: scroll;
-  position: absolute;
-  top: 100px;
-  width: 100%;
-  bottom: 100px;
+
+.conversation-content.ui.segment {
+  overflow-y: scroll!important;
+  position: absolute!important;
+  top: 35px!important;
+  width: 100%!important;
+  bottom: 29px!important;
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  padding-bottom: 40px!important;
+  background-color: #FFF!important;
 }
-section.match.friend {
-  margin-top:0px!important;
+
+.lastMessage {
+  margin-bottom: 20px!important;
 }
-section.edit-wrapper {
-  margin-top: 0.8rem;
-}
-section.subtitle-wrapper h5 {
-  display: inline-block!important;
-  vertical-align: middle!important;
-}
+
 
 .search-wrapper {
   width: 100%;
 }
 
+.conversation-content h3 {
+  padding-top: 150px!important;
+  text-align: center!important;
+  padding-bottom: 100px!important;
+}
 
 /* Friends list */
 .friends-header {
@@ -3351,12 +3357,6 @@ ng\:form {
 }
 
 
-/* when hiding the item */
-.ng-hide-add         { animation:0s fadeIn; }
-
-/* when showing the item */
-.ng-hide-remove      { animation:0s fadeOut; }
-
 
 #main-page .ui.menu .actionstitle {
   padding: 4px!important;
@@ -3413,27 +3413,11 @@ div.rn-carousel-indicator span.active {
 }
 
 .img-bounding-box-full-width {
-  // background-size: cover!important;
-  // background-position: 50% 50%;
-  // background-repeat: no-repeat!important;
+  background-size: cover!important;
+  background-position: 50% 50%;
+  background-repeat: no-repeat!important;
   height: 240px!important;
-  // width: 100%!important;
-  background-position: 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 0 auto 1em;
-  max-height: 600px;
-  max-width: 300px;
-  display: block;
-  overflow: hidden;
-  position: relative;
-}
-
-.img-bounding-box-full-width:before {
-  content: "";
-  display: block;
-  width: 100%;
-  padding-bottom: 56.25%;
+  margin: 0 auto!important;
 }
 
 ul[rn-carousel] {
@@ -3497,9 +3481,72 @@ ul[rn-carousel] {
 }
 
 #settings-body {
-  min-height: 100px!important;
+  height: 100vh!important;
   border-bottom: none!important;
   padding-bottom: 5px!important;
   box-shadow: none!important;
-  background-color: rgba(0, 0, 0, 0)!important;
+  background-color: #f7f7f7!important;
+}
+
+
+
+
+.new_message {
+  padding-top: 0.8rem;
+}
+
+#submenu {
+  margin-top: 40px;
+}
+
+#headermenu.ui.menu  .header.item {
+  background: #FFF!important;
+
+}
+
+#headermenu, #maintopmenu {
+  position: fixed!important;
+  top: 0px!important;
+}
+
+#headermenu h3 {
+  margin-top: -33px;
+  height: 30px;
+}
+
+
+.hide-fade.ng-hide-add, .hide-fade.ng-hide-remove {
+  -webkit-transition:all linear 0.1s;
+  -moz-transition:all linear 0.1s;
+  -o-transition:all linear 0.1s;
+  transition:all linear 0.1s;
+  display:block!important;
+}
+.hide-fade.ng-hide-add.ng-hide-add-active,
+.hide-fade.ng-hide-remove {
+  opacity:0;
+}
+.hide-fade.ng-hide-add,
+.hide-fade.ng-hide-remove.ng-hide-remove-active {
+  opacity:1;
+}
+
+
+#main-page #friendprofileheader.header.segment {
+  padding-top: 100px!important;
+  border: none!important;
+  padding-bottom: 10px!important;
+  background-color: #f7f7f7!important;
+}
+
+#settingsPage {
+ background-color: #f7f7f7!important;
+}
+
+ul[rn-carousel]>li {
+  text-align: center!important;
+}
+
+.rn-carousel-indicator {
+  text-align: center!important;
 }

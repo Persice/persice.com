@@ -27,11 +27,12 @@
   <link href="{{ STATIC_URL }}css/app.css" rel="stylesheet" media="screen">
 
   <script src="{{ STATIC_URL }}js/modernizr.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
 <body id="main-page" class="gray">
 
-  <toaster-container toaster-options="{'position-class': 'toast-top-full-width', 'time-out': 0}"></toaster-container>
+  <toaster-container toaster-options="{'position-class': 'toast-top-full-width', 'time-out': 5000}"></toaster-container>
 
 
   {%verbatim%}
@@ -132,7 +133,7 @@
         </div>
 
 
-        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}">
+        <div class="ui inverted top fixed menu" id="maintopmenu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('friendprofile')">
           <div class="container">
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
             <div class="title item">
@@ -156,6 +157,8 @@
 
           </div>
         </div>
+
+
 
         <div class="pusher">
           <div class="full-height" ui-view autoscroll="false">
@@ -225,8 +228,18 @@
         </script>
 
         <script>
+          'use strict';
+
           angular.module('beKindred').constant('USER_ID', {{ user.id }});
           angular.module('beKindred').constant('USER_FIRSTNAME', '{{ user.first_name }}');
+          angular.module('beKindred').constant('angularMomentConfig', (function() {
+            var tz = jstz.determine();
+            var localTimezone =  tz.name();
+            return {
+              timezone: localTimezone,
+              preprocess: 'utc'
+            }
+          })());
           angular.module('beKindred').constant('USER_TWITTER',  {% if twitter_provider %} '{{ twitter_provider.screen_name }}' {% else %} '' {% endif %} );
           angular.module('beKindred').constant('USER_LINKEDIN_NAME',  {% if linkedin_provider %} '{{ linkedin_provider.first_name }} {{ linkedin_provider.last_name }}' {% else %} '' {% endif %} );
           angular.module('beKindred').constant('USER_LINKEDIN_URL',  {% if linkedin_provider %} '{{ linkedin_provider.public_profile_url }}' {% else %} '' {% endif %} );

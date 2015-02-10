@@ -1,0 +1,56 @@
+  <div class="ui fixed borderless menu" id="headermenu">
+    <a class="icon item" ui-sref="inbox"><i class="left chevron icon"></i></a>
+    <h3 class="ui center aligned header">{{friend.first_name}}</h3>
+
+  </div>
+
+  <div class="ui fixed menu" id="submenu">
+    <div class="3 fluid large ui buttons">
+      <a ui-sref="conversations({ userId: friend.id })" class="ui active button"><i class="chat icon"></i></a>
+      <a ui-sref="friendprofile({ userId: friend.id })" class="ui button"><i class="user icon"></i></a>
+      <a class="ui button"><i class="ellipsis horizontal icon"></i></a>
+    </div>
+
+  </div>
+
+  <div class="conversation-content ui segment" ng-class="{'loading': loadingMessages}">
+   <div ng-repeat="message in messages track by $index">
+     <h6>
+      {{message.date}}
+    </h6>
+    <div ng-style="" ng-class="{'bubbledLeft': msg.left, 'bubbledRight': !msg.left, 'lastMessage': $last}" ng-repeat="msg in message.contents | orderBy:'sent_at' track by $index">
+      <p>
+        {{msg.body}}
+      </p>
+      <span class="conversation-time">{{msg.sent_at | amDateFormat:'h:mm a'}}</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- empty state -->
+<div class="conversation-content ui segment" ng-if="messages.length === 0">
+
+  <h3>
+    You and {{friend.first_name}} are now Kindred peeps
+  </h3>
+
+  <h6>
+    Monday, April 14, 2014
+  </h6>
+
+</div>
+
+
+
+<div class="message-reply">
+
+  <div class="ui fluid action input">
+    <input type="text" placeholder="" ng-model="newmessage">
+    <div ng-click="sendNewMessage()" class="ui button" ng-class="{'loading': sendingMessage}">Send</div>
+    <div ng-click="getMessages()" class="ui button" ng-class="{'loading': loadingMessages}">Refresh</div>
+  </div>
+
+
+
+</div>

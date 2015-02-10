@@ -147,6 +147,21 @@ else {
 }
 $scope.showDimmer = false;
 $rootScope.hideTopMenu = false;
+}, function(response) {
+    var data = response.data,
+    status = response.status,
+    header = response.header,
+    config = response.config,
+    message = 'Error ' + status;
+    // error handler
+    $log.error(message);
+    $scope.matchedUser = [];
+    $scope.total = 0;
+    $scope.offset = 0;
+    $scope.previous = null;
+    $scope.next = null;
+    $scope.showDimmer = false;
+    $rootScope.hideTopMenu = false;
 });
 
 pok = 1;
@@ -298,6 +313,21 @@ else {
 
 
 $scope.loadingFeed = false;
+}, function(response) {
+    var data = response.data,
+    status = response.status,
+    header = response.header,
+    config = response.config,
+    message = 'Error ' + status;
+    // error handler
+    $log.error(message);
+    $scope.matchedUser = [];
+    $scope.total = 0;
+    $scope.offset = 0;
+    $scope.previous = null;
+    $scope.next = null;
+    $scope.showDimmer = false;
+    $rootScope.hideTopMenu = false;
 });
 
 };

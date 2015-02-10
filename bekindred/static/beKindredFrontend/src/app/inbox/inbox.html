@@ -10,14 +10,15 @@
 </div>
 <div class="body segment" id="inbox-body">
     <div class="container">
+
         <div class="ui selection divided list">
-            <a href="#" class="item" ng-repeat="n in repeatN(10) track by $index">
-                <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url({{photo}})'}" ng-style="background-image: url('http://lorempixel.com/100/100"></div>
-                <span class="message-time">1 day ago</span>
+            <a ui-sref="conversations({ userId: connection.friend_id })" class="item" ng-repeat="connection in connections track by $index">
+                <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ connection.facebook_id }}/picture?type=large)'}"></div>
+                <span class="message-time">{{connection.lastMessage.display}}</span>
                 <div class="content">
-                    <div class="header">Kindred</div>
+                    <div class="header">{{connection.first_name}}</div>
                     <div class="description">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit...
+                        {{connection.lastMessage.body}}
                     </div>
                 </div>
             </a>

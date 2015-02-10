@@ -1,25 +1,32 @@
-<div class="header segment with-menu" id="my-profile-header">
-    <div class="container">
-        <div class="ui attached segment">
-            <div class="ui fluid primary button" ui-sref="myconnections">
-                Back to My Connections
-            </div>
+<div class="ui fixed borderless menu" id="headermenu">
+    <a class="icon item" ui-sref="myconnections"><i class="left chevron icon"></i></a>
+    <h3 class="ui center aligned header">{{ user.firstName }}</h3>
+</div>
+
+<div class="ui fixed menu" id="submenu">
+    <div class="3 fluid large ui buttons">
+        <a ui-sref="conversations({ userId: user.id })" class="ui button"><i class="chat icon"></i></a>
+        <a ui-sref="friendprofile({ userId: user.id })" class="ui active button"><i class="user icon"></i></a>
+        <a class="ui button"><i class="ellipsis horizontal icon"></i></a>
+    </div>
+</div>
+
+<div class="header segment with-menu" id="friendprofileheader">
+    <div class="container"
+    <div class="pagination-container">
+        <div id="PhotoSlider" ng-if="photosSlider.length > 0">
+
+            <ul rn-carousel rn-carousel-index="carouselIndex2">
+                <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
+                    <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
+                    <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
+                </li>
+            </ul>
+
+            <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
         </div>
-        <br>
-        <div class="pagination-container">
-            <div id="PhotoSlider" ng-if="photosSlider.length > 0">
-
-                <ul rn-carousel rn-carousel-index="carouselIndex2">
-                    <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
-                     <div ng-show="item.cropped_photo === ''" class="ui medium image img-bounding-box-full-width" ng-style="{'background-image': 'url({{item.photo}})'}"></div>
-                     <img ng-show="item.cropped_photo !== ''" class="ui medium image img-bounding-box-full-width" ng-src="{{item.cropped_photo}}" />
-                 </li>
-             </ul>
-
-             <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
-         </div>
-     </div>
- </div>
+    </div>
+</div>
 </div>
 
 <div class="body segment" id="matched-profile-body" >
@@ -77,7 +84,7 @@
             <h4 class="ui header">Likes</h4>
             <div class="ui list">
                 <div class="item" ng-repeat="like in user.likes | orderBy:['-match']  track by $index">
-                <i class="icon" ng-class="{'check green': like.match === 1, 'empty': like.match === 0 }"></i>
+                    <i class="icon" ng-class="{'check green': like.match === 1, 'empty': like.match === 0 }"></i>
                     <div class="content">
                         <div class="description">{{ like.value }}</div>
                     </div>

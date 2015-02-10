@@ -10,6 +10,15 @@ angular.module('beKindred')
         ConnectionsFactory.query({format: 'json'}).$promise.then(function(data) {
 
             $scope.friends = data.objects;
+        }, function(response) {
+            var data = response.data,
+            status = response.status,
+            header = response.header,
+            config = response.config,
+            message = 'Error ' + status;
+            // error handler
+            $log.error(message);
+
         });
 
     };

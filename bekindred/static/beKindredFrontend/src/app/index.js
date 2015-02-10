@@ -15,7 +15,8 @@ angular.module('beKindred', [
     'angucomplete-alt',
     'angular-carousel',
     'toaster',
-    'ngImgCrop'
+    'ngImgCrop',
+    'angularMoment'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 
@@ -46,6 +47,22 @@ angular.module('beKindred', [
         resolve: {
 
         }
+    })
+    .state('conversations', {
+        url: '/conversation/:userId',
+        resolve: {
+            userId: ['$stateParams', function($stateParams){
+                return $stateParams.userId;
+            }],
+            UsersFactory: 'UsersFactory',
+            FRIEND: function(UsersFactory, $stateParams){
+                var userId = $stateParams.userId;
+                return UsersFactory.get({userId: userId, format: 'json'}).$promise;
+            }
+
+        },
+        templateUrl: '/static/beKindredFrontend/src/app/conversations/conversations.html',
+        controller: 'ConversationsCtrl'
     })
     .state('goalcreate', {
         url: '/create-goal',
@@ -161,8 +178,19 @@ angular.module('beKindred', [
     return function(propertyName, propertyValue, collection) {
         var i=0, len=collection.length;
         for (; i<len; i++) {
-            if (collection[i][propertyName] == propertyValue) {
+            if (collection[i][propertyName] === propertyValue) {
                 return collection[i];
+            }
+        }
+        return null;
+    };
+})
+.filter('getIndexByProperty', function() {
+    return function(propertyName, propertyValue, collection) {
+        var i=0, len=collection.length;
+        for (; i<len; i++) {
+            if (collection[i][propertyName] === propertyValue) {
+                return i;
             }
         }
         return null;

@@ -70,53 +70,6 @@ angular.module('beKindred')
         }
         $scope.user.likes = likes;
 
-        // GoalsFactory.query({user_id: $scope.user.id, format: 'json'}).$promise.then(function(data) {
-        //     if (data.meta.total_count > 0) {
-        //         $scope.user.goals = data.objects;
-        //     }
-        //     $scope.loadingGoals = false;
-
-        // });
-
-        // OffersFactory.query({user_id: $scope.user.id, format: 'json'}).$promise.then(function(data) {
-        //     if (data.meta.total_count > 0) {
-        //         $scope.user.offers = data.objects;
-        //     }
-        //     $scope.loadingOffers = false;
-
-        // });
-
-        // LikesFactory.query({user_id: $scope.user.id, format: 'json'}).$promise.then(function(data) {
-        //     if (data.meta.total_count > 0) {
-        //         $scope.user.likes = data.objects;
-        //     }
-        //     $scope.loadingLikes = false;
-
-        // });
-
-
-        // InterestsFactory.query({user_id: $scope.user.id, format: 'json'}).$promise.then(function(data) {
-        //     if (data.meta.total_count > 0) {
-        //         $scope.user.interests = data.objects;
-        //     }
-        //     $scope.loadingInterests = false;
-
-        // });
-
-
-        // UsersFactory.get({format: 'json'}, {userId: $scope.user.id}).$promise.then(function(data) {
-
-        //     $scope.user.firstName = data.first_name;
-        //     $scope.user.lastName = data.last_name;
-        //     $scope.user.about_me = data.about_me;
-        //     $scope.user.id = data.id;
-        //     $scope.user.age = data.age;
-        //     $scope.user.facebookId = data.facebook_id;
-
-        //     $scope.loadingUser = false;
-
-        // });
-
         //mutual friends
         MutualFriendsFactory.query({format: 'json', user_id: $scope.user.id }).$promise.then(function(data) {
             if (data.objects.length > 0) {
@@ -133,50 +86,72 @@ angular.module('beKindred')
                 $scope.loadingInterests = false;
             }
 
+        }, function(response) {
+            var data = response.data,
+            status = response.status,
+            header = response.header,
+            config = response.config,
+            message = 'Error ' + status;
+            // error handler
+            $log.error(message);
+            $scope.loadingUser = false;
+            $scope.loadingGoals = false;
+            $scope.loadingOffers = false;
+            $scope.loadingLikes = false;
+
         });
-    };
+};
 
-    $scope.getUser();
+$scope.getUser();
 
-    $scope.photosSlider = [];
-
-
-    $scope.getPhotos = function() {
-        PhotosFactory.query( {
-            format: 'json',
-            user_id: $scope.user.id
-        }).$promise.then(function(response) {
-            $scope.user.photos = response.objects;
+$scope.photosSlider = [];
 
 
+$scope.getPhotos = function() {
+    PhotosFactory.query( {
+        format: 'json',
+        user_id: $scope.user.id
+    }).$promise.then(function(response) {
+        $scope.user.photos = response.objects;
 
 
-            if ($scope.user.photos.length === 0) {
-                var newPhoto = {
-                    photo:  $scope.defaultUserPhoto,
-                    order: 0,
-                    user: '/api/v1/auth/user/' + $scope.user.id + '/'
-                };
 
-                PhotosFactory.save({}, newPhoto,
-                    function(success){
-                        $log.info(success);
-                        $log.info('New photo saved.');
-                        $scope.user.photos.push({photo:  $scope.defaultUserPhoto, cropped_photo: '', order: 0 });
-                        $scope.photosSlider = $scope.user.photos;
 
-                    },
-                    function(error) {
-                        $log.info(error);
-                    });
-            }
-            else {
-             $scope.photosSlider = $scope.user.photos;
-         }
-     });
-    };
+        if ($scope.user.photos.length === 0) {
+            var newPhoto = {
+                photo:  $scope.defaultUserPhoto,
+                order: 0,
+                user: '/api/v1/auth/user/' + $scope.user.id + '/'
+            };
 
-    $scope.getPhotos();
+            PhotosFactory.save({}, newPhoto,
+                function(success){
+                    $log.info(success);
+                    $log.info('New photo saved.');
+                    $scope.user.photos.push({photo:  $scope.defaultUserPhoto, cropped_photo: '', order: 0 });
+                    $scope.photosSlider = $scope.user.photos;
+
+                },
+                function(error) {
+                    $log.info(error);
+                });
+        }
+        else {
+           $scope.photosSlider = $scope.user.photos;
+       }
+   }, function(response) {
+    var data = response.data,
+    status = response.status,
+    header = response.header,
+    config = response.config,
+    message = 'Error ' + status;
+    // error handler
+    $log.error(message);
+
+});
+};
+
+$scope.getPhotos();
 
 
 });
