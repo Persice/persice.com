@@ -31,4 +31,26 @@ sudo npm install pm2 -g
 
 pm2 start app.js
 
+# pm2 startup ubuntu
 sudo env PATH=$PATH:/usr/local/bin pm2 startup -u vagrant
+
+
+
+#Run multiple processes of the application. PM2 will run one process per CPU core.
+#It will also attempt to load balance requests between the running processes.
+pm2 start app.js --name "socketio" -i max
+
+# Reload and restart the application (or use gracefulReload >useful for closing all existing connections before restarting.)
+pm2 reload app.js
+
+# Stop the application
+pm2 stop app.js
+
+# Remove app.js from PM2
+pm2 delete app.js
+
+#dumps node processes and saves them as JSON and is used to configure running processes on startup.
+pm2 save
+
+#monitor processes
+pm2 monit
