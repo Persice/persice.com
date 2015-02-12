@@ -1,7 +1,7 @@
 'use strict';
 angular.module('beKindred')
 .controller('FilterController', function ($scope, $rootScope, FiltersFactory, USER_ID, $log) {
-    $scope.distanceValue = 50;
+    $scope.distanceValue = 10000;
     $scope.distanceOptions = {
         range: {min: 1, max: 10000}
     };
@@ -13,7 +13,7 @@ angular.module('beKindred')
 
     $scope.defaultFilters = {
         objects: [{
-            distance: 50,
+            distance: 10000,
             gender: 'm,f',
             min_age: 25,
             max_age: 60,
