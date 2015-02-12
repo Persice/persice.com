@@ -1,4 +1,6 @@
 from django.contrib.sessions.models import Session
+from django_facebook.models import FacebookCustomUser
+import re
 import redis
 import json
 from django.db.models import Q
@@ -7,6 +9,7 @@ from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
+from members.models import UserSession
 from photos.api.resources import UserResource
 
 
@@ -36,6 +39,10 @@ class MessageResource(ModelResource):
         bundle = super(MessageResource, self).obj_create(bundle, **kwargs)
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         data = bundle.data
-        data['sent_at'] = str(bundle.obj.sent_at)
-        r.publish('message.%s' % bundle.request.session.session_key, json.dumps(data))
+        recipient = re.findall(r'/(\d+)/', bundle.data['recipient'])[0]
+        user = FacebookCustomUser.objects.get(pk=recipient)
+        user_sessions = UserSession.objects.filter(user_id=user)
+        for session in user_sessions:
+            data['sent_at'] = str(bundle.obj.sent_at)
+            r.set('message.%s' % session.session_id, json.dumps(data))
         return bundle

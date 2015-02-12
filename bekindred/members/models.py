@@ -60,3 +60,33 @@ class FacebookLikeProxy(FacebookLike):
         proxy = True
 
     objects = FacebookLikeProxyManager()
+
+
+from django.conf import settings
+from django.db import models
+
+from django.contrib.sessions.models import Session
+
+
+class UserSession(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    session = models.ForeignKey(Session)
+
+
+from django.contrib.auth.signals import user_logged_in
+
+
+def user_logged_in_handler(sender, request, user, **kwargs):
+    UserSession.objects.get_or_create(
+        user=user,
+        session_id=request.session.session_key
+    )
+
+
+user_logged_in.connect(user_logged_in_handler)
+
+
+def delete_user_sessions(user):
+    user_sessions = UserSession.objects.filter(user = user)
+    for user_session in user_sessions:
+        user_session.session.delete()
