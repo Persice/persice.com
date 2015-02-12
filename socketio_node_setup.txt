@@ -52,5 +52,17 @@ pm2 delete app.js
 #dumps node processes and saves them as JSON and is used to configure running processes on startup.
 pm2 save
 
-#monitor processes
+# List processes monitored
+pm2 list
+
+# See "tail" style log output of all logs output from watched processes
+pm2 logs
+
+# Clear all logs
+pm2 flush
+
+# List process 0
+pm2 desc 0
+
+# Monitor processes and system usage
 pm2 monit
