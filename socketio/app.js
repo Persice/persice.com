@@ -7,8 +7,6 @@ var redis = require('redis');
 var redisAdapter = require('socket.io-redis');
 var port = 3000;
 
-
-
 var io = require('socket.io').listen(app.listen(port));
 
 io.adapter(redisAdapter({

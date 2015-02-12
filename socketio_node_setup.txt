@@ -1,0 +1,34 @@
+sudo apt-get install curl git
+
+sudo apt-get install build-essential
+sudo apt-get install curl openssl libssl-dev
+git clone https://github.com/joyent/node.git
+cd node
+git checkout v0.10.36
+./configure
+make
+sudo make install
+
+
+node -v
+
+
+rm -rf /home/vagrant/node
+
+
+#run iosocket server in debug mode
+DEBUG=socket.io:socket node app.js
+
+#run iosocket server
+node app.js
+
+
+#production run using pm2
+#ensures restarting node application as a service every time server is restarted
+#automatically restarts the node application if it crashes
+
+sudo npm install pm2 -g
+
+pm2 start app.js
+
+sudo env PATH=$PATH:/usr/local/bin pm2 startup -u vagrant
