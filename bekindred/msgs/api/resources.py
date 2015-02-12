@@ -1,3 +1,6 @@
+from django.contrib.sessions.models import Session
+import redis
+import json
 from django.db.models import Q
 from postman.models import Message
 from tastypie import fields
@@ -28,3 +31,11 @@ class MessageResource(ModelResource):
         else:
             return super(MessageResource, self).get_object_list(request).filter(Q(sender=user, recipient=user_id) |
                                                                                 Q(sender=user_id, recipient=user))
+
+    def obj_create(self, bundle, **kwargs):
+        bundle = super(MessageResource, self).obj_create(bundle, **kwargs)
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        data = bundle.data
+        data['sent_at'] = str(bundle.obj.sent_at)
+        r.publish('message.%s' % bundle.request.session.session_key, json.dumps(data))
+        return bundle

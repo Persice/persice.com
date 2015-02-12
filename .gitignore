@@ -9,6 +9,8 @@ staticfiles
 # ignore idea files
 *.idea
 
+# Redis
+dump.rdb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

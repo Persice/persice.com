@@ -169,6 +169,8 @@ POSTMAN_AUTOCOMPLETER_APP = {
     'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
 }  # default is {}
 
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = '6379'
 
 LOGGING = {
     'version': 1,
