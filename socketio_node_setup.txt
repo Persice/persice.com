@@ -27,6 +27,7 @@ node app.js
 #ensures restarting node application as a service every time server is restarted
 #automatically restarts the node application if it crashes
 
+# https://github.com/Unitech/pm2
 sudo npm install pm2 -g
 
 pm2 start app.js
@@ -66,3 +67,10 @@ pm2 desc 0
 
 # Monitor processes and system usage
 pm2 monit
+
+pm2 dump
+pm2 kill
+pm2 resurect
+
+#web interface http://localhost:9615
+pm2 web
