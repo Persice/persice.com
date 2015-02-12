@@ -27,6 +27,9 @@ class SubjectResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
+    def dehydrate_description(self, bundle):
+        return bundle.data['description'].lower()
+
 
 class MatchFilterStateResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')

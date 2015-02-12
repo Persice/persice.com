@@ -28,3 +28,6 @@ class InterestResource(ModelResource):
             return super(InterestResource, self).get_object_list(request).filter(user_id=user)
         else:
             return super(InterestResource, self).get_object_list(request).distinct('description')
+
+    def dehydrate_description(self, bundle):
+        return bundle.data['description'].lower()
