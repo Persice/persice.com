@@ -120,7 +120,7 @@
                 <a ui-sref="friendprofile({ userId: friend.user_id })" class="item" ng-repeat="friend in matchedUser.friends track by $index">
                     <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
                     <div class="content">
-                        <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
+                        <div class="header">{{ friend.first_name }}</div>
                     </div>
                 </a>
             </div>
@@ -129,7 +129,7 @@
                 <div class="item" ng-repeat="friend in matchedUser.facebookfriends track by $index">
                     <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
                     <div class="content">
-                        <div class="header">{{ friend.first_name }} {{ friend.last_name }}</div>
+                        <div class="header">{{ friend.first_name }}</div>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
                 <div class="item" ng-repeat="friend in matchedUser.linkedinconnections track by $index">
                     <img class="ui avatar image" ng-src="{{friend.pictureUrls.values[0]}}">
                     <div class="content">
-                        <div class="header">{{ friend.firstName }} {{ friend.lastName }}</div>
+                        <div class="header">{{ friend.firstName }}</div>
                     </div>
                 </div>
             </div>
