@@ -46,7 +46,7 @@
 <div class="message-reply">
 
   <div class="ui fluid action input">
-    <input type="text" placeholder="" ng-model="newmessage">
+    <input ng-enter="sendNewMessage()" type="text" placeholder="" ng-model="newmessage">
     <div ng-click="sendNewMessage()" class="ui button" ng-class="{'loading': sendingMessage}">Send</div>
     <div ng-click="getMessages()" class="ui button" ng-class="{'loading': loadingMessages}">Refresh</div>
   </div>

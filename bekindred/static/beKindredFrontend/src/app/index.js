@@ -16,7 +16,8 @@ angular.module('beKindred', [
     'angular-carousel',
     'toaster',
     'ngImgCrop',
-    'angularMoment'
+    'angularMoment',
+    'btford.socket-io'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 
@@ -246,10 +247,22 @@ angular.module('beKindred', [
                     if (newValue !== oldValue){
                         scope.$eval(expressionToCall);
                     }
-               });
+                });
             });
         }
     };
+})
+.factory('myIoSocket', function (socketFactory) {
+  var myIoSocket = io.connect('http://test1.com:3000');
+
+
+  myIoSocket = socketFactory({
+    ioSocket: myIoSocket
+  });
+  myIoSocket.forward('newmessage');
+  myIoSocket.forward('error');
+
+  return myIoSocket;
 });
 
 
