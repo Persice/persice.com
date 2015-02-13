@@ -43,6 +43,6 @@ class MessageResource(ModelResource):
         user = FacebookCustomUser.objects.get(pk=recipient)
         user_sessions = UserSession.objects.filter(user_id=user)
         for session in user_sessions:
-            data['sent_at'] = str(bundle.obj.sent_at)
-            r.set('message.%s' % session.session_id, json.dumps(data))
+            data['sent_at'] = str(bundle.obj.sent_at.isoformat())
+            r.publish('message.%s' % session.session_id, json.dumps(data))
         return bundle

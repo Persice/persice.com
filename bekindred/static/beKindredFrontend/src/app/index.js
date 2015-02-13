@@ -259,7 +259,7 @@ angular.module('beKindred', [
   myIoSocket = socketFactory({
     ioSocket: myIoSocket
   });
-  myIoSocket.forward('newmessage');
+  myIoSocket.forward('message');
   myIoSocket.forward('error');
 
   return myIoSocket;

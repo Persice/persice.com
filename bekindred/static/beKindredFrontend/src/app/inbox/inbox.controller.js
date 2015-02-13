@@ -1,11 +1,16 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('InboxCtrl', function ($scope, $log, ConnectionsFactory, USER_ID, MessagesFactory, $filter) {
+.controller('InboxCtrl', function ($scope, $rootScope, $log, ConnectionsFactory, USER_ID, MessagesFactory, $filter) {
 
 
   $scope.connections = [];
   var myUrl = '/api/v1/auth/user/' + USER_ID + '/';
+
+
+  $rootScope.$on('refreshInbox',function () {
+    $scope.getLastMessage();
+  });
 
   $scope.getFriends = function () {
     $scope.connections = [];
