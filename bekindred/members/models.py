@@ -83,7 +83,7 @@ def user_logged_in_handler(sender, request, user, **kwargs):
     )
 
 
-user_logged_in.connect(user_logged_in_handler)
+user_logged_in.connect(user_logged_in_handler, sender=Session)
 
 
 def delete_user_sessions(user):

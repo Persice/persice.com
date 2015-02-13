@@ -100,3 +100,17 @@ apt-get install -y jenkins
 
 /etc/init.d/jenkins start
 
+# Install Redis
+if ! command -v redis-server; then
+    apt-get install -y redis-server
+fi
+
+apt-get install -y build-essential curl openssl libssl-dev
+
+# Add node repo
+curl -sL https://deb.nodesource.com/setup | sudo bash -
+
+apt-get install -y nodejs
+apt-get install -y build-essential
+
+npm install pm2 -g
