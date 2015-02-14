@@ -114,6 +114,11 @@ def restart_nginx():
 
 
 @task
+def restart_redis():
+    sudo('service redis-server restart')
+
+
+@task
 def reload():
     restart_app()
     restart_nginx()
