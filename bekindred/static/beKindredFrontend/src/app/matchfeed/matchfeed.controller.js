@@ -28,8 +28,14 @@ angular.module('beKindred')
         $('#filtersMenu').sidebar('toggle');
     };
 
+    $scope.totalfriendscount = 0;
+    $scope.totalmatchingcount = 0;
+
 
     $scope.loadMatches = function() {
+
+        $scope.totalfriendscount = 0;
+        $scope.totalmatchingcount = 0;
 
         if (pok === 0) {
             $scope.showDimmer = true;
@@ -57,6 +63,7 @@ angular.module('beKindred')
                     for (var key in matchedgoals) {
                         var goal = {value: key, match: matchedgoals[key]};
                         goals.push(goal);
+                        if (goal.match === 1)  {$scope.totalmatchingcount++;}
                     }
                     $scope.matchedUser.goals = goals;
 
@@ -65,6 +72,7 @@ angular.module('beKindred')
                     for (var key in matchedoffers) {
                         var offer = {value: key, match: matchedoffers[key]};
                         offers.push(offer);
+                        if (offer.match === 1)  {$scope.totalmatchingcount++;}
                     }
                     $scope.matchedUser.offers = offers;
 
@@ -73,6 +81,7 @@ angular.module('beKindred')
                     for (var key in matchedinterests) {
                         var interest = {value: key, match: matchedinterests[key]};
                         interests.push(interest);
+                        if (interest.match === 1)  {$scope.totalmatchingcount++;}
                     }
                     $scope.matchedUser.interests = interests;
 
@@ -81,6 +90,7 @@ angular.module('beKindred')
                     for (var key in matchedlikes) {
                         var like = {value: key, match: matchedlikes[key]};
                         likes.push(like);
+                        if (like.match === 1)  {$scope.totalmatchingcount++;}
                     }
                     $scope.matchedUser.likes = likes;
 
@@ -95,6 +105,11 @@ angular.module('beKindred')
                             $scope.matchedUser.linkedinconnections = data.objects[0].mutual_linkedin_connections;
                             $scope.matchedUser.twitterfollowers = data.objects[0].mutual_twitter_followers;
                             $scope.matchedUser.twitterfriends = data.objects[0].mutual_twitter_friends;
+                            $scope.totalfriendscount +=  data.objects[0].mutual_bk_friends_count;
+                            $scope.totalfriendscount +=  data.objects[0].mutual_fb_friends_count;
+                            $scope.totalfriendscount +=  data.objects[0].mutual_linkedin_connections_count;
+                            $scope.totalfriendscount +=  data.objects[0].mutual_twitter_followers_count;
+                            $scope.totalfriendscount +=  data.objects[0].mutual_twitter_friends_count;
                         }
 
                     });
@@ -204,6 +219,9 @@ else {
 
     $scope.getNextMatch = function() {
 
+        $scope.totalfriendscount = 0;
+        $scope.totalmatchingcount = 0;
+
         $scope.loadingFeed = true;
         var newOffset = $scope.offset;
         newOffset++;
@@ -229,6 +247,7 @@ else {
                 for (var key in matchedgoals) {
                     var goal = {value: key, match: matchedgoals[key]};
                     goals.push(goal);
+                    if (goal.match === 1)  {$scope.totalmatchingcount++;}
                 }
                 $scope.matchedUser.goals = goals;
 
@@ -237,6 +256,7 @@ else {
                 for (var key in matchedoffers) {
                     var offer = {value: key, match: matchedoffers[key]};
                     offers.push(offer);
+                    if (offer.match === 1)  {$scope.totalmatchingcount++;}
                 }
                 $scope.matchedUser.offers = offers;
 
@@ -245,6 +265,7 @@ else {
                 for (var key in matchedinterests) {
                     var interest = {value: key, match: matchedinterests[key]};
                     interests.push(interest);
+                    if (interest.match === 1)  {$scope.totalmatchingcount++;}
                 }
                 $scope.matchedUser.interests = interests;
 
@@ -253,6 +274,7 @@ else {
                 for (var key in matchedlikes) {
                     var like = {value: key, match: matchedlikes[key]};
                     likes.push(like);
+                    if (like.match === 1)  {$scope.totalmatchingcount++;}
                 }
                 $scope.matchedUser.likes = likes;
 
@@ -264,6 +286,11 @@ else {
                         $scope.matchedUser.linkedinconnections = data.objects[0].mutual_linkedin_connections;
                         $scope.matchedUser.twitterfollowers = data.objects[0].mutual_twitter_followers;
                         $scope.matchedUser.twitterfriends = data.objects[0].mutual_twitter_friends;
+                        $scope.totalfriendscount +=  data.objects[0].mutual_bk_friends_count;
+                        $scope.totalfriendscount +=  data.objects[0].mutual_fb_friends_count;
+                        $scope.totalfriendscount +=  data.objects[0].mutual_linkedin_connections_count;
+                        $scope.totalfriendscount +=  data.objects[0].mutual_twitter_followers_count;
+                        $scope.totalfriendscount +=  data.objects[0].mutual_twitter_friends_count;
                     }
 
                 });
