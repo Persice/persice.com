@@ -2,6 +2,7 @@ media/
 .DS_Store
 venv
 staticfiles
+socketio/node_modules/*
 
 # images
 *.jpg
