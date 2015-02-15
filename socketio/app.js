@@ -1,19 +1,22 @@
-var express = require('express');
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server, {origins: '*:*'});
 
-var app = express();
 var cookie_reader = require('cookie');
 var querystring = require('querystring');
 var redis = require('redis');
 var redisAdapter = require('socket.io-redis');
 var port = 3000;
 
-var io = require('socket.io').listen(app.listen(port));
+
+
+server.listen(port);
+
 
 io.adapter(redisAdapter({
     host: '127.0.0.1',
     port: 6379
 }));
-
 
 //Configure socket.io to store cookie set by Django
 io.use(function(socket, next){
