@@ -36,19 +36,20 @@ io.on('connection', function(socket){
     client = redis.createClient();
 
     console.log(socket.cookie['sessionid']);
+    console.log(socket.cookie['userid']);
 
     // Subscribe to the Redis events channel
-    client.subscribe('message.' + socket.cookie['sessionid']);
+    client.subscribe('message.' + socket.cookie['userid']);
 
     // Grab message from Redis and send to client
     client.on('message', function(channel, message){
-        console.log('on message ' + socket.cookie['sessionid'], message);
+        console.log('on message ' + socket.cookie['userid'], message);
         socket.send(message);
     });
 
     socket.on('disconnect', function(){
         console.log('user disconnected');
-        client.unsubscribe('message.' + socket.cookie['sessionid']);
+        client.unsubscribe('message.' + socket.cookie['userid']);
     });
 
     socket.on('newmessage', function(){

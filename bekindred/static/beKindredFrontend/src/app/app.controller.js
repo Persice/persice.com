@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('AppCtrl', function ($rootScope, $scope, $timeout, $window, myIoSocket, $filter, $log, toaster, $resource) {
+.controller('AppCtrl', function ($rootScope, $scope, USER_ID, $timeout, $window, myIoSocket, $filter, $log, toaster, $resource, $cookies) {
     $rootScope.hideTopMenu = false;
 
+    $cookies.userid = USER_ID;
 
     $rootScope.goBack = function() {
         $rootScope.hideTopMenu = false;
