@@ -1,19 +1,22 @@
-var express = require('express');
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server, {origins: '*:*'});
 
-var app = express();
 var cookie_reader = require('cookie');
 var querystring = require('querystring');
 var redis = require('redis');
 var redisAdapter = require('socket.io-redis');
 var port = 3000;
 
-var io = require('socket.io').listen(app.listen(port));
+
+
+server.listen(port);
+
 
 io.adapter(redisAdapter({
     host: '127.0.0.1',
     port: 6379
 }));
-
 
 //Configure socket.io to store cookie set by Django
 io.use(function(socket, next){
@@ -33,19 +36,20 @@ io.on('connection', function(socket){
     client = redis.createClient();
 
     console.log(socket.cookie['sessionid']);
+    console.log(socket.cookie['userid']);
 
     // Subscribe to the Redis events channel
-    client.subscribe('message.' + socket.cookie['sessionid']);
+    client.subscribe('message.' + socket.cookie['userid']);
 
     // Grab message from Redis and send to client
     client.on('message', function(channel, message){
-        console.log('on message ' + socket.cookie['sessionid'], message);
+        console.log('on message ' + socket.cookie['userid'], message);
         socket.send(message);
     });
 
     socket.on('disconnect', function(){
         console.log('user disconnected');
-        client.unsubscribe('message.' + socket.cookie['sessionid']);
+        client.unsubscribe('message.' + socket.cookie['userid']);
     });
 
     socket.on('newmessage', function(){
