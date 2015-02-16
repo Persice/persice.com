@@ -253,7 +253,7 @@ angular.module('beKindred', [
     };
 })
 .factory('myIoSocket', function (socketFactory) {
-  var myIoSocket = io.connect('http://' + window.location.hostname + ':3000');
+  var myIoSocket = io.connect('//' + window.location.hostname + ':3000');
 
 
   myIoSocket = socketFactory({
