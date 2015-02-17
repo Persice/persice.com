@@ -30,7 +30,7 @@
                     <a href="" ng-click="unFriend($index)" class="ui circular facebook icon button">
                         <i class="unlink icon"></i>
                     </a>
-                    <a href="" class="ui circular twitter icon button">
+                    <a ui-sref="conversations({ userId: friend.friend_id })" class="ui circular twitter icon button">
                         <i class="envelope icon"></i>
                     </a>
                 </div>
