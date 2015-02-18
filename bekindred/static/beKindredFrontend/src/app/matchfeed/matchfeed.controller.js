@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('MatchFeedCtrl', function ($rootScope, $scope, $timeout, USER_ID, MatchFeedFactory, PhotosFactory, FriendsFactory, $log, MutualFriendsFactory) {
+.controller('MatchFeedCtrl', function ($rootScope, $scope, $timeout, $filter, USER_ID, MatchFeedFactory, PhotosFactory, FriendsFactory, $log, MutualFriendsFactory) {
 
     $scope.matchedUser = [];
     $scope.total = 0;
@@ -13,6 +13,7 @@ angular.module('beKindred')
     $scope.friend2 = null;
     $scope.friendshipStatus = null;
     $scope.friendshipId = null;
+
 
     // $scope.photosSlider = $scope.matchedUser.photos;
     $scope.photosSlider =  [
@@ -147,6 +148,8 @@ angular.module('beKindred')
                                 });
 
                         }
+
+                        $scope.photosSlider = $filter('orderBy')($scope.photosSlider, 'order', false);
 
                     });
 
@@ -327,6 +330,8 @@ else {
                             });
 
                     }
+
+                    $scope.photosSlider = $filter('orderBy')($scope.photosSlider, 'order', false);
 
                 });
 }
