@@ -12,9 +12,10 @@
     </div>
 
   </div>
+  <div class="conversation-content ui segment" ng-class="{'loading': loadingMessages}" z-infinite-scroll="loadOlderMessages" inverse="true" body-scroll="false" scroll-threshold="1" time-threshold="800">
 
-  <div class="conversation-content ui segment" ng-class="{'loading': loadingMessages}">
-   <div ng-repeat="message in messages track by $index">
+    <three-bounce-spinner class="page-spinner-bar" ng-show="loadingOlderMessages"></three-bounce-spinner>
+    <div ng-repeat="message in messages track by $index">
      <h6>
       {{message.date}}
     </h6>

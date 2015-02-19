@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('ConversationsCtrl', function ($rootScope, notify, $resource, $state, myIoSocket, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter) {
+.controller('ConversationsCtrl', function ($rootScope, notify, $resource, $state, myIoSocket, $q, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter) {
 
 
   $scope.messages = [];
@@ -10,12 +10,16 @@ angular.module('beKindred')
   $scope.q = '';
   $scope.newmessage = '';
 
+  $scope.nextOffset = 20;
+  $scope.next = null;
+
   $scope.friend = FRIEND;
 
   $scope.recipient = '/api/v1/auth/user/' + $scope.friend.id + '/';
   $scope.sender = '/api/v1/auth/user/' + USER_ID + '/';
 
   $scope.loadingMessages = false;
+  $scope.loadingOlderMessages = false;
   $scope.sendingMessage = false;
 
 
@@ -24,80 +28,178 @@ angular.module('beKindred')
     $timeout(function() {
       var height = angular.element('.conversation-content')[0].scrollHeight;
 
-      angular.element('.conversation-content').animate({
+      angular.element('.conversation-content').filter(':not(:animated)').animate({
         scrollTop: height
       }, 1500);
     }, 100);
   };
 
+  //load older messages
+  $scope.loadOlderMessages = function(){
 
-  $scope.getMessages = function() {
-    $scope.messages = [];
-    $scope.loadingMessages = true;
-    MessagesFactory.query( {
-      user_id: $scope.friend.id
-    }).$promise.then(function(response) {
-      var responseMessages = response.objects;
-      $filter('orderBy')(responseMessages, 'sent_at', true);
+    var deferred = $q.defer();
+    if (!$scope.loadingOlderMessages) {
+      if ($scope.next !== null) {
 
 
-      for(var obj in responseMessages) {
-        var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
-        var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
 
-        var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
-
-        if (messageIndex === null) {
-          $scope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
-          messageIndex = $scope.messages.length - 1;
-        }
-
-
-        if (responseMessages[obj].sender === $scope.sender) {
-          $scope.messages[messageIndex].contents.push({
-            body: responseMessages[obj].body,
-            sender: responseMessages[obj].sender,
-            recipient: responseMessages[obj].recipient,
-            date: localDatePlain,
-            sent_at: responseMessages[obj].sent_at,
-            left: true
-          });
-        }
-        else {
-          $scope.messages[messageIndex].contents.push({
-            body: responseMessages[obj].body,
-            sender: responseMessages[obj].sender,
-            recipient: responseMessages[obj].recipient,
-            date: localDatePlain,
-            sent_at: responseMessages[obj].sent_at,
-            left: false
-          });
-        }
-        $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
-      }
-
-      $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
-
-
-      if ($scope.messages.length > 0) {
+        $scope.loadingOlderMessages = true;
         $timeout(function() {
-          var height = angular.element('.conversation-content')[0].scrollHeight;
-          angular.element('.conversation-content').animate({
-            scrollTop: height
-          }, 0);
-        }, 100);
+          MessagesFactory.query( {
+            user_id: $scope.friend.id,
+            offset: $scope.nextOffset,
+            limit: 10
+          }).$promise.then(function(response) {
+            var responseMessages = response.objects;
+            $scope.next = response.meta.next;
+            $filter('orderBy')(responseMessages, 'sent_at', true);
+            $scope.nextOffset += 10;
+
+            for(var obj in responseMessages) {
+              var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
+              var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
+
+              var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
+
+              if (messageIndex === null) {
+                $scope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
+                messageIndex = $scope.messages.length - 1;
+              }
+
+
+              if (responseMessages[obj].sender === $scope.sender) {
+                $scope.messages[messageIndex].contents.push({
+                  body: responseMessages[obj].body,
+                  sender: responseMessages[obj].sender,
+                  recipient: responseMessages[obj].recipient,
+                  date: localDatePlain,
+                  sent_at: responseMessages[obj].sent_at,
+                  left: true
+                });
+              }
+              else {
+                $scope.messages[messageIndex].contents.push({
+                  body: responseMessages[obj].body,
+                  sender: responseMessages[obj].sender,
+                  recipient: responseMessages[obj].recipient,
+                  date: localDatePlain,
+                  sent_at: responseMessages[obj].sent_at,
+                  left: false
+                });
+              }
+              $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
+            }
+
+            $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
+
+
+
+            $scope.loadingOlderMessages = false;
+
+            deferred.resolve();
+          }, function(response) {
+            $scope.loadingOlderMessages = false;
+            var data = response.data,
+            status = response.status,
+            header = response.header,
+            config = response.config,
+            message = 'Error ' + status;
+        // error handler
+        $log.error(message);
+
+      });
+
+}, 1500);
+
+}
+else {
+  deferred.reject();
+}
+}
+else {
+
+  deferred.reject();
+}
+return deferred.promise;
+
+
+
+
+};
+
+
+
+
+$scope.getMessages = function() {
+  $scope.messages = [];
+  $scope.loadingMessages = true;
+  MessagesFactory.query( {
+    user_id: $scope.friend.id,
+    limit: 20,
+    offset: 0
+  }).$promise.then(function(response) {
+    var responseMessages = response.objects;
+    $scope.next = response.meta.next;
+    $filter('orderBy')(responseMessages, 'sent_at', true);
+
+
+    for(var obj in responseMessages) {
+      var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
+      var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
+
+      var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
+
+      if (messageIndex === null) {
+        $scope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
+        messageIndex = $scope.messages.length - 1;
       }
 
-      $scope.loadingMessages = false;
+
+      if (responseMessages[obj].sender === $scope.sender) {
+        $scope.messages[messageIndex].contents.push({
+          body: responseMessages[obj].body,
+          sender: responseMessages[obj].sender,
+          recipient: responseMessages[obj].recipient,
+          date: localDatePlain,
+          sent_at: responseMessages[obj].sent_at,
+          left: true
+        });
+      }
+      else {
+        $scope.messages[messageIndex].contents.push({
+          body: responseMessages[obj].body,
+          sender: responseMessages[obj].sender,
+          recipient: responseMessages[obj].recipient,
+          date: localDatePlain,
+          sent_at: responseMessages[obj].sent_at,
+          left: false
+        });
+      }
+      $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
+    }
+
+    $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
 
 
-    }, function(response) {
-      $scope.loadingMessages = false;
-      var data = response.data,
-      status = response.status,
-      header = response.header,
-      config = response.config,
-      message = 'Error ' + status;
+    if ($scope.messages.length > 0) {
+      $timeout(function() {
+        var height = angular.element('.conversation-content')[0].scrollHeight;
+        angular.element('.conversation-content').filter(':not(:animated)').animate({
+          scrollTop: height
+        }, 0);
+      }, 100);
+    }
+
+    $scope.loadingMessages = false;
+
+
+  }, function(response) {
+    $scope.loadingMessages = false;
+    var data = response.data,
+    status = response.status,
+    header = response.header,
+    config = response.config,
+    message = 'Error ' + status;
       // error handler
       $log.error(message);
 
@@ -200,7 +302,7 @@ $rootScope.$on('receivedMessage', function (event, data) {
 
   $timeout(function() {
     var height = angular.element('.conversation-content')[0].scrollHeight;
-    angular.element('.conversation-content').animate({
+    angular.element('.conversation-content').filter(':not(:animated)').animate({
       scrollTop: height
     }, 1500);
   }, 100);

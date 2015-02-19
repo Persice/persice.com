@@ -17,7 +17,8 @@ angular.module('beKindred', [
     'cgNotify',
     'ngImgCrop',
     'angularMoment',
-    'btford.socket-io'
+    'btford.socket-io',
+    'zInfiniteScroll'
     ])
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 

@@ -18,7 +18,7 @@
                 <div class="content">
                     <div class="header">{{connection.first_name}}</div>
                     <div class="description">
-                        {{connection.lastMessage.body}}
+                        {{connection.lastMessage.body | words: 8}}
                     </div>
                 </div>
             </a>
