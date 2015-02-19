@@ -11,8 +11,7 @@
   },
   "main": [
     "dist/semantic.css",
-    "dist/semantic.js",
-    "./fonts/*"
+    "dist/semantic.js"
   ],
   "keywords": [
     "semantic",

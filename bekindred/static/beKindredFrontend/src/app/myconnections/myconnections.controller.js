@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('MyConnectionsCtrl', function ($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory) {
+.controller('MyConnectionsCtrl', function ($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log) {
     $scope.friends = [];
     var myUrl = '/api/v1/auth/user/' + USER_ID + '/';
 

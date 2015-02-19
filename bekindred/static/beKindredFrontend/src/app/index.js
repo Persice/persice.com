@@ -35,7 +35,7 @@ angular.module('beKindred', [
     $stateProvider
     .state('home', {
         url: '/',
-        templateUrl: '/static/beKindredFrontend/src/app/main/main.html',
+        templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
 
@@ -43,7 +43,7 @@ angular.module('beKindred', [
     })
     .state('settings', {
         url: '/settings',
-        templateUrl: '/static/beKindredFrontend/src/app/settings/settings.html',
+        templateUrl: 'app/settings/settings.html',
         controller: 'SettingsCtrl',
         resolve: {
 
@@ -62,27 +62,27 @@ angular.module('beKindred', [
             }
 
         },
-        templateUrl: '/static/beKindredFrontend/src/app/conversations/conversations.html',
+        templateUrl: 'app/conversations/conversations.html',
         controller: 'ConversationsCtrl'
     })
     .state('goalcreate', {
         url: '/create-goal',
-        templateUrl: '/static/beKindredFrontend/src/app/goalcreate/goalcreate.html',
+        templateUrl: 'app/goalcreate/goalcreate.html',
         controller: 'GoalCreateCtrl'
     })
     .state('offercreate', {
         url: '/create-offer',
-        templateUrl: '/static/beKindredFrontend/src/app/offercreate/offercreate.html',
+        templateUrl: 'app/offercreate/offercreate.html',
         controller: 'OfferCreateCtrl'
     })
     .state('matchfeed', {
         url: '/match-feed',
-        templateUrl: '/static/beKindredFrontend/src/app/matchfeed/matchfeed.html',
+        templateUrl: 'app/matchfeed/matchfeed.html',
         controller: 'MatchFeedCtrl'
     })
     .state('myconnections', {
         url: '/my-connections',
-        templateUrl: '/static/beKindredFrontend/src/app/myconnections/myconnections.html',
+        templateUrl: 'app/myconnections/myconnections.html',
         controller: 'MyConnectionsCtrl'
     })
     .state('friendprofile', {
@@ -97,22 +97,22 @@ angular.module('beKindred', [
                 return ProfileFactory.get({user_id: usrId, format: 'json'}).$promise;
             }
         },
-        templateUrl: '/static/beKindredFrontend/src/app/friendprofile/friendprofile.html',
+        templateUrl: 'app/friendprofile/friendprofile.html',
         controller: 'FriendProfileCtrl'
     })
     .state('myprofile', {
         url: '/my-profile',
-        templateUrl: '/static/beKindredFrontend/src/app/myprofile/myprofile.html',
+        templateUrl: 'app/myprofile/myprofile.html',
         controller: 'MyProfileCtrl'
     })
     .state('editmyprofile', {
         url: '/my-profile/edit',
-        templateUrl: '/static/beKindredFrontend/src/app/editmyprofile/editmyprofile.html',
+        templateUrl: 'app/editmyprofile/editmyprofile.html',
         controller: 'EditMyProfileCtrl'
     })
     .state('inbox', {
         url: '/inbox',
-        templateUrl: '/static/beKindredFrontend/src/app/inbox/inbox.html',
+        templateUrl: 'app/inbox/inbox.html',
         controller: 'InboxCtrl'
     });
 

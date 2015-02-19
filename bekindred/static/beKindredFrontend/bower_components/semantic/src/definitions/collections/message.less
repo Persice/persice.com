@@ -8,6 +8,7 @@
  * http://opensource.org/licenses/MIT
  *
  */
+
 /*******************************
             Theme
 *******************************/
@@ -15,8 +16,9 @@
 @type    : 'collection';
 @element : 'message';
 
-@import '../../theme.config';
+@import (multiple) '../../theme.config';
 
+& {
 
 /*******************************
             Message
@@ -144,11 +146,11 @@
     Visible
 ---------------*/
 
-.ui.message.visible {
+.ui.visible.visible.visible.visible.message {
   display: block;
 }
 
-.ui.icon.message.visible {
+.ui.icon.visible.visible.visible.visible.message {
   display: table;
 }
 
@@ -156,7 +158,7 @@
      Hidden
 ---------------*/
 
-.ui.message.hidden {
+.ui.hidden.hidden.hidden.hidden.message {
   display: none;
 }
 
@@ -440,3 +442,5 @@
 }
 
 .loadUIOverrides();
+
+}

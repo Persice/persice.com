@@ -1,7 +1,9 @@
 {
   "name": "angucomplete-alt",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "Awesome Autocompleteness for AngularJS",
+  "author": "ghiden",
+  "email": "hidenari@gmail.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/ghiden/angucomplete-alt.git"

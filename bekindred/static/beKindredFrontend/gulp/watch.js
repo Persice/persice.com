@@ -2,10 +2,13 @@
 
 var gulp = require('gulp');
 
-gulp.task('watch', ['styles'] ,function () {
-  gulp.watch('src/{app,components}/**/*.scss', ['styles']);
-  gulp.watch('src/{app,components}/**/*.js', ['scripts']);
-  gulp.watch('src/{app,components}/**/*.html', ['html']);
-  gulp.watch('src/assets/images/**/*', ['images']);
-  gulp.watch('bower.json', ['wiredep']);
+var paths = gulp.paths;
+
+gulp.task('watch', ['inject'], function () {
+  gulp.watch([
+    paths.src + '/*.html',
+    paths.src + '/{app,components}/**/*.scss',
+    paths.src + '/{app,components}/**/*.js',
+    'bower.json'
+  ], ['inject']);
 });

@@ -1,6 +1,6 @@
 {
   "name": "angucomplete-alt",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "homepage": "http://ghiden.github.io/angucomplete-alt/",
   "authors": [
     "Hidenari Nozaki <hidenari@gmail.com>"
@@ -31,11 +31,11 @@
     "angular-mocks": ">=1.2.0",
     "jquery": "~2.1.0"
   },
-  "_release": "0.0.36",
+  "_release": "0.0.37",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.36",
-    "commit": "483dbbedc0484269edf3e7ef3a31932e47af4236"
+    "tag": "v0.0.37",
+    "commit": "aab77f445f55de38e6747a7d5f73723c5a86b23b"
   },
   "_source": "git://github.com/ghiden/angucomplete-alt.git",
   "_target": "~0.0.33",

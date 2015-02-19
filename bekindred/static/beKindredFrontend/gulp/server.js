@@ -2,6 +2,8 @@
 
 var gulp = require('gulp');
 
+var paths = gulp.paths;
+
 var util = require('util');
 
 var browserSync = require('browser-sync');
@@ -12,16 +14,14 @@ function browserSyncInit(baseDir, files, browser) {
   browser = browser === undefined ? 'default' : browser;
 
   var routes = null;
-  if(baseDir === 'src' || (util.isArray(baseDir) && baseDir.indexOf('src') !== -1)) {
+  if(baseDir === paths.src || (util.isArray(baseDir) && baseDir.indexOf(paths.src) !== -1)) {
     routes = {
-      // Should be '/bower_components': '../bower_components'
-      // Waiting for https://github.com/shakyShane/browser-sync/issues/308
       '/bower_components': 'bower_components'
     };
   }
 
   browserSync.instance = browserSync.init(files, {
-    startPath: '/index.html',
+    startPath: '/',
     server: {
       baseDir: baseDir,
       middleware: middleware,
@@ -29,30 +29,30 @@ function browserSyncInit(baseDir, files, browser) {
     },
     browser: browser
   });
-
 }
 
 gulp.task('serve', ['watch'], function () {
   browserSyncInit([
-    'src',
-    '.tmp'
+    paths.tmp + '/serve',
+    paths.src
   ], [
-    '.tmp/{app,components}/**/*.css',
-    'src/assets/images/**/*',
-    'src/*.html',
-    'src/{app,components}/**/*.html',
-    'src/{app,components}/**/*.js'
+    paths.tmp + '/serve/{app,components}/**/*.css',
+    paths.src + '/{app,components}/**/*.js',
+    paths.src + 'src/assets/images/**/*',
+    paths.tmp + '/serve/*.html',
+    paths.tmp + '/serve/{app,components}/**/*.html',
+    paths.src + '/{app,components}/**/*.html'
   ]);
 });
 
 gulp.task('serve:dist', ['build'], function () {
-  browserSyncInit('dist');
+  browserSyncInit(paths.dist);
 });
 
-gulp.task('serve:e2e', function () {
-  browserSyncInit(['src', '.tmp'], null, []);
+gulp.task('serve:e2e', ['inject'], function () {
+  browserSyncInit([paths.tmp + '/serve', paths.src], null, []);
 });
 
-gulp.task('serve:e2e-dist', ['watch'], function () {
-  browserSyncInit('dist', null, []);
+gulp.task('serve:e2e-dist', ['build'], function () {
+  browserSyncInit(paths.dist, null, []);
 });

@@ -21,25 +21,17 @@
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/apple-touch-icon-72x72-precomposed.png">
   <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
   <link rel="apple-touch-icon-precomposed" href="assets/images/apple-touch-icon-precomposed.png">
-  <!-- build:css({.tmp,app, ../../}) styles/vendor.css -->
+  <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
   <link rel="stylesheet" href="app/vendor.css">
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/spinkit/css/spinkit.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/nouislider/jquery.nouislider.css" />
-  <link rel="stylesheet" href="bower_components/angucomplete-alt/angucomplete-alt.css" />
-  <link rel="stylesheet" href="bower_components/semantic/dist/semantic.css" />
-  <link rel="stylesheet" href="bower_components/angular-spinkit/build/angular-spinkit.min.css" />
-  <link rel="stylesheet" href="bower_components/angular-carousel/dist/angular-carousel.css" />
-  <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.css" />
-  <link rel="stylesheet" href="bower_components/ngImgCrop/compile/minified/ng-img-crop.css" />
+  <!-- run `gulp wiredep` to automaticaly populate bower styles dependencies -->
   <!-- endbower -->
   <!-- endbuild -->
-  <!-- build:css({.tmp,src}) styles/app.css -->
-  <link rel="stylesheet" href="app/index.css">
-  <!-- endbuild -->
-  <!-- build:js(.) scripts/modernizr.js -->
-  <script src="bower_components/modernizr/modernizr.js"></script>
+
+  <!-- build:css({.tmp/serve,src}) styles/app.css -->
+  <!-- inject:css -->
+  <!-- css files will be automaticaly insert here -->
+  <!-- endinject -->
   <!-- endbuild -->
 </head>
 <body id="main-page" class="gray">
@@ -181,58 +173,25 @@
           r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
           ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
-        <!-- build:js(.) scripts/vendor.js -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
+
+        <!-- build:js(src) scripts/vendor.js -->
         <!-- bower:js -->
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-animate/angular-animate.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-touch/angular-touch.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
-        <script src="bower_components/nouislider-angular/nouislider.js"></script>
-        <script src="bower_components/angucomplete-alt/angucomplete-alt.js"></script>
-        <script src="bower_components/moment/moment.js"></script>
-        <script src="bower_components/angular-moment/angular-moment.js"></script>
-        <script src="bower_components/ngDraggable/ngDraggable.js"></script>
-        <script src="bower_components/semantic/dist/semantic.js"></script>
-        <script src="bower_components/angular-truncate/src/truncate.js"></script>
-        <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
-        <script src="bower_components/angular-spinkit/build/angular-spinkit.js"></script>
-        <script src="bower_components/angular-carousel/dist/angular-carousel.js"></script>
-        <script src="bower_components/angularjs-toaster/toaster.js"></script>
-        <script src="bower_components/ngImgCrop/compile/minified/ng-img-crop.js"></script>
-        <script src="bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js"></script>
-        <script src="bower_components/angular-socket-io/socket.js"></script>
+        <!-- run `gulp wiredep` to automaticaly populate bower script dependencies -->
         <!-- endbower -->
         <!-- endbuild -->
-        <!-- build:js({src,.tmp}) scripts/app.js -->
-        <script src="app/index.js"></script>
-        <script src="app/services.js"></script>
-        <script src="app/app.controller.js"></script>
-        <script src="app/main/main.controller.js"></script>
-        <script src="app/goalcreate/goalcreate.controller.js"></script>
-        <script src="app/offercreate/offercreate.controller.js"></script>
-        <script src="app/inbox/inbox.controller.js"></script>
-        <script src="app/matchfeed/matchfeed.controller.js"></script>
-        <script src="app/matchfeed/matchfeed.factory.js"></script>
-        <script src="app/myprofile/myprofile.controller.js"></script>
-        <script src="app/conversations/conversations.controller.js"></script>
-        <script src="app/settings/settings.controller.js"></script>
-        <script src="app/friendprofile/friendprofile.controller.js"></script>
-        <script src="app/editmyprofile/editmyprofile.controller.js"></script>
-        <script src="app/myconnections/myconnections.controller.js"></script>
-        <script src="components/leftsidebar/leftsidebar.controller.js"></script>
-        <script src="components/topnavbar/topnavbar.controller.js"></script>
-        <script src="components/dimmer/dimmer.directive.js"></script>
-        <script src="components/rightsidebarfilter/filter.controller.js"></script>
-        <script src="components/rightsidebarfilter/filter.factory.js"></script>
+
+        <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+        <!-- inject:js -->
+        <!-- js files will be automaticaly insert here -->
+        <!-- endinject -->
+
         <!-- inject:partials -->
-        <!-- angular templates will be automaticaly converted in js and inserted here -->
+        <!-- angular templates will be automatically converted in js and inserted here -->
         <!-- endinject -->
         <!-- endbuild -->
+
+
         <script>
           'use strict';
           $('.left.sidebar').first()

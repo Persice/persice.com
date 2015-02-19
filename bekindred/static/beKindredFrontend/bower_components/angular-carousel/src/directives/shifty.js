@@ -470,25 +470,7 @@ angular.module('angular-carousel.shifty', [])
       ,'composeEasingObject': composeEasingObject
     });
 
-    // `root` is provided in the intro/outro files.
-
-    // A hook used for unit testing.
-    if (typeof SHIFTY_DEBUG_NOW === 'function') {
-      root.timeoutHandler = timeoutHandler;
-    }
-
-    // Bootstrap Tweenable appropriately for the environment.
-    if (typeof exports === 'object') {
-      // CommonJS
-      module.exports = Tweenable;
-    } else if (typeof define === 'function' && define.amd) {
-      // AMD
-      define(function () {return Tweenable;});
-    } else if (typeof root.Tweenable === 'undefined') {
-      // Browser: Make `Tweenable` globally accessible.
-      root.Tweenable = Tweenable;
-    }
-
+    root.Tweenable = Tweenable;
     return Tweenable;
 
   } ());

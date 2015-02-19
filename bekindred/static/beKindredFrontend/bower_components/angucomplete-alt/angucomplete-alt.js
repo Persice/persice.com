@@ -48,7 +48,7 @@
     // Set the default template for this directive
     $templateCache.put(TEMPLATE_URL,
         '<div class="angucomplete-holder" ng-class="{\'angucomplete-dropdown-visible\': showDropdown}">' +
-        '  <input id="{{id}}_value" ng-model="searchStr" ng-disabled="disableInput" type="text" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
+        '  <input id="{{id}}_value" ng-model="searchStr" ng-disabled="disableInput" type="{{type}}" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
         '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown">' +
         '    <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>' +
         '    <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
@@ -75,9 +75,11 @@
         initialValue: '@',
         localData: '=',
         remoteUrlRequestFormatter: '=',
+        remoteUrlRequestWithCredentials: '@',
         remoteUrlResponseFormatter: '=',
         remoteUrlErrorCallback: '=',
         id: '@',
+        type: '@',
         placeholder: '@',
         remoteUrl: '@',
         remoteUrlDataField: '@',
@@ -202,7 +204,10 @@
         }
 
         function findMatchString(target, str) {
-          var result, matches, re = new RegExp(str, 'i');
+          var result, matches, re;
+          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+          // Escape user input to be treated as a literal string within a regular expression
+          re = new RegExp(str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
           if (!target) { return; }
           matches = target.match(re);
           if (matches) {
@@ -420,10 +425,13 @@
 
         function getRemoteResults(str) {
           var params = {},
-              url = scope.remoteUrl + str;
+              url = scope.remoteUrl + encodeURIComponent(str);
           if (scope.remoteUrlRequestFormatter) {
             params = {params: scope.remoteUrlRequestFormatter(str)};
             url = scope.remoteUrl;
+          }
+          if (!!scope.remoteUrlRequestWithCredentials) {
+            params.withCredentials = true;
           }
           cancelHttpRequest();
           httpCanceller = $q.defer();

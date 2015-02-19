@@ -186,9 +186,8 @@
 
                         var defaultOptions = {
                             transitionType: iAttributes.rnCarouselTransition || 'slide',
-                            transitionEasing: 'easeTo',
-                            transitionDuration: 300,
-                            /* do touchend trigger next slide automatically */
+                            transitionEasing: iAttributes.rnCarouselEasing || 'easeTo',
+                            transitionDuration: parseInt(iAttributes.rnCarouselDuration, 10) || 300,
                             isSequential: true,
                             autoSlideDuration: 3,
                             bufferSize: 5,
@@ -206,22 +205,14 @@
                             destination,
                             swipeMoved = false,
                             //animOnIndexChange = true,
-                            currentSlides,
+                            currentSlides = [],
                             elWidth = null,
                             elX = null,
                             animateTransitions = true,
                             intialState = true,
                             animating = false,
+                            mouseUpBound = false,
                             locked = false;
-
-                        if(iAttributes.rnCarouselControls!==undefined) {
-                            // dont use a directive for this
-                            var tpl = '<div class="rn-carousel-controls">\n' +
-                                '  <span class="rn-carousel-control rn-carousel-control-prev" ng-click="prevSlide()" ng-if="carouselIndex > 0"></span>\n' +
-                                '  <span class="rn-carousel-control rn-carousel-control-next" ng-click="nextSlide()" ng-if="carouselIndex < ' + repeatCollection + '.length - 1"></span>\n' +
-                                '</div>';
-                            iElement.append($compile(angular.element(tpl))(scope));
-                        }
 
                         $swipe.bind(iElement, {
                             start: swipeStart,
@@ -303,11 +294,13 @@
                                     updateSlidesPosition(state.x);
                                 },
                                 finish: function() {
-                                    locked = false;
                                     scope.$apply(function() {
                                         scope.carouselIndex = index;
                                         offset = index * -100;
                                         updateBufferIndex();
+                                        $timeout(function () {
+                                          locked = false;
+                                        }, 0, false);
                                     });
                                 }
                             });
@@ -322,9 +315,25 @@
                             elWidth = getContainerWidth();
                         }
 
+                        function bindMouseUpEvent() {
+                            if (!mouseUpBound) {
+                              mouseUpBound = true;
+                              $document.bind('mouseup', documentMouseUpEvent);
+                            }
+                        }
+
+                        function unbindMouseUpEvent() {
+                            if (mouseUpBound) {
+                              mouseUpBound = false;
+                              $document.unbind('mouseup', documentMouseUpEvent);
+                            }
+                        }
+
                         function swipeStart(coords, event) {
                             // console.log('swipeStart', coords, event);
-                            $document.bind('mouseup', documentMouseUpEvent);
+                            if (locked || currentSlides.length <= 1) {
+                                return;
+                            }
                             updateContainerWidth();
                             elX = iElement[0].querySelector('li').getBoundingClientRect().left;
                             pressed = true;
@@ -334,10 +343,8 @@
 
                         function swipeMove(coords, event) {
                             //console.log('swipeMove', coords, event);
-                            if (locked) {
-                                return;
-                            }
                             var x, delta;
+                            bindMouseUpEvent();
                             if (pressed) {
                                 x = coords.x;
                                 delta = startX - x;
@@ -361,14 +368,29 @@
                             });
                         }
 
-                        var autoSlider;
+                        if (iAttributes.rnCarouselControls!==undefined) {
+                            // dont use a directive for this
+                            var nextSlideIndexCompareValue = isRepeatBased ? repeatCollection.replace('::', '') + '.length - 1' : currentSlides.length - 1;
+                            var tpl = '<div class="rn-carousel-controls">\n' +
+                                '  <span class="rn-carousel-control rn-carousel-control-prev" ng-click="prevSlide()" ng-if="carouselIndex > 0"></span>\n' +
+                                '  <span class="rn-carousel-control rn-carousel-control-next" ng-click="nextSlide()" ng-if="carouselIndex < ' + nextSlideIndexCompareValue + '"></span>\n' +
+                                '</div>';
+                            iElement.append($compile(angular.element(tpl))(scope));
+                        }
+
                         if (iAttributes.rnCarouselAutoSlide!==undefined) {
                             var duration = parseInt(iAttributes.rnCarouselAutoSlide, 10) || options.autoSlideDuration;
-                            autoSlider = $interval(function() {
-                                if (!locked && !pressed) {
-                                    scope.nextSlide();
+                            scope.autoSlide = function() {
+                                if (scope.autoSlider) {
+                                    $interval.cancel(scope.autoSlider);
+                                    scope.autoSlider = null;
                                 }
-                            }, duration * 1000);
+                                scope.autoSlider = $interval(function() {
+                                    if (!locked && !pressed) {
+                                        scope.nextSlide();
+                                    }
+                                }, duration * 1000);
+                            };
                         }
 
                         if (iAttributes.rnCarouselIndex) {
@@ -379,10 +401,7 @@
                             if (angular.isFunction(indexModel.assign)) {
                                 /* check if this property is assignable then watch it */
                                 scope.$watch('carouselIndex', function(newValue) {
-                                    if (!locked) {
-                                        updateParentIndex(newValue);
-                                    }
-
+                                    updateParentIndex(newValue);
                                 });
                                 scope.$parent.$watch(indexModel, function(newValue, oldValue) {
 
@@ -434,7 +453,6 @@
 
                             scope[deepWatch?'$watch':'$watchCollection'](repeatCollection, function(newValue, oldValue) {
                                 //console.log('repeatCollection', currentSlides);
-                                var oldSlides = (currentSlides || newValue).slice();
                                 currentSlides = newValue;
                                 // if deepWatch ON ,manually compare objects to guess the new position
                                 if (deepWatch && angular.isArray(newValue)) {
@@ -453,8 +471,7 @@
                             if (event && !swipeMoved) {
                                 return;
                             }
-
-                            $document.unbind('mouseup', documentMouseUpEvent);
+                            unbindMouseUpEvent();
                             pressed = false;
                             swipeMoved = false;
                             destination = startX - coords.x;
@@ -493,7 +510,7 @@
                         }
 
                         scope.$on('$destroy', function() {
-                            $document.unbind('mouseup', documentMouseUpEvent);
+                            unbindMouseUpEvent();
                         });
 
                         scope.carouselBufferIndex = 0;
@@ -540,7 +557,7 @@
                         winEl.bind('resize', onOrientationChange);
 
                         scope.$on('$destroy', function() {
-                            $document.unbind('mouseup', documentMouseUpEvent);
+                            unbindMouseUpEvent();
                             winEl.unbind('orientationchange', onOrientationChange);
                             winEl.unbind('resize', onOrientationChange);
                         });
