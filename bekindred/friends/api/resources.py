@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django_facebook.models import FacebookCustomUser
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -6,7 +7,8 @@ from tastypie.bundle import Bundle
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
 
-from friends.models import Friend
+from friends.models import Friend, FacebookFriendUser
+from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends
 from photos.api.resources import UserResource
 from matchfeed.api.resources import A
 
@@ -37,6 +39,20 @@ class ConnectionsResource(Resource):
     last_name = fields.CharField(attribute='last_name')
     friend_id = fields.CharField(attribute='friend_id')
 
+    mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
+    mutual_bk_friends_count = fields.IntegerField(attribute='mutual_bk_friends_count')
+
+    mutual_fb_friends = fields.ListField(attribute='mutual_fb_friends')
+    mutual_fb_friends_count = fields.IntegerField(attribute='mutual_fb_friends_count')
+
+    mutual_linkedin_connections = fields.ListField(attribute='mutual_linkedin_connections')
+    mutual_linkedin_connections_count = fields.IntegerField(attribute='mutual_linkedin_connections_count')
+
+    mutual_twitter_friends = fields.ListField(attribute='mutual_twitter_friends')
+    mutual_twitter_friends_count = fields.IntegerField(attribute='mutual_twitter_friends_count')
+    mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
+    mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
+
     class Meta:
         resource_name = 'connections'
         authentication = SessionAuthentication()
@@ -53,12 +69,12 @@ class ConnectionsResource(Resource):
 
     def get_object_list(self, request):
         results = []
-        user_id = request.user.id
-        friends = Friend.objects.friends(user_id)
+        current_user = request.user.id
+        friends = Friend.objects.friends(current_user)
         for friend in friends:
             new_obj = A()
             new_obj.id = friend.id
-            if friend.friend1.id == user_id:
+            if friend.friend1.id == current_user:
                 position_friend = 'friend2'
             else:
                 position_friend = 'friend1'
@@ -66,6 +82,22 @@ class ConnectionsResource(Resource):
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.friend_id = getattr(friend, position_friend).id
+
+            new_obj.mutual_bk_friends = Friend.objects.mutual_friends(current_user, new_obj.friend_id)
+            new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)
+
+            new_obj.mutual_fb_friends = FacebookFriendUser.objects.mutual_friends(current_user, new_obj.friend_id)
+            new_obj.mutual_fb_friends_count = len(new_obj.mutual_fb_friends)
+
+            l = get_mutual_linkedin_connections(current_user, new_obj.friend_id)
+            new_obj.mutual_linkedin_connections = l['mutual_linkedin']
+            new_obj.mutual_linkedin_connections_count = l['mutual_linkedin_count']
+
+            t = get_mutual_twitter_friends(current_user, position_friend)
+            new_obj.mutual_twitter_friends = t['mutual_twitter_friends']
+            new_obj.mutual_twitter_friends_count = t['count_mutual_twitter_friends']
+            new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
+            new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
 
             results.append(new_obj)
         return results
