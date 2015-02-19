@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('ConversationsCtrl', function ($rootScope, myIoSocket, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, angularMomentConfig, toaster) {
+.controller('ConversationsCtrl', function ($rootScope, notify, $resource, $state, myIoSocket, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter) {
 
 
-  $rootScope.messages = [];
-
+  $scope.messages = [];
+  notify.closeAll();
 
   $scope.q = '';
   $scope.newmessage = '';
@@ -32,7 +32,7 @@ angular.module('beKindred')
 
 
   $scope.getMessages = function() {
-    $rootScope.messages = [];
+    $scope.messages = [];
     $scope.loadingMessages = true;
     MessagesFactory.query( {
       user_id: $scope.friend.id
@@ -45,16 +45,16 @@ angular.module('beKindred')
         var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
         var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
 
-        var messageIndex = $filter('getIndexByProperty')('date', localDate, $rootScope.messages);
+        var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
 
         if (messageIndex === null) {
-          $rootScope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
-          messageIndex = $rootScope.messages.length - 1;
+          $scope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
+          messageIndex = $scope.messages.length - 1;
         }
 
 
         if (responseMessages[obj].sender === $scope.sender) {
-          $rootScope.messages[messageIndex].contents.push({
+          $scope.messages[messageIndex].contents.push({
             body: responseMessages[obj].body,
             sender: responseMessages[obj].sender,
             recipient: responseMessages[obj].recipient,
@@ -64,7 +64,7 @@ angular.module('beKindred')
           });
         }
         else {
-          $rootScope.messages[messageIndex].contents.push({
+          $scope.messages[messageIndex].contents.push({
             body: responseMessages[obj].body,
             sender: responseMessages[obj].sender,
             recipient: responseMessages[obj].recipient,
@@ -73,13 +73,13 @@ angular.module('beKindred')
             left: false
           });
         }
-        $rootScope.messages[messageIndex].contents = $filter('orderBy')($rootScope.messages[messageIndex].contents, 'sent_at', true);
+        $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
       }
 
-      $rootScope.messages = $filter('orderBy')($rootScope.messages, 'realDate');
+      $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
 
 
-      if ($rootScope.messages.length > 0) {
+      if ($scope.messages.length > 0) {
         $timeout(function() {
           var height = angular.element('.conversation-content')[0].scrollHeight;
           angular.element('.conversation-content').animate({
@@ -135,15 +135,15 @@ $scope.sendNewMessage = function() {
         newMessage.recipient = success.recipient;
         var localDatePlain = $filter('amDateFormat')(newMessage.sent_at, 'L');
         var localDate = $filter('amDateFormat')(newMessage.sent_at, 'dddd, MMMM D, YYYY');
-        var messageIndex = $filter('getIndexByProperty')('date', localDate, $rootScope.messages);
+        var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
         newMessage.date = localDatePlain;
 
         if (messageIndex === null) {
-          $rootScope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
-          messageIndex = $rootScope.messages.length - 1;
+          $scope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
+          messageIndex = $scope.messages.length - 1;
         }
 
-        $rootScope.messages[messageIndex].contents.push(newMessage);
+        $scope.messages[messageIndex].contents.push(newMessage);
         $scope.newmessage = '';
         $log.info('New message saved.');
         $scope.sendingMessage = false;
@@ -151,8 +151,6 @@ $scope.sendNewMessage = function() {
 
       },
       function(error) {
-       toaster.clear();
-       toaster.pop('error', 'Error', 'Message could not be sent. Please try again.');
        $scope.sendingMessage = false;
        $log.info(error);
      });
@@ -160,6 +158,54 @@ $scope.sendNewMessage = function() {
 }
 
 };
+
+
+// listen for the event when new message arrives
+$rootScope.$on('receivedMessage', function (event, data) {
+  var jsonData = JSON.parse(data);
+
+  $log.info('new message');
+
+  var localDate = $filter('amDateFormat')(jsonData.sent_at, 'dddd, MMMM D, YYYY');
+  var localDatePlain = $filter('amDateFormat')(jsonData.sent_at, 'L');
+
+  var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
+
+  if (messageIndex === null) {
+    $scope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
+    messageIndex = $scope.messages.length - 1;
+  }
+
+
+
+  $scope.messages[messageIndex].contents.push({
+    body: jsonData.body,
+    sender: jsonData.sender,
+    recipient: jsonData.recipient,
+    date: localDatePlain,
+    sent_at: jsonData.sent_at,
+    left: false
+  });
+
+  $rootScope.notifications.push({
+    body: jsonData.body,
+    sender: jsonData.sender,
+    recipient: jsonData.recipient,
+    date: localDatePlain,
+    sent_at: jsonData.sent_at
+  });
+
+  $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
+  $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
+
+  $timeout(function() {
+    var height = angular.element('.conversation-content')[0].scrollHeight;
+    angular.element('.conversation-content').animate({
+      scrollTop: height
+    }, 1500);
+  }, 100);
+
+});
 
 
 });

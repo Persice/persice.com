@@ -14,7 +14,7 @@ angular.module('beKindred', [
     'ngDraggable',
     'angucomplete-alt',
     'angular-carousel',
-    'toaster',
+    'cgNotify',
     'ngImgCrop',
     'angularMoment',
     'btford.socket-io'

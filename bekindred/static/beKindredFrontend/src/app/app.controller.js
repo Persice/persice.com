@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('AppCtrl', function ($rootScope, $scope, USER_ID, $timeout, $window, myIoSocket, $filter, $log, toaster, $resource, $cookies) {
+.controller('AppCtrl', function ($rootScope, $scope, USER_ID, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies) {
     $rootScope.hideTopMenu = false;
 
     $cookies.userid = USER_ID;
@@ -44,60 +44,39 @@ angular.module('beKindred')
     $rootScope.messages = [];
     //web socket for messages
     $scope.$on('socket:message', function (ev, data) {
-        var jsonData = JSON.parse(data);
-
-        $log.info('new message');
-
-        var localDate = $filter('amDateFormat')(jsonData.sent_at, 'dddd, MMMM D, YYYY');
-        var localDatePlain = $filter('amDateFormat')(jsonData.sent_at, 'L');
-
-        var messageIndex = $filter('getIndexByProperty')('date', localDate, $rootScope.messages);
-
-        if (messageIndex === null) {
-            $rootScope.messages.push({date: localDate, realDate: localDatePlain, contents: [] });
-            messageIndex = $rootScope.messages.length - 1;
-        }
-
-
-
-        $rootScope.messages[messageIndex].contents.push({
-            body: jsonData.body,
-            sender: jsonData.sender,
-            recipient: jsonData.recipient,
-            date: localDatePlain,
-            sent_at: jsonData.sent_at,
-            left: false
-        });
-
-        $rootScope.notifications.push({
-            body: jsonData.body,
-            sender: jsonData.sender,
-            recipient: jsonData.recipient,
-            date: localDatePlain,
-            sent_at: jsonData.sent_at
-        });
-
-        $rootScope.messages[messageIndex].contents = $filter('orderBy')($rootScope.messages[messageIndex].contents, 'sent_at', true);
-        $rootScope.messages = $filter('orderBy')($rootScope.messages, 'realDate');
 
         if ($rootScope.isState('conversations')) {
-            $timeout(function() {
-                var height = angular.element('.conversation-content')[0].scrollHeight;
-                angular.element('.conversation-content').animate({
-                    scrollTop: height
-                }, 1500);
-            }, 100);
+            $rootScope.$broadcast('receivedMessage', data);
         }
-        else {
+
+        if (!$rootScope.isState('conversations')) {
+            var jsonData = JSON.parse(data);
+            var message = $filter('words')(jsonData.body, 10 );
+            var localTime = $filter('amDateFormat')(jsonData.sent_at, 'h:mm a');
+
             var Sender = $resource(jsonData.sender);
             Sender.get().$promise.then(function(data) {
-                toaster.pop('info', 'Notification', 'You have a new message from ' + data.first_name);
+                $scope.gotoConversation = function() {
+                    $state.go('conversations', {userId: data.id} );
+                };
+
+                var notification = '<div class="notify-info-header"><a href="" ng-click="gotoConversation()">Received new message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
+                '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
+
+                notify({
+                    messageTemplate: notification,
+                    scope: $scope,
+                    classes: 'notify-info'
+                });
+
             });
 
-            if ($rootScope.isState('inbox')) {
-                $rootScope.$broadcast('refreshInbox');
-            }
 
+
+        }
+
+        if ($rootScope.isState('inbox')) {
+            $rootScope.$broadcast('refreshInbox');
         }
 
     });
