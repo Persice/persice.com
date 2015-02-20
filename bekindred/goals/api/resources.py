@@ -134,7 +134,10 @@ class GoalResource(ModelResource):
         goal_subject = bundle.data.get('goal_subject')
         try:
             subject, created = Subject.objects.get_or_create(description=goal_subject)
-            return super(GoalResource, self).obj_update(bundle, goal=subject)
+            if created:
+                return super(GoalResource, self).obj_update(bundle, goal=subject)
+            else:
+                return super(GoalResource, self).obj_update(bundle, **kwargs)
         except IndexError as err:
             print err
         return super(GoalResource, self).obj_update(bundle, **kwargs)
