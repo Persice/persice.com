@@ -127,6 +127,7 @@ class TestGoalResource(ResourceTestCase):
     def test_put_detail(self):
         self.response = self.login()
         # Grab the current data & modify it slightly.
+        self.assertEqual(Goal.objects.get(pk=10).goal.description, 'learn django')
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
         new_data['goal_subject'] = 'learn erlang'

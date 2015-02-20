@@ -131,10 +131,11 @@ class GoalResource(ModelResource):
         return super(GoalResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        goal_subject = bundle.data.get('goal_subject')
+        goal_subject = bundle.data['goal_subject']
         try:
             subject, created = Subject.objects.get_or_create(description=goal_subject)
-            return super(GoalResource, self).obj_update(bundle, goal=subject)
+            bundle.data['goal'] = '/api/v1/subject/{0}/'.format(subject.id)
+            return super(GoalResource, self).obj_update(bundle, goal='/api/v1/subject/{0}/'.format(subject.id))
         except IndexError as err:
             print err
         return self.save(bundle, skip_errors=skip_errors)
