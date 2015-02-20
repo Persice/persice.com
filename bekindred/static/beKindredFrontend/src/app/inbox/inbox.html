@@ -12,7 +12,7 @@
     <div class="container">
 
         <div class="ui selection divided list">
-            <a ui-sref="conversations({ userId: connection.friend_id })" class="item" ng-repeat="connection in connections track by $index">
+            <a ng-class="{'unread': connection.lastMessage.read === 0}" ui-sref="conversations({ userId: connection.friend_id })" class="item" ng-repeat="connection in connections track by $index">
                 <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ connection.facebook_id }}/picture?type=large)'}"></div>
                 <span class="message-time">{{connection.lastMessage.display}}</span>
                 <div class="content">
