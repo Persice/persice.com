@@ -134,14 +134,10 @@ class GoalResource(ModelResource):
         goal_subject = bundle.data.get('goal_subject')
         try:
             subject, created = Subject.objects.get_or_create(description=goal_subject)
-            if created:
-                return super(GoalResource, self).obj_update(bundle, goal=subject)
-            else:
-                return super(GoalResource, self).obj_update(bundle, **kwargs)
+            return super(GoalResource, self).obj_update(bundle, goal=subject)
         except IndexError as err:
             print err
-        return super(GoalResource, self).obj_update(bundle, **kwargs)
-
+        return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj

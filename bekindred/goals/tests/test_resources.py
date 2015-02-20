@@ -138,7 +138,7 @@ class TestGoalResource(ResourceTestCase):
         # Make sure the count hasn't changed & we did an update.
         self.assertEqual(Goal.objects.count(), 1)
         # Check for updated data.
-        self.assertEqual(updated_goal['subject'], Subject.objects.get(description='learn erlang').description)
+        self.assertEqual(Goal.objects.get(pk=10).goal.description, 'learn erlang')
 
     def test_put_to_duplicate_detail(self):
         self.response = self.login()
