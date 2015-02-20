@@ -10,6 +10,17 @@ angular.module('beKindred')
         ConnectionsFactory.query({format: 'json'}).$promise.then(function(data) {
 
             $scope.friends = data.objects;
+
+            //count mutual friends
+            for (var obj in $scope.friends) {
+                $scope.friends[obj].totalFriends = 0;
+                $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_bk_friends_count;
+                $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_fb_friends_count;
+                $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_linkedin_connections_count;
+                $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_twitter_friends_count;
+                $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_twitter_followers_count;
+            }
+
         }, function(response) {
             var data = response.data,
             status = response.status,
