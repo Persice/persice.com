@@ -8,7 +8,7 @@ angular.module('beKindred')
   var myUrl = '/api/v1/auth/user/' + USER_ID + '/';
 
 
-  $rootScope.$on('refreshInbox',function () {
+  $rootScope.$on('refreshInbox', function () {
     $scope.getLastMessage();
   });
 
@@ -55,7 +55,7 @@ angular.module('beKindred')
                 var today = $filter('amDateFormat')(new Date(), 'L');
                 $scope.connections[obj].lastMessage = responseMessages[counter];
                 $scope.connections[obj].lastMessage.date =  $filter('amDateFormat')(responseMessages[counter].sent_at, 'L');
-
+                $scope.connections[obj].lastMessage.read = 1;
                 if ($scope.connections[obj].lastMessage.date === today) {
                   $scope.connections[obj].lastMessage.display = $filter('amDateFormat')(responseMessages[counter].sent_at, 'h:mm a');
                 }

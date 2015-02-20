@@ -3552,3 +3552,17 @@ ul[rn-carousel]>li {
 .rn-carousel-indicator {
   text-align: center!important;
 }
+
+
+#inbox-body a.item.unread {
+  background-color: #f7f7f7!important;
+}
+
+#inbox-body a.item.unread .content .header, #inbox-body a.item.unread .content .description, #inbox-body a.item.unread .content .message-time {
+  font-weight: bold!important;
+}
+
+#inbox-body a.item .content .header, #inbox-body a.item .content .description, #inbox-body a.item .content .message-time {
+  font-weight: normal!important;
+}
+
