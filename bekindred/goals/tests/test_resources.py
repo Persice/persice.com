@@ -91,34 +91,68 @@ class TestGoalResource(ResourceTestCase):
         self.assertEqual(len(self.deserialize(resp)['objects']), 1)
         # Here, we're checking an entire structure for the expected data.
         self.assertEqual(self.deserialize(resp)['objects'][0], {
+            'id': self.goal.id,
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'goal': '/api/v1/subject/{0}/'.format(self.subject.pk),
             'subject': '{}'.format(self.DESCRIPTION),
             'resource_uri': '/api/v1/goal/{0}/'.format(self.goal.pk)
         })
 
-    def test_post_list(self):
+    def test_create_goal(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'goal_subject': 'my new goal',
+            }
         self.response = self.login()
-        # Check how many are there first.
-        self.assertEqual(Goal.objects.count(), 1)
-        self.assertHttpCreated(self.api_client.post('/api/v1/goal/', format='json',
-                                                    data=self.post_data))
-        # Verify a new one has been added.
-        self.assertEqual(Goal.objects.count(), 2)
+        self.assertHttpCreated(self.api_client.post('/api/v1/goal/', format='json', data=post_data))
+
+    def test_create_goal_and_get(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'goal_subject': 'my new goal2',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/goal/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['subject'], 'my new goal2')
+
+    def test_create_duplicate_goal(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'goal_subject': 'learn django',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/goal/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['goal']['error'][0], 'Goal already exists')
 
     def test_put_detail(self):
         self.response = self.login()
         # Grab the current data & modify it slightly.
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
-        new_data['goal'] = '/api/v1/subject/{}/'.format(self.subject3.pk)
+        new_data['goal_subject'] = 'learn erlang'
 
         self.assertEqual(Goal.objects.count(), 1)
-        self.assertHttpAccepted(self.api_client.put(self.detail_url, format='json', data=new_data))
+        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
+        updated_goal = self.deserialize(resp)
         # Make sure the count hasn't changed & we did an update.
         self.assertEqual(Goal.objects.count(), 1)
         # Check for updated data.
-        self.assertEqual(Goal.objects.get(pk=self.goal.id).goal_id, self.subject3.pk)
+        self.assertEqual(updated_goal['goal_subject'], Subject.objects.get(description='learn erlang').description)
+
+    def test_put_to_duplicate_detail(self):
+        self.response = self.login()
+        # Grab the current data & modify it slightly.
+        original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
+        new_data = original_data.copy()
+        new_data['goal_subject'] = 'learn django'
+
+        self.assertEqual(Goal.objects.count(), 1)
+        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
+        updated_goal = self.deserialize(resp)
+        # Make sure the count hasn't changed & we did an update.
+        self.assertEqual(Goal.objects.count(), 1)
+        # Check for updated data.
+        self.assertEqual(updated_goal['goal']['error'][0], "Goal already exists")
 
     def test_delete_detail(self):
         self.response = self.login()
@@ -165,34 +199,68 @@ class TestOfferResource(ResourceTestCase):
         self.assertEqual(len(self.deserialize(resp)['objects']), 1)
         # Here, we're checking an entire structure for the expected data.
         self.assertEqual(self.deserialize(resp)['objects'][0], {
+            'id': self.offer.id,
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'subject': '{}'.format(self.DESCRIPTION),
             'offer': '/api/v1/subject/{0}/'.format(self.subject.pk),
             'resource_uri': '/api/v1/offer/{0}/'.format(self.offer.pk)
         })
 
-    def test_post_list(self):
+    def test_create_offer(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'offer_subject': 'my new offer',
+            }
         self.response = self.login()
-        # Check how many are there first.
-        self.assertEqual(Offer.objects.count(), 1)
-        self.assertHttpCreated(self.api_client.post('/api/v1/offer/', format='json',
-                                                    data=self.post_data))
-        # Verify a new one has been added.
-        self.assertEqual(Offer.objects.count(), 2)
+        self.assertHttpCreated(self.api_client.post('/api/v1/offer/', format='json', data=post_data))
+
+    def test_create_offer_and_get(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'offer_subject': 'my new offer2',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/offer/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['subject'], 'my new offer2')
+
+    def test_create_duplicate_goal(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'offer_subject': 'learn django',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/offer/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['offer']['error'][0], 'Offer already exists')
 
     def test_put_detail(self):
         self.response = self.login()
         # Grab the current data & modify it slightly.
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
-        new_data['offer'] = '/api/v1/subject/{}/'.format(self.subject3.pk)
+        new_data['offer_subject'] = 'learn erlang'
 
         self.assertEqual(Offer.objects.count(), 1)
-        self.assertHttpAccepted(self.api_client.put(self.detail_url, format='json', data=new_data))
+        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
+        updated_offer = self.deserialize(resp)
         # Make sure the count hasn't changed & we did an update.
         self.assertEqual(Offer.objects.count(), 1)
         # Check for updated data.
-        self.assertEqual(Offer.objects.get(pk=self.offer.id).offer_id, self.subject3.pk)
+        self.assertEqual(updated_offer['offer_subject'], Subject.objects.get(description='learn erlang').description)
+
+    def test_put_to_duplicate_detail(self):
+        self.response = self.login()
+        # Grab the current data & modify it slightly.
+        original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
+        new_data = original_data.copy()
+        new_data['offer_subject'] = 'learn django'
+
+        self.assertEqual(Offer.objects.count(), 1)
+        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
+        updated_goal = self.deserialize(resp)
+        # Make sure the count hasn't changed & we did an update.
+        self.assertEqual(Offer.objects.count(), 1)
+        # Check for updated data.
+        self.assertEqual(updated_goal['offer']['error'][0], "Offer already exists")
 
     def test_delete_detail(self):
         self.response = self.login()

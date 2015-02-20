@@ -51,16 +51,25 @@ class GoalValidation(Validation):
 
         errors = {}
 
-        goal = re.findall(r'/(\d+)/', bundle.data['goal'])[0]
+        goal_subject = bundle.data.get('goal_subject')
+        if not goal_subject:
+            errors['error'] = ['Please use goal_subject']
+
+        subject = None
+        try:
+            subject = Subject.objects.filter(description=goal_subject)[0]
+        except IndexError as err:
+            return errors
+
         user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
-        goals = Goal.objects.filter(goal_id=int(goal), user_id=user)
-        offers = Offer.objects.filter(offer_id=int(goal), user_id=user)
+        goals = Goal.objects.filter(goal_id=subject.id, user_id=user)
+        offers = Offer.objects.filter(offer_id=subject.id, user_id=user)
 
         if goals:
             errors['error'] = ['Goal already exists']
 
         if offers:
-            errors['error'] = ['Goal couldn\'t be  equivalent to Offer']
+            errors['error'] = ["Goal couldn't be  equivalent to Offer"]
 
         return errors
 
@@ -72,16 +81,25 @@ class OfferValidation(Validation):
 
         errors = {}
 
-        offer = re.findall(r'/(\d+)/', bundle.data['offer'])[0]
+        offer_subject = bundle.data.get('offer_subject')
+        if not offer_subject:
+            errors['error'] = ['Please use offer_subject']
+
+        subject = None
+        try:
+            subject = Subject.objects.filter(description=offer_subject)[0]
+        except IndexError as err:
+            print err
+
         user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
-        offers = Offer.objects.filter(offer_id=int(offer), user_id=user)
-        goals = Goal.objects.filter(goal_id=int(offer), user_id=user)
+        goals = Goal.objects.filter(goal_id=subject.id, user_id=user)
+        offers = Offer.objects.filter(offer_id=subject.id, user_id=user)
 
         if offers:
             errors['error'] = ['Offer already exists']
 
         if goals:
-            errors['error'] = ['Offer couldn\'t be equivalent to Goal']
+            errors['error'] = ["Offer couldn't be equivalent to Offer"]
 
         return errors
 
@@ -102,6 +120,26 @@ class GoalResource(ModelResource):
     def get_object_list(self, request):
         user = request.GET.get('user_id', request.user.id)
         return super(GoalResource, self).get_object_list(request).filter(user_id=user)
+
+    def obj_create(self, bundle, **kwargs):
+        goal_subject = bundle.data.get('goal_subject')
+        try:
+            subject, created = Subject.objects.get_or_create(description=goal_subject)
+            return super(GoalResource, self).obj_create(bundle, goal=subject)
+        except IndexError as err:
+            print err
+        return super(GoalResource, self).obj_create(bundle, **kwargs)
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        goal_subject = bundle.data.get('goal_subject')
+        try:
+            subject, created = Subject.objects.get_or_create(description=goal_subject)
+            if created:
+                return super(GoalResource, self).obj_update(bundle, goal=subject)
+        except IndexError as err:
+            print err
+        return super(GoalResource, self).obj_update(bundle, **kwargs)
+
 
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj
@@ -124,6 +162,25 @@ class OfferResource(ModelResource):
     def get_object_list(self, request):
         user = request.GET.get('user_id', request.user.id)
         return super(OfferResource, self).get_object_list(request).filter(user_id=user)
+
+    def obj_create(self, bundle, **kwargs):
+        offer_subject = bundle.data.get('offer_subject')
+        try:
+            subject, created = Subject.objects.get_or_create(description=offer_subject)
+            return super(OfferResource, self).obj_create(bundle, offer=subject)
+        except IndexError as err:
+            print err
+        return super(OfferResource, self).obj_create(bundle, **kwargs)
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        offer_subject = bundle.data.get('offer_subject')
+        try:
+            subject, created = Subject.objects.get_or_create(description=offer_subject)
+            if created:
+                return super(OfferResource, self).obj_update(bundle, offer=subject)
+        except IndexError as err:
+            print err
+        return super(OfferResource, self).obj_update(bundle, **kwargs)
 
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj
