@@ -59,7 +59,7 @@ class GoalValidation(Validation):
         try:
             subject = Subject.objects.filter(description=goal_subject)[0]
         except IndexError as err:
-            return errors
+            print err
 
         user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
         goals = Goal.objects.filter(goal_id=subject.id, user_id=user)
@@ -134,8 +134,7 @@ class GoalResource(ModelResource):
         goal_subject = bundle.data.get('goal_subject')
         try:
             subject, created = Subject.objects.get_or_create(description=goal_subject)
-            if created:
-                return super(GoalResource, self).obj_update(bundle, goal=subject)
+            return super(GoalResource, self).obj_update(bundle, goal=subject)
         except IndexError as err:
             print err
         return super(GoalResource, self).obj_update(bundle, **kwargs)
