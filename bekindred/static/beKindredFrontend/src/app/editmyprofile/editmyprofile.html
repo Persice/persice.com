@@ -1,6 +1,6 @@
 
 
-<div class="segment" id="my-profile-header-edit" ng-hide="showModal || editGoal || editOffer || editInterest">
+<div class="segment" id="my-profile-header-edit" ng-hide="showModal || editInterest">
   <div class="container">
     <div class="ui attached segment">
       <div class="ui fluid primary button" ui-sref="myprofile">
@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<div class="body segment edit" id="my-profile-body" ng-hide="showModal || editGoal || editOffer || editInterest">
+<div class="body segment edit" id="my-profile-body" ng-hide="showModal || editInterest">
   <div class="container">
     <div class="ui attached segment" id="my-profile-title">
       <h3 class="ui left floated header">
@@ -43,12 +43,12 @@
         <div class="item" end-repeat ng-repeat="goal in user.goals track by $index">
           <div class="content">
             <div class="description">
-              <div class="ui fluid search" rel="{{$index}}" ng-class="{'loading': goal.loading }">
+              <div class="ui fluid search goals" rel="{{$index}}" ng-class="{'loading': goal.loading }">
                 <div class="ui fluid leftright action input" ng-class="{'error': goal.error}">
                   <div class="ui red left icon button" ng-click="removeGoal($index)">
                     <i class="remove icon"></i>
                   </div>
-                  <input type="text" class="prompt" ng-model="goal.subject" ng-change="needSaving($index)">
+                  <input type="text" class="prompt" ng-model="goal.subject" ng-change="goalNeedSaving($index)">
                   <div ng-show="goal.changed" class="ui blue right icon button" ng-click="saveCurrentGoal($index)">
                     <i class="save icon"></i>
                   </div>
@@ -68,17 +68,22 @@
 
       <h4 class="ui header">Offers</h4>
       <div class="ui large list">
-        <div class="item" ng-repeat="offer in user.offers track by $index">
+        <div class="item" end-repeat ng-repeat="offer in user.offers track by $index">
           <div class="content">
             <div class="description">
-              <div class="ui fluid leftright action input" ng-class="{'error': offer.error, 'loading': offer.loading }">
-                <div class="ui red left icon button" ng-click="removeOffer($index)">
-                  <i class="remove icon"></i>
+              <div class="ui fluid search offers" rel="{{$index}}" ng-class="{'loading': offer.loading }">
+                <div class="ui fluid leftright action input" ng-class="{'error': offer.error}">
+                  <div class="ui red left icon button" ng-click="removeOffer($index)">
+                    <i class="remove icon"></i>
+                  </div>
+                  <input type="text" class="prompt" ng-model="offer.subject" ng-change="offerNeedSaving($index)">
+                  <div ng-show="offer.changed" class="ui blue right icon button" ng-click="saveCurrentOffer($index)">
+                    <i class="save icon"></i>
+                  </div>
                 </div>
-                <input type="text" ng-model="offer.subject" ng-change-on-blur="saveCurrentOffer($index)">
+                <div class="results"></div>
               </div>
-              <div class="ui red pointing prompt fluid label visible transition" ng-if="offer.error">{{offer.errorMessage}}</div>
-
+              <div class="ui red pointing fluid label visible transition" ng-if="offer.error">{{offer.errorMessage}}</div>
             </div>
           </div>
 
@@ -88,8 +93,6 @@
         <i class="plus icon"></i>
         Create new Offer
       </div>
-
-
 
       <h4 class="ui header">About</h4>
       <form class="ui form" ng-class="{loading: loadingAbout}">
@@ -280,86 +283,6 @@
 
 
       </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="body segment edit" id="my-profile-edit-items" ng-if="editGoal" ng-cloak>
-  <div class="container">
-    <div class="ui attached segment">
-      <div class="ui fluid primary button" ng-click="closeEditGoal()">
-        Back to Edit Profile
-      </div>
-    </div>
-
-
-    <div class="ui attached segment">
-      <div class="ui dividing header">Create Goal</div>
-
-      <div class="ui attached warning message" id="warningmessage" ng-show="messageShow">
-        <div class="header">
-          Warning
-        </div>
-        <p>
-          {{message}}
-        </p>
-      </div>
-
-      <div class="ui basic segment">
-        <div class="ui center aligned grid">
-          <div class="row">
-            <div class="search-wrapper ui icon large left input">
-              <i class="fa fa-search fa-lg"></i>
-              <div field-required="false" angucomplete-alt text-no-results="No existing goal found. Create new goal &raquo;" minlength="3" input-changed="inputChanged" match-class="highlight" selected-object="selectResult" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__icontains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="Enter your goal here"></div>
-            </div>
-          </div>
-          <div class="row">
-            <a ng-click="createGoal()" class="ui button submit green" ng-class="{loading: loadingCreatingNew}" role="button">Save &rarr;</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-<div class="body segment edit" id="my-profile-edit-items" ng-if="editOffer" ng-cloak>
-  <div class="container">
-    <div class="ui attached segment">
-      <div class="ui fluid primary button" ng-click="closeEditOffer()">
-        Back to Edit Profile
-      </div>
-    </div>
-
-
-    <div class="ui attached segment">
-      <div class="ui dividing header">Create Offer</div>
-
-      <div class="ui attached warning message" id="warningmessage" ng-show="messageShow">
-        <div class="header">
-          Warning
-        </div>
-        <p>
-          {{message}}
-        </p>
-      </div>
-
-      <div class="ui basic segment">
-        <div class="ui center aligned grid">
-          <div class="row">
-            <div class="search-wrapper ui icon large left input">
-              <i class="fa fa-search fa-lg"></i>
-              <div field-required="false" angucomplete-alt text-no-results="No existing offer found. Create new offer &raquo;" minlength="3" input-changed="inputChanged" match-class="highlight" selected-object="selectResult" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__icontains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="Enter your offer here"></div>
-            </div>
-          </div>
-          <div class="row">
-            <a ng-click="createOffer()" class="ui button submit green" ng-class="{loading: loadingCreatingNew}" ng-click="saveAbout()" role="button">Save &rarr;</a>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>

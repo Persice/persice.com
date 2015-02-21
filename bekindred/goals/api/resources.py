@@ -172,14 +172,14 @@ class OfferResource(ModelResource):
         return super(OfferResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        offer_subject = bundle.data.get('offer_subject')
+        offer_subject = bundle.data['offer_subject']
         try:
             subject, created = Subject.objects.get_or_create(description=offer_subject)
-            if created:
-                return super(OfferResource, self).obj_update(bundle, offer=subject)
+            bundle.data['offer'] = '/api/v1/subject/{0}/'.format(subject.id)
+            return super(OfferResource, self).obj_update(bundle, offer='/api/v1/subject/{0}/'.format(subject.id))
         except IndexError as err:
             print err
-        return super(OfferResource, self).obj_update(bundle, **kwargs)
+        return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):
         bundle.data["subject"] = bundle.obj

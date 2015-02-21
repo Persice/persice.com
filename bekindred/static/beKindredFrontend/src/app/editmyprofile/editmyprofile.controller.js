@@ -445,7 +445,7 @@ angular.module('beKindred')
 
       $scope.$on('ngRepeatFinished', function () {
         $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
-        $('.ui.search')
+        $('.ui.search.goals')
         .search({
           apiSettings: {
             url: 'api/v1/subject/?format=json&description__icontains={query}',
@@ -467,10 +467,33 @@ angular.module('beKindred')
 
         });
 
+
+        $('.ui.search.offers')
+        .search({
+          apiSettings: {
+            url: 'api/v1/subject/?format=json&description__icontains={query}',
+          },
+          minCharacters: 3,
+          searchDelay: 400,
+          type: 'standard',
+          cache: false,
+          onSelect: function(result, response) {
+            var idx = $(this).attr('rel');
+            $log.info(result);
+            if (result !== undefined) {
+              $scope.user.offers[idx].subject = result.description;
+
+            }
+
+          }
+
+
+        });
+
       });
 
 
-      $scope.needSaving = function(index) {
+      $scope.goalNeedSaving = function(index) {
         $scope.user.goals[index].changed = true;
       };
 
@@ -502,7 +525,8 @@ angular.module('beKindred')
         var newGoal = {
           id: 0,
           subject: '',
-          user: $scope.userUri
+          user: $scope.userUri,
+          changed: true
         };
 
         $scope.user.goals.push(newGoal);
@@ -594,269 +618,109 @@ angular.module('beKindred')
 
 
 
-    $scope.saveGoal = function() {
-      var newGoal = {
-        goal: $scope.resourceUri,
-        user: $scope.userUri
-      };
-      $scope.loadingCreatingNew = true;
-      GoalsFactory.save({}, newGoal,
-        function(success){
-          $scope.loadingCreatingNew = false;
-          $scope.editGoal = !$scope.editGoal;
-          $scope.user.goals.push(success);
+    //offers
 
-          $scope.subject = '';
-          $scope.resourceUri = null;
-          $scope.messageShow = false;
-          $scope.message = '';
-
-
-        },
-        function(error) {
-          $scope.resourceUri = null;
-          $scope.messageShow = true;
-          $scope.message = error.data.goal.error[0];
-          $scope.loadingCreatingNew = false;
-
-        });
-    };
-
-    $scope.createGoal = function() {
-      $scope.messageShow = false;
-      $scope.message = '';
-      $scope.loadingCreatingNew = false;
-
-
-        //if subject is empty warn user to enter subject
-        if ($scope.subject === '') {
-          $scope.message = 'Entering your goal is required to continue.';
-          $scope.messageShow = true;
-          return false;
-        }
-
-        //check if subject already exists
-        if ($scope.resourceUri !== null) {
-
-          $scope.saveGoal();
-
-        }
-        else {
-          SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
-            if (data.meta.total_count === 0) {
-                    //create new subject
-                    var newSubject = {
-                      description: $scope.subject,
-                    };
-
-                    SubjectsFactory.save({}, newSubject,
-                      function(success){
-                        $scope.resourceUri = success.resource_uri;
-                        $scope.saveGoal();
-                      },
-                      function(error) {
-                        $scope.message = 'You have already created this goal.';
-                        $scope.messageShow = true;
-                      });
-                  }
-                  else {
-                    $scope.resourceUri = data.objects[0].resource_uri;
-                    $scope.saveGoal();
-                  }
-
-
-
-                });
-
-        }
-
+    $scope.offerNeedSaving = function(index) {
+        $scope.user.offers[index].changed = true;
       };
 
-
-    //Offers
-
-    $scope.editOffer = false;
 
     $scope.createNewOffer = function() {
       $log.info('creating offer');
-      $scope.editOffer = true;
+
+      var newOffer = {
+        id: 0,
+        subject: '',
+        user: $scope.userUri,
+        changed: true
+      };
+
+      $scope.user.offers.push(newOffer);
+
     };
 
-    $scope.closeEditOffer = function() {
-      $scope.editOffer = false;
-      $scope.subject = '';
-      $scope.resourceUri = null;
-      $scope.messageShow = false;
-      $scope.message = '';
-      $scope.editOffer = false;
+
+    $scope.removeOffer = function(index) {
+
+      var Offer = $resource($scope.user.offers[index].resource_uri);
+
+      if ($scope.user.offers[index].id === 0) {
+        $scope.user.offers.splice(index, 1);
+      }
+      else {
+        Offer.delete().$promise.then(function(data) {
+          $scope.user.offers.splice(index, 1);
+        });
+      }
+
     };
 
 
     $scope.saveCurrentOffer = function(index) {
+
+      $scope.user.offers[index].errorMessage = '';
+      $scope.user.offers[index].error = false;
+
       if ($scope.user.offers[index].subject === '') {
         $scope.user.offers[index].error = true;
         $scope.user.offers[index].errorMessage = 'Entering your offer is required.';
       }
       else {
-        $scope.user.offers[index].loading = true;
-        SubjectsFactory.query({format: 'json', description: $scope.user.offers[index].subject}).$promise.then(function(data) {
-          if (data.meta.total_count === 0) {
-            //create new subject
-            var newSubject = {
-              description: $scope.user.offers[index].subject,
-            };
-
-            SubjectsFactory.save({}, newSubject,
-              function(success){
-                OffersFactory.update({offerId: $scope.user.offers[index].id}, {offer: success.resource_uri, user_id: $scope.userUri},
-                  function(success){
-                    $scope.user.offers[index].loading = false;
-                    $scope.user.offers[index].error = false;
-                    $scope.user.offers[index].offer = success.offer;
-                  },
-                  function(error) {
-                    $scope.user.offers[index].errorMessage = error.data.offer.error[0];
-                    $scope.user.offers[index].loading = false;
-                    $scope.user.offers[index].error = true;
-
-                  });
-              },
-              function(error) {
-                $scope.user.offers[index].errorMessage = 'You have already created this offer.';
-              });
-          }
-          else {
-            $scope.subjectUri = data.objects[0].resource_uri;
-            //patch only if not equal to currently stored offer
-            if ($scope.user.offers[index].offer !== $scope.subjectUri) {
-              OffersFactory.update({offerId: $scope.user.offers[index].id}, {offer: $scope.subjectUri, user_id: $scope.userUri},
-                function(success){
-                  $scope.user.offers[index].loading = false;
-                  $scope.user.offers[index].error = false;
-                  $scope.user.offers[index].offer = success.offer;
-                },
-                function(error) {
-                  $scope.user.offers[index].errorMessage = error.data.offer.error[0];
-                  $scope.user.offers[index].loading = false;
-                  $scope.user.offers[index].error = true;
-
-                });
-            }
-            else {
+        if ($scope.user.offers[index].id === 0) {
+          //create new offer
+          var newOffer = {
+            offer_subject: $scope.user.offers[index].subject,
+            user: $scope.userUri
+          };
+          $scope.user.offers[index].loading = true;
+          $scope.user.offers[index].error = false;
+          OffersFactory.save({}, newOffer,
+            function(success){
               $scope.user.offers[index].loading = false;
               $scope.user.offers[index].error = false;
-            }
+              $scope.user.offers[index].id = success.id;
+              $scope.user.offers[index].offer = success.offer;
+              $scope.user.offers[index].offer_subject = success.offer_subject;
+              $scope.user.offers[index].resource_uri = success.resource_uri;
+              $scope.user.offers[index].user = success.user;
 
-          }
+              $scope.user.offers[index].changed = false;
+            },
+            function(error) {
+              $scope.user.offers[index].errorMessage = error.data.offer.error[0];
+              $scope.user.offers[index].loading = false;
+              $scope.user.offers[index].error = true;
 
-
-
-        });
-
-
-}
-
-
-};
-
-$scope.removeOffer = function(index) {
-
-  var Offer = $resource($scope.user.offers[index].resource_uri);
-
-  Offer.delete().$promise.then(function(data) {
-    $scope.user.offers.splice(index, 1);
-  });
-};
-
-
-
-$scope.saveOffer = function() {
-  var newOffer = {
-    offer: $scope.resourceUri,
-    user: $scope.userUri
-  };
-
-  $scope.loadingCreatingNew = true;
-
-  OffersFactory.save({}, newOffer,
-    function(success){
-      $scope.loadingCreatingNew = false;
-      $scope.editOffer = !$scope.editOffer;
-      $scope.user.offers.push(success);
-
-      $scope.subject = '';
-      $scope.resourceUri = null;
-      $scope.messageShow = false;
-      $scope.message = '';
-
-    },
-    function(error) {
-      $scope.resourceUri = null;
-      $scope.messageShow = true;
-      $scope.message = error.data.offer.error[0];
-      $scope.loadingCreatingNew = false;
-
-    });
-};
-
-
-
-$scope.createOffer = function() {
-  $scope.messageShow = false;
-  $scope.message = '';
-
-
-        //if subject is empty warn user to enter subject
-        if ($scope.subject === '') {
-          $scope.message = 'Entering your offer is required to continue.';
-          $scope.messageShow = true;
-          return false;
-        }
-
-        //check if subject already exists
-        if ($scope.resourceUri !== null) {
-          $scope.saveOffer();
+            });
         }
         else {
-          SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
+          //edit offer
+          $scope.user.offers[index].error = false;
+          $scope.user.offers[index].loading = true;
+          OffersFactory.update({offerId: $scope.user.offers[index].id}, {offer_subject: $scope.user.offers[index].subject},
+            function(success){
+              $scope.user.offers[index].loading = false;
+              $scope.user.offers[index].error = false;
+              $scope.user.offers[index].offer = success.offer;
+              $scope.user.offers[index].offer_subject = success.offer_subject;
+              $scope.user.offers[index].resource_uri = success.resource_uri;
 
-            if (data.meta.total_count === 0) {
-              //create new subject
-              var newSubject = {
-                description: $scope.subject,
-              };
+              $scope.user.offers[index].changed = false;
 
-              SubjectsFactory.save({}, newSubject,
-                function(success){
-                  $scope.resourceUri = success.resource_uri;
-                  $scope.saveOffer();
+            },
+            function(error) {
+              $scope.user.offers[index].errorMessage = error.data.offer.error[0];
+              $scope.user.offers[index].loading = false;
+              $scope.user.offers[index].error = true;
 
-                },
-                function(error) {
-                  $scope.message = 'You have already created this offer.';
-                  $scope.messageShow = true;
-                });
-            }
-            else {
+            });
 
-              $scope.resourceUri = data.objects[0].resource_uri;
-              $scope.saveOffer();
-            }
-
-          });
 
         }
-
-      };
-
-
-    //Edit About
+      }
 
 
-    $scope.editAbout = false;
-
-
-
+    };
 
 
   });
