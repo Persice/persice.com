@@ -17,6 +17,7 @@ env.project_name = 'bekindred'
 env.server_name = 'linode'
 env.webapps_root = '/webapps/bekindred/'
 env.repo_root = os.path.join(env.webapps_root, 'beKindred.com')
+env.socketio = os.path.join(env.webapps_root, 'socketio')
 env.settings = 'bekindred.settings.production_linode'
 
 env.project_root = os.path.join(env.repo_root, env.project_name)
@@ -119,8 +120,17 @@ def restart_redis():
 
 
 @task
+def restart_node():
+    with cd(env.socketio):
+        sudo('npm install')
+        sudo('pm2 kill')
+        sudo('pm2 start app.js')
+
+
+@task
 def reload():
     restart_app()
+    restart_node()
     restart_nginx()
 
 
