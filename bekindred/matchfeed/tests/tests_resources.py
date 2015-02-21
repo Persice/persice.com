@@ -11,9 +11,9 @@ class TestMatchFeedResource(ResourceTestCase):
                                                            password='test', date_of_birth=date(1989, 5, 20))
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', facebook_id=12345671,
                                                             password='test', date_of_birth=date(1989, 1, 9))
-        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', facebook_id=12345672,
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', facebook_id=12345672,  gender='m',
                                                             password='test', date_of_birth=date(1998, 1, 11))
-        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', facebook_id=12345673,
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', facebook_id=12345673,  gender='f',
                                                             password='test', date_of_birth=date(1950, 3, 1))
         self.user4 = FacebookCustomUser.objects.create_user(username='user_e', facebook_id=12345674,
                                                             password='test', date_of_birth=date(1970, 2, 1))
@@ -88,7 +88,6 @@ class TestMatchFeedResource(ResourceTestCase):
 
         self.response = self.login()
         resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true'}, format='json')
-        print self.deserialize(resp)
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
 
     def test_filter_match_age_full_range(self):
@@ -97,9 +96,21 @@ class TestMatchFeedResource(ResourceTestCase):
         Goal.objects.create(user=self.user, goal=self.subject2)
 
         Goal.objects.create(user=self.user1, goal=self.subject)
-        Goal.objects.create(user=self.user2, goal=self.subject2)
+        Goal.objects.create(user=self.user4, goal=self.subject2)
 
         self.response = self.login()
         resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true'}, format='json')
-        print self.deserialize(resp)
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 2)
+
+    def test_filter_match_gender_male(self):
+        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99, gender='m')
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user2, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject2)
+
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true'}, format='json')
+        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)

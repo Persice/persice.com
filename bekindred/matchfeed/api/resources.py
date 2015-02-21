@@ -24,6 +24,7 @@ class MatchedFeedResource(Resource):
     age = fields.IntegerField(attribute='age')
     distance = fields.FloatField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
 
     photos = fields.ListField(attribute='photos')
     goals = fields.ListField(attribute='goals')
@@ -60,6 +61,7 @@ class MatchedFeedResource(Resource):
             new_obj.last_name = user.last_name
             new_obj.facebook_id = user.facebook_id
             new_obj.age = calculate_age(user.date_of_birth)
+            new_obj.gender = user.gender or 'all'
             new_obj.user_id = user.id
             new_obj.about = user.about_me
             new_obj.photos = photos
@@ -71,9 +73,9 @@ class MatchedFeedResource(Resource):
 
         if request.GET.get('filter') == 'true':
             mfs = MatchFilterState.objects.get(user=request.user.id)
-            results = filter(lambda x: (x.distance <= mfs.distance) or
-                                       ((x.age <= mfs.max_age) and (x.age >= mfs.min_age) or (x.age is 0)) or
-                                       ((x.gender == mfs.gender) or (x.gender is None)),
+            results = filter(lambda x: (x.distance <= mfs.distance) and
+                                       ((x.age <= int(mfs.max_age)) and (x.age >= int(mfs.min_age)) or (x.age is 0)) and
+                                       ((x.gender == mfs.gender) or (x.gender == 'all')),
                              results)
             return results
 
