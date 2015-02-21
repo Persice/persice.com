@@ -443,8 +443,12 @@ angular.module('beKindred')
 
       };
 
-      $scope.$on('ngRepeatFinished', function () {
+      $scope.$on('ngRepeatFinishedPhotos', function () {
         $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
+
+      });
+
+      $scope.$on('ngRepeatFinished', function () {
         $('.ui.search.goals')
         .search({
           apiSettings: {
@@ -493,74 +497,74 @@ angular.module('beKindred')
       });
 
 
-      $scope.goalNeedSaving = function(index) {
-        $scope.user.goals[index].changed = true;
-      };
+$scope.goalNeedSaving = function(index) {
+  $scope.user.goals[index].changed = true;
+};
 
 
-      $scope.subject = '';
-      $scope.resourceUri = null;
-      $scope.messageShow = false;
-      $scope.message = '';
+$scope.subject = '';
+$scope.resourceUri = null;
+$scope.messageShow = false;
+$scope.message = '';
 
-      $scope.inputChanged = function (str) {
-        $scope.subject = str;
-      };
+$scope.inputChanged = function (str) {
+  $scope.subject = str;
+};
 
-      $scope.selectResult = function (object) {
-        if (object !== undefined) {
-          $scope.subject = object.originalObject.description;
-          $scope.resourceUri = object.originalObject.resource_uri;
-        }
-        else {
-          $scope.resourceUri = null;
-        }
-
-
-      };
-
-      $scope.createNewGoal = function() {
-        $log.info('creating goal');
-
-        var newGoal = {
-          id: 0,
-          subject: '',
-          user: $scope.userUri,
-          changed: true
-        };
-
-        $scope.user.goals.push(newGoal);
-
-      };
+$scope.selectResult = function (object) {
+  if (object !== undefined) {
+    $scope.subject = object.originalObject.description;
+    $scope.resourceUri = object.originalObject.resource_uri;
+  }
+  else {
+    $scope.resourceUri = null;
+  }
 
 
-      $scope.removeGoal = function(index) {
+};
 
-        var Goal = $resource($scope.user.goals[index].resource_uri);
+$scope.createNewGoal = function() {
+  $log.info('creating goal');
 
-        if ($scope.user.goals[index].id === 0) {
-          $scope.user.goals.splice(index, 1);
-        }
-        else {
-          Goal.delete().$promise.then(function(data) {
-            $scope.user.goals.splice(index, 1);
-          });
-        }
+  var newGoal = {
+    id: 0,
+    subject: '',
+    user: $scope.userUri,
+    changed: true
+  };
 
-      };
+  $scope.user.goals.push(newGoal);
+
+};
 
 
-      $scope.saveCurrentGoal = function(index) {
+$scope.removeGoal = function(index) {
 
-        $scope.user.goals[index].errorMessage = '';
-        $scope.user.goals[index].error = false;
+  var Goal = $resource($scope.user.goals[index].resource_uri);
 
-        if ($scope.user.goals[index].subject === '') {
-          $scope.user.goals[index].error = true;
-          $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
-        }
-        else {
-          if ($scope.user.goals[index].id === 0) {
+  if ($scope.user.goals[index].id === 0) {
+    $scope.user.goals.splice(index, 1);
+  }
+  else {
+    Goal.delete().$promise.then(function(data) {
+      $scope.user.goals.splice(index, 1);
+    });
+  }
+
+};
+
+
+$scope.saveCurrentGoal = function(index) {
+
+  $scope.user.goals[index].errorMessage = '';
+  $scope.user.goals[index].error = false;
+
+  if ($scope.user.goals[index].subject === '') {
+    $scope.user.goals[index].error = true;
+    $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
+  }
+  else {
+    if ($scope.user.goals[index].id === 0) {
           //create new goal
           var newGoal = {
             goal_subject: $scope.user.goals[index].subject,
@@ -621,8 +625,8 @@ angular.module('beKindred')
     //offers
 
     $scope.offerNeedSaving = function(index) {
-        $scope.user.offers[index].changed = true;
-      };
+      $scope.user.offers[index].changed = true;
+    };
 
 
     $scope.createNewOffer = function() {

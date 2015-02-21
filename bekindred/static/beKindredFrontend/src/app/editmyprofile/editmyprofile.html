@@ -9,7 +9,7 @@
     </div>
     <div class="ui segment">
       <div id="tiles" ng-cloak>
-        <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }"  ng-repeat="photo in user.photos track by $index" end-repeat ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
+        <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }"  ng-repeat="photo in user.photos track by $index" end-repeat-photos ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
           <a href="" ng-click="$parent.userPhotoDelete = photo; $parent.userPhotoDeleteIndex = $index;" class="ui right corner delete_photo label" ng-show="photo.photo !== ''">
             <i class="close icon"></i>
           </a>

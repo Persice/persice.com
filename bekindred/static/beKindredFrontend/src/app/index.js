@@ -176,6 +176,18 @@ angular.module('beKindred', [
         }
     }
 })
+.directive('endRepeatPhotos', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit('ngRepeatFinishedPhotos');
+                });
+            }
+        }
+    }
+})
 .filter('getByProperty', function() {
     return function(propertyName, propertyValue, collection) {
         var i=0, len=collection.length;
