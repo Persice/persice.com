@@ -25,6 +25,8 @@ class TestMatchFeedResource(ResourceTestCase):
         self.description4 = 'teach django'
         self.description5 = 'teach python'
         self.description6 = 'teach ruby'
+        self.description7 = 'find mountain biking partner'
+        self.description8 = 'find people to go mountain biking with'
 
         self.subject = Subject.objects.create(description=self.description)
         self.subject2 = Subject.objects.create(description=self.description2)
@@ -32,6 +34,8 @@ class TestMatchFeedResource(ResourceTestCase):
         self.subject4 = Subject.objects.create(description=self.description4)
         self.subject5 = Subject.objects.create(description=self.description5)
         self.subject6 = Subject.objects.create(description=self.description6)
+        self.subject7 = Subject.objects.create(description=self.description7)
+        self.subject8 = Subject.objects.create(description=self.description8)
 
         self.resource_url = '/api/v1/matchfeed/'
 
@@ -114,3 +118,21 @@ class TestMatchFeedResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true'}, format='json')
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
+
+    def test_match_feed_keyword(self):
+        """
+        Users not matching on keyword "mountain biking"
+        based on bug https://bekindred.atlassian.net/browse/BK-438
+        """
+        Goal.objects.create(user=self.user, goal=self.subject7)
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user5, goal=self.subject)
+        Goal.objects.create(user=self.user5, goal=self.subject8)
+
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
+        result = self.deserialize(resp)
+        self.assertEqual(result['meta']['total_count'], 1)
+        print result
+        self.assertEqual(result['objects'][0]['goals'], [{u'find people to go mountain biking with': 1,
+                                                          u'learn django': 1}])
