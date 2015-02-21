@@ -457,14 +457,9 @@ angular.module('beKindred')
           onSelect: function(result, response) {
             var idx = $(this).attr('rel');
             $log.info(result);
-            if (result !== undefined) {
-              $scope.user.goals[idx].subject = result.description;
-              $scope.$apply();
-              $scope.saveCurrentGoal(idx);
-            }
-            else {
-              $scope.saveCurrentGoal(idx);
-            }
+
+            $scope.saveCurrentGoal(idx);
+
 
 
           }
@@ -473,6 +468,28 @@ angular.module('beKindred')
         });
 
       });
+
+
+      $scope.subject = '';
+      $scope.resourceUri = null;
+      $scope.messageShow = false;
+      $scope.message = '';
+
+      $scope.inputChanged = function (str) {
+        $scope.subject = str;
+      };
+
+      $scope.selectResult = function (object) {
+        if (object !== undefined) {
+          $scope.subject = object.originalObject.description;
+          $scope.resourceUri = object.originalObject.resource_uri;
+        }
+        else {
+          $scope.resourceUri = null;
+        }
+
+
+      };
 
       $scope.createNewGoal = function() {
         $log.info('creating goal');
