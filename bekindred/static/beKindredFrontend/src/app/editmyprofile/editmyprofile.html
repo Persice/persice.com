@@ -43,12 +43,15 @@
         <div class="item" end-repeat ng-repeat="goal in user.goals track by $index">
           <div class="content">
             <div class="description">
-              <div class="ui fluid search" rel="{{$index}}">
-                <div class="ui fluid leftright action input" ng-class="{'error': goal.error, 'loading': goal.loading }">
+              <div class="ui fluid search" ng-class="{'loading': goal.loading }">
+                <div class="ui fluid leftright action input" ng-class="{'error': goal.error}">
                   <div class="ui red left icon button" ng-click="removeGoal($index)">
                     <i class="remove icon"></i>
                   </div>
-                  <input type="text" class="prompt" ng-model="goal.subject">
+                  <input type="text" class="prompt" ng-model="goal.subject" ng-change="needSaving($index)">
+                  <div ng-show="goal.changed" class="ui blue right icon button" ng-click="saveCurrentGoal($index)">
+                    <i class="save icon"></i>
+                  </div>
                 </div>
                 <div class="results"></div>
               </div>
