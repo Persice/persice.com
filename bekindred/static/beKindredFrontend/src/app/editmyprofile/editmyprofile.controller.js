@@ -453,12 +453,22 @@ angular.module('beKindred')
           minCharacters: 3,
           searchDelay: 400,
           type: 'standard',
-          cache: 'false'
+          cache: false,
+          onSelect: function(result, response) {
+            var idx = $(this).attr('rel');
+            $log.info(result);
+            if (result !== undefined) {
+              $scope.user.goals[idx].subject = result.description;
+
+            }
+
+          }
 
 
         });
 
       });
+
 
       $scope.needSaving = function(index) {
         $scope.user.goals[index].changed = true;
@@ -543,6 +553,7 @@ angular.module('beKindred')
               $scope.user.goals[index].goal_subject = success.goal_subject;
               $scope.user.goals[index].resource_uri = success.resource_uri;
               $scope.user.goals[index].user = success.user;
+
               $scope.user.goals[index].changed = false;
             },
             function(error) {
@@ -563,6 +574,7 @@ angular.module('beKindred')
               $scope.user.goals[index].goal = success.goal;
               $scope.user.goals[index].goal_subject = success.goal_subject;
               $scope.user.goals[index].resource_uri = success.resource_uri;
+
               $scope.user.goals[index].changed = false;
 
             },

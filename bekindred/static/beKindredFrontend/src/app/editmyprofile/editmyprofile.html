@@ -43,7 +43,7 @@
         <div class="item" end-repeat ng-repeat="goal in user.goals track by $index">
           <div class="content">
             <div class="description">
-              <div class="ui fluid search" ng-class="{'loading': goal.loading }">
+              <div class="ui fluid search" rel="{{$index}}" ng-class="{'loading': goal.loading }">
                 <div class="ui fluid leftright action input" ng-class="{'error': goal.error}">
                   <div class="ui red left icon button" ng-click="removeGoal($index)">
                     <i class="remove icon"></i>
