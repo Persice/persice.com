@@ -112,9 +112,9 @@ $.fn.search = function(parameters) {
             module.set.focus();
             clearTimeout(module.timer);
             module.throttle();
-            if( module.has.minimumCharacters() ) {
-              module.showResults();
-            }
+            // if( module.has.minimumCharacters() ) {
+            //   module.showResults();
+            // }
           },
           blur: function(event) {
             var
@@ -471,8 +471,8 @@ $.fn.search = function(parameters) {
             if(response !== undefined) {
               if(searchTerm) {
                 module.write.cachedHTML(searchTerm, searchHTML);
-                if(response.results !== undefined) {
-                  module.save.results(response.results);
+                if(response.objects !== undefined) {
+                  module.save.results(response.objects);
                 }
               }
               module.addResults(searchHTML);
@@ -610,8 +610,8 @@ $.fn.search = function(parameters) {
           module.debug('Generating html from response', response);
           var
             template       = settings.templates[settings.type],
-            isProperObject = ($.isPlainObject(response.results) && !$.isEmptyObject(response.results)),
-            isProperArray  = ($.isArray(response.results) && response.results.length > 0),
+            isProperObject = ($.isPlainObject(response.objects) && !$.isEmptyObject(response.objects)),
+            isProperArray  = ($.isArray(response.objects) && response.objects.length > 0),
             html           = ''
           ;
           if(isProperObject || isProperArray ) {
@@ -620,7 +620,7 @@ $.fn.search = function(parameters) {
                 module.error(error.maxResults);
               }
               else {
-                response.results = response.results.slice(0, settings.maxResults);
+                response.objects = response.objects.slice(0, settings.maxResults);
               }
             }
             if($.isFunction(template)) {
@@ -948,9 +948,9 @@ $.fn.search.settings = {
         html = '',
         escape = $.fn.search.settings.templates.escape
       ;
-      if(response.results !== undefined) {
+      if(response.objects !== undefined) {
         // each category
-        $.each(response.results, function(index, category) {
+        $.each(response.objects, function(index, category) {
           if(category.results !== undefined && category.results.length > 0) {
             html  += ''
               + '<div class="category">'
@@ -1006,10 +1006,10 @@ $.fn.search.settings = {
       var
         html = ''
       ;
-      if(response.results !== undefined) {
+      if(response.objects !== undefined) {
 
         // each result
-        $.each(response.results, function(index, result) {
+        $.each(response.objects, function(index, result) {
           if(result.url) {
             html  += '<a class="result" href="' + result.url + '">';
           }
@@ -1027,12 +1027,12 @@ $.fn.search.settings = {
           if(result.price !== undefined) {
             html += '<div class="price">' + result.price + '</div>';
           }
-          if(result.title !== undefined) {
-            html += '<div class="title">' + result.title + '</div>';
-          }
           if(result.description !== undefined) {
-            html += '<div class="description">' + result.description + '</div>';
+            html += '<div class="title">' + result.description + '</div>';
           }
+          // if(result.description !== undefined) {
+          //   html += '<div class="description">' + result.description + '</div>';
+          // }
           html  += ''
             + '</div>'
           ;

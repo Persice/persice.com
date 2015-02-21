@@ -40,16 +40,19 @@
     <div class="ui attached segment" ng-class="{loading: loadingGoals || loadingOffers || loadingUser || loadingLikes || loadingInterests }">
       <h4 class="ui header">Goals</h4>
       <div class="ui large list">
-        <div class="item" ng-repeat="goal in user.goals track by $index">
+        <div class="item" end-repeat ng-repeat="goal in user.goals track by $index">
           <div class="content">
             <div class="description">
-              <div class="ui fluid leftright action input" ng-class="{'error': goal.error, 'loading': goal.loading }">
-                <div class="ui red left icon button" ng-click="removeGoal($index)">
-                  <i class="remove icon"></i>
+              <div class="ui fluid search" rel="{{$index}}">
+                <div class="ui fluid leftright action input" ng-class="{'error': goal.error, 'loading': goal.loading }">
+                  <div class="ui red left icon button" ng-click="removeGoal($index)">
+                    <i class="remove icon"></i>
+                  </div>
+                  <input type="text" class="prompt" ng-model="goal.subject">
                 </div>
-                <input type="text" ng-model="goal.subject" ng-change-on-blur="saveCurrentGoal($index)">
+                <div class="results"></div>
               </div>
-              <div class="ui red pointing prompt fluid label visible transition" ng-if="goal.error">{{goal.errorMessage}}</div>
+              <div class="ui red pointing fluid label visible transition" ng-if="goal.error">{{goal.errorMessage}}</div>
             </div>
           </div>
 

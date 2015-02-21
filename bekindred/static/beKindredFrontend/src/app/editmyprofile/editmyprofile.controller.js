@@ -4,6 +4,8 @@ angular.module('beKindred')
 .controller('EditMyProfileCtrl', function ($scope, $timeout, USER_ID, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource) {
   $scope.twitter = USER_TWITTER;
   $scope.linkedin = USER_LINKEDIN_NAME;
+
+  $scope.userUri = '/api/v1/auth/user/' + USER_ID + '/';
   $scope.linkedinUrl = USER_LINKEDIN_URL;
   $scope.user = {
     id: USER_ID,
@@ -59,6 +61,8 @@ angular.module('beKindred')
         $scope.user.goals = data.objects;
       }
       $scope.loadingGoals = false;
+
+
 
     });
 
@@ -441,160 +445,161 @@ angular.module('beKindred')
 
       $scope.$on('ngRepeatFinished', function () {
         $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
-      });
-
-
-    //Goals
-
-    $scope.editGoal = false;
-
-    $scope.subject = '';
-    $scope.resourceUri = null;
-    $scope.messageShow = false;
-    $scope.message = '';
-
-    $scope.userUri = '/api/v1/auth/user/' + USER_ID + '/';
-
-    $scope.inputChanged = function (str) {
-      $scope.subject = str;
-    };
-
-    $scope.selectResult = function (object) {
-      if (object !== undefined) {
-        $scope.subject = object.originalObject.description;
-        $scope.resourceUri = object.originalObject.resource_uri;
-      }
-      else {
-        $scope.resourceUri = null;
-      }
-
-    };
-
-
-    $scope.createNewGoal = function() {
-      $log.info('creating goal');
-      $scope.editGoal = true;
-    };
-
-    $scope.closeEditGoal = function() {
-      $scope.subject = '';
-      $scope.resourceUri = null;
-      $scope.messageShow = false;
-      $scope.message = '';
-      $scope.editGoal = false;
-    };
-
-    $scope.removeGoal = function(index) {
-
-      var Goal = $resource($scope.user.goals[index].resource_uri);
-
-      Goal.delete().$promise.then(function(data) {
-        $scope.user.goals.splice(index, 1);
-      });
-    };
-
-
-    $scope.saveCurrentGoal = function(index) {
-      if ($scope.user.goals[index].subject === '') {
-        $scope.user.goals[index].error = true;
-        $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
-      }
-      else {
-        $scope.user.goals[index].loading = true;
-        SubjectsFactory.query({format: 'json', description: $scope.user.goals[index].subject}).$promise.then(function(data) {
-          if (data.meta.total_count === 0) {
-            //create new subject
-            var newSubject = {
-              description: $scope.user.goals[index].subject,
-            };
-
-            SubjectsFactory.save({}, newSubject,
-              function(success){
-                GoalsFactory.update({goalId: $scope.user.goals[index].id}, {goal: success.resource_uri, user_id: $scope.userUri},
-                  function(success){
-                    $scope.user.goals[index].loading = false;
-                    $scope.user.goals[index].error = false;
-                    $scope.user.goals[index].goal = success.goal;
-                  },
-                  function(error) {
-                    $scope.user.goals[index].errorMessage = error.data.goal.error[0];
-                    $scope.user.goals[index].loading = false;
-                    $scope.user.goals[index].error = true;
-
-                  });
-              },
-              function(error) {
-                $scope.user.goals[index].errorMessage = 'You have already created this goal.';
-              });
-          }
-          else {
-            $scope.subjectUri = data.objects[0].resource_uri;
-            //patch only if not equal to currently stored goal
-            if ($scope.user.goals[index].goal !== $scope.subjectUri) {
-              GoalsFactory.update({goalId: $scope.user.goals[index].id}, {goal: $scope.subjectUri, user_id: $scope.userUri},
-                function(success){
-                  $scope.user.goals[index].loading = false;
-                  $scope.user.goals[index].error = false;
-                  $scope.user.goals[index].goal = success.goal;
-                },
-                function(error) {
-                  $scope.user.goals[index].errorMessage = error.data.goal.error[0];
-                  $scope.user.goals[index].loading = false;
-                  $scope.user.goals[index].error = true;
-
-                });
+        $('.ui.search')
+        .search({
+          apiSettings: {
+            url: 'api/v1/subject/?format=json&description__icontains={query}',
+          },
+          minCharacters: 3,
+          searchDelay: 400,
+          type: 'standard',
+          cache: 'false',
+          onSelect: function(result, response) {
+            var idx = $(this).attr('rel');
+            $log.info(result);
+            if (result !== undefined) {
+              $scope.user.goals[idx].subject = result.description;
+              $scope.$apply();
+              $scope.saveCurrentGoal(idx);
             }
             else {
-              $scope.user.goals[index].loading = false;
-              $scope.user.goals[index].error = false;
+              $scope.saveCurrentGoal(idx);
             }
 
-          }
 
+          }
 
 
         });
 
+      });
 
-}
+      $scope.createNewGoal = function() {
+        $log.info('creating goal');
+
+        var newGoal = {
+          id: 0,
+          subject: '',
+          user: $scope.userUri
+        };
+
+        $scope.user.goals.push(newGoal);
+
+      };
 
 
-};
+      $scope.removeGoal = function(index) {
+
+        var Goal = $resource($scope.user.goals[index].resource_uri);
+
+        if ($scope.user.goals[index].id === 0) {
+          $scope.user.goals.splice(index, 1);
+        }
+        else {
+          Goal.delete().$promise.then(function(data) {
+            $scope.user.goals.splice(index, 1);
+          });
+        }
+
+      };
+
+
+      $scope.saveCurrentGoal = function(index) {
+
+        $scope.user.goals[index].errorMessage = '';
+        $scope.user.goals[index].error = false;
+
+        if ($scope.user.goals[index].subject === '') {
+          $scope.user.goals[index].error = true;
+          $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
+        }
+        else {
+          if ($scope.user.goals[index].id === 0) {
+          //create new goal
+          var newGoal = {
+            goal_subject: $scope.user.goals[index].subject,
+            user: $scope.userUri
+          };
+          $scope.user.goals[index].loading = true;
+          $scope.user.goals[index].error = false;
+          GoalsFactory.save({}, newGoal,
+            function(success){
+              $scope.user.goals[index].loading = false;
+              $scope.user.goals[index].error = false;
+              $scope.user.goals[index].id = success.id;
+              $scope.user.goals[index].goal = success.goal;
+              $scope.user.goals[index].goal_subject = success.goal_subject;
+              $scope.user.goals[index].resource_uri = success.resource_uri;
+              $scope.user.goals[index].user = success.user;
+            },
+            function(error) {
+              $scope.user.goals[index].errorMessage = error.data.goal.error[0];
+              $scope.user.goals[index].loading = false;
+              $scope.user.goals[index].error = true;
+
+            });
+        }
+        else {
+          //edit goal
+          $scope.user.goals[index].error = false;
+          $scope.user.goals[index].loading = true;
+          GoalsFactory.update({goalId: $scope.user.goals[index].id}, {goal_subject: $scope.user.goals[index].subject},
+            function(success){
+              $scope.user.goals[index].loading = false;
+              $scope.user.goals[index].error = false;
+              $scope.user.goals[index].goal = success.goal;
+              $scope.user.goals[index].goal_subject = success.goal_subject;
+              $scope.user.goals[index].resource_uri = success.resource_uri;
+
+            },
+            function(error) {
+              $scope.user.goals[index].errorMessage = error.data.goal.error[0];
+              $scope.user.goals[index].loading = false;
+              $scope.user.goals[index].error = true;
+
+            });
+
+
+        }
+      }
+
+
+    };
 
 
 
-$scope.saveGoal = function() {
-  var newGoal = {
-    goal: $scope.resourceUri,
-    user: $scope.userUri
-  };
-  $scope.loadingCreatingNew = true;
-  GoalsFactory.save({}, newGoal,
-    function(success){
-      $scope.loadingCreatingNew = false;
-      $scope.editGoal = !$scope.editGoal;
-      $scope.user.goals.push(success);
+    $scope.saveGoal = function() {
+      var newGoal = {
+        goal: $scope.resourceUri,
+        user: $scope.userUri
+      };
+      $scope.loadingCreatingNew = true;
+      GoalsFactory.save({}, newGoal,
+        function(success){
+          $scope.loadingCreatingNew = false;
+          $scope.editGoal = !$scope.editGoal;
+          $scope.user.goals.push(success);
 
-      $scope.subject = '';
-      $scope.resourceUri = null;
+          $scope.subject = '';
+          $scope.resourceUri = null;
+          $scope.messageShow = false;
+          $scope.message = '';
+
+
+        },
+        function(error) {
+          $scope.resourceUri = null;
+          $scope.messageShow = true;
+          $scope.message = error.data.goal.error[0];
+          $scope.loadingCreatingNew = false;
+
+        });
+    };
+
+    $scope.createGoal = function() {
       $scope.messageShow = false;
       $scope.message = '';
-
-
-    },
-    function(error) {
-      $scope.resourceUri = null;
-      $scope.messageShow = true;
-      $scope.message = error.data.goal.error[0];
       $scope.loadingCreatingNew = false;
-
-    });
-};
-
-$scope.createGoal = function() {
-  $scope.messageShow = false;
-  $scope.message = '';
-  $scope.loadingCreatingNew = false;
 
 
         //if subject is empty warn user to enter subject
