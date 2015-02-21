@@ -17,7 +17,7 @@ env.project_name = 'bekindred'
 env.server_name = 'linode'
 env.webapps_root = '/webapps/bekindred/'
 env.repo_root = os.path.join(env.webapps_root, 'beKindred.com')
-env.socketio = os.path.join(env.webapps_root, 'socketio')
+env.socketio = os.path.join(env.repo_root, 'socketio')
 env.settings = 'bekindred.settings.production_linode'
 
 env.project_root = os.path.join(env.repo_root, env.project_name)
