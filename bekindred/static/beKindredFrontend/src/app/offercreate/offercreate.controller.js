@@ -27,7 +27,7 @@ angular.module('beKindred')
 
     $scope.saveOffer = function() {
         var newOffer = {
-            offer: $scope.resourceUri,
+            offer_subject: $scope.subject,
             user: $scope.userUri
         };
 
@@ -56,43 +56,7 @@ angular.module('beKindred')
             return false;
         }
 
-        //check if subject already exists
-        if ($scope.resourceUri !== null) {
-
-            $scope.saveOffer();
-
-        }
-        else {
-
-            SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
-
-
-                if (data.meta.total_count === 0) {
-                    //create new subject
-                    var newSubject = {
-                        description: $scope.subject,
-                    };
-
-                    SubjectsFactory.save({}, newSubject,
-                        function(success){
-                            $scope.resourceUri = success.resource_uri;
-                            $scope.saveOffer();
-
-                        },
-                        function(error) {
-                            $scope.message = 'You have already created this offer.';
-                            $scope.messageShow = true;
-                        });
-                }
-                else {
-
-                    $scope.resourceUri = data.objects[0].resource_uri;
-                    $scope.saveOffer();
-                }
-
-            });
-
-        }
+        $scope.saveOffer();
 
     };
 

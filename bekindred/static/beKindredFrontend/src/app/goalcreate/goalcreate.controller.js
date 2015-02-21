@@ -28,7 +28,7 @@ angular.module('beKindred')
 
     $scope.saveGoal = function() {
         var newGoal = {
-            goal: $scope.resourceUri,
+            goal_subject: $scope.subject,
             user: $scope.userUri
         };
 
@@ -57,42 +57,11 @@ angular.module('beKindred')
             return false;
         }
 
-        //check if subject already exists
-        if ($scope.resourceUri !== null) {
-
-            $scope.saveGoal();
-
-        }
-        else {
-
-            SubjectsFactory.query({format: 'json', description: $scope.subject}).$promise.then(function(data) {
 
 
-                if (data.meta.total_count === 0) {
-                    //create new subject
-                    var newSubject = {
-                        description: $scope.subject,
-                    };
+        $scope.saveGoal();
 
-                    SubjectsFactory.save({}, newSubject,
-                        function(success){
-                            $scope.resourceUri = success.resource_uri;
-                            $scope.saveGoal();
 
-                        },
-                        function(error) {
-                            $scope.message = 'You have already created this goal.';
-                            $scope.messageShow = true;
-                        });
-                }
-                else {
-                    $scope.resourceUri = data.objects[0].resource_uri;
-                    $scope.saveGoal();
-                }
-
-            });
-
-        }
 
     };
 
