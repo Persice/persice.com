@@ -5,6 +5,7 @@ from tastypie import fields
 from tastypie.bundle import Bundle
 from tastypie.resources import Resource
 from friends.models import FacebookFriendUser, Friend
+from goals.models import MatchFilterState
 from matchfeed.models import MatchFeedManager
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age
@@ -67,6 +68,15 @@ class MatchedFeedResource(Resource):
             new_obj.likes = x['likes']
             new_obj.interests = x['interests']
             results.append(new_obj)
+
+        if request.GET.get('filter') == 'true':
+            mfs = MatchFilterState.objects.get(user=request.user.id)
+            results = filter(lambda x: (x.distance <= mfs.distance) or
+                                       ((x.age <= mfs.max_age) and (x.age >= mfs.min_age) or (x.age is 0)) or
+                                       ((x.gender == mfs.gender) or (x.gender is None)),
+                             results)
+            return results
+
         return results
 
     def obj_get_list(self, bundle, **kwargs):
