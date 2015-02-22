@@ -44,7 +44,7 @@ angular.module('beKindred')
             $('#filtersMenu').sidebar('hide');
             $scope.matchedUser = [];
 
-            MatchFeedFactory.query({format: 'json'}).$promise.then(function(data) {
+            MatchFeedFactory.query({format: 'json', filter: true}).$promise.then(function(data) {
                 $scope.matchedUser = [];
                 $scope.total = 0;
                 $scope.offset = 0;
@@ -234,7 +234,7 @@ else {
         $log.info($scope.total);
 
 
-        MatchFeedFactory.query({format: 'json', offset: 0, limit: 1}).$promise.then(function(data) {
+        MatchFeedFactory.query({format: 'json', offset: 0, limit: 1, filter: true}).$promise.then(function(data) {
             var result = data.objects;
             if (result.length > 0) {
                 $log.info('more results');
