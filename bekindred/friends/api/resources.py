@@ -54,7 +54,7 @@ class ConnectionsResource(Resource):
     mutual_twitter_friends_count = fields.IntegerField(attribute='mutual_twitter_friends_count')
     mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
     mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
-    common_goals_offers_interests = fields.IntegerField(attribute='total_common_goals_offers', default=0)
+    common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
 
     class Meta:
         resource_name = 'connections'
@@ -101,10 +101,10 @@ class ConnectionsResource(Resource):
             new_obj.mutual_twitter_friends_count = t['count_mutual_twitter_friends']
             new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
             new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
-            new_obj.common_goals_offers_interests = Goal.objects_search.count_common_goals_and_offers(current_user,
-                                                                                                      new_obj.friend_id) + \
-                                                    Interest.search_subject.count_interests_fb_likes(current_user,
-                                                                                                     new_obj.friend_id)
+            t1 = Goal.objects_search.count_common_goals_and_offers(current_user, new_obj.friend_id)
+            t2 = Interest.search_subject.count_interests_fb_likes(current_user, new_obj.friend_id)
+            new_obj.common_goals_offers_interests = t1 + t2
+                                                    #                                                  new_obj.friend_id)
 
             results.append(new_obj)
         return results
