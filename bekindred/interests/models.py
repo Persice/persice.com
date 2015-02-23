@@ -42,6 +42,29 @@ class InterestManager(models.Manager):
 
         return matches_interests
 
+    @staticmethod
+    def count_interests_fb_likes(user_id1, user_id2):
+        u_interests = Interest.objects.filter(user_id=user_id1)
+        target_interests = Interest.objects.exclude(user_id=user_id2)
+
+        match_interests1 = []
+        for interest in u_interests:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            match_interests1.extend(target_interests.search(tsquery, raw=True))
+
+        fb_likes = FacebookLike.objects.filter(user_id=user_id1)
+        target_interests = Interest.objects.exclude(user_id=user_id2)
+
+        matches_interests2 = []
+        for fb_like in fb_likes:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(fb_like.name).translate(remove_punctuation_map).split())
+            matches_interests2.extend(target_interests.search(tsquery, raw=True))
+        return len(match_interests1 + matches_interests2)
+
 
 class Interest(models.Model):
     description = models.CharField(max_length=50, null=False, blank=False)

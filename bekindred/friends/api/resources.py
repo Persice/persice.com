@@ -8,7 +8,9 @@ from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
 
 from friends.models import Friend, FacebookFriendUser
+from goals.models import Goal
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends
+from interests.models import Interest
 from photos.api.resources import UserResource
 from matchfeed.api.resources import A
 
@@ -52,6 +54,7 @@ class ConnectionsResource(Resource):
     mutual_twitter_friends_count = fields.IntegerField(attribute='mutual_twitter_friends_count')
     mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
     mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
+    total_common_goals_offers_interests = fields.IntegerField(attribute='total_common_goals_offers')
 
     class Meta:
         resource_name = 'connections'
@@ -98,6 +101,10 @@ class ConnectionsResource(Resource):
             new_obj.mutual_twitter_friends_count = t['count_mutual_twitter_friends']
             new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
             new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
+            new_obj.common_goals_offers_interests = Goal.objects_search.count_common_goals_and_offers(current_user,
+                                                                                                      new_obj.friend_id) + \
+                                                    Interest.search_subject.count_interests_fb_likes(current_user,
+                                                                                                     new_obj.friend_id)
 
             results.append(new_obj)
         return results

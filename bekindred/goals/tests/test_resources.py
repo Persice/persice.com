@@ -127,7 +127,7 @@ class TestGoalResource(ResourceTestCase):
     def test_put_detail(self):
         self.response = self.login()
         # Grab the current data & modify it slightly.
-        self.assertEqual(Goal.objects.get(pk=10).goal.description, 'learn django')
+        self.assertEqual(str(Goal.objects.get(goal__description='learn django')), 'learn django')
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
         new_data['goal_subject'] = 'learn erlang'
@@ -135,11 +135,11 @@ class TestGoalResource(ResourceTestCase):
         self.assertEqual(Goal.objects.count(), 1)
         resp = self.api_client.put(self.detail_url, format='json', data=new_data)
         updated_goal = self.deserialize(resp)
-        print updated_goal
+        # print updated_goal
         # Make sure the count hasn't changed & we did an update.
         self.assertEqual(Goal.objects.count(), 1)
         # Check for updated data.
-        self.assertEqual(Goal.objects.get(pk=10).goal.description, 'learn erlang')
+        self.assertEqual(str(Goal.objects.get(goal__description='learn erlang')), 'learn erlang')
 
     def test_put_to_duplicate_detail(self):
         self.response = self.login()
