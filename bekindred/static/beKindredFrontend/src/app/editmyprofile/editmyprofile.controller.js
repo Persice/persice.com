@@ -109,422 +109,288 @@ angular.module('beKindred')
   $scope.getUser();
 
 
-    //about_me
-    $scope.loadingAbout = false;
-    $scope.saveAbout = function() {
-      $scope.loadingAbout = true;
-      UsersFactory.update({userId: USER_ID}, {about_me:  $scope.user.about_me },
+  //about_me
+  $scope.loadingAbout = false;
+  $scope.saveAbout = function() {
+    $scope.loadingAbout = true;
+    UsersFactory.update({userId: USER_ID}, {about_me:  $scope.user.about_me },
+      function(success) {
+
+        $scope.loadingAbout = false;
+      }, function(error) {
+        $log.info(error);
+      });
+  };
+
+  //photos
+
+  $scope.apiPhotos = [];
+  $scope.facebookPhotos = [];
+
+  $scope.onDropComplete = function (index, obj, evt) {
+    var otherObj = $scope.user.photos[index];
+    var otherIndex = $scope.user.photos.indexOf(obj);
+
+    $scope.user.photos[index] = obj;
+    $scope.user.photos[index].order = index;
+    $scope.user.photos[otherIndex] = otherObj;
+    $scope.user.photos[otherIndex].order = otherIndex;
+
+
+    if ($scope.user.photos[index].id !== 0) {
+      PhotosFactory.update({photoId: $scope.user.photos[index].id}, {order:  $scope.user.photos[index].order },
         function(success) {
-          $log.info('About changes saved');
-          $scope.loadingAbout = false;
+        },
+        function(error) {
+          $log.info(error);
+        });
+
+    }
+
+
+    if ($scope.user.photos[otherIndex].id !== 0) {
+      PhotosFactory.update({photoId: $scope.user.photos[otherIndex].id}, {order:  $scope.user.photos[otherIndex].order },
+        function(success) {
         }, function(error) {
           $log.info(error);
         });
-    };
 
-    $scope.loadingCreatingNew = false;
-    //interests
-    $scope.editInterest = false;
-    $scope.interest = '';
-    $scope.messageShow = false;
-    $scope.message = '';
-
-    $scope.interestChanged = function (str) {
-      $scope.interest = str;
-    };
-
-    $scope.selectInterest = function (object) {
-      if (object !== undefined) {
-        $scope.interest = object.originalObject.description;
-      }
-      else {
-      }
-
-    };
-
-    $scope.createNewInterest = function() {
-      $log.info('creating interest');
-      $scope.editInterest = true;
-    };
-
-    $scope.closeEditInterest = function() {
-      $scope.interest = '';
-      $scope.messageShow = false;
-      $scope.message = '';
-      $scope.editInterest = false;
-    };
-
-    $scope.removeInterest = function(index) {
-
-      var Interest = $resource($scope.user.interests[index].resource_uri);
-
-      Interest.delete().$promise.then(function(data) {
-        $scope.user.interests.splice(index, 1);
-      });
-    };
-
-
-    $scope.saveCurrentInterest = function(index) {
-
-      if ($scope.user.interests[index].description === '') {
-        $scope.user.interests[index].error = true;
-        $scope.user.interests[index].errorMessage = 'Entering your interest is required.';
-      }
-      else {
-        $scope.user.interests[index].loading = true;
-        InterestsFactory.update({interestId: $scope.user.interests[index].id}, {description: $scope.user.interests[index].description},
-          function(success){
-            $log.info('Interest updated');
-            $scope.user.interests[index].loading = false;
-            $scope.user.interests[index].error = false;
-          },
-          function(error) {
-            $scope.user.interests[index].loading = false;
-            $scope.user.interests[index].error = true;
-            $scope.user.interests[index].errorMessage = 'Interest already exists.';
-
-          });
-      }
-
-
-    };
-
-    $scope.saveInterest = function() {
-      $scope.loadingCreatingNew = false;
-    //if subject is empty warn user to enter subject
-    if ($scope.interest === '') {
-      $scope.message = 'Interest cannot be empty';
-      $scope.messageShow = true;
-      return false;
     }
 
-    var newInterest = {
-      user: $scope.userUri,
-      description: $scope.interest
-    };
+  };
 
-    //check if user already has created this interest
-    InterestsFactory.query({format: 'json', description: $scope.interest, user_id: USER_ID}).$promise.then(function(data) {
-      var userInterests = data.objects;
-      var findInterest = null;
-      findInterest = $filter('getByProperty')('description', $scope.interest, userInterests);
-      if (findInterest !== null) {
-        $scope.message = 'You have already created this interest.';
-        $scope.messageShow = true;
-      }
-      else {
-        $scope.loadingCreatingNew = true;
-        InterestsFactory.save({}, newInterest,
-          function(success){
-            $scope.loadingCreatingNew = false;
-            $scope.user.interests.push(success);
-            $scope.closeEditInterest();
-
-          },
-          function(error) {
-            $scope.loadingCreatingNew = false;
-
-          });
+  $scope.getPhotos = function() {
+    PhotosFactory.query( {
+      format: 'json'
+    }).$promise.then(function(response) {
+      $scope.apiPhotos = response.objects;
+      for(var obj in $scope.apiPhotos) {
+        for(var p in $scope.user.photos) {
+          if ($scope.user.photos[p].order === $scope.apiPhotos[obj].order) {
+            $scope.user.photos[p].id = $scope.apiPhotos[obj].id;
+            $scope.user.photos[p].photo = $scope.apiPhotos[obj].photo;
+            $scope.user.photos[p].cropped_photo = $scope.apiPhotos[obj].cropped_photo;
+          }
+        }
       }
     });
+  };
+
+  $scope.getPhotos();
+
+  $scope.currentAlbum = '';
+
+
+  $scope.getFBPhotos = function(id, name) {
+    $scope.showPhotos = true;
+    $scope.myImage = null;
+    $scope.photoIndex = null;
+    $scope.hideAlbums = true;
+    $scope.currentAlbum = name;
+    $scope.photosLoading = true;
+    $http.get('https://graph.facebook.com/' + id + '?fields=photos{id,height,width,source}&access_token=' + FB_TOKEN).
+    success(function(data, status, headers, config) {
+      $scope.photosLoading = false;
+      $scope.facebookPhotos = data.photos.data;
+    }).
+    error(function(data, status, headers, config) {
+      $scope.photosLoading = false;
+    });
+
+
+
+  };
+
+  $scope.backToAlbums = function () {
+    $scope.showPhotos = true;
+    $scope.myImage = null;
+    $scope.photoIndex = null;
+    $scope.currentAlbum = '';
+    $scope.hideAlbums = !$scope.hideAlbums;
+    $scope.getFBAlbums();
+
+  };
+
+  $scope.facebookAlbums = [];
+  $scope.hideAlbums = false;
+
+
+  $scope.getFBAlbums = function() {
+    $scope.showModal = true;
+    $scope.albumsLoading = true;
+    $http.get('https://graph.facebook.com/me/albums?fields=picture,name&access_token=' + FB_TOKEN).
+    success(function(data, status, headers, config) {
+      $scope.facebookAlbums = data.data;
+      $scope.albumsLoading = false;
+
+    }).
+    error(function(data, status, headers, config) {
+      $scope.albumsLoading = false;
+    });
+
 
 
   };
 
 
-    //photos
-
-    $scope.apiPhotos = [];
-    $scope.facebookPhotos = [];
-
-    $scope.onDropComplete = function (index, obj, evt) {
-      var otherObj = $scope.user.photos[index];
-      var otherIndex = $scope.user.photos.indexOf(obj);
-
-      $scope.user.photos[index] = obj;
-      $scope.user.photos[index].order = index;
-      $scope.user.photos[otherIndex] = otherObj;
-      $scope.user.photos[otherIndex].order = otherIndex;
 
 
-      if ($scope.user.photos[index].id !== 0) {
-            //API update photo - patch method
-            PhotosFactory.update({photoId: $scope.user.photos[index].id}, {order:  $scope.user.photos[index].order },
-              function(success) {
-                // $log.info('Photo order saved');
-              }, function(error) {
-                $log.info(error);
-              });
-
-          }
-
-
-          if ($scope.user.photos[otherIndex].id !== 0) {
-            //API update photo - patch method
-            PhotosFactory.update({photoId: $scope.user.photos[otherIndex].id}, {order:  $scope.user.photos[otherIndex].order },
-              function(success) {
-                // $log.info('Photo order saved');
-              }, function(error) {
-                $log.info(error);
-              });
-
-          }
-
-        };
-
-        $scope.getPhotos = function() {
-          PhotosFactory.query( {
-            format: 'json'
-          }).$promise.then(function(response) {
-            $scope.apiPhotos = response.objects;
-            // $log.info($scope.apiPhotos);
-            for(var obj in $scope.apiPhotos) {
-              for(var p in $scope.user.photos) {
-                if ($scope.user.photos[p].order === $scope.apiPhotos[obj].order) {
-                  $scope.user.photos[p].id = $scope.apiPhotos[obj].id;
-                  $scope.user.photos[p].photo = $scope.apiPhotos[obj].photo;
-                  $scope.user.photos[p].cropped_photo = $scope.apiPhotos[obj].cropped_photo;
-                }
-              }
-            }
-          });
-        };
-
-        $scope.getPhotos();
-
-        $scope.currentAlbum = '';
-
-
-        $scope.getFBPhotos = function(id, name) {
-          $scope.showPhotos = true;
-          $scope.myImage = null;
-          $scope.photoIndex = null;
-          $scope.hideAlbums = true;
-          $scope.currentAlbum = name;
-          $scope.photosLoading = true;
-
-          $http.get('https://graph.facebook.com/' + id + '?fields=photos{id,height,width,source}&access_token=' + FB_TOKEN).
-          success(function(data, status, headers, config) {
-            // $log.info(data);
-
-            $scope.photosLoading = false;
-
-            $scope.facebookPhotos = data.photos.data;
-          }).
-          error(function(data, status, headers, config) {
-            // $log.info(data);
-            $scope.photosLoading = false;
-          });
-
-
-
-        };
-
-        $scope.backToAlbums = function () {
-          $scope.showPhotos = true;
-          $scope.myImage = null;
-          $scope.photoIndex = null;
-          $scope.currentAlbum = '';
-          $scope.hideAlbums = !$scope.hideAlbums;
-          $scope.getFBAlbums();
-
-        };
-
-        $scope.facebookAlbums = [];
-        $scope.hideAlbums = false;
-
-
-        $scope.getFBAlbums = function() {
-          $scope.showModal = true;
-          $scope.albumsLoading = true;
-          $http.get('https://graph.facebook.com/me/albums?fields=picture,name&access_token=' + FB_TOKEN).
-          success(function(data, status, headers, config) {
-            // $log.info(data);
-            $scope.facebookAlbums = data.data;
-            $scope.albumsLoading = false;
-
-          }).
-          error(function(data, status, headers, config) {
-            // $log.info(data);
-            $scope.albumsLoading = false;
-          });
-
-
-
-        };
-
-
-
-
-        $scope.deletePhoto = function() {
-          var deleteIndex = $scope.userPhotoDeleteIndex;
-        //API delete call
-        PhotosFactory.delete({photoId: $scope.user.photos[deleteIndex].id},
-          function(success) {
-            $scope.user.photos[deleteIndex].photo = '';
-            $scope.user.photos[deleteIndex].cropped_photo = '';
-            $scope.user.photos[deleteIndex].id = 0;
-            // $log.info('Photo deleted');
-
-          },
-          function(error) {
-            $log.info(error);
-          });
-
-      };
-
-      $scope.closeModal = function() {
-        $log.info('scroll to top');
-        $scope.showModal = false;
-
-        $scope.showPhotos = true;
-        $scope.myImage = null;
-        $scope.photoIndex = null;
-
-        $timeout(function(){
-          $location.hash('my-profile-header-edit');
-          $anchorScroll();
-        }, 600);
-
-      };
-
-      $scope.showModal = false;
-      $scope.albumsLoading = false;
-      $scope.photosLoading = false;
-
-      $scope.showPhotos = true;
-      $scope.myImage = null;
-      $scope.photoIndex = null;
-      $scope.myCroppedImage = null;
-
-      $scope.showCrop = function(index) {
-        $scope.photoIndex = index;
-        $scope.myImage = $scope.facebookPhotos[index].source;
-        $scope.showPhotos = false;
-      };
-
-      $scope.myCroppedImage='';
-
-      $scope.createPhoto = function(croppedPhoto) {
-
-        var indexFbPhoto = $scope.photoIndex;
-        $log.info('Creating photo');
-
-
-        var newFbPhoto = $scope.facebookPhotos[indexFbPhoto];
-
-        //API create photo
-
-        var newPhoto = {
-          cropped_photo: croppedPhoto,
-          photo:  newFbPhoto.source,
-          order: $scope.newPhotoIndex,
-          user: '/api/v1/auth/user/' + USER_ID + '/'
-        };
-
-        PhotosFactory.save({}, newPhoto,
-          function(success){
-            $log.info('New photo saved.');
-            var index = $scope.newPhotoIndex;
-            $scope.user.photos[index].photo =  success.photo;
-            $scope.user.photos[index].cropped_photo =  success.cropped_photo;
-            $scope.user.photos[index].id =  success.id;
-            $scope.closeModal();
-
-
-          },
-          function(error) {
-          });
-
-
-
-
-
-
-      };
-
-      $scope.$on('ngRepeatFinishedPhotos', function () {
-        $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
-
+  $scope.deletePhoto = function() {
+    var deleteIndex = $scope.userPhotoDeleteIndex;
+    PhotosFactory.delete({photoId: $scope.user.photos[deleteIndex].id},
+      function(success) {
+        $scope.user.photos[deleteIndex].photo = '';
+        $scope.user.photos[deleteIndex].cropped_photo = '';
+        $scope.user.photos[deleteIndex].id = 0;
+      },
+      function(error) {
+        $log.info(error);
       });
 
-      $scope.$on('ngRepeatFinished', function () {
-        $('.ui.search.goals')
-        .search({
-          apiSettings: {
-            url: 'api/v1/subject/?format=json&description__icontains={query}',
-          },
-          minCharacters: 3,
-          searchDelay: 400,
-          type: 'standard',
-          cache: false,
-          onSelect: function(result, response) {
-            var idx = $(this).attr('rel');
-            $log.info(result);
-            if (result !== undefined) {
-              $scope.user.goals[idx].subject = result.description;
+  };
 
-            }
+  $scope.closeModal = function() {
+    $scope.showModal = false;
 
-          }
+    $scope.showPhotos = true;
+    $scope.myImage = null;
+    $scope.photoIndex = null;
 
+    $timeout(function(){
+      $location.hash('my-profile-header-edit');
+      $anchorScroll();
+    }, 600);
 
-        });
+  };
 
+  $scope.showModal = false;
+  $scope.albumsLoading = false;
+  $scope.photosLoading = false;
 
-        $('.ui.search.offers')
-        .search({
-          apiSettings: {
-            url: 'api/v1/subject/?format=json&description__icontains={query}',
-          },
-          minCharacters: 3,
-          searchDelay: 400,
-          type: 'standard',
-          cache: false,
-          onSelect: function(result, response) {
-            var idx = $(this).attr('rel');
-            $log.info(result);
-            if (result !== undefined) {
-              $scope.user.offers[idx].subject = result.description;
+  $scope.showPhotos = true;
+  $scope.myImage = null;
+  $scope.photoIndex = null;
+  $scope.myCroppedImage = null;
 
-            }
+  $scope.showCrop = function(index) {
+    $scope.photoIndex = index;
+    $scope.myImage = $scope.facebookPhotos[index].source;
+    $scope.showPhotos = false;
+  };
 
-          }
+  $scope.myCroppedImage='';
+
+  $scope.createPhoto = function(croppedPhoto) {
+
+    var indexFbPhoto = $scope.photoIndex;
 
 
-        });
+    var newFbPhoto = $scope.facebookPhotos[indexFbPhoto];
+    var newPhoto = {
+      cropped_photo: croppedPhoto,
+      photo:  newFbPhoto.source,
+      order: $scope.newPhotoIndex,
+      user: '/api/v1/auth/user/' + USER_ID + '/'
+    };
 
+    PhotosFactory.save({}, newPhoto,
+      function(success){
+        var index = $scope.newPhotoIndex;
+        $scope.user.photos[index].photo =  success.photo;
+        $scope.user.photos[index].cropped_photo =  success.cropped_photo;
+        $scope.user.photos[index].id =  success.id;
+        $scope.closeModal();
+
+
+      },
+      function(error) {
       });
+
+
+
+
+
+
+  };
+
+  $scope.$on('ngRepeatFinishedPhotos', function () {
+    $('#deletePhotoModal').modal('attach events', '.delete_photo', 'show');
+
+  });
+
+  $scope.$on('ngRepeatFinished', function () {
+    $('.ui.search.goals')
+    .search({
+      apiSettings: {
+        url: 'api/v1/subject/?format=json&description__icontains={query}',
+      },
+      minCharacters: 3,
+      searchDelay: 400,
+      type: 'standard',
+      cache: false,
+      onSelect: function(result, response) {
+        var idx = $(this).attr('rel');
+        if (result !== undefined) {
+          $scope.user.goals[idx].subject = result.description;
+
+        }
+
+      }
+
+
+    });
+
+
+    $('.ui.search.offers')
+    .search({
+      apiSettings: {
+        url: 'api/v1/subject/?format=json&description__icontains={query}',
+      },
+      minCharacters: 3,
+      searchDelay: 400,
+      type: 'standard',
+      cache: false,
+      onSelect: function(result, response) {
+        var idx = $(this).attr('rel');
+        if (result !== undefined) {
+          $scope.user.offers[idx].subject = result.description;
+
+        }
+
+      }
+
+
+    });
+
+    $('.ui.search.interests')
+    .search({
+      apiSettings: {
+        url: 'api/v1/interest/?format=json&description__icontains={query}',
+      },
+      minCharacters: 3,
+      searchDelay: 400,
+      type: 'standard',
+      cache: false,
+      onSelect: function(result, response) {
+        var idx = $(this).attr('rel');
+        if (result !== undefined) {
+          $scope.user.interests[idx].description = result.description;
+
+        }
+
+      }
+
+
+    });
+
+  });
 
 
 $scope.goalNeedSaving = function(index) {
   $scope.user.goals[index].changed = true;
 };
 
-
-$scope.subject = '';
-$scope.resourceUri = null;
-$scope.messageShow = false;
-$scope.message = '';
-
-$scope.inputChanged = function (str) {
-  $scope.subject = str;
-};
-
-$scope.selectResult = function (object) {
-  if (object !== undefined) {
-    $scope.subject = object.originalObject.description;
-    $scope.resourceUri = object.originalObject.resource_uri;
-  }
-  else {
-    $scope.resourceUri = null;
-  }
-
-
-};
-
 $scope.createNewGoal = function() {
-  $log.info('creating goal');
 
   var newGoal = {
     id: 0,
@@ -620,17 +486,12 @@ $scope.saveCurrentGoal = function(index) {
 
     };
 
-
-
-    //offers
-
     $scope.offerNeedSaving = function(index) {
       $scope.user.offers[index].changed = true;
     };
 
 
     $scope.createNewOffer = function() {
-      $log.info('creating offer');
 
       var newOffer = {
         id: 0,
@@ -716,6 +577,107 @@ $scope.saveCurrentGoal = function(index) {
               $scope.user.offers[index].errorMessage = error.data.offer.error[0];
               $scope.user.offers[index].loading = false;
               $scope.user.offers[index].error = true;
+
+            });
+
+
+        }
+      }
+
+
+    };
+
+
+    $scope.interestNeedSaving = function(index) {
+      $scope.user.interests[index].changed = true;
+    };
+
+    $scope.createNewInterest = function() {
+
+      var newInterest = {
+        id: 0,
+        description: '',
+        user: $scope.userUri,
+        changed: true
+      };
+
+      $scope.user.interests.push(newInterest);
+
+    };
+
+
+    $scope.removeInterest = function(index) {
+
+      var Interest = $resource($scope.user.interests[index].resource_uri);
+
+      if ($scope.user.interests[index].id === 0) {
+        $scope.user.interests.splice(index, 1);
+      }
+      else {
+        Interest.delete().$promise.then(function(data) {
+          $scope.user.interests.splice(index, 1);
+        });
+      }
+
+    };
+
+
+    $scope.saveCurrentInterest = function(index) {
+
+      $scope.user.interests[index].errorMessage = '';
+      $scope.user.interests[index].error = false;
+
+      if ($scope.user.interests[index].description === '') {
+        $scope.user.interests[index].error = true;
+        $scope.user.interests[index].errorMessage = 'Entering your interest is required.';
+      }
+      else {
+        if ($scope.user.interests[index].id === 0) {
+          //create new interest
+          var newInterest = {
+            description: $scope.user.interests[index].description,
+            user: $scope.userUri
+          };
+          $scope.user.interests[index].loading = true;
+          $scope.user.interests[index].error = false;
+          InterestsFactory.save({}, newInterest,
+            function(success){
+              $scope.user.interests[index].loading = false;
+              $scope.user.interests[index].error = false;
+              $scope.user.interests[index].id = success.id;
+              $scope.user.interests[index].interest = success.interest;
+              $scope.user.interests[index].description = success.description;
+              $scope.user.interests[index].resource_uri = success.resource_uri;
+              $scope.user.interests[index].user = success.user;
+
+              $scope.user.interests[index].changed = false;
+            },
+            function(error) {
+              $scope.user.interests[index].errorMessage = error.data.interest.error[0];
+              $scope.user.interests[index].loading = false;
+              $scope.user.interests[index].error = true;
+
+            });
+        }
+        else {
+          //edit interest
+          $scope.user.interests[index].error = false;
+          $scope.user.interests[index].loading = true;
+          InterestsFactory.update({interestId: $scope.user.interests[index].id}, {description: $scope.user.interests[index].description},
+            function(success){
+              $scope.user.interests[index].loading = false;
+              $scope.user.interests[index].error = false;
+              $scope.user.interests[index].interest = success.interest;
+              $scope.user.interests[index].description = success.description;
+              $scope.user.interests[index].resource_uri = success.resource_uri;
+
+              $scope.user.interests[index].changed = false;
+
+            },
+            function(error) {
+              $scope.user.interests[index].errorMessage = error.data.interest.error[0];
+              $scope.user.interests[index].loading = false;
+              $scope.user.interests[index].error = true;
 
             });
 

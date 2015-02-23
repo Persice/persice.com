@@ -86,9 +86,9 @@
               <div class="ui red pointing fluid label visible transition" ng-if="offer.error">{{offer.errorMessage}}</div>
             </div>
           </div>
-
         </div>
       </div>
+
       <div class="ui fluid labeled blue button" ng-click="createNewOffer()">
         <i class="plus icon"></i>
         Create new Offer
@@ -104,20 +104,24 @@
 
       <h4 class="ui header">Activities &amp; Interests</h4>
       <div class="ui large list">
-        <div class="item" ng-repeat="interest in user.interests track by $index">
+        <div class="item" end-repeat ng-repeat="interest in user.interests track by $index">
           <div class="content">
             <div class="description">
-              <div class="ui fluid leftright action input" ng-class="{'error': interest.error, 'loading': interest.loading }">
-                <div class="ui red left icon button" ng-click="removeInterest($index)">
-                  <i class="remove icon"></i>
+              <div class="ui fluid search interests" rel="{{$index}}" ng-class="{'loading': interest.loading }">
+                <div class="ui fluid leftright action input" ng-class="{'error': interest.error}">
+                  <div class="ui red left icon button" ng-click="removeInterest($index)">
+                    <i class="remove icon"></i>
+                  </div>
+                  <input type="text" class="prompt" ng-model="interest.description" ng-change="interestNeedSaving($index)">
+                  <div ng-show="interest.changed" class="ui blue right icon button" ng-click="saveCurrentInterest($index)">
+                    <i class="save icon"></i>
+                  </div>
                 </div>
-                <input type="text" ng-model="interest.description" ng-change-on-blur="saveCurrentInterest($index)">
+                <div class="results"></div>
               </div>
-              <div class="ui red pointing prompt fluid label visible transition" ng-if="interest.error">{{interest.errorMessage}}</div>
-
+              <div class="ui red pointing fluid label visible transition" ng-if="interest.error">{{interest.errorMessage}}</div>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -180,32 +184,6 @@
 
 
 <!-- modals -->
-
-<div class="ui basic delete modal">
-  <i class="close icon"></i>
-  <div class="header">
-    Please Confirm
-  </div>
-  <div class="content">
-
-    <div class="description">
-      <p>Are you sure you want to delete?</p>
-    </div>
-  </div>
-  <div class="actions">
-    <div class="two fluid ui inverted buttons">
-      <div class="ui red basic inverted button">
-        <i class="remove icon"></i>
-        No
-      </div>
-      <div class="ui green basic inverted button">
-        <i class="checkmark icon"></i>
-        Yes
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="ui basic modal" id="deletePhotoModal">
   <i class="close icon"></i>
   <div class="header">
@@ -277,60 +255,8 @@
           <div class="ui fluid primary button" ng-click="createPhoto(myCroppedImage)">
             Save Photo
           </div>
-
         </div>
-
-
-
       </div>
     </div>
   </div>
 </div>
-
-
-<div class="body segment edit" id="my-profile-edit-items" ng-if="editInterest" ng-cloak>
-  <div class="container">
-    <div class="ui attached segment">
-      <div class="ui fluid primary button" ng-click="closeEditInterest()">
-        Back to Edit Profile
-      </div>
-    </div>
-
-
-    <div class="ui attached segment">
-      <div class="ui dividing header">Create Interest</div>
-
-      <div class="ui attached warning message" id="warningmessage" ng-show="messageShow">
-        <div class="header">
-          Warning
-        </div>
-        <p>
-          {{message}}
-        </p>
-      </div>
-
-      <div class="ui basic segment">
-        <div class="ui center aligned grid">
-          <div class="row">
-            <div class="search-wrapper ui icon large left input">
-              <i class="fa fa-search fa-lg"></i>
-              <div field-required="false" angucomplete-alt text-no-results="No existing interest found. Create new interest &raquo;" minlength="3" input-changed="interestChanged" ng-model="interest" match-class="highlight" selected-object="selectInterest" description-field="description[3]" title-field="description" remote-url="/api/v1/interest/?format=json&description__icontains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="Enter your interest here"></div>
-            </div>
-          </div>
-          <div class="row">
-            <a ng-click="saveInterest()" class="ui button submit green" ng-class="{loading: loadingCreatingNew}" role="button">Save &rarr;</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-
-<script>
-  // $('.basic.delete.modal')
-  // .modal('attach events', '.deleteitem', 'show')
-  // ;
-</script>
