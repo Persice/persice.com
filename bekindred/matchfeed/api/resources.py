@@ -75,7 +75,7 @@ class MatchedFeedResource(Resource):
             mfs = MatchFilterState.objects.get(user=request.user.id)
             results = filter(lambda x: (x.distance <= mfs.distance) and
                                        ((x.age <= int(mfs.max_age)) and (x.age >= int(mfs.min_age)) or (x.age is 0)) and
-                                       ((x.gender == mfs.gender) or (x.gender == 'all')),
+                                       ((x.gender in mfs.gender) or (x.gender == 'all')),
                              results)
             return results
 
