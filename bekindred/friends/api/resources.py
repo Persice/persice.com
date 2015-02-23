@@ -54,7 +54,7 @@ class ConnectionsResource(Resource):
     mutual_twitter_friends_count = fields.IntegerField(attribute='mutual_twitter_friends_count')
     mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
     mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
-    total_common_goals_offers_interests = fields.IntegerField(attribute='total_common_goals_offers')
+    common_goals_offers_interests = fields.IntegerField(attribute='total_common_goals_offers', default=0)
 
     class Meta:
         resource_name = 'connections'
