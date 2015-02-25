@@ -4,11 +4,14 @@ import re
 import redis
 import json
 from django.db.models import Q
+from tastypie.bundle import Bundle
+from friends.models import Friend
+from matchfeed.api.resources import A
 from postman.models import Message
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, Resource
 from members.models import UserSession
 from photos.api.resources import UserResource
 
@@ -46,3 +49,65 @@ class MessageResource(ModelResource):
         data['sent_at'] = str(bundle.obj.sent_at.isoformat())
         r.publish('message.%s' % user.id, json.dumps(data))
         return bundle
+
+
+class InboxResource(Resource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name')
+    last_name = fields.CharField(attribute='last_name')
+    facebook_id = fields.CharField(attribute='facebook_id')
+    last_message_body = fields.CharField(attribute='last_message_body')
+    recipient_id = fields.CharField(attribute='recipient_id')
+    sender_id = fields.CharField(attribute='sender_id')
+
+    class Meta:
+        resource_name = 'inbox/last'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        current_user = request.user.id
+        friends = Friend.objects.friends(current_user)
+
+        results = []
+        for friend in friends:
+            new_obj = A()
+            new_obj.id = friend.id
+            if friend.friend1.id == current_user:
+                position_friend = 'friend2'
+            else:
+                position_friend = 'friend1'
+            new_obj.first_name = getattr(friend, position_friend).first_name
+            new_obj.last_name = getattr(friend, position_friend).last_name
+            new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.friend_id = getattr(friend, position_friend).id
+            try:
+                message = Message.objects.filter(recipient=new_obj.friend_id).order_by('-sent_at')[0]
+                new_obj.last_message_body = message.body
+                new_obj.recipient_id = '/api/v1/auth/user/{}/'.format(message.recipient_id)
+                new_obj.sender_id = '/api/v1/auth/user/{}/'.format(message.sender_id)
+            except IndexError as err:
+                new_obj.last_message_body = None
+                new_obj.recipient_id = None
+                new_obj.sender_id = None
+            results.append(new_obj)
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
