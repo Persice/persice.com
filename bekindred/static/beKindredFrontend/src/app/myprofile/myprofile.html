@@ -4,7 +4,7 @@
             <div id="PhotoSlider" ng-if="photosSlider.length > 0">
                 <ul rn-carousel rn-carousel-index="carouselIndex2">
                     <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
-                    <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
+                        <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
                         <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
                     </li>
                 </ul>
@@ -82,16 +82,22 @@
 
             <h4 class="ui header">Social Accounts</h4>
 
-            <a href="https://twitter.com/{{ twitter }}" class="ui twitter fluid button" ng-if="twitter !== ''">
+            <a href="https://twitter.com/{{ twitter }}" class="ui twitter social icon fluid labeled button" ng-if="twitter !== ''">
                 <i class="twitter icon"></i>
                 {{twitter}}
-                <i class="check circle icon"></i>
+                <i class="check circle icon right"></i>
             </a>
             <br>
-            <a href="{{ linkedinUrl }}" class="ui linkedin fluid button" ng-if="linkedin !== ''">
+            <a href="{{ linkedinUrl }}" class="ui linkedin social icon fluid labeled button" ng-if="linkedin !== ''">
                 <i class="linkedin icon"></i>
                 {{linkedin}}
-                <i class="check circle icon"></i>
+                <i class="check circle icon right"></i>
+            </a>
+            <br>
+            <a href="{{ user.facebookProfile }}" class="ui social icon facebook labeled fluid button" ng-if="user.facebookProfile !== ''">
+                <i class="facebook icon"></i>
+                {{user.firstName}}
+                <i class="lock icon right"></i>
             </a>
         </div>
     </div>

@@ -100,6 +100,7 @@ angular.module('beKindred')
       $scope.user.about_me = data.about_me;
       $scope.user.age = data.age;
       $scope.user.facebookId = data.facebook_id;
+      $scope.user.facebookProfile = data.facebook_profile_url;
 
       $scope.loadingUser = false;
 
