@@ -205,7 +205,7 @@ angular.module('beKindred', [
             return 'No messages';
         }
         else {
-            return propery;
+            return property;
         }
     };
 })

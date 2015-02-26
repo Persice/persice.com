@@ -49,13 +49,21 @@ angular.module('beKindred')
             $rootScope.$broadcast('receivedMessage', data);
         }
 
-        if (!$rootScope.isState('conversations')) {
+        else {
+
+
             var jsonData = JSON.parse(data);
             var message = $filter('words')(jsonData.body, 10 );
             var localTime = $filter('amDateFormat')(jsonData.sent_at, 'h:mm a');
 
             var Sender = $resource(jsonData.sender);
             Sender.get().$promise.then(function(data) {
+
+
+                if ($rootScope.isState('inbox')) {
+                    $rootScope.$broadcast('refreshInbox');
+                }
+
                 $scope.gotoConversation = function() {
                     $state.go('conversations', {userId: data.id} );
                 };
@@ -69,15 +77,16 @@ angular.module('beKindred')
                     classes: 'notify-info'
                 });
 
+
             });
 
-
-
         }
 
-        if ($rootScope.isState('inbox')) {
-            $rootScope.$broadcast('refreshInbox');
-        }
+
+
+
+
+
 
     });
 

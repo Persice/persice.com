@@ -5,16 +5,20 @@ angular.module('beKindred')
 
 
   $scope.inboxLastMessages = [];
-  var myUrl = '/api/v1/auth/user/' + USER_ID + '/';
 
 
   $rootScope.$on('refreshInbox', function () {
     $scope.getInbox();
   });
 
+  $scope.loadingMessages = false;
+
   $scope.getInbox = function () {
+    $scope.loadingMessages = true;
     InboxFactory.query({format: 'json'}).$promise.then(function(data) {
+      $scope.inboxLastMessages.splice(0,$scope.inboxLastMessages.length);
       var receivedMessages = data.objects;
+      $scope.loadingMessages = false;
       for (var obj in receivedMessages) {
         $scope.inboxLastMessages.push({
           firstName: receivedMessages[obj].first_name,
@@ -27,7 +31,8 @@ angular.module('beKindred')
         });
       }
     }, function(response) {
-      $scope.inboxLastMessages = [];
+      $scope.loadingMessages = false;
+      $scope.inboxLastMessages.splice(0,$scope.inboxLastMessages.length);
       var data = response.data,
       status = response.status,
       header = response.header,
