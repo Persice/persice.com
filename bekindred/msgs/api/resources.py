@@ -56,9 +56,12 @@ class InboxResource(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
-    last_message_body = fields.CharField(attribute='last_message_body')
-    recipient_id = fields.CharField(attribute='recipient_id')
-    sender_id = fields.CharField(attribute='sender_id')
+    last_message_body = fields.CharField(attribute='last_message_body', null=True)
+    recipient_id = fields.CharField(attribute='recipient_id', null=True)
+    sender_id = fields.CharField(attribute='sender_id', null=True)
+    read_at = fields.CharField(attribute='read_at', null=True)
+    friend_id = fields.CharField(attribute='friend_id', null=True)
+    sent_at = fields.CharField(attribute='sent_at', null=True)
 
     class Meta:
         resource_name = 'inbox/last'
@@ -91,14 +94,18 @@ class InboxResource(Resource):
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.friend_id = getattr(friend, position_friend).id
             try:
-                message = Message.objects.filter(recipient=new_obj.friend_id).order_by('-sent_at')[0]
+                message = Message.objects.filter(sender=new_obj.friend_id).order_by('-sent_at')[0]
                 new_obj.last_message_body = message.body
+                new_obj.read_at = message.read_at
+                new_obj.sent_at = message.sent_at.isoformat()
                 new_obj.recipient_id = '/api/v1/auth/user/{}/'.format(message.recipient_id)
                 new_obj.sender_id = '/api/v1/auth/user/{}/'.format(message.sender_id)
             except IndexError as err:
                 new_obj.last_message_body = None
                 new_obj.recipient_id = None
                 new_obj.sender_id = None
+                new_obj.sent_at = None
+                new_obj.read_at = None
             results.append(new_obj)
         return results
 

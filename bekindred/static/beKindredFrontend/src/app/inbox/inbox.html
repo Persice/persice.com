@@ -12,13 +12,13 @@
     <div class="container">
 
         <div class="ui selection divided list">
-            <a ng-class="{'unread': connection.lastMessage.read === 0}" ui-sref="conversations({ userId: connection.friend_id })" class="item" ng-repeat="connection in connections track by $index">
-                <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ connection.facebook_id }}/picture?type=large)'}"></div>
-                <span class="message-time">{{connection.lastMessage.display}}</span>
+            <a ng-class="{'unread': message.readAt === null}" ui-sref="conversations({ userId: message.friendId })" class="item" ng-repeat="message in inboxLastMessages track by $index">
+                <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ message.facebookId }}/picture?type=large)'}"></div>
+                <span class="message-time">{{message.sentAt}}</span>
                 <div class="content">
-                    <div class="header">{{connection.first_name}}</div>
+                    <div class="header">{{message.firstName}}</div>
                     <div class="description">
-                        {{connection.lastMessage.body | words: 8}}
+                        {{message.body | words: 8}}
                     </div>
                 </div>
             </a>

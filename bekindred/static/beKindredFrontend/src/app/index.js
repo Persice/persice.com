@@ -199,6 +199,16 @@ angular.module('beKindred', [
         return null;
     };
 })
+.filter('lastMessage', function() {
+    return function(property) {
+        if (property === null) {
+            return 'No messages';
+        }
+        else {
+            return propery;
+        }
+    };
+})
 .filter('getIndexByProperty', function() {
     return function(propertyName, propertyValue, collection) {
         var i=0, len=collection.length;
@@ -271,7 +281,7 @@ angular.module('beKindred', [
 
   myIoSocket = socketFactory({
     ioSocket: myIoSocket
-  });
+});
   myIoSocket.forward('message');
   myIoSocket.forward('error');
 
