@@ -1,0 +1,70 @@
+<!doctype html><html class="no-js" ng-app="beKindred" ng-controller="AppCtrl"><head><meta charset="utf-8"><title>Kindred</title><base href="/"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="description" content=""><meta name="author" content=""><link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css"><link href="http://fonts.googleapis.com/css?family=Lato:400,300,600,700" rel="stylesheet" type="text/css"><link rel="icon" href="favicon.ico" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/apple-touch-icon-144x144-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/apple-touch-icon-114x114-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/apple-touch-icon-72x72-precomposed.png"><link rel="apple-touch-icon-precomposed" href="assets/images/apple-touch-icon-precomposed.png"><link rel="stylesheet" href="styles/vendor.css"><link rel="stylesheet" href="styles/app.css"></head><body id="main-page" class="gray"><div class="ui top horizontal large sidebar" id="MatchMenu"><div class="ui fluid six item menu"><a class="item" ng-click="goBack()"><i class="chevron left icon"></i></a> <span class="item"></span> <a ng-click="cancelMatch()" class="item clearbefore"><i class="remove icon"></i></a> <a ng-click="confirmMatch()" class="item clearbefore"><i class="check icon"></i></a> <span class="item"></span> <span class="item"></span></div></div><div class="ui vertical left inverted labeled sidebar menu" id="menu" ng-controller="LeftSidebarCtrl"><a ui-sref="home" ui-sref-active="active" class="item">Home <i class="home icon"></i></a> <a ui-sref="inbox" ui-sref-active="active" class="item">Inbox <i class="envelope icon"></i></a> <a ui-sref="matchfeed" ui-sref-active="active" class="item">Match Feed <i class="check icon"></i></a> <a ui-sref="myprofile" ui-sref-active="active" class="item">My Profile <i class="user icon"></i></a> <a ui-sref="myconnections" ui-sref-active="active" class="item">My Connections <i class="plus icon"></i></a> <a class="item"><i class="fa fa-sign-out icon"></i> Sign out</a><div class="item" id="side-menu-logo"><ul class="social-icon" id="intro-title"><li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li><li><h1>Kindred</h1></li></ul></div></div><div class="ui vertical right inverted labeled sidebar menu" id="menu" ng-show="isState('matchfeed')"><div id="FilterController" ng-controller="FilterController"><div id="filter" class="ui form"><form name="filterForm" id="filterForm" ng-submit="" class="form" method="get" action=""><div class="field"><label>Distance <span class="range">{{distanceValue}} mi.</span></label><div no-ui-slider="distanceOptions" ng-model="distanceValue" ng-change="saveFilters()"></div><input type="text" class="displayNone" ng-model="distanceValue" name="distance"></div><div class="field"><label>Age <span class="range">{{ageValues[0]}} &ndash; {{ageValues[1]}}</span></label><div no-ui-slider="ageOptions" ng-model="ageValues" ng-change="saveFilters()"></div><input type="text" class="displayNone" ng-model="ageValues[0]" name="min_age"> <input type="text" class="displayNone" ng-model="ageValues[1]" name="max_age"></div><div class="field"><label class="">Show</label></div><div class="field field-checkbox"><div id="male" class="ui toggle checkbox"><input type="checkbox" value="m"> <label>Men</label></div></div><div class="field field-checkbox"><div id="female" class="ui toggle checkbox"><input type="checkbox" value="f"> <label>Women</label></div></div><div class="field"><input class="displayNone" value="{{myKeywords}}" type="text" name="keywords"></div><div class="field"><input class="displayNone" id="genders" value="" type="text" name="gender"> <input class="displayNone" ng-model="genders" ng-change="saveFilters()" id="gendersModel" value="" type="text"></div><div class="ui small negative message" ng-show="showMessage"><div class="header">Keyword already exists.</div></div><div class="ui icon input"><input ng-minlength="3" type="text" placeholder="Enter keyword" on-enter-blur="" ng-enter="filterForm.$valid && addKeyword(newKeyword)" ng-model="newKeyword"> <i class="circular search icon"></i></div><div class=""><a ng-click="removeKeyword(index)" href="" class="item" ng-repeat="keyword in myKeywords track by $index"><div class="content"><div class="header"><i class="circle remove icon"></i> {{keyword}}</div></div></a></div><div class="ui divider"></div><button type="submit" class="button ui submit green" role="button">Filter</button></form></div></div></div><div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('friendprofile')"><div class="container"><a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a><div class="title item"><b>Kindred</b></div><div class="right menu" id="main-menu-right"><a ui-sref="home" ui-sref-active="active" class="item"><i class="icon home"></i> Home</a> <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="icon envelope"></i> Inbox</a> <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="icon check"></i> Match Feed</a> <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="icon user"></i> My Profile</a> <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="icon plus"></i> My Connections</a><div class="item"><a class="ui blue button">Sign out <i class="fa fa-sign-out"></i></a></div></div><div class="right menu" id="right-menu-launcher" ng-show="!showfullprofile && isState('matchfeed')"><a class="launch item"><i class="fa fa-sliders icon"></i></a></div></div></div><div class="pusher"><div class="full-height gsapify-router" ui-view="" autoscroll="false"><three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner></div></div><script>
+          (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+          e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+          e.src='//www.google-analytics.com/analytics.js';
+          r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+          ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script><script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script><script src="scripts/vendor.js"></script><script src="scripts/app.js"></script><script>
+          'use strict';
+          $('.left.sidebar').first()
+          .sidebar('attach events', '#leftsidebarlaunch')
+          ;
+          $('#leftsidebarlaunch')
+          .removeClass('disabled')
+          ;
+
+          $('.top.horizontal.sidebar').first()
+          .sidebar('setting', {
+            dimPage             : false,
+            closable            : false,
+            transition          : 'overlay',
+            mobileTransition    : 'overlay'}
+            )
+          ;
+
+          $('.right.sidebar').first()
+          .sidebar('attach events', '#right-menu-launcher')
+          .sidebar('setting', 'duration', 0)
+          ;
+          $('#right-menu-launcher')
+          .removeClass('disabled')
+          ;
+
+
+          $('.ui.checkbox')
+          .checkbox({
+            // onChecked: function () {
+            //   var mergedInput = $('#genders');
+            //   var modelInput = $('#gendersModel');
+            //   var arr = [];
+            //   $("#filterForm input:checkbox:checked").each(function(){
+            //     arr.push($(this).val());
+            //   });
+            //   mergedInput.val(JSON.stringify(arr));
+            //   modelInput.val(arr.join());
+            //   modelInput.trigger('input');
+            // },
+            // onUnchecked: function () {
+            //   var mergedInput = $('#genders');
+            //   var modelInput = $('#gendersModel');
+            //   var arr = [];
+            //   $("#filterForm input:checkbox:checked").each(function(){
+            //     arr.push($(this).val());
+            //   });
+            //   mergedInput.val(JSON.stringify(arr));
+            //   modelInput.val(arr.join());
+            //   modelInput.trigger('input');
+            // }
+          });
+
+        </script><script>
+          angular.module('beKindred').constant('USER_ID', 1);
+          angular.module('beKindred').constant('USER_FIRSTNAME', 'Sasa');
+          angular.module('beKindred').constant('USER_TWITTER',  '' );
+          angular.module('beKindred').constant('USER_LINKEDIN_NAME',  '' );
+          angular.module('beKindred').constant('USER_LINKEDIN_URL',  '' );
+          angular.module('beKindred').constant('USER_LASTNAME', 'Macakanja');
+          angular.module('beKindred').constant('FB_TOKEN', '');
+          angular.module('beKindred').constant('USER_PHOTO', '');
+        </script></body></html>
