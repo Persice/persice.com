@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('ConversationsCtrl', function ($rootScope, notify, $resource, $state, myIoSocket, $q, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter) {
+.controller('ConversationsCtrl', function ($rootScope, notify, $resource, $state, myIoSocket, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter) {
 
 
   $scope.messages = [];
@@ -188,6 +188,15 @@ $scope.getMessages = function() {
           scrollTop: height
         }, 0);
       }, 100);
+
+      //mark all messages in conversation as read
+      $http.get('/api/v1/inbox/reat_at/?sender_id=' +  $scope.friend.id).
+      success(function(data, status, headers, config) {
+
+      }).
+      error(function(data, status, headers, config) {
+
+      });
     }
 
     $scope.loadingMessages = false;
@@ -299,6 +308,15 @@ $rootScope.$on('receivedMessage', function (event, data) {
 
   $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
   $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
+
+  //mark all messages in conversation as read
+  $http.get('/api/v1/inbox/reat_at/?sender_id=' +  $scope.friend.id).
+  success(function(data, status, headers, config) {
+
+  }).
+  error(function(data, status, headers, config) {
+
+  });
 
   $timeout(function() {
     var height = angular.element('.conversation-content')[0].scrollHeight;

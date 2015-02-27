@@ -27,7 +27,7 @@ angular.module('beKindred')
           sentAt: $filter('amDateFormat')(receivedMessages[obj].sent_at, 'h:mm a'),
           readAt: receivedMessages[obj].read_at,
           id: receivedMessages[obj].id,
-          body: $filter('lastMessage')(receivedMessages[obj].last_message_body)
+          body: receivedMessages[obj].last_message_body
         });
       }
     }, function(response) {

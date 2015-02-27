@@ -202,7 +202,7 @@ angular.module('beKindred', [
 .filter('lastMessage', function() {
     return function(property) {
         if (property === null) {
-            return 'No messages';
+            return 'No messages.';
         }
         else {
             return property;
