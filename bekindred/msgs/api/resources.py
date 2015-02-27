@@ -123,7 +123,7 @@ class InboxLastResource(Resource):
 
 class InboxResource(Resource):
     class Meta:
-        resource_name = 'inbox'
+        resource_name = 'inbox/reat_at'
         authentication = SessionAuthentication()
         authorization = Authorization()
 
