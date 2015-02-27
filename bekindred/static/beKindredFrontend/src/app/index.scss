@@ -2999,7 +2999,7 @@ div.friend-actions a:hover {
 #friends-list-body .item .content .header {
   font-size: 1.5em;
   font-weight: 300;
-  margin-bottom: 1em!important;
+  margin-bottom: 17px!important;
 }
 #friends-list-body .item .content {
   position: absolute;
@@ -3581,4 +3581,27 @@ ul[rn-carousel]>li {
 .icon.right {
   left: inherit!important;
   right: 0px!important;
+}
+
+
+.intersecticon {
+ max-width:            24px;
+ max-height:           24px;
+ background-image: url(/static/img/squares18.png);
+ width: 24px!important;
+ height: 24px!important;
+}
+
+.usericon {
+  height: 25px!important;
+}
+
+.smallicon {
+  padding-right: 0px!important;
+  padding-top: 0.7em!important;
+  font-size: 0.5em!important;
+}
+
+#matched-profile-body .ui.list .content {
+  padding-left: 0.2em!important;
 }

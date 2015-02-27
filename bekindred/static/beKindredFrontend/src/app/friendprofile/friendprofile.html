@@ -41,7 +41,7 @@
             <h4 class="ui header">Goals</h4>
             <div class="ui list">
                 <div class="item" ng-repeat="goal in user.goals | orderBy:['-match'] track by $index">
-                    <i class="icon" ng-class="{'check green': goal.match === 1, 'empty': goal.match === 0 }"></i>
+                    <i class="icon" ng-class="{'stop smallicon': goal.match === 1, 'empty smallicon': goal.match === 0 }"></i>
                     <div class="content">
                         <div class="description">{{ goal.value }}</div>
                     </div>
@@ -51,7 +51,7 @@
             <h4 class="ui header">Offers</h4>
             <div class="ui list">
                 <div class="item" ng-repeat="offer in user.offers | orderBy:['-match'] track by $index">
-                    <i class="icon" ng-class="{'check green': offer.match === 1, 'empty': offer.match === 0 }"></i>
+                    <i class="icon" ng-class="{'stop smallicon': offer.match === 1, 'empty smallicon': offer.match === 0 }"></i>
                     <div class="content">
                         <div class="description">{{ offer.value }}</div>
                     </div>
@@ -73,7 +73,7 @@
             <h4 class="ui header">Activities &amp; Interests</h4>
             <div class="ui list">
                 <div class="item" ng-repeat="interest in user.interests | orderBy:['-match'] track by $index">
-                    <i class="icon" ng-class="{'check green': interest.match === 1, 'empty': interest.match === 0 }"></i>
+                    <i class="icon" ng-class="{'stop smallicon': interest.match === 1, 'empty smallicon': interest.match === 0 }"></i>
                     <div class="content">
                         <div class="description">{{ interest.value }}</div>
                     </div>
@@ -84,7 +84,7 @@
             <h4 class="ui header">Likes</h4>
             <div class="ui list">
                 <div class="item" ng-repeat="like in user.likes | orderBy:['-match']  track by $index">
-                    <i class="icon" ng-class="{'check green': like.match === 1, 'empty': like.match === 0 }"></i>
+                    <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
                     <div class="content">
                         <div class="description">{{ like.value }}</div>
                     </div>
