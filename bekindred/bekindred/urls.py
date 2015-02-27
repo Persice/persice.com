@@ -7,7 +7,7 @@ from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalR
     FacebookLikeResource
 from interests.api.resources import InterestResource
 from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource, ProfileResource
-from msgs.api.resources import MessageResource, InboxResource
+from msgs.api.resources import MessageResource, InboxResource, InboxLastResource
 
 from photos.api.resources import FacebookPhotoResource, UserResource
 
@@ -30,6 +30,7 @@ v1_api.register(FriendsResource())
 v1_api.register(ConnectionsResource())
 v1_api.register(FacebookLikeResource())
 v1_api.register(InboxResource())
+v1_api.register(InboxLastResource())
 
 urlpatterns = patterns('',
                        url(r'^$', 'goals.views.main_page'),

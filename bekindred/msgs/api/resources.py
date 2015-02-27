@@ -1,4 +1,5 @@
 from django.contrib.sessions.models import Session
+from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 import re
 import redis
@@ -51,7 +52,7 @@ class MessageResource(ModelResource):
         return bundle
 
 
-class InboxResource(Resource):
+class InboxLastResource(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
@@ -108,6 +109,32 @@ class InboxResource(Resource):
                 new_obj.read_at = None
             results.append(new_obj)
         return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+
+class InboxResource(Resource):
+    class Meta:
+        resource_name = 'inbox'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        raw_sender = request.GET.get('sender_id')
+        if raw_sender:
+            sender = int(raw_sender)
+            user = FacebookCustomUser.objects.get(id=request.user.id)
+            sender = FacebookCustomUser.objects.get(id=sender)
+            Message.objects.filter(sender=sender, recipient=user).update(read_at=now())
+        return list()
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
