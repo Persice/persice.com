@@ -4,23 +4,23 @@
 
     <div ng-hide="showDimmer">
         <div class="dimmable">
-         <div class="header segment with-menu" id="my-profile-header" ng-if="showfullprofile">
+           <div class="header segment with-menu" id="my-profile-header" ng-if="showfullprofile">
             <div class="container">
                 <div class="pagination-container">
                     <div id="PhotoSlider">
-                     <ul rn-carousel rn-carousel-index="carouselIndex2">
+                       <ul rn-carousel rn-carousel-index="carouselIndex2">
                         <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
-                           <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
-                           <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
-                       </li>
-                   </ul>
+                         <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
+                         <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
+                     </li>
+                 </ul>
 
-                   <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
-               </div>
-           </div>
-       </div>
-   </div>
-   <div class="header segment" id="matched-profile-header" ng-hide="showfullprofile">
+                 <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <div class="header segment" id="matched-profile-header" ng-hide="showfullprofile">
     <div class="container">
         <div class="ui segment" ng-click="changeTopMenu()">
             <div ng-show="photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].photo}}');"></div>
@@ -156,6 +156,15 @@
                     </div>
                 </div>
             </div>
+            <h4 ng-show="showfullprofile" ng-if="matchedUser.linkedinurl !=='' || matchedUser.twitterurl !==''" class="ui header">Social Profiles</h4>
+            <a ng-show="showfullprofile" ng-if="matchedUser.linkedinurl !==''" href="{{matchedUser.linkedinurl}}" target="_new" class="ui linkedin button">
+                <i class="linkedin icon"></i>
+                LinkedIn
+            </a>
+            <a ng-show="showfullprofile" ng-if="matchedUser.twitterurl !==''" href="{{matchedUser.twitterurl}}" target="_new" class="ui twitter button">
+                <i class="twitter icon"></i>
+                Twitter
+            </a>
         </div>
     </div>
 </div>

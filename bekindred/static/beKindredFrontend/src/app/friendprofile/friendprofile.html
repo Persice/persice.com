@@ -138,6 +138,17 @@
                 </div>
             </div>
 
+            <h4 ng-if="user.linkedinurl !=='' || user.twitterurl !==''" class="ui header">Social Profiles</h4>
+
+            <a ng-if="user.linkedinurl !==''" href="{{user.linkedinurl}}" target="_new" class="ui linkedin button">
+                <i class="linkedin icon"></i>
+                LinkedIn
+            </a>
+            <a ng-if="user.twitterurl !==''" href="{{user.twitterurl}}" target="_new" class="ui twitter button">
+                <i class="twitter icon"></i>
+                Twitter
+            </a>
+
 
 
 
