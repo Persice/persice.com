@@ -2384,15 +2384,24 @@ span.conversation-time {
 .conversation-content.ui.segment {
   overflow-y: scroll!important;
   position: absolute!important;
-  top: 83px!important;
+  top: 97px!important;
   width: 100%!important;
-  bottom: 61px!important;
+  bottom: 60px!important;
   padding-left: 10px!important;
   padding-right: 10px!important;
   background-color: #FFF!important;
   padding-top: 0px!important;
   padding-bottom: 0px!important;
   margin: 0px!important;
+}
+
+#hideConversation {
+  top: 97px!important;
+  z-index: 1!important;
+}
+
+.full-height.dimmable {
+  position: initial!important;
 }
 
 .lastMessage {
@@ -3503,7 +3512,13 @@ ul[rn-carousel] {
 
 #submenu {
   margin-top: 40px;
+
 }
+
+#submenu .button {
+  text-align: center!important;
+}
+
 
 #headermenu.ui.menu  .header.item {
   background: #FFF!important;
@@ -3539,7 +3554,7 @@ ul[rn-carousel] {
 
 
 #main-page #friendprofileheader.header.segment {
-  padding-top: 100px!important;
+  padding-top: 105px!important;
   border: none!important;
   padding-bottom: 10px!important;
   background-color: #f7f7f7!important;
@@ -3647,4 +3662,98 @@ ul[rn-carousel]>li {
 
 #leftmenu {
   width: 260px!important;
+}
+
+
+#friendmenu .item {
+  text-align: right!important;
+  padding-right: 46px!important;
+  padding-top: 15px!important;
+  padding-bottom: 15px!important;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #999;
+}
+
+#submenu .ui.buttons, #submenu .ui.buttons .button {
+  font-size: 1.6rem;
+}
+
+#submenu .ui.buttons .leftalign {
+  text-align: left!important;
+  padding-left: 23px!important;
+}
+
+#submenu .ui.button {
+  background-color: #999!important;
+  color: #fff!important;
+  border-radius: 0px!important;
+}
+
+#submenu .ui.button:focus, #submenu .ui.button:active {
+  outline: none!important;
+}
+
+#submenu .ui.buttons .rightalign {
+  text-align: right!important;
+  padding-right: 23px!important;
+}
+
+#submenu .button.active  {
+  background-color: #999!important;
+}
+
+#submenu .ui.button.leftalign.active:after {
+  left: 38px!important;
+  right: inherit!important;
+}
+
+#submenu .ui.button>.icon {
+  margin: 0 .4em 0 0em!important;
+}
+
+
+#submenu .ui.button.rightalign.active:after {
+  right: 38px!important;
+  border-color: transparent transparent #ffffff transparent!important;
+  left: inherit!important;
+}
+
+
+#submenu .ui.button.active:after {
+
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8.5px 10px 8.5px;
+  border-color: transparent transparent #f7f7f7 transparent;
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  content: "\00a0";
+  visibility: visible;
+  width: .5em;
+  height: .5em;
+  z-index: 2;
+  top: 47px;
+  left: 50%;
+  margin: 0 0 0 -0.55em;
+}
+
+
+
+
+@media only screen and (max-width : 600px) {
+  #friendmenu {
+    width: 600px;
+  }
+}
+
+#friendmenu {
+  top: 100%;
+  bottom: auto;
+  margin: 1em 0 0;
+  position: absolute;
+  border: none!important;
+  border-radius: 0!important;
 }

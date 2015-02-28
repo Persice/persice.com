@@ -2,6 +2,10 @@
 
 angular.module('beKindred')
 .controller('FriendProfileCtrl', function ($scope, User, UsersFactory, MutualFriendsFactory, InterestsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, $log) {
+
+    $scope.middleActive = true;
+
+
     $scope.user = {
         id: User.objects[0].id,
         facebook_id: User.objects[0].facebook_id,

@@ -3,7 +3,7 @@
 angular.module('beKindred')
 .controller('ConversationsCtrl', function ($rootScope, notify, $resource, $state, myIoSocket, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter) {
 
-
+  $scope.leftActive = true;
   $scope.messages = [];
   notify.closeAll();
 

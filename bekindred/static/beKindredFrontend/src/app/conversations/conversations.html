@@ -6,9 +6,27 @@
 
   <div class="ui fixed menu" id="submenu">
     <div class="3 fluid large ui buttons">
-      <a ui-sref="conversations({ userId: friend.id })" class="ui active button"><i class="chat icon"></i></a>
-      <a ui-sref="friendprofile({ userId: friend.id })" class="ui button"><i class="user icon"></i></a>
-      <a class="ui button"><i class="ellipsis horizontal icon"></i></a>
+      <a ui-sref="conversations({ userId: friend.id })" ng-class="{'active': leftActive}" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+      <a ui-sref="friendprofile({ userId: friend.id })"  class="ui button"><i class="fa fa-user icon"></i></a>
+      <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
+        <div class="menu" id="friendmenu">
+          <div class="item">
+            Get Introduced
+          </div>
+          <div class="item">
+            Add to Group
+          </div>
+          <div class="item">
+            Arrange Meetup
+          </div>
+          <div class="item">
+            Flag as Inappropriate
+          </div>
+          <div class="item">
+            Remove Connection
+          </div>
+        </div>
+      </a>
     </div>
 
   </div>
@@ -40,12 +58,41 @@
 
 
 <div class="message-reply">
-
   <div class="ui fluid action input">
     <input ng-enter="sendNewMessage()" type="text" placeholder="" ng-model="newmessage">
     <div ng-click="sendNewMessage()" class="ui button" ng-class="{'loading': sendingMessage}">Send</div>
   </div>
-
-
-
 </div>
+
+<div id="hideConversation" class="ui dimmer"></div>
+
+<script>
+  'use strict';
+
+  $('.ui.dropdown')
+  .dropdown({
+    onShow:  function(){
+      $('#hideConversation')
+      .dimmer('show')
+      ;
+
+      var scope = angular.element($("#submenu")).scope();
+      scope.$apply(function(){
+        scope.leftActive = false;
+      });
+    },
+    onHide: function(){
+      $('#hideConversation')
+      .dimmer('hide')
+      ;
+      var scope = angular.element($("#submenu")).scope();
+      setTimeout(function() {
+        scope.$apply(function(){
+          scope.leftActive = true;
+        });
+      }, 100);
+    }
+  })
+  ;
+
+</script>

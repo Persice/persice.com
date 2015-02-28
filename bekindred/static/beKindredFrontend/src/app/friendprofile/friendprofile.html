@@ -5,9 +5,29 @@
 
 <div class="ui fixed menu" id="submenu">
     <div class="3 fluid large ui buttons">
-        <a ui-sref="conversations({ userId: user.id })" class="ui button"><i class="chat icon"></i></a>
-        <a ui-sref="friendprofile({ userId: user.id })" class="ui active button"><i class="user icon"></i></a>
-        <a class="ui button"><i class="ellipsis horizontal icon"></i></a>
+        <a ui-sref="conversations({ userId: user.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+        <a ui-sref="friendprofile({ userId: user.id })" ng-class="{'active': middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
+        <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
+            <div class="menu" id="friendmenu">
+                <div class="item">
+                    Get Introduced
+                </div>
+                <div class="item">
+                    Add to Group
+                </div>
+                <div class="item">
+                    Arrange Meetup
+                </div>
+                <div class="item">
+                    Flag as Inappropriate
+                </div>
+                <div class="item">
+                    Remove Connection
+                </div>
+            </div>
+        </a>
+
+
     </div>
 </div>
 
@@ -29,7 +49,7 @@
 </div>
 </div>
 
-<div class="body segment" id="matched-profile-body" >
+<div class="body segment" id="matched-profile-body">
     <div class="container">
         <div class="ui top attached segment">
             <h3 class="ui left floated header">
@@ -155,3 +175,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    'use strict';
+    $('.ui.dropdown')
+    .dropdown({
+        onShow:  function(){
+            $('#matched-profile-body').dimmer('show');
+            $('#friendprofileheader').dimmer('show');
+            var scope = angular.element($("#submenu")).scope();
+            scope.$apply(function(){
+                scope.middleActive = false;
+            });
+        },
+        onHide: function(){
+            $('#matched-profile-body').dimmer('hide');
+            $('#friendprofileheader').dimmer('hide');
+            var scope = angular.element($("#submenu")).scope();
+            setTimeout(function() {
+                scope.$apply(function(){
+                    scope.middleActive = true;
+                });
+            }, 100);
+        }
+    })
+    ;
+
+</script>
