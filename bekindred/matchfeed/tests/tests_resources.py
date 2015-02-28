@@ -2,6 +2,7 @@ from datetime import date
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from goals.models import Subject, Goal, MatchFilterState
+from interests.models import Interest
 
 
 class TestMatchFeedResource(ResourceTestCase):
@@ -108,6 +109,20 @@ class TestMatchFeedResource(ResourceTestCase):
 
     def test_filter_match_gender_male(self):
         MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99, gender='m')
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user2, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject2)
+
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true'}, format='json')
+        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
+
+    def test_filter_match_keywords(self):
+        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
+                                        gender='m', keyword='django,python')
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
 

@@ -1,4 +1,5 @@
 from django_facebook.models import FacebookCustomUser
+import itertools
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie import fields
@@ -74,19 +75,37 @@ class MatchedFeedResource(Resource):
 
         if request.GET.get('filter') == 'true':
             mfs = MatchFilterState.objects.get(user=request.user.id)
-            # if mfs.keyword:
-            #     tsquery = ' | '.join(unicode(mfs.keyword).split(','))
-            #     search_subjects = Subject.objects.search(tsquery)
-            #     subj_ids = [x.description for x in search_subjects]
-            #
-            #     search_interests = Interest.objects.search(tsquery)
-            #     interests_ids = [x.description for x in search_interests]
+            subj_descriptions = list()
+            interests_descriptions = list()
+            if mfs.keyword:
+                tsquery = ' | '.join(unicode(mfs.keyword).split(','))
+                search_subjects = Subject.objects.search(tsquery, raw=True)
+                subj_descriptions = [x.description for x in search_subjects]
+
+                search_interests = Interest.objects.search(tsquery, raw=True)
+                interests_descriptions = [x.description for x in search_interests]
+
             results = filter(lambda x: (x.distance <= mfs.distance) and
                                        ((x.age <= int(mfs.max_age)) and (x.age >= int(mfs.min_age)) or (x.age is 0)) and
                                        ((x.gender in mfs.gender) or (x.gender == 'all')),
                              results)
-            return results
 
+            results_keywords = []
+            for item in results:
+                list2d_goals = [g.keys() for g in item.goals]
+                list2d_offers = [o.keys() for o in item.offers]
+                list2d_interests = [i.keys() for i in item.interests]
+                merged_g = list(itertools.chain.from_iterable(list2d_goals))
+                merged_o = list(itertools.chain.from_iterable(list2d_offers))
+                merged_i = list(itertools.chain.from_iterable(list2d_interests))
+                a = set(subj_descriptions).intersection(merged_g)
+                b = set(subj_descriptions).intersection(merged_o)
+                c = set(interests_descriptions).intersection(merged_i)
+
+                if a or b or c:
+                    results_keywords.append(item)
+                    continue
+            return results_keywords
         return results
 
     def obj_get_list(self, bundle, **kwargs):
