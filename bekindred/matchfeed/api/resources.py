@@ -204,6 +204,8 @@ class ProfileResource(Resource):
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
     user_id = fields.CharField(attribute='user_id')
+    twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
 
     age = fields.IntegerField(attribute='age')
     distance = fields.FloatField(attribute='distance')
@@ -244,6 +246,7 @@ class ProfileResource(Resource):
             if user['id'] == request_user.id:
 
                 new_obj.id = request_user.id
+                new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(request_user.id)
                 new_obj.first_name = request_user.first_name
                 new_obj.last_name = request_user.last_name
                 new_obj.facebook_id = request_user.facebook_id
