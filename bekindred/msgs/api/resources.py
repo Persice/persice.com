@@ -1,18 +1,19 @@
-from django.contrib.sessions.models import Session
+import re
+import json
+
 from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
-import re
 import redis
-import json
 from django.db.models import Q
 from tastypie.bundle import Bundle
-from friends.models import Friend
-from matchfeed.api.resources import A
-from postman.models import Message
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource, Resource
+
+from friends.models import Friend
+from matchfeed.api.resources import A
+from postman.models import Message
 from members.models import UserSession
 from photos.api.resources import UserResource
 
