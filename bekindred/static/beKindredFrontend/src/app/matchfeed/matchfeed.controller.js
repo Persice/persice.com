@@ -15,6 +15,9 @@ angular.module('beKindred')
     $scope.friendshipId = null;
 
 
+    $scope.filtering = false;
+
+
     // $scope.photosSlider = $scope.matchedUser.photos;
     $scope.photosSlider =  [
     ];
@@ -44,7 +47,7 @@ angular.module('beKindred')
             $('#filtersMenu').sidebar('hide');
             $scope.matchedUser = [];
 
-            MatchFeedFactory.query({format: 'json', filter: true}).$promise.then(function(data) {
+            MatchFeedFactory.query({format: 'json', filter: $scope.filtering}).$promise.then(function(data) {
                 $scope.matchedUser = [];
                 $scope.total = 0;
                 $scope.offset = 0;
@@ -166,7 +169,9 @@ else {
 }
 $scope.showDimmer = false;
 $rootScope.hideTopMenu = false;
+$scope.filtering = false;
 }, function(response) {
+    $scope.filtering = false;
     var data = response.data,
     status = response.status,
     header = response.header,
@@ -218,6 +223,7 @@ else {
 
     $rootScope.$on('refreshMatchFeed', function() {
         pok = 0;
+        $scope.filtering = true;
         $scope.loadMatches();
     });
 
@@ -235,7 +241,7 @@ else {
         $log.info($scope.total);
 
 
-        MatchFeedFactory.query({format: 'json', offset: 0, limit: 1, filter: true}).$promise.then(function(data) {
+        MatchFeedFactory.query({format: 'json', offset: 0, limit: 1, filter: $scope.filtering}).$promise.then(function(data) {
             var result = data.objects;
             if (result.length > 0) {
                 $log.info('more results');
