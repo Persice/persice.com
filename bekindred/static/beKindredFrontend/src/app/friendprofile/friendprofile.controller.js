@@ -24,8 +24,8 @@ angular.module('beKindred')
         twitterfriends: [],
         twitterfollowers: [],
         linkedinconnections: [],
-        linkedinurl: 'http://www.twitter.com',
-        twitterurl: 'http://www.linkedin.com'
+        linkedin_provider: User.objects[0].linkedin_provider,
+        twitter_provider:  User.objects[0].twitter_provider
     };
 
     $scope.defaultUserPhoto = '//graph.facebook.com/' + $scope.user.facebook_id + '/picture?type=large';

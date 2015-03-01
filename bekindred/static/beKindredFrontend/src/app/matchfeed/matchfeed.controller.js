@@ -98,9 +98,6 @@ angular.module('beKindred')
                     }
                     $scope.matchedUser.likes = likes;
 
-                    $scope.matchedUser.linkedinurl = 'http://www.linkedin.com';
-                    $scope.matchedUser.twitterurl = 'http://www.twitter.com';
-
 
                     //mutual friends
                     MutualFriendsFactory.query({format: 'json', user_id: $scope.matchedUser.id }).$promise.then(function(data) {
@@ -287,9 +284,6 @@ else {
                     if (like.match === 1)  {$scope.totalmatchingcount++;}
                 }
                 $scope.matchedUser.likes = likes;
-
-                $scope.matchedUser.linkedinurl = 'http://www.linkedin.com';
-                $scope.matchedUser.twitterurl = 'http://www.twitter.com';
 
                 //mutual friends
                 MutualFriendsFactory.query({format: 'json', user_id: $scope.matchedUser.id }).$promise.then(function(data) {

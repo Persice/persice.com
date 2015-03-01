@@ -156,12 +156,12 @@
                     </div>
                 </div>
             </div>
-            <h4 ng-show="showfullprofile" ng-if="matchedUser.linkedinurl !=='' || matchedUser.twitterurl !==''" class="ui header">Social Profiles</h4>
-            <a ng-show="showfullprofile" ng-if="matchedUser.linkedinurl !==''" href="{{matchedUser.linkedinurl}}" target="_new" class="ui linkedin button">
+            <h4 ng-show="showfullprofile" ng-if="matchedUser.linkedin_provider !== null || matchedUser.twitter_provider !== null" class="ui header">Social Profiles</h4>
+            <a ng-show="showfullprofile" ng-if="matchedUser.linkedin_provider !== null" href="{{matchedUser.linkedin_provider}}" target="_new" class="ui linkedin button">
                 <i class="linkedin icon"></i>
                 LinkedIn
             </a>
-            <a ng-show="showfullprofile" ng-if="matchedUser.twitterurl !==''" href="{{matchedUser.twitterurl}}" target="_new" class="ui twitter button">
+            <a ng-show="showfullprofile" ng-if="matchedUser.twitter_provider !== null" href="http://www.twitter.com/{{matchedUser.twitter_provider}}" target="_new" class="ui twitter button">
                 <i class="twitter icon"></i>
                 Twitter
             </a>

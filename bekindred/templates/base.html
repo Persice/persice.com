@@ -237,9 +237,9 @@
               preprocess: 'utc'
             }
           })());
-          angular.module('beKindred').constant('USER_TWITTER',  {% if twitter_provider %} '{{ twitter_provider.screen_name }}' {% else %} '' {% endif %} );
-          angular.module('beKindred').constant('USER_LINKEDIN_NAME',  {% if linkedin_provider %} '{{ linkedin_provider.first_name }} {{ linkedin_provider.last_name }}' {% else %} '' {% endif %} );
-          angular.module('beKindred').constant('USER_LINKEDIN_URL',  {% if linkedin_provider %} '{{ linkedin_provider.public_profile_url }}' {% else %} '' {% endif %} );
+          angular.module('beKindred').constant('USER_TWITTER',  {% if twitter_provider %} '{{ twitter_provider }}' {% else %} '' {% endif %} );
+          angular.module('beKindred').constant('USER_LINKEDIN_NAME',  {% if linkedin_provider %} '{{ user.first_name }}' {% else %} '' {% endif %} );
+          angular.module('beKindred').constant('USER_LINKEDIN_URL',  {% if linkedin_provider %} '{{ linkedin_provider }}' {% else %} '' {% endif %} );
           angular.module('beKindred').constant('USER_LASTNAME', '{{ user.last_name }}');
           angular.module('beKindred').constant('FB_TOKEN', '{{ user.access_token }}');
           angular.module('beKindred').constant('USER_PHOTO', '//graph.facebook.com/' + {{ user.facebook_id }} + '/picture?type=large');
