@@ -10,7 +10,8 @@ from goals.models import MatchFilterState, Subject
 from interests.models import Interest
 from matchfeed.models import MatchFeedManager
 from photos.models import FacebookPhoto
-from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age
+from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
+    social_extra_data
 
 
 class A(object):
@@ -23,6 +24,8 @@ class MatchedFeedResource(Resource):
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
     user_id = fields.CharField(attribute='user_id')
+    twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
     age = fields.IntegerField(attribute='age')
     distance = fields.FloatField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
@@ -65,6 +68,7 @@ class MatchedFeedResource(Resource):
             new_obj.age = calculate_age(user.date_of_birth)
             new_obj.gender = user.gender or 'all'
             new_obj.user_id = user.id
+            new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(user.id)
             new_obj.about = user.about_me
             new_obj.photos = photos
             new_obj.goals = x['goals']
@@ -106,7 +110,8 @@ class MatchedFeedResource(Resource):
                     results_keywords.append(item)
                     continue
             return results_keywords
-        return results
+        else:
+            return results
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...

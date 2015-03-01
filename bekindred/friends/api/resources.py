@@ -9,7 +9,7 @@ from tastypie.resources import ModelResource, Resource
 
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Goal
-from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends
+from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, social_extra_data
 from interests.models import Interest
 from photos.api.resources import UserResource
 from matchfeed.api.resources import A
@@ -40,6 +40,8 @@ class ConnectionsResource(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     friend_id = fields.CharField(attribute='friend_id')
+    twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
 
     mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
     mutual_bk_friends_count = fields.IntegerField(attribute='mutual_bk_friends_count')
@@ -85,6 +87,8 @@ class ConnectionsResource(Resource):
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.friend_id = getattr(friend, position_friend).id
+
+            new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(new_obj.friend_id)
 
             new_obj.mutual_bk_friends = Friend.objects.mutual_friends(current_user, new_obj.friend_id)
             new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)

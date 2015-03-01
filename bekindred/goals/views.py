@@ -22,7 +22,7 @@ from geopy.distance import distance as geopy_distance
 
 from .forms import GoalForm, OfferForm, BiographyForm, GoalUpdateForm, OfferUpdateForm
 from friends.models import Friend, FacebookFriendUser, TwitterListFriends, TwitterListFollowers
-from goals.utils import calculate_age, linkedin_connections
+from goals.utils import calculate_age, linkedin_connections, social_extra_data
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
 from .models import Goal, Offer, Subject, Keyword, UserIPAddress
 from interests.models import Interest
@@ -436,17 +436,7 @@ def example(request, graph):
 
 @login_required()
 def main_page(request, template_name="homepage.html"):
-    twitter_provider, linkedin_provider = None, None
-    try:
-        twitter_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='twitter')[0].extra_data
-    except IndexError:
-        pass
-    try:
-        linkedin_provider = UserSocialAuth.objects.filter(user_id=request.user.id, provider='linkedin')[0].extra_data
-    except IndexError:
-        pass
-
-    # linkedin = FacebookCustomUserActive.objects.get(pk=request.user.id).social_data
+    twitter_provider, linkedin_provider = social_extra_data(request.user.id)
     context = RequestContext(request, {
         'twitter_provider': twitter_provider,
         'linkedin_provider': linkedin_provider,

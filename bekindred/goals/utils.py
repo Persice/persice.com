@@ -143,3 +143,16 @@ def get_mutual_twitter_friends(user_id1, user_id2):
         return result
     except IndexError:
         return result
+
+
+def social_extra_data(user_id):
+    twitter_provider, linkedin_provider = None, None
+    try:
+        twitter_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='twitter')[0].extra_data
+    except IndexError:
+        pass
+    try:
+        linkedin_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0].extra_data
+    except IndexError:
+        pass
+    return twitter_provider, linkedin_provider
