@@ -34,7 +34,7 @@ class LoginRequiredMixin(object):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-@login_required()
+@facebook_required_lazy
 def my_page(request):
     date_of_birth = FacebookCustomUserActive.objects.get(pk=request.user.id).date_of_birth
     bio = FacebookCustomUserActive.objects.get(pk=request.user.id).about_me
@@ -63,7 +63,7 @@ def my_page(request):
     return render_to_response('goals/my_page.html', context)
 
 
-@login_required()
+@facebook_required_lazy
 def edit_my_page(request):
     date_of_birth = FacebookCustomUserActive.objects.get(pk=request.user.id).date_of_birth
     bio = FacebookCustomUserActive.objects.get(pk=request.user.id).about_me
@@ -420,21 +420,6 @@ def get_client_ip(request):
 
 
 @facebook_required_lazy
-def example(request, graph):
-    context = RequestContext(request, {
-        'bio': graph.get('me').get('bio', None)
-    })
-    if request.user.is_authenticated():
-        try:
-            UserIPAddress.objects.get(user=request.user.id)
-        except UserIPAddress.DoesNotExist:
-            fb_user = FacebookCustomUserActive.objects.get(pk=request.user.id)
-            user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
-            user.save()
-    return render_to_response('django_facebook/example.html', context)
-
-
-@login_required()
 def main_page(request, template_name="homepage.html"):
     twitter_provider, linkedin_provider = social_extra_data(request.user.id)
     context = RequestContext(request, {
