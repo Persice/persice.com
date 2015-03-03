@@ -66,7 +66,7 @@ class MatchedFeedResource(Resource):
             new_obj.last_name = user.last_name
             new_obj.facebook_id = user.facebook_id
             new_obj.age = calculate_age(user.date_of_birth)
-            new_obj.gender = user.gender or 'all'
+            new_obj.gender = user.gender or 'm,f'
             new_obj.user_id = user.id
             new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(user.id)
             new_obj.about = user.about_me
@@ -78,9 +78,18 @@ class MatchedFeedResource(Resource):
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true':
-            mfs = MatchFilterState.objects.get(user=request.user.id)
+            mfs = MatchFilterState.objects.get(user_id=request.user.id)
+            mfs.gender = mfs.gender if mfs.gender else 'm,f'
             subj_descriptions = list()
             interests_descriptions = list()
+            partial_results = list()
+
+            for match in results:
+                if (match.distance <= mfs.distance) and \
+                   ((match.age in range(int(mfs.min_age), int(mfs.max_age) + 1)) or match.age == 0) and \
+                   (match.gender in mfs.gender):
+                    partial_results.append(match)
+
             if mfs.keyword:
                 tsquery = ' | '.join(unicode(mfs.keyword).split(','))
                 search_subjects = Subject.objects.search(tsquery, raw=True)
@@ -88,28 +97,23 @@ class MatchedFeedResource(Resource):
 
                 search_interests = Interest.objects.search(tsquery, raw=True)
                 interests_descriptions = [x.description for x in search_interests]
+                results_keywords = []
+                for item in partial_results:
+                    list2d_goals = [g.keys() for g in item.goals]
+                    list2d_offers = [o.keys() for o in item.offers]
+                    list2d_interests = [i.keys() for i in item.interests]
+                    merged_g = list(itertools.chain.from_iterable(list2d_goals))
+                    merged_o = list(itertools.chain.from_iterable(list2d_offers))
+                    merged_i = list(itertools.chain.from_iterable(list2d_interests))
+                    a = set(subj_descriptions).intersection(merged_g)
+                    b = set(subj_descriptions).intersection(merged_o)
+                    c = set(interests_descriptions).intersection(merged_i)
 
-            results = filter(lambda x: (x.distance <= mfs.distance) and
-                                       ((x.age <= int(mfs.max_age)) and (x.age >= int(mfs.min_age)) or (x.age is 0)) and
-                                       ((x.gender in mfs.gender) or (x.gender == 'all')),
-                             results)
-
-            results_keywords = []
-            for item in results:
-                list2d_goals = [g.keys() for g in item.goals]
-                list2d_offers = [o.keys() for o in item.offers]
-                list2d_interests = [i.keys() for i in item.interests]
-                merged_g = list(itertools.chain.from_iterable(list2d_goals))
-                merged_o = list(itertools.chain.from_iterable(list2d_offers))
-                merged_i = list(itertools.chain.from_iterable(list2d_interests))
-                a = set(subj_descriptions).intersection(merged_g)
-                b = set(subj_descriptions).intersection(merged_o)
-                c = set(interests_descriptions).intersection(merged_i)
-
-                if a or b or c:
-                    results_keywords.append(item)
-                    continue
-            return results_keywords
+                    if a or b or c:
+                        results_keywords.append(item)
+                        continue
+                return results_keywords
+            return partial_results
         else:
             return results
 

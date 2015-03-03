@@ -419,7 +419,7 @@ def get_client_ip(request):
     return ip
 
 
-@facebook_required_lazy
+@login_required
 def main_page(request, template_name="homepage.html"):
     twitter_provider, linkedin_provider = social_extra_data(request.user.id)
     context = RequestContext(request, {

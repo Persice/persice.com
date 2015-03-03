@@ -108,7 +108,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 2)
 
     def test_filter_match_gender_male(self):
-        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99, gender='m')
+        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99, gender='f')
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
 
@@ -122,7 +122,7 @@ class TestMatchFeedResource(ResourceTestCase):
 
     def test_filter_match_keywords(self):
         MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
-                                        gender='m', keyword='django,python')
+                                        gender='f', keyword='django,python')
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
 
@@ -148,6 +148,5 @@ class TestMatchFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/matchfeed/', format='json')
         result = self.deserialize(resp)
         self.assertEqual(result['meta']['total_count'], 1)
-        print result
         self.assertEqual(result['objects'][0]['goals'], [{u'find people to go mountain biking with': 1,
                                                           u'learn django': 1}])
