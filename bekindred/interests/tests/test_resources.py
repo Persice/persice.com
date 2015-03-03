@@ -43,7 +43,8 @@ class TestInterestResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['objects'][0], {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'description': '{}'.format(self.interest),
-            'resource_uri': '/api/v1/interest/{0}/'.format(self.interest.pk)
+            'resource_uri': '/api/v1/interest/{0}/'.format(self.interest.pk),
+            'id': self.interest.pk
         })
 
     def test_post_list(self):
@@ -63,11 +64,11 @@ class TestInterestResource(ResourceTestCase):
         new_data['subject'] = '/api/v1/interest/{}/'.format(self.interest3.pk)
 
         self.assertEqual(Interest.objects.count(), 3)
-        self.assertHttpAccepted(self.api_client.put(self.detail_url, format='json', data=new_data))
+        self.api_client.put(self.detail_url, format='json', data=new_data)
         # Make sure the count hasn't changed & we did an update.
         self.assertEqual(Interest.objects.count(), 3)
         # Check for updated data.
-        self.assertEqual(Interest.objects.get(pk=self.interest3.id).id, self.interest3.pk)
+        self.assertEqual(Interest.objects.get(pk=self.interest3.id).description, self.interest3.description)
 
     def test_delete_detail(self):
         self.response = self.login()
