@@ -1,0 +1,346 @@
+[
+  {
+    "pk": 4,
+    "model": "interests.interest",
+    "fields": {
+      "description": "tennis",
+      "user": 1
+    }
+  },
+  {
+    "pk": 5,
+    "model": "interests.interest",
+    "fields": {
+      "description": "basketball",
+      "user": 1
+    }
+  },
+  {
+    "pk": 6,
+    "model": "interests.interest",
+    "fields": {
+      "description": "literature",
+      "user": 1
+    }
+  },
+  {
+    "pk": 7,
+    "model": "interests.interest",
+    "fields": {
+      "description": "golf",
+      "user": 1
+    }
+  },
+  {
+    "pk": 8,
+    "model": "interests.interest",
+    "fields": {
+      "description": "mountain biking",
+      "user": 1
+    }
+  },
+  {
+    "pk": 9,
+    "model": "interests.interest",
+    "fields": {
+      "description": "kitesurfing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 10,
+    "model": "interests.interest",
+    "fields": {
+      "description": "recycling",
+      "user": 1
+    }
+  },
+  {
+    "pk": 11,
+    "model": "interests.interest",
+    "fields": {
+      "description": "organic farming",
+      "user": 1
+    }
+  },
+  {
+    "pk": 12,
+    "model": "interests.interest",
+    "fields": {
+      "description": "composting",
+      "user": 1
+    }
+  },
+  {
+    "pk": 13,
+    "model": "interests.interest",
+    "fields": {
+      "description": "landscape gardening",
+      "user": 1
+    }
+  },
+  {
+    "pk": 14,
+    "model": "interests.interest",
+    "fields": {
+      "description": "hydroponic gardening",
+      "user": 1
+    }
+  },
+  {
+    "pk": 15,
+    "model": "interests.interest",
+    "fields": {
+      "description": "making birdfeeders/birdhouses",
+      "user": 1
+    }
+  },
+  {
+    "pk": 16,
+    "model": "interests.interest",
+    "fields": {
+      "description": "creating art from used material",
+      "user": 1
+    }
+  },
+  {
+    "pk": 17,
+    "model": "interests.interest",
+    "fields": {
+      "description": "making recycled paper",
+      "user": 1
+    }
+  },
+  {
+    "pk": 18,
+    "model": "interests.interest",
+    "fields": {
+      "description": "animal care",
+      "user": 1
+    }
+  },
+  {
+    "pk": 19,
+    "model": "interests.interest",
+    "fields": {
+      "description": "scuba diving",
+      "user": 1
+    }
+  },
+  {
+    "pk": 20,
+    "model": "interests.interest",
+    "fields": {
+      "description": "river rafting",
+      "user": 1
+    }
+  },
+  {
+    "pk": 21,
+    "model": "interests.interest",
+    "fields": {
+      "description": "bungee jumping",
+      "user": 1
+    }
+  },
+  {
+    "pk": 22,
+    "model": "interests.interest",
+    "fields": {
+      "description": "skiing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 23,
+    "model": "interests.interest",
+    "fields": {
+      "description": "trekking",
+      "user": 1
+    }
+  },
+  {
+    "pk": 24,
+    "model": "interests.interest",
+    "fields": {
+      "description": "ice skating",
+      "user": 1
+    }
+  },
+  {
+    "pk": 25,
+    "model": "interests.interest",
+    "fields": {
+      "description": "surfing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 26,
+    "model": "interests.interest",
+    "fields": {
+      "description": "racing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 27,
+    "model": "interests.interest",
+    "fields": {
+      "description": "gymnastics",
+      "user": 1
+    }
+  },
+  {
+    "pk": 28,
+    "model": "interests.interest",
+    "fields": {
+      "description": "hunting",
+      "user": 1
+    }
+  },
+  {
+    "pk": 29,
+    "model": "interests.interest",
+    "fields": {
+      "description": "computer games",
+      "user": 1
+    }
+  },
+  {
+    "pk": 30,
+    "model": "interests.interest",
+    "fields": {
+      "description": "video gaming",
+      "user": 1
+    }
+  },
+  {
+    "pk": 31,
+    "model": "interests.interest",
+    "fields": {
+      "description": "social networking",
+      "user": 1
+    }
+  },
+  {
+    "pk": 32,
+    "model": "interests.interest",
+    "fields": {
+      "description": "keeping virtual pets",
+      "user": 1
+    }
+  },
+  {
+    "pk": 33,
+    "model": "interests.interest",
+    "fields": {
+      "description": "creating software",
+      "user": 1
+    }
+  },
+  {
+    "pk": 34,
+    "model": "interests.interest",
+    "fields": {
+      "description": "internet browsing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 35,
+    "model": "interests.interest",
+    "fields": {
+      "description": "blogging",
+      "user": 1
+    }
+  },
+  {
+    "pk": 36,
+    "model": "interests.interest",
+    "fields": {
+      "description": "building computers and robots",
+      "user": 1
+    }
+  },
+  {
+    "pk": 37,
+    "model": "interests.interest",
+    "fields": {
+      "description": "fishing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 38,
+    "model": "interests.interest",
+    "fields": {
+      "description": "archery",
+      "user": 1
+    }
+  },
+  {
+    "pk": 39,
+    "model": "interests.interest",
+    "fields": {
+      "description": "boating",
+      "user": 1
+    }
+  },
+  {
+    "pk": 40,
+    "model": "interests.interest",
+    "fields": {
+      "description": "traveling",
+      "user": 1
+    }
+  },
+  {
+    "pk": 41,
+    "model": "interests.interest",
+    "fields": {
+      "description": "camping",
+      "user": 1
+    }
+  },
+  {
+    "pk": 42,
+    "model": "interests.interest",
+    "fields": {
+      "description": "kayaking",
+      "user": 1
+    }
+  },
+  {
+    "pk": 43,
+    "model": "interests.interest",
+    "fields": {
+      "description": "kart racing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 44,
+    "model": "interests.interest",
+    "fields": {
+      "description": "golfing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 45,
+    "model": "interests.interest",
+    "fields": {
+      "description": "swimming",
+      "user": 1
+    }
+  },
+  {
+    "pk": 46,
+    "model": "interests.interest",
+    "fields": {
+      "description": "skateboarding",
+      "user": 1
+    }
+  }
+]
