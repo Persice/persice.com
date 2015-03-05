@@ -3473,11 +3473,13 @@ ul[rn-carousel] {
 
 #toast-container {
   z-index: 999999!important;
+  opacity: 0.95!important;
 
 }
 
 .toast-top-full-width {
-  top: 60px!important;
+  top: 6px!important;
+  right: inherit!important;
 }
 
 .ui.leftright.loading.loading.input > .icon:after {
@@ -3771,15 +3773,12 @@ ul[rn-carousel]>li {
 
 
 #interests .button {
-  margin: 0px;
+  margin: 5px 0px;
   font-size: 1.1rem;
   padding: 12px;
 }
 
-#interests .row {
-  padding: 6px 0px!important;
-  margin: 0px;
-}
+
 
 #interests .row .column {
   padding-left: 4px;
@@ -3787,20 +3786,10 @@ ul[rn-carousel]>li {
   width: auto;
 }
 
-#interests .row .column.left {
-  text-align: right;
-}
-
-#interests .row .column.middle {
-}
-
-#interests .row .column.right {
-  text-align: left;
-}
-
-#interests {
+#interests, #noresults {
   background-color:#FFF!important;
   padding-top: 0px!important;
+
 }
 
 
@@ -3832,8 +3821,14 @@ ul[rn-carousel]>li {
 }
 
 
-#interests-header .container {
+#interests-header .container  {
   padding: 0 1em;
+}
+
+#interests .container, #noresults .container {
+  max-width: 600px!important;
+  margin: 0 auto!important;
+  padding: 0 1em!important;
 }
 
 #interests-header .input {
@@ -3870,4 +3865,50 @@ h2 hr {
 
 #instructions h4 {
   margin-top: 0px;
+}
+
+
+.repeat-animation.ng-enter,
+.repeat-animation.ng-leave,
+.repeat-animation.ng-move {
+  -webkit-transition: all linear 0.2s;
+  -moz-transition: all linear 0.2s;
+  -o-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+
+  position:relative;
+  left:0px;
+}
+.repeat-animation.ng-enter {
+  opacity: 0;
+}
+.repeat-animation.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+.repeat-animation.ng-leave {
+  opacity: 1;
+}
+.repeat-animation.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+.repeat-animation.ng-move {
+  left:2px;
+  opacity: 0.5;
+}
+.repeat-animation.ng-move.ng-move-active {
+  left:0;
+  opacity: 1;
+}
+
+.ng-hide-add, .ng-hide-remove {
+  /* ensure visibility during the transition */
+  display: block !important; /* yes, important */
+}
+
+.cssFade {
+  transition: 0.5s linear all;
+  opacity: 1;
+}
+.cssFade.ng-hide {
+  opacity: 0;
 }

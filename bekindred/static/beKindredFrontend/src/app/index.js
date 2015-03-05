@@ -71,7 +71,7 @@ angular.module('beKindred', [
         templateUrl: 'app/goalcreate/goalcreate.html',
         controller: 'GoalCreateCtrl'
     })
-     .state('finalstep', {
+    .state('finalstep', {
         url: '/final-step',
         templateUrl: 'app/finalstep/finalstep.html',
         controller: 'FinalStepController',
