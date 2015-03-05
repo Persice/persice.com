@@ -38,6 +38,9 @@ angular.module('beKindred', [
         url: '/',
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
+        data: {
+            displayName: 'Kindred',
+        },
         resolve: {
 
         }
@@ -46,12 +49,18 @@ angular.module('beKindred', [
         url: '/settings',
         templateUrl: 'app/settings/settings.html',
         controller: 'SettingsCtrl',
+        data: {
+            displayName: 'Settings',
+        },
         resolve: {
 
         }
     })
     .state('conversations', {
         url: '/conversation/:userId',
+        data: {
+            displayName: 'Conversations',
+        },
         resolve: {
             userId: ['$stateParams', function($stateParams){
                 return $stateParams.userId;
@@ -68,26 +77,59 @@ angular.module('beKindred', [
     })
     .state('goalcreate', {
         url: '/create-goal',
+        data: {
+            displayName: 'Create a goal',
+        },
         templateUrl: 'app/goalcreate/goalcreate.html',
         controller: 'GoalCreateCtrl'
     })
+    .state('finalstep', {
+        url: '/final-step',
+        data: {
+            displayName: 'Final Step',
+        },
+        templateUrl: 'app/finalstep/finalstep.html',
+        controller: 'FinalStepController',
+        controllerAs: 'finalstep'
+    })
+    .state('selectinterests', {
+        url: '/select-interests',
+        data: {
+            displayName: 'What interests you?',
+        },
+        templateUrl: 'app/interests/interests.html',
+        controller: 'InterestsController',
+        controllerAs: 'interest'
+    })
     .state('offercreate', {
         url: '/create-offer',
+        data: {
+            displayName: 'Post an offer',
+        },
         templateUrl: 'app/offercreate/offercreate.html',
         controller: 'OfferCreateCtrl'
     })
     .state('matchfeed', {
         url: '/match-feed',
+        data: {
+            displayName: 'Match Feed',
+        },
         templateUrl: 'app/matchfeed/matchfeed.html',
         controller: 'MatchFeedCtrl'
     })
     .state('myconnections', {
         url: '/my-connections',
+        data: {
+            displayName: 'Connections',
+        },
         templateUrl: 'app/myconnections/myconnections.html',
         controller: 'MyConnectionsCtrl'
     })
     .state('friendprofile', {
         url: '/friend-profile/:userId',
+        data: {
+            displayName: 'Connection',
+        },
         resolve: {
             userId: ['$stateParams', function($stateParams){
                 return $stateParams.userId;
@@ -103,16 +145,25 @@ angular.module('beKindred', [
     })
     .state('myprofile', {
         url: '/my-profile',
+        data: {
+            displayName: 'Profile',
+        },
         templateUrl: 'app/myprofile/myprofile.html',
         controller: 'MyProfileCtrl'
     })
     .state('editmyprofile', {
         url: '/my-profile/edit',
+        data: {
+            displayName: 'Edit profile',
+        },
         templateUrl: 'app/editmyprofile/editmyprofile.html',
         controller: 'EditMyProfileCtrl'
     })
     .state('inbox', {
-        url: '/inbox',
+        url: '/messages',
+        data: {
+            displayName: 'Messages',
+        },
         templateUrl: 'app/inbox/inbox.html',
         controller: 'InboxCtrl'
     });
@@ -164,6 +215,22 @@ angular.module('beKindred', [
 });
 };
 })
+.directive('updateTitle', ['$rootScope', '$timeout', function($rootScope, $timeout) {
+    return {
+        link: function(scope, element) {
+
+            var listener = function(event, toState, toParams, fromState, fromParams) {
+                var title = 'Kinred';
+                if (toState.data && toState.data.displayName) title = toState.data.displayName;
+                $timeout(function() {
+                    element.text(title);
+                });
+            };
+
+            $rootScope.$on('$stateChangeSuccess', listener);
+        }
+    };
+}])
 .directive('endRepeat', function ($timeout) {
     return {
         restrict: 'A',

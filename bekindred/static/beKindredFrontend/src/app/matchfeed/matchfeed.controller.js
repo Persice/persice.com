@@ -15,7 +15,7 @@ angular.module('beKindred')
     $scope.friendshipId = null;
 
 
-    $scope.filtering = false;
+    $scope.filtering = true;
 
 
     // $scope.photosSlider = $scope.matchedUser.photos;
@@ -166,9 +166,9 @@ else {
 }
 $scope.showDimmer = false;
 $rootScope.hideTopMenu = false;
-$scope.filtering = false;
+$scope.filtering = true;
 }, function(response) {
-    $scope.filtering = false;
+    $scope.filtering = true;
     var data = response.data,
     status = response.status,
     header = response.header,

@@ -1,0 +1,39 @@
+<div class="ui fixed borderless menu" id="mainheadermenu">
+
+  <div class="header item"><span class="fa-stack">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <i class="fa fa-stack-1x fa-inverse">1</i>
+  </span>
+  What interests you?</div>
+
+  <div class="right menu">
+    <a class="ui item" ng-click="interest.nextStep()">
+      Next &raquo;
+    </a>
+  </div>
+
+</div>
+
+<div class="segment" id="interests-header">
+  <div class="container">
+    <div class="ui left icon input">
+      <input type="text" ng-model="interest.searchQuery" name="q" placeholder="Search">
+      <i class="circular search icon"></i>
+    </div>
+  </div>
+</div>
+
+
+<div class="body segment" id="interests" ng-class="{'loading': interest.loadingInterests}">
+  <div class="container">
+    <div class="ui basic segment">
+      <div class="ui center aligned grid">
+        <div class="row">
+          <div class="column repeat-animation" ng-repeat="inter in interest.allInterests | filter:{description: interest.searchQuery} track by inter.id">
+            <div ng-click="interest.useInterest(inter.id)" class="ui button toggle compact" ng-class="{'active': inter.active, 'loading': interest.inter.loading}">{{inter.description}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

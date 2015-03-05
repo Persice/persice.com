@@ -74,7 +74,8 @@ angular.module('beKindred')
                 notify({
                     messageTemplate: notification,
                     scope: $scope,
-                    classes: 'notify-info'
+                    classes: 'notify-info',
+                    icon: 'wechat'
                 });
 
 

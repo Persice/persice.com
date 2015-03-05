@@ -3473,11 +3473,13 @@ ul[rn-carousel] {
 
 #toast-container {
   z-index: 999999!important;
+  opacity: 0.95!important;
 
 }
 
 .toast-top-full-width {
-  top: 60px!important;
+  top: 6px!important;
+  right: inherit!important;
 }
 
 .ui.leftright.loading.loading.input > .icon:after {
@@ -3769,3 +3771,144 @@ ul[rn-carousel]>li {
   font-size: 2.1rem!important;
 }
 
+
+#interests .button {
+  margin: 5px 0px;
+  font-size: 1.1rem;
+  padding: 12px;
+}
+
+
+
+#interests .row .column {
+  padding-left: 4px;
+  padding-right: 4px;
+  width: auto;
+}
+
+#interests, #noresults {
+  background-color:#FFF!important;
+  padding-top: 0px!important;
+
+}
+
+
+#interests-header {
+ border: none!important;
+ padding-bottom: 1em!important;
+ position: relative;
+ z-index: 100;
+ margin: 0em;
+ padding-top: 60px;
+ background-color: #FFF;
+}
+
+#main-page #interests-header .container {
+  max-width: 600px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  #main-page #friends-list-body .container, #main-page #interests-header .container {
+    margin: 0px;
+  }
+}
+
+@media only screen and (max-width: 998px) and (min-width: 600px) {
+  #main-page #interests-header .container  {
+    margin: 0px auto;
+  }
+}
+
+
+#interests-header .container  {
+  padding: 0 1em;
+}
+
+#interests .container, #noresults .container {
+  max-width: 600px!important;
+  margin: 0 auto!important;
+  padding: 0 1em!important;
+}
+
+#interests-header .input {
+  width: 100%;
+}
+
+#mainheadermenu {
+  height: 45px;
+  background-color: #faf9fa;
+}
+
+#mainheadermenu.center {
+  text-align: center;
+}
+
+#mainheadermenu .header.item {
+  margin-top: 0px;
+  background-color: #faf9fa;
+  padding: 0.6em 1.2em!important;
+}
+
+h2.withborder {
+  color: #777!important;
+  font-weight: 400!important;
+}
+
+h2 hr {
+  width: 54%;
+  display: block;
+  height: 1px;
+  border: 0; border-top: 1px solid #CECECE;
+  margin: 0.5em auto; padding: 0;
+}
+
+#instructions h4 {
+  margin-top: 0px;
+}
+
+
+.repeat-animation.ng-enter,
+.repeat-animation.ng-leave,
+.repeat-animation.ng-move {
+  -webkit-transition: all linear 0.2s;
+  -moz-transition: all linear 0.2s;
+  -o-transition: all linear 0.2s;
+  transition: all linear 0.2s;
+
+  position:relative;
+  left:0px;
+}
+.repeat-animation.ng-enter {
+  opacity: 0;
+}
+.repeat-animation.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+.repeat-animation.ng-leave {
+  opacity: 1;
+}
+.repeat-animation.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+.repeat-animation.ng-move {
+  left:2px;
+  opacity: 0.5;
+}
+.repeat-animation.ng-move.ng-move-active {
+  left:0;
+  opacity: 1;
+}
+
+.ng-hide-add, .ng-hide-remove {
+  /* ensure visibility during the transition */
+  display: block !important; /* yes, important */
+}
+
+.cssFade {
+  transition: 0.5s linear all;
+  opacity: 1;
+}
+.cssFade.ng-hide {
+  opacity: 0;
+}
