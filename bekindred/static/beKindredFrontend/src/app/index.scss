@@ -3769,3 +3769,105 @@ ul[rn-carousel]>li {
   font-size: 2.1rem!important;
 }
 
+
+#interests .button {
+  margin: 0px;
+  font-size: 1.1rem;
+  padding: 12px;
+}
+
+#interests .row {
+  padding: 6px 0px!important;
+  margin: 0px;
+}
+
+#interests .row .column {
+  padding-left: 4px;
+  padding-right: 4px;
+  width: auto;
+}
+
+#interests .row .column.left {
+  text-align: right;
+}
+
+#interests .row .column.middle {
+}
+
+#interests .row .column.right {
+  text-align: left;
+}
+
+#interests {
+  background-color:#FFF!important;
+  padding-top: 0px!important;
+}
+
+
+#interests-header {
+ border: none!important;
+ padding-bottom: 1em!important;
+ position: relative;
+ z-index: 100;
+ margin: 0em;
+ padding-top: 60px;
+ background-color: #FFF;
+}
+
+#main-page #interests-header .container {
+  max-width: 600px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  #main-page #friends-list-body .container, #main-page #interests-header .container {
+    margin: 0px;
+  }
+}
+
+@media only screen and (max-width: 998px) and (min-width: 600px) {
+  #main-page #interests-header .container  {
+    margin: 0px auto;
+  }
+}
+
+
+#interests-header .container {
+  padding: 0 1em;
+}
+
+#interests-header .input {
+  width: 100%;
+}
+
+#mainheadermenu {
+  height: 45px;
+  background-color: #faf9fa;
+}
+
+#mainheadermenu.center {
+  text-align: center;
+}
+
+#mainheadermenu .header.item {
+  margin-top: 0px;
+  background-color: #faf9fa;
+  padding: 0.6em 1.2em!important;
+}
+
+h2.withborder {
+  color: #777!important;
+  font-weight: 400!important;
+}
+
+h2 hr {
+  width: 54%;
+  display: block;
+  height: 1px;
+  border: 0; border-top: 1px solid #CECECE;
+  margin: 0.5em auto; padding: 0;
+}
+
+#instructions h4 {
+  margin-top: 0px;
+}

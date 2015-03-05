@@ -1,21 +1,17 @@
-<div class="headersmall segment">
-  <div class="container">
-    <h3 class="ui center aligned header">
-      <span class="fa-stack">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa fa-stack-1x fa-inverse">1</i>
-      </span>
-      Create Goal
-    </h3>
-  </div>
+<div class="ui fixed borderless menu center" id="mainheadermenu">
+
+  <div class="header item"><span class="fa-stack">
+    <i class="fa fa-circle fa-stack-2x"></i>
+    <i class="fa fa-stack-1x fa-inverse">2</i>
+  </span>
+  Create a goal</div>
+
 </div>
+
+
 <div class="body segment">
   <div class="container">
-    <h2 class="ui center aligned header">My goal is to...</h2>
-    <pre>{{$scope.subject}}</pre>
-
-
-
+    <h2 class="ui center aligned header withborder">My goal is to...<hr></h2>
     <div class="ui attached warning message" id="warningmessage" ng-show="messageShow">
       <div class="header">
         Warning
@@ -30,22 +26,24 @@
         <div class="row">
           <div class="search-wrapper ui icon large left input">
             <i class="fa fa-search fa-lg"></i>
-            <div field-required="false" angucomplete-alt text-no-results="No existing goal found. Create new goal &raquo;" minlength="3" input-changed="inputChanged" match-class="highlight" selected-object="selectResult" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__icontains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="Enter your goal here"></div>
+            <div field-required="false" angucomplete-alt text-no-results="No existing goal found. Create new goal &raquo;" minlength="3" input-changed="inputChanged" match-class="highlight" selected-object="selectResult" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__icontains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="enter your goal here"></div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" ng-hide="subject === ''">
           <a ng-click="createGoal()" class="ui button submit green big" role="button">Next &rarr;</a>
         </div>
       </div>
     </div>
-    <div class="ui secondary segment">
-      <h3>Here are some examples</h3>
+    <div class="ui secondary segment" id="instructions" ng-hide="subject !== ''">
+      <h4>This should be something you want other people to help you with.</h4>
+      <br>
+      <h4>For example:</h4>
       <p>
         <ul class="unstyled">
           <li>&quot;Learn to play tennis&quot;</li>
           <li>&quot;Find a running partner&quot;</li>
           <li>&quot;Hire a cat sitter&quot;</li>
-          <li>&quot;Move my 500 lb sofa&quot;</li>
+          <li>&quot;Move my sofa upstairs&quot;</li>
         </ul>
       </p>
     </div>

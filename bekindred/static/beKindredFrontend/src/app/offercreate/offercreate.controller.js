@@ -34,7 +34,7 @@ angular.module('beKindred')
         OffersFactory.save({}, newOffer,
             function(success){
 
-                $state.go('matchfeed');
+                $state.go('finalstep');
 
             },
             function(error) {
