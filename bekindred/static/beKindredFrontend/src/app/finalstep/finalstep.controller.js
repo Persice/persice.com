@@ -1,4 +1,4 @@
-(function(){
+(function() {
   'use strict';
 
   /**
@@ -6,7 +6,7 @@
    * classDesc Connect with LinkedIn and Twitter or skip to mathcfeed
    * @ngInject
    */
-   function FinalStepController () {
+  function FinalStepController() {
     var vm = this;
 
 
@@ -14,9 +14,8 @@
   }
 
   angular
-  .module('beKindred')
-  .controller('FinalStepController', FinalStepController);
-
+    .module('beKindred')
+    .controller('FinalStepController', FinalStepController);
 
 
 
