@@ -106,13 +106,17 @@ class MatchFeedManager(models.Manager):
 
         matched_users = set(goals.keys() + offers.keys() + likes.keys() + interests.keys())
         for user in matched_users:
-            results['users'].append({'id': int(user),
-                                     'goals': goals.get(user, []),
-                                     'offers': offers.get(user, []),
-                                     'likes': likes.get(user, []),
-                                     'interests': interests.get(user, [])
-            })
+            default_goals = [dict((item.goal.description, 0) for item in Goal.objects.filter(user_id=user)[:2])]
+            default_offers = [dict((item.offer.description, 0) for item in Offer.objects.filter(user_id=user)[:2])]
+            default_interests = [dict((item.description, 0) for item in Interest.objects.filter(user_id=user)[:2])]
+            default_likes = [dict((item.name, 0) for item in FacebookLike.objects.filter(user_id=user)[:2])]
 
+            results['users'].append({'id': int(user),
+                                     'goals': goals.get(user, default_goals),
+                                     'offers': offers.get(user, default_offers),
+                                     'likes': likes.get(user, default_likes),
+                                     'interests': interests.get(user, default_interests)
+            })
         return results
 
 
