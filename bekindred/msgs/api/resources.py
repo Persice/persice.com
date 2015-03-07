@@ -96,7 +96,7 @@ class InboxLastResource(Resource):
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.friend_id = getattr(friend, position_friend).id
             try:
-                message = Message.objects.filter(sender=new_obj.friend_id).order_by('sent_at')[0]
+                message = Message.objects.filter(sender=new_obj.friend_id).order_by('-sent_at')[0]
                 new_obj.last_message_body = message.body
                 new_obj.read_at = message.read_at
                 new_obj.sent_at = message.sent_at.isoformat()
