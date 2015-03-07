@@ -774,11 +774,19 @@ angular.module('beKindred')
         $log.info('Failed');
         $scope.savingAllChanges = false;
 
-        $timeout(function() {
-          $('html, body').animate({
-            scrollTop: $('.error:first').offset().top - 100
-          }, 500);
-        }, 500);
+        notify({
+          messageTemplate: '<div class="notify-error-header">Could not save your profile changes.</div>' +
+            '<p>There were some errors. Please see them below.</p>',
+          scope: $scope,
+          classes: 'notify-error',
+          icon: 'warning circle'
+        });
+
+        // $timeout(function() {
+        //   $('html, body').animate({
+        //     scrollTop: $('.error:first').offset().top - 100
+        //   }, 500);
+        // }, 500);
 
       }, function(update) {
 
