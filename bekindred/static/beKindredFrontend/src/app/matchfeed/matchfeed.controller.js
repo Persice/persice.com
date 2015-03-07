@@ -9,8 +9,7 @@ angular.module('beKindred')
     $scope.previous = null;
     $scope.next = null;
 
-    $scope.friend1 = null;
-    $scope.friend2 = null;
+    $scope.me = '/api/v1/auth/user/' + USER_ID + '/';
     $scope.friendshipStatus = null;
     $scope.friendshipId = null;
 
@@ -417,101 +416,20 @@ angular.module('beKindred')
     $scope.cancelMatch = function() {
       $log.info('cancel match');
 
+      var friendship = {
+        friend1: $scope.me,
+        friend2: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/',
+        status: -1
+      };
 
-      FriendsFactory.query({
-        format: 'json'
-      }).$promise.then(function(data) {
+      //deny friendship with status -1
+      FriendsFactory.save(friendship,
+        function(success) {
+          $scope.getNextMatch();
+        },
+        function(error) {
 
-        var existingFriend = false;
-        if (data.meta.total_count > 0) {
-          var allfriends = data.objects;
-          var myfriend = '/api/v1/auth/user/' + $scope.matchedUser.id + '/';
-          for (var obj in allfriends) {
-            if (allfriends[obj].friend1 === myfriend) {
-              $scope.friend1 = allfriends[obj].friend1;
-              $scope.friendshipStatus = allfriends[obj].status;
-              $scope.friend2 = '/api/v1/auth/user/' + USER_ID + '/';
-              $scope.friendshipId = allfriends[obj].id;
-              existingFriend = true;
-            }
-            if (allfriends[obj].friend2 === myfriend) {
-              $scope.friend2 = allfriends[obj].friend2;
-              $scope.friendshipStatus = allfriends[obj].status;
-              $scope.friend1 = '/api/v1/auth/user/' + USER_ID + '/';
-              $scope.friendshipId = allfriends[obj].id;
-              existingFriend = true;
-            }
-          }
-
-          if (existingFriend) {
-            $log.info('not existing friend');
-            var changeExistingFriend = {
-              friend1: $scope.friend1,
-              friend2: $scope.friend2,
-              status: -1
-            };
-
-            //confirm friendship with status 1
-            FriendsFactory.update({
-                friendId: $scope.friendshipId
-              }, changeExistingFriend,
-              function(success) {
-                $scope.friend1 = null;
-                $scope.friend2 = null;
-                $scope.friendshipStatus = null;
-                $scope.friendshipId = null;
-                $scope.getNextMatch();
-              },
-              function(error) {
-
-              });
-          } else {
-            $log.info('not existing friend');
-            //create new friendship with status 0
-            var newFriend = {
-              friend1: '/api/v1/auth/user/' + USER_ID + '/',
-              friend2: '/api/v1/auth/user/' + $scope.matchedUser.id + '/',
-              status: -1
-            };
-
-            FriendsFactory.save({}, newFriend,
-              function(success) {
-                $scope.friend1 = null;
-                $scope.friend2 = null;
-                $scope.getNextMatch();
-              },
-              function(error) {
-
-              });
-          }
-
-
-
-        } else {
-          $log.info('not existing friend');
-          //create new friendship with status -1
-          var newFriend = {
-            friend1: '/api/v1/auth/user/' + USER_ID + '/',
-            friend2: '/api/v1/auth/user/' + $scope.matchedUser.id + '/',
-            status: -1
-          };
-
-          FriendsFactory.save({}, newFriend,
-            function(success) {
-              $scope.friend1 = null;
-              $scope.friend2 = null;
-              $scope.getNextMatch();
-            },
-            function(error) {
-
-            });
-
-        }
-
-
-      });
-
-
+        });
 
     };
 
@@ -519,104 +437,20 @@ angular.module('beKindred')
     $scope.confirmMatch = function() {
 
       $log.info('accept match');
-      FriendsFactory.query({
-        format: 'json'
-      }).$promise.then(function(data) {
+      var friendship = {
+        friend1: $scope.me,
+        friend2: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/',
+        status: 0
+      };
 
-        var existingFriend = false;
-        if (data.meta.total_count > 0) {
-          $log.info('total count > 0');
-          var allfriends = data.objects;
-          var myfriend = '/api/v1/auth/user/' + $scope.matchedUser.id + '/';
-          for (var obj in allfriends) {
-            $log.info(allfriends[obj]);
-            if (allfriends[obj].friend1 === myfriend) {
-              $scope.friend1 = allfriends[obj].friend1;
-              $scope.friendshipStatus = allfriends[obj].status;
-              $scope.friend2 = '/api/v1/auth/user/' + USER_ID + '/';
-              $scope.friendshipId = allfriends[obj].id;
-              existingFriend = true;
-            }
-            if (allfriends[obj].friend2 === myfriend) {
-              $scope.friend2 = allfriends[obj].friend2;
-              $scope.friendshipStatus = allfriends[obj].status;
-              $scope.friend1 = '/api/v1/auth/user/' + USER_ID + '/';
-              $scope.friendshipId = allfriends[obj].id;
-              existingFriend = true;
-            }
-          }
+      //add to friends with status 0
+      FriendsFactory.save(friendship,
+        function(success) {
+          $scope.getNextMatch();
+        },
+        function(error) {
 
-          if (existingFriend === true) {
-            $log.info('existing friend');
-
-            var changeExistingFriend = {
-              friend1: $scope.friend1,
-              friend2: $scope.friend2,
-              status: 1
-            };
-
-            //confirm friendship with status 1
-            FriendsFactory.update({
-                friendId: $scope.friendshipId
-              }, changeExistingFriend,
-              function(success) {
-                $scope.friend1 = null;
-                $scope.friend2 = null;
-                $scope.friendshipStatus = null;
-                $scope.friendshipId = null;
-                existingFriend = false;
-                $scope.getNextMatch();
-              },
-              function(error) {
-
-              });
-          } else {
-            $log.info('not existing friend');
-            //create new friendship with status 0
-            var newFriend = {
-              friend1: '/api/v1/auth/user/' + USER_ID + '/',
-              friend2: '/api/v1/auth/user/' + $scope.matchedUser.id + '/',
-              status: 0
-            };
-
-            FriendsFactory.save({}, newFriend,
-              function(success) {
-                $scope.friend1 = null;
-                $scope.friend2 = null;
-                existingFriend = false;
-                $scope.getNextMatch();
-              },
-              function(error) {
-
-              });
-          }
-
-
-
-        } else {
-          $log.info('not existing friend');
-          //create new friendship with status 0
-          var newFriend = {
-            friend1: '/api/v1/auth/user/' + USER_ID + '/',
-            friend2: '/api/v1/auth/user/' + $scope.matchedUser.id + '/',
-            status: 0
-          };
-
-          FriendsFactory.save({}, newFriend,
-            function(success) {
-              $scope.friend1 = null;
-              $scope.friend2 = null;
-              $scope.getNextMatch();
-            },
-            function(error) {
-
-            });
-
-        }
-
-
-      });
-
+        });
 
 
     };
