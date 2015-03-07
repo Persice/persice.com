@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('ConversationsCtrl', function($rootScope, notify, $resource, $state, myIoSocket, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter) {
+  .controller('ConversationsCtrl', function($rootScope, notify, $resource, $state, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
 
     $scope.leftActive = true;
     $scope.messages = [];
+    $scope.friendshipId = Connection.objects[0].id;
     notify.closeAll();
 
     $scope.q = '';
@@ -334,6 +335,22 @@ angular.module('beKindred')
       }, 100);
 
     });
+
+
+    $scope.unFriend = function() {
+
+      FriendsFactory.update({
+          friendId: $scope.friendshipId
+        }, {
+          status: -1
+        },
+        function(success) {
+          $state.go('myconnections');
+        },
+        function(error) {
+
+        });
+    };
 
 
   });

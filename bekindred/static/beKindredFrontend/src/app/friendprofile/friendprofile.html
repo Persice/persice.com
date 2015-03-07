@@ -1,52 +1,53 @@
-<div class="ui fixed borderless menu" id="headermenu">
-    <a class="icon item" ui-sref="myconnections"><i class="left chevron icon"></i></a>
-    <h3 class="ui center aligned header">{{ user.firstName }}</h3>
-</div>
-
-<div class="ui fixed menu" id="submenu">
-    <div class="3 fluid large ui buttons">
-        <a ui-sref="conversations({ userId: user.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
-        <a ui-sref="friendprofile({ userId: user.id })" ng-class="{'active': middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
-        <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
-            <div class="menu" id="friendmenu">
-                <div class="item">
-                    Get Introduced
-                </div>
-                <div class="item">
-                    Add to Group
-                </div>
-                <div class="item">
-                    Arrange Meetup
-                </div>
-                <div class="item">
-                    Flag as Inappropriate
-                </div>
-                <div class="item">
-                    Remove Connection
-                </div>
-            </div>
-        </a>
-
-
+<div id="connectionPage">
+    <div class="ui fixed borderless menu" id="headermenu">
+        <a class="icon item" ui-sref="myconnections"><i class="left chevron icon"></i></a>
+        <h3 class="ui center aligned header">{{ user.firstName }}</h3>
     </div>
-</div>
 
-<div class="header segment with-menu" id="friendprofileheader">
-    <div class="container"
-    <div class="pagination-container">
-        <div id="PhotoSlider" ng-if="photosSlider.length > 0">
+    <div class="ui fixed menu" id="submenu">
+        <div class="3 fluid large ui buttons">
+            <a ui-sref="conversations({ userId: user.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+            <a ui-sref="friendprofile({ userId: user.id })" ng-class="{'active': middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
+            <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
+                <div class="menu" id="friendmenu">
+                    <div class="item">
+                        Get Introduced
+                    </div>
+                    <div class="item">
+                        Add to Group
+                    </div>
+                    <div class="item">
+                        Arrange Meetup
+                    </div>
+                    <div class="item">
+                        Flag as Inappropriate
+                    </div>
+                    <div class="item deleteconnection">
+                        Remove Connection
+                    </div>
+                </div>
+            </a>
 
-            <ul rn-carousel rn-carousel-index="carouselIndex2">
-                <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
-                    <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
-                    <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
-                </li>
-            </ul>
 
-            <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
         </div>
     </div>
-</div>
+
+    <div class="header segment with-menu" id="friendprofileheader">
+        <div class="container"
+        <div class="pagination-container">
+            <div id="PhotoSlider" ng-if="photosSlider.length > 0">
+
+                <ul rn-carousel rn-carousel-index="carouselIndex2">
+                    <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
+                        <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
+                        <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
+                    </li>
+                </ul>
+
+                <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="body segment" id="matched-profile-body">
@@ -202,3 +203,50 @@
     ;
 
 </script>
+
+
+<!-- modals -->
+
+<div class="ui basic delete modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Please Confirm
+</div>
+<div class="content">
+
+    <div class="description">
+      <p>Are you sure you want remove this connection?</p>
+  </div>
+</div>
+<div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui red negative basic inverted button">
+        <i class="remove icon"></i>
+        No
+    </div>
+    <a class="ui green basic inverted button ok">
+        <i class="checkmark icon"></i>
+        Yes
+    </a>
+</div>
+</div>
+</div>
+
+<script>
+  'use strict';
+  $('.basic.delete.modal')
+  .modal({
+    onDeny    : function(){
+      console.log('cancel');
+  },
+  onApprove : function() {
+      console.log('deleting user');
+      angular.element(document.getElementById('connectionPage')).scope().unFriend();
+  }
+})
+  .modal('attach events', '.deleteconnection', 'show');
+
+
+</script>
+
+</div>
