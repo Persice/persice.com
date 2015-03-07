@@ -1,16 +1,14 @@
-<div class="segment" id="friends-list-header" ng-if="friends.length > 0">
+<div class="segment" id="friends-list-header" ng-show="pok && !noConnections">
     <div class="container">
-        <form ng-submit="submit()" action="" method="get" class="" role="search" id="myform" autocomplete="off">
-            <div class="ui left icon input">
-                <input type="text" ng-model="q" name="q" placeholder="Search" minlength="3" required>
-                <i class="circular search icon"></i>
-            </div>
-        </form>
+        <div class="ui left icon input">
+            <input type="text" ng-model="q" ng-change="getFriends()" placeholder="Search" ng-model-options="{debounce:300}">
+            <i class="circular search icon"></i>
+        </div>
     </div>
 </div>
 
 
-<div class="body segment" ng-if="friends.length === 0" style="height: 100vh;">
+<div class="body segment" ng-if="noConnections">
     <div class="container">
         <div class="ui info message">
             <p>You don't have any connections. Go to your Match Feed to find people with similar goals and interests.</p>
@@ -23,41 +21,42 @@
 
 <div class="body segment" id="friends-list-body">
     <div class="container">
-        <div class="ui divided list">
-            <div class="item" ng-repeat="friend in friends | filter:q track by $index">
-                <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(//graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
-                <div class="friend-actions">
-                    <a href="" ng-click="unFriend($index)" class="ui circular facebook icon button">
-                        <i class="unlink icon"></i>
-                    </a>
-                    <a ui-sref="conversations({ userId: friend.friend_id })" class="ui circular twitter icon button">
-                        <i class="envelope icon"></i>
-                    </a>
-                </div>
-                <div class="content">
-                    <div class="header"><a ui-sref="friendprofile({ userId: friend.friend_id })">{{friend.first_name}}</a></div>
-                    <div class="description">
-                        <div class="ui mini statistics">
-                            <div class="statistic">
-                                <div class="value">
-                                    <i class="intersecticon icon"></i>
+        <div class="ui basic segment" ng-class="{'loading': loading}">
+            <div class="ui info message" ng-show="noResults && !loading">
+                <p>No connections found.</p>
+                <p>Try with another search term or <a href="" ng-click="reset()">reset your search</a>.</p>
+            </div>
+            <div class="ui divided selection list">
+                <div ui-sref="friendprofile({ userId: friend.friend_id })" class="item repeat-animation" ng-repeat="friend in friends track by $index" infinite-scroll="loadMoreFriends()" infinite-scroll-disabled="loadingMore" infinite-scroll-distance="1">
+                    <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(//graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
+                    <div class="content">
+                        <div class="header">{{friend.first_name}}</div>
+                        <div class="description">
+                            <div class="ui mini statistics">
+                                <div class="statistic">
+                                    <div class="value">
+                                        <i class="intersecticon icon"></i>
+                                    </div>
+                                    <div class="label">
+                                        {{friend.common_goals_offers_interests}}
+                                    </div>
                                 </div>
-                                <div class="label">
-                                    {{friend.common_goals_offers_interests}}
-                                </div>
-                            </div>
-                            <div class="statistic">
-                                <div class="value">
-                                    <i class="empty users usericon icon"></i>
-                                </div>
-                                <div class="label">
-                                    {{friend.totalFriends}}
+                                <div class="statistic">
+                                    <div class="value">
+                                        <i class="empty users usericon icon"></i>
+                                    </div>
+                                    <div class="label">
+                                        {{friend.totalFriends}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <three-bounce-spinner class="page-spinner-bar" ng-show="loadingMore"></three-bounce-spinner>
         </div>
     </div>
 </div>

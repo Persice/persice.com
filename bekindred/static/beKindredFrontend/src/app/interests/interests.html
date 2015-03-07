@@ -17,7 +17,7 @@
 <div class="segment" id="interests-header">
   <div class="container">
     <div class="ui left icon input">
-      <input type="text" ng-model="interest.searchQuery" name="q" placeholder="Search">
+      <input type="text" ng-model="interest.searchQuery" ng-model-options="{debounce:300}" name="q" placeholder="Search">
       <i class="circular search icon"></i>
     </div>
   </div>

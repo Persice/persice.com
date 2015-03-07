@@ -1,4 +1,4 @@
-(function(){
+(function() {
   'use strict';
 
   /**
@@ -6,7 +6,7 @@
    * classDesc Select interests and activities during onboard user flow
    * @ngInject
    */
-   function InterestsController (InterestsFactory, $log, $scope, notify, USER_ID, $filter, $resource, $state) {
+  function InterestsController(InterestsFactory, $log, $scope, notify, USER_ID, $filter, $resource, $state) {
     var vm = this;
 
     vm.useInterest = useInterest;
@@ -25,14 +25,13 @@
     vm.getAllInterests();
 
 
-    function nextStep () {
+    function nextStep() {
       if (vm.counter > 0) {
         $state.go('goalcreate');
-      }
-      else {
+      } else {
         notify({
           messageTemplate: '<div class="notify-info-header">Warning</div>' +
-          '<p>To continue please select at least one interest.</p>',
+            '<p>To continue please select at least one interest.</p>',
           scope: $scope,
           classes: 'notify-info',
           icon: 'warning circle'
@@ -40,15 +39,20 @@
       }
     }
 
-    function getAllInterests () {
+    function getAllInterests() {
       vm.loadingInterests = true;
 
-      InterestsFactory.query({user_id: USER_ID, format: 'json'}).$promise.then(function(data) {
+      InterestsFactory.query({
+        user_id: USER_ID,
+        format: 'json'
+      }).$promise.then(function(data) {
         if (data.meta.total_count > 0) {
           vm.userInterests = data.objects;
         }
 
-        InterestsFactory.query({format: 'json'}).$promise.then(function(data) {
+        InterestsFactory.query({
+          format: 'json'
+        }).$promise.then(function(data) {
           if (data.meta.total_count > 0) {
             vm.allInterests = data.objects;
           }
@@ -67,10 +71,10 @@
           vm.loadingInterests = false;
         }, function(response) {
           var data = response.data,
-          status = response.status,
-          header = response.header,
-          config = response.config,
-          message = 'Error ' + status;
+            status = response.status,
+            header = response.header,
+            config = response.config,
+            message = 'Error ' + status;
           $log.error(message);
           vm.loadingInterests = false;
 
@@ -79,23 +83,23 @@
 
       }, function(response) {
         var data = response.data,
-        status = response.status,
-        header = response.header,
-        config = response.config,
-        message = 'Error ' + status;
+          status = response.status,
+          header = response.header,
+          config = response.config,
+          message = 'Error ' + status;
         $log.error(message);
         vm.loadingInterests = false;
 
       });
 
 
-}
+    }
 
-function useInterest (id) {
-  var selected = $filter('getByProperty')('id', id, vm.allInterests);
+    function useInterest(id) {
+      var selected = $filter('getByProperty')('id', id, vm.allInterests);
 
-  if (selected) {
-    if (selected.active) {
+      if (selected) {
+        if (selected.active) {
 
           //deselect interest and delete from database
           var Interest = $resource(selected.resource_uri);
@@ -106,10 +110,10 @@ function useInterest (id) {
             selected.loading = false;
           }, function(response) {
             var data = response.data,
-            status = response.status,
-            header = response.header,
-            config = response.config,
-            message = 'Error ' + status;
+              status = response.status,
+              header = response.header,
+              config = response.config,
+              message = 'Error ' + status;
             $log.error(message);
             selected.loading = false;
             selected.error = true;
@@ -117,20 +121,18 @@ function useInterest (id) {
 
 
 
-        }
-        else {
+        } else {
           if (vm.counter >= 10) {
 
 
             notify({
               messageTemplate: '<div class="notify-info-header">Warning</div>' +
-              '<p>Please select up to 10 interests.</p>',
+                '<p>Please select up to 10 interests.</p>',
               scope: $scope,
               classes: 'notify-info',
               icon: 'warning circle'
             });
-          }
-          else {
+          } else {
 
             //select and save new interest
             var newInterest = {
@@ -139,7 +141,7 @@ function useInterest (id) {
             };
             selected.loading = true;
             InterestsFactory.save({}, newInterest,
-              function(success){
+              function(success) {
                 $log.info(selected);
                 selected.loading = false;
                 selected.error = false;
@@ -156,7 +158,7 @@ function useInterest (id) {
 
                 notify({
                   messageTemplate: '<div class="notify-info-header">Error</div>' +
-                  '<p>' + selected.errorMessage + '</p>',
+                    '<p>' + selected.errorMessage + '</p>',
                   scope: $scope,
                   classes: 'notify-info',
                   icon: 'warning circle'
@@ -167,21 +169,20 @@ function useInterest (id) {
 
               });
 
-}
-}
-}
+          }
+        }
+      }
 
-}
-
-
-
-}
+    }
 
 
-angular
-.module('beKindred')
-.controller('InterestsController', InterestsController);
 
+  }
+
+
+  angular
+    .module('beKindred')
+    .controller('InterestsController', InterestsController);
 
 
 

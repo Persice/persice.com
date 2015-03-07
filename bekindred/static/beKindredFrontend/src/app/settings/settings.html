@@ -1,63 +1,70 @@
 <div id="settingsPage">
-<div class="body segment edit" id="settings-body">
-  <div class="container">
+  <div class="body segment edit" id="settings-body">
+    <div class="container">
 
 
-    <div class="ui attached segment">
-      <h4 class="ui header">Manage Account</h4>
+      <div class="ui attached segment">
+        <h4 class="ui header">Manage Account</h4>
 
-      <div class="ui deleteitem red fluid button">
-        <i class="remove circle icon"></i>
-        Delete Account
+        <div class="ui deleteitem red fluid button">
+          <i class="remove circle icon"></i>
+          Delete Account
+        </div>
+        <br>
+        <br>
+        <hr>
+        <a class="ui fluid button" ui-sref-ignore href="accounts/logout">
+          <i class="fa fa-sign-out icon"></i>
+          Sign out
+        </a>
+
       </div>
-
     </div>
   </div>
-</div>
 
 
-<!-- modals -->
+  <!-- modals -->
 
-<div class="ui basic delete modal">
-  <i class="close icon"></i>
-  <div class="header">
-    Please Confirm
-  </div>
-  <div class="content">
-
-    <div class="description">
-      <p>Are you sure you want to delete?</p>
+  <div class="ui basic delete modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Please Confirm
     </div>
-  </div>
-  <div class="actions">
-    <div class="two fluid ui inverted buttons">
-      <div class="ui red negative basic inverted button">
-        <i class="remove icon"></i>
-        No
+    <div class="content">
+
+      <div class="description">
+        <p>Are you sure you want to delete?</p>
       </div>
-      <a class="ui green basic inverted button ok">
-        <i class="checkmark icon"></i>
-        Yes
-      </a>
+    </div>
+    <div class="actions">
+      <div class="two fluid ui inverted buttons">
+        <div class="ui red negative basic inverted button">
+          <i class="remove icon"></i>
+          No
+        </div>
+        <a class="ui green basic inverted button ok">
+          <i class="checkmark icon"></i>
+          Yes
+        </a>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  'use strict';
-  $('.basic.delete.modal')
-  .modal({
-    onDeny    : function(){
-      console.log('cancel');
-    },
-    onApprove : function() {
-      console.log('deleting user');
-      angular.element(document.getElementById('settingsPage')).scope().deleteUser();
-    }
-  })
-  .modal('attach events', '.deleteitem', 'show');
+  <script>
+    'use strict';
+    $('.basic.delete.modal')
+    .modal({
+      onDeny    : function(){
+        console.log('cancel');
+      },
+      onApprove : function() {
+        console.log('deleting user');
+        angular.element(document.getElementById('settingsPage')).scope().deleteUser();
+      }
+    })
+    .modal('attach events', '.deleteitem', 'show');
 
 
-</script>
+  </script>
 
 </div>

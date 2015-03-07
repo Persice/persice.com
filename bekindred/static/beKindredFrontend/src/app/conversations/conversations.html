@@ -1,3 +1,4 @@
+<div id="mycontroller">
   <div class="ui fixed borderless menu" id="headermenu">
     <a class="icon item" ui-sref="inbox"><i class="left chevron icon"></i></a>
     <h3 class="ui center aligned header">{{friend.first_name}}</h3>
@@ -6,7 +7,7 @@
 
   <div class="ui fixed menu" id="submenu">
     <div class="3 fluid large ui buttons">
-    <a ui-sref="conversations({ userId: friend.id })" ng-class="{'active': leftActive}" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+      <a ui-sref="conversations({ userId: friend.id })" ng-class="{'active': leftActive}" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
       <a ui-sref="friendprofile({ userId: friend.id })" class="ui button"><i class="fa fa-user icon"></i></a>
       <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
         <div class="menu" id="friendmenu">
@@ -22,7 +23,7 @@
           <div class="item">
             Flag as Inappropriate
           </div>
-          <div class="item">
+          <div class="item deleteconnection">
             Remove Connection
           </div>
         </div>
@@ -35,11 +36,11 @@
   <div class="conversation-content ui segment" ng-class="{'loading': loadingMessages}" z-infinite-scroll="loadOlderMessages" inverse="true" body-scroll="false" scroll-threshold="1" time-threshold="800">
 
     <three-bounce-spinner class="page-spinner-bar" ng-show="loadingOlderMessages"></three-bounce-spinner>
-    <div ng-repeat="message in messages track by $index">
+    <div class="repeat-animation" ng-repeat="message in messages track by $index">
      <h6>
       {{message.date}}
     </h6>
-    <div ng-style="" ng-class="{'bubbledLeft': msg.left, 'bubbledRight': !msg.left, 'lastMessage': $last}" ng-repeat="msg in message.contents | orderBy:'sent_at' track by $index">
+    <div ng-style="" class="repeat-animation" ng-class="{'bubbledLeft': msg.left, 'bubbledRight': !msg.left, 'lastMessage': $last}" ng-repeat="msg in message.contents | orderBy:'sent_at' track by $index">
       <p>
         {{msg.body}}
       </p>
@@ -66,7 +67,6 @@
   </div>
 </div>
 
-<div id="hideConversation" class="ui dimmer"></div>
 
 <script>
   'use strict';
@@ -97,4 +97,51 @@
   })
   ;
 
+  $('.basic.delete.modal')
+  .modal({
+    onDeny    : function(){
+      console.log('cancel');
+    },
+    onApprove : function() {
+      console.log('deleting user');
+
+      angular.element(document.getElementById('mycontroller')).scope().unFriend();
+
+    }
+  })
+  .modal('attach events', '.deleteconnection', 'show');
+
 </script>
+
+<!-- modals -->
+
+<div class="ui basic delete modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Please Confirm
+  </div>
+  <div class="content">
+
+    <div class="description">
+      <p>Are you sure you want remove this connection?</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui red negative basic inverted button">
+        <i class="remove icon"></i>
+        No
+      </div>
+      <a class="ui green basic inverted button ok">
+        <i class="checkmark icon"></i>
+        Yes
+      </a>
+    </div>
+  </div>
+</div>
+
+</div>
+<div id="hideConversation" class="ui dimmer"></div>
+
+
+
