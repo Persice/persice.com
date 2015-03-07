@@ -54,8 +54,8 @@ class FriendsResource(ModelResource):
                 bundle.data['status'] = 1
                 u1 = FacebookCustomUser.objects.get(pk=f1)
                 u2 = FacebookCustomUser.objects.get(pk=f2)
-                pm_write(admin, u1, subject='system', body='You and {} are now peeps.'.format(u2.first_name))
-                pm_write(admin, u2, subject='system', body='You and {} are now peeps.'.format(u1.first_name))
+                pm_write(admin, u1, subject='system', body=u'You and {} are now peeps.'.format(u2.first_name))
+                pm_write(admin, u2, subject='system', body=u'You and {} are now peeps.'.format(u1.first_name))
                 return super(FriendsResource, self).obj_update(bundle, **kwargs)
             elif result[0].status == -1 or status == -1:
                 bundle.data['status'] = -1
