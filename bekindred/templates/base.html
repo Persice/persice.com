@@ -13,15 +13,15 @@
 
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- Favicons -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/static/img/favicon/favicon.ico" type="image/x-icon">
   <!-- For third-generation iPad with high-resolution Retina display: -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/apple-touch-icon-144x144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="static/img/favicon/apple-touch-icon-144x144-precomposed.png">
   <!-- For iPhone with high-resolution Retina display: -->
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/apple-touch-icon-114x114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="static/img/favicon/apple-touch-icon-114x114-precomposed.png">
   <!-- For first- and second-generation iPad: -->
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/images/apple-touch-icon-72x72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="static/img/favicon/apple-touch-icon-72x72-precomposed.png">
   <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-  <link rel="apple-touch-icon-precomposed" href="assets/images/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="static/img/favicon/apple-touch-icon-precomposed.png">
 
   <link href="/static/beKindredFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
   <link href="/static/beKindredFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
@@ -29,7 +29,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
-<body id="main-page" class="gray">
+<body id="main-page" ng-class="{'white': isState('myconnections') || isState('inbox') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')}">
   {%verbatim%}
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -60,7 +60,6 @@
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
-        <a ui-sref-ignore href="accounts/logout" class="item"><i class="fa fa-sign-out icon"></i> <span class="content">Sign out</span></a>
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
             <li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li>
@@ -141,7 +140,6 @@
               <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
               <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
               <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
-              <a ui-sref-ignore href="accounts/logout" class="item"><i class="fa fa-sign-out icon"></i> <span class="content">Sign out</span></a>
             </div>
 
             <div class="right menu" id="right-menu-launcher" ng-show="!showfullprofile && isState('matchfeed')">

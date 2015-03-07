@@ -73,6 +73,14 @@ angular.module('beKindred', [
               userId: userId,
               format: 'json'
             }).$promise;
+          },
+          ConnectionsFactory: 'ConnectionsFactory',
+          Connection: function(ConnectionsFactory, $stateParams) {
+            var userId = $stateParams.userId;
+            return ConnectionsFactory.query({
+              friend: userId,
+              format: 'json'
+            }).$promise;
           }
 
         },
@@ -139,10 +147,18 @@ angular.module('beKindred', [
             return $stateParams.userId;
           }],
           ProfileFactory: 'ProfileFactory',
+          ConnectionsFactory: 'ConnectionsFactory',
           User: function(ProfileFactory, $stateParams) {
             var usrId = $stateParams.userId;
             return ProfileFactory.get({
               user_id: usrId,
+              format: 'json'
+            }).$promise;
+          },
+          Connection: function(ConnectionsFactory, $stateParams) {
+            var usrId = $stateParams.userId;
+            return ConnectionsFactory.query({
+              friend: usrId,
               format: 'json'
             }).$promise;
           }

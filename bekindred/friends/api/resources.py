@@ -74,19 +74,29 @@ class ConnectionsResource(Resource):
 
     def get_object_list(self, request):
         results = []
+        firstname = request.GET.get('first_name', None)
+        friendid = request.GET.get('friend', None)
         current_user = request.user.id
         friends = Friend.objects.friends(current_user)
         for friend in friends:
+
             new_obj = A()
             new_obj.id = friend.id
             if friend.friend1.id == current_user:
                 position_friend = 'friend2'
             else:
                 position_friend = 'friend1'
+
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.friend_id = getattr(friend, position_friend).id
+
+            if friendid and not int(friendid) == new_obj.friend_id:
+                continue
+
+            if firstname and not firstname.lower() in new_obj.first_name.lower():
+                continue
 
             new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(new_obj.friend_id)
 
