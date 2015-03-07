@@ -43,22 +43,14 @@ class FriendsResource(ModelResource):
         f2 = int(re.findall(r'/(\d+)/', bundle.data['friend2'])[0])
 
         result = Friend.objects.filter(Q(friend1=f1, friend2=f2) | Q(friend1=f2, friend2=f1))
-        admin = None
-        try:
-            admin = FacebookCustomUser.objects.filter(is_superuser=True)[0]
-        except IndexError as err:
-            print 'Please create superuser'
-            raise
         if result:
             if result[0].status == 0 and status in (0, 1):
-                bundle.data['status'] = 1
-                u1 = FacebookCustomUser.objects.get(pk=f1)
-                u2 = FacebookCustomUser.objects.get(pk=f2)
-                pm_write(admin, u1, subject='system', body=u'You and {} are now peeps.'.format(u2.first_name))
-                pm_write(admin, u2, subject='system', body=u'You and {} are now peeps.'.format(u1.first_name))
+                bundle.obj = result[0]
+                bundle.obj.status = 1
                 return super(FriendsResource, self).obj_update(bundle, **kwargs)
             elif result[0].status == -1 or status == -1:
-                bundle.data['status'] = -1
+                bundle.obj = result[0]
+                bundle.obj.status = -1
                 return super(FriendsResource, self).obj_update(bundle, **kwargs)
         else:
             bundle = super(FriendsResource, self).obj_create(bundle, **kwargs)

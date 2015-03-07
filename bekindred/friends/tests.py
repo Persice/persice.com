@@ -1,8 +1,6 @@
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from friends.models import Friend
-from goals.models import Subject, Goal, Offer
-from goals.api.resources import SubjectResource
 
 
 class TestSubjectResource(ResourceTestCase):
@@ -123,25 +121,37 @@ class TestSubjectResource(ResourceTestCase):
         self.assertFalse(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
         self.assertFalse(Friend.objects.checking_friendship(self.user1.pk, self.user.pk))
 
-
-    # def test_confirm_friend_request(self):
-    #     self.response = self.login()
-    #     resp = self.api_client.get('/api/v1/friends/{0}/'.format(self.subject.id), format='json')
-    #     self.assertValidJSONResponse(resp)
-    # #
-    #     # Scope out the data for correctness.
-    #     self.assertEqual(len(self.deserialize(resp)), 2)
-    #     # Here, we're checking an entire structure for the expected data.
-    #     self.assertEqual(self.deserialize(resp), {
-    #         'description': '{}'.format(self.description),
-    #         'resource_uri': '/api/v1/subject/{0}/'.format(self.subject.pk)
-    #     })
-    #
-    # def test_post_list(self):
-    #     self.response = self.login()
-    #     # Check how many are there first.
-    #     self.assertEqual(Subject.objects.count(), 2)
-    #     self.assertHttpCreated(self.api_client.post('/api/v1/subject/', format='json',
-    #                                                 data=self.post_data))
-    #     # Verify a new one has been added.
-    #     self.assertEqual(Subject.objects.count(), 3)
+    def test_more_difficult(self):
+        post_data1 = {
+            'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
+            'status': 0,
+            }
+        post_data2 = {
+            'friend1': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
+            'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'status': 1,
+            }
+        post_data3 = {
+            'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'friend2': '/api/v1/auth/user/{0}/'.format(self.user2.pk),
+            'status': 0,
+            }
+        post_data4 = {
+            'friend1': '/api/v1/auth/user/{0}/'.format(self.user2.pk),
+            'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'status': 1,
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
+        self.assertHttpCreated(resp)
+        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data2)
+        self.assertHttpCreated(resp)
+        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data3)
+        self.assertHttpCreated(resp)
+        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data4)
+        self.assertHttpCreated(resp)
+        self.assertTrue(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
+        self.assertTrue(Friend.objects.checking_friendship(self.user1.pk, self.user.pk))
+        self.assertTrue(Friend.objects.checking_friendship(self.user2.pk, self.user.pk))
+        self.assertTrue(Friend.objects.checking_friendship(self.user.pk, self.user2.pk))
