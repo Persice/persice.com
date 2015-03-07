@@ -1,3 +1,4 @@
+import re
 from django.db.models import Q
 from django_facebook.models import FacebookCustomUser
 from tastypie import fields
@@ -22,6 +23,7 @@ class FriendsResource(ModelResource):
     class Meta:
         queryset = Friend.objects.all()
         resource_name = 'friends'
+        always_return_data = True
         fields = ['id', 'friend1', 'friend2', 'status']
         filtering = {'friend1': ALL,
                      'friend2': ALL,
@@ -32,6 +34,25 @@ class FriendsResource(ModelResource):
     def get_object_list(self, request):
         u = request.user.id
         return super(FriendsResource, self).get_object_list(request).filter(Q(friend1=u) | Q(friend2=u))
+
+    def obj_create(self, bundle, **kwargs):
+        status = bundle.data['status']
+
+        f1 = int(re.findall(r'/(\d+)/', bundle.data['friend1'])[0])
+        f2 = int(re.findall(r'/(\d+)/', bundle.data['friend2'])[0])
+
+        result = Friend.objects.filter(Q(friend1=f1, friend2=f2) | Q(friend1=f2, friend2=f1))
+
+        if result:
+            if result[0].status == 0 and status in (0, 1):
+                bundle.data['status'] = 1
+                return super(FriendsResource, self).obj_update(bundle, **kwargs)
+            elif result[0].status == -1 or status == -1:
+                bundle.data['status'] = -1
+                return super(FriendsResource, self).obj_update(bundle, **kwargs)
+        else:
+            bundle = super(FriendsResource, self).obj_create(bundle, **kwargs)
+        return bundle
 
 
 class ConnectionsResource(Resource):
