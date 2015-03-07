@@ -47,10 +47,12 @@ class FriendsResource(ModelResource):
             if result[0].status == 0 and status in (0, 1):
                 bundle.obj = result[0]
                 bundle.obj.status = 1
+                bundle.data['status'] = 1
                 return super(FriendsResource, self).obj_update(bundle, **kwargs)
             elif result[0].status == -1 or status == -1:
                 bundle.obj = result[0]
                 bundle.obj.status = -1
+                bundle.data['status'] = -1
                 return super(FriendsResource, self).obj_update(bundle, **kwargs)
         else:
             bundle = super(FriendsResource, self).obj_create(bundle, **kwargs)
