@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource) {
+  .controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, $q, $state, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, notify) {
     $scope.twitter = USER_TWITTER;
     $scope.linkedin = USER_LINKEDIN_NAME;
 
@@ -468,12 +468,15 @@ angular.module('beKindred')
 
     $scope.saveCurrentGoal = function(index) {
 
+      var deferred = $q.defer();
+
       $scope.user.goals[index].errorMessage = '';
       $scope.user.goals[index].error = false;
 
       if ($scope.user.goals[index].subject === '') {
         $scope.user.goals[index].error = true;
         $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
+        deferred.reject();
       } else {
         if ($scope.user.goals[index].id === 0) {
           //create new goal
@@ -494,11 +497,13 @@ angular.module('beKindred')
               $scope.user.goals[index].user = success.user;
 
               $scope.user.goals[index].changed = false;
+              deferred.resolve();
             },
             function(error) {
               $scope.user.goals[index].errorMessage = error.data.goal.error[0];
               $scope.user.goals[index].loading = false;
               $scope.user.goals[index].error = true;
+              deferred.reject();
 
             });
         } else {
@@ -518,12 +523,14 @@ angular.module('beKindred')
               $scope.user.goals[index].resource_uri = success.resource_uri;
 
               $scope.user.goals[index].changed = false;
+              deferred.resolve();
 
             },
             function(error) {
               $scope.user.goals[index].errorMessage = error.data.goal.error[0];
               $scope.user.goals[index].loading = false;
               $scope.user.goals[index].error = true;
+              deferred.reject();
 
             });
 
@@ -531,7 +538,7 @@ angular.module('beKindred')
         }
       }
 
-
+      return deferred.promise;
     };
 
     $scope.offerNeedSaving = function(index) {
@@ -570,12 +577,15 @@ angular.module('beKindred')
 
     $scope.saveCurrentOffer = function(index) {
 
+      var deferred = $q.defer();
+
       $scope.user.offers[index].errorMessage = '';
       $scope.user.offers[index].error = false;
 
       if ($scope.user.offers[index].subject === '') {
         $scope.user.offers[index].error = true;
         $scope.user.offers[index].errorMessage = 'Entering your offer is required.';
+        deferred.reject();
       } else {
         if ($scope.user.offers[index].id === 0) {
           //create new offer
@@ -596,11 +606,13 @@ angular.module('beKindred')
               $scope.user.offers[index].user = success.user;
 
               $scope.user.offers[index].changed = false;
+              deferred.resolve();
             },
             function(error) {
               $scope.user.offers[index].errorMessage = error.data.offer.error[0];
               $scope.user.offers[index].loading = false;
               $scope.user.offers[index].error = true;
+              deferred.reject();
 
             });
         } else {
@@ -620,12 +632,14 @@ angular.module('beKindred')
               $scope.user.offers[index].resource_uri = success.resource_uri;
 
               $scope.user.offers[index].changed = false;
+              deferred.resolve();
 
             },
             function(error) {
               $scope.user.offers[index].errorMessage = error.data.offer.error[0];
               $scope.user.offers[index].loading = false;
               $scope.user.offers[index].error = true;
+              deferred.reject();
 
             });
 
@@ -633,7 +647,7 @@ angular.module('beKindred')
         }
       }
 
-
+      return deferred.promise;
     };
 
 
@@ -671,13 +685,14 @@ angular.module('beKindred')
 
 
     $scope.saveCurrentInterest = function(index) {
-
+      var deferred = $q.defer();
       $scope.user.interests[index].errorMessage = '';
       $scope.user.interests[index].error = false;
 
       if ($scope.user.interests[index].description === '') {
         $scope.user.interests[index].error = true;
         $scope.user.interests[index].errorMessage = 'Entering your interest is required.';
+        deferred.reject();
       } else {
         if ($scope.user.interests[index].id === 0) {
           //create new interest
@@ -698,11 +713,13 @@ angular.module('beKindred')
               $scope.user.interests[index].user = success.user;
 
               $scope.user.interests[index].changed = false;
+              deferred.resolve();
             },
             function(error) {
               $scope.user.interests[index].errorMessage = error.data.interest.error[0];
               $scope.user.interests[index].loading = false;
               $scope.user.interests[index].error = true;
+              deferred.reject();
 
             });
         } else {
@@ -722,12 +739,14 @@ angular.module('beKindred')
               $scope.user.interests[index].resource_uri = success.resource_uri;
 
               $scope.user.interests[index].changed = false;
+              deferred.resolve();
 
             },
             function(error) {
               $scope.user.interests[index].errorMessage = error.data.interest.error[0];
               $scope.user.interests[index].loading = false;
               $scope.user.interests[index].error = true;
+              deferred.reject();
 
             });
 
@@ -735,8 +754,121 @@ angular.module('beKindred')
         }
       }
 
+      return deferred.promise;
+
 
     };
+
+
+    //multiple save action for goals, offers and interests
+    $scope.savingAllChanges = false;
+    $scope.startSavingChanges = function() {
+
+      var promise = $scope.saveChanges();
+      $scope.savingAllChanges = true;
+      promise.then(function(greeting) {
+        $log.info('Success saving');
+        $scope.savingAllChanges = false;
+        $state.go('myprofile');
+      }, function(reason) {
+        $log.info('Failed');
+        $scope.savingAllChanges = false;
+        notify({
+          messageTemplate: '<div class="notify-info-header">Could not save changes for your profile.</div>' +
+            '<p>There were some errors. Please see them below and make necessary corrections.</p>',
+          scope: $scope,
+          classes: 'notify-info',
+          icon: 'warning circle'
+        });
+        $timeout(function() {
+          $('html, body').animate({
+            scrollTop: $('.error:first').offset().top - 100
+          }, 400);
+        }, 200);
+
+      }, function(update) {
+
+      });
+
+    };
+
+    $scope.saveChanges = function() {
+      var deferred = $q.defer();
+
+      var needToSaveCounter = 0;
+      for (var obj in $scope.user.goals) {
+        if ($scope.user.goals[obj].changed) {
+          needToSaveCounter++;
+        }
+      }
+
+      for (var obj in $scope.user.offers) {
+        if ($scope.user.offers[obj].changed) {
+          needToSaveCounter++;
+        }
+      }
+
+      for (var obj in $scope.user.interests) {
+        if ($scope.user.interests[obj].changed) {
+          needToSaveCounter++;
+        }
+      }
+
+
+      if (needToSaveCounter > 0) {
+        for (var obj in $scope.user.goals) {
+          if ($scope.user.goals[obj].changed) {
+            $scope.saveCurrentGoal(obj).then(function(greeting) {
+              needToSaveCounter--;
+              if (needToSaveCounter === 0) {
+                deferred.resolve();
+              }
+            }, function(reason) {
+              deferred.reject();
+            }, function(update) {
+
+            });
+          }
+        }
+
+        for (var obj in $scope.user.offers) {
+          if ($scope.user.offers[obj].changed) {
+            $scope.saveCurrentOffer(obj).then(function(greeting) {
+              needToSaveCounter--;
+              if (needToSaveCounter === 0) {
+                deferred.resolve();
+              }
+            }, function(reason) {
+              deferred.reject();
+            }, function(update) {
+
+            });
+          }
+        }
+
+        for (var obj in $scope.user.interests) {
+          if ($scope.user.interests[obj].changed) {
+            $scope.saveCurrentInterest(obj).then(function(greeting) {
+              needToSaveCounter--;
+              if (needToSaveCounter === 0) {
+                deferred.resolve();
+              }
+            }, function(reason) {
+              deferred.reject();
+            }, function(update) {
+
+            });
+          }
+        }
+      } else {
+        deferred.resolve();
+      }
+
+      return deferred.promise;
+
+
+    };
+
 
 
   });

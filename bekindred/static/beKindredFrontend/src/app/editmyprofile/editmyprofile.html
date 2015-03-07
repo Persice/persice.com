@@ -1,12 +1,20 @@
+<div class="ui fixed borderless menu center" id="edittopmenu">
+  <div class="left menu">
+    <a class="ui item" ui-sref="myprofile"><i class="left chevron icon"></i></a>
+  </div>
 
+  <div class="header item">Edit Profile</div>
+
+  <div class="right menu">
+    <a class="ui item" ng-click="startSavingChanges()" ng-class="{'loading': savingAllChanges}">
+      Save
+    </a>
+  </div>
+
+</div>
 
 <div class="segment" id="my-profile-header-edit" ng-hide="showModal || editInterest">
   <div class="container">
-    <div class="ui attached segment">
-      <div class="ui fluid primary button" ui-sref="myprofile">
-        Back to My Profile
-      </div>
-    </div>
     <div class="ui segment">
       <div id="tiles" ng-cloak>
         <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }"  ng-repeat="photo in user.photos track by $index" end-repeat-photos ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
@@ -49,9 +57,6 @@
                     <i class="remove icon"></i>
                   </div>
                   <input type="text" class="prompt" ng-model="goal.subject" ng-change="goalNeedSaving($index)">
-                  <div ng-show="goal.changed" class="ui blue right icon button" ng-click="saveCurrentGoal($index)">
-                    <i class="save icon"></i>
-                  </div>
                 </div>
                 <div class="results"></div>
               </div>
@@ -77,9 +82,6 @@
                     <i class="remove icon"></i>
                   </div>
                   <input type="text" class="prompt" ng-model="offer.subject" ng-change="offerNeedSaving($index)">
-                  <div ng-show="offer.changed" class="ui blue right icon button" ng-click="saveCurrentOffer($index)">
-                    <i class="save icon"></i>
-                  </div>
                 </div>
                 <div class="results"></div>
               </div>
@@ -113,9 +115,6 @@
                     <i class="remove icon"></i>
                   </div>
                   <input type="text" class="prompt" ng-model="interest.description" ng-change="interestNeedSaving($index)">
-                  <div ng-show="interest.changed" class="ui blue right icon button" ng-click="saveCurrentInterest($index)">
-                    <i class="save icon"></i>
-                  </div>
                 </div>
                 <div class="results"></div>
               </div>
