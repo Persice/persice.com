@@ -769,7 +769,13 @@ angular.module('beKindred')
       promise.then(function(greeting) {
         $log.info('Success saving');
         $scope.savingAllChanges = false;
-        $state.go('myprofile');
+        notify({
+          messageTemplate: '<div class="notify-info-header">Success</div>' +
+            '<p>All changes have been saved.</p>',
+          scope: $scope,
+          classes: 'notify-info',
+          icon: 'check circle'
+        });
       }, function(reason) {
         $log.info('Failed');
         $scope.savingAllChanges = false;
