@@ -14,6 +14,7 @@ from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_frie
 from interests.models import Interest
 from photos.api.resources import UserResource
 from matchfeed.api.resources import A
+from postman.api import pm_write
 
 
 class FriendsResource(ModelResource):
@@ -42,10 +43,19 @@ class FriendsResource(ModelResource):
         f2 = int(re.findall(r'/(\d+)/', bundle.data['friend2'])[0])
 
         result = Friend.objects.filter(Q(friend1=f1, friend2=f2) | Q(friend1=f2, friend2=f1))
-
+        admin = None
+        try:
+            admin = FacebookCustomUser.objects.filter(is_superuser=True)[0]
+        except IndexError as err:
+            print 'Please create superuser'
+            raise
         if result:
             if result[0].status == 0 and status in (0, 1):
                 bundle.data['status'] = 1
+                u1 = FacebookCustomUser.objects.get(pk=f1)
+                u2 = FacebookCustomUser.objects.get(pk=f2)
+                pm_write(admin, u1, subject='system', body='You and {} are now peeps.'.format(u2.first_name))
+                pm_write(admin, u2, subject='system', body='You and {} are now peeps.'.format(u1.first_name))
                 return super(FriendsResource, self).obj_update(bundle, **kwargs)
             elif result[0].status == -1 or status == -1:
                 bundle.data['status'] = -1
