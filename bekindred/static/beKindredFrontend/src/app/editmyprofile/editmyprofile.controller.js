@@ -772,10 +772,10 @@ angular.module('beKindred')
         notify({
           messageTemplate: '<div class="notify-info-header">Success</div>' +
             '<p>All changes have been saved.</p>',
-          scope: $scope,
           classes: 'notify-info',
           icon: 'check circle'
         });
+        $state.go('myprofile');
       }, function(reason) {
         $log.info('Failed');
         $scope.savingAllChanges = false;
@@ -787,12 +787,6 @@ angular.module('beKindred')
           classes: 'notify-error',
           icon: 'warning circle'
         });
-
-        // $timeout(function() {
-        //   $('html, body').animate({
-        //     scrollTop: $('.error:first').offset().top - 100
-        //   }, 500);
-        // }, 500);
 
       }, function(update) {
 
