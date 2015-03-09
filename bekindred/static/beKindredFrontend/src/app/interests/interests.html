@@ -29,7 +29,7 @@
     <div class="ui basic segment">
       <div class="ui center aligned grid">
         <div class="row">
-          <div class="column repeat-animation" ng-repeat="inter in interest.allInterests | filter:{description: interest.searchQuery} track by inter.id">
+          <div class="column repeat-animation" ng-repeat="inter in interest.allInterests | filter:{description: interest.searchQuery} track by $index">
             <div ng-click="interest.useInterest(inter.id)" class="ui button toggle compact" ng-class="{'active': inter.active, 'loading': interest.inter.loading}">{{inter.description}}</div>
           </div>
         </div>
