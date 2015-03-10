@@ -451,3 +451,6 @@ def search_form(request):
 
 class SearchMessageView(object):
     pass
+
+def close_login_popup(request):
+    return render_to_response('goals/close_popup.html', {}, RequestContext(request))

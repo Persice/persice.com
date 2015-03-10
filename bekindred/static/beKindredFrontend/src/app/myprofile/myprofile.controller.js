@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('MyProfileCtrl', function($scope, USER_ID, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, InterestsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, USER_PHOTO, $log) {
-    $scope.twitter = USER_TWITTER;
-    $scope.linkedin = USER_LINKEDIN_NAME;
-    $scope.linkedinUrl = USER_LINKEDIN_URL;
+  .controller('MyProfileCtrl', function($scope, USER_ID, UsersFactory, InterestsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, USER_PHOTO, $log) {
+    $scope.twitter = null;
+    $scope.linkedin = null;
     $scope.user = {
       id: 1,
       firstName: '',
@@ -135,6 +134,9 @@ angular.module('beKindred')
         $scope.user.age = data.age;
         $scope.user.facebookId = data.facebook_id;
         $scope.user.facebookProfile = data.facebook_profile_url;
+
+        $scope.twitter = data.twitter_provider;
+        $scope.linkedin = data.linkedin_provider;
 
         $scope.loadingUser = false;
 

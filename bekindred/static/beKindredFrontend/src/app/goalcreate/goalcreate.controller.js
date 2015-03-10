@@ -11,7 +11,6 @@ angular.module('beKindred')
 
     $scope.inputChanged = function(str) {
       $scope.subject = str;
-      $log.info($scope.subject);
     };
 
     $scope.selectResult = function(object) {

@@ -143,13 +143,25 @@
 
     </div>
 
-    <div class="ui attached segment">
+    <div class="ui attached segment" id="socialaccounts">
       <h4 class="ui header">Social Accounts</h4>
-      <a href="/social/associate/twitter/" class="ui icon twitter labeled fluid button" ng-if="twitter == ''">
-        <i class="twitter icon"></i>
-        Connect Twitter
+
+      <a ng-click="link('linkedin')" class="ui icon linkedin labeled fluid button" ng-show="linkedin === null">
+        <i class="linkedin icon"></i>
+        Connect
       </a>
-      <a href="https://twitter.com/{{ twitter }}" class="ui social icon twitter labeled fluid button" ng-if="twitter !== ''">
+      <a href="{{ linkedinUrl }}" target="_new" class="ui social icon linkedin fluid labeled button" ng-show="linkedin !== null">
+        <i class="linkedin icon"></i>
+        {{user.firstName}}
+        <i class="check circle icon right"></i>
+      </a>
+      <br>
+
+      <a ng-click="link('twitter')" class="ui icon twitter labeled fluid button" ng-show="twitter === null">
+        <i class="twitter icon"></i>
+        Connect
+      </a>
+      <a href="https://twitter.com/{{ twitter }}" target="_new" class="ui social icon twitter labeled fluid button" ng-show="twitter !== null">
         <i class="twitter icon"></i>
         {{twitter}}
         <i class="check circle icon right"></i>
@@ -157,17 +169,8 @@
       </a>
       <br>
 
-      <a href="/social/associate/linkedin/" class="ui icon linkedin labeled fluid button" ng-if="linkedin == ''">
-        <i class="linkedin icon"></i>
-        Connect LinkedIn
-      </a>
-      <a href="{{ linkedinUrl }}" class="ui social icon linkedin fluid labeled button" ng-if="linkedin !== ''">
-        <i class="linkedin icon"></i>
-        {{linkedin}}
-        <i class="check circle icon right"></i>
-      </a>
-      <br>
-      <a href="{{ user.facebookProfile }}" class="ui social icon facebook labeled fluid button" ng-if="user.facebookProfile !== ''">
+
+      <a href="{{ user.facebookProfile }}" target="_new" class="ui social icon facebook labeled fluid button" ng-if="user.facebookProfile !== ''">
         <i class="facebook icon"></i>
         {{user.firstName}}
         <i class="lock icon right"></i>
@@ -258,3 +261,12 @@
     </div>
   </div>
 </div>
+
+
+<script type="text/javascript">
+
+  'use strict';
+  function refreshConnect() {
+    angular.element($('#socialaccounts')).scope().refreshUser();
+  }
+</script>

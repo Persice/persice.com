@@ -100,6 +100,16 @@ angular.module('beKindred', [
         data: {
           displayName: 'Final Step',
         },
+        resolve: {
+          UsersFactory: 'UsersFactory',
+      User: function(UsersFactory, USER_ID) {
+            var userId = USER_ID;
+            return UsersFactory.get({
+              userId: userId,
+              format: 'json'
+            }).$promise;
+          },
+        },
         templateUrl: 'app/finalstep/finalstep.html',
         controller: 'FinalStepController',
         controllerAs: 'finalstep'

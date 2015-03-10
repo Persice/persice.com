@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, $q, $state, USER_TWITTER, USER_LINKEDIN_NAME, USER_LINKEDIN_URL, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, notify) {
-    $scope.twitter = USER_TWITTER;
-    $scope.linkedin = USER_LINKEDIN_NAME;
+  .controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, $q, $state, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, notify) {
+    $scope.twitter = null;
+    $scope.linkedin = null;
 
     $scope.userUri = '/api/v1/auth/user/' + USER_ID + '/';
-    $scope.linkedinUrl = USER_LINKEDIN_URL;
     $scope.user = {
       id: USER_ID,
       firstName: '',
@@ -138,6 +137,8 @@ angular.module('beKindred')
         $scope.user.age = data.age;
         $scope.user.facebookId = data.facebook_id;
         $scope.user.facebookProfile = data.facebook_profile_url;
+        $scope.twitter = data.twitter_provider;
+        $scope.linkedin = data.linkedin_provider;
 
         $scope.loadingUser = false;
 
@@ -145,6 +146,42 @@ angular.module('beKindred')
     };
 
     $scope.getUser();
+
+
+    $scope.link = function(provider) {
+      var w = 350;
+      var h = 250;
+
+      var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+      var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+
+      var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+      var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+      var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+      var top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+
+      var settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
+      var url = '/social/associate/' + provider + '/?next=/goals/close_login_popup';
+      var newWindow = window.open(url, 'Connecting...', settings);
+
+      if (window.focus) {
+        newWindow.focus();
+      }
+    };
+
+
+    $scope.refreshUser = function() {
+      UsersFactory.get({
+        format: 'json'
+      }, {
+        userId: USER_ID
+      }).$promise.then(function(data) {
+        $scope.twitter = data.twitter_provider;
+        $scope.linkedin = data.linkedin_provider;
+      });
+    };
 
 
     //about_me
