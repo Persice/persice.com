@@ -150,3 +150,18 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(result['meta']['total_count'], 1)
         self.assertEqual(result['objects'][0]['goals'], [{u'find people to go mountain biking with': 1,
                                                           u'learn django': 1}])
+
+    def test_match_deleted_user(self):
+        self.inactive_user = FacebookCustomUser.objects.create_user(username='user_i', facebook_id=12345675123,
+                                                                    password='test', date_of_birth=date(1973, 11, 1))
+        Goal.objects.create(user=self.inactive_user, goal=self.subject7)
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user5, goal=self.subject)
+        Goal.objects.create(user=self.user5, goal=self.subject8)
+
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
+        result = self.deserialize(resp)
+        self.assertEqual(result['meta']['total_count'], 1)
+        self.assertEqual(result['objects'][0]['goals'], [{u'find people to go mountain biking with': 0,
+                                                          u'learn django': 1}])
