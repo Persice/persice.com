@@ -1,5 +1,5 @@
 from django.db import models
-from django_facebook.models import FacebookLike
+from django_facebook.models import FacebookLike, FacebookCustomUser
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Goal, Offer, Subject
 from interests.models import Interest
@@ -13,7 +13,8 @@ class MatchFeedManager(models.Manager):
     def get_friends(user_id):
         # calculate friends
         friends = Friend.objects.all_my_friends(user_id) + Friend.objects.thumbed_up_i(user_id) + \
-                  Friend.objects.deleted_friends(user_id) + [user_id]
+                  Friend.objects.deleted_friends(user_id) + [user_id] + \
+                  list(FacebookCustomUser.objects.filter(is_active=False).values_list('id', flat=True))
         # FacebookFriendUser.objects.alls_my_friends(user_id) + \
         return friends
 
