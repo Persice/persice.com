@@ -6,7 +6,7 @@ from tastypie.constants import ALL
 from tastypie.resources import ModelResource
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto, Photo
-from goals.utils import calculate_age
+from goals.utils import calculate_age, social_extra_data
 
 
 class UserResource(ModelResource):
@@ -23,6 +23,7 @@ class UserResource(ModelResource):
 
     def dehydrate(self, bundle):
         bundle.data['age'] = calculate_age(bundle.data['date_of_birth'])
+        bundle.data['twitter_provider'], bundle.data['linkedin_provider'] = social_extra_data(bundle.request.user.id)
         return bundle
 
 
