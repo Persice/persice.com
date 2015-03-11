@@ -161,14 +161,19 @@
         <i class="twitter icon"></i>
         Connect
       </a>
-      <a href="https://twitter.com/{{ twitter }}" target="_new" class="ui social icon twitter labeled fluid button" ng-show="twitter !== null">
-        <i class="twitter icon"></i>
-        {{twitter}}
-        <i class="check circle icon right"></i>
 
-      </a>
+      <div class="ui fluid buttons socialbuttons" ng-show="twitter !== null">
+        <a href="https://twitter.com/{{ twitter }}" target="_new" class="ui social icon twitter labeled button">
+          <i class="twitter icon"></i>
+          {{twitter}}
+          <i class="check circle icon right"></i>
+        </a>
+        <a ng-click="unlink('twitter')" class="ui right icon red button disconnect">
+          <i class="fa fa-remove icon"></i>
+        </a>
+      </div>
+
       <br>
-
 
       <a href="{{ user.facebookProfile }}" target="_new" class="ui social icon facebook labeled fluid button" ng-if="user.facebookProfile !== ''">
         <i class="facebook icon"></i>

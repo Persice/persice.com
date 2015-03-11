@@ -3958,3 +3958,18 @@ h2 hr {
 .ui.fixed.menu, .ui.top.fixed.menu {
   position: fixed!important;
 }
+
+.socialbuttons {
+  padding-right: 45px!important;
+}
+
+.socialbuttons .button {
+  border-radius: .2857rem!important;
+}
+
+#my-profile-body.edit .socialbuttons .disconnect, #my-profile-body.edit .socialbuttons .disconnect:hover {
+  position: absolute;
+  right: 13px!important;
+  width: 42px!important;
+  padding: .78571em!important;
+}
