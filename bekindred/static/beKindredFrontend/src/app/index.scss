@@ -3614,6 +3614,18 @@ ul[rn-carousel]>li {
  height: 24px!important;
 }
 
+.intersecticon-white-big {
+ max-width:            34px;
+ background-image: url(/static/img/intersect_white.png);
+ width: 34px!important;
+}
+
+.intersecticon-white-small {
+ max-width:            14px;
+ max-height:           14px;
+ background-image: url(/static/img/intersect_small.png);
+}
+
 .usericon {
   height: 25px!important;
 }
@@ -3639,7 +3651,6 @@ ul[rn-carousel]>li {
 
 #leftmenu i.icon {
   font-weight: 100!important;
-  opacity: 0.75!important;
 }
 
 #leftmenu .item {
