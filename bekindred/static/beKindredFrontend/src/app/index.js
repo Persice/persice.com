@@ -40,7 +40,7 @@ angular.module('beKindred', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         data: {
-          displayName: 'Kindred',
+          displayName: 'BeKindred',
         },
         resolve: {
 
@@ -102,7 +102,7 @@ angular.module('beKindred', [
         },
         resolve: {
           UsersFactory: 'UsersFactory',
-      User: function(UsersFactory, USER_ID) {
+          User: function(UsersFactory, USER_ID) {
             var userId = USER_ID;
             return UsersFactory.get({
               userId: userId,
