@@ -82,8 +82,6 @@
 
       <h4 class="ui header">Social Accounts</h4>
 
-
-
       <a href="{{ linkedin }}" target="_new" class="ui social icon fluid linkedin labeled button" ng-show="linkedin !== null">
         <i class="linkedin icon"></i>
         {{user.firstName}}
@@ -91,7 +89,7 @@
       </a>
 
 
-      <br>
+      <br ng-show="linkedin !== null">
 
 
       <a href="https://twitter.com/{{ twitter }}" target="_new" class="ui social fluid icon twitter labeled button" ng-show="twitter !== null">
@@ -100,7 +98,7 @@
         <i class="check circle icon right"></i>
       </a>
 
-      <br>
+      <br ng-show="twitter !== null">
       <a href="{{ user.facebookProfile }}" class="ui social icon facebook labeled fluid button" ng-if="user.facebookProfile !== ''">
         <i class="facebook icon"></i>
         {{user.firstName}}
