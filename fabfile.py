@@ -54,11 +54,12 @@ def virtualenv(command, use_sudo=False):
 
 
 @task
-def update():
+def update(branch='origin/master'):
     with cd(env.repo_root):
-        print green(env.repo_root)
-        run('git pull origin master')
-
+        print green(env.repo_root)    
+        print green('Branch: {}'.format(branch))    
+        run('git fetch --all')
+        run('git checkout --force {}'.format(branch))
 
 @task
 def install_requirements():
