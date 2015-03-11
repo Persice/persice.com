@@ -3622,9 +3622,10 @@ ul[rn-carousel]>li {
 }
 
 .intersecticon-white-small {
- max-width:            14px;
- max-height:           14px;
- background-image: url(/static/img/intersect_small.png);
+  width: 16px!important;
+  height: 16px!important;
+  margin-bottom: -3px!important;
+  background-image: url(/static/img/intersect_small.png);
 }
 
 .usericon {
@@ -3922,7 +3923,7 @@ h2 hr {
   opacity: 0;
 }
 
- #main-page.white > .pusher {
+#main-page.white > .pusher {
   background-color: #FFF!important;
 }
 
