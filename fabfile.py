@@ -61,6 +61,7 @@ def update(branch='origin/master'):
         run('git fetch --all')
         run('git checkout --force {}'.format(branch))
 
+
 @task
 def install_requirements():
     virtualenv('pip install -r %(requirements_file)s' % env)
@@ -142,10 +143,10 @@ def update_stop_words():
 
 
 @task
-def deploy():
+def deploy(branch='origin/master'):
     require('hosts', provided_by=[production])
     remote_uname()
-    update()
+    update(branch=branch)
     install_requirements()
     syncdb()
     migrate()
