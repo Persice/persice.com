@@ -6,7 +6,7 @@ var cookie_reader = require('cookie');
 var querystring = require('querystring');
 var redis = require('redis');
 var redisAdapter = require('socket.io-redis');
-var port = 3000;
+var port = 8010;
 
 
 
