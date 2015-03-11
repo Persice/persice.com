@@ -150,11 +150,18 @@
         <i class="linkedin icon"></i>
         Connect
       </a>
-      <a href="{{ linkedin }}" target="_new" class="ui social icon linkedin fluid labeled button" ng-show="linkedin !== null">
-        <i class="linkedin icon"></i>
-        {{user.firstName}}
-        <i class="check circle icon right"></i>
-      </a>
+
+      <div class="ui fluid buttons socialbuttons" ng-show="linkedin !== null">
+        <a href="{{ linkedin }}" target="_new" class="ui social icon twitter labeled button">
+          <i class="linkedin icon"></i>
+          {{user.firstName}}
+          <i class="check circle icon right"></i>
+        </a>
+        <a ng-click="unlink('linkedin')" class="ui right icon red button disconnect">
+          <i class="fa fa-remove icon"></i>
+        </a>
+      </div>
+
       <br>
 
       <a ng-click="link('twitter')" class="ui icon twitter labeled fluid button" ng-show="twitter === null">
