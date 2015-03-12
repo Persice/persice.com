@@ -3975,6 +3975,26 @@ h2 hr {
 #my-profile-body.edit .socialbuttons .disconnect, #my-profile-body.edit .socialbuttons .disconnect:hover {
   position: absolute;
   right: 13px!important;
-  width: 42px!important;
+  width: 36px!important;
   padding: .78571em!important;
+}
+
+#my-profile-body .ui.icon.circular.button.removebutton,
+#my-profile-body .ui.icon.circular.button.disconnect,
+#my-profile-body .ui.removebutton.icon.circular.button:hover,
+#my-profile-body .ui.removebutton.icon.circular.button:focus,
+#my-profile-body .ui.removebutton.icon.circular.button:active,
+#my-profile-body .ui.disconnect.icon.circular.button:hover,
+#my-profile-body .ui.disconnect.icon.circular.button:focus,
+#my-profile-body .ui.disconnect.icon.circular.button:active {
+  border-radius: 10em!important;
+}
+
+
+#my-profile-body .ui.search .action:hover {
+  background: none!important;
+}
+
+#my-profile-body .ui.list.likes>.item .description, #matched-profile-body .ui.list.likes>.item .description{
+  font-size: 14px!important;
 }

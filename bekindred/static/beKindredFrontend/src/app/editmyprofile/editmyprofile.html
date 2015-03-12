@@ -53,7 +53,7 @@
             <div class="description">
               <div class="ui fluid search goals" rel="{{$index}}" ng-class="{'loading': goal.loading }">
                 <div class="ui fluid leftright action input" ng-class="{'error': goal.error}">
-                  <div class="ui red left icon button" ng-click="removeGoal($index)">
+                  <div class="ui removebutton icon circular button" ng-click="removeGoal($index)">
                     <i class="remove icon"></i>
                   </div>
                   <input type="text" class="prompt" ng-model="goal.subject" ng-change="goalNeedSaving($index)">
@@ -78,7 +78,7 @@
             <div class="description">
               <div class="ui fluid search offers" rel="{{$index}}" ng-class="{'loading': offer.loading }">
                 <div class="ui fluid leftright action input" ng-class="{'error': offer.error}">
-                  <div class="ui red left icon button" ng-click="removeOffer($index)">
+                  <div class="ui removebutton icon circular button" ng-click="removeOffer($index)">
                     <i class="remove icon"></i>
                   </div>
                   <input type="text" class="prompt" ng-model="offer.subject" ng-change="offerNeedSaving($index)">
@@ -111,7 +111,7 @@
             <div class="description">
               <div class="ui fluid search interests" rel="{{$index}}" ng-class="{'loading': interest.loading }">
                 <div class="ui fluid leftright action input" ng-class="{'error': interest.error}">
-                  <div class="ui red left icon button" ng-click="removeInterest($index)">
+                  <div class="ui removebutton icon circular button" ng-click="removeInterest($index)">
                     <i class="remove icon"></i>
                   </div>
                   <input type="text" class="prompt" ng-model="interest.description" ng-change="interestNeedSaving($index)">
@@ -130,7 +130,7 @@
       </div>
 
       <h4 class="ui header">Likes</h4>
-      <div class="ui list">
+      <div class="ui list likes">
         <div class="item" ng-repeat="like in user.likes | limitTo:5 track by $index">
           <div class="content">
             <div class="description">{{ like.name }}</div>
@@ -157,8 +157,8 @@
           {{user.firstName}}
           <i class="check circle icon right"></i>
         </a>
-        <a ng-click="unlink('linkedin')" class="ui right icon red button disconnect">
-          <i class="fa fa-remove icon"></i>
+        <a ng-click="unlink('linkedin')" class="ui right icon circular button disconnect">
+          <i class="remove icon"></i>
         </a>
       </div>
 
@@ -175,8 +175,8 @@
           {{twitter}}
           <i class="check circle icon right"></i>
         </a>
-        <a ng-click="unlink('twitter')" class="ui right icon red button disconnect">
-          <i class="fa fa-remove icon"></i>
+        <a ng-click="unlink('twitter')" class="ui right icon circular button disconnect">
+          <i class="remove icon"></i>
         </a>
       </div>
 

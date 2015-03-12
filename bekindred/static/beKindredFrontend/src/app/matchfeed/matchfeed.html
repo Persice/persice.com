@@ -102,7 +102,7 @@
             </div>
 
             <h4 class="ui header" ng-if="matchedUser.likes.length > 0">Likes</h4>
-            <div class="ui list">
+            <div class="ui list likes">
                 <div class="item" ng-hide="!showfullprofile && $index > 2" ng-repeat="like in matchedUser.likes | orderBy:['-match']  track by $index">
                     <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
                     <div class="content">

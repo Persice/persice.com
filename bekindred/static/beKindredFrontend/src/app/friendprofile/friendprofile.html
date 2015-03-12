@@ -103,7 +103,7 @@
             </div>
 
             <h4 class="ui header">Likes</h4>
-            <div class="ui list">
+            <div class="ui list likes">
                 <div class="item" ng-repeat="like in user.likes | orderBy:['-match']  track by $index">
                     <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
                     <div class="content">
