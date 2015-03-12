@@ -14,7 +14,8 @@ class MatchFeedManager(models.Manager):
         # calculate friends
         friends = Friend.objects.all_my_friends(user_id) + Friend.objects.thumbed_up_i(user_id) + \
                   Friend.objects.deleted_friends(user_id) + [user_id] + \
-                  list(FacebookCustomUser.objects.filter(is_active=False).values_list('id', flat=True))
+                  list(FacebookCustomUser.objects.filter(is_active=False,
+                                                         facebook_id__isnull=True).values_list('id', flat=True))
         # FacebookFriendUser.objects.alls_my_friends(user_id) + \
         return friends
 

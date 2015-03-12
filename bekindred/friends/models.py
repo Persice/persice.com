@@ -58,8 +58,10 @@ class FriendManager(models.Manager):
         return [x for x in all if x != user_id]
 
     def friends(self, user_id):
-        return super(FriendManager, self).get_queryset().filter(Q(friend1=user_id, friend1__is_active=True, status=1) |
-                                                                Q(friend2=user_id, friend2__is_active=True, status=1))
+        return super(FriendManager, self).get_queryset().filter(Q(friend1=user_id, friend1__is_active=True,
+                                                                  friend1__facebook_id__isnull=True, status=1) |
+                                                                Q(friend2=user_id, friend2__is_active=True,
+                                                                  friend2__facebook_id__isnull=True, status=1))
 
     def deleted_friends(self, user_id):
         """
