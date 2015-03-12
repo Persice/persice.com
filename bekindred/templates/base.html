@@ -55,10 +55,10 @@
 
       <div class="ui vertical left inverted labeled icon sidebar menu" id="leftmenu" ng-controller="LeftSidebarCtrl">
         <a ui-sref="home" ui-sref-active="active" class="item"> <i class="fa fa-home icon"></i> <span class="content">Home</span></a>
-        <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
+        <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label" messages-counter></div></a>
         <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-big icon"></i> <span class="content">Match Feed</span></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
-        <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
+        <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">0</div></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
@@ -66,6 +66,9 @@
           </ul>
         </div>
       </div>
+
+
+
 
       <div class="ui vertical right inverted labeled sidebar menu" id="filtersMenu" ng-show="isState('matchfeed')">
         <div id="FilterController" ng-controller="FilterController">
@@ -134,10 +137,10 @@
             </div>
             <div class="right menu" id="main-menu-right">
               <a ui-sref="home" ui-sref-active="active" class="item"> <i class="fa fa-home icon"></i> <span class="content">Home</span></a>
-              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
+              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label" messages-counter></div></a>
               <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-small icon"></i> <span class="content">Match Feed</span></a>
               <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
-              <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
+              <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">0</div></a>
               <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
             </div>
 

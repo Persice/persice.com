@@ -195,6 +195,7 @@ angular.module('beKindred')
           //mark all messages in conversation as read
           $http.get('/api/v1/inbox/reat_at/?sender_id=' + $scope.friend.id).
           success(function(data, status, headers, config) {
+            $rootScope.$broadcast('refreshUnreadMessages');
 
           }).
           error(function(data, status, headers, config) {

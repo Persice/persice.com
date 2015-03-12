@@ -44,6 +44,8 @@ angular.module('beKindred')
     //web socket for messages
     $scope.$on('socket:message', function(ev, data) {
 
+      $rootScope.$broadcast('refreshUnreadMessages');
+
       if ($rootScope.isState('conversations')) {
         $rootScope.$broadcast('receivedMessage', data);
       } else {
