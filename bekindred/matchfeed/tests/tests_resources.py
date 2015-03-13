@@ -1,8 +1,9 @@
 from datetime import date
-from django_facebook.models import FacebookCustomUser
+from django_facebook.models import FacebookCustomUser, FacebookLike
 from tastypie.test import ResourceTestCase
 from goals.models import Subject, Goal, MatchFilterState
 from interests.models import Interest
+from members.models import FacebookLikeProxy
 
 
 class TestMatchFeedResource(ResourceTestCase):
@@ -69,6 +70,20 @@ class TestMatchFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/matchfeed/', format='json')
 
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 2)
+
+    def test_match_interest_fb_likes(self):
+        Interest.objects.create(user=self.user, description='Ruby Programming')
+        FacebookLike.objects.create(user_id=self.user1.id, name='ruby', facebook_id=self.user1.facebook_id)
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
+        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
+
+    def test_match_fb_likes_to_fb_likes(self):
+        FacebookLike.objects.create(user_id=self.user.id, name='Ruby Programming', facebook_id=self.user.facebook_id)
+        FacebookLike.objects.create(user_id=self.user1.id, name='Ruby Programming', facebook_id=self.user1.facebook_id)
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
+        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
 
     def test_filter_match_distance(self):
         MatchFilterState.objects.create(user=self.user, distance=500)
