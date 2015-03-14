@@ -141,7 +141,7 @@ def get_mutual_twitter_friends(user_id1, user_id2):
         result['count_mutual_twitter_followers'] = tfo1.count()
 
         return result
-    except IndexError:
+    except Exception:
         return result
 
 
