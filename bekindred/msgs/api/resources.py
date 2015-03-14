@@ -35,17 +35,28 @@ class MessageResource(ModelResource):
         user = request.user.id
         user_id = request.GET.get('user_id', None)
         if user_id is None:
-            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user) | Q(recipient=user))
+            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user,
+                                                                                  recipient__is_active=True,
+                                                                                  sender__is_active=True) |
+                                                                                Q(recipient=user,
+                                                                                  sender__is_active=True,
+                                                                                  recipient__is_active=True))
         else:
-            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user, recipient=user_id) |
-                                                                                Q(sender=user_id, recipient=user))
+            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user,
+                                                                                  sender__is_active=True,
+                                                                                  recipient__is_active=True,
+                                                                                  recipient=user_id) |
+                                                                                Q(sender=user_id,
+                                                                                  sender__is_active=True,
+                                                                                  recipient__is_active=True,
+                                                                                  recipient=user))
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(MessageResource, self).obj_create(bundle, **kwargs)
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         data = bundle.data
         recipient = re.findall(r'/(\d+)/', bundle.data['recipient'])[0]
-        user = FacebookCustomUser.objects.get(pk=recipient)
+        user = FacebookCustomUserActive.objects.get(pk=recipient)
         user_sessions = UserSession.objects.filter(user_id=user)
 
         data['sent_at'] = str(bundle.obj.sent_at.isoformat())
