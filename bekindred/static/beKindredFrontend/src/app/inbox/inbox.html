@@ -10,9 +10,8 @@
 </div>
 <div class="body segment" id="inbox-body">
     <div class="container">
-
-        <div class="ui selection divided list" class="{'loading': loadingMessages}">
-            <a ng-class="{'unread': message.readAt === null}" ui-sref="conversations({ userId: message.friendId })" class="item repeat-animation" ng-if="message.body !== null" ng-repeat="message in inboxLastMessages track by $index">
+        <div class="ui selection divided list" class="{'loading': inbox.loadingMessages}">
+            <a ng-class="{'unread': message.readAt === null}" ui-sref="conversations({ userId: message.friendId })" class="item repeat-animation" ng-if="message.body !== null" ng-repeat="message in inbox.allMessages track by $index">
                 <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ message.facebookId }}/picture?type=large)'}"></div>
                 <span class="message-time">{{message.sentAt}}</span>
                 <div class="content">

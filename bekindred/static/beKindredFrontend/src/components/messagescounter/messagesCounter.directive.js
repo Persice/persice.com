@@ -36,40 +36,20 @@
    * @desc count new messages
    * @ngInject
    */
-  function MessagesController($scope, InboxFactory, $rootScope, $log) {
+  function MessagesController($scope, InboxRepository, $rootScope, $log) {
     var vm = this;
     vm.counter = 0;
 
-    vm.countNewMessages = countNewMessages;
+    vm.refreshCounter = refreshCounter;
 
-    $rootScope.$on('refreshUnreadMessages', function(event, data) {
-      vm.countNewMessages();
+    $rootScope.$on('refreshInboxMessages', function(event, data) {
+      vm.refreshCounter();
     });
 
-    vm.countNewMessages();
+    vm.refreshCounter();
 
-    function countNewMessages() {
-      InboxFactory.query({
-        format: 'json'
-      }).$promise.then(function(data) {
-        var receivedMessages = data.objects;
-        var i = 0;
-        for (var obj in receivedMessages) {
-          if (receivedMessages[obj].read_at === null && receivedMessages[obj].last_message_body !== null) {
-            i++;
-          }
-        }
-        vm.counter = i;
-        // $log.info('Messages counter: ' + vm.counter);
-      }, function(response) {
-        var data = response.data,
-          status = response.status,
-          header = response.header,
-          config = response.config,
-          message = 'Error ' + status;
-        $log.error(message);
-
-      });
+    function refreshCounter() {
+      vm.counter = InboxRepository.getUnreadMessagesCounter();
     }
 
 

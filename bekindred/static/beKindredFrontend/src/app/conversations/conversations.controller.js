@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('ConversationsCtrl', function($rootScope, notify, $resource, $state, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
+  .controller('ConversationsCtrl', function($rootScope, notify, $resource, $state, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
 
     $scope.leftActive = true;
     $scope.messages = [];
@@ -195,7 +195,7 @@ angular.module('beKindred')
           //mark all messages in conversation as read
           $http.get('/api/v1/inbox/reat_at/?sender_id=' + $scope.friend.id).
           success(function(data, status, headers, config) {
-            $rootScope.$broadcast('refreshUnreadMessages');
+            InboxRepository.getInboxMessages();
 
           }).
           error(function(data, status, headers, config) {
@@ -322,7 +322,7 @@ angular.module('beKindred')
       //mark all messages in conversation as read
       $http.get('/api/v1/inbox/reat_at/?sender_id=' + $scope.friend.id).
       success(function(data, status, headers, config) {
-
+        InboxRepository.getInboxMessages();
       }).
       error(function(data, status, headers, config) {
 

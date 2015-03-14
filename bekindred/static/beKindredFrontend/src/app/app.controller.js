@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('AppCtrl', function($rootScope, $scope, USER_ID, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies) {
+  .controller('AppCtrl', function($rootScope, $scope, USER_ID, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
     $rootScope.hideTopMenu = false;
 
     $cookies.userid = USER_ID;
@@ -38,18 +38,19 @@ angular.module('beKindred')
       $rootScope.$broadcast('refreshMatchFeed');
     };
 
-
+    InboxRepository.getInboxMessages();
     $rootScope.notifications = [];
     $rootScope.messages = [];
     //web socket for messages
     $scope.$on('socket:message', function(ev, data) {
 
-      $rootScope.$broadcast('refreshUnreadMessages');
+
 
       if ($rootScope.isState('conversations')) {
         $rootScope.$broadcast('receivedMessage', data);
       } else {
 
+        InboxRepository.getInboxMessages();
 
         var jsonData = JSON.parse(data);
         var message = $filter('words')(jsonData.body, 10);
@@ -57,11 +58,6 @@ angular.module('beKindred')
 
         var Sender = $resource(jsonData.sender);
         Sender.get().$promise.then(function(data) {
-
-
-          if ($rootScope.isState('inbox')) {
-            $rootScope.$broadcast('refreshInbox');
-          }
 
           $scope.gotoConversation = function() {
             $state.go('conversations', {
