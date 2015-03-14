@@ -59,7 +59,7 @@ def linkedin_connections(uid, oauth_token, oauth_token_secret):
             return rels['relationToViewer']['relatedConnections']['values'], rels['relationToViewer']['relatedConnections']['_total']
     except KeyError:
         pass
-    return None, None
+    return 0, 0
 
 
 def get_twitter_friends(uid, oauth_token, oauth_token_secret):
