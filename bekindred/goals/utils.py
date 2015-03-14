@@ -54,8 +54,11 @@ def linkedin_connections(uid, oauth_token, oauth_token_secret):
     client = oauth.Client(consumer, token)
     resp, content = client.request(url)
     rels = json.loads(content)
-    if rels['relationToViewer'].get('relatedConnections').get('_total') > 0:
-        return rels['relationToViewer']['relatedConnections']['values'], rels['relationToViewer']['relatedConnections']['_total']
+    try:
+        if rels['relationToViewer']['relatedConnections']['_total'] > 0:
+            return rels['relationToViewer']['relatedConnections']['values'], rels['relationToViewer']['relatedConnections']['_total']
+    except KeyError:
+        pass
     return None, None
 
 
