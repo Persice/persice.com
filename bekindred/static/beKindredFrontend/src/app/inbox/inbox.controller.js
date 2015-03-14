@@ -16,6 +16,7 @@
     vm.allMessages = [];
     vm.loadInbox = loadInbox;
     vm.loadingMessages = false;
+    vm.q = '';
 
     vm.loadInbox();
 
