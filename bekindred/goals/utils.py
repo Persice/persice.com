@@ -49,15 +49,18 @@ def linkedin_connections(uid, oauth_token, oauth_token_secret):
     url = "https://api.linkedin.com/v1/people/%s" \
           ":(relation-to-viewer:(related-connections:(id,first-name,last-name,picture-urls::(original))))" \
           "?format=json" % uid
-    consumer = oauth.Consumer(key=LINKEDIN_CONSUMER_KEY, secret=LINKEDIN_CONSUMER_SECRET)
-    token = oauth.Token(key=oauth_token, secret=oauth_token_secret)
-    client = oauth.Client(consumer, token)
-    resp, content = client.request(url)
-    rels = json.loads(content)
     try:
-        if rels['relationToViewer']['relatedConnections']['_total'] > 0:
-            return rels['relationToViewer']['relatedConnections']['values'], rels['relationToViewer']['relatedConnections']['_total']
-    except KeyError:
+        consumer = oauth.Consumer(key=LINKEDIN_CONSUMER_KEY, secret=LINKEDIN_CONSUMER_SECRET)
+        token = oauth.Token(key=oauth_token, secret=oauth_token_secret)
+        client = oauth.Client(consumer, token)
+        resp, content = client.request(url)
+        rels = json.loads(content)
+        try:
+            if rels['relationToViewer']['relatedConnections']['_total'] > 0:
+                return rels['relationToViewer']['relatedConnections']['values'], rels['relationToViewer']['relatedConnections']['_total']
+        except KeyError:
+            pass
+    except Exception:
         pass
     return 0, 0
 
