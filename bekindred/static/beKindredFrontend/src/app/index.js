@@ -198,7 +198,8 @@ angular.module('beKindred', [
           displayName: 'Messages',
         },
         templateUrl: 'app/inbox/inbox.html',
-        controller: 'InboxCtrl'
+        controller: 'InboxController',
+        controllerAs: 'inbox'
       });
 
 
