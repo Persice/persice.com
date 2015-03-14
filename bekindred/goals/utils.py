@@ -62,7 +62,7 @@ def linkedin_connections(uid, oauth_token, oauth_token_secret):
             pass
     except Exception:
         pass
-    return 0, 0
+    return list(), list()
 
 
 def get_twitter_friends(uid, oauth_token, oauth_token_secret):
