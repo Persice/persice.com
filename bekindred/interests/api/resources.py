@@ -50,5 +50,6 @@ class InterestResource(ModelResource):
         else:
             return super(InterestResource, self).get_object_list(request).distinct('description')
 
-    def dehydrate_description(self, bundle):
-        return bundle.data['description'].lower()
+    def obj_create(self, bundle, **kwargs):
+        bundle.data['description'] = bundle.data['description'].lower()
+        return super(InterestResource, self).obj_create(bundle, user=bundle.request.user)
