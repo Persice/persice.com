@@ -42,4 +42,4 @@ class TestInterestManager(TestCase):
 
     def test_count_interests_fb_likes(self):
         count = Interest.search_subject.count_interests_fb_likes(self.user.id, self.user1.id)
-        self.assertEqual(count, 5)
+        self.assertEqual(count, 2)

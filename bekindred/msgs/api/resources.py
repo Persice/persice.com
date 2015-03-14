@@ -14,7 +14,7 @@ from tastypie.resources import ModelResource, Resource
 from friends.models import Friend
 from matchfeed.api.resources import A
 from postman.models import Message
-from members.models import UserSession
+from members.models import UserSession, FacebookCustomUserActive
 from photos.api.resources import UserResource
 
 
@@ -132,8 +132,8 @@ class InboxResource(Resource):
         raw_sender = request.GET.get('sender_id')
         if raw_sender:
             sender = int(raw_sender)
-            user = FacebookCustomUser.objects.get(id=request.user.id)
-            sender = FacebookCustomUser.objects.get(id=sender)
+            user = FacebookCustomUserActive.objects.get(id=request.user.id)
+            sender = FacebookCustomUserActive.objects.get(id=sender)
             Message.objects.filter(sender=sender, recipient=user).update(read_at=now())
         return list()
 
