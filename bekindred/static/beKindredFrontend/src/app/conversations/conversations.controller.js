@@ -346,6 +346,7 @@ angular.module('beKindred')
           status: -1
         },
         function(success) {
+          InboxRepository.getInboxMessages();
           $state.go('myconnections');
         },
         function(error) {
