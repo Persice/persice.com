@@ -45,7 +45,7 @@ class InterestManager(models.Manager):
     @staticmethod
     def count_interests_fb_likes(user_id1, user_id2):
         u_interests = Interest.objects.filter(user_id=user_id1)
-        target_interests = Interest.objects.exclude(user_id=user_id2)
+        target_interests = Interest.objects.filter(user_id=user_id2)
 
         match_interests1 = []
         for interest in u_interests:
@@ -55,7 +55,7 @@ class InterestManager(models.Manager):
             match_interests1.extend(target_interests.search(tsquery, raw=True))
 
         fb_likes = FacebookLike.objects.filter(user_id=user_id1)
-        target_interests = Interest.objects.exclude(user_id=user_id2)
+        target_interests = Interest.objects.filter(user_id=user_id2)
 
         matches_interests2 = []
         for fb_like in fb_likes:
@@ -63,7 +63,35 @@ class InterestManager(models.Manager):
             #  for this reason the use of raw parameter.
             tsquery = ' | '.join(unicode(fb_like.name).translate(remove_punctuation_map).split())
             matches_interests2.extend(target_interests.search(tsquery, raw=True))
-        return len(match_interests1 + matches_interests2)
+
+        u_interests = Interest.objects.filter(user_id=user_id1)
+        target_likes = FacebookLike.objects.filter(user_id=user_id2)
+
+        matches_likes = []
+        for u_interest in u_interests:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(u_interest.description).translate(remove_punctuation_map).split())
+            matches_likes.extend(target_likes.search(tsquery, raw=True))
+
+        fb_likes = FacebookLike.objects.filter(user_id=user_id1)
+        target_likes = FacebookLike.objects.filter(user_id=user_id2)
+
+        match_likes2 = []
+        for fb_like in fb_likes:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(fb_like.name).translate(remove_punctuation_map).split())
+            matches_likes.extend(target_likes.search(tsquery, raw=True))
+
+        res1 = set()
+        res2 = set()
+        for m_interest in match_interests1 + matches_interests2:
+            res1.add(m_interest.id)
+
+        for m_like in matches_likes + match_likes2:
+            res2.add(m_like.id)
+        return len(res1) + len(res2)
 
 
 class Interest(models.Model):

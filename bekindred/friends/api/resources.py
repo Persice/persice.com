@@ -61,7 +61,7 @@ class FriendsResource(ModelResource):
 
 class ConnectionsResource(Resource):
     id = fields.CharField(attribute='id')
-    facebook_id = fields.CharField(attribute='facebook_id')
+    facebook_id = fields.CharField(attribute='facebook_id', null=True)
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     friend_id = fields.CharField(attribute='friend_id')
@@ -99,8 +99,8 @@ class ConnectionsResource(Resource):
 
     def get_object_list(self, request):
         results = []
-        firstname = request.GET.get('first_name', None)
-        friendid = request.GET.get('friend', None)
+        _first_name = request.GET.get('first_name', None)
+        _friend_id = request.GET.get('friend', None)
         current_user = request.user.id
         friends = Friend.objects.friends(current_user)
         for friend in friends:
@@ -117,10 +117,10 @@ class ConnectionsResource(Resource):
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.friend_id = getattr(friend, position_friend).id
 
-            if friendid and not int(friendid) == new_obj.friend_id:
+            if _friend_id and not int(_friend_id) == new_obj.friend_id:
                 continue
 
-            if firstname and not firstname.lower() in new_obj.first_name.lower():
+            if _first_name and not _first_name.lower() in new_obj.first_name.lower():
                 continue
 
             new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(new_obj.friend_id)
@@ -143,7 +143,6 @@ class ConnectionsResource(Resource):
             t1 = Goal.objects_search.count_common_goals_and_offers(current_user, new_obj.friend_id)
             t2 = Interest.search_subject.count_interests_fb_likes(current_user, new_obj.friend_id)
             new_obj.common_goals_offers_interests = t1 + t2
-                                                    #                                                  new_obj.friend_id)
 
             results.append(new_obj)
         return results
