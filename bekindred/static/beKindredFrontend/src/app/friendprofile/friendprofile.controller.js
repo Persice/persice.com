@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('FriendProfileCtrl', function($scope, User, UsersFactory, MutualFriendsFactory, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
+  .controller('FriendProfileCtrl', function($scope, User, UsersFactory, MutualFriendsFactory, InboxRepository, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
 
     $scope.middleActive = true;
     $scope.friendshipId = Connection.objects[0].id;
@@ -184,6 +184,7 @@ angular.module('beKindred')
           status: -1
         },
         function(success) {
+          InboxRepository.getInboxMessages();
           $state.go('myconnections');
         },
         function(error) {
