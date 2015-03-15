@@ -3617,6 +3617,7 @@ ul[rn-carousel]>li {
 #leftmenu .item>i.intersecticon-white-big.icon {
  max-width:            34px;
  background-image: url(/static/img/intersect_white.png);
+ background-repeat: no-repeat!important;
  width: 34px!important;
  margin: 0 0.69em 0 0!important;
 }
@@ -3787,23 +3788,9 @@ ul[rn-carousel]>li {
 
 
 #interests .button {
-  margin: 5px 0px;
+  margin: 5px 5px;
   font-size: 1.1rem;
   padding: 12px;
-}
-
-
-
-#interests .row .column {
-  padding-left: 4px;
-  padding-right: 4px;
-  width: auto;
-}
-
-#interests, #noresults {
-  background-color:#FFF!important;
-  padding-top: 0px!important;
-
 }
 
 
@@ -3837,12 +3824,6 @@ ul[rn-carousel]>li {
 
 #interests-header .container  {
   padding: 0 1em;
-}
-
-#interests .container, #noresults .container {
-  max-width: 600px!important;
-  margin: 0 auto!important;
-  padding: 0 1em!important;
 }
 
 #interests-header .input {
@@ -3997,4 +3978,30 @@ h2 hr {
 
 #my-profile-body .ui.list.likes>.item .description, #matched-profile-body .ui.list.likes>.item .description{
   font-size: 14px!important;
+}
+
+#interests {
+
+  text-align: center!important;
+  width: 100%!important;
+  padding-bottom: 10px!important;
+  padding-top: 0px!important;
+  padding: 0 1rem;
+  overflow-y: scroll!important;
+  position: absolute;
+  top: 108px!important;
+  bottom: 0px!important;
+  margin: 0px!important;
+
+}
+
+#interests .ui.info.message {
+  margin-top: 10px!important;
+}
+
+
+@media only screen and (min-width: 800px) {
+  #interests {
+    padding: 0 30%;
+  }
 }
