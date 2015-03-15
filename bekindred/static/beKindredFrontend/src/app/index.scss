@@ -3981,12 +3981,27 @@ h2 hr {
 }
 
 #interests {
-  position: absolute!important;
-  top: 98px!important;
-  bottom: 0px!important;
-  overflow-y: auto!important;
+
   text-align: center!important;
   width: 100%!important;
   padding-bottom: 10px!important;
   padding-top: 0px!important;
+  padding: 0 1rem;
+  overflow-y: scroll!important;
+  position: absolute;
+  top: 108px!important;
+  bottom: 0px!important;
+  margin: 0px!important;
+
+}
+
+#interests .ui.info.message {
+  margin-top: 10px!important;
+}
+
+
+@media only screen and (min-width: 800px) {
+  #interests {
+    padding: 0 30%;
+  }
 }

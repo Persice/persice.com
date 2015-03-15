@@ -10,7 +10,7 @@
    * classDesc Select interests and activities during onboard user flow
    * @ngInject
    */
-  function InterestsController(InterestsFactory, $log, notify, USER_ID, $filter, $resource, $state, $q, lodash, $scope) {
+  function InterestsController(InterestsFactory, $log, notify, USER_ID, $filter, $resource, $state, $q, lodash, $scope, $window) {
     var vm = this;
 
     vm.useInterest = useInterest;
@@ -24,6 +24,7 @@
     vm.loadingMore = false;
     vm.noResults = false;
     vm.reset = reset;
+    vm.limit = 30;
     vm.loadMore = loadMore;
     vm.resolveMore = resolveMore;
 
@@ -34,7 +35,15 @@
 
     vm.userInterests = [];
 
+    var w = angular.element($window);
+
+
+    if (w.height() > 667) {
+      vm.limit = 200;
+    }
+
     vm.getAllInterests();
+
 
 
     function nextStep() {
@@ -81,7 +90,7 @@
 
         InterestsFactory.query({
           format: 'json',
-          limit: 30,
+          limit: vm.limit,
           description__icontains: vm.searchQuery,
           offset: 0
         }).$promise.then(function(data) {
@@ -161,7 +170,7 @@
           }).$promise.then(function(data) {
             var responseData = data.objects;
             vm.next = data.meta.next;
-            vm.nextOffset += 30;
+            vm.nextOffset += vm.limit;
 
 
             if (data.objects.length > 0) {
