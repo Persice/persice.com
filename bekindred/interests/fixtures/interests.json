@@ -342,5 +342,165 @@
       "description": "skateboarding",
       "user": 1
     }
+  },
+  {
+    "pk": 47,
+    "model": "interests.interest",
+    "fields": {
+      "description": "playstation",
+      "user": 1
+    }
+  },
+  {
+    "pk": 48,
+    "model": "interests.interest",
+    "fields": {
+      "description": "voleyball",
+      "user": 1
+    }
+  },
+  {
+    "pk": 49,
+    "model": "interests.interest",
+    "fields": {
+      "description": "handball",
+      "user": 1
+    }
+  },
+  {
+    "pk": 50,
+    "model": "interests.interest",
+    "fields": {
+      "description": "game of thrones",
+      "user": 1
+    }
+  },
+  {
+    "pk": 51,
+    "model": "interests.interest",
+    "fields": {
+      "description": "big bang theory",
+      "user": 1
+    }
+  },
+  {
+    "pk": 52,
+    "model": "interests.interest",
+    "fields": {
+      "description": "batman",
+      "user": 1
+    }
+  },
+  {
+    "pk": 53,
+    "model": "interests.interest",
+    "fields": {
+      "description": "superman",
+      "user": 1
+    }
+  },
+  {
+    "pk": 54,
+    "model": "interests.interest",
+    "fields": {
+      "description": "fantastic four",
+      "user": 1
+    }
+  },
+  {
+    "pk": 55,
+    "model": "interests.interest",
+    "fields": {
+      "description": "star wars",
+      "user": 1
+    }
+  },
+  {
+    "pk": 56,
+    "model": "interests.interest",
+    "fields": {
+      "description": "star trek",
+      "user": 1
+    }
+  },
+  {
+    "pk": 57,
+    "model": "interests.interest",
+    "fields": {
+      "description": "breaking bad",
+      "user": 1
+    }
+  },
+  {
+    "pk": 58,
+    "model": "interests.interest",
+    "fields": {
+      "description": "the sopranos",
+      "user": 1
+    }
+  },
+  {
+    "pk": 59,
+    "model": "interests.interest",
+    "fields": {
+      "description": "oz",
+      "user": 1
+    }
+  },
+  {
+    "pk": 60,
+    "model": "interests.interest",
+    "fields": {
+      "description": "two and a half men",
+      "user": 1
+    }
+  },
+  {
+    "pk": 61,
+    "model": "interests.interest",
+    "fields": {
+      "description": "apple",
+      "user": 1
+    }
+  },
+  {
+    "pk": 62,
+    "model": "interests.interest",
+    "fields": {
+      "description": "windsurfing",
+      "user": 1
+    }
+  },
+  {
+    "pk": 63,
+    "model": "interests.interest",
+    "fields": {
+      "description": "crossfit",
+      "user": 1
+    }
+  },
+  {
+    "pk": 64,
+    "model": "interests.interest",
+    "fields": {
+      "description": "marathon",
+      "user": 1
+    }
+  },
+  {
+    "pk": 65,
+    "model": "interests.interest",
+    "fields": {
+      "description": "diving",
+      "user": 1
+    }
+  },
+  {
+    "pk": 66,
+    "model": "interests.interest",
+    "fields": {
+      "description": "mountain hiking",
+      "user": 1
+    }
   }
 ]

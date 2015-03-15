@@ -1,12 +1,16 @@
 (function() {
   'use strict';
 
+  angular
+    .module('beKindred')
+    .controller('InterestsController', InterestsController);
+
   /**
    * class InterestsController
    * classDesc Select interests and activities during onboard user flow
    * @ngInject
    */
-  function InterestsController(InterestsFactory, $log, $scope, notify, USER_ID, $filter, $resource, $state) {
+  function InterestsController(InterestsFactory, $log, notify, USER_ID, $filter, $resource, $state, $q, lodash, $scope) {
     var vm = this;
 
     vm.useInterest = useInterest;
@@ -14,6 +18,14 @@
     vm.nextStep = nextStep;
     vm.searchQuery = '';
     vm.userUri = '/api/v1/auth/user/' + USER_ID + '/';
+
+    vm.next = null;
+    vm.nextOffset = 30;
+    vm.loadingMore = false;
+    vm.noResults = false;
+    vm.reset = reset;
+    vm.loadMore = loadMore;
+    vm.resolveMore = resolveMore;
 
     vm.allInterests = [];
     vm.counter = 0;
@@ -39,34 +51,64 @@
       }
     }
 
+    function reset() {
+      vm.searchQuery = '';
+      vm.getAllInterests();
+      vm.noResults = false;
+      vm.counter = 0;
+    }
+
     function getAllInterests() {
+      vm.nextOffset = 30;
+      vm.next = null;
+      vm.noResults = false;
       vm.loadingInterests = true;
+      vm.counter = 0;
+      vm.allInterests.splice(0, vm.allInterests.length);
 
       InterestsFactory.query({
         user_id: USER_ID,
-        format: 'json'
+        format: 'json',
+        limit: 200,
+        offset: 0
       }).$promise.then(function(data) {
-        if (data.meta.total_count > 0) {
+
+
+
+        if (data.objects.length > 0) {
           vm.userInterests = data.objects;
         }
 
         InterestsFactory.query({
-          format: 'json'
+          format: 'json',
+          limit: 30,
+          description__icontains: vm.searchQuery,
+          offset: 0
         }).$promise.then(function(data) {
-          if (data.meta.total_count > 0) {
-            vm.allInterests = data.objects;
+          vm.next = data.meta.next;
+
+          var results = data.objects;
+
+          if (results.length > 0) {
+
+            //preselect already created interests
+            for (var j = results.length - 1; j >= 0; j--) {
+              for (var i = vm.userInterests.length - 1; i >= 0; i--) {
+                if (results[j].description === vm.userInterests[i].description) {
+                  results[j] = vm.userInterests[i];
+                  vm.counter++;
+                  results[j].active = true;
+                }
+              }
+              vm.allInterests.push(results[j]);
+            }
+
+          } else {
+            vm.allInterests.splice(0, vm.allInterests.length);
+            vm.noResults = true;
           }
 
-          //preselect already created interests
-          for (var i = vm.userInterests.length - 1; i >= 0; i--) {
-            for (var j = vm.allInterests.length - 1; j >= 0; j--) {
-              if (vm.allInterests[j].description === vm.userInterests[i].description) {
-                vm.allInterests[j] = vm.userInterests[i];
-                vm.counter++;
-                vm.allInterests[j].active = true;
-              }
-            }
-          }
+
 
           vm.loadingInterests = false;
         }, function(response) {
@@ -79,6 +121,7 @@
           vm.loadingInterests = false;
 
         });
+
 
 
       }, function(response) {
@@ -95,10 +138,104 @@
 
     }
 
+    function loadMore() {
+      var deferred = $q.defer();
+      if (vm.next !== null) {
+
+        InterestsFactory.query({
+          user_id: USER_ID,
+          format: 'json',
+          limit: 200,
+          offset: 0
+        }).$promise.then(function(data) {
+
+          if (data.objects.length > 0) {
+            vm.userInterests = data.objects;
+          }
+
+          InterestsFactory.query({
+            format: 'json',
+            description__icontains: vm.searchQuery,
+            offset: vm.nextOffset,
+            limit: 30
+          }).$promise.then(function(data) {
+            var responseData = data.objects;
+            vm.next = data.meta.next;
+            vm.nextOffset += 30;
+
+
+            if (data.objects.length > 0) {
+              responseData = data.objects;
+            }
+
+
+
+            for (var j = responseData.length - 1; j >= 0; j--) {
+              for (var i = vm.userInterests.length - 1; i >= 0; i--) {
+                if (responseData[j].description === vm.userInterests[i].description) {
+                  responseData[j] = vm.userInterests[i];
+                  vm.counter++;
+                  responseData[j].active = true;
+                }
+              }
+              vm.allInterests.push(responseData[j]);
+            }
+
+            deferred.resolve();
+          }, function(response) {
+            var data = response.data,
+              status = response.status,
+              header = response.header,
+              config = response.config,
+              message = 'Error ' + status;
+            $log.error(message);
+            deferred.reject();
+
+          });
+
+
+        }, function(response) {
+          var data = response.data,
+            status = response.status,
+            header = response.header,
+            config = response.config,
+            message = 'Error ' + status;
+          $log.error(message);
+          deferred.reject();
+
+
+        });
+
+      } else {
+        deferred.resolve();
+      }
+      return deferred.promise;
+    }
+
+    function resolveMore() {
+      if (vm.loadingMore || vm.loadingInterests) {
+        return;
+      }
+
+      vm.loadingMore = true;
+
+      var promise = vm.loadMore();
+
+      promise.then(function(greeting) {
+        vm.loadingMore = false;
+      }, function(reason) {
+        vm.loadingMore = false;
+      });
+
+
+    }
+
     function useInterest(id) {
       var selected = $filter('getByProperty')('id', id, vm.allInterests);
 
       if (selected) {
+
+
         if (selected.active) {
 
           //deselect interest and delete from database
@@ -171,18 +308,14 @@
 
           }
         }
+
+
+
       }
 
+
     }
-
-
-
   }
-
-
-  angular
-    .module('beKindred')
-    .controller('InterestsController', InterestsController);
 
 
 
