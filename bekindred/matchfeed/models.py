@@ -15,6 +15,7 @@ class MatchFeedManager(models.Manager):
         friends = Friend.objects.all_my_friends(user_id) + Friend.objects.thumbed_up_i(user_id) + \
                   Friend.objects.deleted_friends(user_id) + [user_id] + \
                   list(FacebookCustomUser.objects.filter(is_active=False,
+                                                         is_superuser=True,
                                                          facebook_id__isnull=True).values_list('id', flat=True))
         # FacebookFriendUser.objects.alls_my_friends(user_id) + \
         return friends
