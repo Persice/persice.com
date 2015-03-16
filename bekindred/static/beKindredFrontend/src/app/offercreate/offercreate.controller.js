@@ -39,7 +39,13 @@ angular.module('beKindred')
         function(error) {
           $scope.resourceUri = null;
           $scope.messageShow = true;
-          $scope.message = error.data.offer.error[0];
+          if (error.data.offer) {
+            $scope.message = error.data.offer.error[0];
+          }
+          else {
+            $scope.message = 'There was an error when trying to save your offer.';
+          }
+
         });
     };
 
@@ -51,6 +57,13 @@ angular.module('beKindred')
       //if subject is empty warn user to enter subject
       if ($scope.subject === '') {
         $scope.message = 'Entering your offer is required to continue.';
+        $scope.messageShow = true;
+        return false;
+      }
+
+      //if subject is has more than 300 chars, warn the user
+      if ($scope.subject.length > 300) {
+        $scope.message = 'Offer cannot have more than 300 characters.';
         $scope.messageShow = true;
         return false;
       }
