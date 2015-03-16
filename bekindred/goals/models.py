@@ -34,7 +34,7 @@ class SubjectManager(models.Manager):
 
 
 class Subject(models.Model):
-    description = models.CharField(max_length=50, null=False, blank=False, unique=True)
+    description = models.CharField(max_length=300, null=False, blank=False, unique=True)
 
     search_index = VectorField()
 

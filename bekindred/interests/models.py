@@ -95,7 +95,7 @@ class InterestManager(models.Manager):
 
 
 class Interest(models.Model):
-    description = models.CharField(max_length=50, null=False, blank=False)
+    description = models.CharField(max_length=100, null=False, blank=False)
     user = models.ForeignKey(FacebookCustomUser)
 
     search_index = VectorField()
