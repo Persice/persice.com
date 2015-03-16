@@ -20,8 +20,7 @@ angular.module('beKindred', [
     'btford.socket-io',
     'zInfiniteScroll',
     'infinite-scroll',
-    'ngLodash',
-    'lrInfiniteScroll'
+    'ngLodash'
   ])
   .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
 

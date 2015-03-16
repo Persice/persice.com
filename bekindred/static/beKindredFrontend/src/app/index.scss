@@ -4002,6 +4002,24 @@ h2 hr {
 
 @media only screen and (min-width: 800px) {
   #interests {
-    padding: 0 30%;
+    padding: 0 40%;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  #interests {
+    padding: 0 50%;
+  }
+}
+
+@media only screen and (min-width: 400px) {
+  #interests {
+    padding: 0 10%;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  #interests {
+    padding: 0 20%;
   }
 }
