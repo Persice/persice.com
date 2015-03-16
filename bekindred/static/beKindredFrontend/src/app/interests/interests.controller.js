@@ -37,8 +37,9 @@
 
     var w = angular.element($window);
 
+    vm.limit = 45;
 
-    if (w.height() > 667) {
+    if (w.width() > 675) {
       vm.limit = 200;
     }
 
