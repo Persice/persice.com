@@ -61,7 +61,6 @@
       vm.searchQuery = '';
       vm.getAllInterests();
       vm.noResults = false;
-      vm.counter = 0;
     }
 
     function getAllInterests() {
@@ -75,7 +74,6 @@
       vm.next = null;
       vm.noResults = false;
       vm.loadingInterests = true;
-      vm.counter = 0;
       vm.allInterests.splice(0, vm.allInterests.length);
 
       InterestsFactory.query({
