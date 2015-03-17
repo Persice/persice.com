@@ -20,11 +20,10 @@
     vm.userUri = '/api/v1/auth/user/' + USER_ID + '/';
 
     vm.next = null;
-    vm.nextOffset = 30;
+    vm.nextOffset = 45;
     vm.loadingMore = false;
     vm.noResults = false;
     vm.reset = reset;
-    vm.limit = 30;
     vm.loadMore = loadMore;
     vm.resolveMore = resolveMore;
 
@@ -39,9 +38,6 @@
 
     vm.limit = 45;
 
-    if (w.width() > 675) {
-      vm.limit = 200;
-    }
 
     vm.getAllInterests();
 
@@ -69,7 +65,13 @@
     }
 
     function getAllInterests() {
-      vm.nextOffset = 30;
+
+      if (w.width() > 675) {
+        vm.limit = 200;
+      }
+
+
+      vm.nextOffset = 45;
       vm.next = null;
       vm.noResults = false;
       vm.loadingInterests = true;
@@ -171,7 +173,7 @@
           }).$promise.then(function(data) {
             var responseData = data.objects;
             vm.next = data.meta.next;
-            vm.nextOffset += vm.limit;
+            vm.nextOffset += 30;
 
 
             if (data.objects.length > 0) {
