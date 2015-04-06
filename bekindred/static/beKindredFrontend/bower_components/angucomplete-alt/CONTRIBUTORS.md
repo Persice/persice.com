@@ -4,7 +4,7 @@
 
 ### [@alexbeletsky: Alexander Beletsky](https://github.com/alexbeletsky)
 
-* Publish to NPM #111
+* Publish to NPM #111, #121
 
 ### [@alindber: Andy Lindberg](https://github.com/alindber)
 
@@ -17,19 +17,32 @@
 
 ### [@boshen](https://github.com/Boshen)
 
+* Collaborator and excellent developer
 * Add autocapitalize="off" autocorrect="off" autocomplete="off" #15
 
-### [@foozee](https://github.com/foozee)
+### [@termleech](https://github.com/termleech)
 
-* Watch initial value #26
+* Add maxlength #136
 
 ### [@handiwijoyo: Handi Wijoyo](https://github.com/handiwijoyo)
 
 * Add css to bower.json main #68
 
+### [@iamgurdip](https://github.com/iamgurdip)
+
+* Escape regular expression #123
+
+### [@jermspeaks: Jeremy Wong](https://github.com/jermspeaks)
+
+* Support withCredentials for $http #113
+
 ### [@Leocrest](https://github.com/Leocrest)
 
 * Clear input #61
+
+### [@mmBs](https://github.com/mmBs)
+
+* Add type attribute #96
 
 ### [@mrdevin: David Hartman](https://github.com/mrdevin)
 
@@ -55,6 +68,10 @@
 ### [@tomgutz: Tomas Gutierrez](https://github.com/tomgutz)
 
 * Added delete keystroke together with backspace #4
+
+### [@tuduong2](https://github.com/tuduong2)
+
+* Encode search parameter #119
 
 ### [@urecio](https://github.com/urecio)
 

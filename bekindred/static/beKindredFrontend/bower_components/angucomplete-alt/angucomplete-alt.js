@@ -36,6 +36,7 @@
     var KEY_TAB =  9;
 
     var MIN_LENGTH = 3;
+    var MAX_LENGTH = 524288;  // the default max length per the html maxlength attribute
     var PAUSE = 500;
     var BLUR_TIMEOUT = 200;
 
@@ -48,7 +49,7 @@
     // Set the default template for this directive
     $templateCache.put(TEMPLATE_URL,
         '<div class="angucomplete-holder" ng-class="{\'angucomplete-dropdown-visible\': showDropdown}">' +
-        '  <input id="{{id}}_value" ng-model="searchStr" ng-disabled="disableInput" type="{{type}}" placeholder="{{placeholder}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
+        '  <input id="{{id}}_value" ng-model="searchStr" ng-disabled="disableInput" type="{{type}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
         '  <div id="{{id}}_dropdown" class="angucomplete-dropdown" ng-show="showDropdown">' +
         '    <div class="angucomplete-searching" ng-show="searching" ng-bind="textSearching"></div>' +
         '    <div class="angucomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
@@ -545,9 +546,22 @@
           }
         }
 
+        function showAll() {
+          if (scope.localData) {
+            processResults(scope.localData, '');
+          }
+          else {
+            getRemoteResults('');
+          }
+        }
+
         scope.onFocusHandler = function() {
           if (scope.focusIn) {
             scope.focusIn();
+          }
+          if (minlength === 0 && (!scope.searchStr || scope.searchStr.length === 0)) {
+            scope.showDropdown = true;
+            showAll();
           }
         };
 
@@ -609,6 +623,10 @@
           if (str.length < minlength) {
             clearResults();
           }
+          else if (str.length === 0 && minlength === 0) {
+            showAll();
+          }
+
           if (scope.inputChanged) {
             str = scope.inputChanged(str);
           }
@@ -622,7 +640,7 @@
 
         // check min length
         if (scope.minlength && scope.minlength !== '') {
-          minlength = scope.minlength;
+          minlength = parseInt(scope.minlength, 10);
         }
 
         // check pause time
@@ -654,6 +672,9 @@
         // set strings for "Searching..." and "No results"
         scope.textSearching = attrs.textSearching ? attrs.textSearching : TEXT_SEARCHING;
         scope.textNoResults = attrs.textNoResults ? attrs.textNoResults : TEXT_NORESULTS;
+        
+        // set max length (default to maxlength deault from html
+        scope.maxlength = attrs.maxlength ? attrs.maxlength : MAX_LENGTH;
 
         // register events
         inputField.on('keydown', keydownHandler);

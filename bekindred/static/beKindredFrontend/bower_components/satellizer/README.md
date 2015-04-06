@@ -4,9 +4,9 @@
 [![Build Status](http://img.shields.io/travis/sahat/satellizer.svg?style=flat)](https://travis-ci.org/sahat/satellizer)
 [![Code Climate](http://img.shields.io/codeclimate/github/sahat/satellizer.svg?style=flat)](https://codeclimate.com/github/sahat/satellizer)
 [![Test Coverage](http://img.shields.io/codeclimate/coverage/github/sahat/satellizer.svg?style=flat)](https://codeclimate.com/github/sahat/satellizer)
-[![Version](http://img.shields.io/badge/version-0.9.3-orange.svg?style=flat)](https://www.npmjs.org/package/satellizer)
+[![Version](http://img.shields.io/badge/version-0.9.4-orange.svg?style=flat)](https://www.npmjs.org/package/satellizer)
 
-**Live Demo:** [https://satellizer.herokuapp.com](https://satellizer.herokuapp.com)
+#### Live Demo: [https://satellizer.herokuapp.com](https://satellizer.herokuapp.com)
 
 **Satellizer** is a simple to use, end-to-end, token-based authentication module
 for [AngularJS](http://angularjs.org) with built-in support for Google, Facebook,
@@ -46,7 +46,7 @@ npm install satellizer
 or use the CDN:
 
 ```html
-<script src="//cdn.jsdelivr.net/satellizer/0.9.3/satellizer.min.js"></script>
+<script src="//cdn.jsdelivr.net/satellizer/0.9.4/satellizer.min.js"></script>
 ```
 
 ## Usage
@@ -361,7 +361,7 @@ and specify `mylocalwebsite.net` as your *Redirect URL* on **API Settings** tab.
 - [`$auth.unlink(provider)`](#authunlinkprovider)
 - [`$auth.getToken()`](#authgettoken)
 - [`$auth.getPayload()`](#authgetpayload)
-- [`$auth.setToken(token, [isLinking])`](#authsettokentoken-redirect)
+- [`$auth.setToken(token, [redirect])`](#authsettokentoken-redirect)
 - [`$auth.removeToken()`](#authremovetoken)
 
 #### `$auth.login(user)`
