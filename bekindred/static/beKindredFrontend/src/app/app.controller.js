@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('AppCtrl', function($rootScope, $scope, USER_ID, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+  .controller('AppCtrl', function($rootScope, $scope, USER_ID, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
     $rootScope.hideTopMenu = false;
+
+    $rootScope.userImg = USER_PHOTO;
+    $rootScope.userName = USER_FIRSTNAME;
 
     $cookies.userid = USER_ID;
 

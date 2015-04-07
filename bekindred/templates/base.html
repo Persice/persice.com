@@ -63,7 +63,7 @@
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
-            <li><h2>BeKindred</h2></li>
+            <li><h2>Kindred</h2></li>
           </ul>
         </div>
       </div>
@@ -130,19 +130,39 @@
         </div>
 
 
-        <div class="ui inverted top fixed menu" id="maintopmenu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('editmyprofile') || isState('friendprofile') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')">
+        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('friendprofile') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')">
           <div class="container">
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
-            <div class="title item">
+            <div class="title item mobileview">
               <b update-title></b>
             </div>
-            <div class="right menu" id="main-menu-right">
-              <a ui-sref="home" ui-sref-active="active" class="item"> <i class="fa fa-home icon"></i> <span class="content">Home</span></a>
-              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label" messages-counter></div></a>
-              <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-small icon"></i> <span class="content">Match Feed</span></a>
-              <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
-              <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">0</div></a>
+            <div class="title item desktopview">
+              <b>KINDRED</b>
+            </div>
+            <a ui-sref="home" class="icon item desktopview" id="homelink"><i class="home icon"></i></a>
+            <div class="ui mini action input inverted desktopview searchbox">
+              <input type="text" placeholder="Search">
+              <button class="ui mini icon button">
+                <i class="angle right black double icon"></i>
+              </button>
+            </div>
+            <div class="ui pointing labeled dropdown item desktopview" id="browse">
+              Browse
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <a class="item">Item 1</a>
+                <a class="item">Item 2</a>
+                <a class="item">Item 3</a>
+              </div>
+            </div>
+
+            <div class="right menu desktopview" id="main-menu-right">
+              <a ui-sref="myprofile" ui-sref-active="active" class="item" id="profileimage">
+              <img ng-src="{{userImg}}" class="ui mini image">
+                {{userName}}
+              </a>
               <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
+
             </div>
 
             <div class="right menu" id="right-menu-launcher" ng-show="!showfullprofile && isState('matchfeed')">
@@ -171,6 +191,11 @@
 
         <script>
           'use strict';
+          $('.dropdown')
+          .dropdown({
+          })
+          ;
+
           $('.left.sidebar').first()
           .sidebar('attach events', '#leftsidebarlaunch')
           ;

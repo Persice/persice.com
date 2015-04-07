@@ -41,7 +41,7 @@ angular.module('beKindred', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         data: {
-          displayName: 'BeKindred',
+          displayName: 'KINDRED',
         },
         resolve: {
 

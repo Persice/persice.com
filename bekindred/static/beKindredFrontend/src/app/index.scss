@@ -1299,7 +1299,7 @@ Definition Container
 }
 #main-page .container {
   position: relative;
-  width: 1000px;
+  // width: 1000px;
   margin: 0px auto;
   padding: 0px 0px;
 }
@@ -1400,29 +1400,71 @@ Definition Container
 }
 @media only screen and (min-width : 1200px) and (max-width: 1355px) {
   #main-page .container {
-// width: 765px;
-margin: 0em auto;
-}
+    width: 765px;
+    margin: 0em auto;
+  }
 }
 @media only screen and (min-width : 1355px) {
   #main-page .container {
-// width: 850px;
+    width: 850px;
+  }
+  #main-page.item .container,
+  #main-page.card .container {
+    width: 915px;
+  }
 }
-#main-page.item .container,
-#main-page.card .container {
-  width: 915px;
+/*******************************
+top search box
+*******************************/
+
+
+.desktopview.searchbox {
+  position: relative;
+  vertical-align: middle;
 }
+
+.desktopview.searchbox input {
+  width: 200px!important;
 }
+
+#homelink {
+  margin-right: 20px;
+}
+
+#homelink:before, #browse:before, #profileimage:before, .desktopview .item:before {
+  display: none!important;
+}
+
+#profileimage {
+  position: relative;
+  vertical-align: middle;
+  padding: 0.78571em 0.95em!important;
+}
+
+#profileimage .ui.image {
+  display: inline-block;
+  width: 25px;
+  margin-right: 5px;
+}
+
 /*******************************
 Responsive
 *******************************/
-@media only screen and (max-width : 998px) {
-  #main-page .fixed .title {
+@media only screen and (min-width : 768px) {
+  .mobileview {
+   display: none!important;
+ }
+}
+@media only screen and (max-width : 768px) {
+  #main-page .fixed .title.mobileview {
     position: absolute;
     left: 45px;
     right: 45px;
     text-align: center;
     padding: 0.7em;
+  }
+  .desktopview {
+    display: none!important;
   }
   #main-page #main-menu-right {
     display: none;
@@ -2307,7 +2349,7 @@ img {
 .container {
   padding: 40px 20px;
   margin: 0 auto;
-  width: 400px;
+  max-width: 1024px;
 }
 /* conversation */
 .bubbledLeft p,.bubbledRight p {
