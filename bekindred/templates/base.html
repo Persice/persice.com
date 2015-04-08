@@ -30,7 +30,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
-<body id="main-page" ng-class="{'white': isState('myconnections') || isState('inbox') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')}" ng-cloak>
+<body id="main-page" ng-cloak>
   {%verbatim%}
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -176,8 +176,30 @@
 
 
         <div class="pusher">
-          <div class="full height gsapify-router" ui-view autoscroll="true">
-            <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
+          <div class="full height">
+            <div class="main container">
+
+              <div class="ui internal attached desktopview left rail">
+                <div class="ui fluid vertical menu" id="left-menu">
+
+                  <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Match Feed <i class="icon inverted chevron right"></i></a>
+                  <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
+                  <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">2</div><i class="icon inverted chevron right"></i></a>
+                  <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
+                </div>
+              </div>
+
+              <div class="ui internal attached desktopview right rail">
+
+              </div>
+
+
+              <div id="main-section" class="gsapify-router" ui-view autoscroll="false">
+                <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
+
+
+              </div>
+            </div>
           </div>
         </div>
 
@@ -215,6 +237,7 @@
 
           $('.right.sidebar').first()
           .sidebar('attach events', '#right-menu-launcher')
+          .sidebar('attach events', '#showFilter')
           .sidebar('setting', 'duration', 0)
           ;
           $('#right-menu-launcher')

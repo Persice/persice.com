@@ -34,7 +34,7 @@
   <!-- endinject -->
   <!-- endbuild -->
 </head>
-<body id="main-page" class="gray" ng-cloak ng-class="{'white': isState('myconnections') || isState('inbox') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')}">
+<body id="main-page" class="gray" ng-cloak>
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
@@ -67,7 +67,7 @@
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
             <li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li>
-            <li><h2>Kindred</h2></li>
+            <li><h2>KINDRED</h2></li>
           </ul>
         </div>
       </div>
@@ -177,64 +177,86 @@
         </div>
 
         <div class="pusher">
-          <div class="full height gsapify-router" ui-view autoscroll="true">
-            <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
+          <div class="full height">
+            <div class="main container">
+
+              <div class="ui internal attached desktopview left rail">
+                <div class="ui fluid vertical menu" id="left-menu">
+
+                  <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Match Feed <i class="icon inverted chevron right"></i></a>
+                  <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
+                  <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">2</div><i class="icon inverted chevron right"></i></a>
+                  <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
+                </div>
+              </div>
+
+              <div class="ui internal attached desktopview right rail">
+
+                </div>
+
+
+                <div id="main-section" class="gsapify-router" ui-view autoscroll="false">
+                  <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
+
+
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
 
-        <!-- build:js(src) scripts/vendor.js -->
-        <!-- bower:js -->
-        <!-- run `gulp wiredep` to automaticaly populate bower script dependencies -->
-        <!-- endbower -->
-        <!-- endbuild -->
+          <!-- build:js(src) scripts/vendor.js -->
+          <!-- bower:js -->
+          <!-- run `gulp wiredep` to automaticaly populate bower script dependencies -->
+          <!-- endbower -->
+          <!-- endbuild -->
 
-        <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
-        <!-- inject:js -->
-        <!-- js files will be automaticaly insert here -->
-        <!-- endinject -->
+          <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+          <!-- inject:js -->
+          <!-- js files will be automaticaly insert here -->
+          <!-- endinject -->
 
-        <!-- inject:partials -->
-        <!-- angular templates will be automatically converted in js and inserted here -->
-        <!-- endinject -->
-        <!-- endbuild -->
-
-
-        <script>
-          'use strict';
-          $('.dropdown')
-          .dropdown({
-          })
-          ;
-
-          $('.left.sidebar').first()
-          .sidebar('attach events', '#leftsidebarlaunch')
-          ;
-          $('#leftsidebarlaunch')
-          .removeClass('disabled')
-          ;
-
-          $('.top.horizontal.sidebar').first()
-          .sidebar('setting', {
-            dimPage             : false,
-            closable            : false,
-            transition          : 'overlay',
-            mobileTransition    : 'overlay'}
-            )
-          ;
-
-          $('.right.sidebar').first()
-          .sidebar('attach events', '#right-menu-launcher')
-          .sidebar('setting', 'duration', 0)
-          ;
-          $('#right-menu-launcher')
-          .removeClass('disabled')
-          ;
+          <!-- inject:partials -->
+          <!-- angular templates will be automatically converted in js and inserted here -->
+          <!-- endinject -->
+          <!-- endbuild -->
 
 
-          $('.ui.checkbox')
-          .checkbox({
+          <script>
+            'use strict';
+            $('.dropdown')
+            .dropdown({
+            })
+            ;
+
+            $('.left.sidebar').first()
+            .sidebar('attach events', '#leftsidebarlaunch')
+            ;
+            $('#leftsidebarlaunch')
+            .removeClass('disabled')
+            ;
+
+            $('.top.horizontal.sidebar').first()
+            .sidebar('setting', {
+              dimPage             : false,
+              closable            : false,
+              transition          : 'overlay',
+              mobileTransition    : 'overlay'}
+              )
+            ;
+
+            $('.right.sidebar').first()
+            .sidebar('attach events', '#right-menu-launcher')
+            .sidebar('setting', 'duration', 0)
+            ;
+            $('#right-menu-launcher')
+            .removeClass('disabled')
+            ;
+
+
+            $('.ui.checkbox')
+            .checkbox({
             // onChecked: function () {
             //   var mergedInput = $('#genders');
             //   var modelInput = $('#gendersModel');

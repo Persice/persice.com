@@ -30,7 +30,7 @@ body#main-page {
   font-family: "Lato", "Helvetica Neue", Arial, sans-serif;
 }
 body > .content  {
-  background: #FCFCFC url(../images/bg.jpg) repeat;
+  background-color: #FCFCFC;
 }
 h1,
 h2,
@@ -1269,6 +1269,10 @@ Normal
 }
 #main-page > .pusher > .full.height {
   background-color: #F7F7F7;
+  margin-top: 45px;
+}
+
+#main-page > .pusher {
 }
 /*******************************
 Definition Container
@@ -1277,32 +1281,81 @@ Definition Container
   clear: both;
 }
 #main-page .main.container {
-  background-color: #FFFFFF;
-  margin: 0em auto;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
-  border-left: 1px solid #DDDDDD;
-  border-right: 1px solid #DDDDDD;
-  border-bottom: 1px solid #DDDDDD;
-  padding: 2em 2em;
+  margin: 0px auto;
+  padding: 0px;
   z-index: 1;
 }
+
+#main-page .container .right.rail {
+  width: 200px;
+  padding-left: 0em;
+}
+#main-page .container .left.rail {
+  width: 200px;
+  padding-right: 0em;
+}
+
 #main-page .wide.main.container {
   width: 80%;
   margin: 0 auto;
   right: 0;
   max-width: 1140px;
 }
-#main-page .main.container .right.rail .sticky {
+#main-page .main.container .right.rail .sticky, #main-page .main.container .left.rail .sticky {
   padding: 2em 0em;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
 #main-page .container {
   position: relative;
-  // width: 1000px;
   margin: 0px auto;
   padding: 0px 0px;
 }
+
+/* LEFT MENU */
+
+#main-page #left-menu {
+
+  margin: 1rem 0rem;
+  background-color: #f7f7f7!important;
+
+  font-weight: normal;
+  box-shadow: none;
+  border: none;
+  padding: 1.1em 1.4em;
+}
+
+#left-menu .item.active .icon {
+  visibility: visible!important;
+}
+
+#left-menu .icon {
+  visibility: hidden;
+  float: right;
+}
+
+#main-page #left-menu .item  {
+  font-size: 1rem!important;
+}
+
+#main-page #left-menu .item.active  {
+  background-color: #36454F!important;
+  color: #FFF;
+  border: none;
+  box-shadow: none;
+  border-radius: 0px;
+}
+
+#left-menu .ui.label {
+  background: rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  margin: -0.15em 0em -0.15em 0.5em;
+  padding: 0.3em 0.8em;
+  vertical-align: baseline;
+  float: none;
+}
+
+
 #main-page .following.menu .menu .active.item {
   font-weight: bold;
 }
@@ -1342,20 +1395,40 @@ Definition Container
 @media only screen and (min-width : 600px) and (max-width : 998px) {
   #main-page .container {
     width: auto;
-    margin: 0em 0rem;
+    margin: 0em 10px;
   }
   #main-page .header .button {
     margin-bottom: 0.5em;
   }
   #main-page .main.container {
-    padding: 1em 2em;
+    // padding: 1em 2em;
   }
 }
+
+
+
+@media only screen and (min-width : 768px) {
+  #main-section {
+    left: 200px;
+    right: 200px;
+    position: absolute;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+    border: none;
+    padding-left: 2em;
+    padding-right: 2em;
+    height: 100vh!important;
+  }
+}
+
 @media only screen and (max-width : 998px) {
   #main-page > .pusher {
     display: block;
     width: 100%;
     height: auto;
+  }
+  #homelink {
+    margin-right: 0px!important;
   }
   #main-page > .pusher > .full.height {
     display: block;
@@ -1397,17 +1470,22 @@ Definition Container
     width: 200px;
     padding-left: 0em;
   }
+  #main-page .container .left.rail {
+    width: 200px;
+    padding-right: 0em;
+  }
 }
 @media only screen and (min-width : 1200px) and (max-width: 1355px) {
   #main-page .container {
-    width: 900px;
+    width: 100%;
     margin: 0em auto;
   }
 }
 @media only screen and (min-width : 1355px) {
   #main-page .container {
-    width: 950px;
+    width: 100%;
   }
+
   #main-page.item .container,
   #main-page.card .container {
     width: 915px;
@@ -1427,9 +1505,9 @@ top search box
   width: 200px;
 }
 
-// #homelink {
-//   margin-right: 20px;
-// }
+#homelink {
+  margin-right: 50px;
+}
 
 #homelink:before, #browse:before, #profileimage:before, .desktopview .item:before {
   display: none!important;
@@ -1466,6 +1544,9 @@ Responsive
     text-align: center;
     padding: 0.7em;
   }
+
+
+
 
 
   .desktopview {
@@ -1804,9 +1885,11 @@ Responsive
 .ui.huge.header {
   font-size: 3.2em!important;
 }
-#main-section {
-  padding-top: 8em;
+
+.ui.rail {
+  padding-top: 10px!important;
 }
+
 #side-menu-logo {
   position: absolute!important;
   padding: 0 auto;
@@ -2356,7 +2439,7 @@ img {
 .container {
   padding: 40px 20px;
   margin: 0 auto;
-  max-width: 1024px;
+  max-width: 1400px;
 }
 /* conversation */
 .bubbledLeft p,.bubbledRight p {
@@ -4040,12 +4123,13 @@ h2 hr {
   padding-bottom: 10px!important;
   padding-top: 0px!important;
   padding: 0 1rem;
-  overflow-y: auto!important;
+  overflow-y: scroll!important;
   position: absolute;
   top: 110px!important;
   bottom: 0px!important;
   margin: 0px!important;
   background-color: #FFF!important;
+  height: 100vh;
 
 }
 
