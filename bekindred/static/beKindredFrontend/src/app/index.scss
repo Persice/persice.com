@@ -1424,7 +1424,7 @@ top search box
 }
 
 .desktopview.searchbox input {
-  width: 200px!important;
+  width: 200px;
 }
 
 // #homelink {
@@ -1466,6 +1466,8 @@ Responsive
     text-align: center;
     padding: 0.7em;
   }
+
+
   .desktopview {
     display: none!important;
   }
@@ -1605,6 +1607,9 @@ Responsive
   #main-page .examples {
     margin-right: 230px;
     padding: 1px;
+  }
+  .desktopview.searchbox input {
+    width: 150px!important;
   }
   #main-page .fixed.column,
   #main-page .fixed.column .fixed {
