@@ -1342,7 +1342,7 @@ Definition Container
 @media only screen and (min-width : 600px) and (max-width : 998px) {
   #main-page .container {
     width: auto;
-    margin: 0em 2rem;
+    margin: 0em 0rem;
   }
   #main-page .header .button {
     margin-bottom: 0.5em;
@@ -1400,13 +1400,13 @@ Definition Container
 }
 @media only screen and (min-width : 1200px) and (max-width: 1355px) {
   #main-page .container {
-    width: 765px;
+    width: 900px;
     margin: 0em auto;
   }
 }
 @media only screen and (min-width : 1355px) {
   #main-page .container {
-    width: 850px;
+    width: 950px;
   }
   #main-page.item .container,
   #main-page.card .container {
@@ -1427,9 +1427,9 @@ top search box
   width: 200px!important;
 }
 
-#homelink {
-  margin-right: 20px;
-}
+// #homelink {
+//   margin-right: 20px;
+// }
 
 #homelink:before, #browse:before, #profileimage:before, .desktopview .item:before {
   display: none!important;
@@ -1445,6 +1445,9 @@ top search box
   display: inline-block;
   width: 25px;
   margin-right: 5px;
+}
+
+.body.segment {
 }
 
 /*******************************
@@ -1618,9 +1621,8 @@ Responsive
     width: 250px;
   }
   #main-page > .pusher {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
   }
   #main-page > .pusher > .full.height {
     flex: 1;
@@ -3950,6 +3952,8 @@ h2 hr {
 
 #main-page.white > .pusher {
   background-color: #FFF!important;
+  height: auto;
+  min-height: 100vh;
 }
 
 
@@ -4031,11 +4035,12 @@ h2 hr {
   padding-bottom: 10px!important;
   padding-top: 0px!important;
   padding: 0 1rem;
-  overflow-y: scroll!important;
+  overflow-y: auto!important;
   position: absolute;
   top: 110px!important;
   bottom: 0px!important;
   margin: 0px!important;
+  background-color: #FFF!important;
 
 }
 

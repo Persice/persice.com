@@ -1,28 +1,29 @@
 'use strict';
 
 angular.module('beKindred', [
-    'ngAnimate',
-    'ngCookies',
-    'ngTouch',
-    'ngSanitize',
-    'ngResource',
-    'ui.router',
-    'angular-spinkit',
-    'frontend.semantic.dimmer',
-    'truncate',
-    'ya.nouislider',
-    'ngDraggable',
-    'angucomplete-alt',
-    'angular-carousel',
-    'cgNotify',
-    'ngImgCrop',
-    'angularMoment',
-    'btford.socket-io',
-    'zInfiniteScroll',
-    'infinite-scroll',
-    'ngLodash'
+  'ngAnimate',
+  'ngCookies',
+  'ngTouch',
+  'ngSanitize',
+  'ngResource',
+  'ui.router',
+  'angular-spinkit',
+  'frontend.semantic.dimmer',
+  'truncate',
+  'ya.nouislider',
+  'ngDraggable',
+  'angucomplete-alt',
+  'angular-carousel',
+  'cgNotify',
+  'ngImgCrop',
+  'angularMoment',
+  'btford.socket-io',
+  'zInfiniteScroll',
+  'infinite-scroll',
+  'ngLodash',
+  'hj.gsapifyRouter'
   ])
-  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
     $httpProvider.defaults.headers.patch = {
       'Content-Type': 'application/json;charset=utf-8'
@@ -34,6 +35,77 @@ angular.module('beKindred', [
     $httpProvider.defaults.headers.post = {
       'Content-Type': 'application/json;charset=utf-8'
     };
+
+
+    // Set default transitions to use if unspecified
+    gsapifyRouterProvider.defaults = {
+
+      // name of transition to use or 'none'
+      enter: 'fadeIn',
+
+      leave: 'fadeOut'
+
+    };
+
+
+    gsapifyRouterProvider.transition('slideAbove', {
+      duration: 1,
+      ease: 'Quart.easeInOut',
+      css: {
+        y: '-100%'
+      }
+    });
+
+    gsapifyRouterProvider.transition('slideBelow', {
+      duration: 1,
+      ease: 'Quart.easeInOut',
+      css: {
+        y: '100%'
+      }
+    });
+
+    gsapifyRouterProvider.transition('slideLeft', {
+      duration: 1,
+      ease: 'Quint.easeInOut',
+      css: {
+        x: '-100%'
+      }
+    });
+
+    gsapifyRouterProvider.transition('slideRight', {
+      duration: 1,
+      ease: 'Quint.easeInOut',
+      delay: 0.5,
+      css: {
+        x: '100%'
+      }
+    });
+
+    gsapifyRouterProvider.transition('fadeIn', {
+      duration: 0.5,
+      delay: 0.2,
+      css: {
+        opacity: 0,
+      }
+    });
+
+    gsapifyRouterProvider.transition('fadeOut', {
+      duration: 0.2,
+      css: {
+        opacity: 0,
+      }
+    });
+
+    gsapifyRouterProvider.transition('scaleDown', {
+      duration: 0.5,
+      css: {
+        scale: 0,
+        opacity: 0
+      }
+    });
+
+    // Optionally enable transition on initial load
+    gsapifyRouterProvider.initialTransitionEnabled = true; // defaults to false
 
     $stateProvider
       .state('home', {
@@ -66,7 +138,7 @@ angular.module('beKindred', [
         resolve: {
           userId: ['$stateParams', function($stateParams) {
             return $stateParams.userId;
-          }],
+        }],
           UsersFactory: 'UsersFactory',
           FRIEND: function(UsersFactory, $stateParams) {
             var userId = $stateParams.userId;
@@ -156,7 +228,7 @@ angular.module('beKindred', [
         resolve: {
           userId: ['$stateParams', function($stateParams) {
             return $stateParams.userId;
-          }],
+        }],
           ProfileFactory: 'ProfileFactory',
           ConnectionsFactory: 'ConnectionsFactory',
           User: function(ProfileFactory, $stateParams) {
@@ -263,7 +335,7 @@ angular.module('beKindred', [
         $rootScope.$on('$stateChangeSuccess', listener);
       }
     };
-  }])
+}])
   .directive('endRepeat', function($timeout) {
     return {
       restrict: 'A',

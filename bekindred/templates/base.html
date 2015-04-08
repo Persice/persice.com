@@ -30,7 +30,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
-<body id="main-page" ng-class="{'white': isState('myconnections') || isState('inbox') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')}">
+<body id="main-page" ng-class="{'white': isState('myconnections') || isState('inbox') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')}" ng-cloak>
   {%verbatim%}
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -158,10 +158,11 @@
 
             <div class="right menu desktopview" id="main-menu-right">
               <a ui-sref="myprofile" ui-sref-active="active" class="item" id="profileimage">
-              <img ng-src="{{userImg}}" class="ui mini image">
+                <img ng-src="{{userImg}}" class="ui mini image">
                 {{userName}}
               </a>
-              <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
+              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
+              <a href="" class="item"> <span class="content">Help</span></a>
 
             </div>
 
@@ -175,7 +176,7 @@
 
 
         <div class="pusher">
-          <div class="full-height" ui-view autoscroll="true">
+          <div class="full height gsapify-router" ui-view autoscroll="true">
             <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
           </div>
         </div>

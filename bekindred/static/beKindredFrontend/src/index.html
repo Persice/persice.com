@@ -34,7 +34,7 @@
   <!-- endinject -->
   <!-- endbuild -->
 </head>
-<body id="main-page" class="gray">
+<body id="main-page" class="gray" ng-cloak ng-class="{'white': isState('myconnections') || isState('inbox') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')}">
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
@@ -152,9 +152,9 @@
               Browse
               <i class="dropdown icon"></i>
               <div class="menu">
-                <a class="item">Item 1</a>
-                <a class="item">Item 2</a>
-                <a class="item">Item 3</a>
+                <a class="item">Lorem</a>
+                <a class="item">Ipsum</a>
+                <a class="item">Donor</a>
               </div>
             </div>
 
@@ -163,7 +163,9 @@
                 <img ng-src="{{userImg}}" class="ui mini image">
                 {{userName}}
               </a>
-              <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
+              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
+
+              <a href="" class="item"> <span class="content">Help</span></a>
 
             </div>
 
@@ -175,7 +177,7 @@
         </div>
 
         <div class="pusher">
-          <div class="full-height gsapify-router" ui-view autoscroll="false">
+          <div class="full height gsapify-router" ui-view autoscroll="true">
             <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
           </div>
         </div>
