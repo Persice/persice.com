@@ -1315,9 +1315,10 @@ Definition Container
 /* LEFT MENU */
 
 #main-page #left-menu {
-
+  position: fixed!important;
   margin: 1rem 0rem;
   background-color: #f7f7f7!important;
+  width: 180px;
 
   font-weight: normal;
   box-shadow: none;
@@ -1433,7 +1434,7 @@ Definition Container
   }
 
 
-   #main-page .container .right.rail {
+  #main-page .container .right.rail {
     width: 180px;
     padding-left: 0em;
   }
@@ -1901,9 +1902,6 @@ Responsive
   font-size: 3.2em!important;
 }
 
-.ui.rail {
-  padding-top: 10px!important;
-}
 
 #side-menu-logo {
   position: absolute!important;
@@ -3909,7 +3907,9 @@ ul[rn-carousel]>li {
 }
 
 
-
+#main-page #main-content {
+  height: 100vh;
+}
 
 @media only screen and (max-width : 600px) {
   #friendmenu {
@@ -4138,13 +4138,13 @@ h2 hr {
   padding-bottom: 10px!important;
   padding-top: 0px!important;
   padding: 0 1rem;
-  overflow-y: scroll!important;
-  position: absolute;
-  top: 110px!important;
-  bottom: 0px!important;
+  // overflow-y: scroll!important;
+  // position: absolute;
+  // top: 110px!important;
+  // bottom: 0px!important;
   margin: 0px!important;
-  background-color: #FFF!important;
-  height: 100vh;
+  // background-color: #FFF!important;
+  // height: 100vh;
 
 }
 
@@ -4155,29 +4155,178 @@ h2 hr {
 
 @media only screen and (min-width: 800px) {
   #interests {
-    padding: 0 40%;
+    // padding: 0 40%;
   }
 }
 
 @media only screen and (min-width: 1024px) {
   #interests {
-    padding: 0 50%;
+    // padding: 0 50%;
   }
 }
 
 @media only screen and (min-width: 400px) {
   #interests {
-    padding: 0 10%;
+    // padding: 0 10%;
   }
 }
 
 @media only screen and (min-width: 600px) {
   #interests {
-    padding: 0 20%;
+    // padding: 0 20%;
   }
 }
 
 
 div#id_description, input#id_description_value {
   width: 100%!important;
+}
+
+
+
+/* Filters desktopview*/
+
+#matchfeed-filters {
+  padding: 0px!important;
+}
+#matchfeed-filters label {
+  font-size:1rem;
+}
+
+
+#matchfeed-filters h5.right.switch_label {
+  // color: #FFF;
+}
+#matchfeed-filters label.inline {
+  margin: 0px;
+  padding: 0px;
+}
+
+#matchfeed-filters span.range {
+  position: absolute;
+  right: 0px;
+}
+#matchfeed-filters .noUi-horizontal .noUi-handle {
+  width: 20px;
+  height: 20px;
+  left: -10px;
+  top: -7px;
+  border-radius: 500rem;
+  background: #ffffff linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+  box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, 0.05), 0px 0px 0px 1px rgba(39, 41, 43, 0.15) inset;
+  border: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+#matchfeed-filters .noUi-handle:before, #matchfeed-filters .noUi-handle:after {
+  display: none;
+}
+#matchfeed-filters .noUi-origin {
+  background: #ddd;
+}
+#matchfeed-filters .one-slider .noUi-background {
+  background-color: #ddd!important;
+}
+
+
+
+#matchfeed-filters .noUi-base {
+  background-color: #ddd;
+}
+#matchfeed-filters .noUi-target {
+  border: none;
+  box-shadow: none;
+}
+.noUi-connect {
+}
+#matchfeed-filters .two-slider div.noUi-base>div.noUi-origin:first-of-type {
+  background-color: #ddd!important;
+}
+#matchfeed-filters ul.simple {
+  display: block;
+  margin: 0;
+  padding-left: 0;
+  list-style-type: none;
+  list-style-position: inside;
+}
+#matchfeed-filters ul.simple li {
+  display: block;
+  font-size: 0.8rem;
+
+  line-height: 1;
+  font-size: 0.8rem;
+  padding-left: 20px;
+  text-indent: 0px;
+  margin-bottom: 10px;
+}
+#matchfeed-filters ul.simple li span {
+  position: absolute;
+  left: 0px;
+}
+#matchfeed-filters ul.simple li span .fa {
+  color: #FFF;
+}
+#matchfeed-filters .keywords {
+  position: relative;
+}
+#matchfeed-filters .search-wrapper input {
+  font-size: 1rem;
+}
+#matchfeed-filters .search-wrapper {
+  margin-top: 5px;
+}
+
+#matchfeed-filters .ui.icon.input {
+  height: 38px!important;
+}
+
+#matchfeed-filters .ui.toggle.checkbox .box:before, #matchfeed-filters .ui.toggle.checkbox label:before {
+  // background-color: #222!important;
+}
+
+#matchfeed-filters .ui.toggle.checkbox input:checked~.box:before, #matchfeed-filters .ui.toggle.checkbox input:checked~label:before {
+  background-color: #5bbd72!important;
+}
+
+
+#matchfeed-filters .ui.message {
+  padding: 0.6em!important;
+}
+
+#matchfeed-filters {
+  margin-top: 1rem;
+}
+
+#matchfeed-filters-container h4.ui.header {
+  margin: 0px!important;
+}
+
+#matchfeed-filters .ui.icon.input {
+  height: 38px !important;
+}
+
+#matchfeed-filters i.icon {
+  width: 1em !important;
+  height: 1em !important;
+}
+
+#FilterController {
+  padding: 1rem;
+}
+
+#filterForm {
+  position: relative;
+}
+#matchfeed-filters-container #FilterController {
+  position: fixed!important;
+}
+
+#matchfeed-filters a.item .content {
+  padding-top: 1rem!important;
+  font-size: 1rem!important;
+
+}
+
+#matchfeed-filters a.item .header {
+  color: #333!important;
 }

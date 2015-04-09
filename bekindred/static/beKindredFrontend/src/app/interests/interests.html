@@ -26,7 +26,7 @@
 
 
 
-<div class="ui basic segment" id="interests" ng-class="{'loading': interest.loadingInterests}" z-infinite-scroll="interest.resolveMore" inverse="false" body-scroll="false" scroll-threshold="2" time-threshold="100">
+<div class="ui basic segment" id="interests" ng-class="{'loading': interest.loadingInterests}" z-infinite-scroll="interest.resolveMore" inverse="false" body-scroll="true" scroll-threshold="2" time-threshold="100">
 
   <div class="ui info message" ng-show="interest.noResults && !interest.loadingInterests">
     <p>No interests found.</p>
