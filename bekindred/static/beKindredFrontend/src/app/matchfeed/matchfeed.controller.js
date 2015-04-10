@@ -25,10 +25,6 @@ angular.module('beKindred')
     var pok = 0;
 
 
-    $scope.toggleSidebarFilters = function() {
-      $log.info('Toggle sidebar');
-    };
-
     $scope.totalfriendscount = 0;
     $scope.totalmatchingcount = 0;
 

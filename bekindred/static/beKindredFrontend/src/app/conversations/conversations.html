@@ -74,9 +74,7 @@
   $('.ui.dropdown')
   .dropdown({
     onShow:  function(){
-      $('#hideConversation')
-      .dimmer('show')
-      ;
+
 
       var scope = angular.element($("#submenu")).scope();
       scope.$apply(function(){
@@ -84,9 +82,7 @@
       });
     },
     onHide: function(){
-      $('#hideConversation')
-      .dimmer('hide')
-      ;
+
       var scope = angular.element($("#submenu")).scope();
       setTimeout(function() {
         scope.$apply(function(){
