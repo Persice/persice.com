@@ -341,34 +341,34 @@ Masthead
 body#main-page {
   background-color: #2C2C2C!important;
 }
-body#main-page.pushed,
-body#main-page.hide {
-  -moz-transform-origin: 50% 50%;
-  -o-transform-origin: 50% 50%;
-  -ms-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
-  -webkit-animation-name: masthead;
-  -moz-animation-name: masthead;
-  -o-animation-name: masthead;
-  animation-name: masthead;
-  -webkit-animation-duration: 30s;
-  -moz-animation-duration: 30s;
-  -ms-animation-duration: 30s;
-  -o-animation-duration: 30s;
-  animation-duration: 30s;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  -ms-animation-fill-mode: both;
-  -o-animation-fill-mode: both;
-  animation-fill-mode: both;
-  animation-timing-function: linear;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  -ms-animation-iteration-count: infinite;
-  -o-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-}
+// body#main-page.pushed,
+// body#main-page.hide {
+//   -moz-transform-origin: 50% 50%;
+//   -o-transform-origin: 50% 50%;
+//   -ms-transform-origin: 50% 50%;
+//   transform-origin: 50% 50%;
+//   -webkit-animation-name: masthead;
+//   -moz-animation-name: masthead;
+//   -o-animation-name: masthead;
+//   animation-name: masthead;
+//   -webkit-animation-duration: 30s;
+//   -moz-animation-duration: 30s;
+//   -ms-animation-duration: 30s;
+//   -o-animation-duration: 30s;
+//   animation-duration: 30s;
+//   -webkit-animation-fill-mode: both;
+//   -moz-animation-fill-mode: both;
+//   -ms-animation-fill-mode: both;
+//   -o-animation-fill-mode: both;
+//   animation-fill-mode: both;
+//   animation-timing-function: linear;
+//   -webkit-animation-timing-function: linear;
+//   -webkit-animation-iteration-count: infinite;
+//   -moz-animation-iteration-count: infinite;
+//   -ms-animation-iteration-count: infinite;
+//   -o-animation-iteration-count: infinite;
+//   animation-iteration-count: infinite;
+// }
 #main-page .masthead .grid {
   position: relative;
   z-index: 2;
@@ -2605,7 +2605,7 @@ span.conversation-time {
   position: absolute!important;
   top: 52px!important;
   width: 100%!important;
-  bottom: 100px!important;
+  bottom: 104px!important;
   padding: 0 1.5rem!important;
   margin: 0!important;
   left: 0px;
@@ -4411,7 +4411,7 @@ div#id_description, input#id_description_value {
 
 
 .matchedperson.card .extra.content {
-  background-color: #efefef!important;
+  background-color: #ddd!important;
 }
 
 .matchedperson.card .content.heading {

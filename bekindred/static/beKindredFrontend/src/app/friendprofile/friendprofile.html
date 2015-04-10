@@ -189,6 +189,9 @@
         onShow:  function(){
             $('#matched-profile-body').dimmer('show');
             $('#friendprofileheader').dimmer('show');
+            $('#hideConversation')
+            .dimmer('show')
+            ;
             var scope = angular.element($("#submenu")).scope();
             scope.$apply(function(){
                 scope.middleActive = false;
@@ -197,6 +200,9 @@
         onHide: function(){
             $('#matched-profile-body').dimmer('hide');
             $('#friendprofileheader').dimmer('hide');
+            $('#hideConversation')
+            .dimmer('hide')
+            ;
             var scope = angular.element($("#submenu")).scope();
             setTimeout(function() {
                 scope.$apply(function(){

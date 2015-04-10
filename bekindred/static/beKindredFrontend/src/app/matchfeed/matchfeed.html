@@ -216,9 +216,14 @@
 </page-dimmer>
 
 
-<script type="text/javascript">
+<script>
     'use strict';
+
     $('.right.sidebar').first()
-    .sidebar('attach events', '#showFilter')
+    .sidebar('attach events', '#showFilter', 'show')
     ;
+    $('#showFilter')
+    .removeClass('disabled')
+    ;
+
 </script>
