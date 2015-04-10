@@ -30,7 +30,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
-<body id="main-page" ng-cloak>
+<body id="main-page" ng-cloak ng-class="{'conversationspage': isState('conversations'), 'lowersidemenus' : isState('conversations') || isState('friendprofile')}">
   {%verbatim%}
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -74,7 +74,7 @@
       <div class="ui vertical right inverted labeled sidebar menu" id="filtersMenu" ng-show="isState('matchfeed')">
         <div id="FilterController" ng-controller="FilterController">
           <div id="filter" class="ui form">
-            <form name="filterForm" id="filterForm" method="get" action="">
+            <form name="filterForm" id="filterForm">
               <div class="field">
                 <label>Distance <span class="range">{{distanceValue}} mi.</span></label>
                 <div no-ui-slider="distanceOptions" ng-model="distanceValue" ng-change="saveFilters()"></div>
@@ -130,7 +130,7 @@
         </div>
 
 
-        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('friendprofile') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')">
+        <div class="ui inverted top fixed menu" ng-controller="TopNavbarCtrl" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('editmyprofile') || isState('friendprofile') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')">
           <div class="container">
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
             <div class="title item mobileview">
@@ -175,9 +175,9 @@
 
 
 
-        div class="pusher">
-        <div class="full height">
-          <div class="main container">
+        <div class="pusher">
+          <div class="full height">
+           <div class="main container">
 
             <div class="ui attached internal desktopview left rail">
               <div class="ui vertical menu" id="left-menu">
@@ -197,7 +197,7 @@
                <div class="ui fitted divider"></div>
 
                <div id="matchfeed-filters" class="ui form">
-                <form name="filterForm" id="filterForm" ng-submit="" class="form" method="get" action="">
+                <form name="filterForm" id="filterForm" ng-submit="" class="form">
                   <div class="field">
                     <label>Distance <span class="range">{{distanceValue}} mi.</span></label>
                     <div no-ui-slider="distanceOptions" ng-model="distanceValue" ng-change="saveFilters()"></div>
@@ -259,6 +259,8 @@
               <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
             </div>
 
+            <div id="hideConversation" class="ui dimmer"></div>
+
           </div>
         </div>
       </div>
@@ -297,7 +299,6 @@
 
         $('.right.sidebar').first()
         .sidebar('attach events', '#right-menu-launcher')
-        .sidebar('attach events', '#showFilter')
         .sidebar('setting', 'duration', 0)
         ;
         $('#right-menu-launcher')

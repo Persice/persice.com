@@ -71,6 +71,8 @@ angular.module('beKindred')
 
           $log.error(message);
 
+          $scope.noConnections = true;
+
           $scope.loading = false;
 
         });

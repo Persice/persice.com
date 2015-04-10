@@ -175,8 +175,6 @@ Sidebar
   z-index: 2;
   margin: 0em;
   min-height: 185px;
-  padding-top: 70px;
-  padding-bottom: 30px;
   background-color: #FFFFFF;
   border-bottom: 1px solid #DDDDDD;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -1268,8 +1266,11 @@ Normal
   color: #aaa;
 }
 #main-page > .pusher > .full.height {
-  background-color: #F7F7F7;
-  margin-top: 45px;
+
+}
+
+#headerelement {
+ padding-top: 45px;
 }
 
 #main-page > .pusher {
@@ -1310,6 +1311,28 @@ Definition Container
   position: relative;
   margin: 0px auto;
   padding: 0px 0px;
+}
+
+.ui.basic.segment.notice {
+  margin: 0px;
+  padding: 0px;
+}
+
+#main-page #main-content {
+  position: relative;
+  flex: 1;
+  min-height: 100vh;
+}
+
+
+#main-page.lowersidemenus #left-menu{
+  padding-top: 40px!important;
+
+}
+
+#main-page.lowersidemenus #matchfeed-filters-container #FilterController{
+  padding-top: 60px!important;
+
 }
 
 /* LEFT MENU */
@@ -1363,7 +1386,6 @@ Definition Container
   float: none;
 }
 
-
 #main-page .following.menu .menu .active.item {
   font-weight: bold;
 }
@@ -1386,7 +1408,7 @@ Definition Container
     margin: 0em 1rem;
   }
   #main-page .main.container {
-    padding: 1em;
+    padding: 0em;
     box-shadow: none;
   }
   #main-page .header.segment {
@@ -1414,6 +1436,45 @@ Definition Container
 }
 
 
+#main-page #main-content {
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+  border: none;
+  padding: 1rem!important;
+}
+
+#main-page > .pusher {
+  display: flex;
+  min-height: 100%!important;
+  flex-direction: column;
+}
+
+#main-page  > .pusher > .full.height {
+  flex: 1;
+  margin-top: 45px;
+
+}
+
+.ui.basic.segment {
+  padding: 0px!important;
+}
+
+#page-interests {
+  max-width: 500px!important;
+  margin: 0 auto!important;
+}
+
+#main-page .main.container {
+  height: 100%;
+
+}
+
+#main-page #main-content {
+
+  padding: 1.2em;
+}
+
+
 
 
 @media only screen and (min-width : 768px) {
@@ -1425,13 +1486,7 @@ Definition Container
 
   }
 
-  #main-page #main-content {
-    background-color: #FFFFFF;
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
-    border: none;
-    height: 100vh;
-    padding: 1.2em;
-  }
+
 
 
   #main-page .container .right.rail {
@@ -1449,14 +1504,13 @@ Definition Container
   #main-page > .pusher {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
   }
   #homelink {
     margin-right: 0px!important;
   }
   #main-page > .pusher > .full.height {
     display: block;
-    height: auto;
   }
   #main-page .following.menu {
     display: none;
@@ -1466,8 +1520,9 @@ Definition Container
   #main-page .following.menu {
     display: block;
   }
-  #main-page .container {
-  }
+
+
+
 }
 @media only screen and (min-width: 1200px) {
   #main-page .introduction {
@@ -1713,23 +1768,7 @@ Responsive
     width: 200px;
   }
 }
-@media only screen and (min-width : 998px) {
-  #main-page .examples {
-    margin-right: 280px;
-    padding: 1px;
-  }
-  #main-page .fixed.column,
-  #main-page .fixed.column .fixed {
-    width: 250px;
-  }
-  #main-page > .pusher {
-    // display: flex;
-    // flex-direction: column;
-  }
-  #main-page > .pusher > .full.height {
-    flex: 1;
-  }
-}
+
 .ui.inverted.menu {
   background: #36454F!important;
 }
@@ -2276,10 +2315,7 @@ ul.errorlist li {
   line-height: 1.5;
   margin-bottom: 5px;
 }
-.inbox-header {
-  background-color: #f6f6f6!important;
-  padding: 0.8rem;
-}
+
 .search-wrapper-inbox {
   position: relative;
 }
@@ -2402,10 +2438,11 @@ a.list-group-item:hover .message-body, a.list-group-item:hover .message-from{
 }
 .message-reply {
   position: absolute;
-  bottom: 0px;
+  bottom: 45px;
   width: 100%;
-  background-color: #f6f6f6 !important;
-  padding: 0.8rem;
+  background-color: #f6f6f6!important;
+  padding: .8rem;
+  left: 0px;
 }
 .message-reply input {
   width: 80%;
@@ -2452,7 +2489,7 @@ img {
 .container {
   padding: 40px 20px;
   margin: 0 auto;
-  max-width: 1200px!important;
+  max-width: 1024px!important;
 }
 /* conversation */
 .bubbledLeft p,.bubbledRight p {
@@ -2517,6 +2554,23 @@ color: white;
   font-weight: 400;
 }
 
+#main-page.conversationspage.pushable {
+  overflow: hidden!important;
+}
+
+#main-page.conversationspage.pushable>.pusher>.full.height {
+  overflow: hidden!important;
+  height: 100%;
+}
+
+#main-page.conversationspage.pushable .pusher {
+  height: 100%!important;
+}
+
+#main-page.conversationspage.pushable #main-content {
+  min-height: 100%!important;
+}
+
 span.conversation-time {
   position: absolute;
   bottom: 10px;
@@ -2527,22 +2581,20 @@ span.conversation-time {
   line-height: 1.3rem!important;
 }
 
+
 .conversation-content.ui.segment {
   overflow-y: scroll!important;
   position: absolute!important;
-  top: 97px!important;
+  top: 52px!important;
   width: 100%!important;
-  bottom: 60px!important;
-  padding-left: 10px!important;
-  padding-right: 10px!important;
-  background-color: #FFF!important;
-  padding-top: 0px!important;
-  padding-bottom: 0px!important;
-  margin: 0px!important;
+  bottom: 100px!important;
+  padding: 0 1.5rem!important;
+  margin: 0!important;
+  left: 0px;
 }
 
 #hideConversation {
-  top: 97px!important;
+  top: 52px!important;
   z-index: 1!important;
 }
 
@@ -2882,8 +2934,6 @@ div.friend-actions a:hover {
   position: relative;
   z-index: 2;
   margin: 0;
-  padding-top: 70px;
-  padding-bottom: 30px;
   background-color: #fff;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 1px 2px rgba(0,0,0,.1);
@@ -2923,14 +2973,12 @@ div.friend-actions a:hover {
 
 
 #matched-profile-header, #matched-profile-body {
-  background-color: #f7f7f7!important;
+  // background-color: #f7f7f7!important;
 }
 
 #matched-profile-body {
   padding-top: 0px!important;
-  min-height: 100px!important;
   border-bottom: none!important;
-  padding-bottom: 5px!important;
   box-shadow: none!important;
 
 }
@@ -2980,14 +3028,10 @@ div.friend-actions a:hover {
 
 
 #inbox-header {
- border: none!important;
- padding-bottom: 1em!important;
  position: relative;
  z-index: 100;
- margin: 0em;
- padding-top: 55px;
- border-bottom: 1px solid #DDDDDD;
- box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+ margin: 0em!important;
+ padding: 0px!important;
 }
 
 
@@ -2997,7 +3041,7 @@ div.friend-actions a:hover {
 
 #inbox-body .message-time {
   position: absolute!important;
-  right: 1em;
+  right: 0em;
   top: 1em;
   color: rgba(0, 0, 0, 0.8);
   font-weight: normal;
@@ -3006,11 +3050,9 @@ div.friend-actions a:hover {
 
 #inbox-body .list {
   position: relative;
-  max-width: 600px;
 }
 
 #inbox-body a.item {
-  padding-left: 1em;
   position: relative;
 }
 
@@ -3033,9 +3075,6 @@ div.friend-actions a:hover {
   padding-right: 1em;
 }
 
-#main-page #inbox-body .container, #main-page #inbox-header .container {
-  max-width: 600px;
-}
 
 
 @media only screen and (max-width: 600px) {
@@ -3050,10 +3089,11 @@ div.friend-actions a:hover {
   }
 }
 
-
-#inbox-header .container {
-  padding: 0 1em;
+#main-page>.pusher {
+  height: auto!important;
 }
+
+
 
 #inbox-header .input {
   width: 100%;
@@ -3113,13 +3153,9 @@ div.friend-actions a:hover {
 
 #friends-list-header {
  border: none!important;
- padding-bottom: 1em!important;
  position: relative;
- z-index: 100;
- margin: 0em;
- padding-top: 55px;
- border-bottom: 1px solid #DDDDDD;
- box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+ margin: 0px;
+ padding: 0px;
 }
 
 
@@ -3142,17 +3178,13 @@ div.friend-actions a:hover {
 
 #friends-list-body .list {
   position: relative;
-  max-width: 600px;
-  padding-top: 0em;
-  margin-top: 0em;
+  padding: 0em;
+  margin: 0em;
 }
 
 #friends-list-body .item {
-  padding-top: 1em;
   padding-bottom: 1em;
-  padding-left: 1em;
   position: relative;
-  padding-right: 60px;
 }
 
 #friends-list-body .item .content .header {
@@ -3193,9 +3225,7 @@ div.friend-actions a:hover {
 }
 
 
-#friends-list-header .container {
-  padding: 0 1em;
-}
+
 
 #friends-list-header .input {
   width: 100%;
@@ -3245,14 +3275,14 @@ div.friend-actions a:hover {
 
 
 #my-profile-header, #my-profile-body {
-  background-color: #f7f7f7!important;
+  // background-color: #f7f7f7!important;
 }
 
 #my-profile-body {
   padding-top: 0px!important;
   min-height: 100px!important;
   border-bottom: none!important;
-  padding-bottom: 5px!important;
+  // padding-bottom: 5px!important;
   box-shadow: none!important;
 
 }
@@ -3315,11 +3345,9 @@ div.friend-actions a:hover {
 }
 
 #my-profile-header-edit {
-  height: 356px!important;
   position: relative;
   z-index: 2;
   margin: 0em;
-  padding-top: 55px;
 }
 
 
@@ -3646,7 +3674,6 @@ ul[rn-carousel] {
 }
 
 #settings-body {
-  height: 100vh!important;
   border-bottom: none!important;
   padding-bottom: 5px!important;
   box-shadow: none!important;
@@ -3704,7 +3731,7 @@ ul[rn-carousel] {
 
 
 #main-page #friendprofileheader.header.segment {
-  padding-top: 105px!important;
+  padding-top: 45px!important;
   border: none!important;
   padding-bottom: 10px!important;
   background-color: #f7f7f7!important;
@@ -3907,9 +3934,6 @@ ul[rn-carousel]>li {
 }
 
 
-#main-page #main-content {
-  height: 100vh;
-}
 
 @media only screen and (max-width : 600px) {
   #friendmenu {
@@ -3944,18 +3968,14 @@ ul[rn-carousel]>li {
 
 
 #interests-header {
- border: none!important;
- padding-bottom: 1em!important;
  position: relative;
  z-index: 100;
- margin: 0em;
- padding-top: 60px;
+ margin-bottom: 0.8rem;
+ padding-top: 0px;
  background-color: #FFF;
+
 }
 
-#main-page #interests-header .container {
-  max-width: 600px;
-}
 
 
 @media only screen and (max-width: 600px) {
@@ -4055,7 +4075,6 @@ h2 hr {
 
 #main-page.white > .pusher {
   background-color: #FFF!important;
-  height: auto;
   min-height: 100vh;
 }
 
@@ -4065,18 +4084,11 @@ h2 hr {
   border-bottom: none!important;
 }
 
-#main-page #friends-list-body, #friends-list-body .ui.basic.segment{
-  min-height: 300px;
-  padding-top: 1em!important;
-}
-
-#friends-list-header, #inbox-header {
-  background-color: #F7F7F7!important;
-}
 
 #edittopmenu {
   height: 45px;
   background-color: #faf9fa;
+  z-index: 999999!important;
 }
 
 #edittopmenu.center {
@@ -4132,20 +4144,9 @@ h2 hr {
 }
 
 #interests {
-
-  text-align: center!important;
-  width: 100%!important;
-  padding-bottom: 10px!important;
-  padding-top: 0px!important;
-  padding: 0 1rem;
-  // overflow-y: scroll!important;
-  // position: absolute;
-  // top: 110px!important;
-  // bottom: 0px!important;
+  padding: 0rem;
   margin: 0px!important;
-  // background-color: #FFF!important;
-  // height: 100vh;
-
+  text-align: center!important;
 }
 
 #interests .ui.info.message {
@@ -4153,35 +4154,22 @@ h2 hr {
 }
 
 
-@media only screen and (min-width: 800px) {
-  #interests {
-    // padding: 0 40%;
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  #interests {
-    // padding: 0 50%;
-  }
-}
-
-@media only screen and (min-width: 400px) {
-  #interests {
-    // padding: 0 10%;
-  }
-}
-
-@media only screen and (min-width: 600px) {
-  #interests {
-    // padding: 0 20%;
-  }
-}
-
 
 div#id_description, input#id_description_value {
   width: 100%!important;
 }
 
+.ui.grid .row {
+  padding-top: 0px!important;
+}
+
+.ui.grid {
+  margin: 0px!important;
+}
+
+.ui.grid .column {
+  padding: 0px!important;
+}
 
 
 /* Filters desktopview*/
@@ -4329,4 +4317,24 @@ div#id_description, input#id_description_value {
 
 #matchfeed-filters a.item .header {
   color: #333!important;
+}
+
+
+
+
+
+
+
+
+#homepage {
+  padding-top: 5rem;
+}
+
+#homepage {
+
+}
+
+
+.ui.fixed.menu+.ui.grid {
+  padding-top: 0px!important;
 }

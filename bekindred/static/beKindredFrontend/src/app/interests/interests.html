@@ -14,40 +14,39 @@
 
 </div>
 
-<div class="segment" id="interests-header">
-  <div class="container">
-    <div class="ui left icon input">
-      <input type="text" ng-model="interest.searchQuery" ng-change="interest.getAllInterests()" ng-model-options="{debounce:300}"   placeholder="Search">
-      <i class="circular search icon"></i>
+<div class="ui grid centered" id="page-interests">
+
+  <div class="row centered">
+    <div class="column">
+      <div  id="interests-header">
+        <div class="ui left icon input">
+          <input type="text" ng-model="interest.searchQuery" ng-change="interest.getAllInterests()" ng-model-options="{debounce:300}"   placeholder="Search">
+          <i class="circular search icon"></i>
+        </div>
+      </div>
+
+
+
+
+
+      <div id="interests" class="ui segment basic" ng-class="{'loading': interest.loadingInterests}" z-infinite-scroll="interest.resolveMore" inverse="false" body-scroll="true" scroll-threshold="1" time-threshold="100">
+
+        <div class="ui info message" ng-show="interest.noResults && !interest.loadingInterests">
+          <p>No interests found.</p>
+          <p>Try with another search term or <a href="" ng-click="interest.reset()">reset your search</a>.</p>
+        </div>
+
+        <div ng-click="interest.useInterest(inter.id)" class="ui button toggle compact repeat-animation" ng-repeat="inter in interest.allInterests track by $index" ng-class="{'active': inter.active, 'loading': interest.inter.loading}">{{inter.description}}</div>
+
+
+        <three-bounce-spinner class="page-spinner-bar" ng-show="interest.loadingMore"></three-bounce-spinner>
+
+
+
+      </div>
+
+
+
     </div>
   </div>
 </div>
-
-
-
-
-<div class="ui basic segment" id="interests" ng-class="{'loading': interest.loadingInterests}" z-infinite-scroll="interest.resolveMore" inverse="false" body-scroll="true" scroll-threshold="2" time-threshold="100">
-
-  <div class="ui info message" ng-show="interest.noResults && !interest.loadingInterests">
-    <p>No interests found.</p>
-    <p>Try with another search term or <a href="" ng-click="interest.reset()">reset your search</a>.</p>
-  </div>
-
-  <div ng-click="interest.useInterest(inter.id)" class="ui button toggle compact repeat-animation" ng-repeat="inter in interest.allInterests track by $index" ng-class="{'active': inter.active, 'loading': interest.inter.loading}">{{inter.description}}</div>
-
-
-  <three-bounce-spinner class="page-spinner-bar" ng-show="interest.loadingMore"></three-bounce-spinner>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-

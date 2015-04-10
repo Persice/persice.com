@@ -8,65 +8,74 @@
     Final Step</div>
 
   </div>
-  <div class="body segment">
-    <div class="container">
-      <h2 class="ui center aligned header withborder"><hr>Connect your LinkedIn and <br>Twitter accounts<hr></h2>
 
-      <div class="ui basic segment">
+  <div class="ui grid fullheight">
 
-        <div class="ui center aligned grid">
-          <div class="row">
-            <div class="column">
-              <div class="ui segment basic center alligend">
-                <p>This will improve your match results within the Kindred community.</p>
-                <p><i class="icon lock"></i> Kindred will never share your information or post on your behalf.</p>
+    <div class="row">
+      <div class="wide column">
+
+        <div class="body segment">
+          <h2 class="ui center aligned header withborder"><hr>Connect your LinkedIn and <br>Twitter accounts<hr></h2>
+
+          <div class="ui basic segment">
+
+            <div class="ui center aligned grid">
+              <div class="row">
+                <div class="column">
+                  <div class="ui segment basic center alligend">
+                    <p>This will improve your match results within the Kindred community.</p>
+                    <p><i class="icon lock"></i> Kindred will never share your information or post on your behalf.</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
 
-          <div class="row">
-            <div class="column">
-              <div class="ui segment basic center alligend" ng-class="{'loading': finalstep.loading}">
+              <div class="row">
+                <div class="column">
+                  <div class="ui segment basic center alligend" ng-class="{'loading': finalstep.loading}">
 
-                <a class="ui linkedin big button" ng-click="finalstep.link('linkedin')" ng-show="finalstep.linkedin === null">
-                  <i class="linkedin icon"></i>
-                  Connect
-                </a>
+                    <a class="ui linkedin big button" ng-click="finalstep.link('linkedin')" ng-show="finalstep.linkedin === null">
+                      <i class="linkedin icon"></i>
+                      Connect
+                    </a>
 
-                <a href="{{ finalstep.linkedin }}" target="_new" class="ui social icon linkedin big labeled button" ng-show="finalstep.linkedin !== null">
-                  <i class="linkedin icon"></i>
-                  {{finalstep.firstName}}
-                  <i class="check circle icon right"></i>
-                </a>
+                    <a href="{{ finalstep.linkedin }}" target="_new" class="ui social icon linkedin big labeled button" ng-show="finalstep.linkedin !== null">
+                      <i class="linkedin icon"></i>
+                      {{finalstep.firstName}}
+                      <i class="check circle icon right"></i>
+                    </a>
 
-                <br>
-                <br>
+                    <br>
+                    <br>
 
-                <a class="ui twitter big button" ng-click="finalstep.link('twitter')" ng-show="finalstep.twitter === null">
-                  <i class="twitter icon"></i>
-                  Connect
-                </a>
-                <a href="https://twitter.com/{{ finalstep.twitter }}" target="_new" class="ui social icon twitter labeled big button" ng-show="finalstep.twitter !== null">
-                  <i class="twitter icon"></i>
-                  {{finalstep.twitter}}
-                  <i class="check circle icon right"></i>
-                </a>
+                    <a class="ui twitter big button" ng-click="finalstep.link('twitter')" ng-show="finalstep.twitter === null">
+                      <i class="twitter icon"></i>
+                      Connect
+                    </a>
+                    <a href="https://twitter.com/{{ finalstep.twitter }}" target="_new" class="ui social icon twitter labeled big button" ng-show="finalstep.twitter !== null">
+                      <i class="twitter icon"></i>
+                      {{finalstep.twitter}}
+                      <i class="check circle icon right"></i>
+                    </a>
 
 
 
 
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div class="row">
-            <div class="column">
-              <div class="ui segment basic center aligned">
-                <a class="ui" ui-sref="matchfeed" ng-show="finalstep.twitter === null && finalstep.linkedin === null">skip &raquo;</a>
-                <a class="ui green big button" ui-sref="matchfeed" ng-show="finalstep.twitter !== null || finalstep.linkedin !== null">Next &raquo;</a>
+              <div class="row">
+                <div class="column">
+                  <div class="ui segment basic center aligned">
+                    <a class="ui" ui-sref="matchfeed" ng-show="finalstep.twitter === null && finalstep.linkedin === null">skip &raquo;</a>
+                    <a class="ui green big button" ui-sref="matchfeed" ng-show="finalstep.twitter !== null || finalstep.linkedin !== null">Next &raquo;</a>
+                  </div>
+                </div>
               </div>
+
             </div>
+
           </div>
 
         </div>

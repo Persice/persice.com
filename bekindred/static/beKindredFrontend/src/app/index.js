@@ -288,6 +288,8 @@ angular.module('beKindred', [
       return $state.includes(states);
     };
 
+
+
     $rootScope.$stateParams = $stateParams;
 
     $rootScope.$on('$stateChangeStart', function(event, next) {
@@ -295,6 +297,7 @@ angular.module('beKindred', [
     });
 
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
 
     });
 

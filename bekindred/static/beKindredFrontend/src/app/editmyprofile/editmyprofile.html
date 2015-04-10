@@ -14,7 +14,6 @@
 </div>
 
 <div class="segment" id="my-profile-header-edit" ng-hide="showModal || editInterest">
-  <div class="container">
     <div class="ui segment">
       <div id="tiles" ng-cloak>
         <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }"  ng-repeat="photo in user.photos track by $index" end-repeat-photos ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
@@ -35,11 +34,9 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 <div class="body segment edit" id="my-profile-body" ng-hide="showModal || editInterest">
-  <div class="container">
     <div class="ui attached segment" id="my-profile-title">
       <h3 class="ui left floated header">
         {{ user.firstName }}<span ng-hide="user.firstName === ''">,</span> {{ user.age }}
@@ -192,7 +189,6 @@
 
     </div>
 
-  </div>
 </div>
 
 
@@ -222,7 +218,6 @@
   </div>
 </div>
 <div class="body segment edit" id="my-profile-photos" ng-if="showModal" ng-cloak>
-  <div class="container">
     <div class="ui attached segment">
       <div class="ui fluid primary button" ng-click="closeModal()">
         Back to Edit Profile
@@ -271,7 +266,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 

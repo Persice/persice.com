@@ -38,10 +38,10 @@
           $element.bind('scroll', scrollEvent);
         }
 
-        // scroll first to the bottom (with a delay so the elements are rendered)
-        $timeout(function() {
-          element.scrollTop = element.clientHeight;
-        }, 0);
+        // // scroll first to the bottom (with a delay so the elements are rendered)
+        // $timeout(function() {
+        //   element.scrollTop = element.clientHeight;
+        // }, 0);
 
         // it will be scrolled once your data loaded
         function scrollUntilDataReady() {

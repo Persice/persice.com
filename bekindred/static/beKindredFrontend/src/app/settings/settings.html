@@ -1,9 +1,12 @@
-<div id="settingsPage">
-  <div class="body segment edit" id="settings-body">
-    <div class="container">
+<div class="ui grid fullheight">
+
+  <div class="row">
+    <div class="wide column">
 
 
-      <div class="ui attached segment">
+
+
+      <div class="ui basic segment">
         <h4 class="ui header">Manage Account</h4>
 
         <div class="ui deleteitem red fluid button">
@@ -19,52 +22,53 @@
         </a>
 
       </div>
-    </div>
-  </div>
 
 
-  <!-- modals -->
 
-  <div class="ui basic delete modal">
-    <i class="close icon"></i>
-    <div class="header">
-      Please Confirm
-    </div>
-    <div class="content">
+      <!-- modals -->
 
-      <div class="description">
-        <p>Are you sure you want to delete?</p>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="two fluid ui inverted buttons">
-        <div class="ui red negative basic inverted button">
-          <i class="remove icon"></i>
-          No
+      <div class="ui basic delete modal">
+        <i class="close icon"></i>
+        <div class="header">
+          Please Confirm
         </div>
-        <a class="ui green basic inverted button ok">
-          <i class="checkmark icon"></i>
-          Yes
-        </a>
+        <div class="content">
+
+          <div class="description">
+            <p>Are you sure you want to delete?</p>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="two fluid ui inverted buttons">
+            <div class="ui red negative basic inverted button">
+              <i class="remove icon"></i>
+              No
+            </div>
+            <a class="ui green basic inverted button ok">
+              <i class="checkmark icon"></i>
+              Yes
+            </a>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
-
-  <script>
-    'use strict';
-    $('.basic.delete.modal')
-    .modal({
-      onDeny    : function(){
-        console.log('cancel');
-      },
-      onApprove : function() {
-        console.log('deleting user');
-        angular.element(document.getElementById('settingsPage')).scope().deleteUser();
-      }
-    })
-    .modal('attach events', '.deleteitem', 'show');
-
-
-  </script>
-
 </div>
+
+<script>
+  'use strict';
+  $('.basic.delete.modal')
+  .modal({
+    onDeny    : function(){
+      console.log('cancel');
+    },
+    onApprove : function() {
+      console.log('deleting user');
+      angular.element(document.getElementById('settingsPage')).scope().deleteUser();
+    }
+  })
+  .modal('attach events', '.deleteitem', 'show');
+
+
+</script>
