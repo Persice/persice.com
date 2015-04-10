@@ -85,6 +85,11 @@ pre.console {
   overflow: auto;
   direction:ltr;
 }
+
+body#main-page {
+  top: 0px!important;
+}
+
 code {
   background-color: rgba(0, 0, 0, 0.02);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
@@ -1411,10 +1416,8 @@ Definition Container
     padding: 0em;
     box-shadow: none;
   }
-  #main-page .header.segment {
-    padding-top: 60px;
-    padding-bottom: 20px;
-  }
+
+
   #main-page .example i.code {
     opacity: 0.3;
   }
@@ -1422,6 +1425,21 @@ Definition Container
     opacity: 1;
   }
 }
+
+#MatchMenu {
+  height: 45px!important;
+}
+
+#MatchMenu .ui.item.menu,  #MatchMenu .ui.item.menu .item {
+  border-radius: 0px!important;
+  height: 45px!important;
+}
+
+
+#MatchMenu .item:before {
+  display: none;
+}
+
 @media only screen and (min-width : 600px) and (max-width : 998px) {
   #main-page .container {
     width: auto;
@@ -2986,7 +3004,6 @@ div.friend-actions a:hover {
 
 #matched-profile-header {
   border: none!important;
-  padding-bottom: 10px!important;
 }
 
 #matched-profile-header .ui.header {
@@ -4338,3 +4355,68 @@ div#id_description, input#id_description_value {
 .ui.fixed.menu+.ui.grid {
   padding-top: 0px!important;
 }
+
+
+/* matchedperson card */
+
+.matchedperson.card {
+  background-color: #f7f7f7!important;
+  min-width: 600px!important;
+}
+
+.matchedperson.card .heading.content .ui.image {
+  margin-right: 0.8em;
+}
+
+.matchedperson.card .heading.content .description-container {
+  display: inline-block;
+  height: 80px;
+  float: right;
+  font-size: 0.9em;
+  text-align: justify;
+  width: 60%;
+
+}
+
+.avatar-tiny {
+  width: 40px;
+  height: 40px;
+}
+.matchedperson.card .heading.content .header-container {
+  display: inline-block;
+  vertical-align: top;
+  height: 80px;
+  width: 15%;
+}
+
+.matchedperson.card .heading.content .extra {
+  font-size: 0.9em;
+  color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  clear: both;
+}
+
+.matchedperson.card .content.bottom .content {
+  padding-left: 0.7em!important;
+}
+.matchedperson.card .content.bottom .header {
+  font-size: 1em!important;
+}
+
+.matchedperson.card .content.bottom .description {
+  font-size: 0.8em!important;
+  margin-top: 0.3em;
+}
+
+
+
+.matchedperson.card .extra.content {
+  background-color: #efefef!important;
+}
+
+.matchedperson.card .content.heading {
+  background-color: #FFF;
+  padding: 1rem;
+  margin: 1rem;
+}
+

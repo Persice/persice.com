@@ -37,7 +37,7 @@
       <![endif]-->
 
 
-      <div class="ui top horizontal large sidebar" id="MatchMenu">
+      <div class="ui top horizontal sidebar" id="MatchMenu">
         <div class="ui fluid six item menu">
           <a class="item" ng-click="goBack()">
             <i class="chevron left icon"></i>
@@ -183,6 +183,7 @@
               <div class="ui vertical menu" id="left-menu">
 
                 <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Match Feed <i class="icon inverted chevron right"></i></a>
+                <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Match Feed <i class="icon inverted chevron right"></i></a>
                 <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
                 <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">2</div><i class="icon inverted chevron right"></i></a>
                 <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
@@ -288,13 +289,9 @@
         .removeClass('disabled')
         ;
 
-        $('.top.horizontal.sidebar').first()
-        .sidebar('setting', {
-          dimPage             : false,
-          closable            : false,
-          transition          : 'overlay',
-          mobileTransition    : 'overlay'}
-          )
+        $('#MatchMenu')
+        .sidebar('setting', 'dimPage', false)
+        .sidebar('setting', 'closable', false)
         ;
 
         $('.right.sidebar').first()

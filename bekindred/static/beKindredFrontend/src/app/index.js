@@ -212,6 +212,14 @@ angular.module('beKindred', [
         templateUrl: 'app/matchfeed/matchfeed.html',
         controller: 'MatchFeedCtrl'
       })
+       .state('bigmatchfeed', {
+        url: '/big-match-feed',
+        data: {
+          displayName: 'Match Feed',
+        },
+        templateUrl: 'app/bigmatchfeed/bigmatchfeed.html',
+        controller: 'BigMatchFeedCtrl'
+      })
       .state('myconnections', {
         url: '/my-connections',
         data: {

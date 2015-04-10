@@ -460,8 +460,8 @@ angular.module('beKindred')
       $rootScope.hideTopMenu = true;
       $rootScope.showfullprofile = true;
 
-      $('.horizontal.top.sidebar')
-        .sidebar('show');
+      $('#MatchMenu')
+        .sidebar('toggle');
     };
 
   });
