@@ -64,7 +64,7 @@
 
     function getAllInterests() {
 
-      if (w.width() > 500) {
+      if (w.width() > 400) {
         vm.limit = 400;
       }
 
