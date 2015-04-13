@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('MyConnectionsCtrl', function($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log) {
+  .controller('MyConnectionsCtrl', function($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log, $timeout, $q) {
     $scope.friends = [];
     $scope.q = '';
     $scope.noConnections = false;
@@ -83,60 +83,72 @@ angular.module('beKindred')
 
 
     $scope.loadMoreFriends = function() {
+      var deferred = $q.defer();
 
-      if ($scope.loadingMore) {
-        return;
+
+
+      if ($scope.next === null) {
+        deferred.reject();
+        return deferred.promise;
       }
 
-      if ($scope.next !== null) {
-
+      if (!$scope.loadingMore) {
 
         $scope.loadingMore = true;
+        $timeout(function() {
+          ConnectionsFactory.query({
+            format: 'json',
+            limit: 5,
+            first_name: $scope.q,
+            offset: $scope.nextOffset
+          }).$promise.then(function(data) {
 
-        ConnectionsFactory.query({
-          format: 'json',
-          limit: 5,
-          first_name: $scope.q,
-          offset: $scope.nextOffset
-        }).$promise.then(function(data) {
+              var responseData = data.objects;
+              $scope.next = data.meta.next;
 
-            var responseData = data.objects;
-            $scope.next = data.meta.next;
-
-            $scope.nextOffset += 5;
-
-
-
-            //count mutual friends
-            for (var obj in responseData) {
-              responseData[obj].totalFriends = 0;
-              responseData[obj].totalFriends += responseData[obj].mutual_bk_friends_count;
-              responseData[obj].totalFriends += responseData[obj].mutual_fb_friends_count;
-              responseData[obj].totalFriends += responseData[obj].mutual_linkedin_connections_count;
-              responseData[obj].totalFriends += responseData[obj].mutual_twitter_friends_count;
-              responseData[obj].totalFriends += responseData[obj].mutual_twitter_followers_count;
-
-              $scope.friends.push(responseData[obj]);
-            }
-
-            $scope.loadingMore = false;
+              $scope.nextOffset += 5;
 
 
-          },
-          function(response) {
-            var data = response.data,
-              status = response.status,
-              header = response.header,
-              config = response.config,
-              message = 'Error ' + status;
 
-            $log.error(message);
+              //count mutual friends
+              for (var obj in responseData) {
+                responseData[obj].totalFriends = 0;
+                responseData[obj].totalFriends += responseData[obj].mutual_bk_friends_count;
+                responseData[obj].totalFriends += responseData[obj].mutual_fb_friends_count;
+                responseData[obj].totalFriends += responseData[obj].mutual_linkedin_connections_count;
+                responseData[obj].totalFriends += responseData[obj].mutual_twitter_friends_count;
+                responseData[obj].totalFriends += responseData[obj].mutual_twitter_followers_count;
 
-            $scope.loadingMore = false;
+                $scope.friends.push(responseData[obj]);
+              }
 
-          });
+              $scope.loadingMore = false;
+              deferred.resolve();
+
+
+            },
+            function(response) {
+              deferred.reject();
+              var data = response.data,
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
+
+              $log.error(message);
+
+              $scope.loadingMore = false;
+
+            });
+
+        }, 400);
+
+      } else {
+        deferred.reject();
       }
-    };
 
+
+      return deferred.promise;
+    };
 
   });

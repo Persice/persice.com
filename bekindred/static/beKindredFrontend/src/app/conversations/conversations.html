@@ -33,9 +33,9 @@
     </div>
   </div>
 
-  <div class="conversation-content basic ui segment" ng-class="{'loading': loadingMessages}" z-infinite-scroll="loadOlderMessages" inverse="true" body-scroll="false" scroll-threshold="1" time-threshold="800">
+  <div class="conversation-content basic ui segment" ng-class="{'loading': loadingMessages}" when-scrolled="loadMore()" scroll-bottom-on="status.loaded">
 
-    <three-bounce-spinner class="page-spinner-bar" ng-show="loadingOlderMessages"></three-bounce-spinner>
+    <three-bounce-spinner class="page-spinner-bar" ng-show="status.loading"></three-bounce-spinner>
     <div class="repeat-animation" ng-repeat="message in messages track by $index">
      <h6>
       {{message.date}}

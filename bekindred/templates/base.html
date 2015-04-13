@@ -30,7 +30,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
-<body id="main-page" ng-class="{'conversationspage': isState('conversations'), 'lowersidemenus' : isState('conversations') || isState('friendprofile')}">
+<body id="main-page" ng-class="{'conversationspage': isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'lowersidemenus' : isState('conversations') || isState('friendprofile')}">
   {%verbatim%}
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -161,7 +161,7 @@
                 <img ng-src="{{userImg}}" class="ui mini image">
                 {{userName}}
               </a>
-              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
+              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label" messages-counter></div></a>
               <a href="" class="item"> <span class="content">Help</span></a>
 
             </div>

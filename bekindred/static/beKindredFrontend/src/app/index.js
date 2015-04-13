@@ -18,8 +18,6 @@ angular.module('beKindred', [
   'ngImgCrop',
   'angularMoment',
   'btford.socket-io',
-  'zInfiniteScroll',
-  'infinite-scroll',
   'ngLodash',
   'hj.gsapifyRouter'
   ])
@@ -212,7 +210,7 @@ angular.module('beKindred', [
         templateUrl: 'app/matchfeed/matchfeed.html',
         controller: 'MatchFeedCtrl'
       })
-       .state('bigmatchfeed', {
+      .state('bigmatchfeed', {
         url: '/big-match-feed',
         data: {
           displayName: 'Match Feed',
@@ -471,4 +469,49 @@ angular.module('beKindred', [
     myIoSocket.forward('error');
 
     return myIoSocket;
+  })
+  .directive('whenScrollEnds', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var visibleHeight = element.height();
+        var threshold = 100;
+
+        element.scroll(function() {
+          var scrollableHeight = element.prop('scrollHeight');
+          var hiddenContentHeight = scrollableHeight - visibleHeight;
+
+          if (hiddenContentHeight - element.scrollTop() <= threshold) {
+            scope.$apply(attrs.whenScrollEnds);
+          }
+        });
+      }
+    };
+  })
+  .directive('whenScrolled', function($timeout) {
+    return function(scope, elm, attr) {
+      var raw = elm[0];
+
+      elm.bind('scroll', function() {
+        if (raw.scrollTop <= 100) {
+          var sh = raw.scrollHeight;
+          scope.$apply(attr.whenScrolled).then(function() {
+            $timeout(function() {
+              raw.scrollTop = raw.scrollHeight - sh;
+            });
+          });
+        }
+      });
+    };
+  })
+  .directive('scrollBottomOn', function($timeout) {
+    return function(scope, elm, attr) {
+      scope.$watch(attr.scrollBottomOn, function(value) {
+        if (value) {
+          $timeout(function() {
+            elm[0].scrollTop = elm[0].scrollHeight;
+          });
+        }
+      });
+    };
   });
