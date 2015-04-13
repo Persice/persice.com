@@ -10,7 +10,7 @@
    * classDesc Select interests and activities during onboard user flow
    * @ngInject
    */
-  function InterestsController(InterestsFactory, $log, notify, USER_ID, $filter, $resource, $state, $q, lodash, $scope, $window) {
+  function InterestsController(InterestsFactory, $log, notify, USER_ID, $filter, $timeout, $resource, $state, $q, lodash, $scope, $window) {
     var vm = this;
 
     vm.useInterest = useInterest;
@@ -24,8 +24,7 @@
     vm.loadingMore = false;
     vm.noResults = false;
     vm.reset = reset;
-    vm.loadMore = loadMore;
-    vm.resolveMore = resolveMore;
+    vm.loadMoreInterests = loadMoreInterests;
 
     vm.allInterests = [];
     vm.counter = 0;
@@ -66,7 +65,7 @@
     function getAllInterests() {
 
       if (w.width() > 500) {
-        vm.limit = 200;
+        vm.limit = 400;
       }
 
 
@@ -148,97 +147,92 @@
 
     }
 
-    function loadMore() {
+    function loadMoreInterests() {
       var deferred = $q.defer();
-      if (vm.next !== null) {
+      if (!vm.loadingMore) {
+        if (vm.next !== null) {
 
-        InterestsFactory.query({
-          user_id: USER_ID,
-          format: 'json',
-          limit: 200,
-          offset: 0
-        }).$promise.then(function(data) {
+          vm.loadingMore = true;
+          $timeout(function() {
+            InterestsFactory.query({
+              user_id: USER_ID,
+              format: 'json',
+              limit: 200,
+              offset: 0
+            }).$promise.then(function(data) {
 
-          if (data.objects.length > 0) {
-            vm.userInterests = data.objects;
-          }
-
-          InterestsFactory.query({
-            format: 'json',
-            description__icontains: vm.searchQuery,
-            offset: vm.nextOffset,
-            limit: 30
-          }).$promise.then(function(data) {
-            var responseData = data.objects;
-            vm.next = data.meta.next;
-            vm.nextOffset += 30;
-
-
-            if (data.objects.length > 0) {
-              responseData = data.objects;
-            }
-
-
-
-            for (var j = responseData.length - 1; j >= 0; j--) {
-              for (var i = vm.userInterests.length - 1; i >= 0; i--) {
-                if (responseData[j].description === vm.userInterests[i].description) {
-                  responseData[j] = vm.userInterests[i];
-                  vm.counter++;
-                  responseData[j].active = true;
-                }
+              if (data.objects.length > 0) {
+                vm.userInterests = data.objects;
               }
-              vm.allInterests.push(responseData[j]);
-            }
 
-            deferred.resolve();
-          }, function(response) {
-            var data = response.data,
-              status = response.status,
-              header = response.header,
-              config = response.config,
-              message = 'Error ' + status;
-            $log.error(message);
-            deferred.reject();
-
-          });
+              InterestsFactory.query({
+                format: 'json',
+                description__icontains: vm.searchQuery,
+                offset: vm.nextOffset,
+                limit: 30
+              }).$promise.then(function(data) {
+                var responseData = data.objects;
+                vm.next = data.meta.next;
+                vm.nextOffset += 30;
 
 
-        }, function(response) {
-          var data = response.data,
-            status = response.status,
-            header = response.header,
-            config = response.config,
-            message = 'Error ' + status;
-          $log.error(message);
+                if (data.objects.length > 0) {
+                  responseData = data.objects;
+                }
+
+
+
+                for (var j = responseData.length - 1; j >= 0; j--) {
+                  for (var i = vm.userInterests.length - 1; i >= 0; i--) {
+                    if (responseData[j].description === vm.userInterests[i].description) {
+                      responseData[j] = vm.userInterests[i];
+                      vm.counter++;
+                      responseData[j].active = true;
+                    }
+                  }
+                  vm.allInterests.push(responseData[j]);
+                }
+                vm.loadingMore = false;
+                deferred.resolve();
+              }, function(response) {
+                var data = response.data,
+                  status = response.status,
+                  header = response.header,
+                  config = response.config,
+                  message = 'Error ' + status;
+                $log.error(message);
+                vm.loadingMore = false;
+                deferred.reject();
+
+              });
+
+
+            }, function(response) {
+              var data = response.data,
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
+              $log.error(message);
+              deferred.reject();
+
+
+            });
+
+          }, 400);
+
+        } else {
           deferred.reject();
-
-
-        });
+        }
 
       } else {
-        deferred.resolve();
+
+        deferred.reject();
       }
+
       return deferred.promise;
     }
 
-    function resolveMore() {
-      if (vm.loadingMore || vm.loadingInterests) {
-        return;
-      }
-
-      vm.loadingMore = true;
-
-      var promise = vm.loadMore();
-
-      promise.then(function(greeting) {
-        vm.loadingMore = false;
-      }, function(reason) {
-        vm.loadingMore = false;
-      });
-
-
-    }
 
     function useInterest(id) {
       var selected = $filter('getByProperty')('id', id, vm.allInterests);
