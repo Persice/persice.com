@@ -111,7 +111,7 @@ angular.module('beKindred', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         data: {
-          displayName: 'KINDRED',
+          displayName: 'Icebr&#257;k',
         },
         resolve: {
 
@@ -336,10 +336,10 @@ angular.module('beKindred', [
       link: function(scope, element) {
 
         var listener = function(event, toState, toParams, fromState, fromParams) {
-          var title = 'Kinred';
+          var title = 'Icebr&#257;k';
           if (toState.data && toState.data.displayName) title = toState.data.displayName;
           $timeout(function() {
-            element.text(title);
+            element.html(title);
           });
         };
 
