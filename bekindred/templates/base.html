@@ -192,12 +192,12 @@
 
             <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container">
 
-              <div id="FilterController" ng-controller="FilterController">
+              <div id="FilterController" ng-controller="FilterController" ng-show="isState('matchfeed')">
 
                <h4 class="ui header">FILTERS</h4>
                <div class="ui fitted divider"></div>
 
-               <div id="matchfeed-filters" class="ui form">
+               <div id="matchfeed-filters" class="ui form" ng-show="isState('matchfeed')">
                 <form name="filterForm" id="filterForm" ng-submit="" class="form">
                   <div class="field">
                     <label>Distance <span class="range">{{distanceValue}} mi.</span></label>
