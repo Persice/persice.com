@@ -20,7 +20,7 @@
     vm.userUri = '/api/v1/auth/user/' + USER_ID + '/';
 
     vm.next = null;
-    vm.nextOffset = 45;
+    vm.nextOffset = 100;
     vm.loadingMore = false;
     vm.noResults = false;
     vm.reset = reset;
@@ -35,7 +35,7 @@
 
     var w = angular.element($window);
 
-    vm.limit = 45;
+    vm.limit = 100;
 
 
     vm.getAllInterests();
@@ -69,7 +69,7 @@
       }
 
 
-      vm.nextOffset = 45;
+      vm.nextOffset = 100;
       vm.next = null;
       vm.noResults = false;
       vm.loadingInterests = true;
