@@ -1,12 +1,12 @@
 <div id="search-header">
   <div class="ui left icon input">
-    <input type="text" ng-model="q" ng-change="getFriends()" placeholder="Search" ng-model-options="{debounce:300}">
+    <input type="text" ng-model="myconnections.q" ng-change="myconnections.getFriends()" placeholder="Search" ng-model-options="{debounce:300}">
     <i class="circular search icon"></i>
 </div>
 </div>
 
-<div id="friends-list-body" class="basic ui segment" ng-class="{'loading': loading}" when-scroll-ends="loadMoreFriends()">
-    <div class="ui basic segment notice" ng-if="noConnections">
+<div id="friends-list-body" class="basic ui segment" ng-class="{'loading': myconnections.loading}" when-scroll-ends="myconnections.loadMoreFriends()">
+    <div class="ui basic segment notice" ng-if="myconnections.noConnections">
         <div class="ui info message">
             <p>You don't have any connections. Go to your Match Feed to find people with similar goals and interests.</p>
             <p><a class="ui icon button blue" ui-sref="matchfeed">Match Feed</a></p>
@@ -16,7 +16,13 @@
     </div>
 
     <div class="ui divided selection list">
-        <div ui-sref="friendprofile({ userId: friend.friend_id })" class="item repeat-animation" ng-repeat="friend in friends track by $index" >
+
+        <div class="ui info message" ng-show="myconnections.noResults && !myconnections.loading">
+            <p>No connections found.</p>
+            <p>Try with another search term or <a href="" ng-click="myconnections.reset()">reset your search</a>.</p>
+        </div>
+
+        <div ui-sref="friendprofile({ userId: friend.friend_id })" class="item repeat-animation" ng-repeat="friend in myconnections.friends track by $index" >
             <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(//graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
             <div class="content">
                 <div class="header">{{friend.first_name}}</div>
@@ -44,14 +50,11 @@
         </div>
     </div>
 
-    <div class="ui info message" ng-show="noResults && !loading">
-        <p>No connections found.</p>
-        <p>Try with another search term or <a href="" ng-click="reset()">reset your search</a>.</p>
-    </div>
 
 
 
-    <three-bounce-spinner class="page-spinner-bar" ng-show="loadingMore"></three-bounce-spinner>
+
+    <three-bounce-spinner class="page-spinner-bar" ng-show="myconnections.loadingMore"></three-bounce-spinner>
 
 </div>
 

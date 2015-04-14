@@ -224,7 +224,8 @@ angular.module('beKindred', [
           displayName: 'Connections',
         },
         templateUrl: 'app/myconnections/myconnections.html',
-        controller: 'MyConnectionsCtrl'
+        controller: 'MyConnectionsController',
+        controllerAs: 'myconnections'
       })
       .state('friendprofile', {
         url: '/friend-profile/:userId',
@@ -253,7 +254,8 @@ angular.module('beKindred', [
           }
         },
         templateUrl: 'app/friendprofile/friendprofile.html',
-        controller: 'FriendProfileCtrl'
+        controller: 'FriendProfileController',
+        controllerAs: 'friendprofile'
       })
       .state('myprofile', {
         url: '/my-profile',

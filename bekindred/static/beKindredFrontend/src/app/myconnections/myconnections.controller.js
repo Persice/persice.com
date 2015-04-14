@@ -1,64 +1,76 @@
-'use strict';
+(function() {
+  'use strict';
 
-angular.module('beKindred')
-  .controller('MyConnectionsCtrl', function($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log, $timeout, $q) {
-    $scope.friends = [];
-    $scope.q = '';
-    $scope.noConnections = false;
-    $scope.pok = false;
-    $scope.noResults = false;
-    var myUrl = '/api/v1/auth/user/' + USER_ID + '/';
+  angular
+    .module('beKindred')
+    .controller('MyConnectionsController', MyConnectionsController);
 
-    $scope.loading = false;
-    $scope.loadingMore = false;
+  /**
+   * class MyConnectionsController
+   * classDesc Fetch user connections
+   * @ngInject
+   */
+  function MyConnectionsController($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log, $timeout, $q) {
+    var vm = this;
+    vm.friends = [];
+    vm.q = '';
+    vm.noConnections = false;
+    vm.pok = false;
+    vm.noResults = false;
+    vm.loading = false;
+    vm.loadingMore = false;
+    vm.nextOffset = 5;
+    vm.next = null;
 
-    $scope.nextOffset = 5;
-    $scope.next = null;
+    vm.getFriends = getFriends;
+    vm.loadMoreFriends = loadMoreFriends;
+    vm.reset = reset;
 
-    $scope.reset = function() {
-      $scope.q = '';
-      $scope.getFriends();
-    };
+    vm.getFriends();
 
+    function reset() {
+      vm.q = '';
+      vm.getFriends();
+    }
 
-    $scope.getFriends = function() {
-      $scope.nextOffset = 5;
-      $scope.next = null;
-      $scope.loading = true;
+    function getFriends() {
+      vm.nextOffset = 5;
+      vm.next = null;
+      vm.loading = true;
       ConnectionsFactory.query({
         format: 'json',
-        first_name: $scope.q,
-        limit: 5,
+        first_name: vm.q,
+        limit: 20,
         offset: 0
       }).$promise.then(function(data) {
 
-          $scope.friends = data.objects;
-          $scope.next = data.meta.next;
+          vm.friends = data.objects;
+          vm.next = data.meta.next;
 
 
-          if ($scope.friends.length === 0) {
-            if (!$scope.pok) {
-              $scope.noConnections = true;
-              $scope.pok = true;
+          if (vm.friends.length === 0) {
+            if (!vm.pok) {
+              vm.noConnections = true;
+              vm.pok = true;
             } else {
-              $scope.noResults = true;
+              vm.noResults = true;
             }
           } else {
-            $scope.pok = true;
-            $scope.noResults = false;
-            $scope.noConnections = false;
+            vm.pok = true;
+            vm.noResults = false;
+            vm.noConnections = false;
             //count mutual friends
-            for (var obj in $scope.friends) {
-              $scope.friends[obj].totalFriends = 0;
-              $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_bk_friends_count;
-              $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_fb_friends_count;
-              $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_linkedin_connections_count;
-              $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_twitter_friends_count;
-              $scope.friends[obj].totalFriends += $scope.friends[obj].mutual_twitter_followers_count;
+            for (var obj in vm.friends) {
+              vm.friends[obj].totalFriends = 0;
+              vm.friends[obj].totalFriends += vm.friends[obj].mutual_bk_friends_count;
+              vm.friends[obj].totalFriends += vm.friends[obj].mutual_fb_friends_count;
+              vm.friends[obj].totalFriends += vm.friends[obj].mutual_linkedin_connections_count;
+              vm.friends[obj].totalFriends += vm.friends[obj].mutual_twitter_friends_count;
+              vm.friends[obj].totalFriends += vm.friends[obj].mutual_twitter_followers_count;
             }
           }
 
-          $scope.loading = false;
+          vm.loading = false;
 
 
         },
@@ -71,44 +83,39 @@ angular.module('beKindred')
 
           $log.error(message);
 
-          $scope.noConnections = true;
+          vm.noConnections = true;
 
-          $scope.loading = false;
+          vm.loading = false;
 
         });
 
-    };
+    }
 
-    $scope.getFriends();
-
-
-    $scope.loadMoreFriends = function() {
+    function loadMoreFriends() {
       var deferred = $q.defer();
 
 
 
-      if ($scope.next === null) {
+      if (vm.next === null) {
         deferred.reject();
         return deferred.promise;
       }
 
-      if (!$scope.loadingMore) {
+      if (!vm.loadingMore) {
 
-        $scope.loadingMore = true;
+        vm.loadingMore = true;
         $timeout(function() {
           ConnectionsFactory.query({
             format: 'json',
             limit: 5,
-            first_name: $scope.q,
-            offset: $scope.nextOffset
+            first_name: vm.q,
+            offset: vm.nextOffset
           }).$promise.then(function(data) {
 
               var responseData = data.objects;
-              $scope.next = data.meta.next;
+              vm.next = data.meta.next;
 
-              $scope.nextOffset += 5;
-
-
+              vm.nextOffset += 5;
 
               //count mutual friends
               for (var obj in responseData) {
@@ -119,10 +126,10 @@ angular.module('beKindred')
                 responseData[obj].totalFriends += responseData[obj].mutual_twitter_friends_count;
                 responseData[obj].totalFriends += responseData[obj].mutual_twitter_followers_count;
 
-                $scope.friends.push(responseData[obj]);
+                vm.friends.push(responseData[obj]);
               }
 
-              $scope.loadingMore = false;
+              vm.loadingMore = false;
               deferred.resolve();
 
 
@@ -137,7 +144,7 @@ angular.module('beKindred')
 
               $log.error(message);
 
-              $scope.loadingMore = false;
+              vm.loadingMore = false;
 
             });
 
@@ -149,6 +156,10 @@ angular.module('beKindred')
 
 
       return deferred.promise;
-    };
+    }
 
-  });
+  }
+
+
+
+})();
