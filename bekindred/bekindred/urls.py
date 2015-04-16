@@ -5,7 +5,7 @@ from django.contrib import admin
 from friends.api.resources import FriendsResource, ConnectionsResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
     FacebookLikeResource
-from interests.api.resources import InterestResource
+from interests.api.resources import InterestResource, InterestSubjectResource
 from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource, ProfileResource
 from msgs.api.resources import MessageResource, InboxResource, InboxLastResource
 
@@ -26,6 +26,7 @@ v1_api.register(MutualFriendsResource())
 v1_api.register(ProfileResource())
 v1_api.register(MessageResource())
 v1_api.register(InterestResource())
+v1_api.register(InterestSubjectResource())
 v1_api.register(FriendsResource())
 v1_api.register(ConnectionsResource())
 v1_api.register(FacebookLikeResource())
@@ -37,7 +38,6 @@ urlpatterns = patterns('',
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^facebook/', include('django_facebook.urls')),
                        url(r'^social/', include('social_auth.urls')),
-                       url(r'^interest/', include('interests.urls')),
                        url(r'^goals/', include('goals.urls')),
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
                        url(r'^accounts/register/', 'goals.views.register'),

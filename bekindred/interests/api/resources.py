@@ -5,7 +5,7 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
-from interests.models import Interest
+from interests.models import Interest, InterestSubject
 from photos.api.resources import UserResource
 
 
@@ -16,10 +16,18 @@ class InterestValidation(Validation):
 
         errors = {}
 
-        description = bundle.data.get('description')
-        user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
+        interest_subject = bundle.data.get('interest_subject')
+        if not interest_subject:
+            errors['error'] = ['Please use goal_subject']
 
-        interests = Interest.objects.filter(description=description, user_id=user)
+        subject = None
+        try:
+            subject = InterestSubject.objects.filter(description=interest_subject)[0]
+        except IndexError as err:
+            print err
+
+        user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
+        interests = Interest.objects.filter(interest_id=subject.id, user_id=user)
 
         if interests:
             errors['error'] = ['Interest already exists']
@@ -27,29 +35,59 @@ class InterestValidation(Validation):
         return errors
 
 
-class InterestResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
-
+class InterestSubjectResource(ModelResource):
     class Meta:
-        queryset = Interest.objects.all()
-        resource_name = 'interest'
         always_return_data = True
-        fields = ['description', 'id']
-        validation = InterestValidation()
-        authentication = SessionAuthentication()
-        authorization = Authorization()
+        queryset = InterestSubject.objects.all()
+        resource_name = 'interest_subject'
+        fields = ['description']
 
         filtering = {
             'description': ALL
         }
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def dehydrate_description(self, bundle):
+        return bundle.data['description'].lower()
+
+
+class InterestResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+    interest = fields.ForeignKey(InterestSubjectResource, 'interest')
+
+    class Meta:
+        queryset = Interest.objects.all()
+        fields = ['user', 'interest', 'id']
+        always_return_data = True
+        resource_name = 'interest'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+        validation = InterestValidation()
 
     def get_object_list(self, request):
-        user = request.GET.get('user_id')
-        if user:
-            return super(InterestResource, self).get_object_list(request).filter(user_id=user)
-        else:
-            return super(InterestResource, self).get_object_list(request).distinct('description')
+        user = request.GET.get('user_id', request.user.id)
+        return super(InterestResource, self).get_object_list(request).filter(user_id=user)
 
     def obj_create(self, bundle, **kwargs):
-        bundle.data['description'] = bundle.data['description'].lower()
-        return super(InterestResource, self).obj_create(bundle, user=bundle.request.user)
+        interest_subject = bundle.data.get('interest_subject')
+        try:
+            subject, created = InterestSubject.objects.get_or_create(description=interest_subject)
+            return super(InterestResource, self).obj_create(bundle, interest=subject)
+        except IndexError as err:
+            print err
+        return super(InterestResource, self).obj_create(bundle, **kwargs)
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        interest_subject = bundle.data['interest_subject']
+        try:
+            subject, created = InterestSubject.objects.get_or_create(description=interest_subject)
+            bundle.data['interest'] = '/api/v1/interest_subject/{0}/'.format(subject.id)
+            return super(InterestResource, self).obj_update(bundle, interest='/api/v1/interest_subject/{0}/'.format(subject.id))
+        except IndexError as err:
+            print err
+        return self.save(bundle, skip_errors=skip_errors)
+
+    def dehydrate(self, bundle):
+        bundle.data["interest_subject"] = bundle.obj
+        return bundle

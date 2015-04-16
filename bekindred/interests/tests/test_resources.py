@@ -1,6 +1,6 @@
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
-from interests.models import Interest
+from interests.models import Interest, InterestSubject
 
 
 class TestInterestResource(ResourceTestCase):
@@ -10,16 +10,16 @@ class TestInterestResource(ResourceTestCase):
         self.DESCRIPTION = 'learn django'
         self.DESCRIPTION2 = 'learn python'
         self.DESCRIPTION3 = 'learn ruby'
-        self.DESCRIPTION4 = 'learn javascript'
-        self.interest = Interest.objects.create(description=self.DESCRIPTION, user=self.user)
-        self.interest2 = Interest.objects.create(description=self.DESCRIPTION2, user=self.user)
-        self.interest3 = Interest.objects.create(description=self.DESCRIPTION3, user=self.user)
+        self.subject = InterestSubject.objects.create(description=self.DESCRIPTION)
+        self.subject2 = InterestSubject.objects.create(description=self.DESCRIPTION2)
+        self.subject3 = InterestSubject.objects.create(description=self.DESCRIPTION3)
 
+        self.interest = Interest.objects.create(user=self.user, interest=self.subject)
 
         self.detail_url = '/api/v1/interest/{0}/'.format(self.interest.pk)
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'description': '{}'.format(self.DESCRIPTION4),
+            'interest': '/api/v1/interest_subject/{0}/'.format(self.subject2.pk),
             }
 
     def login(self):
@@ -38,40 +38,75 @@ class TestInterestResource(ResourceTestCase):
         self.assertValidJSONResponse(resp)
 
         # Scope out the data for correctness.
-        self.assertEqual(len(self.deserialize(resp)['objects']), 3)
+        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
         # Here, we're checking an entire structure for the expected data.
         self.assertEqual(self.deserialize(resp)['objects'][0], {
+            'id': self.interest.id,
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'description': '{}'.format(self.interest),
-            'resource_uri': '/api/v1/interest/{0}/'.format(self.interest.pk),
-            'id': self.interest.pk
+            'interest': '/api/v1/interest_subject/{0}/'.format(self.subject.pk),
+            'interest_subject': '{}'.format(self.DESCRIPTION),
+            'resource_uri': '/api/v1/interest/{0}/'.format(self.interest.pk)
         })
 
-    def test_post_list(self):
+    def test_create_interest(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'interest_subject': 'my new interest',
+            }
         self.response = self.login()
-        # Check how many are there first.
-        self.assertEqual(Interest.objects.count(), 3)
-        self.assertHttpCreated(self.api_client.post('/api/v1/interest/', format='json',
-                                                    data=self.post_data))
-        # Verify a new one has been added.
-        self.assertEqual(Interest.objects.count(), 4)
+        self.assertHttpCreated(self.api_client.post('/api/v1/interest/', format='json', data=post_data))
+
+    def test_create_interest_and_get(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'interest_subject': 'my new interest2',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/interest/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['interest_subject'], 'my new interest2')
+
+    def test_create_duplicate_interest(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'interest_subject': 'learn django',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/interest/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['interest']['error'][0], 'Interest already exists')
 
     def test_put_detail(self):
         self.response = self.login()
         # Grab the current data & modify it slightly.
+        self.assertEqual(str(Interest.objects.get(interest__description='learn django')), 'learn django')
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
-        new_data['subject'] = '/api/v1/interest/{}/'.format(self.interest3.pk)
+        new_data['interest_subject'] = 'learn erlang'
 
-        self.assertEqual(Interest.objects.count(), 3)
-        self.api_client.put(self.detail_url, format='json', data=new_data)
+        self.assertEqual(Interest.objects.count(), 1)
+        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
+        updated_interest = self.deserialize(resp)
         # Make sure the count hasn't changed & we did an update.
-        self.assertEqual(Interest.objects.count(), 3)
+        self.assertEqual(Interest.objects.count(), 1)
         # Check for updated data.
-        self.assertEqual(Interest.objects.get(pk=self.interest3.id).description, self.interest3.description)
+        self.assertEqual(str(Interest.objects.get(interest__description='learn erlang')), 'learn erlang')
+
+    def test_put_to_duplicate_detail(self):
+        self.response = self.login()
+        # Grab the current data & modify it slightly.
+        original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
+        new_data = original_data.copy()
+        new_data['Interest_subject'] = 'learn django'
+
+        self.assertEqual(Interest.objects.count(), 1)
+        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
+        updated_Interest = self.deserialize(resp)
+        # Make sure the count hasn't changed & we did an update.
+        self.assertEqual(Interest.objects.count(), 1)
+        # Check for updated data.
+        self.assertEqual(updated_Interest['interest']['error'][0], "Interest already exists")
 
     def test_delete_detail(self):
         self.response = self.login()
-        self.assertEqual(Interest.objects.count(), 3)
+        self.assertEqual(Interest.objects.count(), 1)
         self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
-        self.assertEqual(Interest.objects.count(), 2)
+        self.assertEqual(Interest.objects.count(), 0)
