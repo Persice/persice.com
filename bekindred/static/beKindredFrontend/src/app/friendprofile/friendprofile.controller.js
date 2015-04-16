@@ -1,12 +1,22 @@
-'use strict';
+(function() {
+  'use strict';
 
-angular.module('beKindred')
-  .controller('FriendProfileCtrl', function($scope, User, UsersFactory, MutualFriendsFactory, InboxRepository, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
+  angular
+    .module('beKindred')
+    .controller('FriendProfileController', FriendProfileController);
 
-    $scope.middleActive = true;
-    $scope.friendshipId = Connection.objects[0].id;
+  /**
+   * class FriendProfileController
+   * classDesc Connect with LinkedIn and Twitter or skip to mathcfeed
+   * @ngInject
+   */
+  function FriendProfileController($scope, User, UsersFactory, MutualFriendsFactory, InboxRepository, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
+    var vm = this;
 
-    $scope.user = {
+    vm.middleActive = true;
+    vm.friendshipId = Connection.objects[0].id;
+
+    vm.user = {
       id: User.objects[0].id,
       facebook_id: User.objects[0].facebook_id,
       firstName: User.objects[0].first_name,
@@ -27,20 +37,30 @@ angular.module('beKindred')
       twitter_provider: User.objects[0].twitter_provider
     };
 
-    $scope.defaultUserPhoto = '//graph.facebook.com/' + $scope.user.facebook_id + '/picture?type=large';
+    vm.defaultUserPhoto = '//graph.facebook.com/' + vm.user.facebook_id + '/picture?type=large';
 
-    $scope.loadingUser = false;
-    $scope.loadingGoals = false;
-    $scope.loadingOffers = false;
-    $scope.loadingLikes = false;
-    $scope.loadingInterests = false;
+    vm.loadingUser = false;
+    vm.loadingGoals = false;
+    vm.loadingOffers = false;
+    vm.loadingLikes = false;
+    vm.loadingInterests = false;
 
-    $scope.getUser = function() {
+    vm.photosSlider = [];
 
-      $scope.loadingUser = true;
-      $scope.loadingGoals = true;
-      $scope.loadingOffers = true;
-      $scope.loadingLikes = true;
+    vm.getUser = getUser;
+    vm.getPhotos = getPhotos;
+    vm.unFriend = unFriend;
+
+
+    vm.getUser();
+    vm.getPhotos();
+
+    function getUser() {
+
+      vm.loadingUser = true;
+      vm.loadingGoals = true;
+      vm.loadingOffers = true;
+      vm.loadingLikes = true;
 
 
       var goals = [];
@@ -52,7 +72,7 @@ angular.module('beKindred')
         };
         goals.push(goal);
       }
-      $scope.user.goals = goals;
+      vm.user.goals = goals;
 
       var offers = [];
       var matchedoffers = User.objects[0].offers[0];
@@ -63,7 +83,7 @@ angular.module('beKindred')
         };
         offers.push(offer);
       }
-      $scope.user.offers = offers;
+      vm.user.offers = offers;
 
       var interests = [];
       var matchedinterests = User.objects[0].interests[0];
@@ -74,7 +94,7 @@ angular.module('beKindred')
         };
         interests.push(interest);
       }
-      $scope.user.interests = interests;
+      vm.user.interests = interests;
 
       var likes = [];
       var matchedlikes = User.objects[0].likes[0];
@@ -85,25 +105,25 @@ angular.module('beKindred')
         };
         likes.push(like);
       }
-      $scope.user.likes = likes;
+      vm.user.likes = likes;
 
       //mutual friends
       MutualFriendsFactory.query({
         format: 'json',
-        user_id: $scope.user.id
+        user_id: vm.user.id
       }).$promise.then(function(data) {
         if (data.objects.length > 0) {
-          $scope.user.friends = data.objects[0].mutual_bk_friends;
-          $scope.user.facebookfriends = data.objects[0].mutual_fb_friends;
-          $scope.user.linkedinconnections = data.objects[0].mutual_linkedin_connections;
-          $scope.user.twitterfollowers = data.objects[0].mutual_twitter_followers;
-          $scope.user.twitterfriends = data.objects[0].mutual_twitter_friends;
+          vm.user.friends = data.objects[0].mutual_bk_friends;
+          vm.user.facebookfriends = data.objects[0].mutual_fb_friends;
+          vm.user.linkedinconnections = data.objects[0].mutual_linkedin_connections;
+          vm.user.twitterfollowers = data.objects[0].mutual_twitter_followers;
+          vm.user.twitterfriends = data.objects[0].mutual_twitter_friends;
 
-          $scope.loadingUser = false;
-          $scope.loadingGoals = false;
-          $scope.loadingOffers = false;
-          $scope.loadingLikes = false;
-          $scope.loadingInterests = false;
+          vm.loadingUser = false;
+          vm.loadingGoals = false;
+          vm.loadingOffers = false;
+          vm.loadingLikes = false;
+          vm.loadingInterests = false;
         }
 
       }, function(response) {
@@ -114,52 +134,49 @@ angular.module('beKindred')
           message = 'Error ' + status;
         // error handler
         $log.error(message);
-        $scope.loadingUser = false;
-        $scope.loadingGoals = false;
-        $scope.loadingOffers = false;
-        $scope.loadingLikes = false;
+        vm.loadingUser = false;
+        vm.loadingGoals = false;
+        vm.loadingOffers = false;
+        vm.loadingLikes = false;
 
       });
-    };
-
-    $scope.getUser();
-
-    $scope.photosSlider = [];
+    }
 
 
-    $scope.getPhotos = function() {
+
+    function getPhotos() {
       PhotosFactory.query({
         format: 'json',
-        user_id: $scope.user.id
+        user_id: vm.user.id
       }).$promise.then(function(response) {
-        $scope.user.photos = response.objects;
+        vm.user.photos = response.objects;
 
 
 
-        if ($scope.user.photos.length === 0) {
+        if (vm.user.photos.length === 0) {
           var newPhoto = {
-            photo: $scope.defaultUserPhoto,
+            photo: vm.defaultUserPhoto,
             order: 0,
-            user: '/api/v1/auth/user/' + $scope.user.id + '/'
+            user: '/api/v1/auth/user/' + vm.user.id + '/'
           };
 
           PhotosFactory.save({}, newPhoto,
             function(success) {
               $log.info(success);
               $log.info('New photo saved.');
-              $scope.user.photos.push({
-                photo: $scope.defaultUserPhoto,
+              vm.user.photos.push({
+                photo: vm.defaultUserPhoto,
                 cropped_photo: '',
                 order: 0
               });
-              $scope.photosSlider = $scope.user.photos;
+              vm.photosSlider = vm.user.photos;
 
             },
             function(error) {
               $log.info(error);
             });
         } else {
-          $scope.photosSlider = $scope.user.photos;
+          vm.photosSlider = vm.user.photos;
         }
       }, function(response) {
         var data = response.data,
@@ -171,15 +188,13 @@ angular.module('beKindred')
         $log.error(message);
 
       });
-    };
-
-    $scope.getPhotos();
+    }
 
 
-    $scope.unFriend = function() {
+    function unFriend() {
 
       FriendsFactory.update({
-          friendId: $scope.friendshipId
+          friendId: vm.friendshipId
         }, {
           status: -1
         },
@@ -190,7 +205,10 @@ angular.module('beKindred')
         function(error) {
 
         });
-    };
+    }
+
+  }
 
 
-  });
+
+})();

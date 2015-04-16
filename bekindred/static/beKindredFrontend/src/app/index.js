@@ -18,8 +18,6 @@ angular.module('beKindred', [
   'ngImgCrop',
   'angularMoment',
   'btford.socket-io',
-  'zInfiniteScroll',
-  'infinite-scroll',
   'ngLodash',
   'hj.gsapifyRouter'
   ])
@@ -113,7 +111,7 @@ angular.module('beKindred', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         data: {
-          displayName: 'KINDRED',
+          displayName: 'Icebr&#257;k',
         },
         resolve: {
 
@@ -212,7 +210,7 @@ angular.module('beKindred', [
         templateUrl: 'app/matchfeed/matchfeed.html',
         controller: 'MatchFeedCtrl'
       })
-       .state('bigmatchfeed', {
+      .state('bigmatchfeed', {
         url: '/big-match-feed',
         data: {
           displayName: 'Match Feed',
@@ -226,7 +224,8 @@ angular.module('beKindred', [
           displayName: 'Connections',
         },
         templateUrl: 'app/myconnections/myconnections.html',
-        controller: 'MyConnectionsCtrl'
+        controller: 'MyConnectionsController',
+        controllerAs: 'myconnections'
       })
       .state('friendprofile', {
         url: '/friend-profile/:userId',
@@ -255,7 +254,8 @@ angular.module('beKindred', [
           }
         },
         templateUrl: 'app/friendprofile/friendprofile.html',
-        controller: 'FriendProfileCtrl'
+        controller: 'FriendProfileController',
+        controllerAs: 'friendprofile'
       })
       .state('myprofile', {
         url: '/my-profile',
@@ -336,10 +336,10 @@ angular.module('beKindred', [
       link: function(scope, element) {
 
         var listener = function(event, toState, toParams, fromState, fromParams) {
-          var title = 'Kinred';
+          var title = 'Icebr&#257;k';
           if (toState.data && toState.data.displayName) title = toState.data.displayName;
           $timeout(function() {
-            element.text(title);
+            element.html(title);
           });
         };
 
@@ -471,4 +471,49 @@ angular.module('beKindred', [
     myIoSocket.forward('error');
 
     return myIoSocket;
+  })
+  .directive('whenScrollEnds', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        var visibleHeight = element.height();
+        var threshold = 100;
+
+        element.scroll(function() {
+          var scrollableHeight = element.prop('scrollHeight');
+          var hiddenContentHeight = scrollableHeight - visibleHeight;
+
+          if (hiddenContentHeight - element.scrollTop() <= threshold) {
+            scope.$apply(attrs.whenScrollEnds);
+          }
+        });
+      }
+    };
+  })
+  .directive('whenScrolled', function($timeout) {
+    return function(scope, elm, attr) {
+      var raw = elm[0];
+
+      elm.bind('scroll', function() {
+        if (raw.scrollTop <= 100) {
+          var sh = raw.scrollHeight;
+          scope.$apply(attr.whenScrolled).then(function() {
+            $timeout(function() {
+              raw.scrollTop = raw.scrollHeight - sh;
+            });
+          });
+        }
+      });
+    };
+  })
+  .directive('scrollBottomOn', function($timeout) {
+    return function(scope, elm, attr) {
+      scope.$watch(attr.scrollBottomOn, function(value) {
+        if (value) {
+          $timeout(function() {
+            elm[0].scrollTop = elm[0].scrollHeight;
+          });
+        }
+      });
+    };
   });

@@ -3042,79 +3042,10 @@ div.friend-actions a:hover {
   height: 38px!important;
 }
 
-
-
-#inbox-header {
- position: relative;
- z-index: 100;
- margin: 0em!important;
- padding: 0px!important;
-}
-
-
-#inbox-body {
-  padding-top: 0px!important;
-}
-
-#inbox-body .message-time {
-  position: absolute!important;
-  right: 0em;
-  top: 1em;
-  color: rgba(0, 0, 0, 0.8);
-  font-weight: normal;
-}
-
-
-#inbox-body .list {
-  position: relative;
-}
-
-#inbox-body a.item {
-  position: relative;
-}
-
-#inbox-body a.item .content .header {
-  font-size: 1.3em;
-  margin-bottom: 1em!important;
-}
-#inbox-body a.item .content {
-  position: absolute;
-  left: 100px;
-  top: 1em;
-}
-
-
-#inbox-body a.item .content img {
-  position: absolute;
-}
-
-#inbox-body a.item .description {
-  padding-right: 1em;
-}
-
-
-
-@media only screen and (max-width: 600px) {
-  #main-page #inbox-body .container, #main-page #inbox-header .container {
-    margin: 0px;
-  }
-}
-
-@media only screen and (max-width: 998px) and (min-width: 600px) {
-  #main-page #inbox-body .container, #main-page #inbox-header .container  {
-    margin: 0px auto;
-  }
-}
-
 #main-page>.pusher {
   height: auto!important;
 }
 
-
-
-#inbox-header .input {
-  width: 100%;
-}
 
 
 
@@ -3168,100 +3099,6 @@ div.friend-actions a:hover {
 
 
 
-#friends-list-header {
- border: none!important;
- position: relative;
- margin: 0px;
- padding: 0px;
-}
-
-
-#friends-list-body {
-  padding-top: 0px!important;
-}
-
-#friends-list-body .friend-actions {
-  position: absolute!important;
-  right: 1em;
-  top: 1em;
-  color: #fff;
-  font-weight: normal;
-}
-
-#friends-list-body .friend-actions .icon {
- color: #fff;
-}
-
-
-#friends-list-body .list {
-  position: relative;
-  padding: 0em;
-  margin: 0em;
-}
-
-#friends-list-body .item {
-  padding-bottom: 1em;
-  position: relative;
-}
-
-#friends-list-body .item .content .header {
-  font-size: 1.5em;
-  font-weight: 300;
-  margin-bottom: 17px!important;
-}
-#friends-list-body .item .content {
-  position: absolute;
-  left: 100px;
-  top: 1em;
-}
-
-
-#friends-list-body .item .content img {
-  position: absolute;
-}
-
-#friends-list-body .item .description {
-  padding-right: 1em;
-}
-
-#main-page #friends-list-body .container, #main-page #friends-list-header .container {
-  max-width: 600px;
-}
-
-
-@media only screen and (max-width: 600px) {
-  #main-page #friends-list-body .container, #main-page #friends-list-header .container {
-    margin: 0px;
-  }
-}
-
-@media only screen and (max-width: 998px) and (min-width: 600px) {
-  #main-page #friends-list-body .container, #main-page #friends-list-header .container  {
-    margin: 0px auto;
-  }
-}
-
-
-
-
-#friends-list-header .input {
-  width: 100%;
-}
-
-
-#friends-list-body .circular.icon {
-  display: block;
-  margin: 0 0 0.25em 0;
-}
-
-#friends-list-body .ui.statistics {
-  margin: 0!important;
-}
-
-#friends-list-body .ui.statistics .statistic {
-  margin-left: 0px!important;
-  margin-right: 1em!important;
-}
 
 
 
@@ -3977,45 +3814,6 @@ ul[rn-carousel]>li {
 }
 
 
-#interests .button {
-  margin: 5px 5px;
-  font-size: 1.1rem;
-  padding: 12px;
-}
-
-
-#interests-header {
- position: relative;
- z-index: 100;
- margin-bottom: 0.8rem;
- padding-top: 0px;
- background-color: #FFF;
-
-}
-
-
-
-@media only screen and (max-width: 600px) {
-  #main-page #friends-list-body .container, #main-page #interests-header .container {
-    margin: 0px;
-  }
-}
-
-@media only screen and (max-width: 998px) and (min-width: 600px) {
-  #main-page #interests-header .container  {
-    margin: 0px auto;
-  }
-}
-
-
-#interests-header .container  {
-  padding: 0 1em;
-}
-
-#interests-header .input {
-  width: 100%;
-}
-
 #mainheadermenu {
   height: 45px;
   background-color: #faf9fa;
@@ -4159,18 +3957,6 @@ h2 hr {
 #my-profile-body .ui.list.likes>.item .description, #matched-profile-body .ui.list.likes>.item .description{
   font-size: 14px!important;
 }
-
-#interests {
-  padding: 0rem;
-  margin: 0px!important;
-  text-align: center!important;
-}
-
-#interests .ui.info.message {
-  margin-top: 10px!important;
-}
-
-
 
 div#id_description, input#id_description_value {
   width: 100%!important;
@@ -4420,3 +4206,197 @@ div#id_description, input#id_description_value {
   margin: 1rem;
 }
 
+
+
+/* INTERESTS PAGE */
+
+
+#interests {
+  overflow-y: scroll!important;
+  position: absolute!important;
+  top: 65px!important;
+  width: 100%!important;
+  bottom: 45px!important;
+  padding: 0 1.2rem!important;
+  margin: 0!important;
+  left: 0;
+  text-align: center;
+
+}
+
+#interests-header {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  left: 0;
+  padding: 1.2rem;
+}
+
+#interests .button {
+  margin: 5px 5px;
+  font-size: 1.1rem;
+  padding: 12px;
+}
+
+#interests-header .input {
+  width: 100%;
+}
+
+
+#interests .ui.info.message {
+  margin-top: 10px!important;
+}
+
+
+/*MY CONNECTIONS */
+
+#friends-list-body {
+  overflow-y: scroll!important;
+  position: absolute!important;
+  top: 65px!important;
+  width: 100%!important;
+  bottom: 45px!important;
+  padding: 0 1.2rem!important;
+  margin: 0!important;
+  left: 0;
+}
+
+#search-header {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  left: 0;
+  padding: 1.2rem!important;
+  margin: 0px!important;
+}
+
+#search-header .input {
+  width: 100%;
+}
+
+
+
+#friends-list-header {
+ border: none!important;
+ position: relative;
+ margin: 0px;
+ padding: 0px;
+}
+
+
+
+#friends-list-body .friend-actions {
+  position: absolute!important;
+  right: 1em;
+  top: 1em;
+  color: #fff;
+  font-weight: normal;
+}
+
+#friends-list-body .friend-actions .icon {
+ color: #fff;
+}
+
+
+#friends-list-body .list {
+  position: relative;
+  padding: 0em;
+  margin: 0em;
+}
+
+#friends-list-body .item {
+  padding-bottom: 1em;
+  position: relative;
+}
+
+#friends-list-body .item .content .header {
+  font-size: 1.5em;
+  font-weight: 300;
+  margin-bottom: 17px!important;
+}
+#friends-list-body .item .content {
+  position: absolute;
+  left: 100px;
+  top: 1em;
+}
+
+
+#friends-list-body .item .content img {
+  position: absolute;
+}
+
+#friends-list-body .item .description {
+  padding-right: 1em;
+}
+
+#friends-list-header .input {
+  width: 100%;
+}
+
+
+#friends-list-body .circular.icon {
+  display: block;
+  margin: 0 0 0.25em 0;
+}
+
+#friends-list-body .ui.statistics {
+  margin: 0!important;
+}
+
+#friends-list-body .ui.statistics .statistic {
+  margin-left: 0px!important;
+  margin-right: 1em!important;
+}
+
+
+
+/* INBOX PAGE */
+
+
+#inbox-body {
+  overflow-y: scroll!important;
+  position: absolute!important;
+  top: 65px!important;
+  width: 100%!important;
+  bottom: 45px!important;
+  padding: 0 1.2rem!important;
+  margin: 0!important;
+  left: 0;
+}
+
+
+#inbox-body .message-time {
+  position: absolute!important;
+  right: 0em;
+  top: 1em;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: normal;
+}
+
+
+#inbox-body .list {
+  position: relative;
+}
+
+#inbox-body a.item {
+  position: relative;
+}
+
+#inbox-body a.item .content .header {
+  font-size: 1.3em;
+  margin-bottom: 1em!important;
+}
+#inbox-body a.item .content {
+  position: absolute;
+  left: 100px;
+  top: 1em;
+}
+
+
+#inbox-body a.item .content img {
+  position: absolute;
+}
+
+#inbox-body a.item .description {
+  padding-right: 1em;
+}

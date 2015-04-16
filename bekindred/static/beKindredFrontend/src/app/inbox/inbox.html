@@ -1,28 +1,21 @@
-<div class="ui grid fullheight">
-  <div class="row">
-    <div class="wide column">
-      <div class="ui basis segment" id="inbox-header">
-        <div class="ui left icon input">
-          <input type="text" ng-model="inbox.q" name="q" placeholder="Search">
-          <i class="circular search icon"></i>
+<div class="ui basic segment" id="search-header">
+  <div class="ui left icon input">
+    <input type="text" ng-model="inbox.q" name="q" placeholder="Search">
+    <i class="circular search icon"></i>
+  </div>
+</div>
+
+<div class="ui basic segment" id="inbox-body">
+  <div class="ui selection divided list" class="{'loading': inbox.loadingMessages}">
+    <a ng-class="{'unread': message.readAt === null}" ui-sref="conversations({ userId: message.friendId })" class="item repeat-animation" ng-if="message.body !== null" ng-repeat="message in inbox.allMessages | filter:{firstName: inbox.q} track by message.id">
+      <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ message.facebookId }}/picture?type=large)'}"></div>
+      <span class="message-time">{{message.sentAt}}</span>
+      <div class="content">
+        <div class="header">{{message.firstName}}</div>
+        <div class="description">
+          {{message.body | words: 8}}
         </div>
       </div>
-
-      <div class="ui basic segment" id="inbox-body">
-        <div class="ui selection divided list" class="{'loading': inbox.loadingMessages}">
-          <a ng-class="{'unread': message.readAt === null}" ui-sref="conversations({ userId: message.friendId })" class="item repeat-animation" ng-if="message.body !== null" ng-repeat="message in inbox.allMessages | filter:{firstName: inbox.q} track by message.id">
-            <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ message.facebookId }}/picture?type=large)'}"></div>
-            <span class="message-time">{{message.sentAt}}</span>
-            <div class="content">
-              <div class="header">{{message.firstName}}</div>
-              <div class="description">
-                {{message.body | words: 8}}
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-
-    </div>
+    </a>
   </div>
 </div>

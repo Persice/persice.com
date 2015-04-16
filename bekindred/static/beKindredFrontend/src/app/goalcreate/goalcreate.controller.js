@@ -39,10 +39,9 @@ angular.module('beKindred')
         function(error) {
           $scope.resourceUri = null;
           $scope.messageShow = true;
-          if (error.data.offer) {
+          if (error.data.goal) {
             $scope.message = error.data.goal.error[0];
-          }
-          else {
+          } else {
             $scope.message = 'There was an error when trying to save your goal.';
           }
         });

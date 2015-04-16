@@ -30,7 +30,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
-<body id="main-page" ng-class="{'conversationspage': isState('conversations'), 'lowersidemenus' : isState('conversations') || isState('friendprofile')}">
+<body id="main-page" ng-class="{'conversationspage': isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'lowersidemenus' : isState('conversations') || isState('friendprofile')}">
   {%verbatim%}
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -63,7 +63,7 @@
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
-            <li><h2>Kindred</h2></li>
+            <li><h2>Icebr&#257;k</h2></li>
           </ul>
         </div>
       </div>
@@ -134,10 +134,10 @@
           <div class="container">
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
             <div class="title item mobileview">
-              <b update-title></b>
+              <strong update-title></strong>
             </div>
             <div class="title item desktopview">
-              <b>KINDRED</b>
+              <strong>Icebr&#257;k</strong>
             </div>
             <a ui-sref="home" class="icon item desktopview" id="homelink"><i class="home icon"></i></a>
             <div class="ui mini action input inverted desktopview searchbox">
@@ -161,7 +161,7 @@
                 <img ng-src="{{userImg}}" class="ui mini image">
                 {{userName}}
               </a>
-              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
+              <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label" messages-counter></div></a>
               <a href="" class="item"> <span class="content">Help</span></a>
 
             </div>
@@ -185,19 +185,19 @@
                 <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Match Feed <i class="icon inverted chevron right"></i></a>
                 <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Match Feed <i class="icon inverted chevron right"></i></a>
                 <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
-                <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">2</div><i class="icon inverted chevron right"></i></a>
+                <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">0</div><i class="icon inverted chevron right"></i></a>
                 <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
               </div>
             </div>
 
             <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container">
 
-              <div id="FilterController" ng-controller="FilterController">
+              <div id="FilterController" ng-controller="FilterController" ng-show="isState('matchfeed')">
 
                <h4 class="ui header">FILTERS</h4>
                <div class="ui fitted divider"></div>
 
-               <div id="matchfeed-filters" class="ui form">
+               <div id="matchfeed-filters" class="ui form" ng-show="isState('matchfeed')">
                 <form name="filterForm" id="filterForm" ng-submit="" class="form">
                   <div class="field">
                     <label>Distance <span class="range">{{distanceValue}} mi.</span></label>
