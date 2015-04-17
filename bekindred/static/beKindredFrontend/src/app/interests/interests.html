@@ -24,15 +24,13 @@
 </div>
 
 <div id="interests" class="basic ui segment" ng-class="{'loading': interest.loadingInterests}" when-scroll-ends="interest.loadMoreInterests()">
-
-  <div ng-click="interest.useInterest(inter.id)" class="ui button toggle compact repeat-animation" ng-repeat="inter in interest.allInterests track by $index" ng-class="{'active': inter.active, 'loading': interest.inter.loading}">{{inter.description}}</div>
+  <div ng-click="interest.useInterest($index)" class="ui button toggle compact repeat-animation" ng-repeat="inter in interest.allInterests track by $index" ng-class="{'active': inter.active, 'loading': interest.inter.loading}">{{inter.description}}</div>
 
   <div class="ui info message" ng-show="interest.noResults && !interest.loadingInterests">
     <p>No interests found.</p>
     <p>Try with another search term or <a href="" ng-click="interest.reset()">reset your search</a>.</p>
   </div>
   <three-bounce-spinner class="page-spinner-bar" ng-show="interest.loadingMore"></three-bounce-spinner>
-
 
 </div>
 

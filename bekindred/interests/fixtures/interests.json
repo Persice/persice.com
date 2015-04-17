@@ -1,506 +1,443 @@
 [
   {
     "pk": 4,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "tennis",
-      "user": 1
+      "description": "tennis"
     }
   },
   {
     "pk": 5,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "basketball",
-      "user": 1
+      "description": "basketball"
     }
   },
   {
     "pk": 6,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "literature",
-      "user": 1
+      "description": "literature"
     }
   },
   {
     "pk": 7,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "golf",
-      "user": 1
+      "description": "golf"
     }
   },
   {
     "pk": 8,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "mountain biking",
-      "user": 1
+      "description": "mountain biking"
     }
   },
   {
     "pk": 9,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "kitesurfing",
-      "user": 1
+      "description": "kitesurfing"
     }
   },
   {
     "pk": 10,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "recycling",
-      "user": 1
+      "description": "recycling"
     }
   },
   {
     "pk": 11,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "organic farming",
-      "user": 1
+      "description": "organic farming"
     }
   },
   {
     "pk": 12,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "composting",
-      "user": 1
+      "description": "composting"
     }
   },
   {
     "pk": 13,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "landscape gardening",
-      "user": 1
+      "description": "landscape gardening"
     }
   },
   {
     "pk": 14,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "hydroponic gardening",
-      "user": 1
+      "description": "hydroponic gardening"
     }
   },
   {
     "pk": 15,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "making birdfeeders/birdhouses",
-      "user": 1
+      "description": "making birdfeeders/birdhouses"
     }
   },
   {
     "pk": 16,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "creating art from used material",
-      "user": 1
+      "description": "creating art from used material"
     }
   },
   {
     "pk": 17,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "making recycled paper",
-      "user": 1
+      "description": "making recycled paper"
     }
   },
   {
     "pk": 18,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "animal care",
-      "user": 1
+      "description": "animal care"
     }
   },
   {
     "pk": 19,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "scuba diving",
-      "user": 1
+      "description": "scuba diving"
     }
   },
   {
     "pk": 20,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "river rafting",
-      "user": 1
+      "description": "river rafting"
     }
   },
   {
     "pk": 21,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "bungee jumping",
-      "user": 1
+      "description": "bungee jumping"
     }
   },
   {
     "pk": 22,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "skiing",
-      "user": 1
+      "description": "skiing"
     }
   },
   {
     "pk": 23,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "trekking",
-      "user": 1
+      "description": "trekking"
     }
   },
   {
     "pk": 24,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "ice skating",
-      "user": 1
+      "description": "ice skating"
     }
   },
   {
     "pk": 25,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "surfing",
-      "user": 1
+      "description": "surfing"
     }
   },
   {
     "pk": 26,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "racing",
-      "user": 1
+      "description": "racing"
     }
   },
   {
     "pk": 27,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "gymnastics",
-      "user": 1
+      "description": "gymnastics"
     }
   },
   {
     "pk": 28,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "hunting",
-      "user": 1
+      "description": "hunting"
     }
   },
   {
     "pk": 29,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "computer games",
-      "user": 1
+      "description": "computer games"
     }
   },
   {
     "pk": 30,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "video gaming",
-      "user": 1
+      "description": "video gaming"
     }
   },
   {
     "pk": 31,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "social networking",
-      "user": 1
+      "description": "social networking"
     }
   },
   {
     "pk": 32,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "keeping virtual pets",
-      "user": 1
+      "description": "keeping virtual pets"
     }
   },
   {
     "pk": 33,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "creating software",
-      "user": 1
+      "description": "creating software"
     }
   },
   {
     "pk": 34,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "internet browsing",
-      "user": 1
+      "description": "internet browsing"
     }
   },
   {
     "pk": 35,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "blogging",
-      "user": 1
+      "description": "blogging"
     }
   },
   {
     "pk": 36,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "building computers and robots",
-      "user": 1
+      "description": "building computers and robots"
     }
   },
   {
     "pk": 37,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "fishing",
-      "user": 1
+      "description": "fishing"
     }
   },
   {
     "pk": 38,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "archery",
-      "user": 1
+      "description": "archery"
     }
   },
   {
     "pk": 39,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "boating",
-      "user": 1
+      "description": "boating"
     }
   },
   {
     "pk": 40,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "traveling",
-      "user": 1
+      "description": "traveling"
     }
   },
   {
     "pk": 41,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "camping",
-      "user": 1
+      "description": "camping"
     }
   },
   {
     "pk": 42,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "kayaking",
-      "user": 1
+      "description": "kayaking"
     }
   },
   {
     "pk": 43,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "kart racing",
-      "user": 1
+      "description": "kart racing"
     }
   },
   {
     "pk": 44,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "golfing",
-      "user": 1
+      "description": "golfing"
     }
   },
   {
     "pk": 45,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "swimming",
-      "user": 1
+      "description": "swimming"
     }
   },
   {
     "pk": 46,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "skateboarding",
-      "user": 1
+      "description": "skateboarding"
     }
   },
   {
     "pk": 47,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "playstation",
-      "user": 1
+      "description": "playstation"
     }
   },
   {
     "pk": 48,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "voleyball",
-      "user": 1
+      "description": "voleyball"
     }
   },
   {
     "pk": 49,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "handball",
-      "user": 1
+      "description": "handball"
     }
   },
   {
     "pk": 50,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "game of thrones",
-      "user": 1
+      "description": "game of thrones"
     }
   },
   {
     "pk": 51,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "big bang theory",
-      "user": 1
+      "description": "big bang theory"
     }
   },
   {
     "pk": 52,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "batman",
-      "user": 1
+      "description": "batman"
     }
   },
   {
     "pk": 53,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "superman",
-      "user": 1
+      "description": "superman"
     }
   },
   {
     "pk": 54,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "fantastic four",
-      "user": 1
+      "description": "fantastic four"
     }
   },
   {
     "pk": 55,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "star wars",
-      "user": 1
+      "description": "star wars"
     }
   },
   {
     "pk": 56,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "star trek",
-      "user": 1
+      "description": "star trek"
     }
   },
   {
     "pk": 57,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "breaking bad",
-      "user": 1
+      "description": "breaking bad"
     }
   },
   {
     "pk": 58,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "the sopranos",
-      "user": 1
+      "description": "the sopranos"
     }
   },
   {
     "pk": 59,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "oz",
-      "user": 1
+      "description": "oz"
     }
   },
   {
     "pk": 60,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "two and a half men",
-      "user": 1
+      "description": "two and a half men"
     }
   },
   {
     "pk": 61,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "apple",
-      "user": 1
+      "description": "apple"
     }
   },
   {
     "pk": 62,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "windsurfing",
-      "user": 1
+      "description": "windsurfing"
     }
   },
   {
     "pk": 63,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "crossfit",
-      "user": 1
+      "description": "crossfit"
     }
   },
   {
     "pk": 64,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "marathon",
-      "user": 1
+      "description": "marathon"
     }
   },
   {
     "pk": 65,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "diving",
-      "user": 1
+      "description": "diving"
     }
   },
   {
     "pk": 66,
-    "model": "interests.interest",
+    "model": "interests.interestsubject",
     "fields": {
-      "description": "mountain hiking",
-      "user": 1
+      "description": "mountain hiking"
     }
   }
 ]

@@ -66,7 +66,7 @@
             <div class="item" ng-repeat="interest in user.interests | limitTo:5 track by $index">
               <i class="icon empty"></i>
               <div class="content">
-                <div class="description">{{ interest.description }}</div>
+                <div class="description">{{ interest.interest_subject }}</div>
               </div>
             </div>
             <p ng-if="user.interests.length == 0">No interests yet.</p>
