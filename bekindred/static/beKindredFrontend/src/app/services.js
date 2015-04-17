@@ -19,7 +19,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('LikesFactory', ['$resource', function($resource) {
     return $resource('/api/v1/likes/:likeId/:param', {
       likeId: '@likeId'
@@ -39,7 +39,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('ProfileFactory', ['$resource', function($resource) {
     return $resource('/api/v1/profile/:profileId/:param', {
       profileId: '@profileId'
@@ -59,7 +59,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('ConnectionsFactory', ['$resource', function($resource) {
     return $resource('/api/v1/connections/:connectionId/:param', {
       connectionId: '@connectionId'
@@ -79,7 +79,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('FriendsFactory', ['$resource', function($resource) {
     return $resource('/api/v1/friends/:friendId/:param', {
       friendId: '@friendId'
@@ -99,7 +99,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('MutualFriendsFactory', ['$resource', function($resource) {
     return $resource('/api/v1/mutual/friends/:friendId/:param', {
       friendId: '@friendId'
@@ -119,7 +119,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('SubjectsFactory', ['$resource', function($resource) {
     return $resource('/api/v1/subject/:subjectId/:param', {
       subjectId: '@subjectId'
@@ -139,7 +139,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('OffersFactory', ['$resource', function($resource) {
     return $resource('/api/v1/offer/:offerId/:param', {
       offerId: '@offerId'
@@ -159,7 +159,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('InterestsFactory', ['$resource', function($resource) {
     return $resource('/api/v1/interest/:interestId/:param', {
       interestId: '@interestId'
@@ -179,7 +179,27 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
+  .factory('InterestSubjectFactory', ['$resource', function($resource) {
+    return $resource('/api/v1/interest_subject/:interestId/:param', {
+      interestId: '@interestId'
+    }, {
+      query: {
+        method: 'GET',
+        isArray: false,
+        cache: false
+      },
+      save: {
+        method: 'POST'
+      },
+      update: {
+        method: 'PATCH'
+      },
+      delete: {
+        method: 'DELETE'
+      }
+    });
+}])
   .factory('UsersFactory', ['$resource', function($resource) {
     return $resource('/api/v1/auth/user/:userId/:param', {
       userId: '@userId'
@@ -199,7 +219,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('MessagesFactory', ['$resource', function($resource) {
     return $resource('/api/v1/messages/:messageId/:param', {
       messageId: '@messageId'
@@ -219,7 +239,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('InboxFactory', ['$resource', function($resource) {
     return $resource('/api/v1/inbox/last/:inboxId/:param', {
       inboxId: '@inboxId'
@@ -239,7 +259,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('FiltersFactory', ['$resource', function($resource) {
     return $resource('/api/v1/filter/state/:filterId/:param', {
       filterId: '@filterId'
@@ -259,7 +279,7 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }])
+}])
   .factory('PhotosFactory', ['$resource', function($resource) {
     return $resource('/api/v1/photo/:photoId/:param', {
       photoId: '@photoId'
@@ -279,4 +299,4 @@ angular.module('beKindred')
         method: 'DELETE'
       }
     });
-  }]);
+}]);

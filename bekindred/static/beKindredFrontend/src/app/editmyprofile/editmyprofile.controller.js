@@ -1,210 +1,210 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, $q, $state, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, notify) {
-  $scope.twitter = null;
-  $scope.linkedin = null;
+  .controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, $q, $state, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, notify) {
+    $scope.twitter = null;
+    $scope.linkedin = null;
 
-  $scope.userUri = '/api/v1/auth/user/' + USER_ID + '/';
-  $scope.user = {
-    id: USER_ID,
-    firstName: '',
-    lastName: '',
-    age: '',
-    about_me: '',
-    photos: [{
-      id: 0,
-      order: 0,
-      photo: '',
-      cropped_photo: ''
+    $scope.userUri = '/api/v1/auth/user/' + USER_ID + '/';
+    $scope.user = {
+      id: USER_ID,
+      firstName: '',
+      lastName: '',
+      age: '',
+      about_me: '',
+      photos: [{
+        id: 0,
+        order: 0,
+        photo: '',
+        cropped_photo: ''
     }, {
-      id: 0,
-      order: 1,
-      photo: '',
-      cropped_photo: ''
+        id: 0,
+        order: 1,
+        photo: '',
+        cropped_photo: ''
     }, {
-      id: 0,
-      order: 2,
-      photo: '',
-      cropped_photo: ''
+        id: 0,
+        order: 2,
+        photo: '',
+        cropped_photo: ''
     }, {
-      id: 0,
-      order: 3,
-      photo: '',
-      cropped_photo: ''
+        id: 0,
+        order: 3,
+        photo: '',
+        cropped_photo: ''
     }, {
-      id: 0,
-      order: 4,
-      photo: '',
-      cropped_photo: ''
+        id: 0,
+        order: 4,
+        photo: '',
+        cropped_photo: ''
     }, {
-      id: 0,
-      order: 5,
-      photo: '',
-      cropped_photo: ''
+        id: 0,
+        order: 5,
+        photo: '',
+        cropped_photo: ''
     }],
-    goals: [
+      goals: [
 
     ],
-    offers: [
+      offers: [
 
     ],
-    likes: [],
-    interests: [],
-    mutual: {
-      friends: [],
-      facebookfriends: [],
-      twitterfriends: [],
-      twitterfollowers: [],
-      linkedinconnections: [],
-    }
-  };
-
-
-
-  $scope.loadingUser = false;
-  $scope.loadingGoals = false;
-  $scope.loadingOffers = false;
-  $scope.loadingLikes = false;
-  $scope.loadingInterests = false;
-
-  $scope.getUser = function() {
-
-    $scope.loadingUser = true;
-    $scope.loadingGoals = true;
-    $scope.loadingOffers = true;
-    $scope.loadingLikes = true;
-    $scope.loadingInterests = true;
-
-    GoalsFactory.query({
-      user_id: USER_ID,
-      format: 'json'
-    }).$promise.then(function(data) {
-      if (data.meta.total_count > 0) {
-        $scope.user.goals = data.objects;
+      likes: [],
+      interests: [],
+      mutual: {
+        friends: [],
+        facebookfriends: [],
+        twitterfriends: [],
+        twitterfollowers: [],
+        linkedinconnections: [],
       }
-      $scope.loadingGoals = false;
+    };
 
 
 
-    });
+    $scope.loadingUser = false;
+    $scope.loadingGoals = false;
+    $scope.loadingOffers = false;
+    $scope.loadingLikes = false;
+    $scope.loadingInterests = false;
 
-    OffersFactory.query({
-      user_id: USER_ID,
-      format: 'json'
-    }).$promise.then(function(data) {
-      if (data.meta.total_count > 0) {
-        $scope.user.offers = data.objects;
+    $scope.getUser = function() {
+
+      $scope.loadingUser = true;
+      $scope.loadingGoals = true;
+      $scope.loadingOffers = true;
+      $scope.loadingLikes = true;
+      $scope.loadingInterests = true;
+
+      GoalsFactory.query({
+        user_id: USER_ID,
+        format: 'json'
+      }).$promise.then(function(data) {
+        if (data.meta.total_count > 0) {
+          $scope.user.goals = data.objects;
+        }
+        $scope.loadingGoals = false;
+
+
+
+      });
+
+      OffersFactory.query({
+        user_id: USER_ID,
+        format: 'json'
+      }).$promise.then(function(data) {
+        if (data.meta.total_count > 0) {
+          $scope.user.offers = data.objects;
+        }
+        $scope.loadingOffers = false;
+
+      });
+
+      LikesFactory.query({
+        user_id: USER_ID,
+        format: 'json'
+      }).$promise.then(function(data) {
+        if (data.meta.total_count > 0) {
+          $scope.user.likes = data.objects;
+        }
+        $scope.loadingLikes = false;
+
+      });
+
+
+      InterestsFactory.query({
+        user_id: USER_ID,
+        format: 'json'
+      }).$promise.then(function(data) {
+        if (data.meta.total_count > 0) {
+          $scope.user.interests = data.objects;
+        }
+        $scope.loadingInterests = false;
+
+      });
+
+
+
+      UsersFactory.get({
+        format: 'json'
+      }, {
+        userId: USER_ID
+      }).$promise.then(function(data) {
+
+        $scope.user.firstName = data.first_name;
+        $scope.user.lastName = data.last_name;
+        $scope.user.about_me = data.about_me;
+        $scope.user.age = data.age;
+        $scope.user.facebookId = data.facebook_id;
+        $scope.user.facebookProfile = data.facebook_profile_url;
+        $scope.twitter = data.twitter_provider;
+        $scope.linkedin = data.linkedin_provider;
+
+        $scope.loadingUser = false;
+
+      });
+    };
+
+    $scope.getUser();
+
+
+    $scope.link = function(provider) {
+      var w = 350;
+      var h = 250;
+
+      var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+      var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+
+      var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+      var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+      var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+      var top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+
+      var settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
+      var url = '/social/associate/' + provider + '/?next=/goals/close_login_popup';
+      var newWindow = window.open(url, 'Connecting...', settings);
+
+      if (window.focus) {
+        newWindow.focus();
       }
-      $scope.loadingOffers = false;
+    };
 
-    });
+    $scope.unlink = function(provider) {
+      var w = 350;
+      var h = 250;
 
-    LikesFactory.query({
-      user_id: USER_ID,
-      format: 'json'
-    }).$promise.then(function(data) {
-      if (data.meta.total_count > 0) {
-        $scope.user.likes = data.objects;
+      var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
+      var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
+
+      var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+      var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+      var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+      var top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+
+      var settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
+      var url = '/social/disconnect/' + provider + '/';
+      var newWindow = window.open(url, 'Disconnecting...', settings);
+
+      if (window.focus) {
+        newWindow.focus();
       }
-      $scope.loadingLikes = false;
-
-    });
+    };
 
 
-    InterestsFactory.query({
-      user_id: USER_ID,
-      format: 'json'
-    }).$promise.then(function(data) {
-      if (data.meta.total_count > 0) {
-        $scope.user.interests = data.objects;
-      }
-      $scope.loadingInterests = false;
-
-    });
-
-
-
-    UsersFactory.get({
-      format: 'json'
-    }, {
-      userId: USER_ID
-    }).$promise.then(function(data) {
-
-      $scope.user.firstName = data.first_name;
-      $scope.user.lastName = data.last_name;
-      $scope.user.about_me = data.about_me;
-      $scope.user.age = data.age;
-      $scope.user.facebookId = data.facebook_id;
-      $scope.user.facebookProfile = data.facebook_profile_url;
-      $scope.twitter = data.twitter_provider;
-      $scope.linkedin = data.linkedin_provider;
-
-      $scope.loadingUser = false;
-
-    });
-  };
-
-  $scope.getUser();
-
-
-  $scope.link = function(provider) {
-    var w = 350;
-    var h = 250;
-
-    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
-    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
-
-    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    var top = ((height / 2) - (h / 2)) + dualScreenTop;
-
-
-    var settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
-    var url = '/social/associate/' + provider + '/?next=/goals/close_login_popup';
-    var newWindow = window.open(url, 'Connecting...', settings);
-
-    if (window.focus) {
-      newWindow.focus();
-    }
-  };
-
-  $scope.unlink = function(provider) {
-    var w = 350;
-    var h = 250;
-
-    var dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
-    var dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
-
-    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    var top = ((height / 2) - (h / 2)) + dualScreenTop;
-
-
-    var settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
-    var url = '/social/disconnect/' + provider + '/';
-    var newWindow = window.open(url, 'Disconnecting...', settings);
-
-    if (window.focus) {
-      newWindow.focus();
-    }
-  };
-
-
-  $scope.refreshUser = function() {
-    UsersFactory.get({
-      format: 'json'
-    }, {
-      userId: USER_ID
-    }).$promise.then(function(data) {
-      $scope.twitter = data.twitter_provider;
-      $scope.linkedin = data.linkedin_provider;
-    });
-  };
+    $scope.refreshUser = function() {
+      UsersFactory.get({
+        format: 'json'
+      }, {
+        userId: USER_ID
+      }).$promise.then(function(data) {
+        $scope.twitter = data.twitter_provider;
+        $scope.linkedin = data.linkedin_provider;
+      });
+    };
 
 
     //about_me
@@ -212,17 +212,17 @@ angular.module('beKindred')
     $scope.saveAbout = function() {
       $scope.loadingAbout = true;
       UsersFactory.update({
-        userId: USER_ID
-      }, {
-        about_me: $scope.user.about_me
-      },
-      function(success) {
+          userId: USER_ID
+        }, {
+          about_me: $scope.user.about_me
+        },
+        function(success) {
 
-        $scope.loadingAbout = false;
-      },
-      function(error) {
-        $log.info(error);
-      });
+          $scope.loadingAbout = false;
+        },
+        function(error) {
+          $log.info(error);
+        });
     };
 
     //photos
@@ -242,28 +242,28 @@ angular.module('beKindred')
 
       if ($scope.user.photos[index].id !== 0) {
         PhotosFactory.update({
-          photoId: $scope.user.photos[index].id
-        }, {
-          order: $scope.user.photos[index].order
-        },
-        function(success) {},
-        function(error) {
-          $log.info(error);
-        });
+            photoId: $scope.user.photos[index].id
+          }, {
+            order: $scope.user.photos[index].order
+          },
+          function(success) {},
+          function(error) {
+            $log.info(error);
+          });
 
       }
 
 
       if ($scope.user.photos[otherIndex].id !== 0) {
         PhotosFactory.update({
-          photoId: $scope.user.photos[otherIndex].id
-        }, {
-          order: $scope.user.photos[otherIndex].order
-        },
-        function(success) {},
-        function(error) {
-          $log.info(error);
-        });
+            photoId: $scope.user.photos[otherIndex].id
+          }, {
+            order: $scope.user.photos[otherIndex].order
+          },
+          function(success) {},
+          function(error) {
+            $log.info(error);
+          });
 
       }
 
@@ -347,16 +347,16 @@ angular.module('beKindred')
     $scope.deletePhoto = function() {
       var deleteIndex = $scope.userPhotoDeleteIndex;
       PhotosFactory.delete({
-        photoId: $scope.user.photos[deleteIndex].id
-      },
-      function(success) {
-        $scope.user.photos[deleteIndex].photo = '';
-        $scope.user.photos[deleteIndex].cropped_photo = '';
-        $scope.user.photos[deleteIndex].id = 0;
-      },
-      function(error) {
-        $log.info(error);
-      });
+          photoId: $scope.user.photos[deleteIndex].id
+        },
+        function(success) {
+          $scope.user.photos[deleteIndex].photo = '';
+          $scope.user.photos[deleteIndex].cropped_photo = '';
+          $scope.user.photos[deleteIndex].id = 0;
+        },
+        function(error) {
+          $log.info(error);
+        });
 
     };
 
@@ -427,125 +427,125 @@ angular.module('beKindred')
 
     $scope.$on('ngRepeatFinished', function() {
       $('.ui.search.goals')
-      .search({
-        apiSettings: {
-          url: 'api/v1/subject/?format=json&description__icontains={query}',
-        },
-        minCharacters: 3,
-        searchDelay: 400,
-        type: 'standard',
-        cache: false,
-        onSelect: function(result, response) {
-          var idx = $(this).attr('rel');
-          if (result !== undefined) {
-            $scope.user.goals[idx].subject = result.description;
+        .search({
+          apiSettings: {
+            url: 'api/v1/subject/?format=json&description__icontains={query}',
+          },
+          minCharacters: 3,
+          searchDelay: 400,
+          type: 'standard',
+          cache: false,
+          onSelect: function(result, response) {
+            var idx = $(this).attr('rel');
+            if (result !== undefined) {
+              $scope.user.goals[idx].subject = result.description;
+
+            }
 
           }
 
-        }
 
-
-      });
+        });
 
 
       $('.ui.search.offers')
-      .search({
-        apiSettings: {
-          url: 'api/v1/subject/?format=json&description__icontains={query}',
-        },
-        minCharacters: 3,
-        searchDelay: 400,
-        type: 'standard',
-        cache: false,
-        onSelect: function(result, response) {
-          var idx = $(this).attr('rel');
-          if (result !== undefined) {
-            $scope.user.offers[idx].subject = result.description;
+        .search({
+          apiSettings: {
+            url: 'api/v1/subject/?format=json&description__icontains={query}',
+          },
+          minCharacters: 3,
+          searchDelay: 400,
+          type: 'standard',
+          cache: false,
+          onSelect: function(result, response) {
+            var idx = $(this).attr('rel');
+            if (result !== undefined) {
+              $scope.user.offers[idx].subject = result.description;
+
+            }
 
           }
 
-        }
 
-
-      });
+        });
 
       $('.ui.search.interests')
-      .search({
-        apiSettings: {
-          url: 'api/v1/interest/?format=json&description__icontains={query}',
-        },
-        minCharacters: 3,
-        searchDelay: 400,
-        type: 'standard',
-        cache: false,
-        onSelect: function(result, response) {
-          var idx = $(this).attr('rel');
-          if (result !== undefined) {
-            $scope.user.interests[idx].description = result.description;
+        .search({
+          apiSettings: {
+            url: 'api/v1/interest_subject/?format=json&description__icontains={query}',
+          },
+          minCharacters: 3,
+          searchDelay: 400,
+          type: 'standard',
+          cache: false,
+          onSelect: function(result, response) {
+            var idx = $(this).attr('rel');
+            if (result !== undefined) {
+              $scope.user.interests[idx].interest_subject = result.description;
+
+            }
 
           }
 
-        }
 
-
-      });
+        });
 
     });
 
 
-$scope.goalNeedSaving = function(index) {
-  $scope.user.goals[index].changed = true;
-};
+    $scope.goalNeedSaving = function(index) {
+      $scope.user.goals[index].changed = true;
+    };
 
-$scope.createNewGoal = function() {
+    $scope.createNewGoal = function() {
 
-  var newGoal = {
-    id: 0,
-    subject: '',
-    user: $scope.userUri,
-    changed: true
-  };
+      var newGoal = {
+        id: 0,
+        subject: '',
+        user: $scope.userUri,
+        changed: true
+      };
 
-  $scope.user.goals.push(newGoal);
+      $scope.user.goals.push(newGoal);
 
-};
-
-
-$scope.removeGoal = function(index) {
-
-  var Goal = $resource($scope.user.goals[index].resource_uri);
-
-  if ($scope.user.goals[index].id === 0) {
-    $scope.user.goals.splice(index, 1);
-  } else {
-    Goal.delete().$promise.then(function(data) {
-      $scope.user.goals.splice(index, 1);
-    });
-  }
-
-};
+    };
 
 
-$scope.saveCurrentGoal = function(index) {
+    $scope.removeGoal = function(index) {
 
-  var deferred = $q.defer();
+      var Goal = $resource($scope.user.goals[index].resource_uri);
 
-  $scope.user.goals[index].errorMessage = '';
-  $scope.user.goals[index].error = false;
+      if ($scope.user.goals[index].id === 0) {
+        $scope.user.goals.splice(index, 1);
+      } else {
+        Goal.delete().$promise.then(function(data) {
+          $scope.user.goals.splice(index, 1);
+        });
+      }
 
-  if ($scope.user.goals[index].subject.length > 300) {
-    $scope.user.goals[index].error = true;
-    $scope.user.goals[index].errorMessage = 'Goal cannot have more than 300 characters.';
-    deferred.reject();
-    return deferred.promise;
-  }
+    };
 
-  if ($scope.user.goals[index].subject === '') {
-    $scope.user.goals[index].error = true;
-    $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
-    deferred.reject();
-  } else {
-    if ($scope.user.goals[index].id === 0) {
+
+    $scope.saveCurrentGoal = function(index) {
+
+      var deferred = $q.defer();
+
+      $scope.user.goals[index].errorMessage = '';
+      $scope.user.goals[index].error = false;
+
+      if ($scope.user.goals[index].subject.length > 300) {
+        $scope.user.goals[index].error = true;
+        $scope.user.goals[index].errorMessage = 'Goal cannot have more than 300 characters.';
+        deferred.reject();
+        return deferred.promise;
+      }
+
+      if ($scope.user.goals[index].subject === '') {
+        $scope.user.goals[index].error = true;
+        $scope.user.goals[index].errorMessage = 'Entering your goal is required.';
+        deferred.reject();
+      } else {
+        if ($scope.user.goals[index].id === 0) {
           //create new goal
           var newGoal = {
             goal_subject: $scope.user.goals[index].subject,
@@ -578,95 +578,94 @@ $scope.saveCurrentGoal = function(index) {
           $scope.user.goals[index].error = false;
           $scope.user.goals[index].loading = true;
           GoalsFactory.update({
-            goalId: $scope.user.goals[index].id
-          }, {
-            goal_subject: $scope.user.goals[index].subject
-          },
-          function(success) {
-            $scope.user.goals[index].loading = false;
-            $scope.user.goals[index].error = false;
-            $scope.user.goals[index].goal = success.goal;
-            $scope.user.goals[index].goal_subject = success.goal_subject;
-            $scope.user.goals[index].resource_uri = success.resource_uri;
+              goalId: $scope.user.goals[index].id
+            }, {
+              goal_subject: $scope.user.goals[index].subject
+            },
+            function(success) {
+              $scope.user.goals[index].loading = false;
+              $scope.user.goals[index].error = false;
+              $scope.user.goals[index].goal = success.goal;
+              $scope.user.goals[index].goal_subject = success.goal_subject;
+              $scope.user.goals[index].resource_uri = success.resource_uri;
 
-            $scope.user.goals[index].changed = false;
-            deferred.resolve();
+              $scope.user.goals[index].changed = false;
+              deferred.resolve();
 
-          },
-          function(error) {
-            if (error.data.goal) {
-              $scope.user.goals[index].errorMessage = error.data.goal.error[0];
-            }
-            else {
-              $scope.user.goals[index].errorMessage = 'There was an error when trying to save this field.';
-            }
-            $scope.user.goals[index].loading = false;
-            $scope.user.goals[index].error = true;
-            deferred.reject();
+            },
+            function(error) {
+              if (error.data.goal) {
+                $scope.user.goals[index].errorMessage = error.data.goal.error[0];
+              } else {
+                $scope.user.goals[index].errorMessage = 'There was an error when trying to save this field.';
+              }
+              $scope.user.goals[index].loading = false;
+              $scope.user.goals[index].error = true;
+              deferred.reject();
 
-          });
-
-
-}
-}
-
-return deferred.promise;
-};
-
-$scope.offerNeedSaving = function(index) {
-  $scope.user.offers[index].changed = true;
-};
+            });
 
 
-$scope.createNewOffer = function() {
+        }
+      }
 
-  var newOffer = {
-    id: 0,
-    subject: '',
-    user: $scope.userUri,
-    changed: true
-  };
+      return deferred.promise;
+    };
 
-  $scope.user.offers.push(newOffer);
-
-};
+    $scope.offerNeedSaving = function(index) {
+      $scope.user.offers[index].changed = true;
+    };
 
 
-$scope.removeOffer = function(index) {
+    $scope.createNewOffer = function() {
 
-  var Offer = $resource($scope.user.offers[index].resource_uri);
+      var newOffer = {
+        id: 0,
+        subject: '',
+        user: $scope.userUri,
+        changed: true
+      };
 
-  if ($scope.user.offers[index].id === 0) {
-    $scope.user.offers.splice(index, 1);
-  } else {
-    Offer.delete().$promise.then(function(data) {
-      $scope.user.offers.splice(index, 1);
-    });
-  }
+      $scope.user.offers.push(newOffer);
 
-};
+    };
 
 
-$scope.saveCurrentOffer = function(index) {
+    $scope.removeOffer = function(index) {
 
-  var deferred = $q.defer();
+      var Offer = $resource($scope.user.offers[index].resource_uri);
 
-  $scope.user.offers[index].errorMessage = '';
-  $scope.user.offers[index].error = false;
+      if ($scope.user.offers[index].id === 0) {
+        $scope.user.offers.splice(index, 1);
+      } else {
+        Offer.delete().$promise.then(function(data) {
+          $scope.user.offers.splice(index, 1);
+        });
+      }
 
-  if ($scope.user.offers[index].subject.length > 300) {
-    $scope.user.offers[index].error = true;
-    $scope.user.offers[index].errorMessage = 'Offer cannot have more than 300 characters.';
-    deferred.reject();
-    return deferred.promise;
-  }
+    };
 
-  if ($scope.user.offers[index].subject === '') {
-    $scope.user.offers[index].error = true;
-    $scope.user.offers[index].errorMessage = 'Entering your offer is required.';
-    deferred.reject();
-  } else {
-    if ($scope.user.offers[index].id === 0) {
+
+    $scope.saveCurrentOffer = function(index) {
+
+      var deferred = $q.defer();
+
+      $scope.user.offers[index].errorMessage = '';
+      $scope.user.offers[index].error = false;
+
+      if ($scope.user.offers[index].subject.length > 300) {
+        $scope.user.offers[index].error = true;
+        $scope.user.offers[index].errorMessage = 'Offer cannot have more than 300 characters.';
+        deferred.reject();
+        return deferred.promise;
+      }
+
+      if ($scope.user.offers[index].subject === '') {
+        $scope.user.offers[index].error = true;
+        $scope.user.offers[index].errorMessage = 'Entering your offer is required.';
+        deferred.reject();
+      } else {
+        if ($scope.user.offers[index].id === 0) {
           //create new offer
           var newOffer = {
             offer_subject: $scope.user.offers[index].subject,
@@ -699,96 +698,96 @@ $scope.saveCurrentOffer = function(index) {
           $scope.user.offers[index].error = false;
           $scope.user.offers[index].loading = true;
           OffersFactory.update({
-            offerId: $scope.user.offers[index].id
-          }, {
-            offer_subject: $scope.user.offers[index].subject
-          },
-          function(success) {
-            $scope.user.offers[index].loading = false;
-            $scope.user.offers[index].error = false;
-            $scope.user.offers[index].offer = success.offer;
-            $scope.user.offers[index].offer_subject = success.offer_subject;
-            $scope.user.offers[index].resource_uri = success.resource_uri;
+              offerId: $scope.user.offers[index].id
+            }, {
+              offer_subject: $scope.user.offers[index].subject
+            },
+            function(success) {
+              $scope.user.offers[index].loading = false;
+              $scope.user.offers[index].error = false;
+              $scope.user.offers[index].offer = success.offer;
+              $scope.user.offers[index].offer_subject = success.offer_subject;
+              $scope.user.offers[index].resource_uri = success.resource_uri;
 
-            $scope.user.offers[index].changed = false;
-            deferred.resolve();
+              $scope.user.offers[index].changed = false;
+              deferred.resolve();
 
-          },
-          function(error) {
-            if (error.data.offer) {
-              $scope.user.offers[index].errorMessage = error.data.offer.error[0];
-            }
-            else {
-              $scope.user.offers[index].errorMessage = 'There was an error when trying to save this field.';
-            }
-            $scope.user.offers[index].loading = false;
-            $scope.user.offers[index].error = true;
-            deferred.reject();
+            },
+            function(error) {
+              if (error.data.offer) {
+                $scope.user.offers[index].errorMessage = error.data.offer.error[0];
+              } else {
+                $scope.user.offers[index].errorMessage = 'There was an error when trying to save this field.';
+              }
+              $scope.user.offers[index].loading = false;
+              $scope.user.offers[index].error = true;
+              deferred.reject();
 
-          });
-
-
-}
-}
-
-return deferred.promise;
-};
+            });
 
 
-$scope.interestNeedSaving = function(index) {
-  $scope.user.interests[index].changed = true;
-};
+        }
+      }
 
-$scope.createNewInterest = function() {
-
-  var newInterest = {
-    id: 0,
-    description: '',
-    user: $scope.userUri,
-    changed: true
-  };
-
-  $scope.user.interests.push(newInterest);
-
-};
+      return deferred.promise;
+    };
 
 
-$scope.removeInterest = function(index) {
+    $scope.interestNeedSaving = function(index) {
+      $scope.user.interests[index].changed = true;
+    };
 
-  var Interest = $resource($scope.user.interests[index].resource_uri);
+    $scope.createNewInterest = function() {
 
-  if ($scope.user.interests[index].id === 0) {
-    $scope.user.interests.splice(index, 1);
-  } else {
-    Interest.delete().$promise.then(function(data) {
-      $scope.user.interests.splice(index, 1);
-    });
-  }
+      var newInterest = {
+        id: 0,
+        interest_subject: '',
+        interest: null,
+        user: $scope.userUri,
+        changed: true
+      };
 
-};
+      $scope.user.interests.push(newInterest);
+
+    };
 
 
-$scope.saveCurrentInterest = function(index) {
-  var deferred = $q.defer();
-  $scope.user.interests[index].errorMessage = '';
-  $scope.user.interests[index].error = false;
+    $scope.removeInterest = function(index) {
 
-  if ($scope.user.interests[index].description.length > 100) {
-    $scope.user.interests[index].error = true;
-    $scope.user.interests[index].errorMessage = 'Interest cannot have more than 100 characters.';
-    deferred.reject();
-    return deferred.promise;
-  }
+      var Interest = $resource($scope.user.interests[index].resource_uri);
 
-  if ($scope.user.interests[index].description === '') {
-    $scope.user.interests[index].error = true;
-    $scope.user.interests[index].errorMessage = 'Entering your interest is required.';
-    deferred.reject();
-  } else {
-    if ($scope.user.interests[index].id === 0) {
+      if ($scope.user.interests[index].id === 0) {
+        $scope.user.interests.splice(index, 1);
+      } else {
+        Interest.delete().$promise.then(function(data) {
+          $scope.user.interests.splice(index, 1);
+        });
+      }
+
+    };
+
+
+    $scope.saveCurrentInterest = function(index) {
+      var deferred = $q.defer();
+      $scope.user.interests[index].errorMessage = '';
+      $scope.user.interests[index].error = false;
+
+      if ($scope.user.interests[index].interest_subject.length > 100) {
+        $scope.user.interests[index].error = true;
+        $scope.user.interests[index].errorMessage = 'Interest cannot have more than 100 characters.';
+        deferred.reject();
+        return deferred.promise;
+      }
+
+      if ($scope.user.interests[index].interest_subject === '') {
+        $scope.user.interests[index].error = true;
+        $scope.user.interests[index].errorMessage = 'Entering your interest is required.';
+        deferred.reject();
+      } else {
+        if ($scope.user.interests[index].id === 0) {
           //create new interest
           var newInterest = {
-            description: $scope.user.interests[index].description,
+            interest_subject: $scope.user.interests[index].interest_subject,
             user: $scope.userUri
           };
           $scope.user.interests[index].loading = true;
@@ -799,7 +798,7 @@ $scope.saveCurrentInterest = function(index) {
               $scope.user.interests[index].error = false;
               $scope.user.interests[index].id = success.id;
               $scope.user.interests[index].interest = success.interest;
-              $scope.user.interests[index].description = success.description;
+              $scope.user.interests[index].interest_subject = success.interest_subject;
               $scope.user.interests[index].resource_uri = success.resource_uri;
               $scope.user.interests[index].user = success.user;
 
@@ -818,42 +817,41 @@ $scope.saveCurrentInterest = function(index) {
           $scope.user.interests[index].error = false;
           $scope.user.interests[index].loading = true;
           InterestsFactory.update({
-            interestId: $scope.user.interests[index].id
-          }, {
-            description: $scope.user.interests[index].description
-          },
-          function(success) {
-            $scope.user.interests[index].loading = false;
-            $scope.user.interests[index].error = false;
-            $scope.user.interests[index].interest = success.interest;
-            $scope.user.interests[index].description = success.description;
-            $scope.user.interests[index].resource_uri = success.resource_uri;
+              interestId: $scope.user.interests[index].id
+            }, {
+              interest_subject: $scope.user.interests[index].interest_subject
+            },
+            function(success) {
+              $scope.user.interests[index].loading = false;
+              $scope.user.interests[index].error = false;
+              $scope.user.interests[index].interest = success.interest;
+              $scope.user.interests[index].interest_subject = success.interest_subject;
+              $scope.user.interests[index].resource_uri = success.resource_uri;
 
-            $scope.user.interests[index].changed = false;
-            deferred.resolve();
+              $scope.user.interests[index].changed = false;
+              deferred.resolve();
 
-          },
-          function(error) {
-            if (error.data.interest) {
-              $scope.user.interests[index].errorMessage = error.data.interest.error[0];
-            }
-            else {
-              $scope.user.interests[index].errorMessage = 'There was an error when trying to save this field.';
-            }
-            $scope.user.interests[index].loading = false;
-            $scope.user.interests[index].error = true;
-            deferred.reject();
+            },
+            function(error) {
+              if (error.data.interest) {
+                $scope.user.interests[index].errorMessage = error.data.interest.error[0];
+              } else {
+                $scope.user.interests[index].errorMessage = 'There was an error when trying to save this field.';
+              }
+              $scope.user.interests[index].loading = false;
+              $scope.user.interests[index].error = true;
+              deferred.reject();
 
-          });
-
-
-}
-}
-
-return deferred.promise;
+            });
 
 
-};
+        }
+      }
+
+      return deferred.promise;
+
+
+    };
 
 
     //multiple save action for goals, offers and interests
@@ -867,7 +865,7 @@ return deferred.promise;
         $scope.savingAllChanges = false;
         notify({
           messageTemplate: '<div class="notify-info-header">Success</div>' +
-          '<p>All changes have been saved.</p>',
+            '<p>All changes have been saved.</p>',
           classes: 'notify-info',
           icon: 'check circle'
         });
@@ -878,7 +876,7 @@ return deferred.promise;
 
         notify({
           messageTemplate: '<div class="notify-error-header">Could not save your profile changes.</div>' +
-          '<p>There were some errors. Please see them below.</p>',
+            '<p>There were some errors. Please see them below.</p>',
           scope: $scope,
           classes: 'notify-error',
           icon: 'warning circle'

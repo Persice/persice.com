@@ -10,7 +10,7 @@
    * classDesc Select interests and activities during onboard user flow
    * @ngInject
    */
-  function InterestsController(InterestsFactory, $log, notify, USER_ID, $filter, $timeout, $resource, $state, $q, lodash, $scope, $window) {
+  function InterestsController(InterestsFactory, InterestSubjectFactory, $log, notify, USER_ID, $filter, $timeout, $resource, $state, $q, lodash, $scope, $window) {
     var vm = this;
 
     vm.useInterest = useInterest;
@@ -63,7 +63,7 @@
     }
 
     function getAllInterests() {
-
+      vm.userInterests = [];
       if (w.width() > 400) {
         vm.limit = 400;
       }
@@ -82,13 +82,13 @@
         offset: 0
       }).$promise.then(function(data) {
 
-
+        vm.counter = data.meta.total_count;
 
         if (data.objects.length > 0) {
           vm.userInterests = data.objects;
         }
 
-        InterestsFactory.query({
+        InterestSubjectFactory.query({
           format: 'json',
           limit: vm.limit,
           description__icontains: vm.searchQuery,
@@ -102,10 +102,11 @@
 
             //preselect already created interests
             for (var j = results.length - 1; j >= 0; j--) {
+              results[j].active = false;
+              results[j].interest_resource = null;
               for (var i = vm.userInterests.length - 1; i >= 0; i--) {
-                if (results[j].description === vm.userInterests[i].description) {
-                  results[j] = vm.userInterests[i];
-                  vm.counter++;
+                if (results[j].resource_uri === vm.userInterests[i].interest) {
+                  results[j].interest_resource = vm.userInterests[i].resource_uri;
                   results[j].active = true;
                 }
               }
@@ -160,12 +161,12 @@
               limit: 200,
               offset: 0
             }).$promise.then(function(data) {
-
+              vm.counter = data.meta.total_count;
               if (data.objects.length > 0) {
                 vm.userInterests = data.objects;
               }
 
-              InterestsFactory.query({
+              InterestSubjectFactory.query({
                 format: 'json',
                 description__icontains: vm.searchQuery,
                 offset: vm.nextOffset,
@@ -178,15 +179,18 @@
 
                 if (data.objects.length > 0) {
                   responseData = data.objects;
+
                 }
 
 
 
                 for (var j = responseData.length - 1; j >= 0; j--) {
+                  responseData[j].active = false;
+                  responseData[j].interest_resource = null;
                   for (var i = vm.userInterests.length - 1; i >= 0; i--) {
-                    if (responseData[j].description === vm.userInterests[i].description) {
-                      responseData[j] = vm.userInterests[i];
-                      vm.counter++;
+                    if (responseData[j].resource_uri === vm.userInterests[i].interest) {
+                      responseData[j].interest_resource = vm.userInterests[i].resource_id;
+
                       responseData[j].active = true;
                     }
                   }
@@ -234,8 +238,8 @@
     }
 
 
-    function useInterest(id) {
-      var selected = $filter('getByProperty')('id', id, vm.allInterests);
+    function useInterest(index) {
+      var selected = vm.allInterests[index];
 
       if (selected) {
 
@@ -243,10 +247,11 @@
         if (selected.active) {
 
           //deselect interest and delete from database
-          var Interest = $resource(selected.resource_uri);
+          var Interest = $resource(selected.interest_resource);
           selected.loading = true;
           Interest.delete().$promise.then(function(data) {
             selected.active = false;
+            selected.interest_resource = null;
             vm.counter--;
             selected.loading = false;
           }, function(response) {
@@ -277,7 +282,7 @@
 
             //select and save new interest
             var newInterest = {
-              description: selected.description,
+              interest_subject: selected.description,
               user: vm.userUri
             };
             selected.loading = true;
@@ -286,12 +291,8 @@
                 $log.info(selected);
                 selected.loading = false;
                 selected.error = false;
-                selected.interest = success.interest;
-                selected.description = success.description;
-                selected.resource_uri = success.resource_uri;
-                selected.user = success.user;
+                selected.interest_resource = success.resource_uri;
                 selected.active = true;
-                selected.id = success.id;
                 vm.counter++;
               },
               function(error) {
