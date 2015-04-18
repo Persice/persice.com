@@ -74,6 +74,15 @@ class TestInterestResource(ResourceTestCase):
         resp = self.api_client.post('/api/v1/interest/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp)['interest']['error'][0], 'Interest already exists')
 
+    def test_create_duplicate_interest_case_sensitive(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'interest_subject': 'learn Django',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/interest/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['interest']['error'][0], 'Interest already exists')
+
     def test_put_detail(self):
         self.response = self.login()
         # Grab the current data & modify it slightly.

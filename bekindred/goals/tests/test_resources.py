@@ -124,6 +124,15 @@ class TestGoalResource(ResourceTestCase):
         resp = self.api_client.post('/api/v1/goal/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp)['goal']['error'][0], 'Goal already exists')
 
+    def test_create_duplicate_goal_case_sensitive(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'goal_subject': 'Learn Django',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/goal/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['goal']['error'][0], 'Goal already exists')
+
     def test_put_detail(self):
         self.response = self.login()
         # Grab the current data & modify it slightly.
@@ -225,10 +234,19 @@ class TestOfferResource(ResourceTestCase):
         resp = self.api_client.post('/api/v1/offer/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp)['subject'], 'my new offer2')
 
-    def test_create_duplicate_goal(self):
+    def test_create_duplicate_offer(self):
         post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'offer_subject': 'learn django',
+            }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/offer/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['offer']['error'][0], 'Offer already exists')
+
+    def test_create_duplicate_offer_case_sensitive(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'offer_subject': 'learn Django',
             }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/offer/', format='json', data=post_data)

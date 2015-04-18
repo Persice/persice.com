@@ -16,7 +16,7 @@ class InterestValidation(Validation):
 
         errors = {}
 
-        interest_subject = bundle.data.get('interest_subject')
+        interest_subject = bundle.data.get('interest_subject').lower()
         if not interest_subject:
             errors['error'] = ['Please use goal_subject']
 

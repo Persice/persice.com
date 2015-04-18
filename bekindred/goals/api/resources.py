@@ -51,7 +51,7 @@ class GoalValidation(Validation):
 
         errors = {}
 
-        goal_subject = bundle.data.get('goal_subject')
+        goal_subject = bundle.data.get('goal_subject').lower()
         if not goal_subject:
             errors['error'] = ['Please use goal_subject']
 
@@ -81,7 +81,7 @@ class OfferValidation(Validation):
 
         errors = {}
 
-        offer_subject = bundle.data.get('offer_subject')
+        offer_subject = bundle.data.get('offer_subject').lower()
         if not offer_subject:
             errors['error'] = ['Please use offer_subject']
 
