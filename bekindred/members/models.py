@@ -1,6 +1,7 @@
 import string
 from django.db import models
 from django.contrib.auth.models import UserManager
+from django.db.models import Q
 from django_facebook.models import FacebookCustomUser, FacebookLike
 from interests.models import Interest
 
@@ -49,10 +50,23 @@ class FacebookLikeProxyManager(models.Manager):
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.interest.description).translate(remove_punctuation_map).split())
             match_likes.extend(target_likes.search(tsquery, raw=True))
 
         return match_likes
+
+    def count_fb_likes_interests(self, user_id1, user_id2):
+        exclude_friends = FacebookCustomUser.objects.exclude(id__in=[user_id1, user_id2]). \
+            values_list('id', flat=True)
+        exclude_friends = list(exclude_friends)
+        matches_likes = self.match_fb_likes_to_fb_likes(user_id1, exclude_friends)
+        matches_likes2 = self.match_interests_to_fb_likes(user_id1, exclude_friends)
+
+        res2 = set()
+
+        for m_like in matches_likes + matches_likes2:
+            res2.add(m_like.id)
+        return len(res2)
 
 
 class FacebookLikeProxy(FacebookLike):

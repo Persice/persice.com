@@ -85,9 +85,9 @@ class MatchFeedManager(models.Manager):
 
             likes[_user_id].append(d)
 
-        match_interests_to_interests = Interest.search_subject.match_interests_to_interests(user_id, friends)
-        match_likes_to_interests = Interest.search_subject.match_fb_likes_to_interests(user_id, friends)
-        match_interests = match_interests_to_interests + match_likes_to_interests
+        match_interests_to_interests = Interest.objects_search.match_interests_to_interests(user_id, friends)
+        match_likes_to_interests = Interest.objects_search.match_fb_likes_to_interests(user_id, friends)
+        match_interests = match_interests_to_interests | match_likes_to_interests
 
         # Match Interests
         interests = {}
@@ -96,12 +96,12 @@ class MatchFeedManager(models.Manager):
             d = dict()
             exclude_interests = []
             for thing in group:
-                d[thing.description] = 1
+                d[thing.interest.description] = 1
                 exclude_interests.append(thing.id)
             other_interests = Interest.objects.exclude(id__in=exclude_interests).filter(user_id=_user_id)
 
             for other in other_interests:
-                d[other.description] = 0
+                d[other.interest.description] = 0
 
             interests[_user_id].append(d)
 
@@ -111,7 +111,7 @@ class MatchFeedManager(models.Manager):
         for user in matched_users:
             default_goals = [dict((item.goal.description, 0) for item in Goal.objects.filter(user_id=user)[:2])]
             default_offers = [dict((item.offer.description, 0) for item in Offer.objects.filter(user_id=user)[:2])]
-            default_interests = [dict((item.description, 0) for item in Interest.objects.filter(user_id=user)[:2])]
+            default_interests = [dict((item.interest.description, 0) for item in Interest.objects.filter(user_id=user)[:2])]
             default_likes = [dict((item.name, 0) for item in FacebookLike.objects.filter(user_id=user)[:2])]
 
             results['users'].append({'id': int(user),

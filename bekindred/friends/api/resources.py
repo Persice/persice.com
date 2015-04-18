@@ -141,7 +141,7 @@ class ConnectionsResource(Resource):
             new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
             new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
             t1 = Goal.objects_search.count_common_goals_and_offers(current_user, new_obj.friend_id)
-            t2 = Interest.search_subject.count_interests_fb_likes(current_user, new_obj.friend_id)
+            t2 = Interest.objects_search.count_interests_fb_likes(current_user, new_obj.friend_id)
             new_obj.common_goals_offers_interests = t1 + t2
 
             results.append(new_obj)
