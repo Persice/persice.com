@@ -282,59 +282,63 @@ angular.module('beKindred')
     $rootScope.$on('receivedMessage', function(event, data) {
       var jsonData = JSON.parse(data);
 
-      $log.info('new message');
+      if (jsonData.sender === $scope.recipient) {
 
-      var localDate = $filter('amDateFormat')(jsonData.sent_at, 'dddd, MMMM D, YYYY');
-      var localDatePlain = $filter('amDateFormat')(jsonData.sent_at, 'L');
+        $log.info('new message');
 
-      var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
+        var localDate = $filter('amDateFormat')(jsonData.sent_at, 'dddd, MMMM D, YYYY');
+        var localDatePlain = $filter('amDateFormat')(jsonData.sent_at, 'L');
 
-      if (messageIndex === null) {
-        $scope.messages.push({
-          date: localDate,
-          realDate: localDatePlain,
-          contents: []
+        var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
+
+        if (messageIndex === null) {
+          $scope.messages.push({
+            date: localDate,
+            realDate: localDatePlain,
+            contents: []
+          });
+          messageIndex = $scope.messages.length - 1;
+        }
+
+
+
+        $scope.messages[messageIndex].contents.push({
+          body: jsonData.body,
+          sender: jsonData.sender,
+          recipient: jsonData.recipient,
+          date: localDatePlain,
+          sent_at: jsonData.sent_at,
+          left: false
         });
-        messageIndex = $scope.messages.length - 1;
+
+        $rootScope.notifications.push({
+          body: jsonData.body,
+          sender: jsonData.sender,
+          recipient: jsonData.recipient,
+          date: localDatePlain,
+          sent_at: jsonData.sent_at
+        });
+
+        $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
+        $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
+
+        //mark all messages in conversation as read
+        $http.get('/api/v1/inbox/reat_at/?sender_id=' + $scope.friend.id).
+        success(function(data, status, headers, config) {
+          InboxRepository.getInboxMessages();
+        }).
+        error(function(data, status, headers, config) {
+
+        });
+
+        $timeout(function() {
+          var height = angular.element('.conversation-content')[0].scrollHeight;
+          angular.element('.conversation-content').filter(':not(:animated)').animate({
+            scrollTop: height
+          }, 1500);
+        }, 100);
+
       }
-
-
-
-      $scope.messages[messageIndex].contents.push({
-        body: jsonData.body,
-        sender: jsonData.sender,
-        recipient: jsonData.recipient,
-        date: localDatePlain,
-        sent_at: jsonData.sent_at,
-        left: false
-      });
-
-      $rootScope.notifications.push({
-        body: jsonData.body,
-        sender: jsonData.sender,
-        recipient: jsonData.recipient,
-        date: localDatePlain,
-        sent_at: jsonData.sent_at
-      });
-
-      $scope.messages[messageIndex].contents = $filter('orderBy')($scope.messages[messageIndex].contents, 'sent_at', true);
-      $scope.messages = $filter('orderBy')($scope.messages, 'realDate');
-
-      //mark all messages in conversation as read
-      $http.get('/api/v1/inbox/reat_at/?sender_id=' + $scope.friend.id).
-      success(function(data, status, headers, config) {
-        InboxRepository.getInboxMessages();
-      }).
-      error(function(data, status, headers, config) {
-
-      });
-
-      $timeout(function() {
-        var height = angular.element('.conversation-content')[0].scrollHeight;
-        angular.element('.conversation-content').filter(':not(:animated)').animate({
-          scrollTop: height
-        }, 1500);
-      }, 100);
 
     });
 
