@@ -1,14 +1,15 @@
+from itertools import groupby
+
 from django.db import models
 from django_facebook.models import FacebookLike, FacebookCustomUser
-from friends.models import Friend, FacebookFriendUser
-from goals.models import Goal, Offer, Subject
+
+from friends.models import Friend
+from goals.models import Goal, Offer
 from interests.models import Interest
 from members.models import FacebookLikeProxy
-from itertools import groupby
 
 
 class MatchFeedManager(models.Manager):
-
     @staticmethod
     def get_friends(user_id):
         # calculate friends
@@ -111,7 +112,8 @@ class MatchFeedManager(models.Manager):
         for user in matched_users:
             default_goals = [dict((item.goal.description, 0) for item in Goal.objects.filter(user_id=user)[:2])]
             default_offers = [dict((item.offer.description, 0) for item in Offer.objects.filter(user_id=user)[:2])]
-            default_interests = [dict((item.interest.description, 0) for item in Interest.objects.filter(user_id=user)[:2])]
+            default_interests = [
+                dict((item.interest.description, 0) for item in Interest.objects.filter(user_id=user)[:2])]
             default_likes = [dict((item.name, 0) for item in FacebookLike.objects.filter(user_id=user)[:2])]
 
             results['users'].append({'id': int(user),
@@ -119,7 +121,7 @@ class MatchFeedManager(models.Manager):
                                      'offers': offers.get(user, default_offers),
                                      'likes': likes.get(user, default_likes),
                                      'interests': interests.get(user, default_interests)
-            })
+                                     })
         return results
 
 

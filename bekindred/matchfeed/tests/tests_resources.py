@@ -2,7 +2,7 @@ from datetime import date
 from django_facebook.models import FacebookCustomUser, FacebookLike
 from tastypie.test import ResourceTestCase
 from goals.models import Subject, Goal, MatchFilterState
-from interests.models import Interest
+from interests.models import Interest, InterestSubject
 from members.models import FacebookLikeProxy
 
 
@@ -72,7 +72,9 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 2)
 
     def test_match_interest_fb_likes(self):
-        Interest.objects.create(user=self.user, description='Ruby Programming')
+        interest_id = InterestSubject.objects.create(description='Ruby Programming')
+        Interest.objects.create(user=self.user, interest=interest_id)
+
         FacebookLike.objects.create(user_id=self.user1.id, name='ruby', facebook_id=self.user1.facebook_id)
         self.response = self.login()
         resp = self.api_client.get('/api/v1/matchfeed/', format='json')

@@ -7,7 +7,7 @@ from tastypie.bundle import Bundle
 from tastypie.resources import Resource
 from friends.models import FacebookFriendUser, Friend
 from goals.models import MatchFilterState, Subject
-from interests.models import Interest
+from interests.models import Interest, InterestSubject
 from matchfeed.models import MatchFeedManager
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
@@ -95,7 +95,7 @@ class MatchedFeedResource(Resource):
                 search_subjects = Subject.objects.search(tsquery, raw=True)
                 subj_descriptions = [x.description for x in search_subjects]
 
-                search_interests = Interest.objects.search(tsquery, raw=True)
+                search_interests = InterestSubject.objects.search(tsquery, raw=True)
                 interests_descriptions = [x.description for x in search_interests]
                 results_keywords = []
                 for item in partial_results:
