@@ -37,12 +37,12 @@
    * @desc controller for matchfeedFilter directive
    * @ngInject
    */
-  function FilterController($scope, $rootScope, $window, FiltersFactory, FilterRepository, USER_ID, $log) {
+  function FilterController($scope, $rootScope, $window, FiltersFactory, FilterRepository, USER_ID, lodash) {
     var vm = this;
 
 
     vm.toggleGender = toggleGender;
-    vm.saveFilters = saveFilters;
+    vm.saveFilters = lodash.debounce(saveFilters, 300);
     vm.getFilters = getFilters;
     vm.removeKeyword = removeKeyword;
     vm.addKeyword = addKeyword;
