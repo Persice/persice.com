@@ -111,6 +111,7 @@
 
       function createFiltersSuccess(response) {
         $log.info('new filters created');
+        service.filterId = response.id;
       }
 
       function createFiltersError(error) {

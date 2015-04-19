@@ -35,6 +35,7 @@ class MatchFilterStateResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
 
     class Meta:
+        always_return_data = True
         queryset = MatchFilterState.objects.all()
         resource_name = 'filter/state'
         authentication = SessionAuthentication()
