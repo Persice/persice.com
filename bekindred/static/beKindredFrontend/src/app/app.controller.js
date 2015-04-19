@@ -12,6 +12,12 @@ angular.module('beKindred')
 
     FilterRepository.getFilters();
 
+    $rootScope.$on('triggerRefreshFilters', function() {
+      FilterRepository.getFilters();
+    });
+
+
+
     $rootScope.goBack = function() {
       $rootScope.hideTopMenu = false;
       $rootScope.showfullprofile = false;

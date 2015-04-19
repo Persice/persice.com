@@ -13,7 +13,7 @@ angular.module('beKindred')
     $scope.friendshipStatus = null;
     $scope.friendshipId = null;
 
-    $rootScope.$broadcast('refreshFilters');
+    $rootScope.$emit('triggerRefreshFilters');
     $scope.filtering = true;
 
 
