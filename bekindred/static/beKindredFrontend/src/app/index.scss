@@ -4309,6 +4309,10 @@ div#id_description, input#id_description_value {
   position: relative;
 }
 
+#friends-list-body .ui.divided.selection.list>.item:first-child {
+  border-top: none!important;
+}
+
 #friends-list-body .item .content .header {
   font-size: 1.5em;
   font-weight: 300;

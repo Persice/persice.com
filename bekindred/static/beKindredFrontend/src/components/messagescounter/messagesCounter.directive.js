@@ -42,7 +42,7 @@
 
     vm.refreshCounter = refreshCounter;
 
-    $rootScope.$on('refreshInboxMessages', function(event, data) {
+    $rootScope.$on('refreshMessagesCounter', function(event, data) {
       vm.refreshCounter();
     });
 

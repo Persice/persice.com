@@ -10,28 +10,49 @@
    * classDesc Controller for Inbox view
    * @ngInject
    */
-  function InboxController($scope, $rootScope, $log, InboxRepository) {
+  function InboxController($scope, $rootScope, $log, InboxRepository, $q) {
     var vm = this;
 
     vm.allMessages = [];
     vm.loadInbox = loadInbox;
     vm.loadMore = loadMore;
+    vm.refresh = refresh;
     vm.loadingMessages = false;
     vm.loadingMore = false;
     vm.q = '';
 
-    vm.loadInbox();
+    vm.refresh();
 
-    $rootScope.$on('refreshInboxMessages', function() {
-      vm.loadInbox();
-    });
+    function refresh() {
+      vm.loadingMessages = true;
+      InboxRepository.getInboxMessages().then(getInboxMessagesSuccess, getInboxMessagesFailed);
+
+      function getInboxMessagesSuccess(data) {
+        vm.loadingMessages = false;
+        vm.loadInbox();
+      }
+
+      function getInboxMessagesFailed(data) {
+        vm.loadingMessages = false;
+      }
+    }
 
     function loadInbox() {
       vm.allMessages = InboxRepository.getAllMessages();
     }
 
     function loadMore() {
-      // vm.allMessages = InboxRepository.getMoreMessages();
+      vm.loadingMore = true;
+      InboxRepository.loadMore().then(loadMoreSuccess, loadMoreFailed);
+
+      function loadMoreSuccess(data) {
+        vm.loadingMore = false;
+      }
+
+      function loadMoreFailed(data) {
+        vm.loadingMore = false;
+      }
+
     }
 
 

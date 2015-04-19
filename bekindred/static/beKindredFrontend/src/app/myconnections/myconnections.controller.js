@@ -19,7 +19,7 @@
     vm.noResults = false;
     vm.loading = false;
     vm.loadingMore = false;
-    vm.nextOffset = 5;
+    vm.nextOffset = 10;
     vm.next = null;
 
     vm.getFriends = getFriends;
@@ -34,13 +34,13 @@
     }
 
     function getFriends() {
-      vm.nextOffset = 5;
+      vm.nextOffset = 10;
       vm.next = null;
       vm.loading = true;
       ConnectionsFactory.query({
         format: 'json',
         first_name: vm.q,
-        limit: 20,
+        limit: 10,
         offset: 0
       }).$promise.then(function(data) {
 
@@ -104,51 +104,49 @@
       if (!vm.loadingMore) {
 
         vm.loadingMore = true;
-        $timeout(function() {
-          ConnectionsFactory.query({
-            format: 'json',
-            limit: 5,
-            first_name: vm.q,
-            offset: vm.nextOffset
-          }).$promise.then(function(data) {
+        ConnectionsFactory.query({
+          format: 'json',
+          limit: 10,
+          first_name: vm.q,
+          offset: vm.nextOffset
+        }).$promise.then(function(data) {
 
-              var responseData = data.objects;
-              vm.next = data.meta.next;
+            var responseData = data.objects;
+            vm.next = data.meta.next;
 
-              vm.nextOffset += 5;
+            vm.nextOffset += 10;
 
-              //count mutual friends
-              for (var obj in responseData) {
-                responseData[obj].totalFriends = 0;
-                responseData[obj].totalFriends += responseData[obj].mutual_bk_friends_count;
-                responseData[obj].totalFriends += responseData[obj].mutual_fb_friends_count;
-                responseData[obj].totalFriends += responseData[obj].mutual_linkedin_connections_count;
-                responseData[obj].totalFriends += responseData[obj].mutual_twitter_friends_count;
-                responseData[obj].totalFriends += responseData[obj].mutual_twitter_followers_count;
+            //count mutual friends
+            for (var obj in responseData) {
+              responseData[obj].totalFriends = 0;
+              responseData[obj].totalFriends += responseData[obj].mutual_bk_friends_count;
+              responseData[obj].totalFriends += responseData[obj].mutual_fb_friends_count;
+              responseData[obj].totalFriends += responseData[obj].mutual_linkedin_connections_count;
+              responseData[obj].totalFriends += responseData[obj].mutual_twitter_friends_count;
+              responseData[obj].totalFriends += responseData[obj].mutual_twitter_followers_count;
 
-                vm.friends.push(responseData[obj]);
-              }
+              vm.friends.push(responseData[obj]);
+            }
 
-              vm.loadingMore = false;
-              deferred.resolve();
+            vm.loadingMore = false;
+            deferred.resolve();
 
 
-            },
-            function(response) {
-              deferred.reject();
-              var data = response.data,
-                status = response.status,
-                header = response.header,
-                config = response.config,
-                message = 'Error ' + status;
+          },
+          function(response) {
+            deferred.reject();
+            var data = response.data,
+              status = response.status,
+              header = response.header,
+              config = response.config,
+              message = 'Error ' + status;
 
-              $log.error(message);
+            $log.error(message);
 
-              vm.loadingMore = false;
+            vm.loadingMore = false;
 
-            });
+          });
 
-        }, 400);
 
       } else {
         deferred.reject();
