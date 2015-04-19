@@ -17,7 +17,7 @@
 
     <div class="ui divided selection list">
 
-        <div class="ui info message" ng-show="myconnections.noResults && !myconnections.loading">
+        <div class="ui info message" ng-show="myconnections.noResults && !myconnections.loading && !myconnections.noConnections">
             <p>No connections found.</p>
             <p>Try with another search term or <a href="" ng-click="myconnections.reset()">reset your search</a>.</p>
         </div>
