@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('beKindred')
-.controller('MatchFeedCtrl', function($rootScope, $scope, $timeout, $filter, USER_ID, MatchFeedFactory, PhotosFactory, FriendsFactory, $log, MutualFriendsFactory) {
+  .controller('MatchFeedCtrl', function($rootScope, $scope, $timeout, $filter, USER_ID, MatchFeedFactory, PhotosFactory, FriendsFactory, $log, MutualFriendsFactory) {
 
-  $scope.matchedUser = [];
-  $scope.total = 0;
-  $scope.offset = 0;
-  $scope.previous = null;
-  $scope.next = null;
+    $scope.matchedUser = [];
+    $scope.total = 0;
+    $scope.offset = 0;
+    $scope.previous = null;
+    $scope.next = null;
 
-  $scope.me = '/api/v1/auth/user/' + USER_ID + '/';
-  $scope.friendshipStatus = null;
-  $scope.friendshipId = null;
+    $scope.me = '/api/v1/auth/user/' + USER_ID + '/';
+    $scope.friendshipStatus = null;
+    $scope.friendshipId = null;
 
-
-  $scope.filtering = true;
+    $rootScope.$broadcast('refreshFilters');
+    $scope.filtering = true;
 
 
     // $scope.photosSlider = $scope.matchedUser.photos;
@@ -187,10 +187,10 @@ angular.module('beKindred')
         }, function(response) {
           $scope.filtering = true;
           var data = response.data,
-          status = response.status,
-          header = response.header,
-          config = response.config,
-          message = 'Error ' + status;
+            status = response.status,
+            header = response.header,
+            config = response.config,
+            message = 'Error ' + status;
           // error handler
           $log.error(message);
           $scope.matchedUser = [];
@@ -202,16 +202,16 @@ angular.module('beKindred')
           $rootScope.hideTopMenu = false;
         });
 
-pok = 1;
+        pok = 1;
 
-} else {
-  $scope.showDimmer = false;
-  $rootScope.hideTopMenu = false;
-}
+      } else {
+        $scope.showDimmer = false;
+        $rootScope.hideTopMenu = false;
+      }
 
 
 
-};
+    };
 
 
 
@@ -390,10 +390,10 @@ pok = 1;
         $scope.loadingFeed = false;
       }, function(response) {
         var data = response.data,
-        status = response.status,
-        header = response.header,
-        config = response.config,
-        message = 'Error ' + status;
+          status = response.status,
+          header = response.header,
+          config = response.config,
+          message = 'Error ' + status;
         // error handler
         $log.error(message);
         $scope.matchedUser = [];
@@ -405,17 +405,17 @@ pok = 1;
         $rootScope.hideTopMenu = false;
       });
 
-};
+    };
 
 
-$scope.cancelMatch = function() {
-  $log.info('cancel match');
+    $scope.cancelMatch = function() {
+      $log.info('cancel match');
 
-  var friendship = {
-    friend1: $scope.me,
-    friend2: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/',
-    status: -1
-  };
+      var friendship = {
+        friend1: $scope.me,
+        friend2: '/api/v1/auth/user/' + $scope.matchedUser.user_id + '/',
+        status: -1
+      };
 
       //deny friendship with status -1
       FriendsFactory.save(friendship,
@@ -456,7 +456,7 @@ $scope.cancelMatch = function() {
       $rootScope.showfullprofile = true;
 
       $('#MatchMenu')
-      .sidebar('toggle');
+        .sidebar('toggle');
     };
 
   });
