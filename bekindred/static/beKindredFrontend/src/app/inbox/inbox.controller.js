@@ -15,7 +15,9 @@
 
     vm.allMessages = [];
     vm.loadInbox = loadInbox;
+    vm.loadMore = loadMore;
     vm.loadingMessages = false;
+    vm.loadingMore = false;
     vm.q = '';
 
     vm.loadInbox();
@@ -26,6 +28,10 @@
 
     function loadInbox() {
       vm.allMessages = InboxRepository.getAllMessages();
+    }
+
+    function loadMore() {
+      // vm.allMessages = InboxRepository.getMoreMessages();
     }
 
 

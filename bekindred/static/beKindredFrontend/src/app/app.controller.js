@@ -1,13 +1,16 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('AppCtrl', function($rootScope, $scope, USER_ID, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+  .controller('AppCtrl', function($rootScope, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
     $rootScope.hideTopMenu = false;
+
 
     $rootScope.userImg = USER_PHOTO;
     $rootScope.userName = USER_FIRSTNAME;
 
     $cookies.userid = USER_ID;
+
+    FilterRepository.getFilters();
 
     $rootScope.goBack = function() {
       $rootScope.hideTopMenu = false;
@@ -35,6 +38,9 @@ angular.module('beKindred')
       $rootScope.$broadcast('confirmMatchEvent');
     };
 
+    $rootScope.$on('triggerRefreshMatchfeed', function() {
+      $scope.refreshMatchFeed();
+    });
 
     $scope.refreshMatchFeed = function() {
       $('.dimmable').dimmer('hide');

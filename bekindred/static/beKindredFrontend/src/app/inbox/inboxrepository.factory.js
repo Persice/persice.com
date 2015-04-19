@@ -17,7 +17,12 @@
       getUnreadMessagesCounter: getUnreadMessagesCounter,
       getAllMessages: getAllMessages,
       unreadMessagesCounter: 0,
-      inboxMessages: []
+      inboxMessages: [],
+      limit: 20,
+      offset: 0,
+      nextOffset: 10,
+      next: null,
+      total: 0
     };
     return service;
 
@@ -29,6 +34,9 @@
 
       function getInboxMessagesComplete(response) {
         service.inboxMessages.splice(0, service.inboxMessages.length);
+        service.next = response.meta.next;
+        service.total = response.meta.total;
+
         var receivedMessages = response.objects;
         var i = 0;
         for (var obj in receivedMessages) {
