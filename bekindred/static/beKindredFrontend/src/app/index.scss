@@ -4437,3 +4437,10 @@ div#id_description, input#id_description_value {
   background: -webkit-linear-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.03) 100%);
   background: linear-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.03) 100%);
 }
+
+
+/* hide items temporarily */
+
+.displaynone {
+  display: none!important
+}

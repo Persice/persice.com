@@ -89,14 +89,13 @@
           <div class="title item desktopview">
             <b>Icebr&#257;k</b>
           </div>
-          <a ui-sref="home" class="icon item desktopview" id="homelink"><i class="home icon"></i></a>
-          <div class="ui mini action input inverted desktopview searchbox">
+          <div class="ui mini action input inverted desktopview searchbox displaynone">
             <input type="text" placeholder="Search">
             <button class="ui mini icon button">
               <i class="angle right black double icon"></i>
             </button>
           </div>
-          <div class="ui pointing labeled dropdown item desktopview" id="browse">
+          <div class="ui pointing labeled dropdown item desktopview displaynone" id="browse">
             Browse
             <i class="dropdown icon"></i>
             <div class="menu">
@@ -111,9 +110,7 @@
               <img ng-src="{{userImg}}" class="ui mini image">
               {{userName}}
             </a>
-            <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label" messages-counter></div></a>
-
-            <a href="" class="item"> <span class="content">Help</span></a>
+            <a href="" class="item displaynone"> <span class="content">Help</span></a>
 
           </div>
 
@@ -132,7 +129,7 @@
 
           <div class="ui attached internal desktopview left rail">
             <div class="ui vertical menu" id="left-menu" ng-cloak>
-
+              <a ui-sref="inbox" ui-sref-active="active" class="item">Messages <div class="ui label" messages-counter></div> <i class="icon inverted chevron right"></i></a>
               <a ui-sref="matchfeed" ui-sref-active="active" class="item">Match Feed <i class="icon inverted chevron right"></i></a>
               <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item">Big Match Feed <i class="icon inverted chevron right"></i></a>
               <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
