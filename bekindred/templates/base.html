@@ -61,6 +61,9 @@
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">0</div></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
+        <div class="ui divided horizontal list" id="links_sidemenu_bottom">
+          <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
+        </div>
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
             <li><h2>Icebr&#257;k</h2></li>
@@ -134,6 +137,10 @@
               <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">0</div><i class="icon inverted chevron right"></i></a>
               <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
             </div>
+
+            <div class="ui divided horizontal list" id="links_left_bottom">
+              <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
+            </div>
           </div>
 
           <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-show="isState('matchfeed')">
@@ -185,37 +192,9 @@
       .removeClass('disabled')
       ;
 
+    </script>
 
-       //  $('.ui.checkbox')
-       //  .checkbox({
-       //    onChecked: function () {
-       //      console.log('checked');
-       //      var modelInput = $('#gendersModel');
-       //      var arr = [];
-       //      $("#filterForm input:checkbox:checked").each(function(){
-       //        arr.push($(this).attr('rel'));
-       //      });
-       //      modelInput.val(arr.join());
-       //      modelInput.trigger('input');
-       //    },
-       //    onUnchecked: function () {
-       //     console.log('unchecked');
-       //     var modelInput = $('#gendersModel');
-       //     var arr = [];
-       //     $("#filterForm input:checkbox:checked").each(function(){
-       //      arr.push($(this).attr('rel'));
-       //    });
-       //     modelInput.val(arr.join());
-       //     modelInput.trigger('input');
-       //   }
-       // });
-
-
-
-
-     </script>
-
-     <script>
+    <script>
       'use strict';
 
       angular.module('beKindred').constant('USER_ID', {{ user.id }});

@@ -4403,3 +4403,37 @@ div#id_description, input#id_description_value {
 #inbox-body a.item .description {
   padding-right: 1em;
 }
+
+
+#links_left_bottom {
+  position: fixed !important;
+  background-color: #f7f7f7 !important;
+  font-weight: normal;
+  box-shadow: none;
+  border: none;
+  margin: 1.1em 1.4em;
+  padding: 0px;
+  bottom: 10px;
+  font-size: 0.8em;
+  width: 180px;
+}
+
+#links_sidemenu_bottom {
+  font-weight: normal;
+  box-shadow: none;
+  border: none;
+  margin: 1.1em 1.4em;
+  padding: 0px!important;
+  font-size: 0.8em!important;
+  width: 260px;
+}
+
+#links_sidemenu_bottom:before {
+  position: absolute;
+  content: '';
+  width: 260px;
+  height: 1px;
+  left: 0px;
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.03) 100%);
+  background: linear-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.03) 100%);
+}

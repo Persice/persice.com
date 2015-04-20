@@ -63,10 +63,13 @@
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
-        <a ui-sref-ignore href="accounts/logout" class="item"><i class="fa fa-sign-out icon"></i> <span class="content">Sign out</span></a>
+
+        <div class="ui divided horizontal list" id="links_sidemenu_bottom">
+          <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
+        </div>
+
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
-            <li><a href="" class="facebook"><i class="fa fa-slideshare"></i></a></li>
             <li><h2>Icebr&#257;k</h2></li>
           </ul>
         </div>
@@ -78,7 +81,7 @@
 
 
       <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('editmyprofile') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')">
-        <div class="container">
+        <div class="container" ng-cloak>
           <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
           <div class="title item mobileview">
             <b update-title></b>
@@ -128,7 +131,7 @@
 
 
           <div class="ui attached internal desktopview left rail">
-            <div class="ui vertical menu" id="left-menu">
+            <div class="ui vertical menu" id="left-menu" ng-cloak>
 
               <a ui-sref="matchfeed" ui-sref-active="active" class="item">Match Feed <i class="icon inverted chevron right"></i></a>
               <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item">Big Match Feed <i class="icon inverted chevron right"></i></a>
@@ -136,6 +139,18 @@
               <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">0</div><i class="icon inverted chevron right"></i></a>
               <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
             </div>
+
+            <div class="ui divided horizontal list" id="links_left_bottom">
+              <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
+            </div>
+
+
+
+
+
+
+
+
           </div>
 
           <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-show="isState('matchfeed')">

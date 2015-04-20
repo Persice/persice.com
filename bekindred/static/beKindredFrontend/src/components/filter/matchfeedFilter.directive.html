@@ -8,11 +8,11 @@
     <form name="filterForm" id="filterForm">
       <div class="field">
         <label>Distance <span class="range">{{filter.distanceValue}} mi.</span></label>
-        <div no-ui-slider="filter.distanceOptions" ng-model="filter.distanceValue" ng-change="filter.saveFilters()"></div>
+        <div no-ui-slider="filter.distanceOptions" ng-model="filter.distanceValue" ng-change="filter.saveFiltersDebounce()"></div>
       </div>
       <div class="field">
         <label>Age <span class="range">{{filter.ageValues[0]}} &ndash; {{filter.ageValues[1]}}</span></label>
-        <div no-ui-slider="filter.ageOptions" ng-model="filter.ageValues" ng-change="filter.saveFilters()"></div>
+        <div no-ui-slider="filter.ageOptions" ng-model="filter.ageValues" ng-change="filter.saveFiltersDebounce()"></div>
       </div>
       <div class="field">
         <label class="">Show</label>
