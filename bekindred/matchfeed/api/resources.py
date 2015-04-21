@@ -1,14 +1,16 @@
-from django_facebook.models import FacebookCustomUser
 import itertools
+
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie import fields
 from tastypie.bundle import Bundle
 from tastypie.resources import Resource
+
 from friends.models import FacebookFriendUser, Friend
 from goals.models import MatchFilterState, Subject
-from interests.models import Interest, InterestSubject
+from interests.models import InterestSubject
 from matchfeed.models import MatchFeedManager
+from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
     social_extra_data
@@ -58,7 +60,10 @@ class MatchedFeedResource(Resource):
         results = []
         for x in match_results['users']:
             new_obj = A()
-            user = FacebookCustomUser.objects.get(pk=x['id'])
+            try:
+                user = FacebookCustomUserActive.objects.get(pk=x['id'])
+            except FacebookCustomUserActive.DoesNotExist as err:
+                continue
             photos = FacebookPhoto.objects.filter(user_id=user).values_list('photo', flat=True)
             new_obj.distance = calculate_distance(request.user.id, user.id)
             new_obj.id = x['id']
@@ -86,8 +91,8 @@ class MatchedFeedResource(Resource):
 
             for match in results:
                 if (match.distance <= mfs.distance) and \
-                   ((match.age in range(int(mfs.min_age), int(mfs.max_age) + 1)) or match.age == 0) and \
-                   (match.gender in mfs.gender):
+                        ((match.age in range(int(mfs.min_age), int(mfs.max_age) + 1)) or match.age == 0) and \
+                        (match.gender in mfs.gender):
                     partial_results.append(match)
 
             if mfs.keyword:
@@ -243,12 +248,11 @@ class ProfileResource(Resource):
         if _user is None:
             return results
         match_results = MatchFeedManager.match_all(request.user.id, exclude_friends=True)
-        request_user = FacebookCustomUser.objects.get(pk=_user)
+        request_user = FacebookCustomUserActive.objects.get(pk=_user)
         photos = FacebookPhoto.objects.filter(user_id=request_user).values_list('photo', flat=True)
 
         for user in match_results['users']:
             if user['id'] == request_user.id:
-
                 new_obj.id = request_user.id
                 new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(request_user.id)
                 new_obj.first_name = request_user.first_name
