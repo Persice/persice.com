@@ -97,8 +97,7 @@ class Friend(models.Model):
     FRIENDSHIP_STATUS = (
         (-1, 'Decline friend request'),
         (0, 'Pending friend request'),
-        (1, 'Confirm friend request'),
-        (2, 'Status friends')
+        (1, 'Status friends')
     )
     friend1 = models.ForeignKey(FacebookCustomUser)
     friend2 = models.ForeignKey(FacebookCustomUser, related_name='friend2')
