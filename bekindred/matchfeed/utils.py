@@ -1,3 +1,4 @@
+from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance
 from interests.models import Interest
@@ -41,7 +42,10 @@ class MatchedResults(object):
     def __init__(self, current_user_id, exclude_user_ids):
         self.items = []
         self.current_user = FacebookCustomUserActive.objects.get(pk=current_user_id)
-        self.exclude_user_ids = exclude_user_ids + [current_user_id]
+        exclude_friends = Friend.objects.all_my_friends(current_user_id) + Friend.objects.thumbed_up_i(current_user_id) + \
+                          FacebookFriendUser.objects.all_my_friends(current_user_id) + \
+                          Friend.objects.deleted_friends(current_user_id)
+        self.exclude_user_ids = exclude_user_ids + [current_user_id] + exclude_friends
 
     def find(self):
         users = FacebookCustomUserActive.objects.exclude(id__in=self.exclude_user_ids)

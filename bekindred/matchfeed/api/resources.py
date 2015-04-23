@@ -60,7 +60,11 @@ class MatchedFeedResource(Resource):
         results = []
         for x in match_results['users']:
             new_obj = A()
-            user = FacebookCustomUserActive.objects.get(pk=x['id'])
+            try:
+                user = FacebookCustomUserActive.objects.get(pk=x['id'])
+            except FacebookCustomUserActive.DoesNotExist as err:
+                print err
+                continue
             photos = FacebookPhoto.objects.filter(user_id=user).values_list('photo', flat=True)
             new_obj.distance = calculate_distance(request.user.id, user.id)
             new_obj.id = x['id']
