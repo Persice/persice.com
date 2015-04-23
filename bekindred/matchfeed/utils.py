@@ -1,3 +1,4 @@
+from django_facebook.models import FacebookLike
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance
@@ -17,7 +18,7 @@ class MatchedUser(object):
         self.goals = self._add(Goal, 'goal')
         self.offers = self._add(Offer, 'offer')
         self.interests = self._add(Interest, 'interest')
-        self.likes = [{}]
+        self.likes = self._add(FacebookLike, 'name')
         self.id = self.user.id
         self.user_id = self.user.id
         self.first_name = self.user.first_name
@@ -32,8 +33,12 @@ class MatchedUser(object):
     def _add(self, model, attr_name, limit=2):
         # TODO: update accordiing to SUbjects and SUbjectInteres
         result = dict()
-        for item in model.objects.filter(user=self.user)[:limit]:
-            desc = getattr(item, attr_name).description
+        for item in model.objects.filter(user_id=self.user.id)[:limit]:
+            attr = getattr(item, attr_name)
+            if hasattr(attr, 'description'):
+                desc = attr.description
+            else:
+                desc = attr
             result[desc] = 0
         return [result]
 
