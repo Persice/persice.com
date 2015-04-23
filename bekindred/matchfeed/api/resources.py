@@ -10,11 +10,11 @@ from friends.models import FacebookFriendUser, Friend
 from goals.models import MatchFilterState, Subject
 from interests.models import InterestSubject
 from matchfeed.models import MatchFeedManager
+from matchfeed.utils import MatchedResults
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
     social_extra_data
-
 
 class A(object):
     pass
@@ -60,10 +60,7 @@ class MatchedFeedResource(Resource):
         results = []
         for x in match_results['users']:
             new_obj = A()
-            try:
-                user = FacebookCustomUserActive.objects.get(pk=x['id'])
-            except FacebookCustomUserActive.DoesNotExist as err:
-                continue
+            user = FacebookCustomUserActive.objects.get(pk=x['id'])
             photos = FacebookPhoto.objects.filter(user_id=user).values_list('photo', flat=True)
             new_obj.distance = calculate_distance(request.user.id, user.id)
             new_obj.id = x['id']
@@ -88,6 +85,10 @@ class MatchedFeedResource(Resource):
             subj_descriptions = list()
             interests_descriptions = list()
             partial_results = list()
+
+            exclude_matched_users = [user.id for user in results]
+            search_users = MatchedResults(request.user.id, exclude_matched_users).find()
+            results.extend(search_users)
 
             for match in results:
                 if (match.distance <= mfs.distance) and \
