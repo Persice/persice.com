@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('beKindred')
-  .controller('ConversationsCtrl', function($rootScope, notify, $resource, $state, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
+  .controller('ConversationsCtrl', function($rootScope, notify, $resource, $window, $state, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
 
     $scope.leftActive = true;
     $scope.messages = [];
     $scope.friendshipId = Connection.objects[0].id;
+    $scope.friendImage = '//graph.facebook.com/' + Connection.objects[0].facebook_id + '/picture?type=large';
     notify.closeAll();
+
 
 
     $scope.status = {
@@ -335,6 +337,12 @@ angular.module('beKindred')
           var height = angular.element('.conversation-content')[0].scrollHeight;
           angular.element('.conversation-content').filter(':not(:animated)').animate({
             scrollTop: height
+          }, 1500);
+        }, 100);
+
+        $timeout(function() {
+          angular.element('#desktop-conversation-content').filter(':not(:animated)').animate({
+            scrollTop: 0
           }, 1500);
         }, 100);
 
