@@ -135,7 +135,7 @@
       }
       vm.gendersArr.sort().reverse();
       vm.genders = vm.gendersArr.join(',');
-      vm.saveFilters();
+      vm.saveFiltersDebounce();
     }
 
     function saveFilters() {
