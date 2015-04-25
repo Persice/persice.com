@@ -179,10 +179,10 @@ Sidebar
   position: relative;
   z-index: 2;
   margin: 0em;
-  min-height: 185px;
+  min-height: 182px;
   background-color: #FFFFFF;
   border-bottom: 1px solid #DDDDDD;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
 }
 #main-page .header.segment h1 {
   margin-bottom: 0em;
@@ -1330,15 +1330,15 @@ Definition Container
 }
 
 
-#main-page.lowersidemenus #left-menu{
-  padding-top: 40px!important;
+// #main-page.lowersidemenus #left-menu{
+//   padding-top: 40px!important;
 
-}
+// }
 
-#main-page.lowersidemenus #matchfeed-filters-container #FilterController{
-  padding-top: 60px!important;
+// #main-page.lowersidemenus #matchfeed-filters-container #FilterController{
+//   padding-top: 60px!important;
 
-}
+// }
 
 /* LEFT MENU */
 
@@ -1611,6 +1611,7 @@ top search box
 #profileimage .ui.image {
   display: inline-block;
   width: 25px;
+  height: 25px;
   margin-right: 5px;
 }
 
@@ -2572,20 +2573,20 @@ color: white;
   font-weight: 400;
 }
 
-#main-page.conversationspage.pushable {
+#main-page.absolutelayout.pushable {
   overflow: hidden!important;
 }
 
-#main-page.conversationspage.pushable>.pusher>.full.height {
+#main-page.absolutelayout.pushable>.pusher>.full.height {
   overflow: hidden!important;
   height: 100%;
 }
 
-#main-page.conversationspage.pushable .pusher {
+#main-page.absolutelayout.pushable .pusher {
   height: 100%!important;
 }
 
-#main-page.conversationspage.pushable #main-content {
+#main-page.absolutelayout.pushable #main-content {
   min-height: 100%!important;
 }
 
@@ -3440,7 +3441,7 @@ ng\:form {
 #my-profile-header .pagination-container {
   text-align: center!important;
   padding: 0!important;
-  height: 262px;
+  height: 275px;
   position: relative;
 }
 
@@ -4443,4 +4444,361 @@ div#id_description, input#id_description_value {
 
 .displaynone {
   display: none!important
+}
+
+
+
+/* Desktop/Mobile special views */
+
+
+body.editmyprofile-page #topMenu,
+body.selectinterests-page #topMenu,
+body.goalcreate-page #topMenu,
+body.offercreate-page #topMenu,
+body.finalstep-page #topMenu,
+{
+  display: none!important;
+}
+
+@media only screen and (min-width : 768px) {
+
+  body.conversations-page #submenu,
+  body.friend-page #submenu
+  {
+    display: none!important;
+
+  }
+
+
+  body.conversations-page #desktopsubmenu a,
+  body.friend-page #desktopsubmenu a
+  {
+    text-align: center;
+  }
+
+  body.conversations-page #topMenu,
+  body.friend-page #topMenu,
+  {
+    display: block!important;
+  }
+
+  #mobile-conversation-content, #mobile-conversation-reply, #mobile-no-messages {
+    display: none!important;
+  }
+
+}
+
+@media only screen and (max-width : 768px) {
+
+  body.conversations-page #topMenu,
+  body.friend-page #topMenu,
+  {
+    display: none!important;
+  }
+
+  body.conversations-page #desktopsubmenu,
+  body.friend-page #desktopsubmenu
+  {
+    display: none!important;
+
+  }
+
+  #desktop-conversation-content, #desktop-conversation-reply, #desktop-conversation-header {
+    display: none!important;
+  }
+
+}
+
+
+
+// desktop submenu
+//
+
+#desktopsubmenu .ui.buttons, #desktopsubmenu .ui.buttons .button {
+  font-size: 1.6rem;
+}
+
+#desktopsubmenu .ui.buttons .leftalign {
+  text-align: left!important;
+  padding-left: 23px!important;
+}
+
+#desktopsubmenu .ui.button {
+  background-color: #999!important;
+  color: #fff!important;
+  border-radius: 0px!important;
+}
+
+#desktopsubmenu .ui.button:focus, #desktopsubmenu .ui.button:active {
+  outline: none!important;
+}
+
+#desktopsubmenu .ui.buttons .rightalign {
+  text-align: right!important;
+  padding-right: 23px!important;
+}
+
+#desktopsubmenu .button.active  {
+  background-color: #999!important;
+}
+
+#desktopsubmenu .ui.button.leftalign.active:after {
+  left: 38px!important;
+  right: inherit!important;
+}
+
+#desktopsubmenu .ui.button>.icon {
+  margin: 0 .4em 0 0em!important;
+}
+
+
+#desktopsubmenu .ui.button.rightalign.active:after {
+  border-color: transparent transparent #ffffff transparent!important;
+}
+
+
+#desktopsubmenu .ui.button.active:after {
+
+  border-style: solid;
+  border-width: 0 8.5px 10px 8.5px;
+  border-color: transparent transparent #f7f7f7 transparent;
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  content: "\00a0";
+  visibility: visible;
+  width: .5em;
+  height: .5em;
+  z-index: 2;
+  top: 31px;
+  left: 50%;
+  margin: 0 0 0 -0.68em;
+}
+
+#desktopsubmenu #friendmenu {
+  margin: 0em!important;
+}
+
+
+
+
+
+
+
+
+// Desktop conversation content
+//
+
+#desktop-conversation-content {
+  overflow-y: scroll!important;
+  position: absolute!important;
+  top: 230px!important;
+  width: 100%!important;
+  bottom: 45px!important;
+  padding: 0 1.5rem!important;
+  margin: 0!important;
+  left: 0;
+}
+
+#desktop-conversation-header {
+  margin-top: 0px;
+}
+
+#desktop-conversation-reply {
+
+}
+
+#desktop-conversation-reply textarea {
+  height: 100px!important;
+  resize: none!important;
+}
+
+#desktop-conversation-reply .ui.submit.button {
+  float: right;
+  margin-right: 0px;
+}
+
+#desktop-conversation-reply .ui.form {
+  position: relative;
+  height: 146px;
+}
+
+
+#desktop-conversation-content .quote {
+  display: inline-block;
+  margin: 2ex 0em;
+  width: 100%;
+}
+#desktop-conversation-content .quote p {
+  font-weight: 500;
+}
+#desktop-conversation-content .quote p .time-ago {
+  font-size: 90%;
+  color: #818d98;
+}
+#desktop-conversation-content .quote blockquote {
+  color: #576776;
+  margin: 0;
+  line-height: 1.5em;
+}
+#desktop-conversation-content .quote .round-avatar {
+  border-radius: 500rem;
+  border: 1px solid #E0E8ED;
+  box-shadow: 0 2px 4px rgba(0,0,0,.05);
+  width: 3.5em;
+  height: 3.5em;
+}
+
+#desktop-conversation-content .quote.left .round-avatar {
+  float: left;
+}
+#desktop-conversation-content .quote .speech-bubble {
+  border-radius: 2px;
+}
+
+#desktop-conversation-content .quote.right .round-avatar {
+  float: right;
+}
+
+#desktop-conversation-content .speech-bubble {
+  width: 80%;
+  min-height: 50px;
+}
+
+#desktop-conversation-content .quote .speech-bubble p {
+  line-height: 1.3em;
+  margin: 0;
+}
+
+
+#desktop-conversation-content .quote .time-ago {
+  display: block;
+  clear: both;
+  color: #AAA;
+  font-size: 0.9em;
+}
+
+//left
+
+#desktop-conversation-content .quote .round-avatar {
+  margin-right: 0.5em;
+  margin-left: 0em;
+}
+
+#desktop-conversation-content .quote.left .speech-bubble {
+  border: 1px solid #E0E8ED;
+  position: relative;
+  margin-left: 9px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 1ex 1em;
+  background: #E0E8ED;
+  float: left;
+}
+#desktop-conversation-content .quote.left .speech-bubble:after, #desktop-conversation-content .quote.left .speech-bubble:before {
+  content: "";
+  display: block;
+  position: absolute;
+}
+#desktop-conversation-content .quote.left .speech-bubble:after {
+  top: 16px;
+}
+#desktop-conversation-content .quote.left .speech-bubble:before {
+  top: 14px;
+}
+#desktop-conversation-content .quote.left .speech-bubble:after {
+  border: 8px solid transparent;
+  border-right: 8px solid #E0E8ED;
+  left: -8px;
+  border-left: none;
+}
+#desktop-conversation-content .quote.left .speech-bubble:before {
+  border: 10px solid transparent;
+  border-right: 10px solid #E0E8ED;
+  left: -10px;
+  border-left: none;
+}
+
+#desktop-conversation-content .quote.left .time-ago {
+  float: left;
+  padding-left: 67px;
+}
+
+
+
+//right
+
+#desktop-conversation-content .quote.right .round-avatar {
+  margin-right: 0em!important;
+  margin-left: 0.5em!important;
+}
+
+#desktop-conversation-content .quote.right .speech-bubble {
+  border: 1px solid #E0E8ED;
+  position: relative;
+  margin-right: 9px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  margin-left: 4px;
+  margin-bottom: 4px;
+  padding: 1ex 1em;
+  background: #E0E8ED;
+  float: right;
+}
+#desktop-conversation-content .quote.right .speech-bubble:after, #desktop-conversation-content .quote.right .speech-bubble:before {
+  content: "";
+  display: block;
+  position: absolute;
+}
+#desktop-conversation-content .quote.right .speech-bubble:after {
+  top: 16px;
+}
+#desktop-conversation-content .quote.right .speech-bubble:before {
+  top: 14px;
+}
+#desktop-conversation-content .quote.right .speech-bubble:after {
+  border: 8px solid transparent;
+  border-left: 8px solid #E0E8ED;
+  right: -8px;
+  border-right: none;
+}
+#desktop-conversation-content .quote.right .speech-bubble:before {
+  border: 10px solid transparent;
+  border-left: 10px solid #E0E8ED;
+  right: -10px;
+  border-right: none;
+}
+
+#desktop-conversation-content .quote.right .time-ago {
+  float: right;
+  padding-right: 67px;
+}
+
+
+
+//flexslider overrides
+//
+@font-face {
+  font-family: 'flexslider-icon';
+  src: url('../fonts/flexslider-icon.eot')!important;
+  src: url('../fonts/flexslider-icon.eot?#iefix') format('embedded-opentype'), url('../fonts/flexslider-icon.woff') format('woff'), url('../fonts/flexslider-icon.ttf') format('truetype'), url('../fonts/flexslider-icon.svg#flexslider-icon') format('svg')!important;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.flexslider .slides img {
+  width: auto!important;
+}
+
+.flexslider {
+  border: none!important;
+  background-color: transparent!important;
+}
+
+//hide arrow navs on mobile
+
+@media only screen and (max-width : 768px) {
+  .flex-prev, .flex-next {
+    visibility: hidden!important;
+  }
 }

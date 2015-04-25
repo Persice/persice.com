@@ -13,13 +13,13 @@ angular.module('beKindred', [
   'ya.nouislider',
   'ngDraggable',
   'angucomplete-alt',
-  'angular-carousel',
   'cgNotify',
   'ngImgCrop',
   'angularMoment',
   'btford.socket-io',
   'ngLodash',
-  'hj.gsapifyRouter'
+  'hj.gsapifyRouter',
+  'angular-flexslider'
   ])
   .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
