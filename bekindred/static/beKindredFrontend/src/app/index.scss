@@ -179,10 +179,10 @@ Sidebar
   position: relative;
   z-index: 2;
   margin: 0em;
-  min-height: 185px;
+  min-height: 182px;
   background-color: #FFFFFF;
   border-bottom: 1px solid #DDDDDD;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
 }
 #main-page .header.segment h1 {
   margin-bottom: 0em;
@@ -3440,7 +3440,7 @@ ng\:form {
 #my-profile-header .pagination-container {
   text-align: center!important;
   padding: 0!important;
-  height: 262px;
+  height: 275px;
   position: relative;
 }
 
@@ -4773,3 +4773,31 @@ body.finalstep-page #topMenu,
   padding-right: 67px;
 }
 
+
+
+//flexslider overrides
+//
+@font-face {
+  font-family: 'flexslider-icon';
+  src: url('../fonts/flexslider-icon.eot')!important;
+  src: url('../fonts/flexslider-icon.eot?#iefix') format('embedded-opentype'), url('../fonts/flexslider-icon.woff') format('woff'), url('../fonts/flexslider-icon.ttf') format('truetype'), url('../fonts/flexslider-icon.svg#flexslider-icon') format('svg')!important;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.flexslider .slides img {
+  width: auto!important;
+}
+
+.flexslider {
+  border: none!important;
+  background-color: transparent!important;
+}
+
+//hide arrow navs on mobile
+
+@media only screen and (max-width : 768px) {
+  .flex-prev, .flex-next {
+    visibility: hidden!important;
+  }
+}

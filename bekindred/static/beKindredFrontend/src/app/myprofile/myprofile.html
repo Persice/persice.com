@@ -6,109 +6,107 @@
       <div class="header segment with-menu" id="my-profile-header">
         <div class="pagination-container">
           <div id="PhotoSlider" ng-if="photosSlider.length > 0">
-            <ul rn-carousel rn-carousel-index="carouselIndex2">
-              <li ng-repeat="item in photosSlider | orderBy:'order' track by $index">
-                <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
-                <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
-              </li>
-            </ul>
-
-            <div class="carousel-indicators" rn-carousel-indicators ng-if="photosSlider.length > 1" slides="photosSlider" rn-carousel-index="carouselIndex2"></div>
-          </div>
+            <flex-slider touch=true slideshow=false slide="item in photosSlider | orderBy:'order' track by $index">
+            <li>
+              <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
+              <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
+            </li>
+          </flex-slider>
         </div>
-
-      </div>
-
-      <div class="body segment" id="matched-profile-body">
-        <div class="ui top attached segment">
-          <h3 class="ui left floated header">
-            {{ user.firstName }}<span ng-hide="user.firstName === ''">,</span>  {{ user.age }}
-          </h3>
-          <h5 class="ui right floated header">
-            <a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a>
-          </h5>
-        </div>
-        <div class="ui attached segment" ng-class="{loading: loadingGoals || loadingOffers || loadingUser || loadingLikes || loadingInterests}">
-          <h4 class="ui header">Goals</h4>
-          <div class="ui list">
-            <div class="item" ng-repeat="goal in user.goals track by $index">
-              <i class="icon empty"></i>
-              <div class="content">
-                <div class="description">{{ goal.subject }}</div>
-              </div>
-            </div>
-            <p ng-if="user.goals.length == 0">No goals yet.</p>
-          </div>
-          <h4 class="ui header">Offers</h4>
-          <div class="ui list">
-            <div class="item" ng-repeat="offer in user.offers track by $index">
-              <i class="icon empty"></i>
-              <div class="content">
-                <div class="description">{{ offer.subject }}</div>
-              </div>
-            </div>
-            <p ng-if="user.offers.length == 0">No offers yet.</p>
-          </div>
-          <h4 class="ui header">About</h4>
-          <div class="ui list">
-            <div class="item">
-              <i class="empty icon"></i>
-              <div class="content">
-                <div class="description">
-                  <span>{{user.about_me}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h4 class="ui header">Activities &amp; Interests</h4>
-          <div class="ui list">
-            <div class="item" ng-repeat="interest in user.interests | limitTo:5 track by $index">
-              <i class="icon empty"></i>
-              <div class="content">
-                <div class="description">{{ interest.interest_subject }}</div>
-              </div>
-            </div>
-            <p ng-if="user.interests.length == 0">No interests yet.</p>
-          </div>
-
-          <h4 class="ui header">Likes</h4>
-          <div class="ui list likes">
-            <div class="item" ng-repeat="like in user.likes | limitTo:5 track by $index">
-              <i class="icon empty"></i>
-              <div class="content">
-                <div class="description">{{ like.name }}</div>
-              </div>
-            </div>
-            <p ng-if="user.likes.length == 0">No likes yet.</p>
-          </div>
-
-          <h4 class="ui header">Social Accounts</h4>
-
-          <a href="{{ linkedin }}" target="_new" class="ui social icon fluid linkedin labeled button" ng-show="linkedin !== null">
-            <i class="linkedin icon"></i>
-            {{user.firstName}}
-            <i class="check circle icon right"></i>
-          </a>
-
-          <br ng-show="linkedin !== null">
-
-          <a href="https://twitter.com/{{ twitter }}" target="_new" class="ui social fluid icon twitter labeled button" ng-show="twitter !== null">
-            <i class="twitter icon"></i>
-            {{twitter}}
-            <i class="check circle icon right"></i>
-          </a>
-
-          <br ng-show="twitter !== null">
-          <a href="{{ user.facebookProfile }}" class="ui social icon facebook labeled fluid button" ng-if="user.facebookProfile !== ''">
-            <i class="facebook icon"></i>
-            {{user.firstName}}
-            <i class="lock icon right"></i>
-          </a>
-        </div>
-
       </div>
 
     </div>
+
+    <div class="body segment" id="matched-profile-body">
+      <div class="ui top attached segment">
+        <h3 class="ui left floated header">
+          {{ user.firstName }}<span ng-hide="user.firstName === ''">,</span>  {{ user.age }}
+        </h3>
+        <h5 class="ui right floated header">
+          <a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a>
+        </h5>
+      </div>
+      <div class="ui attached segment" ng-class="{loading: loadingGoals || loadingOffers || loadingUser || loadingLikes || loadingInterests}">
+        <h4 class="ui header">Goals</h4>
+        <div class="ui list">
+          <div class="item" ng-repeat="goal in user.goals track by $index">
+            <i class="icon empty"></i>
+            <div class="content">
+              <div class="description">{{ goal.subject }}</div>
+            </div>
+          </div>
+          <p ng-if="user.goals.length == 0">No goals yet.</p>
+        </div>
+        <h4 class="ui header">Offers</h4>
+        <div class="ui list">
+          <div class="item" ng-repeat="offer in user.offers track by $index">
+            <i class="icon empty"></i>
+            <div class="content">
+              <div class="description">{{ offer.subject }}</div>
+            </div>
+          </div>
+          <p ng-if="user.offers.length == 0">No offers yet.</p>
+        </div>
+        <h4 class="ui header">About</h4>
+        <div class="ui list">
+          <div class="item">
+            <i class="empty icon"></i>
+            <div class="content">
+              <div class="description">
+                <span>{{user.about_me}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="ui header">Activities &amp; Interests</h4>
+        <div class="ui list">
+          <div class="item" ng-repeat="interest in user.interests | limitTo:5 track by $index">
+            <i class="icon empty"></i>
+            <div class="content">
+              <div class="description">{{ interest.interest_subject }}</div>
+            </div>
+          </div>
+          <p ng-if="user.interests.length == 0">No interests yet.</p>
+        </div>
+
+        <h4 class="ui header">Likes</h4>
+        <div class="ui list likes">
+          <div class="item" ng-repeat="like in user.likes | limitTo:5 track by $index">
+            <i class="icon empty"></i>
+            <div class="content">
+              <div class="description">{{ like.name }}</div>
+            </div>
+          </div>
+          <p ng-if="user.likes.length == 0">No likes yet.</p>
+        </div>
+
+        <h4 class="ui header">Social Accounts</h4>
+
+        <a href="{{ linkedin }}" target="_new" class="ui social icon fluid linkedin labeled button" ng-show="linkedin !== null">
+          <i class="linkedin icon"></i>
+          {{user.firstName}}
+          <i class="check circle icon right"></i>
+        </a>
+
+        <br ng-show="linkedin !== null">
+
+        <a href="https://twitter.com/{{ twitter }}" target="_new" class="ui social fluid icon twitter labeled button" ng-show="twitter !== null">
+          <i class="twitter icon"></i>
+          {{twitter}}
+          <i class="check circle icon right"></i>
+        </a>
+
+        <br ng-show="twitter !== null">
+        <a href="{{ user.facebookProfile }}" class="ui social icon facebook labeled fluid button" ng-if="user.facebookProfile !== ''">
+          <i class="facebook icon"></i>
+          {{user.firstName}}
+          <i class="lock icon right"></i>
+        </a>
+      </div>
+
+    </div>
+
   </div>
+</div>
 </div>
