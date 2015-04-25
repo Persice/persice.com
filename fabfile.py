@@ -8,6 +8,7 @@ from fabric.colors import green
 
 env.hosts = ['104.200.24.201']
 env.port = '20005'
+env.password = os.getenv('SUDO_PASSWORDS')
 
 env.user = 'bekindred'
 env.key_filename = '~/.ssh/id_rsa'
