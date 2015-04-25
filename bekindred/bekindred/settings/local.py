@@ -93,8 +93,6 @@ SOCIAL_AUTH_PIPELINE = (
     # 'bekindred.tasks.load_twitter_user_friends',
 )
 
-# GeoIP
-GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')
 
 # postman settings
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False

@@ -175,6 +175,13 @@ POSTMAN_AUTOCOMPLETER_APP = {
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
 
+
+# GeoIP
+GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')
+GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
+GEOIP_CITY = 'GeoLite2-City.mmdb'
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
