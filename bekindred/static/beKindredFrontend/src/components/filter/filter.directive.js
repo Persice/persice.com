@@ -43,7 +43,7 @@
 
     vm.toggleGender = toggleGender;
     vm.saveFilters = saveFilters;
-    vm.saveFiltersDebounce = lodash.debounce(saveFilters, 300);
+    vm.saveFiltersDebounce = lodash.debounce(saveFilters, 50);
     vm.getFilters = getFilters;
     vm.removeKeyword = removeKeyword;
     vm.addKeyword = addKeyword;
