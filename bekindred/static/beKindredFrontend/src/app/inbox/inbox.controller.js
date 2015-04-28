@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('beKindred')
+    .module('icebrak')
     .controller('InboxController', InboxController);
 
   /**

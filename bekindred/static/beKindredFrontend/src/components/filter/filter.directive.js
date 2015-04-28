@@ -6,7 +6,7 @@
    * @example <matchfeed-filter></matchfeed-filter>
    */
   angular
-    .module('beKindred')
+    .module('icebrak')
     .directive('matchfeedFilter', matchfeedFilter);
 
   function matchfeedFilter() {

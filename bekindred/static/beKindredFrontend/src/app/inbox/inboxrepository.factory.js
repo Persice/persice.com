@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('beKindred')
+    .module('icebrak')
     .factory('InboxRepository', InboxRepository);
 
   /**

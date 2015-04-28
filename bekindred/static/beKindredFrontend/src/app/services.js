@@ -1,5 +1,5 @@
 'use strict';
-angular.module('beKindred')
+angular.module('icebrak')
   .factory('GoalsFactory', ['$resource', function($resource) {
     return $resource('/api/v1/goal/:goalId/:param', {
       goalId: '@goalId'

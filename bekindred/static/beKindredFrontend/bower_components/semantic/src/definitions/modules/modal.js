@@ -1,9 +1,9 @@
-/*!
- * # Semantic UI - Modal
+/*
+ * # Semantic - Modal
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -120,9 +120,9 @@ $.fn.modal = function(parameters) {
             $dimmer = $dimmable.dimmer('get dimmer');
           },
           id: function() {
-            id = (Math.random().toString(16) + '000000000').substr(2,8);
+            module.verbose('Creating unique id for element');
+            id = module.get.uniqueID();
             elementNamespace = '.' + id;
-            module.verbose('Creating unique id for element', id);
           }
         },
 
@@ -192,7 +192,7 @@ $.fn.modal = function(parameters) {
         },
 
         get: {
-          id: function() {
+          uniqueID: function() {
             return (Math.random().toString(16) + '000000000').substr(2,8);
           }
         },
@@ -302,7 +302,7 @@ $.fn.modal = function(parameters) {
             module.set.type();
             module.set.clickaway();
 
-            if( !settings.allowMultiple && $otherModals.filter('.' + className.active).length > 0) {
+            if( !settings.allowMultiple && $otherModals.filter(':visible').length > 0) {
               module.debug('Other modals visible, queueing show animation');
               module.hideOthers(module.showModal);
             }
@@ -347,7 +347,7 @@ $.fn.modal = function(parameters) {
           }
         },
 
-        hideModal: function(callback, keepDimmed) {
+        hideModal: function(callback) {
           callback = $.isFunction(callback)
             ? callback
             : function(){}
@@ -366,7 +366,7 @@ $.fn.modal = function(parameters) {
                   duration    : settings.duration,
                   useFailSafe : true,
                   onStart     : function() {
-                    if(!module.othersActive() && !keepDimmed) {
+                    if( !module.othersActive() ) {
                       module.hideDimmer();
                     }
                     module.remove.keyboardShortcuts();
@@ -422,34 +422,30 @@ $.fn.modal = function(parameters) {
         },
 
         hideAll: function(callback) {
-          var
-            $visibleModals = $allModals.filter(':visible')
-          ;
           callback = $.isFunction(callback)
             ? callback
             : function(){}
           ;
-          if( $visibleModals.length > 0 ) {
+          if( $allModals.is(':visible') ) {
             module.debug('Hiding all visible modals');
             module.hideDimmer();
-            $visibleModals
-              .modal('hide modal', callback)
+            $allModals
+              .filter(':visible')
+                .modal('hide modal', callback)
             ;
           }
         },
 
         hideOthers: function(callback) {
-          var
-            $visibleModals = $otherModals.filter(':visible')
-          ;
           callback = $.isFunction(callback)
             ? callback
             : function(){}
           ;
-          if( $visibleModals.length > 0 ) {
+          if( $otherModals.is(':visible') ) {
             module.debug('Hiding other modals', $otherModals);
-            $visibleModals
-              .modal('hide modal', callback, true)
+            $otherModals
+              .filter(':visible')
+                .modal('hide modal', callback)
             ;
           }
         },

@@ -25,7 +25,6 @@
     "commit": "be0da2212726df5a784e41300f2dcd31612e40f4"
   },
   "_source": "git://github.com/homerjam/angular-gsapify-router.git",
-  "_target": "~0.0.22",
-  "_originalSource": "angular-gsapify-router",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "angular-gsapify-router"
 }

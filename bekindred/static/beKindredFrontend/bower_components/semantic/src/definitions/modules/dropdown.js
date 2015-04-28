@@ -1,9 +1,9 @@
-/*!
- * # Semantic UI - Dropdown
+/*
+ * # Semantic - Dropdown
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -75,25 +75,25 @@ $.fn.dropdown = function(parameters) {
           module.debug('Initializing dropdown', settings);
 
           if( module.is.alreadySetup() ) {
-            module.setup.reference();
+            module.error(error.alreadySetup);
           }
           else {
             module.setup.layout();
-
-            module.save.defaults();
-            module.set.selected();
-
-            module.create.id();
-
-            if(hasTouch) {
-              module.bind.touchEvents();
-            }
-            module.bind.mouseEvents();
-            module.bind.keyboardEvents();
-
-            module.observeChanges();
-            module.instantiate();
           }
+
+          module.save.defaults();
+          module.set.selected();
+
+          module.create.id();
+
+          if(hasTouch) {
+            module.bind.touchEvents();
+          }
+          module.bind.mouseEvents();
+          module.bind.keyboardEvents();
+
+          module.observeChanges();
+          module.instantiate();
         },
 
         instantiate: function() {
@@ -141,9 +141,9 @@ $.fn.dropdown = function(parameters) {
 
         create: {
           id: function() {
-            id = (Math.random().toString(16) + '000000000').substr(2,8);
+            module.verbose('Creating unique id for element');
+            id = module.get.uniqueID();
             elementNamespace = '.' + id;
-            module.verbose('Creating unique id for element', id);
           }
         },
 
@@ -161,6 +161,7 @@ $.fn.dropdown = function(parameters) {
         },
 
         setup: {
+
           layout: function() {
             if( $module.is('select') ) {
               module.setup.select();
@@ -211,21 +212,6 @@ $.fn.dropdown = function(parameters) {
               ;
             }
             module.refresh();
-          },
-          reference: function() {
-            var
-              index = $allModules.index($module),
-              $firstModules,
-              $lastModules
-            ;
-            module.debug('Dropdown behavior was called on select, replacing with closest dropdown');
-            // replace module reference
-            $module = $module.parent(selector.dropdown);
-            module.refresh();
-            // adjust all modules
-            $firstModules = $allModules.slice(0, index);
-            $lastModules = $allModules.slice(index + 1);
-            $allModules = $firstModules.add($module).add($lastModules);
           }
         },
 
@@ -470,10 +456,6 @@ $.fn.dropdown = function(parameters) {
           ;
           if(hasSelected) {
             module.event.item.click.call($selectedItem);
-            module.remove.filteredItem();
-          }
-          else {
-            module.hide();
           }
         },
 
@@ -840,9 +822,6 @@ $.fn.dropdown = function(parameters) {
         },
 
         get: {
-          id: function() {
-            return id;
-          },
           text: function() {
             return $text.text();
           },
@@ -968,23 +947,19 @@ $.fn.dropdown = function(parameters) {
                     module.verbose('Ambiguous dropdown value using strict type check', $choice, value);
                     if( optionValue === value ) {
                       $selectedItem = $(this);
-                      return true;
                     }
                     else if( !$selectedItem && optionText === value ) {
                       $selectedItem = $(this);
-                      return true;
                     }
                   }
                   else {
                     if( optionValue == value ) {
                       module.verbose('Found select item by value', optionValue, value);
                       $selectedItem = $(this);
-                      return true;
                     }
                     else if( !$selectedItem && optionText == value ) {
                       module.verbose('Found select item by text', optionText, value);
                       $selectedItem = $(this);
-                      return true;
                     }
                   }
                 })
@@ -994,6 +969,9 @@ $.fn.dropdown = function(parameters) {
               value = module.get.text();
             }
             return $selectedItem || false;
+          },
+          uniqueID: function() {
+            return (Math.random().toString(16) + '000000000').substr(2,8);
           }
         },
 
@@ -1187,7 +1165,7 @@ $.fn.dropdown = function(parameters) {
               selectedText,
               selectedValue
             ;
-            if($selectedItem && !$selectedItem.hasClass(className.active) ) {
+            if($selectedItem) {
               module.debug('Setting selected menu item to', $selectedItem);
               module.remove.activeItem();
               module.remove.selectedItem();
@@ -1567,7 +1545,7 @@ $.fn.dropdown = function(parameters) {
               });
             }
             clearTimeout(module.performance.timer);
-            module.performance.timer = setTimeout(module.performance.display, 500);
+            module.performance.timer = setTimeout(module.performance.display, 100);
           },
           display: function() {
             var
@@ -1668,9 +1646,10 @@ $.fn.dropdown = function(parameters) {
       }
     })
   ;
+
   return (returnedValue !== undefined)
     ? returnedValue
-    : $allModules
+    : this
   ;
 };
 

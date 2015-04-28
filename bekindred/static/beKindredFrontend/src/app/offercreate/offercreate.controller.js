@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beKindred')
+angular.module('icebrak')
   .controller('OfferCreateCtrl', function($scope, $state, $log, OffersFactory, SubjectsFactory, USER_ID, $filter) {
     $scope.subject = '';
     $scope.resourceUri = null;
@@ -41,8 +41,7 @@ angular.module('beKindred')
           $scope.messageShow = true;
           if (error.data.offer) {
             $scope.message = error.data.offer.error[0];
-          }
-          else {
+          } else {
             $scope.message = 'There was an error when trying to save your offer.';
           }
 

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('beKindred')
+angular.module('icebrak')
   .factory('FiltersFactory', ['$resource', function($resource) {
     return $resource('/api/v1/filter/state/:filterId/:param', {
       filterId: '@filterId'

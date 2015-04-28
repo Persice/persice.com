@@ -116,10 +116,11 @@ module.exports = function () {
       isSiteTheme     = (file.path.indexOf(source.site) !== -1);
       isDefinition    = (file.path.indexOf(source.definitions) !== -1);
 
+
       if(isConfig) {
-        console.info('Change detected in theme config, rebuild docs with `build-docs`');
-        // impossible to tell which file was updated in theme.config
-        return;
+        console.log('Change detected in theme config');
+        // impossible to tell which file was updated in theme.config, rebuild all
+        gulp.start('build');
       }
       else if(isPackagedTheme) {
         console.log('Change detected in packaged theme');

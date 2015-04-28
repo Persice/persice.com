@@ -55,7 +55,6 @@
 @contentDisplay: table-cell;
 @contentVerticalAlign: top;
 
-@contentWidth: 100%;
 @contentOffset: 0em;
 @contentBackground: none;
 @contentMargin: 0em;
@@ -84,7 +83,7 @@
 
 /* Actions */
 @favoriteColor: #FFB70A;
-@favoriteActiveColor: #FFE623;
+@favoriteActiveColor: #FFB70A;
 @likeColor: #FF2733;
 @likeActiveColor: #FF2733;
 
@@ -106,7 +105,8 @@
 @descriptionColor: @textColor;
 
 /* Content Image */
-@contentImageWidth: '';
+@contentWidth: 100%;
+@contentImageWidth: 2em;
 @contentImageVerticalAlign: middle;
 
 /* Avatar Image */

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beKindred')
+angular.module('icebrak')
   .controller('GoalCreateCtrl', function($scope, $state, $log, GoalsFactory, SubjectsFactory, USER_ID) {
     $scope.subject = '';
     $scope.resourceUri = null;

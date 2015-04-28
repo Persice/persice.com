@@ -6,21 +6,19 @@
 */
 
 var
-  fs          = require('fs'),
-  path        = require('path'),
-  githubAPI   = require('github'),
+  fs        = require('fs'),
+  githubAPI = require('github'),
 
   // stores oauth info for GitHub API
-  oAuthConfig = path.join(__dirname, 'oauth.js'),
-  oAuth       = fs.existsSync(oAuthConfig)
-    ? require(oAuthConfig)
+  oAuth     = fs.existsSync('./oauth.js')
+    ? require('./oauth')
     : false,
   github
 ;
 
 if(!oAuth) {
-  console.log('here');
-  console.error('Must add oauth token for GitHub in tasks/config/admin/oauth.js');
+  console.error('Must add oauth token for GitHub in tasks/admin/oauth.js');
+  return;
 }
 
 github = new githubAPI({

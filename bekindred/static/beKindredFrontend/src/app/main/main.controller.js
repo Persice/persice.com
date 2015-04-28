@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beKindred')
+angular.module('icebrak')
   .controller('MainCtrl', function($scope) {
 
   });

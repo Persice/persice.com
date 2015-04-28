@@ -1,14 +1,13 @@
-/*!
- * # Semantic UI - Accordion
+/*
+ * # Semantic - Accordion
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
-
 /*******************************
             Theme
 *******************************/
@@ -17,6 +16,8 @@
 @element : 'accordion';
 
 @import (multiple) '../../theme.config';
+
+& {
 
 /*******************************
             Accordion
@@ -140,7 +141,7 @@
   transition: @styledTitleTransition;
 }
 .ui.styled.accordion > .title:first-child,
-.ui.styled.accordion .accordion .title:first-child {
+.ui.styled.accordion > .accordion .title:first-child {
   border-top: none;
 }
 
@@ -218,3 +219,6 @@
 }
 
 .loadUIOverrides();
+
+}
+

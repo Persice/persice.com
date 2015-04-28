@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beKindred')
+angular.module('icebrak')
   .controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, $q, $state, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, notify) {
     $scope.twitter = null;
     $scope.linkedin = null;

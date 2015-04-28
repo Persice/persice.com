@@ -1626,7 +1626,7 @@ Responsive
    display: none!important;
  }
 }
-@media only screen and (max-width : 768px) {
+@media only screen and (max-width : 767px) {
   #main-page .fixed .title.mobileview {
     position: absolute;
     left: 45px;
@@ -1964,7 +1964,7 @@ Responsive
 #side-menu-logo {
   position: absolute!important;
   padding: 0 auto;
-  bottom: 0px;
+  bottom: 35px;
 }
 #side-menu-logo h2 {
   font-size: 2em;
@@ -4213,7 +4213,7 @@ div#id_description, input#id_description_value {
 
 
 #interests {
-  overflow-y: scroll!important;
+  overflow-y: auto!important;
   position: absolute!important;
   top: 65px!important;
   width: 100%!important;
@@ -4239,8 +4239,8 @@ div#id_description, input#id_description_value {
   padding: 12px;
 }
 
-#interests-header .input {
-  width: 100%;
+#interests-header .input, #interests-header input {
+  width: 100%!important;
 }
 
 
@@ -4252,7 +4252,7 @@ div#id_description, input#id_description_value {
 /*MY CONNECTIONS */
 
 #friends-list-body {
-  overflow-y: scroll!important;
+  overflow-y: auto!important;
   position: absolute!important;
   top: 65px!important;
   width: 100%!important;
@@ -4359,7 +4359,7 @@ div#id_description, input#id_description_value {
 
 
 #inbox-body {
-  overflow-y: scroll!important;
+  overflow-y: auto!important;
   position: absolute!important;
   top: 65px!important;
   width: 100%!important;
@@ -4425,8 +4425,13 @@ div#id_description, input#id_description_value {
   border: none;
   margin: 1.1em 1.4em;
   padding: 0px!important;
-  font-size: 0.8em!important;
   width: 260px;
+  position: absolute!important;
+  bottom: 2px!important;
+  left: 5px!important;
+}
+#leftmenu #links_sidemenu_bottom .item {
+   font-size: 0.9rem!important;
 }
 
 #links_sidemenu_bottom:before {
@@ -4590,7 +4595,7 @@ body.finalstep-page #topMenu,
 //
 
 #desktop-conversation-content {
-  overflow-y: scroll!important;
+  overflow-y: auto!important;
   position: absolute!important;
   top: 230px!important;
   width: 100%!important;
@@ -4797,8 +4802,16 @@ body.finalstep-page #topMenu,
 
 //hide arrow navs on mobile
 
-@media only screen and (max-width : 768px) {
+@media only screen and (max-width : 767px) {
   .flex-prev, .flex-next {
     visibility: hidden!important;
   }
+}
+
+
+
+.ui.input input {
+  padding: .67861em 1em!important;
+  line-height: 1.2142em!important;
+  font-size: 14px!important;
 }

@@ -25,6 +25,7 @@
 @subHeaderLineHeight: 1.2em;
 @subHeaderColor: rgba(0, 0, 0, 0.5);
 
+
 /* Icon */
 @iconOpacity: 1;
 @iconSize: 1.5em;
@@ -40,7 +41,6 @@
 @imageAlignment: middle;
 
 /* Label */
-@labelSize: '';
 @labelDistance: 0.5rem;
 @labelVerticalAlign: middle;
 

@@ -1,9 +1,9 @@
-/*!
- * # Semantic UI - Progress
+/*
+ * # Semantic - Progress
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *

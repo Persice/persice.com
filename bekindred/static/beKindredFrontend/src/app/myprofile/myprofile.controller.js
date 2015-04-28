@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beKindred')
+angular.module('icebrak')
   .controller('MyProfileCtrl', function($scope, USER_ID, UsersFactory, InterestsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, USER_PHOTO, $log) {
     $scope.twitter = null;
     $scope.linkedin = null;

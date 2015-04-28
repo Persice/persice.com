@@ -3,12 +3,14 @@ angular.module('cgNotify', []).factory('notify',['$timeout','$http','$compile','
 
         var startTop = 10;
         var verticalSpacing = 15;
-        var duration = 10000;
+        var defaultDuration = 10000;
         var defaultTemplateUrl = 'angular-notify.html';
         var position = 'center';
         var container = document.body;
+        var maximumOpen = 0;
 
         var messageElements = [];
+        var openNotificationsScope = [];
 
         var notify = function(args){
 
@@ -16,25 +18,34 @@ angular.module('cgNotify', []).factory('notify',['$timeout','$http','$compile','
                 args = {message:args};
             }
 
+            args.duration = args.duration ? args.duration : defaultDuration;
             args.templateUrl = args.templateUrl ? args.templateUrl : defaultTemplateUrl;
-            args.position = args.position ? args.position : position;
             args.container = args.container ? args.container : container;
             args.classes = args.classes ? args.classes : '';
 
             var scope = args.scope ? args.scope.$new() : $rootScope.$new();
+            scope.$position = args.position ? args.position : position;
             scope.$message = args.message;
             scope.$classes = args.classes;
             scope.$messageTemplate = args.messageTemplate;
+
+            if (maximumOpen > 0) {
+                var numToClose = (openNotificationsScope.length + 1) - maximumOpen;
+                for (var i = 0; i < numToClose; i++) {
+                    openNotificationsScope[i].$close();
+                }
+            }
 
             $http.get(args.templateUrl,{cache: $templateCache}).success(function(template){
 
                 var templateElement = $compile(template)(scope);
                 templateElement.bind('webkitTransitionEnd oTransitionEnd otransitionend transitionend msTransitionEnd', function(e){
-                    if (e.propertyName === 'opacity' ||
+                    if (e.propertyName === 'opacity' || e.currentTarget.style.opacity === 0 || 
                         (e.originalEvent && e.originalEvent.propertyName === 'opacity')){
 
                         templateElement.remove();
                         messageElements.splice(messageElements.indexOf(templateElement),1);
+                        openNotificationsScope.splice(openNotificationsScope.indexOf(scope),1);
                         layoutMessages();
                     }
                 });
@@ -57,9 +68,9 @@ angular.module('cgNotify', []).factory('notify',['$timeout','$http','$compile','
                 angular.element(args.container).append(templateElement);
                 messageElements.push(templateElement);
 
-                if (args.position === 'center'){
+                if (scope.$position === 'center'){
                     $timeout(function(){
-                        templateElement.css('margin-left','-' + (templateElement[0].offsetWidth /2) + 'px');
+                        scope.$centerMargin = '-' + (templateElement[0].offsetWidth /2) + 'px';
                     });
                 }
 
@@ -90,10 +101,10 @@ angular.module('cgNotify', []).factory('notify',['$timeout','$http','$compile','
                     layoutMessages();
                 });
 
-                if (duration > 0){
+                if (args.duration > 0){
                     $timeout(function(){
                         scope.$close();
-                    },duration);
+                    },args.duration);
                 }
 
             }).error(function(data){
@@ -117,6 +128,8 @@ angular.module('cgNotify', []).factory('notify',['$timeout','$http','$compile','
                 }
             });
 
+            openNotificationsScope.push(scope);
+
             return retVal;
 
         };
@@ -124,10 +137,11 @@ angular.module('cgNotify', []).factory('notify',['$timeout','$http','$compile','
         notify.config = function(args){
             startTop = !angular.isUndefined(args.startTop) ? args.startTop : startTop;
             verticalSpacing = !angular.isUndefined(args.verticalSpacing) ? args.verticalSpacing : verticalSpacing;
-            duration = !angular.isUndefined(args.duration) ? args.duration : duration;
+            defaultDuration = !angular.isUndefined(args.duration) ? args.duration : defaultDuration;
             defaultTemplateUrl = args.templateUrl ? args.templateUrl : defaultTemplateUrl;
             position = !angular.isUndefined(args.position) ? args.position : position;
             container = args.container ? args.container : container;
+            maximumOpen = args.maximumOpen ? args.maximumOpen : maximumOpen;
         };
 
         notify.closeAll = function(){

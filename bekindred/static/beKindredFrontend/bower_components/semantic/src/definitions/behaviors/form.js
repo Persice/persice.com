@@ -1,17 +1,15 @@
-/*!
- * # Semantic UI - Form Validation
+/*
+ * # Semantic - Form Validation
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
 
 ;(function ( $, window, document, undefined ) {
-
-"use strict";
 
 $.fn.form = function(fields, parameters) {
   var
@@ -971,18 +969,10 @@ $.fn.form.settings = {
       return ($(this).filter(':checked').length > 0);
     },
 
-    // value contains text (insensitive)
+    // value contains (text)
     contains: function(value, text) {
-      // escape regex characters
       text = text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-      return (value.search( new RegExp(text, 'i') ) !== -1);
-    },
-
-    // value contains text (case sensitive)
-    containsExactly: function(value, text) {
-      // escape regex characters
-      text = text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-      return (value.search( new RegExp(text) ) !== -1);
+      return (value.search(text) !== -1);
     },
 
     // is most likely an email
@@ -1030,21 +1020,8 @@ $.fn.form.settings = {
       );
     },
 
-    // is value (case insensitive)
+    // is exactly value
     is: function(value, text) {
-      text = (typeof text == 'string')
-        ? text.toLowerCase()
-        : text
-      ;
-      value = (typeof value == 'string')
-        ? value.toLowerCase()
-        : value
-      ;
-      return (value == text);
-    },
-
-    // is value
-    isExactly: function(value, text) {
       return (value == text);
     },
 
@@ -1086,21 +1063,8 @@ $.fn.form.settings = {
       ;
     },
 
-    // value is not value (case insensitive)
+    // value is not exactly notValue
     not: function(value, notValue) {
-      value = (typeof value == 'string')
-        ? value.toLowerCase()
-        : value
-      ;
-      notValue = (typeof notValue == 'string')
-        ? notValue.toLowerCase()
-        : notValue
-      ;
-      return (value != notValue);
-    },
-
-    // value is not value (case sensitive)
-    notExactly: function(value, notValue) {
       return (value != notValue);
     },
 

@@ -1,17 +1,15 @@
-/*!
- * # Semantic UI - Visit
+/*
+ * # Semantic - Visit
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
 
 ;(function ($, window, document, undefined) {
-
-"use strict";
 
 $.visit = $.fn.visit = function(parameters) {
   var

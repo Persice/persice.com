@@ -15,16 +15,13 @@ module.exports = {
   },
 
   templates: {
-    bower    : './tasks/config/admin/templates/bower.json',
-    composer : './tasks/config/admin/templates/composer.json',
-    package  : './tasks/config/admin/templates/package.json',
-    meteor   : {
-      css       : './tasks/config/admin/templates/css-package.js',
-      component : './tasks/config/admin/templates/component-package.js',
-      less      : './tasks/config/admin/templates/less-package.js',
-    },
-    readme : './tasks/config/admin/templates/README.md',
-    notes  : './RELEASE-NOTES.md'
+    bower           : './tasks/admin/templates/bower.json',
+    composer        : './tasks/admin/templates/composer.json',
+    package         : './tasks/admin/templates/package.json',
+    meteor          : './tasks/admin/templates/package.js',
+    meteorComponent : './tasks/admin/templates/package-component.js',
+    readme          : './tasks/admin/templates/README.md',
+    notes           : './RELEASE-NOTES.md'
   },
 
   org         : 'Semantic-Org',
@@ -38,30 +35,18 @@ module.exports = {
     meteor   : 'package.js'
   },
 
-  // root name for distribution repos
-  distRepoRoot      : 'Semantic-UI-',
-
-  // root name for single component repos
-  componentRepoRoot : 'UI-',
-
-  // root name for package managers
-  packageRoot          : 'semantic-ui-',
+  // root name for repos
+  repoRoot    : 'UI-',
+  packageRoot : 'semantic-ui-',
 
   // root path to repos
-  outputRoot  : '../repos/',
+  outputRoot  : '../components/',
 
   homepage    : 'http://www.semantic-ui.com',
-
-  // distributions that get separate repos
-  distributions: [
-    'LESS',
-    'CSS'
-  ],
 
   // components that get separate repositories for bower/npm
   components : [
     'accordion',
-    'ad',
     'api',
     'breadcrumb',
     'button',
@@ -104,7 +89,6 @@ module.exports = {
     'tab',
     'table',
     'transition',
-    'video',
-    'visibility'
+    'video'
   ]
 };

@@ -1,17 +1,15 @@
-/*!
- * # Semantic UI - API
+/*
+ * # Semantic - API
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
  */
 
 ;(function ( $, window, document, undefined ) {
-
-"use strict";
 
 $.api = $.fn.api = function(parameters) {
 
@@ -137,16 +135,12 @@ $.api = $.fn.api = function(parameters) {
           }
 
           // call beforesend and get any settings changes
-          requestSettings         = module.get.settings();
+          requestSettings = module.get.settings();
 
-          // check if before send cancelled request
+          // check if beforesend cancelled request
           if(requestSettings === false) {
-            module.cancelled = true;
             module.error(error.beforeSend);
             return;
-          }
-          else {
-            module.cancelled = false;
           }
 
           if(settings.url) {
@@ -162,9 +156,9 @@ $.api = $.fn.api = function(parameters) {
 
           // exit conditions reached, missing url parameters
           if( !url ) {
-            if( module.is.form() ) {
-              url = $module.attr('action') || '';
-              module.debug('No url or action specified, defaulting to form action', url);
+            if($module.is('form')) {
+              module.debug('No url or action specified, defaulting to form action');
+              url = $module.attr('action');
             }
             else {
               module.error(error.missingURL, settings.action);
@@ -186,9 +180,7 @@ $.api = $.fn.api = function(parameters) {
             complete   : function() {}
           });
 
-          module.debug('Querying URL', ajaxSettings.url);
-          module.debug('Sending data', data, ajaxSettings.method);
-          module.verbose('Using AJAX settings', ajaxSettings);
+          module.verbose('Creating AJAX request with settings', ajaxSettings);
 
           if( module.is.loading() ) {
             // throttle additional requests
@@ -212,21 +204,12 @@ $.api = $.fn.api = function(parameters) {
           disabled: function() {
             return ($module.filter(settings.filter).length > 0);
           },
-          form: function() {
-            return $module.is('form');
-          },
-          input: function() {
-            return $module.is('input');
-          },
           loading: function() {
             return (module.request && module.request.state() == 'pending');
           }
         },
 
         was: {
-          cancelled: function() {
-            return (module.cancelled || false);
-          },
           succesful: function() {
             return (module.request && module.request.state() == 'resolved');
           },
@@ -400,7 +383,7 @@ $.api = $.fn.api = function(parameters) {
 
                   // if http status code returned and json returned error, look for it
                   if( xhr.status != 200 && httpMessage !== undefined && httpMessage !== '') {
-                    module.error(error.statusMessage + httpMessage, ajaxSettings.url);
+                    module.error(error.statusMessage + httpMessage);
                   }
                   else {
                     if(status == 'error' && settings.dataType == 'json') {
@@ -514,10 +497,10 @@ $.api = $.fn.api = function(parameters) {
               data = {}
             ;
             if( !$.isWindow(element) ) {
-              if( module.is.input() ) {
+              if( $module.is('input') ) {
                 data.value = $module.val();
               }
-              else if( !module.is.form() ) {
+              else if( $module.is('form') ) {
 
               }
               else {
@@ -555,7 +538,7 @@ $.api = $.fn.api = function(parameters) {
             var
               formData
             ;
-            if($module.serializeObject !== undefined) {
+            if($(this).serializeObject() !== undefined) {
               formData = $form.serializeObject();
             }
             else {
@@ -576,7 +559,7 @@ $.api = $.fn.api = function(parameters) {
                 url = settings.api[action];
                 module.debug('Found template url', url);
               }
-              else if( !module.is.form() ) {
+              else {
                 module.error(error.missingAction, settings.action, settings.api);
               }
             }
@@ -784,7 +767,7 @@ $.api.settings = {
   namespace       : 'api',
 
   debug           : true,
-  verbose         : false,
+  verbose         : true,
   performance     : true,
 
   // event binding

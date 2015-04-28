@@ -42,11 +42,12 @@ function myController($scope,notify){  // <-- Inject notify
 The `notify` function can either be passed a string or an object.  When passing an object, the object parameters can be:
 
 * `message` - Required.  The message to show.
+* `duration` - Optional.  The duration (in milliseconds) of message.  A duration of 0 will prevent messages from closing automatically.
 * `templateUrl` - Optional.  A custom template for the UI of the message.
 * `classes` - Optional. A list of custom CSS classes to apply to the message element.
 * `messageTemplate` - Optional. A string containing any valid Angular HTML which will be shown instead of the regular `message` text. The string must contain one root element like all valid Angular HTML templates (so wrap everything in a `<span>`).
 * `scope` - Optional.  A valid Angular scope object.  The scope of the template will be created by calling `$new()` on this scope.
-* `position` - Optional.  Currently `center` and `right` are the only acceptable values.
+* `position` - Optional.  `center`, `left` and `right` are the only acceptable values.
 * `container` - Optional.  Element that contains each notification.  Defaults to `document.body`.
 
 This function will return an object with a `close()` method and a `message` property.
@@ -59,8 +60,9 @@ Call `config` to set the default configuration options for angular-notify.  The 
 * `startTop` - The Y pixel value where messages will be shown.
 * `verticalSpacing` - The number of pixels that should be reserved between messages vertically.
 * `templateUrl` - The default message template.
-* `position` - The default position of each message.  Currently only `center` and `right` are the supported values.
+* `position` - The default position of each message.  `center`, `left` and `right` are the supported values.
 * `container` - The default element that contains each notification.  Defaults to `document.body`.
+* `maximumOpen` - The maximum number of total notifications that can be visible at one time.  Older notifications will be closed when the maximum is reached.
 
 ### notify.closeAll()
 
@@ -76,6 +78,12 @@ The `messageTemplate` property is also included on the scope as `$messageTemplat
 
 
 ## Release History
+ * v2.5.0 - 04/12/2015
+   * New `duration` property per notification.
+   * New `position` property per notification.
+   * Fix for DOM elements not being removed.
+   * New `maximumOpen` config option.
+   * Bump Angular dependency to 1.3.
  * v2.0.2 - 09/06/2014
    * Default template redesigned with a Bootstrap look and feel.  Default template now also includes a close button.
    * Default message location is now the top center.

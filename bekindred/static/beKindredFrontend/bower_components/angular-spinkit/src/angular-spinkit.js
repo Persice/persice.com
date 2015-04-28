@@ -25,77 +25,77 @@ angular.module('angular-spinkit',
 angular.module('ngRotatingPlaneSpinner', []).directive('rotatingPlaneSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/rotatingPlaneSpinner.html'
+    templateUrl: 'src/templates/rotatingPlaneSpinner.html'
   };
 });
 
 angular.module('ngDoubleBounceSpinner', []).directive('doubleBounceSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/doubleBounceSpinner.html'
+    templateUrl: 'src/templates/doubleBounceSpinner.html'
   };
 });
 
 angular.module('ngWaveSpinner', []).directive('waveSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/waveSpinner.html'
+    templateUrl: 'src/templates/waveSpinner.html'
   };
 });
 
 angular.module('ngWanderingCubesSpinner', []).directive('wanderingCubesSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/wanderingCubesSpinner.html'
+    templateUrl: 'src/templates/wanderingCubesSpinner.html'
   };
 });
 
 angular.module('ngPulseSpinner', []).directive('pulseSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/pulseSpinner.html'
+    templateUrl: 'src/templates/pulseSpinner.html'
   };
 });
 
 angular.module('ngChasingDotsSpinner', []).directive('chasingDotsSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/chasingDotsSpinner.html'
+    templateUrl: 'src/templates/chasingDotsSpinner.html'
   };
 });
 
 angular.module('ngCircleSpinner', []).directive('circleSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/circleSpinner.html'
+    templateUrl: 'src/templates/circleSpinner.html'
   };
 });
 
 angular.module('ngThreeBounceSpinner', []).directive('threeBounceSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/threeBounceSpinner.html'
+    templateUrl: 'src/templates/threeBounceSpinner.html'
   };
 });
 
 angular.module('ngCubeGridSpinner', []).directive('cubeGridSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/cubeGridSpinner.html'
+    templateUrl: 'src/templates/cubeGridSpinner.html'
   };
 });
 
 angular.module('ngWordPressSpinner', []).directive('wordPressSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/wordPressSpinner.html'
+    templateUrl: 'src/templates/wordPressSpinner.html'
   };
 });
 
 angular.module('ngFadingCircleSpinner', []).directive('fadingCircleSpinner', function () {
   return {
     restrict: 'E',
-    templateUrl: 'static/beKindredFrontend/bower_components/angular-spinkit/src/templates/fadingCircleSpinner.html'
+    templateUrl: 'src/templates/fadingCircleSpinner.html'
   };
 });
 

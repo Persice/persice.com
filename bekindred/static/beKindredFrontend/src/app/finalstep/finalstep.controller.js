@@ -61,7 +61,7 @@
   }
 
   angular
-    .module('beKindred')
+    .module('icebrak')
     .controller('FinalStepController', FinalStepController);
 
 

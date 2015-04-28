@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('beKindred', [
+angular.module('icebrak', [
   'ngAnimate',
   'ngCookies',
   'ngTouch',
@@ -111,7 +111,7 @@ angular.module('beKindred', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         data: {
-          displayName: 'Icebr&#257;k',
+          displayName: 'icebr&#257;k',
         },
         resolve: {
 
@@ -336,7 +336,7 @@ angular.module('beKindred', [
       link: function(scope, element) {
 
         var listener = function(event, toState, toParams, fromState, fromParams) {
-          var title = 'Icebr&#257;k';
+          var title = 'icebr&#257;k';
           if (toState.data && toState.data.displayName) {
             title = toState.data.displayName;
           }

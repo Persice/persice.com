@@ -124,7 +124,6 @@
 @dropdownPointingDistance: 0px;
 
 @dropdownTextColor: @textColor;
-@dropdownBackgroundHover: @transparentBlack;
 @dropdownTextColorHover: @darkTextColor;
 @dropdownIconMargin: 0em 0em 0em 1em;
 
@@ -136,14 +135,13 @@
 @arrowBorderSize: 1px;
 @arrowBorder: @arrowBorderSize solid @solidBorderColor;
 @arrowTransition: background @transitionDuration @transitionEasing;
-@arrowZIndex: 11;
+@arrowZIndex: 2;
 
 @arrowHoverColor: #FAFAFA;
 @arrowActiveColor: #F7F7F7;
 
 @arrowVerticalHoverColor: @arrowHoverColor;
 @arrowVerticalActiveColor: @arrowActiveColor;
-@arrowVerticalSubMenuColor: @white;
 
 /*--------------
      States
@@ -234,10 +232,6 @@
 @tieredSubMenuActiveColor: @selectedTextColor;
 
 @tieredInvertedSubMenuBackground: rgba(0, 0, 0, 0.2);
-
-/* Icon */
-@iconMenuTextAlign: center;
-@iconMenuItemColor: rgba(0, 0, 0, 0.6);
 
 /* Tabular */
 @tabularBorderColor: @solidBorderColor;

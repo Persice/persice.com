@@ -1,7 +1,7 @@
 {
   "name": "angular-socket-io",
   "version": "0.7.0",
-  "main": "./socket.js",
+  "main": "socket.js",
   "dependencies": {
     "angular": "^1.2.6"
   },
@@ -16,7 +16,6 @@
     "commit": "0864970501e7f5ce82b1182e29ed1b63e80cf5cc"
   },
   "_source": "git://github.com/btford/angular-socket-io.git",
-  "_target": "~0.7.0",
-  "_originalSource": "angular-socket-io",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "angular-socket-io"
 }

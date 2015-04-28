@@ -6,7 +6,7 @@
    * @example <div messages-counter></div>
    */
   angular
-    .module('beKindred')
+    .module('icebrak')
     .directive('messagesCounter', messagesCounter);
 
   function messagesCounter() {

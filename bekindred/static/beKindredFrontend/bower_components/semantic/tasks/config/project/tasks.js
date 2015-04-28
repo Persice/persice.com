@@ -1,5 +1,4 @@
 var
-  console = require('better-console'),
   config  = require('../user'),
   release = require('./release')
 ;
@@ -33,14 +32,8 @@ module.exports = {
 
       // remove all comments from config files (.variable)
       variables : {
-        in  : /(\/\*[\s\S]+?\*\/+)[\s\S]+?\/\* End Config \*\//,
-        out : '$1',
-      },
-
-      // add version to first comment
-      license: {
-        in  : /(^\/\*[\s\S]+)(# Semantic UI )([\s\S]+?\*\/)/,
-        out : '$1$2' + release.version + ' $3'
+        in  : /\/\*[\s\S]+?\/\* End Config \*\//m,
+        out : '',
       },
 
       // adds uniform spacing around comments
@@ -77,18 +70,10 @@ module.exports = {
       url        : release.url
     },
 
-    plumber: {
-      less: {
-        errorHandler: function(error) {
-          if(error.filename.match(/theme.less/)) {
-            console.error('Looks like your theme.config is out of date. You will need to add new elements from theme.config.example');
-          }
-          else {
-            console.log(error);
-            this.emit('end');
-          }
-        }
-      }
+    /* Minified CSS Settings */
+    minify: {
+      processImport       : false,
+      keepSpecialComments : 0
     },
 
     /* What Browsers to Prefix */
@@ -112,31 +97,15 @@ module.exports = {
       rtlMinCSS : { extname : '.rtl.min.css' }
     },
 
-    /* Minified CSS Concat */
-    minify: {
-      processImport       : false,
-      restructuring       : false,
-      keepSpecialComments : 1
+    /* Sourcemaps */
+    sourcemap: {
+      includeContent : true,
+      sourceRoot     : '/src'
     },
 
     /* Minified JS Settings */
     uglify: {
-      mangle           : true,
-      preserveComments : 'some'
-    },
-
-    /* Minified Concat CSS Settings */
-    concatMinify: {
-      processImport       : false,
-      restructuring       : false,
-      keepSpecialComments : false
-    },
-
-    /* Minified Concat JS */
-    concatUglify: {
-      mangle           : true,
-      preserveComments : false
+      mangle : true
     }
-
   }
 };

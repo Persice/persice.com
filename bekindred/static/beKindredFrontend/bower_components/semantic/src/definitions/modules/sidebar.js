@@ -1,9 +1,9 @@
-/*!
- * # Semantic UI - Sidebar
+/*
+ * # Semantic - Sidebar
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributors
+ * Copyright 2014 Contributor
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -114,9 +114,9 @@ $.fn.sidebar = function(parameters) {
 
         create: {
           id: function() {
-            id = (Math.random().toString(16) + '000000000').substr(2,8);
+            module.verbose('Creating unique id for element');
+            id = module.get.uniqueID();
             elementNamespace = '.' + id;
-            module.verbose('Creating unique id for element', id);
           }
         },
 
@@ -365,20 +365,11 @@ $.fn.sidebar = function(parameters) {
               settings.transition = 'overlay';
             }
             module.refresh();
-            if(module.othersActive()) {
+            if(module.othersActive() && module.get.transition() !== 'overlay') {
               module.debug('Other sidebars currently visible');
+              settings.transition = 'overlay';
               if(settings.exclusive) {
-                // if not overlay queue animation after hide
-                if(settings.transition != 'overlay') {
-                  module.hideOthers(module.show);
-                  return;
-                }
-                else {
-                  module.hideOthers();
-                }
-              }
-              else {
-                settings.transition = 'overlay';
+                module.hideOthers();
               }
             }
             animateMethod(function() {
@@ -431,7 +422,8 @@ $.fn.sidebar = function(parameters) {
             sidebarCount   = $otherSidebars.length,
             callbackCount  = 0
           ;
-          callback = callback || function(){};
+          callback       = callback || function(){};
+
           $otherSidebars
             .sidebar('hide', function() {
               callbackCount++;
@@ -730,6 +722,9 @@ $.fn.sidebar = function(parameters) {
                 return transitions[transition];
               }
             }
+          },
+          uniqueID: function() {
+            return (Math.random().toString(16) + '000000000').substr(2,8);
           }
         },
 

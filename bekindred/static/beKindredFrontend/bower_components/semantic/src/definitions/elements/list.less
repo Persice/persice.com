@@ -1,9 +1,9 @@
-/*!
- * # Semantic UI - List
+ /*
+ * # Semantic - List
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2014 Contributorss
+ * Copyright 2014 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -17,6 +17,8 @@
 @element : 'list';
 
 @import (multiple) '../../theme.config';
+
+& {
 
 /*******************************
             List
@@ -152,7 +154,7 @@ ol.ui.list ol,
 .ui.list > .item > .image + .content,
 .ui.list > .item > .icon + .content {
   display: table-cell;
-  padding: 0em 0em 0em @contentDistance;
+  padding-left: @contentDistance;
   vertical-align: @contentVerticalAlign;
 }
 .ui.list .list > .item > .image + .content,
@@ -160,7 +162,7 @@ ol.ui.list ol,
 .ui.list > .item > .image + .content,
 .ui.list > .item > .icon + .content {
   display: table-cell;
-  padding: 0em 0em 0em @contentDistance;
+  padding-left: @contentDistance;
   vertical-align: @contentVerticalAlign;
 }
 .ui.list .list > .item > img.image + .content,
@@ -880,3 +882,5 @@ ol.ui.horizontal.list li:before,
 }
 
 .loadUIOverrides();
+
+}

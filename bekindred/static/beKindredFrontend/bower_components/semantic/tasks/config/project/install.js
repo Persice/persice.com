@@ -752,7 +752,7 @@ module.exports = {
 
       // copy for site theme
       site: {
-        forceDelete       : false,
+        forceDelete       : true,
         excludeHiddenUnix : true,
         preserveFiles     : true
       }
