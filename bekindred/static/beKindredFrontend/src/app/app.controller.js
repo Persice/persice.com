@@ -1,9 +1,14 @@
 'use strict';
 
 angular.module('icebrak')
-  .controller('AppCtrl', function($rootScope, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+  .controller('AppCtrl', function($rootScope, $geolocation, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
     $rootScope.hideTopMenu = false;
 
+    $geolocation.getCurrentPosition({
+      timeout: 60000
+    }).then(function(position) {
+      $rootScope.myPosition = position;
+    });
 
     $rootScope.userImg = USER_PHOTO;
     $rootScope.userName = USER_FIRSTNAME;

@@ -33,10 +33,11 @@
           </div>
         </label>
       </div>
-
-      <div class="ui icon input">
-        <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
-        <i class="circular plus icon" ng-click="filter.addKeyword(filter.newKeyword)"></i>
+      <div class="field">
+      <div class="ui icon input" id="keywordsSearch">
+          <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
+          <i class="circular plus icon" ng-click="filter.addKeyword(filter.newKeyword)"></i>
+        </div>
       </div>
 
       <a ng-click="filter.removeKeyword($index)" href="" class="item" ng-repeat="keyword in filter.myKeywords track by $index">

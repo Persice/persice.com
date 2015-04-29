@@ -19,7 +19,8 @@ angular.module('icebrak', [
   'btford.socket-io',
   'ngLodash',
   'hj.gsapifyRouter',
-  'angular-flexslider'
+  'angular-flexslider',
+  'ngGeolocation'
   ])
   .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
 
