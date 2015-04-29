@@ -428,6 +428,18 @@ angular.module('icebrak')
 
     };
 
+    $scope.cancelMatchDesktop = function() {
+      $rootScope.hideTopMenu = false;
+      $rootScope.showfullprofile = false;
+      $scope.cancelMatch();
+    }
+
+    $scope.confirmMatchDesktop = function() {
+      $rootScope.hideTopMenu = false;
+      $rootScope.showfullprofile = false;
+      $scope.confirmMatch();
+    }
+
 
     $scope.confirmMatch = function() {
 

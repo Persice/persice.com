@@ -34,7 +34,7 @@
   <!-- endinject -->
   <!-- endbuild -->
 </head>
-<body id="main-page" class="gray" ng-class="{'conversationspage': isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'lowersidemenus' : isState('conversations') || isState('friendprofile')}">
+<body id="main-page" class="gray" ng-class="{'conversationspage': isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'lowersidemenus' : isState('conversations') || isState('friendprofile'), 'matchfeed-page': isState('matchfeed')}">
       <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
@@ -70,7 +70,7 @@
 
         <div class="item" id="side-menu-logo">
           <ul class="social-icon" id="intro-title">
-            <li><h2>Icebr&#257;k</h2></li>
+            <li><h2>icebr&#257;k</h2></li>
           </ul>
         </div>
       </div>
@@ -87,7 +87,7 @@
             <b update-title></b>
           </div>
           <a ui-sref="home" class="title item desktopview">
-            <b>Icebr&#257;k</b>
+            <b>icebr&#257;k</b>
           </a>
           <div class="ui mini action input inverted desktopview searchbox displaynone">
             <input type="text" placeholder="Search">

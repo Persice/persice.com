@@ -4431,7 +4431,7 @@ div#id_description, input#id_description_value {
   left: 5px!important;
 }
 #leftmenu #links_sidemenu_bottom .item {
-   font-size: 0.9rem!important;
+ font-size: 0.9rem!important;
 }
 
 #links_sidemenu_bottom:before {
@@ -4467,11 +4467,31 @@ body.finalstep-page #topMenu,
 
 @media only screen and (min-width : 768px) {
 
+  body.matchfeed-page #matched-profile-body .ui.segment.attached+.ui.segment.attached:not(.top) {
+    border-top: 1px solid #d4d4d5!important;
+  }
+
+  body.matchfeed-page #desktopmatchheader {
+    padding-bottom: 0px!important;
+  }
+
+  body.matchfeed-page #my-profile-header {
+    margin: 0px;
+    padding-bottom: 0px!important;
+    padding-left: 0px;
+    padding-right: 0px;
+
+  }
+
   body.conversations-page #submenu,
   body.friend-page #submenu
   {
     display: none!important;
 
+  }
+
+  body.matchfeed-page #mobilematchheader {
+    display: none!important;
   }
 
 
@@ -4483,8 +4503,13 @@ body.finalstep-page #topMenu,
 
   body.conversations-page #topMenu,
   body.friend-page #topMenu,
+  body.matchfeed-page #topMenu,
   {
     display: block!important;
+  }
+
+  body.matchfeed-page #MatchMenu {
+    display: none!important;
   }
 
   #mobile-conversation-content, #mobile-conversation-reply, #mobile-no-messages {
@@ -4493,7 +4518,11 @@ body.finalstep-page #topMenu,
 
 }
 
-@media only screen and (max-width : 768px) {
+@media only screen and (max-width : 767px) {
+
+  body.matchfeed-page #desktopmatchheader {
+    display: none!important;
+  }
 
   body.conversations-page #topMenu,
   body.friend-page #topMenu,
@@ -4815,3 +4844,32 @@ body.finalstep-page #topMenu,
   line-height: 1.2142em!important;
   font-size: 14px!important;
 }
+
+
+//matchfeed desktop
+
+body.matchfeed-page #desktopMatchMenu {
+  position: fixed;
+  top: 0px;
+  text-align: center;
+}
+
+
+body.matchfeed-page #matched-profile-body h4.ui.left.floated.header {
+  margin: 0px!important;
+}
+
+
+body.matchfeed-page #desktopmatchheader .icon {
+  margin: 0px!important;
+}
+
+#desktopmatchheader .action-header {
+  float: right!important;
+}
+
+body.matchfeed-page #matched-profile-body .ui.header {
+  margin: 0px!important;
+}
+
+
