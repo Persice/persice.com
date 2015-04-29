@@ -4888,3 +4888,44 @@ body.matchfeed-page #matched-profile-body .ui.header {
 #logoTop img {
   height: 45px!important;
 }
+
+
+// create interests page desktop
+
+
+@media only screen and (min-width : 768px) {
+  body.selectinterests-page #mainheadermenu {
+    text-align: center!important;
+  }
+
+  body.selectinterests-page #mainheadermenu .right.menu {
+    display: none!important;
+  }
+
+  body.selectinterests-page #interests {
+    bottom: 112px!important;
+  }
+
+  body.selectinterests-page #next-button-interests {
+    position: absolute;
+    display: block;
+    bottom: 45px;
+    width: 100%;
+    background-color: #f6f6f6!important;
+    padding: .8rem;
+    left: 0;
+    text-align: center;
+  }
+
+
+}
+
+@media only screen and (max-width: 767px) {
+  body.selectinterests-page #next-button-interests {
+    display: none!important;
+  }
+}
+
+body.selectinterests-page #interests .ui.button.toggle.active {
+  background-color: #458ac6!important;
+}
