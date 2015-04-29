@@ -1369,7 +1369,7 @@ Definition Container
 }
 
 #main-page #left-menu .item.active  {
-  background-color: #36454F!important;
+  background-color: #4d4d4d!important;
   color: #FFF;
   border: none;
   box-shadow: none;
@@ -1789,7 +1789,7 @@ Responsive
 }
 
 .ui.inverted.menu {
-  background: #686868 !important;
+  background: #4d4d4d!important;
 }
 #main-page .fixed .title:before {
   display: none;
@@ -4876,4 +4876,15 @@ body.matchfeed-page #matched-profile-body .ui.header {
 #FilterController.desktopview #keywordsSearch input {
   padding-right: 0px!important;
   width: 140px!important;
+}
+
+
+/* Logo */
+
+#logoTop {
+  padding: 0px 0px 0px 0.7em!important;
+}
+
+#logoTop img {
+  height: 45px!important;
 }
