@@ -179,7 +179,7 @@ Sidebar
   position: relative;
   z-index: 2;
   margin: 0em;
-  min-height: 182px;
+  // min-height: 182px;
   background-color: #FFFFFF;
   border-bottom: 1px solid #DDDDDD;
 
@@ -1606,12 +1606,13 @@ top search box
   position: relative;
   vertical-align: middle;
   padding: 0.78571em 0.95em!important;
+  height: 45px!important;
 }
 
 #profileimage .ui.image {
   display: inline-block;
-  width: 25px;
-  height: 25px;
+  width: auto!important;
+  max-height: 25px!important;
   margin-right: 5px;
 }
 
@@ -3441,7 +3442,6 @@ ng\:form {
 #my-profile-header .pagination-container {
   text-align: center!important;
   padding: 0!important;
-  height: 275px;
   position: relative;
 }
 
@@ -3462,7 +3462,7 @@ div.rn-carousel-indicator span.active {
   background-size: cover!important;
   background-position: 50% 50%;
   background-repeat: no-repeat!important;
-  height: 240px!important;
+  height: auto;
   margin: 0 auto!important;
 }
 
@@ -3586,10 +3586,9 @@ ul[rn-carousel] {
 
 
 #main-page #friendprofileheader.header.segment {
-  padding-top: 45px!important;
+  padding-top: 10px!important;
   border: none!important;
   padding-bottom: 10px!important;
-  background-color: #f7f7f7!important;
 }
 
 #settingsPage {
@@ -4477,7 +4476,6 @@ body.finalstep-page #topMenu,
 
   body.matchfeed-page #my-profile-header {
     margin: 0px;
-    padding-bottom: 0px!important;
     padding-left: 0px;
     padding-right: 0px;
 
@@ -4820,9 +4818,9 @@ body.finalstep-page #topMenu,
   font-style: normal;
 }
 
-.flexslider .slides img {
-  width: auto!important;
-}
+// .flexslider .slides img {
+//   width: auto!important;
+// }
 
 .flexslider {
   border: none!important;
@@ -4928,4 +4926,76 @@ body.matchfeed-page #matched-profile-body .ui.header {
 
 body.selectinterests-page #interests .ui.button.toggle.active {
   background-color: #458ac6!important;
+}
+
+//responsive images
+
+
+
+.flex-control-nav {
+  bottom: -20px!important;
+  z-index: 9999!important;
+}
+
+.flexslider {
+  margin: 0 0 10px!important;
+}
+
+.flexslider .slides img {
+  width: 45%!important;
+  height: 45%!important;
+  margin: 0 auto!important;
+}
+
+@media only screen and (max-width : 767px) {
+  body.friend-page #friendprofileheader {
+    margin-top: 45px!important;
+  }
+
+}
+
+@media only screen and (max-width : 400px) {
+  .flexslider .slides img {
+    width: 70%!important;
+    height: 70%!important;
+    margin: 0 auto!important;
+  }
+}
+
+@media only screen and (min-width : 401px) and (max-width : 767px){
+  .flexslider .slides img {
+    width: 45%!important;
+    height: 45%!important;
+    margin: 0 auto!important;
+  }
+}
+
+@media only screen and (min-width : 767px) and (max-width : 900px)  {
+
+  .flexslider .slides img {
+    width: 60%!important;
+    height: 60%!important;
+    margin: 0 auto!important;
+  }
+}
+
+@media only screen and (min-width : 901px)  {
+
+  .flexslider .slides img {
+    width: 50%!important;
+    height: 50%!important;
+    margin: 0 auto!important;
+  }
+}
+
+
+#matchfeedheader-slider {
+  margin: 0px!important;
+  padding-bottom: 10px!important;
+}
+@media only screen and (max-width : 767px)  {
+  #matched-profile-header .ui.segment{
+    border-bottom: 1px solid #ddd;
+  }
+
 }

@@ -64,10 +64,10 @@
             <div class="header segment with-menu" id="friendprofileheader">
                 <div class="pagination-container">
                     <div id="PhotoSlider" ng-if="friendprofile.photosSlider.length > 0">
-                        <flex-slider touch=true slideshow=false slide="item in friendprofile.photosSlider | orderBy:'order' track by $index">
+                        <flex-slider touch=true smooth-height=true slideshow=false slide="item in friendprofile.photosSlider | orderBy:'order' track by $index">
                         <li>
-                            <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
-                            <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
+                            <img ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}"/>
+                            <img ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}"/>
                         </li>
                     </flex-slider>
                 </div>

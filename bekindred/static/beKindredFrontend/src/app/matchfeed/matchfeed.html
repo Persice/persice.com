@@ -24,13 +24,13 @@
 
                     </h2>
 
-                    <div class="ui top attached segment" id="my-profile-header" ng-if="showfullprofile">
+                    <div class="ui basic segment" id="matchfeedheader-slider" ng-if="showfullprofile">
                         <div class="pagination-container">
                             <div id="PhotoSlider">
-                                <flex-slider touch=true slideshow=false slide="item in photosSlider | orderBy:'order' track by $index">
+                                <flex-slider touch=true smooth-height=true slideshow=false slide="item in photosSlider | orderBy:'order' track by $index">
                                 <li>
-                                    <img ng-show="item.cropped_photo === ''" class="img-bounding-box-full-width" ng-src="{{item.photo}}"/>
-                                    <img ng-show="item.cropped_photo !== ''" class="img-bounding-box-full-width" ng-src="{{item.cropped_photo}}"/>
+                                    <img ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}"/>
+                                    <img ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}"/>
                                 </li>
                             </flex-slider>
 
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="body segment" id="matched-profile-body">
-                    <div class="ui top attached segment" ng-show="showfullprofile" id="mobilematchheader">
+                    <div class="ui  attached segment" ng-show="showfullprofile" id="mobilematchheader">
                         <h3 class="ui left floated header">
                             {{ matchedUser.first_name }} {{ matchedUser.age }}
                         </h3>
