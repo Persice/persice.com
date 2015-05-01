@@ -8,7 +8,7 @@ var wiredep = require('wiredep');
 
 var paths = gulp.paths;
 
-function runTests (singleRun, done) {
+function runTests(singleRun, done) {
   var bowerDeps = wiredep({
     directory: 'bower_components',
     exclude: ['bootstrap-sass-official'],
@@ -16,20 +16,33 @@ function runTests (singleRun, done) {
     devDependencies: true
   });
 
+  // console.log(bowerDeps);
+
   var testFiles = bowerDeps.js.concat([
-    paths.src + '/{app,components}/**/*.js'
+    paths.src + '/app/index.js',
+    paths.src + '/app/services.js',
+    paths.src + '/app/app.controller.js',
+    paths.src + '/app/**/*.js',
+    paths.src + '/components/**/*.js',
+    'test/unit/*.js',
   ]);
+
 
   gulp.src(testFiles)
     .pipe($.karma({
       configFile: 'karma.conf.js',
-      action: (singleRun)? 'run': 'watch'
+      action: (singleRun) ? 'run' : 'watch'
     }))
-    .on('error', function (err) {
+    .on('error', function(err) {
       // Make sure failed tests cause gulp to exit non-zero
+      console.log(err);
       throw err;
     });
 }
 
-gulp.task('test', function (done) { runTests(true /* singleRun */, done) });
-gulp.task('test:auto', function (done) { runTests(false /* singleRun */, done) });
+gulp.task('test', function(done) {
+  runTests(true /* singleRun */ , done);
+});
+gulp.task('test:auto', function(done) {
+  runTests(false /* singleRun */ , done);
+});

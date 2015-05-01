@@ -3,15 +3,17 @@
 module.exports = function(config) {
 
   config.set({
-    autoWatch : false,
+    autoWatch: false,
+
+    // basePath: '.',
 
     frameworks: ['jasmine'],
 
-    browsers : ['PhantomJS'],
+    browsers: ['PhantomJS'],
 
-    plugins : [
-        'karma-phantomjs-launcher',
-        'karma-jasmine'
+    plugins: [
+    'karma-phantomjs-launcher',
+    'karma-jasmine'
     ]
   });
 };

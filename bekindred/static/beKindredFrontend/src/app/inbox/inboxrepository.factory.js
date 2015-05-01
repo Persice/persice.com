@@ -85,6 +85,45 @@
       return service.inboxMessages;
     }
 
+    function loadMoreSuccess(response) {
+
+      service.next = response.meta.next;
+      service.nextOffset += service.pageSize;
+
+      var receivedMessages = response.objects;
+      var newMessages = [];
+      var i = 0;
+      for (var obj in receivedMessages) {
+        if (receivedMessages[obj].read_at === null && receivedMessages[obj].last_message_body !== null) {
+          i++;
+        }
+        service.inboxMessages.push({
+          firstName: receivedMessages[obj].first_name,
+          friendId: receivedMessages[obj].friend_id,
+          facebookId: receivedMessages[obj].facebook_id,
+          sentAt: $filter('amDateFormat')(receivedMessages[obj].sent_at, 'h:mm a'),
+          readAt: receivedMessages[obj].read_at,
+          id: receivedMessages[obj].id,
+          body: receivedMessages[obj].last_message_body
+        });
+      }
+      service.unreadMessagesCounter += i;
+      $rootScope.$broadcast('refreshMessagesCounter');
+      service.loadingMore = false;
+      deferred.resolve();
+    }
+
+    function loadMoreFailed(response) {
+      var data = response.data,
+        status = response.status,
+        header = response.header,
+        config = response.config,
+        message = 'Error ' + status;
+      $log.error(message);
+      service.loadingMore = false;
+      deferred.reject();
+    }
+
     function loadMore() {
       console.log('loading more messages in inbox');
       var deferred = $q.defer();
@@ -103,44 +142,6 @@
           offset: service.nextOffset
         }).$promise.then(loadMoreSuccess, loadMoreFailed);
 
-        function loadMoreSuccess(response) {
-
-          service.next = response.meta.next;
-          service.nextOffset += service.pageSize;
-
-          var receivedMessages = response.objects;
-          var newMessages = [];
-          var i = 0;
-          for (var obj in receivedMessages) {
-            if (receivedMessages[obj].read_at === null && receivedMessages[obj].last_message_body !== null) {
-              i++;
-            }
-            service.inboxMessages.push({
-              firstName: receivedMessages[obj].first_name,
-              friendId: receivedMessages[obj].friend_id,
-              facebookId: receivedMessages[obj].facebook_id,
-              sentAt: $filter('amDateFormat')(receivedMessages[obj].sent_at, 'h:mm a'),
-              readAt: receivedMessages[obj].read_at,
-              id: receivedMessages[obj].id,
-              body: receivedMessages[obj].last_message_body
-            });
-          }
-          service.unreadMessagesCounter += i;
-          $rootScope.$broadcast('refreshMessagesCounter');
-          service.loadingMore = false;
-          deferred.resolve();
-        }
-
-        function loadMoreFailed(response) {
-          var data = response.data,
-            status = response.status,
-            header = response.header,
-            config = response.config,
-            message = 'Error ' + status;
-          $log.error(message);
-          service.loadingMore = false;
-          deferred.reject();
-        }
 
 
       } else {
