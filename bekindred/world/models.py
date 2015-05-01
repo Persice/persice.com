@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+from django_facebook.models import FacebookCustomUser
 
 
 class WorldBorder(models.Model):
@@ -24,3 +25,22 @@ class WorldBorder(models.Model):
     # Returns the string representation of the model.
     def __str__(self):              # __unicode__ on Python 2
         return self.name
+
+
+class UserLocation(models.Model):
+    """
+    Storing Geo coordinates
+    """
+    user = models.ForeignKey(FacebookCustomUser)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    speed = models.FloatField(blank=True, null=True)
+    heading = models.FloatField(blank=True, null=True)
+    altitude_accuracy = models.FloatField(blank=True, null=True)
+    altitude = models.FloatField(blank=True, null=True)
+
+    geometry = models.PointField(help_text="Represented as (longitude, latitude)")
+    objects = models.GeoManager()
+
+    def __unicode__(self):
+        return '%s %s %s' % (self.user, self.geometry.x, self.geometry.y)
