@@ -1,8 +1,12 @@
 'use strict';
 
 angular.module('icebrak')
-  .controller('AppCtrl', function($rootScope, $geolocation, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+  .controller('AppCtrl', function($rootScope, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
     $rootScope.hideTopMenu = false;
+
+    // ezfb.AppEvents.activateApp();
+
+    // ezfb.AppEvents.logEvent(ezfb.AppEvents.EventNames.COMPLETED_REGISTRATION);
 
     $geolocation.getCurrentPosition({
       timeout: 60000

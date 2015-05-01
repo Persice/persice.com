@@ -10,19 +10,21 @@
    * classDesc Connect with LinkedIn and Twitter or skip to mathcfeed
    * @ngInject
    */
-  function FriendProfileController($scope, User, UsersFactory, MutualFriendsFactory, InboxRepository, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
+  function FriendProfileController($scope, User, UserProfile, UsersFactory, MutualFriendsFactory, InboxRepository, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
     var vm = this;
+
+    vm.matchingInfo = User;
 
     vm.middleActive = true;
     vm.friendshipId = Connection.objects[0].id;
 
     vm.user = {
-      id: User.objects[0].id,
-      facebook_id: User.objects[0].facebook_id,
-      firstName: User.objects[0].first_name,
-      lastName: User.objects[0].last_name,
-      age: User.objects[0].age,
-      about_me: User.objects[0].about_me,
+      id: UserProfile.id,
+      facebook_id: UserProfile.facebook_id,
+      firstName: UserProfile.first_name,
+      lastName: UserProfile.last_name,
+      age: UserProfile.age,
+      about_me: UserProfile.about_me,
       photos: [],
       goals: [],
       offers: [],
@@ -33,8 +35,8 @@
       twitterfriends: [],
       twitterfollowers: [],
       linkedinconnections: [],
-      linkedin_provider: User.objects[0].linkedin_provider,
-      twitter_provider: User.objects[0].twitter_provider
+      linkedin_provider: UserProfile.linkedin_provider,
+      twitter_provider: UserProfile.twitter_provider
     };
 
     vm.defaultUserPhoto = '//graph.facebook.com/' + vm.user.facebook_id + '/picture?type=large';
@@ -57,55 +59,57 @@
 
     function getUser() {
 
-      vm.loadingUser = true;
-      vm.loadingGoals = true;
-      vm.loadingOffers = true;
-      vm.loadingLikes = true;
+      if (vm.matchingInfo.meta.total_count > 0) {
+        vm.loadingUser = true;
+        vm.loadingGoals = true;
+        vm.loadingOffers = true;
+        vm.loadingLikes = true;
 
+        var goals = [];
+        var matchedgoals = User.objects[0].goals[0];
+        for (var key in matchedgoals) {
+          var goal = {
+            value: key,
+            match: matchedgoals[key]
+          };
+          goals.push(goal);
+        }
+        vm.user.goals = goals;
 
-      var goals = [];
-      var matchedgoals = User.objects[0].goals[0];
-      for (var key in matchedgoals) {
-        var goal = {
-          value: key,
-          match: matchedgoals[key]
-        };
-        goals.push(goal);
+        var offers = [];
+        var matchedoffers = User.objects[0].offers[0];
+        for (var key in matchedoffers) {
+          var offer = {
+            value: key,
+            match: matchedoffers[key]
+          };
+          offers.push(offer);
+        }
+        vm.user.offers = offers;
+
+        var interests = [];
+        var matchedinterests = User.objects[0].interests[0];
+        for (var key in matchedinterests) {
+          var interest = {
+            value: key,
+            match: matchedinterests[key]
+          };
+          interests.push(interest);
+        }
+        vm.user.interests = interests;
+
+        var likes = [];
+        var matchedlikes = User.objects[0].likes[0];
+        for (var key in matchedlikes) {
+          var like = {
+            value: key,
+            match: matchedlikes[key]
+          };
+          likes.push(like);
+        }
+        vm.user.likes = likes;
+
       }
-      vm.user.goals = goals;
-
-      var offers = [];
-      var matchedoffers = User.objects[0].offers[0];
-      for (var key in matchedoffers) {
-        var offer = {
-          value: key,
-          match: matchedoffers[key]
-        };
-        offers.push(offer);
-      }
-      vm.user.offers = offers;
-
-      var interests = [];
-      var matchedinterests = User.objects[0].interests[0];
-      for (var key in matchedinterests) {
-        var interest = {
-          value: key,
-          match: matchedinterests[key]
-        };
-        interests.push(interest);
-      }
-      vm.user.interests = interests;
-
-      var likes = [];
-      var matchedlikes = User.objects[0].likes[0];
-      for (var key in matchedlikes) {
-        var like = {
-          value: key,
-          match: matchedlikes[key]
-        };
-        likes.push(like);
-      }
-      vm.user.likes = likes;
 
       //mutual friends
       MutualFriendsFactory.query({

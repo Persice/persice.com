@@ -1,27 +1,239 @@
 ## RELEASE NOTES
 
+### Version 1.11.8 - April 13, 2015
+
+**Bugs**
+- **Build Tools** - Fixed `npm install` without `semantic.json` to merge changes with site theme and packaged themes in a similar fashion to `npm update`
+- **Build** - `gulp build` now properly warns against missing `semantic.json` **Thanks @rudyrk**
+
+### Version 1.11.7 - April 13, 2015
+
+**Bugs**
+
+- **Sticky** - Fixes errant `console.log` statement appearing in source
+- **Card** - Fixes card `flex` display issues in IE
+- **Build Tools** - Fixes issue where `npm update` install scripts would remove custom themes from `src/themes/` during copy after updating Semantic UI
+
+### Version 1.11.6 - March 27, 2015
+
+More critical bug backports from `2.x` branch, as well as fixes for browserify
+
+**Bugs**
+- **Menu/Dropdown** - Fix dropdown headers disappearing inside menus
+- **Dropdown** - Fix unescaped character in css property causing css validation errors
+- **Form** - Fix `grouped required` fields display issues **Thanks @palmsey**
+- **All UI** - Fix `index.js` npm build to work with browserify in individual component repos **Thanks @sdimit**
+- **LESS Repo** - Add missing `semantic.less` file to less repo for importing components
+
+### Version 1.11.5 - March 23, 2015
+
+This version backports several bugs that were being packed in `2.0` to `1.x`.
+2.0 will be coming in the next 1-2 weeks.
+
+**Bugs**
+- **Build Tools** - Adjusting site.variables will now rebuild all UI, instead of just site.less
+- **Build Tools** - LESS will now throw errors correctly in `watch`
+- **Card** - Fixes dimmer background shorthand property causes transparent dimmer in minified version
+- **Dimmer** - Fixed `variation` setting not working correctly
+- **Dropdown** - `onChange` no longer fires when reselecting same value
+- **Dropdown** - Fix bug where element will not blur on tab key when search selection and no selection made
+- **Dropdown** - Dropdown init on `select` now returns `ui dropdown` created for chaining
+- **Dropdown** - Dropdown `focus` color has been adjusted to match forms more closely
+- **Dropdown** - Fixes IE10 scrollbar width in menu (calc was being precompiled in LESS) **Thanks @gabormeszoly**
+
+### Version 1.11.3-4 - March 6, 2015
+
+**Enhancements**
+- **Grid** - Added opt-in `stretched` variation for `equal height` instead of forcing `flex` on all `equal height columns` which may cause layout issues due to changes in rendering with `flexbox`.
+
+**Fixes**
+- **Build Tools** - Fix issues with minified CSS `@import` not being on top of minified semantic ui concatenated release due to [bug in clean-css](https://github.com/jakubpawlowicz/clean-css/issues/476)
+- **Grid** - Fixes `stackable` `equal height/width` grid to remove `flex` on mobile when stacking
+- **Grid** - Fixed `right/left/center aligned` to adjust `align-items` in flex containers like `equal height/width`
+
+### Version 1.11.2 - March 6, 2015
+
+**Enhancements**
+- **Accordion** - Accordion can now specify a trigger element instead of `title`, added an [example in docs](http://www.semantic-ui.com/modules/accordion.html#changing-trigger)
+- **Accordion** - Accordion can now hide while opening animation is still occuring
+- **Grid** - Equal width grids will now make column content stretch to full height, not just the column itself (requires flexbox). See examples [in the grid docs](http://www.semantic-ui.com/collections/grid.html#equal-height)
+- **Header** - Labels inside headers have been slightly increased in size
+- **Search** - Search now uses internally [fuzzy search](https://github.com/bevacqua/fuzzysearch) as its new full text search algorithm.
+
+**Important Fixes**
+- **Build Tools** - Fix issues with minified component CSS `@import` not always being on top of files due to [bug in clean-css](https://github.com/jakubpawlowicz/clean-css/issues/476)
+
+**Bugs**
+- **Accordion** - Removed mistaken extra `1px` top border on nested `styled accordion`
+- **Modal** - Fixes modal `buttons` on mobile devices to not have extra bottom padding.
+- **Card/Dimmer** - Fix dimmer z-index being too high when inside a `ui card`. Added variable for specifying default dimmer color inside card.
+- **Site** - `h1-h5` now have no top margin when `first-child` and no bottom margin when `last-child`
+- **Dropdown** - Fix issue in `setup reference` (added in `1.11.1`) where chaining would not return `ui dropdown` immediately after initialization
+
+### Version 1.11.1 - March 5, 2015
+
+**Enhancements**
+- **Dropdown** - Calling behaviors on a dropdown `select` will now automatically route them to the appropriate parent `ui dropdown`
+
+**Bugs**
+
+- **Grid** - Fix issue in `centered grid` not centering `column` inside `row`
+- **Dropdown** - Added select styles for elements before they are initialized instead of FOIC (Flash of invisible content)
+
+### Version 1.11.0 - March 3, 2015
+
+**New Components**
+- **Visibiliity** - Attach callbacks to elements visibility conditions like `top visible` `bottom visible`, `passing`. Useful for things like: image lazy loading, infinite scroll content, and recording tracking metrics.
+
+[See the examples](http://www.semantic-ui.com/behaviors/visibility.html#/examples) online for a demonstration.
+
+**Enhancements**
+- **Form** - `<select>` now receive error formatting on `form error` **Thanks @davialexandre**
+- **Transition** - Added more reasonable default durations for each animation
+- **Loader** - `inline loader` now has a `centered` variation
+- **Modal** - Modal no longer hides and reshows dimmer when opening a modal with another modal open with `exclusive: true`
+- **Popup** - Added `exclusive` parameter to automatically close other popups on open
+- **Transition** - Added `toggle` behavior and docs for `show` and `hide`
+- **Transition** - transition now has `stop`, `stop all`, and `clear queue` for removing transitions, (undocumented method `stop`, and `start` renamed to `enable` and `disable`)
+- **Dimmer** - Add `opacity` setting to override css value. Add to docs several undocumented settings, like `useCSS`, and `variation`.
+- **Icon** - added `@src` variable to make it adjustable with themes that dont support all types like `woff2`
+
+**Bugs**
+- **Dropdown** - Fixes issue where dropdown would not open after restoring previus value on failed `search dropdown` search
+- **Grid** - Fixes specificity of grid `column` colors to not affect other elements with columns
+- **Icon** - Fix `clockwise rotated icon` causing `clockwise` icon to appear
+- **Popup** - Fix issue with `popup` not re-opening until another element gains focus on a mobile touchscreen
+- **Modal** - Fixed issue with modal not appearing when calling `show` during another modal `hide`
+- **Popup** - Popup will now fire `onHidden` when an element is hidden by opening a different popup
+- **Popup** - Fix popup not namespacing `window` events and unbinding on `destroy` **Thanks @revov**
+- **Table** - Fixes table on `mobile` sizes can surpass parent container width
+- **Transition** - Fixes `swing out` animations not working correctly
+- **Transition** - Fixed display state other than `block` not determined when using `show` and `hide` without an animation
+- **Transition** - Fix bug in `remove looping` causing next animation to use same duration
+- **Segment** - Fix first/last margins on `ui segments`
+- **Search** - Fix special characters not searching correctly with local search
+- **Search** - Fix a bug with `onSelect` returning `null` when `minCharacters: 0`
+- **Search** - Fix a bug with `onSelect returning `null` when results retrieved from cached API query
+- **Sticky** - Fixed sticky position when page loads and content is below sticky content.
+- **Sticky** - Fix bottom attached position not adjusting for bottom padding on container element
+- **Menu** - Fix vertical pointing menu, sub menu arrow color
+- **Item ** - `img` inside of `ui item content` now do not receive size formatting by default
+- **Form** - Added `input[type="search"]` styles to `ui form`
+
+**Docs**
+- **Transition** - Adds examples of `hide, `show`, `toggle`, `stop`, `stop all`, and `clear queue`
+- **Item** - Significant rewrite of `ui item` documentation
+
+### Version 1.10.4 - February 28, 2015
+
+- **API** - Remove console error message when no API url is specified but element is a `form` (defaults to `form` action)
+- **API** - `api` check for [serialize object](https://github.com/macek/jquery-serialize-object) optional dependency no longer produces error when `serializeForm: true` and dependency is not found.
+
+### Version 1.10.3 - February 27, 2015
+
+**Bugs**
+- **Build Tools** - All UI components now have component name in comment banners and release version
+- **Menu** - Fixes dropdown menu item not having a hover state inside inverted menu
+- **Search** - Fixes bug in category search causing item selection to sometimes produce a javascript error.
+- **Button** - Fixes `<button>` inside `vertical buttons` not taking full container width
+
+### Version 1.10.1-2 - February 24, 2015
+
+No changes, fixes stale pm component builds
+
+### Version 1.10.0 - February 23, 2015
+
+**New Features**
+- **Transition** - Transitions now have `interval` to allow grouped elements to animate one by one with a delay between each animation. Grouped animations determine order based on transition direction to avoid reflows, or can manually be reversed by using <code>reverse: true</code> [See Examples](http://www.semantic-ui.com/modules/transition.html#grouped-transitions) for more details.
+
+**Critical Fixes**
+- **Transition** - Webkit `failSafe` used for [Chromium Bug #437860](https://code.google.com/p/chromium/issues/detail?id=437860) now also works for queued animations
+
+**Enhancements**
+- **Form Validation** - Adds `containsExactly`, `notExactly`, `isExactly` case sensitive validation rules, make `contains`, `not`, `is` case insensitive.
+- **Form Validation** - `contains` rule is now case insensitive
+- **Form Validation** - Validation messages no longer increase field height on `inline fields` like checkboxes after error appears
+- **API** - Added `was cancelled` to determine whether request was cancelled by `beforeSend`
+- **Image* - Added `hidden image` state
+
+**Fixes**
+- **Build Tools** - Fixed issue with recursive merge for site themes in update scripts, [details here](https://github.com/Semantic-Org/Semantic-UI/pull/1845) Thanks @derekslife
+- **Cards** - Fix `.ui.cards > .ui.card` margins to match `.ui.cards > .card` margins
+- **Cards** - Fix consecutive card groups to preserve row flow (similar to consecutive grids)
+- **Sidebar** - Sidebar using `exclusive: true` now queue animations after hiding previous sidebar (unless `overlay`) to avoid rendering issues
+- **State** - Text states now handle `cancelled` API requests correctly
+- **Search** - Category search no longer displays unnecessary error message about maxResults
+- **Composer** - Composer.json should now read version from tags, adjusted some fields.
+- **Grid** - Stackable grid now has horizontal padding by default on mobile unless nested inside a `ui grid` or `ui segment` (not vertical)
+- **Menu** - Fixes pointing menu displaying under dropdown menu
+
+-**Docs**
+-**Transition** - `useFailSafe` was incorrectly shown as `false` by default
+
+### Version 1.9.3 - February 20, 2015
+
+**Bugs**
+- **RTL** - Fixes `rtl` tasks not running correctly on `gulp build` due to name typo, `build rtl` instead of `build-rtl`
+- **Tab** - Fixed bug when loading `remote` content with `tab` where current tab would not hide while another tab is loading
+- **Tab** - Tab with remote content and `auto: true` now removes duplicate slashes from url path
+- **API** - Simplified `api` debug output to console to more clearly label url and data sent
+
+**Docs**
+- **Tab** - Added new tab remote content example with stubbed AJAX using SinonJS
+
+### Version 1.9.2 - February 19, 2015
+
+Added new repositories for css and less only versions, can be installed with
+```bash
+npm install semantic-ui-less
+npm install semantic-ui-css
+```
+
+**Bug Fixes**
+
+- **Modal** - Fixes typo causing `middle aligned` image not to work correctly.
+- **Build** - `gulp watch` now compiles concatenated css (missing in `1.9.1` only)
+
+### Version 1.9.1 - February 18, 2015
+
+**LESS Changes**
+
+Importing individual components into other less files now requires scoping. This is to prevent issues with variable scope that cannot be resolved inside definitions.
+
+```less
+/* Import a specific component */
+& { @import 'src/definitions/elements/button'; }
+```
+
+Importing `semantic.less` still does not require any special syntax
+@import 'src/semantic';
+
+
+**Bugs**
+- Fixed issue directly importing `semantic.less` caused by variable scoping in `.loadOverrides()`.
+- Fix bug where `equal height` row could not be `centered`, or less than full width
+
 ### Version 1.9.0 - February 17, 2015
 
-**Major Changes**
+### Build Tools
 
-## NPM Install
+##### NPM Install
 
 - `npm install semantic-ui` is now the recommended path for getting Semantic UI
 - Added `npm` `post-install` scripts which automatically install or update semantic
 
-## Gulp Task Imports
+##### Gulp Task Imports
 
-- Semantic tasks are now each defined in their own file, and can be directly imported into external gulpfiles. Read more about [importing tasks here](https://github.com/Semantic-Org/Semantic-UI/blob/next/src/README.md)
+- Semantic tasks are now each defined [in their own file](https://github.com/Semantic-Org/Semantic-UI/tree/master/tasks), and can be directly imported into external gulpfiles. Read more about [importing tasks here](https://github.com/Semantic-Org/Semantic-UI/blob/next/src/README.md)
 - If you are using Grunt, you may be able to import these tasks using [Grunt-gulp](https://www.npmjs.com/package/grunt-gulp)
 
-## LESS Component Imports
+##### LESS Component Imports
 
 - Semantic LESS files can now be directly included in other LESS files.
 * You can import all UI with `@import 'src/semantic';`
 * You can also import individual definitions using `@import 'src/definitions/elements/button'`.
 
-**Even More**
-
+### UI Changes
 **Major Enhancements**
 - **Card** - Cards now equalize height by default using `display: flex`. No longer are card heights required to be specified manually to align
 - **Flag** - Reduced the file size of flag sprite to a measly 28kb (500%+ file size reduction)
