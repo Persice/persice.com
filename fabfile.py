@@ -127,7 +127,7 @@ def restart_node():
     with cd(env.socketio):
         sudo('npm install')
         sudo('pm2 kill')
-        sudo('pm2 start app.js')
+        sudo('pm2 start app.js --max-memory-restart 60M')
 
 
 @task
@@ -139,8 +139,8 @@ def reload():
 
 @task
 def update_stop_words():
-    sudo(os.path.join(env.project_root, env.project_name, 'data',
-                      'update_stop_words_ubuntu.sh'))
+    with cd(os.path.join(env.project_root, env.project_name, 'data')):
+        sudo('./update_stop_words_ubuntu.sh')
 
 
 @task

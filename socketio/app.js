@@ -15,6 +15,11 @@ var port = 8010;
 server.listen(process.env.PORT || port);
 
 
+// io.set('heartbeat interval', 15);
+// io.set('heartbeat timeout', 40);
+io.set("polling duration", 10);
+io.set("close timeout", 3);
+
 io.adapter(redisAdapter({
   host: '127.0.0.1',
   port: 6379
