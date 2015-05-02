@@ -20,9 +20,16 @@ angular.module('icebrak', [
   'ngLodash',
   'hj.gsapifyRouter',
   'angular-flexslider',
-  'ngGeolocation'
+  'ngGeolocation',
+  'ezfb'
   ])
-  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
+
+
+    ezfbProvider.setInitParams({
+      appId: '634990373263225',
+      version: 'v2.3'
+    });
 
     $httpProvider.defaults.headers.patch = {
       'Content-Type': 'application/json;charset=utf-8'
@@ -239,10 +246,17 @@ angular.module('icebrak', [
         }],
           ProfileFactory: 'ProfileFactory',
           ConnectionsFactory: 'ConnectionsFactory',
+          UsersFactory: 'UsersFactory',
           User: function(ProfileFactory, $stateParams) {
             var usrId = $stateParams.userId;
             return ProfileFactory.get({
               user_id: usrId,
+              format: 'json'
+            }).$promise;
+          },
+          UserProfile: function(UsersFactory, $stateParams) {
+            return UsersFactory.query({
+              userId: $stateParams.userId,
               format: 'json'
             }).$promise;
           },

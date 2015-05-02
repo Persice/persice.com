@@ -14,7 +14,6 @@ var
   chmod        = require('gulp-chmod'),
   clone        = require('gulp-clone'),
   gulpif       = require('gulp-if'),
-  header       = require('gulp-header'),
   less         = require('gulp-less'),
   minifyCSS    = require('gulp-minify-css'),
   plumber      = require('gulp-plumber'),
@@ -59,7 +58,7 @@ module.exports = function(callback) {
 
   // check for right-to-left language
   if(config.rtl === true || config.rtl === 'Yes') {
-    gulp.start('watch rtl');
+    gulp.start('watch-rtl');
     return;
   }
 
@@ -101,16 +100,16 @@ module.exports = function(callback) {
       ---------------*/
 
       // recompile on *.override , *.variable change
-      isConfig        = (file.path.indexOf('theme.config') !== -1);
+      isConfig        = (file.path.indexOf('theme.config') !== -1 || file.path.indexOf('site.variables') !== -1);
       isPackagedTheme = (file.path.indexOf(source.themes) !== -1);
       isSiteTheme     = (file.path.indexOf(source.site) !== -1);
       isDefinition    = (file.path.indexOf(source.definitions) !== -1);
 
-
       if(isConfig) {
-        console.log('Change detected in theme config');
+        console.info('Rebuilding all UI');
         // impossible to tell which file was updated in theme.config, rebuild all
         gulp.start('build');
+        return;
       }
       else if(isPackagedTheme) {
         console.log('Change detected in packaged theme');
@@ -138,6 +137,7 @@ module.exports = function(callback) {
           .pipe(plumber())
           .pipe(less(settings.less))
           .pipe(replace(comments.variables.in, comments.variables.out))
+          .pipe(replace(comments.license.in, comments.license.out))
           .pipe(replace(comments.large.in, comments.large.out))
           .pipe(replace(comments.small.in, comments.small.out))
           .pipe(replace(comments.tiny.in, comments.tiny.out))
@@ -152,7 +152,6 @@ module.exports = function(callback) {
         uncompressedStream
           .pipe(plumber())
           .pipe(replace(assets.source, assets.uncompressed))
-          .pipe(header(banner, settings.header))
           .pipe(gulp.dest(output.uncompressed))
           .pipe(print(log.created))
           .on('end', function() {
@@ -165,7 +164,6 @@ module.exports = function(callback) {
           .pipe(replace(assets.source, assets.compressed))
           .pipe(minifyCSS(settings.minify))
           .pipe(rename(settings.rename.minCSS))
-          .pipe(header(banner, settings.header))
           .pipe(gulp.dest(output.compressed))
           .pipe(print(log.created))
           .on('end', function() {
@@ -190,6 +188,7 @@ module.exports = function(callback) {
     ], function(file) {
       gulp.src(file.path)
         .pipe(plumber())
+        .pipe(replace(comments.license.in, comments.license.out))
         .pipe(gulpif(config.hasPermission, chmod(config.permission)))
         .pipe(gulp.dest(output.uncompressed))
         .pipe(print(log.created))
