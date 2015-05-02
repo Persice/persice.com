@@ -8,6 +8,8 @@ exports.config = {
   //seleniumAddress: 'http://localhost:4444/wd/hub',
   //seleniumServerJar: deprecated, this should be set on node_modules/protractor/config.json
 
+  chromeDriver: './node_modules/protractor/selenium/chromedriver',
+  chromeOnly: true,
   // Capabilities to be passed to the webdriver instance.
   capabilities: {
     'browserName': 'chrome'
@@ -15,7 +17,7 @@ exports.config = {
 
   // Spec patterns are relative to the current working directly when
   // protractor is called.
-  specs: [paths.e2e + '/**/*.js'],
+  specs: ['test/e2e/*.js'],
 
   // Options to be passed to Jasmine-node.
   jasmineNodeOpts: {
