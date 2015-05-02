@@ -256,6 +256,15 @@ class ProfileResource(Resource):
         request_user = FacebookCustomUserActive.objects.get(pk=_user)
         photos = FacebookPhoto.objects.filter(user_id=request_user).values_list('photo', flat=True)
 
+        match_users = [x['id'] for x in match_results['users']]
+        if request_user.id not in match_users:
+            match_results['users'].append({'id': request_user.id,
+                                           'goals': [{}],
+                                           'offers': [{}],
+                                           'likes': [{}],
+                                           'interests': [{}]
+                                           })
+
         for user in match_results['users']:
             if user['id'] == request_user.id:
                 new_obj.id = request_user.id
@@ -274,6 +283,7 @@ class ProfileResource(Resource):
                 new_obj.likes = user['likes']
                 new_obj.interests = user['interests']
                 results.append(new_obj)
+
         return results
 
     def obj_get_list(self, bundle, **kwargs):

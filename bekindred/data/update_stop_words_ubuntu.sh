@@ -6,10 +6,11 @@ echo 'Update Postgres english.stop'
 echo '/usr/share/postgresql/9.3/tsearch_data/english.stop'
 
 STOP_WORDS_COUNT=`cat /usr/share/postgresql/9.3/tsearch_data/english.stop | wc -l`
+ORIGINAL_STOP_WORDS_COUNT=`cat stop.words | wc -l`
 
 echo 'Count stop words before updating: '${STOP_WORDS_COUNT}
 
-if [ ${STOP_WORDS_COUNT} -eq '127' ];
+if [ ${STOP_WORDS_COUNT} -ne ORIGINAL_STOP_WORDS_COUNT ];
 then
     cp /usr/share/postgresql/9.3/tsearch_data/english.stop /usr/share/postgresql/9.3/tsearch_data/english.stop.default
     cat stop.words >> /usr/share/postgresql/9.3/tsearch_data/english.stop;
