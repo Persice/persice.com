@@ -28,7 +28,7 @@ angular.module('icebrak', [
 
     ezfbProvider.setInitParams({
       appId: '634990373263225',
-      version: 'v2.0'
+      version: 'v2.3'
     });
 
     $httpProvider.defaults.headers.patch = {
