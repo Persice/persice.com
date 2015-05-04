@@ -1,3 +1,8 @@
 from django.contrib import admin
+from world.models import UserLocation
 
-# Register your models here.
+
+class UserLocationAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(UserLocation, UserLocationAdmin)
