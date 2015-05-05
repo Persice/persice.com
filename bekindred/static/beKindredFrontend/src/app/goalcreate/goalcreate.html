@@ -14,6 +14,17 @@
     <div class="wide column">
 
       <div class="body segment">
+
+        <h2 class="ui header dividing center aligned desktopview">
+          <span class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-stack-1x fa-inverse">2</i>
+          </span>
+          <div class="content">
+            Create a goal
+          </div>
+        </h2>
+
         <h2 class="ui center aligned header withborder">My goal is to...<hr></h2>
         <div class="ui attached warning message" id="warningmessage" ng-show="messageShow">
           <div class="header">
@@ -27,8 +38,7 @@
         <div class="ui basic segment">
           <div class="ui center aligned grid">
             <div class="row">
-              <div class="search-wrapper ui icon large left input">
-                <i class="fa fa-search fa-lg"></i>
+            <div class="search-wrapper">
                 <div field-required="false" angucomplete-alt text-no-results="No existing goal found. Create new goal &raquo;" minlength="3" input-changed="inputChanged" match-class="highlight" selected-object="selectResult" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__icontains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="enter your goal here"></div>
               </div>
             </div>

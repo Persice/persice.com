@@ -4253,6 +4253,13 @@ div#id_description, input#id_description_value {
   margin-top: 10px!important;
 }
 
+#interests-header .ui.header .content {
+  vertical-align: middle!important;
+}
+
+#interests-header .fa-stack {
+  font-size: 1.3rem!important;
+}
 
 /*MY CONNECTIONS */
 
@@ -4488,7 +4495,12 @@ body.finalstep-page #topMenu,
   }
 
   body.conversations-page #submenu,
-  body.friend-page #submenu
+  body.friend-page #submenu,
+  body.selectinterests-page #mainheadermenu,
+  body.goalcreate-page #mainheadermenu,
+  body.offercreate-page #mainheadermenu,
+  body.finalstep-page #mainheadermenu,
+
   {
     display: none!important;
 
@@ -4508,6 +4520,10 @@ body.finalstep-page #topMenu,
   body.conversations-page #topMenu,
   body.friend-page #topMenu,
   body.matchfeed-page #topMenu,
+  body.selectinterests-page #topMenu,
+  body.goalcreate-page #topMenu,
+  body.offercreate-page #topMenu,
+  body.finalstep-page #topMenu,
   {
     display: block!important;
   }
@@ -4530,6 +4546,10 @@ body.finalstep-page #topMenu,
 
   body.conversations-page #topMenu,
   body.friend-page #topMenu,
+  body.selectinterests-page #topMenu,
+  body.goalcreate-page #topMenu,
+  body.offercreate-page #topMenu,
+  body.finalstep-page #topMenu,
   {
     display: none!important;
   }
@@ -4908,6 +4928,7 @@ body.matchfeed-page #matched-profile-body .ui.header {
 
   body.selectinterests-page #interests {
     bottom: 112px!important;
+    top: 128px!important;
   }
 
   body.selectinterests-page #next-button-interests {
@@ -5004,4 +5025,19 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     border-bottom: 1px solid #ddd;
   }
 
+}
+
+
+.desktopview .fa-stack {
+  font-size: 1.3rem!important;
+}
+
+.desktopview .content {
+  vertical-align: middle!important;
+  font-size: 1.8rem!important;
+}
+
+#nextButton {
+  position: absolute!important;
+  right: 0px!important;
 }
