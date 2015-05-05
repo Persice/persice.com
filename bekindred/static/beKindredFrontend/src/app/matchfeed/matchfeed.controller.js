@@ -36,6 +36,7 @@ angular.module('icebrak')
 
       if (pok === 0) {
         $scope.showDimmer = true;
+        $rootScope.showfullprofile = false;
         $rootScope.hideTopMenu = true;
         $('#filtersMenu').sidebar('hide');
         $scope.matchedUser = [];

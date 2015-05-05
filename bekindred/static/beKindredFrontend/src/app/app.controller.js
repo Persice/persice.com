@@ -132,6 +132,8 @@ angular.module('icebrak')
     };
 
     $rootScope.$on('triggerRefreshMatchfeed', function() {
+      $rootScope.showfullprofile = false;
+      $rootScope.hideTopMenu = true;
       $scope.refreshMatchFeed();
     });
 
