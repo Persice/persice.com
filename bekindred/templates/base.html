@@ -27,9 +27,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/static/img/favicon/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
-  <link rel="manifest" href="/static/img/manifest.json">
+  <link rel="manifest" href="/static/img/favicon/manifest.json">
   <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="/static/img/ms-icon-144x144.png">
+  <meta name="msapplication-TileImage" content="/static/img/favicon/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
 
   <link href="/static/beKindredFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
@@ -86,7 +86,7 @@
       <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
           <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i></a>
-          <div class="title item mobileview">
+          <div class="title item mobileview" id="mobileTitle">
             <strong update-title></strong>
           </div>
           <a ui-sref="home" class="title item desktopview" id="logoTop">

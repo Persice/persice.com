@@ -1967,14 +1967,19 @@ Responsive
   font-size: 1.03em!important;
 }
 
+#mobileTitle {
+  padding: 0.75em .95em!important;
+}
 
 #side-menu-logo {
   position: absolute!important;
-  padding: 0 auto;
+  width: 100%;
+  padding: .9em 0.95em!important;
   bottom: 35px;
+  left: 0px;
 }
-#side-menu-logo h2 {
-  font-size: 2em;
+#side-menu-logo img {
+  width: 140px!important;
   margin: 0!important;
 }
 #side-menu-logo:before {
@@ -4431,6 +4436,7 @@ div#id_description, input#id_description_value {
   width: 180px;
 }
 
+
 #links_sidemenu_bottom {
   font-weight: normal;
   box-shadow: none;
@@ -4439,8 +4445,8 @@ div#id_description, input#id_description_value {
   padding: 0px!important;
   width: 260px;
   position: absolute!important;
-  bottom: 2px!important;
-  left: 5px!important;
+  bottom: 0px!important;
+  left: 0px!important;
 }
 #leftmenu #links_sidemenu_bottom .item {
  font-size: 0.9rem!important;
@@ -4906,11 +4912,11 @@ body.matchfeed-page #matched-profile-body .ui.header {
 /* Logo */
 
 #logoTop {
-  padding: 0px 0px 0px 0.7em!important;
+  padding: 0.4em 2.7em 0.4em 0.7em!important;
 }
 
 #logoTop img {
-  height: 45px!important;
+  height: 32px!important;
 }
 
 
