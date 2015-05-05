@@ -1,5 +1,5 @@
 {% extends 'loginbase.html' %}
-{% block title %}User Login{% endblock %}
+{% block title %}icebr&#257;k - User Login{% endblock %}
 {% block content %}
 <!-- LOGIN -->
 <section class="login-wrapper">
@@ -22,7 +22,7 @@
             <ul class="login-desc">
              <form action="{% url 'facebook_connect' %}" method="post">
                 {% csrf_token %}
-                <input type="hidden" value="{{ request.path }}" name="next" />
+                <input type="hidden" value="/" name="next" />
                 <div id="facebook_login_redirect">
 
                     <button type="submit" id="loginButton" class="small radius btn-facebook block">

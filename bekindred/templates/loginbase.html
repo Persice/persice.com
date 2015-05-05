@@ -4,7 +4,7 @@
 <html class="no-js">
 <head>
     <meta charset="utf-8">
-    <title>icebrāk login</title>
+    <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="icebr&#257;k">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
@@ -43,12 +43,11 @@
         <![endif]-->
         {% load url from future %}
         {% block content %}{% endblock content %}
-        {% block customscripts %}
+
         <script>
             'use strict';
 
             angular.module('icebrak', []);
         </script>
-        {% endblock customscripts %}
     </body>
     </html>

@@ -9,7 +9,7 @@ describe('E2E: login page', function() {
   });
 
   it('should have a title', function() {
-    expect(browser.getTitle()).toEqual('icebrāk login');
+    expect(browser.getTitle()).toEqual('icebrāk - User Login');
   });
 
   it('should include welcome message', function() {
