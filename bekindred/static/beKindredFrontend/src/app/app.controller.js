@@ -6,9 +6,23 @@ angular.module('icebrak')
 
 
 
-    // ezfb.AppEvents.activateApp();
+    $scope.checkLogin = function() {
+      ezfb.getLoginStatus()
+        .then(function(res) {
+          $log.info('Checking Facebook login status');
+          console.log(res);
+          ezfb.api('/me', function(res) {
+            $scope.apiMe = res;
+            $log.info('Getting Facebook user info');
+            console.log($scope.apiMe);
+          });
+        });
 
-    // ezfb.AppEvents.logEvent(ezfb.AppEvents.EventNames.COMPLETED_REGISTRATION);
+
+
+    };
+
+    $scope.checkLogin();
 
 
 

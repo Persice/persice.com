@@ -23,30 +23,15 @@
              <form action="{% url 'facebook_connect' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" value="/" name="next" />
-                <div id="facebook_login_redirect">
+                <div id="facebook_login">
 
-                    <button type="submit" id="loginButton" class="small radius btn-facebook block">
+                    <button onclick="F.connect(this.parentNode.parentNode); return false;" id="loginButton" class="small radius btn-facebook block">
                         <span class="fa-stack fa-lg">
                             <i class="fa fa-circle fa-stack-2x"></i>
                             <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
                         </span>
                         <span class="social-text">Facebook</span>
                     </button>
-
-                   <!--  <a href="/social/login/linkedin/" class="small radius button btn-linkedin block">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <span class="social-text">LinkedIn</span>
-                    </a>
-                    <a href="/social/login/twitter/" class="small button radius btn-twitter block">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <span class="social-text">Twitter</span>
-                    </a> -->
                 </div>
             </form>
         </ul><!-- /.login-desc -->

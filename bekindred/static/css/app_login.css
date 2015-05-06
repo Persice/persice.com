@@ -1278,3 +1278,89 @@ body {
     width: 80%!important;
     margin: 0 auto!important;
 }
+
+
+/* Facebook popup */
+
+#facebook_shade {
+    position            : fixed!important;
+    height              : 100%!important;
+    width               : 100%!important;
+    top                 : 0px!important;
+    left                : 0px!important;
+    background-color    : #222!important;
+    opacity             : 0.8!important;
+    filter              : alpha(opacity=80)!important;
+    -moz-opacity        : 0.8!important;
+    z-index             : 1000!important;
+}
+
+#facebook_lightbox {
+    position            : relative!important;
+    width               : 300px!important;
+    background-color    : #fff!important;
+    margin              : 200px auto!important;
+    text-align          : center!important;
+    padding             : 30px 20px!important;
+    -moz-box-shadow     : 0px 0px 8px #000!important;
+    -webkit-box-shadow  : 0px 0px 8px #000!important;
+    box-shadow          : 0px 0px 8px #000!important;
+    moz-border-radius   : 2px!important;
+    border-radius       : 2px!important;
+    z-index             : 1001!important;
+}
+
+#facebook_wrapper {
+    position            : absolute!important;
+    top                 : 0px!important;
+    width               : 100%!important;
+    z-index             : 1001!important;
+}
+
+#facebook_loading {
+    margin-top          : 15px!important;
+    width: 32px!important;
+    height: 32px!important;
+}
+
+#facebook_message {
+    color: #777!important;
+}
+
+#facebook_close {
+    position            : absolute!important;
+    right               : 10px!important;
+    top                 : 10px!important;
+    width               : 16px!important;
+    height              : 16px!important;
+    background          : url('/static/img/facebook_close.png')!important;
+    cursor              : pointer!important;
+}
+
+
+.error {
+    border: 1px solid red!important;
+    margin-top: 10px!important;
+    padding: 20px!important;
+}
+h2 {
+    line-height: 20px!important;
+    min-height: 20px!important;
+    padding-bottom: 2px!important;
+    vertical-align: bottom!important;
+    color: #1C2A47!important;
+    font-size: 16px!important;
+}
+/*a {
+    color: #3B5998!important;
+    cursor: pointer!important;
+    text-decoration: none!important;
+}*/
+.messages {
+    padding: 15px!important;
+    background-color: #cdc!important;
+    list-style: none!important;
+}
+
+
+
