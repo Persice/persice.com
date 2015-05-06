@@ -1,17 +1,18 @@
 from datetime import date
-from django.contrib.gis.geoip import GeoIP
-from django.core.exceptions import ObjectDoesNotExist
-from geopy.distance import distance as geopy_distance
-import oauth2 as oauth
 import json
 import pprint
-from social_auth.backends import build_consumer_oauth_request
-from social_auth.backends.twitter import *
-from social_auth.backends.utils import consumer_oauth_url_request
+
+from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.measure import Distance
+from django.core.exceptions import ObjectDoesNotExist
+import oauth2 as oauth
+
 from social_auth.db.django_models import UserSocialAuth
-from social_auth.utils import get_backend_name
+
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress
+from world.models import UserLocation
 
 
 def calculate_age(born):
@@ -26,19 +27,50 @@ def calculate_date_of_birth(age):
     return today.replace(year=today.year - age)
 
 
-def calculate_distance(user_id1, user_id2):
+def calculate_distance(user_id1, user_id2, units='mi'):
     """
     calculate distance
+    https://docs.djangoproject.com/en/1.8/ref/contrib/gis/measure/#supported-units
+    km	Kilometre, Kilometer
+    mi	Mile
+    m	Meter, Metre
     """
     g = GeoIP()
     distance = 10000
+
     try:
-        point1 = g.lon_lat(str(UserIPAddress.objects.get(user=user_id1).ip))
-        point2 = g.lon_lat(str(UserIPAddress.objects.get(user=user_id2).ip))
-        distance = geopy_distance(point1, point2).miles
-    except ObjectDoesNotExist:
-        pass
-    return int(distance)
+        user1_location = UserLocation.objects.filter(user_id=user_id1).order_by('-timestamp')[0]
+        user1_point = user1_location.geometry
+    except IndexError:
+        try:
+            user_id1_ip = str(UserIPAddress.objects.get(user_id=user_id1).ip)
+            point = g.geos(user_id1_ip)
+            if not point:
+                return int(distance)
+            user1_point = GEOSGeometry(point)
+        except UserIPAddress.DoesNotExist:
+            return int(distance)
+
+    try:
+        user2_location = UserLocation.objects.filter(user_id=user_id2).order_by('-timestamp')[0]
+        user2_point = user2_location.geometry
+    except IndexError:
+        try:
+            user_id2_ip = str(UserIPAddress.objects.get(user_id=user_id2).ip)
+            point = g.geos(user_id2_ip)
+            if not point:
+                return int(distance)
+            user2_point = GEOSGeometry(point)
+        except UserIPAddress.DoesNotExist:
+            return int(distance)
+
+    distance = Distance(mi=user1_point.distance(user2_point))
+    return distance
+    # if getattr(distance, units) < 1.0:
+    #
+    #     return '{} {}'.format(getattr(distance, 'm'), 'm')
+    # else:
+    #     return '{} {}'.format(getattr(distance, units), units)
 
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):
@@ -57,7 +89,8 @@ def linkedin_connections(uid, oauth_token, oauth_token_secret):
         rels = json.loads(content)
         try:
             if rels['relationToViewer']['relatedConnections']['_total'] > 0:
-                return rels['relationToViewer']['relatedConnections']['values'], rels['relationToViewer']['relatedConnections']['_total']
+                return rels['relationToViewer']['relatedConnections']['values'], \
+                       rels['relationToViewer']['relatedConnections']['_total']
         except KeyError:
             pass
     except Exception:
@@ -68,6 +101,7 @@ def linkedin_connections(uid, oauth_token, oauth_token_secret):
 def get_twitter_friends(uid, oauth_token, oauth_token_secret):
     url = 'https://api.twitter.com/1.1/friends/list.json?include_user_entities=false&skip_status=true'
     from bekindred.settings.local import TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET
+
     consumer = oauth.Consumer(key=TWITTER_CONSUMER_KEY, secret=TWITTER_CONSUMER_SECRET)
     token = oauth.Token(key=oauth_token, secret=oauth_token_secret)
     client = oauth.Client(consumer, token)
@@ -93,6 +127,7 @@ def get_twitter_friends(uid, oauth_token, oauth_token_secret):
 def get_twitter_followers(uid, oauth_token, oauth_token_secret):
     url = 'https://api.twitter.com/1.1/friends/list.json?cursor=-1&count=5000'
     from bekindred.settings.local import TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET
+
     consumer = oauth.Consumer(key=TWITTER_CONSUMER_KEY, secret=TWITTER_CONSUMER_SECRET)
     token = oauth.Token(key=oauth_token, secret=oauth_token_secret)
     client = oauth.Client(consumer, token)
@@ -154,11 +189,13 @@ def get_mutual_twitter_friends(user_id1, user_id2):
 def social_extra_data(user_id):
     twitter_provider, linkedin_provider = None, None
     try:
-        twitter_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='twitter')[0].extra_data['screen_name']
+        twitter_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='twitter')[0].extra_data[
+            'screen_name']
     except IndexError:
         pass
     try:
-        linkedin_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0].extra_data['public_profile_url']
+        linkedin_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0].extra_data[
+            'public_profile_url']
     except IndexError:
         pass
     return twitter_provider, linkedin_provider

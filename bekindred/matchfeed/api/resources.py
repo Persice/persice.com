@@ -29,7 +29,7 @@ class MatchedFeedResource(Resource):
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
     linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
     age = fields.IntegerField(attribute='age')
-    distance = fields.FloatField(attribute='distance')
+    distance = fields.CharField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
     gender = fields.CharField(attribute='gender', default=u'all')
 
@@ -222,7 +222,7 @@ class ProfileResource(Resource):
     linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
 
     age = fields.IntegerField(attribute='age')
-    distance = fields.FloatField(attribute='distance')
+    distance = fields.CharField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
 
     photos = fields.ListField(attribute='photos')
