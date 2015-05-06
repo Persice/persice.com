@@ -46,7 +46,7 @@ FACEBOOK_STORE_LIKES = True
 FACEBOOK_STORE_FRIENDS = True
 
 FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_website', 'user_likes', 'user_friends',
-                          'user_status', 'read_friendlists', 'user_relationships', 'user_groups',
+                          'user_status', 'read_custom_friendlists', 'user_relationships', 'user_groups',
                           'user_relationship_details', 'read_stream', 'user_photos']
 
 # LinkedIn social auth

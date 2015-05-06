@@ -128,7 +128,7 @@ facebookClass.prototype = {
           fbLocale = fbLocaleMapping[locale];
         }
       }
-      var fbLocation = '//connect.facebook.net/' + fbLocale + '/all.js';
+      var fbLocation = '//connect.facebook.net/' + fbLocale + '/sdk.js';
       e.src = document.location.protocol + fbLocation;
       e.async = true;
       e.id = 'facebook_js';
