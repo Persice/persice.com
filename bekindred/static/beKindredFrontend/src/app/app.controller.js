@@ -16,7 +16,7 @@ angular.module('icebrak')
             $log.info('Getting Facebook user info');
             console.log($scope.apiMe);
           });
-          // ezfb.AppEvents.logEvent(ezfb.AppEvents.EventNames.COMPLETED_REGISTRATION);
+          ezfb.AppEvents.logEvent(ezfb.AppEvents.EventNames.COMPLETED_REGISTRATION);
         });
 
 
