@@ -27,8 +27,7 @@ angular.module('icebrak', [
 
 
     ezfbProvider.setInitParams({
-      // appId: '634990373263225',
-      appId: APP_ID,
+      appId: '633834406712155',
       version: 'v2.3',
       status: true,
       xfbml: true
@@ -306,7 +305,7 @@ angular.module('icebrak', [
     $urlRouterProvider.otherwise('/');
 
   })
-  .run(function($rootScope, $state, $stateParams, $timeout, ezfb) {
+  .run(function($rootScope, $state, $stateParams, $timeout) {
 
     $rootScope.$state = $state;
 
