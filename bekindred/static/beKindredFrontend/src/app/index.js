@@ -23,11 +23,12 @@ angular.module('icebrak', [
   'ngGeolocation',
   'ezfb'
   ])
-  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
+  .config(function($stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
 
     ezfbProvider.setInitParams({
-      appId: '634990373263225',
+      // appId: '634990373263225',
+      appId: APP_ID,
       version: 'v2.3',
       status: true,
       xfbml: true
