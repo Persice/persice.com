@@ -305,7 +305,7 @@ angular.module('icebrak', [
     $urlRouterProvider.otherwise('/');
 
   })
-  .run(function($rootScope, $state, $stateParams, $timeout) {
+  .run(function($rootScope, $state, $stateParams, $timeout, ezfb) {
 
     $rootScope.$state = $state;
 

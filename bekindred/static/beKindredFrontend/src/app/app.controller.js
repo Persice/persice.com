@@ -7,6 +7,9 @@ angular.module('icebrak')
 
 
     $scope.checkLogin = function() {
+
+
+
       ezfb.getLoginStatus()
         .then(function(res) {
           $log.info('Checking Facebook login status');
