@@ -6,7 +6,7 @@ angular.module('icebrak')
     $scope.leftActive = true;
     $scope.messages = [];
     $scope.friendshipId = Connection.objects[0].id;
-    $scope.friendImage = '//graph.facebook.com/' + Connection.objects[0].facebook_id + '/picture?type=large';
+    $scope.friendImage = '//graph.facebook.com/' + Connection.objects[0].facebook_id + '/picture?type=square';
     notify.closeAll();
 
 
