@@ -55,7 +55,8 @@
       range: {
         min: 1,
         max: 10000
-      }
+      },
+      step: 1,
     };
 
     vm.male = false;
@@ -141,7 +142,7 @@
     function saveFilters() {
 
       vm.newFilters = {
-        distance: parseInt(vm.distanceValue),
+        distance: vm.distanceValue,
         gender: vm.genders,
         min_age: parseInt(vm.ageValues[0]),
         max_age: parseInt(vm.ageValues[1]),

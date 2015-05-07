@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('icebrak')
-.controller('AppCtrl', function($rootScope, APP_ID, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+.controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
   $rootScope.hideTopMenu = false;
 
 
@@ -104,7 +104,7 @@ angular.module('icebrak')
 
     // }, true);
 
-$rootScope.userImg = USER_PHOTO;
+$rootScope.userImg = USER_PHOTO_SMALL;
 $rootScope.userName = USER_FIRSTNAME;
 
 $cookies.userid = USER_ID;

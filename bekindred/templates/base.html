@@ -214,7 +214,8 @@
 
 
       angular.module('icebrak').constant('FB_TOKEN', '{{ user.access_token }}');
-      angular.module('icebrak').constant('USER_PHOTO', '//graph.facebook.com/' + {{ user.facebook_id }} + '/picture?type=square');
+      angular.module('icebrak').constant('USER_PHOTO', '//graph.facebook.com/' + {{ user.facebook_id }} + '/picture?type=large');
+      angular.module('icebrak').constant('USER_PHOTO_SMALL', '//graph.facebook.com/' + {{ user.facebook_id }} + '/picture?type=square');
 
 
 
