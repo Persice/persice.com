@@ -5232,3 +5232,13 @@ body.editmyprofile-page #my-profile-body.edit .socialbuttons .ui.labeled.icon.bu
 
 }
 
+
+//flexslider
+
+.flex-direction-nav .flex-prev {
+  left: 0px!important;
+}
+.flex-direction-nav .flex-next {
+  right: 0px!important;
+  text-align: right;
+}
