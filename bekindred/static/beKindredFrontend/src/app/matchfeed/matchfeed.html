@@ -93,8 +93,8 @@
                                 </div>
                             </div>
                         </div>
-                        <h4 class="ui header" ng-show="showfullprofile" ng-if="matchedUser.about !== ''">About</h4>
-                        <div class="ui list" ng-show="showfullprofile">
+                        <h4 class="ui header" ng-if="matchedUser.about.length > 0 && showfullprofile">About</h4>
+                        <div class="ui list" ng-if="matchedUser.about.length > 0 && showfullprofile">
                             <div class="item">
                                 <i class="empty icon"></i>
                                 <div class="content">
@@ -170,13 +170,13 @@
                                 </div>
                             </div>
                         </div>
-                        <h4 ng-show="showfullprofile" ng-if="matchedUser.linkedin_provider !== null || matchedUser.twitter_provider !== null" class="ui header">Social Profiles</h4>
+                        <h4 ng-if="(matchedUser.linkedin_provider !== null || matchedUser.twitter_provider !== null) && showfullprofile" class="ui header socialheader">Social Profiles</h4>
                         <br>
-                        <a ng-show="showfullprofile" ng-if="matchedUser.linkedin_provider !== null" href="{{matchedUser.linkedin_provider}}" target="_new" class="ui linkedin button">
+                        <a ng-if="(matchedUser.linkedin_provider !== null) && showfullprofile" href="{{matchedUser.linkedin_provider}}" target="_new" class="ui linkedin button">
                             <i class="linkedin icon"></i>
                             LinkedIn
                         </a>
-                        <a ng-show="showfullprofile" ng-if="matchedUser.twitter_provider !== null" href="http://www.twitter.com/{{matchedUser.twitter_provider}}" target="_new" class="ui twitter button">
+                        <a ng-if="matchedUser.twitter_provider !== null && showfullprofile" href="http://www.twitter.com/{{matchedUser.twitter_provider}}" target="_new" class="ui twitter button">
                             <i class="twitter icon"></i>
                             Twitter
                         </a>

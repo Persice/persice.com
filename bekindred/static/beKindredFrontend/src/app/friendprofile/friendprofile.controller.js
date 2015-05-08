@@ -35,8 +35,8 @@
       twitterfriends: [],
       twitterfollowers: [],
       linkedinconnections: [],
-      linkedin_provider: UserProfile.linkedin_provider,
-      twitter_provider: UserProfile.twitter_provider
+      linkedin_provider: User.objects[0].linkedin_provider,
+      twitter_provider: User.objects[0].twitter_provider
     };
 
     vm.defaultUserPhoto = '//graph.facebook.com/' + vm.user.facebook_id + '/picture?type=large';

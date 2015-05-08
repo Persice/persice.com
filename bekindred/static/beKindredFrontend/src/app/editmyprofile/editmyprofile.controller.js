@@ -2,8 +2,10 @@
 
 angular.module('icebrak')
   .controller('EditMyProfileCtrl', function($scope, $timeout, USER_ID, $q, $state, UsersFactory, GoalsFactory, LikesFactory, SubjectsFactory, OffersFactory, InterestsFactory, PhotosFactory, $log, $filter, $cookies, $http, FB_TOKEN, $location, $anchorScroll, $window, $resource, notify) {
-    $scope.twitter = null;
-    $scope.linkedin = null;
+    $scope.social = {
+      twitter: '',
+      linkedin: ''
+    };
 
     $scope.userUri = '/api/v1/auth/user/' + USER_ID + '/';
     $scope.user = {
@@ -137,8 +139,13 @@ angular.module('icebrak')
         $scope.user.age = data.age;
         $scope.user.facebookId = data.facebook_id;
         $scope.user.facebookProfile = data.facebook_profile_url;
-        $scope.twitter = data.twitter_provider;
-        $scope.linkedin = data.linkedin_provider;
+        if (data.twitter_provider !== null) {
+          $scope.social.twitter = data.twitter_provider;
+        }
+
+        if (data.linkedin_provider !== null) {
+          $scope.social.linkedin = data.linkedin_provider;
+        }
 
         $scope.loadingUser = false;
 

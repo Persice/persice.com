@@ -5065,84 +5065,84 @@ body.selectinterests-page #interests .ui.button.toggle.active {
 
 
 .cg-notify-message {
-    position: fixed;
-    right: 10px;
-    left: 10px;
-    top: 0;
-    z-index: 9999;
-    -webkit-transition: top .5s ease-out, opacity .2s ease-out;
-    -moz-transition: top .5s ease-out, opacity .2s ease-out;
-    -o-transition: top .5s ease-out, opacity .2s ease-out;
-    transition: top .5s ease-out, opacity .2s ease-out;
-    min-height: 1em;
-    margin: 1em 0;
-    background: #efefef;
-    padding: 1em 1.5em;
-    line-height: 1.3;
-    color: rgba(0, 0, 0, .8);
-    border-radius: .2857rem;
-    box-shadow: 0 0 0 1px rgba(39, 41, 43, .15)inset, 0 0 0 0 transparent;
-    visibility: hidden;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175)
+  position: fixed;
+  right: 10px;
+  left: 10px;
+  top: 0;
+  z-index: 9999;
+  -webkit-transition: top .5s ease-out, opacity .2s ease-out;
+  -moz-transition: top .5s ease-out, opacity .2s ease-out;
+  -o-transition: top .5s ease-out, opacity .2s ease-out;
+  transition: top .5s ease-out, opacity .2s ease-out;
+  min-height: 1em;
+  margin: 1em 0;
+  background: #efefef;
+  padding: 1em 1.5em;
+  line-height: 1.3;
+  color: rgba(0, 0, 0, .8);
+  border-radius: .2857rem;
+  box-shadow: 0 0 0 1px rgba(39, 41, 43, .15)inset, 0 0 0 0 transparent;
+  visibility: hidden;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175)
 }
 .cg-notify-message>.close.icon {
-    cursor: pointer;
-    position: absolute;
-    margin: 0;
-    top: 0.5em;
-    right: .5em;
-    opacity: .7;
-    -webkit-transition: opacity .1s linear;
-    transition: opacity .1s linear
+  cursor: pointer;
+  position: absolute;
+  margin: 0;
+  top: 0.5em;
+  right: .5em;
+  opacity: .7;
+  -webkit-transition: opacity .1s linear;
+  transition: opacity .1s linear
 }
 .cg-notify-message>.icon:not(.close) {
-    display: block;
-    padding-top: 4px;
-    float: left;
-    width: auto;
-    vertical-align: middle;
-    font-size: 3em;
-    opacity: .8
+  display: block;
+  padding-top: 4px;
+  float: left;
+  width: auto;
+  vertical-align: middle;
+  font-size: 3em;
+  opacity: .8
 }
 .cg-notify-message:first-child {
-    margin-top: 0
+  margin-top: 0
 }
 .cg-notify-message-template {
-    margin-left: 57px;
-    margin-right: 15px;
+  margin-left: 57px;
+  margin-right: 15px;
 }
 .notify-info-header {
-    font-size: 1.1em;
-    display: block;
-    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    font-weight: 700;
-    margin: 0 0 .5rem;
-    color: #297187
+  font-size: 1.1em;
+  display: block;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  margin: 0 0 .5rem;
+  color: #297187
 }
 .notify-info {
-    box-shadow: 0 0 0 1px #aad6df inset, 0 1px 2px 0 rgba(0, 0, 0, .05);
-    background-color: #e9faff;
-    color: #337b92
+  box-shadow: 0 0 0 1px #aad6df inset, 0 1px 2px 0 rgba(0, 0, 0, .05);
+  background-color: #e9faff;
+  color: #337b92
 }
 .notify-error-header {
-    font-size: 1.1em;
-    display: block;
-    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    font-weight: 700;
-    margin: 0 0 .5rem;
-    color: #a94442
+  font-size: 1.1em;
+  display: block;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  margin: 0 0 .5rem;
+  color: #a94442
 }
 .notify-error {
-    box-shadow: 0 0 0 1px #dbb1b1 inset, 0 1px 2px 0 rgba(0, 0, 0, .05);
-    background-color: #fff0f0;
-    color: #a94442
+  box-shadow: 0 0 0 1px #dbb1b1 inset, 0 1px 2px 0 rgba(0, 0, 0, .05);
+  background-color: #fff0f0;
+  color: #a94442
 }
 .cg-notify-message a {
-    color: inherit
+  color: inherit
 }
 .cg-notify-message a:hover {
-    color: inherit
+  color: inherit
 }
 
 @media only screen and (min-width: 768px) {
@@ -5158,5 +5158,77 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     display: inline-block!important;
     width: auto!important;
   }
+
+
+}
+
+
+//profile pages - buttons - desktop
+@media only screen and (min-width: 851px) {
+  body.myprofile-page .fluid.button, body.matchfeed-page .ui.linkedin.button, body.matchfeed-page .ui.twitter.button {
+    display: inline-block!important;
+    width: auto!important;
+    margin-top: 10px!important;
+  }
+
+  body.editmyprofile-page .fluid.button {
+    display: block!important;
+    width: 40%!important;
+  }
+
+  body.editmyprofile-page .socialbuttons {
+    position: relative!important;
+    width: 50%!important;
+  }
+
+  body.editmyprofile-page .ui.labeled.icon.buttons .button, body.editmyprofile-page .ui.labeled.icon.button {
+    width: 95%!important;
+  }
+  body.editmyprofile-page .ui.labeled.icon.button.facebook {
+    width: 48%!important;
+  }
+
+
+}
+
+#matched-profile-body .ui.header.socialheader {
+  margin-bottom: 10px!important;
+}
+
+@media only screen and (min-width: 768px){
+  body.matchfeed-page #matched-profile-body .ui.header.socialheader {
+    margin-bottom: 0px!important;
+  }
+}
+
+
+
+@media only screen and (min-width: 768px) and  (max-width: 850px){
+  body.myprofile-page .fluid.button, body.matchfeed-page .ui.linkedin.button, body.matchfeed-page .ui.twitter.button {
+    display: inline-block!important;
+    width: auto!important;
+    margin-top: 10px!important;
+  }
+
+  body.editmyprofile-page .socialbuttons {
+    position: relative!important;
+    width: 70%!important;
+  }
+
+  body.editmyprofile-page .ui.labeled.icon.buttons .button, body.editmyprofile-page .ui.labeled.icon.button {
+    width: 95%!important;
+  }
+  body.editmyprofile-page .ui.labeled.icon.button.facebook {
+    width: 68%!important;
+  }
+}
+
+body.editmyprofile-page .ui.labeled.icon.buttons .button, body.editmyprofile-page .ui.labeled.icon.button {
+  padding: .78571em!important;
+}
+
+body.editmyprofile-page #my-profile-body.edit .socialbuttons .ui.labeled.icon.button.social {
+  padding: .78571em!important;
+
 }
 

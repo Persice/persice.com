@@ -143,13 +143,13 @@
     <div class="ui attached segment" id="socialaccounts">
       <h4 class="ui header">Social Accounts</h4>
       <br>
-      <a ng-click="link('linkedin')" class="ui icon linkedin labeled fluid button" ng-show="linkedin === null">
+      <a ng-click="link('linkedin')" class="ui icon linkedin labeled fluid button" ng-if="social.linkedin.length === 0">
         <i class="linkedin icon"></i>
         Connect
       </a>
 
-      <div class="ui fluid buttons socialbuttons" ng-show="linkedin !== null">
-        <a href="{{ linkedin }}" target="_new" class="ui social icon twitter labeled button">
+      <div class="ui fluid buttons socialbuttons" ng-if="social.linkedin.length > 0">
+        <a href="{{ social.linkedin }}" target="_new" class="ui social icon twitter labeled button">
           <i class="linkedin icon"></i>
           {{user.firstName}}
           <i class="check circle icon right"></i>
@@ -161,15 +161,15 @@
 
       <br>
 
-      <a ng-click="link('twitter')" class="ui icon twitter labeled fluid button" ng-show="twitter === null">
+      <a ng-click="link('twitter')" class="ui icon twitter labeled fluid button" ng-if="social.twitter.length === 0">
         <i class="twitter icon"></i>
         Connect
       </a>
 
-      <div class="ui fluid buttons socialbuttons" ng-show="twitter !== null">
-        <a href="https://twitter.com/{{ twitter }}" target="_new" class="ui social icon twitter labeled button">
+      <div class="ui fluid buttons socialbuttons" ng-if="social.twitter.length > 0">
+        <a href="https://twitter.com/{{ social.twitter }}" target="_new" class="ui social icon twitter labeled button">
           <i class="twitter icon"></i>
-          {{twitter}}
+          {{social.twitter}}
           <i class="check circle icon right"></i>
         </a>
         <a ng-click="unlink('twitter')" class="ui right icon circular button disconnect">

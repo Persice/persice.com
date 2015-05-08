@@ -2,8 +2,10 @@
 
 angular.module('icebrak')
   .controller('MyProfileCtrl', function($scope, USER_ID, UsersFactory, InterestsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, USER_PHOTO, $log) {
-    $scope.twitter = null;
-    $scope.linkedin = null;
+    $scope.social = {
+      twitter: '',
+      linkedin: ''
+    };
     $scope.user = {
       id: 1,
       firstName: '',
@@ -13,10 +15,10 @@ angular.module('icebrak')
       photos: [],
       goals: [
 
-      ],
+    ],
       offers: [
 
-      ],
+    ],
       likes: [],
       interests: [],
       mutual: {
@@ -135,8 +137,14 @@ angular.module('icebrak')
         $scope.user.facebookId = data.facebook_id;
         $scope.user.facebookProfile = data.facebook_profile_url;
 
-        $scope.twitter = data.twitter_provider;
-        $scope.linkedin = data.linkedin_provider;
+
+        if (data.twitter_provider !== null) {
+          $scope.social.twitter = data.twitter_provider;
+        }
+
+        if (data.linkedin_provider !== null) {
+          $scope.social.linkedin = data.linkedin_provider;
+        }
 
         $scope.loadingUser = false;
 
