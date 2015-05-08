@@ -36,7 +36,7 @@ def calculate_distance(user_id1, user_id2, units='mi'):
     m	Meter, Metre
     """
     g = GeoIP()
-    distance = 10000
+    distance = [10000, 'mi']
 
     try:
         user1_location = UserLocation.objects.filter(user_id=user_id1).order_by('-timestamp')[0]
@@ -46,10 +46,10 @@ def calculate_distance(user_id1, user_id2, units='mi'):
             user_id1_ip = str(UserIPAddress.objects.get(user_id=user_id1).ip)
             point = g.geos(user_id1_ip)
             if not point:
-                return int(distance)
+                return distance
             user1_point = GEOSGeometry(point)
         except UserIPAddress.DoesNotExist:
-            return int(distance)
+            return distance
 
     try:
         user2_location = UserLocation.objects.filter(user_id=user_id2).order_by('-timestamp')[0]
@@ -59,18 +59,16 @@ def calculate_distance(user_id1, user_id2, units='mi'):
             user_id2_ip = str(UserIPAddress.objects.get(user_id=user_id2).ip)
             point = g.geos(user_id2_ip)
             if not point:
-                return int(distance)
+                return distance
             user2_point = GEOSGeometry(point)
         except UserIPAddress.DoesNotExist:
-            return int(distance)
+            return distance
 
     distance = Distance(mi=user1_point.distance(user2_point))
-    return distance
-    # if getattr(distance, units) < 1.0:
-    #
-    #     return '{} {}'.format(getattr(distance, 'm'), 'm')
-    # else:
-    #     return '{} {}'.format(getattr(distance, units), units)
+    if getattr(distance, units) < 1.0:
+        return [getattr(distance, 'm'), 'm']
+    else:
+        return [getattr(distance, units), units]
 
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):

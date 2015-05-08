@@ -29,7 +29,7 @@ class MatchedFeedResource(Resource):
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
     linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
     age = fields.IntegerField(attribute='age')
-    distance = fields.CharField(attribute='distance')
+    distance = fields.ListField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
     gender = fields.CharField(attribute='gender', default=u'all')
 
@@ -95,7 +95,7 @@ class MatchedFeedResource(Resource):
             results.extend(search_users)
 
             for match in results:
-                if (match.distance.mi <= mfs.distance) and \
+                if (match.distance <= mfs.distance) and \
                         ((match.age in range(int(mfs.min_age), int(mfs.max_age) + 1)) or match.age == 0) and \
                         (match.gender in mfs.gender):
                     partial_results.append(match)
