@@ -50,12 +50,16 @@
             <i class="chevron left icon"></i>
           </a>
           <span class="item"></span>
-          <a ng-click="cancelMatch()" class="item clearbefore">
-            <i class="remove icon"></i>
-          </a>
-          <a ng-click="confirmMatch()" class="item clearbefore">
-            <i class="check icon"></i>
-          </a>
+          <div class="item clearbefore">
+            <a ng-click="cancelMatch()" class="ui button circular icon negative">
+              <i class="remove icon"></i>
+            </a>
+          </div>
+          <div class="item clearbefore">
+            <a ng-click="confirmMatch()" class="ui button circular positive icon">
+              <i class="check icon"></i>
+            </a>
+          </div>
           <span class="item"></span>
           <span class="item"></span>
         </div>
