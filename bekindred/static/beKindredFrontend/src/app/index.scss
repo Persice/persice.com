@@ -5138,3 +5138,13 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     left: auto!important;
   }
 }
+
+//settings page
+
+@media only screen and (min-width: 768px) {
+  .fluid.button {
+    display: inline-block!important;
+    width: auto!important;
+  }
+}
+
