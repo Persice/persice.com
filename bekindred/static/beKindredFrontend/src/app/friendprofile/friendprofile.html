@@ -125,17 +125,6 @@
                     <p ng-if="friendprofile.user.interests.length === 0">No interests yet.</p>
                 </div>
 
-                <h4 class="ui header">Likes</h4>
-                <div class="ui list likes">
-                    <div class="item" ng-repeat="like in friendprofile.user.likes | orderBy:['-match']  track by $index">
-                        <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ like.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="friendprofile.user.likes.length === 0">No likes yet.</p>
-                </div>
-
                 <h4 ng-if="friendprofile.user.friends.length > 0" class="ui header">Mutual Friends</h4>
                 <div ng-if="friendprofile.user.friends.length > 0" class="ui selection list">
                     <a ui-sref="friendprofile({ userId: friend.user_id })" class="item" ng-repeat="friend in friendprofile.user.friends track by $index">
@@ -180,6 +169,17 @@
                             <div class="header">{{ friend.firstName }}</div>
                         </div>
                     </div>
+                </div>
+
+                <h4 class="ui header">Likes</h4>
+                <div class="ui list likes">
+                    <div class="item" ng-repeat="like in friendprofile.user.likes | orderBy:['-match']  track by $index">
+                        <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
+                        <div class="content">
+                            <div class="description">{{ like.value }}</div>
+                        </div>
+                    </div>
+                    <p ng-if="friendprofile.user.likes.length === 0">No likes yet.</p>
                 </div>
 
                 <h4 ng-if="friendprofile.user.linkedin_provider !== null || friendprofile.user.twitter_provider !== null" class="ui header socialheader">Social Profiles</h4>

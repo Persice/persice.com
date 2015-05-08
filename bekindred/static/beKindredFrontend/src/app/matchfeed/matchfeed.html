@@ -115,15 +115,7 @@
                             </div>
                         </div>
 
-                        <h4 class="ui header" ng-if="matchedUser.likes.length > 0">Likes</h4>
-                        <div class="ui list likes">
-                            <div class="item" ng-hide="!showfullprofile && $index > 2" ng-repeat="like in matchedUser.likes | orderBy:['-match']  track by $index">
-                                <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
-                                <div class="content">
-                                    <div class="description">{{ like.value }}</div>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <h4 ng-if="matchedUser.friends.length > 0" class="ui header" ng-show="showfullprofile">Mutual Friends</h4>
                         <div ng-if="matchedUser.friends.length > 0" class="ui selection list" ng-show="showfullprofile">
@@ -170,6 +162,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <h4 class="ui header" ng-if="matchedUser.likes.length > 0">Likes</h4>
+                        <div class="ui list likes">
+                            <div class="item" ng-hide="!showfullprofile && $index > 2" ng-repeat="like in matchedUser.likes | orderBy:['-match']  track by $index">
+                                <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
+                                <div class="content">
+                                    <div class="description">{{ like.value }}</div>
+                                </div>
+                            </div>
+                        </div>
+
                         <h4 ng-if="(matchedUser.linkedin_provider !== null || matchedUser.twitter_provider !== null) && showfullprofile" class="ui header socialheader">Social Profiles</h4>
                         <br>
                         <a ng-if="(matchedUser.linkedin_provider !== null) && showfullprofile" href="{{matchedUser.linkedin_provider}}" target="_new" class="ui linkedin button">
