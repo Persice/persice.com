@@ -5242,3 +5242,38 @@ body.editmyprofile-page #my-profile-body.edit .socialbuttons .ui.labeled.icon.bu
   right: 0px!important;
   text-align: right;
 }
+
+
+//statistics
+
+
+#desktopmatchheader .ui.mini.horizontal.statistics .statistic {
+  float: left!important;
+  margin: 5px 0.5em!important;
+  display: inline-block!important;
+}
+
+#mobilematchheader {
+  height: 70px!important;
+}
+
+#mobilematchheader .right.floated.ui.header {
+  border-bottom: none!important;
+}
+
+
+#mobilematchheader .ui.mini.horizontal.statistics {
+  position: absolute!important;
+  left: 0px;
+  margin-top: 10px!important;
+  margin-left: 14px!important;
+}
+
+#mobilematchheader .ui.mini.horizontal.statistics .statistic {
+  float: left!important;
+  margin-top: 5px!important;
+  margin-bottom: 5px!important;
+  margin-right: 5px!important;
+  margin-left: 0px!important;
+  display: inline-block!important;
+}
