@@ -2995,6 +2995,21 @@ div.friend-actions a:hover {
 #matched-profile-header .ui.statistics {
   display: block;
   margin-top: 25px;
+
+}
+
+#matched-profile-header .ui.segment {
+  box-shadow: none!important;
+  border-bottom: 1px solid #fcfcfc!important;
+}
+
+#matched-profile-body {
+  border-top: 1px solid #ddd!important;
+  border-bottom: 1px solid #ddd!important;
+}
+
+#matched-profile-body .ui.segment {
+  border: none!important;
 }
 
 
@@ -3009,7 +3024,6 @@ div.friend-actions a:hover {
 
 #matched-profile-body {
   padding-top: 0px!important;
-  border-bottom: none!important;
   box-shadow: none!important;
 
 }
@@ -3680,6 +3694,7 @@ ul[rn-carousel]>li {
 
 #matched-profile-body .ui.list .content {
   padding-left: 0.2em!important;
+  font-size: 0.9em!important;
 }
 
 #leftmenu .item>i.icon {
@@ -3907,7 +3922,6 @@ h2 hr {
 
 #main-page .body.segment {
   box-shadow: none!important;
-  border-bottom: none!important;
 }
 
 
@@ -3966,7 +3980,7 @@ h2 hr {
 }
 
 #my-profile-body .ui.list.likes>.item .description, #matched-profile-body .ui.list.likes>.item .description{
-  font-size: 14px!important;
+  font-size: 0.9em!important;
 }
 
 div#id_description, input#id_description_value {
@@ -4485,10 +4499,6 @@ body.finalstep-page #topMenu,
 
 @media only screen and (min-width : 768px) {
 
-  body.matchfeed-page #matched-profile-body .ui.segment.attached+.ui.segment.attached:not(.top) {
-    border-top: 1px solid #d4d4d5!important;
-  }
-
   body.matchfeed-page #desktopmatchheader {
     padding-bottom: 0px!important;
   }
@@ -4898,8 +4908,10 @@ body.matchfeed-page #desktopmatchheader .icon {
   float: right!important;
 }
 
-body.matchfeed-page #matched-profile-body .ui.header {
+#matched-profile-body .ui.header {
   margin: 0px!important;
+  border-bottom: 1px solid #ddd!important;
+  display: inline-block!important;
 }
 
 
