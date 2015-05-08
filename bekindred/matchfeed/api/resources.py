@@ -95,7 +95,7 @@ class MatchedFeedResource(Resource):
             results.extend(search_users)
 
             for match in results:
-                if (match.distance <= mfs.distance) and \
+                if (match.distance[0] <= mfs.distance) and \
                         ((match.age in range(int(mfs.min_age), int(mfs.max_age) + 1)) or match.age == 0) and \
                         (match.gender in mfs.gender):
                     partial_results.append(match)

@@ -20,7 +20,7 @@
                                 <i class="check icon"></i>
                             </div>
                         </div>
-                        <div class="sub header">{{matchedUser.distance}}</div>
+                        <div class="sub header">{{matchedUser.distance[0]}} {{matchedUser.distance[1]}}</div>
 
                     </h2>
 
@@ -43,7 +43,7 @@
                         <div ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].cropped_photo}}');"></div>
                         <h2 class="ui header">
                             {{ matchedUser.first_name }}, {{ matchedUser.age }}
-                            <div class="sub header">{{matchedUser.distance}}</div>
+                            <div class="sub header"> {{matchedUser.distance[0]}} {{matchedUser.distance[1]}}</div>
                         </h2>
                         <div class="ui mini statistics">
                             <div class="statistic">
@@ -71,7 +71,7 @@
                             {{ matchedUser.first_name }} {{ matchedUser.age }}
                         </h3>
                         <h5 class="ui right floated header">
-                            {{matchedUser.distance}} mi.
+                            {{matchedUser.distance[0]}} {{matchedUser.distance[1]}}
                         </h5>
                     </div>
                     <div class="ui attached segment">
