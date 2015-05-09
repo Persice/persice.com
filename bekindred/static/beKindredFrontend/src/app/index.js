@@ -21,7 +21,8 @@ angular.module('icebrak', [
   'hj.gsapifyRouter',
   'angular-flexslider',
   'ngGeolocation',
-  'ezfb'
+  'ezfb',
+  'frontend.semantic.dropdown'
   ])
   .config(function($stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 

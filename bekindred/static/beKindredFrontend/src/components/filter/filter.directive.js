@@ -48,7 +48,7 @@
     vm.removeKeyword = removeKeyword;
     vm.addKeyword = addKeyword;
     vm.refreshMatchFeed = refreshMatchFeed;
-
+    vm.orderBy = 'Match score';
     vm.distanceValue = 10000;
 
     vm.distanceOptions = {
@@ -93,6 +93,7 @@
     });
 
     function refreshMatchFeed() {
+      $rootScope.orderBy = vm.orderBy;
       $rootScope.$emit('triggerRefreshMatchfeed');
     }
 

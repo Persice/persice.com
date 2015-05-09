@@ -1,73 +1,73 @@
 'use strict';
 
 angular.module('icebrak')
-.controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
-  $rootScope.hideTopMenu = false;
+  .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+    $rootScope.hideTopMenu = false;
+
+    $rootScope.orderBy = 'Match score';
+
+    $scope.checkLogin = function() {
+      ezfb.getLoginStatus()
+        .then(function(res) {
+          // $log.info('Checking Facebook login status');
+          // console.log(res);
+          $rootScope.fbAuth = res.authResponse;
+          ezfb.api('/me', function(res) {
+            $rootScope.apiMe = res;
+            // $log.info('Getting Facebook user info');
+            // console.log($scope.apiMe);
+          });
+        });
+    };
+
+    $scope.checkLogin();
 
 
 
-  $scope.checkLogin = function() {
-    ezfb.getLoginStatus()
-    .then(function(res) {
-      // $log.info('Checking Facebook login status');
-      // console.log(res);
-      $rootScope.fbAuth = res.authResponse;
-      ezfb.api('/me', function(res) {
-        $rootScope.apiMe = res;
-        // $log.info('Getting Facebook user info');
-        // console.log($scope.apiMe);
-      });
+    //gelocation
+
+    $scope.$geolocation = $geolocation;
+
+    $geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 60000,
+      maximumAge: 2
+    }).then(function(location) {
+      $scope.location = location;
+      // $log.info('New location:');
+      // $log.info($scope.location.coords);
+      $scope.saveLocation($scope.location.coords);
     });
-  };
 
-  $scope.checkLogin();
+    $scope.saveLocation = function(position) {
+      LocationFactory.query({
+        format: 'json'
+      }).$promise.then(function(data) {
+        var newLocation = {
+          user: '/api/v1/auth/user/' + USER_ID + '/',
+          geometry: 'POINT (' + position.latitude + ' ' + position.longitude + ')',
+          speed: position.speed,
+          heading: position.heading,
+          altitude: position.altitude,
+          altitude_accuracy: position.altitudeAccuracy
+        };
 
+        // $log.info(newLocation);
 
-
-  //gelocation
-
-  $scope.$geolocation = $geolocation;
-
-  $geolocation.getCurrentPosition({
-    enableHighAccuracy: true,
-    timeout: 60000,
-    maximumAge: 2
-  }).then(function(location) {
-    $scope.location = location;
-    // $log.info('New location:');
-    // $log.info($scope.location.coords);
-    $scope.saveLocation($scope.location.coords);
-  });
-
-  $scope.saveLocation = function(position) {
-    LocationFactory.query({
-      format: 'json'
-    }).$promise.then(function(data) {
-      var newLocation = {
-        user: '/api/v1/auth/user/' + USER_ID + '/',
-        geometry: 'POINT (' + position.latitude + ' ' + position.longitude + ')',
-        speed: position.speed,
-        heading: position.heading,
-        altitude: position.altitude,
-        altitude_accuracy: position.altitudeAccuracy
-      };
-
-      // $log.info(newLocation);
-
-      if (data.meta.total_count > 0) {
+        if (data.meta.total_count > 0) {
           //update existing location
           $scope.serverLocation = data.objects[0];
 
           LocationFactory.update({
-            locationId: $scope.serverLocation.id
-          }, newLocation,
-          function(success) {
-            $log.info('New location updated.');
-          },
-          function(error) {
-            $log.error('Error updating location.');
-            $log.error(error);
-          });
+              locationId: $scope.serverLocation.id
+            }, newLocation,
+            function(success) {
+              $log.info('New location updated.');
+            },
+            function(error) {
+              $log.error('Error updating location.');
+              $log.error(error);
+            });
 
         } else {
           //create new location
@@ -84,79 +84,71 @@ angular.module('icebrak')
 
       }, function(response) {
         var data = response.data,
-        status = response.status,
-        header = response.header,
-        config = response.config,
-        message = 'Error ' + status;
+          status = response.status,
+          header = response.header,
+          config = response.config,
+          message = 'Error ' + status;
         $log.error(message);
 
 
       });
-};
-
-    // $geolocation.watchPosition({
-    //   timeout: 60000,
-    //   maximumAge: 250,
-    //   enableHighAccuracy: true
-    // });
-
-    // $scope.$watch('myPosition.coords', function(newValue, oldValue) {
-
-    // }, true);
-
-$rootScope.userImg = USER_PHOTO_SMALL;
-$rootScope.userName = USER_FIRSTNAME;
-
-$cookies.userid = USER_ID;
-
-FilterRepository.getFilters();
-
-$rootScope.$on('triggerRefreshFilters', function() {
-  FilterRepository.getFilters();
-});
+    };
 
 
 
-$rootScope.goBack = function() {
-  $rootScope.hideTopMenu = false;
-  $rootScope.showfullprofile = false;
-  $('.horizontal.top.sidebar')
-  .sidebar('hide');
-};
+    $rootScope.userImg = USER_PHOTO_SMALL;
+    $rootScope.userName = USER_FIRSTNAME;
+
+    $cookies.userid = USER_ID;
+
+    FilterRepository.getFilters();
+
+    $rootScope.$on('triggerRefreshFilters', function() {
+      FilterRepository.getFilters();
+    });
 
 
-$scope.cancelMatch = function() {
-  $('.dimmable').dimmer('hide');
-  $rootScope.hideTopMenu = false;
-  $rootScope.showfullprofile = false;
-  $('.horizontal.top.sidebar')
-  .sidebar('hide');
-  $rootScope.$broadcast('cancelMatchEvent');
-};
 
-$scope.confirmMatch = function() {
-  $('.dimmable').dimmer('hide');
-  $rootScope.hideTopMenu = false;
-  $rootScope.showfullprofile = false;
-  $('.horizontal.top.sidebar')
-  .sidebar('hide');
-  $rootScope.$broadcast('confirmMatchEvent');
-};
+    $rootScope.goBack = function() {
+      $rootScope.hideTopMenu = false;
+      $rootScope.showfullprofile = false;
+      $('.horizontal.top.sidebar')
+        .sidebar('hide');
+    };
 
-$rootScope.$on('triggerRefreshMatchfeed', function() {
-  $rootScope.showfullprofile = false;
-  $rootScope.hideTopMenu = true;
-  $scope.refreshMatchFeed();
-});
 
-$scope.refreshMatchFeed = function() {
-  $('.dimmable').dimmer('hide');
-  $rootScope.$broadcast('refreshMatchFeed');
-};
+    $scope.cancelMatch = function() {
+      $('.dimmable').dimmer('hide');
+      $rootScope.hideTopMenu = false;
+      $rootScope.showfullprofile = false;
+      $('.horizontal.top.sidebar')
+        .sidebar('hide');
+      $rootScope.$broadcast('cancelMatchEvent');
+    };
 
-InboxRepository.getInboxMessages();
-$rootScope.notifications = [];
-$rootScope.messages = [];
+    $scope.confirmMatch = function() {
+      $('.dimmable').dimmer('hide');
+      $rootScope.hideTopMenu = false;
+      $rootScope.showfullprofile = false;
+      $('.horizontal.top.sidebar')
+        .sidebar('hide');
+      $rootScope.$broadcast('confirmMatchEvent');
+    };
+
+    $rootScope.$on('triggerRefreshMatchfeed', function() {
+      $rootScope.showfullprofile = false;
+      $rootScope.hideTopMenu = true;
+      $scope.refreshMatchFeed();
+    });
+
+    $scope.refreshMatchFeed = function() {
+      $('.dimmable').dimmer('hide');
+      $rootScope.$broadcast('refreshMatchFeed');
+    };
+
+    InboxRepository.getInboxMessages();
+    $rootScope.notifications = [];
+    $rootScope.messages = [];
     //web socket for messages
     $scope.$on('socket:message', function(ev, data) {
 
@@ -182,7 +174,7 @@ $rootScope.messages = [];
           };
 
           var notification = '<div class="notify-info-header"><a href="" ng-click="gotoConversation()">Received new message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
-          '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
+            '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
 
           notify({
             messageTemplate: notification,
@@ -202,4 +194,4 @@ $rootScope.messages = [];
 
 
 
-});
+  });

@@ -5290,4 +5290,13 @@ body.editmyprofile-page #my-profile-body.edit .socialbuttons .ui.labeled.icon.bu
   margin: -.95em 0!important;
 }
 
+//orderby dropdown
 
+
+#FilterController .ui.selection.dropdown {
+  min-width: inherit!important;
+}
+
+#FilterController .ui.form .field>.selection.dropdown {
+  width: 80%!important;
+}

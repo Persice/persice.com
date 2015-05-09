@@ -23,7 +23,18 @@
       <div class="field field-checkbox">
         <uicheckbox value="f" change="filter.toggleGender(value, checked)" checked="{{filter.checkedfemale}}" type="toggle" ng-model="filter.female">Women</uicheckbox>
       </div>
-
+      <div class="field">
+        <label class="">Order By</label>
+      </div>
+      <div class="field">
+        <dropdown title="Order By" ng-model="filter.orderBy" open="false">
+          <dropdown-group>Match score</dropdown-group>
+          <dropdown-group>Distance</dropdown-group>
+        </dropdown>
+      </div>
+      <div class="field">
+        <label class="">Keywords</label>
+      </div>
       <div class="field" ng-show="filter.showFilterMessage">
         <label>
           <div class="ui small negative message">
@@ -34,7 +45,7 @@
         </label>
       </div>
       <div class="field">
-      <div class="ui icon input" id="keywordsSearch">
+        <div class="ui icon input" id="keywordsSearch">
           <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
           <i class="circular plus icon" ng-click="filter.addKeyword(filter.newKeyword)"></i>
         </div>
