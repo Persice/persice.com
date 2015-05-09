@@ -66,9 +66,9 @@ def calculate_distance(user_id1, user_id2, units='mi'):
 
     distance = Distance(mi=user1_point.distance(user2_point))
     if getattr(distance, units) < 1.0:
-        return [getattr(distance, 'm'), 'm']
+        return [round(getattr(distance, 'm'), 2), 'm']
     else:
-        return [getattr(distance, units), units]
+        return [round(getattr(distance, units), 2), units]
 
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):

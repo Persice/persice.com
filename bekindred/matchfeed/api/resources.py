@@ -10,7 +10,7 @@ from friends.models import FacebookFriendUser, Friend
 from goals.models import MatchFilterState, Subject
 from interests.models import InterestSubject
 from matchfeed.models import MatchFeedManager
-from matchfeed.utils import MatchedResults
+from matchfeed.utils import MatchedResults, order_by
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
@@ -82,6 +82,8 @@ class MatchedFeedResource(Resource):
             new_obj.likes = x['likes']
             new_obj.interests = x['interests']
             results.append(new_obj)
+
+        results = order_by(results, keys=['distance'])
 
         if request.GET.get('filter') == 'true':
             mfs = MatchFilterState.objects.get(user_id=request.user.id)

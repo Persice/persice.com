@@ -1,3 +1,4 @@
+from operator import itemgetter, attrgetter
 from django_facebook.models import FacebookLike
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
@@ -5,6 +6,10 @@ from goals.utils import calculate_age, calculate_distance
 from interests.models import Interest
 from members.models import FacebookCustomUserActive
 
+
+def order_by(target, **kwargs):
+    result = sorted(target, key=attrgetter(*kwargs['keys']))
+    return result
 
 class MatchedUser(object):
     """
