@@ -6,6 +6,7 @@ from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import Distance
 from django.core.exceptions import ObjectDoesNotExist
+from geopy.distance import distance as geopy_distance
 import oauth2 as oauth
 
 from social_auth.db.django_models import UserSocialAuth
@@ -64,11 +65,14 @@ def calculate_distance(user_id1, user_id2, units='mi'):
         except UserIPAddress.DoesNotExist:
             return distance
 
-    distance = Distance(mi=user1_point.distance(user2_point))
+    distance = geopy_distance(user1_point, user2_point)
     if getattr(distance, units) < 1.0:
-        return [round(getattr(distance, 'm'), 2), 'm']
+        if getattr(distance, 'm') <= 10.0:
+            return ['>10', 'm']
+        else:
+            return [int(getattr(distance, 'm')), 'm']
     else:
-        return [round(getattr(distance, units), 2), units]
+        return [int(getattr(distance, units)), units]
 
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):
