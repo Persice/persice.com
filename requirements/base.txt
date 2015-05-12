@@ -62,3 +62,4 @@ sqlparse==0.1.14
 static==1.0.2
 tablib==0.10.0
 wsgiref==0.1.2
+django-geoposition==0.2.2

@@ -10,8 +10,8 @@ class GeoCoordinateTestCase(TestCase):
     def setUp(self):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
-        UserLocation.objects.create(user=self.user, geometry=Point(7000, 22965.83))
-        UserLocation.objects.create(user=self.user1, geometry=Point(0.5, 32000))
+        UserLocation.objects.create(user=self.user, position=[7000, 22965.83])
+        UserLocation.objects.create(user=self.user1, position=[0.5, 32000])
         location_data = [('NicNonnalds', '-87.627675', '41.881925'),
                          ('Boundaries Books', '-87.6281729688', '41.881849562'),
                          ('Field Marshal Department Store', '-87.62839', '41.88206'),
@@ -27,8 +27,8 @@ class GeoCoordinateTestCase(TestCase):
                          ('Forest Museum', '-87.62749695', '41.88316957'), ]
 
         for location in location_data:
-            point = fromstr("POINT(%s %s)" % (location[1], location[2]))
-            location_obj = UserLocation(user=self.user, geometry=point)
+            point = [location[1], location[2]]
+            location_obj = UserLocation(user=self.user, position=point)
             location_obj.save()
 
     def test_create_simple_coordinates(self):

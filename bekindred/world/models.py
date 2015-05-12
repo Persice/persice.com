@@ -1,5 +1,7 @@
 from django.contrib.gis.db import models
 from django_facebook.models import FacebookCustomUser
+from geoposition.fields import GeopositionField, Geoposition
+from django.contrib.gis.geos import Point, fromstr
 
 
 class WorldBorder(models.Model):
@@ -39,8 +41,16 @@ class UserLocation(models.Model):
     altitude_accuracy = models.FloatField(blank=True, null=True)
     altitude = models.FloatField(blank=True, null=True)
 
-    geometry = models.PointField(help_text="Represented as (longitude, latitude)")
+    geometry = models.PointField()
+    position = GeopositionField(blank=True)
+
     objects = models.GeoManager()
 
     def __unicode__(self):
-        return '%s %s %s' % (self.user, self.geometry.x, self.geometry.y)
+        return '%s %s %s' % (self.user, self.position.latitude, self.position.longitude)
+
+    def save(self, *args, **kwargs):
+        point = fromstr("POINT(%s %s)" % (self.position.latitude, self.position.longitude))
+        self.geometry = point
+        super(UserLocation, self).save(*args, **kwargs)
+

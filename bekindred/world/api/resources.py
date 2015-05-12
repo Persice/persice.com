@@ -13,7 +13,7 @@ class UserLocationResource(ModelResource):
         always_return_data = True
         queryset = UserLocation.objects.all()
         resource_name = 'location'
-        excludes = ['timestamp']
+        excludes = ['timestamp', 'geometry']
         authentication = SessionAuthentication()
         authorization = Authorization()
 

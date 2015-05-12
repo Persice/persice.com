@@ -11,8 +11,8 @@ class TestUserLocationResource(ResourceTestCase):
         super(TestUserLocationResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
-        self.location = UserLocation.objects.create(user=self.user, geometry=Point(7000, 22965.83))
-        self.location1 = UserLocation.objects.create(user=self.user1, geometry=Point(0.5, 32000))
+        self.location = UserLocation.objects.create(user=self.user, position=[7000, 22965.83])
+        self.location1 = UserLocation.objects.create(user=self.user1, position=[0.5, 32000])
         location_data = [('NicNonnalds', '-87.627675', '41.881925'),
                          ('Boundaries Books', '-87.6281729688', '41.881849562'),
                          ('Field Marshal Department Store', '-87.62839', '41.88206'),
@@ -28,8 +28,8 @@ class TestUserLocationResource(ResourceTestCase):
                          ('Forest Museum', '-87.62749695', '41.88316957'), ]
 
         for location in location_data:
-            point = fromstr("POINT(%s %s)" % (location[1], location[2]))
-            location_obj = UserLocation(user=self.user, geometry=point)
+            point = [location[1], location[2]]
+            location_obj = UserLocation(user=self.user, position=point)
             location_obj.save()
 
     def login(self):
@@ -53,7 +53,7 @@ class TestUserLocationResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['objects'][0], {
             u'altitude': None,
             u'altitude_accuracy': None,
-            u'geometry': u'POINT (7000.0000000000000000 22965.8300000000017462)',
+            u'position': u'7000,22965.83',
             u'heading': None,
             u'id': self.location.pk,
             u'resource_uri': u'/api/v1/location/{}/'.format(self.location.pk),
@@ -64,7 +64,7 @@ class TestUserLocationResource(ResourceTestCase):
     def test_create_location(self):
         post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'geometry': u'POINT (7000.0000000000000000 22965.8300000000017462)',
+            'position': u'7000.0,22965.8300000000017462',
         }
         self.response = self.login()
         self.assertHttpCreated(self.api_client.post('/api/v1/location/', format='json', data=post_data))

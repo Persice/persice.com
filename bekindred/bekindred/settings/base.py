@@ -60,6 +60,7 @@ INSTALLED_APPS += ('south',
                    'matchfeed',
                    'msgs',
                    'tastypie',
+                   'geoposition'
 )
 
 MIDDLEWARE_CLASSES = (
