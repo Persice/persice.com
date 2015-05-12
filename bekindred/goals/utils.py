@@ -68,7 +68,7 @@ def calculate_distance(user_id1, user_id2, units='mi'):
     distance = geopy_distance(user1_point, user2_point)
     if getattr(distance, units) < 1.0:
         if getattr(distance, 'm') <= 10.0:
-            return ['>10', 'm']
+            return [10, 'm']
         else:
             return [int(getattr(distance, 'm')), 'm']
     else:
