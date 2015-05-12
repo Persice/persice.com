@@ -45,7 +45,7 @@ angular.module('icebrak')
       }).$promise.then(function(data) {
         var newLocation = {
           user: '/api/v1/auth/user/' + USER_ID + '/',
-          geometry: 'POINT (' + position.latitude + ' ' + position.longitude + ')',
+          position: position.latitude + ',' + position.longitude,
           speed: position.speed,
           heading: position.heading,
           altitude: position.altitude,
