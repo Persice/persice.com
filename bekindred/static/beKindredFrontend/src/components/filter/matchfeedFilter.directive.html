@@ -27,12 +27,9 @@
         <label class="">Order By</label>
       </div>
       <div class="field">
-        <dropdown title="Order By" ng-model="filter.orderBy" open="false">
-          <dropdown-group>Match score</dropdown-group>
-          <dropdown-group>Distance</dropdown-group>
-        </dropdown>
+        <select class="icebrakselect" ng-options="item.value for item in filter.orderByValues" ng-model="filter.orderBy"></select>
       </div>
-      <div class="field">
+      <div class="field keywords-label">
         <label class="">Keywords</label>
       </div>
       <div class="field" ng-show="filter.showFilterMessage">
