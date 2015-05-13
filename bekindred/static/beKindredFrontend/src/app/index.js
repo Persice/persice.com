@@ -22,7 +22,7 @@ angular.module('icebrak', [
   'angular-flexslider',
   'ngGeolocation',
   'ezfb',
-  'frontend.semantic.dropdown'
+  '720kb.tooltips'
   ])
   .config(function($stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 

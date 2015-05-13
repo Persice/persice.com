@@ -22,7 +22,7 @@
                         </div>
                         <div class="sub header">{{matchedUser.distance[0]}} {{matchedUser.distance[1]}}
                             <div class="ui mini horizontal statistics">
-                                <div class="statistic">
+                                <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Match score">
                                     <div class="value">
                                         <i class="intersecticon icon"></i>
                                     </div>
@@ -30,7 +30,7 @@
                                         {{totalmatchingcount}}
                                     </div>
                                 </div>
-                                <div class="statistic">
+                                <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Mutual friends">
                                     <div class="value">
                                         <i class="empty user usericon icon"></i>
                                     </div>
@@ -57,15 +57,15 @@
                     </div>
                 </div>
                 <div class="header segment" id="matched-profile-header" ng-hide="showfullprofile">
-                    <div class="ui segment" ng-click="changeTopMenu()">
-                        <div ng-show="photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].photo}}');"></div>
-                        <div ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].cropped_photo}}');"></div>
-                        <h2 class="ui header">
+                    <div class="ui segment">
+                        <div ng-click="changeTopMenu()" ng-show="photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].photo}}');"></div>
+                        <div ng-click="changeTopMenu()" ng-show="photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{photosSlider[0].cropped_photo}}');"></div>
+                        <h2 ng-click="changeTopMenu()" class="ui header">
                             {{ matchedUser.first_name }}, {{ matchedUser.age }}
                             <div class="sub header"> {{matchedUser.distance[0]}} {{matchedUser.distance[1]}}</div>
                         </h2>
                         <div class="ui mini statistics">
-                            <div class="statistic">
+                            <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Match score">
                                 <div class="value">
                                     <i class="intersecticon icon"></i>
                                 </div>
@@ -73,7 +73,7 @@
                                     {{totalmatchingcount}}
                                 </div>
                             </div>
-                            <div class="statistic">
+                            <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Mutual friends">
                                 <div class="value">
                                     <i class="empty user usericon icon"></i>
                                 </div>
@@ -94,7 +94,7 @@
                         </h5>
                         <br>
                         <div class="ui mini horizontal statistics">
-                            <div class="statistic">
+                            <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Match score">
                                 <div class="value">
                                     <i class="intersecticon icon"></i>
                                 </div>
@@ -102,7 +102,7 @@
                                     {{totalmatchingcount}}
                                 </div>
                             </div>
-                            <div class="statistic">
+                            <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Mutual friends">
                                 <div class="value">
                                     <i class="empty user usericon icon"></i>
                                 </div>
