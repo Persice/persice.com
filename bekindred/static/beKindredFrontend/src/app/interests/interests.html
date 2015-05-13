@@ -7,9 +7,9 @@
   What interests you?</div>
 
   <div class="right menu">
-    <a class="ui item" id="nextButton" ng-click="interest.nextStep()">
-      Next &raquo;
-    </a>
+    <div class="ui item" id="nextButton">
+      <div ng-click="interest.nextStep()" ng-class="{'disabled': interest.counter === 0}" class="ui button green">Next &raquo;</div>
+    </div>
   </div>
 
 </div>
@@ -26,6 +26,8 @@
       What interests you?
       <div class="sub header"></div>
     </div>
+    <div ng-click="interest.nextStep()" id="nextButtonDesktopInterests" ng-class="{'disabled': interest.counter === 0}" class="ui button green">Next &raquo;</div>
+
   </h2>
 
   <div class="ui left icon input">
@@ -43,10 +45,6 @@
   </div>
   <three-bounce-spinner class="page-spinner-bar" ng-show="interest.loadingMore"></three-bounce-spinner>
 
-</div>
-
-<div id="next-button-interests">
-  <div ng-click="interest.nextStep()" class="ui big button green">Next &raquo;</div>
 </div>
 
 

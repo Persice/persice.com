@@ -4931,6 +4931,9 @@ body.matchfeed-page #desktopmatchheader .icon {
   height: 32px!important;
 }
 
+body.offercreate-page .body.segment, #main-page .headersmall.segment, body.goalcreate-page .body.segment, #main-page .headersmall.segment {
+  border-bottom: none!important;
+}
 
 // create interests page desktop
 
@@ -4945,8 +4948,20 @@ body.matchfeed-page #desktopmatchheader .icon {
   }
 
   body.selectinterests-page #interests {
-    bottom: 112px!important;
+    // bottom: 112px!important;
     top: 128px!important;
+  }
+
+  #nextButtonDesktopInterests {
+    position: absolute;
+    right: 14px;
+    top: 10px;
+  }
+
+  #nextButtonDesktop {
+    position: absolute;
+    right: -5px;
+    top: 0px;
   }
 
   body.selectinterests-page #next-button-interests {
@@ -5058,6 +5073,11 @@ body.selectinterests-page #interests .ui.button.toggle.active {
 #nextButton {
   position: absolute!important;
   right: 0px!important;
+
+}
+
+#nextButton .ui.button {
+  font-size: 1.1em!important;
 }
 
 
@@ -5327,4 +5347,29 @@ select.icebrakselect {
 
 #FilterController.mobilefilters .keywords-label {
   margin-top: 15px!important;
+}
+
+
+//disabled state for button
+
+
+#main-page .ui.buttons .disabled.button, #main-page .ui.disabled.button, #main-page .ui.button:disabled, #main-page .ui.disabled.button:hover, #main-page .ui.disabled.active.button {
+  cursor: default;
+  background-color: #aaa!important;
+  color: rgba(0,0,0,.4)!important;
+  opacity: 1!important;
+  background-image: none!important;
+  box-shadow: none!important;
+  pointer-events: none;
+}
+
+
+
+@media screen and (min-width: 768px) and (max-width: 850px) {
+
+  #interests-header .ui.header, .desktopview.ui.header {
+    text-align: left!important;
+  }
+
+
 }

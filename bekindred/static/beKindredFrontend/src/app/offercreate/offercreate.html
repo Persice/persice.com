@@ -5,7 +5,11 @@
     <i class="fa fa-stack-1x fa-inverse">3</i>
   </span>
   Post an offer</div>
-
+  <div class="right menu">
+    <div class="ui item" id="nextButton">
+    <div ng-click="createOffer()" ng-class="{'disabled': subject === ''}" class="ui button green">Next &raquo;</div>
+    </div>
+  </div>
 </div>
 
 <div class="ui grid fullheight">
@@ -22,6 +26,8 @@
           <div class="content">
             Post an offer
           </div>
+          <div ng-click="createOffer()" id="nextButtonDesktop" ng-class="{'disabled': subject === ''}" class="ui button green">Next &raquo;</div>
+
         </h2>
 
 
@@ -41,9 +47,6 @@
                 <div class="search-wrapper">
                   <div field-required="false" angucomplete-alt minlength="3" text-no-results="No existing offer found. Create new offer &raquo;" input-changed="inputChanged" match-class="highlight" selected-object="selectResult" description-field="description[3]" title-field="description" remote-url="/api/v1/subject/?format=json&description__icontains=" remote-url-data-field="objects" type="text" input-name="description" id="id_description" placeholder="enter your offer here"></div>
                 </div>
-              </div>
-              <div class="row" ng-hide="subject === ''">
-                <a ng-click="createOffer()" class="ui button submit green big" role="button">Next &raquo;</a>
               </div>
             </div>
           </div>

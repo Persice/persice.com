@@ -12,11 +12,17 @@
     vm.loading = false;
     vm.link = link;
     vm.refreshUser = refreshUser;
-    vm.twitter = User.twitter_provider;
-    vm.linkedin = User.linkedin_provider;
+    vm.twitter = '';
+    vm.linkedin = '';
     vm.firstName = User.first_name;
 
+    if (User.linkedin_provider !== null) {
+      vm.linkedin = User.linkedin_provider;
+    }
 
+    if (User.twitter_provider !== null) {
+      vm.twitter = User.twitter_provider;
+    }
 
     function link(provider) {
       var w = 400;
@@ -50,8 +56,14 @@
       }, {
         userId: USER_ID
       }).$promise.then(function(data) {
-        vm.twitter = data.twitter_provider;
-        vm.linkedin = data.linkedin_provider;
+        if (data.linkedin_provider !== null) {
+          vm.linkedin = data.linkedin_provider;
+        }
+
+        if (data.twitter_provider !== null) {
+          vm.twitter = data.twitter_provider;
+        }
+
         vm.firstName = data.first_name;
         vm.loading = false;
       });
