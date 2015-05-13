@@ -131,7 +131,8 @@ angular.module('icebrak', [
       .state('settings', {
         url: '/settings',
         templateUrl: 'app/settings/settings.html',
-        controller: 'SettingsCtrl',
+        controller: 'SettingsController',
+        controllerAs: 'settings',
         data: {
           displayName: 'Settings',
         },
