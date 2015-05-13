@@ -36,6 +36,10 @@ angular.module('icebrak')
     $scope.loadingLikes = false;
     $scope.loadingInterests = false;
 
+    $scope.nextImage = function() {
+      $('#photoSlider').flexslider('next');
+    };
+
     $scope.getUser = function() {
 
       $scope.loadingUser = true;

@@ -16,6 +16,10 @@ angular.module('icebrak')
     $rootScope.$emit('triggerRefreshFilters');
     $scope.filtering = true;
 
+    $scope.nextImage = function() {
+      $('#photoSlider').flexslider('next');
+    };
+
 
     // $scope.photosSlider = $scope.matchedUser.photos;
     $scope.photosSlider = [];

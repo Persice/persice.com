@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="sub header">{{matchedUser.distance[0]}} {{matchedUser.distance[1]}}
-                        <div class="ui mini horizontal statistics">
+                            <div class="ui mini horizontal statistics">
                                 <div class="statistic">
                                     <div class="value">
                                         <i class="intersecticon icon"></i>
@@ -46,10 +46,10 @@
                     <div class="ui basic segment" id="matchfeedheader-slider" ng-if="showfullprofile">
                         <div class="pagination-container">
                             <div id="PhotoSlider">
-                                <flex-slider touch=true smooth-height=true slideshow=false slide="item in photosSlider | orderBy:'order' track by $index">
+                                <flex-slider slider-id="photoSlider" touch=true slideshow=false slide="item in photosSlider | orderBy:'order' track by $index">
                                 <li>
-                                    <img ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}"/>
-                                    <img ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}"/>
+                                    <img ng-click="nextImage();" ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}"/>
+                                    <img ng-click="nextImage();" ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}"/>
                                 </li>
                             </flex-slider>
 

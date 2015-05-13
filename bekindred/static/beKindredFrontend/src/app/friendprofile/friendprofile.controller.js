@@ -14,6 +14,7 @@
     var vm = this;
 
     vm.matchingInfo = User;
+    vm.nextImage = nextImage;
 
     vm.middleActive = true;
     vm.friendshipId = Connection.objects[0].id;
@@ -56,6 +57,11 @@
 
     vm.getUser();
     vm.getPhotos();
+
+
+    function nextImage() {
+      $('#photoSlider').flexslider('next');
+    }
 
     function getUser() {
 
