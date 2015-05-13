@@ -37,9 +37,14 @@
    * @desc controller for matchfeedFilter directive
    * @ngInject
    */
-  function FilterController($scope, $rootScope, $window, FiltersFactory, FilterRepository, USER_ID, lodash) {
+  function FilterController($scope, $timeout, $rootScope, $window, FiltersFactory, FilterRepository, USER_ID, lodash) {
     var vm = this;
 
+
+
+    $timeout(function() {
+      vm.changed = false;
+    }, 1000);
 
     vm.toggleGender = toggleGender;
     vm.saveFilters = saveFilters;
@@ -104,9 +109,15 @@
     function refreshMatchFeed() {
       $rootScope.orderBy = vm.orderBy.value;
       $rootScope.$emit('triggerRefreshMatchfeed');
+      $rootScope.$emit('filtersChanged');
     }
 
+    $rootScope.$on('filtersChanged', function() {
+      vm.changed = false;
+    });
+
     function getFilters() {
+
       vm.currentFilters = FilterRepository.getFilterState();
       vm.distanceValue = vm.currentFilters.distance;
       vm.ageValues[0] = vm.currentFilters.min_age;
@@ -132,6 +143,7 @@
         vm.male = false;
         vm.female = true;
       }
+      vm.changed = true;
 
     }
 
@@ -159,6 +171,8 @@
         keyword: vm.myKeywords.length === 0 ? '' : vm.myKeywords.join(),
         user: '/api/v1/auth/user/' + USER_ID + '/'
       };
+
+      vm.changed = true;
 
       FilterRepository.saveFilters(vm.newFilters);
 

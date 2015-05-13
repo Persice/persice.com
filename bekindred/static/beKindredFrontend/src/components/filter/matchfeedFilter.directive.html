@@ -55,6 +55,6 @@
       </a>
 
       <div class="ui divider"></div>
-      <a href="" class="button ui submit green" ng-click="filter.refreshMatchFeed()" role="button">Filter</a>
+      <a href="" class="button ui submit green" ng-class="{'disabled': !filter.changed}"  ng-click="filter.refreshMatchFeed()" role="button">Update</a>
     </div>
   </div>
