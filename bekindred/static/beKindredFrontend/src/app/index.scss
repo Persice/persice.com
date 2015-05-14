@@ -5378,7 +5378,7 @@ select.icebrakselect {
 }
 
 
-.customradio, .customradio label {
+.customradio, .customradio label, .customradio input[type="radio"]  {
   cursor: pointer!important;
 
 }
