@@ -44,7 +44,7 @@
 
     $timeout(function() {
       vm.changed = false;
-    }, 1000);
+    }, 5000);
 
     vm.toggleGender = toggleGender;
     vm.saveFilters = saveFilters;
