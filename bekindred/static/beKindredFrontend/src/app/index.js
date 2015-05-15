@@ -285,7 +285,8 @@ angular
                     displayName: 'Profile',
                 },
                 templateUrl: 'app/myprofile/myprofile.html',
-                controller: 'MyProfileCtrl'
+                controller: 'MyProfileController',
+                controllerAs: 'myprofile'
             })
             .state('editmyprofile', {
                 url: '/my-profile/edit',

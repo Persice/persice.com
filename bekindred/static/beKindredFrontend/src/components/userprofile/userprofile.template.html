@@ -1,0 +1,94 @@
+<!-- userprofile.template.html -->
+<div class="ui grid" ng-cloak>
+    <div class="row">
+        <div class="wide column">
+            <div class="header segment with-menu" id="my-profile-header">
+                <div class="pagination-container">
+                    <div id="PhotoSlider" ng-if="userprofile.photosSlider.length > 0">
+                        <flex-slider slider-id="photoSlider" touch=true slideshow=false slide="item in userprofile.photosSlider | orderBy:'order' track by $index">
+                            <li>
+                                <img ng-click="userprofile.nextImage()" ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}" />
+                                <img ng-click="userprofile.nextImage()" ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}" />
+                            </li>
+                        </flex-slider>
+                    </div>
+                </div>
+            </div>
+            <div class="body segment" id="matched-profile-body">
+                <div class="ui top attached segment">
+                    <h3 class="ui left floated header">{{ userprofile.user.firstName }}<span ng-hide="userprofile.user.firstName === ''">,</span>  {{ userprofile.user.age }}</h3>
+                    <h5 class="ui right floated header"><a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a></h5>
+                </div>
+                <div class="ui attached segment" ng-class="{loading: userprofile.loadingGoals || userprofile.loadingOffers || userprofile.loadingUser || userprofile.loadingLikes || userprofile.loadingInterests}">
+                    <h4 class="ui header">Goals</h4>
+                    <div class="ui list">
+                        <div class="item" ng-repeat="goal in userprofile.user.goals track by $index">
+                            <i class="icon empty"></i>
+                            <div class="content">
+                                <div class="description">{{ goal.subject }}</div>
+                            </div>
+                        </div>
+                        <p ng-if="userprofile.user.goals.length == 0">No goals yet.</p>
+                    </div>
+                    <h4 class="ui header">Offers</h4>
+                    <div class="ui list">
+                        <div class="item" ng-repeat="offer in userprofile.user.offers track by $index">
+                            <i class="icon empty"></i>
+                            <div class="content">
+                                <div class="description">{{ offer.subject }}</div>
+                            </div>
+                        </div>
+                        <p ng-if="userprofile.user.offers.length == 0">No offers yet.</p>
+                    </div>
+                    <h4 class="ui header">About</h4>
+                    <div class="ui list">
+                        <div class="item">
+                            <i class="empty icon"></i>
+                            <div class="content">
+                                <div class="description">
+                                    <span>{{userprofile.user.about_me}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="ui header">Activities &amp; Interests</h4>
+                    <div class="ui list">
+                        <div class="item" ng-repeat="interest in userprofile.user.interests | limitTo:5 track by $index">
+                            <i class="icon empty"></i>
+                            <div class="content">
+                                <div class="description">{{ interest.interest_subject }}</div>
+                            </div>
+                        </div>
+                        <p ng-if="userprofile.user.interests.length == 0">No interests yet.</p>
+                    </div>
+                    <h4 class="ui header">Likes</h4>
+                    <div class="ui list likes">
+                        <div class="item" ng-repeat="like in userprofile.user.likes | limitTo:5 track by $index">
+                            <i class="icon empty"></i>
+                            <div class="content">
+                                <div class="description">{{ like.name }}</div>
+                            </div>
+                        </div>
+                        <p ng-if="userprofile.user.likes.length == 0">No likes yet.</p>
+                    </div>
+                    <h4 class="ui header">Social Accounts</h4>
+                    <br>
+                    <a href="{{ userprofile.social.linkedin }}" target="_new" class="ui social icon fluid linkedin labeled button" ng-if="userprofile.social.linkedin.length > 0">
+                        <i class="linkedin icon"></i> {{userprofile.user.firstName}}
+                        <i class="check circle icon right"></i>
+                    </a>
+                    <br ng-if="userprofile.social.linkedin.length > 0">
+                    <a href="https://twitter.com/{{ userprofile.social.twitter }}" target="_new" class="ui social fluid icon twitter labeled button" ng-if="userprofile.social.twitter.length > 0">
+                        <i class="twitter icon"></i> {{userprofile.social.twitter}}
+                        <i class="check circle icon right"></i>
+                    </a>
+                    <br ng-if="userprofile.social.twitter.length > 0">
+                    <a href="{{ userprofile.user.facebookProfile }}" class="ui social icon facebook labeled fluid button" ng-if="userprofile.user.facebookProfile.length > 0">
+                        <i class="facebook icon"></i> {{userprofile.user.firstName}}
+                        <i class="lock icon right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
