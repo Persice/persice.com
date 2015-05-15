@@ -6,10 +6,10 @@
 'use strict';
 
 var LoginPage = function() {
-  this.welcomeMessage = element(by.id('welcomeMessage'));
-  this.logoImg = element(by.id('loginLogo'));
-  this.loginButton = element(by.id('loginButton'));
-  this.loginNotice = element(by.id('loginNotice'));
+    this.welcomeMessage = element(by.id('welcomeMessage'));
+    this.logoImg = element(by.id('loginLogo'));
+    this.loginButton = element(by.id('loginButton'));
+    this.loginNotice = element(by.id('loginNotice'));
 };
 
 module.exports = new LoginPage();

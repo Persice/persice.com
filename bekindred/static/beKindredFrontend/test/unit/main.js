@@ -1,21 +1,21 @@
 'use strict';
 
 describe('controllers', function() {
-  var scope;
+    var scope;
 
-  beforeEach(module('icebrak'));
+    beforeEach(module('icebrak'));
 
-  beforeEach(inject(function($rootScope) {
-    scope = $rootScope.$new();
-  }));
+    beforeEach(inject(function($rootScope) {
+        scope = $rootScope.$new();
+    }));
 
-  it('Unit: MainController', inject(function($controller) {
-    expect(scope.greetingMessage).toBeUndefined();
+    it('Unit: MainController', inject(function($controller) {
+        expect(scope.greetingMessage).toBeUndefined();
 
-    $controller('MainCtrl', {
-      $scope: scope
-    });
+        $controller('MainCtrl', {
+            $scope: scope
+        });
 
-    expect(scope.greetingMessage).toEqual('Welcome to');
-  }));
+        expect(scope.greetingMessage).toEqual('Welcome to');
+    }));
 });
