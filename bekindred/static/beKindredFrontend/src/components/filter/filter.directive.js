@@ -55,11 +55,14 @@
         vm.refreshMatchFeed = refreshMatchFeed;
 
         vm.orderByValues = [{
-            value: 'Match score'
+            name: 'Match score',
+            value: 'match_score'
+
         }, {
-            value: 'Distance'
+            name: 'Distance',
+            value: 'distance'
         }];
-        vm.orderBy = vm.orderByValues[0];
+        vm.orderBy = 'match_score';
         vm.distanceValue = 10000;
 
         vm.distanceOptions = {
@@ -104,7 +107,7 @@
         });
 
         function refreshMatchFeed() {
-            $rootScope.orderBy = vm.orderBy.value;
+            $rootScope.orderBy = vm.orderBy;
             $rootScope.$emit('triggerRefreshMatchfeed');
             $rootScope.$emit('filtersChanged');
         }
@@ -117,7 +120,9 @@
 
             vm.currentFilters = FilterRepository.getFilterState();
             vm.distanceValue = vm.currentFilters.distance;
-            vm.orderBy = vm.currentFilters.order_by;
+
+            vm.orderBy = vm.currentFilters.order_criteria;
+
             vm.ageValues[0] = vm.currentFilters.min_age;
             vm.ageValues[1] = vm.currentFilters.max_age;
             if (vm.currentFilters.keyword !== '' && vm.currentFilters.keyword !== undefined) {
@@ -164,7 +169,7 @@
             vm.newFilters = {
                 distance: vm.distanceValue,
                 gender: vm.genders,
-                order_by: vm.orderBy,
+                order_criteria: vm.orderBy,
                 min_age: parseInt(vm.ageValues[0]),
                 max_age: parseInt(vm.ageValues[1]),
                 keyword: vm.myKeywords.length === 0 ? '' : vm.myKeywords.join(),

@@ -10,7 +10,7 @@
      * classDesc Connect with LinkedIn and Twitter or skip to mathcfeed
      * @ngInject
      */
-    function FriendProfileController($scope, User, UserProfile, UsersFactory, MutualFriendsFactory, InboxRepository, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
+    function FriendProfileController($scope, userId, User, UserProfile, UsersFactory, MutualFriendsFactory, InboxRepository, InterestsFactory, GoalsFactory, Connection, OffersFactory, LikesFactory, PhotosFactory, $log, $state, FriendsFactory) {
         var vm = this;
 
         vm.matchingInfo = User;
