@@ -28,7 +28,7 @@ def calculate_date_of_birth(age):
     return today.replace(year=today.year - age)
 
 
-def calculate_distance(user_id1, user_id2, units='mi'):
+def calculate_distance(user_id1, user_id2, units='miles'):
     """
     calculate distance
     https://docs.djangoproject.com/en/1.8/ref/contrib/gis/measure/#supported-units
@@ -37,7 +37,7 @@ def calculate_distance(user_id1, user_id2, units='mi'):
     m	Meter, Metre
     """
     g = GeoIP()
-    distance = [10000, 'mi']
+    distance = [10000, 'miles']
 
     try:
         user1_location = UserLocation.objects.filter(user_id=user_id1).order_by('-timestamp')[0]
@@ -68,9 +68,9 @@ def calculate_distance(user_id1, user_id2, units='mi'):
     distance = geopy_distance(user1_point, user2_point)
     if getattr(distance, units) < 1.0:
         if getattr(distance, 'm') <= 10.0:
-            return [10, 'm']
+            return [10, 'meters']
         else:
-            return [int(getattr(distance, 'm')), 'm']
+            return [int(getattr(distance, 'm')), 'meters']
     else:
         return [int(getattr(distance, units)), units]
 
