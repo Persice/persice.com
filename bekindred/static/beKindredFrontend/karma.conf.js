@@ -2,18 +2,18 @@
 
 module.exports = function(config) {
 
-  config.set({
-    autoWatch: false,
+    config.set({
+        autoWatch: false,
 
-    // basePath: '.',
+        // basePath: '.',
 
-    frameworks: ['jasmine'],
+        frameworks: ['jasmine'],
 
-    browsers: ['PhantomJS'],
+        browsers: ['PhantomJS'],
 
-    plugins: [
-    'karma-phantomjs-launcher',
-    'karma-jasmine'
-    ]
-  });
+        plugins: [
+            'karma-phantomjs-launcher',
+            'karma-jasmine'
+        ]
+    });
 };

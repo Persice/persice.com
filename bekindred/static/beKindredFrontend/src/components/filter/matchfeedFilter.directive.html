@@ -1,60 +1,56 @@
 <!-- matchfeedFilter.directive.html -->
 <div id="FilterController" class="{{filter.class}}" ng-cloak>
-
-  <h4 class="ui header" ng-show="filter.class === 'desktopview'">FILTERS</h4>
-  <div class="ui fitted divider" ng-show="filter.class === 'desktopview'"></div>
-
-  <div id="{{filter.id}}" class="ui form">
-    <form name="filterForm" id="filterForm">
-      <div class="field">
-        <label>Distance <span class="range">{{filter.distanceValue}} mi.</span></label>
-        <div no-ui-slider="filter.distanceOptions" ng-model="filter.distanceValue" ng-change="filter.saveFiltersDebounce()"></div>
-      </div>
-      <div class="field">
-        <label>Age <span class="range">{{filter.ageValues[0]}} &ndash; {{filter.ageValues[1]}}</span></label>
-        <div no-ui-slider="filter.ageOptions" ng-model="filter.ageValues" ng-change="filter.saveFiltersDebounce()"></div>
-      </div>
-      <div class="field">
-        <label class="">Show</label>
-      </div>
-      <div class="field field-checkbox">
-        <uicheckbox value="m" change="filter.toggleGender(value, checked)" checked="{{filter.checkedmale}}" type="toggle" ng-model="filter.male">Men</uicheckbox>
-      </div>
-      <div class="field field-checkbox">
-        <uicheckbox value="f" change="filter.toggleGender(value, checked)" checked="{{filter.checkedfemale}}" type="toggle" ng-model="filter.female">Women</uicheckbox>
-      </div>
-      <div class="field">
-        <label class="">Order By</label>
-      </div>
-      <div class="field">
-        <select class="icebrakselect" ng-options="item.value for item in filter.orderByValues" ng-model="filter.orderBy"></select>
-      </div>
-      <div class="field keywords-label">
-        <label class="">Keywords</label>
-      </div>
-      <div class="field" ng-show="filter.showFilterMessage">
-        <label>
-          <div class="ui small negative message">
-            <p>
-              {{filter.filtermessage}}
-            </p>
-          </div>
-        </label>
-      </div>
-      <div class="field">
-        <div class="ui icon input" id="keywordsSearch">
-          <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
-          <i class="circular plus icon" ng-click="filter.addKeyword(filter.newKeyword)"></i>
-        </div>
-      </div>
-
-      <a ng-click="filter.removeKeyword($index)" href="" class="item" ng-repeat="keyword in filter.myKeywords track by $index">
-        <div class="content">
-          <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
-        </div>
-      </a>
-
-      <div class="ui divider"></div>
-      <a href="" class="button ui submit green" ng-class="{'disabled': !filter.changed}"  ng-click="filter.refreshMatchFeed()" role="button">Update</a>
+    <h4 class="ui header" ng-show="filter.class === 'desktopview'">FILTERS</h4>
+    <div class="ui fitted divider" ng-show="filter.class === 'desktopview'"></div>
+    <div id="{{filter.id}}" class="ui form">
+        <form name="filterForm" id="filterForm">
+            <div class="field">
+                <label>Distance <span class="range">{{filter.distanceValue}} mi.</span></label>
+                <div no-ui-slider="filter.distanceOptions" ng-model="filter.distanceValue" ng-change="filter.saveFiltersDebounce()"></div>
+            </div>
+            <div class="field">
+                <label>Age <span class="range">{{filter.ageValues[0]}} &ndash; {{filter.ageValues[1]}}</span></label>
+                <div no-ui-slider="filter.ageOptions" ng-model="filter.ageValues" ng-change="filter.saveFiltersDebounce()"></div>
+            </div>
+            <div class="field">
+                <label class="">Show</label>
+            </div>
+            <div class="field field-checkbox">
+                <uicheckbox value="m" change="filter.toggleGender(value, checked)" checked="{{filter.checkedmale}}" type="toggle" ng-model="filter.male">Men</uicheckbox>
+            </div>
+            <div class="field field-checkbox">
+                <uicheckbox value="f" change="filter.toggleGender(value, checked)" checked="{{filter.checkedfemale}}" type="toggle" ng-model="filter.female">Women</uicheckbox>
+            </div>
+            <div class="field">
+                <label class="">Order By</label>
+            </div>
+            <div class="field">
+                <select class="icebrakselect" ng-change="filter.saveFiltersDebounce()" ng-options="item.value for item in filter.orderByValues" ng-model="filter.orderBy"></select>
+            </div>
+            <div class="field keywords-label">
+                <label class="">Keywords</label>
+            </div>
+            <div class="field" ng-show="filter.showFilterMessage">
+                <label>
+                    <div class="ui small negative message">
+                        <p>
+                            {{filter.filtermessage}}
+                        </p>
+                    </div>
+                </label>
+            </div>
+            <div class="field">
+                <div class="ui icon input" id="keywordsSearch">
+                    <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
+                    <i class="circular plus icon" ng-click="filter.addKeyword(filter.newKeyword)"></i>
+                </div>
+            </div>
+            <a ng-click="filter.removeKeyword($index)" href="" class="item" ng-repeat="keyword in filter.myKeywords track by $index">
+                <div class="content">
+                    <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
+                </div>
+            </a>
+            <div class="ui divider"></div>
+            <a href="" class="button ui submit green" ng-class="{'disabled': !filter.changed}" ng-click="filter.refreshMatchFeed()" role="button">Update</a>
     </div>
-  </div>
+</div>

@@ -1,26 +1,25 @@
 'use strict';
 angular.module('frontend.semantic.dimmer', [])
 
-.directive("pageDimmer", function () {
+.directive("pageDimmer", function() {
     return {
         restrict: 'E',
         replace: true,
         transclude: true,
-        scope : {
-            show : "=?",
+        scope: {
+            show: "=?",
             model: '=ngModel'
         },
         template: "<div class=\"{{dimmer_class}}\" ng-click=\"click_on_dimmer()\">" +
-        "<div class=\"content\">" +
-        "<div class=\"center\" ng-transclude></div>" +
-        "</div>" +
-        "</div>",
-        link : function(scope, element, attrs, ngModel) {
+            "<div class=\"content\">" +
+            "<div class=\"center\" ng-transclude></div>" +
+            "</div>" +
+            "</div>",
+        link: function(scope, element, attrs, ngModel) {
 
             if (scope.show == true) {
                 scope.dimmer_class = 'ui page inverted active dimmer';
-            }
-            else {
+            } else {
                 scope.show = false;
                 scope.dimmer_class = 'ui page inverted disable dimmer';
             }
@@ -28,7 +27,7 @@ angular.module('frontend.semantic.dimmer', [])
             //
             // Click on dimmer handler
             //
-            scope.click_on_dimmer = function(){
+            scope.click_on_dimmer = function() {
                 scope.model = true;
                 scope.show = true;
                 scope.dimmer_class = 'ui page inverted active dimmer';
@@ -37,15 +36,12 @@ angular.module('frontend.semantic.dimmer', [])
             //
             // Watch for the ng-model changing
             //
-            scope.$watch('model', function(val){
+            scope.$watch('model', function(val) {
                 if (val == false || val == undefined) {
                     scope.show = false;
                     scope.dimmer_class = 'ui page inverted disable dimmer';
                     return;
-                }
-
-
-                else
+                } else
                     scope.dimmer_class = 'ui page inverted active dimmer';
             });
         }

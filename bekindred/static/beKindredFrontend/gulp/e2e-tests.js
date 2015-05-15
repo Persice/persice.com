@@ -15,19 +15,19 @@ gulp.task('webdriver-standalone', $.protractor.webdriver_standalone);
 
 function runProtractor(done) {
 
-  gulp.src(paths.e2e + '/**/*.js')
-    .pipe($.protractor.protractor({
-      configFile: 'protractor.conf.js',
-    }))
-    .on('error', function(err) {
-      // Make sure failed tests cause gulp to exit non-zero
-      throw err;
-    })
-    .on('end', function() {
-      // Close browser sync server
-      browserSync.exit();
-      done();
-    });
+    gulp.src(paths.e2e + '/**/*.js')
+        .pipe($.protractor.protractor({
+            configFile: 'protractor.conf.js',
+        }))
+        .on('error', function(err) {
+            // Make sure failed tests cause gulp to exit non-zero
+            throw err;
+        })
+        .on('end', function() {
+            // Close browser sync server
+            browserSync.exit();
+            done();
+        });
 }
 
 gulp.task('protractor', ['protractor:src']);

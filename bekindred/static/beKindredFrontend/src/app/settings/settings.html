@@ -1,100 +1,74 @@
 <div class="ui grid fullheight" id="settingsPage">
-
-  <div class="row">
-    <div class="wide column">
-
-
-      <div class="ui basic segment">
-        <h4 class="ui header dividing">Settings</h4>
-        <form class="ui form">
-          <div class="inline fields">
-            <label for="fruit">Distance units:</label>
-            <div class="field">
-              <div class="customradio" ng-click="settings.userSettings.distance_unit = 'miles'">
-                <input type="radio" ng-model="settings.userSettings.distance_unit" value="miles">
-                <label >miles</label>
-              </div>
+    <div class="row">
+        <div class="wide column">
+            <div class="ui basic segment">
+                <h4 class="ui header dividing">Settings</h4>
+                <form class="ui form">
+                    <div class="inline fields">
+                        <label for="fruit">Distance units:</label>
+                        <div class="field">
+                            <div class="customradio" ng-click="settings.userSettings.distance_unit = 'miles'">
+                                <input type="radio" ng-model="settings.userSettings.distance_unit" value="miles">
+                                <label>miles</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="customradio" ng-click="settings.userSettings.distance_unit = 'km'">
+                                <input type="radio" ng-model="settings.userSettings.distance_unit" value="km">
+                                <label>km</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui divider"></div>
+                    <div class="ui green button" ng-class="{'disabled': !settings.userSettingsChanged}">Save</div>
+                </form>
             </div>
-            <div class="field">
-              <div class="customradio" ng-click="settings.userSettings.distance_unit = 'km'">
-                <input type="radio" ng-model="settings.userSettings.distance_unit" value="km">
-                <label >km</label>
-              </div>
+            <br>
+            <br>
+            <div class="ui basic segment">
+                <h4 class="ui header dividing">Manage Account</h4>
+                <div class="ui deleteitem red fluid button">
+                    <i class="remove circle icon"></i> Delete Account
+                </div>
+                <br>
+                <br>
+                <a class="ui fluid button" ui-sref-ignore href="accounts/logout">
+                    <i class="fa fa-sign-out icon"></i> Sign out
+                </a>
             </div>
-          </div>
-          <div class="ui divider"></div>
-
-          <div class="ui green button" ng-class="{'disabled': !settings.userSettingsChanged}">Save</div>
-        </form>
-
-      </div>
-
-      <br>
-      <br>
-
-      <div class="ui basic segment">
-        <h4 class="ui header dividing">Manage Account</h4>
-
-        <div class="ui deleteitem red fluid button">
-          <i class="remove circle icon"></i>
-          Delete Account
         </div>
-        <br>
-        <br>
-        <a class="ui fluid button" ui-sref-ignore href="accounts/logout">
-          <i class="fa fa-sign-out icon"></i>
-          Sign out
-        </a>
-
-      </div>
-
-
-
     </div>
-  </div>
 </div>
-
-
 <!-- modals -->
-
 <div class="ui basic delete modal">
-  <i class="close icon"></i>
-  <div class="header">
-    Please Confirm
-  </div>
-  <div class="content">
-
-    <div class="description">
-      <p>Are you sure you want to delete your account?</p>
+    <i class="close icon"></i>
+    <div class="header">
+        Please Confirm
     </div>
-  </div>
-  <div class="actions">
-    <div class="two fluid ui inverted buttons">
-      <div class="ui red negative basic inverted button">
-        <i class="remove icon"></i>
-        No
-      </div>
-      <a class="ui green basic inverted button ok">
-        <i class="checkmark icon"></i>
-        Yes
-      </a>
+    <div class="content">
+        <div class="description">
+            <p>Are you sure you want to delete your account?</p>
+        </div>
     </div>
-  </div>
+    <div class="actions">
+        <div class="two fluid ui inverted buttons">
+            <div class="ui red negative basic inverted button">
+                <i class="remove icon"></i> No
+            </div>
+            <a class="ui green basic inverted button ok">
+                <i class="checkmark icon"></i> Yes
+            </a>
+        </div>
+    </div>
 </div>
-
-
-
 <script>
-  'use strict';
-  $('.basic.delete.modal')
-  .modal({
-    onDeny    : function(){
-    },
-    onApprove : function() {
-      angular.element($('#settingsPage')).scope().settings.deleteUser();
-    }
-  })
-  .modal('attach events', '.deleteitem', 'show');
-
-
+'use strict';
+$('.basic.delete.modal')
+    .modal({
+        onDeny: function() {},
+        onApprove: function() {
+            angular.element($('#settingsPage')).scope().settings.deleteUser();
+        }
+    })
+    .modal('attach events', '.deleteitem', 'show');
 </script>
