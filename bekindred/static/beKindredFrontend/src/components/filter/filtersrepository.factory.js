@@ -17,6 +17,7 @@
             min_age: 25,
             max_age: 60,
             keyword: '',
+            order_by: 'Match score',
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
 
@@ -26,6 +27,7 @@
                 gender: 'm,f',
                 min_age: 25,
                 max_age: 60,
+                order_by: 'Match score',
                 keyword: '',
                 user: '/api/v1/auth/user/' + USER_ID + '/'
             },

@@ -117,6 +117,7 @@
 
             vm.currentFilters = FilterRepository.getFilterState();
             vm.distanceValue = vm.currentFilters.distance;
+            vm.orderBy = vm.currentFilters.order_by;
             vm.ageValues[0] = vm.currentFilters.min_age;
             vm.ageValues[1] = vm.currentFilters.max_age;
             if (vm.currentFilters.keyword !== '' && vm.currentFilters.keyword !== undefined) {
@@ -163,6 +164,7 @@
             vm.newFilters = {
                 distance: vm.distanceValue,
                 gender: vm.genders,
+                order_by: vm.orderBy,
                 min_age: parseInt(vm.ageValues[0]),
                 max_age: parseInt(vm.ageValues[1]),
                 keyword: vm.myKeywords.length === 0 ? '' : vm.myKeywords.join(),

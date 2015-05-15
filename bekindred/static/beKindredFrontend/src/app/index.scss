@@ -5137,7 +5137,7 @@ body.matchfeed-page #desktopmatchheader .icon {
     float: right!important;
 }
 
-#matched-profile-body .ui.header {
+#matched-profile-body .ui.header:not(.right.floated) {
     margin: 0px!important;
     border-bottom: 1px solid #ddd!important;
     display: inline-block!important;
