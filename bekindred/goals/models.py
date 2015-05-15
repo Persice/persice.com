@@ -297,3 +297,4 @@ class MatchFilterState(models.Model):
     max_age = models.CharField(max_length=4)
     gender = models.CharField(max_length=3)
     keyword = models.CharField(max_length=50)
+    order_criteria = models.CharField(max_length=20, default='distance')

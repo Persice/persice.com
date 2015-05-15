@@ -88,7 +88,8 @@ class MatchFilterStateTestCase(TestCase):
                                         min_age=18,
                                         max_age=98,
                                         gender='all',
-                                        keyword='python,ruby')
+                                        keyword='python,ruby',
+                                        order_criteria='distance')
 
     def test_save_state(self):
         self.assertEqual(MatchFilterState.objects.filter(user=self.user).count(), 1)
