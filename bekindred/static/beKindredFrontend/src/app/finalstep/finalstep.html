@@ -8,7 +8,7 @@
     Final Step</div>
     <div class="right menu">
       <div class="ui item" id="nextButton">
-      <a ui-sref="matchfeed" ng-class="{'disabled': finalstep.twitter === '' && finalstep.linkedin === ''}" class="ui button green">Next &raquo;</a>
+        <a ui-sref="matchfeed" class="ui button green"><span ng-if="finalstep.twitter === '' && finalstep.linkedin === ''">Skip</span><span ng-if="finalstep.twitter !== '' || finalstep.linkedin !== ''">Next</span> &raquo;</a>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
             <div class="content">
               Final Step
             </div>
-            <a ui-sref="matchfeed" id="nextButtonDesktop" ng-class="{'disabled': finalstep.twitter === '' && finalstep.linkedin === ''}" class="ui button green">Next &raquo;</a>
+            <a ui-sref="matchfeed" id="nextButtonDesktop" class="ui button green"><span ng-if="finalstep.twitter === '' && finalstep.linkedin === ''">Skip</span><span ng-if="finalstep.twitter !== '' || finalstep.linkedin !== ''">Next</span> &raquo;</a>
           </h2>
 
           <h2 class="ui center aligned header withborder"><hr>Connect your LinkedIn and <br>Twitter accounts<hr></h2>
@@ -80,14 +80,6 @@
                 </div>
               </div>
 
-              <div class="row">
-                <div class="column">
-                  <div class="ui segment basic center aligned">
-                    <a class="ui" ui-sref="matchfeed" ng-show="finalstep.twitter === '' && finalstep.linkedin === ''">skip &raquo;</a>
-                    <!-- <a class="ui green big button" ui-sref="matchfeed" ng-show="finalstep.twitter !== '' || finalstep.linkedin !== ''">Next &raquo;</a> -->
-                  </div>
-                </div>
-              </div>
 
             </div>
 
