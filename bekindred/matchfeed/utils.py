@@ -8,8 +8,17 @@ from members.models import FacebookCustomUserActive
 
 
 def order_by(target, **kwargs):
-    result = sorted(target, key=attrgetter(*kwargs['keys']))
-    return result
+    k = kwargs['keys']
+    if len(k) == 2:
+        if k[0] == 'score':
+            result = sorted(target, key=lambda x: (-x.score, x.distance))
+            return result
+        else:
+            result = sorted(target, key=lambda x: (x.distance, -x.score,))
+            return result
+    else:
+        result = sorted(target, key=attrgetter('distance'))
+        return result
 
 class MatchedUser(object):
     """
@@ -34,6 +43,8 @@ class MatchedUser(object):
         self.about = self.user.about_me
         self.photos = []
         self.distance = calculate_distance(current_user_id, user_id2)
+        self.score = Goal.objects_search.count_common_goals_and_offers(current_user_id, user_id2) + \
+                     Interest.objects_search.count_interests_fb_likes(current_user_id, user_id2)
 
     def _add(self, model, attr_name, limit=2):
         # TODO: update accordiing to SUbjects and SUbjectInteres

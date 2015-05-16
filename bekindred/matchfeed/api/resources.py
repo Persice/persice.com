@@ -7,8 +7,8 @@ from tastypie.bundle import Bundle
 from tastypie.resources import Resource
 
 from friends.models import FacebookFriendUser, Friend
-from goals.models import MatchFilterState, Subject
-from interests.models import InterestSubject
+from goals.models import MatchFilterState, Subject, Goal
+from interests.models import InterestSubject, Interest
 from matchfeed.models import MatchFeedManager
 from matchfeed.utils import MatchedResults, order_by
 from members.models import FacebookCustomUserActive
@@ -38,6 +38,8 @@ class MatchedFeedResource(Resource):
     offers = fields.ListField(attribute='offers')
     likes = fields.ListField(attribute='likes')
     interests = fields.ListField(attribute='interests')
+
+    score = fields.IntegerField(attribute='score', null=True)
 
     class Meta:
         max_limit = 1
@@ -81,9 +83,10 @@ class MatchedFeedResource(Resource):
             new_obj.offers = x['offers']
             new_obj.likes = x['likes']
             new_obj.interests = x['interests']
+            t1 = Goal.objects_search.count_common_goals_and_offers(request.user.id, user.id)
+            t2 = Interest.objects_search.count_interests_fb_likes(request.user.id, user.id)
+            new_obj.score = t1 + t2
             results.append(new_obj)
-
-        results = order_by(results, keys=['distance'])
 
         if request.GET.get('filter') == 'true':
             mfs = MatchFilterState.objects.get(user_id=request.user.id)
@@ -95,6 +98,10 @@ class MatchedFeedResource(Resource):
             exclude_matched_users = [user.id for user in results]
             search_users = MatchedResults(request.user.id, exclude_matched_users).find()
             results.extend(search_users)
+
+            order_keys = ['score', 'distance']
+            if mfs.order_criteria == 'distance':
+                order_keys = ['distance', 'score']
 
             for match in results:
                 if (match.distance[0] <= mfs.distance) and \
@@ -124,10 +131,10 @@ class MatchedFeedResource(Resource):
                     if a or b or c:
                         results_keywords.append(item)
                         continue
-                return results_keywords
-            return partial_results
+                return order_by(results_keywords, keys=order_keys)
+            return order_by(partial_results, keys=order_keys)
         else:
-            return results
+            return order_by(results, keys=['score', 'distance'])
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
