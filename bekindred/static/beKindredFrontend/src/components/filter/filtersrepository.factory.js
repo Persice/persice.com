@@ -17,6 +17,7 @@
             min_age: 25,
             max_age: 60,
             keyword: '',
+            distance_unit: 'miles',
             order_criteria: 'match_score',
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
@@ -29,17 +30,26 @@
                 max_age: 60,
                 order_criteria: 'match_score',
                 keyword: '',
+                distance_unit: 'miles',
                 user: '/api/v1/auth/user/' + USER_ID + '/'
             },
             filterId: null,
             getFilters: getFilters,
             saveFilters: saveFilters,
             createFilters: createFilters,
-            getFilterState: getFilterState
+            getFilterState: getFilterState,
+            setDistanceUnit: setDistanceUnit,
+            getDistanceUnit: getDistanceUnit
         };
         return service;
 
+        function setDistanceUnit(unit) {
+            service.filterState.distance_unit = unit;
+        }
 
+        function getDistanceUnit() {
+            return service.filterState.distance_unit;
+        }
 
         function getFilters() {
             $log.info('fetching filters');
@@ -54,6 +64,7 @@
                 } else {
                     service.filterId = response.objects[0].id;
                     service.filterState = response.objects[0];
+                    $rootScope.distanceUnit = service.filterState.distance_unit;
                     $rootScope.$broadcast('refreshFilters');
                 }
             }
