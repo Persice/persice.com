@@ -4,8 +4,6 @@ angular.module('icebrak')
     .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
         $rootScope.hideTopMenu = false;
 
-        $rootScope.orderBy = 'Match score';
-
         $scope.checkLogin = function() {
             ezfb.getLoginStatus()
                 .then(function(res) {

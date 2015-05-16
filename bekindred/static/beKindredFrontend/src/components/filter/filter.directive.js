@@ -55,12 +55,16 @@
         vm.refreshMatchFeed = refreshMatchFeed;
 
         vm.orderByValues = [{
-            name: 'Match score',
-            value: 'match_score'
+                name: 'Match score',
+                value: 'match_score'
 
         }, {
-            name: 'Distance',
-            value: 'distance'
+                name: 'Distance',
+                value: 'distance'
+        },
+            {
+                name: 'Mutual friends',
+                value: 'mutual_friends'
         }];
         vm.orderBy = 'match_score';
         vm.distanceValue = 10000;
@@ -107,7 +111,6 @@
         });
 
         function refreshMatchFeed() {
-            $rootScope.orderBy = vm.orderBy;
             $rootScope.$emit('triggerRefreshMatchfeed');
             $rootScope.$emit('filtersChanged');
         }

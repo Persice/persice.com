@@ -47,7 +47,6 @@ angular.module('icebrak')
                 MatchFeedFactory.query({
                     format: 'json',
                     filter: $scope.filtering,
-                    order: $rootScope.orderBy
                 }).$promise.then(function(data) {
                     $scope.matchedUser = [];
                     $scope.total = 0;
@@ -261,7 +260,6 @@ angular.module('icebrak')
                 offset: 0,
                 limit: 1,
                 filter: $scope.filtering,
-                order: $rootScope.orderBy
             }).$promise.then(function(data) {
                 var result = data.objects;
                 if (result.length > 0) {
