@@ -7,20 +7,20 @@
                     <div class="inline fields">
                         <label for="fruit">Distance units:</label>
                         <div class="field">
-                            <div class="customradio" ng-click="settings.userSettings.distance_unit = 'miles'">
-                                <input type="radio" ng-model="settings.userSettings.distance_unit" value="miles">
+                            <div class="customradio" ng-click="settings.setUnit('miles')">
+                                <input type="radio" ng-model="distanceUnit" value="miles">
                                 <label>miles</label>
                             </div>
                         </div>
-                        <div class="field">
-                            <div class="customradio" ng-click="settings.userSettings.distance_unit = 'km'">
-                                <input type="radio" ng-model="settings.userSettings.distance_unit" value="km">
+                         <div class="field">
+                            <div class="customradio" ng-click="settings.setUnit('km')">
+                                <input type="radio" ng-model="distanceUnit" value="km">
                                 <label>km</label>
                             </div>
                         </div>
                     </div>
                     <div class="ui divider"></div>
-                    <div class="ui green button" ng-class="{'disabled': !settings.userSettingsChanged}">Save</div>
+                    <div ng-click="settings.saveSettings()" class="ui green button" ng-class="{'disabled': !settings.userSettingsChanged, 'loading': settings.loadingSave}">Save</div>
                 </form>
             </div>
             <br>

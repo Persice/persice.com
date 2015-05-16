@@ -9,7 +9,7 @@
         .module('icebrak')
         .directive('matchfeedFilter', matchfeedFilter);
 
-    function matchfeedFilter() {
+    function matchfeedFilter($rootScope) {
         var directive = {
             controller: FilterController,
             controllerAs: 'filter',
@@ -37,14 +37,20 @@
      * @desc controller for matchfeedFilter directive
      * @ngInject
      */
-    function FilterController($scope, $timeout, $rootScope, $window, FiltersFactory, FilterRepository, USER_ID, lodash) {
+    function FilterController($scope, $timeout, $rootScope, $window, FiltersFactory, FilterRepository, USER_ID, lodash, $log) {
         var vm = this;
 
-
+        $rootScope.filtersChanged = false;
 
         $timeout(function() {
+            $rootScope.filtersChanged = false;
             vm.changed = false;
-        }, 5000);
+        }, 1000);
+
+
+        $rootScope.$watch('filtersChanged', function(newVal, oldVal) {
+            vm.changed = newVal;
+        });
 
         vm.toggleGender = toggleGender;
         vm.saveFilters = saveFilters;
@@ -116,7 +122,7 @@
         }
 
         $rootScope.$on('filtersChanged', function() {
-            vm.changed = false;
+            $rootScope.filtersChanged = false;
         });
 
         function getFilters() {
@@ -149,7 +155,7 @@
                 vm.male = false;
                 vm.female = true;
             }
-            vm.changed = true;
+            $rootScope.filtersChanged = true;
 
         }
 
@@ -179,7 +185,7 @@
                 user: '/api/v1/auth/user/' + USER_ID + '/'
             };
 
-            vm.changed = true;
+            $rootScope.filtersChanged = true;
 
             FilterRepository.saveFilters(vm.newFilters);
 

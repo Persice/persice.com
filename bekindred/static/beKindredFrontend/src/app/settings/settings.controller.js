@@ -10,26 +10,36 @@
      * classDesc User settings, delete account, logout
      * @ngInject
      */
-    function SettingsController($rootScope, $scope, $log, $timeout, $window, $http) {
+    function SettingsController($rootScope, FiltersFactory, FilterRepository, USER_ID, $scope, $log, $timeout, $window, $http) {
         var vm = this;
-        vm.userSettings = {
-            distance_unit: 'miles',
-        };
 
+        vm.userSettingsChanged = false;
+        $timeout(function() {
+            vm.filterId = FilterRepository.filterId;
+            vm.userSettingsChanged = false;
+        }, 1000);
 
+        vm.setUnit = setUnit;
+
+        vm.saveSettings = saveSettings;
 
         vm.deleteUser = deleteUser;
+        vm.loadingSave = false;
 
+        var pok = false;
 
-        $timeout(function() {
-            vm.userSettingsChanged = false;
-        }, 200);
+        $rootScope.$watch('distanceUnit', function(newVal, oldVal) {
+            if (pok === false) {
+                pok = true;
+            } else {
+                vm.userSettingsChanged = true;
+            }
 
-        $scope.$watch(angular.bind(vm, function() {
-            return vm.userSettings.distance_unit;
-        }), function(newVal, oldVal) {
-            vm.userSettingsChanged = true;
         });
+
+        function setUnit(value) {
+            $rootScope.distanceUnit = value;
+        }
 
 
         function deleteUser() {
@@ -43,6 +53,36 @@
             $window.location.href = '/accounts/logout';
             $window.location.assign();
 
+        }
+
+
+        function saveSettings() {
+            vm.loadingSave = true;
+            FiltersFactory.update({
+                filterId: vm.filterId
+            }, {
+                distance_unit: $rootScope.distanceUnit,
+                user: '/api/v1/auth/user/' + USER_ID + '/'
+            }, saveFiltersSuccess, saveFiltersError);
+
+            function saveFiltersSuccess(response) {
+                FilterRepository.setDistanceUnit($rootScope.distanceUnit);
+                vm.loadingSave = false;
+                vm.userSettingsChanged = false;
+            }
+
+            function saveFiltersError(error) {
+                var data = error.data,
+                    status = error.status,
+                    header = error.header,
+                    config = error.config,
+                    message = 'Error ' + status;
+                $log.error(message);
+                vm.loadingSave = false;
+                vm.userSettingsChanged = true;
+
+
+            }
         }
 
     }
