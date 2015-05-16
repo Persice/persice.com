@@ -293,6 +293,7 @@ class UserIPAddress(models.Model):
 class MatchFilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
     distance = models.IntegerField(default=1)
+    distance_unit = models.CharField(max_length=5, default='miles')
     min_age = models.CharField(max_length=3)
     max_age = models.CharField(max_length=4)
     gender = models.CharField(max_length=3)
