@@ -218,7 +218,7 @@
                 //its a friend profile
 
                 ProfileFactory.get({
-                    user_id: usrId,
+                    user_id: vm.userId,
                     format: 'json'
                 }).$promise.then(function(data) {
                     var goals = [];
@@ -281,7 +281,7 @@
 
                 MutualFriendsFactory.query({
                     format: 'json',
-                    user_id: vm.user.id
+                    user_id: vm.userId
                 }).$promise.then(function(data) {
                     if (data.objects.length > 0) {
                         vm.user.friends = data.objects[0].mutual_bk_friends;
@@ -311,7 +311,8 @@
 
         function getPhotos() {
             PhotosFactory.query({
-                format: 'json'
+                format: 'json',
+                user_id: vm.userId
             }).$promise.then(function(response) {
                 vm.user.photos = response.objects;
 

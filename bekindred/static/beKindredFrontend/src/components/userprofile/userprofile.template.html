@@ -17,7 +17,7 @@
             <div class="body segment" id="{{userprofile.body}}">
                 <div class="ui top attached segment">
                     <h3 class="ui left floated header">{{ userprofile.user.firstName }}<span ng-hide="userprofile.user.firstName === ''">,</span>  {{ userprofile.user.age }}</h3>
-                    <h5 class="ui right floated header"><a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a></h5>
+                    <h5 ng-show="userprofile.type === 'loggedInUser'" class="ui right floated header"><a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a></h5>
                 </div>
                 <div class="ui attached segment">
                     <h4 class="ui header">Goals</h4>
@@ -142,6 +142,15 @@
                             </div>
                         </div>
                         <p ng-if="userprofile.user.likes.length == 0">No likes yet.</p>
+                    </div>
+                    <div class="ui list likes" ng-show="userprofile.type === 'friend'">
+                        <div class="item" ng-repeat="like in userprofile.user.likes | orderBy:['-match']  track by $index">
+                            <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
+                            <div class="content">
+                                <div class="description">{{ like.value }}</div>
+                            </div>
+                        </div>
+                        <p ng-if="userprofile.user.likes.length === 0">No likes yet.</p>
                     </div>
                     <h4 class="ui header">Social Accounts</h4>
                     <br>
