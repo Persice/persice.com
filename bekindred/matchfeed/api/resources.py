@@ -40,6 +40,7 @@ class MatchedFeedResource(Resource):
     interests = fields.ListField(attribute='interests')
 
     score = fields.IntegerField(attribute='score', null=True)
+    # friends_score = fields.IntegerField(attribute='friends_score', null=True)
 
     class Meta:
         max_limit = 1
@@ -86,6 +87,8 @@ class MatchedFeedResource(Resource):
             t1 = Goal.objects_search.count_common_goals_and_offers(request.user.id, user.id)
             t2 = Interest.objects_search.count_interests_fb_likes(request.user.id, user.id)
             new_obj.score = t1 + t2
+            # new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
+            #                         len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true':
