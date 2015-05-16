@@ -6,8 +6,8 @@
 
     <div class="ui fixed menu friendsubmenu" id="submenu">
         <div class="3 fluid large ui buttons">
-            <a ui-sref="conversations({ userId: friendprofile.user.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
-            <a ui-sref="friendprofile({ userId: friendprofile.user.id })" ng-class="{'active': friendprofile.middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
+            <a ui-sref="conversations({ userId: friendprofile.userInfo.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+            <a ui-sref="friendprofile({ userId: friendprofile.userInfo.id })" ng-class="{'active': friendprofile.middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
             <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
                 <div class="menu" id="friendmenu">
                     <div class="item">
@@ -33,8 +33,8 @@
     </div>
 
     <div class="3 fluid large ui buttons friendsubmenu" id="desktopsubmenu">
-        <a ui-sref="conversations({ userId: friendprofile.user.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
-        <a ui-sref="friendprofile({ userId: friendprofile.user.id })" ng-class="{'active': friendprofile.middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
+        <a ui-sref="conversations({ userId: friendprofile.userInfo.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+        <a ui-sref="friendprofile({ userId: friendprofile.userInfo.id })" ng-class="{'active': friendprofile.middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
         <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
             <div class="menu" id="friendmenu">
                 <div class="item">
@@ -56,152 +56,7 @@
         </a>
     </div>
 
-    <div class="ui grid fullheight">
-
-      <div class="row">
-        <div class="wide column">
-
-            <div class="header segment with-menu" id="friendprofileheader">
-                <div class="pagination-container">
-                    <div id="PhotoSlider" ng-if="friendprofile.photosSlider.length > 0">
-                        <flex-slider slider-id="photoSlider" touch=true slideshow=false slide="item in friendprofile.photosSlider | orderBy:'order' track by $index">
-                        <li>
-                            <img ng-click="friendprofile.nextImage();" ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}"/>
-                            <img ng-click="friendprofile.nextImage();" ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}"/>
-                        </li>
-                    </flex-slider>
-                </div>
-            </div>
-        </div>
-
-        <div class="body segment" id="matched-profile-body">
-            <div class="ui top attached segment">
-                <h3 class="ui left floated header">
-                    {{ friendprofile.user.firstName }}<span ng-hide="friendprofile.user.firstName === ''">,</span>  {{ friendprofile.user.age }}
-                </h3>
-
-            </div>
-            <div class="ui attached segment" ng-class="{loading: friendprofile.loadingGoals || friendprofile.loadingOffers || friendprofile.loadingUser || friendprofile.loadingLikes || friendprofile.loadingInterests}">
-                <h4 class="ui header">Goals</h4>
-                <div class="ui list">
-                    <div class="item" ng-repeat="goal in friendprofile.user.goals | orderBy:['-match'] track by $index">
-                        <i class="icon" ng-class="{'stop smallicon': goal.match === 1, 'empty smallicon': goal.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ goal.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="friendprofile.user.goals.length === 0">No goals yet.</p>
-                </div>
-                <h4 class="ui header">Offers</h4>
-                <div class="ui list">
-                    <div class="item" ng-repeat="offer in friendprofile.user.offers | orderBy:['-match'] track by $index">
-                        <i class="icon" ng-class="{'stop smallicon': offer.match === 1, 'empty smallicon': offer.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ offer.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="friendprofile.user.offers.length === 0">No offers yet.</p>
-                </div>
-                <h4 class="ui header">About</h4>
-                <div class="ui list">
-                    <div class="item">
-                        <i class="empty icon"></i>
-                        <div class="content">
-                            <div class="description">
-                                <span>{{friendprofile.user.about_me}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <h4 class="ui header">Activities &amp; Interests</h4>
-                <div class="ui list">
-                    <div class="item" ng-repeat="interest in friendprofile.user.interests | orderBy:['-match'] track by $index">
-                        <i class="icon" ng-class="{'stop smallicon': interest.match === 1, 'empty smallicon': interest.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ interest.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="friendprofile.user.interests.length === 0">No interests yet.</p>
-                </div>
-
-                <h4 ng-if="friendprofile.user.friends.length > 0" class="ui header">Mutual Friends</h4>
-                <div ng-if="friendprofile.user.friends.length > 0" class="ui selection list">
-                    <a ui-sref="friendprofile({ userId: friend.user_id })" class="item" ng-repeat="friend in friendprofile.user.friends track by $index">
-                        <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
-                        <div class="content">
-                            <div class="header">{{ friend.first_name }}</div>
-                        </div>
-                    </a>
-                </div>
-                <h4 ng-if="friendprofile.user.facebookfriends.length > 0 "class="ui header">Mutual Facebook Friends ({{ friendprofile.user.facebookfriends.length }})</h4>
-                <div ng-if="friendprofile.user.facebookfriends.length > 0" class="ui selection list">
-                    <div class="item" ng-repeat="friend in friendprofile.user.facebookfriends track by $index">
-                        <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
-                        <div class="content">
-                            <div class="header">{{ friend.first_name }}</div>
-                        </div>
-                    </div>
-                </div>
-                <h4 ng-if="friendprofile.user.twitterfriends.length > 0" class="ui header">Mutual Twitter Friends ({{ friendprofile.user.twitterfriends.length }})</h4>
-                <div ng-if="friendprofile.user.twitterfriends.length > 0" class="ui selection list">
-                    <div class="item" ng-repeat="friend in friendprofile.user.twitterfriends track by $index">
-                        <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
-                        <div class="content">
-                            <div class="header">{{ friend.name }}</div>
-                        </div>
-                    </div>
-                </div>
-                <h4 ng-if="friendprofile.user.twitterfollowers.length > 0" class="ui header">Mutual Twitter Followers ({{ friendprofile.user.twitterfollowers.length  }})</h4>
-                <div ng-if="friendprofile.user.twitterfollowers.length > 0" class="ui selection list">
-                    <div class="item" ng-repeat="friend in friendprofile.user.twitterfollowers track by $index">
-                        <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
-                        <div class="content">
-                            <div class="header">{{ friend.name }}</div>
-                        </div>
-                    </div>
-                </div>
-                <h4 ng-if="friendprofile.user.linkedinconnections.length > 0" class="ui header">Mutual LinkedIn Connections ({{ friendprofile.user.linkedinconnections.length }})</h4>
-                <div ng-if="friendprofile.user.linkedinconnections.length > 0" class="ui selection list">
-                    <div class="item" ng-repeat="friend in friendprofile.user.linkedinconnections track by $index">
-                        <img class="ui avatar image" ng-src="{{friend.pictureUrls.values[0]}}">
-                        <div class="content">
-                            <div class="header">{{ friend.firstName }}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <h4 class="ui header">Likes</h4>
-                <div class="ui list likes">
-                    <div class="item" ng-repeat="like in friendprofile.user.likes | orderBy:['-match']  track by $index">
-                        <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
-                        <div class="content">
-                            <div class="description">{{ like.value }}</div>
-                        </div>
-                    </div>
-                    <p ng-if="friendprofile.user.likes.length === 0">No likes yet.</p>
-                </div>
-
-                <h4 ng-if="friendprofile.user.linkedin_provider !== null || friendprofile.user.twitter_provider !== null" class="ui header socialheader">Social Profiles</h4>
-                <br>
-                <a ng-if="friendprofile.user.linkedin_provider !== null" href="{{friendprofile.user.linkedin_provider}}" target="_new" class="ui linkedin button">
-                    <i class="linkedin icon"></i>
-                    LinkedIn
-                </a>
-                <a ng-if="friendprofile.user.twitter_provider !== null" href="http://www.twitter.com/{{friendprofile.user.twitter_provider}}" target="_new" class="ui twitter button">
-                    <i class="twitter icon"></i>
-                    Twitter
-                </a>
-
-
-
-
-            </div>
-        </div>
-
-    </div>
-</div>
-</div>
+    <user-profile person="friendprofile.userInfo" type="friend" header="friendprofileheader" body="matched-profile-body"></user-profile>
 
 
 </div>

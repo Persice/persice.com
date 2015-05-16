@@ -251,16 +251,8 @@ angular
                     userId: ['$stateParams', function($stateParams) {
                         return $stateParams.userId;
                     }],
-                    ProfileFactory: 'ProfileFactory',
                     ConnectionsFactory: 'ConnectionsFactory',
                     UsersFactory: 'UsersFactory',
-                    User: function(ProfileFactory, $stateParams) {
-                        var usrId = $stateParams.userId;
-                        return ProfileFactory.get({
-                            user_id: usrId,
-                            format: 'json'
-                        }).$promise;
-                    },
                     UserProfile: function(UsersFactory, $stateParams) {
                         return UsersFactory.query({
                             userId: $stateParams.userId,
