@@ -2,7 +2,9 @@
 
 angular.module('icebrak')
     .controller('MatchFeedCtrl', function($rootScope, $scope, $timeout, $filter, USER_ID, MatchFeedFactory, PhotosFactory, FriendsFactory, $log, MutualFriendsFactory) {
-
+        $timeout(function() {
+            $rootScope.filtersChanged = false;
+        }, 1000);
         $scope.matchedUser = [];
         $scope.total = 0;
         $scope.offset = 0;
