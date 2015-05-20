@@ -44,6 +44,7 @@
         return service;
 
         function setDistanceUnit(unit) {
+            $rootScope.distance_unit = unit;
             service.filterState.distance_unit = unit;
         }
 
@@ -64,7 +65,10 @@
                 } else {
                     service.filterId = response.objects[0].id;
                     service.filterState = response.objects[0];
-                    $rootScope.distanceUnit = service.filterState.distance_unit;
+                    $log.info('from service');
+                    $log.info(response.objects[0].distance_unit);
+                    $rootScope.$broadcast('distanceUnitChanged', response.objects[0].distance_unit);
+                    $rootScope.distance_unit = service.filterState.distance_unit;
                     $rootScope.$broadcast('refreshFilters');
                 }
             }

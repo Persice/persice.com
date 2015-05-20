@@ -74,6 +74,7 @@
         }];
         vm.orderBy = 'match_score';
         vm.distanceValue = 10000;
+        vm.distanceUnit = 'miles';
 
         vm.distanceOptions = {
             range: {
@@ -129,6 +130,7 @@
 
             vm.currentFilters = FilterRepository.getFilterState();
             vm.distanceValue = vm.currentFilters.distance;
+            vm.distanceUnit = vm.currentFilters.distance_unit;
 
             vm.orderBy = vm.currentFilters.order_criteria;
 

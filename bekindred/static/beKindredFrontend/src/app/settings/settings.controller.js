@@ -20,7 +20,6 @@
         }, 1000);
 
         vm.setUnit = setUnit;
-
         vm.saveSettings = saveSettings;
 
         vm.deleteUser = deleteUser;
@@ -28,7 +27,24 @@
 
         var pok = false;
 
-        $rootScope.$watch('distanceUnit', function(newVal, oldVal) {
+
+        vm.distanceUnit = $rootScope.distance_unit;
+
+
+        $rootScope.$on('distanceUnitChanged', function(event, value) {
+            vm.distanceUnit = value;
+            $log.info('from controller');
+            $log.info(value);
+            vm.userSettingsChanged = false;
+        });
+
+
+
+        $scope.$watch(angular.bind(vm, function(distanceUnit) {
+            return vm.distanceUnit;
+        }), function(newVal, oldVal) {
+            $log.info('from watch');
+            $log.info(newVal);
             if (pok === false) {
                 pok = true;
             } else {
@@ -38,7 +54,7 @@
         });
 
         function setUnit(value) {
-            $rootScope.distanceUnit = value;
+            vm.distanceUnit = value;
         }
 
 
@@ -61,12 +77,12 @@
             FiltersFactory.update({
                 filterId: vm.filterId
             }, {
-                distance_unit: $rootScope.distanceUnit,
+                distance_unit: vm.distanceUnit,
                 user: '/api/v1/auth/user/' + USER_ID + '/'
             }, saveFiltersSuccess, saveFiltersError);
 
             function saveFiltersSuccess(response) {
-                FilterRepository.setDistanceUnit($rootScope.distanceUnit);
+                FilterRepository.setDistanceUnit(vm.distanceUnit);
                 vm.loadingSave = false;
                 vm.userSettingsChanged = false;
             }
