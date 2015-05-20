@@ -223,7 +223,8 @@ angular
                     displayName: 'Match Feed',
                 },
                 templateUrl: 'app/matchfeed/matchfeed.html',
-                controller: 'MatchFeedCtrl'
+                controller: 'MatchFeedController',
+                controllerAs: 'matchfeed'
             })
             .state('bigmatchfeed', {
                 url: '/big-match-feed',

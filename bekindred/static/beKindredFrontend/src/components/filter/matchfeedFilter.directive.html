@@ -5,7 +5,7 @@
     <div id="{{filter.id}}" class="ui form">
         <form name="filterForm" id="filterForm">
             <div class="field">
-                <label>Distance <span class="range">{{filter.distanceValue}} mi.</span></label>
+                <label>Distance <span class="range">{{filter.distanceValue}} {{filter.distanceUnit}}</span></label>
                 <div no-ui-slider="filter.distanceOptions" ng-model="filter.distanceValue" ng-change="filter.saveFiltersDebounce()"></div>
             </div>
             <div class="field">
