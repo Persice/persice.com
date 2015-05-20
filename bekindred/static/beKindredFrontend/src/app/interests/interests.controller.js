@@ -73,7 +73,8 @@
                         '<p>To continue please select at least one interest.</p>',
                     scope: $scope,
                     classes: 'notify-info',
-                    icon: 'warning circle'
+                    icon: 'warning circle',
+                    duration: 4000
                 });
             }
         }

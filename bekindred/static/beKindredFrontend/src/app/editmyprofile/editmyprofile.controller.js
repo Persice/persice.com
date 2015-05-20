@@ -870,11 +870,12 @@ angular.module('icebrak')
             promise.then(function(greeting) {
                 $log.info('Success saving');
                 $scope.savingAllChanges = false;
-                notify({
+            notify({
                     messageTemplate: '<div class="notify-info-header">Success</div>' +
                         '<p>All changes have been saved.</p>',
                     classes: 'notify-info',
-                    icon: 'check circle'
+                    icon: 'check circle',
+                    duration: 4000
                 });
                 $state.go('myprofile');
             }, function(reason) {
@@ -886,7 +887,8 @@ angular.module('icebrak')
                         '<p>There were some errors. Please see them below.</p>',
                     scope: $scope,
                     classes: 'notify-error',
-                    icon: 'warning circle'
+                    icon: 'warning circle',
+                    duration: 4000
                 });
 
             }, function(update) {

@@ -169,7 +169,8 @@ angular.module('icebrak')
                         messageTemplate: notification,
                         scope: $scope,
                         classes: 'notify-info',
-                        icon: 'wechat'
+                        icon: 'wechat',
+                        duration: 4000
                     });
 
 
