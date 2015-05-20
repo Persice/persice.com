@@ -51,28 +51,25 @@ class MatchFeedManager(models.Manager):
         match_offers_to_offers = Offer.objects_search.match_offers_to_offers(user_id, friends)
         match_goals_to_offers = Offer.objects_search.match_goals_to_offers(user_id, friends)
         match_offers = match_offers_to_offers | match_goals_to_offers
-
+        uniq_user_ids = set([x.user_id for x in match_offers])
+        uniq_offer_ids = set([x.offer_id for x in match_offers])
         offers = {}
-        for _user_id, group in groupby(match_offers, lambda x: x.user_id):
-            offers[_user_id] = list()
+        for _user in uniq_user_ids:
+            offers[_user] = list()
             d = dict()
-            exclude_offers = []
-            for thing in group:
-                d[unicode(thing)] = 1
-                exclude_offers.append(thing.offer_id)
-            other_offers = Offer.objects.exclude(offer_id__in=exclude_offers).filter(user_id=_user_id)
-
-            for other in other_offers:
-                d[unicode(other)] = 0
-
-            offers[_user_id].append(d)
+            for offer in Offer.objects.filter(user_id=_user):
+                if offer.id in uniq_offer_ids:
+                    d[unicode(offer)] = 1
+                else:
+                    d[unicode(offer)] = 0
+            offers[_user].append(d)
 
         match_likes_to_likes = FacebookLikeProxy.objects.match_fb_likes_to_fb_likes(user_id, friends)
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
         match_likes = match_likes_to_likes + match_interests_to_likes
 
         likes = {}
-        for _user_id, group in groupby(match_likes, lambda x: x.user_id):
+        for _user_id, group in groupby(match_likes, key=lambda x: x.user_id):
             likes[_user_id] = list()
             d = dict()
             exclude_likes = []
@@ -92,7 +89,7 @@ class MatchFeedManager(models.Manager):
 
         # Match Interests
         interests = {}
-        for _user_id, group in groupby(match_interests, lambda x: x.user_id):
+        for _user_id, group in groupby(match_interests, key=lambda x: x.user_id):
             interests[_user_id] = list()
             d = dict()
             exclude_interests = []

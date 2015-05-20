@@ -84,9 +84,11 @@ class MatchedFeedResource(Resource):
             new_obj.offers = x['offers']
             new_obj.likes = x['likes']
             new_obj.interests = x['interests']
-            t1 = Goal.objects_search.count_common_goals_and_offers(request.user.id, user.id)
-            t2 = Interest.objects_search.count_interests_fb_likes(request.user.id, user.id)
-            new_obj.score = t1 + t2
+            t1 = sum(new_obj.goals[0].values()) if new_obj.goals else 0
+            t2 = sum(new_obj.offers[0].values()) if new_obj.offers else 0
+            t3 = sum(new_obj.interests[0].values()) if new_obj.interests else 0
+            t4 = sum(new_obj.likes[0].values()) if new_obj.likes else 0
+            new_obj.score = t1 + t2 + t3 + t4
             # new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
             #                         len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
             results.append(new_obj)

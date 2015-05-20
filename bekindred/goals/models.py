@@ -88,7 +88,7 @@ class GoalManager2(models.Manager):
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]
-        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal__in=subject_ids)
+        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -154,7 +154,7 @@ class GoalManager2(models.Manager):
         for goal in u_goals:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(goal).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
             match_offers2.extend(target_offers.search(tsquery, raw=True))
 
         return len(match_goals1 + match_goals2 + match_offers1 + match_offers2)
@@ -213,7 +213,7 @@ class OfferManager2(models.Manager):
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_offers]
-        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer__in=subject_ids)
+        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -234,7 +234,7 @@ class OfferManager2(models.Manager):
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_offers]
-        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer__in=subject_ids)
+        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer_id__in=subject_ids)
         return result
 
 

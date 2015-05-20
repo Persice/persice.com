@@ -4,6 +4,7 @@ from tastypie.test import ResourceTestCase
 from goals.models import Subject, Goal, MatchFilterState
 from interests.models import Interest, InterestSubject
 from members.models import FacebookLikeProxy
+from world.models import UserLocation
 
 
 class TestMatchFeedResource(ResourceTestCase):
@@ -21,6 +22,10 @@ class TestMatchFeedResource(ResourceTestCase):
                                                             password='test', date_of_birth=date(1970, 2, 1))
         self.user5 = FacebookCustomUser.objects.create_user(username='user_f', facebook_id=12345675,
                                                             password='test', date_of_birth=date(1973, 11, 1))
+        self.user6 = FacebookCustomUser.objects.create_user(username='user_g', facebook_id=123456123213,
+                                                            password='test', date_of_birth=date(1989, 10, 1))
+        self.user7 = FacebookCustomUser.objects.create_user(username='user_h', facebook_id=123456751112,
+                                                            password='test', date_of_birth=date(1935, 11, 1))
         self.description = 'learn django'
         self.description2 = 'learn python'
         self.description3 = 'learn ruby'
@@ -29,6 +34,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.description6 = 'teach ruby'
         self.description7 = 'find mountain biking partner'
         self.description8 = 'find people to go mountain biking with'
+        self.description9 = 'django'
 
         self.subject = Subject.objects.create(description=self.description)
         self.subject2 = Subject.objects.create(description=self.description2)
@@ -38,6 +44,16 @@ class TestMatchFeedResource(ResourceTestCase):
         self.subject6 = Subject.objects.create(description=self.description6)
         self.subject7 = Subject.objects.create(description=self.description7)
         self.subject8 = Subject.objects.create(description=self.description8)
+        self.subject9 = Subject.objects.create(description=self.description9)
+
+        user_location = UserLocation.objects.create(user=self.user, position=[-87.627696, 41.880745])
+        user_location1 = UserLocation.objects.create(user=self.user1, position=[-87.627675, 41.881925])
+        user_location2 = UserLocation.objects.create(user=self.user2, position=[-87.6281729688, 41.881849562])
+        user_location3 = UserLocation.objects.create(user=self.user3, position=[-87.62839, 41.88206])
+        user_location4 = UserLocation.objects.create(user=self.user4, position=[-87.6269801114, 41.8814058757])
+        user_location5 = UserLocation.objects.create(user=self.user5, position=[38.53, 77.02])
+        user_location6 = UserLocation.objects.create(user=self.user6, position=[41.50, 87.37])
+        user_location7 = UserLocation.objects.create(user=self.user7, position=[-87.62749695, 41.88316957])
 
         self.resource_url = '/api/v1/matchfeed/'
 
@@ -88,7 +104,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
 
     def test_filter_match_distance(self):
-        MatchFilterState.objects.create(user=self.user, distance=500)
+        MatchFilterState.objects.create(user=self.user, distance=500, min_age=4, max_age=5)
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
 
@@ -122,7 +138,7 @@ class TestMatchFeedResource(ResourceTestCase):
 
         self.response = self.login()
         resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true'}, format='json')
-        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 4)
+        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 6)
 
     def test_filter_match_gender_male(self):
         MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99, gender='f')
@@ -182,3 +198,74 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(result['meta']['total_count'], 1)
         self.assertEqual(result['objects'][0]['goals'], [{u'find people to go mountain biking with': 0,
                                                           u'learn django': 1}])
+
+    def test_matchfeed_order_by_distance(self):
+        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
+                                        order_criteria='distance')
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user4, goal=self.subject2)
+
+        Goal.objects.create(user=self.user5, goal=self.subject4)
+        Goal.objects.create(user=self.user5, goal=self.subject9)
+
+        self.response = self.login()
+        distance = []
+        url = '/api/v1/matchfeed/'
+        resp = self.api_client.get(url, data={'filter': 'true'}, format='json')
+        result = self.deserialize(resp)
+
+        for x in range(1, result['meta']['total_count']):
+            resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true', 'offset': x}, format='json')
+            result = self.deserialize(resp)
+            distance.append(result['objects'][0]['distance'])
+        self.assertEqual(distance, [[24, u'meters'],
+                                    [77, u'meters'],
+                                    [80, u'meters'],
+                                    [8730, u'miles'],
+                                    [8953, u'miles']])
+
+
+    def test_matchfeed_order_by_match_score(self):
+        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
+                                        order_criteria='match_score')
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+        Goal.objects.create(user=self.user, goal=self.subject3)
+        Goal.objects.create(user=self.user, goal=self.subject5)
+        Goal.objects.create(user=self.user, goal=self.subject6)
+        Goal.objects.create(user=self.user, goal=self.subject7)
+
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user1, goal=self.subject3)
+        Goal.objects.create(user=self.user1, goal=self.subject4)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+
+        Goal.objects.create(user=self.user2, goal=self.subject)
+        Goal.objects.create(user=self.user2, goal=self.subject2)
+        Goal.objects.create(user=self.user2, goal=self.subject3)
+        Goal.objects.create(user=self.user2, goal=self.subject4)
+
+        Goal.objects.create(user=self.user3, goal=self.subject)
+        Goal.objects.create(user=self.user3, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject3)
+
+        Goal.objects.create(user=self.user4, goal=self.subject)
+        Goal.objects.create(user=self.user4, goal=self.subject2)
+
+        Goal.objects.create(user=self.user5, goal=self.subject)
+
+        self.response = self.login()
+        distance = []
+        url = '/api/v1/matchfeed/'
+        resp = self.api_client.get(url, data={'filter': 'true'}, format='json')
+        result = self.deserialize(resp)
+
+        for x in range(1, result['meta']['total_count']):
+            resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true', 'offset': x}, format='json')
+            result = self.deserialize(resp)
+            distance.append(result['objects'][0]['score'])
+        self.assertEqual(distance, [5, 3, 1, 0, 0])

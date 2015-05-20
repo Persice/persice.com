@@ -1,7 +1,11 @@
 from datetime import date
+
 from django.test import TestCase
+
 from django_facebook.models import FacebookCustomUser
-from goals.models import Subject, MatchFilterState, Goal, Offer
+
+from goals.models import Subject, MatchFilterState, Goal, Offer, GoalManager2, OfferManager2
+from matchfeed.models import MatchFeedManager
 
 
 class SubjectTestCase(TestCase):
@@ -78,6 +82,123 @@ class GoalTestCase(TestCase):
         self.assertEqual(Goal.objects_search.count_common_goals_and_offers(self.user, self.user1), 2)
 
 
+class GoalManagerTestCase(TestCase):
+    def setUp(self):
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
+        self.s1 = Subject.objects.create(description='python')
+        self.s2 = Subject.objects.create(description='ruby')
+        self.s3 = Subject.objects.create(description='erlang')
+        self.s4 = Subject.objects.create(description='oralce')
+
+    def test_match_goal_to_goal(self):
+        Goal.objects.create(goal=self.s1, user=self.user)
+        Goal.objects.create(goal=self.s1, user=self.user1)
+        Goal.objects.create(goal=self.s1, user=self.user2)
+        Offer.objects.create(offer=self.s1, user=self.user3)
+        goals = [unicode(x) for x in GoalManager2.match_goals_to_goals(self.user.id, [])]
+        self.assertEqual(len(goals), 2)
+        self.assertEqual(goals, [u'python', u'python'])
+
+    def test_match_offers_to_goals(self):
+        Goal.objects.create(goal=self.s1, user=self.user1)
+        Goal.objects.create(goal=self.s2, user=self.user1)
+        Offer.objects.create(offer=self.s3, user=self.user1)
+        Offer.objects.create(offer=self.s4, user=self.user1)
+
+        Goal.objects.create(goal=self.s3, user=self.user)
+        Goal.objects.create(goal=self.s4, user=self.user)
+        Offer.objects.create(offer=self.s1, user=self.user)
+        Offer.objects.create(offer=self.s2, user=self.user)
+
+        goals = [unicode(x) for x in GoalManager2.match_offers_to_goals(self.user.id, [])]
+        self.assertEqual(len(goals), 2)
+        self.assertEqual(goals, [u'python', u'ruby'])
+
+
+class OfferManagerTestCase(TestCase):
+    def setUp(self):
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
+        self.s1 = Subject.objects.create(description='python')
+        self.s2 = Subject.objects.create(description='ruby')
+        self.s3 = Subject.objects.create(description='erlang')
+        self.s4 = Subject.objects.create(description='oralce')
+
+    def test_match_offer_to_offer(self):
+        Offer.objects.create(offer=self.s1, user=self.user)
+        Offer.objects.create(offer=self.s1, user=self.user1)
+        Offer.objects.create(offer=self.s1, user=self.user2)
+        Goal.objects.create(goal=self.s1, user=self.user3)
+        offers = [unicode(x) for x in OfferManager2.match_offers_to_offers(self.user.id, [])]
+        self.assertEqual(len(offers), 2)
+        self.assertEqual(offers, [u'python', u'python'])
+
+    def test_match_goals_to_offers(self):
+        Goal.objects.create(goal=self.s1, user=self.user)
+        Goal.objects.create(goal=self.s2, user=self.user)
+        Offer.objects.create(offer=self.s3, user=self.user)
+        Offer.objects.create(offer=self.s4, user=self.user)
+
+        Goal.objects.create(goal=self.s3, user=self.user1)
+        Goal.objects.create(goal=self.s4, user=self.user1)
+        Offer.objects.create(offer=self.s1, user=self.user1)
+        Offer.objects.create(offer=self.s2, user=self.user1)
+        offers = [unicode(x) for x in OfferManager2.match_goals_to_offers(self.user.id, [])]
+        self.assertEqual(len(offers), 2)
+        self.assertEqual(offers, [u'python', u'ruby'])
+
+
+class MatchFeedManagerTestCase(TestCase):
+    def setUp(self):
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
+        self.s1 = Subject.objects.create(description='python')
+        self.s2 = Subject.objects.create(description='ruby')
+        self.s3 = Subject.objects.create(description='oralce')
+        self.s4 = Subject.objects.create(description='erlang')
+        self.s5 = Subject.objects.create(description='java')
+        self.s6 = Subject.objects.create(description='pascal')
+        self.s7 = Subject.objects.create(description='django')
+        self.s8 = Subject.objects.create(description='flask')
+
+    def test_match_all_use_case_1(self):
+        # user 1
+        Goal.objects.create(goal=self.s1, user=self.user)
+        Goal.objects.create(goal=self.s2, user=self.user)
+        Goal.objects.create(goal=self.s3, user=self.user)
+        Offer.objects.create(offer=self.s4, user=self.user)
+        Offer.objects.create(offer=self.s5, user=self.user)
+        Offer.objects.create(offer=self.s6, user=self.user)
+        Offer.objects.create(offer=self.s7, user=self.user)
+        Offer.objects.create(offer=self.s8, user=self.user)
+        # user 2
+        Goal.objects.create(goal=self.s1, user=self.user1)
+        Goal.objects.create(goal=self.s5, user=self.user1)
+        Goal.objects.create(goal=self.s6, user=self.user1)
+        Offer.objects.create(offer=self.s4, user=self.user1)
+        Offer.objects.create(offer=self.s2, user=self.user1)
+        Offer.objects.create(offer=self.s3, user=self.user1)
+        Offer.objects.create(offer=self.s7, user=self.user1)
+        # user 3
+        Goal.objects.create(goal=self.s7, user=self.user2)
+        Goal.objects.create(goal=self.s5, user=self.user2)
+        Goal.objects.create(goal=self.s8, user=self.user2)
+        Offer.objects.create(offer=self.s4, user=self.user2)
+        Offer.objects.create(offer=self.s1, user=self.user2)
+        self.maxDiff = 2000
+        res = MatchFeedManager.match_all(self.user.id, exclude_friends=True)
+        self.assertEqual(res, {'users': [
+            {'interests': [{}], 'offers': [{u'oralce': 0, u'erlang': 0, u'ruby': 0, u'django': 0}], 'likes': [{}],
+             'id': self.user1.id, 'goals': [{u'python': 1, u'pascal': 1, u'java': 1}]},
+            {'interests': [{}], 'offers': [{u'python': 0, u'erlang': 0}], 'likes': [{}], 'id': self.user2.id,
+             'goals': [{u'flask': 1, u'java': 1, u'django': 1}]}]})
 
 
 class MatchFilterStateTestCase(TestCase):
