@@ -18,7 +18,7 @@
 
             },
             link: link,
-            template: '<div ng-class="{\'hidden\': connections.hideClass}" class="ui label">{{connections.counter}}</div>',
+            template: '<div ng-class="{\'hiddencounter\': connections.hideClass}" class="ui label">{{connections.counter}}</div>',
             restrict: 'E',
             replace: true
         };

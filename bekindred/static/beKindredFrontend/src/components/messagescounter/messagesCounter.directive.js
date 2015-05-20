@@ -18,7 +18,7 @@
 
             },
             link: link,
-            template: '<div ng-class="{\'hidden\': messages.hideClass}" class="ui label">{{messages.counter}}</div>',
+            template: '<div ng-class="{\'hiddencounter\': messages.hideClass}" class="ui label">{{messages.counter}}</div>',
             restrict: 'E',
             replace: true
         };
