@@ -41,15 +41,18 @@
      * @desc controller for userProfile directive
      * @ngInject
      */
-    function UserProfileController($scope, UsersFactory, InterestsFactory, ProfileFactory, MutualFriendsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, $log, lodash) {
+    function UserProfileController($scope, UsersFactory, InterestsFactory, ProfileFactory, MatchFeedFactory, MutualFriendsFactory, GoalsFactory, OffersFactory, LikesFactory, PhotosFactory, $log, lodash) {
         var vm = this;
 
         vm.userId = vm.person.id;
         vm.userPhoto = vm.person.photo;
 
         vm.getUser = getUser;
+        vm.getUserInfo = getUserInfo;
         vm.getPhotos = getPhotos;
         vm.nextImage = nextImage;
+
+        vm.showfullprofile = true;
 
         vm.social = {
             twitter: '',
@@ -75,13 +78,8 @@
             twitterfriends: [],
             twitterfollowers: [],
             linkedinconnections: [],
+            distance: []
         };
-
-        vm.loadingUser = false;
-        vm.loadingGoals = false;
-        vm.loadingOffers = false;
-        vm.loadingLikes = false;
-        vm.loadingInterests = false;
 
         vm.photosSlider = [];
 
@@ -94,8 +92,8 @@
             $('#photoSlider').flexslider('next');
         }
 
-        function getUser() {
 
+        function getUserInfo() {
             UsersFactory.get({
                 format: 'json'
             }, {
@@ -131,6 +129,14 @@
 
 
             });
+        }
+
+        function getUser() {
+
+
+            if (vm.type === 'loggedInUser' || vm.type === 'friend') {
+                vm.getUserInfo();
+            }
 
             if (vm.type === 'loggedInUser') {
 
@@ -214,8 +220,9 @@
 
                 });
 
-            } else {
-                //its a friend profile
+            }
+
+            if (vm.type === 'friend') {
 
                 ProfileFactory.get({
                     user_id: vm.userId,

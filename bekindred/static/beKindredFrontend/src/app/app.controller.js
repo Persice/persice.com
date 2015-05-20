@@ -102,16 +102,15 @@ angular.module('icebrak')
 
         $rootScope.goBack = function() {
             $rootScope.hideTopMenu = false;
-            $rootScope.showfullprofile = false;
             $('.horizontal.top.sidebar')
                 .sidebar('hide');
+            $rootScope.$broadcast('showFullProfile');
         };
 
 
         $scope.cancelMatch = function() {
             $('.dimmable').dimmer('hide');
             $rootScope.hideTopMenu = false;
-            $rootScope.showfullprofile = false;
             $('.horizontal.top.sidebar')
                 .sidebar('hide');
             $rootScope.$broadcast('cancelMatchEvent');
@@ -120,7 +119,6 @@ angular.module('icebrak')
         $scope.confirmMatch = function() {
             $('.dimmable').dimmer('hide');
             $rootScope.hideTopMenu = false;
-            $rootScope.showfullprofile = false;
             $('.horizontal.top.sidebar')
                 .sidebar('hide');
             $rootScope.$broadcast('confirmMatchEvent');
