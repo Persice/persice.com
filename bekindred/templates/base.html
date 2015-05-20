@@ -65,9 +65,9 @@
     </div>
     <div class="ui vertical left inverted labeled icon sidebar menu" id="leftmenu">
         <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-big icon"></i> <span class="content">Match Feed</span></a>
-        <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label" messages-counter></div></a>
+        <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>   <messages-counter></message-counter></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
-        <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">0</div></a>
+        <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <connections-counter></connections-counter></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="ui divided horizontal list" id="links_sidemenu_bottom">
             <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
@@ -120,10 +120,10 @@
                 <div class="ui attached internal desktopview left rail">
                     <div class="ui vertical menu" ng-cloak id="left-menu">
                         <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Match Feed <i class="icon inverted chevron right"></i></a>
-                        <a ui-sref="inbox" ui-sref-active="active" class="item">Messages <div class="ui label" messages-counter></div> <i class="icon inverted chevron right"></i></a>
+                        <a ui-sref="inbox" ui-sref-active="active" class="item">Messages <messages-counter></messages-counter> <i class="icon inverted chevron right"></i></a>
                         <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Match Feed <i class="icon inverted chevron right"></i></a> -->
                         <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
-                        <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">0</div><i class="icon inverted chevron right"></i></a>
+                        <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <connections-counter></connections-counter> <i class="icon inverted chevron right"></i></a>
                         <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
                     </div>
                     <div class="ui divided horizontal list" id="links_left_bottom">

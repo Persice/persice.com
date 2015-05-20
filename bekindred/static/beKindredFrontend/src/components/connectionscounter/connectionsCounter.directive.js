@@ -2,23 +2,23 @@
     'use strict';
 
     /**
-     * @desc display counter for new messages
-     * @example <div messages-counter></div>
+     * @desc display counter for new connections
+     * @example <div connections-counter></div>
      */
     angular
         .module('icebrak')
-        .directive('messagesCounter', messagesCounter);
+        .directive('connectionsCounter', connectionsCounter);
 
-    function messagesCounter() {
+    function connectionsCounter() {
         var directive = {
-            controller: MessagesController,
-            controllerAs: 'messages',
+            controller: ConnectionsController,
+            controllerAs: 'connections',
             bindToController: true,
             scope: {
 
             },
             link: link,
-            template: '<div ng-class="{\'hidden\': messages.hideClass}" class="ui label">{{messages.counter}}</div>',
+            template: '<div ng-class="{\'hidden\': connections.hideClass}" class="ui label">{{connections.counter}}</div>',
             restrict: 'E',
             replace: true
         };
@@ -34,24 +34,24 @@
     }
 
     /**
-     * @desc count new messages
+     * @desc count new connections
      * @ngInject
      */
-    function MessagesController($scope, InboxRepository, $rootScope, $log) {
+    function ConnectionsController($scope, $rootScope, $log) {
         var vm = this;
         vm.counter = 0;
         vm.hideClass = true;
 
         vm.refreshCounter = refreshCounter;
 
-        $rootScope.$on('refreshMessagesCounter', function(event, data) {
+        $rootScope.$on('refreshConnectionsCounter', function(event, data) {
             vm.refreshCounter();
         });
 
         vm.refreshCounter();
 
         function refreshCounter() {
-            vm.counter = InboxRepository.getUnreadMessagesCounter();
+            vm.counter = 0;
 
             if (vm.counter > 0) {
                 vm.hideClass = false;
