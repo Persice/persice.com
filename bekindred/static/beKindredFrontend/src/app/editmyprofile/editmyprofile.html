@@ -119,7 +119,7 @@
     <div class="ui attached segment" id="socialaccounts">
         <h4 class="ui header">Social Accounts</h4>
         <br>
-        <a ng-click="link('linkedin')" class="ui icon linkedin labeled fluid button" ng-if="social.linkedin.length === 0">
+        <a ng-click="link('linkedin')" class="ui icon linkedin labeled fluid button notconnected" ng-if="social.linkedin.length === 0">
             <i class="linkedin icon"></i> Connect
         </a>
         <div class="ui fluid buttons socialbuttons" ng-if="social.linkedin.length > 0">
@@ -132,7 +132,7 @@
             </a>
         </div>
         <br>
-        <a ng-click="link('twitter')" class="ui icon twitter labeled fluid button" ng-if="social.twitter.length === 0">
+        <a ng-click="link('twitter')" class="ui icon twitter labeled fluid button notconnected" ng-if="social.twitter.length === 0">
             <i class="twitter icon"></i> Connect
         </a>
         <div class="ui fluid buttons socialbuttons" ng-if="social.twitter.length > 0">

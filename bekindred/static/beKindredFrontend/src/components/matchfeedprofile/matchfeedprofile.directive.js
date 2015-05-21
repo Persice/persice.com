@@ -12,7 +12,7 @@
     function matchfeedProfile() {
         var directive = {
             controller: MatchfeedProfileController,
-            controllerAs: 'matchfeeduserprofile',
+            controllerAs: 'userprofile',
             bindToController: true,
             scope: {
                 id: '@id',
@@ -20,6 +20,7 @@
                 header: '@header',
                 body: '@body',
                 person: '=person',
+                type: '@type'
             },
             link: link,
             templateUrl: 'components/matchfeedprofile/matchfeedprofile.template.html',
@@ -42,6 +43,14 @@
      */
     function MatchfeedProfileController($scope, $timeout, $filter, $rootScope, USER_ID, FriendsFactory, MatchFeedFactory, MutualFriendsFactory, PhotosFactory, $log, lodash) {
         var vm = this;
+
+        vm.social = {
+            twitter: '',
+            linkedin: '',
+            facebook: ''
+        };
+
+
 
         $timeout(function() {
             $rootScope.filtersChanged = false;
@@ -110,6 +119,13 @@
             $rootScope.hideTopMenu = true;
             $('#filtersMenu').sidebar('hide');
             vm.user = [];
+            vm.total = 0;
+            vm.social = {
+                twitter: '',
+                linkedin: '',
+                facebook: ''
+            };
+
 
             vm.loadUser();
 
@@ -119,6 +135,7 @@
 
 
         function loadUser() {
+            vm.loadingFeed = true;
             MatchFeedFactory.query({
                 format: 'json',
                 filter: true,
@@ -131,6 +148,19 @@
                 if (result.length > 0) {
                     vm.total = data.meta.total_count;
                     vm.user = data.objects[0];
+
+                    if (vm.user.twitter_provider !== null) {
+                        vm.social.twitter = vm.user.twitter_provider;
+                    }
+
+                    if (vm.user.linkedin_provider !== null) {
+                        vm.social.linkedin = vm.user.linkedin_provider;
+                    }
+
+                    if (vm.user.facebook_id !== null) {
+                        vm.social.facebook = 'https://www.facebook.com/app_scoped_user_id/' + vm.user.facebook_id;
+                    }
+
 
                     var goals = [];
                     var matchedgoals = vm.user.goals[0];
@@ -193,7 +223,6 @@
 
                     vm.getPhotos();
 
-                    vm.loadingFeed = false;
 
                 } else {
                     vm.user = [];
@@ -202,6 +231,7 @@
                 }
                 vm.showDimmer = false;
                 $rootScope.hideTopMenu = false;
+                vm.loadingFeed = false;
             }, function(response) {
                 var data = response.data,
                     status = response.status,

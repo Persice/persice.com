@@ -1,224 +1,64 @@
 <!-- matchfeedprofile.template.html -->
-
 <div class="ui grid" ng-cloak>
     <div class="row">
         <div class="wide column">
-            <div ng-if="matchfeeduserprofile.total > 0">
-                <three-bounce-spinner ng-show="matchfeeduserprofile.loadingFeed" class="ui inverted dimmer transition visible active"></three-bounce-spinner>
-                <div ng-hide="showDimmer">
+            <div ng-if="userprofile.total > 0">
+                <three-bounce-spinner ng-show="userprofile.loadingFeed" class="ui inverted dimmer transition visible active"></three-bounce-spinner>
+                <div ng-show="!showDimmer">
                     <div class="dimmable">
-                        <h2 class="ui dividing header" id="desktopmatchheader" ng-if="matchfeeduserprofile.showfullprofile">
-                        {{ matchfeeduserprofile.user.first_name }}, {{ matchfeeduserprofile.user.age }}
-                        <div class="action-header">
-                            <div ng-click="matchfeeduserprofile.cancelMatchDesktop()" class="ui circular icon negative button">
-                                <i class="remove icon"></i>
-                            </div>
-                            <div ng-click="matchfeeduserprofile.confirmMatchDesktop()"  class="ui circular icon positive button">
-                                <i class="check icon"></i>
-                            </div>
-                        </div>
-                        <div class="sub header">{{matchfeeduserprofile.user.distance[0]}} {{matchfeeduserprofile.user.distance[1]}}
-                            <div class="ui mini horizontal statistics">
-                                <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Match score">
-                                    <div class="value">
-                                        <i class="intersecticon icon"></i>
-                                    </div>
-                                    <div class="label">
-                                        {{matchfeeduserprofile.totalmatchingcount}}
-                                    </div>
+                        <h2 class="ui dividing header" id="desktopmatchheader" ng-if="userprofile.showfullprofile">
+                            {{ userprofile.user.first_name }}, {{ userprofile.user.age }}
+                            <div class="action-header">
+                                <div ng-click="userprofile.cancelMatchDesktop()" class="ui circular icon negative button">
+                                    <i class="remove icon"></i>
                                 </div>
-                                <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Mutual friends">
-                                    <div class="value">
-                                        <i class="empty user usericon icon"></i>
-                                    </div>
-                                    <div class="label">
-                                        {{matchfeeduserprofile.totalfriendscount}}
-                                    </div>
+                                <div ng-click="userprofile.confirmMatchDesktop()"  class="ui circular icon positive button">
+                                    <i class="check icon"></i>
                                 </div>
                             </div>
-                        </div>
+                            <div class="sub header">{{userprofile.user.distance[0]}} {{userprofile.user.distance[1]}}
+                                <ng-include src="'components/profile/statistics-horizontal.tpl.html'"></ng-include>
+                            </div>
 
-                    </h2>
-                        <div class="ui basic segment" id="matchfeedheader-slider" ng-if="matchfeeduserprofile.showfullprofile">
-                            <div class="pagination-container">
-                                <div id="PhotoSlider">
-                                    <flex-slider slider-id="photoSlider" touch=true slideshow=false slide="item in matchfeeduserprofile.photosSlider | orderBy:'order' track by $index">
-                                        <li>
-                                            <img ng-click="matchfeeduserprofile.nextImage();" ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}" />
-                                            <img ng-click="matchfeeduserprofile.nextImage();" ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}" />
-                                        </li>
-                                    </flex-slider>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="header segment" id="matched-profile-header" ng-hide="matchfeeduserprofile.showfullprofile">
-                            <div class="ui segment">
-                                <div ng-click="matchfeeduserprofile.changeTopMenu()" ng-show="matchfeeduserprofile.photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{matchfeeduserprofile.photosSlider[0].photo}}');"></div>
-                                <div ng-click="matchfeeduserprofile.changeTopMenu()" ng-show="matchfeeduserprofile.photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{matchfeeduserprofile.photosSlider[0].cropped_photo}}');"></div>
-                                <h2 ng-click="matchfeeduserprofile.changeTopMenu()" class="ui header">
-                            {{ matchfeeduserprofile.user.first_name }}, {{ matchfeeduserprofile.user.age }}
-                            <div class="sub header"> {{matchfeeduserprofile.user.distance[0]}} {{matchfeeduserprofile.user.distance[1]}}</div>
                         </h2>
-                                <div class="ui mini statistics">
-                                    <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Match score">
-                                        <div class="value">
-                                            <i class="intersecticon icon"></i>
-                                        </div>
-                                        <div class="label">
-                                            {{matchfeeduserprofile.totalmatchingcount}}
-                                        </div>
-                                    </div>
-                                    <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Mutual friends">
-                                        <div class="value">
-                                            <i class="empty user usericon icon"></i>
-                                        </div>
-                                        <div class="label">
-                                            {{matchfeeduserprofile.totalfriendscount}}
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="ui basic segment" id="matchfeedheader-slider" ng-if="userprofile.showfullprofile">
+                            <ng-include src="'components/profile/headerphotoslider.tpl.html'"></ng-include>
+                        </div>
+                        <div class="header segment" id="matched-profile-header" ng-hide="userprofile.showfullprofile">
+                            <div class="ui segment">
+                                <div ng-click="userprofile.changeTopMenu()" ng-show="userprofile.photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{userprofile.photosSlider[0].photo}}');"></div>
+                                <div ng-click="userprofile.changeTopMenu()" ng-show="userprofile.photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{userprofile.photosSlider[0].cropped_photo}}');"></div>
+                                <h2 ng-click="userprofile.changeTopMenu()" class="ui header">
+                                {{ userprofile.user.first_name }}, {{ userprofile.user.age }}
+                                <div class="sub header"> {{userprofile.user.distance[0]}} {{userprofile.user.distance[1]}}</div>
+                            </h2>
+                                <ng-include src="'components/profile/statistics.tpl.html'"></ng-include>
                             </div>
                         </div>
-                        <div class="body segment" id="matched-profile-body" ng-click="matchfeeduserprofile.changeTopMenu()">
-                            <div class="ui  attached segment" ng-show="matchfeeduserprofile.showfullprofile" id="mobilematchheader">
+                        <div class="body segment" id="matched-profile-body" ng-click="userprofile.changeTopMenu()">
+                            <div class="ui  attached segment" ng-show="userprofile.showfullprofile" id="mobilematchheader">
                                 <h3 class="ui left floated header">
-                            {{ matchfeeduserprofile.user.first_name }}, {{ matchfeeduserprofile.user.age }}
-                        </h3>
+                                {{ userprofile.user.first_name }}, {{ userprofile.user.age }}
+                            </h3>
                                 <h5 class="ui right floated header">
-                            {{matchfeeduserprofile.user.distance[0]}} {{matchfeeduserprofile.user.distance[1]}}
-                        </h5>
+                                {{userprofile.user.distance[0]}} {{userprofile.user.distance[1]}}
+                            </h5>
                                 <br>
-                                <div class="ui mini horizontal statistics">
-                                    <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Match score">
-                                        <div class="value">
-                                            <i class="intersecticon icon"></i>
-                                        </div>
-                                        <div class="label">
-                                            {{matchfeeduserprofile.totalmatchingcount}}
-                                        </div>
-                                    </div>
-                                    <div class="statistic" tooltips tooltip-speed="fast" tooltip-title="Mutual friends">
-                                        <div class="value">
-                                            <i class="empty user usericon icon"></i>
-                                        </div>
-                                        <div class="label">
-                                            {{matchfeeduserprofile.totalfriendscount}}
-                                        </div>
-                                    </div>
-                                </div>
+                                <ng-include src="'components/profile/statistics-horizontal.tpl.html'"></ng-include>
                             </div>
                             <div class="ui attached segment">
-                                <h4 class="ui header" ng-if="matchfeeduserprofile.user.goals.length > 0">Goals</h4>
-                                <div class="ui list">
-                                    <div ng-hide="!matchfeeduserprofile.showfullprofile && $index > 2" class="item" ng-repeat="goal in matchfeeduserprofile.user.goals | orderBy:['-match'] track by $index">
-                                        <i class="icon" ng-class="{'stop smallicon': goal.match === 1, 'empty smallicon': goal.match === 0 }"></i>
-                                        <div class="content">
-                                            <div class="description">{{ goal.value }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 class="ui header" ng-if="matchfeeduserprofile.user.offers.length > 0">Offers</h4>
-                                <div class="ui list">
-                                    <div ng-hide="!matchfeeduserprofile.showfullprofile && $index > 2" class="item" ng-repeat="offer in matchfeeduserprofile.user.offers | orderBy:['-match'] track by $index">
-                                        <i class="icon" ng-class="{'stop smallicon': offer.match === 1, 'empty smallicon': offer.match === 0 }"></i>
-                                        <div class="content">
-                                            <div class="description">{{ offer.value }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 class="ui header" ng-if="matchfeeduserprofile.user.about.length > 0 && matchfeeduserprofile.showfullprofile">About</h4>
-                                <div class="ui list" ng-if="matchfeeduserprofile.user.about.length > 0 && matchfeeduserprofile.showfullprofile">
-                                    <div class="item">
-                                        <i class="empty icon"></i>
-                                        <div class="content">
-                                            <div class="description">
-                                                <span>{{matchfeeduserprofile.user.about}}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 class="ui header" ng-if="matchfeeduserprofile.user.interests.length > 0">Activities &amp; Interests</h4>
-                                <div class="ui list">
-                                    <div class="item" ng-hide="!matchfeeduserprofile.showfullprofile && $index > 2" ng-repeat="interest in matchfeeduserprofile.user.interests | orderBy:['-match'] track by $index">
-                                        <i class="icon" ng-class="{'stop smallicon': interest.match === 1, 'empty smallicon': interest.match === 0 }"></i>
-                                        <div class="content">
-                                            <div class="description">{{ interest.value }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 ng-if="matchfeeduserprofile.showfullprofile && matchfeeduserprofile.user.friends.length > 0" class="ui header">Mutual Friends</h4>
-                                <div ng-if="matchfeeduserprofile.showfullprofile && matchfeeduserprofile.user.friends.length > 0" class="ui selection list">
-                                    <a ui-sref="friendprofile({ userId: matchfeeduserprofile.friend.user_id })" class="item" ng-repeat="friend in matchfeeduserprofile.user.friends track by $index">
-                                        <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
-                                        <div class="content">
-                                            <div class="header">{{ friend.first_name }}</div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <h4 ng-if="matchfeeduserprofile.showfullprofile && matchfeeduserprofile.user.facebookfriends.length > 0 " class="ui header">Mutual Facebook Friends ({{ matchfeeduserprofile.user.facebookfriends.length }})</h4>
-                                <div ng-if="matchfeeduserprofile.showfullprofile && matchfeeduserprofile.user.facebookfriends.length > 0" class="ui selection list">
-                                    <div class="item" ng-repeat="friend in matchfeeduserprofile.user.facebookfriends track by $index">
-                                        <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
-                                        <div class="content">
-                                            <div class="header">{{ friend.first_name }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 ng-if="showfullprofile && matchfeeduserprofile.user.twitterfriends.length > 0" class="ui header">Mutual Twitter Friends ({{ matchfeeduserprofile.user.twitterfriends.length }})</h4>
-                                <div ng-if="showfullprofile && matchfeeduserprofile.user.twitterfriends.length > 0" class="ui selection list">
-                                    <div class="item" ng-repeat="friend in matchfeeduserprofile.user.twitterfriends track by $index">
-                                        <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
-                                        <div class="content">
-                                            <div class="header">{{ friend.name }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 ng-if="showfullprofile && matchfeeduserprofile.user.twitterfollowers.length > 0" class="ui header">Mutual Twitter Followers ({{ matchfeeduserprofile.user.twitterfollowers.length  }})</h4>
-                                <div ng-if="showfullprofile && matchfeeduserprofile.user.twitterfollowers.length > 0" class="ui selection list">
-                                    <div class="item" ng-repeat="friend in matchfeeduserprofile.user.twitterfollowers track by $index">
-                                        <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
-                                        <div class="content">
-                                            <div class="header">{{ friend.name }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 ng-if="showfullprofile && matchfeeduserprofile.user.linkedinconnections.length > 0" class="ui header">Mutual LinkedIn Connections ({{ matchfeeduserprofile.user.linkedinconnections.length }})</h4>
-                                <div ng-if="showfullprofile && matchfeeduserprofile.user.linkedinconnections.length > 0" class="ui selection list">
-                                    <div class="item" ng-repeat="friend in matchfeeduserprofile.user.linkedinconnections track by $index">
-                                        <img class="ui avatar image" ng-src="{{friend.pictureUrls.values[0]}}">
-                                        <div class="content">
-                                            <div class="header">{{ friend.firstName }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 class="ui header" ng-if="matchfeeduserprofile.user.likes.length > 0">Likes</h4>
-                                <div class="ui list likes">
-                                    <div class="item" ng-hide="!matchfeeduserprofile.showfullprofile && $index > 2" ng-repeat="like in matchfeeduserprofile.user.likes | orderBy:['-match']  track by $index">
-                                        <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
-                                        <div class="content">
-                                            <div class="description">{{ like.value }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <h4 ng-if="(matchfeeduserprofile.user.linkedin_provider !== null || matchfeeduserprofile.user.twitter_provider !== null) && matchfeeduserprofile.showfullprofile" class="ui header socialheader">Social Profiles</h4>
-                                <br>
-                                <a ng-if="(matchfeeduserprofile.user.linkedin_provider !== null) && matchfeeduserprofile.showfullprofile" href="{{matchfeeduserprofile.user.linkedin_provider}}" target="_new" class="ui linkedin button">
-                                    <i class="linkedin icon"></i> LinkedIn
-                                </a>
-                                <a ng-if="matchfeeduserprofile.user.twitter_provider !== null && matchfeeduserprofile.showfullprofile" href="http://www.twitter.com/{{matchfeeduserprofile.user.twitter_provider}}" target="_new" class="ui twitter button">
-                                    <i class="twitter icon"></i> Twitter
-                                </a>
+                                <ng-include src="'components/profile/profilebody.tpl.html'"></ng-include>
                             </div>
                         </div>
-                        <div class="footer segment" id="matched-profile-footer" ng-hide="matchfeeduserprofile.showfullprofile">
+                        <div class="footer segment" id="matched-profile-footer" ng-hide="userprofile.showfullprofile || userprofile.total === 0">
                             <div class="ui grid one column aligned center">
                                 <div class="row">
                                     <div class="column">
                                         <div class="ui labeled icon menu">
-                                            <a href="" ng-click="matchfeeduserprofile.cancelMatch()" class="item" id="left_button">
+                                            <a href="" ng-click="userprofile.cancelMatch()" class="item" id="left_button">
                                                 <i class="remove red circle icon"></i>
                                             </a>
-                                            <a href="" ng-click="matchfeeduserprofile.confirmMatch()" class="item" id="accept_button">
+                                            <a href="" ng-click="userprofile.confirmMatch()" class="item" id="accept_button">
                                                 <i class="check green circle icon"></i>
                                             </a>
                                         </div>
@@ -230,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="body segment" ng-show="matchfeeduserprofile.total === 0">
+            <div class="body segment" ng-show="userprofile.total === 0 && !userprofile.loadingFeed">
                 <div class="ui info message">
                     <div class="header">
                         Sorry. Currently you don't have any matches.
@@ -243,12 +83,11 @@
         </div>
     </div>
 </div>
-<page-dimmer ng-model="matchfeeduserprofile.showDimmer" show="true">
+<page-dimmer ng-model="userprofile.showDimmer" show="true">
     <h1 class="ui header"><img src="/static/img/icebrak-logo-dark.png" class="ui medium image centered" alt=""></h1>
     <h2 class="ui header">Locating people with similar goals...</h2>
     <fading-circle-spinner></fading-circle-spinner>
 </page-dimmer>
-
 <script>
 'use strict';
 

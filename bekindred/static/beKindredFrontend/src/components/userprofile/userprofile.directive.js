@@ -56,7 +56,8 @@
 
         vm.social = {
             twitter: '',
-            linkedin: ''
+            linkedin: '',
+            facebook: ''
         };
         vm.user = {
             id: vm.person.id,
@@ -100,13 +101,11 @@
                 userId: vm.userId
             }).$promise.then(function(data) {
 
-                vm.user.firstName = data.first_name;
-                vm.user.lastName = data.last_name;
+                vm.user.first_name = data.first_name;
+                vm.user.last_name = data.last_name;
                 vm.user.about_me = data.about_me;
                 vm.user.age = data.age;
                 vm.user.facebookId = data.facebook_id;
-                vm.user.facebookProfile = data.facebook_profile_url;
-
 
                 if (data.twitter_provider !== null) {
                     vm.social.twitter = data.twitter_provider;
@@ -114,6 +113,10 @@
 
                 if (data.linkedin_provider !== null) {
                     vm.social.linkedin = data.linkedin_provider;
+                }
+
+                if (data.facebook_profile_url !== null) {
+                    vm.social.facebook = data.facebook_profile_url;
                 }
 
                 vm.loadingUser = false;
