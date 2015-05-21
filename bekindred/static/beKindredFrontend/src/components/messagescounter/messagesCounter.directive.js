@@ -52,6 +52,7 @@
 
         function refreshCounter() {
             vm.counter = InboxRepository.getUnreadMessagesCounter();
+            $rootScope.$broadcast('refreshStateNotificationCircle');
 
             if (vm.counter > 0) {
                 vm.hideClass = false;

@@ -5599,3 +5599,32 @@ select.icebrakselect {
     visibility: hidden!important;
 }
 
+
+
+//notifications red circle icon
+
+mark.notification {
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    width: 12px;
+    height: 12px;
+    background-color: #FF6B6B;
+    position: absolute;
+    font-size: 10px;
+    font-family: sans-serif;
+    top: -16px;
+    right: 13px;
+}
+
+mark.notification.red {
+    background-color: #FF6B6B!important;
+}
+
+mark.notification.hidden-notification {
+    visibility: hidden!important;
+}
+
+#main-page #leftsidebarlaunch:hover > mark {
+
+}

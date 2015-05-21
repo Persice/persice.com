@@ -9,7 +9,7 @@
      * classDesc Service for Inbox: messages and counter for unread messages
      * @ngInject
      */
-    function InboxRepository(InboxFactory, $log, $filter, $rootScope, $q) {
+    function InboxRepository(InboxFactory, NotificationsRepository, $log, $filter, $rootScope, $q) {
 
 
         var service = {
@@ -60,6 +60,8 @@
                     });
                 }
                 service.unreadMessagesCounter = i;
+
+                NotificationsRepository.setTotalInbox(service.unreadMessagesCounter);
                 $rootScope.$broadcast('refreshMessagesCounter');
             }
 
