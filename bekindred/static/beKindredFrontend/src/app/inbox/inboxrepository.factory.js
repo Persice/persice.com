@@ -59,10 +59,11 @@
                         body: receivedMessages[obj].last_message_body
                     });
                 }
+
                 service.unreadMessagesCounter = i;
 
-                NotificationsRepository.setTotalInbox(service.unreadMessagesCounter);
-                $rootScope.$broadcast('refreshMessagesCounter');
+                // NotificationsRepository.setTotalInbox(service.unreadMessagesCounter);
+                // $rootScope.$broadcast('refreshMessagesCounter');
             }
 
             function getInboxMessagesFailed(error) {
@@ -110,7 +111,7 @@
                 });
             }
             service.unreadMessagesCounter += i;
-            $rootScope.$broadcast('refreshMessagesCounter');
+            // $rootScope.$broadcast('refreshMessagesCounter');
             service.loadingMore = false;
             deferred.resolve();
         }

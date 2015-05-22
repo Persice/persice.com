@@ -37,7 +37,7 @@
      * @desc count new messages
      * @ngInject
      */
-    function MessagesController($scope, InboxRepository, $rootScope, $log) {
+    function MessagesController($scope, $rootScope, $log, NotificationsRepository) {
         var vm = this;
         vm.counter = 0;
         vm.hideClass = true;
@@ -51,8 +51,7 @@
         vm.refreshCounter();
 
         function refreshCounter() {
-            vm.counter = InboxRepository.getUnreadMessagesCounter();
-            $rootScope.$broadcast('refreshStateNotificationCircle');
+            vm.counter = NotificationsRepository.getTotalInbox();
 
             if (vm.counter > 0) {
                 vm.hideClass = false;

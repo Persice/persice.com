@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('icebrak')
-    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, NotificationsRepository, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
         $rootScope.hideTopMenu = false;
 
         $scope.checkLogin = function() {
@@ -17,6 +17,9 @@ angular.module('icebrak')
         $scope.checkLogin();
 
 
+        //initiallcheck if we have new notifications for new connections or we have received new messages in inbox
+        NotificationsRepository.refreshTotalInbox();
+        NotificationsRepository.refreshTotalConnections();
 
         //gelocation
 
@@ -147,7 +150,11 @@ angular.module('icebrak')
                 $rootScope.$broadcast('receivedMessage', data);
             } else {
 
+                //refresh counter of new messages
                 InboxRepository.getInboxMessages();
+
+                //refresh notification state
+                NotificationsRepository.refreshTotalInbox();
 
                 var jsonData = JSON.parse(data);
                 var message = $filter('words')(jsonData.body, 10);

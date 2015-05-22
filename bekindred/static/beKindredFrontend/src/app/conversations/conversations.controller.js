@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('icebrak')
-    .controller('ConversationsCtrl', function($rootScope, notify, $resource, $window, $state, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
+    .controller('ConversationsCtrl', function($rootScope, notify, $resource, $window, $state, NotificationsRepository, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
 
         $scope.leftActive = true;
         $scope.messages = [];
@@ -198,7 +198,11 @@ angular.module('icebrak')
                     //mark all messages in conversation as read
                     $http.get('/api/v1/inbox/reat_at/?sender_id=' + $scope.friend.id).
                     success(function(data, status, headers, config) {
+                        //refresh counter of new messages
                         InboxRepository.getInboxMessages();
+
+                        //refresh notification state
+                        NotificationsRepository.refreshTotalInbox();
 
                     }).
                     error(function(data, status, headers, config) {
@@ -327,7 +331,11 @@ angular.module('icebrak')
                 //mark all messages in conversation as read
                 $http.get('/api/v1/inbox/reat_at/?sender_id=' + $scope.friend.id).
                 success(function(data, status, headers, config) {
+                    //refresh counter of new messages
                     InboxRepository.getInboxMessages();
+
+                    //refresh notification state
+                    NotificationsRepository.refreshTotalInbox();
                 }).
                 error(function(data, status, headers, config) {
 
@@ -346,6 +354,13 @@ angular.module('icebrak')
                     }, 1500);
                 }, 100);
 
+            } else {
+                //we received message fron other user - refresh counters
+                //refresh counter of new messages
+                InboxRepository.getInboxMessages();
+
+                //refresh notification state
+                NotificationsRepository.refreshTotalInbox();
             }
 
         });
