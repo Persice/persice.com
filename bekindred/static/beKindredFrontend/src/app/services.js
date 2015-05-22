@@ -320,4 +320,24 @@ angular
                 method: 'DELETE'
             }
         });
+    }])
+    .factory('InboxUnreadCounterFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/inbox/unread_counter/:unreadId/:param', {
+            unreadId: '@unreadId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
     }]);

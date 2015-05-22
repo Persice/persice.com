@@ -170,9 +170,6 @@
                             match: matchedgoals[key]
                         };
                         goals.push(goal);
-                        if (goal.match === 1) {
-                            vm.totalmatchingcount++;
-                        }
                     }
                     vm.user.goals = goals;
 
@@ -184,9 +181,6 @@
                             match: matchedoffers[key]
                         };
                         offers.push(offer);
-                        if (offer.match === 1) {
-                            vm.totalmatchingcount++;
-                        }
                     }
                     vm.user.offers = offers;
 
@@ -198,9 +192,7 @@
                             match: matchedinterests[key]
                         };
                         interests.push(interest);
-                        if (interest.match === 1) {
-                            vm.totalmatchingcount++;
-                        }
+
                     }
                     vm.user.interests = interests;
 
@@ -212,11 +204,10 @@
                             match: matchedlikes[key]
                         };
                         likes.push(like);
-                        if (like.match === 1) {
-                            vm.totalmatchingcount++;
-                        }
                     }
                     vm.user.likes = likes;
+
+                    vm.totalmatchingcount = vm.user.score;
 
 
                     vm.getMutualFriends();
