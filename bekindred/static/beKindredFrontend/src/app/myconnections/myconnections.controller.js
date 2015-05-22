@@ -67,6 +67,7 @@
                             vm.friends[obj].totalFriends += vm.friends[obj].mutual_linkedin_connections_count;
                             vm.friends[obj].totalFriends += vm.friends[obj].mutual_twitter_friends_count;
                             vm.friends[obj].totalFriends += vm.friends[obj].mutual_twitter_followers_count;
+                            vm.friends[obj].unread = Math.random() < 0.5 ? 0 : 1;
                         }
                     }
 
@@ -124,7 +125,7 @@
                             responseData[obj].totalFriends += responseData[obj].mutual_linkedin_connections_count;
                             responseData[obj].totalFriends += responseData[obj].mutual_twitter_friends_count;
                             responseData[obj].totalFriends += responseData[obj].mutual_twitter_followers_count;
-
+                            vm.friends[obj].unread = Math.random() < 0.5 ? 0 : 1;
                             vm.friends.push(responseData[obj]);
                         }
 
