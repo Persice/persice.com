@@ -25,7 +25,7 @@ class FriendsResource(ModelResource):
         queryset = Friend.objects.all()
         resource_name = 'friends'
         always_return_data = True
-        fields = ['id', 'friend1', 'friend2', 'status']
+        fields = ['id', 'friend1', 'friend2', 'status', 'updated_at']
         filtering = {'friend1': ALL,
                      'friend2': ALL,
                      'status': ALL}
