@@ -159,3 +159,30 @@ class InboxResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+class UnreadMessageCounter(Resource):
+    unread_counter = fields.IntegerField(attribute='unread_counter')
+
+    class Meta:
+        resource_name = 'inbox/unread_counter'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        new_object = A()
+        results = []
+        user = FacebookCustomUserActive.objects.get(id=request.user.id)
+        count = Message.objects.filter(recipient=user, read_at__isnull=True).count()
+        new_object.unread_counter = count
+        results.append(new_object)
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
