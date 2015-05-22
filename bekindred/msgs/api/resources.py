@@ -4,7 +4,7 @@ import json
 from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 import redis
-from django.db.models import Q
+from django.db.models import Q, Count
 from tastypie.bundle import Bundle
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
@@ -172,8 +172,9 @@ class UnreadMessageCounter(Resource):
         new_object = A()
         results = []
         user = FacebookCustomUserActive.objects.get(id=request.user.id)
-        count = Message.objects.filter(recipient=user, read_at__isnull=True).count()
-        new_object.unread_counter = count
+        cnt = Message.objects.filter(read_at__isnull=True, recipient=user).order_by('sender', 'recipient').\
+            values('sender').annotate(cnt=Count('sender'))
+        new_object.unread_counter = len(cnt)
         results.append(new_object)
         return results
 
