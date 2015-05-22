@@ -102,6 +102,7 @@ class Friend(models.Model):
     friend1 = models.ForeignKey(FacebookCustomUser)
     friend2 = models.ForeignKey(FacebookCustomUser, related_name='friend2')
     status = models.IntegerField(max_length=1, choices=FRIENDSHIP_STATUS, default=0)
+    updated_at = models.DateTimeField(null=True, blank=True)
 
     def __unicode__(self):
         return '%s %s %s' % (self.friend1.username, self.friend2.username, self.status)
