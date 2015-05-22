@@ -1,0 +1,198 @@
+<!-- goals -->
+<h4 class="ui header" ng-if="userprofile.user.goals.length > 0 || userprofile.type === 'loggedInUser'">Goals</h4>
+<div class="ui list" ng-if="userprofile.type === 'matchfeed'">
+    <div ng-hide="!userprofile.showfullprofile && $index > 2" class="item" ng-repeat="goal in userprofile.user.goals | orderBy:['-match'] track by $index">
+        <i class="icon" ng-class="{'stop smallicon': goal.match === 1, 'empty smallicon': goal.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ goal.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list" ng-if="userprofile.type === 'friend'">
+    <div ng-hide="!userprofile.showfullprofile" class="item" ng-repeat="goal in userprofile.user.goals | orderBy:['-match'] track by $index">
+        <i class="icon" ng-class="{'stop smallicon': goal.match === 1, 'empty smallicon': goal.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ goal.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list" ng-if="userprofile.type === 'loggedInUser'">
+    <div class="item" ng-repeat="goal in userprofile.user.goals track by $index">
+        <i class="icon empty"></i>
+        <div class="content">
+            <div class="description">{{ goal.subject }}</div>
+        </div>
+    </div>
+    <p ng-if="userprofile.user.goals.length === 0">No goals yet.</p>
+</div>
+
+<!-- offers -->
+<h4 class="ui header" ng-if="userprofile.user.offers.length > 0 || userprofile.type === 'loggedInUser'">Offers</h4>
+<div class="ui list" ng-if="userprofile.type === 'matchfeed'">
+    <div ng-hide="!userprofile.showfullprofile && $index > 2" class="item" ng-repeat="offer in userprofile.user.offers | orderBy:['-match'] track by $index">
+        <i class="icon" ng-class="{'stop smallicon': offer.match === 1, 'empty smallicon': offer.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ offer.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list" ng-if="userprofile.type === 'friend'">
+    <div ng-hide="!userprofile.showfullprofile" class="item" ng-repeat="offer in userprofile.user.offers | orderBy:['-match'] track by $index">
+        <i class="icon" ng-class="{'stop smallicon': offer.match === 1, 'empty smallicon': offer.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ offer.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list" ng-show="userprofile.type === 'loggedInUser'">
+    <div class="item" ng-repeat="offer in userprofile.user.offers track by $index">
+        <i class="icon empty"></i>
+        <div class="content">
+            <div class="description">{{ offer.subject }}</div>
+        </div>
+    </div>
+    <p ng-if="userprofile.user.offers.length === 0">No offers yet.</p>
+</div>
+
+
+
+<!-- about -->
+<h4 class="ui header" ng-if="userprofile.user.about_me.length > 0 && userprofile.showfullprofile">About</h4>
+<div class="ui list" ng-if="userprofile.user.about_me.length > 0 && userprofile.showfullprofile">
+    <div class="item">
+        <i class="empty icon"></i>
+        <div class="content">
+            <div class="description">
+                <span>{{userprofile.user.about_me}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- activities and interests -->
+<h4 class="ui header" ng-if="userprofile.user.interests.length > 0 || userprofile.type === 'loggedInUser'">Activities &amp; Interests</h4>
+<div class="ui list" ng-if="userprofile.type === 'matchfeed'">
+    <div class="item" ng-hide="!userprofile.showfullprofile && $index > 2" ng-repeat="interest in userprofile.user.interests | orderBy:['-match'] track by $index">
+        <i class="icon" ng-class="{'stop smallicon': interest.match === 1, 'empty smallicon': interest.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ interest.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list" ng-if="userprofile.type === 'friend'">
+    <div class="item" ng-hide="!userprofile.showfullprofile" ng-repeat="interest in userprofile.user.interests | orderBy:['-match'] track by $index">
+        <i class="icon" ng-class="{'stop smallicon': interest.match === 1, 'empty smallicon': interest.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ interest.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list" ng-show="userprofile.type === 'loggedInUser'">
+    <div class="item" ng-repeat="interest in userprofile.user.interests | limitTo:5 track by $index">
+        <i class="icon empty"></i>
+        <div class="content">
+            <div class="description">{{ interest.interest_subject }}</div>
+        </div>
+    </div>
+    <p ng-if="userprofile.user.interests.length === 0">No interests yet.</p>
+</div>
+
+<!-- mutual friends -->
+<h4 ng-if="userprofile.showfullprofile && userprofile.user.friends.length > 0" class="ui header">Mutual Friends</h4>
+<div ng-if="userprofile.showfullprofile && userprofile.user.friends.length > 0" class="ui selection list">
+    <a ui-sref="friendprofile({ userId: userprofile.friend.user_id })" class="item" ng-repeat="friend in userprofile.user.friends track by $index">
+        <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
+        <div class="content">
+            <div class="header">{{ friend.first_name }}</div>
+        </div>
+    </a>
+</div>
+
+
+<h4 ng-if="userprofile.showfullprofile && userprofile.user.facebookfriends.length > 0 " class="ui header">Mutual Facebook Friends ({{ userprofile.user.facebookfriends.length }})</h4>
+<div ng-if="userprofile.showfullprofile && userprofile.user.facebookfriends.length > 0" class="ui selection list">
+    <div class="item" ng-repeat="friend in userprofile.user.facebookfriends track by $index">
+        <img class="ui avatar image" ng-src="http://graph.facebook.com/{{ friend.facebook_id }}/picture">
+        <div class="content">
+            <div class="header">{{ friend.first_name }}</div>
+        </div>
+    </div>
+</div>
+
+<h4 ng-if="showfullprofile && userprofile.user.twitterfriends.length > 0" class="ui header">Mutual Twitter Friends ({{ userprofile.user.twitterfriends.length }})</h4>
+<div ng-if="showfullprofile && userprofile.user.twitterfriends.length > 0" class="ui selection list">
+    <div class="item" ng-repeat="friend in userprofile.user.twitterfriends track by $index">
+        <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
+        <div class="content">
+            <div class="header">{{ friend.name }}</div>
+        </div>
+    </div>
+</div>
+
+<h4 ng-if="showfullprofile && userprofile.user.twitterfollowers.length > 0" class="ui header">Mutual Twitter Followers ({{ userprofile.user.twitterfollowers.length  }})</h4>
+<div ng-if="showfullprofile && userprofile.user.twitterfollowers.length > 0" class="ui selection list">
+    <div class="item" ng-repeat="friend in userprofile.user.twitterfollowers track by $index">
+        <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
+        <div class="content">
+            <div class="header">{{ friend.name }}</div>
+        </div>
+    </div>
+</div>
+
+<h4 ng-if="showfullprofile && userprofile.user.linkedinconnections.length > 0" class="ui header">Mutual LinkedIn Connections ({{ userprofile.user.linkedinconnections.length }})</h4>
+<div ng-if="showfullprofile && userprofile.user.linkedinconnections.length > 0" class="ui selection list">
+    <div class="item" ng-repeat="friend in userprofile.user.linkedinconnections track by $index">
+        <img class="ui avatar image" ng-src="{{friend.pictureUrls.values[0]}}">
+        <div class="content">
+            <div class="header">{{ friend.firstName }}</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- likes -->
+<h4 class="ui header" ng-if="userprofile.user.likes.length > 0 || userprofile.type === 'loggedInUser'">Likes</h4>
+<div class="ui list likes" ng-if="userprofile.type === 'matchfeed'">
+    <div class="item" ng-hide="!userprofile.showfullprofile && $index > 2" ng-repeat="like in userprofile.user.likes | orderBy:['-match']  track by $index">
+        <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ like.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list likes" ng-if="userprofile.type === 'friend'">
+    <div class="item" ng-hide="!userprofile.showfullprofile" ng-repeat="like in userprofile.user.likes | orderBy:['-match']  track by $index">
+        <i class="icon" ng-class="{'stop smallicon': like.match === 1, 'empty smallicon': like.match === 0 }"></i>
+        <div class="content">
+            <div class="description">{{ like.value }}</div>
+        </div>
+    </div>
+</div>
+<div class="ui list likes" ng-show="userprofile.type === 'loggedInUser'">
+    <div class="item" ng-repeat="like in userprofile.user.likes | limitTo:5 track by $index">
+        <i class="icon empty"></i>
+        <div class="content">
+            <div class="description">{{ like.name }}</div>
+        </div>
+    </div>
+    <p ng-if="userprofile.user.likes.length == 0">No likes yet.</p>
+</div>
+
+<!-- connected social accounts -->
+<h4 class="ui header socialprofileheader" ng-if="(userprofile.social.linkedin !== '' || userprofile.social.twitter !== '' || userprofile.social.facebook !== '') && userprofile.showfullprofile">Social Accounts</h4>
+<br ng-if="userprofile.social.linkedin.length > 0">
+<a href="{{ userprofile.social.linkedin }}" target="_new" class="ui social icon fluid linkedin labeled button" ng-if="userprofile.social.linkedin.length > 0 && userprofile.showfullprofile">
+    <i class="linkedin icon"></i> {{userprofile.user.first_name}}
+    <i class="check circle icon right"></i>
+</a>
+<br ng-if="userprofile.social.twitter.length > 0">
+<a href="https://twitter.com/{{ userprofile.social.twitter }}" target="_new" class="ui social fluid icon twitter labeled button" ng-if="userprofile.social.twitter.length > 0 && userprofile.showfullprofile">
+    <i class="twitter icon"></i> {{userprofile.social.twitter}}
+    <i class="check circle icon right"></i>
+</a>
+<br ng-if="userprofile.social.facebook.length > 0">
+<a href="{{ userprofile.social.facebook }}" class="ui social icon facebook labeled fluid button" ng-if="userprofile.social.facebook.length > 0 && userprofile.showfullprofile">
+    <i class="facebook icon"></i> {{userprofile.user.first_name}}
+    <i class="lock icon right"></i>
+</a>
+

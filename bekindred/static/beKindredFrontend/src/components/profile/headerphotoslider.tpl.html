@@ -1,0 +1,10 @@
+<div class="pagination-container">
+    <div id="PhotoSlider" ng-if="userprofile.photosSlider.length > 0">
+        <flex-slider slider-id="photoSlider" touch=true slideshow=false slide="item in userprofile.photosSlider | orderBy:'order' track by $index">
+            <li>
+                <img ng-click="userprofile.nextImage()" ng-show="item.cropped_photo === ''" class="ui image" ng-src="{{item.photo}}" />
+                <img ng-click="userprofile.nextImage()" ng-show="item.cropped_photo !== ''" class="ui image" ng-src="{{item.cropped_photo}}" />
+            </li>
+        </flex-slider>
+    </div>
+</div>

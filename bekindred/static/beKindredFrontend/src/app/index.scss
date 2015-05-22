@@ -5137,10 +5137,14 @@ body.matchfeed-page #desktopmatchheader .icon {
     float: right!important;
 }
 
-#matched-profile-body .ui.header:not(.right.floated) {
+#matched-profile-body .ui.header {
     margin: 0px!important;
     border-bottom: 1px solid #ddd!important;
     display: inline-block!important;
+}
+
+#matched-profile-body #editbutton {
+    border-bottom: none!important;
 }
 
 #FilterController.desktopview #keywordsSearch input {
@@ -5197,11 +5201,15 @@ body.goalcreate-page .body.segment,
         text-align: center;
     }
 }
+#matched-profile-body .ui.header.socialprofileheader {
+    margin-bottom: 10px!important;
+}
 
 @media only screen and (max-width: 767px) {
     body.selectinterests-page #next-button-interests {
         display: none!important;
     }
+
 }
 
 body.selectinterests-page #interests .ui.button.toggle.active {
@@ -5392,7 +5400,6 @@ body.selectinterests-page #interests .ui.button.toggle.active {
 //settings page
 @media only screen and (min-width: 768px) {
     .fluid.button {
-        display: inline-block!important;
         width: auto!important;
     }
 }
@@ -5402,9 +5409,9 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     body.myprofile-page .fluid.button,
     body.matchfeed-page .ui.linkedin.button,
     body.matchfeed-page .ui.twitter.button {
-        display: inline-block!important;
         width: auto!important;
         margin-top: 10px!important;
+        display: block!important;
     }
     body.editmyprofile-page .fluid.button {
         display: block!important;
@@ -5421,7 +5428,11 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     body.editmyprofile-page .ui.labeled.icon.button.facebook {
         width: 48%!important;
     }
+    body.editmyprofile-page .ui.labeled.icon.button.notconnected {
+        width: 48%!important;
+    }
 }
+
 
 #matched-profile-body .ui.header.socialheader {
     margin-bottom: 10px!important;
@@ -5431,16 +5442,19 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     body.matchfeed-page #matched-profile-body .ui.header.socialheader {
         margin-bottom: 0px!important;
     }
-}
 
-@media only screen and (min-width: 768px) and (max-width: 850px) {
     body.myprofile-page .fluid.button,
+    body.friend-page .fluid.button,
     body.matchfeed-page .ui.linkedin.button,
+    body.matchfeed-page .ui.facebook.button,
     body.matchfeed-page .ui.twitter.button {
         display: inline-block!important;
         width: auto!important;
         margin-top: 10px!important;
     }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 850px) {
     body.editmyprofile-page .socialbuttons {
         position: relative!important;
         width: 70%!important;
@@ -5583,4 +5597,34 @@ select.icebrakselect {
 
 .hiddencounter {
     visibility: hidden!important;
+}
+
+
+
+//notifications red circle icon
+
+mark.notification {
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    width: 12px;
+    height: 12px;
+    background-color: #FF6B6B;
+    position: absolute;
+    font-size: 10px;
+    font-family: sans-serif;
+    top: -16px;
+    right: 13px;
+}
+
+mark.notification.red {
+    background-color: #FF6B6B!important;
+}
+
+mark.notification.hidden-notification {
+    visibility: hidden!important;
+}
+
+#main-page #leftsidebarlaunch:hover > mark {
+
 }
