@@ -21,6 +21,26 @@ angular
             }
         });
     }])
+    .factory('NewConnectionsFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/new_connections/counter/:newConnectionId/:param', {
+            goalId: '@newConnectionId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
+    }])
     .factory('LikesFactory', ['$resource', function($resource) {
         return $resource('/api/v1/likes/:likeId/:param', {
             likeId: '@likeId'
