@@ -1,7 +1,9 @@
 import re
+import json
 
 from django.db.models import Q
 from django.utils.timezone import now
+import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -50,6 +52,9 @@ class FriendsResource(ModelResource):
                 bundle.obj = result[0]
                 bundle.obj.status = 1
                 bundle.data['status'] = 1
+                # redis
+                r = redis.StrictRedis(host='localhost', port=6379, db=0)
+                r.publish('connection.%s' % result[0].pk, json.dumps(bundle.data))
                 return super(FriendsResource, self).obj_update(bundle, **kwargs)
             elif result[0].status == -1 or status == -1:
                 bundle.obj = result[0]
@@ -63,6 +68,7 @@ class FriendsResource(ModelResource):
 
 class ConnectionsResource(Resource):
     id = fields.CharField(attribute='id')
+    friendship_id = fields.CharField(attribute='friendship_id')
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
@@ -147,7 +153,6 @@ class ConnectionsResource(Resource):
             t1 = Goal.objects_search.count_common_goals_and_offers(current_user, new_obj.friend_id)
             t2 = Interest.objects_search.count_interests_fb_likes(current_user, new_obj.friend_id)
             new_obj.common_goals_offers_interests = t1 + t2
-
 
             results.append(new_obj)
         return results

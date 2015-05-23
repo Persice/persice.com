@@ -1,9 +1,11 @@
 from itertools import chain
+import json
 
 from django.db import models
 from django.db.models import Q
 from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser, FacebookUser
+import redis
 
 from members.models import FacebookCustomUserActive
 
