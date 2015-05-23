@@ -40,40 +40,41 @@ io.on('connection', function(socket) {
     console.log('a user connected');
 
     // Create redis client
-    client = redis.createClient();
+    clientNewMessage = redis.createClient();
+    clientNewConnection = redis.createClient();
 
     console.log(socket.cookie['sessionid']);
     console.log(socket.cookie['userid']);
 
     // Subscribe to the Redis events channel for new messages
-    client.subscribe('message.' + socket.cookie['userid']);
+    clientNewMessage.subscribe('message.' + socket.cookie['userid']);
 
     // Subscribe to the Redis events channel for new connections
-    client.subscribe('connection.' + socket.cookie['userid']);
+    clientNewConnection.subscribe('connection.' + socket.cookie['userid']);
 
     // Grab message from Redis and send to client
-    client.on('message', function(channel, message) {
+    clientNewMessage.on('message', function(channel, message) {
         console.log('on message ' + socket.cookie['userid'], message);
-        socket.send(message);
+        socket.send(JSON.stringify({
+            type: channel,
+            message: message
+        }));
     });
 
     // Grab new connection from Redis and send to client
-    client.on('connection', function(channel, message) {
+    clientNewConnection.on('message', function(channel, message) {
+
         console.log('on connection ' + socket.cookie['userid'], message);
-        socket.send(message);
+        socket.send(JSON.stringify({
+            type: channel,
+            message: message
+        }));
     });
 
     socket.on('disconnect', function() {
         console.log('user disconnected');
-        client.unsubscribe('message.' + socket.cookie['userid']);
+        clientNewMessage.unsubscribe('message.' + socket.cookie['userid']);
+        clientNewConnection.unsubscribe('connection.' + socket.cookie['userid']);
     });
 
-    socket.on('newmessage', function() {
-        console.log('new message');
-    });
-
-    // socket.on('notification', function(msg){
-    //     console.log('message: ' + msg.body);
-    //     socket.broadcast.emit('newmessage', msg);
-    // });
 });
