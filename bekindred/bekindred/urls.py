@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from django.contrib import admin
 
-from friends.api.resources import FriendsResource, ConnectionsResource, FriendsNewResource
+from friends.api.resources import FriendsResource, ConnectionsResource, FriendsNewResource, FriendsNewCounterResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
     FacebookLikeResource
 from interests.api.resources import InterestResource, InterestSubjectResource
@@ -36,6 +36,7 @@ v1_api.register(InboxLastResource())
 v1_api.register(UnreadMessageCounter())
 v1_api.register(UserLocationResource())
 v1_api.register(FriendsNewResource())
+v1_api.register(FriendsNewCounterResource())
 
 urlpatterns = patterns('',
                        url(r'^$', 'goals.views.main_page'),

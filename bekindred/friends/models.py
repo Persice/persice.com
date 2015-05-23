@@ -24,7 +24,6 @@ class FriendManager(models.Manager):
                                        Q(friend1=friend2, friend2=friend1)).update(status=2)
         return result
 
-
     def confirm_friend_request(self, friend1, friend2):
         result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
                                        Q(friend1=friend2, friend2=friend1))[0]
@@ -39,7 +38,6 @@ class FriendManager(models.Manager):
         except IndexError:
             return False
         return True
-
 
     def checking_friendship(self, friend1, friend2):
         try:
@@ -63,6 +61,12 @@ class FriendManager(models.Manager):
                                                                   friend2__is_active=True, status=1) |
                                                                 Q(friend2=user_id, friend2__is_active=True,
                                                                   friend1__is_active=True, status=1))
+
+    def new_friends(self, user_id):
+        return super(FriendManager, self).get_queryset().filter(Q(friend1=user_id, friend1__is_active=True,
+                                                                  friend2__is_active=True, status=1, updated_at__isnull=True) |
+                                                                Q(friend2=user_id, friend2__is_active=True,
+                                                                  friend1__is_active=True, status=1, updated_at__isnull=True))
 
     def deleted_friends(self, user_id):
         """

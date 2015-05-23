@@ -185,3 +185,29 @@ class FriendsNewResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+class FriendsNewCounterResource(Resource):
+    new_connection_counter = fields.IntegerField(attribute='new_connection_counter')
+
+    class Meta:
+        resource_name = 'new_connections/counter'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        results = []
+        new_obj = A()
+        new_obj.new_connection_counter = Friend.objects.new_friends(request.user.id).count()
+        results.append(new_obj)
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
