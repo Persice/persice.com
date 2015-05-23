@@ -141,47 +141,89 @@ angular.module('icebrak')
         InboxRepository.getInboxMessages();
         $rootScope.notifications = [];
         $rootScope.messages = [];
+
         //web socket for messages
         $scope.$on('socket:message', function(ev, data) {
 
+            var jsonData = JSON.parse(data);
 
+            $log.info(jsonData);
 
-            if ($rootScope.isState('conversations')) {
-                $rootScope.$broadcast('receivedMessage', data);
-            } else {
+            if (jsonData.type === 'connection.' + USER_ID) {
+                var jsonDataConnection = JSON.parse(data);
+                var connectionData = JSON.parse(jsonDataConnection.message);
+                var localTime = $filter('amDateFormat')(Date.now(), 'h:mm a');
 
-                //refresh counter of new messages
-                InboxRepository.getInboxMessages();
+                var me = '/api/v1/auth/user/' + USER_ID + '/';
 
-                //refresh notification state
-                NotificationsRepository.refreshTotalInbox();
+                if (me === connectionData.friend1) {
+                    var MyNewFriend = $resource(connectionData.friend2);
+                }
 
-                var jsonData = JSON.parse(data);
-                var message = $filter('words')(jsonData.body, 10);
-                var localTime = $filter('amDateFormat')(jsonData.sent_at, 'h:mm a');
+                if (me === connectionData.friend2) {
+                    var MyNewFriend = $resource(connectionData.friend1);
+                }
 
-                var Sender = $resource(jsonData.sender);
-                Sender.get().$promise.then(function(data) {
+                MyNewFriend.get().$promise.then(function(data) {
 
-                    $scope.gotoConversation = function() {
-                        $state.go('conversations', {
-                            userId: data.id
-                        });
-                    };
+                    //refresh notification state for new connections
+                    NotificationsRepository.refreshTotalConnections();
 
-                    var notification = '<div class="notify-info-header"><a href="" ng-click="gotoConversation()">Received new message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
-                        '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
+                    var newFriendNotificationTemplate = '<div class="notify-info-header"><a ui-sref="myconnections">New connection<br>' + localTime + ' </a></div>' +
+                        '<p><a ui-sref="myconnections">You and ' + data.first_name + ' are now friends.</a></p>';
 
                     notify({
-                        messageTemplate: notification,
+                        messageTemplate: newFriendNotificationTemplate,
                         scope: $scope,
                         classes: 'notify-info',
-                        icon: 'wechat',
+                        icon: 'user',
                         duration: 4000
                     });
 
-
                 });
+            }
+
+            if (jsonData.type === 'message.' + USER_ID) {
+
+                if ($rootScope.isState('conversations')) {
+                    $rootScope.$broadcast('receivedMessage', jsonData.message);
+                } else {
+
+                    //refresh counter of new messages
+                    InboxRepository.getInboxMessages();
+
+                    //refresh notification state
+                    NotificationsRepository.refreshTotalInbox();
+
+                    var jsonData = JSON.parse(data);
+                    var contentData = JSON.parse(jsonData.message);
+                    var message = $filter('words')(contentData.body, 10);
+                    var localTime = $filter('amDateFormat')(contentData.sent_at, 'h:mm a');
+
+                    var Sender = $resource(contentData.sender);
+                    Sender.get().$promise.then(function(data) {
+
+                        $scope.gotoConversation = function() {
+                            $state.go('conversations', {
+                                userId: data.id
+                            });
+                        };
+
+                        var notification = '<div class="notify-info-header"><a href="" ng-click="gotoConversation()">Received new message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
+                            '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
+
+                        notify({
+                            messageTemplate: notification,
+                            scope: $scope,
+                            classes: 'notify-info',
+                            icon: 'wechat',
+                            duration: 4000
+                        });
+
+
+                    });
+
+                }
 
             }
 
