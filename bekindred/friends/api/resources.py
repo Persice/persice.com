@@ -84,6 +84,7 @@ class ConnectionsResource(Resource):
     mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
     mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
     common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
+    updated_at = fields.DateTimeField(attribute='updated_at', null=True)
 
     class Meta:
         resource_name = 'connections'
@@ -118,6 +119,7 @@ class ConnectionsResource(Resource):
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.updated_at = friend.updated_at
 
             if _friend_id and not int(_friend_id) == new_obj.friend_id:
                 continue
@@ -145,6 +147,7 @@ class ConnectionsResource(Resource):
             t1 = Goal.objects_search.count_common_goals_and_offers(current_user, new_obj.friend_id)
             t2 = Interest.objects_search.count_interests_fb_likes(current_user, new_obj.friend_id)
             new_obj.common_goals_offers_interests = t1 + t2
+
 
             results.append(new_obj)
         return results
