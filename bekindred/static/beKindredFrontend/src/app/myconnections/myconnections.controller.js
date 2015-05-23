@@ -10,7 +10,7 @@
      * classDesc Fetch user connections
      * @ngInject
      */
-    function MyConnectionsController($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log, $timeout, $q) {
+    function MyConnectionsController($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log, $timeout, $q, $http, $filter, $state, NotificationsRepository) {
         var vm = this;
         vm.friends = [];
         vm.q = '';
@@ -24,6 +24,7 @@
 
         vm.getFriends = getFriends;
         vm.loadMoreFriends = loadMoreFriends;
+        vm.gotoConnection = gotoConnection;
         vm.reset = reset;
 
         vm.getFriends();
@@ -67,7 +68,6 @@
                             vm.friends[obj].totalFriends += vm.friends[obj].mutual_linkedin_connections_count;
                             vm.friends[obj].totalFriends += vm.friends[obj].mutual_twitter_friends_count;
                             vm.friends[obj].totalFriends += vm.friends[obj].mutual_twitter_followers_count;
-                            vm.friends[obj].unread = Math.random() < 0.5 ? 0 : 1;
                         }
                     }
 
@@ -125,7 +125,6 @@
                             responseData[obj].totalFriends += responseData[obj].mutual_linkedin_connections_count;
                             responseData[obj].totalFriends += responseData[obj].mutual_twitter_friends_count;
                             responseData[obj].totalFriends += responseData[obj].mutual_twitter_followers_count;
-                            vm.friends[obj].unread = Math.random() < 0.5 ? 0 : 1;
                             vm.friends.push(responseData[obj]);
                         }
 
@@ -155,6 +154,36 @@
 
 
             return deferred.promise;
+        }
+
+        function gotoConnection(index) {
+
+
+            if (vm.friends[index].updated_at === null) {
+                //mark new connection as seen
+                $http.get('/api/v1/new_connections/updated_at/?format=json&friend_id=' + vm.friends[index].friend_id).
+                success(function(data, status, headers, config) {
+
+                    //refresh notification state
+                    NotificationsRepository.refreshTotalConnections();
+                    $state.go('friendprofile', {
+                        userId: vm.friends[index].friend_id
+                    });
+                }).
+                error(function(data, status, headers, config) {
+                    $state.go('friendprofile', {
+                        userId: vm.friends[index].friend_id
+                    });
+                });
+            } else {
+
+                $state.go('friendprofile', {
+                    userId: vm.friends[index].friend_id
+                });
+            }
+
+
+
         }
 
     }

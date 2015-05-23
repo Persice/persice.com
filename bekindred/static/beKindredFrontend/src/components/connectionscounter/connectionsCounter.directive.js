@@ -37,7 +37,7 @@
      * @desc count new connections
      * @ngInject
      */
-    function ConnectionsController($scope, $rootScope, $log) {
+    function ConnectionsController($scope, $rootScope, NotificationsRepository) {
         var vm = this;
         vm.counter = 0;
         vm.hideClass = true;
@@ -52,7 +52,7 @@
 
         function refreshCounter() {
             vm.counter = 0;
-            $rootScope.$broadcast('refreshStateNotificationCircle');
+            vm.counter = NotificationsRepository.getTotalConnections();
 
             if (vm.counter > 0) {
                 vm.hideClass = false;
