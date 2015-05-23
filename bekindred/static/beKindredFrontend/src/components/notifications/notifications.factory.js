@@ -9,7 +9,7 @@
      * classDesc Service for all notifications
      * @ngInject
      */
-    function NotificationsRepository($log, $filter, InboxUnreadCounterFactory, $rootScope, $q) {
+    function NotificationsRepository($log, $filter, InboxUnreadCounterFactory, NewConnectionsFactory, $rootScope, $q) {
 
         var service = {
             total: 0,
@@ -24,13 +24,6 @@
             getTotalConnections: getTotalConnections,
         };
         return service;
-
-        function setTotalConnections(value) {
-            service.totalConnections = value;
-            service.total = service.totalInbox + service.totalConnections;
-            $rootScope.$broadcast('refreshConnectionsCounter');
-            $rootScope.$broadcast('refreshStateNotificationCircle');
-        }
 
         function refreshTotalInbox() {
             return InboxUnreadCounterFactory.query({
@@ -66,7 +59,34 @@
         }
 
         function refreshTotalConnections() {
-            return;
+            return NewConnectionsFactory.query({
+                format: 'json',
+                limit: 1,
+                offset: 0
+            }).$promise.then(getNewConnectionsComplete, getNewConnectionsFailed);
+
+
+            function getNewConnectionsComplete(response) {
+
+                var unreadCounter = 0;
+                if (response.meta.total_count > 0) {
+                    unreadCounter = response.objects[0].new_connection_counter;
+                }
+
+                service.setTotalConnections(unreadCounter);
+
+
+            }
+
+            function getNewConnectionsFailed(error) {
+
+                var data = error.data,
+                    status = error.status,
+                    header = error.header,
+                    config = error.config,
+                    message = 'Error ' + status;
+                $log.error(message);
+            }
         }
 
         function setTotalInbox(value) {
@@ -75,6 +95,13 @@
             $rootScope.$broadcast('refreshMessagesCounter');
             $rootScope.$broadcast('refreshStateNotificationCircle');
 
+        }
+
+        function setTotalConnections(value) {
+            service.totalConnections = value;
+            service.total = service.totalInbox + service.totalConnections;
+            $rootScope.$broadcast('refreshConnectionsCounter');
+            $rootScope.$broadcast('refreshStateNotificationCircle');
         }
 
         function getTotal() {
