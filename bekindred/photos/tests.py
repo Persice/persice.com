@@ -33,7 +33,7 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         self.response = self.login()
         self.assertEqual(self.response.status_code, 302)
 
-    def test_get_list_json(self):
+    def test_get_list_json_photo(self):
         self.response = self.login()
         resp = self.api_client.get('/api/v1/photo/', format='json')
         self.assertValidJSONResponse(resp)
@@ -46,7 +46,8 @@ class FacebookPhotoResourceTest(ResourceTestCase):
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'photo': self.PHOTO_URL,
             'order': 0,
-            'resource_uri': '/api/v1/photo/{0}/'.format(self.photo.pk)
+            'resource_uri': '/api/v1/photo/{0}/'.format(self.photo.pk),
+            'cropped_photo': ''
         })
 
     def test_post_list(self):

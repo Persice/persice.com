@@ -1,9 +1,11 @@
 from datetime import date
+
 from django_facebook.models import FacebookCustomUser, FacebookLike
+
 from tastypie.test import ResourceTestCase
-from goals.models import Subject, Goal, MatchFilterState
+
+from goals.models import Subject, Goal, MatchFilterState, Offer
 from interests.models import Interest, InterestSubject
-from members.models import FacebookLikeProxy
 from world.models import UserLocation
 
 
@@ -14,9 +16,9 @@ class TestMatchFeedResource(ResourceTestCase):
                                                            password='test', date_of_birth=date(1989, 5, 20))
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', facebook_id=12345671,
                                                             password='test', date_of_birth=date(1989, 1, 9))
-        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', facebook_id=12345672,  gender='m',
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', facebook_id=12345672, gender='m',
                                                             password='test', date_of_birth=date(1998, 1, 11))
-        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', facebook_id=12345673,  gender='f',
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', facebook_id=12345673, gender='f',
                                                             password='test', date_of_birth=date(1950, 3, 1))
         self.user4 = FacebookCustomUser.objects.create_user(username='user_e', facebook_id=12345674,
                                                             password='test', date_of_birth=date(1970, 2, 1))
@@ -227,7 +229,6 @@ class TestMatchFeedResource(ResourceTestCase):
                                     [8730, u'miles'],
                                     [8953, u'miles']])
 
-
     def test_matchfeed_order_by_match_score(self):
         MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
                                         order_criteria='match_score')
@@ -269,3 +270,52 @@ class TestMatchFeedResource(ResourceTestCase):
             result = self.deserialize(resp)
             distance.append(result['objects'][0]['score'])
         self.assertEqual(distance, [3, 2, 1, 0, 0])
+
+    def test_matchfeed_counter_only_goals(self):
+        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
+                                        order_criteria='match_score')
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+        Goal.objects.create(user=self.user, goal=self.subject3)
+        Goal.objects.create(user=self.user, goal=self.subject4)
+
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user1, goal=self.subject3)
+        Goal.objects.create(user=self.user1, goal=self.subject4)
+
+        self.response = self.login()
+
+        url = '/api/v1/matchfeed/'
+        resp = self.api_client.get(url, data={'filter': 'true'}, format='json')
+        result = self.deserialize(resp)
+        self.assertEqual(result['objects'][0]['score'], 4)
+        self.assertEqual(result['objects'][0]['goals'], [{u'learn django': 1,
+                                                          u'learn python': 1,
+                                                          u'learn ruby': 1,
+                                                          u'teach django': 1}])
+
+    def test_matchfeed_counter_only_offers(self):
+        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
+                                        order_criteria='match_score')
+        Offer.objects.create(user=self.user, offer=self.subject)
+        Offer.objects.create(user=self.user, offer=self.subject2)
+        Offer.objects.create(user=self.user, offer=self.subject3)
+        Offer.objects.create(user=self.user, offer=self.subject4)
+
+        Offer.objects.create(user=self.user1, offer=self.subject)
+        Offer.objects.create(user=self.user1, offer=self.subject2)
+        Offer.objects.create(user=self.user1, offer=self.subject3)
+        Offer.objects.create(user=self.user1, offer=self.subject4)
+
+        self.response = self.login()
+
+        url = '/api/v1/matchfeed/'
+        resp = self.api_client.get(url, data={'filter': 'true'}, format='json')
+        result = self.deserialize(resp)
+        self.assertEqual(result['objects'][0]['score'], 4)
+        self.assertEqual(result['objects'][0]['offers'], [{u'learn django': 1,
+                                                           u'learn python': 1,
+                                                           u'learn ruby': 1,
+                                                           u'teach django': 1}])
+

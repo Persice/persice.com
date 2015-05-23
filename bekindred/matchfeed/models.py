@@ -58,7 +58,7 @@ class MatchFeedManager(models.Manager):
             offers[_user] = list()
             d = dict()
             for offer in Offer.objects.filter(user_id=_user):
-                if offer.id in uniq_offer_ids:
+                if offer.offer_id in uniq_offer_ids:
                     d[unicode(offer)] = 1
                 else:
                     d[unicode(offer)] = 0
