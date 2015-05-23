@@ -268,4 +268,4 @@ class TestMatchFeedResource(ResourceTestCase):
             resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true', 'offset': x}, format='json')
             result = self.deserialize(resp)
             distance.append(result['objects'][0]['score'])
-        self.assertEqual(distance, [5, 3, 1, 0, 0])
+        self.assertEqual(distance, [3, 2, 1, 0, 0])

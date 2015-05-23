@@ -68,7 +68,6 @@ class FriendsResource(ModelResource):
 
 class ConnectionsResource(Resource):
     id = fields.CharField(attribute='id')
-    friendship_id = fields.CharField(attribute='friendship_id')
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')

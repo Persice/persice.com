@@ -9,12 +9,15 @@ from members.models import FacebookCustomUserActive
 
 def order_by(target, **kwargs):
     k = kwargs['keys']
-    if len(k) == 2:
+    if len(k) == 3:
         if k[0] == 'score':
-            result = sorted(target, key=lambda x: (-x.score, x.distance))
+            result = sorted(target, key=lambda x: (-x.score, -x.friends_score, x.distance))
+            return result
+        elif k[0] == 'distance':
+            result = sorted(target, key=lambda x: (x.distance, -x.score, -x.friends_score))
             return result
         else:
-            result = sorted(target, key=lambda x: (x.distance, -x.score,))
+            result = sorted(target, key=lambda x: (-x.friends_score, -x.score, x.distance))
             return result
     else:
         result = sorted(target, key=attrgetter('distance'))
@@ -45,6 +48,8 @@ class MatchedUser(object):
         self.distance = calculate_distance(current_user_id, user_id2)
         self.score = Goal.objects_search.count_common_goals_and_offers(current_user_id, user_id2) + \
                      Interest.objects_search.count_interests_fb_likes(current_user_id, user_id2)
+        self.friends_score = len(Friend.objects.mutual_friends(current_user_id, user_id2)) + \
+                             len(FacebookFriendUser.objects.mutual_friends(current_user_id, user_id2))
 
     def _add(self, model, attr_name, limit=2):
         # TODO: update accordiing to SUbjects and SUbjectInteres

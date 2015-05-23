@@ -40,7 +40,7 @@ class MatchedFeedResource(Resource):
     interests = fields.ListField(attribute='interests')
 
     score = fields.IntegerField(attribute='score', null=True)
-    # friends_score = fields.IntegerField(attribute='friends_score', null=True)
+    friends_score = fields.IntegerField(attribute='friends_score', null=True)
 
     class Meta:
         max_limit = 1
@@ -89,8 +89,8 @@ class MatchedFeedResource(Resource):
             t3 = sum(new_obj.interests[0].values()) if new_obj.interests else 0
             t4 = sum(new_obj.likes[0].values()) if new_obj.likes else 0
             new_obj.score = t1 + t2 + t3 + t4
-            # new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
-            #                         len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
+            new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
+                                    len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true':
@@ -104,9 +104,12 @@ class MatchedFeedResource(Resource):
             search_users = MatchedResults(request.user.id, exclude_matched_users).find()
             results.extend(search_users)
 
-            order_keys = ['score', 'distance']
+            order_keys = ['score', 'mutual_friends', 'distance']
             if mfs.order_criteria == 'distance':
-                order_keys = ['distance', 'score']
+                order_keys = ['distance', 'score', 'mutual_friends']
+
+            if mfs.order_criteria == 'mutual_friends':
+                order_keys = ['mutual_friends', 'score', 'distance']
 
             for match in results:
                 if (match.distance[0] <= mfs.distance) and \
@@ -139,7 +142,7 @@ class MatchedFeedResource(Resource):
                 return order_by(results_keywords, keys=order_keys)
             return order_by(partial_results, keys=order_keys)
         else:
-            return order_by(results, keys=['score', 'distance'])
+            return order_by(results, keys=['score', 'mutual_friends', 'distance'])
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
