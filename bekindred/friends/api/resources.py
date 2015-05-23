@@ -1,20 +1,22 @@
 import re
+
 from django.db.models import Q
-from django_facebook.models import FacebookCustomUser
+from django.utils.timezone import now
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL
+
 from tastypie.resources import ModelResource, Resource
 
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Goal
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, social_extra_data
 from interests.models import Interest
+from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from matchfeed.api.resources import A
-from postman.api import pm_write
 
 
 class FriendsResource(ModelResource):
@@ -146,6 +148,33 @@ class ConnectionsResource(Resource):
 
             results.append(new_obj)
         return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+
+class FriendsNewResource(Resource):
+    class Meta:
+        resource_name = 'new_connections/updated_at'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        raw_friend_id = request.GET.get('friend_id')
+        if raw_friend_id:
+            friend_id = int(raw_friend_id)
+            user = FacebookCustomUserActive.objects.get(id=request.user.id)
+            fb_obj = FacebookCustomUserActive.objects.get(id=friend_id)
+            Friend.objects.filter(Q(friend1=fb_obj, friend2=user) |
+                                  Q(friend1=user, friend2=fb_obj)).update(updated_at=now())
+        return list()
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...

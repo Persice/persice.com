@@ -1,11 +1,12 @@
+from unittest import TestCase
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from friends.models import Friend
 
 
-class TestSubjectResource(ResourceTestCase):
+class TestFriendResource(ResourceTestCase):
     def setUp(self):
-        super(TestSubjectResource, self).setUp()
+        super(TestFriendResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')

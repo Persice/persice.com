@@ -2,6 +2,7 @@ from itertools import chain
 
 from django.db import models
 from django.db.models import Q
+from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser, FacebookUser
 
 from members.models import FacebookCustomUserActive
