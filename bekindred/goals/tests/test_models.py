@@ -195,9 +195,9 @@ class MatchFeedManagerTestCase(TestCase):
         self.maxDiff = 2000
         res = MatchFeedManager.match_all(self.user.id, exclude_friends=True)
         self.assertEqual(res, {'users': [
-            {'interests': [{}], 'offers': [{u'oralce': 0, u'erlang': 0, u'ruby': 0, u'django': 0}], 'likes': [{}],
+            {'interests': [{}], 'offers': [{u'oralce': 1, u'erlang': 1, u'ruby': 1, u'django': 1}], 'likes': [{}],
              'id': self.user1.id, 'goals': [{u'python': 1, u'pascal': 1, u'java': 1}]},
-            {'interests': [{}], 'offers': [{u'python': 0, u'erlang': 0}], 'likes': [{}], 'id': self.user2.id,
+            {'interests': [{}], 'offers': [{u'python': 1, u'erlang': 1}], 'likes': [{}], 'id': self.user2.id,
              'goals': [{u'flask': 1, u'java': 1, u'django': 1}]}]})
 
 
