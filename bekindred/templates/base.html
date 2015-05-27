@@ -43,7 +43,7 @@
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
-    <div class="ui top horizontal sidebar" id="MatchMenu">
+      <div class="ui top horizontal sidebar" id="MatchMenu">
         <div class="ui fluid six item menu">
             <a class="item" ng-click="goBack()">
                 <i class="chevron left icon"></i>
@@ -68,6 +68,7 @@
         <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>   <messages-counter></message-counter></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <connections-counter></connections-counter></a>
+        <a ui-sref="events" ui-sref-active="active" class="item"><i class="fa fa-calendar icon"></i> <span class="content">Events</span></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="ui divided horizontal list" id="links_sidemenu_bottom">
             <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
@@ -124,6 +125,7 @@
                         <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Match Feed <i class="icon inverted chevron right"></i></a> -->
                         <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
                         <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <connections-counter></connections-counter> <i class="icon inverted chevron right"></i></a>
+                        <a ui-sref="events" ui-sref-active="active" class="item">Events</a>
                         <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
                     </div>
                     <div class="ui divided horizontal list" id="links_left_bottom">
@@ -145,44 +147,44 @@
     <script src="/static/beKindredFrontend/dist/scripts/vendor.js"></script>
     <script src="/static/beKindredFrontend/dist/scripts/app.js"></script>
     <script>
-    'use strict';
+        'use strict';
 
 
-    $('.left.sidebar').first()
+        $('.left.sidebar').first()
         .sidebar('attach events', '#leftsidebarlaunch');
-    $('#leftsidebarlaunch')
+        $('#leftsidebarlaunch')
         .removeClass('disabled');
 
-    $('#MatchMenu')
+        $('#MatchMenu')
         .sidebar('setting', 'dimPage', false)
         .sidebar('setting', 'closable', false);
 
-    $('.right.sidebar').first()
+        $('.right.sidebar').first()
         .sidebar('attach events', '#right-menu-launcher')
         .sidebar('setting', 'duration', 0);
-    $('#right-menu-launcher')
+        $('#right-menu-launcher')
         .removeClass('disabled');
     </script>
     <script>
-    'use strict';
+        'use strict';
 
-    angular.module('icebrak').constant('USER_ID', {{user.id}});
-    angular.module('icebrak').constant('USER_FIRSTNAME', '{{ user.first_name }}');
-    angular.module('icebrak').constant('angularMomentConfig', (function() {
-        var tz = jstz.determine();
-        var localTimezone = tz.name();
-        return {
-            timezone: localTimezone,
-            preprocess: 'utc'
-        }
-    })());
-    angular.module('icebrak').constant('USER_LASTNAME', '{{ user.last_name }}');
-    angular.module('icebrak').constant('APP_ID', '{{ FACEBOOK_APP_ID }}');
+        angular.module('icebrak').constant('USER_ID', {{user.id}});
+        angular.module('icebrak').constant('USER_FIRSTNAME', '{{ user.first_name }}');
+        angular.module('icebrak').constant('angularMomentConfig', (function() {
+            var tz = jstz.determine();
+            var localTimezone = tz.name();
+            return {
+                timezone: localTimezone,
+                preprocess: 'utc'
+            }
+        })());
+        angular.module('icebrak').constant('USER_LASTNAME', '{{ user.last_name }}');
+        angular.module('icebrak').constant('APP_ID', '{{ FACEBOOK_APP_ID }}');
 
 
-    angular.module('icebrak').constant('FB_TOKEN', '{{ user.access_token }}');
-    angular.module('icebrak').constant('USER_PHOTO', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=large');
-    angular.module('icebrak').constant('USER_PHOTO_SMALL', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=square');
+        angular.module('icebrak').constant('FB_TOKEN', '{{ user.access_token }}');
+        angular.module('icebrak').constant('USER_PHOTO', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=large');
+        angular.module('icebrak').constant('USER_PHOTO_SMALL', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=square');
     </script>
 </body>
 
