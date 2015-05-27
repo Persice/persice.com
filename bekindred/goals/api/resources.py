@@ -1,16 +1,15 @@
-from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from django_facebook.models import FacebookCustomUser, FacebookLike
 import re
+
+from django_facebook.models import FacebookLike
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
-from tastypie.http import HttpGone, HttpMultipleChoices
 from tastypie.resources import ModelResource
-from tastypie.validation import Validation, FormValidation
-from goals.forms import GoalForm
+
+from tastypie.validation import Validation
+
 from goals.models import Subject, MatchFilterState, Goal, Offer
-from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 
 
@@ -188,7 +187,6 @@ class OfferResource(ModelResource):
 
 
 class FacebookLikeResource(ModelResource):
-
     class Meta:
         queryset = FacebookLike.objects.all()
         fields = ['id', 'name', 'facebook_id']
