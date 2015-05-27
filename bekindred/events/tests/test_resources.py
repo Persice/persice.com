@@ -24,3 +24,6 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.get('/api/v1/events/', format='json')
         self.assertValidJSONResponse(resp)
+
+    def test_create_simple_event(self):
+        pass
