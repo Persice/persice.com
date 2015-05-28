@@ -2,28 +2,28 @@
 
 angular
     .module('icebrak', [
-    'ngAnimate',
-    'ngCookies',
-    'ngTouch',
-    'ngSanitize',
-    'ngResource',
-    'ui.router',
-    'angular-spinkit',
-    'frontend.semantic.dimmer',
-    'truncate',
-    'ya.nouislider',
-    'ngDraggable',
-    'angucomplete-alt',
-    'cgNotify',
-    'ngImgCrop',
-    'angularMoment',
-    'btford.socket-io',
-    'ngLodash',
-    'hj.gsapifyRouter',
-    'angular-flexslider',
-    'ngGeolocation',
-    'ezfb',
-    '720kb.tooltips'
+        'ngAnimate',
+        'ngCookies',
+        'ngTouch',
+        'ngSanitize',
+        'ngResource',
+        'ui.router',
+        'angular-spinkit',
+        'frontend.semantic.dimmer',
+        'truncate',
+        'ya.nouislider',
+        'ngDraggable',
+        'angucomplete-alt',
+        'cgNotify',
+        'ngImgCrop',
+        'angularMoment',
+        'btford.socket-io',
+        'ngLodash',
+        'hj.gsapifyRouter',
+        'angular-flexslider',
+        'ngGeolocation',
+        'ezfb',
+        '720kb.tooltips'
     ])
     .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
@@ -151,7 +151,7 @@ angular
                 resolve: {
                     userId: ['$stateParams', function($stateParams) {
                         return $stateParams.userId;
-                }],
+                    }],
                     UsersFactory: 'UsersFactory',
                     FRIEND: function(UsersFactory, $stateParams) {
                         var userId = $stateParams.userId;
@@ -251,7 +251,7 @@ angular
                 resolve: {
                     userId: ['$stateParams', function($stateParams) {
                         return $stateParams.userId;
-        }],
+                    }],
                     ConnectionsFactory: 'ConnectionsFactory',
                     UsersFactory: 'UsersFactory',
                     UserProfile: function(UsersFactory, $stateParams) {
@@ -308,7 +308,7 @@ angular
 
                 },
                 data: {
-                    displayName: 'Events',
+                    displayName: '',
                 }
             })
             .state('events.mynetwork', {
@@ -398,7 +398,7 @@ angular
                 $rootScope.$on('$stateChangeSuccess', listener);
             }
         };
-}])
+    }])
     .directive('endRepeat', function($timeout) {
         return {
             restrict: 'A',

@@ -3875,25 +3875,6 @@ ul[rn-carousel] {
     height: 30px;
 }
 
-.hide-fade.ng-hide-add,
-.hide-fade.ng-hide-remove {
-    -webkit-transition: all linear 0.2s;
-    -moz-transition: all linear 0.2s;
-    -o-transition: all linear 0.2s;
-    transition: all linear 0.2s;
-    display: block!important;
-}
-
-.hide-fade.ng-hide-add.ng-hide-add-active,
-.hide-fade.ng-hide-remove {
-    opacity: 0;
-}
-
-.hide-fade.ng-hide-add,
-.hide-fade.ng-hide-remove.ng-hide-remove-active {
-    opacity: 1;
-}
-
 #main-page #friendprofileheader.header.segment {
     padding-top: 10px!important;
     border: none!important;
@@ -4189,14 +4170,6 @@ h2 hr {
     opacity: 1;
 }
 
-.cssFade {
-    transition: 0.5s linear all;
-    opacity: 1;
-}
-
-.cssFade.ng-hide {
-    opacity: 0;
-}
 
 #main-page.white > .pusher {
     background-color: #FFF!important;
@@ -5646,8 +5619,12 @@ body.events-page .ui.secondary.menu > .menu > .active.item, body.events-page .ui
         text-align: center!important;
     }
 
-     body.events-page .top.fixed.menu .item.right-aligned {
+    body.events-page .top.fixed.menu .item.right-aligned {
         text-align: right!important;
+    }
+
+    body.events-page .ui.menu .item:before {
+        display: none!important;
     }
 }
 

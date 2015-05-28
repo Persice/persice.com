@@ -83,19 +83,19 @@
     <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
-            <div class="title item mobileview" id="mobileTitle" ng-if="!isState('events')">
+            <div class="title item mobileview" id="mobileTitle" ng-show="!isState('events')">
                 <strong update-title></strong>
             </div>
-            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+            <a class="item launch center-aligned mobileview" ng-if="isState('events')">
                 <i class="fa fa-calendar icon"></i>
             </a>
-            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+            <a class="item launch center-aligned mobileview" ng-if="isState('events')">
                 <i class="fa fa-map-marker icon"></i>
             </a>
-            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+            <a class="item launch center-aligned mobileview" ng-if="isState('events')">
                 <i class="fa fa-plus icon"></i>
             </a>
-            <a class="launch item right-aligned mobileview" id="eventsfilter-menu-launcher" ng-show="isState('events')">
+            <a class="launch item right-aligned mobileview" id="eventsfilter-menu-launcher" ng-if="isState('events')">
                 <i class="fa fa-sliders icon"></i>
             </a>
             <a ui-sref="home" class="title item desktopview" id="logoTop">
