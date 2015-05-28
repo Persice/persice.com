@@ -1,0 +1,18 @@
+<div class="ui grid" ng-cloak>
+    <div class="row">
+        <div class="wide column">
+            <div class="ui fluid secondary menu center-aligned">
+                <a class="item" ui-sref="events.myevents" ng-class="{'active': isState('events.myevents')}">
+                MY EVENTS
+            </a>
+                <a class="item" ui-sref="events.mynetwork" ng-class="{'active': isState('events.mynetwork')}">
+                MY NETWORK
+            </a>
+                <a class="item" ui-sref="events.allevents" ng-class="{'active': isState('events.allevents')}">
+                ALL EVENTS
+            </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui basic segment" ui-view></div>

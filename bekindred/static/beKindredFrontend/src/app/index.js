@@ -2,28 +2,28 @@
 
 angular
     .module('icebrak', [
-        'ngAnimate',
-        'ngCookies',
-        'ngTouch',
-        'ngSanitize',
-        'ngResource',
-        'ui.router',
-        'angular-spinkit',
-        'frontend.semantic.dimmer',
-        'truncate',
-        'ya.nouislider',
-        'ngDraggable',
-        'angucomplete-alt',
-        'cgNotify',
-        'ngImgCrop',
-        'angularMoment',
-        'btford.socket-io',
-        'ngLodash',
-        'hj.gsapifyRouter',
-        'angular-flexslider',
-        'ngGeolocation',
-        'ezfb',
-        '720kb.tooltips'
+    'ngAnimate',
+    'ngCookies',
+    'ngTouch',
+    'ngSanitize',
+    'ngResource',
+    'ui.router',
+    'angular-spinkit',
+    'frontend.semantic.dimmer',
+    'truncate',
+    'ya.nouislider',
+    'ngDraggable',
+    'angucomplete-alt',
+    'cgNotify',
+    'ngImgCrop',
+    'angularMoment',
+    'btford.socket-io',
+    'ngLodash',
+    'hj.gsapifyRouter',
+    'angular-flexslider',
+    'ngGeolocation',
+    'ezfb',
+    '720kb.tooltips'
     ])
     .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
@@ -151,7 +151,7 @@ angular
                 resolve: {
                     userId: ['$stateParams', function($stateParams) {
                         return $stateParams.userId;
-                    }],
+                }],
                     UsersFactory: 'UsersFactory',
                     FRIEND: function(UsersFactory, $stateParams) {
                         var userId = $stateParams.userId;
@@ -251,7 +251,7 @@ angular
                 resolve: {
                     userId: ['$stateParams', function($stateParams) {
                         return $stateParams.userId;
-                    }],
+        }],
                     ConnectionsFactory: 'ConnectionsFactory',
                     UsersFactory: 'UsersFactory',
                     UserProfile: function(UsersFactory, $stateParams) {
@@ -297,6 +297,40 @@ angular
                 templateUrl: 'app/inbox/inbox.html',
                 controller: 'InboxController',
                 controllerAs: 'inbox'
+            })
+            .state('events', {
+                url: '/events',
+                templateUrl: 'app/events/events_page.html',
+                controller: 'EventsPageController',
+                controllerAs: 'eventspage',
+                resolve: {
+
+
+                },
+                data: {
+                    displayName: 'Events',
+                }
+            })
+            .state('events.mynetwork', {
+                url: '/my-network',
+                templateUrl: 'app/events/events_mynetwork.html',
+                data: {
+
+                }
+            })
+            .state('events.myevents', {
+                url: '/my-events',
+                templateUrl: 'app/events/events_myevents.html',
+                data: {
+
+                }
+            })
+            .state('events.allevents', {
+                url: '/all-events',
+                templateUrl: 'app/events/events_allevents.html',
+                data: {
+
+                }
             });
 
 
@@ -364,7 +398,7 @@ angular
                 $rootScope.$on('$stateChangeSuccess', listener);
             }
         };
-    }])
+}])
     .directive('endRepeat', function($timeout) {
         return {
             restrict: 'A',
@@ -533,7 +567,7 @@ angular
                     });
                 }
             });
-        };
+        };;
     })
 
 .directive('uicheckbox', function() {

@@ -360,4 +360,24 @@ angular
                 method: 'DELETE'
             }
         });
+    }])
+    .factory('EventsFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/events/:eventId/:param', {
+            eventId: '@eventId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
     }]);

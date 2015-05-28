@@ -3908,7 +3908,8 @@ ul[rn-carousel]>li {
     text-align: center!important;
 }
 
-#inbox-body a.item.unread, #friends-list-body div.item.unread {
+#inbox-body a.item.unread,
+#friends-list-body div.item.unread {
     background-color: #f7f7f7!important;
 }
 
@@ -3945,7 +3946,7 @@ ul[rn-carousel]>li {
 .intersecticon {
     max-width: 24px;
     max-height: 24px;
-    background-image: url(/static/img/squares18.png);
+    background-image: url(/static/img/squares18.png)!important;
     width: 24px!important;
     height: 24px!important;
 }
@@ -5201,6 +5202,7 @@ body.goalcreate-page .body.segment,
         text-align: center;
     }
 }
+
 #matched-profile-body .ui.header.socialprofileheader {
     margin-bottom: 10px!important;
 }
@@ -5209,7 +5211,6 @@ body.goalcreate-page .body.segment,
     body.selectinterests-page #next-button-interests {
         display: none!important;
     }
-
 }
 
 body.selectinterests-page #interests .ui.button.toggle.active {
@@ -5433,7 +5434,6 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     }
 }
 
-
 #matched-profile-body .ui.header.socialheader {
     margin-bottom: 10px!important;
 }
@@ -5442,7 +5442,6 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     body.matchfeed-page #matched-profile-body .ui.header.socialheader {
         margin-bottom: 0px!important;
     }
-
     body.myprofile-page .fluid.button,
     body.friend-page .fluid.button,
     body.matchfeed-page .ui.linkedin.button,
@@ -5594,15 +5593,11 @@ select.icebrakselect {
     cursor: pointer!important;
 }
 
-
 .hiddencounter {
     visibility: hidden!important;
 }
 
-
-
 //notifications red circle icon
-
 mark.notification {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -5625,6 +5620,79 @@ mark.notification.hidden-notification {
     visibility: hidden!important;
 }
 
-#main-page #leftsidebarlaunch:hover > mark {
+#main-page #leftsidebarlaunch:hover > mark {}
 
+//Events
+body.events-page .ui.secondary.menu.center-aligned {
+    text-align: center!important;
+}
+
+
+body.events-page .ui.secondary.menu > .menu > .active.item, body.events-page .ui.secondary.menu > .active.item {
+    color: #FFF;
+    background-color: #4d4d4d !important;
+}
+
+@media screen and (max-width: 767px) {
+    body.events-page .ui.secondary.menu.center-aligned .item {
+        font-size: 0.8rem;
+        padding: 0.7em!important;
+    }
+}
+
+
+body.events-page#main-page #main-content {
+    background-color: #f7f7f7!important;
+}
+
+
+@media screen and (min-width: 401px) {
+    body.events-page .ui.secondary.menu.center-aligned .item {
+        font-size: 0.9rem!important;
+        padding: 0.7em!important;
+    }
+}
+
+body.events-page .ui.cards > .card, .ui.card {
+    margin-top: 5px;
+    box-shadow: 0px 3px 0px 0px #eee, 0px 0px 0px 1px #eee;
+}
+
+body.events-page .ui.fluid.card .ui.mini.statistics {
+    position: absolute;
+    right: 20px;
+    top: 35px;
+}
+
+body.events-page .ui.fluid.card .extra.content {
+    border: 0px!important;
+    padding-top: 0px;
+    font-size: 0.8em;
+    padding-left: 30px;
+    padding-bottom: 1.4em;
+
+}
+
+body.events-page .ui.fluid.card .content {
+    border: 0px!important;
+    padding-bottom: 0px;
+    padding-top: 1.4em;
+    padding-left: 1.4em;
+}
+
+body.events-page .ui.fluid.card .meta {
+    margin: 5px 100px 10px 10px!important;
+    color: #444;
+    font-weight: 200;
+    line-height: 1.3rem;
+}
+
+.eventdate {
+    text-align: right;
+    padding: 0.2em 0em;
+    font-size: 0.9rem;
+}
+
+.eventgroup {
+    margin-bottom: 15px;
 }
