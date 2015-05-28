@@ -72,12 +72,24 @@
     <div class="ui vertical right inverted labeled sidebar menu" id="filtersMenu" ng-show="isState('matchfeed')">
         <matchfeed-filter id="filter" class="mobilefilters"></matchfeed-filter>
     </div>
-    <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" ng-hide="isState('conversations') || isState('editmyprofile') || isState('selectinterests') || isState('goalcreate') || isState('offercreate') || isState('finalstep')">
+    <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
-            <div class="title item mobileview">
+            <div class="title item mobileview" ng-if="!isState('events')">
                 <b update-title></b>
             </div>
+            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+                <i class="fa fa-calendar icon"></i>
+            </a>
+            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+                <i class="fa fa-map-marker icon"></i>
+            </a>
+            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+                <i class="fa fa-plus icon"></i>
+            </a>
+            <a class="launch item right-aligned mobileview" id="eventsfilter-menu-launcher" ng-show="isState('events')">
+                <i class="fa fa-sliders icon"></i>
+            </a>
             <a ui-sref="home" class="title item desktopview" id="logoTop">
                 <img src="/static/img/icebrak-logo.png" alt="" class="ui image">
             </a>

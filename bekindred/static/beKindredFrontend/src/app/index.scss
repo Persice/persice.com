@@ -5638,6 +5638,17 @@ body.events-page .ui.secondary.menu > .menu > .active.item, body.events-page .ui
         font-size: 0.8rem;
         padding: 0.7em!important;
     }
+    body.events-page .top.fixed.menu .item {
+        width: 20%!important;
+    }
+
+    body.events-page .top.fixed.menu .item.center-aligned {
+        text-align: center!important;
+    }
+
+     body.events-page .top.fixed.menu .item.right-aligned {
+        text-align: right!important;
+    }
 }
 
 
