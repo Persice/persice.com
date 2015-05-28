@@ -5696,3 +5696,13 @@ body.events-page .ui.fluid.card .meta {
 .eventgroup {
     margin-bottom: 15px;
 }
+
+#eventsfeed-list-body {
+    min-height: 400px;
+    background-color: #f7f7f7 !important;
+}
+
+
+body.events-page .ui.loading.segment:before {
+    background-color: transparent!important;
+}
