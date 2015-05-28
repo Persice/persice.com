@@ -14,7 +14,7 @@ class EventResource(ModelResource):
         always_return_data = True
         queryset = Event.objects.all()
         resource_name = 'events'
-        fields = ['name']
+        excludes = ['search_index']
 
         filtering = {
             'description': ALL
