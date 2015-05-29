@@ -5,6 +5,7 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
 from events.models import Event
+from friends.models import Friend
 from photos.api.resources import UserResource
 
 
@@ -34,12 +35,12 @@ class MyEventFeedResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
-    def apply_authorization_limits(self, request, object_list):
-        return object_list.filter(user=request.user)
+    def get_object_list(self, request):
+        return super(MyEventFeedResource, self).get_object_list(request).filter(user=request.user.pk)
 
     def dehydrate(self, bundle):
-        bundle.data['common_goals_offers_interests'] = random.randint(1, 10)
-        bundle.data['totalFriends'] = random.randint(1, 10)
+        bundle.data['common_goals_offers_interests'] = 5
+        bundle.data['totalFriends'] = 5
         return bundle
 
 
@@ -54,6 +55,26 @@ class AllEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def dehydrate(self, bundle):
-        bundle.data['common_goals_offers_interests'] = random.randint(1, 10)
-        bundle.data['totalFriends'] = random.randint(1, 10)
+        bundle.data['common_goals_offers_interests'] = 5
+        bundle.data['totalFriends'] = 5
         return bundle
+
+
+class FriendsEventFeedResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+
+    class Meta:
+        resource_name = 'feed/events/friends'
+        queryset = Event.objects.all()
+        list_allowed_methods = ['get']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def dehydrate(self, bundle):
+        bundle.data['common_goals_offers_interests'] = 5
+        bundle.data['totalFriends'] = 5
+        return bundle
+
+    def get_object_list(self, request):
+        friends = Friend.objects.all_my_friends(user_id=request.user.id)
+        return super(FriendsEventFeedResource, self).get_object_list(request).filter(user__in=friends)

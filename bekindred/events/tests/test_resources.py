@@ -2,6 +2,7 @@ from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from tastypie.utils import now
 from events.models import Event
+from friends.models import Friend
 
 
 class TestEventResource(ResourceTestCase):
@@ -46,6 +47,10 @@ class TestEventResource(ResourceTestCase):
             'name': u'Play piano',
             'repeat': u'',
             'starts_on': None,
+            'city': None,
+            'zipcode': None,
+            'state': None,
+            'street': None
         })
 
     def test_create_simple_event(self):
@@ -60,3 +65,68 @@ class TestEventResource(ResourceTestCase):
         }
         self.response = self.login()
         self.assertHttpCreated(self.api_client.post('/api/v1/events/', format='json', data=post_data))
+
+
+class TestAllEventFeedResource(ResourceTestCase):
+    def setUp(self):
+        super(TestAllEventFeedResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.event = Event.objects.create(name="Play piano", user=self.user, location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano1", user=self.user1, location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano2", user=self.user2, location=[7000, 22965.83])
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_json(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/all/', format='json')
+        self.assertValidJSONResponse(resp)
+
+        # Scope out the data for correctness.
+        self.assertEqual(len(self.deserialize(resp)['objects']), 3)
+
+
+class TestMyEventFeedResource(ResourceTestCase):
+    def setUp(self):
+        super(TestMyEventFeedResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.event = Event.objects.create(name="Play piano", user=self.user, location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano1", user=self.user1, location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano2", user=self.user2, location=[7000, 22965.83])
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_json(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json')
+        self.assertValidJSONResponse(resp)
+        # Scope out the data for correctness.
+        self.assertEqual(self.deserialize(resp)['objects'][0]['user'], u'/api/v1/auth/user/%s/' % self.user.id)
+
+
+class TestFriendsEventFeedResource(ResourceTestCase):
+    def setUp(self):
+        super(TestFriendsEventFeedResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.event = Event.objects.create(name="Play piano", user=self.user, location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano1", user=self.user1, location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano2", user=self.user2, location=[7000, 22965.83])
+        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_json(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/friends/', format='json')
+        self.assertValidJSONResponse(resp)
+        # Scope out the data for correctness.
+        self.assertEqual(self.deserialize(resp)['objects'][0]['user'], u'/api/v1/auth/user/%s/' % self.user1.id)
