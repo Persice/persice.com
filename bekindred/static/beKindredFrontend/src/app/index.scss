@@ -4170,7 +4170,6 @@ h2 hr {
     opacity: 1;
 }
 
-
 #main-page.white > .pusher {
     background-color: #FFF!important;
     min-height: 100vh;
@@ -5600,8 +5599,8 @@ body.events-page .ui.secondary.menu.center-aligned {
     text-align: center!important;
 }
 
-
-body.events-page .ui.secondary.menu > .menu > .active.item, body.events-page .ui.secondary.menu > .active.item {
+body.events-page .ui.secondary.menu > .menu > .active.item,
+body.events-page .ui.secondary.menu > .active.item {
     color: #FFF;
     background-color: #4d4d4d !important;
 }
@@ -5614,25 +5613,20 @@ body.events-page .ui.secondary.menu > .menu > .active.item, body.events-page .ui
     body.events-page .top.fixed.menu .item {
         width: 20%!important;
     }
-
     body.events-page .top.fixed.menu .item.center-aligned {
         text-align: center!important;
     }
-
     body.events-page .top.fixed.menu .item.right-aligned {
         text-align: right!important;
     }
-
     body.events-page .ui.menu .item:before {
         display: none!important;
     }
 }
 
-
 body.events-page#main-page #main-content {
     background-color: #f7f7f7!important;
 }
-
 
 @media screen and (min-width: 401px) {
     body.events-page .ui.secondary.menu.center-aligned .item {
@@ -5641,7 +5635,8 @@ body.events-page#main-page #main-content {
     }
 }
 
-body.events-page .ui.cards > .card, .ui.card {
+body.events-page .ui.cards > .card,
+.ui.card {
     margin-top: 5px;
     box-shadow: 0px 3px 0px 0px #eee, 0px 0px 0px 1px #eee;
 }
@@ -5658,7 +5653,6 @@ body.events-page .ui.fluid.card .extra.content {
     font-size: 0.8em;
     padding-left: 30px;
     padding-bottom: 1.4em;
-
 }
 
 body.events-page .ui.fluid.card .content {
@@ -5690,7 +5684,100 @@ body.events-page .ui.fluid.card .meta {
     background-color: #f7f7f7 !important;
 }
 
-
 body.events-page .ui.loading.segment:before {
     background-color: transparent!important;
+}
+
+//event page
+body.event-page#main-page #main-content {
+    background-color: #f7f7f7!important;
+}
+
+body.event-page .ui.form.segment {
+    padding: 0.2em 1em!important;
+    box-shadow: 0px 0px 0px 0px #eee, 0px 0px 0px 1px #eee!important;
+}
+
+body.event-page .ui.form .fields:last-child, body.event-page .ui.form .field:last-child {
+    margin-bottom: 0px!important;
+}
+
+body.event-page .ui.form.segment.icon-segment .ui.button {
+    background-color: #ffffff!important;
+    text-align: left!important;
+    font-weight: normal!important;
+    padding: 0.67861em 1em 0.67861em 0em!important;
+    margin-right: 0px!important;
+    color: #777!important;
+    line-height: 1.2142em!important;
+    font-size: 1em!important;
+    font-weight: 400!important;
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif!important;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease!important;
+    margin: 0em!important;
+    outline: none!important;
+    width: 100%!important;
+    vertical-align: top!important;
+}
+
+body.event-page .ui.form.segment.icon-segment .ui[class*="right labeled"].icon.button > .left-icon.icon {
+    left: 0px!important;
+    right: auto!important;
+    font-size: 1.3rem!important;
+}
+
+body.event-page .ui.form.segment.icon-segment .ui.button.with-left-icon {
+    padding-left: 1.3em!important;
+}
+
+
+body.event-page .ui.divider#last-section {
+    margin-top: 0em!important;
+    margin-bottom: 0.2em!important;
+}
+
+
+body.event-page .ui.form.segment.icon-segment .ui.button:active {
+    outline: none!important;
+    border: none!important;
+    border-color: #FFF!important;
+    box-shadow: none!important;
+}
+
+body.event-page .ui.form.segment.icon-segment .ui.button:hover {
+    outline: none!important;
+    border: none!important;
+    border-color: #FFF!important;
+    box-shadow: none!important;
+    font-weight: bolder!important;
+}
+
+
+body.event-page .ui.form.segment.icon-segment .ui[class*="right labeled"].icon.button > .icon {
+    background-color: #FFF!important;
+    font-size: 1.7rem!important;
+    width: auto!important;
+    right: 10px!important;
+}
+
+body.event-page input {
+    border: none!important;
+    box-shadow: none!important;
+    padding-left: 0px!important;
+}
+
+body.event-page input.border-bottom {
+    border-bottom: 1px solid rgba(39, 41, 43, 0.15)!important;
+}
+
+body.event-page .ui.form .fields .field,
+body.event-page .ui.form .field {
+    margin-bottom: 5px!important;
+}
+
+body.event-page .ui.textarea,
+body.event-page .ui.form textarea {
+    border: none!important;
+    box-shadow: none!important;
+    padding-left: 0px!important;
 }

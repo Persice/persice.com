@@ -1,0 +1,13 @@
+<div class="ui fixed borderless menu center" id="edittopmenu">
+    <div class="left menu">
+        <a class="ui item" ui-sref="myprofile"><i class="left chevron icon"></i></a>
+    </div>
+    <div class="header item">Event Details</div>
+    <div class="right menu">
+        <a class="ui item" ng-click="startSaving()" ng-class="{'loading': savingAllChanges}">Save</a>
+    </div>
+</div>
+
+<!-- <div class="ui center aligned header">You are the host of this event.</div>
+ -->
+ <div ui-view></div>
