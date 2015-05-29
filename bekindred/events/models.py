@@ -20,6 +20,11 @@ class Event(models.Model):
     starts_on = models.DateField(null=True, blank=True)
     ends_on = models.DateField(null=True, blank=True)
     repeat = models.CharField(max_length=1, choices=REPEAT_CHOICES)
+    street = models.CharField(max_length=300, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    zipcode = models.IntegerField(max_length=7, null=True, blank=True)
+    state = models.CharField(max_length=3, null=True, blank=True)
+
     search_index = VectorField()
 
     geo_objects = gis_models.GeoManager()
