@@ -72,7 +72,7 @@
     <div class="ui vertical right inverted labeled sidebar menu" id="filtersMenu" ng-show="isState('matchfeed')">
         <matchfeed-filter id="filter" class="mobilefilters"></matchfeed-filter>
     </div>
-    <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}">
+    <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
             <div class="title item mobileview" ng-show="!isState('events')">

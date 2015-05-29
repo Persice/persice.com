@@ -4783,7 +4783,11 @@ body.finalstep-page #topMenu,
     body.goalcreate-page #topMenu,
     body.offercreate-page #topMenu,
     body.finalstep-page #topMenu,
+    body.event-page #topMenu,
     {
+        display: none!important;
+    }
+    body.event-page #actionButton {
         display: none!important;
     }
     body.conversations-page #desktopsubmenu,
