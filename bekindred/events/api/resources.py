@@ -1,3 +1,4 @@
+import random
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -23,17 +24,36 @@ class EventResource(ModelResource):
         authorization = Authorization()
 
 
-class EventFeedResource(ModelResource):
+class MyEventFeedResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
 
     class Meta:
-        resource_name = 'feed/events'
+        resource_name = 'feed/events/my'
         queryset = Event.objects.all()
+        list_allowed_methods = ['get']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def apply_authorization_limits(self, request, object_list):
+        return object_list.filter(user=request.user)
+
+    def dehydrate(self, bundle):
+        bundle.data['common_goals_offers_interests'] = random.randint(1, 10)
+        bundle.data['totalFriends'] = random.randint(1, 10)
+        return bundle
+
+
+class AllEventFeedResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+
+    class Meta:
+        resource_name = 'feed/events/all'
+        queryset = Event.objects.all()
+        list_allowed_methods = ['get']
         authentication = SessionAuthentication()
         authorization = Authorization()
 
     def dehydrate(self, bundle):
-        bundle.data['street'] = "Whatever you want"
-        bundle.data['city'] = "Whatever you want"
-        bundle.data['state'] = "Whatever you want"
+        bundle.data['common_goals_offers_interests'] = random.randint(1, 10)
+        bundle.data['totalFriends'] = random.randint(1, 10)
         return bundle
