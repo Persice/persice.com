@@ -2,7 +2,7 @@ from django.db import models
 from django_facebook.models import FacebookCustomUser
 from djorm_pgfulltext.models import SearchManager
 from djorm_pgfulltext.fields import VectorField
-from interests.models import remove_punctuation_map
+from interests.models import remove_punctuation_map, Interest, InterestSubject
 
 
 class SubjectManager(models.Manager):
@@ -95,6 +95,7 @@ class GoalManager2(models.Manager):
     def match_offers_to_goals(user_id, exclude_friends):
         """
         Return the list of matched user goals to goals
+        :return Goal
         """
         u_offers_id = Offer.objects.filter(user_id=user_id).values_list('offer_id', flat=True)
         u_offers = Subject.objects.filter(id__in=u_offers_id)
@@ -106,6 +107,28 @@ class GoalManager2(models.Manager):
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
             tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            match_goals.extend(target_goals.search(tsquery, raw=True))
+
+        subject_ids = [m.id for m in match_goals]
+        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal_id__in=subject_ids)
+        return result
+
+    @staticmethod
+    def match_interests_to_goals(user_id, exclude_friends):
+        """
+        Return the list of matched user interests to goals
+        :return Goal
+        """
+        u_interests_id = Interest.objects.filter(user_id=user_id).values_list('interest_id', flat=True)
+        u_interest_sbjs = InterestSubject.objects.filter(id__in=u_interests_id)
+        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('goal_id', flat=True)
+        target_goals = Subject.objects.filter(id__in=target_goals_id)
+
+        match_goals = []
+        for interest in u_interest_sbjs:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]

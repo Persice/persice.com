@@ -5,6 +5,7 @@ from django.test import TestCase
 from django_facebook.models import FacebookCustomUser
 
 from goals.models import Subject, MatchFilterState, Goal, Offer, GoalManager2, OfferManager2
+from interests.models import InterestSubject, Interest
 from matchfeed.models import MatchFeedManager
 
 
@@ -92,6 +93,10 @@ class GoalManagerTestCase(TestCase):
         self.s2 = Subject.objects.create(description='ruby')
         self.s3 = Subject.objects.create(description='erlang')
         self.s4 = Subject.objects.create(description='oralce')
+        self.i1 = InterestSubject.objects.create(description='learning python')
+        self.i2 = InterestSubject.objects.create(description='teaching ruby')
+        self.i3 = InterestSubject.objects.create(description='erlang')
+        self.i4 = InterestSubject.objects.create(description='oracle')
 
     def test_match_goal_to_goal(self):
         Goal.objects.create(goal=self.s1, user=self.user)
@@ -117,6 +122,20 @@ class GoalManagerTestCase(TestCase):
         self.assertEqual(len(goals), 2)
         self.assertEqual(goals, [u'python', u'ruby'])
 
+    def test_match_interests_to_goals(self):
+        Goal.objects.create(goal=self.s1, user=self.user1)
+        Goal.objects.create(goal=self.s2, user=self.user1)
+        Goal.objects.create(goal=self.s3, user=self.user1)
+        Goal.objects.create(goal=self.s4, user=self.user1)
+        Interest.objects.create(interest=self.i1, user=self.user)
+        Interest.objects.create(interest=self.i2, user=self.user2)
+        Interest.objects.create(interest=self.i3, user=self.user3)
+
+        goals = [unicode(x) for x in GoalManager2.match_interests_to_goals(self.user1.id, [])]
+        self.assertEqual(goals, [])
+
+        goals = [unicode(x) for x in GoalManager2.match_interests_to_goals(self.user.id, [])]
+        self.assertEqual(goals, ['python'])
 
 class OfferManagerTestCase(TestCase):
     def setUp(self):
