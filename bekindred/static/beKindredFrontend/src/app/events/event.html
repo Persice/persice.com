@@ -1,10 +1,10 @@
 <div class="ui fixed borderless menu center" id="edittopmenu">
     <div class="left menu">
-        <a class="ui item" ui-sref="myprofile"><i class="left chevron icon"></i></a>
+        <a class="ui item" ui-sref="events.mynetwork"><i class="left chevron icon"></i></a>
     </div>
     <div class="header item">Event Details</div>
     <div class="right menu">
-        <a class="ui item" ng-click="startSaving()" ng-class="{'loading': savingAllChanges}">Save</a>
+        <a class="ui item" ng-click="eventpage.saveEvent();">Save</a>
     </div>
 </div>
 

@@ -10,7 +10,10 @@
      * classDesc Fetching events
      * @ngInject
      */
-    function EventsPageController($scope) {
+    function EventsPageController($scope, $rootScope, $log) {
+        var vm = this;
+
+
 
     }
 
