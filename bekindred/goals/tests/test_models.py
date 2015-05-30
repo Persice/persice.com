@@ -147,6 +147,10 @@ class OfferManagerTestCase(TestCase):
         self.s2 = Subject.objects.create(description='ruby')
         self.s3 = Subject.objects.create(description='erlang')
         self.s4 = Subject.objects.create(description='oralce')
+        self.i1 = InterestSubject.objects.create(description='python')
+        self.i2 = InterestSubject.objects.create(description='ruby')
+        self.i3 = InterestSubject.objects.create(description='erlang')
+        self.i4 = InterestSubject.objects.create(description='oralce')
 
     def test_match_offer_to_offer(self):
         Offer.objects.create(offer=self.s1, user=self.user)
@@ -170,6 +174,21 @@ class OfferManagerTestCase(TestCase):
         offers = [unicode(x) for x in OfferManager2.match_goals_to_offers(self.user.id, [])]
         self.assertEqual(len(offers), 2)
         self.assertEqual(offers, [u'python', u'ruby'])
+
+    def test_match_interests_to_offers(self):
+        Offer.objects.create(offer=self.s1, user=self.user1)
+        Offer.objects.create(offer=self.s2, user=self.user1)
+        Offer.objects.create(offer=self.s3, user=self.user1)
+        Offer.objects.create(offer=self.s4, user=self.user1)
+        Interest.objects.create(interest=self.i1, user=self.user)
+        Interest.objects.create(interest=self.i2, user=self.user2)
+        Interest.objects.create(interest=self.i3, user=self.user3)
+
+        offers = [unicode(x) for x in OfferManager2.match_interests_to_offers(self.user1.id, [])]
+        self.assertEqual(offers, [])
+
+        offers = [unicode(x) for x in OfferManager2.match_interests_to_offers(self.user.id, [])]
+        self.assertEqual(offers, ['python'])
 
 
 class MatchFeedManagerTestCase(TestCase):

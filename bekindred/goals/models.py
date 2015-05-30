@@ -260,6 +260,28 @@ class OfferManager2(models.Manager):
         result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer_id__in=subject_ids)
         return result
 
+    @staticmethod
+    def match_interests_to_offers(user_id, exclude_friends):
+        """
+        Return the list of matched user interests to offers
+        :return Offer
+        """
+        u_interests_id = Interest.objects.filter(user_id=user_id).values_list('interest_id', flat=True)
+        u_interest_sbjs = InterestSubject.objects.filter(id__in=u_interests_id)
+        target_offer_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('offer_id', flat=True)
+        target_offers = Subject.objects.filter(id__in=target_offer_id)
+
+        match_offers = []
+        for interest in u_interest_sbjs:
+            # FTS extension by default uses plainto_tsquery instead of to_tosquery,
+            #  for this reason the use of raw parameter.
+            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            match_offers.extend(target_offers.search(tsquery, raw=True))
+
+        subject_ids = [m.id for m in match_offers]
+        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer_id__in=subject_ids)
+        return result
+
 
 class Offer(models.Model):
     objects = OfferManager()
