@@ -380,4 +380,64 @@ angular
                 method: 'DELETE'
             }
         });
+    }])
+    .factory('FeedEventsFriendsFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/feed/events/friends/:eventId/:param', {
+            eventId: '@eventId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
+    }])
+    .factory('FeedEventsMyFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/feed/events/my/:eventId/:param', {
+            eventId: '@eventId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
+    }])
+    .factory('FeedEventsAllFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/feed/events/all/:eventId/:param', {
+            eventId: '@eventId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
     }]);

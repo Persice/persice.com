@@ -40,11 +40,12 @@
      * @desc controller for eventsFeed directive
      * @ngInject
      */
-    function EventsFeedController($scope, USER_ID, EventsFactory, $resource, $log, $timeout, $q, $http, $filter, $state) {
+    function EventsFeedController($scope, USER_ID, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state) {
         var vm = this;
         vm.noEvents = false;
         vm.pok = false;
         vm.noResults = false;
+        vm.noEvents = false;
         vm.loading = false;
         vm.loadingMore = false;
         vm.nextOffset = 10;
@@ -53,352 +54,247 @@
         vm.getEvents = getEvents;
         vm.loadMoreEvents = loadMoreEvents;
         vm.gotoEvent = gotoEvent;
-
-        vm.getEvents();
-
         vm.events = [];
 
-
-        var eventsAllEvents = [{
-                date: 'Today',
-                items: [{
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Mountain Bike Ride',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Mountain Bike Ride',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 10,
-                        totalFriends: 3,
-                        distance: '45 miles away'
-                    },
-                    {
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Hiking for Tech Geeks',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'Hiking for Tech Geeks',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Hiking for Tech Geeks',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 5,
-                        totalFriends: 2,
-                        distance: '38 miles away'
-                    },
-                    {
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Another Event',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'Hiking for Tech Geeks',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Another Event',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 5,
-                        totalFriends: 2,
-                        distance: '38 miles away'
-                    },
-                    ]
-            },
-            {
-                date: 'Sunday, May 10, 2015',
-                items: [{
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Kiteboarding Session',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Kiteboarding Session',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 6,
-                        totalFriends: 5,
-                        distance: '15 miles away'
-                    },
-                    {
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Salsa Dancing Lesson',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Salsa Dancing Lesson',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 4,
-                        totalFriends: 9,
-                        distance: '10 miles away'
-                    },
-                    ]
-            }];
-
-
-        var eventsMyNetwork = [{
-                date: 'Today',
-                items: [{
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Mountain Bike Ride',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Mountain Bike Ride',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 10,
-                        totalFriends: 3,
-                        distance: '45 miles away'
-                    },
-                    {
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Hiking for Tech Geeks',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'Hiking for Tech Geeks',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Hiking for Tech Geeks',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 5,
-                        totalFriends: 2,
-                        distance: '38 miles away'
-                    },
-                    ]
-            },
-            {
-                date: 'Sunday, May 10, 2015',
-                items: [{
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Kiteboarding Session',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Kiteboarding Session',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 6,
-                        totalFriends: 5,
-                        distance: '15 miles away'
-                    },
-                    {
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Salsa Dancing Lesson',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Salsa Dancing Lesson',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 4,
-                        totalFriends: 9,
-                        distance: '10 miles away'
-                    },
-                    ]
-            }];
-
-
-        var eventsMyEvents = [{
-                date: 'Today',
-                items: [{
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Mountain Bike Ride',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Mountain Bike Ride',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 10,
-                        totalFriends: 3,
-                        distance: '45 miles away'
-                    },
-                    ]
-            },
-            {
-                date: 'Sunday, May 10, 2015',
-                items: [{
-                        user: '/api/v1/auth/user/1/',
-                        description: 'Kiteboarding Session',
-                        ends_on: null,
-                        location: '7000,22965.83',
-                        street: 'China Camp State Park',
-                        city: 'San Rafael',
-                        state: 'CA',
-                        zipcode: '94901',
-                        name: 'Kiteboarding Session',
-                        repeat: 'W',
-                        starts_on: null,
-                        common_goals_offers_interests: 6,
-                        totalFriends: 5,
-                        distance: '15 miles away'
-                    },
-                    ]
-            }];
+        vm.getEvents();
 
 
         function getEvents() {
             vm.nextOffset = 10;
             vm.next = null;
             vm.loading = true;
+            vm.noEvents = false;
+
+            if (vm.type === 'mynetwork') {
+                vm.EventsFeed = $resource('/api/v1/feed/events/friends/:eventId/:param', {
+                    eventId: '@eventId'
+                }, {
+                    query: {
+                        method: 'GET',
+                        isArray: false,
+                        cache: false
+                    },
+                    save: {
+                        method: 'POST'
+                    },
+                    update: {
+                        method: 'PATCH'
+                    },
+                    delete: {
+                        method: 'DELETE'
+                    }
+                });
+            }
 
 
-            //simulate loading demo data
-            $timeout(function() {
-                if (vm.type === 'mynetwork') {
-                    vm.events = eventsMyNetwork;
-                }
-                if (vm.type === 'allevents') {
-                    vm.events = eventsAllEvents;
-                }
-                if (vm.type === 'myevents') {
-                    vm.events = eventsMyEvents;
-                }
-                vm.loading = false;
-            }, 800);
+            if (vm.type === 'allevents') {
+                vm.EventsFeed = $resource('/api/v1/feed/events/all/:eventId/:param', {
+                    eventId: '@eventId'
+                }, {
+                    query: {
+                        method: 'GET',
+                        isArray: false,
+                        cache: false
+                    },
+                    save: {
+                        method: 'POST'
+                    },
+                    update: {
+                        method: 'PATCH'
+                    },
+                    delete: {
+                        method: 'DELETE'
+                    }
+                });
+            }
 
-            // EventsFactory.query({
-            //     format: 'json',
-            //     limit: 10,
-            //     offset: 0
-            // }).$promise.then(function(data) {
-
-            //         vm.events = data.objects;
-            //         vm.next = data.meta.next;
-
-
-            //         if (vm.events.length === 0) {
-            //             if (!vm.pok) {
-            //                 vm.noEvents = true;
-            //                 vm.pok = true;
-            //             } else {
-            //                 vm.noResults = true;
-            //             }
-            //         } else {
-            //             vm.pok = true;
-            //             vm.noResults = false;
-            //             vm.noEvents = false;
-            //             //count mutual friends
-            //             for (var obj in vm.events) {
-            //                 vm.events[obj].totalEvents = 0;
-            //                 vm.events[obj].totalEvents += vm.events[obj].mutual_bk_friends_count;
-            //                 vm.events[obj].totalEvents += vm.events[obj].mutual_fb_friends_count;
-            //                 vm.events[obj].totalEvents += vm.events[obj].mutual_linkedin_connections_count;
-            //                 vm.events[obj].totalEvents += vm.events[obj].mutual_twitter_friends_count;
-            //                 vm.events[obj].totalEvents += vm.events[obj].mutual_twitter_followers_count;
-            //             }
-            //         }
-
-            //         vm.loading = false;
+            if (vm.type === 'myevents') {
+                vm.EventsFeed = $resource('/api/v1/feed/events/my/:eventId/:param', {
+                    eventId: '@eventId'
+                }, {
+                    query: {
+                        method: 'GET',
+                        isArray: false,
+                        cache: false
+                    },
+                    save: {
+                        method: 'POST'
+                    },
+                    update: {
+                        method: 'PATCH'
+                    },
+                    delete: {
+                        method: 'DELETE'
+                    }
+                });
+            }
 
 
-            //     },
-            //     function(response) {
-            //         var data = response.data,
-            //             status = response.status,
-            //             header = response.header,
-            //             config = response.config,
-            //             message = 'Error ' + status;
 
-            //         $log.error(message);
+            vm.EventsFeed.query({
+                format: 'json',
+                limit: 10,
+                offset: 0
+            }).$promise.then(function(data) {
+                    var responseEvents = data.objects;
+                    vm.events = [];
 
-            //         vm.noEvents = true;
+                    $filter('orderBy')(responseEvents, 'starts_on', true);
+                    vm.next = data.meta.next;
 
-            //         vm.loading = false;
+                    if (data.objects.length === 0) {
 
-            //     });
+                        vm.noEvents = true;
+
+                    }
+
+                    for (var obj in responseEvents) {
+                        var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
+                        var localDatePlain = $filter('amDateFormat')(responseEvents[obj].starts_on, 'L');
+
+                        var eventIndex = $filter('getIndexByProperty')('date', localDate, vm.events);
+
+                        if (eventIndex === null) {
+                            vm.events.push({
+                                date: localDate,
+                                realDate: localDatePlain,
+                                items: []
+                            });
+                            eventIndex = vm.events.length - 1;
+                        }
+
+                        vm.events[eventIndex].items.push({
+                            name: responseEvents[obj].name,
+                            street: responseEvents[obj].street,
+                            city: responseEvents[obj].city,
+                            zipcode: responseEvents[obj].zipcode,
+                            description: responseEvents[obj].description,
+                            location: responseEvents[obj].location,
+                            starts_on: responseEvents[obj].starts_on,
+                            ends_on: responseEvents[obj].ends_on,
+                            repeat: responseEvents[obj].repeat,
+                            totalFriends: responseEvents[obj].totalFriends,
+                            common_goals_offers_interests: responseEvents[obj].common_goals_offers_interests,
+                            distance: '0 miles away'
+
+                        });
+
+                        vm.events[eventIndex].items = $filter('orderBy')(vm.events[eventIndex].items, 'starts_on', true);
+                    }
+
+                    vm.events = $filter('orderBy')(vm.events, 'realDate', true);
+
+
+                    vm.loading = false;
+
+
+                },
+                function(response) {
+                    var data = response.data,
+                        status = response.status,
+                        header = response.header,
+                        config = response.config,
+                        message = 'Error ' + status;
+
+                    $log.error(message);
+
+                    vm.noEvents = true;
+
+                    vm.loading = false;
+
+                });
 
         }
 
         function loadMoreEvents() {
-            // var deferred = $q.defer();
+            var deferred = $q.defer();
 
 
 
-            // if (vm.next === null) {
-            //     deferred.reject();
-            //     return deferred.promise;
-            // }
+            if (vm.next === null) {
+                deferred.reject();
+                return deferred.promise;
+            }
 
-            // if (!vm.loadingMore) {
+            if (!vm.loadingMore) {
 
-            //     vm.loadingMore = true;
-            //     EventsFactory.query({
-            //         format: 'json',
-            //         limit: 10,
-            //         offset: vm.nextOffset
-            //     }).$promise.then(function(data) {
+                vm.loadingMore = true;
+                vm.EventsFeed.query({
+                    format: 'json',
+                    limit: 10,
+                    offset: vm.nextOffset
+                }).$promise.then(function(data) {
+                        var responseEvents = data.objects;
+                        vm.nextOffset += 10;
 
-            //             var responseData = data.objects;
-            //             vm.next = data.meta.next;
+                        $filter('orderBy')(responseEvents, 'starts_on', true);
+                        vm.next = data.meta.next;
 
-            //             vm.nextOffset += 10;
+                        for (var obj in responseEvents) {
+                            var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
+                            var localDatePlain = $filter('amDateFormat')(responseEvents[obj].starts_on, 'L');
 
-            //             //count mutual events
-            //             for (var obj in responseData) {
-            //                 responseData[obj].totalEvents = 0;
-            //                 responseData[obj].totalEvents += responseData[obj].mutual_bk_friends_count;
-            //                 responseData[obj].totalEvents += responseData[obj].mutual_fb_friends_count;
-            //                 responseData[obj].totalEvents += responseData[obj].mutual_linkedin_connections_count;
-            //                 responseData[obj].totalEvents += responseData[obj].mutual_twitter_friends_count;
-            //                 responseData[obj].totalEvents += responseData[obj].mutual_twitter_followers_count;
-            //                 vm.events.push(responseData[obj]);
-            //             }
+                            var eventIndex = $filter('getIndexByProperty')('date', localDate, vm.events);
 
-            //             vm.loadingMore = false;
-            //             deferred.resolve();
+                            if (eventIndex === null) {
+                                vm.events.push({
+                                    date: localDate,
+                                    realDate: localDatePlain,
+                                    items: []
+                                });
+                                eventIndex = vm.events.length - 1;
+                            }
 
+                            vm.events[eventIndex].items.push({
+                                name: responseEvents[obj].name,
+                                street: responseEvents[obj].street,
+                                city: responseEvents[obj].city,
+                                zipcode: responseEvents[obj].zipcode,
+                                description: responseEvents[obj].description,
+                                location: responseEvents[obj].location,
+                                starts_on: responseEvents[obj].starts_on,
+                                ends_on: responseEvents[obj].ends_on,
+                                repeat: responseEvents[obj].repeat,
+                                totalFriends: responseEvents[obj].totalFriends,
+                                common_goals_offers_interests: responseEvents[obj].common_goals_offers_interests,
+                                distance: '0 miles away'
 
-            //         },
-            //         function(response) {
-            //             deferred.reject();
-            //             var data = response.data,
-            //                 status = response.status,
-            //                 header = response.header,
-            //                 config = response.config,
-            //                 message = 'Error ' + status;
+                            });
 
-            //             $log.error(message);
+                            vm.events[eventIndex].items = $filter('orderBy')(vm.events[eventIndex].items, 'starts_on', true);
+                        }
 
-            //             vm.loadingMore = false;
-
-            //         });
-
-
-            // } else {
-            //     deferred.reject();
-            // }
+                        vm.events = $filter('orderBy')(vm.events, 'realDate', true);
 
 
-            // return deferred.promise;
+
+                        vm.loadingMore = false;
+                        deferred.resolve();
+
+
+                    },
+                    function(response) {
+                        deferred.reject();
+                        var data = response.data,
+                            status = response.status,
+                            header = response.header,
+                            config = response.config,
+                            message = 'Error ' + status;
+
+                        $log.error(message);
+
+                        vm.loadingMore = false;
+                        deferred.reject();
+
+                    });
+
+
+            } else {
+                deferred.reject();
+            }
+
+
+            return deferred.promise;
         }
 
         function gotoEvent(index) {

@@ -5785,3 +5785,17 @@ body.event-page .ui.form textarea {
     box-shadow: none!important;
     padding-left: 0px!important;
 }
+
+
+
+
+#eventsfeed-list-body {
+  overflow-y: auto!important;
+  position: absolute!important;
+  top: 70px!important;
+  width: 100%!important;
+  bottom: 45px!important;
+  padding: 0 1.2rem!important;
+  margin: 0!important;
+  left: 0;
+}
