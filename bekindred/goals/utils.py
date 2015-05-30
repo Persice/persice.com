@@ -4,8 +4,6 @@ import pprint
 
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import GEOSGeometry
-from django.contrib.gis.measure import Distance
-from django.core.exceptions import ObjectDoesNotExist
 from geopy.distance import distance as geopy_distance
 import oauth2 as oauth
 

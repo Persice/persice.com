@@ -1,6 +1,7 @@
 from unittest import TestCase
 from django_facebook.models import FacebookCustomUser, FacebookLike
 from interests.models import Interest, InterestSubject
+from match_engine.models import MatchEngine
 from members.models import FacebookLikeProxy
 from members.tests.test_managers import random_digits
 
@@ -38,17 +39,17 @@ class TestInterestManager(TestCase):
         cls.user4 = FacebookCustomUser.objects.create_user(username='user_e', password='test')
 
     def test_match_interests_to_interests(self):
-        t = Interest.objects_search.match_interests_to_interests(self.user2, [self.user1])
+        t = MatchEngine.objects.match_interests_to_interests(self.user2, [self.user1])
         self.assertEqual(len(t), 1)
         self.assertEqual(t[0].interest.description, "Likes Python")
 
     def test_match_fb_likes_to_interests(self):
-        l = Interest.objects_search.match_fb_likes_to_interests(self.user3.id, [self.user1.id])
+        l = MatchEngine.objects.match_fb_likes_to_interests(self.user3.id, [self.user1.id])
         self.assertEqual(len(l), 3)
         self.assertEqual([x.interest.description for x in sorted(l, key=lambda x: x.interest.description)],
                          [u'Learn Ruby', u'Likes Python', u'Python Web Development'])
 
     def test_count_interests_fb_likes(self):
-        count = Interest.objects_search.count_interests_fb_likes(self.user.id, self.user1.id)
+        count = MatchEngine.objects.count_interests_fb_likes(self.user.id, self.user1.id)
         count2 = FacebookLikeProxy.objects.count_fb_likes_interests(self.user.id, self.user1.id)
         self.assertEqual(count + count2, 2)
