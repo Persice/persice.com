@@ -32,7 +32,8 @@ class MatchFeedManager(models.Manager):
         results = {'users': []}
         match_goals_to_goals = MatchEngine.objects.match_goals_to_goals(user_id, friends)
         match_offers_to_goals = MatchEngine.objects.match_offers_to_goals(user_id, friends)
-        match_goals = match_goals_to_goals | match_offers_to_goals
+        match_interests_to_goals = MatchEngine.objects.match_interests_to_goals(user_id, friends)
+        match_goals = match_goals_to_goals | match_offers_to_goals | match_interests_to_goals
 
         goals = {}
         for _user_id, group in groupby(match_goals, lambda x: x.user_id):
@@ -51,7 +52,8 @@ class MatchFeedManager(models.Manager):
 
         match_offers_to_offers = MatchEngine.objects.match_offers_to_offers(user_id, friends)
         match_goals_to_offers = MatchEngine.objects.match_goals_to_offers(user_id, friends)
-        match_offers = match_offers_to_offers | match_goals_to_offers
+        match_interests_to_offers = MatchEngine.objects.match_interests_to_offers(user_id, friends)
+        match_offers = match_offers_to_offers | match_goals_to_offers | match_interests_to_offers
         uniq_user_ids = set([x.user_id for x in match_offers])
         uniq_offer_ids = set([x.offer_id for x in match_offers])
         offers = {}
@@ -85,8 +87,10 @@ class MatchFeedManager(models.Manager):
             likes[_user_id].append(d)
 
         match_interests_to_interests = MatchEngine.objects.match_interests_to_interests(user_id, friends)
+        match_goals_to_interests = MatchEngine.objects.match_goal_to_interests(user_id, friends)
+        match_offers_to_interests = MatchEngine.objects.match_interests_to_interests(user_id, friends)
         match_likes_to_interests = MatchEngine.objects.match_fb_likes_to_interests(user_id, friends)
-        match_interests = match_interests_to_interests | match_likes_to_interests
+        match_interests = match_interests_to_interests | match_likes_to_interests | match_goals_to_interests | match_offers_to_interests
 
         # Match Interests
         interests = {}

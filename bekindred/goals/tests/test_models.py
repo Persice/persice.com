@@ -54,7 +54,7 @@ class GoalTestCase(TestCase):
     def test_count_common_goals_and_offers_only_offers_goals(self):
         Offer.objects.create(user=self.user1, offer=self.subject8)
         Goal.objects.create(user=self.user, goal=self.subject4)
-        self.assertEqual(MatchEngine.objects.count_common_goals_and_offers(self.user, self.user1), 1)
+        self.assertEqual(MatchEngine.objects.count_common_goals_and_offers(self.user, self.user1), 2)
 
     def test_count_common_goals_and_offers(self):
         Goal.objects.create(user=self.user, goal=self.subject)
