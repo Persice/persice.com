@@ -16,7 +16,7 @@ from friends.models import Friend, FacebookFriendUser
 from goals.models import Goal
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, social_extra_data
 from interests.models import Interest
-from members.models import FacebookCustomUserActive
+from members.models import FacebookCustomUserActive, FacebookLikeProxy
 from photos.api.resources import UserResource
 from matchfeed.api.resources import A
 
@@ -152,7 +152,8 @@ class ConnectionsResource(Resource):
             new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
             t1 = Goal.objects_search.count_common_goals_and_offers(current_user, new_obj.friend_id)
             t2 = Interest.objects_search.count_interests_fb_likes(current_user, new_obj.friend_id)
-            new_obj.common_goals_offers_interests = t1 + t2
+            t3 = FacebookLikeProxy.objects.count_fb_likes_interests(current_user, new_obj.friend_id)
+            new_obj.common_goals_offers_interests = t1 + t2 + t3
 
             results.append(new_obj)
         return results

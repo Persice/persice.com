@@ -103,8 +103,6 @@ class MatchFeedManager(models.Manager):
 
             interests[_user_id].append(d)
 
-        # TODO: Match Facebook likes
-
         matched_users = set(goals.keys() + offers.keys() + likes.keys() + interests.keys())
         for user in matched_users:
             default_goals = [dict((item.goal.description, 0) for item in Goal.objects.filter(user_id=user)[:2])]
