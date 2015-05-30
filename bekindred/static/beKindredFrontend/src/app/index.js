@@ -299,6 +299,7 @@ angular
                 controllerAs: 'inbox'
             })
             .state('events', {
+                abstract: true,
                 url: '/events',
                 templateUrl: 'app/events/events_page.html',
                 controller: 'EventsPageController',
@@ -334,6 +335,7 @@ angular
             })
             .state('event', {
                 url: '/event',
+                abstract: true,
                 templateUrl: 'app/events/event.html',
                 controller: 'EventPageController',
                 controllerAs: 'eventpage',
@@ -348,6 +350,8 @@ angular
             .state('event.create', {
                 url: '/create',
                 templateUrl: 'app/events/event_create.html',
+                controller: 'EventCreateController',
+                controllerAs: 'singleevent',
                 data: {
 
                 }

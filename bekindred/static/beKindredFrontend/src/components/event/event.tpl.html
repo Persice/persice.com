@@ -1,21 +1,33 @@
 <div class="ui basic segment">
+    <div class="ui positive message" ng-show="singleevent.showSuccess">
+        <div class="header">
+            New event was successfully created.
+        </div>
+    </div>
+    <div class="ui negative message" ng-show="singleevent.showError">
+        <div class="header">
+            There was an error when trying to save your event.
+        </div>
+        <p ng-repeat="errormsg in singleevent.errorMessage track by $index">{{errormsg}}</p>
+    </div>
+
     <div class="ui form segment">
         <div class="field">
-            <input class="border-bottom" placeholder="Event Name" type="text">
+            <input class="border-bottom" ng-model="singleevent.event.name" placeholder="Event Name" type="text">
         </div>
         <div class="field">
-            <input placeholder="Location" type="text">
+            <input placeholder="Location" ng-model="singleevent.event.location" type="text">
         </div>
     </div>
     <div class="ui form segment">
         <div class="field">
-            <input class="border-bottom" placeholder="Starts" type="text">
+            <input class="border-bottom" placeholder="Starts" type="text" ng-model="singleevent.event.starts_on">
         </div>
         <div class="field">
-            <input class="border-bottom" placeholder="Ends" type="text">
+            <input class="border-bottom" placeholder="Ends" type="text" ng-model="singleevent.event.ends_on">
         </div>
         <div class="field">
-            <input placeholder="Repeat" type="text">
+            <input placeholder="Repeat" type="text" ng-model="singleevent.event.repeat">
         </div>
     </div>
     <div class="ui form segment icon-segment">
@@ -41,8 +53,8 @@
         </div>
         <div class="ui divider" id="last-section"></div>
         <div class="field">
-            <textarea rows="4" class="border-bottom" placeholder="Description"></textarea>
+            <textarea rows="4" class="border-bottom" placeholder="Description" ng-model="singleevent.event.description"></textarea>
         </div>
     </div>
-    <div id="actionButton" class="ui submit green button">Save</div>
+    <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui submit green button">Save</div>
 </div>
