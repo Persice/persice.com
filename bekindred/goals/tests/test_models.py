@@ -4,8 +4,9 @@ from django.test import TestCase
 
 from django_facebook.models import FacebookCustomUser
 
-from goals.models import Subject, MatchFilterState, Goal, Offer, GoalManager2, OfferManager2
+from goals.models import Subject, MatchFilterState, Goal, Offer
 from interests.models import InterestSubject, Interest
+from match_engine.models import MatchEngineManager, MatchEngine
 from matchfeed.models import MatchFeedManager
 
 
@@ -48,12 +49,12 @@ class GoalTestCase(TestCase):
     def test_count_common_goals_and_offers_only_goals_offers(self):
         Offer.objects.create(user=self.user, offer=self.subject2)
         Goal.objects.create(user=self.user1, goal=self.subject6)
-        self.assertEqual(Goal.objects_search.count_common_goals_and_offers(self.user, self.user1), 1)
+        self.assertEqual(MatchEngine.objects.count_common_goals_and_offers(self.user, self.user1), 1)
 
     def test_count_common_goals_and_offers_only_offers_goals(self):
         Offer.objects.create(user=self.user1, offer=self.subject8)
         Goal.objects.create(user=self.user, goal=self.subject4)
-        self.assertEqual(Goal.objects_search.count_common_goals_and_offers(self.user, self.user1), 1)
+        self.assertEqual(MatchEngine.objects.count_common_goals_and_offers(self.user, self.user1), 2)
 
     def test_count_common_goals_and_offers(self):
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -66,21 +67,21 @@ class GoalTestCase(TestCase):
         Offer.objects.create(user=self.user1, offer=self.subject7)
         Offer.objects.create(user=self.user1, offer=self.subject8)
 
-        self.assertEqual(Goal.objects_search.count_common_goals_and_offers(self.user, self.user1), 4)
+        self.assertEqual(MatchEngine.objects.count_common_goals_and_offers(self.user, self.user1), 4)
 
     def test_count_common_goals_and_offers_only_goals(self):
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
         Goal.objects.create(user=self.user1, goal=self.subject5)
         Goal.objects.create(user=self.user1, goal=self.subject6)
-        self.assertEqual(Goal.objects_search.count_common_goals_and_offers(self.user, self.user1), 2)
+        self.assertEqual(MatchEngine.objects.count_common_goals_and_offers(self.user, self.user1), 2)
 
     def test_count_common_goals_and_offers_only_offers(self):
         Offer.objects.create(user=self.user, offer=self.subject)
         Offer.objects.create(user=self.user, offer=self.subject2)
         Offer.objects.create(user=self.user1, offer=self.subject5)
         Offer.objects.create(user=self.user1, offer=self.subject6)
-        self.assertEqual(Goal.objects_search.count_common_goals_and_offers(self.user, self.user1), 2)
+        self.assertEqual(MatchEngine.objects.count_common_goals_and_offers(self.user, self.user1), 2)
 
 
 class GoalManagerTestCase(TestCase):
@@ -103,7 +104,7 @@ class GoalManagerTestCase(TestCase):
         Goal.objects.create(goal=self.s1, user=self.user1)
         Goal.objects.create(goal=self.s1, user=self.user2)
         Offer.objects.create(offer=self.s1, user=self.user3)
-        goals = [unicode(x) for x in GoalManager2.match_goals_to_goals(self.user.id, [])]
+        goals = [unicode(x) for x in MatchEngineManager.match_goals_to_goals(self.user.id, [])]
         self.assertEqual(len(goals), 2)
         self.assertEqual(goals, [u'python', u'python'])
 
@@ -118,7 +119,7 @@ class GoalManagerTestCase(TestCase):
         Offer.objects.create(offer=self.s1, user=self.user)
         Offer.objects.create(offer=self.s2, user=self.user)
 
-        goals = [unicode(x) for x in GoalManager2.match_offers_to_goals(self.user.id, [])]
+        goals = [unicode(x) for x in MatchEngineManager.match_offers_to_goals(self.user.id, [])]
         self.assertEqual(len(goals), 2)
         self.assertEqual(goals, [u'python', u'ruby'])
 
@@ -131,10 +132,10 @@ class GoalManagerTestCase(TestCase):
         Interest.objects.create(interest=self.i2, user=self.user2)
         Interest.objects.create(interest=self.i3, user=self.user3)
 
-        goals = [unicode(x) for x in GoalManager2.match_interests_to_goals(self.user1.id, [])]
+        goals = [unicode(x) for x in MatchEngineManager.match_interests_to_goals(self.user1.id, [])]
         self.assertEqual(goals, [])
 
-        goals = [unicode(x) for x in GoalManager2.match_interests_to_goals(self.user.id, [])]
+        goals = [unicode(x) for x in MatchEngineManager.match_interests_to_goals(self.user.id, [])]
         self.assertEqual(goals, ['python'])
 
 class OfferManagerTestCase(TestCase):
@@ -157,7 +158,7 @@ class OfferManagerTestCase(TestCase):
         Offer.objects.create(offer=self.s1, user=self.user1)
         Offer.objects.create(offer=self.s1, user=self.user2)
         Goal.objects.create(goal=self.s1, user=self.user3)
-        offers = [unicode(x) for x in OfferManager2.match_offers_to_offers(self.user.id, [])]
+        offers = [unicode(x) for x in MatchEngineManager.match_offers_to_offers(self.user.id, [])]
         self.assertEqual(len(offers), 2)
         self.assertEqual(offers, [u'python', u'python'])
 
@@ -171,7 +172,7 @@ class OfferManagerTestCase(TestCase):
         Goal.objects.create(goal=self.s4, user=self.user1)
         Offer.objects.create(offer=self.s1, user=self.user1)
         Offer.objects.create(offer=self.s2, user=self.user1)
-        offers = [unicode(x) for x in OfferManager2.match_goals_to_offers(self.user.id, [])]
+        offers = [unicode(x) for x in MatchEngineManager.match_goals_to_offers(self.user.id, [])]
         self.assertEqual(len(offers), 2)
         self.assertEqual(offers, [u'python', u'ruby'])
 
@@ -184,10 +185,10 @@ class OfferManagerTestCase(TestCase):
         Interest.objects.create(interest=self.i2, user=self.user2)
         Interest.objects.create(interest=self.i3, user=self.user3)
 
-        offers = [unicode(x) for x in OfferManager2.match_interests_to_offers(self.user1.id, [])]
+        offers = [unicode(x) for x in MatchEngineManager.match_interests_to_offers(self.user1.id, [])]
         self.assertEqual(offers, [])
 
-        offers = [unicode(x) for x in OfferManager2.match_interests_to_offers(self.user.id, [])]
+        offers = [unicode(x) for x in MatchEngineManager.match_interests_to_offers(self.user.id, [])]
         self.assertEqual(offers, ['python'])
 
 
