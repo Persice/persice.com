@@ -137,8 +137,16 @@ class MatchEngineManager(models.Manager):
             tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
             match_offers3.extend(target_offers.search(tsquery, raw=True))
 
-        return len(match_goals1 + match_goals2 + match_goals3 +
-                   match_offers1 + match_offers2 + match_offers2)
+        res1 = set()
+        res2 = set()
+        goals_total = match_goals1 + match_goals2 + match_goals3
+        offers_total = match_offers1 + match_offers2 + match_offers3
+        for g in goals_total:
+            res1.add(g.id)
+
+        for g in offers_total:
+            res2.add(g.id)
+        return len(res1) + len(res2)
 
     @staticmethod
     def match_offers_to_offers(user_id, exclude_friends):
