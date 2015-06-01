@@ -5799,3 +5799,30 @@ body.event-page .ui.form textarea {
   margin: 0!important;
   left: 0;
 }
+
+
+
+//under construction
+
+//mobile menu
+#leftmenu .under-construction {
+    position: relative!important;
+}
+
+#leftmenu .under-construction img.under-construction-image {
+    width: 25px!important;
+    display: inline-block!important;
+    position: absolute!important;
+    right: -30px!important;
+    top: 8px!important;
+}
+
+//desktop menu
+
+#left-menu img.under-construction-image {
+    width: 25px!important;
+    display: inline-block!important;
+    position: absolute!important;
+    right: 85px!important;
+    top: 15px!important;
+}

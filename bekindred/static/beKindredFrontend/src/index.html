@@ -39,7 +39,7 @@
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
-    <div class="ui top horizontal large sidebar" id="MatchMenu">
+      <div class="ui top horizontal large sidebar" id="MatchMenu">
         <div class="ui fluid six item menu">
             <a class="item" ng-click="goBack()">
                 <i class="chevron left icon"></i>
@@ -60,7 +60,7 @@
         <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
-        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content">Events</span></a>
+        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/></span></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="ui divided horizontal list" id="links_sidemenu_bottom">
             <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
@@ -129,7 +129,7 @@
                         <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item">Big Match Feed <i class="icon inverted chevron right"></i></a> -->
                         <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
                         <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">0</div><i class="icon inverted chevron right"></i></a>
-                        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events</a>
+                        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/></a>
                         <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
                     </div>
                     <div class="ui divided horizontal list" id="links_left_bottom">
@@ -160,14 +160,14 @@
     <!-- endinject -->
     <!-- endbuild -->
     <script>
-    'use strict';
+        'use strict';
 
-    $('.left.sidebar').first()
+        $('.left.sidebar').first()
         .sidebar('attach events', '#leftsidebarlaunch');
-    $('#leftsidebarlaunch')
+        $('#leftsidebarlaunch')
         .removeClass('disabled');
 
-    $('.top.horizontal.sidebar').first()
+        $('.top.horizontal.sidebar').first()
         .sidebar('setting', {
             dimPage: false,
             closable: false,
@@ -175,23 +175,23 @@
             mobileTransition: 'overlay'
         });
 
-    $('.right.sidebar').first()
+        $('.right.sidebar').first()
         .sidebar('attach events', '#right-menu-launcher')
         .sidebar('setting', 'duration', 0);
-    $('#right-menu-launcher')
+        $('#right-menu-launcher')
         .removeClass('disabled');
     </script>
     <script>
-    angular.module('icebrak').constant('USER_ID', 1);
-    angular.module('icebrak').constant('USER_FIRSTNAME', 'Sasa');
-    angular.module('icebrak').constant('USER_TWITTER', '');
-    angular.module('icebrak').constant('USER_LINKEDIN_NAME', '');
-    angular.module('icebrak').constant('USER_LINKEDIN_URL', '');
-    angular.module('icebrak').constant('USER_LASTNAME', 'Macakanja');
-    angular.module('icebrak').constant('FB_TOKEN', '');
-    angular.module('icebrak').constant('USER_PHOTO', 'http://lorempixel.com/200/200');
-    angular.module('icebrak').constant('USER_PHOTO_SMALL', 'http://lorempixel.com/32/32');
-    angular.module('icebrak').constant('APP_ID', '634990373263225');
+        angular.module('icebrak').constant('USER_ID', 1);
+        angular.module('icebrak').constant('USER_FIRSTNAME', 'Sasa');
+        angular.module('icebrak').constant('USER_TWITTER', '');
+        angular.module('icebrak').constant('USER_LINKEDIN_NAME', '');
+        angular.module('icebrak').constant('USER_LINKEDIN_URL', '');
+        angular.module('icebrak').constant('USER_LASTNAME', 'Macakanja');
+        angular.module('icebrak').constant('FB_TOKEN', '');
+        angular.module('icebrak').constant('USER_PHOTO', 'http://lorempixel.com/200/200');
+        angular.module('icebrak').constant('USER_PHOTO_SMALL', 'http://lorempixel.com/32/32');
+        angular.module('icebrak').constant('APP_ID', '634990373263225');
     </script>
 </body>
 
