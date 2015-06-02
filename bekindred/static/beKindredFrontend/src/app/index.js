@@ -333,6 +333,13 @@ angular
 
                 }
             })
+            .state('events.map', {
+                url: '/map',
+                templateUrl: 'app/events/events_map.html',
+                data: {
+
+                }
+            })
             .state('event', {
                 url: '/event',
                 abstract: true,

@@ -1,16 +1,46 @@
-<div class="ui grid" ng-cloak>
+<div class="ui grid">
     <div class="row">
         <div class="wide column">
-            <div class="ui fluid secondary menu center-aligned">
+            <!-- mobile menu -->
+            <div class="ui fluid secondary menu center-aligned" id="eventsMobileNav">
                 <a class="item" ui-sref="events.myevents" ng-class="{'active': isState('events.myevents')}">
-                MY EVENTS
-            </a>
+                    MY EVENTS
+                </a>
                 <a class="item" ui-sref="events.mynetwork" ng-class="{'active': isState('events.mynetwork')}">
-                MY NETWORK
-            </a>
+                    MY NETWORK
+                </a>
                 <a class="item" ui-sref="events.allevents" ng-class="{'active': isState('events.allevents')}">
-                ALL EVENTS
-            </a>
+                    ALL EVENTS
+                </a>
+            </div>
+            <!-- desktop menu -->
+            <div class="ui secondary pointing menu" id="eventsDesktopNav">
+                <a class="item" ui-sref="events.myevents" ng-class="{'active': isState('events.myevents')}">
+                    MY EVENTS
+                </a>
+                <a class="item" ui-sref="events.mynetwork" ng-class="{'active': isState('events.mynetwork')}">
+                    MY NETWORK
+                </a>
+                <a class="item" ui-sref="events.allevents" ng-class="{'active': isState('events.allevents')}">
+                    ALL EVENTS
+                </a>
+                <div class="right menu">
+                    <a class="ui button small green icon" ui-sref="event.create"> <i class="fa fa-plus-circle icon"></i> Create</a>
+                </div>
+            </div>
+            <div class="ui secondary pointing menu" id="eventsDesktopSubNav">
+                <div class="item"></div>
+                <div class="right menu">
+                    <a class="item icon active" ng-class="{'active': isState('events.myevents') || isState('events.mynetwork') || isState('events.allevents')}">
+                        <i class="fa large fa-list icon"></i>
+                    </a>
+                    <a class="item icon">
+                        <i class="fa large fa-calendar icon"></i>
+                    </a>
+                    <a class="item" ui-sref="events.map" ng-class="{'active': isState('events.map')}">
+                        <i class="fa large fa-map-marker icon"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

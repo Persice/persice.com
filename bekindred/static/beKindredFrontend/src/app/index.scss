@@ -5599,18 +5599,18 @@ mark.notification.hidden-notification {
 #main-page #leftsidebarlaunch:hover > mark {}
 
 //Events
-body.events-page .ui.secondary.menu.center-aligned {
+body.events-page #eventsMobileNav.ui.secondary.menu.center-aligned {
     text-align: center!important;
 }
 
-body.events-page .ui.secondary.menu > .menu > .active.item,
-body.events-page .ui.secondary.menu > .active.item {
+body.events-page #eventsMobileNav.ui.secondary.menu > .menu > .active.item,
+body.events-page #eventsMobileNav.ui.secondary.menu > .active.item {
     color: #FFF;
     background-color: #4d4d4d !important;
 }
 
 @media screen and (max-width: 767px) {
-    body.events-page .ui.secondary.menu.center-aligned .item {
+    body.events-page #eventsMobileNav.ui.secondary.menu.center-aligned .item {
         font-size: 0.8rem;
         padding: 0.7em!important;
     }
@@ -5633,7 +5633,7 @@ body.events-page#main-page #main-content {
 }
 
 @media screen and (min-width: 401px) {
-    body.events-page .ui.secondary.menu.center-aligned .item {
+    body.events-page #eventsMobileNav.ui.secondary.menu.center-aligned .item {
         font-size: 0.9rem!important;
         padding: 0.7em!important;
     }
@@ -5676,11 +5676,11 @@ body.events-page .ui.fluid.card .meta {
 .eventdate {
     text-align: right;
     padding: 0.2em 0em;
-    font-size: 0.9rem;
+    font-size: 1rem!important;
 }
 
 .eventgroup {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 #eventsfeed-list-body {
@@ -5702,7 +5702,8 @@ body.event-page .ui.form.segment {
     box-shadow: 0px 0px 0px 0px #eee, 0px 0px 0px 1px #eee!important;
 }
 
-body.event-page .ui.form .fields:last-child, body.event-page .ui.form .field:last-child {
+body.event-page .ui.form .fields:last-child,
+body.event-page .ui.form .field:last-child {
     margin-bottom: 0px!important;
 }
 
@@ -5734,12 +5735,10 @@ body.event-page .ui.form.segment.icon-segment .ui.button.with-left-icon {
     padding-left: 1.3em!important;
 }
 
-
 body.event-page .ui.divider#last-section {
     margin-top: 0em!important;
     margin-bottom: 0.2em!important;
 }
-
 
 body.event-page .ui.form.segment.icon-segment .ui.button:active {
     outline: none!important;
@@ -5755,7 +5754,6 @@ body.event-page .ui.form.segment.icon-segment .ui.button:hover {
     box-shadow: none!important;
     font-weight: bolder!important;
 }
-
 
 body.event-page .ui.form.segment.icon-segment .ui[class*="right labeled"].icon.button > .icon {
     background-color: #FFF!important;
@@ -5786,24 +5784,170 @@ body.event-page .ui.form textarea {
     padding-left: 0px!important;
 }
 
-
-
-
 #eventsfeed-list-body {
-  overflow-y: auto!important;
-  position: absolute!important;
-  top: 70px!important;
-  width: 100%!important;
-  bottom: 45px!important;
-  padding: 0 1.2rem!important;
-  margin: 0!important;
-  left: 0;
+    overflow-y: auto!important;
+    position: absolute!important;
+    top: 70px!important;
+    width: 100%!important;
+    bottom: 45px!important;
+    padding: 0 1.2rem!important;
+    margin: 0!important;
+    left: 0;
+}
+
+//events feed navigation
+body.events-page #eventsDesktopNav {
+    margin-top: 0px!important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1)!important;
+    margin-bottom: 0px!important;
+}
+
+body.events-page #eventsDesktopNav .item {
+    padding-bottom: 1.4em!important;
+}
+
+#eventsDesktopNav.ui.secondary.pointing.menu > .menu > .item.active,
+#eventsDesktopNav.ui.secondary.pointing.menu > .item.active,
+#eventsDesktopNav.ui.secondary.pointing.menu > .menu > .item:active,
+#eventsDesktopNav.ui.secondary.pointing.menu > .item:active {
+    background-color: transparent!important;
+    color: rgba(0, 0, 0, .8)!important;
+    border-color: transparent!important;
+}
+
+#eventsDesktopNav .active.item:after {
+    position: absolute!important;
+    content: ''!important;
+    top: 89%!important;
+    left: 50%!important;
+    -webkit-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
+    -ms-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
+    transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
+    margin: 0!important;
+    background: 0 0!important;
+    width: 0!important;
+    height: 0!important;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #ddd;
+    -webkit-transition: background .2s ease!important;
+    transition: background .2s ease!important;
+    display: block!important;
+}
+
+#eventsDesktopSubNav .active.item:after {
+    position: absolute!important;
+    content: ''!important;
+    top: 0px!important;
+    left: 50%!important;
+    -webkit-transform: translateX(-50%)translateY(-50%)rotate(180deg)!important;
+    -ms-transform: translateX(-50%)translateY(-50%)rotate(180deg)!important;
+    transform: translateX(-50%)translateY(-50%)rotate(180deg)!important;
+    margin: 0!important;
+    background: 0 0!important;
+    width: 0!important;
+    height: 0!important;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #ddd;
+    -webkit-transition: background .2s ease!important;
+    transition: background .2s ease!important;
+    display: block!important;
+}
+
+body.events-page #eventsDesktopNav .button {
+    margin-top: 6px!important;
+    margin-right: 0px!important;
+}
+
+body.events-page #eventsDesktopSubNav,
+body.events-page #eventsDesktopSubNav .item {
+    border: none!important;
+}
+
+body.events-page #eventsDesktopSubNav {
+    margin-bottom: 0px!important;
+    margin-top: 4px!important;
+}
+
+body.events-page #eventsDesktopNav .item > i.icon,
+body.events-page #eventsDesktopSubNav .item > i.icon {
+    margin: 0em!important;
+}
+
+@media screen and (max-width: 767px) {
+    body.events-page #eventsDesktopNav,
+    body.events-page #eventsDesktopSubNav {
+        display: none!important;
+    }
+
+    body.events-page .ui.cards>.card>.image, body.events-page .ui.card>.image {
+        display: none!important;
+    }
+
+}
+
+body.events-page .ui.cards a.card:hover, body.events-page .ui.link.cards .card:hover, body.events-page a.ui.card:hover, body.events-page .ui.link.card:hover {
+    border-radius: 0px!important;
 }
 
 
+body.events-page .ui.cards>.card, body.events-page .ui.card {
+    display: block!important;
+    border-radius: 0px!important;
+}
+
+@media screen and (min-width: 768px) {
+    body.events-page #eventsMobileNav {
+        display: none!important;
+    }
+    #eventsfeed-list-body {
+        top: 140px!important;
+    }
+    .eventdate {
+        text-align: left!important;
+    }
+
+    body.events-page .ui.fluid.card .content, body.events-page .ui.fluid.card .extra.content {
+        padding-left: 125px!important;
+    }
+
+    body.events-page .ui.fluid.card .meta {
+        margin: 5px 100px 10px 0px!important;
+    }
+
+    body.events-page .ui.cards>.card>.image, body.events-page .ui.card>.image {
+        display: block!important;
+    }
+
+
+
+}
+
+body.events-page .ui.cards>.card>.image, body.events-page .ui.card>.image {
+    position: absolute!important;
+    left: 0px!important;
+    top: 0px!important;
+    border-radius: 0px!important;
+
+}
+
+body.events-page .ui.cards>.card>.image>img, body.events-page .ui.card>.image>img {
+    width: 114px!important;
+    border-radius: 0px!important;
+}
+
+@media screen and (max-width: 840px) {
+    body.events-page #eventsDesktopNav .item,
+    body.events-page #eventsDesktopSubNav .item {
+        font-size: 0.85rem!important;
+    }
+    body.events-page #eventsDesktopNav .button {
+        margin-top: 2px!important;
+    }
+}
 
 //under construction
-
 //mobile menu
 #leftmenu .under-construction {
     position: relative!important;
@@ -5818,7 +5962,6 @@ body.event-page .ui.form textarea {
 }
 
 //desktop menu
-
 #left-menu img.under-construction-image {
     width: 25px!important;
     display: inline-block!important;
