@@ -49,10 +49,8 @@
                 vm.showSuccess = false;
                 EventsFactory.save({}, vm.event,
                     function(success) {
-                        vm.showSuccess = true;
                         vm.showError = false;
-                        // $state.go('events.myevents');
-                        vm.resetForm();
+                        $state.go('events.myevents');
                     },
                     function(error) {
                         vm.errorMessage = [];
