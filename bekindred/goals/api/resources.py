@@ -122,7 +122,7 @@ class GoalResource(ModelResource):
         return super(GoalResource, self).get_object_list(request).filter(user_id=user)
 
     def obj_create(self, bundle, **kwargs):
-        goal_subject = bundle.data.get('goal_subject')
+        goal_subject = bundle.data.get('goal_subject').lower()
         try:
             subject, created = Subject.objects.get_or_create(description=goal_subject)
             return super(GoalResource, self).obj_create(bundle, goal=subject)
@@ -131,7 +131,7 @@ class GoalResource(ModelResource):
         return super(GoalResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        goal_subject = bundle.data['goal_subject']
+        goal_subject = bundle.data['goal_subject'].lower()
         try:
             subject, created = Subject.objects.get_or_create(description=goal_subject)
             bundle.data['goal'] = '/api/v1/subject/{0}/'.format(subject.id)
@@ -163,7 +163,7 @@ class OfferResource(ModelResource):
         return super(OfferResource, self).get_object_list(request).filter(user_id=user)
 
     def obj_create(self, bundle, **kwargs):
-        offer_subject = bundle.data.get('offer_subject')
+        offer_subject = bundle.data.get('offer_subject').lower()
         try:
             subject, created = Subject.objects.get_or_create(description=offer_subject)
             return super(OfferResource, self).obj_create(bundle, offer=subject)
@@ -172,7 +172,7 @@ class OfferResource(ModelResource):
         return super(OfferResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        offer_subject = bundle.data['offer_subject']
+        offer_subject = bundle.data['offer_subject'].lower()
         try:
             subject, created = Subject.objects.get_or_create(description=offer_subject)
             bundle.data['offer'] = '/api/v1/subject/{0}/'.format(subject.id)
