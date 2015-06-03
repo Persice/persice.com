@@ -16,7 +16,7 @@
             replace: true,
             transclude: true,
             require: 'ngModel',
-            template: '<div class="ui modal centeraligned" id="createEventsModal" ng-transclude></div>',
+            template: '<div class="ui modal small centeraligned" id="createEventsModal" ng-transclude></div>',
             controller: EventModalController,
             controllerAs: 'singleevent',
             bindToController: true,
