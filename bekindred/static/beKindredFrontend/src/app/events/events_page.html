@@ -47,16 +47,12 @@
 </div>
 <div ui-view></div>
 <!-- modal for creating events -->
-<ui-modal ng-model="eventspage.showModal">
+<ui-event-modal ng-model="eventspage.showModal">
     <i class="close icon" ng-click="eventspage.closeEventCreateModal()"></i>
     <div class="header">
         Create Event
     </div>
     <div class="content">
+        <ng-include src="'components/event/event.tpl.html'"></ng-include>
     </div>
-    <div class="actions">
-        <div class="ui positive right button">
-            <i class="fa fa-plus-circle icon"></i>Create
-        </div>
-    </div>
-</ui-modal>
+</ui-event-modal>

@@ -3,22 +3,22 @@
 
     /**
      * @desc display modal
-     * @example <ui-modal></ui-modal>
+     * @example <ui-event-modal></ui-event-modal>
      */
     angular
         .module('frontend.semantic.modal', [])
 
-    .directive('uiModal', uiModal);
+    .directive('uiEventModal', uiEventModal);
 
-    function uiModal() {
+    function uiEventModal() {
         var directive = {
             restrict: 'E',
             replace: true,
             transclude: true,
             require: 'ngModel',
             template: '<div class="ui modal centeraligned" ng-transclude></div>',
-            controller: uiModalController,
-            controllerAs: 'uimodal',
+            controller: EventModalController,
+            controllerAs: 'singleevent',
             bindToController: true,
             link: link,
         };
@@ -49,9 +49,14 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function uiModalController($scope) {
+    function EventModalController($scope, $log) {
         var vm = this;
 
+        vm.saveEvent = saveEvent;
+
+        function saveEvent() {
+            $log.info('Saving event from modal');
+        }
 
 
     }

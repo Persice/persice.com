@@ -10,7 +10,6 @@
         </div>
         <p ng-repeat="errormsg in singleevent.errorMessage track by $index">{{errormsg}}</p>
     </div>
-
     <div class="ui form segment">
         <div class="field">
             <input class="border-bottom" ng-model="singleevent.event.name" placeholder="Event Name" type="text">
@@ -56,5 +55,5 @@
             <textarea rows="4" class="border-bottom" placeholder="Description" ng-model="singleevent.event.description"></textarea>
         </div>
     </div>
-    <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui submit green button">Save</div>
+    <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui submit green button"><i class="fa fa-plus-circle icon"></i> Create</div>
 </div>
