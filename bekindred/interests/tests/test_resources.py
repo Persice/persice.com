@@ -7,6 +7,7 @@ class TestInterestResource(ResourceTestCase):
     def setUp(self):
         super(TestInterestResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.DESCRIPTION = 'learn django'
         self.DESCRIPTION2 = 'learn python'
         self.DESCRIPTION3 = 'learn ruby'
@@ -82,6 +83,16 @@ class TestInterestResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.post('/api/v1/interest/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp)['interest']['error'][0], 'Interest already exists')
+
+    def test_create_interest_case_sensitive(self):
+        self.interest = Interest.objects.create(user=self.user1, interest=self.subject3)
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'interest_subject': 'LEARN RUBY',
+        }
+        self.response = self.login()
+        self.assertHttpCreated(self.api_client.post('/api/v1/interest/', format='json', data=post_data))
+        self.assertEqual(InterestSubject.objects.filter(description__icontains='ruby')[0].description, 'learn ruby')
 
     def test_put_detail(self):
         self.response = self.login()

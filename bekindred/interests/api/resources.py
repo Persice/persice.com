@@ -70,7 +70,7 @@ class InterestResource(ModelResource):
         return super(InterestResource, self).get_object_list(request).filter(user_id=user)
 
     def obj_create(self, bundle, **kwargs):
-        interest_subject = bundle.data.get('interest_subject')
+        interest_subject = bundle.data.get('interest_subject').lower()
         try:
             subject, created = InterestSubject.objects.get_or_create(description=interest_subject)
             return super(InterestResource, self).obj_create(bundle, interest=subject)
@@ -79,7 +79,7 @@ class InterestResource(ModelResource):
         return super(InterestResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        interest_subject = bundle.data['interest_subject']
+        interest_subject = bundle.data['interest_subject'].lower()
         try:
             subject, created = InterestSubject.objects.get_or_create(description=interest_subject)
             bundle.data['interest'] = '/api/v1/interest_subject/{0}/'.format(subject.id)
