@@ -5969,3 +5969,19 @@ body.events-page .ui.cards>.card>.image>img, body.events-page .ui.card>.image>im
     right: 85px!important;
     top: 15px!important;
 }
+
+
+//modal
+
+.ui.modal.centeraligned > .header {
+    padding: 0.8rem!important;
+    text-align: center!important;
+    font-size: 1.4em!important;
+}
+
+.ui.modal.centeraligned > .close {
+    top: 0.4rem!important;
+    right: 0rem!important;
+    color: #000!important;
+}
+

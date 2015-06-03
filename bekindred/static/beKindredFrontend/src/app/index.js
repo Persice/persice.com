@@ -10,6 +10,7 @@ angular
     'ui.router',
     'angular-spinkit',
     'frontend.semantic.dimmer',
+    'frontend.semantic.modal',
     'truncate',
     'ya.nouislider',
     'ngDraggable',
