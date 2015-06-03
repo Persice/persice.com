@@ -56,9 +56,12 @@
 
         vm.placeholder = {
             name: '',
-            starts: '',
-            ends: '',
+            starts: 'Date',
+            startsTime: 'Time',
+            ends: 'Date',
+            endsTime: 'Time',
             repeat: '',
+            repeatUntil: 'Until date',
             description: '',
             location: '',
             costs: '',

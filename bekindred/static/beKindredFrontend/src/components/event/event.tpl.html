@@ -23,22 +23,25 @@
     <div class="ui large form segment">
         <div class="field">
             <label>Starts</label>
-            <input class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="date" ng-model="singleevent.event.starts_on">
+            <input id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="text" ng-model="singleevent.event.starts_on">
+            <input id="startsAtTime" class="border-bottom" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.event.starts_on">
         </div>
         <div class="field">
             <label>Ends</label>
-            <input class="border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="date" ng-model="singleevent.event.ends_on">
+            <input id="endsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="text" ng-model="singleevent.event.ends_on">
+            <input id="endsAtTime" class="border-bottom" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.event.ends_on">
         </div>
         <div class="field">
             <label>Repeat</label>
-            <input placeholder="{{::singleevent.placeholder.repeat}}" type="text" ng-model="singleevent.event.repeat">
+            <input id="repeat" placeholder="{{::singleevent.placeholder.repeat}}" type="text" ng-model="singleevent.event.repeat">
+            <input id="repeatUntil" placeholder="{{::singleevent.placeholder.repeatUntil}}" type="text" ng-model="singleevent.event.repeat">
         </div>
     </div>
     <div class="ui large form segment icon-segment">
         <div class="field">
             <label>Costs</label>
             <div class="fluid ui right labeled icon button">
-                <i class="fa-angle-right fa icon fa-lg"></i> {{::singleevent.placeholder.costs}}
+                <i class="fa-angle-right fa icon large"></i> {{::singleevent.placeholder.costs}}
             </div>
         </div>
     </div>
@@ -46,16 +49,16 @@
         <div class="field">
             <label>Invitations</label>
             <div class="fluid ui right labeled icon button">
-                <i class="fa-angle-right fa icon fa-lg"></i> {{::singleevent.placeholder.invitations}}
+                <i class="fa-angle-right fa icon large"></i> {{::singleevent.placeholder.invitations}}
             </div>
         </div>
     </div>
     <div class="ui large form segment icon-segment">
-        <div class="field">
+        <div class="field" id="attachmentsDesc">
             <label>Attachments</label>
             <div class="fluid ui right labeled icon button with-left-icon">
-                <i class="fa-paperclip fa icon fa-lg left-icon"></i>
-                <i class="fa-angle-right fa icon fa-lg"></i> {{::singleevent.placeholder.attachments}}
+                <i class="fa-paperclip fa icon large left-icon"></i>
+                <i class="fa-angle-right fa icon large"></i> {{::singleevent.placeholder.attachments}}
             </div>
         </div>
         <div class="ui divider" id="last-section"></div>
@@ -64,7 +67,7 @@
             <textarea rows="4" class="border-bottom" placeholder="{{::singleevent.placeholder.description}}" ng-model="singleevent.event.description"></textarea>
         </div>
     </div>
-    <div class="ui large form segment desktopview">
+    <div class="ui large form segment desktopview" id="actionForm">
         <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui submit green button"><i class="fa fa-plus-circle icon"></i> Create</div>
     </div>
 </div>

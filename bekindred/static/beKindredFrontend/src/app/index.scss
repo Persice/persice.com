@@ -6001,7 +6001,7 @@ body.event-page label {
 }
 
 body.events-page label {
-    width: 20%!important;
+    width: 25%!important;
     float: left!important;
     text-align: right!important;
     padding-top: 11px!important;
@@ -6017,7 +6017,7 @@ body.events-page label {
 }
 
 body.events-page input, body.events-page textarea {
-    width: 80%!important;
+    width: 75%!important;
 }
 
 
@@ -6038,7 +6038,7 @@ body.events-page input, body.events-page textarea {
 
 #createEventsModal .ui.form.segment .field input, #createEventsModal .ui.form.segment .field textarea {
     border-radius: 0px!important;
-     border: none!important;
+    border: none!important;
 }
 
 
@@ -6047,4 +6047,70 @@ body.events-page input, body.events-page textarea {
     box-shadow: none!important;
     border: none!important;
     margin-top: 0px!important;
+    padding: 0px!important;
+}
+
+#createEventsModal .ui.right.button {
+    display: block!important;
+    width: 50%!important;
+    float: left!important;
+    height: 40.375px!important;
+    padding: 0px!important;
+    margin: 0px!important;
+    border: none!important;
+    background-color: #FFF!important;
+    border-radius: 0px;
+}
+
+#createEventsModal .ui.right.button i.icon {
+    background-color: #FFF!important;
+    font-size: 1.7rem !important;
+
+}
+
+#createEventsModal .ui.right.button i.icon.fa-paperclip {
+    left: 5px!important;
+    width: 30px!important;
+}
+
+#createEventsModal .ui.right.button i.icon.fa-angle-right {
+    width: 30px !important;
+    right: 0px !important;
+}
+
+
+
+#createEventsModal .ui.right.button.with-left-icon {
+    width: 75%!important;
+    margin-bottom: 0.225em!important;
+}
+
+#createEventsModal #last-section {
+    display: none!important;
+}
+
+#createEventsModal #startsAtDate,
+#createEventsModal #startsAtTime,
+#createEventsModal #endsAtDate,
+#createEventsModal #endsAtTime,
+#createEventsModal #repeat,
+#createEventsModal #repeatUntil, {
+    width: 36%!important;
+}
+
+
+
+#createEventsModal .field:after {
+    clear: both!important;
+}
+
+.ui.large.form.segment#actionForm {
+    box-shadow: none!important;
+    background-color: transparent!important;
+    border: none!important;
+    padding: 0em!important;
+}
+
+#actionButton {
+    margin-right: 0px!important;
 }
