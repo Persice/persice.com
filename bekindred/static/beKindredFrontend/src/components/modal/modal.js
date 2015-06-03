@@ -1,15 +1,30 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('frontend.semantic.modal', [])
+    /**
+     * @desc display modal
+     * @example <ui-modal></ui-modal>
+     */
+    angular
+        .module('frontend.semantic.modal', [])
 
-.directive('uiModal', function() {
-    return {
-        restrict: 'E',
-        replace: true,
-        transclude: true,
-        require: 'ngModel',
-        template: '<div class="ui modal centeraligned" ng-transclude></div>',
-        link: function(scope, element, attrs, ngModel) {
+    .directive('uiModal', uiModal);
+
+    function uiModal() {
+        var directive = {
+            restrict: 'E',
+            replace: true,
+            transclude: true,
+            require: 'ngModel',
+            template: '<div class="ui modal centeraligned" ng-transclude></div>',
+            controller: uiModalController,
+            controllerAs: 'uimodal',
+            bindToController: true,
+            link: link,
+        };
+        return directive;
+
+        function link(scope, element, attrs, ngModel) {
             element.modal({
                 onHide: function() {
                     ngModel.$setViewValue(false);
@@ -23,6 +38,24 @@ angular.module('frontend.semantic.modal', [])
                     .modal('setting', 'closable', false)
                     .modal(modelValue ? 'show' : 'hide');
             });
+
         }
-    };
-});
+
+
+
+    }
+
+    /**
+     * @desc controller for modal directive
+     * @ngInject
+     */
+    function uiModalController($scope) {
+        var vm = this;
+
+
+
+    }
+
+
+
+})();
