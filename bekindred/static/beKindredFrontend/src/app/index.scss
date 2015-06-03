@@ -5981,10 +5981,70 @@ body.events-page .ui.cards>.card>.image>img, body.events-page .ui.card>.image>im
 
 .ui.modal.centeraligned > .close {
     top: 0.4rem!important;
-    right: 0rem!important;
+    right: 1rem!important;
     color: #000!important;
 }
 
+
+
+
+//create event modal
+
+
 #actionButton {
     float: right;
+}
+
+
+body.event-page label {
+    display: none!important;
+}
+
+body.events-page label {
+    width: 20%!important;
+    float: left!important;
+    text-align: right!important;
+    padding-top: 11px!important;
+    padding-right: 8px!important;
+    font-size: 1.1rem!important;
+    color: rgb(162,162,166)!important;
+}
+@media screen and (min-width: 768px) {
+    #createEventsModal {
+        max-width: 550px!important;
+    }
+
+}
+
+body.events-page input, body.events-page textarea {
+    width: 80%!important;
+}
+
+
+#createEventsModal > .content {
+    background-color: rgb(236,235,233)!important;
+}
+
+
+#createEventsModal .ui.form.segment.first {
+    padding-top: 0em!important;
+}
+
+
+#createEventsModal .ui.form.segment .field {
+    margin-bottom: 0.2em!important;
+
+}
+
+#createEventsModal .ui.form.segment .field input, #createEventsModal .ui.form.segment .field textarea {
+    border-radius: 0px!important;
+     border: none!important;
+}
+
+
+#createEventsModal .ui.form.segment {
+    background-color: transparent!important;
+    box-shadow: none!important;
+    border: none!important;
+    margin-top: 0px!important;
 }

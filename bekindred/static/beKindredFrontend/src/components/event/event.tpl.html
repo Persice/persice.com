@@ -10,50 +10,61 @@
         </div>
         <p ng-repeat="errormsg in singleevent.errorMessage track by $index">{{errormsg}}</p>
     </div>
-    <div class="ui form segment">
+    <div class="ui large form segment first">
         <div class="field">
-            <input class="border-bottom" ng-model="singleevent.event.name" placeholder="Event Name" type="text">
+            <label>Event Name</label>
+            <input class="border-bottom" ng-model="singleevent.event.name" placeholder="{{::singleevent.placeholder.name}}" type="text">
         </div>
         <div class="field">
-            <input placeholder="Location" ng-model="singleevent.event.location" type="text">
-        </div>
-    </div>
-    <div class="ui form segment">
-        <div class="field">
-            <input class="border-bottom" placeholder="Starts" type="date" ng-model="singleevent.event.starts_on">
-        </div>
-        <div class="field">
-            <input class="border-bottom" placeholder="Ends" type="date" ng-model="singleevent.event.ends_on">
-        </div>
-        <div class="field">
-            <input placeholder="Repeat" type="text" ng-model="singleevent.event.repeat">
+            <label>Location</label>
+            <input placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.event.location" type="text">
         </div>
     </div>
-    <div class="ui form segment icon-segment">
+    <div class="ui large form segment">
         <div class="field">
+            <label>Starts</label>
+            <input class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="date" ng-model="singleevent.event.starts_on">
+        </div>
+        <div class="field">
+            <label>Ends</label>
+            <input class="border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="date" ng-model="singleevent.event.ends_on">
+        </div>
+        <div class="field">
+            <label>Repeat</label>
+            <input placeholder="{{::singleevent.placeholder.repeat}}" type="text" ng-model="singleevent.event.repeat">
+        </div>
+    </div>
+    <div class="ui large form segment icon-segment">
+        <div class="field">
+            <label>Costs</label>
             <div class="fluid ui right labeled icon button">
-                <i class="fa-angle-right fa icon fa-lg"></i> Costs
+                <i class="fa-angle-right fa icon fa-lg"></i> {{::singleevent.placeholder.costs}}
             </div>
         </div>
     </div>
-    <div class="ui form segment icon-segment">
+    <div class="ui large form segment icon-segment">
         <div class="field">
+            <label>Invitations</label>
             <div class="fluid ui right labeled icon button">
-                <i class="fa-angle-right fa icon fa-lg"></i> Invitations
+                <i class="fa-angle-right fa icon fa-lg"></i> {{::singleevent.placeholder.invitations}}
             </div>
         </div>
     </div>
-    <div class="ui form segment icon-segment">
+    <div class="ui large form segment icon-segment">
         <div class="field">
+            <label>Attachments</label>
             <div class="fluid ui right labeled icon button with-left-icon">
                 <i class="fa-paperclip fa icon fa-lg left-icon"></i>
-                <i class="fa-angle-right fa icon fa-lg"></i> Attachments
+                <i class="fa-angle-right fa icon fa-lg"></i> {{::singleevent.placeholder.attachments}}
             </div>
         </div>
         <div class="ui divider" id="last-section"></div>
         <div class="field">
-            <textarea rows="4" class="border-bottom" placeholder="Description" ng-model="singleevent.event.description"></textarea>
+            <label>Description</label>
+            <textarea rows="4" class="border-bottom" placeholder="{{::singleevent.placeholder.description}}" ng-model="singleevent.event.description"></textarea>
         </div>
     </div>
-    <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui submit green button"><i class="fa fa-plus-circle icon"></i> Create</div>
+    <div class="ui large form segment desktopview">
+        <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui submit green button"><i class="fa fa-plus-circle icon"></i> Create</div>
+    </div>
 </div>

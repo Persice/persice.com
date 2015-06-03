@@ -29,6 +29,18 @@
             state: 'CA'
         };
 
+        vm.placeholder = {
+            name: 'Event Name',
+            starts: 'Starts',
+            ends: 'Ends',
+            repeat: 'Repeat',
+            location: 'Location',
+            description: 'Description',
+            costs: 'Costs',
+            invitations: 'Invitations',
+            attachments: 'Attachments'
+        };
+
         vm.saveEvent = saveEvent;
         vm.resetForm = resetForm;
 

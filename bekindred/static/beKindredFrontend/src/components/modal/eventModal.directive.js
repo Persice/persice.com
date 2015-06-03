@@ -16,7 +16,7 @@
             replace: true,
             transclude: true,
             require: 'ngModel',
-            template: '<div class="ui modal centeraligned" ng-transclude></div>',
+            template: '<div class="ui modal centeraligned" id="createEventsModal" ng-transclude></div>',
             controller: EventModalController,
             controllerAs: 'singleevent',
             bindToController: true,
@@ -53,6 +53,18 @@
         var vm = this;
 
         vm.saveEvent = saveEvent;
+
+        vm.placeholder = {
+            name: '',
+            starts: '',
+            ends: '',
+            repeat: '',
+            description: '',
+            location: '',
+            costs: '',
+            invitations: '',
+            attachments: ''
+        };
 
         function saveEvent() {
             $log.info('Saving event from modal');
