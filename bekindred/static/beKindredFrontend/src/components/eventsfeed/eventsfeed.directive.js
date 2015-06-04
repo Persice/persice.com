@@ -40,7 +40,7 @@
      * @desc controller for eventsFeed directive
      * @ngInject
      */
-    function EventsFeedController($scope, USER_ID, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state) {
+    function EventsFeedController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state) {
         var vm = this;
         vm.noEvents = false;
         vm.pok = false;
@@ -57,6 +57,11 @@
         vm.events = [];
 
         vm.getEvents();
+
+
+        $rootScope.$on('refreshEventFeed', function(event, data) {
+            vm.getEvents();
+        });
 
 
         function getEvents() {
