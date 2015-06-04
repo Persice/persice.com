@@ -88,7 +88,7 @@ class MatchFeedManager(models.Manager):
 
         match_interests_to_interests = MatchEngine.objects.match_interests_to_interests(user_id, friends)
         match_goals_to_interests = MatchEngine.objects.match_goal_to_interests(user_id, friends)
-        match_offers_to_interests = MatchEngine.objects.match_interests_to_interests(user_id, friends)
+        match_offers_to_interests = MatchEngine.objects.match_offer_to_interests(user_id, friends)
         match_likes_to_interests = MatchEngine.objects.match_fb_likes_to_interests(user_id, friends)
         match_interests = match_interests_to_interests | match_likes_to_interests | match_goals_to_interests | match_offers_to_interests
 

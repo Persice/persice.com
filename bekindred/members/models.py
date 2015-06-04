@@ -55,19 +55,6 @@ class FacebookLikeProxyManager(models.Manager):
 
         return match_likes
 
-    def count_fb_likes_interests(self, user_id1, user_id2):
-        exclude_friends = FacebookCustomUser.objects.exclude(id__in=[user_id1, user_id2]). \
-            values_list('id', flat=True)
-        exclude_friends = list(exclude_friends)
-        matches_likes = self.match_fb_likes_to_fb_likes(user_id1, exclude_friends)
-        matches_likes2 = self.match_interests_to_fb_likes(user_id1, exclude_friends)
-
-        res2 = set()
-
-        for m_like in matches_likes + matches_likes2:
-            res2.add(m_like.id)
-        return len(res2)
-
 
 class FacebookLikeProxy(FacebookLike):
     class Meta:

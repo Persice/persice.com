@@ -47,8 +47,7 @@ class MatchedUser(object):
         self.about = self.user.about_me
         self.photos = []
         self.distance = calculate_distance(current_user_id, user_id2)
-        self.score = MatchEngine.objects.count_common_goals_and_offers(current_user_id, user_id2) + \
-                     MatchEngine.objects.count_interests_fb_likes(current_user_id, user_id2)
+        self.score = MatchEngine.objects.count_common_goals_and_offers(current_user_id, user_id2)
         self.friends_score = len(Friend.objects.mutual_friends(current_user_id, user_id2)) + \
                              len(FacebookFriendUser.objects.mutual_friends(current_user_id, user_id2))
 

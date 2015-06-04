@@ -149,10 +149,9 @@ class ConnectionsResource(Resource):
             new_obj.mutual_twitter_friends_count = t['count_mutual_twitter_friends']
             new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
             new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
-            t1 = MatchEngine.objects.count_common_goals_and_offers(current_user, new_obj.friend_id)
-            t2 = MatchEngine.objects.count_interests_fb_likes(current_user, new_obj.friend_id)
-            t3 = FacebookLikeProxy.objects.count_fb_likes_interests(current_user, new_obj.friend_id)
-            new_obj.common_goals_offers_interests = t1 + t2 + t3
+
+            new_obj.common_goals_offers_interests = \
+                MatchEngine.objects.count_common_goals_and_offers(current_user, new_obj.friend_id)
 
             results.append(new_obj)
         return results
