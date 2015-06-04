@@ -50,6 +50,6 @@ class TestInterestManager(TestCase):
                          [u'Learn Ruby', u'Likes Python', u'Python Web Development'])
 
     def test_count_interests_fb_likes(self):
-        count = MatchEngine.objects.count_interests_fb_likes(self.user.id, self.user1.id)
-        count2 = FacebookLikeProxy.objects.count_fb_likes_interests(self.user.id, self.user1.id)
-        self.assertEqual(count + count2, 2)
+        count = MatchEngine.objects.count_common_goals_and_offers(self.user.id, self.user1.id)
+        count2 = MatchEngine.objects.count_common_goals_and_offers(self.user.id, self.user1.id)
+        self.assertEqual(count + count2, 4)

@@ -91,22 +91,19 @@ class MatchFeedManager(models.Manager):
         match_offers_to_interests = MatchEngine.objects.match_offer_to_interests(user_id, friends)
         match_likes_to_interests = MatchEngine.objects.match_fb_likes_to_interests(user_id, friends)
         match_interests = match_interests_to_interests | match_likes_to_interests | match_goals_to_interests | match_offers_to_interests
-
         # Match Interests
+        uniq_user_ids = set([x.user_id for x in match_interests])
+        uniq_interest_ids = set([x.interest_id for x in match_interests])
         interests = {}
-        for _user_id, group in groupby(match_interests, key=lambda x: x.user_id):
-            interests[_user_id] = list()
+        for _user in uniq_user_ids:
+            interests[_user] = list()
             d = dict()
-            exclude_interests = []
-            for thing in group:
-                d[thing.interest.description] = 1
-                exclude_interests.append(thing.id)
-            other_interests = Interest.objects.exclude(id__in=exclude_interests).filter(user_id=_user_id)
-
-            for other in other_interests:
-                d[other.interest.description] = 0
-
-            interests[_user_id].append(d)
+            for interest in Interest.objects.filter(user_id=_user):
+                if interest.interest_id in uniq_interest_ids:
+                    d[unicode(interest)] = 1
+                else:
+                    d[unicode(interest)] = 0
+            interests[_user].append(d)
 
         matched_users = set(goals.keys() + offers.keys() + likes.keys() + interests.keys())
         for user in matched_users:
