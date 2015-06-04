@@ -24,7 +24,8 @@ angular
     'angular-flexslider',
     'ngGeolocation',
     'ezfb',
-    '720kb.tooltips'
+    '720kb.tooltips',
+    'google.places'
     ])
     .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 

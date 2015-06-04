@@ -17,7 +17,10 @@
         </div>
         <div class="field">
             <label>Location</label>
-            <input placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.event.location" type="text">
+            <div class="ui icon input" id="locationInput" ng-class="{'urlexists': singleevent.mapurlTrue}">
+                <input google-places-autocomplete options="{types: ['geocode']}" placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
+                <i ng-click="singleevent.openMap()" class="marker large icon"></i>
+            </div>
         </div>
     </div>
     <div class="ui large form segment">
@@ -27,7 +30,6 @@
                 <input ng-model="singleevent.event.starts_on" placeholder="{{::singleevent.placeholder.starts}}" type="text">
                 <i class="calendar icon"></i>
             </div>
-
             <input id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="text" ng-model="singleevent.event.starts_on">
             <input id="startsAtTime" class="" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.event.starts_on_time">
         </div>
@@ -37,14 +39,12 @@
                 <input ng-model="singleevent.event.ends_on" placeholder="{{::singleevent.placeholder.ends}}" type="text">
                 <i class="calendar icon"></i>
             </div>
-
             <input id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="text" ng-model="singleevent.event.ends_on">
             <input id="endsAtTime" class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.event.ends_on_time">
         </div>
         <div class="field">
             <label>Repeat</label>
             <input id="repeat" placeholder="{{::singleevent.placeholder.repeat}}" type="text" ng-model="singleevent.event.repeat">
-
             <div class="ui icon input" id="desktopRepeatUntil">
                 <input ng-model="singleevent.event.repeatUntil" placeholder="{{::singleevent.placeholder.repeatUntil}}" type="text">
                 <i class="calendar icon"></i>

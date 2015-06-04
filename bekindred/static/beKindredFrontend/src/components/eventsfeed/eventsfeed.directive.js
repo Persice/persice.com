@@ -172,6 +172,7 @@
                             name: responseEvents[obj].name,
                             street: responseEvents[obj].street,
                             city: responseEvents[obj].city,
+                            state: responseEvents[obj].state,
                             zipcode: responseEvents[obj].zipcode,
                             description: responseEvents[obj].description,
                             location: responseEvents[obj].location,
@@ -180,8 +181,7 @@
                             repeat: responseEvents[obj].repeat,
                             totalFriends: responseEvents[obj].totalFriends,
                             common_goals_offers_interests: responseEvents[obj].common_goals_offers_interests,
-                            distance: '0 miles away'
-
+                            distance: responseEvents[obj].distance
                         });
 
                         vm.events[eventIndex].items = $filter('orderBy')(vm.events[eventIndex].items, 'starts_on', true);
@@ -254,6 +254,7 @@
                                 name: responseEvents[obj].name,
                                 street: responseEvents[obj].street,
                                 city: responseEvents[obj].city,
+                                state: responseEvents[obj].state,
                                 zipcode: responseEvents[obj].zipcode,
                                 description: responseEvents[obj].description,
                                 location: responseEvents[obj].location,
@@ -262,7 +263,7 @@
                                 repeat: responseEvents[obj].repeat,
                                 totalFriends: responseEvents[obj].totalFriends,
                                 common_goals_offers_interests: responseEvents[obj].common_goals_offers_interests,
-                                distance: '0 miles away'
+                                distance: responseEvents[obj].distance
 
                             });
 

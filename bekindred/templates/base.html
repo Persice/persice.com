@@ -35,6 +35,7 @@
     <meta name="msapplication-square310x310logo" content="/static/favicon/mstile-310x310.png" />
     <link href="/static/beKindredFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
     <link href="/static/beKindredFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
     <!-- Start of bekindred Zendesk Widget script -->
     <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(c){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var o=this.createElement("script");n&&(this.domain=n),o.id="js-iframe-async",o.src=e,this.t=+new Date,this.zendeskHost=t,this.zEQueue=a,this.body.appendChild(o)},o.write('<body onload="document._l();">'),o.close()}("//assets.zendesk.com/embeddable_framework/main.js","bekindred.zendesk.com");/*]]>*/</script>
@@ -72,7 +73,7 @@
         <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>   <messages-counter></message-counter></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <connections-counter></connections-counter></a>
-        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/></span></a>
+        <a ui-sref="events.mynetwork" tooltips tooltip-title="Under Construction" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/></span></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="ui divided horizontal list" id="links_sidemenu_bottom">
             <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
@@ -141,7 +142,7 @@
                         <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Match Feed <i class="icon inverted chevron right"></i></a> -->
                         <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
                         <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <connections-counter></connections-counter> <i class="icon inverted chevron right"></i></a>
-                        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/> <i class="icon inverted chevron right"></i></a>
+                        <a ui-sref="events.mynetwork" tooltips tooltip-title="Under Construction" ng-class="{'active': isState('events')}" class="item">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/> <i class="icon inverted chevron right"></i></a>
                         <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
                     </div>
                     <div class="ui divided horizontal list" id="links_left_bottom">
