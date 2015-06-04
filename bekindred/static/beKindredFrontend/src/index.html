@@ -62,7 +62,7 @@
         <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
-        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/></span></a>
+        <a ui-sref="events.mynetwork" tooltips tooltip-title="Under Construction" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/></span></a>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="ui divided horizontal list" id="links_sidemenu_bottom">
             <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
@@ -131,7 +131,7 @@
                         <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item">Big Match Feed <i class="icon inverted chevron right"></i></a> -->
                         <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile <i class="icon inverted chevron right"></i></a>
                         <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">0</div><i class="icon inverted chevron right"></i></a>
-                        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/><i class="icon inverted chevron right"></i></a>
+                        <a ui-sref="events.mynetwork" tooltips tooltip-title="Under Construction" ng-class="{'active': isState('events')}" class="item">Events <img class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/><i class="icon inverted chevron right"></i></a>
                         <a ui-sref="settings" ui-sref-active="active" class="item">Settings<i class="icon inverted chevron right"></i></a>
                     </div>
                     <div class="ui divided horizontal list" id="links_left_bottom">
