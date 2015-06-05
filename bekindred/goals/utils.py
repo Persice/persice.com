@@ -12,6 +12,7 @@ from social_auth.db.django_models import UserSocialAuth
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
 from world.models import UserLocation
+from events.models import Event
 
 
 def calculate_age(born):
@@ -78,6 +79,49 @@ def calculate_distance(user_id1, user_id2, units='miles'):
     else:
         return [int(getattr(distance, units)), units]
 
+
+def calculate_distance_events(user_id, event_location, units='miles'):
+    """
+    calculate distance
+    https://docs.djangoproject.com/en/1.8/ref/contrib/gis/measure/#supported-units
+    km	Kilometre, Kilometer
+    mi	Mile
+    m	Meter, Metre
+    """
+    g = GeoIP()
+    distance = [10000, 'miles']
+
+    try:
+        _units = MatchFilterState.objects.get(user_id=user_id).distance_unit
+        if _units in ('miles', 'km'):
+            units = _units
+    except MatchFilterState.DoesNotExist:
+        pass
+
+    try:
+        user1_location = UserLocation.objects.filter(user_id=user_id).order_by('-timestamp')[0]
+        user1_point = user1_location.geometry
+    except IndexError:
+        try:
+            user_id1_ip = str(UserIPAddress.objects.get(user_id=user_id).ip)
+            point = g.geos(user_id1_ip)
+            if not point:
+                return distance
+            user1_point = GEOSGeometry(point)
+        except UserIPAddress.DoesNotExist:
+            return distance
+
+    if not event_location:
+        return distance
+
+    distance = geopy_distance(user1_point, event_location)
+    if getattr(distance, units) < 1.0:
+        if getattr(distance, 'm') <= 10.0:
+            return [10, 'meters']
+        else:
+            return [int(getattr(distance, 'm')), 'meters']
+    else:
+        return [int(getattr(distance, units)), units]
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):
     # refactor for different
