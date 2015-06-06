@@ -25,7 +25,9 @@ angular
     'ngGeolocation',
     'ezfb',
     '720kb.tooltips',
-    'google.places'
+    'google.places',
+    '720kb.datepicker',
+    'ngMask'
     ])
     .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 

@@ -27,26 +27,32 @@
         <div class="field">
             <label>Starts</label>
             <div class="ui icon input" id="desktopStartsAt">
-                <input ng-model="singleevent.event.starts_on" placeholder="{{::singleevent.placeholder.starts}}" type="text">
+                <datepicker date-format="MM/dd/yyyy">
+                    <input mask='39/19/9999' ng-model="singleevent.starts_on_date" placeholder="{{::singleevent.placeholder.starts}}" type="text">
+                </datepicker>
                 <i class="calendar icon"></i>
             </div>
-            <input id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="text" ng-model="singleevent.event.starts_on">
-            <input id="startsAtTime" class="" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.event.starts_on_time">
+            <input id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="datetime-local" ng-model="singleevent.event.starts_on">
+            <input id="startsAtTime" mask='29:59' class="" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.starts_on_time">
         </div>
         <div class="field">
             <label>Ends</label>
             <div class="ui icon input" id="desktopEndsAt">
-                <input ng-model="singleevent.event.ends_on" placeholder="{{::singleevent.placeholder.ends}}" type="text">
+                <datepicker date-format="MM/dd/yyyy">
+                    <input mask='39/19/9999' ng-model="singleevent.ends_on_date" placeholder="{{::singleevent.placeholder.ends}}" type="text">
+                </datepicker>
                 <i class="calendar icon"></i>
             </div>
-            <input id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="text" ng-model="singleevent.event.ends_on">
-            <input id="endsAtTime" class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.event.ends_on_time">
+            <input id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="datetime-local" ng-model="singleevent.event.ends_on">
+            <input id="endsAtTime" mask='29:59' class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.ends_on_time">
         </div>
         <div class="field">
             <label>Repeat</label>
             <input id="repeat" placeholder="{{::singleevent.placeholder.repeat}}" type="text" ng-model="singleevent.event.repeat">
             <div class="ui icon input" id="desktopRepeatUntil">
-                <input ng-model="singleevent.event.repeatUntil" placeholder="{{::singleevent.placeholder.repeatUntil}}" type="text">
+                <datepicker date-format="MM/dd/yyyy">
+                    <input ng-model="singleevent.event.repeatUntil" placeholder="{{::singleevent.placeholder.repeatUntil}}" type="text">
+                </datepicker>
                 <i class="calendar icon"></i>
             </div>
         </div>
@@ -81,7 +87,33 @@
             <textarea rows="4" class="border-bottom" placeholder="{{::singleevent.placeholder.description}}" ng-model="singleevent.event.description"></textarea>
         </div>
     </div>
-    <div class="ui large form segment desktopview" id="actionForm">
+    <div class="ui large form segment" id="actionForm">
         <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui submit green button"><i class="fa fa-plus-circle icon"></i> Create</div>
     </div>
 </div>
+
+
+<script>
+    'use strict';
+    $( document ).ready(function() {
+       $('#endsAtDate').on('input',function(){
+        if($(this).val().length>0){
+            $(this).addClass('full');
+        }
+        else{
+            console.log('remove');
+            $(this).removeClass('full');
+        }
+        });
+
+        $('#startsAtDate').on('input',function(){
+            if($(this).val().length>0){
+                $(this).addClass('full');
+            }
+            else{
+                $(this).removeClass('full');
+            }
+        });
+    });
+
+</script>

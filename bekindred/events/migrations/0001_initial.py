@@ -15,8 +15,8 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=300)),
             ('location', self.gf('geoposition.fields.GeopositionField')(max_length=42)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
-            ('starts_on', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('ends_on', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
+            ('starts_on', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('ends_on', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('repeat', self.gf('django.db.models.fields.CharField')(max_length=1)),
             ('search_index', self.gf('djorm_pgfulltext.fields.VectorField')(default='', null=True, db_index=True)),
         ))
@@ -82,13 +82,13 @@ class Migration(SchemaMigration):
         u'events.event': {
             'Meta': {'object_name': 'Event'},
             'description': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
-            'ends_on': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'ends_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('geoposition.fields.GeopositionField', [], {'max_length': '42'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
             'repeat': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'search_index': ('djorm_pgfulltext.fields.VectorField', [], {'default': "''", 'null': 'True', 'db_index': 'True'}),
-            'starts_on': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'starts_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
         }
     }

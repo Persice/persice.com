@@ -6122,10 +6122,6 @@ body.event-page #repeatUntil,
     margin-right: 0px!important;
 }
 
-#desktopRepeatUntil {
-    margin-left: 4px!important;
-}
-
 .ui.modal.small.centeraligned .content {
     padding: 1rem!important;
 }
@@ -6140,7 +6136,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .pac-container {
+.pac-container {
     background-color: #fff;
     position: absolute !important;
     z-index: 1000;
@@ -6241,17 +6237,17 @@ body.event-page #repeatUntil,
     font-style: italic;
 }
 
-#locationInput.ui.icon.input.urlexists > input ~ i.icon{
+#locationInput.ui.icon.input.urlexists > input ~ i.icon {
     opacity: 1!important;
     cursor: pointer!important;
 }
 
-#locationInput.ui.icon.input > input ~ i.icon, #locationInput.ui.icon.input > input:focus ~ i.icon  {
+#locationInput.ui.icon.input > input ~ i.icon,
+#locationInput.ui.icon.input > input:focus ~ i.icon {
     opacity: 0.5!important;
 }
 
 //end google places autocomplete
-
 body.event-page #locationInput input {
     padding-left: 0px!important;
     padding-top: 10.688px!important;
@@ -6266,72 +6262,99 @@ body.event-page #locationInput input {
 
 #locationInput i.icon {
     width: 30px!important;
-
 }
-
 
 #createEventsModal #locationInput {
     width: 75%!important;
 }
 
-
-
 //tooltip
-
 /* Add this attribute to the element that needs a tooltip */
-[data-tooltip] {
-  position: relative!important;
-  z-index: 2!important;
-  cursor: pointer!important;
-}
 
+[data-tooltip] {
+    position: relative!important;
+    z-index: 2!important;
+    cursor: pointer!important;
+}
 /* Hide the tooltip content by default */
+
 [data-tooltip]:before,
 [data-tooltip]:after {
-  visibility: hidden!important;
-  opacity: 0!important;
-  pointer-events: none!important;
+    visibility: hidden!important;
+    opacity: 0!important;
+    pointer-events: none!important;
 }
 
 [data-tooltip]:before {
-  position: absolute!important;
-  bottom: 110%!important;
-  left: 50%!important;
-  margin-bottom: 5px!important;
-  margin-left: -53px!important;
-  padding: 7px!important;
-  width: 100px!important;
-  border-radius: 3px!important;
-  background-color: #000!important;
-  background-color: rgba(51,51,51,.9)!important;
-  color: #fff!important;
-  content: attr(data-tooltip)!important;
-  text-align: center!important;
-  font-size: 12px!important;
-  line-height: 1.2!important;
-  z-index: 99999!important;
+    position: absolute!important;
+    bottom: 110%!important;
+    left: 50%!important;
+    margin-bottom: 5px!important;
+    margin-left: -53px!important;
+    padding: 7px!important;
+    width: 100px!important;
+    border-radius: 3px!important;
+    background-color: #000!important;
+    background-color: rgba(51, 51, 51, .9)!important;
+    color: #fff!important;
+    content: attr(data-tooltip)!important;
+    text-align: center!important;
+    font-size: 12px!important;
+    line-height: 1.2!important;
+    z-index: 99999!important;
 }
-
 /* Triangle hack to make tooltip look like a speech bubble */
-[data-tooltip]:after {
-  position: absolute!important;
-  bottom: 110%!important;
-  left: 50%!important;
-  margin-left: -5px!important;
-  width: 0!important;
-  border-top: 5px solid #000!important;
-  border-top: 5px solid hsla(0, 0%, 20%, 0.9)!important;
-  border-right: 5px solid transparent!important;
-  border-left: 5px solid transparent!important;
-  content: " "!important;
-  font-size: 0!important;
-  line-height: 0!important;
-  z-index: 99999!important;
-}
 
+[data-tooltip]:after {
+    position: absolute!important;
+    bottom: 110%!important;
+    left: 50%!important;
+    margin-left: -5px!important;
+    width: 0!important;
+    border-top: 5px solid #000!important;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.9)!important;
+    border-right: 5px solid transparent!important;
+    border-left: 5px solid transparent!important;
+    content: " "!important;
+    font-size: 0!important;
+    line-height: 0!important;
+    z-index: 99999!important;
+}
 /* Show tooltip content on hover */
+
 [data-tooltip]:hover:before,
 [data-tooltip]:hover:after {
-  visibility: visible!important;
-  opacity: 1!important;
+    visibility: visible!important;
+    opacity: 1!important;
+}
+
+#desktopStartsAt,
+#desktopEndsAt,
+#desktopRepeatUntil {
+    background-color: #FFF!important;
+}
+
+#desktopRepeatUntil {
+    margin-left: 4px!important;
+}
+
+#desktopStartsAt input,
+#desktopEndsAt input,
+#desktopRepeatUntil input {
+    padding-right: 0px!important;
+}
+
+._720kb-datepicker-calendar {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, .1)inset!important;
+}
+
+
+input[type="datetime-local"]:before{
+    color:lightgray!important;
+    content:attr(placeholder) "   "!important;
+}
+
+input[type="datetime-local"].full:before {
+    color:black!important;
+    content:""!important;
 }

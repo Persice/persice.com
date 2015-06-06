@@ -187,7 +187,7 @@
                         vm.events[eventIndex].items = $filter('orderBy')(vm.events[eventIndex].items, 'starts_on', true);
                     }
 
-                    vm.events = $filter('orderBy')(vm.events, 'realDate', true);
+                    vm.events = $filter('orderBy')(vm.events, 'starts_on', true);
 
 
                     vm.loading = false;
@@ -270,7 +270,7 @@
                             vm.events[eventIndex].items = $filter('orderBy')(vm.events[eventIndex].items, 'starts_on', true);
                         }
 
-                        vm.events = $filter('orderBy')(vm.events, 'realDate', true);
+                        vm.events = $filter('orderBy')(vm.events, 'starts_on', true);
 
 
 

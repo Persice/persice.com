@@ -27,7 +27,7 @@
             starts_on: '',
             street: '',
             city: '',
-            zipcode: '',
+            zipcode: null,
             state: ''
         };
 
@@ -116,6 +116,9 @@
 
                 vm.event.street = vm.extractFromAddress(location, 'route', 'long_name') + ' ' + vm.extractFromAddress(location, 'street_number', 'long_name');
                 vm.event.zipcode = vm.extractFromAddress(location, 'postal_code', 'long_name');
+                if (vm.event.zipcode === '') {
+                    vm.event.zipcode = null;
+                }
                 vm.event.state = vm.extractFromAddress(location, 'administrative_area_level_1', 'short_name');
                 vm.event.country = vm.extractFromAddress(location, 'country', 'short_name');
                 vm.event.city = vm.extractFromAddress(location, 'locality', 'long_name');
@@ -142,6 +145,12 @@
 
 
         function resetForm() {
+            vm.showError = false;
+            vm.showSuccess = false;
+            vm.errorMessage = [];
+            vm.mapurl = '';
+            vm.mapurlTrue = false;
+            vm.eventLocation = '';
             vm.event = {
                 user: '/api/v1/auth/user/' + USER_ID + '/',
                 description: '',
@@ -152,7 +161,7 @@
                 starts_on: '',
                 street: '',
                 city: '',
-                zipcode: '',
+                zipcode: null,
                 state: ''
             };
         }
