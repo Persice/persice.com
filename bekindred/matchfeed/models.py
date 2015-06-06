@@ -35,20 +35,18 @@ class MatchFeedManager(models.Manager):
         match_interests_to_goals = MatchEngine.objects.match_interests_to_goals(user_id, friends)
         match_goals = match_goals_to_goals | match_offers_to_goals | match_interests_to_goals
 
+        uniq_user_ids = set([x.user_id for x in match_goals])
+        uniq_goal_ids = set([x.goal_id for x in match_goals])
         goals = {}
-        for _user_id, group in groupby(match_goals, lambda x: x.user_id):
-            goals[_user_id] = list()
+        for _user in uniq_user_ids:
+            goals[_user] = list()
             d = dict()
-            exclude_goals = []
-            for thing in group:
-                d[unicode(thing)] = 1
-                exclude_goals.append(thing.goal_id)
-            other_goals = Goal.objects.exclude(goal_id__in=exclude_goals).filter(user_id=_user_id)
-
-            for other in other_goals:
-                d[unicode(other)] = 0
-
-            goals[_user_id].append(d)
+            for goal in Goal.objects.filter(user_id=_user):
+                if goal.goal_id in uniq_goal_ids:
+                    d[unicode(goal)] = 1
+                else:
+                    d[unicode(goal)] = 0
+            goals[_user].append(d)
 
         match_offers_to_offers = MatchEngine.objects.match_offers_to_offers(user_id, friends)
         match_goals_to_offers = MatchEngine.objects.match_goals_to_offers(user_id, friends)
@@ -71,20 +69,18 @@ class MatchFeedManager(models.Manager):
         match_interests_to_likes = FacebookLikeProxy.objects.match_interests_to_fb_likes(user_id, friends)
         match_likes = match_likes_to_likes + match_interests_to_likes
 
+        uniq_user_ids = set([x.user_id for x in match_likes])
+        uniq_likes_ids = set([x.id for x in match_likes])
         likes = {}
-        for _user_id, group in groupby(match_likes, key=lambda x: x.user_id):
-            likes[_user_id] = list()
+        for _user in uniq_user_ids:
+            likes[_user] = list()
             d = dict()
-            exclude_likes = []
-            for thing in group:
-                d[thing.name] = 1
-                exclude_likes.append(thing.id)
-            other_likes = FacebookLikeProxy.objects.exclude(id__in=exclude_likes).filter(user_id=_user_id)
-
-            for other in other_likes:
-                d[other.name] = 0
-
-            likes[_user_id].append(d)
+            for like in FacebookLike.objects.filter(user_id=_user):
+                if like.id in uniq_likes_ids:
+                    d[unicode(like.name)] = 1
+                else:
+                    d[unicode(like.name)] = 0
+            likes[_user].append(d)
 
         match_interests_to_interests = MatchEngine.objects.match_interests_to_interests(user_id, friends)
         match_goals_to_interests = MatchEngine.objects.match_goal_to_interests(user_id, friends)
