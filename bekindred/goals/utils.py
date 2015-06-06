@@ -12,7 +12,6 @@ from social_auth.db.django_models import UserSocialAuth
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
 from world.models import UserLocation
-from events.models import Event
 
 
 def calculate_age(born):

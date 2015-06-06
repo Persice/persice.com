@@ -8,25 +8,20 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Event'
-        db.create_table(u'events_event', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=300, null=True, blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=300)),
-            ('location', self.gf('geoposition.fields.GeopositionField')(max_length=42)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
-            ('starts_on', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('ends_on', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
-            ('repeat', self.gf('django.db.models.fields.CharField')(max_length=1)),
-            ('search_index', self.gf('djorm_pgfulltext.fields.VectorField')(default='', null=True, db_index=True)),
-        ))
-        db.send_create_signal(u'events', ['Event'])
 
+        # Changing field 'Event.starts_on'
+        db.alter_column(u'events_event', 'starts_on', self.gf('django.db.models.fields.DateTimeField')(null=True))
+
+        # Changing field 'Event.ends_on'
+        db.alter_column(u'events_event', 'ends_on', self.gf('django.db.models.fields.DateTimeField')(null=True))
 
     def backwards(self, orm):
-        # Deleting model 'Event'
-        db.delete_table(u'events_event')
 
+        # Changing field 'Event.starts_on'
+        db.alter_column(u'events_event', 'starts_on', self.gf('django.db.models.fields.DateField')(null=True))
+
+        # Changing field 'Event.ends_on'
+        db.alter_column(u'events_event', 'ends_on', self.gf('django.db.models.fields.DateField')(null=True))
 
     models = {
         u'auth.group': {
@@ -81,15 +76,19 @@ class Migration(SchemaMigration):
         },
         u'events.event': {
             'Meta': {'object_name': 'Event'},
+            'city': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
-            'ends_on': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
+            'ends_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('geoposition.fields.GeopositionField', [], {'max_length': '42'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
             'repeat': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'search_index': ('djorm_pgfulltext.fields.VectorField', [], {'default': "''", 'null': 'True', 'db_index': 'True'}),
-            'starts_on': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
+            'starts_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'state': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
+            'street': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"}),
+            'zipcode': ('django.db.models.fields.IntegerField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'})
         }
     }
 
