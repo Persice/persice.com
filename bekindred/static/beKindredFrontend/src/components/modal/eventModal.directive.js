@@ -55,6 +55,7 @@
         vm.mapurl = '';
         vm.mapurlTrue = false;
         vm.eventLocation = '';
+        vm.showMobile = false;
 
         vm.placeholder = {
             name: '',

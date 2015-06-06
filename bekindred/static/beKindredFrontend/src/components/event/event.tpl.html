@@ -32,7 +32,7 @@
                 </datepicker>
                 <i class="calendar icon"></i>
             </div>
-            <input id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="datetime-local" ng-model="singleevent.event.starts_on">
+            <input ng-if="singleevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="datetime-local" ng-model="singleevent.event.starts_on">
             <input id="startsAtTime" mask='29:59' class="" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.starts_on_time">
         </div>
         <div class="field">
@@ -43,7 +43,7 @@
                 </datepicker>
                 <i class="calendar icon"></i>
             </div>
-            <input id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="datetime-local" ng-model="singleevent.event.ends_on">
+            <input ng-if="singleevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="datetime-local" ng-model="singleevent.event.ends_on">
             <input id="endsAtTime" mask='29:59' class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.ends_on_time">
         </div>
         <div class="field">

@@ -13,6 +13,7 @@
     function EventCreateController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window) {
         var vm = this;
         vm.showError = false;
+        vm.showMobile = true;
         vm.showSuccess = false;
         vm.errorMessage = [];
         vm.mapurl = '';

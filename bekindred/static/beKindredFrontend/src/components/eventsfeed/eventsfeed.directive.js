@@ -40,7 +40,7 @@
      * @desc controller for eventsFeed directive
      * @ngInject
      */
-    function EventsFeedController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state) {
+    function EventsFeedController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state, moment) {
         var vm = this;
         vm.noEvents = false;
         vm.pok = false;
@@ -155,6 +155,11 @@
 
                     for (var obj in responseEvents) {
                         var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
+                        var today = moment().format('dddd, MMMM Do YYYY');
+                        $log.info(today);
+                        if (localDate === today) {
+                            localDate = 'Today';
+                        }
                         var localDatePlain = $filter('amDateFormat')(responseEvents[obj].starts_on, 'L');
 
                         var eventIndex = $filter('getIndexByProperty')('date', localDate, vm.events);
@@ -237,6 +242,11 @@
 
                         for (var obj in responseEvents) {
                             var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
+                            var today = moment().format('dddd, MMMM Do YYYY');
+                            $log.info(today);
+                            if (localDate === today) {
+                                localDate = 'Today';
+                            }
                             var localDatePlain = $filter('amDateFormat')(responseEvents[obj].starts_on, 'L');
 
                             var eventIndex = $filter('getIndexByProperty')('date', localDate, vm.events);
