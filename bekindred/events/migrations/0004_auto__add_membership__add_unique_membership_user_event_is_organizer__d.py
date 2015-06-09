@@ -8,13 +8,39 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Membership'
+        db.create_table(u'events_membership', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
+            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['events.Event'])),
+            ('is_organizer', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('is_accepted', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('updated', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2015, 6, 8, 0, 0))),
+        ))
+        db.send_create_signal(u'events', ['Membership'])
+
         # Adding unique constraint on 'Membership', fields ['user', 'event', 'is_organizer']
         db.create_unique(u'events_membership', ['user_id', 'event_id', 'is_organizer'])
+
+        # Deleting field 'Event.user'
+        db.delete_column(u'events_event', 'user_id')
 
 
     def backwards(self, orm):
         # Removing unique constraint on 'Membership', fields ['user', 'event', 'is_organizer']
         db.delete_unique(u'events_membership', ['user_id', 'event_id', 'is_organizer'])
+
+        # Deleting model 'Membership'
+        db.delete_table(u'events_membership')
+
+
+        # User chose to not deal with backwards NULL issues for 'Event.user'
+        raise RuntimeError("Cannot reverse this migration. 'Event.user' and its values cannot be restored.")
+        
+        # The following code is provided here to aid in writing a correct migration        # Adding field 'Event.user'
+        db.add_column(u'events_event', 'user',
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser']),
+                      keep_default=False)
 
 
     models = {
@@ -75,7 +101,6 @@ class Migration(SchemaMigration):
             'ends_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('geoposition.fields.GeopositionField', [], {'max_length': '42'}),
-            'members': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['django_facebook.FacebookCustomUser']", 'through': u"orm['events.Membership']", 'symmetrical': 'False'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
             'repeat': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'search_index': ('djorm_pgfulltext.fields.VectorField', [], {'default': "''", 'null': 'True', 'db_index': 'True'}),
@@ -90,7 +115,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_accepted': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_organizer': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 6, 6, 0, 0)'}),
+            'updated': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 6, 8, 0, 0)'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
         }
     }

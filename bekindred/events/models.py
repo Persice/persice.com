@@ -17,7 +17,6 @@ class Event(models.Model):
     description = models.CharField(max_length=300, null=True, blank=True)
     name = models.CharField(max_length=300)
     location = GeopositionField()
-    members = models.ManyToManyField(FacebookCustomUser, through='Membership')
     starts_on = models.DateTimeField(null=True, blank=True)
     ends_on = models.DateTimeField(null=True, blank=True)
     repeat = models.CharField(max_length=1, choices=REPEAT_CHOICES)
