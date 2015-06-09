@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 from geoposition.fields import GeopositionField
 from django.contrib.gis.db import models as gis_models
 from django_facebook.models import FacebookCustomUser
@@ -16,7 +17,6 @@ class Event(models.Model):
     description = models.CharField(max_length=300, null=True, blank=True)
     name = models.CharField(max_length=300)
     location = GeopositionField()
-    user = models.ForeignKey(FacebookCustomUser)
     starts_on = models.DateTimeField(null=True, blank=True)
     ends_on = models.DateTimeField(null=True, blank=True)
     repeat = models.CharField(max_length=1, choices=REPEAT_CHOICES)
@@ -37,3 +37,14 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Membership(models.Model):
+    user = models.ForeignKey(FacebookCustomUser)
+    event = models.ForeignKey(Event)
+    is_organizer = models.BooleanField(default=True)
+    is_accepted = models.BooleanField(default=True)
+    updated = models.DateTimeField(default=now())
+
+    class Meta:
+        unique_together = (('user', 'event', 'is_organizer'),)

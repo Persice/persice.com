@@ -1,22 +1,21 @@
 import random
+from django_facebook.models import FacebookCustomUser
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
-from events.models import Event
+from events.models import Event, Membership
 from friends.models import Friend
 from goals.utils import calculate_distance, calculate_distance_events
 from photos.api.resources import UserResource
 
 
 class EventResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
-
     class Meta:
         always_return_data = True
         queryset = Event.objects.all().order_by('-starts_on')
-        resource_name = 'events'
+        resource_name = 'event'
         excludes = ['search_index']
 
         filtering = {
@@ -25,10 +24,22 @@ class EventResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
+    def obj_create(self, bundle, **kwargs):
+        bundle = super(EventResource, self).obj_create(bundle, **kwargs)
+        Membership.objects.create(user=bundle.request.user, event=bundle.obj)
+        return bundle
+
+
+class MembershipResource(ModelResource):
+    event = fields.ToOneField(EventResource, 'event')
+    user = fields.ToOneField(UserResource, 'user')
+
+    class Meta:
+        queryset = Membership.objects.all()
+        resource_name = 'member'
+
 
 class MyEventFeedResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
-
     class Meta:
         resource_name = 'feed/events/my'
         queryset = Event.objects.all().order_by('starts_on')
@@ -38,7 +49,8 @@ class MyEventFeedResource(ModelResource):
 
     def get_object_list(self, request):
         return super(MyEventFeedResource, self).get_object_list(request).\
-            filter(user=request.user.pk).order_by('starts_on')
+            filter(id__in=Membership.objects.filter(user_id=request.user.pk).
+                   values_list('event_id', flat=True)).order_by('starts_on')
 
     def dehydrate(self, bundle):
         bundle.data['common_goals_offers_interests'] = 0
@@ -48,7 +60,6 @@ class MyEventFeedResource(ModelResource):
 
 
 class AllEventFeedResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
 
     class Meta:
         resource_name = 'feed/events/all'
@@ -65,7 +76,6 @@ class AllEventFeedResource(ModelResource):
 
 
 class FriendsEventFeedResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
 
     class Meta:
         resource_name = 'feed/events/friends'
@@ -82,5 +92,6 @@ class FriendsEventFeedResource(ModelResource):
 
     def get_object_list(self, request):
         friends = Friend.objects.all_my_friends(user_id=request.user.id)
-        return super(FriendsEventFeedResource, self).get_object_list(request).\
-            filter(user__in=friends).order_by('starts_on')
+        return super(FriendsEventFeedResource, self).get_object_list(request). \
+            filter(id__in=Membership.objects.filter(user__in=friends).
+                   values_list('event_id', flat=True)).order_by('starts_on')
