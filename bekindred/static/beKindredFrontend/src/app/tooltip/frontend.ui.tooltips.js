@@ -3,8 +3,8 @@
 (function withAngular(angular) {
     'use strict';
 
-    angular.module('720kb.tooltips', [])
-        .directive('tooltips', ['$window', '$compile', function manageDirective($window, $compile) {
+    angular.module('frontend.ui.tooltips', [])
+        .directive('tooltips', ['$window', '$compile', '$timeout', function manageDirective($window, $compile, $timeout) {
 
             var TOOLTIP_SMALL_MARGIN = 8 //px
                 ,
@@ -22,7 +22,8 @@
                         thisElement = angular.element(element[0]),
                         body = angular.element($window.document.getElementsByTagName('body')[0]),
                         theTooltip, theTooltipHeight, theTooltipWidth, theTooltipMargin //used both for margin top left right bottom
-                        , height, width, offsetTop, offsetLeft, title = attr.tooltipTitle || attr.title || '',
+                        , height, width, offsetTop, timeout = attr.tooltipTimeout || 0,
+                        offsetLeft, title = attr.tooltipTitle || attr.title || '',
                         content = attr.tooltipContent || '',
                         showTriggers = attr.tooltipShowTrigger || 'mouseover',
                         hideTriggers = attr.tooltipHideTrigger || 'mouseleave',
@@ -131,12 +132,20 @@
 
                         theTooltip.addClass(CSS_PREFIX + 'open');
                         theTooltip.css('transition', 'opacity ' + speed + 'ms linear');
+                        if (timeout > 0) {
+                            $timeout(function() {
+
+                                $scope.hideTooltip();
+
+                            }, timeout);
+                        }
                     };
 
                     $scope.hideTooltip = function hideTooltip() {
 
+                        theTooltip.css('transition', 'opacity ' + speed);
                         theTooltip.removeClass(CSS_PREFIX + 'open');
-                        theTooltip.css('transition', '');
+
                     };
 
                     $scope.removePosition = function removeTooltipPosition() {
@@ -262,5 +271,5 @@
                     });
                 }
             };
-  }]);
+            }]);
 }(angular));

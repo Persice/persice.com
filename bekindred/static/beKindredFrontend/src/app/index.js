@@ -24,7 +24,7 @@ angular
     'angular-flexslider',
     'ngGeolocation',
     'ezfb',
-    '720kb.tooltips',
+    'frontend.ui.tooltips',
     'google.places',
     '720kb.datepicker',
     'ngMask'
