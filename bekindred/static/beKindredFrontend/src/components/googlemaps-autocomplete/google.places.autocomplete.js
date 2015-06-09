@@ -29,6 +29,7 @@ angular.module('google.places', [])
                 model: '=ngModel',
                 options: '=?',
                 forceSelection: '=?',
+                attach: '=?',
                 customPlaces: '=?',
                 refreshLocation: '&refreshLocation'
             },
@@ -66,7 +67,7 @@ angular.module('google.places', [])
 
                 function initAutocompleteDrawer() {
                     // Drawer element used to display predictions
-                    var drawerElement = angular.element('<div g-places-autocomplete-drawer></div>'),
+                    var drawerElement = angular.element('<div class="gplacesautocomplete" g-places-autocomplete-drawer></div>'),
                         body = angular.element($document[0].body),
                         $drawer;
 
@@ -79,7 +80,8 @@ angular.module('google.places', [])
                     });
 
                     $drawer = $compile(drawerElement)($scope);
-                    body.append($drawer); // Append to DOM
+                    console.log($scope.attach);
+                    $('#' + $scope.attach).append($drawer); // Append to DOM
                 }
 
                 function initNgModelController() {
@@ -89,6 +91,8 @@ angular.module('google.places', [])
                 }
 
                 function onKeydown(event) {
+
+                    console.log('keywdown');
                     if ($scope.predictions.length === 0 || indexOf(hotkeys, event.which) === -1) {
                         return;
                     }
@@ -126,7 +130,7 @@ angular.module('google.places', [])
                             var phase = $scope.$root.$$phase;
                             var fn = function() {
                                 $scope.model = '';
-                            }
+                            };
                             if (phase === '$apply' || phase === '$digest') {
                                 fn();
                             } else {
@@ -339,7 +343,7 @@ angular.module('google.places', [])
 
 .directive('gPlacesAutocompleteDrawer', ['$window', '$document', function($window, $document) {
     var TEMPLATE = [
-        '<div class="pac-container" ng-if="isOpen()" ng-style="{top: position.top+\'px\', left: position.left+\'px\', width: position.width+\'px\'}" style="display: block;" role="listbox" aria-hidden="{{!isOpen()}}">',
+        '<div class="pac-container" ng-if="isOpen()" style="display: block;" role="listbox" aria-hidden="{{!isOpen()}}">',
         '  <div class="pac-item" g-places-autocomplete-prediction index="$index" prediction="prediction" query="query"',
         '       ng-repeat="prediction in predictions track by $index" ng-class="{\'pac-item-selected\': isActive($index) }"',
         '       ng-mouseenter="selectActive($index)" ng-click="selectPrediction($index)" role="option" id="{{prediction.id}}">',
@@ -362,11 +366,11 @@ angular.module('google.places', [])
                 event.preventDefault(); // prevent blur event from firing when clicking selection
             });
 
-            $window.onresize = function() {
-                $scope.$apply(function() {
-                    $scope.position = getDrawerPosition($scope.input);
-                });
-            };
+            // $window.onresize = function() {
+            //     $scope.$apply(function() {
+            //         $scope.position = getDrawerPosition($scope.input);
+            //     });
+            // };
 
             $scope.isOpen = function() {
                 return $scope.predictions.length > 0;

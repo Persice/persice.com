@@ -10,7 +10,7 @@
         </div>
         <p ng-repeat="errormsg in singleevent.errorMessage track by $index">{{errormsg}}</p>
     </div>
-    <div class="ui large form segment first">
+    <div class="ui large form segment first" id="FirstSegment">
         <div class="field">
             <label>Event Name</label>
             <input class="border-bottom" ng-model="singleevent.event.name" placeholder="{{::singleevent.placeholder.name}}" type="text">
@@ -18,7 +18,7 @@
         <div class="field">
             <label>Location</label>
             <div class="ui icon input" id="locationInput" ng-class="{'urlexists': singleevent.mapurlTrue}">
-                <input google-places-autocomplete options="{types: ['geocode']}" placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
+                <input attach="'locationInput'" google-places-autocomplete options="{types: ['geocode']}" placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
                 <i ng-click="singleevent.openMap()" class="marker large icon"></i>
             </div>
         </div>
@@ -98,6 +98,7 @@
     $( document ).ready(function() {
        $('#endsAtDate').on('input',function(){
         if($(this).val().length>0){
+            console.log('remove');
             $(this).addClass('full');
         }
         else{
