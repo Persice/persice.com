@@ -113,7 +113,8 @@ class TestMyEventFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json')
         self.assertValidJSONResponse(resp)
         # Scope out the data for correctness.
-        self.assertEqual(self.deserialize(resp)['objects'][0]['name'], self.event.name)
+        res = sorted(self.deserialize(resp)['objects'], key=lambda x: x['name'])
+        self.assertEqual(res[0]['name'], self.event.name)
 
 
 class TestFriendsEventFeedResource(ResourceTestCase):
