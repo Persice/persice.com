@@ -35,8 +35,11 @@ class MembershipResource(ModelResource):
     user = fields.ToOneField(UserResource, 'user')
 
     class Meta:
+        always_return_data = True
         queryset = Membership.objects.all()
         resource_name = 'member'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
 
 
 class MyEventFeedResource(ModelResource):
