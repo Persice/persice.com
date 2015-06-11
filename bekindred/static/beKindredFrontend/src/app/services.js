@@ -362,7 +362,7 @@ angular
         });
     }])
     .factory('EventsFactory', ['$resource', function($resource) {
-        return $resource('/api/v1/events/:eventId/:param', {
+        return $resource('/api/v1/event/:eventId/:param', {
             eventId: '@eventId'
         }, {
             query: {
