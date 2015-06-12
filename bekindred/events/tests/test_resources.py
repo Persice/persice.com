@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from tastypie.utils import now
@@ -10,7 +12,8 @@ class TestEventResource(ResourceTestCase):
     def setUp(self):
         super(TestEventResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
-        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83])
+        self.event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+                                          name="Play piano", location=[7000, 22965.83])
         self.detail_url = '/api/v1/events/{0}/'.format(self.event.pk)
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
@@ -43,11 +46,11 @@ class TestEventResource(ResourceTestCase):
             'id': self.event.id,
             'resource_uri': '/api/v1/event/{0}/'.format(self.event.pk),
             'description': None,
-            'ends_on': None,
+            'ends_on': '2055-06-14T05:15:22.792659',
             'location': u'7000,22965.83',
             'name': u'Play piano',
             'repeat': u'',
-            'starts_on': None,
+            'starts_on': '2055-06-13T05:15:22.792659',
             'city': None,
             'zipcode': None,
             'state': None,
@@ -57,15 +60,56 @@ class TestEventResource(ResourceTestCase):
     def test_create_simple_event(self):
         post_data = {
             'description': 'Test description',
-            'ends_on': None,
+            'ends_on': str(now() + timedelta(days=2)),
             'location': u'7000,22965.83',
             'name': u'Play piano',
             'repeat': u'W',
-            'starts_on': now()
+            'starts_on': str(now() + timedelta(days=1))
         }
         self.response = self.login()
         self.assertHttpCreated(self.api_client.post('/api/v1/event/', format='json', data=post_data))
 
+    def test_create_event_which_starts_in_the_past(self):
+        post_data = {
+            'description': 'Test description',
+            'ends_on': now() + timedelta(days=1),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'repeat': u'W',
+            'starts_on': now() - timedelta(days=1)
+        }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp),
+                         {u'event': {u'error': [u'starts_on should be more or equals than today']}})
+
+    def test_create_event_which_ends_in_the_past(self):
+        post_data = {
+            'description': 'Test description',
+            'ends_on': now() - timedelta(days=7),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'repeat': u'W',
+            'starts_on': now() - timedelta(days=9)
+        }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp),
+                         {u'event': {u'error': [u'ends_on should be more or equals than today']}})
+
+    def test_create_event_which_starts_eq_ends(self):
+        post_data = {
+            'description': 'Test description',
+            'ends_on': now() + timedelta(days=1),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'repeat': u'W',
+            'starts_on': now() + timedelta(days=1)
+        }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp),
+                         {u'event': {u'error': [u'ends_to should be greater than starts_on']}})
 
 class TestAllEventFeedResource(ResourceTestCase):
     def setUp(self):
@@ -73,9 +117,12 @@ class TestAllEventFeedResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83])
-        self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83])
-        self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83],
+                                          starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83],
+                                           starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
+                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)
@@ -98,9 +145,12 @@ class TestMyEventFeedResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83])
-        self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83])
-        self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83],
+                                          starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83],
+                                           starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
+                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)
@@ -123,9 +173,12 @@ class TestFriendsEventFeedResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83])
-        self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83])
-        self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83])
+        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83],
+                                          starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83],
+                                           starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
+                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)

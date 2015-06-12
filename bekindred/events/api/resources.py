@@ -1,14 +1,34 @@
-import random
-from django_facebook.models import FacebookCustomUser
+from django.utils.timezone import now
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
-from tastypie.resources import ModelResource, Resource
+
+from tastypie.resources import ModelResource
+from tastypie.validation import Validation
+
 from events.models import Event, Membership
 from friends.models import Friend
-from goals.utils import calculate_distance, calculate_distance_events
+from goals.utils import calculate_distance_events
 from photos.api.resources import UserResource
+
+
+class EventValidation(Validation):
+    def is_valid(self, bundle, request=None):
+        if not bundle.data:
+            return {'__all__': 'Not quite what I had in mind.'}
+
+        errors = {}
+
+        if bundle.obj.starts_on < now():
+            errors['error'] = ['starts_on should be more or equals than today']
+
+        if bundle.obj.ends_on < now():
+            errors['error'] = ['ends_on should be more or equals than today']
+
+        if bundle.obj.starts_on >= bundle.obj.ends_on:
+            errors['error'] = ['ends_to should be greater than starts_on']
+        return errors
 
 
 class EventResource(ModelResource):
@@ -21,6 +41,7 @@ class EventResource(ModelResource):
         filtering = {
             'description': ALL
         }
+        validation = EventValidation()
         authentication = SessionAuthentication()
         authorization = Authorization()
 
@@ -51,7 +72,7 @@ class MyEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(MyEventFeedResource, self).get_object_list(request).\
+        return super(MyEventFeedResource, self).get_object_list(request). \
             filter(id__in=Membership.objects.filter(user_id=request.user.pk).
                    values_list('event_id', flat=True)).order_by('starts_on')
 
@@ -63,7 +84,6 @@ class MyEventFeedResource(ModelResource):
 
 
 class AllEventFeedResource(ModelResource):
-
     class Meta:
         resource_name = 'feed/events/all'
         queryset = Event.objects.all().order_by('starts_on')
@@ -79,7 +99,6 @@ class AllEventFeedResource(ModelResource):
 
 
 class FriendsEventFeedResource(ModelResource):
-
     class Meta:
         resource_name = 'feed/events/friends'
         queryset = Event.objects.all().order_by('starts_on')
