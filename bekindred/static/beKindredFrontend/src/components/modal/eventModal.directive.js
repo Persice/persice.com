@@ -56,6 +56,8 @@
         vm.mapurlTrue = false;
         vm.eventLocation = '';
         vm.showMobile = false;
+        vm.endsTimeError = false;
+
 
         vm.placeholder = {
             name: '',
@@ -72,10 +74,19 @@
             attachments: ''
         };
 
-        vm.starts_on_date = null;
-        vm.starts_on_time = null;
-        vm.ends_on_date = null;
-        vm.ends_on_time = null;
+        // vm.starts_on_date = moment().format('MM/DD/YYYY');
+        // vm.starts_on_time = moment().format('HH:mm');
+        // vm.ends_on_date = moment().add(1, 'hour').format('MM/DD/YYYY');
+        // vm.ends_on_time = moment().add(1, 'hour').format('HH:mm');
+
+
+        vm.starts_on_date = '';
+        vm.starts_on_time = '';
+        vm.ends_on_date = '';
+        vm.ends_on_time = '';
+        vm.today = moment().format('MM/DD/YYYY');
+
+        $log.info(vm.today);
 
         vm.showError = false;
         vm.showSuccess = false;
@@ -115,10 +126,31 @@
         function saveEvent() {
             vm.showError = false;
             vm.showSuccess = false;
+
+
+
             if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
                 vm.showError = true;
-                vm.errorMessage = ['All fields are required.'];
+                vm.errorMessage = ['Please enter all required fields.'];
             } else {
+
+                //validate dates
+                if (vm.starts_on_date === vm.ends_on_date) {
+                    if (vm.event.starts_on > vm.event.ends_on) {
+                        $log.info('end date is not ok');
+                        vm.showError = true;
+                        vm.errorMessage = ['Ends Time is not correctly entered.'];
+                        vm.endsTimeError = true;
+                        return;
+                    } else {
+                        $log.info('end date is OK');
+                        vm.showError = false;
+                        vm.errorMessage = [];
+                        vm.endsTimeError = false;
+                    }
+                }
+
+
                 $log.info('started saving event');
                 vm.showError = false;
                 vm.showSuccess = false;
@@ -227,22 +259,26 @@
             return vm.starts_on_date;
         }), function(newVal) {
             vm.combineDateTime('starts_on');
+            vm.combineDateTime('ends_on');
         });
 
         $scope.$watch(angular.bind(this, function(starts_on_time) {
             return vm.starts_on_time;
         }), function(newVal) {
             vm.combineDateTime('starts_on');
+            vm.combineDateTime('ends_on');
         });
         $scope.$watch(angular.bind(this, function(ends_on_date) {
             return vm.ends_on_date;
         }), function(newVal) {
+            vm.combineDateTime('starts_on');
             vm.combineDateTime('ends_on');
         });
 
         $scope.$watch(angular.bind(this, function(ends_on_time) {
             return vm.ends_on_time;
         }), function(newVal) {
+            vm.combineDateTime('starts_on');
             vm.combineDateTime('ends_on');
         });
 
