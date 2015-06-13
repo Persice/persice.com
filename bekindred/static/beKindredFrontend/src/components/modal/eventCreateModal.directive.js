@@ -3,20 +3,22 @@
 
     /**
      * @desc display modal
-     * @example <ui-event-modal></ui-event-modal>
+     * @example <ui-event-create-modal></ui-event-create-modal>
      */
     angular
-        .module('frontend.semantic.modal', [])
+        .module('frontend.semantic.modal.event.create', [])
 
-    .directive('uiEventModal', uiEventModal);
+    .directive('uiEventCreateModal', uiEventCreateModal);
 
-    function uiEventModal() {
+    function uiEventCreateModal() {
         var directive = {
             restrict: 'E',
             replace: true,
-            transclude: true,
-            require: 'ngModel',
-            template: '<div class="ui modal small centeraligned" id="createEventsModal" ng-transclude></div>',
+            transclude: false,
+            scope: {
+                show: '=show'
+            },
+            templateUrl: 'components/modal/modalcreate.html',
             controller: EventModalController,
             controllerAs: 'singleevent',
             bindToController: true,
@@ -24,15 +26,16 @@
         };
         return directive;
 
-        function link(scope, element, attrs, ngModel) {
+        function link(scope, element, attrs, singleevent) {
+            console.log('link function');
+            console.log(singleevent.show);
             element.modal({
                 onHide: function() {
-                    ngModel.$setViewValue(false);
+                    scope.singleevent.show = false;
                 }
             });
-            scope.$watch(function() {
-                return ngModel.$modelValue;
-            }, function(modelValue) {
+            scope.$watch('singleevent.show', function(modelValue) {
+                console.log(modelValue);
                 element
                     .modal('setting', 'transition', 'scale')
                     .modal('setting', 'closable', false)
@@ -111,6 +114,11 @@
         vm.extractFromAddress = extractFromAddress;
         vm.parseLocation = parseLocation;
         vm.combineDateTime = combineDateTime;
+        vm.closeEventModal = closeEventModal;
+
+        function closeEventModal() {
+            vm.show = false;
+        }
 
         $rootScope.$on('saveEvent', function() {
             $log.info('saveEvent');

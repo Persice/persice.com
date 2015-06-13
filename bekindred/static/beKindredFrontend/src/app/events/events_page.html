@@ -25,7 +25,7 @@
                     ALL EVENTS
                 </a>
                 <div class="right menu">
-                    <a class="ui button small green icon" ng-click="eventspage.showEventCreateModal()"> <i class="fa fa-plus-circle icon"></i> Create</a>
+                    <a class="ui button small green icon" ng-click="eventspage.showEventModal()"> <i class="fa fa-plus-circle icon"></i> Create</a>
                 </div>
             </div>
             <div class="ui secondary pointing menu" id="eventsDesktopSubNav">
@@ -47,12 +47,8 @@
 </div>
 <div ui-view></div>
 <!-- modal for creating events -->
-<ui-event-modal ng-model="eventspage.showModal">
-    <i class="close icon" ng-click="eventspage.closeEventCreateModal()"></i>
-    <div class="header">
-        Create Event
-    </div>
-    <div class="content">
-        <ng-include src="'components/event/event.tpl.html'"></ng-include>
-    </div>
-</ui-event-modal>
+<ui-event-create-modal show="eventspage.showModal"></ui-event-create-modal>
+<ui-event-view-modal show="eventspage.showViewModal" eventid="eventspage.viewEvent"></ui-event-view-modal>
+
+
+

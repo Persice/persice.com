@@ -13,12 +13,16 @@
     function EventsPageController($scope, $rootScope, $log, $state) {
         var vm = this;
 
+        vm.viewEvent = null;
         vm.showModal = false;
-        vm.showEventCreateModal = showEventCreateModal;
-        vm.closeEventCreateModal = closeEventCreateModal;
+        vm.showViewModal = false;
+        vm.showEventModal = showEventModal;
+        vm.closeEventModal = closeEventModal;
+        vm.showEventViewModal = showEventViewModal;
+        vm.closeEventViewModal = closeEventViewModal;
 
         $rootScope.$on('closeModalCreateEvent', function(event, data) {
-            vm.closeEventCreateModal();
+            vm.closeEventModal();
             if ($state.is('events.myevents')) {
                 $rootScope.$broadcast('refreshEventFeed');
             } else {
@@ -27,12 +31,27 @@
 
         });
 
-        function showEventCreateModal() {
+        $rootScope.$on('openViewEventModal', function(event, data) {
+            vm.viewEvent = data;
+            vm.showEventViewModal();
+
+
+        });
+
+        function showEventModal() {
             vm.showModal = true;
         }
 
-        function closeEventCreateModal() {
+        function closeEventModal() {
             vm.showModal = false;
+        }
+
+        function showEventViewModal() {
+            vm.showViewModal = true;
+        }
+
+        function closeEventViewModal() {
+            vm.showViewModal = false;
         }
 
     }

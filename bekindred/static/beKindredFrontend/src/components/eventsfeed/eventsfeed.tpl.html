@@ -6,9 +6,9 @@
     </div>
     <div class="eventgroup" ng-repeat="eventcontent in eventsfeed.events track by $index">
         <div class="eventdate">{{eventcontent.date}}</div>
-        <a class="ui fluid card" ng-click="eventsfeed.gotoEvent($index)" class="item repeat-animation" ng-repeat="event in eventcontent.items track by $index">
+        <a class="ui fluid card" ng-click="eventsfeed.gotoEvent(event.id)" class="item repeat-animation" ng-repeat="event in eventcontent.items track by $index">
             <div class="image">
-            <img src="/static/img/placeholder-image.jpg">
+                <img src="/static/img/placeholder-image.jpg">
             </div>
             <div class="content">
                 <div class="header">{{event.name}}</div>
@@ -36,9 +36,10 @@
                     </div>
                 </div>
                 <div class="extra content">
-                   {{event.distance[0]}} {{event.distance[1]}} away
-               </div>
-           </a>
-       </div>
-       <three-bounce-spinner class="page-spinner-bar" ng-show="eventsfeed.loadingMore"></three-bounce-spinner>
-   </div>
+                 {{event.distance[0]}} {{event.distance[1]}} away
+             </div>
+         </a>
+     </div>
+     <three-bounce-spinner class="page-spinner-bar" ng-show="eventsfeed.loadingMore"></three-bounce-spinner>
+ </div>
+

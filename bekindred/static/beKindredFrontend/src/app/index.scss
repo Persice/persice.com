@@ -6510,3 +6510,100 @@ input[type="datetime-local"].full:before {
 .datepicker.dropdown-menu {
     margin-top: 10px!important;
 }
+
+
+//view event modal
+
+#viewEventsModal > .content {
+    background-color: rgb(236, 235, 233)!important;
+}
+
+#viewEventsModal .ui.form.segment.first {
+    padding-top: 0em!important;
+}
+
+#viewEventsModal .ui.form.segment .field {
+    margin-bottom: 0.2em!important;
+}
+
+#viewEventsModal .ui.form.segment .field input,
+#viewEventsModal .ui.form.segment .field textarea {
+    border-radius: 0px!important;
+    border: none!important;
+}
+
+#viewEventsModal .ui.form.segment {
+    background-color: transparent!important;
+    box-shadow: none!important;
+    border: none!important;
+    margin-top: 0px!important;
+    padding: 0px!important;
+}
+
+#viewEventsModal .ui.right.button {
+    display: block!important;
+    width: 50%!important;
+    float: left!important;
+    height: 40.375px!important;
+    padding: 0px!important;
+    margin: 0px!important;
+    border: none!important;
+    background-color: #FFF!important;
+    border-radius: 0px;
+}
+
+#viewEventsModal .ui.right.button i.icon {
+    background-color: #FFF!important;
+    font-size: 1.7rem !important;
+}
+
+#viewEventsModal .ui.right.button i.icon.fa-paperclip {
+    left: 5px!important;
+    width: 30px!important;
+}
+
+#viewEventsModal .ui.right.button i.icon.fa-angle-right {
+    width: 30px !important;
+    right: 0px !important;
+}
+
+#viewEventsModal .ui.right.button.with-left-icon {
+    width: 75%!important;
+    margin-bottom: 0.225em!important;
+}
+
+#viewEventsModal #last-section {
+    display: none!important;
+}
+
+#viewEventsModal #startsAtTime,
+#viewEventsModal #repeatUntil,
+#viewEventsModal #endsAtTime,
+#viewEventsModal #repeat,
+{
+    width: 36%!important;
+}
+
+#viewEventsModal #endsAtDate,
+#viewEventsModal #startsAtDate {
+    display: none!important;
+}
+
+#viewEventsModal .ui.icon.input {
+    width: 36%!important;
+    height: 40.375px!important;
+}
+
+#viewEventsModal .ui.icon.input input {
+    font-size: 16px!important;
+}
+#viewEventsModal .field:after {
+    clear: both!important;
+}
+#viewEventsModal .ui.message {
+    margin-top: 0px!important;
+}
+
+#viewEventsModal #locationInput {
+    width: 75%!important;
+}
