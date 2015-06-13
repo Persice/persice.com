@@ -1,8 +1,9 @@
 from datetime import timedelta
-from django.test import TestCase
+
 from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
+
 from events.models import Event, Membership
 
 
