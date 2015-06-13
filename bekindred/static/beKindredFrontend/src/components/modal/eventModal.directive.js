@@ -127,7 +127,7 @@
             vm.showError = false;
             vm.showSuccess = false;
 
-
+            $('.ui.form').form('validate form');
 
             if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
                 vm.showError = true;
@@ -139,7 +139,7 @@
                     if (vm.event.starts_on > vm.event.ends_on) {
                         $log.info('end date is not ok');
                         vm.showError = true;
-                        vm.errorMessage = ['Ends Time is not correctly entered.'];
+                        vm.errorMessage = ['Ends Time must be greater or equal to Starts Time.'];
                         vm.endsTimeError = true;
                         return;
                     } else {
@@ -162,7 +162,7 @@
                     },
                     function(error) {
                         vm.errorMessage = [];
-                        vm.errorShow = true;
+                        vm.showError = true;
                         if (error.data.event) {
                             vm.errorMessage = error.data.event.error;
                         }

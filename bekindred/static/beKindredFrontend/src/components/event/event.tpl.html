@@ -1,5 +1,5 @@
 <div class="ui basic segment">
-    <form class="ui form" ng-submit="singleevent.saveEvent()">
+    <form class="ui form">
         <div class="ui positive message" ng-show="singleevent.showSuccess">
             <div class="header">
                 New event was successfully created.
@@ -14,12 +14,12 @@
         <div class="ui large form segment first" id="FirstSegment">
             <div class="field">
                 <label>Event Name</label>
-                <input class="border-bottom" ng-model="singleevent.event.name" placeholder="{{::singleevent.placeholder.name}}" type="text" name="name">
+                <input autocomplete="off" class="border-bottom" ng-model="singleevent.event.name" placeholder="{{::singleevent.placeholder.name}}" type="text" name="name">
             </div>
             <div class="field">
                 <label>Location</label>
                 <div class="ui icon input" id="locationInput" ng-class="{'urlexists': singleevent.mapurlTrue}">
-                    <input name="location" attach="'locationInput'" google-places-autocomplete options="{types: ['geocode']}" placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
+                    <input autocomplete="off" name="location" attach="'locationInput'" google-places-autocomplete options="{types: ['geocode']}" placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
                     <i ng-click="singleevent.openMap()" class="marker large icon"></i>
                 </div>
             </div>
@@ -28,26 +28,26 @@
             <div class="field">
                 <label>Starts</label>
                 <div class="ui icon input" id="desktopStartsAt">
-                    <input class="date start" ng-model="singleevent.starts_on_date" placeholder="{{::singleevent.placeholder.starts}}" type="text" name="starts_on_date">
+                    <input autocomplete="off" class="date start" ng-model="singleevent.starts_on_date" placeholder="{{::singleevent.placeholder.starts}}" type="text" name="starts_on_date">
                     <i class="calendar icon"></i>
                 </div>
-                <input ng-if="singleevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="datetime-local" ng-model="singleevent.event.starts_on">
-                <input id="startsAtTime" class="time start" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.starts_on_time" name="starts_on_date">
+                <input autocomplete="off" ng-if="singleevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="datetime-local" ng-model="singleevent.event.starts_on">
+                <input autocomplete="off" id="startsAtTime" class="time start" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.starts_on_time" name="starts_on_time">
             </div>
             <div class="field" ng-class="{'error': singleevent.endsTimeError}">
                 <label>Ends</label>
                 <div class="ui icon input" id="desktopEndsAt">
-                    <input class="date end" ng-model="singleevent.ends_on_date" placeholder="{{::singleevent.placeholder.ends}}" type="text" name="ends_on_date">
+                    <input autocomplete="off" class="date end" ng-model="singleevent.ends_on_date" placeholder="{{::singleevent.placeholder.ends}}" type="text" name="ends_on_date">
                     <i class="calendar icon"></i>
                 </div>
-                <input ng-if="singleevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="datetime-local" ng-model="singleevent.event.ends_on">
-                <input id="endsAtTime" class="time end" class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.ends_on_time" name="ends_on_date">
+                <input autocomplete="off" ng-if="singleevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="datetime-local" ng-model="singleevent.event.ends_on">
+                <input autocomplete="off" id="endsAtTime" class="time end" class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.ends_on_time" name="ends_on_time">
             </div>
             <div class="field">
                 <label>Repeat</label>
-                <input name="repeat" id="repeat" placeholder="{{::singleevent.placeholder.repeat}}" type="text" ng-model="singleevent.event.repeat">
+                <input autocomplete="off" name="repeat" id="repeat" placeholder="{{::singleevent.placeholder.repeat}}" type="text" ng-model="singleevent.event.repeat">
                 <div class="ui icon input" id="desktopRepeatUntil">
-                    <input class="simpledate" ng-model="singleevent.event.repeatUntil" placeholder="{{::singleevent.placeholder.repeatUntil}}" type="text">
+                    <input autocomplete="off" class="simpledate" ng-model="singleevent.event.repeatUntil" placeholder="{{::singleevent.placeholder.repeatUntil}}" type="text">
                     <i class="calendar icon"></i>
                 </div>
             </div>
@@ -79,11 +79,11 @@
             <div class="ui divider" id="last-section"></div>
             <div class="field">
                 <label>Description</label>
-                <textarea name="description" rows="4" class="border-bottom" placeholder="{{::singleevent.placeholder.description}}" ng-model="singleevent.event.description"></textarea>
+                <textarea autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::singleevent.placeholder.description}}" ng-model="singleevent.event.description"></textarea>
             </div>
         </div>
         <div class="ui large form segment" id="actionForm">
-            <div id="actionButton" class="ui submit green button"><i class="fa fa-plus-circle icon"></i> Create</div>
+            <div id="actionButton" ng-click="singleevent.saveEvent()" class="ui green button"><i class="fa fa-plus-circle icon"></i> Create</div>
         </div>
     </form>
 </div>
@@ -118,12 +118,16 @@ $('#datePair .time').timepicker({
 
 $('#datePair .date').datepicker({
     'format': 'mm/dd/yyyy',
-    'autoclose': true
+    'autoclose': true,
+    'startDate': moment().format('MM/DD/YYYY'),
+    'todayHighlight': true,
 });
 
 $('#datePair .simpledate').datepicker({
     'format': 'mm/dd/yyyy',
-    'autoclose': true
+    'autoclose': true,
+    'startDate': moment().format('MM/DD/YYYY'),
+    'todayHighlight': true,
 });
 
 
@@ -166,14 +170,28 @@ $('.ui.form')
         identifier: 'starts_on_date',
         rules: [{
             type: 'empty',
-            prompt: 'Please enter Starts Date and Time'
+            prompt: 'Please enter Starts Date'
+        }]
+    },
+    starts_on_time: {
+        identifier: 'starts_on_time',
+        rules: [{
+            type: 'empty',
+            prompt: 'Please enter Starts Time'
         }]
     },
     ends_on_date: {
         identifier: 'ends_on_date',
         rules: [{
             type: 'empty',
-            prompt: 'Please enter Ends Date and Time'
+            prompt: 'Please enter Ends Date'
+        }]
+    },
+    ends_on_time: {
+        identifier: 'ends_on_time',
+        rules: [{
+            type: 'empty',
+            prompt: 'Please enter Ends Time'
         }]
     },
 });
