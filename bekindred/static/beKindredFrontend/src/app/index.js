@@ -2,32 +2,32 @@
 
 angular
     .module('icebrak', [
-    'ngAnimate',
-    'ngCookies',
-    'ngTouch',
-    'ngSanitize',
-    'ngResource',
-    'ui.router',
-    'angular-spinkit',
-    'frontend.semantic.dimmer',
-    'frontend.semantic.modal',
-    'truncate',
-    'ya.nouislider',
-    'ngDraggable',
-    'angucomplete-alt',
-    'cgNotify',
-    'ngImgCrop',
-    'angularMoment',
-    'btford.socket-io',
-    'ngLodash',
-    'hj.gsapifyRouter',
-    'angular-flexslider',
-    'ngGeolocation',
-    'ezfb',
-    'frontend.ui.tooltips',
-    'google.places',
-    '720kb.datepicker',
-    'ngMask'
+        'ngAnimate',
+        'ngCookies',
+        'ngTouch',
+        'ngSanitize',
+        'ngResource',
+        'ui.router',
+        'angular-spinkit',
+        'frontend.semantic.dimmer',
+        'frontend.semantic.modal.event.create',
+        'frontend.semantic.modal.event.view',
+        'truncate',
+        'ya.nouislider',
+        'ngDraggable',
+        'angucomplete-alt',
+        'cgNotify',
+        'ngImgCrop',
+        'angularMoment',
+        'btford.socket-io',
+        'ngLodash',
+        'hj.gsapifyRouter',
+        'angular-flexslider',
+        'ngGeolocation',
+        'ezfb',
+        'frontend.ui.tooltips',
+        'google.places',
+        'ngMask'
     ])
     .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
@@ -155,7 +155,7 @@ angular
                 resolve: {
                     userId: ['$stateParams', function($stateParams) {
                         return $stateParams.userId;
-                }],
+                    }],
                     UsersFactory: 'UsersFactory',
                     FRIEND: function(UsersFactory, $stateParams) {
                         var userId = $stateParams.userId;
@@ -255,7 +255,7 @@ angular
                 resolve: {
                     userId: ['$stateParams', function($stateParams) {
                         return $stateParams.userId;
-        }],
+                    }],
                     ConnectionsFactory: 'ConnectionsFactory',
                     UsersFactory: 'UsersFactory',
                     UserProfile: function(UsersFactory, $stateParams) {
@@ -440,7 +440,7 @@ angular
                 $rootScope.$on('$stateChangeSuccess', listener);
             }
         };
-}])
+    }])
     .directive('endRepeat', function($timeout) {
         return {
             restrict: 'A',

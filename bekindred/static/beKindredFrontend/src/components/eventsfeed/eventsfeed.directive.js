@@ -40,7 +40,7 @@
      * @desc controller for eventsFeed directive
      * @ngInject
      */
-    function EventsFeedController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state, moment) {
+    function EventsFeedController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state, moment, $window) {
         var vm = this;
         vm.noEvents = false;
         vm.pok = false;
@@ -174,6 +174,7 @@
                         }
 
                         vm.events[eventIndex].items.push({
+                            id: responseEvents[obj].id,
                             name: responseEvents[obj].name,
                             street: responseEvents[obj].street,
                             city: responseEvents[obj].city,
@@ -261,6 +262,7 @@
                             }
 
                             vm.events[eventIndex].items.push({
+                                id: responseEvents[obj].id,
                                 name: responseEvents[obj].name,
                                 street: responseEvents[obj].street,
                                 city: responseEvents[obj].city,
@@ -313,11 +315,16 @@
             return deferred.promise;
         }
 
-        function gotoEvent(index) {
+        function gotoEvent(id) {
+            var w = angular.element($window);
 
-            $state.go('eventdetails', {
-                eventId: vm.events[index].id
-            });
+            if (w.width() > 767) {
+                $rootScope.$broadcast('openViewEventModal', id);
+            } else {
+                $state.go('eventdetails', {
+                    eventId: id
+                });
+            }
 
 
 

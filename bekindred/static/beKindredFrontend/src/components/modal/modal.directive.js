@@ -16,7 +16,7 @@
             replace: true,
             transclude: true,
             require: 'ngModel',
-            template: '<div class="ui modal centeraligned" ng-transclude></div>',
+            template: '<div class="ui modal" ng-transclude></div>',
             controller: uiModalController,
             controllerAs: 'uimodal',
             bindToController: true,
@@ -25,6 +25,8 @@
         return directive;
 
         function link(scope, element, attrs, ngModel) {
+            console.log('pero');
+            console.log(element);
             element.modal({
                 onHide: function() {
                     ngModel.$setViewValue(false);

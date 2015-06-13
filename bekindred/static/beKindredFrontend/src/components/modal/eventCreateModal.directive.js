@@ -3,20 +3,22 @@
 
     /**
      * @desc display modal
-     * @example <ui-event-modal></ui-event-modal>
+     * @example <ui-event-create-modal></ui-event-create-modal>
      */
     angular
-        .module('frontend.semantic.modal', [])
+        .module('frontend.semantic.modal.event.create', [])
 
-    .directive('uiEventModal', uiEventModal);
+    .directive('uiEventCreateModal', uiEventCreateModal);
 
-    function uiEventModal() {
+    function uiEventCreateModal() {
         var directive = {
             restrict: 'E',
             replace: true,
-            transclude: true,
-            require: 'ngModel',
-            template: '<div class="ui modal small centeraligned" id="createEventsModal" ng-transclude></div>',
+            transclude: false,
+            scope: {
+                show: '=show'
+            },
+            templateUrl: 'components/modal/modalcreate.html',
             controller: EventModalController,
             controllerAs: 'singleevent',
             bindToController: true,
@@ -24,15 +26,16 @@
         };
         return directive;
 
-        function link(scope, element, attrs, ngModel) {
+        function link(scope, element, attrs, singleevent) {
+            console.log('link function');
+            console.log(singleevent.show);
             element.modal({
                 onHide: function() {
-                    ngModel.$setViewValue(false);
+                    scope.singleevent.show = false;
                 }
             });
-            scope.$watch(function() {
-                return ngModel.$modelValue;
-            }, function(modelValue) {
+            scope.$watch('singleevent.show', function(modelValue) {
+                console.log(modelValue);
                 element
                     .modal('setting', 'transition', 'scale')
                     .modal('setting', 'closable', false)
@@ -56,6 +59,8 @@
         vm.mapurlTrue = false;
         vm.eventLocation = '';
         vm.showMobile = false;
+        vm.endsTimeError = false;
+
 
         vm.placeholder = {
             name: '',
@@ -72,10 +77,19 @@
             attachments: ''
         };
 
-        vm.starts_on_date = null;
-        vm.starts_on_time = null;
-        vm.ends_on_date = null;
-        vm.ends_on_time = null;
+        // vm.starts_on_date = moment().format('MM/DD/YYYY');
+        // vm.starts_on_time = moment().format('HH:mm');
+        // vm.ends_on_date = moment().add(1, 'hour').format('MM/DD/YYYY');
+        // vm.ends_on_time = moment().add(1, 'hour').format('HH:mm');
+
+
+        vm.starts_on_date = '';
+        vm.starts_on_time = '';
+        vm.ends_on_date = '';
+        vm.ends_on_time = '';
+        vm.today = moment().format('MM/DD/YYYY');
+
+        $log.info(vm.today);
 
         vm.showError = false;
         vm.showSuccess = false;
@@ -100,6 +114,11 @@
         vm.extractFromAddress = extractFromAddress;
         vm.parseLocation = parseLocation;
         vm.combineDateTime = combineDateTime;
+        vm.closeEventModal = closeEventModal;
+
+        function closeEventModal() {
+            vm.show = false;
+        }
 
         $rootScope.$on('saveEvent', function() {
             $log.info('saveEvent');
@@ -115,10 +134,31 @@
         function saveEvent() {
             vm.showError = false;
             vm.showSuccess = false;
+
+            $('.ui.form').form('validate form');
+
             if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
                 vm.showError = true;
-                vm.errorMessage = ['All fields are required.'];
+                vm.errorMessage = ['Please enter all required fields.'];
             } else {
+
+                //validate dates
+                if (vm.starts_on_date === vm.ends_on_date) {
+                    if (vm.event.starts_on > vm.event.ends_on) {
+                        $log.info('end date is not ok');
+                        vm.showError = true;
+                        vm.errorMessage = ['Ends Time must be greater or equal to Starts Time.'];
+                        vm.endsTimeError = true;
+                        return;
+                    } else {
+                        $log.info('end date is OK');
+                        vm.showError = false;
+                        vm.errorMessage = [];
+                        vm.endsTimeError = false;
+                    }
+                }
+
+
                 $log.info('started saving event');
                 vm.showError = false;
                 vm.showSuccess = false;
@@ -130,7 +170,7 @@
                     },
                     function(error) {
                         vm.errorMessage = [];
-                        vm.errorShow = true;
+                        vm.showError = true;
                         if (error.data.event) {
                             vm.errorMessage = error.data.event.error;
                         }
@@ -227,22 +267,26 @@
             return vm.starts_on_date;
         }), function(newVal) {
             vm.combineDateTime('starts_on');
+            vm.combineDateTime('ends_on');
         });
 
         $scope.$watch(angular.bind(this, function(starts_on_time) {
             return vm.starts_on_time;
         }), function(newVal) {
             vm.combineDateTime('starts_on');
+            vm.combineDateTime('ends_on');
         });
         $scope.$watch(angular.bind(this, function(ends_on_date) {
             return vm.ends_on_date;
         }), function(newVal) {
+            vm.combineDateTime('starts_on');
             vm.combineDateTime('ends_on');
         });
 
         $scope.$watch(angular.bind(this, function(ends_on_time) {
             return vm.ends_on_time;
         }), function(newVal) {
+            vm.combineDateTime('starts_on');
             vm.combineDateTime('ends_on');
         });
 

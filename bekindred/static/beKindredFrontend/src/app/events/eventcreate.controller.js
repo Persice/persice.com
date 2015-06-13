@@ -18,6 +18,7 @@
         vm.errorMessage = [];
         vm.mapurl = '';
         vm.mapurlTrue = false;
+        vm.endsTimeError = false;
         vm.event = {
             user: '/api/v1/auth/user/' + USER_ID + '/',
             description: '',
@@ -70,10 +71,29 @@
 
             vm.showError = false;
             vm.showSuccess = false;
+            $('.ui.form').form('validate form');
             if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
                 vm.showError = true;
-                vm.errorMessage = ['All fields are required.'];
+                vm.errorMessage = ['Please enter all required fields.'];
             } else {
+
+                //validate dates
+
+                if (vm.event.starts_on > vm.event.ends_on) {
+                    $log.info('end date is not ok');
+                    vm.showError = true;
+                    vm.errorMessage = ['Ends Date must be greater or equal to Starts Date.'];
+                    vm.endsTimeError = true;
+                    return;
+                } else {
+                    $log.info('end date is OK');
+                    vm.showError = false;
+                    vm.errorMessage = [];
+                    vm.endsTimeError = false;
+                }
+
+
+
                 $log.info('started saving event');
                 vm.showError = false;
                 vm.showSuccess = false;
@@ -84,7 +104,7 @@
                     },
                     function(error) {
                         vm.errorMessage = [];
-                        vm.errorShow = true;
+                        vm.showError = true;
                         if (error.data.event) {
                             vm.errorMessage = error.data.event.error;
                         }
