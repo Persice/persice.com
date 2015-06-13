@@ -6624,11 +6624,6 @@ body.events-page  #viewEventsModal label.specialpadding {
     font-size: 1.2em!important;
 }
 
-
-#locationInput.ui.icon.input.urlexists.left > input ~ i.icon {
-    left: -5px!important;
-}
-
 #messagesCounter {
     position: absolute;
     right: 25px;
@@ -6690,7 +6685,7 @@ body.event-page #DatesSection span.cost {
     float: left!important;
 }
 
-#viewEventsModal #locationInput.ui.icon.input.urlexists.left>input~i.icon {
+#viewEventsModal #locationInput.ui.icon.input.left>input~i.icon {
     left: 10px!important;
     top: 3px!important;
 }
