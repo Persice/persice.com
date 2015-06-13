@@ -4,10 +4,9 @@
     </div>
     <div class="header item">Event Details</div>
     <div class="right menu">
-        <a class="ui item" ng-click="eventpage.saveEvent();">Save</a>
+        <a class="ui item" ng-click="eventpage.saveEvent();" ng-if="isState('event.create') || isState('event.edit')">Save</a>
+        <a class="ui item" ng-click="eventpage.editEvent();" ng-if="isState('event.details')">Edit</a>
     </div>
 </div>
 
-<!-- <div class="ui center aligned header">You are the host of this event.</div>
- -->
- <div ui-view></div>
+<div ui-view></div>

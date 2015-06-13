@@ -6136,7 +6136,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -6505,15 +6505,11 @@ input[type="datetime-local"].full:before {
     border-top-width: 0;
 }
 
-
-
 .datepicker.dropdown-menu {
     margin-top: 10px!important;
 }
 
-
 //view event modal
-
 #viewEventsModal > .content {
     background-color: rgb(236, 235, 233)!important;
 }
@@ -6542,15 +6538,28 @@ input[type="datetime-local"].full:before {
 
 #viewEventsModal .ui.right.button {
     display: block!important;
-    width: 50%!important;
+    width:42%!important;
     float: left!important;
-    height: 40.375px!important;
-    padding: 0px!important;
+    height: 53.125px!important;
     margin: 0px!important;
     border: none!important;
     background-color: #FFF!important;
     border-radius: 0px;
+    text-align: left!important;
+    vertical-align: middle!important;
+    font-size: 1em!important;
+    padding: 0.98861em 1em!important;
 }
+
+
+
+
+
+body.events-page  #viewEventsModal label.specialpadding {
+    padding: .98861em!important;
+    margin-bottom: 0px!important;
+}
+
 
 #viewEventsModal .ui.right.button i.icon {
     background-color: #FFF!important;
@@ -6597,9 +6606,11 @@ input[type="datetime-local"].full:before {
 #viewEventsModal .ui.icon.input input {
     font-size: 16px!important;
 }
+
 #viewEventsModal .field:after {
     clear: both!important;
 }
+
 #viewEventsModal .ui.message {
     margin-top: 0px!important;
 }
@@ -6607,3 +6618,154 @@ input[type="datetime-local"].full:before {
 #viewEventsModal #locationInput {
     width: 75%!important;
 }
+
+#eventName {
+    font-weight: 900!important;
+    font-size: 1.2em!important;
+}
+
+#messagesCounter {
+    position: absolute;
+    right: 25px;
+    font-size: 0.9em;
+}
+
+body.event-page #HostedSection .field {
+    padding: 0.67861em 0em;
+}
+
+body.event-page #HostedSection span {
+    display: block!important;
+}
+
+body.event-page #HostedSection span.remaining-spots {
+    float: right!important;
+}
+
+body.event-page #HostedSection span.people-attending {
+    float: left!important;
+}
+
+div.cleardiv {
+    clear: both;
+}
+
+body.event-page #DatesSection .field {
+    padding: 0.67861em 0em;
+}
+
+body.event-page #DatesSection span {
+    display: block!important;
+}
+
+body.event-page #DatesSection span.paid,
+body.event-page #DatesSection span.repeats {
+    float: right!important;
+}
+
+body.event-page #DatesSection span.cost strong {
+    font-size: 1em!important;
+}
+
+body.event-page #DatesSection span.paid strong {
+    font-size: 0.9em;
+}
+
+body.event-page #DatesSection span.cost {
+    font-size: 1em!important;
+}
+
+
+body.event-page #locationInput i.icon {
+    width: 30px!important;
+}
+
+body.event-page #DatesSection span.timeslot,
+body.event-page #DatesSection span.cost {
+    float: left!important;
+}
+
+#viewEventsModal #locationInput.ui.icon.input.left>input~i.icon {
+    left: 10px!important;
+    top: 3px!important;
+}
+
+#viewEventsModal #locationInput input {
+    padding-left: 40px!important;
+    padding-right: 0px!important;
+    height: 48.625px!important;
+}
+
+
+#viewEventsModal #HostedSection .field {
+
+}
+
+#viewEventsModal #HostedSection div.eventcontent, #viewEventsModal #DatesSection div.eventcontent {
+    padding: 0.98861em 1em;
+    background-color: #FFF!important;
+    font-family: 'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;
+    margin: 0;
+    outline: none;
+    -webkit-appearance: none;
+    tap-highlight-color: rgba(255,255,255,0);
+    line-height: 1.2142em;
+    font-size: 1em;
+    background: #fff;
+    border: 1px solid rgba(39,41,43,.15);
+    color: rgba(0,0,0,.8);
+    border-radius: .2857rem;
+    box-shadow: 0 0 0 0 transparent inset;
+    transition: background-color .2s ease,color .2s ease,box-shadow .2s ease,border-color .2s ease;
+    width: 75%!important;
+    float: right;
+}
+
+#viewEventsModal #HostedSection span.remaining-spots {
+    float: right!important;
+}
+
+#viewEventsModal #HostedSection span.people-attending {
+    float: left!important;
+}
+
+div.cleardiv {
+    clear: both;
+}
+
+#viewEventsModal #DatesSection .field {
+    padding: 0em;
+}
+
+#viewEventsModal #DatesSection span {
+    display: block!important;
+}
+
+#viewEventsModal #DatesSection span.paid,
+#viewEventsModal #DatesSection span.repeats {
+    float: right!important;
+}
+
+#viewEventsModal #DatesSection span.repeats {
+    font-size: 0.8em;
+}
+
+#viewEventsModal #DatesSection span.cost strong {
+    font-size: 1em!important;
+}
+
+#viewEventsModal #DatesSection span.paid strong {
+    font-size: 0.9em;
+}
+
+#viewEventsModal #DatesSection span.cost {
+    font-size: 1em!important;
+}
+
+#viewEventsModal #DatesSection span.timeslot,
+#viewEventsModal #DatesSection span.cost {
+    float: left!important;
+}
+
+
+

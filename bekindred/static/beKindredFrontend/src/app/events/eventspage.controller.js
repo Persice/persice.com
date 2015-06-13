@@ -10,8 +10,11 @@
      * classDesc Fetching events
      * @ngInject
      */
-    function EventsPageController($scope, $rootScope, $log, $state) {
+    function EventsPageController($scope, $rootScope, $log, $state, $timeout) {
         var vm = this;
+
+        //first remove all modals from body
+        $('.ui.dimmer.modals').remove();
 
         vm.viewEvent = null;
         vm.showModal = false;

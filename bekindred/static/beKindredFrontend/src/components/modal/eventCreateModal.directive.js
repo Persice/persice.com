@@ -27,13 +27,13 @@
         return directive;
 
         function link(scope, element, attrs, singleevent) {
-            console.log('link function');
-            console.log(singleevent.show);
             element.modal({
                 onHide: function() {
                     scope.singleevent.show = false;
                 }
             });
+
+
             scope.$watch('singleevent.show', function(modelValue) {
                 console.log(modelValue);
                 element
