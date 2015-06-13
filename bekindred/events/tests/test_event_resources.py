@@ -14,7 +14,7 @@ class TestEventResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                           name="Play piano", location=[7000, 22965.83])
-        self.detail_url = '/api/v1/events/{0}/'.format(self.event.pk)
+        self.detail_url = '/api/v1/event/{0}/'.format(self.event.pk)
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'events': '/api/v1/event/{0}/'.format(self.event.pk),
@@ -68,6 +68,36 @@ class TestEventResource(ResourceTestCase):
         }
         self.response = self.login()
         self.assertHttpCreated(self.api_client.post('/api/v1/event/', format='json', data=post_data))
+
+    def test_update_simple_event(self):
+        self.response = self.login()
+        Membership.objects.create(user=self.user, event=self.event)
+        self.assertEqual(Event.objects.filter(membership__user=self.user, name='Play piano')[0].name, 'Play piano')
+        original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
+        new_data = original_data.copy()
+        new_data['name'] = 'learn erlang'
+
+        self.api_client.put(self.detail_url, format='json', data=new_data)
+        self.assertEqual(Event.objects.filter(membership__user=self.user, name='learn erlang')[0].name, 'learn erlang')
+
+    def test_update_if_ends_on_in_past(self):
+        self.response = self.login()
+
+        event = Event.objects.create(starts_on=now() - timedelta(days=10), ends_on=now() - timedelta(days=9),
+                             name="Play piano", location=[7000, 22965.83])
+        Membership.objects.create(user=self.user, event=event)
+
+        detail_url = '/api/v1/event/{0}/'.format(event.pk)
+
+        original_data = self.deserialize(self.api_client.get(detail_url, format='json'))
+        new_data = original_data.copy()
+        new_data['name'] = 'learn erlang'
+        new_data['ends_on'] = now() + timedelta(days=2)
+        new_data['starts_on'] = now() + timedelta(days=1)
+
+        resp = self.api_client.patch(detail_url, format='json', data=new_data)
+        self.assertEqual(self.deserialize(resp),
+                         {u'error': u'Users cannot edit events which have an end date that occurred in the past.'})
 
     def test_create_event_which_starts_in_the_past(self):
         post_data = {

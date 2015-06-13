@@ -3,8 +3,10 @@ from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
+from tastypie.exceptions import BadRequest
 
 from tastypie.resources import ModelResource
+
 from tastypie.validation import Validation
 
 from events.models import Event, Membership
@@ -50,6 +52,16 @@ class EventResource(ModelResource):
         Membership.objects.create(user=bundle.request.user, event=bundle.obj)
         return bundle
 
+    def update_in_place(self, request, original_bundle, new_data):
+        ends_on = original_bundle.data['ends_on']
+        if ends_on < now():
+            raise BadRequest(
+                'Users cannot edit events which have an end date that occurred in the past.'
+            )
+        return super(EventResource, self).update_in_place(
+            request, original_bundle, new_data
+        )
+
 
 class MembershipResource(ModelResource):
     event = fields.ToOneField(EventResource, 'event')
@@ -72,7 +84,7 @@ class MyEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(MyEventFeedResource, self).get_object_list(request).\
+        return super(MyEventFeedResource, self).get_object_list(request). \
             filter(membership__user=request.user.pk, ends_on__gt=now()).order_by('starts_on')
 
     def dehydrate(self, bundle):
