@@ -72,9 +72,8 @@ class MyEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(MyEventFeedResource, self).get_object_list(request). \
-            filter(id__in=Membership.objects.filter(user_id=request.user.pk).
-                   values_list('event_id', flat=True)).order_by('starts_on')
+        return super(MyEventFeedResource, self).get_object_list(request).\
+            filter(membership__user=request.user.pk, ends_on__gt=now()).order_by('starts_on')
 
     def dehydrate(self, bundle):
         bundle.data['common_goals_offers_interests'] = 0
@@ -86,7 +85,7 @@ class MyEventFeedResource(ModelResource):
 class AllEventFeedResource(ModelResource):
     class Meta:
         resource_name = 'feed/events/all'
-        queryset = Event.objects.all().order_by('starts_on')
+        queryset = Event.objects.filter(ends_on__gt=now()).order_by('starts_on')
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
         authorization = Authorization()
@@ -113,7 +112,6 @@ class FriendsEventFeedResource(ModelResource):
         return bundle
 
     def get_object_list(self, request):
-        friends = Friend.objects.all_my_friends(user_id=request.user.id)
+        friends = Friend.objects.friends(user_id=request.user.id)
         return super(FriendsEventFeedResource, self).get_object_list(request). \
-            filter(id__in=Membership.objects.filter(user__in=friends).
-                   values_list('event_id', flat=True)).order_by('starts_on')
+            filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')

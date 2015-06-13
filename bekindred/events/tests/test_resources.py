@@ -166,6 +166,19 @@ class TestMyEventFeedResource(ResourceTestCase):
         res = sorted(self.deserialize(resp)['objects'], key=lambda x: x['name'])
         self.assertEqual(res[0]['name'], self.event.name)
 
+    def test_only_display_events_that_end_in_the_future(self):
+        self.response = self.login()
+
+        event1 = Event.objects.create(name="Ruby", location=[7000, 22965.83],
+                                      starts_on=now() - timedelta(days=9), ends_on=now() - timedelta(days=7))
+        event2 = Event.objects.create(name="Python", location=[7000, 22965.83],
+                                      starts_on=now() + timedelta(days=7), ends_on=now() + timedelta(days=8))
+        Membership.objects.create(user=self.user, event=event1)
+        Membership.objects.create(user=self.user, event=event2)
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json')
+        res = self.deserialize(resp)['objects']
+        self.assertEqual(len(res), 4)
+
 
 class TestFriendsEventFeedResource(ResourceTestCase):
     def setUp(self):
