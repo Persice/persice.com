@@ -6624,9 +6624,6 @@ body.events-page  #viewEventsModal label.specialpadding {
     font-size: 1.2em!important;
 }
 
-body.event-page #locationInput.left input {
-    padding-left: 30px !important;
-}
 
 #locationInput.ui.icon.input.urlexists.left > input ~ i.icon {
     left: -5px!important;
@@ -6686,7 +6683,6 @@ body.event-page #DatesSection span.cost {
 
 body.event-page #locationInput i.icon {
     width: 30px!important;
-    left: -8px!important;
 }
 
 body.event-page #DatesSection span.timeslot,
