@@ -1,78 +1,112 @@
+<div class="ui center aligned header">You are the host of this event.</div>
 <div class="ui basic segment">
     <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui large form segment first" id="FirstSegment">
             <div class="field">
-                <label>Event Name</label>
-                <input readonly autocomplete="off" class="border-bottom" ng-model="viewevent.event.name" placeholder="{{::viewevent.placeholder.name}}" type="text" name="name">
+                <label class="specialpadding">Event Name</label>
+                <input id="eventName" readonly autocomplete="off" class="border-bottom" ng-model="viewevent.event.name" placeholder="{{::viewevent.placeholder.name}}" type="text" name="name">
             </div>
             <div class="field">
-                <label>Location</label>
-                <div class="ui icon input" id="locationInput" ng-class="{'urlexists': viewevent.mapurlTrue}">
+                <label class="specialpadding">Location</label>
+                <div class="ui icon left input" id="locationInput" ng-class="{'urlexists': viewevent.mapurlTrue}">
                     <input readonly autocomplete="off" name="location" attach="'locationInput'" placeholder="{{::viewevent.placeholder.location}}" ng-model="viewevent.eventLocation" type="text">
                     <i ng-click="viewevent.openMap()" class="marker large icon"></i>
                 </div>
             </div>
         </div>
-        <div class="ui large form segment" id="datePair">
+        <div class="ui large form segment" id="DatesSection" ng-if="viewevent.showMobile">
             <div class="field">
-                <label>Starts</label>
-                <div class="ui icon input" id="desktopStartsAt">
-                    <input readonly autocomplete="off" class="date start" ng-model="viewevent.starts_on_date" placeholder="{{::viewevent.placeholder.starts}}" type="text" name="starts_on_date">
-                    <i class="calendar icon"></i>
-                </div>
-                <input readonly autocomplete="off" ng-if="viewevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="{{::viewevent.placeholder.starts}}" type="datetime-local" ng-model="viewevent.event.starts_on">
-                <input readonly autocomplete="off" id="startsAtTime" class="time start" placeholder="{{::viewevent.placeholder.startsTime}}" type="text" ng-model="viewevent.starts_on_time" name="starts_on_time">
+                <span>{{viewevent.firstrow}}</span>
             </div>
-            <div class="field" ng-class="{'error': viewevent.endsTimeError}">
-                <label>Ends</label>
-                <div class="ui icon input" id="desktopEndsAt">
-                    <input readonly autocomplete="off" class="date end" ng-model="viewevent.ends_on_date" placeholder="{{::viewevent.placeholder.ends}}" type="text" name="ends_on_date">
-                    <i class="calendar icon"></i>
-                </div>
-                <input readonly autocomplete="off" ng-if="viewevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="{{::viewevent.placeholder.ends}}" type="datetime-local" ng-model="viewevent.event.ends_on">
-                <input readonly autocomplete="off" id="endsAtTime" class="time end" class="" placeholder="{{::viewevent.placeholder.endsTime}}" type="text" ng-model="viewevent.ends_on_time" name="ends_on_time">
-            </div>
+            <div class="ui divider" id="last-section"></div>
             <div class="field">
-                <label>Repeat</label>
-                <input readonly autocomplete="off" name="repeat" id="repeat" placeholder="{{::viewevent.placeholder.repeat}}" type="text" ng-model="viewevent.event.repeat">
-                <div class="ui icon input" id="desktopRepeatUntil">
-                    <input readonly autocomplete="off" class="simpledate" ng-model="viewevent.event.repeatUntil" placeholder="{{::viewevent.placeholder.repeatUntil}}" type="text">
-                    <i class="calendar icon"></i>
-                </div>
+                <span class="timeslot">{{viewevent.secondrow}}</span>
+                <span class="repeats">repeats weekly</span>
+                <div class="cleardiv"></div>
+            </div>
+            <div class="ui divider" id="last-section"></div>
+            <div class="field">
+                <span class="cost"><strong>Cost:</strong> $25 (in advance)</span>
+                <span class="paid"><i class="fa fa-check icon"></i><strong>PAID</strong></span>
+                <div class="cleardiv"></div>
             </div>
         </div>
-        <div class="ui large form segment icon-segment">
+        <div class="ui large form segment" id="DatesSection" ng-if="!viewevent.showMobile">
             <div class="field">
-                <label>Costs</label>
-                <div class="fluid ui right labeled icon button">
-                    <i class="fa-angle-right fa icon large"></i> {{::viewevent.placeholder.costs}}
+                <label class="specialpadding">Starts</label>
+                <div class="eventcontent">
+                    <span>{{viewevent.firstrow}}</span>
                 </div>
+
             </div>
-        </div>
-        <div class="ui large form segment icon-segment">
+            <div class="ui divider" id="last-section"></div>
             <div class="field">
-                <label>Invitations</label>
-                <div class="fluid ui right labeled icon button">
-                    <i class="fa-angle-right fa icon large"></i> {{::viewevent.placeholder.invitations}}
-                </div>
-            </div>
-        </div>
-        <div class="ui large form segment icon-segment">
-            <div class="field" id="attachmentsDesc">
-                <label>Attachments</label>
-                <div class="fluid ui right labeled icon button with-left-icon">
-                    <i class="fa-paperclip fa icon large left-icon"></i>
-                    <i class="fa-angle-right fa icon large"></i> {{::viewevent.placeholder.attachments}}
+                <label class="specialpadding">Ends</label>
+                <div class="eventcontent">
+                    <span class="timeslot">{{viewevent.secondrow}}</span>
+                    <span class="repeats">repeats weekly</span>
+                    <div class="cleardiv"></div>
                 </div>
             </div>
             <div class="ui divider" id="last-section"></div>
             <div class="field">
-                <label>Description</label>
-                <textarea readonly autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::viewevent.placeholder.description}}" ng-model="viewevent.event.description"></textarea>
+                <label class="specialpadding">Cost</label>
+                <div class="eventcontent">
+                  <span class="cost">$25 (in advance)</span>
+                  <span class="paid"><i class="fa fa-check icon"></i><strong>PAID</strong></span>
+                  <div class="cleardiv"></div>
+              </div>
+
+          </div>
+      </div>
+      <div class="ui large form segment" id="HostedSection" ng-if="!viewevent.showMobile">
+        <div class="field">
+            <label class="specialpadding">Hosted By</label>
+            <div class="eventcontent">
+                <span>Thomas Tracey</span>
             </div>
         </div>
-        <div class="ui large form segment" id="actionForm">
-            <div id="actionButton" ng-click="viewevent.editEvent()" class="ui green button"><i class="fa fa-edit icon"></i> Edit</div>
+        <div class="ui divider" id="last-section"></div>
+        <div class="field">
+            <label class="specialpadding">Attending</label>
+            <div class="eventcontent">
+                <span class="people-attending">8 people attending</span>
+                <span class="remaining-spots">2 spots remaining</span>
+                <div class="cleardiv"></div>
+            </div>
         </div>
-    </form>
+    </div>
+    <div class="ui large form segment" id="HostedSection" ng-if="viewevent.showMobile">
+        <div class="field">
+            <span>Hosted By Thomas Tracey</span>
+        </div>
+        <div class="ui divider" id="last-section"></div>
+        <div class="field">
+            <span class="people-attending">8 people attending</span>
+            <span class="remaining-spots">2 spots remaining</span>
+            <div class="cleardiv"></div>
+        </div>
+    </div>
+    <div class="ui large form segment icon-segment">
+        <div class="field">
+            <label class="specialpadding">Group Chat</label>
+            <div class="fluid ui right labeled icon button">
+                <i class="fa-angle-right fa icon large"></i> 15 messages
+            </div>
+        </div>
+    </div>
+    <div class="ui large form segment">
+        <div class="field" ng-if="viewevent.showMobile">
+            <input readonly autocomplete="off" class="simpledate" ng-model="viewevent.event.repeatUntil" placeholder="Event Description:" type="text">
+        </div>
+        <div class="ui divider" id="last-section" ng-if="viewevent.showMobile"></div>
+        <div class="field">
+            <label class="specialpadding">Description</label>
+            <textarea readonly autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::viewevent.placeholder.description}}" ng-model="viewevent.event.description"></textarea>
+        </div>
+    </div>
+    <div class="ui large form segment" id="actionForm">
+        <div id="actionButton" ng-click="viewevent.editEvent()" class="ui green button"><i class="fa fa-edit icon"></i> Edit</div>
+    </div>
+</form>
 </div>

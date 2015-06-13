@@ -367,12 +367,20 @@ angular
 
                 }
             })
-            .state('event.view', {
-                url: '/details',
+            .state('event.details', {
+                url: '/details/:eventId',
                 templateUrl: 'app/events/event_view.html',
+                controller: 'EventViewController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
                 data: {
-
+                    displayName: 'Event Details',
                 }
+
             });
 
 

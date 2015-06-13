@@ -52,7 +52,7 @@
      */
     function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment) {
         var vm = this;
-
+        vm.showMobile = false;
         vm.closeEventModal = closeEventModal;
         vm.getEvent = getEvent;
         vm.openMap = openMap;
@@ -108,10 +108,19 @@
                 }
 
                 //convert datetime to local timezone
-                vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('MM/DD/YYYY');
-                vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('MM/DD/YYYY');
-                vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('HH:mm');
-                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('HH:mm');
+                vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
+                vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
+                vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('H:mm A');
+                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A  UTCZ');
+
+
+                if (vm.ends_on_date !== vm.starts_on_date) {
+                    vm.firstrow = vm.starts_on_date + ' ' + vm.starts_on_time;
+                    vm.secondrow = vm.ends_on_date + ' ' + vm.ends_on_time;
+                } else {
+                    vm.firstrow = vm.starts_on_date;
+                    vm.secondrow = vm.starts_on_time + ' to ' + vm.ends_on_time;
+                }
 
                 vm.loadingEvent = false;
 

@@ -321,7 +321,7 @@
             if (w.width() > 767) {
                 $rootScope.$broadcast('openViewEventModal', id);
             } else {
-                $state.go('eventdetails', {
+                $state.go('event.details', {
                     eventId: id
                 });
             }
