@@ -154,6 +154,8 @@ class TestAllEventFeedResource(ResourceTestCase):
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event3 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
+                                           starts_on=now() - timedelta(days=11), ends_on=now() - timedelta(days=10))
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)
@@ -168,6 +170,12 @@ class TestAllEventFeedResource(ResourceTestCase):
 
         # Scope out the data for correctness.
         self.assertEqual(len(self.deserialize(resp)['objects']), 3)
+
+    def test_filter_past_event(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/all/', format='json')
+        res = self.deserialize(resp)
+        self.assertEqual(res['meta']['total_count'], 3)
 
 
 class TestMyEventFeedResource(ResourceTestCase):

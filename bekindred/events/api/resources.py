@@ -107,10 +107,14 @@ class AllEventFeedResource(ModelResource):
 
     class Meta:
         resource_name = 'feed/events/all'
-        queryset = Event.objects.filter(ends_on__gt=now()).order_by('starts_on')
+        queryset = Event.objects.all()
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def get_object_list(self, request):
+        return super(AllEventFeedResource, self).get_object_list(request). \
+            filter(ends_on__gt=now()).order_by('starts_on')
 
     def dehydrate(self, bundle):
         bundle.data['common_goals_offers_interests'] = 0
@@ -125,7 +129,7 @@ class FriendsEventFeedResource(ModelResource):
 
     class Meta:
         resource_name = 'feed/events/friends'
-        queryset = Event.objects.all().order_by('starts_on')
+        queryset = Event.objects.all()
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
         authorization = Authorization()
