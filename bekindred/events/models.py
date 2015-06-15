@@ -47,8 +47,8 @@ class Membership(models.Model):
     )
     user = models.ForeignKey(FacebookCustomUser)
     event = models.ForeignKey(Event)
-    is_organizer = models.BooleanField(default=True)
-    is_accepted = models.BooleanField(default=True)
+    is_organizer = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=False)
     rsvp = models.CharField(max_length=5, choices=RSVP_CHOICES, null=True)
     updated = models.DateTimeField(default=now())
 

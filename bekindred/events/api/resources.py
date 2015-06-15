@@ -34,6 +34,10 @@ class EventValidation(Validation):
 
 
 class EventResource(ModelResource):
+    members = fields.OneToManyField('events.api.resources.MembershipResource',
+                                    attribute=lambda bundle: bundle.obj.membership_set.filter(is_organizer=True),
+                                    full=True, null=True)
+
     class Meta:
         always_return_data = True
         queryset = Event.objects.all().order_by('-starts_on')
@@ -49,7 +53,7 @@ class EventResource(ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)
-        Membership.objects.create(user=bundle.request.user, event=bundle.obj)
+        Membership.objects.create(user=bundle.request.user, event=bundle.obj, is_organizer=True)
         return bundle
 
     def update_in_place(self, request, original_bundle, new_data):
@@ -76,6 +80,9 @@ class MembershipResource(ModelResource):
 
 
 class MyEventFeedResource(ModelResource):
+    members = fields.OneToManyField('events.api.resources.MembershipResource',
+                                    'membership_set', full=True)
+
     class Meta:
         resource_name = 'feed/events/my'
         queryset = Event.objects.all().order_by('starts_on')
@@ -95,6 +102,9 @@ class MyEventFeedResource(ModelResource):
 
 
 class AllEventFeedResource(ModelResource):
+    members = fields.OneToManyField('events.api.resources.MembershipResource',
+                                    'membership_set', full=True)
+
     class Meta:
         resource_name = 'feed/events/all'
         queryset = Event.objects.filter(ends_on__gt=now()).order_by('starts_on')
@@ -110,6 +120,9 @@ class AllEventFeedResource(ModelResource):
 
 
 class FriendsEventFeedResource(ModelResource):
+    members = fields.OneToManyField('events.api.resources.MembershipResource',
+                                    'membership_set', full=True)
+
     class Meta:
         resource_name = 'feed/events/friends'
         queryset = Event.objects.all().order_by('starts_on')

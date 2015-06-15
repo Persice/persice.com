@@ -54,7 +54,8 @@ class TestEventResource(ResourceTestCase):
             'city': None,
             'zipcode': None,
             'state': None,
-            'street': None
+            'street': None,
+            u'members': [],
         })
 
     def test_create_simple_event(self):
