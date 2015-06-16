@@ -142,6 +142,23 @@ class TestEventResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp),
                          {u'event': {u'error': [u'ends_to should be greater than starts_on']}})
 
+    def test_delete_simple_event(self):
+        self.response = self.login()
+        self.assertEqual(Event.objects.count(), 1)
+        self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
+        self.assertEqual(Event.objects.count(), 0)
+
+    def test_delete_event(self):
+        self.response = self.login()
+        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+                                     name="Play piano", location=[7000, 22965.83])
+        Membership.objects.create(user=self.user, event=event)
+
+        detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        self.assertEqual(Event.objects.count(), 2)
+        self.assertHttpAccepted(self.api_client.delete(detail_url, format='json'))
+        self.assertEqual(Event.objects.count(), 1)
+
 class TestAllEventFeedResource(ResourceTestCase):
     def setUp(self):
         super(TestAllEventFeedResource, self).setUp()
