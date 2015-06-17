@@ -6359,10 +6359,10 @@ body.event-page #locationInput input {
 
 input[type="datetime-local"]:before {
     color: lightgray!important;
-    content: attr(placeholder) "   "!important;
+    content: attr(placeholder)!important;
 }
 
-input[type="datetime-local"].full:before {
+input[type="datetime-local"].fulldisplay:before {
     color: black!important;
     content: ""!important;
 }
@@ -6771,4 +6771,12 @@ div.cleardiv {
 
 .datepicker-dropdown {
     z-index: 9999!important;
+}
+
+
+body.event-page .ui.form .field.error textarea,
+body.event-page .ui.form .field.error input
+{
+    background-color: #FFF!important;
+    border: none!important;
 }
