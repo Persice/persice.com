@@ -5818,7 +5818,7 @@ body.events-page #eventsDesktopNav .item {
 #eventsDesktopNav .active.item:after {
     position: absolute!important;
     content: ''!important;
-    top: 89%!important;
+    top: 92%!important;
     left: 50%!important;
     -webkit-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
     -ms-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
@@ -5838,7 +5838,7 @@ body.events-page #eventsDesktopNav .item {
 #eventsDesktopSubNav .active.item:after {
     position: absolute!important;
     content: ''!important;
-    top: 0px!important;
+    top: -1px!important;
     left: 50%!important;
     -webkit-transform: translateX(-50%)translateY(-50%)rotate(180deg)!important;
     -ms-transform: translateX(-50%)translateY(-50%)rotate(180deg)!important;
