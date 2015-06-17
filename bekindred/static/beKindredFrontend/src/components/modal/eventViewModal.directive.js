@@ -50,7 +50,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig) {
         var vm = this;
         vm.showMobile = false;
         vm.closeEventModal = closeEventModal;
@@ -123,7 +123,7 @@
                 vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('H:mm A');
-                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A ') + moment.tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z');
+                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A ') + moment.tz(angularMomentConfig.timezone).format('z');
 
 
                 if (vm.ends_on_date !== vm.starts_on_date) {

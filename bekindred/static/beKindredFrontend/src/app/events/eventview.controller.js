@@ -10,7 +10,7 @@
      * classDesc Create event
      * @ngInject
      */
-    function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window) {
+    function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig) {
         var vm = this;
         vm.showMobile = true;
         vm.mapurl = '';
@@ -65,7 +65,7 @@
                 vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('H:mm A');
-                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A ') + moment.tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z');
+                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A ') + moment.tz(angularMomentConfig.timezone).format('z');
 
 
 
