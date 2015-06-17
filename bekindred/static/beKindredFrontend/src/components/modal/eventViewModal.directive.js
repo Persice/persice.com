@@ -58,6 +58,8 @@
         vm.openMap = openMap;
         vm.event = {};
 
+        vm.isHost = false;
+
         vm.loadingEvent = false;
 
         vm.placeholder = {
@@ -106,12 +108,22 @@
                 } else {
                     vm.mapurlTrue = false;
                 }
+                vm.isHost = false;
+                if (vm.event.members.length > 0) {
+                    for (var i = vm.event.members.length - 1; i >= 0; i--) {
+                        if (vm.event.members[i].is_organizer === true) {
+                            if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+                                vm.isHost = true;
+                            }
+                        }
+                    }
+                }
 
                 //convert datetime to local timezone
                 vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('H:mm A');
-                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A  UTCZ');
+                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A ') + moment.tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z');
 
 
                 if (vm.ends_on_date !== vm.starts_on_date) {

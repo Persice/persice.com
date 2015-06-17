@@ -1,4 +1,14 @@
-<div class="ui center aligned header">You are the host of this event.</div>
+<div class="ui center aligned header" ng-if="viewevent.isHost">You are the host of this event.</div>
+<div class="row" ng-if="!viewevent.isHost">
+    <div class="wide column">
+        <div class="ui fluid secondary menu center-aligned">
+            <div class="header item">GOING?</div>
+            <a class="item active">YES</a>
+            <a class="item">NO</a>
+            <a class="item">MAYBE</a>
+        </div>
+    </div>
+</div>
 <div class="ui basic segment">
     <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui large form segment first" id="FirstSegment">
@@ -37,7 +47,6 @@
                 <div class="eventcontent">
                     <span>{{viewevent.firstrow}}</span>
                 </div>
-
             </div>
             <div class="ui divider" id="last-section"></div>
             <div class="field">
@@ -52,61 +61,60 @@
             <div class="field">
                 <label class="specialpadding">Cost</label>
                 <div class="eventcontent">
-                  <span class="cost">$25 (in advance)</span>
-                  <span class="paid"><i class="fa fa-check icon"></i><strong>PAID</strong></span>
-                  <div class="cleardiv"></div>
-              </div>
-
-          </div>
-      </div>
-      <div class="ui large form segment" id="HostedSection" ng-if="!viewevent.showMobile">
-        <div class="field">
-            <label class="specialpadding">Hosted By</label>
-            <div class="eventcontent">
-                <span>Thomas Tracey</span>
+                    <span class="cost">$25 (in advance)</span>
+                    <span class="paid"><i class="fa fa-check icon"></i><strong>PAID</strong></span>
+                    <div class="cleardiv"></div>
+                </div>
             </div>
         </div>
-        <div class="ui divider" id="last-section"></div>
-        <div class="field">
-            <label class="specialpadding">Attending</label>
-            <div class="eventcontent">
+        <div class="ui large form segment" id="HostedSection" ng-if="!viewevent.showMobile">
+            <div class="field">
+                <label class="specialpadding">Hosted By</label>
+                <div class="eventcontent">
+                    <span>Thomas Tracey</span>
+                </div>
+            </div>
+            <div class="ui divider" id="last-section"></div>
+            <div class="field">
+                <label class="specialpadding">Attending</label>
+                <div class="eventcontent">
+                    <span class="people-attending">8 people attending</span>
+                    <span class="remaining-spots">2 spots remaining</span>
+                    <div class="cleardiv"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui large form segment" id="HostedSection" ng-if="viewevent.showMobile">
+            <div class="field">
+                <span>Hosted By Thomas Tracey</span>
+            </div>
+            <div class="ui divider" id="last-section"></div>
+            <div class="field">
                 <span class="people-attending">8 people attending</span>
                 <span class="remaining-spots">2 spots remaining</span>
                 <div class="cleardiv"></div>
             </div>
         </div>
-    </div>
-    <div class="ui large form segment" id="HostedSection" ng-if="viewevent.showMobile">
-        <div class="field">
-            <span>Hosted By Thomas Tracey</span>
-        </div>
-        <div class="ui divider" id="last-section"></div>
-        <div class="field">
-            <span class="people-attending">8 people attending</span>
-            <span class="remaining-spots">2 spots remaining</span>
-            <div class="cleardiv"></div>
-        </div>
-    </div>
-    <div class="ui large form segment icon-segment">
-        <div class="field">
-            <label class="specialpadding">Group Chat</label>
-            <div class="fluid ui right labeled icon button">
-                <i class="fa-angle-right fa icon large"></i> 15 messages
+        <div class="ui large form segment icon-segment">
+            <div class="field">
+                <label class="specialpadding">Group Chat</label>
+                <div class="fluid ui right labeled icon button">
+                    <i class="fa-angle-right fa icon large"></i> 15 messages
+                </div>
             </div>
         </div>
-    </div>
-    <div class="ui large form segment">
-        <div class="field" ng-if="viewevent.showMobile">
-            <input readonly autocomplete="off" class="simpledate" ng-model="viewevent.event.repeatUntil" placeholder="Event Description:" type="text">
+        <div class="ui large form segment">
+            <div class="field" ng-if="viewevent.showMobile">
+                <input readonly autocomplete="off" class="simpledate" ng-model="viewevent.event.repeatUntil" placeholder="Event Description:" type="text">
+            </div>
+            <div class="ui divider" id="last-section" ng-if="viewevent.showMobile"></div>
+            <div class="field">
+                <label class="specialpadding">Description</label>
+                <textarea readonly autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::viewevent.placeholder.description}}" ng-model="viewevent.event.description"></textarea>
+            </div>
         </div>
-        <div class="ui divider" id="last-section" ng-if="viewevent.showMobile"></div>
-        <div class="field">
-            <label class="specialpadding">Description</label>
-            <textarea readonly autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::viewevent.placeholder.description}}" ng-model="viewevent.event.description"></textarea>
+        <div class="ui large form segment" id="actionForm" ng-if="viewevent.isHost">
+            <div id="actionButton" ng-click="viewevent.editEvent()" class="ui green button"><i class="fa fa-edit icon"></i> Edit</div>
         </div>
-    </div>
-    <div class="ui large form segment" id="actionForm">
-        <div id="actionButton" ng-click="viewevent.editEvent()" class="ui green button"><i class="fa fa-edit icon"></i> Edit</div>
-    </div>
-</form>
+    </form>
 </div>

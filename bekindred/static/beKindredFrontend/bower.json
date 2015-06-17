@@ -21,7 +21,7 @@
     "angular-filter": "*",
     "angular-spinkit": "*",
     "ngImgCrop": "*",
-    "moment-timezone": "*",
+    "moment-timezone": "~0.4.0",
     "angular-socket-io": "*",
     "angular-notify": "*",
     "ng-lodash": "*",

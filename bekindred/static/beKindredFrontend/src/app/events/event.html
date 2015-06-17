@@ -4,8 +4,8 @@
     </div>
     <div class="header item">Event Details</div>
     <div class="right menu">
-        <a class="ui item" ng-click="eventpage.saveEvent();" ng-if="isState('event.create') || isState('event.edit')">Save</a>
-        <a class="ui item" ng-click="eventpage.editEvent();" ng-if="isState('event.details')">Edit</a>
+        <a class="ui item" ng-click="eventpage.saveEvent();" ng-if="isState('event.create') || (isState('event.edit') && viewevent.isHost)">Save</a>
+        <a class="ui item" ng-click="eventpage.editEvent();" ng-if="isState('event.details') && viewevent.isHost">Edit</a>
     </div>
 </div>
 
