@@ -55,6 +55,9 @@ class TestEventResource(ResourceTestCase):
             'zipcode': None,
             'state': None,
             'street': None,
+            'country': None,
+            'location_name': None,
+            'full_address': None,
             u'members': [],
         })
 
