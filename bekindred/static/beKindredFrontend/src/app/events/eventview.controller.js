@@ -17,8 +17,6 @@
         vm.mapurlTrue = false;
         vm.event = {};
 
-
-
         vm.eventLocation = '';
 
         vm.placeholder = {
@@ -61,6 +59,7 @@
                     vm.mapurlTrue = false;
                 }
 
+
                 //convert datetime to local timezone
                 vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
@@ -75,6 +74,20 @@
                 } else {
                     vm.firstrow = vm.starts_on_date;
                     vm.secondrow = vm.starts_on_time + ' to ' + vm.ends_on_time;
+                }
+
+
+                vm.isHost = false;
+                $scope.eventpage.isHost.option = false;
+                if (vm.event.members.length > 0) {
+                    for (var i = vm.event.members.length - 1; i >= 0; i--) {
+                        if (vm.event.members[i].is_organizer === true) {
+                            if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+                                vm.isHost = true;
+                                $scope.eventpage.isHost.option = true;
+                            }
+                        }
+                    }
                 }
 
 

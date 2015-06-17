@@ -13,6 +13,10 @@
     function EventPageController($scope, $rootScope, $log, $state) {
         var vm = this;
 
+        vm.isHost = {
+            option:  false
+        };
+
         vm.saveEvent = saveEvent;
 
         function saveEvent() {
