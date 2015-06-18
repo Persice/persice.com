@@ -141,6 +141,7 @@ class FriendsEventFeedResource(ModelResource):
         return bundle
 
     def get_object_list(self, request):
+        # TODO: Fix with empty friend
         friends = Friend.objects.friends(user_id=request.user.id)
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
