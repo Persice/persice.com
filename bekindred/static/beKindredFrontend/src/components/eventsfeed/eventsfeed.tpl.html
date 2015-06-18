@@ -12,8 +12,13 @@
             </div>
             <div class="content">
                 <div class="header">{{event.name}}</div>
-                <div class="meta">{{event.street}}
-                    <br>{{event.city}}, {{event.state}} {{event.zipcode}}</div>
+                <div class="meta">
+                    {{event.location_name}}
+                    <span>
+                        <br ng-if="event.location_name !== null && event.location_name.trim() !== '' && event.location_name.trim() !== event.street.trim()">
+                        <span ng-if="event.street !== null && event.street.trim() !== '' && event.location_name.trim() !== event.street.trim()">{{event.street}}<br></span>
+                        <span ng-if="event.city !== null && event.city.trim() !== ''">{{event.city}} {{event.zipcode}} {{event.state}}</span>
+                    </span>
                     <div class="description">
                         <div class="ui mini statistics">
                             <div class="statistic" data-tooltip="Match Score">
@@ -35,11 +40,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="extra content">
-                 {{event.distance[0]}} {{event.distance[1]}} away
-             </div>
-         </a>
-     </div>
-     <three-bounce-spinner class="page-spinner-bar" ng-show="eventsfeed.loadingMore"></three-bounce-spinner>
- </div>
-
+                <div class="extra content distance">
+                    {{event.distance[0]}} {{event.distance[1]}} away
+                </div>
+            </a>
+        </div>
+        <three-bounce-spinner class="page-spinner-bar" ng-show="eventsfeed.loadingMore"></three-bounce-spinner>
+    </div>

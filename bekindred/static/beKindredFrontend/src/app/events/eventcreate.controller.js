@@ -31,7 +31,10 @@
             street: '',
             city: '',
             zipcode: null,
-            state: ''
+            state: '',
+            full_address: '',
+            location_name: '',
+            country: ''
         };
 
         vm.eventLocation = '';
@@ -148,56 +151,56 @@
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Event name'
-                        }]
+                    }]
                     },
                     location: {
                         identifier: 'location',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Location'
-                        }]
+                    }]
                     },
                     repeat: {
                         identifier: 'repeat',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Repeat'
-                        }]
+                    }]
                     },
                     description: {
                         identifier: 'description',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Description'
-                        }]
+                    }]
                     },
                     starts_on_date: {
                         identifier: 'starts_on_date',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Starts Date'
-                        }]
+                    }]
                     },
                     starts_on_time: {
                         identifier: 'starts_on_time',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Starts Time'
-                        }]
+                    }]
                     },
                     ends_on_date: {
                         identifier: 'ends_on_date',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Ends Date'
-                        }]
+                    }]
                     },
                     ends_on_time: {
                         identifier: 'ends_on_time',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Ends Time'
-                        }]
+                    }]
                     },
                 });
             $('.ui.form').form('validate form');
@@ -265,6 +268,8 @@
                 if (vm.event.zipcode === '') {
                     vm.event.zipcode = null;
                 }
+                vm.event.location_name = vm.eventLocation.name;
+                vm.event.full_address = vm.eventLocation.formatted_address;
                 vm.event.state = vm.extractFromAddress(location, 'administrative_area_level_1', 'short_name');
                 vm.event.country = vm.extractFromAddress(location, 'country', 'short_name');
                 vm.event.city = vm.extractFromAddress(location, 'locality', 'long_name');
@@ -277,6 +282,8 @@
                 $log.info(vm.mapurl);
             } else {
                 vm.event.address = vm.eventLocation;
+                vm.event.full_address = '';
+                vm.event.location_name = vm.eventLocation;
                 vm.event.location = '0,0';
             }
 
@@ -308,7 +315,10 @@
                 street: '',
                 city: '',
                 zipcode: null,
-                state: ''
+                state: '',
+                full_address: '',
+                location_name: '',
+                country: ''
             };
         }
 

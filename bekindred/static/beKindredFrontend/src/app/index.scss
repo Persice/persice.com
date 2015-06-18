@@ -21,6 +21,8 @@ h3::selection {
 .ui *::selection {
     background-color: #CCE2FF;
 }
+
+2
 /*******************************Global*******************************/
 
 html,
@@ -5651,12 +5653,12 @@ body.events-page .ui.fluid.card .ui.mini.statistics {
     top: 35px;
 }
 
-body.events-page .ui.fluid.card .extra.content {
+body.events-page .ui.fluid.card .extra.content.distance {
     border: 0px!important;
     padding-top: 0px;
     font-size: 0.8em;
-    padding-left: 30px;
     padding-bottom: 1.4em;
+    color: rgba(0, 0, 0, .4)!important;
 }
 
 body.events-page .ui.fluid.card .content {
@@ -5909,9 +5911,8 @@ body.events-page .ui.card {
     .eventdate {
         text-align: left!important;
     }
-    body.events-page .ui.fluid.card .content,
-    body.events-page .ui.fluid.card .extra.content {
-        padding-left: 125px!important;
+    body.events-page .ui.fluid.card .content {
+        padding-left: 150px!important;
     }
     body.events-page .ui.fluid.card .meta {
         margin: 5px 100px 10px 0px!important;
@@ -5932,7 +5933,7 @@ body.events-page .ui.card>.image {
 
 body.events-page .ui.cards>.card>.image>img,
 body.events-page .ui.card>.image>img {
-    width: 114px!important;
+    width: 140px!important;
     border-radius: 0px!important;
 }
 
@@ -6538,7 +6539,7 @@ input[type="datetime-local"].fulldisplay:before {
 
 #viewEventsModal .ui.right.button {
     display: block!important;
-    width:42%!important;
+    width: 42%!important;
     float: left!important;
     height: 53.125px!important;
     margin: 0px!important;
@@ -6551,15 +6552,10 @@ input[type="datetime-local"].fulldisplay:before {
     padding: 0.98861em 1em!important;
 }
 
-
-
-
-
-body.events-page  #viewEventsModal label.specialpadding {
+body.events-page #viewEventsModal label.specialpadding {
     padding: .98861em!important;
     margin-bottom: 0px!important;
 }
-
 
 #viewEventsModal .ui.right.button i.icon {
     background-color: #FFF!important;
@@ -6634,6 +6630,21 @@ body.event-page #HostedSection .field {
     padding: 0.67861em 0em;
 }
 
+body.event-page #eventDescription .field {
+   padding: 0.67861em 0em;
+}
+
+body.event-page #locationField i {
+    width: 12px!important;
+    opacity: 0.5!important;
+}
+
+body.event-page #locationField .eventcontent.urlexists i {
+    opacity: 1.0!important;
+}
+
+body.event-page #eventDescription .field
+
 body.event-page #HostedSection span {
     display: block!important;
 }
@@ -6675,7 +6686,6 @@ body.event-page #DatesSection span.cost {
     font-size: 1em!important;
 }
 
-
 body.event-page #locationInput i.icon {
     width: 30px!important;
 }
@@ -6696,29 +6706,66 @@ body.event-page #DatesSection span.cost {
     height: 48.625px!important;
 }
 
+#viewEventsModal #HostedSection .field {}
 
-#viewEventsModal #HostedSection .field {
-
-}
-
-#viewEventsModal #HostedSection div.eventcontent, #viewEventsModal #DatesSection div.eventcontent {
+#viewEventsModal #HostedSection div.eventcontent,
+#viewEventsModal #DatesSection div.eventcontent,
+#viewEventsModal #FirstSegment div.eventcontent,
+#viewEventsModal #eventDescription div.eventcontent {
     padding: 0.98861em 1em;
     background-color: #FFF!important;
-    font-family: 'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
     margin: 0;
     outline: none;
     -webkit-appearance: none;
-    tap-highlight-color: rgba(255,255,255,0);
+    tap-highlight-color: rgba(255, 255, 255, 0);
     line-height: 1.2142em;
     font-size: 1em;
     background: #fff;
-    border: 1px solid rgba(39,41,43,.15);
-    color: rgba(0,0,0,.8);
+    border: 1px solid rgba(39, 41, 43, .15);
+    color: rgba(0, 0, 0, .8);
     border-radius: .2857rem;
     box-shadow: 0 0 0 0 transparent inset;
-    transition: background-color .2s ease,color .2s ease,box-shadow .2s ease,border-color .2s ease;
+    transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease;
     width: 75%!important;
     float: right;
+}
+
+#viewEventsModal #locationField i,
+{
+    position: absolute!important;
+    opacity: 0.5!important;
+    left: 6px!important;
+}
+
+body.event-page #locationField i {
+    left: 0px!important;
+    position: absolute!important;
+}
+
+#viewEventsModal #FirstSegment div.eventcontent,
+body.event-page #FirstSegment div.eventcontent {
+    position: relative!important;
+}
+
+#viewEventsModal #locationField .eventcontent.urlexists i,
+body.event-page #locationField .eventcontent.urlexists i {
+    cursor: pointer!important;
+    opacity: 1!important;
+}
+
+body.event-page #FirstSegment .field {
+    padding: .67861em 0;
+}
+
+#viewEventsModal #locationField .locationContent {
+    padding-left: 20px!important;
+    display: inline-block!important;
+}
+
+body.event-page #locationField .locationContent {
+    padding-left: 20px!important;
+    display: inline-block!important;
 }
 
 #viewEventsModal #HostedSection span.remaining-spots {
@@ -6767,27 +6814,34 @@ div.cleardiv {
     float: left!important;
 }
 
-
-
 .datepicker-dropdown {
     z-index: 9999!important;
 }
 
-
 body.event-page .ui.form .field.error textarea,
-body.event-page .ui.form .field.error input
-{
+body.event-page .ui.form .field.error input {
     background-color: #FFF!important;
     border: none!important;
 }
 
-
 //view event menu
-
 #event-going-menu {
     text-align: center!important;
 }
 
 #event-going-menu .header.item {
     border: none!important;
+}
+
+#eventsfeed-list-body .content {
+    height: 140px;
+}
+
+#eventsfeed-list-body .extra.content.distance {
+    position: absolute;
+    bottom: -5px;
+    text-align: left;
+    display: block;
+    left: 0px!important;
+    height: 30px;
 }

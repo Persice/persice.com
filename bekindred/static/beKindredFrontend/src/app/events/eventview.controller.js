@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-        .module('icebrak')
-        .controller('EventViewController', EventViewController);
+    .module('icebrak')
+    .controller('EventViewController', EventViewController);
 
     /**
      * class EventViewController
      * classDesc Create event
      * @ngInject
      */
-    function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig) {
+     function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig) {
         var vm = this;
         vm.showMobile = true;
         vm.mapurl = '';
@@ -50,13 +50,26 @@
             }).$promise.then(function(data) {
 
                 vm.event = data;
-                vm.eventLocation = vm.event.street + ', ' + vm.event.city + ', ' + vm.event.zipcode + ' ' + vm.event.state;
+                vm.eventLocation = '';
+                vm.mapurlTrue = false;
+                vm.mapurl = '';
 
                 if (vm.event.location !== '0,0') {
+
+
+                    if (vm.event.full_address !== '' && vm.event.full_address !== null) {
+                        vm.eventLocation = vm.event.location_name + ', ' + vm.event.full_address;
+                    } else {
+                        vm.eventLocation = vm.event.street + ' ' + vm.event.city + ' ' + vm.event.zipcode + ' ' + vm.event.state;
+                    }
+
                     vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation) + '/@' + vm.event.location + ',15z';
                     vm.mapurlTrue = true;
+
                 } else {
                     vm.mapurlTrue = false;
+                    vm.mapurl = '';
+                    vm.eventLocation = vm.event.location_name;
                 }
 
 
@@ -95,27 +108,27 @@
 
             }, function(response) {
                 var data = response.data,
-                    status = response.status,
-                    header = response.header,
-                    config = response.config,
-                    message = 'Error ' + status;
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
                 vm.loadingEvent = false;
                 $log.error(message);
 
 
             });
-        }
+}
 
-        function openMap() {
-            if (vm.mapurl !== '') {
-                $window.open(vm.mapurl);
-            }
-
-        }
-
-
-
+function openMap() {
+    if (vm.mapurl !== '') {
+        $window.open(vm.mapurl);
     }
+
+}
+
+
+
+}
 
 
 

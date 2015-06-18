@@ -100,14 +100,26 @@
             }).$promise.then(function(data) {
 
                 vm.event = data;
-                vm.eventLocation = vm.event.street + ', ' + vm.event.city + ', ' + vm.event.zipcode + ' ' + vm.event.state;
+                vm.eventLocation = '';
+                vm.mapurlTrue = false;
+                vm.mapurl = '';
 
                 if (vm.event.location !== '0,0') {
+                    if (vm.event.full_address !== '' && vm.event.full_address !== null) {
+                        vm.eventLocation = vm.event.location_name + ', ' + vm.event.full_address;
+                    } else {
+                        vm.eventLocation = vm.event.street + ' ' + vm.event.city + ' ' + vm.event.zipcode + ' ' + vm.event.state;
+                    }
+
                     vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation) + '/@' + vm.event.location + ',15z';
                     vm.mapurlTrue = true;
+
                 } else {
                     vm.mapurlTrue = false;
+                    vm.mapurl = '';
+                    vm.eventLocation = vm.event.location_name;
                 }
+
                 vm.isHost = false;
                 if (vm.event.members.length > 0) {
                     for (var i = vm.event.members.length - 1; i >= 0; i--) {

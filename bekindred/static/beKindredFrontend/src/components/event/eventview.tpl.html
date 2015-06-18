@@ -14,13 +14,23 @@
         <div class="ui large form segment first" id="FirstSegment">
             <div class="field">
                 <label class="specialpadding">Event Name</label>
-                <input id="eventName" readonly autocomplete="off" class="border-bottom" ng-model="viewevent.event.name" placeholder="{{::viewevent.placeholder.name}}" type="text" name="name">
+                <div class="eventcontent">
+                    <span id="eventName">{{viewevent.event.name}}</span>
+                </div>
             </div>
-            <div class="field">
+            <div class="ui divider" id="last-section"></div>
+            <div class="field" id="locationField">
                 <label class="specialpadding">Location</label>
-                <div class="ui icon left input" id="locationInput" ng-class="{'urlexists': viewevent.mapurlTrue}">
-                    <input readonly autocomplete="off" name="location" attach="'locationInput'" placeholder="{{::viewevent.placeholder.location}}" ng-model="viewevent.eventLocation" type="text">
+                <div class="eventcontent" ng-class="{'urlexists': viewevent.mapurlTrue}">
                     <i ng-click="viewevent.openMap()" class="marker large icon"></i>
+                    <span class="locationContent">
+                        <span>{{viewevent.event.location_name}}</span>
+                        <span>
+                            <br ng-if="viewevent.event.location_name !== null && viewevent.event.location_name.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">
+                            <span ng-if="viewevent.event.street !== null && viewevent.event.street.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">{{viewevent.event.street}}<br></span>
+                            <span ng-if="viewevent.event.city !== null && viewevent.event.city.trim() !== ''">{{viewevent.event.city}} {{viewevent.event.zipcode}} {{viewevent.event.state}}</span>
+                        </span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -103,14 +113,16 @@
                 </div>
             </div>
         </div>
-        <div class="ui large form segment">
+        <div class="ui large form segment" id="eventDescription">
             <div class="field" ng-if="viewevent.showMobile">
-                <input readonly autocomplete="off" class="simpledate" ng-model="viewevent.event.repeatUntil" placeholder="Event Description:" type="text">
+                <span>Event Description:</span>
             </div>
             <div class="ui divider" id="last-section" ng-if="viewevent.showMobile"></div>
             <div class="field">
                 <label class="specialpadding">Description</label>
-                <textarea readonly autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::viewevent.placeholder.description}}" ng-model="viewevent.event.description"></textarea>
+                <div class="eventcontent">
+                    <span>{{viewevent.event.description}}</span>
+                </div>
             </div>
         </div>
         <div class="ui large form segment" id="actionForm" ng-if="viewevent.isHost">
