@@ -52,11 +52,11 @@ class EventResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
-    # def dehydrate(self, bundle):
-    #     friends = Friend.objects.friends(user_id=bundle.request.user.id)
-    #     bundle.data['attendees'] = Event.objects.get(pk=bundle.obj.pk).\
-    #         membership_set.filter(user__in=friends).count()
-    #     return bundle
+    def dehydrate(self, bundle):
+        friends = Friend.objects.all_my_friends(user_id=bundle.request.user.id)
+        bundle.data['friend_attendees_count'] = Event.objects.get(pk=bundle.obj.pk).\
+            membership_set.filter(user__in=friends, rsvp='yes').count()
+        return bundle
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)

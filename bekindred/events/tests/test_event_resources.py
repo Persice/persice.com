@@ -59,6 +59,7 @@ class TestEventResource(ResourceTestCase):
             'location_name': None,
             'full_address': None,
             u'members': [],
+            'friend_attendees_count': 0
         })
 
     def test_create_simple_event(self):
@@ -165,6 +166,22 @@ class TestEventResource(ResourceTestCase):
         self.assertEqual(Event.objects.count(), 2)
         self.assertHttpAccepted(self.api_client.delete(detail_url, format='json'))
         self.assertEqual(Event.objects.count(), 1)
+
+    def test_friend_attendees_count(self):
+        self.response = self.login()
+        user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        Friend.objects.create(friend1=user1, friend2=self.user, status=1)
+        Friend.objects.create(friend1=user2, friend2=self.user, status=1)
+        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+                                     name="Play piano", location=[7000, 22965.83])
+        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=user1, event=event, rsvp='yes')
+        Membership.objects.create(user=user2, event=event, rsvp='yes')
+        detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        resp = self.api_client.get(detail_url, format='json')
+        self.assertEqual(self.deserialize(resp)['friend_attendees_count'], 2)
+
 
 class TestAllEventFeedResource(ResourceTestCase):
     def setUp(self):
