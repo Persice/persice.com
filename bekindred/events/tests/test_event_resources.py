@@ -75,7 +75,11 @@ class TestEventResource(ResourceTestCase):
 
     def test_update_simple_event(self):
         self.response = self.login()
-        Membership.objects.create(user=self.user, event=self.event)
+        user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        Membership.objects.create(user=self.user, event=self.event, is_organizer=True)
+        Membership.objects.create(user=user1, event=self.event, rsvp='yes')
+        Membership.objects.create(user=user2, event=self.event, rsvp='yes')
         self.assertEqual(Event.objects.filter(membership__user=self.user, name='Play piano')[0].name, 'Play piano')
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()

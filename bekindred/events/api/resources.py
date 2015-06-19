@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.utils.timezone import now
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
@@ -35,7 +36,7 @@ class EventValidation(Validation):
 
 class EventResource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
-                                    attribute=lambda bundle: bundle.obj.membership_set.filter(is_organizer=True),
+                                    attribute=lambda bundle: bundle.obj.membership_set.all(),
                                     full=True, null=True)
 
     class Meta:
@@ -51,10 +52,32 @@ class EventResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
+    # def dehydrate(self, bundle):
+    #     friends = Friend.objects.friends(user_id=bundle.request.user.id)
+    #     bundle.data['attendees'] = Event.objects.get(pk=bundle.obj.pk).\
+    #         membership_set.filter(user__in=friends).count()
+    #     return bundle
+
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)
         Membership.objects.create(user=bundle.request.user, event=bundle.obj, is_organizer=True)
         return bundle
+
+    def save_m2m(self, bundle):
+        for field_name, field_object in self.fields.items():
+            if not getattr(field_object, 'is_m2m', False):
+                continue
+
+            if not field_object.attribute:
+                continue
+
+            for field in bundle.data[field_name]:
+                kwargs = {'event': Event.objects.get(pk=bundle.obj.id),
+                          'user': field.obj.user}
+                try:
+                    Membership.objects.get_or_create(**kwargs)
+                except IntegrityError:
+                    continue
 
     def update_in_place(self, request, original_bundle, new_data):
         ends_on = original_bundle.data['ends_on']

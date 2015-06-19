@@ -27,6 +27,7 @@ class Event(models.Model):
     city = models.CharField(max_length=100, null=True, blank=True)
     zipcode = models.IntegerField(max_length=7, null=True, blank=True)
     state = models.CharField(max_length=3, null=True, blank=True)
+    members = models.ManyToManyField(FacebookCustomUser, through='Membership')
 
     search_index = VectorField()
 
