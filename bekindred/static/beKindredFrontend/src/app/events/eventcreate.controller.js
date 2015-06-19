@@ -63,6 +63,17 @@
             vm.saveEvent();
         });
 
+        $scope.$on('goBackEvents', function() {
+            $log.info($rootScope.previousEventFeed);
+            if ($rootScope.previousEventFeed !== undefined) {
+                $state.go($rootScope.previousEventFeed);
+            } else {
+                $state.go('events.myevents');
+            }
+
+
+        });
+
 
         vm.checkDatesStarts = checkDatesStarts;
         vm.checkDatesEnds = checkDatesEnds;

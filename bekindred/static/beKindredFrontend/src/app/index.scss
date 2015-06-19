@@ -6758,9 +6758,11 @@ body.event-page #locationField .eventcontent.urlexists i {
     opacity: 1!important;
 }
 
-body.event-page #FirstSegment .field {
-    padding: .67861em 0;
+body.event-page #FirstSegment.editable .field {
+    padding: .67861em 0px!important;
 }
+
+
 
 #viewEventsModal #locationField .locationContent {
     padding-left: 20px!important;
@@ -6825,7 +6827,6 @@ div.cleardiv {
 body.event-page .ui.form .field.error textarea,
 body.event-page .ui.form .field.error input {
     background-color: #FFF!important;
-    border: none!important;
 }
 
 //view event menu

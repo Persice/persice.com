@@ -425,7 +425,8 @@ angular
                 params: fromParams
             };
 
-            if ((fromState.name === 'events.myevents' || fromState.name === 'events.allevents' || fromState.name === 'events.mynetwork') && toState.name === 'event.details') {
+            //remember state in events feed
+            if ((fromState.name === 'events.myevents' || fromState.name === 'events.allevents' || fromState.name === 'events.mynetwork') && (toState.name === 'event.details' || toState.name === 'event.create')) {
                 $rootScope.previousEventFeed = fromState.name;
             }
 
