@@ -121,6 +121,8 @@
 
 
         function getEvent() {
+
+            vm.pok = 0;
             $log.info('getting event: ' + vm.eventid);
             vm.loadingEvent = true;
             EventsFactory.query({
@@ -136,7 +138,7 @@
 
                 if (vm.event.location !== '0,0') {
                     if (vm.event.full_address !== '' && vm.event.full_address !== null) {
-                        vm.eventLocation = vm.event.location_name + ', ' + vm.event.full_address;
+                        vm.eventLocation = vm.event.full_address;
                     } else {
                         vm.eventLocation = vm.event.street + ' ' + vm.event.city + ' ' + vm.event.zipcode + ' ' + vm.event.state;
                     }
@@ -301,10 +303,11 @@
 
         }
 
+        vm.pok = 0;
+
         //parse location
         function parseLocation() {
-            vm.mapurl = '';
-            vm.mapurlTrue = false;
+
             $log.info('parsing location');
             if (vm.eventLocation !== null && typeof vm.eventLocation === 'object' && vm.eventLocation.hasOwnProperty('address_components') && vm.eventLocation.hasOwnProperty('geometry')) {
                 $log.info('changing location');
@@ -329,10 +332,14 @@
                 vm.mapurlTrue = true;
                 $log.info(vm.mapurl);
             } else {
-                vm.eventEdit.address = vm.eventLocation;
-                vm.eventEdit.full_address = '';
-                vm.eventEdit.location_name = vm.eventLocation;
-                vm.eventEdit.location = '0,0';
+                if (vm.pok > 2) {
+                    vm.eventEdit.address = vm.eventLocation;
+                    vm.eventEdit.full_address = '';
+                    vm.eventEdit.location_name = vm.eventLocation;
+                    vm.eventEdit.location = '0,0';
+                } else {
+                    vm.pok++;
+                }
             }
 
         }
