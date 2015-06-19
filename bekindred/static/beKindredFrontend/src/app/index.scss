@@ -4775,6 +4775,10 @@ body.finalstep-page #topMenu,
     }
 }
 
+#deleteEventButton {
+    float: left!important;
+}
+
 @media only screen and (max-width: 767px) {
     body.matchfeed-page #desktopmatchheader {
         display: none!important;
@@ -6633,7 +6637,7 @@ body.event-page #HostedSection .field {
 }
 
 body.event-page #eventDescription .field {
-   padding: 0.67861em 0em;
+ padding: 0.67861em 0em;
 }
 
 body.event-page #locationField i {
