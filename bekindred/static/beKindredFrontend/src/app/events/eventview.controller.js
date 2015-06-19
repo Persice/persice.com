@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-    .module('icebrak')
-    .controller('EventViewController', EventViewController);
+        .module('icebrak')
+        .controller('EventViewController', EventViewController);
 
     /**
      * class EventViewController
      * classDesc Create event
      * @ngInject
      */
-     function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig) {
+    function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig) {
         var vm = this;
         vm.showMobile = true;
         vm.mapurl = '';
@@ -34,6 +34,17 @@
 
         vm.openMap = openMap;
         vm.getEvent = getEvent;
+
+        $scope.$on('goBackEvents', function() {
+            $log.info($rootScope.previousEventFeed);
+            if ($rootScope.previousEventFeed !== undefined) {
+                $state.go($rootScope.previousEventFeed);
+            } else {
+                $state.go('events.myevents');
+            }
+
+
+        });
 
         vm.getEvent();
 
@@ -92,6 +103,7 @@
 
                 vm.isHost = false;
                 $scope.eventpage.isHost.option = false;
+                $scope.eventpage.eventId = vm.event.id;
                 if (vm.event.members.length > 0) {
                     for (var i = vm.event.members.length - 1; i >= 0; i--) {
                         if (vm.event.members[i].is_organizer === true) {
@@ -108,27 +120,27 @@
 
             }, function(response) {
                 var data = response.data,
-                status = response.status,
-                header = response.header,
-                config = response.config,
-                message = 'Error ' + status;
+                    status = response.status,
+                    header = response.header,
+                    config = response.config,
+                    message = 'Error ' + status;
                 vm.loadingEvent = false;
                 $log.error(message);
 
 
             });
-}
+        }
 
-function openMap() {
-    if (vm.mapurl !== '') {
-        $window.open(vm.mapurl);
+        function openMap() {
+            if (vm.mapurl !== '') {
+                $window.open(vm.mapurl);
+            }
+
+        }
+
+
+
     }
-
-}
-
-
-
-}
 
 
 

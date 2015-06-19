@@ -81,7 +81,7 @@
         vm.parseLocation = parseLocation;
         vm.combineDateTime = combineDateTime;
         vm.validateDates = validateDates;
-        vm.updateEvent = updateEvent;
+        vm.saveEvent = saveEvent;
 
         vm.editMode = false;
 
@@ -369,7 +369,7 @@
 
         }
 
-        function updateEvent() {
+        function saveEvent() {
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')

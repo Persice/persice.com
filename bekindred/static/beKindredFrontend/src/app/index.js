@@ -367,6 +367,20 @@ angular
 
                 }
             })
+            .state('event.edit', {
+                url: '/edit/:eventId',
+                templateUrl: 'app/events/event_edit.html',
+                controller: 'EventEditController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
+                data: {
+
+                }
+            })
             .state('event.details', {
                 url: '/details/:eventId',
                 templateUrl: 'app/events/event_view.html',
@@ -406,6 +420,15 @@ angular
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
             document.body.scrollTop = document.documentElement.scrollTop = 0;
+            $rootScope.previousState = {
+                name: fromState.name,
+                params: fromParams
+            };
+
+            if ((fromState.name === 'events.myevents' || fromState.name === 'events.allevents' || fromState.name === 'events.mynetwork') && toState.name === 'event.details') {
+                $rootScope.previousEventFeed = fromState.name;
+            }
+
 
         });
 
