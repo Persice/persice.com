@@ -6246,35 +6246,37 @@ body.event-page #repeatUntil,
     font-style: italic;
 }
 
-#locationInput.ui.icon.input.urlexists > input ~ i.icon {
+#locationInput.ui.icon.input.urlexists > input ~ i.icon, #locationInput2.ui.icon.input.urlexists > input ~ i.icon {
     opacity: 1!important;
     cursor: pointer!important;
 }
 
 #locationInput.ui.icon.input > input ~ i.icon,
-#locationInput.ui.icon.input > input:focus ~ i.icon {
+#locationInput2.ui.icon.input > input ~ i.icon
+#locationInput.ui.icon.input > input:focus ~ i.icon,
+#locationInput2.ui.icon.input > input:focus ~ i.icon {
     opacity: 0.5!important;
 }
 
 //end google places autocomplete
-body.event-page #locationInput input {
+body.event-page #locationInput input, body.event-page #locationInput2 input {
     padding-left: 0px!important;
     padding-top: 10.688px!important;
     padding-bottom: 10.688px!important;
     position: relative!important;
 }
 
-#locationInput input {
+#locationInput input, #locationInput2 input {
     height: 41.375px!important;
     font-size: 15.75px!important;
     padding-right: 30px!important;
 }
 
-#locationInput i.icon {
+#locationInput i.icon, #locationInput2 i.icon {
     width: 30px!important;
 }
 
-#createEventsModal #locationInput {
+#createEventsModal #locationInput{
     width: 75%!important;
 }
 
@@ -6611,7 +6613,7 @@ body.events-page #viewEventsModal label.specialpadding {
     margin-top: 0px!important;
 }
 
-#viewEventsModal #locationInput {
+#viewEventsModal #locationInput, #createEventsModal #locationInput2 {
     width: 75%!important;
 }
 
@@ -6686,7 +6688,7 @@ body.event-page #DatesSection span.cost {
     font-size: 1em!important;
 }
 
-body.event-page #locationInput i.icon {
+body.event-page #locationInput i.icon, body.event-page #locationInput2 i.icon {
     width: 30px!important;
 }
 
@@ -6695,12 +6697,14 @@ body.event-page #DatesSection span.cost {
     float: left!important;
 }
 
-#viewEventsModal #locationInput.ui.icon.input.left>input~i.icon {
+#viewEventsModal #locationInput.ui.icon.input.left>input~i.icon,
+#viewEventsModal #locationInput2.ui.icon.input.left>input~i.icon {
     left: 10px!important;
     top: 3px!important;
 }
 
-#viewEventsModal #locationInput input {
+#viewEventsModal #locationInput input,
+#viewEventsModal #locationInput2 input {
     padding-left: 40px!important;
     padding-right: 0px!important;
     height: 48.625px!important;

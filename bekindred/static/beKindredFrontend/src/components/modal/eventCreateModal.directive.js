@@ -62,11 +62,6 @@
         vm.endsTimeError = false;
         vm.startsTimeError = false;
 
-        vm.blah = blah;
-
-        function blah() {
-
-        }
         vm.placeholder = {
             name: '',
             starts: 'Date',
@@ -87,9 +82,6 @@
         vm.starts_on_time = '';
         vm.ends_on_date = '';
         vm.ends_on_time = '';
-        vm.today = moment().format('MM/DD/YYYY');
-
-        $log.info(vm.today);
 
         vm.showError = false;
         vm.showSuccess = false;
