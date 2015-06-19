@@ -3,14 +3,14 @@
 
     angular
         .module('icebrak')
-        .controller('EventCreateController', EventCreateController);
+        .controller('EventEditController', EventEditController);
 
     /**
-     * class EventCreateController
-     * classDesc Create event
+     * class EventEditController
+     * classDesc Edit event
      * @ngInject
      */
-    function EventCreateController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment) {
+    function EventEditController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, moment, angularMomentConfig) {
         var vm = this;
         vm.showError = false;
         vm.showMobile = true;
@@ -20,7 +20,7 @@
         vm.mapurlTrue = false;
         vm.endsTimeError = false;
         vm.startsTimeError = false;
-        vm.event = {
+        vm.eventEdit = {
             user: '/api/v1/auth/user/' + USER_ID + '/',
             description: '',
             ends_on: '',
@@ -53,26 +53,95 @@
 
         vm.saveEvent = saveEvent;
         vm.openMap = openMap;
-        vm.resetForm = resetForm;
         vm.extractFromAddress = extractFromAddress;
         vm.parseLocation = parseLocation;
         vm.validateDates = validateDates;
+        vm.getEvent = getEvent;
 
-        $scope.$on('saveEvent', function() {
-            $log.info('saveEvent');
+
+        vm.getEvent();
+
+        function getEvent() {
+            $log.info('getting event: ' + eventId);
+
+
+
+            vm.loadingEvent = true;
+            EventsFactory.query({
+                format: 'json'
+            }, {
+                eventId: eventId
+            }).$promise.then(function(data) {
+
+                vm.eventEdit = data;
+                vm.eventLocation = '';
+                vm.mapurlTrue = false;
+                vm.mapurl = '';
+
+                if (vm.eventEdit.location !== '0,0') {
+
+
+                    if (vm.eventEdit.full_address !== '' && vm.eventEdit.full_address !== null) {
+                        vm.eventLocation = vm.eventEdit.location_name + ', ' + vm.eventEdit.full_address;
+                    } else {
+                        vm.eventLocation = vm.eventEdit.street + ' ' + vm.eventEdit.city + ' ' + vm.eventEdit.zipcode + ' ' + vm.eventEdit.state;
+                    }
+
+                    vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation) + '/@' + vm.eventEdit.location + ',15z';
+                    vm.mapurlTrue = true;
+
+                } else {
+                    vm.mapurlTrue = false;
+                    vm.mapurl = '';
+                    vm.eventLocation = vm.eventEdit.location_name;
+                }
+
+
+                //convert datetime to local timezone
+                vm.eventEdit.starts_on = moment.utc(vm.eventEdit.starts_on, moment.ISO_8601).local().toDate();
+                vm.eventEdit.ends_on = moment.utc(vm.eventEdit.ends_on, moment.ISO_8601).local().toDate();
+
+                vm.isHost = false;
+                $scope.eventpage.isHost.option = false;
+                if (vm.eventEdit.members.length > 0) {
+                    for (var i = vm.eventEdit.members.length - 1; i >= 0; i--) {
+                        if (vm.eventEdit.members[i].is_organizer === true) {
+                            if (vm.eventEdit.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+                                vm.isHost = true;
+                                $scope.eventpage.isHost.option = true;
+                            }
+                        }
+                    }
+                }
+
+
+                vm.loadingEvent = false;
+
+            }, function(response) {
+                var data = response.data,
+                    status = response.status,
+                    header = response.header,
+                    config = response.config,
+                    message = 'Error ' + status;
+                vm.loadingEvent = false;
+                $log.error(message);
+
+
+            });
+        }
+
+        $scope.$on('saveChangedEvent', function() {
+            $log.info('saveChangedEvent');
             vm.saveEvent();
         });
 
         $scope.$on('goBackEvents', function() {
-            $log.info($rootScope.previousEventFeed);
-            if ($rootScope.previousEventFeed !== undefined) {
-                $state.go($rootScope.previousEventFeed);
-            } else {
-                $state.go('events.myevents');
-            }
-
+            $state.go('event.details', {
+                eventId: vm.eventEdit.id
+            });
 
         });
+
 
 
         vm.checkDatesStarts = checkDatesStarts;
@@ -80,21 +149,21 @@
 
         function checkDatesStarts() {
 
-            if (vm.event.ends_on === '' || vm.event.ends_on === null) {
-                vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
+            if (vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null) {
+                vm.eventEdit.ends_on = moment(vm.eventEdit.starts_on).add(1, 'hour').toDate();
                 return;
             }
 
-            if (moment(vm.event.ends_on) >= moment(vm.event.starts_on)) {
-                vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
+            if (moment(vm.eventEdit.ends_on) >= moment(vm.eventEdit.starts_on)) {
+                vm.eventEdit.ends_on = moment(vm.eventEdit.starts_on).add(1, 'hour').toDate();
             }
 
         }
 
         function checkDatesEnds() {
 
-            if (vm.event.starts_on === '' || vm.event.starts_on === null) {
-                vm.event.starts_on = moment(vm.event.ends_on).subtract(1, 'hour').toDate();
+            if (vm.eventEdit.starts_on === '' || vm.eventEdit.starts_on === null) {
+                vm.eventEdit.starts_on = moment(vm.eventEdit.ends_on).subtract(1, 'hour').toDate();
                 return;
             }
 
@@ -113,7 +182,7 @@
             //validate dates
             vm.startsTimeError = false;
             vm.endsTimeError = false;
-            if (moment(vm.event.starts_on).unix() < moment().unix()) {
+            if (moment(vm.eventEdit.starts_on).unix() < moment().unix()) {
                 $log.info('start date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select a Starts Date that is not set in past.'];
@@ -126,7 +195,7 @@
                 vm.startsTimeError = false;
             }
 
-            if (moment(vm.event.ends_on).unix() < moment().unix()) {
+            if (moment(vm.eventEdit.ends_on).unix() < moment().unix()) {
                 $log.info('end date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select an Ends Date that is not set in past.'];
@@ -134,7 +203,7 @@
                 return;
             }
 
-            if (moment(vm.event.ends_on).unix() > moment().unix() && moment(vm.event.starts_on).unix() > moment().unix() && moment(vm.event.starts_on).unix() > moment(vm.event.ends_on).unix()) {
+            if (moment(vm.eventEdit.ends_on).unix() > moment().unix() && moment(vm.eventEdit.starts_on).unix() > moment().unix() && moment(vm.eventEdit.starts_on).unix() > moment(vm.eventEdit.ends_on).unix()) {
                 $log.info('end date is not ok');
                 vm.showError = true;
                 vm.errorMessage = ['Ends Date must be greater or equal to Starts Date.'];
@@ -162,65 +231,37 @@
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Event name'
-                    }]
+                        }]
                     },
                     location: {
                         identifier: 'location',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Location'
-                    }]
+                        }]
                     },
                     repeat: {
                         identifier: 'repeat',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Repeat'
-                    }]
+                        }]
                     },
                     description: {
                         identifier: 'description',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Description'
-                    }]
-                    },
-                    starts_on_date: {
-                        identifier: 'starts_on_date',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Starts Date'
-                    }]
-                    },
-                    starts_on_time: {
-                        identifier: 'starts_on_time',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Starts Time'
-                    }]
-                    },
-                    ends_on_date: {
-                        identifier: 'ends_on_date',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Ends Date'
-                    }]
-                    },
-                    ends_on_time: {
-                        identifier: 'ends_on_time',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Ends Time'
-                    }]
+                        }]
                     },
                 });
             $('.ui.form').form('validate form');
-            if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
+            if (vm.eventEdit.description === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
                 vm.showError = true;
-                if (vm.event.starts_on === '' || vm.event.starts_on === null) {
+                if (vm.eventEdit.starts_on === '' || vm.eventEdit.starts_on === null) {
                     vm.startsTimeError = true;
                 }
-                if (vm.event.ends_on === '' || vm.event.ends_on === null) {
+                if (vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null) {
                     vm.endsTimeError = true;
                 }
                 vm.errorMessage = ['Please enter all required fields.'];
@@ -235,10 +276,14 @@
                 vm.showSuccess = false;
 
                 if (!vm.showError) {
-                    EventsFactory.save({}, vm.event,
+                    EventsFactory.update({
+                            eventId: vm.eventEdit.id
+                        }, vm.eventEdit,
                         function(success) {
                             vm.showError = false;
-                            $state.go('events.myevents');
+                            $state.go('event.details', {
+                                eventId: vm.eventEdit.id
+                            });
                         },
                         function(error) {
                             vm.errorMessage = [];
@@ -274,28 +319,28 @@
             if (vm.eventLocation !== null && typeof vm.eventLocation === 'object' && vm.eventLocation.hasOwnProperty('address_components') && vm.eventLocation.hasOwnProperty('geometry')) {
                 var location = vm.eventLocation.address_components;
 
-                vm.event.street = vm.extractFromAddress(location, 'route', 'long_name') + ' ' + vm.extractFromAddress(location, 'street_number', 'long_name');
-                vm.event.zipcode = vm.extractFromAddress(location, 'postal_code', 'long_name');
-                if (vm.event.zipcode === '') {
-                    vm.event.zipcode = null;
+                vm.eventEdit.street = vm.extractFromAddress(location, 'route', 'long_name') + ' ' + vm.extractFromAddress(location, 'street_number', 'long_name');
+                vm.eventEdit.zipcode = vm.extractFromAddress(location, 'postal_code', 'long_name');
+                if (vm.eventEdit.zipcode === '') {
+                    vm.eventEdit.zipcode = null;
                 }
-                vm.event.location_name = vm.eventLocation.name;
-                vm.event.full_address = vm.eventLocation.formatted_address;
-                vm.event.state = vm.extractFromAddress(location, 'administrative_area_level_1', 'short_name');
-                vm.event.country = vm.extractFromAddress(location, 'country', 'short_name');
-                vm.event.city = vm.extractFromAddress(location, 'locality', 'long_name');
-                if (vm.event.state.length > 3) {
-                    vm.event.state = vm.event.country;
+                vm.eventEdit.location_name = vm.eventLocation.name;
+                vm.eventEdit.full_address = vm.eventLocation.formatted_address;
+                vm.eventEdit.state = vm.extractFromAddress(location, 'administrative_area_level_1', 'short_name');
+                vm.eventEdit.country = vm.extractFromAddress(location, 'country', 'short_name');
+                vm.eventEdit.city = vm.extractFromAddress(location, 'locality', 'long_name');
+                if (vm.eventEdit.state.length > 3) {
+                    vm.eventEdit.state = vm.eventEdit.country;
                 }
-                vm.event.location = vm.eventLocation.geometry.location['A'] + ',' + vm.eventLocation.geometry.location['F'];
-                vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation.formatted_address) + '/@' + vm.event.location + ',15z';
+                vm.eventEdit.location = vm.eventLocation.geometry.location['A'] + ',' + vm.eventLocation.geometry.location['F'];
+                vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation.formatted_address) + '/@' + vm.eventEdit.location + ',15z';
                 vm.mapurlTrue = true;
                 $log.info(vm.mapurl);
             } else {
-                vm.event.address = vm.eventLocation;
-                vm.event.full_address = '';
-                vm.event.location_name = vm.eventLocation;
-                vm.event.location = '0,0';
+                vm.eventEdit.address = vm.eventLocation;
+                vm.eventEdit.full_address = '';
+                vm.eventEdit.location_name = vm.eventLocation;
+                vm.eventEdit.location = '0,0';
             }
 
         }
@@ -308,30 +353,6 @@
         }
 
 
-        function resetForm() {
-            vm.showError = false;
-            vm.showSuccess = false;
-            vm.errorMessage = [];
-            vm.mapurl = '';
-            vm.mapurlTrue = false;
-            vm.eventLocation = '';
-            vm.event = {
-                user: '/api/v1/auth/user/' + USER_ID + '/',
-                description: '',
-                ends_on: '',
-                location: '',
-                name: '',
-                repeat: '',
-                starts_on: '',
-                street: '',
-                city: '',
-                zipcode: null,
-                state: '',
-                full_address: '',
-                location_name: '',
-                country: ''
-            };
-        }
 
     }
 

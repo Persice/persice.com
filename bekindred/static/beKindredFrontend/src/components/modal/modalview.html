@@ -1,7 +1,8 @@
-<div class="ui modal small centeraligned" id="viewEventsModal">
+<div class="ui modal small centeraligned" id="{{viewevent.modalId}}">
     <i class="close icon" ng-click="viewevent.closeEventModal()"></i>
     <div class="header">Event Details</div>
     <div class="content">
-        <ng-include src="'components/event/eventview.tpl.html'"></ng-include>
+        <ng-include ng-if="!viewevent.editMode" src="'components/event/eventview.tpl.html'"></ng-include>
+        <ng-include ng-if="viewevent.editMode" src="'components/event/eventedit.tpl.html'"></ng-include>
     </div>
 </div>
