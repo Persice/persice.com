@@ -1,5 +1,5 @@
-<div class="ui center aligned header" ng-if="viewevent.isHost">You are the host of this event.</div>
-<div class="row" ng-if="!viewevent.isHost">
+<div class="ui center aligned header" ng-show="viewevent.isHost === true">You are the host of this event.</div>
+<div class="row" ng-show="viewevent.isHost === false">
     <div class="wide column">
         <div class="ui fluid secondary menu" id="event-going-menu">
             <div class="header item">GOING?</div>

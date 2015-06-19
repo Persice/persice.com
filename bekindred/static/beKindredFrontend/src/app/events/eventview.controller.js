@@ -46,6 +46,9 @@
 
         });
 
+
+        vm.isHost = null;
+
         vm.getEvent();
 
         function getEvent() {
@@ -69,7 +72,7 @@
 
 
                     if (vm.event.full_address !== '' && vm.event.full_address !== null) {
-                        vm.eventLocation = vm.event.location_name + ', ' + vm.event.full_address;
+                        vm.eventLocation = vm.event.full_address;
                     } else {
                         vm.eventLocation = vm.event.street + ' ' + vm.event.city + ' ' + vm.event.zipcode + ' ' + vm.event.state;
                     }

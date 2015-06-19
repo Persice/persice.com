@@ -1,5 +1,5 @@
 <div class="ui basic segment">
-    <form class="ui form">
+    <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui positive message" ng-show="viewevent.showSuccess">
             <div class="header">
                 New event was successfully created.

@@ -10,7 +10,7 @@
      * classDesc Edit event
      * @ngInject
      */
-    function EventEditController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, moment, angularMomentConfig) {
+    function EventEditController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, moment, angularMomentConfig, notify) {
         var vm = this;
         vm.showError = false;
         vm.showMobile = true;
@@ -63,7 +63,7 @@
 
         function getEvent() {
             $log.info('getting event: ' + eventId);
-
+            vm.pok = 0;
 
 
             vm.loadingEvent = true;
@@ -82,7 +82,7 @@
 
 
                     if (vm.eventEdit.full_address !== '' && vm.eventEdit.full_address !== null) {
-                        vm.eventLocation = vm.eventEdit.location_name + ', ' + vm.eventEdit.full_address;
+                        vm.eventLocation = vm.eventEdit.full_address;
                     } else {
                         vm.eventLocation = vm.eventEdit.street + ' ' + vm.eventEdit.city + ' ' + vm.eventEdit.zipcode + ' ' + vm.eventEdit.state;
                     }
@@ -281,6 +281,16 @@
                         }, vm.eventEdit,
                         function(success) {
                             vm.showError = false;
+
+                            notify({
+                                messageTemplate: '<div class="notify-info-header">Success</div>' +
+                                    '<p>All changes have been saved.</p>',
+                                classes: 'notify-info',
+                                icon: 'check circle',
+                                duration: 4000
+                            });
+
+
                             $state.go('event.details', {
                                 eventId: vm.eventEdit.id
                             });
@@ -311,12 +321,13 @@
 
         }
 
+        vm.pok = 0;
+
         //parse location
         function parseLocation() {
-            vm.mapurl = '';
-            vm.mapurlTrue = false;
             $log.info('parsing location');
             if (vm.eventLocation !== null && typeof vm.eventLocation === 'object' && vm.eventLocation.hasOwnProperty('address_components') && vm.eventLocation.hasOwnProperty('geometry')) {
+
                 var location = vm.eventLocation.address_components;
 
                 vm.eventEdit.street = vm.extractFromAddress(location, 'route', 'long_name') + ' ' + vm.extractFromAddress(location, 'street_number', 'long_name');
@@ -337,10 +348,17 @@
                 vm.mapurlTrue = true;
                 $log.info(vm.mapurl);
             } else {
-                vm.eventEdit.address = vm.eventLocation;
-                vm.eventEdit.full_address = '';
-                vm.eventEdit.location_name = vm.eventLocation;
-                vm.eventEdit.location = '0,0';
+                if (vm.pok > 2) {
+                    vm.eventEdit.full_address = '';
+                    vm.eventEdit.location_name = vm.eventLocation;
+                    vm.eventEdit.location = '0,0';
+                    vm.eventEdit.address = vm.eventLocation;
+                } else {
+                    vm.pok++;
+                    return;
+                }
+
+
             }
 
         }
