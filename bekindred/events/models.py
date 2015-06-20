@@ -17,6 +17,9 @@ class Event(models.Model):
     description = models.CharField(max_length=300, null=True, blank=True)
     name = models.CharField(max_length=300)
     location = GeopositionField()
+    location_name = models.CharField(max_length=255, null=True)
+    country = models.CharField(max_length=255, null=True)
+    full_address = models.CharField(max_length=255, null=True)
     starts_on = models.DateTimeField()
     ends_on = models.DateTimeField()
     repeat = models.CharField(max_length=1, choices=REPEAT_CHOICES)
@@ -24,6 +27,7 @@ class Event(models.Model):
     city = models.CharField(max_length=100, null=True, blank=True)
     zipcode = models.IntegerField(max_length=7, null=True, blank=True)
     state = models.CharField(max_length=3, null=True, blank=True)
+    members = models.ManyToManyField(FacebookCustomUser, through='Membership')
 
     search_index = VectorField()
 
@@ -47,8 +51,7 @@ class Membership(models.Model):
     )
     user = models.ForeignKey(FacebookCustomUser)
     event = models.ForeignKey(Event)
-    is_organizer = models.BooleanField(default=True)
-    is_accepted = models.BooleanField(default=True)
+    is_organizer = models.BooleanField(default=False)
     rsvp = models.CharField(max_length=5, choices=RSVP_CHOICES, null=True)
     updated = models.DateTimeField(default=now())
 

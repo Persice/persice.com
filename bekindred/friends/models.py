@@ -52,11 +52,14 @@ class FriendManager(models.Manager):
         else:
             return False
 
-    def all_my_friends(self, user_id):
-        result = Friend.objects.filter(Q(friend1=user_id, status=1) |
-                                       Q(friend2=user_id, status=1))
-        all = list(chain(*result.values_list('friend1', 'friend2')))
-        return [x for x in all if x != user_id]
+    @staticmethod
+    def all_my_friends(user_id):
+        result = Friend.objects.filter(Q(friend1=user_id, status=1,
+                                         friend1__is_active=True, friend2__is_active=True) |
+                                       Q(friend2=user_id, status=1,
+                                         friend1__is_active=True, friend2__is_active=True))
+        all_ = list(chain(*result.values_list('friend1', 'friend2')))
+        return [x for x in all_ if x != user_id]
 
     def friends(self, user_id):
         return super(FriendManager, self).get_queryset().filter(Q(friend1=user_id, friend1__is_active=True,

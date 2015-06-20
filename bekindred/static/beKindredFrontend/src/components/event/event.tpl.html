@@ -14,7 +14,7 @@
         <div class="ui large form segment first" id="FirstSegment">
             <div class="field">
                 <label>Event Name</label>
-                <input autocomplete="off" class="border-bottom" ng-model="singleevent.event.name" placeholder="{{::singleevent.placeholder.name}}" type="text" name="name">
+                <input auto-focus autocomplete="off" class="border-bottom" ng-model="singleevent.event.name" placeholder="{{::singleevent.placeholder.name}}" type="text" name="name">
             </div>
             <div class="field">
                 <label>Location</label>
@@ -25,13 +25,13 @@
             </div>
         </div>
         <div class="ui large form segment" id="datePair">
-            <div class="field">
+            <div class="field" ng-class="{'error': singleevent.startsTimeError}">
                 <label>Starts</label>
                 <div class="ui icon input" id="desktopStartsAt">
                     <input autocomplete="off" class="date start" ng-model="singleevent.starts_on_date" placeholder="{{::singleevent.placeholder.starts}}" type="text" name="starts_on_date">
                     <i class="calendar icon"></i>
                 </div>
-                <input autocomplete="off" ng-if="singleevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="{{::singleevent.placeholder.starts}}" type="datetime-local" ng-model="singleevent.event.starts_on">
+                <input name="starts_on" autocomplete="off" ng-change="singleevent.checkDatesStarts()" ng-class="{'fulldisplay': singleevent.event.starts_on !== '' && singleevent.event.starts_on !== null}" ng-if="singleevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="Starts" type="datetime-local" ng-model="singleevent.event.starts_on">
                 <input autocomplete="off" id="startsAtTime" class="time start" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.starts_on_time" name="starts_on_time">
             </div>
             <div class="field" ng-class="{'error': singleevent.endsTimeError}">
@@ -40,7 +40,7 @@
                     <input autocomplete="off" class="date end" ng-model="singleevent.ends_on_date" placeholder="{{::singleevent.placeholder.ends}}" type="text" name="ends_on_date">
                     <i class="calendar icon"></i>
                 </div>
-                <input autocomplete="off" ng-if="singleevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="{{::singleevent.placeholder.ends}}" type="datetime-local" ng-model="singleevent.event.ends_on">
+                <input name="ends_on" autocomplete="off" ng-change="singleevent.checkDatesEnds()" ng-class="{'fulldisplay':  singleevent.event.ends_on !== '' && singleevent.event.ends_on !== null}" ng-if="singleevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="Ends" type="datetime-local" ng-model="singleevent.event.ends_on">
                 <input autocomplete="off" id="endsAtTime" class="time end" class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.ends_on_time" name="ends_on_time">
             </div>
             <div class="field">
@@ -87,27 +87,10 @@
         </div>
     </form>
 </div>
+
 <script>
     'use strict';
-    $(document).ready(function() {
-        $('#endsAtDate').on('input', function() {
-            if ($(this).val().length > 0) {
-                console.log('remove');
-                $(this).addClass('full');
-            } else {
-                console.log('remove');
-                $(this).removeClass('full');
-            }
-        });
 
-        $('#startsAtDate').on('input', function() {
-            if ($(this).val().length > 0) {
-                $(this).addClass('full');
-            } else {
-                $(this).removeClass('full');
-            }
-        });
-    });
 
 // initialize input widgets first
 $('#datePair .time').timepicker({
@@ -136,63 +119,5 @@ $('#datePair').datepair({
     defaultTimeDelta: 3600000,
 });
 
-$('.ui.form')
-.form({
-    name: {
-        identifier: 'name',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Event name'
-        }]
-    },
-    location: {
-        identifier: 'location',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Location'
-        }]
-    },
-    repeat: {
-        identifier: 'repeat',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Repeat'
-        }]
-    },
-    description: {
-        identifier: 'description',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Description'
-        }]
-    },
-    starts_on_date: {
-        identifier: 'starts_on_date',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Starts Date'
-        }]
-    },
-    starts_on_time: {
-        identifier: 'starts_on_time',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Starts Time'
-        }]
-    },
-    ends_on_date: {
-        identifier: 'ends_on_date',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Ends Date'
-        }]
-    },
-    ends_on_time: {
-        identifier: 'ends_on_time',
-        rules: [{
-            type: 'empty',
-            prompt: 'Please enter Ends Time'
-        }]
-    },
-});
+
 </script>

@@ -367,6 +367,20 @@ angular
 
                 }
             })
+            .state('event.edit', {
+                url: '/edit/:eventId',
+                templateUrl: 'app/events/event_edit.html',
+                controller: 'EventEditController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
+                data: {
+
+                }
+            })
             .state('event.details', {
                 url: '/details/:eventId',
                 templateUrl: 'app/events/event_view.html',
@@ -406,6 +420,16 @@ angular
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
             document.body.scrollTop = document.documentElement.scrollTop = 0;
+            $rootScope.previousState = {
+                name: fromState.name,
+                params: fromParams
+            };
+
+            //remember state in events feed
+            if ((fromState.name === 'events.myevents' || fromState.name === 'events.allevents' || fromState.name === 'events.mynetwork') && (toState.name === 'event.details' || toState.name === 'event.create')) {
+                $rootScope.previousEventFeed = fromState.name;
+            }
+
 
         });
 
@@ -621,109 +645,119 @@ angular
     })
 
 .directive('uicheckbox', function() {
-    return {
-        restrict: 'E',
-        replace: true,
-        transclude: true,
-        require: 'ngModel',
-        scope: {
-            type: '@',
-            value: '@',
-            size: '@',
-            checked: '@',
-            change: '&',
-            model: '=ngModel'
-        },
-        template: "<div class=\"{{checkbox_class}}\">" +
-            "<input type=\"checkbox\">" +
-            "<label ng-click=\"click_on_checkbox()\" ng-transclude></label>" +
-            "</div>",
-        link: function(scope, element, attrs) {
+        return {
+            restrict: 'E',
+            replace: true,
+            transclude: true,
+            require: 'ngModel',
+            scope: {
+                type: '@',
+                value: '@',
+                size: '@',
+                checked: '@',
+                change: '&',
+                model: '=ngModel'
+            },
+            template: "<div class=\"{{checkbox_class}}\">" +
+                "<input type=\"checkbox\">" +
+                "<label ng-click=\"click_on_checkbox()\" ng-transclude></label>" +
+                "</div>",
+            link: function(scope, element, attrs) {
 
-            //
-            // set up checkbox class and type
-            //
-            if (scope.type === 'standard' || scope.type === undefined) {
-                scope.type = 'standard';
-                scope.checkbox_class = 'ui checkbox';
-            } else if (scope.type === 'slider') {
-                scope.type = 'slider';
-                scope.checkbox_class = 'ui slider checkbox';
-            } else if (scope.type === 'toggle') {
-                scope.type = 'toggle';
-                scope.checkbox_class = 'ui toggle checkbox';
-            } else {
-                scope.type = 'standard';
-                scope.checkbox_class = 'ui checkbox';
-            }
+                //
+                // set up checkbox class and type
+                //
+                if (scope.type === 'standard' || scope.type === undefined) {
+                    scope.type = 'standard';
+                    scope.checkbox_class = 'ui checkbox';
+                } else if (scope.type === 'slider') {
+                    scope.type = 'slider';
+                    scope.checkbox_class = 'ui slider checkbox';
+                } else if (scope.type === 'toggle') {
+                    scope.type = 'toggle';
+                    scope.checkbox_class = 'ui toggle checkbox';
+                } else {
+                    scope.type = 'standard';
+                    scope.checkbox_class = 'ui checkbox';
+                }
 
-            //
-            // set checkbox size
-            //
-            if (scope.size === 'large') {
-                scope.checkbox_class = scope.checkbox_class + ' large';
-            } else if (scope.size === 'huge') {
-                scope.checkbox_class = scope.checkbox_class + ' huge';
-            }
+                //
+                // set checkbox size
+                //
+                if (scope.size === 'large') {
+                    scope.checkbox_class = scope.checkbox_class + ' large';
+                } else if (scope.size === 'huge') {
+                    scope.checkbox_class = scope.checkbox_class + ' huge';
+                }
 
-            //
-            // set checked/unchecked
-            //
-            if (scope.checked === 'false' || scope.checked === undefined) {
-                scope.checked = false;
-            } else {
-                scope.checked = true;
-                element.children()[0].setAttribute('checked', '');
-            }
+                //
+                // set checked/unchecked
+                //
+                if (scope.checked === 'false' || scope.checked === undefined) {
+                    scope.checked = false;
+                } else {
+                    scope.checked = true;
+                    element.children()[0].setAttribute('checked', '');
+                }
 
-            //
-            // Click handler
-            //
-            element.bind('click', function() {
-                scope.$apply(function() {
-                    if (scope.checked === true) {
+                //
+                // Click handler
+                //
+                element.bind('click', function() {
+                    scope.$apply(function() {
+                        if (scope.checked === true) {
+                            scope.checked = true;
+                            scope.model = false;
+                            element.children()[0].removeAttribute('checked');
+
+
+                        } else {
+                            scope.checked = true;
+                            scope.model = true;
+                            element.children()[0].setAttribute('checked', 'true');
+
+                        }
+                    });
+                });
+
+                //
+                // Watch for ng-model
+                //
+                scope.$watch('model', function(val) {
+                    if (val === undefined) {
+                        return;
+                    }
+
+                    if (val === true) {
                         scope.checked = true;
-                        scope.model = false;
-                        element.children()[0].removeAttribute('checked');
+                        element.children()[0].setAttribute('checked', 'true');
+                        scope.change({
+                            value: scope.value,
+                            checked: scope.checked
+                        });
 
 
                     } else {
-                        scope.checked = true;
-                        scope.model = true;
-                        element.children()[0].setAttribute('checked', 'true');
-
+                        scope.checked = false;
+                        element.children()[0].removeAttribute('checked');
+                        scope.change({
+                            value: scope.value,
+                            checked: scope.checked
+                        });
                     }
                 });
-            });
-
-            //
-            // Watch for ng-model
-            //
-            scope.$watch('model', function(val) {
-                if (val === undefined) {
-                    return;
-                }
-
-                if (val === true) {
-                    scope.checked = true;
-                    element.children()[0].setAttribute('checked', 'true');
-                    scope.change({
-                        value: scope.value,
-                        checked: scope.checked
-                    });
 
 
-                } else {
-                    scope.checked = false;
-                    element.children()[0].removeAttribute('checked');
-                    scope.change({
-                        value: scope.value,
-                        checked: scope.checked
-                    });
-                }
-            });
-
-
-        }
-    };
-});
+            }
+        };
+    })
+    .directive('autoFocus', function($timeout) {
+        return {
+            restrict: 'AC',
+            link: function(_scope, _element) {
+                $timeout(function() {
+                    _element[0].focus();
+                }, 0);
+            }
+        };
+    });

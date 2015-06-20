@@ -6,6 +6,7 @@ from tastypie.utils import now
 
 from events.models import Event, Membership
 from friends.models import Friend
+from goals.models import Subject, Goal, Offer
 
 
 class TestEventResource(ResourceTestCase):
@@ -54,8 +55,41 @@ class TestEventResource(ResourceTestCase):
             'city': None,
             'zipcode': None,
             'state': None,
-            'street': None
+            'street': None,
+            'country': None,
+            'location_name': None,
+            'full_address': None,
+            u'members': [],
+            'friend_attendees_count': 0,
+            'cumulative_match_score': 0,
+            'attendees': []
         })
+
+    def test_cumulative_match_score(self):
+        self.response = self.login()
+        user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+
+        self.subject = Subject.objects.create(description='Python')
+        self.subject2 = Subject.objects.create(description='Ruby')
+        self.subject3 = Subject.objects.create(description='Erlang')
+
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Offer.objects.create(user=self.user, offer=self.subject2)
+        Goal.objects.create(user=user1, goal=self.subject2)
+        Offer.objects.create(user=user1, offer=self.subject)
+        Goal.objects.create(user=user2, goal=self.subject2)
+
+        Friend.objects.create(friend1=user1, friend2=self.user, status=1)
+        Friend.objects.create(friend1=user2, friend2=self.user, status=1)
+        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+                                     name="Play piano", location=[7000, 22965.83])
+        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=user1, event=event, rsvp='yes')
+        Membership.objects.create(user=user2, event=event, rsvp='yes')
+        detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        resp = self.api_client.get(detail_url, format='json')
+        self.assertEqual(self.deserialize(resp)['cumulative_match_score'], 3)
 
     def test_create_simple_event(self):
         post_data = {
@@ -71,7 +105,11 @@ class TestEventResource(ResourceTestCase):
 
     def test_update_simple_event(self):
         self.response = self.login()
-        Membership.objects.create(user=self.user, event=self.event)
+        user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        Membership.objects.create(user=self.user, event=self.event, is_organizer=True)
+        Membership.objects.create(user=user1, event=self.event, rsvp='yes')
+        Membership.objects.create(user=user2, event=self.event, rsvp='yes')
         self.assertEqual(Event.objects.filter(membership__user=self.user, name='Play piano')[0].name, 'Play piano')
         original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
         new_data = original_data.copy()
@@ -84,7 +122,7 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
 
         event = Event.objects.create(starts_on=now() - timedelta(days=10), ends_on=now() - timedelta(days=9),
-                             name="Play piano", location=[7000, 22965.83])
+                                     name="Play piano", location=[7000, 22965.83])
         Membership.objects.create(user=self.user, event=event)
 
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
@@ -141,6 +179,39 @@ class TestEventResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp),
                          {u'event': {u'error': [u'ends_to should be greater than starts_on']}})
 
+    def test_delete_simple_event(self):
+        self.response = self.login()
+        self.assertEqual(Event.objects.count(), 1)
+        self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
+        self.assertEqual(Event.objects.count(), 0)
+
+    def test_delete_event(self):
+        self.response = self.login()
+        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+                                     name="Play piano", location=[7000, 22965.83])
+        Membership.objects.create(user=self.user, event=event)
+
+        detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        self.assertEqual(Event.objects.count(), 2)
+        self.assertHttpAccepted(self.api_client.delete(detail_url, format='json'))
+        self.assertEqual(Event.objects.count(), 1)
+
+    def test_friend_attendees_count(self):
+        self.response = self.login()
+        user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        Friend.objects.create(friend1=user1, friend2=self.user, status=1)
+        Friend.objects.create(friend1=user2, friend2=self.user, status=1)
+        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+                                     name="Play piano", location=[7000, 22965.83])
+        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=user1, event=event, rsvp='yes')
+        Membership.objects.create(user=user2, event=event, rsvp='yes')
+        detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        resp = self.api_client.get(detail_url, format='json')
+        self.assertEqual(self.deserialize(resp)['friend_attendees_count'], 2)
+
+
 class TestAllEventFeedResource(ResourceTestCase):
     def setUp(self):
         super(TestAllEventFeedResource, self).setUp()
@@ -153,6 +224,8 @@ class TestAllEventFeedResource(ResourceTestCase):
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
+        self.event3 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
+                                           starts_on=now() - timedelta(days=11), ends_on=now() - timedelta(days=10))
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)
@@ -167,6 +240,12 @@ class TestAllEventFeedResource(ResourceTestCase):
 
         # Scope out the data for correctness.
         self.assertEqual(len(self.deserialize(resp)['objects']), 3)
+
+    def test_filter_past_event(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/all/', format='json')
+        res = self.deserialize(resp)
+        self.assertEqual(res['meta']['total_count'], 3)
 
 
 class TestMyEventFeedResource(ResourceTestCase):
