@@ -39,6 +39,7 @@ class EventValidation(Validation):
 class EventResource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     attribute=lambda bundle: bundle.obj.membership_set.all(),
+                                    full=True,
                                     null=True)
     attendees = fields.OneToManyField('events.api.resources.MembershipResource',
                                       attribute=lambda bundle: bundle.obj.membership_set.
