@@ -13,6 +13,7 @@ from tastypie.validation import Validation
 from events.models import Event, Membership
 from friends.models import Friend
 from goals.utils import calculate_distance_events
+from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 
@@ -60,9 +61,16 @@ class EventResource(ModelResource):
         authorization = Authorization()
 
     def dehydrate(self, bundle):
-        friends = Friend.objects.all_my_friends(user_id=bundle.request.user.id)
+        user_id = bundle.request.user.id
+        friends = Friend.objects.all_my_friends(user_id=user_id)
         bundle.data['friend_attendees_count'] = Event.objects.get(pk=bundle.obj.pk).\
             membership_set.filter(user__in=friends, rsvp='yes').count()
+
+        cumulative_match_score = 0
+        for friend_id in friends:
+            cumulative_match_score += MatchEngineManager.\
+                count_common_goals_and_offers(friend_id, user_id)
+        bundle.data['cumulative_match_score'] = cumulative_match_score
         return bundle
 
     def obj_create(self, bundle, **kwargs):

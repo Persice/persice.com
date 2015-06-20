@@ -6,6 +6,7 @@ from tastypie.utils import now
 
 from events.models import Event, Membership
 from friends.models import Friend
+from goals.models import Subject, Goal, Offer
 
 
 class TestEventResource(ResourceTestCase):
@@ -60,8 +61,35 @@ class TestEventResource(ResourceTestCase):
             'full_address': None,
             u'members': [],
             'friend_attendees_count': 0,
+            'cumulative_match_score': 0,
             'attendees': []
         })
+
+    def test_cumulative_match_score(self):
+        self.response = self.login()
+        user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+
+        self.subject = Subject.objects.create(description='Python')
+        self.subject2 = Subject.objects.create(description='Ruby')
+        self.subject3 = Subject.objects.create(description='Erlang')
+
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Offer.objects.create(user=self.user, offer=self.subject2)
+        Goal.objects.create(user=user1, goal=self.subject2)
+        Offer.objects.create(user=user1, offer=self.subject)
+        Goal.objects.create(user=user2, goal=self.subject2)
+
+        Friend.objects.create(friend1=user1, friend2=self.user, status=1)
+        Friend.objects.create(friend1=user2, friend2=self.user, status=1)
+        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+                                     name="Play piano", location=[7000, 22965.83])
+        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=user1, event=event, rsvp='yes')
+        Membership.objects.create(user=user2, event=event, rsvp='yes')
+        detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        resp = self.api_client.get(detail_url, format='json')
+        self.assertEqual(self.deserialize(resp)['cumulative_match_score'], 3)
 
     def test_create_simple_event(self):
         post_data = {
@@ -94,7 +122,7 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
 
         event = Event.objects.create(starts_on=now() - timedelta(days=10), ends_on=now() - timedelta(days=9),
-                             name="Play piano", location=[7000, 22965.83])
+                                     name="Play piano", location=[7000, 22965.83])
         Membership.objects.create(user=self.user, event=event)
 
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
