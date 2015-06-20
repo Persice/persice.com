@@ -59,7 +59,8 @@ class TestEventResource(ResourceTestCase):
             'location_name': None,
             'full_address': None,
             u'members': [],
-            'friend_attendees_count': 0
+            'friend_attendees_count': 0,
+            'attendees': []
         })
 
     def test_create_simple_event(self):

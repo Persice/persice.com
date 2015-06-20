@@ -13,6 +13,7 @@ from tastypie.validation import Validation
 from events.models import Event, Membership
 from friends.models import Friend
 from goals.utils import calculate_distance_events
+from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 
 
@@ -37,7 +38,13 @@ class EventValidation(Validation):
 class EventResource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     attribute=lambda bundle: bundle.obj.membership_set.all(),
-                                    full=True, null=True)
+                                    null=True)
+    attendees = fields.OneToManyField('events.api.resources.MembershipResource',
+                                      attribute=lambda bundle: bundle.obj.membership_set.
+                                      filter(user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id),
+                                             rsvp='yes'),
+                                      full=True,
+                                      null=True)
 
     class Meta:
         always_return_data = True
@@ -90,9 +97,18 @@ class EventResource(ModelResource):
         )
 
 
+class UserResourceShort(ModelResource):
+    class Meta:
+        queryset = FacebookCustomUserActive.objects.all()
+        resource_name = 'auth/user'
+        fields = ['first_name', 'last_name', 'facebook_id']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+
 class MembershipResource(ModelResource):
     event = fields.ToOneField(EventResource, 'event')
-    user = fields.ToOneField(UserResource, 'user')
+    user = fields.ToOneField(UserResourceShort, 'user', full=True)
 
     class Meta:
         always_return_data = True
