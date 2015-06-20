@@ -105,8 +105,8 @@ class TestEventResource(ResourceTestCase):
 
     def test_update_simple_event(self):
         self.response = self.login()
-        user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
-        user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        user1 = FacebookCustomUser.objects.create_user(username='user_b_new', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c_new', password='test')
         Membership.objects.create(user=self.user, event=self.event, is_organizer=True)
         Membership.objects.create(user=user1, event=self.event, rsvp='yes')
         Membership.objects.create(user=user2, event=self.event, rsvp='yes')

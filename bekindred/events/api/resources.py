@@ -117,7 +117,7 @@ class UserResourceShort(ModelResource):
 
 class MembershipResource(ModelResource):
     event = fields.ToOneField(EventResource, 'event')
-    user = fields.ToOneField(UserResourceShort, 'user', full=True)
+    user = fields.ToOneField(UserResourceShort, 'user')
 
     class Meta:
         always_return_data = True
