@@ -26,13 +26,13 @@ class EventValidation(Validation):
         errors = {}
 
         if bundle.obj.starts_on < now():
-            errors['error'] = ['starts_on should be more or equals than today']
+            errors['error'] = ['The event start date and time must occur in the future.']
 
         if bundle.obj.ends_on < now():
-            errors['error'] = ['ends_on should be more or equals than today']
+            errors['error'] = ['The event end date and time must occur in the future.']
 
         if bundle.obj.starts_on >= bundle.obj.ends_on:
-            errors['error'] = ['ends_to should be greater than starts_on']
+            errors['error'] = ['The event end date and time must be greater than start date and time.']
         return errors
 
 

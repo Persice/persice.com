@@ -149,7 +149,7 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp),
-                         {u'event': {u'error': [u'starts_on should be more or equals than today']}})
+                         {u'event': {u'error': ['The event start date and time must occur in the future.']}})
 
     def test_create_event_which_ends_in_the_past(self):
         post_data = {
@@ -163,7 +163,7 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp),
-                         {u'event': {u'error': [u'ends_on should be more or equals than today']}})
+                         {u'event': {u'error': ['The event end date and time must occur in the future.']}})
 
     def test_create_event_which_starts_eq_ends(self):
         post_data = {
@@ -177,7 +177,7 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp),
-                         {u'event': {u'error': [u'ends_to should be greater than starts_on']}})
+                         {u'event': {u'error': ['The event end date and time must be greater than start date and time.']}})
 
     def test_delete_simple_event(self):
         self.response = self.login()
