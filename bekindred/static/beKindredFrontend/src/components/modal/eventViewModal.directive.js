@@ -474,6 +474,7 @@
                                 icon: 'check circle',
                                 duration: 4000
                             });
+                            $rootScope.$broadcast('refreshEventFeed');
                             vm.getEvent();
                         },
                         function(error) {
