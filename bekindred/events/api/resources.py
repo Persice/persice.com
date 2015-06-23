@@ -32,7 +32,8 @@ class EventValidation(Validation):
             errors['error'] = ['The event end date and time must occur in the future.']
 
         if bundle.obj.starts_on >= bundle.obj.ends_on:
-            errors['error'] = ['The event end date and time must be greater than start date and time.']
+            errors['error'] = ['The event end date and time must occur after the start date and time.']
+
         return errors
 
 
