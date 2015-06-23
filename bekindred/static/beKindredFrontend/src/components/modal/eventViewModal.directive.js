@@ -48,7 +48,9 @@
                 element
                     .modal('setting', 'transition', 'scale')
                     .modal('setting', 'closable', false)
+                .modal('setting', 'allowMultiple', true)
                     .modal(modelValue ? 'show' : 'hide');
+
             });
 
         }
@@ -67,6 +69,7 @@
         vm.closeEventModal = closeEventModal;
         vm.getEvent = getEvent;
         vm.openMap = openMap;
+        vm.deleteEvent = deleteEvent;
         vm.event = {};
 
         vm.showError = false;
@@ -117,6 +120,37 @@
 
             }
         });
+
+        function deleteEvent() {
+            vm.showError = false;
+            EventsFactory.delete({
+                    eventId: vm.eventEdit.id
+                },
+                function(success) {
+                    vm.showError = false;
+
+                    notify({
+                        messageTemplate: '<div class="notify-info-header">Success</div>' +
+                            '<p>Event has been successfully deleted.</p>',
+                        classes: 'notify-info',
+                        icon: 'check circle',
+                        duration: 4000
+                    });
+
+                    $rootScope.$broadcast('refreshEventFeed');
+
+                    vm.closeEventModal();
+
+                },
+                function(error) {
+                    vm.errorMessage = [];
+                    vm.showError = true;
+                    if (error.data.event) {
+                        vm.errorMessage = ['Event could not be deleted.'];
+                    }
+
+                });
+        }
 
 
 

@@ -52,11 +52,46 @@
         };
 
         vm.saveEvent = saveEvent;
+        vm.deleteEvent = deleteEvent;
         vm.openMap = openMap;
         vm.extractFromAddress = extractFromAddress;
         vm.parseLocation = parseLocation;
         vm.validateDates = validateDates;
         vm.getEvent = getEvent;
+
+
+        function deleteEvent() {
+            vm.showError = false;
+            EventsFactory.delete({
+                    eventId: vm.eventEdit.id
+                },
+                function(success) {
+                    vm.showError = false;
+
+                    notify({
+                        messageTemplate: '<div class="notify-info-header">Success</div>' +
+                            '<p>Event has been successfully deleted.</p>',
+                        classes: 'notify-info',
+                        icon: 'check circle',
+                        duration: 4000
+                    });
+
+
+                    if ($rootScope.previousEventFeed !== undefined) {
+                        $state.go($rootScope.previousEventFeed);
+                    } else {
+                        $state.go('events.myevents');
+                    }
+                },
+                function(error) {
+                    vm.errorMessage = [];
+                    vm.showError = true;
+                    if (error.data.event) {
+                        vm.errorMessage = ['Event could not be deleted.'];
+                    }
+
+                });
+        }
 
 
         vm.getEvent();
