@@ -177,7 +177,8 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp),
-                         {u'event': {u'error': ['The event end date and time must be greater than start date and time.']}})
+                         {u'event': {u'error': [u'The event end date and time '
+                                                u'must occur after the start date and time.']}})
 
     def test_delete_simple_event(self):
         self.response = self.login()
