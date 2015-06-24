@@ -25,7 +25,7 @@ class Event(models.Model):
     repeat = models.CharField(max_length=1, choices=REPEAT_CHOICES)
     street = models.CharField(max_length=300, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
-    zipcode = models.IntegerField(max_length=7, null=True, blank=True)
+    zipcode = models.CharField(max_length=7, null=True, blank=True)
     state = models.CharField(max_length=3, null=True, blank=True)
     members = models.ManyToManyField(FacebookCustomUser, through='Membership')
 
