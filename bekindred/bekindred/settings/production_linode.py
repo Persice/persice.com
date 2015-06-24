@@ -35,8 +35,8 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_websi
                           'user_relationship_details', 'read_stream']
 
 # LinkedIn
-LINKEDIN_CONSUMER_KEY = '755c9apksk4zxm'
-LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
+LINKEDIN_CONSUMER_KEY = '756g9uw1z5u8we'
+LINKEDIN_CONSUMER_SECRET = 'JFdHmQgN1V1qM4VF'
 
 
 # Add email to requested authorizations.
@@ -57,8 +57,8 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
 
 # twitter social auth
 
-TWITTER_CONSUMER_KEY = 'tJyUXuKfFmlzCnKccKvlQ4RIL'
-TWITTER_CONSUMER_SECRET = '3cmUB8ZKAYCKSsVtwUYpDyBNHPnY3ZkImjiomDV6pl5XeVz6AE'
+TWITTER_CONSUMER_KEY = '2s9WPaf8V5lJxkSjj1HteZvn0'
+TWITTER_CONSUMER_SECRET = 'HTtxdQltSaOzHnUkHwJBGrP9eEPtFzmKUalXbcoyqRHlEDVCI4'
 TWITTER_EXTRA_FIELD_SELECTORS = ['screen_name']
 TWITTER_EXTRA_DATA = ['screen_name']
 
