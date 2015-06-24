@@ -3,9 +3,9 @@
     <div class="wide column">
         <div class="ui fluid secondary menu" id="event-going-menu">
             <div class="header item">GOING?</div>
-            <a class="item active">YES</a>
-            <a class="item">NO</a>
-            <a class="item">MAYBE</a>
+            <a class="item" ng-click="viewevent.changeRsvpStatus('yes')" ng-class="{active: viewevent.eventRsvp.status === 'yes'}">YES</a>
+            <a class="item" ng-click="viewevent.changeRsvpStatus('no')" ng-class="{active: viewevent.eventRsvp.status === 'no'}">NO</a>
+            <a class="item" ng-click="viewevent.changeRsvpStatus('maybe')" ng-class="{active: viewevent.eventRsvp.status === 'maybe'}">MAYBE</a>
         </div>
     </div>
 </div>
