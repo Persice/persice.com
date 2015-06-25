@@ -24,9 +24,9 @@
                 <div class="eventcontent" ng-class="{'urlexists': viewevent.mapurlTrue}">
                     <i ng-click="viewevent.openMap()" class="marker large icon"></i>
                     <span class="locationContent">
-                        <span>{{viewevent.event.location_name}}</span>
+                        <span ng-if="viewevent.event.location_name.trim() !== viewevent.event.city.trim()">{{viewevent.event.location_name}}</span>
                         <span>
-                            <br ng-if="viewevent.event.location_name !== null && viewevent.event.location_name.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">
+                            <br ng-if="viewevent.event.location_name.trim() !== viewevent.event.city.trim() && viewevent.event.location_name !== null && viewevent.event.location_name.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">
                             <span ng-if="viewevent.event.street !== null && viewevent.event.street.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">{{viewevent.event.street}}<br></span>
                             <span ng-if="viewevent.event.city !== null && viewevent.event.city.trim() !== ''">{{viewevent.event.city}} {{viewevent.event.zipcode}} {{viewevent.event.state}}</span>
                         </span>
