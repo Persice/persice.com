@@ -184,6 +184,7 @@ GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')
 # GEOIP_COUNTRY = 'GeoLite2-Country.mmdb'
 # GEOIP_CITY = 'GeoLiteCity.dat'
 
+# TASTYPIE_DATETIME_FORMATTING = 'rfc-2822'
 
 LOGGING = {
     'version': 1,
