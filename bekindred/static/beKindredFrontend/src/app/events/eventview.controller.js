@@ -10,7 +10,7 @@
      * classDesc Create event
      * @ngInject
      */
-    function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig) {
+    function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig, MembersFactory) {
         var vm = this;
         vm.showMobile = true;
         vm.mapurl = '';
@@ -31,7 +31,11 @@
             attachments: 'Attachments'
         };
 
+        vm.eventRsvp = {
+            status: ''
+        };
 
+        vm.changeRsvpStatus = changeRsvpStatus;
         vm.openMap = openMap;
         vm.getEvent = getEvent;
 
@@ -48,6 +52,56 @@
 
 
         vm.isHost = null;
+
+        function changeRsvpStatus(newStatus) {
+            var member = {
+                event: '/api/v1/event/' + vm.event.id + '/',
+                rsvp: newStatus,
+                user: '/api/v1/auth/user/' + USER_ID + '/'
+            };
+
+            //change RSVP status if different than previous
+            if (vm.eventRsvp.status !== newStatus) {
+                //check if member is already created.
+                if (vm.memberExists) {
+                    vm.eventRsvp.status = newStatus;
+                    //update rsvp status
+                    MembersFactory.update({
+                            memberId: vm.memberId
+                        }, member,
+                        function(success) {
+                            for (var i = vm.event.members.length - 1; i >= 0; i--) {
+
+                                if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+
+                                    vm.event.members[i].rsvp = newStatus;
+                                }
+
+                            }
+                        },
+                        function(error) {
+
+
+                        });
+
+                } else {
+                    vm.eventRsvp.status = newStatus;
+                    // create new member first with new rsvp status
+                    MembersFactory.save({}, member,
+                        function(success) {
+                            $log.info(success);
+                            vm.memberExists = true;
+                            vm.event.members.push(success);
+                            vm.memberId = success.id;
+                        },
+                        function(error) {
+                            $log.info(error);
+
+                        });
+                }
+
+            }
+        }
 
         vm.getEvent();
 
@@ -107,12 +161,29 @@
                 vm.isHost = false;
                 $scope.eventpage.isHost.option = false;
                 $scope.eventpage.eventId = vm.event.id;
+
+
+                vm.eventRsvp = {
+                    status: ''
+                };
+                vm.memberExists = false;
+                vm.memberId = null;
                 if (vm.event.members.length > 0) {
                     for (var i = vm.event.members.length - 1; i >= 0; i--) {
                         if (vm.event.members[i].is_organizer === true) {
                             if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
                                 vm.isHost = true;
                                 $scope.eventpage.isHost.option = true;
+                            }
+                        } else {
+                            if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+                                vm.memberId = vm.event.members[i].id;
+                                if (vm.event.members[i].rsvp !== null) {
+                                    vm.eventRsvp.status = vm.event.members[i].rsvp;
+                                }
+
+                                vm.memberExists = true;
+
                             }
                         }
                     }
