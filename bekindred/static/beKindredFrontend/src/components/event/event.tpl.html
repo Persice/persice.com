@@ -19,7 +19,7 @@
             <div class="field">
                 <label>Location</label>
                 <div class="ui icon input" id="locationInput" ng-class="{'urlexists': singleevent.mapurlTrue}">
-                    <input autocomplete="off" name="location" attach="'locationInput'" google-places-autocomplete options="{types: ['geocode']}" placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
+                    <input autocomplete="off" name="location" attach="'locationInput'" google-places-autocomplete placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
                     <i ng-click="singleevent.openMap()" class="marker large icon"></i>
                 </div>
             </div>
