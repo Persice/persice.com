@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
-from tastypie.utils import now
+from django.utils.timezone import now
 
 from events.models import Event, Membership
 from friends.models import Friend
