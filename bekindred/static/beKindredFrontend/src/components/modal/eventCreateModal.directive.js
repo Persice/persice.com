@@ -30,12 +30,12 @@
             element.modal({
                 onHide: function() {
                     scope.singleevent.show = false;
+                    scope.singleevent.resetForm();
                 }
             });
 
 
             scope.$watch('singleevent.show', function(modelValue) {
-                console.log(modelValue);
                 element
                     .modal('setting', 'transition', 'scale')
                     .modal('setting', 'closable', false)
@@ -328,6 +328,10 @@
 
 
         function resetForm() {
+            //Resets form error messages and field styles
+            $('.ui.form').trigger('reset');
+            $('.ui.form .field.error').removeClass('error');
+            $('.ui.form.error').removeClass('error');
             vm.starts_on_date = null;
             vm.starts_on_time = null;
             vm.ends_on_date = null;
@@ -398,7 +402,7 @@
                 var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
                 if (datePartsSorted && timeParts) {
                     datePartsSorted[1] -= 1;
-                    vm.event[type] = moment(datePartsSorted.concat(timeParts)).toISOString();
+                    vm.event[type] = moment(datePartsSorted.concat(timeParts)).utc().format('YYYY-MM-DDTHH:mm:ss');
                 }
             }
         }
