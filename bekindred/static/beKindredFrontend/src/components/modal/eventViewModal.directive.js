@@ -159,6 +159,7 @@
                         });
 
                 } else {
+                    vm.eventRsvp.status = newStatus;
                     // create new member first with new rsvp status
                     MembersFactory.save({}, member,
                         function(success) {
