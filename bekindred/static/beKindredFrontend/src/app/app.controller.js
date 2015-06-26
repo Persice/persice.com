@@ -168,7 +168,7 @@ angular.module('icebrak')
                     scope: $scope,
                     classes: 'notify-info',
                     icon: 'calendar',
-                    duration: 4000
+                    duration: 8000
                 });
 
                 //refresh events feed if currently on events feed page
