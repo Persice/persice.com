@@ -32,6 +32,7 @@
                 onHide: function() {
                     scope.viewevent.show = false;
                     scope.viewevent.editMode = false;
+                    scope.viewevent.eventNotFound = false;
                     scope.viewevent.modalId = 'viewEventsModal';
                 }
             });
@@ -229,7 +230,6 @@
 
 
         function getEvent() {
-
             vm.pok = 0;
             $log.info('getting event: ' + vm.eventid);
             vm.loadingEvent = true;
@@ -238,7 +238,7 @@
             }, {
                 eventId: vm.eventid
             }).$promise.then(function(data) {
-
+                vm.eventNotFound = false;
                 vm.event = data;
                 vm.eventLocation = '';
                 vm.mapurlTrue = false;
@@ -303,6 +303,7 @@
 
                 vm.loadingEvent = false;
 
+
             }, function(response) {
                 var data = response.data,
                     status = response.status,
@@ -310,6 +311,9 @@
                     config = response.config,
                     message = 'Error ' + status;
                 vm.loadingEvent = false;
+
+                vm.eventNotFound = true;
+                $log.info(status);
                 $log.error(message);
 
 
