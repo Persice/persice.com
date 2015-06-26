@@ -188,8 +188,8 @@
                             location_name: responseEvents[obj].location_name,
                             country: responseEvents[obj].country,
                             repeat: responseEvents[obj].repeat,
-                            totalFriends: responseEvents[obj].totalFriends,
-                            common_goals_offers_interests: responseEvents[obj].common_goals_offers_interests,
+                            friend_attendees_count: responseEvents[obj].friend_attendees_count,
+                            cumulative_match_score: responseEvents[obj].cumulative_match_score,
                             distance: responseEvents[obj].distance
                         });
 
@@ -279,8 +279,8 @@
                                 starts_on: responseEvents[obj].starts_on,
                                 ends_on: responseEvents[obj].ends_on,
                                 repeat: responseEvents[obj].repeat,
-                                totalFriends: responseEvents[obj].totalFriends,
-                                common_goals_offers_interests: responseEvents[obj].common_goals_offers_interests,
+                                friend_attendees_count: responseEvents[obj].friend_attendees_count,
+                                cumulative_match_score: responseEvents[obj].cumulative_match_score,
                                 distance: responseEvents[obj].distance
 
                             });

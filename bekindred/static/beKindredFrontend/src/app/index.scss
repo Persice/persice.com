@@ -5653,8 +5653,8 @@ body.events-page .ui.cards > .card,
 
 body.events-page .ui.fluid.card .ui.mini.statistics {
     position: absolute;
-    right: 20px;
-    top: 35px;
+    right: 40px;
+    top: 40px;
 }
 
 body.events-page .ui.fluid.card .extra.content.distance {
@@ -5672,11 +5672,11 @@ body.events-page .ui.fluid.card .content {
     padding-left: 1.4em;
 }
 
-body.events-page .ui.fluid.card .meta {
+body.events-page .ui.cards>.card .meta, body.events-page .ui.card .meta {
     margin: 5px 100px 10px 10px!important;
-    color: #444;
-    font-weight: 200;
-    line-height: 1.3rem;
+    color: #000;
+    font-weight: 300!important;
+    line-height: 1.3rem!important;
 }
 
 .eventdate {
@@ -6321,6 +6321,7 @@ body.event-page #locationInput2 input {
     font-size: 12px!important;
     line-height: 1.2!important;
     z-index: 99999!important;
+    font-weight: 400!important;
 }
 /* Triangle hack to make tooltip look like a speech bubble */
 
@@ -6862,4 +6863,14 @@ body.event-page .ui.form .field.error input {
 .deletemodal .ui.negative.button:hover,
 .deletemodal .ui.negative.button {
     color: #FFFFFF!important;
+}
+
+
+
+body.events-page .ui.statistics>.statistic {
+      margin: 0 1.3em 2em!important;
+}
+
+body.events-page .ui.statistics .statistic>.value,  body.events-page .ui.statistic>.value {
+    margin-right: 0px!important;
 }

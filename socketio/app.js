@@ -53,7 +53,7 @@ io.on('connection', function(socket) {
     clientNewConnection.subscribe('connection.' + socket.cookie['userid']);
 
     // Subscribe to the Redis events channel for deleted events
-    clientEventDeleted.subscribe('eventdeleted.' + socket.cookie['userid']);
+    clientEventDeleted.subscribe('event_deleted.' + socket.cookie['userid']);
 
     // Grab message from Redis and send to client
     clientNewMessage.on('message', function(channel, message) {
@@ -88,7 +88,7 @@ io.on('connection', function(socket) {
         console.log('user disconnected');
         clientNewMessage.unsubscribe('message.' + socket.cookie['userid']);
         clientNewConnection.unsubscribe('connection.' + socket.cookie['userid']);
-        clientEventDeleted.unsubscribe('eventdeleted.' + socket.cookie['userid']);
+        clientEventDeleted.unsubscribe('event_deleted.' + socket.cookie['userid']);
     });
 
 });

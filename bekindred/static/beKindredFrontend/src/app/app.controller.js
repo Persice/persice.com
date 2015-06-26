@@ -151,7 +151,7 @@ angular.module('icebrak')
 
 
             //evend deleted notification
-            if (jsonData.type === 'eventdeleted.' + USER_ID) {
+            if (jsonData.type === 'event_deleted.' + USER_ID) {
                 var jsonDataConnection = JSON.parse(data);
                 var connectionData = 'The event EVENT_NAME on DATE has been cancelled by SENDER, the event host. We apologize for any inconvenience. (This is an automated message.)';
                 var localTime = $filter('amDateFormat')(Date.now(), 'h:mm a');
