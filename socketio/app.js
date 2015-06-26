@@ -42,6 +42,7 @@ io.on('connection', function(socket) {
     // Create redis client
     clientNewMessage = redis.createClient();
     clientNewConnection = redis.createClient();
+    clientEventDeleted = redis.createClient();
 
     console.log(socket.cookie['sessionid']);
     console.log(socket.cookie['userid']);
