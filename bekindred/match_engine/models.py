@@ -9,17 +9,6 @@ from interests.models import Interest, InterestSubject
 
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
-def add_statistics(match_elements):
-    for element in match_elements:
-        obj, created = MatchElement.objects.get_or_create(
-            description=getattr(element,
-                                getattr(element, 'description', 'name')
-                                ).lower()
-        )
-        if not created:
-            obj.counter += 1
-            obj.save()
-
 class MatchEngineManager(models.Manager):
     @staticmethod
     def match_goals_to_goals(user_id, exclude_friends):
