@@ -1,5 +1,7 @@
+import json
 from django.db import IntegrityError
 from django.utils.timezone import now
+import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -81,8 +83,22 @@ class EventResource(ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)
-        Membership.objects.create(user=bundle.request.user, event=bundle.obj, is_organizer=True)
+        Membership.objects.create(user=bundle.request.user, event=bundle.obj,
+                                  is_organizer=True, rsvp='yes')
         return bundle
+
+    def obj_delete(self, bundle, **kwargs):
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        event = Event.objects.get(pk=int(kwargs['pk']))
+        members = event.membership_set.filter(rsvp__in=['yes', 'maybe'], is_organizer=False)
+        organizer = event.membership_set.filter(is_organizer=True)[0]
+        data = {'event_name': event.name,
+                'event_start_date': str(event.starts_on),
+                'event_organizer_name': organizer.user.first_name}
+        for member in members:
+            r.publish('event_deleted.%s' % member.user.id, json.dumps(data))
+
+        return super(EventResource, self).obj_delete(bundle, **kwargs)
 
     def save_m2m(self, bundle):
         for field_name, field_object in self.fields.items():
