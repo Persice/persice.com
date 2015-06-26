@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('icebrak')
-    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, NotificationsRepository, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository) {
+    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, NotificationsRepository, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository, moment, angularMomentConfig) {
         $rootScope.hideTopMenu = false;
 
         $scope.checkLogin = function() {
@@ -152,12 +152,16 @@ angular.module('icebrak')
 
             //evend deleted notification
             if (jsonData.type === 'event_deleted.' + USER_ID) {
-                var jsonDataConnection = JSON.parse(data);
-                var connectionData = 'The event EVENT_NAME on DATE has been cancelled by SENDER, the event host. We apologize for any inconvenience. (This is an automated message.)';
+                var jsonDataEventDeleted = JSON.parse(jsonData.message);
+                var dateEventStartsOn = moment.utc(jsonDataEventDeleted.event_start_date).local().format('dddd, MMMM D, YYYY H:mm A ');
+                dateEventStartsOn += moment.tz(angularMomentConfig.timezone).format('z');
+
+                var messageEventDeleted = 'The event ' + jsonDataEventDeleted.event_name + ' on ' + dateEventStartsOn + ' has been cancelled by ' + jsonDataEventDeleted.event_organizer_name + ', the event host. We apologize for any inconvenience. (This is an automated message.)';
+
                 var localTime = $filter('amDateFormat')(Date.now(), 'h:mm a');
 
                 var newEventDeletedNotificationTemplate = '<div class="notify-info-header">Event is cancelled <br>' + localTime + ' </div>' +
-                    '<p>' + connectionData + '</p>';
+                    '<p>' + messageEventDeleted + '</p>';
 
                 notify({
                     messageTemplate: newEventDeletedNotificationTemplate,
@@ -166,6 +170,11 @@ angular.module('icebrak')
                     icon: 'calendar',
                     duration: 4000
                 });
+
+                //refresh events feed if currently on events feed page
+                if ($rootScope.isState('events')) {
+                    $rootScope.$broadcast('refreshEventFeed');
+                }
 
             }
 
