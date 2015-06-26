@@ -149,6 +149,27 @@ angular.module('icebrak')
 
             $log.info(jsonData);
 
+
+            //evend deleted notification
+            if (jsonData.type === 'eventdeleted.' + USER_ID) {
+                var jsonDataConnection = JSON.parse(data);
+                var connectionData = 'The event EVENT_NAME on DATE has been cancelled by SENDER, the event host. We apologize for any inconvenience. (This is an automated message.)';
+                var localTime = $filter('amDateFormat')(Date.now(), 'h:mm a');
+
+                var newEventDeletedNotificationTemplate = '<div class="notify-info-header">Event is cancelled <br>' + localTime + ' </div>' +
+                    '<p>' + connectionData + '</p>';
+
+                notify({
+                    messageTemplate: newEventDeletedNotificationTemplate,
+                    scope: $scope,
+                    classes: 'notify-info',
+                    icon: 'calendar',
+                    duration: 4000
+                });
+
+            }
+
+            //new connection notification
             if (jsonData.type === 'connection.' + USER_ID) {
                 var jsonDataConnection = JSON.parse(data);
                 var connectionData = JSON.parse(jsonDataConnection.message);
@@ -183,6 +204,7 @@ angular.module('icebrak')
                 });
             }
 
+            //new message notification
             if (jsonData.type === 'message.' + USER_ID) {
 
                 if ($rootScope.isState('conversations')) {
