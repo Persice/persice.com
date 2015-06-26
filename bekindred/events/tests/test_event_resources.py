@@ -62,6 +62,7 @@ class TestEventResource(ResourceTestCase):
             u'members': [],
             'friend_attendees_count': 0,
             'cumulative_match_score': 0,
+            'most_common_elements': [],
             'attendees': []
         })
 

@@ -65,14 +65,18 @@ class EventResource(ModelResource):
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
         friends = Friend.objects.all_my_friends(user_id=user_id)
-        bundle.data['friend_attendees_count'] = Event.objects.get(pk=bundle.obj.pk).\
-            membership_set.filter(user__in=friends, rsvp='yes').count()
+        attendees = Event.objects.get(pk=bundle.obj.pk). \
+            membership_set.filter(user__in=friends, rsvp='yes')
+        bundle.data['friend_attendees_count'] = attendees.count()
 
         cumulative_match_score = 0
         for friend_id in friends:
             cumulative_match_score += MatchEngineManager.\
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
+        bundle.data['most_common_elements'] = MatchEngineManager.\
+            most_common_match_elements(user_id,
+                                       attendees.values_list('user_id', flat=True))
         return bundle
 
     def obj_create(self, bundle, **kwargs):
@@ -144,8 +148,17 @@ class MyEventFeedResource(ModelResource):
             filter(membership__user=request.user.pk, ends_on__gt=now()).order_by('starts_on')
 
     def dehydrate(self, bundle):
-        bundle.data['common_goals_offers_interests'] = 0
-        bundle.data['totalFriends'] = 0
+        user_id = bundle.request.user.id
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+        attendees = Event.objects.get(pk=bundle.obj.pk). \
+            membership_set.filter(user__in=friends, rsvp='yes')
+        bundle.data['friend_attendees_count'] = attendees.count()
+
+        cumulative_match_score = 0
+        for friend_id in friends:
+            cumulative_match_score += MatchEngineManager. \
+                count_common_goals_and_offers(friend_id, user_id)
+        bundle.data['cumulative_match_score'] = cumulative_match_score
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
         return bundle
 
@@ -166,8 +179,17 @@ class AllEventFeedResource(ModelResource):
             filter(ends_on__gt=now()).order_by('starts_on')
 
     def dehydrate(self, bundle):
-        bundle.data['common_goals_offers_interests'] = 0
-        bundle.data['totalFriends'] = 0
+        user_id = bundle.request.user.id
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+        attendees = Event.objects.get(pk=bundle.obj.pk). \
+            membership_set.filter(user__in=friends, rsvp='yes')
+        bundle.data['friend_attendees_count'] = attendees.count()
+
+        cumulative_match_score = 0
+        for friend_id in friends:
+            cumulative_match_score += MatchEngineManager. \
+                count_common_goals_and_offers(friend_id, user_id)
+        bundle.data['cumulative_match_score'] = cumulative_match_score
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
         return bundle
 
@@ -184,8 +206,17 @@ class FriendsEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def dehydrate(self, bundle):
-        bundle.data['common_goals_offers_interests'] = 0
-        bundle.data['totalFriends'] = 0
+        user_id = bundle.request.user.id
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+        attendees = Event.objects.get(pk=bundle.obj.pk). \
+            membership_set.filter(user__in=friends, rsvp='yes')
+        bundle.data['friend_attendees_count'] = attendees.count()
+
+        cumulative_match_score = 0
+        for friend_id in friends:
+            cumulative_match_score += MatchEngineManager. \
+                count_common_goals_and_offers(friend_id, user_id)
+        bundle.data['cumulative_match_score'] = cumulative_match_score
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
         return bundle
 
