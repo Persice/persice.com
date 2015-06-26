@@ -52,7 +52,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment) {
+    function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation) {
         var vm = this;
 
         vm.mapurl = '';
@@ -75,6 +75,24 @@
             costs: '',
             invitations: '',
             attachments: ''
+        };
+
+        vm.$geolocation = $geolocation;
+
+        $geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 60000,
+            maximumAge: 2
+        }).then(function(location) {
+            vm.autocompleteOptions = {
+                location: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+                radius: 50000
+            };
+        });
+
+        vm.autocompleteOptions = {
+            location: '0,0',
+            radius: 50000
         };
 
 

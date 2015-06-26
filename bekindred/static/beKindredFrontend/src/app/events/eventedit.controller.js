@@ -10,7 +10,7 @@
      * classDesc Edit event
      * @ngInject
      */
-    function EventEditController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, moment, angularMomentConfig, notify) {
+    function EventEditController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, moment, angularMomentConfig, notify, $geolocation) {
         var vm = this;
         vm.showError = false;
         vm.showMobile = true;
@@ -49,6 +49,25 @@
             costs: 'Costs',
             invitations: 'Invitations',
             attachments: 'Attachments'
+        };
+
+        vm.$geolocation = $geolocation;
+
+        $geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 60000,
+            maximumAge: 2
+        }).then(function(location) {
+            vm.autocompleteOptions = {
+                location: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+                radius: 50000
+            };
+
+        });
+
+        vm.autocompleteOptions = {
+            location: '0,0',
+            radius: 50000
         };
 
         vm.saveEvent = saveEvent;
