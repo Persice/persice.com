@@ -80,7 +80,6 @@ angular.module('google.places', [])
                     });
 
                     $drawer = $compile(drawerElement)($scope);
-                    console.log($scope.attach);
                     $('#' + $scope.attach).append($drawer); // Append to DOM
                 }
 
@@ -92,7 +91,6 @@ angular.module('google.places', [])
 
                 function onKeydown(event) {
 
-                    console.log('keywdown');
                     if ($scope.predictions.length === 0 || indexOf(hotkeys, event.which) === -1) {
                         return;
                     }

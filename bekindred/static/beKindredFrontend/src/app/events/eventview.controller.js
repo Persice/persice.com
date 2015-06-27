@@ -16,6 +16,7 @@
         vm.mapurl = '';
         vm.mapurlTrue = false;
         vm.event = {};
+        vm.eventNotFound = false;
 
         vm.eventLocation = '';
 
@@ -116,7 +117,7 @@
             }, {
                 eventId: eventId
             }).$promise.then(function(data) {
-
+                vm.eventNotFound = false;
                 vm.event = data;
                 vm.eventLocation = '';
                 vm.mapurlTrue = false;
@@ -200,6 +201,7 @@
                     message = 'Error ' + status;
                 vm.loadingEvent = false;
                 $log.error(message);
+                vm.eventNotFound = true;
 
 
             });

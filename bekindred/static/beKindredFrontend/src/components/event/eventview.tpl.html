@@ -1,5 +1,5 @@
-<div class="ui center aligned header" ng-show="viewevent.isHost === true">You are the host of this event.</div>
-<div class="row" ng-show="viewevent.isHost === false">
+<div class="ui center aligned header" ng-show="viewevent.isHost === true && !viewevent.loadingEvent && !viewevent.eventNotFound">You are the host of this event.</div>
+<div class="row" ng-show="viewevent.isHost === false && !viewevent.loadingEvent && !viewevent.eventNotFound">
     <div class="wide column">
         <div class="ui fluid secondary menu" id="event-going-menu">
             <div class="header item">GOING?</div>
@@ -9,7 +9,13 @@
         </div>
     </div>
 </div>
-<div class="ui basic segment">
+<div class="ui negative message" ng-show="viewevent.eventNotFound && !viewevent.loadingEvent">
+    <div class="header">
+        Warning
+    </div>
+    <p>This event doesn't exist anymore.</p>
+</div>
+<div class="ui basic segment" ng-class="{'hidevisibility': viewevent.eventNotFound}">
     <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui large form segment first editable" id="FirstSegment">
             <div class="field">
@@ -25,11 +31,11 @@
                     <i ng-click="viewevent.openMap()" class="marker large icon"></i>
                     <span class="locationContent">
                         <span ng-if="viewevent.event.location_name.trim() !== viewevent.event.city.trim()">{{viewevent.event.location_name}}</span>
-                        <span>
+                    <span>
                             <br ng-if="viewevent.event.location_name.trim() !== viewevent.event.city.trim() && viewevent.event.location_name !== null && viewevent.event.location_name.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">
                             <span ng-if="viewevent.event.street !== null && viewevent.event.street.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">{{viewevent.event.street}}<br></span>
-                            <span ng-if="viewevent.event.city !== null && viewevent.event.city.trim() !== ''">{{viewevent.event.city}} {{viewevent.event.zipcode}} {{viewevent.event.state}}</span>
-                        </span>
+                    <span ng-if="viewevent.event.city !== null && viewevent.event.city.trim() !== ''">{{viewevent.event.city}} {{viewevent.event.zipcode}} {{viewevent.event.state}}</span>
+                    </span>
                     </span>
                 </div>
             </div>
