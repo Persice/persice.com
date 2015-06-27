@@ -1,4 +1,5 @@
 import json
+
 from django.db import IntegrityError
 from django.utils.timezone import now
 import redis
@@ -7,14 +8,13 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
-
 from tastypie.resources import ModelResource
 
 from tastypie.validation import Validation
 
-from events.models import Event, Membership
+from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
-from goals.utils import calculate_distance_events
+from goals.utils import calculate_distance_events, calculate_distance
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -42,14 +42,12 @@ class EventValidation(Validation):
 class EventResource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     attribute=lambda bundle: bundle.obj.membership_set.all(),
-                                    full=True,
-                                    null=True)
+                                    full=True, null=True)
     attendees = fields.OneToManyField('events.api.resources.MembershipResource',
                                       attribute=lambda bundle: bundle.obj.membership_set.
                                       filter(user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id),
                                              rsvp='yes'),
-                                      full=True,
-                                      null=True)
+                                      full=True, null=True)
 
     class Meta:
         always_return_data = True
@@ -73,10 +71,10 @@ class EventResource(ModelResource):
 
         cumulative_match_score = 0
         for friend_id in friends:
-            cumulative_match_score += MatchEngineManager.\
+            cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['most_common_elements'] = MatchEngineManager.\
+        bundle.data['most_common_elements'] = MatchEngineManager. \
             most_common_match_elements(user_id,
                                        attendees.values_list('user_id', flat=True))
         return bundle
@@ -127,6 +125,21 @@ class EventResource(ModelResource):
         )
 
 
+class EventFilterStateResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+
+    class Meta:
+        always_return_data = True
+        queryset = EventFilterState.objects.all()
+        resource_name = 'events/filter/state'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        return super(EventFilterStateResource, self).get_object_list(request).\
+            filter(user_id=request.user.id)
+
+
 class UserResourceShort(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
@@ -160,8 +173,17 @@ class MyEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(MyEventFeedResource, self).get_object_list(request). \
-            filter(membership__user=request.user.pk, ends_on__gt=now()).order_by('starts_on')
+        if request.GET.get('filter') == 'true':
+            efs = EventFilterState.objects.get(user_id=request.user.id)
+            tsquery = ' | '.join(efs.keyword.split(','))
+
+            return super(MyEventFeedResource, self).get_object_list(request).\
+                filter(membership__user=request.user.pk, ends_on__gt=now()).\
+                search(tsquery, raw=True).\
+                order_by('starts_on')
+        else:
+            return super(MyEventFeedResource, self).get_object_list(request). \
+                filter(membership__user=request.user.pk, ends_on__gt=now()).order_by('starts_on')
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -169,7 +191,8 @@ class MyEventFeedResource(ModelResource):
         attendees = Event.objects.get(pk=bundle.obj.pk). \
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
-
+        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
+                                                            bundle.data['location'])
         cumulative_match_score = 0
         for friend_id in friends:
             cumulative_match_score += MatchEngineManager. \
@@ -241,3 +264,5 @@ class FriendsEventFeedResource(ModelResource):
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends, ends_on__gt=now(),
                    membership__is_organizer=True).order_by('starts_on')
+
+

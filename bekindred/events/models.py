@@ -33,7 +33,7 @@ class Event(models.Model):
 
     geo_objects = gis_models.GeoManager()
     objects = SearchManager(
-        fields=('description',),
+        fields=('description', 'name'),
         config='pg_catalog.english',
         search_field='search_index',
         auto_update_search_field=True
@@ -57,3 +57,10 @@ class Membership(models.Model):
 
     class Meta:
         unique_together = (('user', 'event', 'is_organizer'),)
+
+
+class EventFilterState(models.Model):
+    user = models.ForeignKey(FacebookCustomUser)
+    distance = models.IntegerField(default=1)
+    keyword = models.CharField(max_length=50)
+    order_criteria = models.CharField(max_length=20, default='distance')
