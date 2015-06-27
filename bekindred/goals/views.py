@@ -58,3 +58,6 @@ def main_page(request, template_name="homepage.html"):
             fb_user.about_me = facebook.get('me').get('bio', None)
             fb_user.save()
     return render_to_response(template_name, context)
+
+def close_login_popup(request):
+    return render_to_response('goals/close_popup.html', {}, RequestContext(request))
