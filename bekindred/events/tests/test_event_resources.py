@@ -15,6 +15,7 @@ class TestEventResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                           name="Play piano", location=[7000, 22965.83])
+        self.membership = Membership.objects.create(user=self.user, event=self.event, is_organizer=True, rsvp='yes')
         self.detail_url = '/api/v1/event/{0}/'.format(self.event.pk)
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
@@ -59,7 +60,14 @@ class TestEventResource(ResourceTestCase):
             'country': None,
             'location_name': None,
             'full_address': None,
-            u'members': [],
+            u'members': [{u'event': u'/api/v1/event/{}/'.format(self.event.id),
+                          u'id': self.membership.id,
+                          u'is_organizer': True,
+                          u'resource_uri': u'/api/v1/member/{}/'.format(self.membership.id),
+                          u'rsvp': u'yes',
+                          u'updated': self.membership.updated.isoformat()[:-6],
+                          u'user': u'/api/v1/auth/user/{}/'.format(self.membership.user_id)
+                          }],
             'friend_attendees_count': 0,
             'cumulative_match_score': 0,
             'most_common_elements': [],
@@ -108,7 +116,6 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         user1 = FacebookCustomUser.objects.create_user(username='user_b_new', password='test')
         user2 = FacebookCustomUser.objects.create_user(username='user_c_new', password='test')
-        Membership.objects.create(user=self.user, event=self.event, is_organizer=True)
         Membership.objects.create(user=user1, event=self.event, rsvp='yes')
         Membership.objects.create(user=user2, event=self.event, rsvp='yes')
         self.assertEqual(Event.objects.filter(membership__user=self.user, name='Play piano')[0].name, 'Play piano')
@@ -191,7 +198,7 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[7000, 22965.83])
-        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=self.user, event=event, is_organizer=True, rsvp='yes')
 
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
         self.assertEqual(Event.objects.count(), 2)

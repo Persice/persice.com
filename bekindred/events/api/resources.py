@@ -173,10 +173,9 @@ class MyEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        if request.GET.get('filter') == 'true':
-            efs = EventFilterState.objects.get(user_id=request.user.id)
-            tsquery = ' | '.join(efs.keyword.split(','))
-
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
             return super(MyEventFeedResource, self).get_object_list(request).\
                 filter(membership__user=request.user.pk, ends_on__gt=now()).\
                 search(tsquery, raw=True).\

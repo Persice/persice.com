@@ -27,7 +27,7 @@ class SubjectTestCase(TestCase):
         self.assertEqual(Subject.objects.search('learn').count(), 0)
 
     def test_stop_words_study(self):
-        self.assertEqual(Subject.objects.search('study').count(), 0)
+        self.assertEqual(Subject.objects.search('study').count(), 1)
 
 
 class GoalTestCase(TestCase):
