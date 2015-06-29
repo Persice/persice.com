@@ -25,6 +25,21 @@ def calculate_date_of_birth(age):
     today = date.today()
     return today.replace(year=today.year - age)
 
+def get_user_location(user_id):
+    """
+    """
+    g = GeoIP()
+
+    try:
+        user1_location = UserLocation.objects.filter(user_id=user_id).order_by('-timestamp')[0]
+        return user1_location.geometry
+    except IndexError:
+        try:
+            user_ip = str(UserIPAddress.objects.get(user_id=user_id).ip)
+            point = g.geos(user_ip)
+            return point
+        except UserIPAddress.DoesNotExist:
+            pass
 
 def calculate_distance(user_id1, user_id2, units='miles'):
     """

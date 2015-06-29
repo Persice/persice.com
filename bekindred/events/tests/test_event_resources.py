@@ -71,7 +71,8 @@ class TestEventResource(ResourceTestCase):
             'friend_attendees_count': 0,
             'cumulative_match_score': 0,
             'most_common_elements': [],
-            'attendees': []
+            'attendees': [],
+            u'point': u'POINT (7000.0000000000000000 22965.8300000000017462)'
         })
 
     def test_cumulative_match_score(self):

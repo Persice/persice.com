@@ -1,7 +1,9 @@
 import json
+from django.contrib.gis.measure import D
 
 from django.db import IntegrityError
 from django.utils.timezone import now
+from geopy.distance import Distance
 import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
@@ -9,12 +11,11 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
-
 from tastypie.validation import Validation
 
 from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
-from goals.utils import calculate_distance_events, calculate_distance
+from goals.utils import calculate_distance_events, get_user_location
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -136,7 +137,7 @@ class EventFilterStateResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(EventFilterStateResource, self).get_object_list(request).\
+        return super(EventFilterStateResource, self).get_object_list(request). \
             filter(user_id=request.user.id)
 
 
@@ -176,9 +177,13 @@ class MyEventFeedResource(ModelResource):
         efs = EventFilterState.objects.filter(user_id=request.user.id)
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{'km': efs[0].distance})
+
             return super(MyEventFeedResource, self).get_object_list(request).\
                 filter(membership__user=request.user.pk, ends_on__gt=now()).\
                 search(tsquery, raw=True).\
+                filter(point__distance_lt=(user_point, distance)).\
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
@@ -263,5 +268,3 @@ class FriendsEventFeedResource(ModelResource):
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends, ends_on__gt=now(),
                    membership__is_organizer=True).order_by('starts_on')
-
-
