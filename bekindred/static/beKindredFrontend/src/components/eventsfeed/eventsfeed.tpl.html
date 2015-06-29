@@ -13,11 +13,11 @@
             <div class="content">
                 <div class="header">{{event.name}}</div>
                 <div class="meta">
-                    {{event.location_name}}
+                    <span ng-if="event.location_name.trim() !== event.city.trim()">{{event.location_name}}</span>
                     <span>
-                        <br ng-if="event.location_name !== null && event.location_name.trim() !== '' && event.location_name.trim() !== event.street.trim()">
+                        <br ng-if="event.location_name.trim() !== event.city.trim() && event.location_name !== null && event.location_name.trim() !== '' && event.location_name.trim() !== event.street.trim()">
                         <span ng-if="event.street !== null && event.street.trim() !== '' && event.location_name.trim() !== event.street.trim()">{{event.street}}<br></span>
-                        <span ng-if="event.city !== null && event.city.trim() !== ''">{{event.city}} {{event.zipcode}} {{event.state}}</span>
+                    <span ng-if="event.city !== null && event.city.trim() !== ''">{{event.city}} {{event.zipcode}} {{event.state}}</span>
                     </span>
                     <div class="description">
                         <div class="ui mini statistics">
@@ -26,7 +26,7 @@
                                     <i class="intersecticon icon"></i>
                                 </div>
                                 <div class="label">
-                                    {{event.common_goals_offers_interests}}
+                                    {{event.cumulative_match_score}}
                                 </div>
                             </div>
                             <div class="statistic" data-tooltip="Total Friends">
@@ -34,7 +34,7 @@
                                     <i class="empty user usericon icon"></i>
                                 </div>
                                 <div class="label">
-                                    {{event.totalFriends}}
+                                    {{event.friend_attendees_count}}
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                 <div class="extra content distance">
                     {{event.distance[0]}} {{event.distance[1]}} away
                 </div>
-            </a>
+        </a>
         </div>
         <three-bounce-spinner class="page-spinner-bar" ng-show="eventsfeed.loadingMore"></three-bounce-spinner>
     </div>

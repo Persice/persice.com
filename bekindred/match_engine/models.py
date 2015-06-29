@@ -1,6 +1,9 @@
 import string
 from django.db import models
 from django_facebook.models import FacebookLike, FacebookCustomUser
+from djorm_pgfulltext.fields import VectorField
+from djorm_pgfulltext.models import SearchManager
+import itertools
 from goals.models import Goal, Subject, Offer
 from interests.models import Interest, InterestSubject
 
@@ -73,7 +76,7 @@ class MatchEngineManager(models.Manager):
         return result
 
     @staticmethod
-    def count_common_goals_and_offers(user_id1, user_id2):
+    def common_goals_and_offers(user_id1, user_id2):
         """
         Calculate number of common goals between two users
         """
@@ -183,14 +186,20 @@ class MatchEngineManager(models.Manager):
             tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
             match_likes2.extend(target_likes.search(tsquery, raw=True))
 
-        res1 = set()
-        res2 = set()
-        res3 = set()
-        res4 = set()
         goals_total = match_goals1 + match_goals2 + match_goals3
         offers_total = match_offers1 + match_offers2 + match_offers3
         interests_total = match_interests1 + match_interests2 + match_interests3 + match_interests4
         likes_total = match_likes1 + match_likes2
+        return goals_total, offers_total, interests_total, likes_total
+
+    @staticmethod
+    def count_common_goals_and_offers(user_id1, user_id2):
+        goals_total, offers_total, interests_total, likes_total = \
+            MatchEngineManager.common_goals_and_offers(user_id1, user_id2)
+        res1 = set()
+        res2 = set()
+        res3 = set()
+        res4 = set()
 
         for l in likes_total:
             res4.add(l.id)
@@ -204,6 +213,27 @@ class MatchEngineManager(models.Manager):
         for g in offers_total:
             res2.add(g.id)
         return len(res1) + len(res2) + len(res3) + len(res4)
+
+    @staticmethod
+    def most_common_match_elements(user, attendees):
+        common_total = {}
+        for attendee in attendees:
+            goals, offers, interests, likes = MatchEngineManager.common_goals_and_offers(user, attendee)
+
+            for item in itertools.chain(goals, offers, interests):
+                if common_total.get(item.description.lower()):
+                    common_total[item.description.lower()] += 1
+                else:
+                    common_total[item.description.lower()] = 1
+
+            for item in likes:
+                if common_total.get(item.name.lower()):
+                    common_total[item.name.lower()] += 1
+                else:
+                    common_total[item.name.lower()] = 1
+
+        items = [x[0] for x in sorted(common_total.iteritems(), key=lambda x: x[1], reverse=True)]
+        return items[:10]
 
     @staticmethod
     def match_offers_to_offers(user_id, exclude_friends):

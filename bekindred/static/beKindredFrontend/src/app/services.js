@@ -381,6 +381,26 @@ angular
             }
         });
     }])
+    .factory('MembersFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/member/:memberId/:param', {
+            memberId: '@memberId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PUT'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
+    }])
     .factory('FeedEventsFriendsFactory', ['$resource', function($resource) {
         return $resource('/api/v1/feed/events/friends/:eventId/:param', {
             eventId: '@eventId'

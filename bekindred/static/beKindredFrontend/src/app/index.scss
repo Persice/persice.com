@@ -2886,7 +2886,7 @@ img {
 }
 
 #main-page.absolutelayout.pushable {
-    overflow: hidden!important;
+    // overflow: hidden!important;
 }
 
 #main-page.absolutelayout.pushable>.pusher>.full.height {
@@ -5653,8 +5653,8 @@ body.events-page .ui.cards > .card,
 
 body.events-page .ui.fluid.card .ui.mini.statistics {
     position: absolute;
-    right: 20px;
-    top: 35px;
+    right: 40px;
+    top: 40px;
 }
 
 body.events-page .ui.fluid.card .extra.content.distance {
@@ -5672,11 +5672,11 @@ body.events-page .ui.fluid.card .content {
     padding-left: 1.4em;
 }
 
-body.events-page .ui.fluid.card .meta {
+body.events-page .ui.cards>.card .meta, body.events-page .ui.card .meta {
     margin: 5px 100px 10px 10px!important;
-    color: #444;
-    font-weight: 200;
-    line-height: 1.3rem;
+    color: #000;
+    font-weight: 300!important;
+    line-height: 1.3rem!important;
 }
 
 .eventdate {
@@ -6141,7 +6141,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -6250,37 +6250,40 @@ body.event-page #repeatUntil,
     font-style: italic;
 }
 
-#locationInput.ui.icon.input.urlexists > input ~ i.icon, #locationInput2.ui.icon.input.urlexists > input ~ i.icon {
+#locationInput.ui.icon.input.urlexists > input ~ i.icon,
+#locationInput2.ui.icon.input.urlexists > input ~ i.icon {
     opacity: 1!important;
     cursor: pointer!important;
 }
 
 #locationInput.ui.icon.input > input ~ i.icon,
-#locationInput2.ui.icon.input > input ~ i.icon
-#locationInput.ui.icon.input > input:focus ~ i.icon,
+#locationInput2.ui.icon.input > input ~ i.icon #locationInput.ui.icon.input > input:focus ~ i.icon,
 #locationInput2.ui.icon.input > input:focus ~ i.icon {
     opacity: 0.5!important;
 }
 
 //end google places autocomplete
-body.event-page #locationInput input, body.event-page #locationInput2 input {
+body.event-page #locationInput input,
+body.event-page #locationInput2 input {
     padding-left: 0px!important;
     padding-top: 10.688px!important;
     padding-bottom: 10.688px!important;
     position: relative!important;
 }
 
-#locationInput input, #locationInput2 input {
+#locationInput input,
+#locationInput2 input {
     height: 41.375px!important;
     font-size: 15.75px!important;
     padding-right: 30px!important;
 }
 
-#locationInput i.icon, #locationInput2 i.icon {
+#locationInput i.icon,
+#locationInput2 i.icon {
     width: 30px!important;
 }
 
-#createEventsModal #locationInput{
+#createEventsModal #locationInput {
     width: 75%!important;
 }
 
@@ -6318,6 +6321,7 @@ body.event-page #locationInput input, body.event-page #locationInput2 input {
     font-size: 12px!important;
     line-height: 1.2!important;
     z-index: 99999!important;
+    font-weight: 400!important;
 }
 /* Triangle hack to make tooltip look like a speech bubble */
 
@@ -6617,7 +6621,8 @@ body.events-page #viewEventsModal label.specialpadding {
     margin-top: 0px!important;
 }
 
-#viewEventsModal #locationInput, #createEventsModal #locationInput2 {
+#viewEventsModal #locationInput,
+#createEventsModal #locationInput2 {
     width: 75%!important;
 }
 
@@ -6637,7 +6642,7 @@ body.event-page #HostedSection .field {
 }
 
 body.event-page #eventDescription .field {
- padding: 0.67861em 0em;
+    padding: 0.67861em 0em;
 }
 
 body.event-page #locationField i {
@@ -6649,9 +6654,7 @@ body.event-page #locationField .eventcontent.urlexists i {
     opacity: 1.0!important;
 }
 
-body.event-page #eventDescription .field
-
-body.event-page #HostedSection span {
+body.event-page #eventDescription .field body.event-page #HostedSection span {
     display: block!important;
 }
 
@@ -6692,7 +6695,8 @@ body.event-page #DatesSection span.cost {
     font-size: 1em!important;
 }
 
-body.event-page #locationInput i.icon, body.event-page #locationInput2 i.icon {
+body.event-page #locationInput i.icon,
+body.event-page #locationInput2 i.icon {
     width: 30px!important;
 }
 
@@ -6765,8 +6769,6 @@ body.event-page #locationField .eventcontent.urlexists i {
 body.event-page #FirstSegment.editable .field {
     padding: .67861em 0px!important;
 }
-
-
 
 #viewEventsModal #locationField .locationContent {
     padding-left: 20px!important;
@@ -6853,4 +6855,26 @@ body.event-page .ui.form .field.error input {
     display: block;
     left: 0px!important;
     height: 30px;
+}
+
+//event modal delete
+.deletemodal .ui.negative.buttons .button:hover,
+.deletemodal .ui.negative.buttons .button,
+.deletemodal .ui.negative.button:hover,
+.deletemodal .ui.negative.button {
+    color: #FFFFFF!important;
+}
+
+
+
+body.events-page .ui.statistics>.statistic {
+      margin: 0 1.3em 2em!important;
+}
+
+body.events-page .ui.statistics .statistic>.value,  body.events-page .ui.statistic>.value {
+    margin-right: 0px!important;
+}
+
+.hidevisibility {
+    visibility: hidden!important;
 }

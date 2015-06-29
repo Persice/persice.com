@@ -10,7 +10,7 @@
      * classDesc Create event
      * @ngInject
      */
-    function EventCreateController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment) {
+    function EventCreateController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation) {
         var vm = this;
         vm.showError = false;
         vm.showMobile = true;
@@ -20,6 +20,25 @@
         vm.mapurlTrue = false;
         vm.endsTimeError = false;
         vm.startsTimeError = false;
+
+        vm.$geolocation = $geolocation;
+
+        $geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 60000,
+            maximumAge: 2
+        }).then(function(location) {
+            vm.autocompleteOptions = {
+                location: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+                radius: 50000
+            };
+
+        });
+
+        vm.autocompleteOptions = {
+            location: '0,0',
+            radius: 50000
+        };
         vm.event = {
             user: '/api/v1/auth/user/' + USER_ID + '/',
             description: '',
@@ -162,56 +181,56 @@
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Event name'
-                    }]
+                        }]
                     },
                     location: {
                         identifier: 'location',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Location'
-                    }]
+                        }]
                     },
                     repeat: {
                         identifier: 'repeat',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Repeat'
-                    }]
+                        }]
                     },
                     description: {
                         identifier: 'description',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Description'
-                    }]
+                        }]
                     },
                     starts_on_date: {
                         identifier: 'starts_on_date',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Starts Date'
-                    }]
+                        }]
                     },
                     starts_on_time: {
                         identifier: 'starts_on_time',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Starts Time'
-                    }]
+                        }]
                     },
                     ends_on_date: {
                         identifier: 'ends_on_date',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Ends Date'
-                    }]
+                        }]
                     },
                     ends_on_time: {
                         identifier: 'ends_on_time',
                         rules: [{
                             type: 'empty',
                             prompt: 'Please enter Ends Time'
-                    }]
+                        }]
                     },
                 });
             $('.ui.form').form('validate form');

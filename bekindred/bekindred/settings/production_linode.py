@@ -35,12 +35,12 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_websi
                           'user_relationship_details', 'read_stream']
 
 # LinkedIn
-LINKEDIN_CONSUMER_KEY = '755c9apksk4zxm'
-LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
+LINKEDIN_CONSUMER_KEY = '756g9uw1z5u8we'
+LINKEDIN_CONSUMER_SECRET = 'JFdHmQgN1V1qM4VF'
 
 
 # Add email to requested authorizations.
-LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress', 'r_network']
+LINKEDIN_SCOPE = ['r_basicprofile', 'rw_company_admin', 'r_emailaddress', 'w_share']
 # Add the fields so they will be requested from linkedin.
 LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url', 'email-address', 'date-of-birth', 'picture-url']
 # Arrange to add the fields to UserSocialAuth.extra_data
@@ -57,8 +57,8 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
 
 # twitter social auth
 
-TWITTER_CONSUMER_KEY = 'tJyUXuKfFmlzCnKccKvlQ4RIL'
-TWITTER_CONSUMER_SECRET = '3cmUB8ZKAYCKSsVtwUYpDyBNHPnY3ZkImjiomDV6pl5XeVz6AE'
+TWITTER_CONSUMER_KEY = '2s9WPaf8V5lJxkSjj1HteZvn0'
+TWITTER_CONSUMER_SECRET = 'HTtxdQltSaOzHnUkHwJBGrP9eEPtFzmKUalXbcoyqRHlEDVCI4'
 TWITTER_EXTRA_FIELD_SELECTORS = ['screen_name']
 TWITTER_EXTRA_DATA = ['screen_name']
 

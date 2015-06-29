@@ -50,12 +50,12 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_websi
                           'user_relationship_details', 'read_stream', 'user_photos']
 
 # LinkedIn social auth
-LINKEDIN_CONSUMER_KEY = '755c9apksk4zxm'
-LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
+LINKEDIN_CONSUMER_KEY = '77x6ttwe3nhjen'
+LINKEDIN_CONSUMER_SECRET = 'kDWpzdbshxWy9ej0'
 
 
 # Add email to requested authorizations.
-LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress', 'r_network']
+LINKEDIN_SCOPE = ['r_basicprofile', 'rw_company_admin', 'r_emailaddress', 'w_share']
 # Add the fields so they will be requested from linkedin.
 LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url', 'email-address', 'date-of-birth', 'picture-url']
 # Arrange to add the fields to UserSocialAuth.extra_data

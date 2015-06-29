@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from django.contrib import admin
 from events.api.resources import EventResource, MyEventFeedResource, AllEventFeedResource, FriendsEventFeedResource, \
-    MembershipResource
+    MembershipResource, EventFilterStateResource
 
 from friends.api.resources import FriendsResource, ConnectionsResource, FriendsNewResource, FriendsNewCounterResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
@@ -44,12 +44,14 @@ v1_api.register(MembershipResource())
 v1_api.register(MyEventFeedResource())
 v1_api.register(AllEventFeedResource())
 v1_api.register(FriendsEventFeedResource())
+v1_api.register(EventFilterStateResource())
 
 urlpatterns = patterns('',
                        url(r'^$', 'goals.views.main_page'),
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^facebook/', include('django_facebook.urls')),
                        url(r'^social/', include('social_auth.urls')),
+                       url(r'^goals/close_login_popup/$', 'goals.views.close_login_popup', name='close_login_popup'),
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
                        url(r'^accounts/register/', 'goals.views.register'),
                        url(r'^accounts/deactivate/', 'members.views.deactivate_user', name='deactivate_user'),

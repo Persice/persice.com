@@ -32,8 +32,8 @@
                 onHide: function() {
                     scope.viewevent.show = false;
                     scope.viewevent.editMode = false;
+                    scope.viewevent.eventNotFound = false;
                     scope.viewevent.modalId = 'viewEventsModal';
-
                 }
             });
 
@@ -48,7 +48,9 @@
                 element
                     .modal('setting', 'transition', 'scale')
                     .modal('setting', 'closable', false)
+                    .modal('setting', 'allowMultiple', true)
                     .modal(modelValue ? 'show' : 'hide');
+
             });
 
         }
@@ -61,12 +63,13 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation) {
         var vm = this;
         vm.showMobile = false;
         vm.closeEventModal = closeEventModal;
         vm.getEvent = getEvent;
         vm.openMap = openMap;
+        vm.deleteEvent = deleteEvent;
         vm.event = {};
 
         vm.showError = false;
@@ -76,6 +79,12 @@
         vm.startsTimeError = false;
 
         vm.modalId = 'viewEventsModal';
+
+        vm.eventRsvp = {
+            status: ''
+        };
+
+        vm.changeRsvpStatus = changeRsvpStatus;
 
         vm.extractFromAddress = extractFromAddress;
         vm.parseLocation = parseLocation;
@@ -106,7 +115,26 @@
             attachments: ''
         };
 
+        vm.$geolocation = $geolocation;
 
+        $geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 60000,
+            maximumAge: 2
+        }).then(function(location) {
+            vm.autocompleteOptions = {
+                location: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+                radius: 50000
+            };
+        });
+
+        vm.autocompleteOptions = {
+            location: '0,0',
+            radius: 50000
+        };
+
+
+        vm.memberExists = false;
 
         $scope.$watch(angular.bind(this, function(show) {
             return vm.show;
@@ -118,10 +146,90 @@
             }
         });
 
+        function changeRsvpStatus(newStatus) {
+            var member = {
+                event: '/api/v1/event/' + vm.event.id + '/',
+                rsvp: newStatus,
+                user: '/api/v1/auth/user/' + USER_ID + '/'
+            };
+
+            //change RSVP status if different than previous
+            if (vm.eventRsvp.status !== newStatus) {
+                //check if member is already created.
+                if (vm.memberExists) {
+                    vm.eventRsvp.status = newStatus;
+                    //update rsvp status
+                    MembersFactory.update({
+                            memberId: vm.memberId
+                        }, member,
+                        function(success) {
+                            for (var i = vm.event.members.length - 1; i >= 0; i--) {
+
+                                if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+
+                                    vm.event.members[i].rsvp = newStatus;
+                                }
+
+                            }
+                        },
+                        function(error) {
+
+
+                        });
+
+                } else {
+                    vm.eventRsvp.status = newStatus;
+                    // create new member first with new rsvp status
+                    MembersFactory.save({}, member,
+                        function(success) {
+                            $log.info(success);
+                            vm.memberExists = true;
+                            vm.event.members.push(success);
+                            vm.memberId = success.id;
+                        },
+                        function(error) {
+                            $log.info(error);
+
+                        });
+                }
+
+            }
+        }
+
+        function deleteEvent() {
+            vm.showError = false;
+            EventsFactory.delete({
+                    eventId: vm.eventEdit.id
+                },
+                function(success) {
+                    vm.showError = false;
+
+                    notify({
+                        messageTemplate: '<div class="notify-info-header">Success</div>' +
+                            '<p>Event has been successfully deleted.</p>',
+                        classes: 'notify-info',
+                        icon: 'check circle',
+                        duration: 4000
+                    });
+
+                    $rootScope.$broadcast('refreshEventFeed');
+
+                    vm.closeEventModal();
+
+                },
+                function(error) {
+                    vm.errorMessage = [];
+                    vm.showError = true;
+                    if (error.data.event) {
+                        vm.errorMessage = ['Event could not be deleted.'];
+                    }
+
+                });
+        }
+
 
 
         function getEvent() {
-
             vm.pok = 0;
             $log.info('getting event: ' + vm.eventid);
             vm.loadingEvent = true;
@@ -130,7 +238,7 @@
             }, {
                 eventId: vm.eventid
             }).$promise.then(function(data) {
-
+                vm.eventNotFound = false;
                 vm.event = data;
                 vm.eventLocation = '';
                 vm.mapurlTrue = false;
@@ -153,11 +261,26 @@
                 }
 
                 vm.isHost = false;
+                vm.eventRsvp = {
+                    status: ''
+                };
+                vm.memberExists = false;
+                vm.memberId = null;
                 if (vm.event.members.length > 0) {
                     for (var i = vm.event.members.length - 1; i >= 0; i--) {
                         if (vm.event.members[i].is_organizer === true) {
                             if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
                                 vm.isHost = true;
+                            }
+                        } else {
+                            if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+                                vm.memberId = vm.event.members[i].id;
+                                if (vm.event.members[i].rsvp !== null) {
+                                    vm.eventRsvp.status = vm.event.members[i].rsvp;
+                                }
+
+                                vm.memberExists = true;
+
                             }
                         }
                     }
@@ -180,6 +303,7 @@
 
                 vm.loadingEvent = false;
 
+
             }, function(response) {
                 var data = response.data,
                     status = response.status,
@@ -187,6 +311,9 @@
                     config = response.config,
                     message = 'Error ' + status;
                 vm.loadingEvent = false;
+
+                vm.eventNotFound = true;
+                $log.info(status);
                 $log.error(message);
 
 
@@ -474,6 +601,7 @@
                                 icon: 'check circle',
                                 duration: 4000
                             });
+                            $rootScope.$broadcast('refreshEventFeed');
                             vm.getEvent();
                         },
                         function(error) {

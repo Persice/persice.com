@@ -10,7 +10,7 @@
      * classDesc Edit event
      * @ngInject
      */
-    function EventEditController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, moment, angularMomentConfig, notify) {
+    function EventEditController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, moment, angularMomentConfig, notify, $geolocation) {
         var vm = this;
         vm.showError = false;
         vm.showMobile = true;
@@ -51,12 +51,66 @@
             attachments: 'Attachments'
         };
 
+        vm.$geolocation = $geolocation;
+
+        $geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 60000,
+            maximumAge: 2
+        }).then(function(location) {
+            vm.autocompleteOptions = {
+                location: new google.maps.LatLng(location.coords.latitude, location.coords.longitude),
+                radius: 50000
+            };
+
+        });
+
+        vm.autocompleteOptions = {
+            location: '0,0',
+            radius: 50000
+        };
+
         vm.saveEvent = saveEvent;
+        vm.deleteEvent = deleteEvent;
         vm.openMap = openMap;
         vm.extractFromAddress = extractFromAddress;
         vm.parseLocation = parseLocation;
         vm.validateDates = validateDates;
         vm.getEvent = getEvent;
+
+
+        function deleteEvent() {
+            vm.showError = false;
+            EventsFactory.delete({
+                    eventId: vm.eventEdit.id
+                },
+                function(success) {
+                    vm.showError = false;
+
+                    notify({
+                        messageTemplate: '<div class="notify-info-header">Success</div>' +
+                            '<p>Event has been successfully deleted.</p>',
+                        classes: 'notify-info',
+                        icon: 'check circle',
+                        duration: 4000
+                    });
+
+
+                    if ($rootScope.previousEventFeed !== undefined) {
+                        $state.go($rootScope.previousEventFeed);
+                    } else {
+                        $state.go('events.myevents');
+                    }
+                },
+                function(error) {
+                    vm.errorMessage = [];
+                    vm.showError = true;
+                    if (error.data.event) {
+                        vm.errorMessage = ['Event could not be deleted.'];
+                    }
+
+                });
+        }
 
 
         vm.getEvent();

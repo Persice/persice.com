@@ -19,7 +19,7 @@
             <div class="field">
                 <label>Location</label>
                 <div class="ui icon input" id="locationInput2" ng-class="{'urlexists': viewevent.mapurlTrue}">
-                    <input autocomplete="off" name="location" attach="'locationInput2'" google-places-autocomplete options="{types: ['geocode']}" placeholder="{{::viewevent.placeholder.location}}" ng-model="viewevent.eventLocation" type="text">
+                    <input autocomplete="off" name="location" attach="'locationInput2'" google-places-autocomplete options="viewevent.autocompleteOptions" placeholder="{{::viewevent.placeholder.location}}" ng-model="viewevent.eventLocation" type="text">
                     <i ng-click="viewevent.openMap()" class="marker large icon"></i>
                 </div>
             </div>
@@ -83,14 +83,43 @@
             </div>
         </div>
         <div class="ui large form segment" id="actionForm">
-            <div id="deleteEventButton" ng-click="viewevent.deleteEvent()" class="ui red button">Delete</div>
+            <div id="deleteEventButton" class="ui red button">Delete</div>
             <div id="actionButton" ng-click="viewevent.saveEvent()" class="ui green button"><i class="fa fa-save icon"></i> Save Changes</div>
         </div>
     </form>
 </div>
-
+<!-- modals -->
+<div class="ui small modal deletemodal" id="deleteEventModal">
+    <i class="close icon"></i>
+    <div class="header">
+        Please Confirm
+    </div>
+    <div class="content">
+        <p>Are you sure you want to delete this event?</p>
+    </div>
+    <div class="actions">
+        <div class="ui negative basic icon labeled button">
+            <i class="remove icon"></i> No
+        </div>
+        <a class="ui positive right button icon labeled">
+            <i class="checkmark icon"></i> Yes
+        </a>
+    </div>
+</div>
 <script>
-    'use strict';
+'use strict';
+$('#deleteEventModal')
+    .modal({
+        onDeny: function() {},
+        onApprove: function() {
+            angular.element($('#deleteEventButton')).scope().viewevent.deleteEvent();
+        }
+    })
+    .modal('attach events', '#deleteEventButton', 'show')
+    .modal('setting', 'allowMultiple', true);
+</script>
+<script>
+'use strict';
 
 
 // initialize input widgets first
@@ -119,6 +148,4 @@ $('#datePairEdit .simpledate').datepicker({
 $('#datePairEdit').datepair({
     defaultTimeDelta: 3600000,
 });
-
-
 </script>

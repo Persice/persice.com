@@ -1,11 +1,18 @@
-#### Set up PostgerSQL
+#### Set up PostgerSQL OS X
 
 ```
+brew update
 brew install postgresql
+brew install postgis
 createdb geodjango
 psql geodjango
 geodjango=# CREATE USER bekindred WITH PASSWORD 'bekindred';
 geodjango=# GRANT ALL PRIVILEGES ON DATABASE "geodjango" to bekindred;
+geodjango=# CREATE EXTENSION postgis;
+geodjango=# CREATE EXTENSION postgis_topology;
+
+# Only for running unittests:
+geodjango=# ALTER USER 'bekindred' WITH SUPERUSER;;
 geodjango=# \q
 ```
 
