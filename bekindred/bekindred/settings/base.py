@@ -75,6 +75,8 @@ MIDDLEWARE_CLASSES = (
     'pagination.middleware.PaginationMiddleware',
 )
 
+MIDDLEWARE_CLASSES += ('social_auth.middleware.SocialAuthExceptionMiddleware',)
+
 ROOT_URLCONF = 'bekindred.urls'
 
 WSGI_APPLICATION = 'bekindred.wsgi.application'
