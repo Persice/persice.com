@@ -45,7 +45,7 @@
         $timeout(function() {
             $rootScope.eventsFiltersChanged = false;
             vm.changed = false;
-        }, 1000);
+        }, 2000);
 
 
 

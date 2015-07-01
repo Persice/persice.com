@@ -96,7 +96,18 @@ angular.module('icebrak')
         $cookies.userid = USER_ID;
 
         FilterRepository.getFilters();
+
+        $rootScope.$on('triggerRefreshFilters', function() {
+            FilterRepository.getFilters();
+        });
+
         EventsFilterRepository.getFilters();
+
+        $rootScope.$on('triggerRefreshEventsFilters', function() {
+            EventsFilterRepository.getFilters();
+        });
+
+
 
         $rootScope.goBack = function() {
             $rootScope.hideTopMenu = false;

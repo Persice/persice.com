@@ -45,7 +45,7 @@
         $timeout(function() {
             $rootScope.filtersChanged = false;
             vm.changed = false;
-        }, 1000);
+        }, 2000);
 
 
         $rootScope.$watch('filtersChanged', function(newVal, oldVal) {
