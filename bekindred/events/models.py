@@ -78,6 +78,10 @@ class Membership(models.Model):
     class Meta:
         unique_together = (('user', 'event', 'is_organizer'),)
 
+    def __unicode__(self):
+        return '%s - %s' % (self.user.get_full_name(),
+                            self.event.name)
+
 
 class EventFilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
