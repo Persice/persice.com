@@ -150,9 +150,13 @@
                         <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
                     </div>
                 </div>
-                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-show="isState('matchfeed')">
+                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('matchfeed')">
                     <matchfeed-filter id="matchfeed-filters" class="desktopview"></matchfeed-filter>
                 </div>
+                 <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('events')">
+                    <events-filter id="matchfeed-filters" class="desktopview"></events-filter>
+                </div>
+
                 <div id="main-content" class="gsapify-router" ui-view autoscroll="false">
                     <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
                 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('icebrak')
-    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, NotificationsRepository, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository, moment, angularMomentConfig) {
+    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, NotificationsRepository, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, EventsFilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository, moment, angularMomentConfig) {
         $rootScope.hideTopMenu = false;
 
         $scope.checkLogin = function() {
@@ -96,9 +96,10 @@ angular.module('icebrak')
         $cookies.userid = USER_ID;
 
         FilterRepository.getFilters();
+        EventsFilterRepository.getFilters();
 
-        $rootScope.$on('triggerRefreshFilters', function() {
-            FilterRepository.getFilters();
+        $rootScope.$on('triggerRefreshEventsFilters', function() {
+            EventsFilterRepository.getFilters();
         });
 
 
