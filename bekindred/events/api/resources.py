@@ -1,9 +1,8 @@
 import json
-from django.contrib.gis.measure import D
 
+from django.contrib.gis.measure import D
 from django.db import IntegrityError
 from django.utils.timezone import now
-from geopy.distance import Distance
 import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
@@ -11,6 +10,7 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
+
 from tastypie.validation import Validation
 
 from events.models import Event, Membership, EventFilterState
@@ -19,6 +19,7 @@ from goals.utils import calculate_distance_events, get_user_location
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
+from postman.api import pm_write
 
 
 class EventValidation(Validation):
@@ -91,9 +92,25 @@ class EventResource(ModelResource):
         event = Event.objects.get(pk=int(kwargs['pk']))
         members = event.membership_set.filter(rsvp__in=['yes', 'maybe'], is_organizer=False)
         organizer = event.membership_set.filter(is_organizer=True)[0]
+        recipients = FacebookCustomUserActive.objects. \
+            filter(id__in=members.values_list('user_id', flat=True))
         data = {'event_name': event.name,
                 'event_start_date': str(event.starts_on),
                 'event_organizer_name': organizer.user.first_name}
+
+        for recipient in recipients:
+            message_data = {'sent_at': now().isoformat(),
+                            'sender': '/api/auth/user/{}/'.format(organizer.user.id),
+                            'recipient': '/api/auth/user/{}/'.format(recipient.id),
+                            'body': """
+                                    The event {event_name} on {event_start_date} has been
+                                    cancelled by {event_organizer_name},
+                                    the event host. We apologize for any inconvenience.
+                                    (This is an automated message.)"
+                                    """.format(**data)}
+            pm_write(bundle.request.user, recipient, '', body=message_data['body'])
+            r.publish('message.%s' % recipient.id, json.dumps(message_data))
+
         for member in members:
             r.publish('event_deleted.%s' % member.user.id, json.dumps(data))
 
@@ -180,10 +197,10 @@ class MyEventFeedResource(ModelResource):
             user_point = get_user_location(request.user.id)
             distance = D(**{'km': efs[0].distance})
 
-            return super(MyEventFeedResource, self).get_object_list(request).\
-                filter(membership__user=request.user.pk, ends_on__gt=now()).\
-                search(tsquery, raw=True).\
-                filter(point__distance_lt=(user_point, distance)).\
+            return super(MyEventFeedResource, self).get_object_list(request). \
+                filter(membership__user=request.user.pk, ends_on__gt=now()). \
+                search(tsquery, raw=True). \
+                filter(point__distance_lt=(user_point, distance)). \
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
