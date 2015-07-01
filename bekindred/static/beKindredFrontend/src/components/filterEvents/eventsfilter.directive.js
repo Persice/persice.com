@@ -48,10 +48,6 @@
         }, 1000);
 
 
-        $scope.$on("slideEnded", function() {
-            // user finished sliding a handle
-        });
-
 
         $rootScope.$watch('eventsFiltersChanged', function(newVal, oldVal) {
             vm.changed = newVal;

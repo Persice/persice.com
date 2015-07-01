@@ -2480,8 +2480,10 @@ section.match {
 }
 
 #filter label {
-    color: #FFF;
-    font-size: 1.1rem;
+    color: #FFF!important;
+    font-size: 1.1rem!important;
+    width: 100%!important;
+    text-align: left!important;
 }
 
 #filter h5.right.switch_label {

@@ -60,6 +60,7 @@
 
 
         $rootScope.$on('refreshEventFeed', function(event, data) {
+            $('.right.sidebar.eventsfeedfilter').sidebar('hide');
             vm.getEvents();
         });
 

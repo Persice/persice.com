@@ -98,12 +98,6 @@ angular.module('icebrak')
         FilterRepository.getFilters();
         EventsFilterRepository.getFilters();
 
-        $rootScope.$on('triggerRefreshEventsFilters', function() {
-            EventsFilterRepository.getFilters();
-        });
-
-
-
         $rootScope.goBack = function() {
             $rootScope.hideTopMenu = false;
             $('.horizontal.top.sidebar')
