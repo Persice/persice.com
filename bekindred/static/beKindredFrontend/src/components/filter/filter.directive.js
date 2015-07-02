@@ -37,7 +37,7 @@
      * @desc controller for matchfeedFilter directive
      * @ngInject
      */
-    function FilterController($scope, $timeout, $rootScope, $window, FiltersFactory, FilterRepository, USER_ID, lodash, $log) {
+    function FilterController($scope, $timeout, $rootScope, $window, SettingsRepository, FiltersFactory, FilterRepository, USER_ID, lodash, $log) {
         var vm = this;
 
         $rootScope.filtersChanged = false;
@@ -45,7 +45,7 @@
         $timeout(function() {
             $rootScope.filtersChanged = false;
             vm.changed = false;
-        }, 1000);
+        }, 2000);
 
 
         $rootScope.$watch('filtersChanged', function(newVal, oldVal) {
@@ -54,35 +54,26 @@
 
         vm.toggleGender = toggleGender;
         vm.saveFilters = saveFilters;
-        vm.saveFiltersDebounce = lodash.debounce(saveFilters, 50);
+        vm.saveFiltersDebounce = lodash.debounce(saveFilters, 200);
         vm.getFilters = getFilters;
         vm.removeKeyword = removeKeyword;
         vm.addKeyword = addKeyword;
         vm.refreshMatchFeed = refreshMatchFeed;
 
         vm.orderByValues = [{
-                name: 'Match score',
-                value: 'match_score'
+            name: 'Match score',
+            value: 'match_score'
 
         }, {
-                name: 'Distance',
-                value: 'distance'
-        },
-            {
-                name: 'Mutual friends',
-                value: 'mutual_friends'
+            name: 'Distance',
+            value: 'distance'
+        }, {
+            name: 'Mutual friends',
+            value: 'mutual_friends'
         }];
         vm.orderBy = 'match_score';
         vm.distanceValue = 10000;
         vm.distanceUnit = 'miles';
-
-        vm.distanceOptions = {
-            range: {
-                min: 1,
-                max: 10000
-            },
-            step: 1,
-        };
 
         vm.male = false;
         vm.female = false;
@@ -99,12 +90,32 @@
         vm.showFilterMessage = false;
 
         vm.ageValues = [25, 60];
-        vm.ageOptions = {
-            range: {
-                min: 18,
-                max: 115
-            }
+
+        // In your controller
+        vm.ageSlider = {
+            min: 25,
+            max: 60,
+            ceil: 115,
+            floor: 18
         };
+
+        $scope.$watch(angular.bind(this, function(distanceValue) {
+            return vm.distanceValue;
+        }), function(newVal) {
+            vm.saveFiltersDebounce();
+        });
+
+        $scope.$watch(angular.bind(this, function(ageSlider) {
+            return vm.ageSlider.min;
+        }), function(newVal) {
+            vm.saveFiltersDebounce();
+        });
+
+        $scope.$watch(angular.bind(this, function(ageSlider) {
+            return vm.ageSlider.max;
+        }), function(newVal) {
+            vm.saveFiltersDebounce();
+        });
 
         vm.myKeywords = [];
         vm.gendersArr = [];
@@ -126,16 +137,18 @@
             $rootScope.filtersChanged = false;
         });
 
+        $rootScope.$on('distanceUnitChanged', function(event, value) {
+            vm.distanceUnit = value;
+        });
+
         function getFilters() {
 
             vm.currentFilters = FilterRepository.getFilterState();
             vm.distanceValue = vm.currentFilters.distance;
-            vm.distanceUnit = vm.currentFilters.distance_unit;
+            vm.distanceUnit = $rootScope.distance_unit;
+            vm.ageSlider.min = vm.currentFilters.min_age;
+            vm.ageSlider.max = vm.currentFilters.max_age;
 
-            vm.orderBy = vm.currentFilters.order_criteria;
-
-            vm.ageValues[0] = vm.currentFilters.min_age;
-            vm.ageValues[1] = vm.currentFilters.max_age;
             if (vm.currentFilters.keyword !== '' && vm.currentFilters.keyword !== undefined) {
                 vm.myKeywords = vm.currentFilters.keyword.split(',');
             } else {
@@ -157,7 +170,11 @@
                 vm.male = false;
                 vm.female = true;
             }
+
+
             $rootScope.filtersChanged = true;
+            $scope.$broadcast('reCalcViewDimensions');
+            $scope.$broadcast('rzSliderForceRender');
 
         }
 
@@ -181,8 +198,8 @@
                 distance: vm.distanceValue,
                 gender: vm.genders,
                 order_criteria: vm.orderBy,
-                min_age: parseInt(vm.ageValues[0]),
-                max_age: parseInt(vm.ageValues[1]),
+                min_age: vm.ageSlider.min,
+                max_age: vm.ageSlider.max,
                 keyword: vm.myKeywords.length === 0 ? '' : vm.myKeywords.join(),
                 user: '/api/v1/auth/user/' + USER_ID + '/'
             };
@@ -190,6 +207,8 @@
             $rootScope.filtersChanged = true;
 
             FilterRepository.saveFilters(vm.newFilters);
+            $scope.$broadcast('reCalcViewDimensions');
+            $scope.$broadcast('rzSliderForceRender');
 
         }
 

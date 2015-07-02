@@ -13,7 +13,6 @@ angular
         'frontend.semantic.modal.event.create',
         'frontend.semantic.modal.event.view',
         'truncate',
-        'ya.nouislider',
         'ngDraggable',
         'angucomplete-alt',
         'cgNotify',
@@ -27,9 +26,11 @@ angular
         'ezfb',
         'frontend.ui.tooltips',
         'google.places',
-        'ngMask'
+        'ngMask',
+        'rzModule'
     ])
-    .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
+
+.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
         //disable debug in production, enable debug manually angular.reloadWithDebugInfo();
         // $compileProvider.debugInfoEnabled(false);

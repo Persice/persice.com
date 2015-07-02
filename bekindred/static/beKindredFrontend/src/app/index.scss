@@ -1672,15 +1672,15 @@ Definition Container
 @media only screen and (min-width: 768px) {
     #main-page .main.container {
         position: relative;
-        padding-left: 180px;
-        padding-right: 180px;
+        padding-left: 200px;
+        padding-right: 200px;
     }
     #main-page .container .right.rail {
-        width: 180px;
+        width: 200px;
         padding-left: 0em;
     }
     #main-page .container .left.rail {
-        width: 180px;
+        width: 200px;
         padding-right: 0em;
     }
 }
@@ -2480,8 +2480,10 @@ section.match {
 }
 
 #filter label {
-    color: #FFF;
-    font-size: 1.1rem;
+    color: #FFF!important;
+    font-size: 1.1rem!important;
+    width: 100%!important;
+    text-align: left!important;
 }
 
 #filter h5.right.switch_label {
@@ -2812,7 +2814,7 @@ img {
 .container {
     padding: 40px 20px;
     margin: 0 auto;
-    max-width: 1024px!important;
+    max-width: 1124px!important;
 }
 /* conversation */
 
@@ -5672,7 +5674,8 @@ body.events-page .ui.fluid.card .content {
     padding-left: 1.4em;
 }
 
-body.events-page .ui.cards>.card .meta, body.events-page .ui.card .meta {
+body.events-page .ui.cards>.card .meta,
+body.events-page .ui.card .meta {
     margin: 5px 100px 10px 10px!important;
     color: #000;
     font-weight: 300!important;
@@ -6865,16 +6868,49 @@ body.event-page .ui.form .field.error input {
     color: #FFFFFF!important;
 }
 
-
-
 body.events-page .ui.statistics>.statistic {
-      margin: 0 1.3em 2em!important;
+    margin: 0 1.3em 2em!important;
 }
 
-body.events-page .ui.statistics .statistic>.value,  body.events-page .ui.statistic>.value {
+body.events-page .ui.statistics .statistic>.value,
+body.events-page .ui.statistic>.value {
     margin-right: 0px!important;
 }
 
 .hidevisibility {
     visibility: hidden!important;
+}
+
+rzslider span.rz-pointer {
+    top: -9px!important;
+    z-index: 2;
+    width: 20px!important;
+    height: 20px!important;
+    cursor: pointer;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    border-radius: 16px;
+    background: #fff linear-gradient(transparent, rgba(0, 0, 0, .05))!important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05), 0 0 0 1px rgba(39, 41, 43, .15)inset!important;
+}
+
+rzslider span.rz-pointer:after {
+    display: none!important;
+}
+
+rzslider span.rz-bubble {
+    display: none!important
+}
+
+#matchfeed-filters label {
+    width: 100%!important;
+    text-align: left!important;
+    font-size: 1rem!important;
+    color: rgba(0, 0, 0, .8)!important;
+    font-weight: 700!important;
+    text-transform: none!important;
+}
+
+rzslider {
+    margin: 15px 0 15px 0!important;
 }

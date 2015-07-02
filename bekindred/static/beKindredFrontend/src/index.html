@@ -72,8 +72,11 @@
             <img src="/static/img/icebrak-logo.png" alt="" class="ui medium image">
         </div>
     </div>
-    <div class="ui vertical right inverted labeled sidebar menu" id="filtersMenu" ng-show="isState('matchfeed')">
+    <div class="ui vertical right inverted labeled sidebar menu matchfeedfilter" id="filtersMenu" ng-show="isState('matchfeed')">
         <matchfeed-filter id="filter" class="mobilefilters"></matchfeed-filter>
+    </div>
+    <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
+        <events-filter id="filter" class="mobilefilters"></events-filter>
     </div>
     <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
@@ -81,16 +84,16 @@
             <div class="title item mobileview" ng-show="!isState('events')">
                 <b update-title></b>
             </div>
-            <a class="item launch center-aligned mobileview" ng-if="isState('events')">
+            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
                 <i class="fa fa-calendar icon"></i>
             </a>
-            <a class="item launch center-aligned mobileview" ng-if="isState('events')">
+            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
                 <i class="fa fa-map-marker icon"></i>
             </a>
-            <a class="item launch center-aligned mobileview" ui-sref="event.create" ng-if="isState('events')">
+            <a class="item launch center-aligned mobileview" ui-sref="event.create" ng-show="isState('events')">
                 <i class="fa fa-plus icon"></i>
             </a>
-            <a class="launch item right-aligned mobileview" id="eventsfilter-menu-launcher" ng-if="isState('events')">
+            <a class="launch item right-aligned mobileview" id="eventsfilter-menu-launcher" ng-show="isState('events')">
                 <i class="fa fa-sliders icon"></i>
             </a>
             <a ui-sref="home" class="title item desktopview" id="logoTop">
@@ -138,9 +141,14 @@
                         <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
                     </div>
                 </div>
-                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-show="isState('matchfeed')">
+                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('matchfeed')">
                     <matchfeed-filter id="matchfeed-filters" class="desktopview"></matchfeed-filter>
                 </div>
+
+                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('events')">
+                    <events-filter id="matchfeed-filters" class="desktopview"></events-filter>
+                </div>
+
                 <div id="main-content" class="gsapify-router" ui-view autoscroll="false">
                     <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
                 </div>
@@ -177,10 +185,16 @@
             mobileTransition: 'overlay'
         });
 
-        $('.right.sidebar').first()
+        $('.right.sidebar.matchfeedfilter')
         .sidebar('attach events', '#right-menu-launcher')
         .sidebar('setting', 'duration', 0);
         $('#right-menu-launcher')
+        .removeClass('disabled');
+
+        $('.right.sidebar.eventsfeedfilter')
+        .sidebar('attach events', '#eventsfilter-menu-launcher')
+        .sidebar('setting', 'duration', 0);
+        $('#eventsfilter-menu-launcher')
         .removeClass('disabled');
     </script>
     <script>

@@ -208,8 +208,19 @@ angular.module('icebrak')
             }, {
                 userId: USER_ID
             }).$promise.then(function(data) {
-                $scope.twitter = data.twitter_provider;
-                $scope.linkedin = data.linkedin_provider;
+                if (data.twitter_provider === null) {
+                    $scope.social.twitter = '';
+                } else {
+                    $scope.social.twitter = data.twitter_provider;
+                }
+
+                if (data.linkedin_provider === null) {
+                    $scope.social.linkedin = '';
+                } else {
+                    $scope.social.linkedin = data.linkedin_provider;
+                }
+
+
             });
         };
 
@@ -870,7 +881,7 @@ angular.module('icebrak')
             promise.then(function(greeting) {
                 $log.info('Success saving');
                 $scope.savingAllChanges = false;
-            notify({
+                notify({
                     messageTemplate: '<div class="notify-info-header">Success</div>' +
                         '<p>All changes have been saved.</p>',
                     classes: 'notify-info',
