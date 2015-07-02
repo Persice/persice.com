@@ -270,9 +270,9 @@ class TestMyEventFeedResource(ResourceTestCase):
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
-        Membership.objects.create(user=self.user, event=self.event)
-        Membership.objects.create(user=self.user, event=self.event1)
-        Membership.objects.create(user=self.user, event=self.event2)
+        Membership.objects.create(user=self.user, event=self.event, rsvp='yes')
+        Membership.objects.create(user=self.user, event=self.event1, rsvp='yes')
+        Membership.objects.create(user=self.user, event=self.event2, rsvp='maybe')
 
     def login(self):
         return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
@@ -292,11 +292,19 @@ class TestMyEventFeedResource(ResourceTestCase):
                                       starts_on=now() - timedelta(days=9), ends_on=now() - timedelta(days=7))
         event2 = Event.objects.create(name="Python", location=[7000, 22965.83],
                                       starts_on=now() + timedelta(days=7), ends_on=now() + timedelta(days=8))
-        Membership.objects.create(user=self.user, event=event1)
-        Membership.objects.create(user=self.user, event=event2)
+        Membership.objects.create(user=self.user, event=event1, rsvp='yes')
+        Membership.objects.create(user=self.user, event=event2, rsvp='yes')
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json')
         res = self.deserialize(resp)['objects']
         self.assertEqual(len(res), 4)
+
+    def test_event_is_not_show_if_rsvp_no(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json')
+        self.assertValidJSONResponse(resp)
+        # Scope out the data for correctness.
+        json_ = self.deserialize(resp)
+        self.assertEqual(json_['meta']['total_count'], 3)
 
 
 class TestFriendsEventFeedResource(ResourceTestCase):

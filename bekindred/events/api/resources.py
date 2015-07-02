@@ -204,7 +204,9 @@ class MyEventFeedResource(ModelResource):
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
-                filter(membership__user=request.user.pk, ends_on__gt=now()).order_by('starts_on')
+                filter(membership__user=request.user.pk, ends_on__gt=now(),
+                       membership__rsvp__in=['yes', 'maybe'],
+                       ).order_by('starts_on')
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -281,7 +283,7 @@ class FriendsEventFeedResource(ModelResource):
         return bundle
 
     def get_object_list(self, request):
+        # TODO: Added unit tests
         friends = Friend.objects.all_my_friends(user_id=request.user.id)
         return super(FriendsEventFeedResource, self).get_object_list(request). \
-            filter(membership__user__in=friends, ends_on__gt=now(),
-                   membership__is_organizer=True).order_by('starts_on')
+            filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
