@@ -85,7 +85,7 @@
 
 
         function refreshEventsFeed() {
-            $rootScope.$broadcast('refreshEventFeed');
+            $rootScope.$emit('refreshEventFeed');
             $rootScope.$emit('eventsFiltersChanged');
         }
 
