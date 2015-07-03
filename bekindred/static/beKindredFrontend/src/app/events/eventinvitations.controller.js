@@ -65,7 +65,7 @@
 
         function inviteConnection(index) {
 
-            if (!vm.connections[index].invited) {
+            if (vm.connections[index].invited === false) {
 
                 vm.invitedPeople.push(vm.connections[index]);
                 vm.connections[index].invited = true;
