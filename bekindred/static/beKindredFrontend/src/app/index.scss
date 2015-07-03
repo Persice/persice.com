@@ -6144,7 +6144,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -6942,7 +6942,7 @@ rzslider {
 
 #invitationsTabsMenu.ui.tabular.menu .item {
     padding: 0.8em 1.2em;
-    min-width: 130px!important;
+    min-width: 130px;
     background-color: #D3D3D3;
     color: #FFFFFF;
     margin-right: 10px;
@@ -7022,14 +7022,23 @@ rzslider {
     color: rgba(0, 0, 0, .5);
 }
 
-.invitations-people td,
-.invitations-people td .header .content {
-    padding: 0.9em 0.8em!important;
+.invitations-people .intersecticon {
+    position: absolute!important;
+    left: 0px!important;
+    top: 5px!important;
 }
 
 .invitations-people td,
+.invitations-people th,
 .invitations-people td .header .content {
-    padding: 0.9em 1.1  em!important;
+    padding: 0.9em 0.8em!important;
+    position: relative!important;
+}
+
+.invitations-people td,
+.invitations-people th,
+.invitations-people td .header .content {
+    padding: 0.9em 1.1 em!important;
 }
 
 .invitations-people .header img.circular {
@@ -7048,8 +7057,17 @@ rzslider {
     cursor: pointer!important;
 }
 
+.invitations-people thead tr th i.icon {
+    text-align: inherit!important;
+    margin: 0px!important;
+}
+
 .invitations-people tbody tr:hover td {
     background-color: #fcfcfc!important;
+}
+
+.invitations-people tbody td.selected {
+    text-align: right!important;
 }
 
 .invitations-people.ui.table tbody tr.active td {
@@ -7064,17 +7082,23 @@ rzslider {
     opacity: 0;
 }
 
+#createEventsModal .invitations-people .ui.input.searchbox {
+    width: 100%!important;
+}
+
 //responsive search box for invitations
 @media only screen and (max-width: 767px) {
-    .ui.input.searchbox {
-        max-width: 150px;
+    #createEventsModal .invitations-people .ui.input.searchbox {
+        width: 100%!important;
     }
-
+    #invitationsTabsMenu.ui.tabular.menu .item {
+        min-width: 115px;
+    }
     .invitations-people td,
+    .invitations-people th,
     .invitations-people td .header .content {
-        padding: 0.9em 0.2em!important;
+        padding: 0.9em 0.4em!important;
     }
-
 }
 /* The finishing CSS styles for the enter animation */
 
