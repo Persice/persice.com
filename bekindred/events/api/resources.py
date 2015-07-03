@@ -237,6 +237,18 @@ class AllEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
+
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{'km': efs[0].distance})
+
+            return super(AllEventFeedResource, self).get_object_list(request). \
+                filter(ends_on__gt=now()). \
+                search(tsquery, raw=True). \
+                filter(point__distance_lt=(user_point, distance)). \
+                order_by('starts_on')
         return super(AllEventFeedResource, self).get_object_list(request). \
             filter(ends_on__gt=now()).order_by('starts_on')
 
@@ -285,5 +297,16 @@ class FriendsEventFeedResource(ModelResource):
     def get_object_list(self, request):
         # TODO: Added unit tests
         friends = Friend.objects.all_my_friends(user_id=request.user.id)
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{'km': efs[0].distance})
+            return super(FriendsEventFeedResource, self).get_object_list(request). \
+                filter(membership__user__in=friends, ends_on__gt=now()). \
+                search(tsquery, raw=True). \
+                filter(point__distance_lt=(user_point, distance)). \
+                order_by('starts_on')
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
