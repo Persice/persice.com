@@ -8,15 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Event.is_accepted'
-        db.add_column(u'events_event', 'is_accepted',
+        # Adding field 'Membership.is_accepted'
+        db.add_column(u'events_membership', 'is_accepted',
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'Event.is_accepted'
-        db.delete_column(u'events_event', 'is_accepted')
+        # Deleting field 'Membership.is_accepted'
+        db.delete_column(u'events_membership', 'is_accepted')
 
 
     models = {
@@ -78,7 +78,6 @@ class Migration(SchemaMigration):
             'ends_on': ('django.db.models.fields.DateTimeField', [], {}),
             'full_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_accepted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'location': ('geoposition.fields.GeopositionField', [], {'max_length': '42'}),
             'location_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'members': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['django_facebook.FacebookCustomUser']", 'through': u"orm['events.Membership']", 'symmetrical': 'False'}),
@@ -103,6 +102,7 @@ class Migration(SchemaMigration):
             'Meta': {'unique_together': "(('user', 'event', 'is_organizer'),)", 'object_name': 'Membership'},
             'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['events.Event']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_accepted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_organizer': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'rsvp': ('django.db.models.fields.CharField', [], {'max_length': '5', 'null': 'True'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2015, 7, 3, 0, 0)'}),
