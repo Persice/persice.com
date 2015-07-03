@@ -382,6 +382,20 @@ angular
 
                 }
             })
+            .state('event.invitations', {
+                url: '/invitations/:eventId',
+                templateUrl: 'app/events/event_invitations.html',
+                controller: 'EventInvitationsController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
+                data: {
+
+                }
+            })
             .state('event.details', {
                 url: '/details/:eventId',
                 templateUrl: 'app/events/event_view.html',
