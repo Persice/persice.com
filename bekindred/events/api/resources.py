@@ -67,7 +67,13 @@ class EventResource(ModelResource):
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
         friends = Friend.objects.all_my_friends(user_id=user_id)
-        attendees = Event.objects.get(pk=bundle.obj.pk). \
+        event = Event.objects.get(pk=bundle.obj.pk)
+        try:
+            bundle.data['hosted_by'] = event.membership_set.\
+                filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
+        except IndexError:
+            bundle.data['hosted_by'] = ''
+        attendees = event.\
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
 

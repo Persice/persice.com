@@ -12,7 +12,8 @@ from goals.models import Subject, Goal, Offer
 class TestEventResource(ResourceTestCase):
     def setUp(self):
         super(TestEventResource, self).setUp()
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test',
+                                                           first_name='Andrii', last_name='Soldatenko')
         self.event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                           name="Play piano", location=[7000, 22965.83])
         self.membership = Membership.objects.create(user=self.user, event=self.event, is_organizer=True, rsvp='yes')
@@ -56,6 +57,7 @@ class TestEventResource(ResourceTestCase):
             'city': None,
             'zipcode': None,
             'state': None,
+            'hosted_by': 'Andrii Soldatenko',
             'street': None,
             'country': None,
             'location_name': None,
@@ -63,6 +65,7 @@ class TestEventResource(ResourceTestCase):
             u'members': [{u'event': u'/api/v1/event/{}/'.format(self.event.id),
                           u'id': self.membership.id,
                           u'is_organizer': True,
+                          'is_accepted': False,
                           u'resource_uri': u'/api/v1/member/{}/'.format(self.membership.id),
                           u'rsvp': u'yes',
                           u'updated': self.membership.updated.isoformat()[:-6],
@@ -74,6 +77,11 @@ class TestEventResource(ResourceTestCase):
             'attendees': [],
             u'point': u'POINT (7000.0000000000000000 22965.8300000000017462)'
         })
+
+    def test_hosted_by(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/event/', format='json')
+        self.assertEqual(self.deserialize(resp)['objects'][0]['hosted_by'], 'Andrii Soldatenko')
 
     def test_cumulative_match_score(self):
         self.response = self.login()
@@ -94,7 +102,7 @@ class TestEventResource(ResourceTestCase):
         Friend.objects.create(friend1=user2, friend2=self.user, status=1)
         event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[7000, 22965.83])
-        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=self.user, event=event, is_organizer=True)
         Membership.objects.create(user=user1, event=event, rsvp='yes')
         Membership.objects.create(user=user2, event=event, rsvp='yes')
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
@@ -132,7 +140,7 @@ class TestEventResource(ResourceTestCase):
 
         event = Event.objects.create(starts_on=now() - timedelta(days=10), ends_on=now() - timedelta(days=9),
                                      name="Play piano", location=[7000, 22965.83])
-        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=self.user, event=event, is_organizer=True)
 
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
 
@@ -214,7 +222,7 @@ class TestEventResource(ResourceTestCase):
         Friend.objects.create(friend1=user2, friend2=self.user, status=1)
         event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[7000, 22965.83])
-        Membership.objects.create(user=self.user, event=event)
+        Membership.objects.create(user=self.user, event=event, is_organizer=True)
         Membership.objects.create(user=user1, event=event, rsvp='yes')
         Membership.objects.create(user=user2, event=event, rsvp='yes')
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
