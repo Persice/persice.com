@@ -31,15 +31,18 @@
             element.modal({
                 onHide: function() {
                     scope.viewevent.show = false;
-                    scope.viewevent.editMode = false;
+                    scope.viewevent.selection = 'view';
                     scope.viewevent.eventNotFound = false;
+                    scope.viewevent.header = 'Event Details';
                     scope.viewevent.modalId = 'viewEventsModal';
                 }
             });
 
             element.modal({
                 onShow: function() {
-                    scope.viewevent.editMode = false;
+                    scope.viewevent.selection = 'view';
+                    scope.viewevent.eventNotFound = false;
+                    scope.viewevent.header = 'Event Details';
                     scope.viewevent.modalId = 'viewEventsModal';
                 }
             });
@@ -63,7 +66,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter) {
         var vm = this;
         vm.showMobile = false;
         vm.closeEventModal = closeEventModal;
@@ -71,6 +74,9 @@
         vm.openMap = openMap;
         vm.deleteEvent = deleteEvent;
         vm.event = {};
+        vm.invitationsMode = false;
+
+        vm.header = 'Event Details';
 
         vm.showError = false;
         vm.showSuccess = false;
@@ -91,8 +97,10 @@
         vm.combineDateTime = combineDateTime;
         vm.validateDates = validateDates;
         vm.saveEvent = saveEvent;
+        vm.openInvitations = openInvitations;
+        vm.closeInvitations = closeInvitations;
 
-        vm.editMode = false;
+        vm.selection = 'view';
 
         vm.editEvent = editEvent;
 
@@ -145,6 +153,87 @@
 
             }
         });
+
+          vm.inviteConnection = inviteConnection;
+        vm.removeInvite = removeInvite;
+
+        vm.invitationsOptions = {
+            attendingPref: 'private',
+            guestInvite: true
+        };
+
+        vm.invite = false;
+
+        vm.connections = [{
+            id: 1,
+            first_name: 'Lena',
+            age: 35,
+            invited: false,
+            mutual_friends: 10,
+            match_score: 4,
+            tagline: 'Creative designer & hiker'
+        },
+
+        {
+            id: 2,
+            first_name: 'Brian',
+            age: 31,
+            invited: false,
+            mutual_friends: 10,
+            match_score: 4,
+            tagline: 'Engineer kiteboarding chess geek'
+        },
+
+        {
+            id: 3,
+            first_name: 'Charlie',
+            age: 39,
+            invited: false,
+            mutual_friends: 10,
+            match_score: 4,
+            tagline: 'Hacker, Guitaris, and veteran Burner'
+        },
+
+        {
+            id: 4,
+            first_name: 'Daniel',
+            age: 25,
+            invited: false,
+            mutual_friends: 10,
+            match_score: 4,
+            tagline: 'Grad student from London'
+        },
+
+        ];
+
+        vm.invitedPeople = [];
+
+        function inviteConnection(index) {
+
+            if (!vm.connections[index].invited) {
+
+                vm.invitedPeople.push(vm.connections[index]);
+                vm.connections[index].invited = true;
+            }
+
+        }
+
+        function removeInvite(index) {
+            var findIndex = $filter('getIndexByProperty')('id', vm.invitedPeople[index].id, vm.connections);
+            vm.connections[findIndex].invited = false;
+            vm.invitedPeople.splice(index, 1);
+
+        }
+
+        function openInvitations() {
+            vm.selection = 'invitations';
+            vm.header = 'Invitations';
+        }
+
+        function closeInvitations() {
+            vm.selection = 'edit';
+            vm.header = 'Event Details';
+        }
 
         function changeRsvpStatus(newStatus) {
             var member = {
@@ -499,7 +588,7 @@
             vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm');
 
             vm.modalId = 'createEventsModal';
-            vm.editMode = true;
+            vm.selection = 'edit';
 
         }
 
@@ -593,7 +682,7 @@
                         function(success) {
                             vm.showError = false;
                             vm.modalId = 'viewEventsModal';
-                            vm.editMode = false;
+                            vm.selection = 'view';
                             notify({
                                 messageTemplate: '<div class="notify-info-header">Success</div>' +
                                     '<p>All changes have been saved.</p>',

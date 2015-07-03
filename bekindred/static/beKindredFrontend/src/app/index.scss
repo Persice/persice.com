@@ -6144,7 +6144,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -6913,4 +6913,180 @@ rzslider span.rz-bubble {
 
 rzslider {
     margin: 15px 0 15px 0!important;
+}
+/* Invitations */
+
+.ui.modal.centeraligned>.left.chevron.icon {
+    top: 1rem!important;
+    left: 1rem!important;
+    color: #000!important;
+    position: absolute!important;
+    font-size: 1.5rem!important;
+    cursor: pointer!important;
+    opacity: .8!important;
+}
+
+.ui.modal.centeraligned>.left.chevron.icon:hover {
+    opacity: 1!important;
+}
+
+.ui.modal.centeraligned .switch-content {
+    overflow: hidden!important;
+    position: relative!important;
+}
+
+.ui.modal.centeraligned .header.leftalign {
+    text-align: left!important;
+    padding-left: 4rem!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item {
+    padding: 0.8em 1.2em;
+    min-width: 130px!important;
+    background-color: #D3D3D3;
+    color: #FFFFFF;
+    margin-right: 10px;
+    border-radius: 0px!important;
+    position: relative!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item .ui.circular.label {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item .icon {
+    position: absolute!important;
+    left: 8px!important;
+    top: 8px!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item.withicons,
+#invitationsTabsMenu.ui.tabular.menu .item.withicons.active {
+    padding-left: 36px!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .active.item {
+    background-color: #FFF;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 0.8em 1.2em!important;
+}
+
+.radio-vertical {
+    position: relative;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.radio-vertical input[type=radio] {
+    cursor: pointer;
+    width: auto!important;
+}
+
+.radio-vertical .label,
+.checkbox-vertical .label {
+    margin-left: 10px;
+}
+
+.field-section {
+    padding: 1.5rem!important;
+    box-shadow: 0 0 0 0 #eee, 0 0 0 1px #eee!important;
+    background-color: #fff;
+    border-radius: .2857rem;
+}
+
+.ui.modal.centeraligned #event-invitations {
+    height: 650px!important;
+    overflow-y: scroll!important;
+}
+
+#event-invitations .radio-vertical .label,
+#event-invitations .checkbox-vertical .label {
+    color: #888;
+}
+
+.checkbox-vertical input[type=checkbox] {
+    vertical-align: middle!important;
+    cursor: pointer!important;
+    width: auto!important;
+}
+
+#event-invitations .label.number {
+    float: right;
+}
+
+.invitations-people .tagline {
+    font-weight: 400;
+    font-variant: italic;
+    color: rgba(0, 0, 0, .5);
+}
+
+.invitations-people td,
+.invitations-people td .header .content {
+    padding: 0.9em 0.8em!important;
+}
+
+.invitations-people td,
+.invitations-people td .header .content {
+    padding: 0.9em 1.1  em!important;
+}
+
+.invitations-people .header img.circular {
+    width: 3.5em;
+}
+
+.invitations-people .searchbox input[type=text] {
+    font-size: 1.3rem!important;
+}
+
+.invitations-people .search-header-container {
+    padding-left: 0.8em!important;
+}
+
+.invitations-people tbody tr {
+    cursor: pointer!important;
+}
+
+.invitations-people tbody tr:hover td {
+    background-color: #fcfcfc!important;
+}
+
+.invitations-people.ui.table tbody tr.active td {
+    background-color: #fcfcfc!important;
+}
+
+//fade animation for selecting people in connections
+/* The starting CSS styles for the enter animation */
+
+.fade.ng-enter {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+//responsive search box for invitations
+@media only screen and (max-width: 767px) {
+    .ui.input.searchbox {
+        max-width: 150px;
+    }
+
+    .invitations-people td,
+    .invitations-people td .header .content {
+        padding: 0.9em 0.2em!important;
+    }
+
+}
+/* The finishing CSS styles for the enter animation */
+
+.fade.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.fade.ng-leave {
+    transition: 0.2s linear all;
+    opacity: 1;
+}
+
+.fade.ng-leave.ng-leave-active {
+    opacity: 0;
 }
