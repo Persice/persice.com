@@ -28,8 +28,17 @@
         return directive;
 
         function link(scope, element, attrs, viewevent) {
+
+            console.log('Linking directive');
             element.modal({
                 onHide: function() {
+                    scope.viewevent.show = false;
+                    scope.viewevent.selection = 'view';
+                    scope.viewevent.eventNotFound = false;
+                    scope.viewevent.header = 'Event Details';
+                    scope.viewevent.modalId = 'viewEventsModal';
+                },
+                onHidden: function() {
                     scope.viewevent.show = false;
                     scope.viewevent.selection = 'view';
                     scope.viewevent.eventNotFound = false;
@@ -44,8 +53,21 @@
                     scope.viewevent.eventNotFound = false;
                     scope.viewevent.header = 'Event Details';
                     scope.viewevent.modalId = 'viewEventsModal';
+                    element.addClass('small');
                 }
             });
+
+
+            scope.viewevent.getActiveClass = function() {
+                console.log('fetching class');
+                console.log(scope.viewevent.selection);
+                if (scope.viewevent.selection === 'invitations') {
+                    return '';
+                }
+                return 'small';
+
+
+            };
 
             scope.$watch('viewevent.show', function(modelValue) {
                 element
@@ -319,6 +341,8 @@
 
 
         function getEvent() {
+
+            vm.selection = 'view';
             vm.pok = 0;
             $log.info('getting event: ' + vm.eventid);
             vm.loadingEvent = true;

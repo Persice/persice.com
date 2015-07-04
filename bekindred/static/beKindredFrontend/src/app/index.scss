@@ -6941,7 +6941,7 @@ rzslider {
 }
 
 #invitationsTabsMenu.ui.tabular.menu .item {
-    padding: 0.8em 1.2em;
+    padding: 9px 1.2em 0.8em 1.2em;
     min-width: 130px;
     background-color: #D3D3D3;
     color: #FFFFFF;
@@ -7113,4 +7113,8 @@ rzslider {
 
 .fade.ng-leave.ng-leave-active {
     opacity: 0;
+}
+
+.ui.modal.centeraligned {
+    top: 450px!important;
 }
