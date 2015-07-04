@@ -39,6 +39,8 @@
 
         vm.eventLocation = '';
 
+        $scope.eventpage.header = 'Event Details';
+
         vm.placeholder = {
             name: 'Event Name',
             starts: 'Starts',
@@ -77,6 +79,13 @@
         vm.parseLocation = parseLocation;
         vm.validateDates = validateDates;
         vm.getEvent = getEvent;
+        vm.openInvitations = openInvitations;
+
+        function openInvitations() {
+            $state.go('event.invitations', {
+                eventId: vm.eventEdit.id
+            });
+        }
 
 
         function deleteEvent() {
