@@ -7,7 +7,7 @@ import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
-from tastypie.constants import ALL
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
 
@@ -172,6 +172,9 @@ class UserResourceShort(ModelResource):
         fields = ['first_name', 'last_name', 'facebook_id']
         authentication = SessionAuthentication()
         authorization = Authorization()
+        filtering = {
+            'first_name': ALL
+        }
 
 
 class MembershipResource(ModelResource):
@@ -329,3 +332,34 @@ class FriendsEventFeedResource(ModelResource):
                 order_by('starts_on')
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
+
+
+class EventConnections(ModelResource):
+    event = fields.ToOneField(EventResource, 'event')
+    user = fields.ToOneField(UserResourceShort, 'user')
+
+    class Meta:
+        always_return_data = True
+        queryset = Membership.objects.all()
+        resource_name = 'events/connections'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+        excludes = ['updated']
+        allowed_methods = ['get']
+        filtering = {
+            'is_organizer': ALL,
+            'is_accepted': ALL,
+            'rsvp': ALL,
+            'user': ALL_WITH_RELATIONS,
+            'event': ALL_WITH_RELATIONS,
+        }
+
+    def dehydrate(self, bundle):
+            bundle.data['tagline'] = ''
+            bundle.data['common_goals_offers_interests'] = 0
+            bundle.data['mutual_friends_count'] = 0
+            bundle.data['facebook_id'] = bundle.obj.user.facebook_id
+            bundle.data['age'] = 34
+            bundle.data['first_name'] = bundle.obj.user.first_name
+            bundle.data['last_name'] = bundle.obj.user.last_name
+            return bundle
