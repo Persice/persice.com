@@ -7128,13 +7128,12 @@ rzslider {
         padding: 1.2em;
     }
     #invitationsTabsMenu.ui.tabular.menu .item.active {
-         padding: 1.2em!important;
+        padding: 1.2em!important;
     }
-
-     #invitationsTabsMenu.ui.tabular.menu .item.withicons {
-         padding-left: 30px!important;
+    #invitationsTabsMenu.ui.tabular.menu .item.withicons,
+    #invitationsTabsMenu.ui.tabular.menu .item.withicons.active {
+        padding-left: 30px!important;
     }
-
     #invitationsTabsMenu.ui.tabular.menu .item.withicons i.icon {
         font-size: 1.1rem!important;
         top: 11px !important;
@@ -7159,7 +7158,6 @@ rzslider {
     top: 450px!important;
 }
 
-
-#createEventsModal #event-invitations .sendInvites.ui.button{
+#createEventsModal #event-invitations .sendInvites.ui.button {
     display: block!important;
 }
