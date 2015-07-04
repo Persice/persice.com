@@ -365,7 +365,7 @@ angular
                 controller: 'EventCreateController',
                 controllerAs: 'singleevent',
                 data: {
-
+                    displayName: 'Event Details',
                 }
             })
             .state('event.edit', {
@@ -379,7 +379,7 @@ angular
                     }],
                 },
                 data: {
-
+                    displayName: 'Event Details',
                 }
             })
             .state('event.invitations', {
@@ -393,7 +393,7 @@ angular
                     }],
                 },
                 data: {
-
+                    displayName: 'Invitations'
                 }
             })
             .state('event.details', {

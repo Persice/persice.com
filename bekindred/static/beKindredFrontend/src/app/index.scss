@@ -6942,7 +6942,7 @@ rzslider {
 
 #invitationsTabsMenu.ui.tabular.menu .item {
     padding: 9px 1.2em 0.8em 1.2em;
-    min-width: 130px;
+    min-width: 170px;
     background-color: #D3D3D3;
     color: #FFFFFF;
     margin-right: 10px;
@@ -7028,6 +7028,10 @@ rzslider {
     top: 5px!important;
 }
 
+.invitations-people td.selected i.icon {
+    color: #AAA;
+}
+
 .invitations-people td,
 .invitations-people th,
 .invitations-people td .header .content {
@@ -7088,16 +7092,52 @@ rzslider {
 
 //responsive search box for invitations
 @media only screen and (max-width: 767px) {
-    #createEventsModal .invitations-people .ui.input.searchbox {
-        width: 100%!important;
-    }
     #invitationsTabsMenu.ui.tabular.menu .item {
-        min-width: 115px;
+        min-width: 140px;
     }
     .invitations-people td,
     .invitations-people th,
     .invitations-people td .header .content {
         padding: 0.9em 0.4em!important;
+    }
+}
+
+.invitations-people .ui.input.searchbox input {
+    padding-right: 0px!important;
+}
+
+.invitations-people .ui.input.searchbox {
+    width: 100%!important;
+}
+
+.invitations-people .ui.input.searchbox input {
+    width: 100%;
+}
+
+.invitations-people thead th {
+    padding-bottom: 0px!important;
+}
+
+@media only screen and (max-width: 400px) {
+    .invitations-people .ui.input.searchbox input {
+        max-width: 110px!important;
+    }
+    #invitationsTabsMenu.ui.tabular.menu .item {
+        font-size: 0.8rem!important;
+        min-width: 130px;
+        padding: 1.2em;
+    }
+    #invitationsTabsMenu.ui.tabular.menu .item.active {
+         padding: 1.2em!important;
+    }
+
+     #invitationsTabsMenu.ui.tabular.menu .item.withicons {
+         padding-left: 30px!important;
+    }
+
+    #invitationsTabsMenu.ui.tabular.menu .item.withicons i.icon {
+        font-size: 1.1rem!important;
+        top: 11px !important;
     }
 }
 /* The finishing CSS styles for the enter animation */
@@ -7117,4 +7157,9 @@ rzslider {
 
 .ui.modal.centeraligned {
     top: 450px!important;
+}
+
+
+#createEventsModal #event-invitations .sendInvites.ui.button{
+    display: block!important;
 }
