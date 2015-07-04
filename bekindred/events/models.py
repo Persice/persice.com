@@ -16,7 +16,7 @@ class GeoPgFullTextQuerySet(GeoQuerySet, SearchQuerySet):
     pass
 
 
-class GeoPgFullTextManager(SearchManager, models.GeoManager):
+class GeoPgFullTextManager(SearchManagerMixIn, models.GeoManager):
     def get_query_set(self):
         return GeoPgFullTextQuerySet(self.model, using=self._db)
 

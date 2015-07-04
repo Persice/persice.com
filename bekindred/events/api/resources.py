@@ -15,6 +15,7 @@ from tastypie.validation import Validation
 
 from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
+from goals.models import MatchFilterState
 from goals.utils import calculate_distance_events, get_user_location
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
@@ -198,10 +199,15 @@ class MyEventFeedResource(ModelResource):
 
     def get_object_list(self, request):
         efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
+
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
-            distance = D(**{'km': efs[0].distance})
+            distance = D(**{distance_unit: efs[0].distance}).m
 
             return super(MyEventFeedResource, self).get_object_list(request). \
                 filter(membership__user=request.user.pk, ends_on__gt=now()). \
@@ -245,10 +251,14 @@ class AllEventFeedResource(ModelResource):
     def get_object_list(self, request):
 
         efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
-            distance = D(**{'km': efs[0].distance})
+            distance = D(**{distance_unit: efs[0].distance}).m
 
             return super(AllEventFeedResource, self).get_object_list(request). \
                 filter(ends_on__gt=now()). \
@@ -304,11 +314,14 @@ class FriendsEventFeedResource(ModelResource):
         # TODO: Added unit tests
         friends = Friend.objects.all_my_friends(user_id=request.user.id)
         efs = EventFilterState.objects.filter(user_id=request.user.id)
-
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
-            distance = D(**{'km': efs[0].distance})
+            distance = D(**{distance_unit: efs[0].distance}).m
             return super(FriendsEventFeedResource, self).get_object_list(request). \
                 filter(membership__user__in=friends, ends_on__gt=now()). \
                 search(tsquery, raw=True). \
