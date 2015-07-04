@@ -206,7 +206,8 @@ class MyEventFeedResource(ModelResource):
         distance_unit = 'km'
         if mfs:
             distance_unit = mfs[0].distance_unit
-
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
@@ -258,6 +259,8 @@ class AllEventFeedResource(ModelResource):
         distance_unit = 'km'
         if mfs:
             distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
@@ -321,6 +324,8 @@ class FriendsEventFeedResource(ModelResource):
         distance_unit = 'km'
         if mfs:
             distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
