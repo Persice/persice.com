@@ -215,7 +215,7 @@ class MyEventFeedResource(ModelResource):
             return super(MyEventFeedResource, self).get_object_list(request). \
                 filter(membership__user=request.user.pk, ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__distance_lt=(user_point, distance)). \
+                filter(point__dwithin=(user_point, distance)). \
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
@@ -266,7 +266,7 @@ class AllEventFeedResource(ModelResource):
             return super(AllEventFeedResource, self).get_object_list(request). \
                 filter(ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__distance_lt=(user_point, distance)). \
+                filter(point__dwithin=(user_point, distance)). \
                 order_by('starts_on')
         return super(AllEventFeedResource, self).get_object_list(request). \
             filter(ends_on__gt=now()).order_by('starts_on')
@@ -328,7 +328,7 @@ class FriendsEventFeedResource(ModelResource):
             return super(FriendsEventFeedResource, self).get_object_list(request). \
                 filter(membership__user__in=friends, ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__distance_lt=(user_point, distance)). \
+                filter(point__dwithin=(user_point, distance)). \
                 order_by('starts_on')
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
