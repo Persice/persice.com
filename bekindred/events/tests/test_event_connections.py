@@ -41,4 +41,4 @@ class TestEventConnections(ResourceTestCase):
                            u'resource_uri': u'/api/v1/events/connections/1/',
                            u'rsvp': u'yes',
                            u'tagline': u'',
-                           u'user': u'/api/v1/auth/user/1/'}])
+                           u'user': u'/api/v1/auth/user/%s/' % self.user.pk}])
