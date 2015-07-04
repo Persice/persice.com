@@ -1,4 +1,7 @@
 <div class="ui basic segment" id="event-invitations">
+    <div class="ui active inverted dimmer" ng-if="viewevent.loadingInvitesSave">
+        <div class="ui text loader">Please wait while invitations are being sent...</div>
+    </div>
     <form class="ui form">
         <div class="ui header">Who can attend this event?</div>
         <div class="fields">
@@ -32,10 +35,10 @@
     </form>
     <br>
     <div class="ui top attached tabular menu" id="invitationsTabsMenu">
-        <a class="item active withicons" data-tab="first"><i class="envelope large circle icon"></i> Invite</a>
-        <a class="item" data-tab="second">Selected <span class="ui circular label">{{viewevent.invitedPeople.length}}</span></a>
+        <a class="item active" data-tab="first">My Connections</a>
+        <a class="item withicons" data-tab="second"><i class="check large circle icon"></i> Invite List <span class="ui circular label">{{viewevent.invitedPeople.length}}</span></a>
     </div>
-    <div class="ui bottom attached tab segment active table-container" data-tab="first">
+    <div class="ui bottom attached tab segment active" data-tab="first">
         <table class="ui very basic unstackable selectable table invitations-people">
             <thead>
                 <tr>
@@ -51,7 +54,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="connection in viewevent.connections track by $index" ng-class="{'active': connection.invited}" ng-click="viewevent.inviteConnection($index)">
+                <tr ng-repeat="connection in viewevent.connections track by connection.id" ng-class="{'active': connection.selected}" ng-click="viewevent.inviteConnection($index)">
                     <td>
                         <h4 class="ui image header">
                             <img src="http://lorempixel.com/32/32" class="ui circular image">
@@ -65,7 +68,7 @@
                     </td>
                     <td class="desktopview">{{::connection.match_score}}</td>
                     <td class="desktopview">{{::connection.mutual_friends}}</td>
-                    <td class="selected"><i ng-if="connection.invited" class="check fade icon big circle invite outline green"></i></td>
+                    <td class="selected"><i ng-if="connection.selected" class="check fade icon big circle invite outline" ng-class="{'green': !connection.invited && connection.selected}"></i></td>
                 </tr>
             </tbody>
         </table>
@@ -88,7 +91,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="connection in viewevent.invitedPeople track by $index">
+                <tr ng-repeat="connection in viewevent.invitedPeople track by connection.id">
                     <td>
                         <h4 class="ui image header">
                             <img src="http://lorempixel.com/32/32" class="ui circular image">
@@ -102,11 +105,15 @@
                     </td>
                     <td class="desktopview">{{::connection.match_score}}</td>
                     <td class="desktopview">{{::connection.mutual_friends}}</td>
-                    <td>YES</td>
+                    <td>{{::connection.rsvp}}</td>
                     <td class="selected"><i ng-click="viewevent.removeInvite($index)" class="remove fade icon big circle outline red"></i></td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <br>
+    <div class="ui large form segment" id="actionForm">
+        <div id="actionButton" ng-click="viewevent.sendInvites()" ng-class="{'disabled': viewevent.counterNewInvites === 0}" class="ui green button sendInvites desktopview">Done</div>
     </div>
 </div>
 <script>
