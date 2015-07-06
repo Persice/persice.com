@@ -1672,15 +1672,15 @@ Definition Container
 @media only screen and (min-width: 768px) {
     #main-page .main.container {
         position: relative;
-        padding-left: 180px;
-        padding-right: 180px;
+        padding-left: 200px;
+        padding-right: 200px;
     }
     #main-page .container .right.rail {
-        width: 180px;
+        width: 200px;
         padding-left: 0em;
     }
     #main-page .container .left.rail {
-        width: 180px;
+        width: 200px;
         padding-right: 0em;
     }
 }
@@ -2480,8 +2480,10 @@ section.match {
 }
 
 #filter label {
-    color: #FFF;
-    font-size: 1.1rem;
+    color: #FFF!important;
+    font-size: 1.1rem!important;
+    width: 100%!important;
+    text-align: left!important;
 }
 
 #filter h5.right.switch_label {
@@ -2812,7 +2814,7 @@ img {
 .container {
     padding: 40px 20px;
     margin: 0 auto;
-    max-width: 1024px!important;
+    max-width: 1124px!important;
 }
 /* conversation */
 
@@ -5672,7 +5674,8 @@ body.events-page .ui.fluid.card .content {
     padding-left: 1.4em;
 }
 
-body.events-page .ui.cards>.card .meta, body.events-page .ui.card .meta {
+body.events-page .ui.cards>.card .meta,
+body.events-page .ui.card .meta {
     margin: 5px 100px 10px 10px!important;
     color: #000;
     font-weight: 300!important;
@@ -6865,16 +6868,296 @@ body.event-page .ui.form .field.error input {
     color: #FFFFFF!important;
 }
 
-
-
 body.events-page .ui.statistics>.statistic {
-      margin: 0 1.3em 2em!important;
+    margin: 0 1.3em 2em!important;
 }
 
-body.events-page .ui.statistics .statistic>.value,  body.events-page .ui.statistic>.value {
+body.events-page .ui.statistics .statistic>.value,
+body.events-page .ui.statistic>.value {
     margin-right: 0px!important;
 }
 
 .hidevisibility {
     visibility: hidden!important;
+}
+
+rzslider span.rz-pointer {
+    top: -9px!important;
+    z-index: 2;
+    width: 20px!important;
+    height: 20px!important;
+    cursor: pointer;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    border-radius: 16px;
+    background: #fff linear-gradient(transparent, rgba(0, 0, 0, .05))!important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05), 0 0 0 1px rgba(39, 41, 43, .15)inset!important;
+}
+
+rzslider span.rz-pointer:after {
+    display: none!important;
+}
+
+rzslider span.rz-bubble {
+    display: none!important
+}
+
+#matchfeed-filters label {
+    width: 100%!important;
+    text-align: left!important;
+    font-size: 1rem!important;
+    color: rgba(0, 0, 0, .8)!important;
+    font-weight: 700!important;
+    text-transform: none!important;
+}
+
+rzslider {
+    margin: 15px 0 15px 0!important;
+}
+/* Invitations */
+
+.ui.modal.centeraligned>.left.chevron.icon {
+    top: 1rem!important;
+    left: 1rem!important;
+    color: #000!important;
+    position: absolute!important;
+    font-size: 1.5rem!important;
+    cursor: pointer!important;
+    opacity: .8!important;
+}
+
+.ui.modal.centeraligned>.left.chevron.icon:hover {
+    opacity: 1!important;
+}
+
+.ui.modal.centeraligned .switch-content {
+    overflow: hidden!important;
+    position: relative!important;
+}
+
+.ui.modal.centeraligned .header.leftalign {
+    text-align: left!important;
+    padding-left: 4rem!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item {
+    padding: 9px 1.2em 0.8em 1.2em;
+    min-width: 170px;
+    background-color: #D3D3D3;
+    color: #FFFFFF;
+    margin-right: 10px;
+    border-radius: 0px!important;
+    position: relative!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item .ui.circular.label {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item .icon {
+    position: absolute!important;
+    left: 8px!important;
+    top: 8px!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .item.withicons,
+#invitationsTabsMenu.ui.tabular.menu .item.withicons.active {
+    padding-left: 36px!important;
+}
+
+#invitationsTabsMenu.ui.tabular.menu .active.item {
+    background-color: #FFF;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 0.8em 1.2em!important;
+}
+
+.radio-vertical {
+    position: relative;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.radio-vertical input[type=radio] {
+    cursor: pointer;
+    width: auto!important;
+}
+
+.radio-vertical .label,
+.checkbox-vertical .label {
+    margin-left: 10px;
+}
+
+.field-section {
+    padding: 1.5rem!important;
+    box-shadow: 0 0 0 0 #eee, 0 0 0 1px #eee!important;
+    background-color: #fff;
+    border-radius: .2857rem;
+}
+
+.ui.modal.centeraligned #event-invitations {
+    height: 650px!important;
+    overflow-y: scroll!important;
+}
+
+#event-invitations .radio-vertical .label,
+#event-invitations .checkbox-vertical .label {
+    color: #888;
+}
+
+.checkbox-vertical input[type=checkbox] {
+    vertical-align: middle!important;
+    cursor: pointer!important;
+    width: auto!important;
+}
+
+#event-invitations .label.number {
+    float: right;
+}
+
+.invitations-people .tagline {
+    font-weight: 400;
+    font-variant: italic;
+    color: rgba(0, 0, 0, .5);
+}
+
+.invitations-people .intersecticon {
+    position: absolute!important;
+    left: 0px!important;
+    top: 5px!important;
+}
+
+.invitations-people td.selected i.icon {
+    color: #AAA;
+}
+
+.invitations-people td,
+.invitations-people th,
+.invitations-people td .header .content {
+    padding: 0.9em 0.8em!important;
+    position: relative!important;
+}
+
+.invitations-people td,
+.invitations-people th,
+.invitations-people td .header .content {
+    padding: 0.9em 1.1 em!important;
+}
+
+.invitations-people .header img.circular {
+    width: 3.5em;
+}
+
+.invitations-people .searchbox input[type=text] {
+    font-size: 1.3rem!important;
+}
+
+.invitations-people .search-header-container {
+    padding-left: 0.8em!important;
+}
+
+.invitations-people tbody tr {
+    cursor: pointer!important;
+}
+
+.invitations-people thead tr th i.icon {
+    text-align: inherit!important;
+    margin: 0px!important;
+}
+
+.invitations-people tbody tr:hover td {
+    background-color: #fcfcfc!important;
+}
+
+.invitations-people tbody td.selected {
+    text-align: right!important;
+}
+
+.invitations-people.ui.table tbody tr.active td {
+    background-color: #fcfcfc!important;
+}
+
+//fade animation for selecting people in connections
+/* The starting CSS styles for the enter animation */
+
+.fade.ng-enter {
+    transition: 0.3s linear all;
+    opacity: 0;
+}
+
+#createEventsModal .invitations-people .ui.input.searchbox {
+    width: 100%!important;
+}
+
+//responsive search box for invitations
+@media only screen and (max-width: 767px) {
+    #invitationsTabsMenu.ui.tabular.menu .item {
+        min-width: 140px;
+    }
+    .invitations-people td,
+    .invitations-people th,
+    .invitations-people td .header .content {
+        padding: 0.9em 0.4em!important;
+    }
+}
+
+.invitations-people .ui.input.searchbox input {
+    padding-right: 0px!important;
+}
+
+.invitations-people .ui.input.searchbox {
+    width: 100%!important;
+}
+
+.invitations-people .ui.input.searchbox input {
+    width: 100%;
+}
+
+.invitations-people thead th {
+    padding-bottom: 0px!important;
+}
+
+@media only screen and (max-width: 400px) {
+    .invitations-people .ui.input.searchbox input {
+        max-width: 110px!important;
+    }
+    #invitationsTabsMenu.ui.tabular.menu .item {
+        font-size: 0.8rem!important;
+        min-width: 130px;
+        padding: 1.2em;
+    }
+    #invitationsTabsMenu.ui.tabular.menu .item.active {
+        padding: 1.2em!important;
+    }
+    #invitationsTabsMenu.ui.tabular.menu .item.withicons,
+    #invitationsTabsMenu.ui.tabular.menu .item.withicons.active {
+        padding-left: 30px!important;
+    }
+    #invitationsTabsMenu.ui.tabular.menu .item.withicons i.icon {
+        font-size: 1.1rem!important;
+        top: 11px !important;
+    }
+}
+/* The finishing CSS styles for the enter animation */
+
+.fade.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.fade.ng-leave {
+    transition: 0.2s linear all;
+    opacity: 1;
+}
+
+.fade.ng-leave.ng-leave-active {
+    opacity: 0;
+}
+
+.ui.modal.centeraligned {
+    top: 450px!important;
+}
+
+#createEventsModal #event-invitations .sendInvites.ui.button {
+    display: block!important;
 }

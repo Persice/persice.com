@@ -17,8 +17,11 @@
         vm.mapurlTrue = false;
         vm.event = {};
         vm.eventNotFound = false;
+        vm.editEvent = editEvent;
 
         vm.eventLocation = '';
+
+        $scope.eventpage.header = 'Event Details';
 
         vm.placeholder = {
             name: 'Event Name',
@@ -50,6 +53,12 @@
 
 
         });
+
+        function editEvent() {
+            $state.go('event.edit', {
+                eventId: eventId
+            });
+        }
 
 
         vm.isHost = null;

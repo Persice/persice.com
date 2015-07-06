@@ -13,7 +13,6 @@ angular
         'frontend.semantic.modal.event.create',
         'frontend.semantic.modal.event.view',
         'truncate',
-        'ya.nouislider',
         'ngDraggable',
         'angucomplete-alt',
         'cgNotify',
@@ -27,9 +26,11 @@ angular
         'ezfb',
         'frontend.ui.tooltips',
         'google.places',
-        'ngMask'
+        'ngMask',
+        'rzModule'
     ])
-    .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
+
+.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
         //disable debug in production, enable debug manually angular.reloadWithDebugInfo();
         // $compileProvider.debugInfoEnabled(false);
@@ -364,7 +365,7 @@ angular
                 controller: 'EventCreateController',
                 controllerAs: 'singleevent',
                 data: {
-
+                    displayName: 'Event Details',
                 }
             })
             .state('event.edit', {
@@ -378,7 +379,21 @@ angular
                     }],
                 },
                 data: {
-
+                    displayName: 'Event Details',
+                }
+            })
+            .state('event.invitations', {
+                url: '/invitations/:eventId',
+                templateUrl: 'app/events/event_invitations.html',
+                controller: 'EventInvitationsController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
+                data: {
+                    displayName: 'Invitations'
                 }
             })
             .state('event.details', {

@@ -8,25 +8,7 @@
                 <label>Distance <span class="range">{{filter.distanceValue}} {{filter.distanceUnit}}</span></label>
                 <rzslider rz-slider-always-show-bar="true" rz-slider-hide-limit-labels="false" rz-slider-model="filter.distanceValue" rz-slider-floor="1" rz-slider-ceil="10000"></rzslider>
             </div>
-            <div class="field">
-                <label>Age <span class="range">{{filter.ageSlider.min}} &ndash; {{filter.ageSlider.max}}</span></label>
-                <rzslider rz-slider-hide-limit-labels="false" rz-slider-floor="filter.ageSlider.floor" rz-slider-ceil="filter.ageSlider.ceil" rz-slider-model="filter.ageSlider.min" rz-slider-high="filter.ageSlider.max"></rzslider>
-            </div>
-            <div class="field">
-                <label class="">Show</label>
-            </div>
-            <div class="field field-checkbox">
-                <uicheckbox value="m" change="filter.toggleGender(value, checked)" checked="{{filter.checkedmale}}" type="toggle" ng-model="filter.male">Men</uicheckbox>
-            </div>
-            <div class="field field-checkbox">
-                <uicheckbox value="f" change="filter.toggleGender(value, checked)" checked="{{filter.checkedfemale}}" type="toggle" ng-model="filter.female">Women</uicheckbox>
-            </div>
-            <div class="field">
-                <label class="">Order By</label>
-            </div>
-            <div class="field">
-                <select class="icebrakselect" ng-change="filter.saveFiltersDebounce()" ng-options="item.value as item.name for item in filter.orderByValues" ng-model="filter.orderBy"></select>
-            </div>
+
             <div class="field keywords-label">
                 <label class="">Keywords</label>
             </div>
@@ -51,6 +33,6 @@
                 </div>
             </a>
             <div class="ui divider"></div>
-            <a href="" class="button ui submit green" ng-class="{'disabled': !filter.changed}" ng-click="filter.refreshMatchFeed()" role="button">Update</a>
+            <a href="" class="button ui submit green" ng-class="{'disabled': !filter.changed}" ng-click="filter.refreshEventsFeed()" role="button">Update</a>
     </div>
 </div>

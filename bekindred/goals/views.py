@@ -61,3 +61,6 @@ def main_page(request, template_name="homepage.html"):
 
 def close_login_popup(request):
     return render_to_response('goals/close_popup.html', {}, RequestContext(request))
+
+def error_window(request):
+    return render_to_response('error_window.html', {}, RequestContext(request))

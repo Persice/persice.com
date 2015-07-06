@@ -1,10 +1,24 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils.timezone import now
 from geoposition.fields import GeopositionField
 from django.contrib.gis.db import models as gis_models
 from django_facebook.models import FacebookCustomUser
 from djorm_pgfulltext.fields import VectorField
-from djorm_pgfulltext.models import SearchManager
+from djorm_pgfulltext.models import SearchManager, SearchManagerMixIn, SearchQuerySet
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import fromstr
+
+from django.contrib.gis.db.models.query import GeoQuerySet
+
+
+class GeoPgFullTextQuerySet(GeoQuerySet, SearchQuerySet):
+    pass
+
+
+class GeoPgFullTextManager(SearchManagerMixIn, models.GeoManager):
+    def get_query_set(self):
+        return GeoPgFullTextQuerySet(self.model, using=self._db)
 
 
 class Event(models.Model):
@@ -17,6 +31,7 @@ class Event(models.Model):
     description = models.CharField(max_length=300, null=True, blank=True)
     name = models.CharField(max_length=300)
     location = GeopositionField()
+    point = models.PointField(null=True)
     location_name = models.CharField(max_length=255, null=True)
     country = models.CharField(max_length=255, null=True)
     full_address = models.CharField(max_length=255, null=True)
@@ -31,8 +46,8 @@ class Event(models.Model):
 
     search_index = VectorField()
 
-    geo_objects = gis_models.GeoManager()
-    objects = SearchManager(
+    # geo_objects = gis_models.GeoManager()
+    objects = GeoPgFullTextManager(
         fields=('description', 'name'),
         config='pg_catalog.english',
         search_field='search_index',
@@ -41,6 +56,11 @@ class Event(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        point = fromstr("POINT(%s %s)" % (self.location.latitude, self.location.longitude))
+        self.point = point
+        super(Event, self).save(*args, **kwargs)
 
 
 class Membership(models.Model):
@@ -52,11 +72,16 @@ class Membership(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
     event = models.ForeignKey(Event)
     is_organizer = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=False)
     rsvp = models.CharField(max_length=5, choices=RSVP_CHOICES, null=True)
     updated = models.DateTimeField(default=now())
 
     class Meta:
         unique_together = (('user', 'event', 'is_organizer'),)
+
+    def __unicode__(self):
+        return '%s - %s' % (self.user.get_full_name(),
+                            self.event.name)
 
 
 class EventFilterState(models.Model):

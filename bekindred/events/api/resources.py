@@ -1,12 +1,13 @@
 import json
 
+from django.contrib.gis.measure import D
 from django.db import IntegrityError
 from django.utils.timezone import now
 import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
-from tastypie.constants import ALL
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource
 
@@ -14,10 +15,12 @@ from tastypie.validation import Validation
 
 from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
-from goals.utils import calculate_distance_events, calculate_distance
+from goals.models import MatchFilterState
+from goals.utils import calculate_distance_events, get_user_location
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
+from postman.api import pm_write
 
 
 class EventValidation(Validation):
@@ -65,7 +68,13 @@ class EventResource(ModelResource):
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
         friends = Friend.objects.all_my_friends(user_id=user_id)
-        attendees = Event.objects.get(pk=bundle.obj.pk). \
+        event = Event.objects.get(pk=bundle.obj.pk)
+        try:
+            bundle.data['hosted_by'] = event.membership_set.\
+                filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
+        except IndexError:
+            bundle.data['hosted_by'] = ''
+        attendees = event.\
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
 
@@ -90,9 +99,25 @@ class EventResource(ModelResource):
         event = Event.objects.get(pk=int(kwargs['pk']))
         members = event.membership_set.filter(rsvp__in=['yes', 'maybe'], is_organizer=False)
         organizer = event.membership_set.filter(is_organizer=True)[0]
+        recipients = FacebookCustomUserActive.objects. \
+            filter(id__in=members.values_list('user_id', flat=True))
         data = {'event_name': event.name,
                 'event_start_date': str(event.starts_on),
                 'event_organizer_name': organizer.user.first_name}
+
+        for recipient in recipients:
+            message_data = {'sent_at': now().isoformat(),
+                            'sender': '/api/auth/user/{}/'.format(organizer.user.id),
+                            'recipient': '/api/auth/user/{}/'.format(recipient.id),
+                            'body': """
+                                    The event {event_name} on {event_start_date} has been
+                                    cancelled by {event_organizer_name},
+                                    the event host. We apologize for any inconvenience.
+                                    (This is an automated message.)"
+                                    """.format(**data)}
+            pm_write(bundle.request.user, recipient, '', body=message_data['body'])
+            r.publish('message.%s' % recipient.id, json.dumps(message_data))
+
         for member in members:
             r.publish('event_deleted.%s' % member.user.id, json.dumps(data))
 
@@ -136,7 +161,7 @@ class EventFilterStateResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(EventFilterStateResource, self).get_object_list(request).\
+        return super(EventFilterStateResource, self).get_object_list(request). \
             filter(user_id=request.user.id)
 
 
@@ -147,6 +172,9 @@ class UserResourceShort(ModelResource):
         fields = ['first_name', 'last_name', 'facebook_id']
         authentication = SessionAuthentication()
         authorization = Authorization()
+        filtering = {
+            'first_name': ALL
+        }
 
 
 class MembershipResource(ModelResource):
@@ -174,15 +202,27 @@ class MyEventFeedResource(ModelResource):
 
     def get_object_list(self, request):
         efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
         if request.GET.get('filter') == 'true' and efs:
             tsquery = ' | '.join(efs[0].keyword.split(','))
-            return super(MyEventFeedResource, self).get_object_list(request).\
-                filter(membership__user=request.user.pk, ends_on__gt=now()).\
-                search(tsquery, raw=True).\
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+
+            return super(MyEventFeedResource, self).get_object_list(request). \
+                filter(membership__user=request.user.pk, ends_on__gt=now()). \
+                search(tsquery, raw=True). \
+                filter(point__dwithin=(user_point, distance)). \
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
-                filter(membership__user=request.user.pk, ends_on__gt=now()).order_by('starts_on')
+                filter(membership__user=request.user.pk, ends_on__gt=now(),
+                       membership__rsvp__in=['yes', 'maybe'],
+                       ).order_by('starts_on')
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -213,6 +253,24 @@ class AllEventFeedResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
+
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+
+            return super(AllEventFeedResource, self).get_object_list(request). \
+                filter(ends_on__gt=now()). \
+                search(tsquery, raw=True). \
+                filter(point__dwithin=(user_point, distance)). \
+                order_by('starts_on')
         return super(AllEventFeedResource, self).get_object_list(request). \
             filter(ends_on__gt=now()).order_by('starts_on')
 
@@ -259,9 +317,54 @@ class FriendsEventFeedResource(ModelResource):
         return bundle
 
     def get_object_list(self, request):
+        # TODO: Added unit tests
         friends = Friend.objects.all_my_friends(user_id=request.user.id)
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            return super(FriendsEventFeedResource, self).get_object_list(request). \
+                filter(membership__user__in=friends, ends_on__gt=now()). \
+                search(tsquery, raw=True). \
+                filter(point__dwithin=(user_point, distance)). \
+                order_by('starts_on')
         return super(FriendsEventFeedResource, self).get_object_list(request). \
-            filter(membership__user__in=friends, ends_on__gt=now(),
-                   membership__is_organizer=True).order_by('starts_on')
+            filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
 
 
+class EventConnections(ModelResource):
+    event = fields.ToOneField(EventResource, 'event')
+    user = fields.ToOneField(UserResourceShort, 'user')
+
+    class Meta:
+        always_return_data = True
+        queryset = Membership.objects.all()
+        resource_name = 'events/connections'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+        excludes = ['updated']
+        allowed_methods = ['get']
+        filtering = {
+            'is_organizer': ALL,
+            'is_accepted': ALL,
+            'rsvp': ALL,
+            'user': ALL_WITH_RELATIONS,
+            'event': ALL_WITH_RELATIONS,
+        }
+
+    def dehydrate(self, bundle):
+            bundle.data['tagline'] = ''
+            bundle.data['common_goals_offers_interests'] = 0
+            bundle.data['mutual_friends_count'] = 0
+            bundle.data['facebook_id'] = bundle.obj.user.facebook_id
+            bundle.data['age'] = 34
+            bundle.data['first_name'] = bundle.obj.user.first_name
+            bundle.data['last_name'] = bundle.obj.user.last_name
+            return bundle

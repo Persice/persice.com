@@ -18,6 +18,9 @@
             option: false
         };
 
+        vm.header = 'Event Details';
+
+        //remove all modals
         $('.ui.dimmer.modals').remove();
 
         vm.makeactionEvent = makeactionEvent;
@@ -39,9 +42,11 @@
                     eventId: vm.eventId
                 });
             }
+
+            if ($state.current.name === 'event.invitations') {
+                $scope.$broadcast('sendInvites');
+            }
         }
-
-
 
         function gotoPreviousState() {
             $scope.$broadcast('goBackEvents');
