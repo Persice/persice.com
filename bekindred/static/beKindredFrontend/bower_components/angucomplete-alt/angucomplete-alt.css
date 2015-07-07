@@ -1,6 +1,5 @@
 .angucomplete-holder {
     position: relative;
-    width: 100%!important;
 }
 
 .angucomplete-dropdown {
@@ -13,8 +12,9 @@
     cursor: pointer;
     z-index: 9999;
     position: absolute;
-    top: 37px;
+    /*top: 32px;
     left: 0px;
+    */
     margin-top: -6px;
     background-color: #ffffff;
 }

@@ -1,6 +1,8 @@
 Angular Tooltips
 ==================
 
+[![Join the chat at https://gitter.im/720kb/angular-tooltips](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/720kb/angular-tooltips?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 Angular Tooltips is an angularjs directive that generates a tooltip on your element.
 
@@ -97,11 +99,19 @@ using the `tooltip-title=""` attribute or simply via `title=""` html attribute
 ```
 
 ####Tooltip content
-You can set your tooltip content (text/html doesn't matter)
+You can set your tooltip content
 using the `tooltip-content=""` attribute
 
 ```html
-<a href="#" tooltips tooltip-title="tip" tooltip-content="<i>Woa!</i>">Tooltip me</a>
+<a href="#" tooltips tooltip-title="tip" tooltip-content="Woa!">Tooltip me</a>
+```
+
+####Tooltip HTML content
+You can set your tooltip html content
+using the `tooltip-html=""` attribute
+
+```html
+<a href="#" tooltips tooltip-title="tip" tooltip-html="<i>Woa!</i>">Tooltip me</a>
 ```
 
 ####Tooltip size
@@ -122,6 +132,13 @@ using the `tooltip-speed=""` attribute
 <a href="#" tooltips tooltip-speed="medium" tooltip-title="tip">Tooltip medium</a>
 <a href="#" tooltips tooltip-speed="slow" tooltip-title="tip">Tooltip slow</a>
 <a href="#" tooltips tooltip-speed="950" tooltip-title="tip">Tooltip custom</a>
+```
+####Tooltip delay
+You can set the tooltip transition delay (ms)
+using the `tooltip-delay=""` attribute
+
+```html
+<a href="#" tooltips tooltip-delay="800" tooltip-title="tip">Tooltip in 800ms</a>
 ```
 ####Tooltip try
 If space is not available for tooltip , it will automatically search for a similar alternative position to show. You can set tooltip try (1 || 0) 
@@ -150,6 +167,14 @@ You can set your tooltip to show/hide on specific event/events, you can use the 
 <a href="#" tooltips tooltip-title="tip" tooltip-show-trigger="click" tooltip-side="top">Show tooltip only on click</a>
 <a href="#" tooltips tooltip-title="tip" tooltip-hide-trigger="click" tooltip-side="bottom">Hide tooltip only on click</a>
 <a href="#" tooltips tooltip-title="tip" tooltip-show-trigger="mouseover click" tooltip-hide-trigger="click" tooltip-side="left">Show tooltip on click and mouseover and hide tooltip only on click</a>
+```
+
+_**Close button**_
+
+If you want to hide on click, you can configure a close button using text or HTML. This allows your users to click the button inside the tooltip instead of clicking on the original trigger.
+```html
+<a href="#" tooltips tooltip-title="tip" tooltip-show-trigger="mouseover click" tooltip-hide-trigger="click" tooltip-close-button="x" tooltip-side="left">Show tooltip on click and mouseover and hide tooltip only on click, with option to click on the X</a>
+<a href="#" tooltips tooltip-title="tip" tooltip-show-trigger="mouseover click" tooltip-hide-trigger="click" tooltip-close-button='<button type="button">Close Me!</button>' tooltip-side="left">Show tooltip on click and mouseover and hide tooltip only on click, with option to click on HTML button</a>
 ```
 
 ####Tooltip CSS class

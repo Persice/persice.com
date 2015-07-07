@@ -1,6 +1,6 @@
 {
   "name": "angular-tooltips",
-  "version": "0.1.9",
+  "version": "0.1.13",
   "description": "A tooltips directive for angularjs.",
   "authors": [
     "Filippo Oretti <filippo.oretti@gmail.com",
@@ -24,14 +24,13 @@
     "test",
     "tests"
   ],
-  "_release": "0.1.9",
+  "_release": "0.1.13",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.9",
-    "commit": "ebf12b9ee10de146019c4fcbde4950f6a19164b1"
+    "tag": "0.1.13",
+    "commit": "84b5de9c538a723204a94d32deedf0958a75415e"
   },
   "_source": "git://github.com/720kb/angular-tooltips.git",
   "_target": "~0.1.9",
-  "_originalSource": "angular-tooltips",
-  "_direct": true
+  "_originalSource": "angular-tooltips"
 }

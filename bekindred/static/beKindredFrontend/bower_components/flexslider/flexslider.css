@@ -1,5 +1,5 @@
 /*
- * jQuery FlexSlider v2.4.0
+ * jQuery FlexSlider v2.5.0
  * http://www.woothemes.com/flexslider/
  *
  * Copyright 2012 WooThemes
@@ -7,7 +7,7 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
  * Contributing author: Tyler Smith (@mbmufffin)
- *
+ * 
  */
 /* ====================================================================================================================
  * FONT-FACE
@@ -143,10 +143,10 @@ html[xmlns] .flexslider .slides {
   content: '\f002';
 }
 .flex-direction-nav .flex-prev {
-  left: 0px;
+  left: -50px;
 }
 .flex-direction-nav .flex-next {
-  right: 0px;
+  right: -50px;
   text-align: right;
 }
 .flexslider:hover .flex-direction-nav .flex-prev {
@@ -190,7 +190,7 @@ html[xmlns] .flexslider .slides {
 .flex-pauseplay a:hover {
   opacity: 1;
 }
-.flex-pauseplay a .flex-play:before {
+.flex-pauseplay a.flex-play:before {
   content: '\f003';
 }
 .flex-control-nav {

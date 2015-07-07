@@ -20,9 +20,9 @@
 * Collaborator and excellent developer
 * Add autocapitalize="off" autocorrect="off" autocomplete="off" #15
 
-### [@termleech](https://github.com/termleech)
+### [@davidgeary: David Geary](https://github.com/davidgeary)
 
-* Add maxlength #136
+* Missing 'type' field on input element when not specified #167
 
 ### [@handiwijoyo: Handi Wijoyo](https://github.com/handiwijoyo)
 
@@ -32,6 +32,10 @@
 
 * Escape regular expression #123
 
+### [@jbuquet: Javier Buquet](https://github.com/jbuquet)
+
+* Add custom API handler #128
+
 ### [@jermspeaks: Jeremy Wong](https://github.com/jermspeaks)
 
 * Support withCredentials for $http #113
@@ -39,6 +43,10 @@
 ### [@Leocrest](https://github.com/Leocrest)
 
 * Clear input #61
+
+### [@mcnocopo: Pachito Marco Calabrese](https://github.com/mcnocopo)
+
+* Add input name and a not-empty class #124
 
 ### [@mmBs](https://github.com/mmBs)
 
@@ -64,6 +72,10 @@
 ### [@SpaceK33z: Kees Kluskens](https://github.com/SpaceK33z)
 
 * Bug fix #62
+
+### [@termleech](https://github.com/termleech)
+
+* Add maxlength #136
 
 ### [@tomgutz: Tomas Gutierrez](https://github.com/tomgutz)
 
