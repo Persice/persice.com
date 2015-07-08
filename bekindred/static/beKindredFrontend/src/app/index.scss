@@ -1474,13 +1474,13 @@ Definition Container
 }
 
 #main-page .container .right.rail {
-    width: 180px;
+    width: 200px;
     padding-left: 0em;
     background-color: #f7f7f7 !important;
 }
 
 #main-page .container .left.rail {
-    width: 180px;
+    width: 200px;
     padding-right: 0em;
     background-color: #f7f7f7 !important;
 }
@@ -1674,15 +1674,15 @@ Definition Container
 @media only screen and (min-width: 768px) {
     #main-page .main.container {
         position: relative;
-        padding-left: 200px;
-        padding-right: 200px;
+        padding-left: 240px;
+        padding-right: 240px;
     }
     #main-page .container .right.rail {
-        width: 200px;
+        width: 220px;
         padding-left: 0em;
     }
     #main-page .container .left.rail {
-        width: 200px;
+        width: 220px;
         padding-right: 0em;
     }
 }
@@ -2816,7 +2816,7 @@ img {
 .container {
     padding: 40px 20px;
     margin: 0 auto;
-    max-width: 1124px!important;
+    max-width: 1200px!important;
 }
 /* conversation */
 
@@ -4402,6 +4402,7 @@ input#id_description_value {
 
 #FilterController {
     padding: 1rem;
+    min-width: 200px!important;
 }
 
 #filterForm {

@@ -40,17 +40,20 @@
                 </label>
             </div>
             <div class="field">
-                <div class="ui icon input" id="keywordsSearch">
-                    <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
-                    <i class="circular plus icon" ng-click="filter.addKeyword(filter.newKeyword)"></i>
-                </div>
+                <div class="ui action input">
+                  <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
+
+                  <button ng-click="filter.addKeyword(filter.newKeyword)" class="ui icon button">
+                      <i class="plus icon"></i>
+                  </button>
+              </div>
+          </div>
+          <a ng-click="filter.removeKeyword($index)" href="" class="item" ng-repeat="keyword in filter.myKeywords track by $index">
+            <div class="content">
+                <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
             </div>
-            <a ng-click="filter.removeKeyword($index)" href="" class="item" ng-repeat="keyword in filter.myKeywords track by $index">
-                <div class="content">
-                    <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
-                </div>
-            </a>
-            <div class="ui divider"></div>
-            <a href="" class="button ui submit green" ng-class="{'disabled': !filter.changed}" ng-click="filter.refreshMatchFeed()" role="button">Update</a>
+        </a>
+        <div class="ui divider"></div>
+        <a href="" class="button ui submit green" ng-class="{'disabled': !filter.changed}" ng-click="filter.refreshMatchFeed()" role="button">Update</a>
     </div>
 </div>
