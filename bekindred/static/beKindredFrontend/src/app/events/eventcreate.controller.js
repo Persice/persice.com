@@ -176,62 +176,64 @@
             vm.showSuccess = false;
             $('.ui.form')
                 .form({
-                    name: {
-                        identifier: 'name',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Event name'
-                        }]
-                    },
-                    location: {
-                        identifier: 'location',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Location'
-                        }]
-                    },
-                    repeat: {
-                        identifier: 'repeat',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Repeat'
-                        }]
-                    },
-                    description: {
-                        identifier: 'description',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Description'
-                        }]
-                    },
-                    starts_on_date: {
-                        identifier: 'starts_on_date',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Starts Date'
-                        }]
-                    },
-                    starts_on_time: {
-                        identifier: 'starts_on_time',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Starts Time'
-                        }]
-                    },
-                    ends_on_date: {
-                        identifier: 'ends_on_date',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Ends Date'
-                        }]
-                    },
-                    ends_on_time: {
-                        identifier: 'ends_on_time',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Ends Time'
-                        }]
-                    },
+                    fields: {
+                        name: {
+                            identifier: 'name',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Event name'
+                            }]
+                        },
+                        location: {
+                            identifier: 'location',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Location'
+                            }]
+                        },
+                        repeat: {
+                            identifier: 'repeat',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Repeat'
+                            }]
+                        },
+                        description: {
+                            identifier: 'description',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Description'
+                            }]
+                        },
+                        starts_on_date: {
+                            identifier: 'starts_on_date',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Starts Date'
+                            }]
+                        },
+                        starts_on_time: {
+                            identifier: 'starts_on_time',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Starts Time'
+                            }]
+                        },
+                        ends_on_date: {
+                            identifier: 'ends_on_date',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Ends Date'
+                            }]
+                        },
+                        ends_on_time: {
+                            identifier: 'ends_on_time',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Ends Time'
+                            }]
+                        },
+                    }
                 });
             $('.ui.form').form('validate form');
             if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {

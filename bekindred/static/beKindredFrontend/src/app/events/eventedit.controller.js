@@ -289,34 +289,36 @@
             vm.showSuccess = false;
             $('.ui.form')
                 .form({
-                    name: {
-                        identifier: 'name',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Event name'
-                        }]
-                    },
-                    location: {
-                        identifier: 'location',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Location'
-                        }]
-                    },
-                    repeat: {
-                        identifier: 'repeat',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Repeat'
-                        }]
-                    },
-                    description: {
-                        identifier: 'description',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Description'
-                        }]
-                    },
+                    fields: {
+                        name: {
+                            identifier: 'name',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Event name'
+                            }]
+                        },
+                        location: {
+                            identifier: 'location',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Location'
+                            }]
+                        },
+                        repeat: {
+                            identifier: 'repeat',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Repeat'
+                            }]
+                        },
+                        description: {
+                            identifier: 'description',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Description'
+                            }]
+                        },
+                    }
                 });
             $('.ui.form').form('validate form');
             if (vm.eventEdit.description === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
