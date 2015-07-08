@@ -1517,7 +1517,6 @@ Definition Container
     flex: 1;
     min-height: 100vh;
 }
-
 /* LEFT MENU */
 
 #main-page #left-menu {
@@ -6144,7 +6143,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7162,7 +7161,6 @@ rzslider {
     display: block!important;
 }
 
-
 #FilterController.desktopview .ui.negative.message {
     max-width: 160px!important;
 }
@@ -7171,14 +7169,17 @@ rzslider {
     height: 35px;
 }
 
-
 #mobileTitle span {
     margin: 0 auto!important;
     font-weight: bold;
 }
 
-
 #main-menu-right {
     position: absolute;
     right: 0px;
+}
+
+#eventsMobileNav {
+    align-items: center;
+    justify-content: center;
 }
