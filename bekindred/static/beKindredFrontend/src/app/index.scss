@@ -5654,7 +5654,7 @@ body.events-page .ui.cards > .card,
 
 body.events-page .ui.fluid.card .ui.mini.statistics {
     position: absolute;
-    right: 40px;
+    right: 5px;
     top: 40px;
 }
 
@@ -6050,7 +6050,7 @@ body.events-page textarea {
     padding: 0px!important;
 }
 
-#createEventsModal .content .ui.right.button {
+#createEventsModal .content .ui.right.button:not(.location) {
     display: block!important;
     width: 50%!important;
     float: left!important;
@@ -6060,6 +6060,15 @@ body.events-page textarea {
     border: none!important;
     background-color: #FFF!important;
     border-radius: 0px;
+}
+
+#createEventsModal .content .ui.right.button.location {
+    border: none!important;
+    background-color: #FFF!important;
+    border-radius: 0px;
+    height: 40.375px!important;
+    padding: 0px!important;
+    margin: 0px!important;
 }
 
 #createEventsModal .content .ui.right.button i.icon {

@@ -18,9 +18,11 @@
             </div>
             <div class="field">
                 <label>Location</label>
-                <div class="ui icon input" id="locationInput" ng-class="{'urlexists': singleevent.mapurlTrue}">
+                <div class="ui action input" id="locationInput">
                     <input autocomplete="off" name="location" attach="'locationInput'" google-places-autocomplete options="singleevent.autocompleteOptions" placeholder="{{::singleevent.placeholder.location}}" ng-model="singleevent.eventLocation" type="text">
-                    <i ng-click="singleevent.openMap()" class="marker large icon"></i>
+                    <button ng-class="{'active': singleevent.mapurlTrue, 'disabled': !singleevent.mapurlTrue}" ng-click="singleevent.openMap()" class="ui right icon button location">
+                        <i class="marker large icon"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -82,12 +84,10 @@
                 <textarea autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::singleevent.placeholder.description}}" ng-model="singleevent.event.description"></textarea>
             </div>
         </div>
-
     </form>
 </div>
-
 <script>
-    'use strict';
+'use strict';
 
 
 // initialize input widgets first
@@ -116,6 +116,4 @@ $('#datePair .simpledate').datepicker({
 $('#datePair').datepair({
     defaultTimeDelta: 3600000,
 });
-
-
 </script>
