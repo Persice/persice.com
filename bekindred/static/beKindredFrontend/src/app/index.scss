@@ -6143,7 +6143,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -6533,6 +6533,7 @@ input[type="datetime-local"].fulldisplay:before {
 
 #viewEventsModal .ui.form.segment .field {
     margin-bottom: 0.2em!important;
+    min-height: 40px!important;
 }
 
 #viewEventsModal .ui.form.segment .field input,
@@ -6549,11 +6550,10 @@ input[type="datetime-local"].fulldisplay:before {
     padding: 0px!important;
 }
 
-#viewEventsModal .ui.right.button {
+#viewEventsModal .content .ui.right.button {
     display: block!important;
     width: 42%!important;
     float: left!important;
-    height: 53.125px!important;
     margin: 0px!important;
     border: none!important;
     background-color: #FFF!important;
@@ -6562,6 +6562,8 @@ input[type="datetime-local"].fulldisplay:before {
     vertical-align: middle!important;
     font-size: 1em!important;
     padding: 0.98861em 1em!important;
+    margin-top: 2px!important;
+    margin-left: 1px!important;
 }
 
 body.events-page #viewEventsModal label.specialpadding {
@@ -6569,22 +6571,22 @@ body.events-page #viewEventsModal label.specialpadding {
     margin-bottom: 0px!important;
 }
 
-#viewEventsModal .ui.right.button i.icon {
+#viewEventsModal .content .ui.right.button i.icon {
     background-color: #FFF!important;
     font-size: 1.7rem !important;
 }
 
-#viewEventsModal .ui.right.button i.icon.fa-paperclip {
+#viewEventsModal .content .ui.right.button i.icon.fa-paperclip {
     left: 5px!important;
     width: 30px!important;
 }
 
-#viewEventsModal .ui.right.button i.icon.fa-angle-right {
+#viewEventsModal .content .ui.right.button i.icon.fa-angle-right {
     width: 30px !important;
     right: 0px !important;
 }
 
-#viewEventsModal .ui.right.button.with-left-icon {
+#viewEventsModal .content .ui.right.button.with-left-icon {
     width: 75%!important;
     margin-bottom: 0.225em!important;
 }
@@ -7255,15 +7257,14 @@ rzslider {
      background-image: url('/assets/default.png');
      */
 
-     background-position: center;
-     background-size: contain;
-     height: 34px;
-     width: 34px;
- }
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
 
-
- #createEventsModal.ui.modal.centeraligned .field.button,
- #editEventsModal.ui.modal.centeraligned .field.button,
- {
+#createEventsModal.ui.modal.centeraligned .field.button,
+#editEventsModal.ui.modal.centeraligned .field.button,
+{
     height: 40px!important;
 }
