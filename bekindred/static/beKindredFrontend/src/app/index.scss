@@ -1476,11 +1476,13 @@ Definition Container
 #main-page .container .right.rail {
     width: 180px;
     padding-left: 0em;
+    background-color: #f7f7f7 !important;
 }
 
 #main-page .container .left.rail {
     width: 180px;
     padding-right: 0em;
+    background-color: #f7f7f7 !important;
 }
 
 #main-page .wide.main.container {
@@ -1813,7 +1815,7 @@ Responsive
         display: none;
     }
     #main-page .fixed .container {
-        width: auto;
+        width: 100%;
         margin: 0px auto;
         max-width: 9999px;
     }
@@ -6144,7 +6146,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
