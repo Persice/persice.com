@@ -1518,23 +1518,17 @@ Definition Container
     min-height: 100vh;
 }
 
-// #main-page.lowersidemenus #left-menu{
-//   padding-top: 40px!important;
-// }
-// #main-page.lowersidemenus #matchfeed-filters-container #FilterController{
-//   padding-top: 60px!important;
-// }
 /* LEFT MENU */
 
 #main-page #left-menu {
     position: fixed!important;
     margin: 1rem 0rem;
     background-color: #f9f9f9!important;
-    width: 180px;
+    width: 190px;
     font-weight: normal;
     box-shadow: none;
     border: none;
-    padding: 1.1em 1.4em;
+    padding: 1.1em 0.4em;
 }
 
 #left-menu .item.active .icon {
