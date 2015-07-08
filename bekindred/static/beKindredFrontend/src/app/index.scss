@@ -7183,3 +7183,80 @@ rzslider {
     align-items: center;
     justify-content: center;
 }
+
+//style autocomplete
+.autocomplete-holder {
+    position: relative;
+    width: 100%!important;
+}
+
+.autocomplete-dropdown {
+    border-radius: 1px;
+    width: 100%!important;
+    cursor: pointer;
+    z-index: 9999;
+    position: absolute;
+    text-align: left!important;
+    border-top: none!important;
+    margin-top: 0!important;
+    border-width: 1px!important;
+    border-bottom-left-radius: 4px!important;
+    border-bottom-right-radius: 4px!important;
+    padding: 0!important;
+    border-style: solid!important;
+    border-color: #999!important;
+    background-color: #fdfdfd!important;
+    max-height: 300px!important;
+    overflow-y: auto!important;
+    position: absolute;
+    top: 37px;
+    left: 0px;
+}
+
+.autocomplete-searching {
+    color: #acacac;
+    font-size: 14px;
+}
+
+.autocomplete-description {
+    font-size: 14px;
+}
+
+.autocomplete-row {
+    padding: 5px;
+    color: #000000;
+    margin-bottom: 4px;
+    clear: both;
+}
+
+.autocomplete-selected-row {
+    background-color: lightblue;
+    color: #ffffff;
+}
+
+.autocomplete-image-holder {
+    padding-top: 2px;
+    float: left;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.autocomplete-image {
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    border-color: #ececec;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.autocomplete-image-default {
+    /* Add your own default image here
+     background-image: url('/assets/default.png');
+     */
+
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}

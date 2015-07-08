@@ -14,7 +14,6 @@ angular
         'frontend.semantic.modal.event.view',
         'truncate',
         'ngDraggable',
-        'angucomplete-alt',
         'cgNotify',
         'ngImgCrop',
         'angularMoment',
@@ -25,6 +24,7 @@ angular
         'ngGeolocation',
         'ezfb',
         'frontend.ui.tooltips',
+        'frontend.ui.autocomplete',
         'google.places',
         'ngMask',
         'rzModule'
