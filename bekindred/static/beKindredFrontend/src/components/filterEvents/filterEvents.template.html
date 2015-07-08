@@ -8,7 +8,6 @@
                 <label>Distance <span class="range">{{filter.distanceValue}} {{filter.distanceUnit}}</span></label>
                 <rzslider rz-slider-always-show-bar="true" rz-slider-hide-limit-labels="false" rz-slider-model="filter.distanceValue" rz-slider-floor="1" rz-slider-ceil="10000"></rzslider>
             </div>
-
             <div class="field keywords-label">
                 <label class="">Keywords</label>
             </div>
@@ -22,9 +21,11 @@
                 </label>
             </div>
             <div class="field">
-                <div class="ui icon input" id="keywordsSearch">
+                <div class="ui action input">
                     <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
-                    <i class="circular plus icon" ng-click="filter.addKeyword(filter.newKeyword)"></i>
+                    <button ng-click="filter.addKeyword(filter.newKeyword)" class="ui icon button">
+                        <i class="plus icon"></i>
+                    </button>
                 </div>
             </div>
             <a ng-click="filter.removeKeyword($index)" href="" class="item" ng-repeat="keyword in filter.myKeywords track by $index">
