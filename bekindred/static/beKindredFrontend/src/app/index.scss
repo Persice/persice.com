@@ -1590,7 +1590,7 @@ Definition Container
         padding: 2em 0em;
     }
     #main-page .container {
-        width: auto;
+        width: 100%;
         margin: 0em 1rem;
     }
     #main-page .main.container {
@@ -1621,7 +1621,7 @@ Definition Container
 
 @media only screen and (min-width: 600px) and (max-width: 998px) {
     #main-page .container {
-        width: auto;
+        width: 100%;
         margin: 0px;
     }
     #main-page .header .button {
@@ -1727,6 +1727,7 @@ Definition Container
 
 @media only screen and (min-width: 998px) and (max-width: 1200px) {
     #main-page .container {
+        width: 100%;
         margin: 0em auto;
     }
 }
@@ -7169,3 +7170,11 @@ rzslider {
 #eventsDesktopNav .ui.button.small {
     height: 35px;
 }
+
+
+#mobileTitle span {
+    margin: 0 auto!important;
+    font-weight: bold;
+}
+
+

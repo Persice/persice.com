@@ -81,8 +81,8 @@
     <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
-            <div class="title item mobileview" ng-show="!isState('events')">
-                <b update-title></b>
+            <div class="title item mobileview" id="mobileTitle" ng-show="!isState('events')">
+                <span update-title></span>
             </div>
             <a class="item launch center-aligned mobileview" ng-show="isState('events')">
                 <i class="fa fa-calendar icon"></i>
