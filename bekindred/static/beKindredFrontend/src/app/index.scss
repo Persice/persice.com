@@ -1452,7 +1452,9 @@ Normal
     color: #aaa;
 }
 
-#main-page > .pusher > .full.height {}
+#main-page > .pusher > .full.height {
+    background: #F9F9F9!important;
+}
 
 #headerelement {
     padding-top: 45px;
@@ -1476,13 +1478,13 @@ Definition Container
 #main-page .container .right.rail {
     width: 190px;
     padding-left: 0em;
-    background-color: #f7f7f7 !important;
+    background-color: #f9f9f9!important;
 }
 
 #main-page .container .left.rail {
     width: 190px;
     padding-right: 0em;
-    background-color: #f7f7f7 !important;
+    background-color: #f9f9f9!important;
 }
 
 #main-page .wide.main.container {
@@ -1527,7 +1529,7 @@ Definition Container
 #main-page #left-menu {
     position: fixed!important;
     margin: 1rem 0rem;
-    background-color: #f7f7f7!important;
+    background-color: #f9f9f9!important;
     width: 180px;
     font-weight: normal;
     box-shadow: none;
@@ -3363,7 +3365,7 @@ div.friend-actions a:hover {
 
 #matched-profile-header,
 #matched-profile-body {
-    // background-color: #f7f7f7!important;
+    // background-color: #f9f9f9!important;
 }
 
 #matched-profile-body {
@@ -3480,7 +3482,7 @@ div.friend-actions a:hover {
 
 #my-profile-header,
 #my-profile-body {
-    // background-color: #f7f7f7!important;
+    // background-color: #f9f9f9!important;
 }
 
 #my-profile-body {
@@ -3734,7 +3736,7 @@ ng\:form {
 //photos_modal
 #my-profile-photos,
 #my-profile-edit-items {
-    background-color: #f7f7f7!important;
+    background-color: #f9f9f9!important;
     min-height: 400px!important;
     border-bottom: none!important;
     padding-bottom: 5px!important;
@@ -3851,7 +3853,7 @@ ul[rn-carousel] {
     border-bottom: none!important;
     padding-bottom: 5px!important;
     box-shadow: none!important;
-    background-color: #f7f7f7!important;
+    background-color: #f9f9f9!important;
 }
 
 .new_message {
@@ -3897,7 +3899,7 @@ ul[rn-carousel]>li {
 
 #inbox-body a.item.unread,
 #friends-list-body div.item.unread {
-    background-color: #f7f7f7!important;
+    background-color: #f9f9f9!important;
 }
 
 #inbox-body a.item.unread .content .header,
@@ -4067,7 +4069,7 @@ ul[rn-carousel]>li {
     height: 0;
     border-style: solid;
     border-width: 0 8.5px 10px 8.5px;
-    border-color: transparent transparent #f7f7f7 transparent;
+    border-color: transparent transparent #f9f9f9 transparent;
     display: block;
     position: absolute;
     pointer-events: none;
@@ -4434,7 +4436,7 @@ input#id_description_value {
 /* matchedperson card */
 
 .matchedperson.card {
-    background-color: #f7f7f7!important;
+    background-color: #f9f9f9!important;
     min-width: 600px!important;
 }
 
@@ -4683,7 +4685,7 @@ input#id_description_value {
 
 #links_left_bottom {
     position: fixed !important;
-    background-color: #f7f7f7 !important;
+    background-color: #f9f9f9!important;
     font-weight: normal;
     box-shadow: none;
     border: none;
@@ -4860,7 +4862,7 @@ body.finalstep-page #topMenu,
 #desktopsubmenu .ui.button.active:after {
     border-style: solid;
     border-width: 0 8.5px 10px 8.5px;
-    border-color: transparent transparent #f7f7f7 transparent;
+    border-color: transparent transparent #f9f9f9 transparent;
     display: block;
     position: absolute;
     pointer-events: none;
@@ -5640,7 +5642,7 @@ body.events-page #eventsMobileNav.ui.secondary.menu > .active.item {
 }
 
 body.events-page#main-page #main-content {
-    background-color: #f7f7f7!important;
+    background-color: #f9f9f9!important;
 }
 
 @media screen and (min-width: 401px) {
@@ -5697,7 +5699,7 @@ body.events-page .ui.card .meta {
 
 #eventsfeed-list-body {
     min-height: 400px;
-    background-color: #f7f7f7 !important;
+    background-color: #f9f9f9!important;
 }
 
 body.events-page .ui.loading.segment:before {
@@ -5706,7 +5708,7 @@ body.events-page .ui.loading.segment:before {
 
 //event page
 body.event-page#main-page #main-content {
-    background-color: #f7f7f7!important;
+    background-color: #f9f9f9!important;
 }
 
 body.event-page .ui.form.segment {
@@ -6053,7 +6055,7 @@ body.events-page textarea {
     padding: 0px!important;
 }
 
-#createEventsModal .ui.right.button {
+#createEventsModal .content .ui.right.button {
     display: block!important;
     width: 50%!important;
     float: left!important;
@@ -6065,17 +6067,17 @@ body.events-page textarea {
     border-radius: 0px;
 }
 
-#createEventsModal .ui.right.button i.icon {
+#createEventsModal .content .ui.right.button i.icon {
     background-color: #FFF!important;
     font-size: 1.7rem !important;
 }
 
-#createEventsModal .ui.right.button i.icon.fa-paperclip {
+#createEventsModal .content .ui.right.button i.icon.fa-paperclip {
     left: 5px!important;
     width: 30px!important;
 }
 
-#createEventsModal .ui.right.button i.icon.fa-angle-right {
+#createEventsModal .content .ui.right.button i.icon.fa-angle-right {
     width: 30px !important;
     right: 0px !important;
 }

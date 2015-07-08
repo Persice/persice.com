@@ -15,4 +15,26 @@
             </div>
         </div>
     </div>
+    <div class="actions">
+        <!-- view screen -->
+        <div ng-if="viewevent.isHost && viewevent.selection === 'view'" class="ui green labeled icon right button" ng-click="viewevent.editEvent()">
+            Edit
+            <i class="edit icon"></i>
+        </div>
+        <!-- edit screen -->
+        <div ng-if="viewevent.selection === 'edit'" class="ui green labeled icon right button" ng-click="viewevent.editEvent()">
+            Save
+            <i class="save icon"></i>
+        </div>
+        <div id="deleteEventButton" ng-if="viewevent.selection === 'edit'" class="ui red left button" ng-click="viewevent.editEvent()">
+            Delete
+            <i class="edit icon"></i>
+        </div>
+
+        <!-- invitations screen -->
+        <div ng-if="viewevent.selection === 'invitations'" class="ui green right button" ng-class="{'disabled': viewevent.counterNewInvites === 0}" ng-click="viewevent.sendInvites()">
+            Done
+        </div>
+
+    </div>
 </div>
