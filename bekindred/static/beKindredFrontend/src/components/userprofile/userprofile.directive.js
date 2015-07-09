@@ -61,8 +61,8 @@
         };
         vm.user = {
             id: vm.person.id,
-            firstName: '',
-            lastName: '',
+            first_name: '',
+            last_name: '',
             age: '',
             about_me: '',
             photos: [],

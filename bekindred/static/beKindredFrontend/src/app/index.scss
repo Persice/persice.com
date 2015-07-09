@@ -3377,7 +3377,6 @@ div.friend-actions a:hover {
     box-shadow: none!important;
 }
 
-
 .ui.horizontal.statistics {
     display: block!important;
 }
@@ -3888,8 +3887,9 @@ ul[rn-carousel] {
 }
 
 #headermenu h3 {
-    margin-top: -33px;
-    height: 30px;
+    position: absolute;
+    left: 47%;
+    top: -15px;
 }
 
 #main-page #friendprofileheader.header.segment {
@@ -4090,16 +4090,15 @@ ul[rn-carousel]>li {
     margin: 0 0 0 -0.55em;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 767px) {
     #friendmenu {
-        width: 600px;
+        width: 767px!important;
+        font-size: 1.3rem!important;
     }
 }
 
 #friendmenu {
-    top: 100%;
-    bottom: auto;
-    margin: 1em 0 0;
+    margin: 0!important;
     position: absolute;
     border: none!important;
     border-radius: 0!important;
@@ -4885,6 +4884,10 @@ body.finalstep-page #topMenu,
     top: 31px;
     left: 50%;
     margin: 0 0 0 -0.68em;
+}
+
+#desktopsubmenu .ui.button.middle.active:after {
+    top: 46px;
 }
 
 #desktopsubmenu #friendmenu {
@@ -7296,5 +7299,19 @@ rzslider {
 #createEventsModal.ui.modal.centeraligned .field.button,
 #editEventsModal.ui.modal.centeraligned .field.button,
 {
+    height: 40px!important;
+}
+
+#submenu.menu.friendsubmenu {
+    font-size: 0!important;
+    box-shadow: none!important;
+}
+
+#submenu.menu.friendsubmenu .large.ui.buttons {
+    font-size: 0!important;
+    margin: 0px!important;
+}
+
+#userProfileName {
     height: 40px!important;
 }

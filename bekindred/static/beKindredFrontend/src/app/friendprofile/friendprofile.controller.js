@@ -13,8 +13,10 @@
     function FriendProfileController($scope, userId, Connection, UserProfile, $log, $state, FriendsFactory) {
         var vm = this;
 
+        $log.info( UserProfile);
         vm.userInfo = {
             id: userId,
+            first_name: UserProfile.first_name,
             photo: '//graph.facebook.com/' + UserProfile.facebook_id + '/picture?type=large'
         };
 
