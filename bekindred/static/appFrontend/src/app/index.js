@@ -223,18 +223,18 @@ angular
                 controller: 'OfferCreateCtrl'
             })
             .state('matchfeed', {
-                url: '/match-feed',
+                url: '/crowd',
                 data: {
-                    displayName: 'Match Feed',
+                    displayName: 'Crowd',
                 },
                 templateUrl: 'app/matchfeed/matchfeed.html',
                 controller: 'MatchFeedController',
                 controllerAs: 'matchfeed'
             })
             .state('bigmatchfeed', {
-                url: '/big-match-feed',
+                url: '/big-crowd',
                 data: {
-                    displayName: 'Match Feed',
+                    displayName: 'Crowd',
                 },
                 templateUrl: 'app/bigmatchfeed/bigmatchfeed.html',
                 controller: 'BigMatchFeedCtrl'
