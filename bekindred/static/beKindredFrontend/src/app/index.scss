@@ -2925,6 +2925,7 @@ span.conversation-time {
 
 .conversation-content.ui.segment {
     overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     position: absolute!important;
     top: 52px!important;
     width: 100%!important;
@@ -3768,7 +3769,8 @@ ng\:form {
     border-color: #999!important;
     background-color: #fdfdfd!important;
     max-height: 300px!important;
-    overflow-y: auto!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
 }
 
 #my-profile-header .pagination-container {
@@ -4515,7 +4517,8 @@ input#id_description_value {
 /* INTERESTS PAGE */
 
 #interests {
-    overflow-y: auto!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     position: absolute!important;
     top: 65px!important;
     width: 100%!important;
@@ -4559,7 +4562,8 @@ input#id_description_value {
 /*MY CONNECTIONS */
 
 #friends-list-body {
-    overflow-y: auto!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     position: absolute!important;
     top: 65px!important;
     width: 100%!important;
@@ -4656,7 +4660,8 @@ input#id_description_value {
 /* INBOX PAGE */
 
 #inbox-body {
-    overflow-y: auto!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     position: absolute!important;
     top: 65px!important;
     width: 100%!important;
@@ -4905,7 +4910,8 @@ body.finalstep-page #topMenu,
 // Desktop conversation content
 //
 #desktop-conversation-content {
-    overflow-y: auto!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     position: absolute!important;
     top: 230px!important;
     width: 100%!important;
@@ -5824,7 +5830,8 @@ body.event-page .ui.form textarea {
 }
 
 #eventsfeed-list-body {
-    overflow-y: auto!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     position: absolute!important;
     top: 70px!important;
     width: 100%!important;
@@ -6203,6 +6210,7 @@ body.event-page #repeatUntil,
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     width: 100%!important;
 }
 
@@ -7041,6 +7049,7 @@ rzslider {
 .ui.modal.centeraligned #event-invitations {
     height: 650px!important;
     overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
 }
 
 #event-invitations .radio-vertical .label,
@@ -7250,7 +7259,8 @@ rzslider {
     border-color: #999!important;
     background-color: #fdfdfd!important;
     max-height: 300px!important;
-    overflow-y: auto!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
     position: absolute;
     top: 37px;
     left: 0px;
