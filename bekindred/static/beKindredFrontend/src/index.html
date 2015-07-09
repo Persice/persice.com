@@ -37,7 +37,7 @@
 
 </head>
 
-<body id="main-page" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
@@ -78,7 +78,7 @@
     <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
         <events-filter id="filter" class="mobilefilters"></events-filter>
     </div>
-    <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
+    <div class="ui inverted fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
             <div class="title item mobileview" id="mobileTitle" ng-show="!isState('events')">
