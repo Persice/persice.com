@@ -25,7 +25,7 @@
                             <ng-include src="'components/profile/headerphotoslider.tpl.html'"></ng-include>
                         </div>
                         <div class="header segment" id="matched-profile-header" ng-hide="userprofile.showfullprofile">
-                            <div class="ui segment">
+                            <div class="ui basic segment">
                                 <div ng-click="userprofile.changeTopMenu()" ng-show="userprofile.photosSlider[0].cropped_photo === ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{userprofile.photosSlider[0].photo}}');"></div>
                                 <div ng-click="userprofile.changeTopMenu()" ng-show="userprofile.photosSlider[0].cropped_photo !== ''" class="ui circular middle aligned left floated small image img-bounding-box" style="background-image: url('{{userprofile.photosSlider[0].cropped_photo}}');"></div>
                                 <h2 ng-click="userprofile.changeTopMenu()" class="ui header">

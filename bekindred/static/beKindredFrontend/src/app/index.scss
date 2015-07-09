@@ -3377,6 +3377,11 @@ div.friend-actions a:hover {
     box-shadow: none!important;
 }
 
+
+.ui.horizontal.statistics {
+    display: block!important;
+}
+
 #matched-profile-header {
     border: none!important;
 }
@@ -3964,8 +3969,6 @@ ul[rn-carousel]>li {
 }
 
 .smallicon {
-    padding-right: 0px!important;
-    padding-top: 0.7em!important;
     font-size: 0.5em!important;
 }
 
