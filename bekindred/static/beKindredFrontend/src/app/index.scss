@@ -4237,6 +4237,13 @@ h2 hr {
     padding: .78571em!important;
 }
 
+@media screen and (min-width: 768px) {
+    #my-profile-body.edit .socialbuttons .disconnect,
+    #my-profile-body.edit .socialbuttons .disconnect:hover {
+        right: 7px!important;
+    }
+}
+
 #my-profile-body .ui.icon.circular.button.removebutton,
 #my-profile-body .ui.icon.circular.button.disconnect,
 #my-profile-body .ui.removebutton.icon.circular.button:hover,
@@ -6176,7 +6183,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7290,15 +7297,15 @@ rzslider {
      background-image: url('/assets/default.png');
      */
 
-     background-position: center;
-     background-size: contain;
-     height: 34px;
-     width: 34px;
- }
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
 
- #createEventsModal.ui.modal.centeraligned .field.button,
- #editEventsModal.ui.modal.centeraligned .field.button,
- {
+#createEventsModal.ui.modal.centeraligned .field.button,
+#editEventsModal.ui.modal.centeraligned .field.button,
+{
     height: 40px!important;
 }
 
@@ -7316,9 +7323,8 @@ rzslider {
     height: 40px!important;
 }
 
-
 body#main-page.event-page #locationInput button,
-body#main-page.event-page #locationInput2 button{
+body#main-page.event-page #locationInput2 button {
     background-color: #fff!important;
     padding-right: 0px!important;
 }
