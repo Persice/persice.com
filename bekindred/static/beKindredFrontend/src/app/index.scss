@@ -1454,13 +1454,19 @@ Normal
 
 #main-page > .pusher > .full.height {
     background: #F9F9F9!important;
+    display: block;
+    flex: none !important;
 }
 
 #headerelement {
     padding-top: 45px;
 }
 
-#main-page > .pusher {}
+#main-page > .pusher {
+    display: block;
+    min-height: 0px;
+    flex-direction: initial;
+}
 /*******************************
 Definition Container
 *******************************/
@@ -2347,6 +2353,10 @@ section.match {
     margin: 1rem;
 }
 
+#topMenu.hidden {
+    display: none!important;
+}
+
 #match-main .columns {
     padding: 0px!important;
 }
@@ -2899,7 +2909,7 @@ img {
 }
 
 #main-page.absolutelayout.pushable #main-content {
-
+    min-height: 100%!important;
 }
 
 span.conversation-time {
@@ -4104,6 +4114,14 @@ ul[rn-carousel]>li {
 #mainheadermenu {
     height: 45px;
     background-color: #faf9fa;
+    z-index: 9999!important;
+    position: fixed;
+    margin: 0em;
+    width: 100%;
+}
+
+#topMenu {
+    z-index: 1!important;
 }
 
 #mainheadermenu.center {
@@ -4729,6 +4747,7 @@ body.offercreate-page #topMenu,
 body.finalstep-page #topMenu,
 {
     display: none!important;
+    z-index: 1!important;
 }
 
 @media only screen and (min-width: 768px) {
@@ -4793,6 +4812,7 @@ body.finalstep-page #topMenu,
     body.event-page #topMenu,
     {
         display: none!important;
+         z-index: 1!important;
     }
     body.event-page #actionButton {
         display: none!important;
@@ -6153,7 +6173,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7267,14 +7287,14 @@ rzslider {
      background-image: url('/assets/default.png');
      */
 
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
