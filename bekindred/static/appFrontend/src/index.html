@@ -1,67 +1,71 @@
 <!doctype html>
-<html class="no-js" ng-app="persice" ng-hint ng-strict-di ng-controller="AppCtrl">
+<html class="no-js" ng-hint ng-app="persice" ng-controller="AppCtrl">
 
 <head>
     <meta charset="utf-8">
     <title update-title></title>
     <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="description" content="persice">
+    <meta name="description" content="">
     <meta name="author" content="">
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Lato:400,300,600,700' rel='stylesheet' type='text/css'>
     <meta name="application-name" content="persice" />
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/app-favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
 
-    <link href="/static/appFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
-    <link href="/static/appFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <link rel="stylesheet" href="app/vendor.css">
+    <!-- bower:css -->
+    <!-- run `gulp wiredep` to automaticaly populate bower styles dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- inject:css -->
+    <!-- css files will be automaticaly insert here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en&sensor=false"></script>
 
 </head>
 
 <body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
-    {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
-      <div class="ui top horizontal sidebar" id="MatchMenu">
+      <div class="ui top horizontal large sidebar" id="MatchMenu">
         <div class="ui fluid six item menu">
             <a class="item" ng-click="goBack()">
                 <i class="chevron left icon"></i>
             </a>
             <span class="item"></span>
-            <div class="item clearbefore">
-                <a ng-click="cancelMatch()" class="ui button circular icon negative">
-                    <i class="remove icon"></i>
-                </a>
-            </div>
-            <div class="item clearbefore">
-                <a ng-click="confirmMatch()" class="ui button circular positive icon">
-                    <i class="check icon"></i>
-                </a>
-            </div>
+            <a ng-click="cancelMatch()" class="item clearbefore">
+                <i class="remove icon"></i>
+            </a>
+            <a ng-click="confirmMatch()" class="item clearbefore">
+                <i class="check icon"></i>
+            </a>
             <span class="item"></span>
             <span class="item"></span>
         </div>
     </div>
     <div class="ui vertical left inverted labeled icon sidebar menu" id="leftmenu">
-        <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-big icon"></i> <span class="content">Match Feed</span></a>
-        <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>   <messages-counter></message-counter></a>
+        <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Match Feed</span></a>
+        <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>  <div class="ui label">2</div></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
-        <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <connections-counter></connections-counter></a>
-        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events </span></a>
-        <img tooltips tooltip-timeout="3000" tooltip-show-trigger="click" tooltip-title="Under Construction" class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/>
+        <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <div class="ui label">2</div></a>
+        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events </span> </a>
+        <img tooltips tooltip-timeout="3000" tooltip-show-trigger="click" tooltip-title="Under Construction" class="under-construction-image" src="/assets/images/under-construction-icon-small.png" alt=""/>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="ui divided horizontal list" id="links_sidemenu_bottom">
             <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
         </div>
         <a ui-sref="home" class="item" id="side-menu-logo">
-            <img src="/static/appFrontend/dist/assets/images/logo/app-logo-big.png" alt="" class="ui image medium">
+            <img src="/assets/images/logo/app-logo-big.png" alt="" class="ui medium image">
         </a>
     </div>
     <div class="ui vertical right inverted labeled sidebar menu matchfeedfilter" id="filtersMenu" ng-show="isState('matchfeed')">
@@ -70,7 +74,7 @@
     <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
         <events-filter id="filter" class="mobilefilters"></events-filter>
     </div>
-    <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
+    <div class="ui inverted fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
             <div class="title item mobileview" id="mobileTitle" ng-show="!isState('events')">
@@ -89,7 +93,7 @@
                 <i class="fa fa-sliders icon"></i>
             </a>
             <a ui-sref="home" class="title item desktopview" id="logoTop">
-                <img src="/static/appFrontend/dist/assets/images/logo/app-logo-big.png" alt="" class="ui image">
+                <img src="/assets/images/logo/app-logo-medium.png" alt="" class="ui image">
             </a>
             <div class="ui mini action input inverted desktopview searchbox displaynone">
                 <input type="text" placeholder="Search">
@@ -101,9 +105,9 @@
                 Browse
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item">Item 1</a>
-                    <a class="item">Item 2</a>
-                    <a class="item">Item 3</a>
+                    <a class="item">Lorem</a>
+                    <a class="item">Ipsum</a>
+                    <a class="item">Donor</a>
                 </div>
             </div>
             <div class="right menu desktopview" id="main-menu-right">
@@ -112,7 +116,7 @@
                 </a>
                 <a href="" class="item displaynone"> <span class="content">Help</span></a>
             </div>
-            <div class="right menu" id="right-menu-launcher" ng-show="isState('matchfeed')">
+            <div class="right menu" id="right-menu-launcher" ng-show="!showfullprofile && isState('matchfeed')">
                 <a class="launch item"><i class="fa fa-sliders icon"></i></a>
             </div>
         </div>
@@ -121,22 +125,22 @@
         <div class="full height">
             <div class="main container">
                 <div class="ui attached internal desktopview left rail">
-                    <div class="ui vertical menu" ng-cloak id="left-menu">
-                        <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Match Feed</a>
-                        <a ui-sref="inbox" ui-sref-active="active" class="item">Messages <messages-counter></messages-counter> </a>
-                        <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Match Feed </a> -->
-                        <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile </a>
-                        <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <connections-counter></connections-counter> </a>
-                        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events <img tooltips tooltip-title="Under Construction" class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/> </a>
-                        <a ui-sref="settings" ui-sref-active="active" class="item">Settings</a>
+                    <div class="ui vertical menu" id="left-menu" ng-cloak>
+                        <a ui-sref="matchfeed" ui-sref-active="active" class="item">Match Feed</a>
+                        <a ui-sref="inbox" ui-sref-active="active" class="item">Messages <div class="ui label" messages-counter></div></a>
+                        <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile</a>
+                        <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <div class="ui label">0</div></a>
+                        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events <img tooltips tooltip-title="Under Construction" class="under-construction-image" src="/assets/images/under-construction-icon-small.png" alt=""/></a>
+                        <a ui-sref="settings" ui-sref-active="active" class="item">Setting</a>
                     </div>
                     <div class="ui divided horizontal list" id="links_left_bottom">
-                        <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
+                        <a href="/static/files/persice_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
                     </div>
                 </div>
                 <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('matchfeed')">
                     <matchfeed-filter id="matchfeed-filters" class="desktopview"></matchfeed-filter>
                 </div>
+
                 <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('events')">
                     <events-filter id="matchfeed-filters" class="desktopview"></events-filter>
                 </div>
@@ -144,26 +148,39 @@
                 <div id="main-content" class="gsapify-router" ui-view autoscroll="false">
                     <three-bounce-spinner class="page-spinner-bar"></three-bounce-spinner>
                 </div>
+                <pre>{{isState('selectinterests')}}</pre>
             </div>
         </div>
     </div>
-    <!-- <script src="//test1.com:3000/socket.io/socket.io.js"></script> -->
-    {%endverbatim%}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
-    <script src="/static/appFrontend/dist/scripts/vendor.js"></script>
-    <script src="/static/appFrontend/dist/scripts/app.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
+    <!-- build:js(src) scripts/vendor.js -->
+    <!-- bower:js -->
+    <!-- run `gulp wiredep` to automaticaly populate bower script dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+    <!-- inject:js -->
+    <!-- js files will be automaticaly insert here -->
+    <!-- endinject -->
+    <!-- inject:partials -->
+    <!-- angular templates will be automatically converted in js and inserted here -->
+    <!-- endinject -->
+    <!-- endbuild -->
     <script>
         'use strict';
-
 
         $('.left.sidebar').first()
         .sidebar('attach events', '#leftsidebarlaunch');
         $('#leftsidebarlaunch')
         .removeClass('disabled');
 
-        $('#MatchMenu')
-        .sidebar('setting', 'dimPage', false)
-        .sidebar('setting', 'closable', false);
+        $('.top.horizontal.sidebar').first()
+        .sidebar('setting', {
+            dimPage: false,
+            closable: false,
+            transition: 'overlay',
+            mobileTransition: 'overlay'
+        });
 
         $('.right.sidebar.matchfeedfilter')
         .sidebar('attach events', '#right-menu-launcher')
@@ -178,25 +195,16 @@
         .removeClass('disabled');
     </script>
     <script>
-        'use strict';
-
-        angular.module('persice').constant('USER_ID', {{user.id}});
-        angular.module('persice').constant('USER_FIRSTNAME', '{{ user.first_name }}');
-        angular.module('persice').constant('angularMomentConfig', (function() {
-            var tz = jstz.determine();
-            var localTimezone = tz.name();
-            return {
-                timezone: localTimezone,
-                preprocess: 'utc'
-            }
-        })());
-        angular.module('persice').constant('USER_LASTNAME', '{{ user.last_name }}');
-        angular.module('persice').constant('APP_ID', '{{ FACEBOOK_APP_ID }}');
-
-
-        angular.module('persice').constant('FB_TOKEN', '{{ user.access_token }}');
-        angular.module('persice').constant('USER_PHOTO', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=large');
-        angular.module('persice').constant('USER_PHOTO_SMALL', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=square');
+        angular.module('persice').constant('USER_ID', 1);
+        angular.module('persice').constant('USER_FIRSTNAME', 'Sasa');
+        angular.module('persice').constant('USER_TWITTER', '');
+        angular.module('persice').constant('USER_LINKEDIN_NAME', '');
+        angular.module('persice').constant('USER_LINKEDIN_URL', '');
+        angular.module('persice').constant('USER_LASTNAME', 'Macakanja');
+        angular.module('persice').constant('FB_TOKEN', '');
+        angular.module('persice').constant('USER_PHOTO', 'http://lorempixel.com/200/200');
+        angular.module('persice').constant('USER_PHOTO_SMALL', 'http://lorempixel.com/32/32');
+        angular.module('persice').constant('APP_ID', '634990373263225');
     </script>
 </body>
 

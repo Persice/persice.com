@@ -6,69 +6,55 @@
 <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
-    <meta name="description" content="icebr&#257;k">
+    <meta name="description" content="persice">
+
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
+    <meta name="application-name" content="persice" />
     <!-- Favicons -->
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/static/favicon/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/favicon/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/favicon/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/favicon/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/static/favicon/apple-touch-icon-60x60.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/favicon/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/static/favicon/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/static/favicon/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-196x196.png" sizes="196x196" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-128.png" sizes="128x128" />
-    <meta name="application-name" content="icebr&#257;k" />
-    <meta name="msapplication-TileColor" content="#FFFFFF" />
-    <meta name="msapplication-TileImage" content="/static/favicon/mstile-144x144.png" />
-    <meta name="msapplication-square70x70logo" content="/static/favicon/mstile-70x70.png" />
-    <meta name="msapplication-square150x150logo" content="/static/favicon/mstile-150x150.png" />
-    <meta name="msapplication-wide310x150logo" content="/static/favicon/mstile-310x150.png" />
-    <meta name="msapplication-square310x310logo" content="/static/favicon/mstile-310x310.png" />
+    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
+
     <link href="{{ STATIC_URL }}css/login.min.css" rel="stylesheet" media="screen">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
         <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
-    <script src="{{ STATIC_URL }}js/login.min.js"></script>
-</head>
+        <script src="{{ STATIC_URL }}js/login.min.js"></script>
+    </head>
 
-<body class="login" ng-app="icebrak">
+    <body class="login" ng-app="persice">
     <!--[if lt IE 10]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="//browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    {% load url from future %} {% block content %}{% endblock content %}
-    <script>
-    'use strict';
+        {% load url from future %} {% block content %}{% endblock content %}
+        <script>
+            'use strict';
 
-    angular.module('icebrak', []);
-    </script>
-    <div id="fb-root"></div>
-    <script>
-    facebookAppId = '{{ FACEBOOK_APP_ID }}';
-    facebookDefaultScope = {{FACEBOOK_DEFAULT_SCOPE_JS}};
-    staticUrl = '{{ STATIC_URL }}';
+            angular.module('persice', []);
+        </script>
+        <div id="fb-root"></div>
+        <script>
+            facebookAppId = '{{ FACEBOOK_APP_ID }}';
+            facebookDefaultScope = {{FACEBOOK_DEFAULT_SCOPE_JS}};
+            staticUrl = '{{ STATIC_URL }}';
 
-    function facebookJSLoaded() {
-        FB.init({
-            appId: facebookAppId,
-            status: false,
-            cookie: true,
-            xfbml: true,
-            oauth: true,
-            version: 'v2.3'
-        });
-    }
-    window.fbAsyncInit = facebookJSLoaded;
-    F = new facebookClass(facebookAppId);
-    F.load();
-    </script>
-</body>
+            function facebookJSLoaded() {
+                FB.init({
+                    appId: facebookAppId,
+                    status: false,
+                    cookie: true,
+                    xfbml: true,
+                    oauth: true,
+                    version: 'v2.3'
+                });
+            }
+            window.fbAsyncInit = facebookJSLoaded;
+            F = new facebookClass(facebookAppId);
+            F.load();
+        </script>
+    </body>
 
-</html>
+    </html>
