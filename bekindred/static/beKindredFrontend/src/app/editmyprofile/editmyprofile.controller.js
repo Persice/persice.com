@@ -448,15 +448,30 @@ angular.module('icebrak')
                 .search({
                     apiSettings: {
                         url: 'api/v1/subject/?format=json&description__icontains={query}',
+                        onResponse: function(apiResponse) {
+                            var
+                                response = {
+                                    results: []
+                                };
+                            // translate api response to work with search
+                            $.each(apiResponse.objects, function(index, item) {
+
+                                // add result to response array
+                                response.results.push({
+                                    title: item.description,
+                                });
+                            });
+                            return response;
+                        },
                     },
                     minCharacters: 3,
-                    searchDelay: 400,
+                    searchDelay: 300,
                     type: 'standard',
                     cache: false,
                     onSelect: function(result, response) {
                         var idx = $(this).attr('rel');
                         if (result !== undefined) {
-                            $scope.user.goals[idx].subject = result.description;
+                            $scope.user.goals[idx].subject = result.title;
 
                         }
 
@@ -470,6 +485,21 @@ angular.module('icebrak')
                 .search({
                     apiSettings: {
                         url: 'api/v1/subject/?format=json&description__icontains={query}',
+                        onResponse: function(apiResponse) {
+                            var
+                                response = {
+                                    results: []
+                                };
+                            // translate api response to work with search
+                            $.each(apiResponse.objects, function(index, item) {
+
+                                // add result to response array
+                                response.results.push({
+                                    title: item.description,
+                                });
+                            });
+                            return response;
+                        },
                     },
                     minCharacters: 3,
                     searchDelay: 400,
@@ -491,6 +521,21 @@ angular.module('icebrak')
                 .search({
                     apiSettings: {
                         url: 'api/v1/interest_subject/?format=json&description__icontains={query}',
+                        onResponse: function(apiResponse) {
+                            var
+                                response = {
+                                    results: []
+                                };
+                            // translate api response to work with search
+                            $.each(apiResponse.objects, function(index, item) {
+
+                                // add result to response array
+                                response.results.push({
+                                    title: item.description,
+                                });
+                            });
+                            return response;
+                        },
                     },
                     minCharacters: 3,
                     searchDelay: 400,
