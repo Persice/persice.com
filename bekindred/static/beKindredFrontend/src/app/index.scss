@@ -4114,15 +4114,12 @@ ul[rn-carousel]>li {
 #mainheadermenu {
     height: 45px;
     background-color: #faf9fa;
-    z-index: 9999!important;
+    z-index: 10001!important;
     position: fixed;
     margin: 0em;
     width: 100%;
 }
 
-#topMenu {
-    z-index: 1!important;
-}
 
 #mainheadermenu.center {
     text-align: center;
@@ -4747,7 +4744,6 @@ body.offercreate-page #topMenu,
 body.finalstep-page #topMenu,
 {
     display: none!important;
-    z-index: 1!important;
 }
 
 @media only screen and (min-width: 768px) {
@@ -4811,8 +4807,7 @@ body.finalstep-page #topMenu,
     body.finalstep-page #topMenu,
     body.event-page #topMenu,
     {
-        display: none!important;
-         z-index: 1!important;
+         display: none!important;
     }
     body.event-page #actionButton {
         display: none!important;
@@ -5181,7 +5176,6 @@ body.goalcreate-page .body.segment,
         display: none!important;
     }
     body.selectinterests-page #interests {
-        // bottom: 112px!important;
         top: 128px!important;
     }
     #nextButtonDesktopInterests {
@@ -5204,6 +5198,10 @@ body.goalcreate-page .body.segment,
         left: 0;
         text-align: center;
     }
+}
+
+#nextButton {
+      padding: 0.75em 0.3em!important;
 }
 
 #matched-profile-body .ui.header.socialprofileheader {
