@@ -3396,10 +3396,10 @@ div.friend-actions a:hover {
 }
 
 #matched-profile-footer .ui.icon.menu {
-    display: block!important;
     background-color: transparent;
     border: none!important;
     box-shadow: none!important;
+    justify-content: center;
 }
 
 #matched-profile-footer .ui.icon.menu .item:before {
@@ -4120,7 +4120,6 @@ ul[rn-carousel]>li {
     width: 100%;
 }
 
-
 #mainheadermenu.center {
     text-align: center;
 }
@@ -4807,7 +4806,7 @@ body.finalstep-page #topMenu,
     body.finalstep-page #topMenu,
     body.event-page #topMenu,
     {
-         display: none!important;
+        display: none!important;
     }
     body.event-page #actionButton {
         display: none!important;
@@ -5201,7 +5200,7 @@ body.goalcreate-page .body.segment,
 }
 
 #nextButton {
-      padding: 0.75em 0.3em!important;
+    padding: 0.75em 0.3em!important;
 }
 
 #matched-profile-body .ui.header.socialprofileheader {
@@ -6171,7 +6170,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7285,14 +7284,14 @@ rzslider {
      background-image: url('/assets/default.png');
      */
 
-     background-position: center;
-     background-size: contain;
-     height: 34px;
-     width: 34px;
- }
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
 
- #createEventsModal.ui.modal.centeraligned .field.button,
- #editEventsModal.ui.modal.centeraligned .field.button,
- {
+#createEventsModal.ui.modal.centeraligned .field.button,
+#editEventsModal.ui.modal.centeraligned .field.button,
+{
     height: 40px!important;
 }
