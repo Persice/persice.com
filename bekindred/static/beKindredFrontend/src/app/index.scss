@@ -6176,7 +6176,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7290,15 +7290,15 @@ rzslider {
      background-image: url('/assets/default.png');
      */
 
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
 
@@ -7314,4 +7314,15 @@ rzslider {
 
 #userProfileName {
     height: 40px!important;
+}
+
+
+body#main-page.event-page #locationInput button,
+body#main-page.event-page #locationInput2 button{
+    background-color: #fff!important;
+    padding-right: 0px!important;
+}
+
+body.events-page .card:hover {
+    transform: none!important;
 }
