@@ -14,7 +14,7 @@
         <div class="ui large form segment first" id="FirstSegment">
             <div class="field">
                 <label>Event Name</label>
-                <input auto-focus autocomplete="off" class="border-bottom" ng-model="viewevent.eventEdit.name" placeholder="{{::viewevent.placeholder.name}}" type="text" name="name">
+                <input  autocomplete="off" class="border-bottom" ng-model="viewevent.eventEdit.name" placeholder="{{::viewevent.placeholder.name}}" type="text" name="name">
             </div>
             <div class="field">
                 <label>Location</label>
@@ -105,8 +105,8 @@
     </div>
 </div>
 <script>
-'use strict';
-$('#deleteEventModal')
+    'use strict';
+    $('#deleteEventModal')
     .modal({
         onDeny: function() {},
         onApprove: function() {
@@ -117,7 +117,7 @@ $('#deleteEventModal')
     .modal('setting', 'allowMultiple', true);
 </script>
 <script>
-'use strict';
+    'use strict';
 
 
 // initialize input widgets first
@@ -146,4 +146,11 @@ $('#datePairEdit .simpledate').datepicker({
 $('#datePairEdit').datepair({
     defaultTimeDelta: 3600000,
 });
+
+
+$(".ui.form").scroll(function () {
+  $("input[type='text']:focus").blur();
+};
+
+
 </script>
