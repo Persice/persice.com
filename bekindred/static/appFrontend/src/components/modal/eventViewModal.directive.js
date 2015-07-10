@@ -197,7 +197,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Creative designer & hiker'
-            },
+        },
 
             {
                 id: 2,
@@ -209,7 +209,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Engineer kiteboarding chess geek'
-            },
+        },
 
             {
                 id: 3,
@@ -221,7 +221,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Hacker, Guitaris, and veteran Burner'
-            },
+        },
 
             {
                 id: 4,
@@ -233,7 +233,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Grad student from London'
-            },
+        },
 
         ];
 
@@ -484,8 +484,8 @@
                 //convert datetime to local timezone
                 vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
-                vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('H:mm A');
-                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A ') + moment.tz(angularMomentConfig.timezone).format('z');
+                vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('h:mm A');
+                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('h:mm A ') + moment.tz(angularMomentConfig.timezone).format('z');
 
 
                 if (vm.ends_on_date !== vm.starts_on_date) {
@@ -667,12 +667,27 @@
 
         }
 
+
+        //helper function for 12 to 24 hour time conversion
+        function convertTo24Hour(time) {
+            var hours = parseInt(time.substr(0, 2));
+            if (time.indexOf('AM') != -1 && hours == 12) {
+                time = time.replace('12', '0');
+            }
+            if (time.indexOf('PM') != -1 && hours < 12) {
+                time = time.replace(hours, (hours + 12));
+            }
+            return time.replace(/(AM|PM)/, '');
+        }
+
         function combineDateTime(type) {
 
             if (vm[type + '_date'] && vm[type + '_time']) {
                 var dateParts = vm[type + '_date'].split('/');
                 var datePartsSorted = [dateParts[2], dateParts[0], dateParts[1]];
-                var timeParts = vm[type + '_time'].split(':');
+                var timeParts = convertTo24Hour(vm[type + '_time']).split(':');
+                $log.info(datePartsSorted);
+                $log.info(timeParts);
                 var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
                 if (datePartsSorted && timeParts) {
                     datePartsSorted[1] -= 1;
@@ -691,8 +706,8 @@
             //convert datetime to local timezone
             vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('MM/DD/YYYY');
             vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('MM/DD/YYYY');
-            vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('H:mm');
-            vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm');
+            vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('h:mm A');
+            vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('h:mm A');
 
             vm.modalId = 'createEventsModal';
             vm.selection = 'edit';
@@ -710,56 +725,56 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Event name'
-                            }]
+                        }]
                         },
                         location: {
                             identifier: 'location',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
-                            }]
+                        }]
                         },
                         repeat: {
                             identifier: 'repeat',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Repeat'
-                            }]
+                        }]
                         },
                         description: {
                             identifier: 'description',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Description'
-                            }]
+                        }]
                         },
                         starts_on_date: {
                             identifier: 'starts_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Date'
-                            }]
+                        }]
                         },
                         starts_on_time: {
                             identifier: 'starts_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Time'
-                            }]
+                        }]
                         },
                         ends_on_date: {
                             identifier: 'ends_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Date'
-                            }]
+                        }]
                         },
                         ends_on_time: {
                             identifier: 'ends_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Time'
-                            }]
+                        }]
                         },
                     }
                 });

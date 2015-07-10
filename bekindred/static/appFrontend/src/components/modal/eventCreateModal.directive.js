@@ -197,56 +197,56 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Event name'
-                            }]
+                                }]
                         },
                         location: {
                             identifier: 'location',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
-                            }]
+                                }]
                         },
                         repeat: {
                             identifier: 'repeat',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Repeat'
-                            }]
+                                }]
                         },
                         description: {
                             identifier: 'description',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Description'
-                            }]
+                                }]
                         },
                         starts_on_date: {
                             identifier: 'starts_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Date'
-                            }]
+                                }]
                         },
                         starts_on_time: {
                             identifier: 'starts_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Time'
-                            }]
+                                }]
                         },
                         ends_on_date: {
                             identifier: 'ends_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Date'
-                            }]
+                                }]
                         },
                         ends_on_time: {
                             identifier: 'ends_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Time'
-                            }]
+                                }]
                         },
                     }
                 });
@@ -411,6 +411,17 @@
             vm.combineDateTime('ends_on');
         });
 
+        //helper function for 12 to 24 hour time conversion
+        function convertTo24Hour(time) {
+            var hours = parseInt(time.substr(0, 2));
+            if (time.indexOf('AM') != -1 && hours == 12) {
+                time = time.replace('12', '0');
+            }
+            if (time.indexOf('PM') != -1 && hours < 12) {
+                time = time.replace(hours, (hours + 12));
+            }
+            return time.replace(/(AM|PM)/, '');
+        }
 
         function combineDateTime(type) {
 
@@ -418,7 +429,8 @@
                 var dateParts = vm[type + '_date'].split('/');
                 var datePartsSorted = [dateParts[2], dateParts[0], dateParts[1]];
                 $log.info(datePartsSorted);
-                var timeParts = vm[type + '_time'].split(':');
+                var timeParts = convertTo24Hour(vm[type + '_time']).split(':');
+                $log.info(timeParts);
                 var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
                 if (datePartsSorted && timeParts) {
                     datePartsSorted[1] -= 1;
