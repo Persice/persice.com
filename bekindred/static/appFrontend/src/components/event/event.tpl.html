@@ -33,7 +33,7 @@
                     <input autocomplete="off" class="date start" ng-model="singleevent.starts_on_date" placeholder="{{::singleevent.placeholder.starts}}" type="text" name="starts_on_date">
                     <i class="calendar icon"></i>
                 </div>
-                <input name="starts_on" autocomplete="off" ng-change="singleevent.checkDatesStarts()" ng-class="{'fulldisplay': singleevent.event.starts_on !== '' && singleevent.event.starts_on !== null}" ng-if="singleevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="Starts" type="datetime-local" ng-model="singleevent.event.starts_on">
+                <input name="starts_on" autocomplete="off" ng-change="singleevent.checkDatesStarts()" ng-class="{'fulldisplay': singleevent.event.starts_on !== '' && singleevent.event.starts_on !== null}" ng-if="singleevent.showMobile" id="startsAtDate" class="border-bottom" placeholder="Starts" step="7200" type="datetime-local" ng-model="singleevent.event.starts_on">
                 <input autocomplete="off" id="startsAtTime" class="time start" placeholder="{{::singleevent.placeholder.startsTime}}" type="text" ng-model="singleevent.starts_on_time" name="starts_on_time">
             </div>
             <div class="field" ng-class="{'error': singleevent.endsTimeError}">
@@ -42,7 +42,7 @@
                     <input autocomplete="off" class="date end" ng-model="singleevent.ends_on_date" placeholder="{{::singleevent.placeholder.ends}}" type="text" name="ends_on_date">
                     <i class="calendar icon"></i>
                 </div>
-                <input name="ends_on" autocomplete="off" ng-change="singleevent.checkDatesEnds()" ng-class="{'fulldisplay':  singleevent.event.ends_on !== '' && singleevent.event.ends_on !== null}" ng-if="singleevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="Ends" type="datetime-local" ng-model="singleevent.event.ends_on">
+                <input name="ends_on" autocomplete="off" ng-change="singleevent.checkDatesEnds()" ng-class="{'fulldisplay':  singleevent.event.ends_on !== '' && singleevent.event.ends_on !== null}" ng-if="singleevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="Ends" step="7200" type="datetime-local" ng-model="singleevent.event.ends_on">
                 <input autocomplete="off" id="endsAtTime" class="time end" class="" placeholder="{{::singleevent.placeholder.endsTime}}" type="text" ng-model="singleevent.ends_on_time" name="ends_on_time">
             </div>
             <div class="field">
