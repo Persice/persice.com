@@ -23,7 +23,7 @@
     </h2>
     <div class="ui left icon input">
         <input type="text" ng-model="interest.searchQuery" ng-change="interest.getAllInterests()" ng-model-options="{debounce:300}" placeholder="Search">
-        <i class="circular search icon"></i>
+        <i class="icon-search icon"></i>
     </div>
 </div>
 <div id="interests" class="basic ui segment" ng-class="{'loading': interest.loadingInterests}" when-scroll-ends="interest.loadMoreInterests()">

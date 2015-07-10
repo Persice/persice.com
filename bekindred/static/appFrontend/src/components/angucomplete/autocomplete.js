@@ -41,9 +41,9 @@
             $templateCache.put(TEMPLATE_URL,
                 '<div class="autocomplete-holder ui left icon input" ng-class="{\'autocomplete-dropdown-visible\': showDropdown, \'loading\': searching}">' +
                 '  <input id="{{id}}_value" name={{inputName}} ng-class="{\'autocomplete-input-not-empty\': notEmpty}" ng-model="searchStr" ng-disabled="disableInput" type="{{inputType}}" placeholder="{{placeholder}}" maxlength="{{maxlength}}" ng-focus="onFocusHandler()" class="{{inputClass}}" ng-focus="resetHideResults()" ng-blur="hideResults($event)" autocapitalize="off" autocorrect="off" autocomplete="off" ng-change="inputChangeHandler(searchStr)"/>' +
-                ' <i class="icon circular search" ng-show="!searching"></i> ' +
+                ' <i class="icon-search icon" ng-show="!searching"></i> ' +
                 '  <div id="{{id}}_dropdown" class="autocomplete-dropdown" ng-show="showDropdown">' +
-                '    <div class="autocomplete-searching" ng-show="!searching && (!results || results.length == 0)" ng-bind="textNoResults"></div>' +
+                '    <div class="autocomplete-searching" ng-show="!searching && (!results || results.length == 0)"><span ng-bind="textNoResults"></span></div>' +
                 '    <div class="autocomplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseenter="hoverRow($index)" ng-class="{\'autocomplete-selected-row\': $index == currentIndex}">' +
                 '      <div ng-if="imageField" class="autocomplete-image-holder">' +
                 '        <img ng-if="result.image && result.image != \'\'" ng-src="{{result.image}}" class="autocomplete-image"/>' +

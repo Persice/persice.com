@@ -43,13 +43,13 @@
                 <div class="ui action input">
                     <input ng-minlength=3 type="text" placeholder="Enter keyword" ng-enter="filter.addKeyword(filter.newKeyword)" ng-model="filter.newKeyword">
                     <button ng-click="filter.addKeyword(filter.newKeyword)" class="ui icon button">
-                        <i class="plus icon"></i>
+                        <i class="icon-plus-circle icon"></i>
                     </button>
                 </div>
             </div>
             <a ng-click="filter.removeKeyword($index)" href="" class="item" ng-repeat="keyword in filter.myKeywords track by $index">
                 <div class="content">
-                    <div class="header"><i class="circle remove icon"></i> {{keyword}}</div>
+                    <div class="header"><i class="icon-times-circle icon"></i> {{keyword}}</div>
                 </div>
             </a>
             <div class="ui divider"></div>

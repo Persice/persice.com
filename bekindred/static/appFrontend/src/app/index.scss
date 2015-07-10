@@ -1541,7 +1541,6 @@ Definition Container
 }
 
 #left-menu .icon {
-    visibility: hidden;
     float: right;
 }
 
@@ -6194,7 +6193,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7318,15 +7317,15 @@ rzslider {
      background-image: url('/assets/default.png');
      */
 
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
 
@@ -7359,3 +7358,39 @@ body.events-page .card:hover {
 }
 
 #deleteAccountButton {}
+
+
+#underConstructionIcon {
+  position: absolute!important;
+  right: 25px!important;
+  top: 286px!important;
+
+}
+
+#underConstructionIcon:hover {
+    cursor: pointer;
+}
+
+#underConstructionIcon i.icon{
+    font-size: 1.5em!important;
+}
+#underConstructionIconDesktop {
+    width: 25px!important;
+    height: 25px!important;
+    display: inline-block!important;
+    position: absolute;
+    margin: 0px;
+    right: 5px !important;
+}
+
+#main-page #left-menu .item  #underConstructionDesktop i.icon-tools,
+#main-page #left-menu .item.active  #underConstructionDesktop i.icon-tools {
+    font-size: 1.5em!important;
+    position: relative!important;
+}
+
+
+
+.autocomplete-searching {
+    font-family: "Lato"!important;
+}

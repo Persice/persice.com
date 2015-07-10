@@ -14,12 +14,12 @@
         <div id="tiles" ng-cloak>
             <div class="ui image tile" ng-class="{'left floated medium tile-big': $index === 0, 'left floated small tile-small': $index === 1 || $index === 2 || $index === 4 || $index === 5, 'small tile-small': $index === 3 }" ng-repeat="photo in user.photos track by $index" end-repeat-photos ng-drop="true" ng-drop-success="onDropComplete($index, $data,$event)">
                 <a href="" ng-click="$parent.userPhotoDelete = photo; $parent.userPhotoDeleteIndex = $index;" class="ui right corner delete_photo label" ng-show="photo.photo !== ''">
-                    <i class="close icon"></i>
+                    <i class="icon-times-circle icon"></i>
                 </a>
                 <div class="tile-content" ng-show="photo.photo === ''">
                     <div class="content">
                         <div class="center">
-                            <a href="" ng-click="$parent.newPhotoIndex = $index; getFBAlbums();" class="ui compact icon button add_photo"><i class="circle add icon"></i> Add Photo</a>
+                            <a href="" ng-click="$parent.newPhotoIndex = $index; getFBAlbums();" class="ui compact icon button add_photo"><i class="icon-plus-circle icon"></i> Add Photo</a>
                         </div>
                     </div>
                 </div>

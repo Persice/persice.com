@@ -1,7 +1,7 @@
 <div id="search-header">
     <div class="ui left icon input">
         <input type="text" ng-model="inbox.q" name="q" placeholder="Search">
-        <i class="circular search icon"></i>
+        <i class="icon-search icon"></i>
     </div>
 </div>
 <div id="inbox-body" class="basic ui segment" ng-class="{'loading': inbox.loadingMessages}" when-scroll-ends="inbox.loadMore()">
