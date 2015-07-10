@@ -1,11 +1,11 @@
 <div class="ui fixed borderless menu center" id="edittopmenu">
     <div class="main container">
         <div class="left menu">
-            <a class="ui item" ui-sref="myprofile">Cancel</a>
+            <a class="ui item" ui-sref="myprofile" ng-hide="showModal">Cancel</a>
         </div>
         <div class="header item">Edit Profile</div>
         <div class="right menu">
-            <a class="ui item" ng-click="startSavingChanges()" ng-class="{'loading': savingAllChanges}">Save</a>
+            <a class="ui item" ng-click="startSavingChanges()" ng-hide="showModal" ng-class="{'loading': savingAllChanges}">Save</a>
         </div>
     </div>
 </div>
@@ -176,15 +176,14 @@
         </div>
     </div>
 </div>
-<div class="body segment edit" id="my-profile-photos" ng-if="showModal" ng-cloak>
-    <div class="ui attached segment">
-        <div class="ui fluid primary button" ng-click="closeModal()">
-            Back to Edit Profile
-        </div>
-    </div>
+<div class="body basic segment edit" id="my-profile-photos" ng-if="showModal" ng-cloak>
     <div class="ui attached segment" ng-class="{loading: albumsLoading}">
-        <div class="ui dividing header" ng-show="currentAlbum == ''">Choose Facebook Album</div>
-        <div class="ui dividing header" ng-show="currentAlbum != '' && showPhotos">Choose Photo</div>
+        <div class="ui dividing header">
+            <span ng-show="currentAlbum != '' && showPhotos">Choose Photo</span>
+            <span ng-show="currentAlbum == ''">Choose Facebook Album</span>
+            <span ng-show="currentAlbum != '' && !showPhotos">Crop Photo</span>
+        </div>
+
         <div class="ui selection list" ng-hide="hideAlbums">
             <div class="item" ng-click="getFBPhotos(fbAlbum.id, fbAlbum.name)" ng-repeat="fbAlbum in facebookAlbums track by $index">
                 <img class="ui tiny image" ng-src="{{fbAlbum.picture.data.url}}">
@@ -193,10 +192,9 @@
                 </div>
             </div>
         </div>
-        <div ng-show="hideAlbums" class="ui segment" ng-class="{loading: photosLoading}">
-            <div class="fluid ui button" ng-click="backToAlbums()">Back to Albums</div>
+        <div ng-show="hideAlbums" class="ui basic segment" ng-class="{loading: photosLoading}">
+            <button class="ui labeled fluid button backButton" ng-click="backToAlbums()"><i class="angle left big icon"></i>Back to Albums</button>
             <h3 ng-show="showPhotos" class="ui header">{{currentAlbum}}</h3>
-            <h3 ng-hide="showPhotos" class="ui header">Crop Photo</h3>
             <div class="ui selection list" ng-show="showPhotos">
                 <div ng-click="showCrop($index)" class="item button ok" ng-repeat="fbPhoto in facebookPhotos track by $index">
                     <img class="ui small image" ng-src="{{fbPhoto.source}}">
@@ -206,23 +204,33 @@
                 </div>
             </div>
             <div ng-hide="showPhotos">
-                <div class="cropArea">
-                    <img-crop image="myImage" result-image="myCroppedImage" area-type="square"></img-crop>
-                </div>
-                <br>
-                <br>
-                <br>
-                <div class="ui fluid primary button" ng-click="createPhoto(myCroppedImage)">
-                    Save Photo
+                <div class="ui vertically divided centered relaxed grid ">
+                    <div class="sixteen wide column">
+                        <div class="cropArea">
+                            <img-crop image="myImage" result-image="myCroppedImage" area-type="square"></img-crop>
+                        </div>
+                    </div>
+                    <div class="center aligned one column row">
+                        <div class="sixteen wide column">
+                            <div class="ui segment basic center aligned">
+                                <button class="ui button" ng-click="closeModal()">
+                                    Cancel
+                                </button>
+                                <button class="ui primary button" ng-click="createPhoto(myCroppedImage)">
+                                    Save Photo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-'use strict';
+    'use strict';
 
-function refreshConnect() {
-    angular.element($('#socialaccounts')).scope().refreshUser();
-}
+    function refreshConnect() {
+        angular.element($('#socialaccounts')).scope().refreshUser();
+    }
 </script>
