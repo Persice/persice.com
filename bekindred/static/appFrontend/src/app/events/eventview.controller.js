@@ -154,8 +154,8 @@
                 //convert datetime to local timezone
                 vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
                 vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('dddd, MMMM D, YYYY');
-                vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('H:mm A');
-                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('H:mm A ') + moment.tz(angularMomentConfig.timezone).format('z');
+                vm.starts_on_time = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('h:mm A');
+                vm.ends_on_time = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('h:mm A ') + moment.tz(angularMomentConfig.timezone).format('z');
 
 
 
