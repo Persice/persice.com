@@ -12,7 +12,7 @@
                                 <label ng-click="settings.setUnit('miles')">miles</label>
                             </div>
                         </div>
-                         <div class="field">
+                        <div class="field">
                             <div class="customradio">
                                 <input type="radio" ng-model="settings.distanceUnit" value="km">
                                 <label ng-click="settings.setUnit('km')">km</label>
@@ -27,14 +27,21 @@
             <br>
             <div class="ui basic segment">
                 <h4 class="ui header dividing">Manage Account</h4>
-                <div class="ui deleteitem red fluid button">
+                <a class="ui icon labeled button" ui-sref-ignore href="accounts/logout">
+                    <i class="sign out icon"></i> Sign out
+                </a>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="ui basic segment">
+                <h4 class="ui header dividing"></h4>
+                <div class="ui deleteitem red icon labeled button" id="deleteAccountButton">
                     <i class="remove circle icon"></i> Delete Account
                 </div>
-                <br>
-                <br>
-                <a class="ui fluid button" ui-sref-ignore href="accounts/logout">
-                    <i class="fa fa-sign-out icon"></i> Sign out
-                </a>
             </div>
         </div>
     </div>
