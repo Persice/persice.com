@@ -103,6 +103,7 @@
 
                 vm.user.first_name = data.first_name;
                 vm.user.last_name = data.last_name;
+                vm.user.last_name = data.last_name;
                 vm.user.about_me = data.about_me;
                 vm.user.age = data.age;
                 vm.user.facebookId = data.facebook_id;
@@ -232,6 +233,7 @@
                     format: 'json'
                 }).$promise.then(function(data) {
                     var goals = [];
+                    vm.user.distance = data.objects[0].distance;
                     var matchedgoals = data.objects[0].goals[0];
                     for (var key in matchedgoals) {
                         var goal = {

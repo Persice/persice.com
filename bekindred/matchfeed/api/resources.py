@@ -239,7 +239,7 @@ class ProfileResource(Resource):
     linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
 
     age = fields.IntegerField(attribute='age')
-    distance = fields.CharField(attribute='distance')
+    distance = fields.ListField(attribute='distance')
     about = fields.CharField(attribute='about', null=True)
 
     photos = fields.ListField(attribute='photos')
