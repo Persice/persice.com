@@ -6894,6 +6894,13 @@ body.event-page .ui.form .field.error input {
 //view event menu
 #event-going-menu {
     text-align: center!important;
+    justify-content: center!important;
+}
+
+#event-going-menu.ui.secondary.menu .active.item,
+#event-going-menu.ui.secondary.menu .active.item:hover {
+    background-color: #4d4d4d!important;
+    color: #FFF;
 }
 
 #event-going-menu .header.item {
@@ -7347,11 +7354,8 @@ body.events-page .card:hover {
     transform: none!important;
 }
 
-
 .backButton.ui.button i {
-      margin: -0.25em 0em 0em -0.21428571em!important;
+    margin: -0.25em 0em 0em -0.21428571em!important;
 }
 
-
-#deleteAccountButton {
-}
+#deleteAccountButton {}
