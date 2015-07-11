@@ -27,6 +27,7 @@ class MatchedFeedResource(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     user_id = fields.CharField(attribute='user_id')
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
+    twitter_username = fields.CharField(attribute='twitter_username', null=True)
     linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
     age = fields.IntegerField(attribute='age')
     distance = fields.ListField(attribute='distance')
@@ -77,7 +78,8 @@ class MatchedFeedResource(Resource):
             new_obj.age = calculate_age(user.date_of_birth)
             new_obj.gender = user.gender or 'm,f'
             new_obj.user_id = user.id
-            new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(user.id)
+            new_obj.twitter_provider, new_obj.linkedin_provider, new_obj.twitter_username = \
+                social_extra_data(user.id)
             new_obj.about = user.about_me
             new_obj.photos = photos
             new_obj.goals = x['goals']
@@ -236,6 +238,7 @@ class ProfileResource(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     user_id = fields.CharField(attribute='user_id')
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
+    twitter_username = fields.CharField(attribute='twitter_username', null=True)
     linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
 
     age = fields.IntegerField(attribute='age')
@@ -285,7 +288,8 @@ class ProfileResource(Resource):
         for user in match_results['users']:
             if user['id'] == request_user.id:
                 new_obj.id = request_user.id
-                new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(request_user.id)
+                new_obj.twitter_provider, new_obj.linkedin_provider, new_obj.twitter_username = \
+                    social_extra_data(request_user.id)
                 new_obj.first_name = request_user.first_name
                 new_obj.last_name = request_user.last_name
                 new_obj.facebook_id = request_user.facebook_id

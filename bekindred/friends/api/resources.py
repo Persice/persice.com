@@ -73,6 +73,7 @@ class ConnectionsResource(Resource):
     last_name = fields.CharField(attribute='last_name')
     friend_id = fields.CharField(attribute='friend_id')
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
+    twitter_username = fields.CharField(attribute='twitter_username', null=True)
     linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
 
     mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
@@ -132,7 +133,8 @@ class ConnectionsResource(Resource):
             if _first_name and not _first_name.lower() in new_obj.first_name.lower():
                 continue
 
-            new_obj.twitter_provider, new_obj.linkedin_provider = social_extra_data(new_obj.friend_id)
+            new_obj.twitter_provider, new_obj.linkedin_provider, new_obj.twitter_username = \
+                social_extra_data(new_obj.friend_id)
 
             new_obj.mutual_bk_friends = Friend.objects.mutual_friends(current_user, new_obj.friend_id)
             new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)
