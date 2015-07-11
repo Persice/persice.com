@@ -254,7 +254,7 @@ def social_extra_data(user_id):
     twitter_provider, linkedin_provider = None, None
     try:
         twitter_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='twitter')[0].extra_data[
-            'screen_name']
+            'name']
     except IndexError:
         pass
     try:
