@@ -38,10 +38,11 @@ def get_client_ip(request):
 
 @login_required
 def main_page(request, template_name="homepage.html"):
-    twitter_provider, linkedin_provider = social_extra_data(request.user.id)
+    twitter_provider, linkedin_provider, twitter_username = social_extra_data(request.user.id)
     context = RequestContext(request, {
         'twitter_provider': twitter_provider,
         'linkedin_provider': linkedin_provider,
+        'twitter_username': twitter_username,
     })
 
     if request.user.is_authenticated():

@@ -1,0 +1,132 @@
+<div id="connectionPage" ng-cloak>
+    <div class="ui fixed borderless menu" id="headermenu">
+        <a class="icon item" ui-sref="myconnections"><i class="left chevron icon"></i></a>
+        <h3 class="ui center aligned header">{{ friendprofile.userInfo.first_name }}</h3>
+    </div>
+
+    <div class="ui fixed menu friendsubmenu" id="submenu">
+        <div class="3 fluid large ui buttons">
+            <a ui-sref="conversations({ userId: friendprofile.userInfo.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+            <a ui-sref="friendprofile({ userId: friendprofile.userInfo.id })" ng-class="{'active': friendprofile.middleActive}" class="ui button"><i class="fa fa-user icon"></i></a>
+            <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
+                <div class="menu" id="friendmenu">
+                    <div class="item">
+                        Get Introduced
+                    </div>
+                    <div class="item">
+                        Add to Group
+                    </div>
+                    <div class="item">
+                        Arrange Meetup
+                    </div>
+                    <div class="item">
+                        Flag as Inappropriate
+                    </div>
+                    <div class="item deleteconnection">
+                        Remove Connection
+                    </div>
+                </div>
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="3 fluid large ui buttons friendsubmenu" id="desktopsubmenu">
+        <a ui-sref="conversations({ userId: friendprofile.userInfo.id })" class="ui leftalign button"><i class="fa fa-comment-o icon"></i></a>
+        <a ui-sref="friendprofile({ userId: friendprofile.userInfo.id })" ng-class="{'active': friendprofile.middleActive}" class="ui middle button"><i class="fa fa-user icon"></i></a>
+        <a class="ui button rightalign dropdown"><i class="fa fa-ellipsis-h icon"></i>
+            <div class="menu" id="friendmenu">
+                <div class="item">
+                    Get Introduced
+                </div>
+                <div class="item">
+                    Add to Group
+                </div>
+                <div class="item">
+                    Arrange Meetup
+                </div>
+                <div class="item">
+                    Flag as Inappropriate
+                </div>
+                <div class="item deleteconnection">
+                    Remove Connection
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <user-profile person="friendprofile.userInfo" type="friend" header="friendprofileheader" body="matched-profile-body"></user-profile>
+
+
+</div>
+
+<script>
+    'use strict';
+    $('.ui.dropdown')
+    .dropdown({
+        onShow:  function(){
+            var scope = angular.element($(".friendsubmenu")).scope();
+            scope.$apply(function(){
+                scope.friendprofile.middleActive = false;
+            });
+        },
+        onHide: function(){
+            var scope = angular.element($(".friendsubmenu")).scope();
+            setTimeout(function() {
+                scope.$apply(function(){
+                    scope.friendprofile.middleActive = true;
+                });
+            }, 100);
+        }
+    })
+    ;
+
+</script>
+
+
+<!-- modals -->
+
+<div class="ui basic delete modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Please Confirm
+</div>
+<div class="content">
+
+    <div class="description">
+      <p>Are you sure you want remove this connection?</p>
+  </div>
+</div>
+<div class="actions">
+    <div class="two fluid ui inverted buttons">
+      <div class="ui red negative basic inverted button">
+        <i class="remove icon"></i>
+        No
+    </div>
+    <a class="ui green basic inverted button ok">
+        <i class="checkmark icon"></i>
+        Yes
+    </a>
+</div>
+</div>
+</div>
+
+<script>
+  'use strict';
+  $('.basic.delete.modal')
+  .modal({
+    onDeny    : function(){
+      console.log('cancel');
+  },
+  onApprove : function() {
+      console.log('deleting user');
+      angular.element(document.getElementById('connectionPage')).scope().friendprofile.unFriend();
+  }
+})
+  .modal('attach events', '.deleteconnection', 'show');
+
+
+</script>
+
+</div>

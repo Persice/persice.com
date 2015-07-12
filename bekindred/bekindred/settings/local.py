@@ -74,8 +74,8 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
 
 TWITTER_CONSUMER_KEY = 'tJyUXuKfFmlzCnKccKvlQ4RIL'
 TWITTER_CONSUMER_SECRET = '3cmUB8ZKAYCKSsVtwUYpDyBNHPnY3ZkImjiomDV6pl5XeVz6AE'
-TWITTER_EXTRA_FIELD_SELECTORS = ['screen_name']
-TWITTER_EXTRA_DATA = ['screen_name']
+TWITTER_EXTRA_FIELD_SELECTORS = ['screen_name', 'name']
+TWITTER_EXTRA_DATA = ['screen_name', 'name']
 
 
 LOGIN_URL = '/accounts/login/'

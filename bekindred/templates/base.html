@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app="icebrak" ng-hint ng-strict-di ng-controller="AppCtrl">
+<html class="no-js" ng-app="persice" ng-hint ng-strict-di ng-controller="AppCtrl">
 
 <head>
     <meta charset="utf-8">
@@ -7,43 +7,24 @@
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="description" content="icebr&#257;k">
+    <meta name="description" content="persice">
     <meta name="author" content="">
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Lato:400,300,600,700' rel='stylesheet' type='text/css'>
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <meta name="application-name" content="persice" />
     <!-- Favicons -->
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/static/favicon/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/favicon/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/favicon/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/favicon/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="/static/favicon/apple-touch-icon-60x60.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/static/favicon/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/static/favicon/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/static/favicon/apple-touch-icon-152x152.png" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-196x196.png" sizes="196x196" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="/static/favicon/favicon-128.png" sizes="128x128" />
-    <meta name="application-name" content="icebr&#257;k" />
-    <meta name="msapplication-TileColor" content="#FFFFFF" />
-    <meta name="msapplication-TileImage" content="/static/favicon/mstile-144x144.png" />
-    <meta name="msapplication-square70x70logo" content="/static/favicon/mstile-70x70.png" />
-    <meta name="msapplication-square150x150logo" content="/static/favicon/mstile-150x150.png" />
-    <meta name="msapplication-wide310x150logo" content="/static/favicon/mstile-310x150.png" />
-    <meta name="msapplication-square310x310logo" content="/static/favicon/mstile-310x310.png" />
-    <link href="/static/beKindredFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
-    <link href="/static/beKindredFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
+    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
+
+    <link href="/static/appFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
+    <link href="/static/appFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
-    <!-- Start of bekindred Zendesk Widget script -->
-    <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(c){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var o=this.createElement("script");n&&(this.domain=n),o.id="js-iframe-async",o.src=e,this.t=+new Date,this.zendeskHost=t,this.zEQueue=a,this.body.appendChild(o)},o.write('<body onload="document._l();">'),o.close()}("//assets.zendesk.com/embeddable_framework/main.js","bekindred.zendesk.com");/*]]>*/</script>
-    <!-- End of bekindred Zendesk Widget script -->
 
 </head>
 
-<body id="main-page" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
     {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -69,7 +50,7 @@
         </div>
     </div>
     <div class="ui vertical left inverted labeled icon sidebar menu" id="leftmenu">
-        <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-big icon"></i> <span class="content">Match Feed</span></a>
+        <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-big icon"></i> <span class="content">Crowd</span></a>
         <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>   <messages-counter></message-counter></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <connections-counter></connections-counter></a>
@@ -80,7 +61,7 @@
             <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
         </div>
         <a ui-sref="home" class="item" id="side-menu-logo">
-            <img src="/static/img/icebrak-logo.png" alt="" class="ui image medium">
+            <img src="/static/appFrontend/dist/assets/images/logo/app-logo-big.png" alt="" class="ui image medium">
         </a>
     </div>
     <div class="ui vertical right inverted labeled sidebar menu matchfeedfilter" id="filtersMenu" ng-show="isState('matchfeed')">
@@ -93,7 +74,7 @@
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
             <div class="title item mobileview" id="mobileTitle" ng-show="!isState('events')">
-                <strong update-title></strong>
+                <span update-title></span>
             </div>
             <a class="item launch center-aligned mobileview" ng-show="isState('events')">
                 <i class="fa fa-calendar icon"></i>
@@ -108,7 +89,7 @@
                 <i class="fa fa-sliders icon"></i>
             </a>
             <a ui-sref="home" class="title item desktopview" id="logoTop">
-                <img src="/static/img/icebrak-logo.png" alt="" class="ui image">
+                <img src="/static/appFrontend/dist/assets/images/logo/app-logo-big.png" alt="" class="ui image">
             </a>
             <div class="ui mini action input inverted desktopview searchbox displaynone">
                 <input type="text" placeholder="Search">
@@ -141,9 +122,9 @@
             <div class="main container">
                 <div class="ui attached internal desktopview left rail">
                     <div class="ui vertical menu" ng-cloak id="left-menu">
-                        <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Match Feed</a>
+                        <a ui-sref="matchfeed" ui-sref-active="active" class="item"> Crowd</a>
                         <a ui-sref="inbox" ui-sref-active="active" class="item">Messages <messages-counter></messages-counter> </a>
-                        <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Match Feed </a> -->
+                        <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Crowd </a> -->
                         <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile </a>
                         <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <connections-counter></connections-counter> </a>
                         <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events <img tooltips tooltip-title="Under Construction" class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/> </a>
@@ -169,8 +150,8 @@
     <!-- <script src="//test1.com:3000/socket.io/socket.io.js"></script> -->
     {%endverbatim%}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
-    <script src="/static/beKindredFrontend/dist/scripts/vendor.js"></script>
-    <script src="/static/beKindredFrontend/dist/scripts/app.js"></script>
+    <script src="/static/appFrontend/dist/scripts/vendor.js"></script>
+    <script src="/static/appFrontend/dist/scripts/app.js"></script>
     <script>
         'use strict';
 
@@ -199,9 +180,9 @@
     <script>
         'use strict';
 
-        angular.module('icebrak').constant('USER_ID', {{user.id}});
-        angular.module('icebrak').constant('USER_FIRSTNAME', '{{ user.first_name }}');
-        angular.module('icebrak').constant('angularMomentConfig', (function() {
+        angular.module('persice').constant('USER_ID', {{user.id}});
+        angular.module('persice').constant('USER_FIRSTNAME', '{{ user.first_name }}');
+        angular.module('persice').constant('angularMomentConfig', (function() {
             var tz = jstz.determine();
             var localTimezone = tz.name();
             return {
@@ -209,13 +190,13 @@
                 preprocess: 'utc'
             }
         })());
-        angular.module('icebrak').constant('USER_LASTNAME', '{{ user.last_name }}');
-        angular.module('icebrak').constant('APP_ID', '{{ FACEBOOK_APP_ID }}');
+        angular.module('persice').constant('USER_LASTNAME', '{{ user.last_name }}');
+        angular.module('persice').constant('APP_ID', '{{ FACEBOOK_APP_ID }}');
 
 
-        angular.module('icebrak').constant('FB_TOKEN', '{{ user.access_token }}');
-        angular.module('icebrak').constant('USER_PHOTO', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=large');
-        angular.module('icebrak').constant('USER_PHOTO_SMALL', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=square');
+        angular.module('persice').constant('FB_TOKEN', '{{ user.access_token }}');
+        angular.module('persice').constant('USER_PHOTO', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=large');
+        angular.module('persice').constant('USER_PHOTO_SMALL', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=square');
     </script>
 </body>
 

@@ -1,0 +1,20 @@
+<!-- userprofile.template.html -->
+<div class="ui grid" ng-cloak>
+    <div class="row">
+        <div class="wide column">
+            <div class="header segment with-menu" id="{{userprofile.header}}">
+                <ng-include src="'components/profile/headerphotoslider.tpl.html'"></ng-include>
+            </div>
+            <div class="body segment" id="{{userprofile.body}}">
+                <div class="ui top attached segment" id="userProfileName">
+                    <h3 class="ui left floated header">{{ userprofile.user.first_name }}<span ng-hide="userprofile.user.first_name === ''">,</span> {{ userprofile.user.age }}</h3>
+                    <h5 id="editbutton" ng-if="userprofile.type === 'loggedInUser'" class="ui right floated header"><a ui-sref="editmyprofile" class="ui tiny button blue">Edit</a></h5>
+                    <h5 id="editbutton" ng-if="userprofile.type === 'friend'" class="ui right floated header">{{ userprofile.user.distance[0] }} {{ userprofile.user.distance[1] }}</h5>
+                </div>
+                <div class="ui attached segment">
+                    <ng-include src="'components/profile/profilebody.tpl.html'"></ng-include>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
