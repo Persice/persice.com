@@ -37,17 +37,16 @@ class GeoCoordinateTestCase(TestCase):
 
     def test_calculate_distance(self):
         geo = UserLocation.objects.filter(user=self.user).order_by('-timestamp')[0]
-        distance = UserLocation.objects.get(user=self.user1).geometry.distance(geo.geometry)
-        self.assertEqual(Distance(m=distance).mi, 19.85792865919762)
+        distance = UserLocation.objects.distance(geo.geometry).filter(user=self.user1)[0].distance
+        self.assertEqual(distance.mi, 6229.787089256057)
 
     def test_calculate_distance2(self):
         user = FacebookCustomUser.objects.create_user(username='user_c', password='test')
         user1 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
         user_location1 = UserLocation.objects.create(user=user, position=[38.53, 77.02])
         user_location2 = UserLocation.objects.create(user=user1, position=[41.50, 87.37])
-        distance = geopy_distance(user_location1.geometry, user_location2.geometry)
-        self.failIf(abs(distance.mi - 585.585417063) >= 0.001)
-        self.failIf(abs(distance.meters - 942408.377797) >= 0.001)
+        distance = UserLocation.objects.distance(user_location1.geometry).filter(user=self.user1)[0].distance
+        self.assertEqual(distance.mi, 7633.7030636078425)
 
     def test_calculate_distance_from_utils(self):
         user = FacebookCustomUser.objects.create_user(username='user_c', password='test')
@@ -55,7 +54,7 @@ class GeoCoordinateTestCase(TestCase):
         user_location1 = UserLocation.objects.create(user=user, position=[38.53, 77.02])
         user_location2 = UserLocation.objects.create(user=user1, position=[41.50, 87.37])
         distance = calculate_distance(user.id, user1.id)
-        self.assertEqual(distance, [585, 'miles'])
+        self.assertEqual(distance, [718, 'miles'])
 
     def test_calculate_distance_from_utils2(self):
         user = FacebookCustomUser.objects.create_user(username='user_c', password='test')
@@ -63,7 +62,7 @@ class GeoCoordinateTestCase(TestCase):
         user_location1 = UserLocation.objects.create(user=user, position=[-87.627696, 41.880745])
         user_location2 = UserLocation.objects.create(user=user1, position=[-87.62749695, 41.88316957])
         distance = calculate_distance(user.id, user1.id)
-        self.assertEqual(distance, [24, 'meters'])
+        self.assertEqual(distance, [269, 'meters'])
 
     def test_calculate_distance_from_utils_Less_10_meters(self):
         user = FacebookCustomUser.objects.create_user(username='user_c', password='test')

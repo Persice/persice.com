@@ -216,7 +216,7 @@ class MyEventFeedResource(ModelResource):
             return super(MyEventFeedResource, self).get_object_list(request). \
                 filter(membership__user=request.user.pk, ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__dwithin=(user_point, distance)). \
+                filter(point__distance_lte=(user_point, distance)). \
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
@@ -231,13 +231,12 @@ class MyEventFeedResource(ModelResource):
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
-                                                            bundle.data['location'])
+                                                            bundle.obj.pk)
         cumulative_match_score = 0
         for friend_id in friends:
             cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
         return bundle
 
 
@@ -269,7 +268,7 @@ class AllEventFeedResource(ModelResource):
             return super(AllEventFeedResource, self).get_object_list(request). \
                 filter(ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__dwithin=(user_point, distance)). \
+                filter(point__distance_lte=(user_point, distance)). \
                 order_by('starts_on')
         return super(AllEventFeedResource, self).get_object_list(request). \
             filter(ends_on__gt=now()).order_by('starts_on')
@@ -286,7 +285,8 @@ class AllEventFeedResource(ModelResource):
             cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
+        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
+                                                            bundle.obj.pk)
         return bundle
 
 
@@ -313,7 +313,8 @@ class FriendsEventFeedResource(ModelResource):
             cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
+        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
+                                                            bundle.obj.pk)
         return bundle
 
     def get_object_list(self, request):
@@ -333,7 +334,7 @@ class FriendsEventFeedResource(ModelResource):
             return super(FriendsEventFeedResource, self).get_object_list(request). \
                 filter(membership__user__in=friends, ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__dwithin=(user_point, distance)). \
+                filter(point__distance_lte=(user_point, distance)). \
                 order_by('starts_on')
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')

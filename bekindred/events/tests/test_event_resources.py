@@ -4,9 +4,10 @@ from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from django.utils.timezone import now
 
-from events.models import Event, Membership
+from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
-from goals.models import Subject, Goal, Offer
+from goals.models import Subject, Goal, Offer, MatchFilterState
+from world.models import UserLocation
 
 
 class TestEventResource(ResourceTestCase):
@@ -75,7 +76,7 @@ class TestEventResource(ResourceTestCase):
             'cumulative_match_score': 0,
             'most_common_elements': [],
             'attendees': [],
-            u'point': u'POINT (7000.0000000000000000 22965.8300000000017462)'
+            u'point': u'POINT (22965.8300000000017462 7000.0000000000000000)'
         })
 
     def test_hosted_by(self):
@@ -272,7 +273,12 @@ class TestMyEventFeedResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83],
+
+        self.user_location = UserLocation.objects.create(user=self.user, position=[50.0359, 0.054253])
+        UserLocation.objects.create(user=self.user1, position=[-87.627675, 41.881925])
+        UserLocation.objects.create(user=self.user2, position=[-87.6281729688, 41.881849562])
+
+        self.event = Event.objects.create(name="Play piano", location=[58.38, 0.0304],
                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
@@ -313,6 +319,39 @@ class TestMyEventFeedResource(ResourceTestCase):
         # Scope out the data for correctness.
         json_ = self.deserialize(resp)
         self.assertEqual(json_['meta']['total_count'], 3)
+
+    def test_my_feed_event_filter_by_distance(self):
+        self.response = self.login()
+        # TODO: What's unit for distance?
+        # maybe miles
+        efs = EventFilterState.objects.create(user=self.user, distance=928)
+        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
+                                   data={'filter': 'true'})
+        data = self.deserialize(resp)
+        self.assertEqual(data['objects'][0]['distance'], [927, u'km'])
+
+    def test_my_feed_event_without_filter_by_distance(self):
+        self.response = self.login()
+        # TODO: What's unit for distance?
+        # maybe miles
+        efs = EventFilterState.objects.create(user=self.user, distance=111)
+        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
+                                   )
+        data = self.deserialize(resp)
+        self.assertEqual(data['objects'][0]['distance'], [927, u'km'])
+
+    def test_my_feed_event_filter_by_distance2(self):
+        self.response = self.login()
+        # TODO: What's unit for distance?
+        # maybe miles
+        efs = EventFilterState.objects.create(user=self.user, distance=926)
+        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
+                                   data={'filter': 'true'})
+        data = self.deserialize(resp)
+        self.assertEqual(data['objects'], [])
 
 
 class TestFriendsEventFeedResource(ResourceTestCase):

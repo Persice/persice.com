@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from django_facebook.models import FacebookCustomUser
-from geoposition.fields import GeopositionField, Geoposition
+from geoposition.fields import GeopositionField
 from django.contrib.gis.geos import Point, fromstr
 
 
@@ -47,10 +47,10 @@ class UserLocation(models.Model):
     objects = models.GeoManager()
 
     def __unicode__(self):
-        return '%s %s %s' % (self.user, self.position.latitude, self.position.longitude)
+        return '%s %s %s' % (self.user, self.position.longitude, self.position.latitude)
 
     def save(self, *args, **kwargs):
-        point = fromstr("POINT(%s %s)" % (self.position.latitude, self.position.longitude))
+        point = fromstr("POINT(%s %s)" % (self.position.longitude, self.position.latitude))
         self.geometry = point
         super(UserLocation, self).save(*args, **kwargs)
 

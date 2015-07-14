@@ -34,8 +34,8 @@ class EventTestCase(TestCase):
         self.event = Event.objects.create(name="Play piano", location=location,
                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         lagrange = fromstr('POINT(-95.370401017314293 29.704867409475465)')
-        distance = self.event.point.distance(lagrange)
-        self.assertEqual(distance, 26.464521516695402)
+        distance = Event.objects.distance(lagrange)[0].distance
+        self.assertEqual(distance.m, 2390142.6461919)
 
     def test_event_filter_distance(self):
         latitude, longitude = (-72.1235, 42.3521)
@@ -45,13 +45,13 @@ class EventTestCase(TestCase):
                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         lagrange = fromstr('POINT(-95.370401017314293 29.704867409475465)')
         self.assertEqual(Event.objects.all().count(), 2)
-        for e in Event.objects.all():
-            print (e.name, e.point.distance(lagrange))
+        for e in Event.objects.distance(lagrange):
+            print (e.name, e.distance)
 
-        event = Event.objects.filter(point__dwithin=(lagrange, D(m=27).m)).search('ruby')
+        event = Event.objects.filter(point__distance_lte=(lagrange, D(km=15000).m)).search('ruby')
         self.assertEqual(len(event), 1)
         self.assertEqual(event[0].name, 'Ruby conference piano')
 
-        event = Event.objects.filter(point__dwithin=(lagrange, D(km=27).m))
+        event = Event.objects.filter(point__distance_lte=(lagrange, D(km=15000).m))
         self.assertEqual(len(event), 2)
         self.assertEqual(event[1].name, 'Ruby conference piano')

@@ -58,7 +58,7 @@ class Event(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        point = fromstr("POINT(%s %s)" % (self.location.latitude, self.location.longitude))
+        point = fromstr("POINT(%s %s)" % (self.location.longitude, self.location.latitude))
         self.point = point
         super(Event, self).save(*args, **kwargs)
 

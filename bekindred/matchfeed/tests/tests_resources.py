@@ -223,11 +223,11 @@ class TestMatchFeedResource(ResourceTestCase):
             resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true', 'offset': x}, format='json')
             result = self.deserialize(resp)
             distance.append(result['objects'][0]['distance'])
-        self.assertEqual(distance, [[24, u'meters'],
-                                    [77, u'meters'],
-                                    [80, u'meters'],
-                                    [8730, u'miles'],
-                                    [8953, u'miles']])
+        self.assertEqual(distance, [[131, u'meters'],
+                                    [157, u'meters'],
+                                    [269, u'meters'],
+                                    [3450, u'miles'],
+                                    [3914, u'miles']])
 
     def test_matchfeed_order_by_match_score(self):
         MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,
