@@ -1,0 +1,131 @@
+<div class="ui basic segment" id="event-attendees">
+    <form class="ui form">
+        <div class="fields">
+            <div class="eight wide field attendees">
+                <div class="field-section">
+                    <div class="label">Open to: <span class="label number">Public (all Persice users)</span></div>
+                    <div class="ui divider"></div>
+                    <div class="label">Guest can invite friends <span class="label number">YES</span></div>
+                </div>
+            </div>
+            <div class="eight wide field attendees">
+                <div class="field-section">
+                    <div class="label">Max. attendees <span class="label number">10</span></div>
+                    <div class="ui divider"></div>
+                    <div class="label">Spots remaining <span class="label number">2</span></div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+    <div class="ui top attached tabular menu" id="attendeesTabsMenu">
+        <a class="item active withicons" data-tab="first">Yes <span class="ui circular label">2</span></a>
+        <a class="item withicons" data-tab="second">Maybe <span class="ui circular label">1</span></a>
+        <a class="item withicons" data-tab="third">No <span class="ui circular label">1</span></a>
+    </div>
+    <div class="ui bottom attached tab segment active" data-tab="first">
+        <table class="ui very basic unstackable table attendees-people">
+            <thead>
+                <tr>
+                    <th colspan="2" class="search-header-container">
+                        <div class="ui transparent left icon input searchbox">
+                            <input type="text" placeholder="">
+                            <i class="search large icon"></i>
+                        </div>
+                    </th>
+                    <th class="desktopview"><i class="intersecticon icon"></i></th>
+                    <th class="desktopview"><i class="empty user large usericon icon"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="connection in viewevent.connectionsYes track by connection.id">
+                    <td>
+                        <h4 class="ui image header">
+                            <img src="http://lorempixel.com/32/32" class="ui circular image">
+                            <div class="content">
+                                {{::connection.first_name}}, {{::connection.age}}
+                            </div>
+                        </h4>
+                    </td>
+                    <td class="desktopview">
+                        <div class="tagline">{{::connection.tagline}}</div>
+                    </td>
+                    <td class="desktopview">{{::connection.match_score}}</td>
+                    <td class="desktopview">{{::connection.mutual_friends}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="second">
+        <table class="ui very basic unstackable table attendees-people">
+            <thead>
+                <tr>
+                    <th colspan="2" class="search-header-container">
+                        <div class="ui transparent left icon input searchbox">
+                            <input type="text" placeholder="">
+                            <i class="search large icon"></i>
+                        </div>
+                    </th>
+                    <th class="desktopview"><i class="intersecticon icon"></i></th>
+                    <th class="desktopview"><i class="empty user large usericon icon"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="connection in viewevent.connectionsNo track by connection.id">
+                    <td>
+                        <h4 class="ui image header">
+                            <img src="http://lorempixel.com/32/32" class="ui circular image">
+                            <div class="content">
+                                {{::connection.first_name}}, {{::connection.age}}
+                            </div>
+                        </h4>
+                    </td>
+                    <td class="desktopview">
+                        <div class="tagline">{{::connection.tagline}}</div>
+                    </td>
+                    <td class="desktopview">{{::connection.match_score}}</td>
+                    <td class="desktopview">{{::connection.mutual_friends}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="third">
+        <table class="ui very basic unstackable table attendees-people">
+            <thead>
+                <tr>
+                    <th colspan="2" class="search-header-container">
+                        <div class="ui transparent left icon input searchbox">
+                            <input type="text" placeholder="">
+                            <i class="search large icon"></i>
+                        </div>
+                    </th>
+                    <th class="desktopview"><i class="intersecticon icon"></i></th>
+                    <th class="desktopview"><i class="empty user large usericon icon"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="connection in viewevent.connectionsMaybe track by connection.id">
+                    <td>
+                        <h4 class="ui image header">
+                            <img src="http://lorempixel.com/32/32" class="ui circular image">
+                            <div class="content">
+                                {{::connection.first_name}}, {{::connection.age}}
+                            </div>
+                        </h4>
+                    </td>
+                    <td class="desktopview">
+                        <div class="tagline">{{::connection.tagline}}</div>
+                    </td>
+                    <td class="desktopview">{{::connection.match_score}}</td>
+                    <td class="desktopview">{{::connection.mutual_friends}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+</div>
+<script>
+'use strict';
+$('.menu .item')
+    .tab();
+</script>

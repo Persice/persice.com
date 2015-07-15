@@ -13,6 +13,9 @@
             <div ng-switch-when="invitations">
                 <ng-include src="'components/event/eventinvitations.tpl.html'"></ng-include>
             </div>
+            <div ng-switch-when="attendees">
+                <ng-include src="'components/event/eventattendees.tpl.html'"></ng-include>
+            </div>
         </div>
     </div>
     <div class="actions">
@@ -30,11 +33,9 @@
             Delete
             <i class="remove icon"></i>
         </div>
-
         <!-- invitations screen -->
         <div ng-if="viewevent.selection === 'invitations'" class="ui green right labeled button" ng-class="{'disabled': viewevent.counterNewInvites === 0}" ng-click="viewevent.sendInvites()">
             Done
         </div>
-
     </div>
 </div>

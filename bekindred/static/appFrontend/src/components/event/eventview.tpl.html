@@ -94,7 +94,7 @@
             <div class="field">
                 <label class="specialpadding">Attending</label>
                 <div class="eventcontent">
-                    <span class="people-attending">{{viewevent.event.friend_attendees_count}} people attending</span>
+                    <span ng-click="viewevent.openAttendees();" class="people-attending">{{viewevent.event.friend_attendees_count}} people attending</span>
                     <span class="remaining-spots">0 spots remaining</span>
                     <div class="cleardiv"></div>
                 </div>
@@ -106,7 +106,7 @@
             </div>
             <div class="ui divider" id="last-section"></div>
             <div class="field">
-                <span class="people-attending">{{viewevent.event.friend_attendees_count}} people attending</span>
+                <span ng-click="viewevent.openAttendees();" class="people-attending">{{viewevent.event.friend_attendees_count}} people attending</span>
                 <span class="remaining-spots">0 spots remaining</span>
                 <div class="cleardiv"></div>
             </div>

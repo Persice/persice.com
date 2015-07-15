@@ -7359,3 +7359,177 @@ body.events-page .card:hover {
 }
 
 #deleteAccountButton {}
+
+
+
+
+//attendees
+
+
+#attendeesTabsMenu.ui.tabular.menu .item {
+    padding: 9px 1.2em 0.8em 1.2em;
+    min-width: 100px;
+    background-color: #D3D3D3;
+    color: #FFFFFF;
+    margin-right: 10px;
+    border-radius: 0px!important;
+    position: relative!important;
+}
+
+#attendeesTabsMenu.ui.tabular.menu .item .ui.circular.label {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+
+#attendeesTabsMenu.ui.tabular.menu .item .icon {
+    position: absolute!important;
+    left: 8px!important;
+    top: 8px!important;
+}
+
+
+
+#attendeesTabsMenu.ui.tabular.menu .active.item {
+    background-color: #FFF;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 0.8em 1.2em!important;
+}
+
+.ui.modal.centeraligned #event-attendees {
+    height: 650px!important;
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
+}
+
+#event-attendees .radio-vertical .label,
+#event-attendees .checkbox-vertical .label {
+    color: #888;
+}
+
+.checkbox-vertical input[type=checkbox] {
+    vertical-align: middle!important;
+    cursor: pointer!important;
+    width: auto!important;
+}
+
+#event-attendees .label.number {
+    float: right;
+}
+
+.attendees-people .tagline {
+    font-weight: 400;
+    font-variant: italic;
+    color: rgba(0, 0, 0, .5);
+}
+
+.attendees-people .intersecticon {
+    position: absolute!important;
+    left: 0px!important;
+    top: 5px!important;
+}
+
+.attendees-people td.selected i.icon {
+    color: #AAA;
+}
+
+.attendees-people td,
+.attendees-people th,
+.attendees-people td .header .content {
+    padding: 0.9em 0.8em!important;
+    position: relative!important;
+}
+
+.attendees-people td,
+.attendees-people th,
+.attendees-people td .header .content {
+    padding: 0.9em 1.1 em!important;
+}
+
+.attendees-people .header img.circular {
+    width: 3.5em;
+}
+
+.attendees-people .searchbox input[type=text] {
+    font-size: 1.3rem!important;
+}
+
+.attendees-people .search-header-container {
+    padding-left: 0.8em!important;
+}
+
+.attendees-people tbody tr {
+    cursor: pointer!important;
+}
+
+.attendees-people thead tr th i.icon {
+    text-align: inherit!important;
+    margin: 0px!important;
+}
+
+.attendees-people tbody tr:hover td {
+    background-color: #fcfcfc!important;
+}
+
+.attendees-people tbody td.selected {
+    text-align: right!important;
+}
+
+.attendees-people.ui.table tbody tr.active td {
+    background-color: #fcfcfc!important;
+}
+
+#createEventsModal .attendees-people .ui.input.searchbox {
+    width: 100%!important;
+}
+
+//responsive search box for attendees
+@media only screen and (max-width: 767px) {
+    #attendeesTabsMenu.ui.tabular.menu .item {
+        min-width: 100px;
+    }
+    .attendees-people td,
+    .attendees-people th,
+    .attendees-people td .header .content {
+        padding: 0.9em 0.4em!important;
+    }
+}
+
+.attendees-people .ui.input.searchbox input {
+    padding-right: 0px!important;
+}
+
+.attendees-people .ui.input.searchbox {
+    width: 100%!important;
+}
+
+.attendees-people .ui.input.searchbox input {
+    width: 100%;
+}
+
+.attendees-people thead th {
+    padding-bottom: 0px!important;
+}
+
+@media only screen and (max-width: 400px) {
+    .attendees-people .ui.input.searchbox input {
+        max-width: 100px!important;
+    }
+    #attendeesTabsMenu.ui.tabular.menu .item {
+        font-size: 0.8rem!important;
+        min-width: 88px;
+        padding: 1.2em;
+    }
+    #attendeesTabsMenu.ui.tabular.menu .item.active {
+        padding: 1.2em!important;
+    }
+
+    #attendeesTabsMenu.ui.tabular.menu .item.withicons i.icon {
+        font-size: 1.1rem!important;
+        top: 11px !important;
+    }
+}
+
+.people-attending:hover {
+    cursor: pointer!important;
+}

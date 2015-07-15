@@ -197,7 +197,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Creative designer & hiker'
-        },
+            },
 
             {
                 id: 2,
@@ -209,7 +209,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Engineer kiteboarding chess geek'
-        },
+            },
 
             {
                 id: 3,
@@ -221,7 +221,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Hacker, Guitaris, and veteran Burner'
-        },
+            },
 
             {
                 id: 4,
@@ -233,7 +233,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Grad student from London'
-        },
+            },
 
         ];
 
@@ -336,6 +336,16 @@
 
         function closeInvitations() {
             vm.selection = 'edit';
+            vm.header = 'Event Details';
+        }
+
+        function openAttendees() {
+            vm.selection = 'attendees';
+            vm.header = 'Attendees';
+        }
+
+        function closeAttendees() {
+            vm.selection = 'view';
             vm.header = 'Event Details';
         }
 
@@ -725,56 +735,56 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Event name'
-                        }]
+                            }]
                         },
                         location: {
                             identifier: 'location',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
-                        }]
+                            }]
                         },
                         repeat: {
                             identifier: 'repeat',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Repeat'
-                        }]
+                            }]
                         },
                         description: {
                             identifier: 'description',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Description'
-                        }]
+                            }]
                         },
                         starts_on_date: {
                             identifier: 'starts_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Date'
-                        }]
+                            }]
                         },
                         starts_on_time: {
                             identifier: 'starts_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Time'
-                        }]
+                            }]
                         },
                         ends_on_date: {
                             identifier: 'ends_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Date'
-                        }]
+                            }]
                         },
                         ends_on_time: {
                             identifier: 'ends_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Time'
-                        }]
+                            }]
                         },
                     }
                 });
