@@ -113,8 +113,8 @@ def calculate_distance_events(user_id, event_id):
     units = 'miles'
 
     try:
-        units = MatchFilterState.objects.get(user_id=user_id).distance_unit
-    except MatchFilterState.DoesNotExist:
+        units = MatchFilterState.objects.filter(user_id=user_id)[0].distance_unit
+    except (MatchFilterState.DoesNotExist, IndexError):
         pass
 
     try:

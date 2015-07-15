@@ -1,16 +1,37 @@
 from itertools import chain
-import json
 
 from django.db import models
 from django.db.models import Q
-from django.utils.timezone import now
+from django.db.models.query import QuerySet
 from django_facebook.models import FacebookCustomUser, FacebookUser
-import redis
 
 from members.models import FacebookCustomUserActive
 
 
-class FriendManager(models.Manager):
+class FriendsQuerySet(QuerySet):
+    def friends(self, user_id):
+        return self.filter(Q(friend1=user_id, friend1__is_active=True,
+                             friend2__is_active=True, status=1) |
+                           Q(friend2=user_id, friend2__is_active=True,
+                             friend1__is_active=True, status=1))
+
+    def new_friends(self, user_id):
+        return self.filter(Q(friend1=user_id, friend1__is_active=True,
+                             friend2__is_active=True, status=1, updated_at__isnull=True) |
+                           Q(friend2=user_id, friend2__is_active=True,
+                             friend1__is_active=True, status=1, updated_at__isnull=True))
+
+
+class FriendsManager(models.Manager):
+    def get_queryset(self):
+        return FriendsQuerySet(self.model, using=self._db)
+
+    def friends(self, user_id):
+        return self.get_queryset().friends(user_id)
+
+    def new_friends(self, user_id):
+        return self.get_queryset().new_friends(user_id)
+
     def update_friend(self, friend1, friend2):
         sender = FacebookCustomUser.objects.get(pk=1)
         u1 = FacebookCustomUser.objects.get(pk=friend1)
@@ -61,18 +82,6 @@ class FriendManager(models.Manager):
         all_ = list(chain(*result.values_list('friend1', 'friend2')))
         return [x for x in all_ if x != user_id]
 
-    def friends(self, user_id):
-        return super(FriendManager, self).get_queryset().filter(Q(friend1=user_id, friend1__is_active=True,
-                                                                  friend2__is_active=True, status=1) |
-                                                                Q(friend2=user_id, friend2__is_active=True,
-                                                                  friend1__is_active=True, status=1))
-
-    def new_friends(self, user_id):
-        return super(FriendManager, self).get_queryset().filter(Q(friend1=user_id, friend1__is_active=True,
-                                                                  friend2__is_active=True, status=1, updated_at__isnull=True) |
-                                                                Q(friend2=user_id, friend2__is_active=True,
-                                                                  friend1__is_active=True, status=1, updated_at__isnull=True))
-
     def deleted_friends(self, user_id):
         """
         Return All delete friends and all friends which you declined
@@ -103,7 +112,7 @@ class FriendManager(models.Manager):
 
 
 class Friend(models.Model):
-    objects = FriendManager()
+    objects = FriendsManager()
     FRIENDSHIP_STATUS = (
         (-1, 'Decline friend request'),
         (0, 'Pending friend request'),

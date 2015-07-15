@@ -27,18 +27,4 @@ class TestEventConnections(ResourceTestCase):
 
     def test_get_list(self):
         resp = self.api_client.get('/api/v1/events/connections/', format='json')
-        self.assertEqual(self.deserialize(resp)['objects'],
-                         [{u'age': 34,
-                           u'common_goals_offers_interests': 0,
-                           u'event': u'/api/v1/event/1/',
-                           u'facebook_id': None,
-                           u'first_name': u'Andrii',
-                           u'id': 1,
-                           u'is_accepted': False,
-                           u'is_organizer': True,
-                           u'last_name': u'Soldatenko',
-                           u'mutual_friends_count': 0,
-                           u'resource_uri': u'/api/v1/events/connections/1/',
-                           u'rsvp': u'yes',
-                           u'tagline': u'',
-                           u'user': u'/api/v1/auth/user/%s/' % self.user.pk}])
+        self.assertEqual(self.deserialize(resp)['objects'], [])
