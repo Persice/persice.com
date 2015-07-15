@@ -332,12 +332,16 @@ class FriendsEventFeedResource(ModelResource):
             user_point = get_user_location(request.user.id)
             distance = D(**{distance_unit: efs[0].distance}).m
             return super(FriendsEventFeedResource, self).get_object_list(request). \
-                filter(membership__user__in=friends, ends_on__gt=now()). \
+                filter(membership__user_id__in=friends,
+                       ends_on__gt=now()). \
                 search(tsquery, raw=True). \
                 filter(point__distance_lte=(user_point, distance)). \
-                order_by('starts_on')
+                order_by('starts_on').distinct()
+
         return super(FriendsEventFeedResource, self).get_object_list(request). \
-            filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
+            filter(membership__user__in=friends,
+                   ends_on__gt=now()).\
+            order_by('starts_on').distinct()
 
 
 class EventConnections(ModelResource):
@@ -346,6 +350,8 @@ class EventConnections(ModelResource):
 
     class Meta:
         always_return_data = True
+        # TODO change to friends
+        #
         queryset = Membership.objects.all()
         resource_name = 'events/connections'
         authentication = SessionAuthentication()

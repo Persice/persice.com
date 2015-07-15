@@ -284,7 +284,7 @@ class TestMyEventFeedResource(ResourceTestCase):
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
-        Membership.objects.create(user=self.user, event=self.event, rsvp='yes')
+        Membership.objects.create(user=self.user, event=self.event, rsvp='yes', is_organizer=True)
         Membership.objects.create(user=self.user, event=self.event1, rsvp='yes')
         Membership.objects.create(user=self.user, event=self.event2, rsvp='maybe')
 
@@ -369,7 +369,10 @@ class TestFriendsEventFeedResource(ResourceTestCase):
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)
+        Membership.objects.create(user=self.user1, event=self.event2)
+        Membership.objects.create(user=self.user2, event=self.event2)
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        Friend.objects.create(friend1=self.user, friend2=self.user2, status=1)
 
     def login(self):
         return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
@@ -379,4 +382,20 @@ class TestFriendsEventFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/feed/events/friends/', format='json')
         self.assertValidJSONResponse(resp)
         # Scope out the data for correctness.
-        self.assertEqual(len(self.deserialize(resp)['objects']), 0)
+        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
+
+    def test_friends_feed_resource_duplicates(self):
+        """
+        Duplicate events showing up in event feed
+        https://bekindred.atlassian.net/browse/ICE-925
+        """
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/friends/', format='json')
+        data = self.deserialize(resp)
+        Membership.objects.create(user=self.user1, event=self.event, rsvp='yes')
+        Membership.objects.create(user=self.user2, event=self.event, rsvp='yes')
+
+        Membership.objects.create(user=self.user1, event=self.event1, rsvp='yes')
+        Membership.objects.create(user=self.user2, event=self.event1, rsvp='yes')
+
+        self.assertEqual(data['meta']['total_count'], 1)
