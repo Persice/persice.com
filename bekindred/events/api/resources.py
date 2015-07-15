@@ -2,6 +2,7 @@ import json
 
 from django.contrib.gis.measure import D
 from django.db import IntegrityError
+from django.db.models import Q
 from django.utils.timezone import now
 import redis
 from tastypie import fields
@@ -16,7 +17,7 @@ from tastypie.validation import Validation
 from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
 from goals.models import MatchFilterState
-from goals.utils import calculate_distance_events, get_user_location
+from goals.utils import calculate_distance_events, get_user_location, calculate_age
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -345,33 +346,67 @@ class FriendsEventFeedResource(ModelResource):
 
 
 class EventConnections(ModelResource):
-    event = fields.ToOneField(EventResource, 'event')
-    user = fields.ToOneField(UserResourceShort, 'user')
 
     class Meta:
         always_return_data = True
-        # TODO change to friends
-        #
-        queryset = Membership.objects.all()
+        queryset = Friend.objects.all()
         resource_name = 'events/connections'
         authentication = SessionAuthentication()
         authorization = Authorization()
-        excludes = ['updated']
         allowed_methods = ['get']
         filtering = {
-            'is_organizer': ALL,
-            'is_accepted': ALL,
-            'rsvp': ALL,
-            'user': ALL_WITH_RELATIONS,
-            'event': ALL_WITH_RELATIONS,
+            'friend1': ALL_WITH_RELATIONS,
+            'friend2': ALL_WITH_RELATIONS
         }
 
+    def get_object_list(self, request):
+        return super(EventConnections, self).get_object_list(request).\
+            friends(request.user.id)
+
+    def build_filters(self, filters=None):
+        if filters is None:
+            filters = {}
+        orm_filters = super(EventConnections, self).build_filters(filters)
+
+        if ('full_name' in filters) or ('is_invited' in filters):
+            q1 = filters.get('full_name')
+            q2 = filters.get('is_invited')
+            q3 = filters.get('rsvp')
+            qs = (
+                Q(friend1__first_name__icontains=q1) |
+                Q(friend1__last_name__icontains=q1) |
+                Q(friend2__first_name__icontains=q1) |
+                Q(friend2__last_name__icontains=q1) |
+                Q(friend1__membership__is_invited=q2) |
+                Q(friend2__membership__is_invited=q2) |
+                Q(friend1__membership__rsvp=q3) |
+                Q(friend2__membership__rsvp=q3)
+            )
+            orm_filters.update({'custom': qs})
+
+        return orm_filters
+
+    def apply_filters(self, request, applicable_filters):
+        if 'custom' in applicable_filters:
+            custom = applicable_filters.pop('custom')
+        else:
+            custom = None
+
+        semi_filtered = super(EventConnections, self).apply_filters(request, applicable_filters)
+        return semi_filtered.filter(custom) if custom else semi_filtered
+
     def dehydrate(self, bundle):
-            bundle.data['tagline'] = ''
-            bundle.data['common_goals_offers_interests'] = 0
-            bundle.data['mutual_friends_count'] = 0
-            bundle.data['facebook_id'] = bundle.obj.user.facebook_id
-            bundle.data['age'] = 34
-            bundle.data['first_name'] = bundle.obj.user.first_name
-            bundle.data['last_name'] = bundle.obj.user.last_name
-            return bundle
+        bundle.data['tagline'] = 'dummy'
+        bundle.data['common_goals_offers_interests'] = 0
+        bundle.data['mutual_friends_count'] = 0
+
+        if bundle.obj.friend1.pk == bundle.request.user.id:
+            position_friend = 'friend2'
+        else:
+            position_friend = 'friend1'
+
+        bundle.data['facebook_id'] = getattr(bundle.obj, position_friend).facebook_id
+        bundle.data['age'] = calculate_age(getattr(bundle.obj, position_friend).date_of_birth)
+        bundle.data['first_name'] = getattr(bundle.obj, position_friend).first_name
+        bundle.data['last_name'] = getattr(bundle.obj, position_friend).last_name
+        return bundle

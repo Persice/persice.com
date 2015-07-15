@@ -66,7 +66,7 @@ class TestEventResource(ResourceTestCase):
             u'members': [{u'event': u'/api/v1/event/{}/'.format(self.event.id),
                           u'id': self.membership.id,
                           u'is_organizer': True,
-                          'is_accepted': False,
+                          'is_invited': False,
                           u'resource_uri': u'/api/v1/member/{}/'.format(self.membership.id),
                           u'rsvp': u'yes',
                           u'updated': self.membership.updated.isoformat()[:-6],
