@@ -23,6 +23,7 @@ class UserResource(ModelResource):
 
     def dehydrate(self, bundle):
         bundle.data['age'] = calculate_age(bundle.data['date_of_birth'])
+        # TODO chane user_id to url from user_id
         bundle.data['twitter_provider'], bundle.data['linkedin_provider'], bundle.data['twitter_username'] = \
             social_extra_data(bundle.request.user.id)
         return bundle
