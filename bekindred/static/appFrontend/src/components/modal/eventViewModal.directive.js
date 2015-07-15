@@ -119,6 +119,8 @@
         vm.saveEvent = saveEvent;
         vm.openInvitations = openInvitations;
         vm.closeInvitations = closeInvitations;
+        vm.openAttendees = openAttendees;
+        vm.closeAttendees = closeAttendees;
 
         vm.selection = 'view';
 
@@ -329,6 +331,8 @@
 
         //END INVITES
 
+
+
         function openInvitations() {
             vm.selection = 'invitations';
             vm.header = 'Invitations';
@@ -339,6 +343,64 @@
             vm.header = 'Event Details';
         }
 
+        //START ATTENDEES
+
+        vm.connectionsYes = [{
+                id: 1,
+                rsvp: '',
+                first_name: 'Lena',
+                age: 35,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Creative designer & hiker'
+            }, {
+                id: 3,
+                rsvp: '',
+                first_name: 'Charlie',
+                age: 39,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Hacker, Guitaris, and veteran Burner'
+            }
+
+        ];
+
+
+        vm.connectionsNo = [{
+                id: 2,
+                rsvp: 'YES',
+                first_name: 'Brian',
+                age: 31,
+                invited: true,
+                selected: true,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Engineer kiteboarding chess geek'
+            },
+
+        ];
+
+
+        vm.connectionsMaybe = [
+
+            {
+                id: 4,
+                rsvp: '',
+                first_name: 'Daniel',
+                age: 25,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Grad student from London'
+            },
+
+        ];
+
         function openAttendees() {
             vm.selection = 'attendees';
             vm.header = 'Attendees';
@@ -348,6 +410,9 @@
             vm.selection = 'view';
             vm.header = 'Event Details';
         }
+
+        //END ATTENDEES
+
 
         function changeRsvpStatus(newStatus) {
             var member = {
