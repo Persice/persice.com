@@ -28,8 +28,6 @@
         return directive;
 
         function link(scope, element, attrs, viewevent) {
-
-            console.log('Linking directive');
             element.modal({
                 onHide: function() {
                     scope.viewevent.show = false;
@@ -169,7 +167,6 @@
         $scope.$watch(angular.bind(this, function(show) {
             return vm.show;
         }), function(modelValue) {
-            $log.info(modelValue);
             if (modelValue) {
                 vm.getEvent();
 
@@ -285,7 +282,6 @@
         }
 
         $scope.$on('sendInvites', function() {
-            $log.info('sendInvites Event');
             vm.sendInvites();
         });
 
@@ -450,13 +446,11 @@
                     // create new member first with new rsvp status
                     MembersFactory.save({}, member,
                         function(success) {
-                            $log.info(success);
                             vm.memberExists = true;
                             vm.event.members.push(success);
                             vm.memberId = success.id;
                         },
                         function(error) {
-                            $log.info(error);
 
                         });
                 }
@@ -501,7 +495,6 @@
 
             vm.selection = 'view';
             vm.pok = 0;
-            $log.info('getting event: ' + vm.eventid);
             vm.loadingEvent = true;
             EventsFactory.query({
                 format: 'json'
@@ -583,8 +576,7 @@
                 vm.loadingEvent = false;
 
                 vm.eventNotFound = true;
-                $log.info(status);
-                $log.error(message);
+
 
 
             });
@@ -652,20 +644,17 @@
             vm.startsTimeError = false;
             vm.endsTimeError = false;
             if (moment(vm.eventEdit.starts_on).unix() < moment().unix()) {
-                $log.info('start date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select a Starts Date that is not set in past.'];
                 vm.startsTimeError = true;
                 return;
             } else {
-                $log.info('start date is OK');
                 vm.showError = false;
                 vm.errorMessage = [];
                 vm.startsTimeError = false;
             }
 
             if (moment(vm.eventEdit.ends_on).unix() < moment().unix()) {
-                $log.info('end date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select an Ends Date that is not set in past.'];
                 vm.endsTimeError = true;
@@ -673,14 +662,12 @@
             }
 
             if (moment(vm.eventEdit.ends_on).unix() > moment().unix() && moment(vm.eventEdit.starts_on).unix() > moment().unix() && moment(vm.eventEdit.starts_on).unix() > moment(vm.eventEdit.ends_on).unix()) {
-                $log.info('end date is not ok');
                 vm.showError = true;
                 vm.errorMessage = ['Ends Date must be greater or equal to Starts Date.'];
                 vm.endsTimeError = true;
                 vm.startsTimeError = true;
                 return;
             } else {
-                $log.info('end date is OK');
                 vm.showError = false;
                 vm.errorMessage = [];
                 vm.startsTimeError = false;
@@ -706,9 +693,7 @@
         //parse location
         function parseLocation() {
 
-            $log.info('parsing location');
             if (vm.eventLocation !== null && typeof vm.eventLocation === 'object' && vm.eventLocation.hasOwnProperty('address_components') && vm.eventLocation.hasOwnProperty('geometry')) {
-                $log.info('changing location');
                 var location = vm.eventLocation.address_components;
 
                 vm.eventEdit.street = vm.extractFromAddress(location, 'route', 'long_name') + ' ' + vm.extractFromAddress(location, 'street_number', 'long_name');
@@ -728,7 +713,6 @@
                 vm.eventEdit.location = vm.eventLocation.geometry.location['A'] + ',' + vm.eventLocation.geometry.location['F'];
                 vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation.formatted_address) + '/@' + vm.eventEdit.location + ',15z';
                 vm.mapurlTrue = true;
-                $log.info(vm.mapurl);
             } else {
                 if (vm.pok > 2) {
                     vm.eventEdit.address = vm.eventLocation;
@@ -761,8 +745,6 @@
                 var dateParts = vm[type + '_date'].split('/');
                 var datePartsSorted = [dateParts[2], dateParts[0], dateParts[1]];
                 var timeParts = convertTo24Hour(vm[type + '_time']).split(':');
-                $log.info(datePartsSorted);
-                $log.info(timeParts);
                 var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
                 if (datePartsSorted && timeParts) {
                     datePartsSorted[1] -= 1;
@@ -871,7 +853,6 @@
 
                 vm.validateDates();
 
-                $log.info('started saving event');
                 vm.showSuccess = false;
                 if (!vm.showError) {
 

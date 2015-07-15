@@ -53,7 +53,6 @@
         }
 
         $scope.$on('goBackEvents', function() {
-            $log.info($rootScope.previousEventFeed);
             if ($rootScope.previousEventFeed !== undefined) {
                 $state.go($rootScope.previousEventFeed);
             } else {
@@ -108,13 +107,11 @@
                     // create new member first with new rsvp status
                     MembersFactory.save({}, member,
                         function(success) {
-                            $log.info(success);
                             vm.memberExists = true;
                             vm.event.members.push(success);
                             vm.memberId = success.id;
                         },
                         function(error) {
-                            $log.info(error);
 
                         });
                 }
@@ -125,7 +122,6 @@
         vm.getEvent();
 
         function getEvent() {
-            $log.info('getting event: ' + eventId);
 
 
 
@@ -218,7 +214,6 @@
                 config = response.config,
                 message = 'Error ' + status;
                 vm.loadingEvent = false;
-                $log.error(message);
                 vm.eventNotFound = true;
 
 

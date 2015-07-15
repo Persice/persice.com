@@ -28,12 +28,10 @@
 
         function makeactionEvent() {
             if ($state.current.name === 'event.edit') {
-                $log.info('Saving modified event');
                 $scope.$broadcast('saveChangedEvent');
             }
 
             if ($state.current.name === 'event.create') {
-                $log.info('Saving new event');
                 $scope.$broadcast('saveEvent');
             }
 

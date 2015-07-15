@@ -78,12 +78,10 @@
         vm.validateDates = validateDates;
 
         $scope.$on('saveEvent', function() {
-            $log.info('saveEvent');
             vm.saveEvent();
         });
 
         $scope.$on('goBackEvents', function() {
-            $log.info($rootScope.previousEventFeed);
             if ($rootScope.previousEventFeed !== undefined) {
                 $state.go($rootScope.previousEventFeed);
             } else {
@@ -133,20 +131,17 @@
             vm.startsTimeError = false;
             vm.endsTimeError = false;
             if (moment(vm.event.starts_on).unix() < moment().unix()) {
-                $log.info('start date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select a Starts Date that is not set in past.'];
                 vm.startsTimeError = true;
                 return;
             } else {
-                $log.info('start date is OK');
                 vm.showError = false;
                 vm.errorMessage = [];
                 vm.startsTimeError = false;
             }
 
             if (moment(vm.event.ends_on).unix() < moment().unix()) {
-                $log.info('end date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select an Ends Date that is not set in past.'];
                 vm.endsTimeError = true;
@@ -154,14 +149,12 @@
             }
 
             if (moment(vm.event.ends_on).unix() > moment().unix() && moment(vm.event.starts_on).unix() > moment().unix() && moment(vm.event.starts_on).unix() > moment(vm.event.ends_on).unix()) {
-                $log.info('end date is not ok');
                 vm.showError = true;
                 vm.errorMessage = ['Ends Date must be greater or equal to Starts Date.'];
                 vm.endsTimeError = true;
                 vm.startsTimeError = true;
                 return;
             } else {
-                $log.info('end date is OK');
                 vm.showError = false;
                 vm.errorMessage = [];
                 vm.startsTimeError = false;
@@ -249,10 +242,6 @@
                 vm.showError = false;
                 vm.validateDates();
 
-
-
-                $log.info('started saving event');
-
                 vm.showSuccess = false;
 
                 if (!vm.showError) {
@@ -291,7 +280,6 @@
         function parseLocation() {
             vm.mapurl = '';
             vm.mapurlTrue = false;
-            $log.info('parsing location');
             if (vm.eventLocation !== null && typeof vm.eventLocation === 'object' && vm.eventLocation.hasOwnProperty('address_components') && vm.eventLocation.hasOwnProperty('geometry')) {
                 var location = vm.eventLocation.address_components;
 
@@ -311,7 +299,6 @@
                 vm.event.location = vm.eventLocation.geometry.location['A'] + ',' + vm.eventLocation.geometry.location['F'];
                 vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation.formatted_address) + '/@' + vm.event.location + ',15z';
                 vm.mapurlTrue = true;
-                $log.info(vm.mapurl);
             } else {
                 vm.event.address = vm.eventLocation;
                 vm.event.full_address = '';
