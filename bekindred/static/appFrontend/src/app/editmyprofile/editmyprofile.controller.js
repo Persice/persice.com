@@ -140,7 +140,7 @@ angular.module('persice')
                 $scope.user.facebookId = data.facebook_id;
                 $scope.user.facebookProfile = data.facebook_profile_url;
                 if (data.twitter_provider !== null) {
-                    $scope.social.twitter = data.twitter_provider;
+                    $scope.social.twitter = data.twitter_username;
                 }
 
                 if (data.linkedin_provider !== null) {
@@ -211,7 +211,7 @@ angular.module('persice')
                 if (data.twitter_provider === null) {
                     $scope.social.twitter = '';
                 } else {
-                    $scope.social.twitter = data.twitter_provider;
+                    $scope.social.twitter = data.twitter_username;
                 }
 
                 if (data.linkedin_provider === null) {

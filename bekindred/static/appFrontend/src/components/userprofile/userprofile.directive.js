@@ -109,7 +109,7 @@
                 vm.user.facebookId = data.facebook_id;
 
                 if (data.twitter_provider !== null) {
-                    vm.social.twitter = data.twitter_provider;
+                    vm.social.twitter = data.twitter_username;
                 }
 
                 if (data.linkedin_provider !== null) {
@@ -135,10 +135,11 @@
             });
         }
 
+
         function getUser() {
 
 
-            if (vm.type === 'loggedInUser' || vm.type === 'friend') {
+            if (vm.type === 'loggedInUser') {
                 vm.getUserInfo();
             }
 
@@ -232,6 +233,25 @@
                     user_id: vm.userId,
                     format: 'json'
                 }).$promise.then(function(data) {
+                    vm.user.first_name = data.objects[0].first_name;
+                    vm.user.last_name = data.objects[0].last_name;
+                    vm.user.last_name = data.objects[0].last_name;
+                    vm.user.about_me = data.objects[0].about_me;
+                    vm.user.age = data.objects[0].age;
+                    vm.user.facebookId = data.objects[0].facebook_id;
+
+                    if (data.objects[0].twitter_provider !== null) {
+                        vm.social.twitter = data.objects[0].twitter_username;
+                    }
+
+                    if (data.objects[0].linkedin_provider !== null) {
+                        vm.social.linkedin = data.objects[0].linkedin_provider;
+                    }
+
+                    if (data.objects[0].facebook_id !== null) {
+                        vm.social.facebook = 'https://www.facebook.com/app_scoped_user_id' + data.objects[0].facebook_id + '/';
+                    }
+
                     var goals = [];
                     vm.user.distance = data.objects[0].distance;
                     var matchedgoals = data.objects[0].goals[0];
