@@ -119,6 +119,8 @@
         vm.saveEvent = saveEvent;
         vm.openInvitations = openInvitations;
         vm.closeInvitations = closeInvitations;
+        vm.openAttendees = openAttendees;
+        vm.closeAttendees = closeAttendees;
 
         vm.selection = 'view';
 
@@ -197,7 +199,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Creative designer & hiker'
-        },
+            },
 
             {
                 id: 2,
@@ -209,7 +211,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Engineer kiteboarding chess geek'
-        },
+            },
 
             {
                 id: 3,
@@ -221,7 +223,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Hacker, Guitaris, and veteran Burner'
-        },
+            },
 
             {
                 id: 4,
@@ -233,7 +235,7 @@
                 mutual_friends: 10,
                 match_score: 4,
                 tagline: 'Grad student from London'
-        },
+            },
 
         ];
 
@@ -329,6 +331,8 @@
 
         //END INVITES
 
+
+
         function openInvitations() {
             vm.selection = 'invitations';
             vm.header = 'Invitations';
@@ -338,6 +342,77 @@
             vm.selection = 'edit';
             vm.header = 'Event Details';
         }
+
+        //START ATTENDEES
+
+        vm.connectionsYes = [{
+                id: 1,
+                rsvp: '',
+                first_name: 'Lena',
+                age: 35,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Creative designer & hiker'
+            }, {
+                id: 3,
+                rsvp: '',
+                first_name: 'Charlie',
+                age: 39,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Hacker, Guitaris, and veteran Burner'
+            }
+
+        ];
+
+
+        vm.connectionsNo = [{
+                id: 2,
+                rsvp: 'YES',
+                first_name: 'Brian',
+                age: 31,
+                invited: true,
+                selected: true,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Engineer kiteboarding chess geek'
+            },
+
+        ];
+
+
+        vm.connectionsMaybe = [
+
+            {
+                id: 4,
+                rsvp: '',
+                first_name: 'Daniel',
+                age: 25,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Grad student from London'
+            },
+
+        ];
+
+        function openAttendees() {
+            vm.selection = 'attendees';
+            vm.header = 'Attendees';
+        }
+
+        function closeAttendees() {
+            vm.selection = 'view';
+            vm.header = 'Event Details';
+        }
+
+        //END ATTENDEES
+
 
         function changeRsvpStatus(newStatus) {
             var member = {
@@ -725,56 +800,56 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Event name'
-                        }]
+                            }]
                         },
                         location: {
                             identifier: 'location',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
-                        }]
+                            }]
                         },
                         repeat: {
                             identifier: 'repeat',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Repeat'
-                        }]
+                            }]
                         },
                         description: {
                             identifier: 'description',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Description'
-                        }]
+                            }]
                         },
                         starts_on_date: {
                             identifier: 'starts_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Date'
-                        }]
+                            }]
                         },
                         starts_on_time: {
                             identifier: 'starts_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Time'
-                        }]
+                            }]
                         },
                         ends_on_date: {
                             identifier: 'ends_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Date'
-                        }]
+                            }]
                         },
                         ends_on_time: {
                             identifier: 'ends_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Time'
-                        }]
+                            }]
                         },
                     }
                 });

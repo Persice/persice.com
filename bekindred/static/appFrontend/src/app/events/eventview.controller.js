@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-        .module('persice')
-        .controller('EventViewController', EventViewController);
+    .module('persice')
+    .controller('EventViewController', EventViewController);
 
     /**
      * class EventViewController
      * classDesc Create event
      * @ngInject
      */
-    function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig, MembersFactory) {
+     function EventViewController($scope, USER_ID, EventsFactory, $state, eventId, $rootScope, $log, $window, angularMomentConfig, MembersFactory) {
         var vm = this;
         vm.showMobile = true;
         vm.mapurl = '';
@@ -42,6 +42,15 @@
         vm.changeRsvpStatus = changeRsvpStatus;
         vm.openMap = openMap;
         vm.getEvent = getEvent;
+
+        vm.openAttendees = openAttendees;
+
+
+        function openAttendees () {
+            $state.go('event.attendees', {
+                eventId: eventId
+            });
+        }
 
         $scope.$on('goBackEvents', function() {
             $log.info($rootScope.previousEventFeed);
@@ -77,22 +86,22 @@
                     vm.eventRsvp.status = newStatus;
                     //update rsvp status
                     MembersFactory.update({
-                            memberId: vm.memberId
-                        }, member,
-                        function(success) {
-                            for (var i = vm.event.members.length - 1; i >= 0; i--) {
+                        memberId: vm.memberId
+                    }, member,
+                    function(success) {
+                        for (var i = vm.event.members.length - 1; i >= 0; i--) {
 
-                                if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
+                            if (vm.event.members[i].user === '/api/v1/auth/user/' + USER_ID + '/') {
 
-                                    vm.event.members[i].rsvp = newStatus;
-                                }
-
+                                vm.event.members[i].rsvp = newStatus;
                             }
-                        },
-                        function(error) {
+
+                        }
+                    },
+                    function(error) {
 
 
-                        });
+                    });
 
                 } else {
                     vm.eventRsvp.status = newStatus;
@@ -204,28 +213,28 @@
 
             }, function(response) {
                 var data = response.data,
-                    status = response.status,
-                    header = response.header,
-                    config = response.config,
-                    message = 'Error ' + status;
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
                 vm.loadingEvent = false;
                 $log.error(message);
                 vm.eventNotFound = true;
 
 
             });
-        }
+}
 
-        function openMap() {
-            if (vm.mapurl !== '') {
-                $window.open(vm.mapurl);
-            }
-
-        }
-
-
-
+function openMap() {
+    if (vm.mapurl !== '') {
+        $window.open(vm.mapurl);
     }
+
+}
+
+
+
+}
 
 
 
