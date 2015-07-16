@@ -38,6 +38,7 @@ class TestMembershipResource(ResourceTestCase):
         self.response = self.login()
         post_data = {"event": "/api/v1/event/{}/".format(self.event1.id),
                      "rsvp": 'yes',
+                     "is_invited": None,
                      "starts_on": now(),
                      'ends_on': now() + timedelta(days=10),
                      "user": "/api/v1/auth/user/{}/".format(self.user.id)}
