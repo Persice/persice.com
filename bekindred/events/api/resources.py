@@ -6,6 +6,7 @@ from django.db import IntegrityError
 from django.forms import model_to_dict
 
 from django.utils.timezone import now
+import re
 import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
@@ -191,6 +192,33 @@ class MembershipResource(ModelResource):
         resource_name = 'member'
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def obj_create(self, bundle, **kwargs):
+        # Check how to calculate
+        # bundle.data =
+        # {'event': u'/api/v1/event/1/', 'is_invited': False, 'user': u'/api/v1/auth/user/2/'}
+        if not bundle.data['is_invited'] and bundle.data['is_invited'] is not None:
+            r = redis.StrictRedis(host='localhost', port=6379, db=0)
+            event_id = re.findall(r'/(\d+)/', bundle.data['event'])[0]
+            event = Event.objects.get(pk=int(event_id))
+
+            user_id = re.findall(r'/(\d+)/', bundle.data['user'])[0]
+            recipient = FacebookCustomUserActive.objects.get(pk=int(user_id))
+
+            data = {'event_name': event.name,
+                    'event_start_date': str(event.starts_on)}
+
+            message_data = {'sent_at': now().isoformat(),
+                            'sender': '/api/auth/user/{}/'.format(bundle.request.user.id),
+                            'recipient': '/api/auth/user/{}/'.format(recipient.id),
+                            'body': """
+                                    "You've been invited to the event {event_name}
+                                    on {event_start_date} at <start_time>.
+                                    (This is an automated message.)"
+                                    """.format(**data)}
+            pm_write(bundle.request.user, recipient, '', body=message_data['body'])
+            r.publish('message.%s' % recipient.id, json.dumps(message_data))
+        return super(MembershipResource, self).obj_create(bundle, **kwargs)
 
 
 class MyEventFeedResource(ModelResource):
