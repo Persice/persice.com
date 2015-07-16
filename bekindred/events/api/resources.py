@@ -197,7 +197,7 @@ class MembershipResource(ModelResource):
         # Check how to calculate
         # bundle.data =
         # {'event': u'/api/v1/event/1/', 'is_invited': False, 'user': u'/api/v1/auth/user/2/'}
-        if not bundle.data['is_invited'] and bundle.data['is_invited'] is not None:
+        if not bundle.data.get('is_invited', True) and bundle.data.get('is_invited') is not None:
             r = redis.StrictRedis(host='localhost', port=6379, db=0)
             event_id = re.findall(r'/(\d+)/', bundle.data['event'])[0]
             event = Event.objects.get(pk=int(event_id))
@@ -259,13 +259,17 @@ class MyEventFeedResource(ModelResource):
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
         friends = Friend.objects.all_my_friends(user_id=user_id)
-        attendees = Event.objects.get(pk=bundle.obj.pk). \
+        friend_attendees = Event.objects.get(pk=bundle.obj.pk). \
             membership_set.filter(user__in=friends, rsvp='yes')
-        bundle.data['friend_attendees_count'] = attendees.count()
+        bundle.data['friend_attendees_count'] = friend_attendees.count()
+
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
                                                             bundle.obj.pk)
         cumulative_match_score = 0
-        for friend_id in friends:
+
+        members = Membership.objects.filter(event_id=bundle.obj.pk, rsvp='yes').\
+            values_list('user_id', flat=True)
+        for friend_id in members:
             cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
