@@ -1,16 +1,19 @@
 import json
 
 from django.contrib.gis.measure import D
+from django.core import serializers
 from django.db import IntegrityError
-from django.db.models import Q
+from django.forms import model_to_dict
+
 from django.utils.timezone import now
 import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
+from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, Resource
 
 from tastypie.validation import Validation
 
@@ -345,68 +348,74 @@ class FriendsEventFeedResource(ModelResource):
             order_by('starts_on').distinct()
 
 
-class EventConnections(ModelResource):
+class ResourseObject(object):
+    def __init__(self, initial=None):
+        self.__dict__['_data'] = {}
+
+        if hasattr(initial, 'items'):
+            self.__dict__['_data'] = initial
+
+    def __getattr__(self, name):
+        return self._data.get(name, None)
+
+    def __setattr__(self, name, value):
+        self.__dict__['_data'][name] = value
+
+    def to_dict(self):
+        return self._data
+
+
+class EventConnections(Resource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name', null=True)
+    facebook_id = fields.CharField(attribute='facebook_id', null=True)
+    tagline = fields.CharField(attribute='tag_line', null=True)
+    age = fields.IntegerField(attribute='age', null=True)
+    common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
+    mutual_friends_count = fields.IntegerField(attribute='mutual_friends_count', null=True)
+    events = fields.ListField(attribute='events', null=True)
 
     class Meta:
-        always_return_data = True
-        queryset = Friend.objects.all()
         resource_name = 'events/connections'
+        object_class = ResourseObject
         authentication = SessionAuthentication()
         authorization = Authorization()
-        allowed_methods = ['get']
-        filtering = {
-            'friend1': ALL_WITH_RELATIONS,
-            'friend2': ALL_WITH_RELATIONS
-        }
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
 
     def get_object_list(self, request):
-        return super(EventConnections, self).get_object_list(request).\
-            friends(request.user.id)
+        friends = Friend.objects.friends(request.user.id)
+        results = []
 
-    def build_filters(self, filters=None):
-        if filters is None:
-            filters = {}
-        orm_filters = super(EventConnections, self).build_filters(filters)
+        for friend in friends:
+            new_obj = ResourseObject()
+            if friend.friend1.pk == request.user.id:
+                position_friend = 'friend2'
+            else:
+                position_friend = 'friend1'
 
-        if ('full_name' in filters) or ('is_invited' in filters):
-            q1 = filters.get('full_name')
-            q2 = filters.get('is_invited')
-            q3 = filters.get('rsvp')
-            qs = (
-                Q(friend1__first_name__icontains=q1) |
-                Q(friend1__last_name__icontains=q1) |
-                Q(friend2__first_name__icontains=q1) |
-                Q(friend2__last_name__icontains=q1) |
-                Q(friend1__membership__is_invited=q2) |
-                Q(friend2__membership__is_invited=q2) |
-                Q(friend1__membership__rsvp=q3) |
-                Q(friend2__membership__rsvp=q3)
-            )
-            orm_filters.update({'custom': qs})
+            new_obj.id = friend.id
+            new_obj.first_name = getattr(friend, position_friend).first_name
+            new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.age = calculate_age(getattr(friend, position_friend).date_of_birth)
+            new_obj.tagline = 'dummy'
+            new_obj.events = [model_to_dict(m) for m in
+                              Membership.objects.filter(user_id=getattr(friend, position_friend).id)]
+            results.append(new_obj)
 
-        return orm_filters
+        return results
 
-    def apply_filters(self, request, applicable_filters):
-        if 'custom' in applicable_filters:
-            custom = applicable_filters.pop('custom')
-        else:
-            custom = None
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
 
-        semi_filtered = super(EventConnections, self).apply_filters(request, applicable_filters)
-        return semi_filtered.filter(custom) if custom else semi_filtered
-
-    def dehydrate(self, bundle):
-        bundle.data['tagline'] = 'dummy'
-        bundle.data['common_goals_offers_interests'] = 0
-        bundle.data['mutual_friends_count'] = 0
-
-        if bundle.obj.friend1.pk == bundle.request.user.id:
-            position_friend = 'friend2'
-        else:
-            position_friend = 'friend1'
-
-        bundle.data['facebook_id'] = getattr(bundle.obj, position_friend).facebook_id
-        bundle.data['age'] = calculate_age(getattr(bundle.obj, position_friend).date_of_birth)
-        bundle.data['first_name'] = getattr(bundle.obj, position_friend).first_name
-        bundle.data['last_name'] = getattr(bundle.obj, position_friend).last_name
-        return bundle
+    def obj_get(self, bundle, **kwargs):
+        return ResourseObject()
