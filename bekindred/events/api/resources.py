@@ -400,6 +400,7 @@ class ResourseObject(object):
 class EventConnections(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name', null=True)
+    friend_id = fields.IntegerField(attribute='friend_id', null=True)
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
     tagline = fields.CharField(attribute='tag_line', null=True)
     age = fields.IntegerField(attribute='age', null=True)
@@ -435,10 +436,11 @@ class EventConnections(Resource):
                 position_friend = 'friend1'
 
             new_obj.id = friend.id
+            new_obj.friend_id = getattr(friend, position_friend).id
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.age = calculate_age(getattr(friend, position_friend).date_of_birth)
-            new_obj.tagline = 'dummy'
+            new_obj.tag_line = 'tagline for my connection'
             new_obj.events = [model_to_dict(m) for m in
                               Membership.objects.filter(user_id=getattr(friend, position_friend).id)]
             results.append(new_obj)
