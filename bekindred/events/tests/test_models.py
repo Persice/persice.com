@@ -1,11 +1,13 @@
 from datetime import date, timedelta
+
 from django.test import TestCase
 from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
+from django.contrib.gis.geos import fromstr
+from django.contrib.gis.measure import D  # alias for Distance
+
 from events.models import Event, Membership
 
-from django.contrib.gis.geos import GEOSGeometry, LineString, Point, fromstr
-from django.contrib.gis.measure import D  # alias for Distance
 
 class EventTestCase(TestCase):
     def setUp(self):
