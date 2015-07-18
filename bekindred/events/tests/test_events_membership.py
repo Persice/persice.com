@@ -34,19 +34,3 @@ class TestEventsMembership(ResourceTestCase):
         resp = self.api_client.post('/api/v1/member/', data=self.post_data,
                                     format='json')
         self.assertEqual(Message.objects.all().count(), 1)
-
-    def test_create_batch_invitation(self):
-        self.response = self.login()
-        self.post_data = {'objects':
-                              [{'event': "/api/v1/event/{}/".format(self.event.id),
-                                'is_invited': False,
-                                'is_organizer': True,
-                                'user': "/api/v1/auth/user/{}/".format(self.user1.id)},
-                               {'event': "/api/v1/event/{}/".format(self.event.id),
-                                'is_invited': False,
-                                'is_organizer': True,
-                                'user': "/api/v1/auth/user/{}/".format(self.user.id)}
-                               ]
-                          }
-        resp = self.api_client.post('/api/v1/member/', data=self.post_data,
-                                    format='json')

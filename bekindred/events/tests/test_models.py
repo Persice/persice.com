@@ -45,8 +45,9 @@ class EventTestCase(TestCase):
                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         lagrange = fromstr('POINT(-95.370401017314293 29.704867409475465)')
         self.assertEqual(Event.objects.all().count(), 2)
-        for e in Event.objects.distance(lagrange):
-            print (e.name, e.distance)
+
+        # for e in Event.objects.distance(lagrange):
+        #     print (e.name, e.distance)
 
         event = Event.objects.filter(point__distance_lte=(lagrange, D(km=15000).m)).search('ruby')
         self.assertEqual(len(event), 1)

@@ -75,6 +75,8 @@ class TestEventResource(ResourceTestCase):
             'friend_attendees_count': 0,
             'cumulative_match_score': 0,
             'most_common_elements': [],
+            'spots_remaining': 0,
+            'total_attendees': 1,
             'attendees': [],
             u'point': u'POINT (22965.8300000000017462 7000.0000000000000000)'
         })
@@ -135,6 +137,22 @@ class TestEventResource(ResourceTestCase):
 
         self.api_client.put(self.detail_url, format='json', data=new_data)
         self.assertEqual(Event.objects.filter(membership__user=self.user, name='learn erlang')[0].name, 'learn erlang')
+
+    def test_total_number_of_event_attendees(self):
+        self.response = self.login()
+        user1 = FacebookCustomUser.objects.create_user(username='user_b_new', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c_new', password='test')
+        user3 = FacebookCustomUser.objects.create_user(username='user_d_new', password='test')
+        user4 = FacebookCustomUser.objects.create_user(username='user_e_new', password='test')
+
+        Membership.objects.create(user=user1, event=self.event, rsvp='yes')
+        Membership.objects.create(user=user2, event=self.event, rsvp='no')
+        Membership.objects.create(user=user3, event=self.event, rsvp='maybe')
+        Membership.objects.create(user=user4, event=self.event, rsvp=None)
+
+        resp = self.api_client.get('/api/v1/event/{}/'.format(self.event.id), format='json')
+        json = self.deserialize(resp)
+        self.assertEqual(json['total_attendees'], 2)
 
     def test_update_if_ends_on_in_past(self):
         self.response = self.login()

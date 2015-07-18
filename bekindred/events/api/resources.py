@@ -79,9 +79,21 @@ class EventResource(ModelResource):
                 filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
         except IndexError:
             bundle.data['hosted_by'] = ''
-        attendees = event.\
+
+        # Total number of event attendees
+        total_attendees = event. \
+            membership_set.filter(rsvp='yes').count()
+        bundle.data['total_attendees'] = total_attendees
+
+        # the number of people with RSVP = yes AND
+        # are also a connection of the user who is viewing the event
+        attendees = event. \
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
+
+        # spots_remaining = max_attendees - total_attendees
+        # TODO: max_attendees in ICE-938
+        bundle.data['spots_remaining'] = 0
 
         cumulative_match_score = 0
         for friend_id in friends:
