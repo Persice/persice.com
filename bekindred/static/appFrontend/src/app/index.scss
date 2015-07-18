@@ -3978,6 +3978,7 @@ ul[rn-carousel]>li {
 #matched-profile-body .ui.list .content {
     padding-left: 0.2em!important;
     font-size: 0.9em!important;
+    vertical-align: -webkit-baseline-middle;
 }
 
 #leftmenu .item>i.icon {
@@ -6194,7 +6195,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7323,15 +7324,15 @@ body.event-page .invitations-people .intersecticon {
      background-image: url('/assets/default.png');
      */
 
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
 
