@@ -53,7 +53,8 @@ class EventResource(ModelResource):
                                     full=True, null=True)
     attendees = fields.OneToManyField('events.api.resources.MembershipResource',
                                       attribute=lambda bundle: bundle.obj.membership_set.
-                                      filter(user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id),
+                                      filter(user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id) +
+                                             [bundle.request.user.id],
                                              rsvp='yes'),
                                       full=True, null=True)
 
@@ -88,7 +89,7 @@ class EventResource(ModelResource):
         # the number of people with RSVP = yes AND
         # are also a connection of the user who is viewing the event
         attendees = event. \
-            membership_set.filter(user__in=friends, rsvp='yes')
+            membership_set.filter(user__in=friends + [user_id], rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
 
         # spots_remaining = max_attendees - total_attendees

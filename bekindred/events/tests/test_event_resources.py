@@ -39,47 +39,15 @@ class TestEventResource(ResourceTestCase):
 
     def test_get_list_json(self):
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/event/', format='json')
+        resp = self.api_client.get('/api/v1/event/{}/'.format(self.event.id), format='json')
         self.assertValidJSONResponse(resp)
 
-        # Scope out the data for correctness.
-        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
-        # Here, we're checking an entire structure for the expected data.
         self.maxDiff = None
-        self.assertEqual(self.deserialize(resp)['objects'][0], {
-            'id': self.event.id,
-            'resource_uri': '/api/v1/event/{0}/'.format(self.event.pk),
-            'description': None,
-            'ends_on': '2055-06-14T05:15:22.792659',
-            'location': u'7000,22965.83',
-            'name': u'Play piano',
-            'repeat': u'',
-            'starts_on': '2055-06-13T05:15:22.792659',
-            'city': None,
-            'zipcode': None,
-            'state': None,
-            'hosted_by': 'Andrii Soldatenko',
-            'street': None,
-            'country': None,
-            'location_name': None,
-            'full_address': None,
-            u'members': [{u'event': u'/api/v1/event/{}/'.format(self.event.id),
-                          u'id': self.membership.id,
-                          u'is_organizer': True,
-                          'is_invited': False,
-                          u'resource_uri': u'/api/v1/member/{}/'.format(self.membership.id),
-                          u'rsvp': u'yes',
-                          u'updated': self.membership.updated.isoformat()[:-6],
-                          u'user': u'/api/v1/auth/user/{}/'.format(self.membership.user_id)
-                          }],
-            'friend_attendees_count': 0,
-            'cumulative_match_score': 0,
-            'most_common_elements': [],
-            'spots_remaining': 0,
-            'total_attendees': 1,
-            'attendees': [],
-            u'point': u'POINT (22965.8300000000017462 7000.0000000000000000)'
-        })
+        json = self.deserialize(resp)
+        self.assertEqual(json['hosted_by'], 'Andrii Soldatenko')
+        self.assertEqual(json['name'], 'Play piano')
+        self.assertEqual(json['location'], u'7000,22965.83')
+        self.assertEqual(json['total_attendees'], 1)
 
     def test_hosted_by(self):
         self.response = self.login()
