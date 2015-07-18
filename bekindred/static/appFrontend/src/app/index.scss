@@ -6341,7 +6341,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7182,7 +7182,11 @@ rzslider {
 
 /* Invitations */
 
-.ui.modal.centeraligned>.left.chevron.icon {
+.ui.modal.centeraligned .header {
+    position: relative!important;
+}
+
+.ui.modal.centeraligned .header .left.chevron.icon {
     top: 1rem!important;
     left: 1rem!important;
     color: #000!important;
@@ -7190,6 +7194,19 @@ rzslider {
     font-size: 1.5rem!important;
     cursor: pointer!important;
     opacity: .8!important;
+}
+
+.ui.modal.centeraligned .header i.close {
+    position: absolute!important;
+    right: 1rem!important;
+    top: 1rem!important;
+    opacity: .8!important;
+    cursor: pointer!important;
+}
+
+.ui.modal.centeraligned .header i.close:hover {
+    pointer: cursor!important;
+    opacity: 1!important;
 }
 
 .ui.modal.centeraligned>.left.chevron.icon:hover {
@@ -7530,15 +7547,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
 

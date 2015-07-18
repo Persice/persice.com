@@ -1,13 +1,12 @@
 <div class="ui modal small centeraligned" id="createEventsModal">
-    <i class="close icon" ng-click="singleevent.closeEventModal()"></i>
-    <div class="header">Create Event</div>
+    <div class="header">Create Event <i class="close icon" ng-click="singleevent.closeEventModal()"></i></div>
     <div class="content">
         <ng-include src="'components/event/event.tpl.html'"></ng-include>
     </div>
     <div class="actions">
         <div class="ui green labeled icon right button" ng-click="singleevent.saveEvent()">
             Create
-             <i class="plus circle icon"></i>
+            <i class="plus circle icon"></i>
         </div>
     </div>
 </div>
