@@ -49,7 +49,6 @@ h4,
 h5 {
     font-family: "Lato", "Helvetica Neue", "Helvetica", "Arial", sans-serif
     /*rtl:prepend:"Droid Arabic Kufi","Droid Sans", */
-
     ;
 }
 
@@ -73,6 +72,8 @@ p:first-child {
 p:last-child {
     margin-bottom: 0em;
 }
+
+
 /* links */
 
 a {
@@ -91,6 +92,8 @@ ul.list {
 ul.list li {
     list-style-position: outside;
 }
+
+
 /* text and headers */
 
 h1 {
@@ -98,6 +101,8 @@ h1 {
     padding: 50px 0px 5px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+
 /*rtl:ignore*/
 
 pre.console {
@@ -130,6 +135,8 @@ pre code {
     padding: 0px;
     font-size: 1em;
 }
+
+
 /* Code block */
 
 .ui.message code {
@@ -147,6 +154,8 @@ p:first-child {
 p:last-child {
     margin-bottom: 0em;
 }
+
+
 /* links */
 
 code a,
@@ -161,6 +170,8 @@ a:hover code,
 a:hover {
     color: #00BAFF;
 }
+
+
 /*--------------
 Sidebar
 ---------------*/
@@ -213,6 +224,8 @@ Sidebar
 #main-page #menu .menu .active.item {
     color: #6DFFFF !important;
 }
+
+
 /* segment headers */
 
 #main-page .header.segment {
@@ -297,6 +310,8 @@ Sidebar
 #main-page .main.menu iframe.github {
     margin: 1px 0px 0px 0px;
 }
+
+
 /* lists */
 
 #main-page .features {
@@ -310,6 +325,8 @@ Sidebar
     margin: 0px 0px 10px;
     font-weight: bold;
 }
+
+
 /*--------------
 Advertisement
 ---------------*/
@@ -384,6 +401,8 @@ Advertisement
     top: -2.5em;
     width: 1px;
 }
+
+
 /*--------------
 Fixed Columns
 ---------------*/
@@ -409,6 +428,8 @@ Fixed Columns
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
+
+
 /*--------------
 Masthead
 ---------------*/
@@ -464,6 +485,8 @@ body#main-page {
     margin: -0.1em 0em 0em 0.5em;
     vertical-align: middle;
 }
+
+
 /*--------------
 Footer
 ---------------*/
@@ -473,6 +496,8 @@ Footer
     text-align: center;
     margin-bottom: 1.5rem;
 }
+
+
 /*--------------
 Transparent
 ---------------*/
@@ -533,6 +558,8 @@ Transparent
 #main-page .launch.button .icon {
     margin-left: 0px;
 }
+
+
 /*----------------
 Overview Mode
 -----------------*/
@@ -567,6 +594,8 @@ Overview Mode
     width: auto;
     line-height: 1.4;
 }
+
+
 /*----------------
 Footer
 -----------------*/
@@ -576,6 +605,8 @@ Footer
     border-radius: 0em;
     padding: 4em 0em 5em;
 }
+
+
 /*----------------
 Settings Table
 -----------------*/
@@ -632,6 +663,8 @@ Settings Table
 #main-page .label + .code {
     margin-top: 1.5em;
 }
+
+
 /*----------------
 Examples
 -----------------*/
@@ -647,11 +680,15 @@ Examples
 #main-page .example:last-child {
     margin-bottom: 5em;
 }
+
+
 /* Header */
 
 #main-page .example > h4:first-child {
     margin: -0.2em 0em 0em;
 }
+
+
 /* Wireframe Image */
 
 #main-page .example .wireframe.image {
@@ -669,6 +706,8 @@ Examples
 #main-page .example:not(.images) > .wireframe.image:last-child {
     margin-bottom: 0em;
 }
+
+
 /* Description */
 
 #main-page .example .anchor + p {
@@ -683,18 +722,24 @@ Examples
 #main-page .example > p {
     color: rgba(0, 0, 0, 0.8);
 }
+
+
 /* Message */
 
 #main-page .example .anchor + p + .ignored.message:not(.attached),
 #main-page .example .anchor + p + .ignored.message + .ignored.message:not(.attached) {
     margin: -0.5em 0em 2em;
 }
+
+
 /* Another */
 
 #main-page .another.example {
     margin-top: 0em;
     border-top: none;
 }
+
+
 /* Spaced */
 
 #main-page .spaced.example .buttons,
@@ -727,14 +772,20 @@ Examples
 #main-page .instructive.segment:after {
     display: none;
 }
+
+
 /*----------------
 Example Types
 -----------------*/
+
+
 /* No Example */
 
 #main-page .no.example i.code {
     display: none;
 }
+
+
 /* Requires Clear */
 
 #main-page .clearing.example {
@@ -775,6 +826,8 @@ Example Types
 #main-page .main.container > .tab > h2 + p {
     margin: -2rem 0 2em;
 }
+
+
 /* After Section Header */
 
 #main-page .example:first-child,
@@ -793,6 +846,8 @@ Example Types
 #main-page h4 + .example i.code {
     top: 0.4em;
 }
+
+
 /* Spaced */
 
 #main-page .spaced.example .buttons,
@@ -807,11 +862,15 @@ Example Types
 #main-page .example .toggle.button {
     min-width: 200px;
 }
+
+
 /* Code Language */
 
 #main-page .example .language.label {
     margin: 1em 0em 0.75em;
 }
+
+
 /*--------------
 Code Button
 ---------------*/
@@ -868,6 +927,8 @@ Code Button
 #main-page .transition.example .ui.button {
     margin-bottom: 0.5em;
 }
+
+
 /* Fixes for UI */
 
 #main-page .segment > .dimmer {
@@ -882,9 +943,13 @@ Code Button
     width: 175px;
     height: 175px;
 }
+
+
 /*******************************
 UI Pages
 *******************************/
+
+
 /*--------------
 Grid
 ---------------*/
@@ -903,6 +968,8 @@ Grid
     height: calc(100% - 2rem);
     box-shadow: 0px 0px 0px 1px #DDDDDD inset;
 }
+
+
 /* Consecutive */
 
 #main-page .highlighted.example > .grid + .grid {
@@ -960,6 +1027,8 @@ Grid
     margin: -1rem !important;
     background-color: #FFEEEE;
 }
+
+
 /* Animation */
 
 #main-page.animated .highlighted.example > .grid,
@@ -976,6 +1045,8 @@ Grid
     -ms-animation: none;
     animation: none;
 }
+
+
 /* Grid Inside Grid */
 
 #main-page.animated .highlighted.example .grid .grid,
@@ -1030,6 +1101,8 @@ Grid
         width: 100%;
     }
 }
+
+
 /*--------------
 Demo
 ---------------*/
@@ -1062,6 +1135,8 @@ Demo
 #main-page .demo.container .segment .ui.label {
     margin-bottom: 0em;
 }
+
+
 /*--------------
 Card
 ---------------*/
@@ -1069,6 +1144,8 @@ Card
 body.card .even.example .card .description {
     height: 55px;
 }
+
+
 /*--------------
 Progress
 ---------------*/
@@ -1079,6 +1156,8 @@ body.progress.animated .ui.progress .bar {
     -ms-animation: finish 10s ease-in-out infinite;
     animation: finish 10s ease-in-out infinite;
 }
+
+
 /*--------------
 Popup
 ---------------*/
@@ -1148,6 +1227,8 @@ Popup
 #main-page .main.ui.grid {
     position: relative;
 }
+
+
 /*--------------
 Icon
 ---------------*/
@@ -1215,6 +1296,8 @@ Icon
 #main-page .another.example i.code ~ .ignored.message {
     margin-top: 0em;
 }
+
+
 /*--------------
 List Page
 ---------------*/
@@ -1237,6 +1320,8 @@ List Page
     height: 165px;
     vertical-align: middle;
 }
+
+
 /*--------------
 Header
 ---------------*/
@@ -1244,6 +1329,8 @@ Header
 #main-page.header .sizer {
     padding: 1rem 0em;
 }
+
+
 /*--------------
 Flag
 ---------------*/
@@ -1251,6 +1338,8 @@ Flag
 #main-page.flag .basic.table tbody td:first-child {
     width: 20px;
 }
+
+
 /*--------------
 Feed
 ---------------*/
@@ -1258,6 +1347,8 @@ Feed
 #main-page.feed .example .segment {
     max-width: 800px;
 }
+
+
 /*******************************
 Code Samples
 *******************************/
@@ -1270,6 +1361,8 @@ Code Samples
     background-color: transparent;
     -webkit-text-size-adjust: none;
 }
+
+
 /*--------------
 Hover Only
 ---------------*/
@@ -1293,6 +1386,8 @@ Hover Only
 .hljs.xml:hover {
     color: #333333;
 }
+
+
 /* Class Name */
 
 .hljs-string,
@@ -1310,6 +1405,8 @@ Hover Only
 .code:hover .tex .hljs-formula {
     color: #009991;
 }
+
+
 /* Comment */
 
 .hljs-comment,
@@ -1319,6 +1416,8 @@ Hover Only
     color: #AAAAAA;
     font-style: italic;
 }
+
+
 /* Properties */
 
 .hljs-tag,
@@ -1334,6 +1433,8 @@ Hover Only
     color: #892A6F;
     font-weight: normal;
 }
+
+
 /* HTML Tag */
 
 .hljs-tag .hljs-title {
@@ -1344,6 +1445,8 @@ Hover Only
 .code:hover .hljs-tag .hljs-title {
     color: #892A6F;
 }
+
+
 /* Attribute */
 
 .hljs-attribute,
@@ -1358,6 +1461,8 @@ Hover Only
 .code:hover .lisp .hljs-body {
     color: #934E4E;
 }
+
+
 /* CSS ID */
 
 .hljs-title,
@@ -1366,6 +1471,8 @@ Hover Only
     color: #009FDA;
     font-weight: bold;
 }
+
+
 /* CSS Attribute */
 
 .hljs-rule .hljs-attribute {
@@ -1375,6 +1482,8 @@ Hover Only
 .code:hover .hljs-rule .hljs-attribute {
     color: #892A6F;
 }
+
+
 /* CSS Value */
 
 .hljs-number,
@@ -1388,6 +1497,8 @@ Hover Only
 .code:hover .ruby .hljs-constant {
     color: #333333;
 }
+
+
 /*--------------
 Normal
 ---------------*/
@@ -1467,6 +1578,8 @@ Normal
     min-height: 0px;
     flex-direction: initial;
 }
+
+
 /*******************************
 Definition Container
 *******************************/
@@ -1523,6 +1636,8 @@ Definition Container
     flex: 1;
     min-height: 100vh;
 }
+
+
 /* LEFT MENU */
 
 #main-page #left-menu {
@@ -1753,6 +1868,8 @@ Definition Container
         width: 915px;
     }
 }
+
+
 /*******************************
 top search box
 *******************************/
@@ -1792,6 +1909,8 @@ top search box
 }
 
 .body.segment {}
+
+
 /*******************************
 Responsive
 *******************************/
@@ -2286,6 +2405,8 @@ h5.right.switch_label {
 .profile-wrapper a:hover {
     color: #13a7c7!important;
 }
+
+
 /* Photos */
 
 .media-photo {
@@ -2804,7 +2925,11 @@ a.list-group-item:hover .message-from {
 section.new_message {
     padding-top: 0.8rem;
 }
+
+
 /* */
+
+
 /* Bit of normalisation */
 
 body {
@@ -2824,6 +2949,8 @@ img {
     margin: 0 auto;
     max-width: 1140px!important;
 }
+
+
 /* conversation */
 
 .bubbledLeft p,
@@ -2957,6 +3084,8 @@ span.conversation-time {
     text-align: center!important;
     padding-bottom: 100px!important;
 }
+
+
 /* Friends list */
 
 .friends-header {
@@ -4286,6 +4415,8 @@ input#id_description_value {
 .ui.grid .column {
     padding: 0px!important;
 }
+
+
 /* Filters desktopview*/
 
 #matchfeed-filters {
@@ -4456,6 +4587,8 @@ input#id_description_value {
 .ui.fixed.menu+.ui.grid {
     padding-top: 0px!important;
 }
+
+
 /* matchedperson card */
 
 .matchedperson.card {
@@ -4517,6 +4650,8 @@ input#id_description_value {
     padding: 1rem;
     margin: 1rem;
 }
+
+
 /* INTERESTS PAGE */
 
 #interests {
@@ -4562,6 +4697,8 @@ input#id_description_value {
 #interests-header .fa-stack {
     font-size: 1.3rem!important;
 }
+
+
 /*MY CONNECTIONS */
 
 #friends-list-body {
@@ -4660,6 +4797,8 @@ input#id_description_value {
     margin-left: 0px!important;
     margin-right: 1em!important;
 }
+
+
 /* INBOX PAGE */
 
 #inbox-body {
@@ -4747,11 +4886,15 @@ input#id_description_value {
     background: -webkit-linear-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.03) 100%);
     background: linear-gradient(rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.03) 100%);
 }
+
+
 /* hide items temporarily */
 
 .displaynone {
     display: none!important
 }
+
+
 /* Desktop/Mobile special views */
 
 body.editmyprofile-page #topMenu,
@@ -5172,6 +5315,8 @@ body.matchfeed-page #desktopmatchheader .icon {
     padding-right: 0px!important;
     width: 140px!important;
 }
+
+
 /* Logo */
 
 #logoTop {
@@ -6190,12 +6335,13 @@ body.event-page #repeatUntil,
 }
 
 //google places autocomplete
+
 /*
  * These are the default styles applied to the stock Google Places Autocomplete component. Importantly they preserve
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -6343,6 +6489,7 @@ body.event-page #locationInput2 input {
 }
 
 //tooltip
+
 /* Add this attribute to the element that needs a tooltip */
 
 [data-tooltip] {
@@ -6350,6 +6497,8 @@ body.event-page #locationInput2 input {
     z-index: 2!important;
     cursor: pointer!important;
 }
+
+
 /* Hide the tooltip content by default */
 
 [data-tooltip]:before,
@@ -6378,6 +6527,8 @@ body.event-page #locationInput2 input {
     z-index: 99999!important;
     font-weight: 400!important;
 }
+
+
 /* Triangle hack to make tooltip look like a speech bubble */
 
 [data-tooltip]:after {
@@ -6395,6 +6546,8 @@ body.event-page #locationInput2 input {
     line-height: 0!important;
     z-index: 99999!important;
 }
+
+
 /* Show tooltip content on hover */
 
 [data-tooltip]:hover:before,
@@ -6603,6 +6756,10 @@ input[type="datetime-local"].fulldisplay:before {
     padding: 0px!important;
 }
 
+#viewEventsModal .content .ui.right.button.widthFull {
+    width: 74.5%!important;
+}
+
 #viewEventsModal .content .ui.right.button {
     display: block!important;
     width: 42%!important;
@@ -6715,12 +6872,32 @@ body.event-page #eventDescription .field body.event-page #HostedSection span {
     display: block!important;
 }
 
-body.event-page #HostedSection span.remaining-spots {
-    float: right!important;
+body.event-page #HostedSection span.remaining-spots,
+body.event-page #HostedSection span.total-people,
+body.event-page #HostedSection span.connections-people {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: right;
+    padding-right: 60px;
 }
 
-body.event-page #HostedSection span.people-attending {
-    float: left!important;
+div.attendees-values {
+    position: absolute;
+    right: 0px;
+    width: 77%;
+}
+
+body.event-page #HostedSection span.label {
+    position: absolute;
+    left: 0px;
+    width: 33%;
+    display: block;
+    top: 37%;
+}
+
+body.event-page #HostedSection .ui.right.labeled.icon.button.widthFull {
+    text-align: center;
 }
 
 div.cleardiv {
@@ -6827,6 +7004,17 @@ body.event-page #FirstSegment.editable .field {
     padding: .67861em 0px!important;
 }
 
+body.event-page .attendees-view {
+    position: relative!important;
+    height: 100px!important;
+}
+
+body.event-page .attendees-view .icon {
+    position: absolute;
+    right: -11px;
+    top: 37%;
+}
+
 #viewEventsModal #locationField .locationContent {
     padding-left: 20px!important;
     display: inline-block!important;
@@ -6837,12 +7025,27 @@ body.event-page #locationField .locationContent {
     display: inline-block!important;
 }
 
-#viewEventsModal #HostedSection span.remaining-spots {
-    float: right!important;
+#viewEventsModal #HostedSection span.total-people,
+#viewEventsModal #HostedSection span.connections-people,
+#viewEventsModal #HostedSection span.connections-people,
+{
+    display: inline-block;
+    width: 30%
 }
 
-#viewEventsModal #HostedSection span.people-attending {
-    float: left!important;
+@media only screen and (max-width: 767px) {
+    #viewEventsModal #HostedSection .ui.right.labeled.icon.button.widthFull {
+        text-align: right!important;
+    }
+    #viewEventsModal #HostedSection span.total-people,
+    #viewEventsModal #HostedSection span.connections-people,
+    #viewEventsModal #HostedSection span.remaining-spots,
+    {
+        display: block!important;
+        width: 100%!important;
+        margin-bottom: 10px!important;
+        padding-right: 60px;
+    }
 }
 
 div.cleardiv {
@@ -6975,6 +7178,8 @@ rzslider span.rz-bubble {
 rzslider {
     margin: 15px 0 15px 0!important;
 }
+
+
 /* Invitations */
 
 .ui.modal.centeraligned>.left.chevron.icon {
@@ -7090,7 +7295,6 @@ rzslider {
     top: 5px!important;
 }
 
-
 body.event-page .invitations-people .intersecticon {
     top: -2px!important;
 }
@@ -7146,6 +7350,7 @@ body.event-page .invitations-people .intersecticon {
 }
 
 //fade animation for selecting people in connections
+
 /* The starting CSS styles for the enter animation */
 
 .fade.ng-enter {
@@ -7206,6 +7411,8 @@ body.event-page .invitations-people .intersecticon {
         top: 11px !important;
     }
 }
+
+
 /* The finishing CSS styles for the enter animation */
 
 .fade.ng-enter.ng-enter-active {
@@ -7323,16 +7530,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
 
-     background-position: center;
-     background-size: contain;
-     height: 34px;
-     width: 34px;
- }
-
- #createEventsModal.ui.modal.centeraligned .field.button,
- #editEventsModal.ui.modal.centeraligned .field.button,
- {
+#createEventsModal.ui.modal.centeraligned .field.button,
+#editEventsModal.ui.modal.centeraligned .field.button,
+{
     height: 40px!important;
 }
 
@@ -7366,12 +7572,7 @@ body.events-page .card:hover {
 
 #deleteAccountButton {}
 
-
-
-
 //attendees
-
-
 #attendeesTabsMenu.ui.tabular.menu .item {
     padding: 9px 1.2em 0.8em 1.2em;
     min-width: 100px;
@@ -7393,8 +7594,6 @@ body.events-page .card:hover {
     left: 8px!important;
     top: 8px!important;
 }
-
-
 
 #attendeesTabsMenu.ui.tabular.menu .active.item {
     background-color: #FFF;
@@ -7529,7 +7728,6 @@ body.events-page .card:hover {
     #attendeesTabsMenu.ui.tabular.menu .item.active {
         padding: 1.2em!important;
     }
-
     #attendeesTabsMenu.ui.tabular.menu .item.withicons i.icon {
         font-size: 1.1rem!important;
         top: 11px !important;
