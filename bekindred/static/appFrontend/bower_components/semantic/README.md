@@ -13,7 +13,7 @@ Key Features
 * Built with EM values for responsive design
 * Flexbox friendly
 
-## 2.0 Is Out!!!
+## 2.0 Is Out!
 
 Semantic UI 2.0 is now available. Read up on [what's new](http://www.semantic-ui.com/introduction/new.html) in the docs.
 
@@ -29,6 +29,9 @@ npm install semantic-ui  # Use themes, import build/watch tasks into your own gu
 ![Getting Started](https://dl.dropboxusercontent.com/u/2657007/install.gif)
 
 For details on how work with Semantic theming please [read our theming guide](http://www.semantic-ui.com/usage/theming.html) on [semantic-ui.com](http://www.semantic-ui.com/)
+
+### Usage questions
+For usage questions please use [StackOverflow](http://stackoverflow.com/questions/tagged/semantic-ui) or our [Gitter chatroom](https://gitter.im/Semantic-Org/Semantic-UI). [GitHub Issues](https://github.com/Semantic-Org/Semantic-UI/issues) is only for suggesting enhancements and reporting bugs with [test cases](http://jsfiddle.net/efp8z6Ln/).
 
 #### Additional Versions
 
