@@ -7086,6 +7086,11 @@ rzslider {
 .invitations-people .intersecticon {
     position: absolute!important;
     left: 0px!important;
+    top: 5px!important;
+}
+
+
+body.event-page .invitations-people .intersecticon {
     top: -2px!important;
 }
 
