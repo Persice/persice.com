@@ -38,13 +38,13 @@
         <a class="item active" data-tab="first">My Connections</a>
         <a class="item withicons" data-tab="second"><i class="check large circle icon"></i> Invite List <span class="ui circular label">{{viewevent.invitedPeople.length}}</span></a>
     </div>
-    <div class="ui bottom attached tab segment active" data-tab="first">
-        <table class="ui very basic unstackable table invitations-people">
+    <div class="ui bottom attached tab segment active" data-tab="first" ng-class="{'loading': viewevent.loadingConnections}">
+        <table class="ui very basic unstackable table invitations-people" ng-cloak>
             <thead>
                 <tr>
                     <th colspan="2" class="search-header-container">
                         <div class="ui transparent left icon input searchbox">
-                            <input type="text" placeholder="">
+                            <input type="text" placeholder="" ng-model="viewevent.connectionFirstName">
                             <i class="search large icon"></i>
                         </div>
                     </th>
@@ -54,10 +54,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="connection in viewevent.connections track by connection.id" ng-class="{'active': connection.selected}" ng-click="viewevent.inviteConnection($index)">
+                <tr ng-repeat="connection in viewevent.connections track by connection.friend_id" ng-class="{'active': connection.selected}" ng-click="viewevent.markSelected($index)">
                     <td>
                         <h4 class="ui image header">
-                            <img src="http://lorempixel.com/32/32" class="ui circular image">
+                            <img ng-src="{{::connection.image}}" class="ui circular image">
                             <div class="content">
                                 {{::connection.first_name}}, {{::connection.age}}
                             </div>
@@ -66,15 +66,15 @@
                     <td class="desktopview">
                         <div class="tagline">{{::connection.tagline}}</div>
                     </td>
-                    <td class="desktopview">{{::connection.match_score}}</td>
-                    <td class="desktopview">{{::connection.mutual_friends}}</td>
-                    <td class="selected"><i ng-if="connection.selected" class="check fade icon big circle invite outline" ng-class="{'green': !connection.invited && connection.selected}"></i></td>
+                    <td class="desktopview">{{::connection.common_goals_offers_interests}}</td>
+                    <td class="desktopview">{{::connection.mutual_friends_count}}</td>
+                    <td class="selected"><i ng-if="connection.selected" class="check fade icon big circle invite outline" ng-class="{'green': !connection.is_invited && connection.selected}"></i></td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="ui bottom attached tab segment" data-tab="second">
-        <table class="ui very basic unstackable table invitations-people">
+        <table class="ui very basic unstackable table invitations-people" ng-cloak>
             <thead>
                 <tr>
                     <th class="search-header-container">
@@ -91,10 +91,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="connection in viewevent.invitedPeople track by connection.id">
+                <tr ng-repeat="connection in viewevent.invitedPeople track by connection.friend_id">
                     <td>
                         <h4 class="ui image header">
-                            <img src="http://lorempixel.com/32/32" class="ui circular image">
+                            <img ng-src="{{::connection.image}}" class="ui circular image">
                             <div class="content">
                                 {{::connection.first_name}}, {{::connection.age}}
                             </div>
@@ -103,9 +103,9 @@
                     <td class="desktopview">
                         <div class="tagline">{{::connection.tagline}}</div>
                     </td>
-                    <td class="desktopview">{{::connection.match_score}}</td>
-                    <td class="desktopview">{{::connection.mutual_friends}}</td>
-                    <td>{{::connection.rsvp}}</td>
+                    <td class="desktopview">{{::connection.common_goals_offers_interests}}</td>
+                    <td class="desktopview">{{::connection.mutual_friends_count}}</td>
+                    <td>{{::connection.rsvp | uppercase}}</td>
                     <td class="selected"><i ng-click="viewevent.removeInvite($index)" class="remove fade icon big circle outline red"></i></td>
                 </tr>
             </tbody>
