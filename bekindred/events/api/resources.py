@@ -456,7 +456,16 @@ class EventConnections(Resource):
             new_obj.tag_line = 'tagline for my connection'
             new_obj.events = [model_to_dict(m) for m in
                               Membership.objects.filter(user_id=getattr(friend, position_friend).id)]
-            results.append(new_obj)
+
+            first_name = request.GET.get('first_name')
+
+            if first_name:
+                if first_name in new_obj.first_name.lower():
+                    results.append(new_obj)
+                else:
+                    continue
+            else:
+                results.append(new_obj)
 
         return results
 

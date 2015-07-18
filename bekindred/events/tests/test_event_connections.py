@@ -44,3 +44,15 @@ class TestEventConnections(ResourceTestCase):
         resp = self.api_client.get('/api/v1/events/connections/', format='json')
         ar = self.deserialize(resp)
         self.assertEqual(len(ar['objects'][0]['events']), 2)
+
+    def test_filter_first_name(self):
+        resp = self.api_client.get('/api/v1/events/connections/', format='json', data={'first_name': 'andr'})
+        self.assertEqual(self.deserialize(resp)['objects'][0]['first_name'], u'Andrii')
+
+    def test_filter_first_name_non_match(self):
+        resp = self.api_client.get('/api/v1/events/connections/', format='json', data={'first_name': 'test'})
+        self.assertEqual(self.deserialize(resp)['objects'], [])
+
+    def test_filter_first_name_empty(self):
+        resp = self.api_client.get('/api/v1/events/connections/', format='json', data={'first_name': ''})
+        self.assertEqual(self.deserialize(resp)['objects'][0]['first_name'], u'Andrii')
