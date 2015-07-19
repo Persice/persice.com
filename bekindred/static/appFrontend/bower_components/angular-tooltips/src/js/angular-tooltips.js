@@ -4,7 +4,8 @@
   'use strict';
 
   angular.module('720kb.tooltips', [])
-  .directive('tooltips', ['$window', '$compile', '$interpolate', function manageDirective($window, $compile, $interpolate) {
+  .directive('tooltips', ['$window', '$compile', '$interpolate',
+   function manageDirective($window, $compile, $interpolate) {
 
     var TOOLTIP_SMALL_MARGIN = 8 //px
       , TOOLTIP_MEDIUM_MARGIN = 9 //px
@@ -49,6 +50,16 @@
 
           htmlTemplate = htmlTemplate + '<span class="' + CSS_PREFIX + 'close-button" ng-click="hideTooltip()"> ' + closeButtonContent + ' </span>';
         }
+        if (attr.tooltipView) {
+          if (attr.tooltipViewCtrl) {
+
+            htmlTemplate = htmlTemplate + '<div ng-controller="' + attr.tooltipViewCtrl + '" ng-include="\'' + attr.tooltipView + '\'"></div>';
+          } else {
+
+            htmlTemplate = htmlTemplate + '<div ng-include="\'' + attr.tooltipView + '\'"></div>';
+          }
+        }
+
 
         htmlTemplate = htmlTemplate + '<div class="' + CSS_PREFIX + 'title"> ' + INTERPOLATE_START_SYM + 'title' + INTERPOLATE_END_SYM + '</div>' +
                                       INTERPOLATE_START_SYM + 'content' + INTERPOLATE_END_SYM + html + ' <span class="' + CSS_PREFIX + 'caret"></span>' +
@@ -110,7 +121,7 @@
 
         $scope.getRootOffsetTop = function getRootOffsetTop (elem, val){
 
-          if (elem.offsetParent === null){
+          if (!elem.offsetParent){
 
             return val + elem.offsetTop;
           }
@@ -120,7 +131,7 @@
 
         $scope.getRootOffsetLeft = function getRootOffsetLeft (elem, val){
 
-          if (elem.offsetParent === null){
+          if (!elem.offsetParent){
 
             return val + elem.offsetLeft;
           }

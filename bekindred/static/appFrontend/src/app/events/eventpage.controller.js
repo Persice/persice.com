@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-        .module('persice')
-        .controller('EventPageController', EventPageController);
+    .module('persice')
+    .controller('EventPageController', EventPageController);
 
     /**
      * class EventPageController
      * classDesc Create/View/Edit event
      * @ngInject
      */
-    function EventPageController($scope, $rootScope, $log, $state) {
+     function EventPageController($scope, $rootScope, $log, $state) {
         var vm = this;
         vm.eventId = null;
 
@@ -28,12 +28,10 @@
 
         function makeactionEvent() {
             if ($state.current.name === 'event.edit') {
-                $log.info('Saving modified event');
                 $scope.$broadcast('saveChangedEvent');
             }
 
             if ($state.current.name === 'event.create') {
-                $log.info('Saving new event');
                 $scope.$broadcast('saveEvent');
             }
 

@@ -28,8 +28,6 @@
         return directive;
 
         function link(scope, element, attrs, viewevent) {
-
-            console.log('Linking directive');
             element.modal({
                 onHide: function() {
                     scope.viewevent.show = false;
@@ -86,7 +84,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q) {
         var vm = this;
         vm.showMobile = false;
         vm.closeEventModal = closeEventModal;
@@ -119,6 +117,8 @@
         vm.saveEvent = saveEvent;
         vm.openInvitations = openInvitations;
         vm.closeInvitations = closeInvitations;
+        vm.openAttendees = openAttendees;
+        vm.closeAttendees = closeAttendees;
 
         vm.selection = 'view';
 
@@ -167,7 +167,6 @@
         $scope.$watch(angular.bind(this, function(show) {
             return vm.show;
         }), function(modelValue) {
-            $log.info(modelValue);
             if (modelValue) {
                 vm.getEvent();
 
@@ -178,92 +177,33 @@
 
         vm.loadingInvitesSave = false;
         vm.counterNewInvites = 0;
-        vm.inviteConnection = inviteConnection;
+        vm.markSelected = markSelected;
         vm.removeInvite = removeInvite;
         vm.sendInvites = sendInvites;
+        vm.getConnections = getConnections;
+
+        vm.nextOffset = 10;
+        vm.loadingConnections = false;
+        vm.connectionFirstName = '';
 
         vm.invitationsOptions = {
             attendingPref: 'private',
             guestInvite: true
         };
 
-        vm.connections = [{
-                id: 1,
-                rsvp: '',
-                first_name: 'Lena',
-                age: 35,
-                invited: false,
-                selected: false,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Creative designer & hiker'
-        },
-
-            {
-                id: 2,
-                rsvp: 'YES',
-                first_name: 'Brian',
-                age: 31,
-                invited: true,
-                selected: true,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Engineer kiteboarding chess geek'
-        },
-
-            {
-                id: 3,
-                rsvp: '',
-                first_name: 'Charlie',
-                age: 39,
-                invited: false,
-                selected: false,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Hacker, Guitaris, and veteran Burner'
-        },
-
-            {
-                id: 4,
-                rsvp: '',
-                first_name: 'Daniel',
-                age: 25,
-                invited: false,
-                selected: false,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Grad student from London'
-        },
-
-        ];
-
-        vm.invitedPeople = [{
-            id: 2,
-            rsvp: 'YES',
-            first_name: 'Brian',
-            age: 31,
-            invited: true,
-            selected: true,
-            mutual_friends: 10,
-            match_score: 4,
-            tagline: 'Engineer kiteboarding chess geek'
-        }];
+        vm.friends = [];
+        vm.connections = [];
+        vm.invitedPeople = [];
 
 
-        function inviteConnection(index) {
-            if (!vm.connections[index].invited) {
+        function markSelected(index) {
+            if (!vm.connections[index].is_invited) {
                 vm.connections[index].selected = !vm.connections[index].selected;
+
                 if (vm.connections[index].selected) {
-                    //select user
-                    vm.invitedPeople.push(vm.connections[index]);
                     vm.counterNewInvites++;
                 } else {
-                    //remove from invite list if not selected
-                    var findIndex = $filter('getIndexByProperty')('id', vm.connections[index].id, vm.invitedPeople);
-                    vm.invitedPeople.splice(findIndex, 1);
-                    if (vm.counterNewInvites > 0) {
-                        vm.counterNewInvites--;
-                    }
+                    vm.counterNewInvites--;
                 }
             }
 
@@ -271,21 +211,29 @@
 
         function removeInvite(index) {
             //remove from invite list and refresh selected status
-            var findIndex = $filter('getIndexByProperty')('id', vm.invitedPeople[index].id, vm.connections);
-            vm.connections[findIndex].invited = false;
-            vm.connections[findIndex].selected = false;
-            vm.invitedPeople.splice(index, 1);
-            if (vm.counterNewInvites > 0) {
-                vm.counterNewInvites--;
-            }
+            var findIndex = $filter('getIndexByProperty')('friend_id', vm.invitedPeople[index].friend_id, vm.connections);
+
+
+            MembersFactory.delete({
+                    memberId: vm.connections[findIndex].member_id
+                },
+                function(success) {
+                    vm.connections[findIndex].is_invited = false;
+                    vm.connections[findIndex].selected = false;
+                    vm.invitedPeople.splice(index, 1);
+                    if (vm.counterNewInvites > 0) {
+                        vm.counterNewInvites--;
+                    }
+                },
+                function(error) {
+                    $log.info(error);
+                });
+
+
+
 
 
         }
-
-        $scope.$on('sendInvites', function() {
-            $log.info('sendInvites Event');
-            vm.sendInvites();
-        });
 
         function sendInvites() {
             if (vm.counterNewInvites > 0) {
@@ -294,15 +242,37 @@
                     return;
                 }
                 vm.loadingInvitesSave = true;
-                //simulate sending invites
-                $timeout(function() {
-                    for (var i = vm.connections.length - 1; i >= 0; i--) {
-                        if (vm.connections[i].selected && !vm.connections[i].invited) {
-                            //send invites
-                            vm.connections[i].invited = true;
-                        }
+                //sending invites
 
+                var promises = [];
+
+                for (var i = vm.connections.length - 1; i >= 0; i--) {
+                    if (vm.connections[i].selected && !vm.connections[i].is_invited) {
+                        //prepare promises array
+                        var member = {
+                            event: '/api/v1/event/' + vm.eventid + '/',
+                            is_invited: false,
+                            user: '/api/v1/auth/user/' + vm.connections[i].friend_id + '/'
+                        };
+
+                        promises.push(MembersFactory.save({}, member));
                     }
+
+                }
+
+
+                $q.all(promises).then(function(result) {
+                    angular.forEach(result, function(response) {
+                        $log.info(response);
+                        var findMemberIndex = $filter('getIndexByProperty')('user', response.user, vm.connections);
+                        vm.connections[findMemberIndex].member_id = response.id;
+                        vm.connections[findMemberIndex].is_invited = true;
+                        vm.connections[findMemberIndex].rsvp = '';
+                        vm.invitedPeople.push(vm.connections[findMemberIndex]);
+                    });
+
+                }).then(function(tmpResult) {
+                    $log.info('Sending invites finished.');
                     vm.counterNewInvites = 0;
                     vm.loadingInvitesSave = false;
                     notify({
@@ -313,7 +283,8 @@
                         duration: 4000
                     });
                     $scope.$emit('invitesSent');
-                }, 2000);
+                });
+
             } else {
                 notify({
                     messageTemplate: '<div class="notify-error-header">Warning</div>' +
@@ -327,17 +298,174 @@
 
         }
 
+        function getConnections() {
+            vm.connections = [];
+            vm.friends = [];
+            vm.invitedPeople = [];
+            vm.counterNewInvites = 0;
+
+            vm.nextOffset = 10;
+            vm.next = null;
+            vm.loadingConnections = true;
+            EventsConnections.query({
+                format: 'json',
+                first_name: vm.connectionFirstName,
+                limit: 10,
+                offset: 0
+            }).$promise.then(getEventsConnectionsSuccess, getEventsConnectionsFailure);
+
+        }
+
+        function getEventsConnectionsSuccess(response) {
+            vm.friends = response.objects;
+            vm.next = response.meta.next;
+
+
+            for (var i = vm.friends.length - 1; i >= 0; i--) {
+
+                var mutual_friends = ((vm.friends[i].mutual_friends_count === null) ? 0 : vm.friends[i].mutual_friends_count);
+                var common_goals = ((vm.friends[i].common_goals_offers_interests === null) ? 0 : vm.friends[i].common_goals_offers_interests);
+                var friend = {
+                    first_name: vm.friends[i].first_name,
+                    age: vm.friends[i].age,
+                    common_goals_offers_interests: common_goals,
+                    mutual_friends_count: mutual_friends,
+                    tagline: vm.friends[i].tagline,
+                    facebook_id: vm.friends[i].facebook_id,
+                    friend_id: vm.friends[i].friend_id,
+                    user: '/api/v1/auth/user/' + vm.friends[i].friend_id + '/',
+                    is_invited: false,
+                    member_id: null,
+                    rsvp: '',
+                    selected: false,
+                    event: parseInt(vm.eventid),
+                    image: '//graph.facebook.com/' + vm.friends[i].facebook_id + '/picture?type=square'
+                };
+
+
+                for (var j = vm.friends[i].events.length - 1; j >= 0; j--) {
+
+                    if (vm.friends[i].events[j].event === friend.event) {
+                        friend.is_invited = true;
+                        friend.rsvp = vm.friends[i].events[j].rsvp;
+                        friend.selected = true;
+                        friend.member_id = vm.friends[i].events[j].id;
+
+                        vm.invitedPeople.push(friend);
+                    }
+                }
+
+                vm.connections.push(friend);
+
+
+
+
+            }
+
+            vm.loadingConnections = false;
+
+        }
+
+        function getEventsConnectionsFailure(response) {
+
+            var data = response.data,
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
+            $log.error(message);
+
+            vm.loadingConnetions = false;
+
+
+        }
+
+
         //END INVITES
+
+
 
         function openInvitations() {
             vm.selection = 'invitations';
             vm.header = 'Invitations';
+            vm.getConnections();
         }
 
         function closeInvitations() {
             vm.selection = 'edit';
             vm.header = 'Event Details';
         }
+
+        //START ATTENDEES
+
+        vm.connectionsYes = [{
+                id: 1,
+                rsvp: '',
+                first_name: 'Lena',
+                age: 35,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Creative designer & hiker'
+            }, {
+                id: 3,
+                rsvp: '',
+                first_name: 'Charlie',
+                age: 39,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Hacker, Guitaris, and veteran Burner'
+            }
+
+        ];
+
+
+        vm.connectionsNo = [{
+                id: 2,
+                rsvp: 'YES',
+                first_name: 'Brian',
+                age: 31,
+                invited: true,
+                selected: true,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Engineer kiteboarding chess geek'
+            },
+
+        ];
+
+
+        vm.connectionsMaybe = [
+
+            {
+                id: 4,
+                rsvp: '',
+                first_name: 'Daniel',
+                age: 25,
+                invited: false,
+                selected: false,
+                mutual_friends: 10,
+                match_score: 4,
+                tagline: 'Grad student from London'
+            },
+
+        ];
+
+        function openAttendees() {
+            vm.selection = 'attendees';
+            vm.header = 'Attendees';
+        }
+
+        function closeAttendees() {
+            vm.selection = 'view';
+            vm.header = 'Event Details';
+        }
+
+        //END ATTENDEES
+
 
         function changeRsvpStatus(newStatus) {
             var member = {
@@ -375,13 +503,11 @@
                     // create new member first with new rsvp status
                     MembersFactory.save({}, member,
                         function(success) {
-                            $log.info(success);
                             vm.memberExists = true;
                             vm.event.members.push(success);
                             vm.memberId = success.id;
                         },
                         function(error) {
-                            $log.info(error);
 
                         });
                 }
@@ -426,7 +552,6 @@
 
             vm.selection = 'view';
             vm.pok = 0;
-            $log.info('getting event: ' + vm.eventid);
             vm.loadingEvent = true;
             EventsFactory.query({
                 format: 'json'
@@ -508,8 +633,7 @@
                 vm.loadingEvent = false;
 
                 vm.eventNotFound = true;
-                $log.info(status);
-                $log.error(message);
+
 
 
             });
@@ -577,20 +701,17 @@
             vm.startsTimeError = false;
             vm.endsTimeError = false;
             if (moment(vm.eventEdit.starts_on).unix() < moment().unix()) {
-                $log.info('start date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select a Starts Date that is not set in past.'];
                 vm.startsTimeError = true;
                 return;
             } else {
-                $log.info('start date is OK');
                 vm.showError = false;
                 vm.errorMessage = [];
                 vm.startsTimeError = false;
             }
 
             if (moment(vm.eventEdit.ends_on).unix() < moment().unix()) {
-                $log.info('end date is not valid');
                 vm.showError = true;
                 vm.errorMessage = ['Please select an Ends Date that is not set in past.'];
                 vm.endsTimeError = true;
@@ -598,14 +719,12 @@
             }
 
             if (moment(vm.eventEdit.ends_on).unix() > moment().unix() && moment(vm.eventEdit.starts_on).unix() > moment().unix() && moment(vm.eventEdit.starts_on).unix() > moment(vm.eventEdit.ends_on).unix()) {
-                $log.info('end date is not ok');
                 vm.showError = true;
                 vm.errorMessage = ['Ends Date must be greater or equal to Starts Date.'];
                 vm.endsTimeError = true;
                 vm.startsTimeError = true;
                 return;
             } else {
-                $log.info('end date is OK');
                 vm.showError = false;
                 vm.errorMessage = [];
                 vm.startsTimeError = false;
@@ -631,9 +750,7 @@
         //parse location
         function parseLocation() {
 
-            $log.info('parsing location');
             if (vm.eventLocation !== null && typeof vm.eventLocation === 'object' && vm.eventLocation.hasOwnProperty('address_components') && vm.eventLocation.hasOwnProperty('geometry')) {
-                $log.info('changing location');
                 var location = vm.eventLocation.address_components;
 
                 vm.eventEdit.street = vm.extractFromAddress(location, 'route', 'long_name') + ' ' + vm.extractFromAddress(location, 'street_number', 'long_name');
@@ -653,7 +770,6 @@
                 vm.eventEdit.location = vm.eventLocation.geometry.location['A'] + ',' + vm.eventLocation.geometry.location['F'];
                 vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation.formatted_address) + '/@' + vm.eventEdit.location + ',15z';
                 vm.mapurlTrue = true;
-                $log.info(vm.mapurl);
             } else {
                 if (vm.pok > 2) {
                     vm.eventEdit.address = vm.eventLocation;
@@ -686,8 +802,6 @@
                 var dateParts = vm[type + '_date'].split('/');
                 var datePartsSorted = [dateParts[2], dateParts[0], dateParts[1]];
                 var timeParts = convertTo24Hour(vm[type + '_time']).split(':');
-                $log.info(datePartsSorted);
-                $log.info(timeParts);
                 var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
                 if (datePartsSorted && timeParts) {
                     datePartsSorted[1] -= 1;
@@ -725,56 +839,56 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Event name'
-                        }]
+                            }]
                         },
                         location: {
                             identifier: 'location',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
-                        }]
+                            }]
                         },
                         repeat: {
                             identifier: 'repeat',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Repeat'
-                        }]
+                            }]
                         },
                         description: {
                             identifier: 'description',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Description'
-                        }]
+                            }]
                         },
                         starts_on_date: {
                             identifier: 'starts_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Date'
-                        }]
+                            }]
                         },
                         starts_on_time: {
                             identifier: 'starts_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Time'
-                        }]
+                            }]
                         },
                         ends_on_date: {
                             identifier: 'ends_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Date'
-                        }]
+                            }]
                         },
                         ends_on_time: {
                             identifier: 'ends_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Time'
-                        }]
+                            }]
                         },
                     }
                 });
@@ -796,7 +910,6 @@
 
                 vm.validateDates();
 
-                $log.info('started saving event');
                 vm.showSuccess = false;
                 if (!vm.showError) {
 

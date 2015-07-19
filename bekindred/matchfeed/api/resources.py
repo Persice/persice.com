@@ -78,6 +78,7 @@ class MatchedFeedResource(Resource):
             new_obj.age = calculate_age(user.date_of_birth)
             new_obj.gender = user.gender or 'm,f'
             new_obj.user_id = user.id
+            # TODO: check user_id also
             new_obj.twitter_provider, new_obj.linkedin_provider, new_obj.twitter_username = \
                 social_extra_data(user.id)
             new_obj.about = user.about_me

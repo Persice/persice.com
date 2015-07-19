@@ -4,9 +4,10 @@ from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from django.utils.timezone import now
 
-from events.models import Event, Membership
+from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
-from goals.models import Subject, Goal, Offer
+from goals.models import Subject, Goal, Offer, MatchFilterState
+from world.models import UserLocation
 
 
 class TestEventResource(ResourceTestCase):
@@ -38,45 +39,15 @@ class TestEventResource(ResourceTestCase):
 
     def test_get_list_json(self):
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/event/', format='json')
+        resp = self.api_client.get('/api/v1/event/{}/'.format(self.event.id), format='json')
         self.assertValidJSONResponse(resp)
 
-        # Scope out the data for correctness.
-        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
-        # Here, we're checking an entire structure for the expected data.
         self.maxDiff = None
-        self.assertEqual(self.deserialize(resp)['objects'][0], {
-            'id': self.event.id,
-            'resource_uri': '/api/v1/event/{0}/'.format(self.event.pk),
-            'description': None,
-            'ends_on': '2055-06-14T05:15:22.792659',
-            'location': u'7000,22965.83',
-            'name': u'Play piano',
-            'repeat': u'',
-            'starts_on': '2055-06-13T05:15:22.792659',
-            'city': None,
-            'zipcode': None,
-            'state': None,
-            'hosted_by': 'Andrii Soldatenko',
-            'street': None,
-            'country': None,
-            'location_name': None,
-            'full_address': None,
-            u'members': [{u'event': u'/api/v1/event/{}/'.format(self.event.id),
-                          u'id': self.membership.id,
-                          u'is_organizer': True,
-                          'is_accepted': False,
-                          u'resource_uri': u'/api/v1/member/{}/'.format(self.membership.id),
-                          u'rsvp': u'yes',
-                          u'updated': self.membership.updated.isoformat()[:-6],
-                          u'user': u'/api/v1/auth/user/{}/'.format(self.membership.user_id)
-                          }],
-            'friend_attendees_count': 0,
-            'cumulative_match_score': 0,
-            'most_common_elements': [],
-            'attendees': [],
-            u'point': u'POINT (7000.0000000000000000 22965.8300000000017462)'
-        })
+        json = self.deserialize(resp)
+        self.assertEqual(json['hosted_by'], 'Andrii Soldatenko')
+        self.assertEqual(json['name'], 'Play piano')
+        self.assertEqual(json['location'], u'7000,22965.83')
+        self.assertEqual(json['total_attendees'], 1)
 
     def test_hosted_by(self):
         self.response = self.login()
@@ -134,6 +105,22 @@ class TestEventResource(ResourceTestCase):
 
         self.api_client.put(self.detail_url, format='json', data=new_data)
         self.assertEqual(Event.objects.filter(membership__user=self.user, name='learn erlang')[0].name, 'learn erlang')
+
+    def test_total_number_of_event_attendees(self):
+        self.response = self.login()
+        user1 = FacebookCustomUser.objects.create_user(username='user_b_new', password='test')
+        user2 = FacebookCustomUser.objects.create_user(username='user_c_new', password='test')
+        user3 = FacebookCustomUser.objects.create_user(username='user_d_new', password='test')
+        user4 = FacebookCustomUser.objects.create_user(username='user_e_new', password='test')
+
+        Membership.objects.create(user=user1, event=self.event, rsvp='yes')
+        Membership.objects.create(user=user2, event=self.event, rsvp='no')
+        Membership.objects.create(user=user3, event=self.event, rsvp='maybe')
+        Membership.objects.create(user=user4, event=self.event, rsvp=None)
+
+        resp = self.api_client.get('/api/v1/event/{}/'.format(self.event.id), format='json')
+        json = self.deserialize(resp)
+        self.assertEqual(json['total_attendees'], 2)
 
     def test_update_if_ends_on_in_past(self):
         self.response = self.login()
@@ -272,13 +259,18 @@ class TestMyEventFeedResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83],
+
+        self.user_location = UserLocation.objects.create(user=self.user, position=[50.0359, 0.054253])
+        UserLocation.objects.create(user=self.user1, position=[-87.627675, 41.881925])
+        UserLocation.objects.create(user=self.user2, position=[-87.6281729688, 41.881849562])
+
+        self.event = Event.objects.create(name="Play piano", location=[58.38, 0.0304],
                                           starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
-        Membership.objects.create(user=self.user, event=self.event, rsvp='yes')
+        Membership.objects.create(user=self.user, event=self.event, rsvp='yes', is_organizer=True)
         Membership.objects.create(user=self.user, event=self.event1, rsvp='yes')
         Membership.objects.create(user=self.user, event=self.event2, rsvp='maybe')
 
@@ -314,6 +306,39 @@ class TestMyEventFeedResource(ResourceTestCase):
         json_ = self.deserialize(resp)
         self.assertEqual(json_['meta']['total_count'], 3)
 
+    def test_my_feed_event_filter_by_distance(self):
+        self.response = self.login()
+        # TODO: What's unit for distance?
+        # maybe miles
+        efs = EventFilterState.objects.create(user=self.user, distance=928)
+        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
+                                   data={'filter': 'true'})
+        data = self.deserialize(resp)
+        self.assertEqual(data['objects'][0]['distance'], [927, u'km'])
+
+    def test_my_feed_event_without_filter_by_distance(self):
+        self.response = self.login()
+        # TODO: What's unit for distance?
+        # maybe miles
+        efs = EventFilterState.objects.create(user=self.user, distance=111)
+        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
+                                   )
+        data = self.deserialize(resp)
+        self.assertEqual(data['objects'][0]['distance'], [927, u'km'])
+
+    def test_my_feed_event_filter_by_distance2(self):
+        self.response = self.login()
+        # TODO: What's unit for distance?
+        # maybe miles
+        efs = EventFilterState.objects.create(user=self.user, distance=926)
+        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
+                                   data={'filter': 'true'})
+        data = self.deserialize(resp)
+        self.assertEqual(data['objects'], [])
+
 
 class TestFriendsEventFeedResource(ResourceTestCase):
     def setUp(self):
@@ -330,7 +355,10 @@ class TestFriendsEventFeedResource(ResourceTestCase):
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)
+        Membership.objects.create(user=self.user1, event=self.event2)
+        Membership.objects.create(user=self.user2, event=self.event2)
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        Friend.objects.create(friend1=self.user, friend2=self.user2, status=1)
 
     def login(self):
         return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
@@ -340,4 +368,20 @@ class TestFriendsEventFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/feed/events/friends/', format='json')
         self.assertValidJSONResponse(resp)
         # Scope out the data for correctness.
-        self.assertEqual(len(self.deserialize(resp)['objects']), 0)
+        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
+
+    def test_friends_feed_resource_duplicates(self):
+        """
+        Duplicate events showing up in event feed
+        https://bekindred.atlassian.net/browse/ICE-925
+        """
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/feed/events/friends/', format='json')
+        data = self.deserialize(resp)
+        Membership.objects.create(user=self.user1, event=self.event, rsvp='yes')
+        Membership.objects.create(user=self.user2, event=self.event, rsvp='yes')
+
+        Membership.objects.create(user=self.user1, event=self.event1, rsvp='yes')
+        Membership.objects.create(user=self.user2, event=self.event1, rsvp='yes')
+
+        self.assertEqual(data['meta']['total_count'], 1)

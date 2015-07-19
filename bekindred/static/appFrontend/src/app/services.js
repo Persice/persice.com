@@ -460,4 +460,26 @@ angular
                 method: 'DELETE'
             }
         });
+    }])
+    .factory('EventsConnections', ['$resource', function($resource) {
+        return $resource('/api/v1/events/connections/:connectionId/:param', {
+            connectionId: '@connectionId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            }
+        });
+    }])
+    .factory('EventsAttendees', ['$resource', function($resource) {
+        return $resource('/api/v1/attendees/:attendeeId/:param', {
+            attendeeId: '@attendeeId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            }
+        });
     }]);

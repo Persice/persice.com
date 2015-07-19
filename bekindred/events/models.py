@@ -1,11 +1,8 @@
-from django.db import models
-from django.db.models.query import QuerySet
 from django.utils.timezone import now
 from geoposition.fields import GeopositionField
-from django.contrib.gis.db import models as gis_models
 from django_facebook.models import FacebookCustomUser
 from djorm_pgfulltext.fields import VectorField
-from djorm_pgfulltext.models import SearchManager, SearchManagerMixIn, SearchQuerySet
+from djorm_pgfulltext.models import SearchManagerMixIn, SearchQuerySet
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import fromstr
 
@@ -58,7 +55,7 @@ class Event(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        point = fromstr("POINT(%s %s)" % (self.location.latitude, self.location.longitude))
+        point = fromstr("POINT(%s %s)" % (self.location.longitude, self.location.latitude))
         self.point = point
         super(Event, self).save(*args, **kwargs)
 
@@ -72,9 +69,10 @@ class Membership(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
     event = models.ForeignKey(Event)
     is_organizer = models.BooleanField(default=False)
-    is_accepted = models.BooleanField(default=False)
+    is_invited = models.BooleanField(default=False)
     rsvp = models.CharField(max_length=5, choices=RSVP_CHOICES, null=True)
     updated = models.DateTimeField(default=now())
+    cumulative_match_score = models.IntegerField(default=0)
 
     class Meta:
         unique_together = (('user', 'event', 'is_organizer'),)
@@ -87,5 +85,6 @@ class Membership(models.Model):
 class EventFilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
     distance = models.IntegerField(default=1)
+    cumulative_match_score = models.IntegerField(default=0)
     keyword = models.CharField(max_length=50)
     order_criteria = models.CharField(max_length=20, default='distance')

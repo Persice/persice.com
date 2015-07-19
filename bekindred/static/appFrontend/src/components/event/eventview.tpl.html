@@ -93,22 +93,28 @@
             <div class="ui divider" id="last-section"></div>
             <div class="field">
                 <label class="specialpadding">Attending</label>
-                <div class="eventcontent">
-                    <span class="people-attending">{{viewevent.event.friend_attendees_count}} people attending</span>
+                <div class="ui right labeled icon button widthFull" ng-click="viewevent.openAttendees();">
+                    <span class="total-people">{{viewevent.event.friend_attendees_count}} people total</span>
+                    <span class="connections-people">0 connections</span>
                     <span class="remaining-spots">0 spots remaining</span>
                     <div class="cleardiv"></div>
+                    <i class="fa-angle-right fa icon large"></i>
                 </div>
             </div>
         </div>
         <div class="ui large form segment" id="HostedSection" ng-if="viewevent.showMobile">
             <div class="field">
-                <span>Hosted By Thomas Tracey</span>
+                Host: <span>{{viewevent.event.hosted_by}}</span>
             </div>
             <div class="ui divider" id="last-section"></div>
-            <div class="field">
-                <span class="people-attending">{{viewevent.event.friend_attendees_count}} people attending</span>
-                <span class="remaining-spots">0 spots remaining</span>
-                <div class="cleardiv"></div>
+            <div class="field attendees-view" ng-click="viewevent.openAttendees();">
+                <span class="label">Attendees:</span>
+                <div class="attendees-values">
+                    <span class="total-people">{{viewevent.event.friend_attendees_count}} people total</span>
+                    <span class="connections-people">0 connections</span>
+                    <span class="remaining-spots">0 spots remaining</span>
+                </div>
+                 <i class="fa-angle-right fa icon large"></i>
             </div>
         </div>
         <div class="ui large form segment icon-segment">

@@ -396,6 +396,20 @@ angular
                     displayName: 'Invitations'
                 }
             })
+            .state('event.attendees', {
+                url: '/attendees/:eventId',
+                templateUrl: 'app/events/event_attendees.html',
+                controller: 'EventAttendeesController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
+                data: {
+                    displayName: 'Attendees'
+                }
+            })
             .state('event.details', {
                 url: '/details/:eventId',
                 templateUrl: 'app/events/event_view.html',

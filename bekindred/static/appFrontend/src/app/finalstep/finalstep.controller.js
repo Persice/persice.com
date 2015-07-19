@@ -21,7 +21,7 @@
         }
 
         if (User.twitter_provider !== null) {
-            vm.twitter = User.twitter_provider;
+            vm.twitter = User.twitter_username;
         }
 
         function link(provider) {
@@ -61,7 +61,7 @@
                 }
 
                 if (data.twitter_provider !== null) {
-                    vm.twitter = data.twitter_provider;
+                    vm.twitter = data.twitter_username;
                 }
 
                 vm.firstName = data.first_name;

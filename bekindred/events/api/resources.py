@@ -1,22 +1,27 @@
 import json
 
 from django.contrib.gis.measure import D
+from django.core import serializers
 from django.db import IntegrityError
+from django.forms import model_to_dict
+
 from django.utils.timezone import now
+import re
 import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
+from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 from tastypie.exceptions import BadRequest
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, Resource
 
 from tastypie.validation import Validation
 
 from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
 from goals.models import MatchFilterState
-from goals.utils import calculate_distance_events, get_user_location
+from goals.utils import calculate_distance_events, get_user_location, calculate_age
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -48,7 +53,8 @@ class EventResource(ModelResource):
                                     full=True, null=True)
     attendees = fields.OneToManyField('events.api.resources.MembershipResource',
                                       attribute=lambda bundle: bundle.obj.membership_set.
-                                      filter(user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id),
+                                      filter(user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id) +
+                                             [bundle.request.user.id],
                                              rsvp='yes'),
                                       full=True, null=True)
 
@@ -74,9 +80,21 @@ class EventResource(ModelResource):
                 filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
         except IndexError:
             bundle.data['hosted_by'] = ''
-        attendees = event.\
-            membership_set.filter(user__in=friends, rsvp='yes')
+
+        # Total number of event attendees
+        total_attendees = event. \
+            membership_set.filter(rsvp='yes').count()
+        bundle.data['total_attendees'] = total_attendees
+
+        # the number of people with RSVP = yes AND
+        # are also a connection of the user who is viewing the event
+        attendees = event. \
+            membership_set.filter(user__in=friends + [user_id], rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
+
+        # spots_remaining = max_attendees - total_attendees
+        # TODO: max_attendees in ICE-938
+        bundle.data['spots_remaining'] = 0
 
         cumulative_match_score = 0
         for friend_id in friends:
@@ -188,6 +206,33 @@ class MembershipResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
+    def obj_create(self, bundle, **kwargs):
+        # Check how to calculate
+        # bundle.data =
+        # {'event': u'/api/v1/event/1/', 'is_invited': False, 'user': u'/api/v1/auth/user/2/'}
+        if not bundle.data.get('is_invited', True) and bundle.data.get('is_invited') is not None:
+            r = redis.StrictRedis(host='localhost', port=6379, db=0)
+            event_id = re.findall(r'/(\d+)/', bundle.data['event'])[0]
+            event = Event.objects.get(pk=int(event_id))
+
+            user_id = re.findall(r'/(\d+)/', bundle.data['user'])[0]
+            recipient = FacebookCustomUserActive.objects.get(pk=int(user_id))
+
+            data = {'event_name': event.name,
+                    'event_start_date': str(event.starts_on)}
+
+            message_data = {'sent_at': now().isoformat(),
+                            'sender': '/api/auth/user/{}/'.format(bundle.request.user.id),
+                            'recipient': '/api/auth/user/{}/'.format(recipient.id),
+                            'body': """
+                                    "You've been invited to the event {event_name}
+                                    on {event_start_date} at <start_time>.
+                                    (This is an automated message.)"
+                                    """.format(**data)}
+            pm_write(bundle.request.user, recipient, '', body=message_data['body'])
+            r.publish('message.%s' % recipient.id, json.dumps(message_data))
+        return super(MembershipResource, self).obj_create(bundle, **kwargs)
+
 
 class MyEventFeedResource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
@@ -216,7 +261,7 @@ class MyEventFeedResource(ModelResource):
             return super(MyEventFeedResource, self).get_object_list(request). \
                 filter(membership__user=request.user.pk, ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__dwithin=(user_point, distance)). \
+                filter(point__distance_lte=(user_point, distance)). \
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
@@ -227,17 +272,20 @@ class MyEventFeedResource(ModelResource):
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
         friends = Friend.objects.all_my_friends(user_id=user_id)
-        attendees = Event.objects.get(pk=bundle.obj.pk). \
+        friend_attendees = Event.objects.get(pk=bundle.obj.pk). \
             membership_set.filter(user__in=friends, rsvp='yes')
-        bundle.data['friend_attendees_count'] = attendees.count()
+        bundle.data['friend_attendees_count'] = friend_attendees.count()
+
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
-                                                            bundle.data['location'])
+                                                            bundle.obj.pk)
         cumulative_match_score = 0
-        for friend_id in friends:
+
+        members = Membership.objects.filter(event_id=bundle.obj.pk, rsvp='yes').\
+            values_list('user_id', flat=True)
+        for friend_id in members:
             cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
         return bundle
 
 
@@ -269,7 +317,7 @@ class AllEventFeedResource(ModelResource):
             return super(AllEventFeedResource, self).get_object_list(request). \
                 filter(ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__dwithin=(user_point, distance)). \
+                filter(point__distance_lte=(user_point, distance)). \
                 order_by('starts_on')
         return super(AllEventFeedResource, self).get_object_list(request). \
             filter(ends_on__gt=now()).order_by('starts_on')
@@ -286,7 +334,8 @@ class AllEventFeedResource(ModelResource):
             cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
+        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
+                                                            bundle.obj.pk)
         return bundle
 
 
@@ -313,7 +362,8 @@ class FriendsEventFeedResource(ModelResource):
             cumulative_match_score += MatchEngineManager. \
                 count_common_goals_and_offers(friend_id, user_id)
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id, bundle.data['location'])
+        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
+                                                            bundle.obj.pk)
         return bundle
 
     def get_object_list(self, request):
@@ -331,40 +381,97 @@ class FriendsEventFeedResource(ModelResource):
             user_point = get_user_location(request.user.id)
             distance = D(**{distance_unit: efs[0].distance}).m
             return super(FriendsEventFeedResource, self).get_object_list(request). \
-                filter(membership__user__in=friends, ends_on__gt=now()). \
+                filter(membership__user_id__in=friends,
+                       ends_on__gt=now()). \
                 search(tsquery, raw=True). \
-                filter(point__dwithin=(user_point, distance)). \
-                order_by('starts_on')
+                filter(point__distance_lte=(user_point, distance)). \
+                order_by('starts_on').distinct()
+
         return super(FriendsEventFeedResource, self).get_object_list(request). \
-            filter(membership__user__in=friends, ends_on__gt=now()).order_by('starts_on')
+            filter(membership__user__in=friends,
+                   ends_on__gt=now()).\
+            order_by('starts_on').distinct()
 
 
-class EventConnections(ModelResource):
-    event = fields.ToOneField(EventResource, 'event')
-    user = fields.ToOneField(UserResourceShort, 'user')
+class ResourseObject(object):
+    def __init__(self, initial=None):
+        self.__dict__['_data'] = {}
+
+        if hasattr(initial, 'items'):
+            self.__dict__['_data'] = initial
+
+    def __getattr__(self, name):
+        return self._data.get(name, None)
+
+    def __setattr__(self, name, value):
+        self.__dict__['_data'][name] = value
+
+    def to_dict(self):
+        return self._data
+
+
+class EventConnections(Resource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name', null=True)
+    friend_id = fields.IntegerField(attribute='friend_id', null=True)
+    facebook_id = fields.CharField(attribute='facebook_id', null=True)
+    tagline = fields.CharField(attribute='tag_line', null=True)
+    age = fields.IntegerField(attribute='age', null=True)
+    common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
+    mutual_friends_count = fields.IntegerField(attribute='mutual_friends_count', null=True)
+    events = fields.ListField(attribute='events', null=True)
 
     class Meta:
-        always_return_data = True
-        queryset = Membership.objects.all()
         resource_name = 'events/connections'
+        object_class = ResourseObject
         authentication = SessionAuthentication()
         authorization = Authorization()
-        excludes = ['updated']
-        allowed_methods = ['get']
-        filtering = {
-            'is_organizer': ALL,
-            'is_accepted': ALL,
-            'rsvp': ALL,
-            'user': ALL_WITH_RELATIONS,
-            'event': ALL_WITH_RELATIONS,
-        }
 
-    def dehydrate(self, bundle):
-            bundle.data['tagline'] = ''
-            bundle.data['common_goals_offers_interests'] = 0
-            bundle.data['mutual_friends_count'] = 0
-            bundle.data['facebook_id'] = bundle.obj.user.facebook_id
-            bundle.data['age'] = 34
-            bundle.data['first_name'] = bundle.obj.user.first_name
-            bundle.data['last_name'] = bundle.obj.user.last_name
-            return bundle
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        friends = Friend.objects.friends(request.user.id)
+        results = []
+
+        for friend in friends:
+            new_obj = ResourseObject()
+            if friend.friend1.pk == request.user.id:
+                position_friend = 'friend2'
+            else:
+                position_friend = 'friend1'
+
+            new_obj.id = friend.id
+            new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.first_name = getattr(friend, position_friend).first_name
+            new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.age = calculate_age(getattr(friend, position_friend).date_of_birth)
+            new_obj.tag_line = 'tagline for my connection'
+            new_obj.events = [model_to_dict(m) for m in
+                              Membership.objects.filter(user_id=getattr(friend, position_friend).id)]
+
+            first_name = request.GET.get('first_name')
+
+            if first_name:
+                if first_name in new_obj.first_name.lower():
+                    results.append(new_obj)
+                else:
+                    continue
+            else:
+                results.append(new_obj)
+
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def obj_get(self, bundle, **kwargs):
+        return ResourseObject()

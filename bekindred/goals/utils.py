@@ -3,11 +3,14 @@ import json
 import pprint
 
 from django.contrib.gis.geoip import GeoIP
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import GEOSGeometry, fromstr
 from geopy.distance import distance as geopy_distance
+from django.contrib.gis.measure import D
+from geopy import distance
 import oauth2 as oauth
 
 from social_auth.db.django_models import UserSocialAuth
+from events.models import Event
 
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
@@ -25,6 +28,7 @@ def calculate_date_of_birth(age):
     today = date.today()
     return today.replace(year=today.year - age)
 
+
 def get_user_location(user_id):
     """
     """
@@ -40,6 +44,7 @@ def get_user_location(user_id):
             return point
         except UserIPAddress.DoesNotExist:
             pass
+
 
 def calculate_distance(user_id1, user_id2, units='miles'):
     """
@@ -94,7 +99,7 @@ def calculate_distance(user_id1, user_id2, units='miles'):
         return [int(getattr(distance, units)), units]
 
 
-def calculate_distance_events(user_id, event_location, units='miles'):
+def calculate_distance_events(user_id, event_id):
     """
     calculate distance
     https://docs.djangoproject.com/en/1.8/ref/contrib/gis/measure/#supported-units
@@ -104,38 +109,46 @@ def calculate_distance_events(user_id, event_location, units='miles'):
     """
     g = GeoIP()
     distance = [10000, 'miles']
+    dist = None
+    units = 'miles'
 
     try:
-        _units = MatchFilterState.objects.get(user_id=user_id).distance_unit
-        if _units in ('miles', 'km'):
-            units = _units
-    except MatchFilterState.DoesNotExist:
+        units = MatchFilterState.objects.filter(user_id=user_id)[0].distance_unit
+    except (MatchFilterState.DoesNotExist, IndexError):
         pass
 
     try:
-        user1_location = UserLocation.objects.filter(user_id=user_id).order_by('-timestamp')[0]
-        user1_point = user1_location.geometry
+        user_location = UserLocation.objects.filter(user_id=user_id).\
+            order_by('-timestamp')[0]
+        dist = Event.objects.distance(user_location.geometry).filter(id=event_id)[0].distance
     except IndexError:
         try:
             user_id1_ip = str(UserIPAddress.objects.get(user_id=user_id).ip)
             point = g.geos(user_id1_ip)
             if not point:
                 return distance
+            # Fix after finishing
             user1_point = GEOSGeometry(point)
         except UserIPAddress.DoesNotExist:
             return distance
 
-    if not event_location:
+    if not event_id:
         return distance
 
-    distance = geopy_distance(user1_point, event_location)
-    if getattr(distance, units) < 1.0:
-        if getattr(distance, 'm') <= 10.0:
+    distance = dist
+
+    if (distance.mi < 1.0) or (distance.km < 1.0):
+        if distance.m <= 10.0:
             return [10, 'meters']
         else:
-            return [int(getattr(distance, 'm')), 'meters']
+            return [int(distance.m), 'meters']
     else:
-        return [int(getattr(distance, units)), units]
+        if units == 'miles':
+            return [int(distance.mi), 'miles']
+        # meters
+        else:
+            return [int(distance.km), 'km']
+
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):
     # refactor for different
