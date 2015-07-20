@@ -213,21 +213,25 @@
             //remove from invite list and refresh selected status
             var findIndex = $filter('getIndexByProperty')('friend_id', vm.invitedPeople[index].friend_id, vm.connections);
 
-            $log.info(vm.connections[findIndex].member_id);
-            MembersFactory.delete({
-                    memberId: vm.connections[findIndex].member_id
-                },
-                function(success) {
-                    vm.connections[findIndex].is_invited = false;
-                    vm.connections[findIndex].selected = false;
-                    vm.invitedPeople.splice(index, 1);
-                    if (vm.counterNewInvites > 0) {
-                        vm.counterNewInvites--;
-                    }
-                },
-                function(error) {
-                    $log.info(error);
-                });
+
+
+            if (vm.connections[findIndex].member_id !== undefined) {
+                MembersFactory.delete({
+                        memberId: vm.connections[findIndex].member_id
+                    },
+                    function(success) {
+                        vm.connections[findIndex].is_invited = false;
+                        vm.connections[findIndex].selected = false;
+                        vm.invitedPeople.splice(index, 1);
+                        if (vm.counterNewInvites > 0) {
+                            vm.counterNewInvites--;
+                        }
+                    },
+                    function(error) {
+                        $log.info(error);
+                    });
+
+            }
 
 
 

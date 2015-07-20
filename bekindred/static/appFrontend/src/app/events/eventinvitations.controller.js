@@ -6,7 +6,7 @@
      * classDesc event invitations
      * @ngInject
      */
-     function EventInvitationsController($scope, USER_ID, EventsFactory, MembersFactory, $q, EventsConnections, $state, $timeout, eventId, $rootScope, $log, $filter, notify) {
+    function EventInvitationsController($scope, USER_ID, EventsFactory, MembersFactory, $q, EventsConnections, $state, $timeout, eventId, $rootScope, $log, $filter, notify) {
         var vm = this;
 
         vm.loadingInvitesSave = false;
@@ -47,8 +47,7 @@
 
                 if (vm.connections[index].selected) {
                     vm.counterNewInvites++;
-                }
-                else {
+                } else {
                     vm.counterNewInvites--;
                 }
             }
@@ -59,21 +58,22 @@
             //remove from invite list and refresh selected status
             var findIndex = $filter('getIndexByProperty')('friend_id', vm.invitedPeople[index].friend_id, vm.connections);
 
-
-            MembersFactory.delete({
-                memberId: vm.connections[findIndex].member_id
-            },
-            function(success) {
-                vm.connections[findIndex].is_invited = false;
-                vm.connections[findIndex].selected = false;
-                vm.invitedPeople.splice(index, 1);
-                if (vm.counterNewInvites > 0) {
-                    vm.counterNewInvites--;
-                }
-            },
-            function(error) {
-                $log.info(error);
-            });
+            if (vm.connections[findIndex].member_id !== undefined) {
+                MembersFactory.delete({
+                        memberId: vm.connections[findIndex].member_id
+                    },
+                    function(success) {
+                        vm.connections[findIndex].is_invited = false;
+                        vm.connections[findIndex].selected = false;
+                        vm.invitedPeople.splice(index, 1);
+                        if (vm.counterNewInvites > 0) {
+                            vm.counterNewInvites--;
+                        }
+                    },
+                    function(error) {
+                        $log.info(error);
+                    });
+            }
 
 
 
@@ -127,7 +127,7 @@
                     vm.loadingInvitesSave = false;
                     notify({
                         messageTemplate: '<div class="notify-info-header">Success</div>' +
-                        '<p>All event invitations have been successfully sent.</p>',
+                            '<p>All event invitations have been successfully sent.</p>',
                         classes: 'notify-info',
                         icon: 'check circle',
                         duration: 4000
@@ -138,7 +138,7 @@
             } else {
                 notify({
                     messageTemplate: '<div class="notify-error-header">Warning</div>' +
-                    '<p>Please select connections to invite.</p>',
+                        '<p>Please select connections to invite.</p>',
                     classes: 'notify-error',
                     icon: 'remove circle',
                     duration: 4000
@@ -219,10 +219,10 @@
         function getEventsConnectionsFailure(response) {
 
             var data = response.data,
-            status = response.status,
-            header = response.header,
-            config = response.config,
-            message = 'Error ' + status;
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
             $log.error(message);
 
             vm.loadingConnetions = false;
@@ -236,7 +236,7 @@
 
 
     angular
-    .module('persice')
-    .controller('EventInvitationsController', EventInvitationsController);
+        .module('persice')
+        .controller('EventInvitationsController', EventInvitationsController);
 
 })();
