@@ -26,8 +26,7 @@ gulp.task('partials', function() {
 
 gulp.task('partialsdev', function() {
     return gulp.src([
-            paths.src + '/{app,components}/**/*.html',
-            paths.tmp + '/{app,components}/**/*.html'
+            paths.src + '/{app,components}/**/*.html'
         ])
         .pipe($.minifyHtml({
             empty: true,
