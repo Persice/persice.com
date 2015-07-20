@@ -213,7 +213,7 @@
             //remove from invite list and refresh selected status
             var findIndex = $filter('getIndexByProperty')('friend_id', vm.invitedPeople[index].friend_id, vm.connections);
 
-
+            $log.info(vm.connections[findIndex].member_id);
             MembersFactory.delete({
                     memberId: vm.connections[findIndex].member_id
                 },
@@ -255,7 +255,7 @@
                             user: '/api/v1/auth/user/' + vm.connections[i].friend_id + '/'
                         };
 
-                        promises.push(MembersFactory.save({}, member));
+                        promises.push(MembersFactory.save({}, member).$promise);
                     }
 
                 }
@@ -263,12 +263,12 @@
 
                 $q.all(promises).then(function(result) {
                     angular.forEach(result, function(response) {
-                        $log.info(response);
                         var findMemberIndex = $filter('getIndexByProperty')('user', response.user, vm.connections);
                         vm.connections[findMemberIndex].member_id = response.id;
                         vm.connections[findMemberIndex].is_invited = true;
                         vm.connections[findMemberIndex].rsvp = '';
                         vm.invitedPeople.push(vm.connections[findMemberIndex]);
+                        $log.info(vm.invitedPeople);
                     });
 
                 }).then(function(tmpResult) {
