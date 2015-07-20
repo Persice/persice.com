@@ -7754,3 +7754,8 @@ body.events-page .card:hover {
 .people-attending:hover {
     cursor: pointer!important;
 }
+
+
+body.matchfeed-page #matched-profile-header .ui.mini.statistics > .statistic:first-child .label {
+    margin-top: 5px!important;
+}
