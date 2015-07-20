@@ -19,6 +19,7 @@ from tastypie.resources import ModelResource, Resource
 from tastypie.validation import Validation
 
 from events.models import Event, Membership, EventFilterState
+from events.utils import calculate_cumulative_match_score
 from friends.models import Friend
 from goals.models import MatchFilterState
 from goals.utils import calculate_distance_events, get_user_location, calculate_age
@@ -278,14 +279,9 @@ class MyEventFeedResource(ModelResource):
 
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
                                                             bundle.obj.pk)
-        cumulative_match_score = 0
 
-        members = Membership.objects.filter(event_id=bundle.obj.pk, rsvp='yes').\
-            values_list('user_id', flat=True)
-        for friend_id in members:
-            cumulative_match_score += MatchEngineManager. \
-                count_common_goals_and_offers(friend_id, user_id)
-        bundle.data['cumulative_match_score'] = cumulative_match_score
+        bundle.data['cumulative_match_score'] = calculate_cumulative_match_score(bundle.request.user.id,
+                                                                                 bundle.obj.pk)
         return bundle
 
 
@@ -328,12 +324,8 @@ class AllEventFeedResource(ModelResource):
         attendees = Event.objects.get(pk=bundle.obj.pk). \
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
-
-        cumulative_match_score = 0
-        for friend_id in friends:
-            cumulative_match_score += MatchEngineManager. \
-                count_common_goals_and_offers(friend_id, user_id)
-        bundle.data['cumulative_match_score'] = cumulative_match_score
+        bundle.data['cumulative_match_score'] = calculate_cumulative_match_score(bundle.request.user.id,
+                                                                                 bundle.obj.pk)
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
                                                             bundle.obj.pk)
         return bundle
@@ -356,12 +348,8 @@ class FriendsEventFeedResource(ModelResource):
         attendees = Event.objects.get(pk=bundle.obj.pk). \
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
-
-        cumulative_match_score = 0
-        for friend_id in friends:
-            cumulative_match_score += MatchEngineManager. \
-                count_common_goals_and_offers(friend_id, user_id)
-        bundle.data['cumulative_match_score'] = cumulative_match_score
+        bundle.data['cumulative_match_score'] = calculate_cumulative_match_score(bundle.request.user.id,
+                                                                                 bundle.obj.pk)
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
                                                             bundle.obj.pk)
         return bundle
