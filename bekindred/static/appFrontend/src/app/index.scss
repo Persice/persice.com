@@ -4082,11 +4082,12 @@ ul[rn-carousel]>li {
 }
 
 #leftmenu .item>i.intersecticon-white-big.icon {
-    max-width: 34px;
+    max-width: 20px;
     background-image: url(/static/img/intersect_white.png);
     background-repeat: no-repeat!important;
-    width: 34px!important;
-    margin: 0 0.69em 0 0!important;
+    margin: .35em .6em 0 0!important;
+    height: 20px;
+    background-size: cover;
 }
 
 .intersecticon-white-small {
@@ -6341,7 +6342,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7547,15 +7548,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
-     background-position: center;
-     background-size: contain;
-     height: 34px;
-     width: 34px;
- }
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
 
- #createEventsModal.ui.modal.centeraligned .field.button,
- #editEventsModal.ui.modal.centeraligned .field.button,
- {
+#createEventsModal.ui.modal.centeraligned .field.button,
+#editEventsModal.ui.modal.centeraligned .field.button,
+{
     height: 40px!important;
 }
 
@@ -7754,7 +7755,6 @@ body.events-page .card:hover {
 .people-attending:hover {
     cursor: pointer!important;
 }
-
 
 body.matchfeed-page #matched-profile-header .ui.mini.statistics > .statistic:first-child .label {
     margin-top: 5px!important;
