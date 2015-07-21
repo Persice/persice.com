@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-    .module('persice')
-    .controller('SettingsController', SettingsController);
+        .module('persice')
+        .controller('SettingsController', SettingsController);
 
     /**
      * class SettingsController
      * classDesc User settings, delete account, logout
      * @ngInject
      */
-     function SettingsController($rootScope, FilterRepository, USER_ID, $scope, $log, $timeout, $window, $http) {
+    function SettingsController($rootScope, FilterRepository, USER_ID, $scope, $log, $timeout, $window, $http) {
         var vm = this;
 
 
@@ -78,8 +78,6 @@
                 vm.changed = false;
                 vm.loadingSave = false;
                 $rootScope.distance_unit = vm.distanceUnit;
-                $rootScope.$broadcast('refreshEventFilters');
-                $rootScope.$broadcast('refreshFilters');
             }, function(error) {
                 vm.changed = false;
             });

@@ -43,12 +43,11 @@
         vm.changed = false;
         $timeout(function() {
             vm.changed = false;
-        }, 2000);
+        }, 1000);
 
 
         vm.toggleGender = toggleGender;
         vm.saveFilters = saveFilters;
-        vm.saveFiltersDebounce = lodash.debounce(saveFilters, 500);
         vm.getFilters = getFilters;
         vm.removeKeyword = removeKeyword;
         vm.addKeyword = addKeyword;
@@ -123,17 +122,9 @@
         vm.getFilters();
 
 
-        $rootScope.$on('refreshFilters', function() {
-            vm.getFilters();
-        });
-
         function refreshMatchFeed() {
             vm.saveFilters();
         }
-
-        $rootScope.$on('distanceUnitChanged', function(event, value) {
-            vm.distanceUnit = value;
-        });
 
         function getFilters() {
 
@@ -206,8 +197,6 @@
             FilterRepository.saveFilters(vm.newFilters).then(function(data) {
                 vm.changed = false;
                 $rootScope.$emit('refreshMatchFeed');
-                $rootScope.$emit('refreshFilters');
-
             }, function(error) {
 
             });

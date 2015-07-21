@@ -81,15 +81,6 @@
         }
 
 
-        $rootScope.$on('distanceUnitChanged', function(event, value) {
-            vm.distanceUnit = value;
-        });
-
-        $rootScope.$on('refreshEventFilters', function(event, value) {
-            vm.getFilters();
-        });
-
-
         $scope.$watch(angular.bind(this, function(distanceValue) {
             return vm.distanceValue;
         }), function(newVal) {
@@ -137,8 +128,6 @@
             EventsFilterRepository.saveFilters(vm.newFilters).then(function(data) {
                 vm.changed = false;
                 $rootScope.$emit('refreshEventFeed');
-                $rootScope.$emit('refreshEventFilters');
-
             }, function(error) {
 
             });

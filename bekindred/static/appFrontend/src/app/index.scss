@@ -7759,3 +7759,10 @@ body.events-page .card:hover {
 body.matchfeed-page #matched-profile-header .ui.mini.statistics > .statistic:first-child .label {
     margin-top: 5px!important;
 }
+
+
+@media only screen and (min-width: 768px) {
+    #showFilter {
+        display: none!important;
+    }
+}
