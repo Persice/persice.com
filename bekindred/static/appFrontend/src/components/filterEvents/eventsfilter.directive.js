@@ -37,29 +37,30 @@
      * @desc controller for Events Filter directive
      * @ngInject
      */
-    function EventsFilterController($scope, $timeout, $rootScope, $window, SettingsRepository, EventsFiltersFactory, EventsFilterRepository, USER_ID, lodash, $log) {
+    function EventsFilterController($scope, $timeout, $rootScope, $window, SettingsRepository, EventsFiltersFactory, EventsFilterRepository, USER_ID, lodash, $log, $q) {
         var vm = this;
 
-        $rootScope.eventsFiltersChanged = false;
+        vm.changed = false;
 
         $timeout(function() {
-            $rootScope.eventsFiltersChanged = false;
             vm.changed = false;
-        }, 2000);
-
-
-
-        $rootScope.$watch('eventsFiltersChanged', function(newVal, oldVal) {
-            vm.changed = newVal;
-        });
-
+        }, 1000);
         vm.saveFilters = saveFilters;
-        vm.saveFiltersDebounce = lodash.debounce(saveFilters, 500);
         vm.getFilters = getFilters;
         vm.removeKeyword = removeKeyword;
         vm.addKeyword = addKeyword;
         vm.refreshEventsFeed = refreshEventsFeed;
+        vm.hasChanges = hasChanges;
 
+        vm.orderByValues = [{
+            name: 'Match score',
+            value: 'match_score'
+
+        }, {
+            name: 'Distance',
+            value: 'distance'
+        }];
+        vm.orderBy = 'distance';
 
         vm.distanceValue = 10000;
         vm.distanceUnit = 'miles';
@@ -70,47 +71,57 @@
 
         vm.myKeywords = [];
 
-        vm.getFilters();
+        vm.refreshingFilters = true;
 
-
-        $rootScope.$on('refreshEventsFilters', function() {
-            vm.getFilters();
-        });
-
-        $scope.$watch(angular.bind(this, function(distanceValue) {
-            return vm.distanceValue;
-        }), function(newVal) {
-            vm.saveFiltersDebounce();
-        });
+        function hasChanges() {
+            vm.changed = true;
+        }
 
 
         function refreshEventsFeed() {
-            $rootScope.$emit('refreshEventFeed');
-            $rootScope.$emit('eventsFiltersChanged');
+            vm.saveFilters();
         }
 
-        $rootScope.$on('eventsFiltersChanged', function() {
-            $rootScope.eventsFiltersChanged = false;
-        });
 
         $rootScope.$on('distanceUnitChanged', function(event, value) {
             vm.distanceUnit = value;
         });
 
+        $rootScope.$on('refreshEventFilters', function(event, value) {
+            vm.getFilters();
+        });
+
+
+        $scope.$watch(angular.bind(this, function(distanceValue) {
+            return vm.distanceValue;
+        }), function(newVal) {
+            vm.hasChanges();
+
+        });
+
+        vm.getFilters();
+
         function getFilters() {
+            vm.changed = false;
+            EventsFilterRepository.getFilters().then(function(data) {
+                vm.currentFilters = data;
+                vm.distanceValue = vm.currentFilters.distance;
+                vm.orderBy = vm.currentFilters.order_criteria;
+                vm.distanceUnit = $rootScope.distance_unit;
+                if (vm.currentFilters.keyword !== '' && vm.currentFilters.keyword !== undefined) {
+                    vm.myKeywords = vm.currentFilters.keyword.split(',');
+                } else {
+                    vm.myKeywords.splice(0, vm.myKeywords.length);
+                }
+                $scope.$broadcast('reCalcViewDimensions');
+                $scope.$broadcast('rzSliderForceRender');
+                vm.changed = false;
 
-            vm.currentFilters = EventsFilterRepository.getFilterState();
-            vm.distanceValue = vm.currentFilters.distance;
-            vm.distanceUnit = $rootScope.distance_unit;
-            if (vm.currentFilters.keyword !== '' && vm.currentFilters.keyword !== undefined) {
-                vm.myKeywords = vm.currentFilters.keyword.split(',');
-            } else {
-                vm.myKeywords.splice(0, vm.myKeywords.length);
-            }
+            }, function(error) {
 
-            $scope.$broadcast('reCalcViewDimensions');
-            $scope.$broadcast('rzSliderForceRender');
-            $rootScope.eventsFiltersChanged = true;
+            });
+
+
 
         }
 
@@ -120,20 +131,26 @@
 
             vm.newFilters = {
                 distance: vm.distanceValue,
+                order_criteria: vm.orderBy,
                 keyword: vm.myKeywords.length === 0 ? '' : vm.myKeywords.join(),
                 user: '/api/v1/auth/user/' + USER_ID + '/'
             };
 
-            $rootScope.eventsFiltersChanged = true;
+            EventsFilterRepository.saveFilters(vm.newFilters).then(function(data) {
+                vm.changed = false;
+                $rootScope.$emit('refreshEventFeed');
+                $rootScope.$emit('refreshEventFilters');
 
-            EventsFilterRepository.saveFilters(vm.newFilters);
+            }, function(error) {
+
+            });
             $scope.$broadcast('reCalcViewDimensions');
             $scope.$broadcast('rzSliderForceRender');
         }
 
         function removeKeyword(index) {
             vm.myKeywords.splice(index, 1);
-            vm.saveFilters();
+            vm.hasChanges();
         }
 
         function addKeyword(item) {
@@ -154,7 +171,7 @@
 
                     if (vm.existing === false) {
                         vm.myKeywords.push(item);
-                        vm.saveFilters();
+                        vm.hasChanges();
                         vm.newKeyword = '';
                         vm.showFilterMessage = false;
                     } else {

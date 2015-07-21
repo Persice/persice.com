@@ -9,20 +9,17 @@
      * classDesc Service for Events Filter
      * @ngInject
      */
-    function EventsFilterRepository(EventsFiltersFactory, $log, $filter, $rootScope, USER_ID) {
+    function EventsFilterRepository(EventsFiltersFactory, $log, $filter, $rootScope, USER_ID, $q, $http) {
 
         var defaultState = {
             distance: 10000,
             keyword: '',
+            order_criteria: 'distance',
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
 
         var service = {
-            filterState: {
-                distance: 10000,
-                keyword: '',
-                user: '/api/v1/auth/user/' + USER_ID + '/'
-            },
+            filterState: null,
             filterId: null,
             getFilters: getFilters,
             saveFilters: saveFilters,
@@ -33,20 +30,26 @@
 
 
         function getFilters() {
-            $log.info('fetching events filters');
-            return EventsFiltersFactory.query({
+            var deferred2 = $q.defer();
+
+
+            EventsFiltersFactory.query({
                 format: 'json'
-            }).$promise.then(getFiltersComplete, getFiltersFailed);
+            }, getFiltersComplete, getFiltersFailed);
+
+            return deferred2.promise;
 
             function getFiltersComplete(response) {
                 if (response.objects.length === 0) {
                     service.createFilters(defaultState);
                     service.filterState = defaultState;
+                    deferred2.resolve(defaultState);
                 } else {
                     service.filterId = response.objects[0].id;
                     service.filterState = response.objects[0];
-                    $rootScope.$broadcast('refreshEventsFilters');
+                    deferred2.resolve(response.objects[0]);
                 }
+
             }
 
             function getFiltersFailed(error) {
@@ -57,7 +60,8 @@
                     message = 'Error ' + status;
                 $log.error(message);
                 service.filterState = defaultState;
-                $rootScope.$broadcast('refreshEventsFilters');
+                deferred2.reject(message);
+
             }
         }
 
@@ -67,21 +71,24 @@
 
 
         function saveFilters(newFilters) {
-            $log.info('saving filters');
-
             if (service.filterId === null) {
                 return;
             }
 
+            var deferred = $q.defer();
 
 
-            return EventsFiltersFactory.update({
+
+            EventsFiltersFactory.update({
                 filterId: service.filterId
             }, newFilters, saveFiltersSuccess, saveFiltersError);
 
+            return deferred.promise;
+
             function saveFiltersSuccess(response) {
+                deferred.resolve();
                 service.filterState = newFilters;
-                $rootScope.$broadcast('refreshEventsFilters');
+
             }
 
             function saveFiltersError(error) {
@@ -91,6 +98,7 @@
                     config = error.config,
                     message = 'Error ' + status;
                 $log.error(message);
+                deferred.reject();
 
 
             }
@@ -98,12 +106,10 @@
         }
 
         function createFilters(newFilters) {
-            $log.info('creating filters');
 
             return EventsFiltersFactory.save(newFilters, createFiltersSuccess, createFiltersError);
 
             function createFiltersSuccess(response) {
-                $log.info('new events filters created');
                 service.filterId = response.id;
             }
 

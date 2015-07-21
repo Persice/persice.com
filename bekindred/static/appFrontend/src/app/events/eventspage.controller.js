@@ -34,6 +34,8 @@
 
         });
 
+        $rootScope.$broadcast('refreshEventsFilters');
+
         $rootScope.$on('openViewEventModal', function(event, data) {
             vm.viewEvent = data;
             vm.showEventViewModal();
