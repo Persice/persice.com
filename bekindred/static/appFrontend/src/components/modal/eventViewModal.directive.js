@@ -87,6 +87,7 @@
     function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q) {
         var vm = this;
         vm.showMobile = false;
+        vm.loadingSave = false;
         vm.closeEventModal = closeEventModal;
         vm.getEvent = getEvent;
         vm.openMap = openMap;
@@ -916,7 +917,7 @@
 
                 vm.showSuccess = false;
                 if (!vm.showError) {
-
+                    vm.loadingSave = true;
                     EventsFactory.update({
                             eventId: vm.eventEdit.id
                         }, vm.eventEdit,
@@ -932,6 +933,7 @@
                                 duration: 4000
                             });
                             $rootScope.$broadcast('refreshEventFeed');
+                            vm.loadingSave = false;
                             vm.getEvent();
                         },
                         function(error) {
@@ -940,6 +942,7 @@
                             if (error.data.event) {
                                 vm.errorMessage = error.data.event.error;
                             }
+                            vm.loadingSave = false;
 
                         });
                 }

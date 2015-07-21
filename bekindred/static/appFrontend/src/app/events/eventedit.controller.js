@@ -15,6 +15,7 @@
         vm.showError = false;
         vm.showMobile = true;
         vm.showSuccess = false;
+        $scope.eventpage.loadingSave = false;
         vm.errorMessage = [];
         vm.mapurl = '';
         vm.mapurlTrue = false;
@@ -277,6 +278,7 @@
 
             vm.showError = false;
             vm.showSuccess = false;
+
             $('.ui.form')
                 .form({
                     fields: {
@@ -327,6 +329,7 @@
                 vm.showSuccess = false;
 
                 if (!vm.showError) {
+                    $scope.eventpage.loadingSave = true;
                     EventsFactory.update({
                             eventId: vm.eventEdit.id
                         }, vm.eventEdit,
@@ -341,7 +344,7 @@
                                 duration: 4000
                             });
 
-
+                            $scope.eventpage.loadingSave = false;
                             $state.go('event.details', {
                                 eventId: vm.eventEdit.id
                             });
@@ -349,6 +352,7 @@
                         function(error) {
                             vm.errorMessage = [];
                             vm.showError = true;
+                            $scope.eventpage.loadingSave = false;
                             if (error.data.event) {
                                 vm.errorMessage = error.data.event.error;
                             }

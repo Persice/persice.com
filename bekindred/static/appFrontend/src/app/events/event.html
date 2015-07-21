@@ -5,7 +5,7 @@
     <div class="header item">{{eventpage.header}}</div>
     <div class="right menu">
         <a class="ui item" ng-click="eventpage.makeactionEvent();">
-            <span ng-show="isState('event.create') || (isState('event.edit') && eventpage.isHost.option)">Save</span>
+            <span ng-show="isState('event.create') || (isState('event.edit') && eventpage.isHost.option)">Save <div ng-if="eventpage.loadingSave" class="ui active mini inline loader"></div></span>
             <span ng-show="isState('event.details') && eventpage.isHost.option">Edit</span>
             <span ng-show="isState('event.invitations')">Done</span>
         </a>
