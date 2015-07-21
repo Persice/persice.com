@@ -22,9 +22,11 @@
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
 
+
         var service = {
             filterState: null,
             filterId: null,
+            filtersCreated: false,
             getFilters: getFilters,
             saveFilters: saveFilters,
             createFilters: createFilters,
@@ -44,9 +46,14 @@
 
             function getFiltersComplete(response) {
                 if (response.objects.length === 0) {
-                    service.createFilters(defaultState);
+                    if (!service.filtersCreated) {
+                        service.filtersCreated = true;
+                        service.createFilters(defaultState);
+                    }
                     service.filterState = defaultState;
                     deferred2.resolve(defaultState);
+
+
                 } else {
                     service.filterId = response.objects[0].id;
                     service.filterState = response.objects[0];
@@ -111,9 +118,10 @@
 
             return FiltersFactory.save(newFilters, createFiltersSuccess, createFiltersError);
 
+
             function createFiltersSuccess(response) {
-                $log.info('new filters created');
                 service.filterId = response.id;
+                service.filtersCreated = true;
             }
 
             function createFiltersError(error) {

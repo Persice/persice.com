@@ -21,6 +21,7 @@
         var service = {
             filterState: null,
             filterId: null,
+            filtersCreated: false,
             getFilters: getFilters,
             saveFilters: saveFilters,
             createFilters: createFilters,
@@ -41,7 +42,10 @@
 
             function getFiltersComplete(response) {
                 if (response.objects.length === 0) {
-                    service.createFilters(defaultState);
+                    if (!service.filtersCreated) {
+                        service.filtersCreated = true;
+                        service.createFilters(defaultState);
+                    }
                     service.filterState = defaultState;
                     deferred2.resolve(defaultState);
                 } else {
@@ -111,6 +115,7 @@
 
             function createFiltersSuccess(response) {
                 service.filterId = response.id;
+                service.filtersCreated = true;
             }
 
             function createFiltersError(error) {

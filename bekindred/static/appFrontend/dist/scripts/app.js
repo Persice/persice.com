@@ -1478,6 +1478,12 @@ angular.module('persice')
 'use strict';
 
 angular.module('persice')
+    .controller('MainCtrl', ["$scope", function($scope) {
+        $scope.greetingMessage = 'Welcome to';
+    }]);
+'use strict';
+
+angular.module('persice')
     .factory('MatchFeedFactory', ["$resource", function($resource) {
         return $resource('/api/v1/matchfeed/:matchId/:param', {
             matchId: '@matchId'
@@ -1521,12 +1527,6 @@ angular.module('persice')
 
 
 })();
-'use strict';
-
-angular.module('persice')
-    .controller('MainCtrl', ["$scope", function($scope) {
-        $scope.greetingMessage = 'Welcome to';
-    }]);
 (function() {
     'use strict';
 
@@ -2207,54 +2207,6 @@ angular.module('persice')
 (function() {
     'use strict';
 
-    angular
-        .module('persice')
-        .controller('FriendProfileController', FriendProfileController);
-
-    /**
-     * class FriendProfileController
-     * classDesc Connect with LinkedIn and Twitter or skip to mathcfeed
-     * @ngInject
-     */
-    function FriendProfileController($scope, userId, Connection, UserProfile, $log, $state, FriendsFactory) {
-        var vm = this;
-
-        $log.info(UserProfile);
-        vm.userInfo = {
-            id: userId,
-            first_name: UserProfile.first_name,
-            photo: '//graph.facebook.com/' + UserProfile.facebook_id + '/picture?type=large'
-        };
-
-        vm.middleActive = true;
-        vm.friendshipId = Connection.objects[0].id;
-        vm.unFriend = unFriend;
-
-        function unFriend() {
-
-            FriendsFactory.update({
-                    friendId: vm.friendshipId
-                }, {
-                    status: -1
-                },
-                function(success) {
-                    InboxRepository.getInboxMessages();
-                    $state.go('myconnections');
-                },
-                function(error) {
-
-                });
-        }
-
-    }
-    FriendProfileController.$inject = ["$scope", "userId", "Connection", "UserProfile", "$log", "$state", "FriendsFactory"];
-
-
-
-})();
-(function() {
-    'use strict';
-
     /**
      * class FinalStepController
      * classDesc Connect with LinkedIn and Twitter or skip to mathcfeed
@@ -2330,6 +2282,54 @@ angular.module('persice')
     angular
         .module('persice')
         .controller('FinalStepController', FinalStepController);
+
+
+
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('persice')
+        .controller('FriendProfileController', FriendProfileController);
+
+    /**
+     * class FriendProfileController
+     * classDesc Connect with LinkedIn and Twitter or skip to mathcfeed
+     * @ngInject
+     */
+    function FriendProfileController($scope, userId, Connection, UserProfile, $log, $state, FriendsFactory) {
+        var vm = this;
+
+        $log.info(UserProfile);
+        vm.userInfo = {
+            id: userId,
+            first_name: UserProfile.first_name,
+            photo: '//graph.facebook.com/' + UserProfile.facebook_id + '/picture?type=large'
+        };
+
+        vm.middleActive = true;
+        vm.friendshipId = Connection.objects[0].id;
+        vm.unFriend = unFriend;
+
+        function unFriend() {
+
+            FriendsFactory.update({
+                    friendId: vm.friendshipId
+                }, {
+                    status: -1
+                },
+                function(success) {
+                    InboxRepository.getInboxMessages();
+                    $state.go('myconnections');
+                },
+                function(error) {
+
+                });
+        }
+
+    }
+    FriendProfileController.$inject = ["$scope", "userId", "Connection", "UserProfile", "$log", "$state", "FriendsFactory"];
 
 
 
@@ -4865,12 +4865,6 @@ angular.module('persice')
 'use strict';
 
 angular.module('persice')
-    .controller('BigMatchFeedCtrl', function() {
-
-    });
-'use strict';
-
-angular.module('persice')
     .controller('ConversationsCtrl', ["$rootScope", "notify", "$resource", "$window", "$state", "NotificationsRepository", "InboxRepository", "myIoSocket", "Connection", "$q", "$http", "$scope", "USER_ID", "$log", "$timeout", "FRIEND", "MessagesFactory", "$filter", "FriendsFactory", function($rootScope, notify, $resource, $window, $state, NotificationsRepository, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
 
         $scope.leftActive = true;
@@ -5254,6 +5248,12 @@ angular.module('persice')
 
 
     }]);
+'use strict';
+
+angular.module('persice')
+    .controller('BigMatchFeedCtrl', function() {
+
+    });
 (function() {
     'use strict';
 
@@ -8399,6 +8399,7 @@ angular.module('google.places', [])
         var service = {
             filterState: null,
             filterId: null,
+            filtersCreated: false,
             getFilters: getFilters,
             saveFilters: saveFilters,
             createFilters: createFilters,
@@ -8419,7 +8420,10 @@ angular.module('google.places', [])
 
             function getFiltersComplete(response) {
                 if (response.objects.length === 0) {
-                    service.createFilters(defaultState);
+                    if (!service.filtersCreated) {
+                        service.filtersCreated = true;
+                        service.createFilters(defaultState);
+                    }
                     service.filterState = defaultState;
                     deferred2.resolve(defaultState);
                 } else {
@@ -8489,6 +8493,7 @@ angular.module('google.places', [])
 
             function createFiltersSuccess(response) {
                 service.filterId = response.id;
+                service.filtersCreated = true;
             }
 
             function createFiltersError(error) {
@@ -8752,9 +8757,11 @@ angular
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
 
+
         var service = {
             filterState: null,
             filterId: null,
+            filtersCreated: false,
             getFilters: getFilters,
             saveFilters: saveFilters,
             createFilters: createFilters,
@@ -8774,9 +8781,14 @@ angular
 
             function getFiltersComplete(response) {
                 if (response.objects.length === 0) {
-                    service.createFilters(defaultState);
+                    if (!service.filtersCreated) {
+                        service.filtersCreated = true;
+                        service.createFilters(defaultState);
+                    }
                     service.filterState = defaultState;
                     deferred2.resolve(defaultState);
+
+
                 } else {
                     service.filterId = response.objects[0].id;
                     service.filterState = response.objects[0];
@@ -8841,9 +8853,10 @@ angular
 
             return FiltersFactory.save(newFilters, createFiltersSuccess, createFiltersError);
 
+
             function createFiltersSuccess(response) {
-                $log.info('new filters created');
                 service.filterId = response.id;
+                service.filtersCreated = true;
             }
 
             function createFiltersError(error) {
