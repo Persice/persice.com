@@ -94,9 +94,9 @@
             <div class="field">
                 <label class="specialpadding">Attending</label>
                 <div class="ui right labeled icon button widthFull" ng-click="viewevent.openAttendees();">
-                    <span class="total-people">{{viewevent.event.friend_attendees_count}} people total</span>
-                    <span class="connections-people">0 connections</span>
-                    <span class="remaining-spots">0 spots remaining</span>
+                    <span class="total-people">{{viewevent.event.total_attendees}} people total</span>
+                    <span class="connections-people">{{viewevent.event.friend_attendees_count}} connections</span>
+                    <span class="remaining-spots">{{viewevent.event.spots_remaining}} spots remaining</span>
                     <div class="cleardiv"></div>
                     <i class="fa-angle-right fa icon large"></i>
                 </div>
@@ -110,11 +110,11 @@
             <div class="field attendees-view" ng-click="viewevent.openAttendees();">
                 <span class="label">Attendees:</span>
                 <div class="attendees-values">
-                    <span class="total-people">{{viewevent.event.friend_attendees_count}} people total</span>
-                    <span class="connections-people">0 connections</span>
-                    <span class="remaining-spots">0 spots remaining</span>
+                    <span class="total-people">{{viewevent.event.total_attendees}} people total</span>
+                    <span class="connections-people">{{viewevent.event.friend_attendees_count}} connections</span>
+                    <span class="remaining-spots">{{viewevent.event.spots_remaining}} spots remaining</span>
                 </div>
-                 <i class="fa-angle-right fa icon large"></i>
+                <i class="fa-angle-right fa icon large"></i>
             </div>
         </div>
         <div class="ui large form segment icon-segment">
