@@ -1,8 +1,17 @@
 'use strict';
 
 angular.module('persice')
-    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, NotificationsRepository, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, FilterRepository, EventsFilterRepository, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository, moment, angularMomentConfig) {
+    .controller('AppCtrl', function($rootScope, APP_ID, USER_PHOTO_SMALL, NotificationsRepository, FilterRepository, $http, LocationFactory, $geolocation, ezfb, $scope, USER_ID, USER_FIRSTNAME, USER_PHOTO, $timeout, $state, $window, myIoSocket, $filter, $log, notify, $resource, $cookies, InboxRepository, moment, angularMomentConfig) {
         $rootScope.hideTopMenu = false;
+
+        $rootScope.distance_unit = 'miles';
+
+        FilterRepository.getFilters().then(function(data) {
+            $rootScope.distance_unit = data.distance_unit;
+
+        }, function(error) {
+
+        });
 
         $scope.checkLogin = function() {
             ezfb.getLoginStatus()
@@ -55,22 +64,16 @@ angular.module('persice')
                     LocationFactory.update({
                             locationId: $scope.serverLocation.id
                         }, newLocation,
-                        function(success) {
-                            $log.info('New location updated.');
-                        },
+                        function(success) {},
                         function(error) {
-                            $log.error('Error updating location.');
                             $log.error(error);
                         });
 
                 } else {
                     //create new location
                     LocationFactory.save({}, newLocation,
-                        function(success) {
-                            $log.info('New location created.');
-                        },
+                        function(success) {},
                         function(error) {
-                            $log.error('Error creating location.');
                             $log.error(error);
                         });
 
@@ -94,13 +97,6 @@ angular.module('persice')
         $rootScope.userName = USER_FIRSTNAME;
 
         $cookies.userid = USER_ID;
-
-        FilterRepository.getFilters();
-
-        $rootScope.$on('triggerRefreshFilters', function() {
-            FilterRepository.getFilters();
-        });
-
 
 
         $rootScope.goBack = function() {
@@ -147,10 +143,8 @@ angular.module('persice')
 
             var jsonData = JSON.parse(data);
 
-            $log.info(jsonData);
 
-
-            //evend deleted notification
+            //event deleted notification
             if (jsonData.type === 'event_deleted.' + USER_ID) {
                 var jsonDataEventDeleted = JSON.parse(jsonData.message);
                 var dateEventStartsOn = moment.utc(jsonDataEventDeleted.event_start_date).local().format('dddd, MMMM D, YYYY H:mm A ');

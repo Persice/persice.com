@@ -9,7 +9,7 @@
      * classDesc Service for Events Filter
      * @ngInject
      */
-    function EventsFilterRepository(EventsFiltersFactory, $log, $filter, $rootScope, USER_ID, $q, $http) {
+    function EventsFilterRepository(EventsFiltersFactory, $log, $filter, $rootScope, USER_ID, $q) {
 
         var defaultState = {
             distance: 10000,

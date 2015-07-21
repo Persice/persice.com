@@ -2,61 +2,58 @@
     'use strict';
 
     angular
-        .module('persice')
-        .controller('SettingsController', SettingsController);
+    .module('persice')
+    .controller('SettingsController', SettingsController);
 
     /**
      * class SettingsController
      * classDesc User settings, delete account, logout
      * @ngInject
      */
-    function SettingsController($rootScope, FiltersFactory, FilterRepository, USER_ID, $scope, $log, $timeout, $window, $http) {
+     function SettingsController($rootScope, FilterRepository, USER_ID, $scope, $log, $timeout, $window, $http) {
         var vm = this;
 
-        vm.userSettingsChanged = false;
-        $timeout(function() {
-            vm.filterId = FilterRepository.filterId;
-            vm.userSettingsChanged = false;
-        }, 1000);
 
+        vm.changed = false;
         vm.setUnit = setUnit;
+        vm.getDistanceUnit = getDistanceUnit;
         vm.saveSettings = saveSettings;
-
         vm.deleteUser = deleteUser;
         vm.loadingSave = false;
 
-        var pok = false;
+        vm.distanceUnit = 'miles';
+        $timeout(function() {
+            vm.changed = false;
+        }, 1000);
 
 
-        vm.distanceUnit = $rootScope.distance_unit;
-
-
-        $rootScope.$on('distanceUnitChanged', function(event, value) {
-            vm.distanceUnit = value;
-            $log.info('from controller');
-            $log.info(value);
-            vm.userSettingsChanged = false;
-        });
-
-
-
-        $scope.$watch(angular.bind(vm, function(distanceUnit) {
+        $scope.$watch(angular.bind(this, function(distanceUnit) {
             return vm.distanceUnit;
-        }), function(newVal, oldVal) {
-            $log.info('from watch');
-            $log.info(newVal);
-            if (pok === false) {
-                pok = true;
-            } else {
-                vm.userSettingsChanged = true;
-            }
-
+        }), function(newVal) {
+            vm.changed = true;
         });
+
+        vm.getDistanceUnit();
+
+        function getDistanceUnit() {
+            vm.changed = false;
+            FilterRepository.getFilters().then(function(data) {
+                vm.distanceUnit = data.distance_unit;
+                $rootScope.distance_unit = data.distance_unit;
+                vm.filterId = data.id;
+                vm.changed = false;
+            }, function(error) {
+
+            });
+
+
+
+
+        }
 
         function setUnit(value) {
             vm.distanceUnit = value;
         }
-
 
         function deleteUser() {
             $http({
@@ -74,31 +71,18 @@
 
         function saveSettings() {
             vm.loadingSave = true;
-            FiltersFactory.update({
-                filterId: vm.filterId
-            }, {
+            FilterRepository.saveFilters({
                 distance_unit: vm.distanceUnit,
                 user: '/api/v1/auth/user/' + USER_ID + '/'
-            }, saveFiltersSuccess, saveFiltersError);
-
-            function saveFiltersSuccess(response) {
-                FilterRepository.setDistanceUnit(vm.distanceUnit);
+            }).then(function(data) {
+                vm.changed = false;
                 vm.loadingSave = false;
-                vm.userSettingsChanged = false;
-            }
-
-            function saveFiltersError(error) {
-                var data = error.data,
-                    status = error.status,
-                    header = error.header,
-                    config = error.config,
-                    message = 'Error ' + status;
-                $log.error(message);
-                vm.loadingSave = false;
-                vm.userSettingsChanged = true;
-
-
-            }
+                $rootScope.distance_unit = vm.distanceUnit;
+                $rootScope.$broadcast('refreshEventFilters');
+                $rootScope.$broadcast('refreshFilters');
+            }, function(error) {
+                vm.changed = false;
+            });
         }
 
     }

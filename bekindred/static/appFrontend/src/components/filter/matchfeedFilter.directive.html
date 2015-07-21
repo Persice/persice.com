@@ -25,7 +25,7 @@
                 <label class="">Order By</label>
             </div>
             <div class="field">
-                <select class="persiceselect" ng-change="filter.saveFiltersDebounce()" ng-options="item.value as item.name for item in filter.orderByValues" ng-model="filter.orderBy"></select>
+                <select class="persiceselect" ng-change="filter.hasChanges()" ng-options="item.value as item.name for item in filter.orderByValues" ng-model="filter.orderBy"></select>
             </div>
             <div class="field keywords-label">
                 <label class="">Keywords</label>

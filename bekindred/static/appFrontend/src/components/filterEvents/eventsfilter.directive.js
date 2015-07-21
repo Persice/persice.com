@@ -71,8 +71,6 @@
 
         vm.myKeywords = [];
 
-        vm.refreshingFilters = true;
-
         function hasChanges() {
             vm.changed = true;
         }
