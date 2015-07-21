@@ -101,12 +101,6 @@ angular.module('persice')
             FilterRepository.getFilters();
         });
 
-        EventsFilterRepository.getFilters();
-
-        $rootScope.$on('triggerRefreshEventsFilters', function() {
-            EventsFilterRepository.getFilters();
-        });
-
 
 
         $rootScope.goBack = function() {
