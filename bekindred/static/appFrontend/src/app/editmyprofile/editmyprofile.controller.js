@@ -508,7 +508,7 @@ angular.module('persice')
                     onSelect: function(result, response) {
                         var idx = $(this).attr('rel');
                         if (result !== undefined) {
-                            $scope.user.offers[idx].subject = result.description;
+                            $scope.user.offers[idx].subject = result.title;
 
                         }
 
@@ -544,7 +544,7 @@ angular.module('persice')
                     onSelect: function(result, response) {
                         var idx = $(this).attr('rel');
                         if (result !== undefined) {
-                            $scope.user.interests[idx].interest_subject = result.description;
+                            $scope.user.interests[idx].interest_subject = result.title;
 
                         }
 
