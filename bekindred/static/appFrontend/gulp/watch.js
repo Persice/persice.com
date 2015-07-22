@@ -10,5 +10,5 @@ gulp.task('watch', ['inject'], function() {
         paths.src + '/{app,components}/**/*.scss',
         paths.src + '/{app,components}/**/*.js',
         'bower.json'
-    ], ['builddev']);
+    ], ['inject']);
 });

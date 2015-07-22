@@ -18,6 +18,7 @@
     "gulp-inject": "*",
     "gulp-jshint": "*",
     "gulp-karma": "*",
+    "gulp-livereload": "^3.8.0",
     "gulp-load-plugins": "*",
     "gulp-minify-html": "*",
     "gulp-ng-annotate": "*",
