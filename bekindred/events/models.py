@@ -40,6 +40,7 @@ class Event(models.Model):
     zipcode = models.CharField(max_length=7, null=True, blank=True)
     state = models.CharField(max_length=3, null=True, blank=True)
     members = models.ManyToManyField(FacebookCustomUser, through='Membership')
+    max_attendees = models.IntegerField(default=10)
 
     search_index = VectorField()
 
