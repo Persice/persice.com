@@ -81,6 +81,10 @@ class Membership(models.Model):
         return '%s - %s' % (self.user.get_full_name(),
                             self.event.name)
 
+    # def save(self, *args, **kwargs):
+    #     self.cumulative_match_score = 11
+    #     super(Membership, self).save(*args, **kwargs)
+
 
 class EventFilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)

@@ -463,3 +463,32 @@ class EventConnections(Resource):
 
     def obj_get(self, bundle, **kwargs):
         return ResourseObject()
+
+
+class EventAttendees(ModelResource):
+    event = fields.ToOneField(EventResource, 'event')
+    user = fields.ToOneField(UserResourceShort, 'user')
+
+    class Meta:
+        resource_name = 'attendees'
+        queryset = Membership.objects.all()
+        list_allowed_methods = ['get']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+        filtering = {
+            'rsvp': ALL,
+            'event': ALL,
+            'user': ALL_WITH_RELATIONS
+        }
+
+    def get_object_list(self, request):
+        return super(EventAttendees, self).get_object_list(request)
+
+    def dehydrate(self, bundle):
+        bundle.data['first_name'] = bundle.obj.user.first_name
+        bundle.data['facebook_id'] = bundle.obj.user.facebook_id
+        bundle.data['age'] = calculate_age(bundle.obj.user.date_of_birth)
+        bundle.data['total_mutual_friends'] = 0
+        bundle.data['mutual_match_score'] = 0
+        bundle.data['tagline'] = 'dummy'
+        return bundle
