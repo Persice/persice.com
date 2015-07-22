@@ -5,13 +5,12 @@ var gulp = require('gulp'),
 
 var paths = gulp.paths;
 
-gulp.task('livereload', function() {
+gulp.task('livereload', ['watch'], function() {
     livereload.listen();
     gulp.watch([
         paths.src + '/**/*.html',
-        paths.src + '/{app,components}/**/*.scss',
-        paths.src + '/{app,components}/**/*.js',
-        'bower.json'
+        paths.tmp + '/serve/**/*.css',
+        paths.src + '/{app,components}/**/*.js'
     ]).on('change', function(file) {
         livereload.changed(file.path);
     });
