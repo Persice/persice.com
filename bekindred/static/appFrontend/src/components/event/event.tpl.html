@@ -11,6 +11,7 @@
             </div>
             <p ng-repeat="errormsg in singleevent.errorMessage track by $index">{{errormsg}}</p>
         </div>
+        <div class="ui error message"></div>
         <div class="ui large form segment first" id="FirstSegment">
             <div class="field">
                 <label>Event Name</label>
@@ -52,6 +53,12 @@
                     <input autocomplete="off" class="simpledate" ng-model="singleevent.event.repeatUntil" placeholder="{{::singleevent.placeholder.repeatUntil}}" type="text">
                     <i class="calendar icon"></i>
                 </div>
+            </div>
+        </div>
+        <div class="ui large form segment">
+            <div class="field">
+                <label>Max. attendees</label>
+                <input autocomplete="off" ng-model="singleevent.event.max_attendees" placeholder="{{::singleevent.placeholder.max_attendees}}" type="text" name="max_attendees">
             </div>
         </div>
         <div class="ui large form segment icon-segment">

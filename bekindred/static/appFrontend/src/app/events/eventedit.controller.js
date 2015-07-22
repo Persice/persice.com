@@ -35,7 +35,8 @@
             state: '',
             full_address: '',
             location_name: '',
-            country: ''
+            country: '',
+            max_attendees: ''
         };
 
         vm.eventLocation = '';
@@ -51,7 +52,8 @@
             description: 'Description',
             costs: 'Costs',
             invitations: 'Invitations',
-            attachments: 'Attachments'
+            attachments: 'Attachments',
+            max_attendees: 'Max. attendees'
         };
 
         vm.$geolocation = $geolocation;
@@ -296,6 +298,16 @@
                                 prompt: 'Please enter Location'
                             }]
                         },
+                        max_attendees: {
+                            identifier: 'max_attendees',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Max. attendees'
+                            }, {
+                                type: 'integer',
+                                prompt: 'Please enter Max. attendees as numeric value'
+                            }]
+                        },
                         repeat: {
                             identifier: 'repeat',
                             rules: [{
@@ -313,7 +325,7 @@
                     }
                 });
             $('.ui.form').form('validate form');
-            if (vm.eventEdit.description === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
+            if (vm.eventEdit.description === '' || vm.event.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
                 vm.showError = true;
                 if (vm.eventEdit.starts_on === '' || vm.eventEdit.starts_on === null) {
                     vm.startsTimeError = true;

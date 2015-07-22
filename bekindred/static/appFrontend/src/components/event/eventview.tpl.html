@@ -101,6 +101,12 @@
                     <i class="fa-angle-right fa icon large"></i>
                 </div>
             </div>
+            <div class="field">
+                <label class="specialpadding">Max. attendees</label>
+                <div class="eventcontent">
+                    <span>{{viewevent.event.max_attendees}}&nbsp;</span>
+                </div>
+            </div>
         </div>
         <div class="ui large form segment" id="HostedSection" ng-if="viewevent.showMobile">
             <div class="field">
@@ -115,6 +121,10 @@
                     <span class="remaining-spots">{{viewevent.event.spots_remaining}} spots remaining</span>
                 </div>
                 <i class="fa-angle-right fa icon large"></i>
+            </div>
+            <div class="ui divider" id="last-section"></div>
+            <div class="field">
+                Max. attendees: <span>{{viewevent.event.max_attendees}}&nbsp;</span>
             </div>
         </div>
         <div class="ui large form segment icon-segment">

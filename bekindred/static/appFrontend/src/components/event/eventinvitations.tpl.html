@@ -2,7 +2,7 @@
     <div class="ui active inverted dimmer" ng-if="viewevent.loadingInvitesSave">
         <div class="ui text loader">Please wait while invitations are being sent...</div>
     </div>
-    <form class="ui form">
+    <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui header">Who can attend this event?</div>
         <div class="fields">
             <div class="eight wide field invitations">
@@ -23,7 +23,7 @@
             </div>
             <div class="eight wide field invitations">
                 <div class="field-section">
-                    <div class="label">Max. attendees <span class="label number">10</span></div>
+                    <div class="label">Max. attendees <span class="label number">{{viewevent.event.max_attendees}}&nbsp;</span></div>
                     <div class="ui divider"></div>
                     <div class="checkbox-vertical">
                         <input type="checkbox" ng-model="viewevent.invitationsOptions.guestInvite" value="private">

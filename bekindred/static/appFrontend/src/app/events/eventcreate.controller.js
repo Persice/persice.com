@@ -53,7 +53,8 @@
             state: '',
             full_address: '',
             location_name: '',
-            country: ''
+            country: '',
+            max_attendees: ''
         };
 
         vm.eventLocation = '';
@@ -67,7 +68,8 @@
             description: 'Description',
             costs: 'Costs',
             invitations: 'Invitations',
-            attachments: 'Attachments'
+            attachments: 'Attachments',
+            max_attendees: 'Max. attendees'
         };
 
         vm.saveEvent = saveEvent;
@@ -170,6 +172,7 @@
             $('.ui.form')
                 .form({
                     fields: {
+
                         name: {
                             identifier: 'name',
                             rules: [{
@@ -182,6 +185,16 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
+                            }]
+                        },
+                        max_attendees: {
+                            identifier: 'max_attendees',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Max. attendees'
+                            }, {
+                                type: 'integer',
+                                prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
                         repeat: {
@@ -229,7 +242,7 @@
                     }
                 });
             $('.ui.form').form('validate form');
-            if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
+            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
                 vm.showError = true;
                 if (vm.event.starts_on === '' || vm.event.starts_on === null) {
                     vm.startsTimeError = true;
@@ -337,7 +350,8 @@
                 state: '',
                 full_address: '',
                 location_name: '',
-                country: ''
+                country: '',
+                max_attendees: ''
             };
         }
 

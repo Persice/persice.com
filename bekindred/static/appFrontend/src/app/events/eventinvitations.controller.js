@@ -15,6 +15,7 @@
         vm.removeInvite = removeInvite;
         vm.sendInvites = sendInvites;
         vm.getConnections = getConnections;
+        vm.getEvent = getEvent;
 
         vm.nextOffset = 10;
         vm.loadingConnections = false;
@@ -34,11 +35,38 @@
 
         });
 
+        vm.loadingEvent = false;
+
+        vm.event = {};
+
         vm.friends = [];
         vm.connections = [];
         vm.invitedPeople = [];
 
         vm.getConnections();
+        vm.getEvent();
+
+
+        function getEvent() {
+            vm.loadingEvent = true;
+            EventsFactory.query({
+                format: 'json'
+            }, {
+                eventId: eventId
+            }).$promise.then(function(data) {
+                vm.event = data;
+                vm.loadingEvent = false;
+
+            }, function(response) {
+                var data = response.data,
+                    status = response.status,
+                    header = response.header,
+                    config = response.config,
+                    message = 'Error ' + status;
+                vm.loadingEvent = false;
+            });
+        }
+
 
 
         function markSelected(index) {
