@@ -7760,9 +7760,20 @@ body.matchfeed-page #matched-profile-header .ui.mini.statistics > .statistic:fir
     margin-top: 5px!important;
 }
 
-
 @media only screen and (min-width: 768px) {
     #showFilter {
         display: none!important;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    #tiles .tile-big,
+    #tiles .tile-big img {
+        width: 152px!important;
+        height: 152px!important;
+    }
+    #tiles .tile-small {
+        width: 74px!important;
+        height: 74px!important;
     }
 }
