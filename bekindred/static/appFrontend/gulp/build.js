@@ -10,22 +10,6 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task('partials', function() {
     return gulp.src([
-            paths.src + '/{app,components}/**/*.html',
-            paths.tmp + '/{app,components}/**/*.html'
-        ])
-        .pipe($.minifyHtml({
-            empty: true,
-            spare: true,
-            quotes: true
-        }))
-        .pipe($.angularTemplatecache('templateCacheHtml.js', {
-            module: 'persice'
-        }))
-        .pipe(gulp.dest(paths.tmp + '/partials/'));
-});
-
-gulp.task('partialsdev', function() {
-    return gulp.src([
             paths.src + '/{app,components}/**/*.html'
         ])
         .pipe($.minifyHtml({
@@ -38,6 +22,7 @@ gulp.task('partialsdev', function() {
         }))
         .pipe(gulp.dest(paths.tmp + '/partials/'));
 });
+
 
 gulp.task('html', ['inject', 'partials'], function() {
     var partialsInjectFile = gulp.src(paths.tmp + '/partials/templateCacheHtml.js', {
@@ -86,7 +71,7 @@ gulp.task('html', ['inject', 'partials'], function() {
 });
 
 
-gulp.task('htmldev', ['inject', 'partialsdev'], function() {
+gulp.task('htmldev', ['inject', 'partials'], function() {
     var partialsInjectFile = gulp.src(paths.tmp + '/partials/templateCacheHtml.js', {
         read: false
     });
