@@ -14,7 +14,7 @@
         var defaultState = {
             distance: 10000,
             keyword: '',
-            order_criteria: 'distance',
+            order_criteria: 'date',
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
 

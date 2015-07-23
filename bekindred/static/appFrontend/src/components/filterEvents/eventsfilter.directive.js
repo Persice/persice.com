@@ -59,8 +59,11 @@
         }, {
             name: 'Distance',
             value: 'distance'
+        }, {
+            name: 'Date',
+            value: 'date'
         }];
-        vm.orderBy = 'distance';
+        vm.orderBy = 'date';
 
         vm.distanceValue = 10000;
         vm.distanceUnit = 'miles';
