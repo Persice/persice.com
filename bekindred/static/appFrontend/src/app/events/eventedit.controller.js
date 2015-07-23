@@ -15,6 +15,8 @@
         vm.showError = false;
         vm.showMobile = true;
         vm.showSuccess = false;
+        vm.loadingSave = false;
+        vm.loadingDelete = false;
         $scope.eventpage.loadingSave = false;
         vm.errorMessage = [];
         vm.mapurl = '';
@@ -92,11 +94,16 @@
 
 
         function deleteEvent() {
+            if (vm.loadingDelete) {
+                return;
+            }
             vm.showError = false;
+            vm.loadingDelete = true;
             EventsFactory.delete({
                     eventId: vm.eventEdit.id
                 },
                 function(success) {
+                    vm.loadingDelete = false;
                     vm.showError = false;
 
                     notify({
@@ -115,6 +122,7 @@
                     }
                 },
                 function(error) {
+                    vm.loadingDelete = false;
                     vm.errorMessage = [];
                     vm.showError = true;
                     if (error.data.event) {
@@ -277,7 +285,9 @@
 
 
         function saveEvent() {
-
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
 
@@ -342,12 +352,13 @@
 
                 if (!vm.showError) {
                     $scope.eventpage.loadingSave = true;
+                    vm.loadingSave = true;
                     EventsFactory.update({
                             eventId: vm.eventEdit.id
                         }, vm.eventEdit,
                         function(success) {
                             vm.showError = false;
-
+                            vm.loadingSave = false;
                             notify({
                                 messageTemplate: '<div class="notify-info-header">Success</div>' +
                                     '<p>All changes have been saved.</p>',
@@ -362,6 +373,7 @@
                             });
                         },
                         function(error) {
+                            vm.loadingSave = false;
                             vm.errorMessage = [];
                             vm.showError = true;
                             $scope.eventpage.loadingSave = false;

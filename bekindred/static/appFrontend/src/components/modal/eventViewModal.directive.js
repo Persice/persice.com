@@ -92,6 +92,7 @@
         vm.getEvent = getEvent;
         vm.openMap = openMap;
         vm.deleteEvent = deleteEvent;
+        vm.openModalDelete = openModalDelete;
         vm.event = {};
         vm.invitationsMode = false;
 
@@ -521,8 +522,20 @@
             }
         }
 
+        vm.loadingDelete = false;
+
+
+        function openModalDelete() {
+            $log.info('openingmodal');
+            $('#deleteEventModal').modal('show');
+        }
+
         function deleteEvent() {
+            if (vm.loadingDelete) {
+                return;
+            }
             vm.showError = false;
+            vm.loadingDelete = true;
             EventsFactory.delete({
                     eventId: vm.eventEdit.id
                 },
@@ -536,13 +549,14 @@
                         icon: 'check circle',
                         duration: 4000
                     });
-
+                    vm.loadingDelete = false;
                     $rootScope.$broadcast('refreshEventFeed');
 
                     vm.closeEventModal();
 
                 },
                 function(error) {
+                    vm.loadingDelete = false;
                     vm.errorMessage = [];
                     vm.showError = true;
                     if (error.data.event) {
@@ -835,6 +849,9 @@
         }
 
         function saveEvent() {
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')

@@ -4,7 +4,7 @@
         <ng-include src="'components/event/event.tpl.html'"></ng-include>
     </div>
     <div class="actions">
-        <div class="ui green labeled icon right button" ng-click="singleevent.saveEvent()">
+        <div class="ui green labeled icon right button" ng-class="{'loading': singleevent.loadingSave, 'disabled': singleevent.loadingSave}" ng-click="singleevent.saveEvent()">
             Create
             <i class="plus circle icon"></i>
         </div>

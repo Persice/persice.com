@@ -61,6 +61,7 @@
         vm.showMobile = false;
         vm.endsTimeError = false;
         vm.startsTimeError = false;
+        vm.loadingSave = false;
 
         vm.placeholder = {
             name: '',
@@ -184,6 +185,9 @@
         }
 
         function saveEvent() {
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')
@@ -277,13 +281,17 @@
 
                 vm.showSuccess = false;
                 if (!vm.showError) {
+                    vm.loadingSave = true;
                     EventsFactory.save({}, vm.event,
                         function(success) {
                             vm.showError = false;
+                            vm.loadingSave = false;
                             $rootScope.$broadcast('closeModalCreateEvent');
                             vm.resetForm();
+
                         },
                         function(error) {
+                            vm.loadingSave = false;
                             vm.errorMessage = [];
                             vm.showError = true;
                             if (error.data.event) {
