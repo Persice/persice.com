@@ -84,7 +84,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees) {
         var vm = this;
         vm.showMobile = false;
         vm.loadingSave = false;
@@ -405,68 +405,115 @@
 
         //START ATTENDEES
 
-        vm.connectionsYes = [{
-                id: 1,
-                rsvp: '',
-                first_name: 'Lena',
-                age: 35,
-                invited: false,
-                selected: false,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Creative designer & hiker'
-            }, {
-                id: 3,
-                rsvp: '',
-                first_name: 'Charlie',
-                age: 39,
-                invited: false,
-                selected: false,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Hacker, Guitaris, and veteran Burner'
+        vm.getAttendees = getAttendees;
+
+        vm.attendees = {
+            yes: {
+                data: [],
+                alreadyLoaded: false,
+                filtered: [],
+                filters: {
+                    firstName: '',
+                    rsvp: 'yes',
+                    event: vm.eventid
+                },
+                loading: false,
+                noResults: false,
+                nextOffset: 10,
+                next: null,
+                count: 0
+            },
+            no: {
+                data: [],
+                alreadyLoaded: false,
+                filtered: [],
+                filters: {
+                    firstName: '',
+                    rsvp: 'no',
+                    event: vm.eventid
+                },
+                loading: false,
+                noResults: false,
+                nextOffset: 10,
+                next: null,
+                count: 0
+            },
+            maybe: {
+                data: [],
+                alreadyLoaded: false,
+                filtered: [],
+                filters: {
+                    firstName: '',
+                    rsvp: 'maybe',
+                    event: vm.eventid
+                },
+                loading: false,
+                noResults: false,
+                nextOffset: 10,
+                next: null,
+                count: 0
+            },
+        };
+
+        function getAttendees(type) {
+            vm.attendees[type].next = null;
+            vm.attendees[type].loading = true;
+            EventsAttendees.query({
+                format: 'json',
+                limit: 1000,
+                offset: 0,
+                rsvp: vm.attendees[type].filters.rsvp,
+                event: vm.event.id,
+                user__first_name__icontains: vm.attendees[type].filters.firstName
+            }).$promise.then(getAttendeesSuccess, getAttendeesFailure);
+
+            function getAttendeesSuccess(response) {
+
+                vm.attendees[type].loading = false;
+
+                if (!vm.attendees[type].alreadyLoaded) {
+                    vm.attendees[type].count = response.meta.total_count;
+                }
+                vm.attendees[type].alreadyLoaded = true;
+
+
+                if (response.objects.length === 0) {
+                    vm.attendees[type].data = [];
+                    vm.attendees[type].noResults = true;
+                } else {
+                    vm.attendees[type].data = response.objects;
+                    vm.attendees[type].next = response.meta.next
+                    vm.attendees[type].noResults = false;
+                }
+
             }
 
-        ];
+            function getAttendeesFailure(response) {
+                var data = response.data,
+                    status = response.status,
+                    header = response.header,
+                    config = response.config,
+                    message = 'Error ' + status;
 
+                $log.error(message);
+                vm.attendees[type].noResults = true;
+                vm.attendees[type].loading = false;
 
-        vm.connectionsNo = [{
-                id: 2,
-                rsvp: 'YES',
-                first_name: 'Brian',
-                age: 31,
-                invited: true,
-                selected: true,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Engineer kiteboarding chess geek'
-            },
-
-        ];
-
-
-        vm.connectionsMaybe = [
-
-            {
-                id: 4,
-                rsvp: '',
-                first_name: 'Daniel',
-                age: 25,
-                invited: false,
-                selected: false,
-                mutual_friends: 10,
-                match_score: 4,
-                tagline: 'Grad student from London'
-            },
-
-        ];
+            }
+        }
 
         function openAttendees() {
             vm.selection = 'attendees';
             vm.header = 'Attendees';
+            vm.getAttendees('yes');
+            vm.getAttendees('no');
+            vm.getAttendees('maybe');
         }
 
         function closeAttendees() {
+            vm.attendees['yes'].alreadyLoaded = false;
+            vm.attendees['no'].alreadyLoaded = false;
+            vm.attendees['maybe'].alreadyLoaded = false;
             vm.selection = 'view';
             vm.header = 'Event Details';
         }
@@ -498,7 +545,9 @@
                                     vm.event.members[i].rsvp = newStatus;
                                 }
 
+
                             }
+                            vm.getEvent();
                         },
                         function(error) {
 
@@ -602,7 +651,7 @@
 
                 vm.isHost = false;
                 vm.eventRsvp = {
-                    status: ''
+                    status: vm.event.rsvp
                 };
                 vm.memberExists = false;
                 vm.memberId = null;

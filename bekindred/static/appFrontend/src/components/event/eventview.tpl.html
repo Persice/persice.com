@@ -1,5 +1,5 @@
 <div class="ui center aligned header" ng-show="viewevent.isHost === true && !viewevent.loadingEvent && !viewevent.eventNotFound">You are the host of this event.</div>
-<div class="row" ng-show="viewevent.isHost === false && !viewevent.loadingEvent && !viewevent.eventNotFound">
+<div class="row" ng-show="viewevent.isHost === false && !viewevent.eventNotFound">
     <div class="wide column">
         <div class="ui fluid secondary menu" id="event-going-menu">
             <div class="header item">GOING?</div>
@@ -16,7 +16,7 @@
     <p>This event doesn't exist anymore.</p>
 </div>
 <div class="ui basic segment" ng-class="{'hidevisibility': viewevent.eventNotFound}">
-    <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
+    <form class="ui form" style="min-height: 530px;" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui large form segment first editable" id="FirstSegment">
             <div class="field">
                 <label class="specialpadding">Event Name</label>

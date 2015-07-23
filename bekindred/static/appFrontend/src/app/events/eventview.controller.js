@@ -96,6 +96,7 @@
                                 }
 
                             }
+                            vm.getEvent();
                         },
                         function(error) {
 
@@ -122,8 +123,6 @@
         vm.getEvent();
 
         function getEvent() {
-
-
 
             vm.loadingEvent = true;
             EventsFactory.query({
@@ -179,7 +178,7 @@
 
 
                 vm.eventRsvp = {
-                    status: ''
+                    status: vm.event.rsvp
                 };
                 vm.memberExists = false;
                 vm.memberId = null;
