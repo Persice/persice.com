@@ -789,4 +789,12 @@ angular
                 }, 0);
             }
         };
+    })
+    .directive('compile', function($compile) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                element.append($compile(attr.compile)(scope));
+            }
+        }
     });

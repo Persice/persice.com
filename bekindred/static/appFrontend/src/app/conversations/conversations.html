@@ -50,8 +50,7 @@
             <div ng-style="" class="repeat-animation quote" ng-class="{'left': msg.left, 'right': !msg.left, 'lastMessage': $last}" ng-repeat="msg in message.contents | orderBy:'-sent_at' track by $index">
                 <img class="round-avatar" ng-src="{{ msg.left && userImg ||  !msg.left && friendImage}}">
                 <div class="speech-bubble">
-                    <blockquote>
-                        {{msg.body}}
+                    <blockquote ng-bind-html="msg.body">
                     </blockquote>
                 </div>
                 <span class="time-ago">{{message.date}} {{msg.sent_at | amDateFormat:'h:mm a'}}</span>
@@ -66,8 +65,7 @@
           {{message.date}}
       </h6>
             <div ng-style="" class="repeat-animation" ng-class="{'bubbledLeft': msg.left, 'bubbledRight': !msg.left, 'lastMessage': $last}" ng-repeat="msg in message.contents | orderBy:'sent_at' track by $index">
-                <p>
-                    {{msg.body}}
+                <p ng-bind-html="msg.body">
                 </p>
                 <span class="conversation-time">{{msg.sent_at | amDateFormat:'h:mm a'}}</span>
             </div>
