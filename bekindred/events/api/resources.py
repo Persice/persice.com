@@ -478,6 +478,7 @@ class EventAttendees(ModelResource):
         filtering = {
             'rsvp': ALL,
             'event': ALL,
+            'is_organizer': ALL,
             'user': ALL_WITH_RELATIONS
         }
 
@@ -490,5 +491,5 @@ class EventAttendees(ModelResource):
         bundle.data['age'] = calculate_age(bundle.obj.user.date_of_birth)
         bundle.data['total_mutual_friends'] = 0
         bundle.data['mutual_match_score'] = 0
-        bundle.data['tagline'] = 'dummy'
+        bundle.data['tagline'] = 'tagline for my connection'
         return bundle
