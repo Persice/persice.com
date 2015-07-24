@@ -226,11 +226,11 @@ class MembershipResource(ModelResource):
                             'sender': '/api/auth/user/{}/'.format(bundle.request.user.id),
                             'recipient': '/api/auth/user/{}/'.format(recipient.id),
                             'body': """
-                                    "You've been invited to the following event:
+                                    You've been invited to the following event:
                                     <br><br>
                                     <a href="{event_url}">{event_name}</a>
                                     <br><br>
-                                    This is an automated message."
+                                    This is an automated message.
                                     """.format(**data)}
             pm_write(bundle.request.user, recipient, '', body=message_data['body'])
             r.publish('message.%s' % recipient.id, json.dumps(message_data))
