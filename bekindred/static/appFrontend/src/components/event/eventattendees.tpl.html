@@ -24,112 +24,118 @@
         <a class="item withicons" data-tab="second">Maybe <span class="ui circular label">{{viewevent.attendees['maybe'].count}}</span></a>
         <a class="item withicons" data-tab="third">No <span class="ui circular label">{{viewevent.attendees['no'].count}}</span></a>
     </div>
-    <div class="ui bottom attached tab segment active" data-tab="first" ng-class="{'loading': viewevent.attendees['yes'].loading}">
-        <table class="ui very basic unstackable table attendees-people">
-            <thead>
-                <tr>
-                    <th colspan="2" class="search-header-container">
-                        <div class="ui transparent left icon input searchbox">
-                            <input type="text" placeholder="" ng-change="viewevent.getAttendees('yes')" ng-model-options="{ debounce: 500 }" ng-model="viewevent.attendees['yes'].filters.firstName">
-                            <i class="search large icon"></i>
-                        </div>
-                    </th>
-                    <th class="desktopview"><i class="intersecticon icon"></i></th>
-                    <th class="desktopview"><i class="empty user large usericon icon"></i></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="attendee in viewevent.attendees['yes'].data track by attendee.id">
-                    <td>
-                        <h4 class="ui image header">
+    <div class="ui bottom attached tab segment active" data-tab="first">
+        <div class="ui segment basic" ng-class="{'loading':  viewevent.attendees['yes'].loading}">
+            <table class="ui very basic unstackable table attendees-people">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="search-header-container">
+                            <div class="ui transparent left icon input searchbox">
+                                <input type="text" placeholder="" ng-change="viewevent.getAttendees('yes')" ng-model-options="{ debounce: 500 }" ng-model="viewevent.attendees['yes'].filters.firstName">
+                                <i class="search large icon"></i>
+                            </div>
+                        </th>
+                        <th class="desktopview"><i class="intersecticon icon"></i></th>
+                        <th class="desktopview"><i class="empty user large usericon icon"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="attendee in viewevent.attendees['yes'].data track by attendee.id">
+                        <td>
+                            <h4 class="ui image header">
                             <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
                             <div class="content">
                                 {{::attendee.first_name}}, {{::attendee.age}}
                             </div>
                         </h4>
-                    </td>
-                    <td class="desktopview">
-                        <div class="tagline">{{::attendee.tagline}}</div>
-                    </td>
-                    <td class="desktopview">{{::attendee.cumulative_match_score}}&nbsp;</td>
-                    <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="ui message" ng-show="viewevent.attendees['yes'].noResults">
-            <div class="header">No attendees found.</div>
+                        </td>
+                        <td class="desktopview">
+                            <div class="tagline">{{::attendee.tagline}}</div>
+                        </td>
+                        <td class="desktopview">{{::attendee.cumulative_match_score}}&nbsp;</td>
+                        <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="ui message" ng-show="viewevent.attendees['yes'].noResults">
+                <div class="header">No attendees found.</div>
+            </div>
         </div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="second" ng-class="{'loading': viewevent.attendees['maybe'].loading}">
-        <table class="ui very basic unstackable table attendees-people">
-            <thead>
-                <tr>
-                    <th colspan="2" class="search-header-container">
-                        <div class="ui transparent left icon input searchbox">
-                            <input type="text" placeholder="" ng-change="viewevent.getAttendees('maybe')" ng-model-options="{ debounce: 500 }" ng-model="viewevent.attendees['maybe'].filters.firstName">
-                            <i class="search large icon"></i>
-                        </div>
-                    </th>
-                    <th class="desktopview"><i class="intersecticon icon"></i></th>
-                    <th class="desktopview"><i class="empty user large usericon icon"></i></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="attendee in viewevent.attendees['maybe'].data track by attendee.id">
-                    <td>
-                        <h4 class="ui image header">
-                            <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
-                            <div class="content">
-                                {{::attendee.first_name}}, {{::attendee.age}}
+    <div class="ui bottom attached tab segment" data-tab="second">
+        <div class="ui segment basic" ng-class="{'loading':  viewevent.attendees['maybe'].loading}">
+            <table class="ui very basic unstackable table attendees-people">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="search-header-container">
+                            <div class="ui transparent left icon input searchbox">
+                                <input type="text" placeholder="" ng-change="viewevent.getAttendees('maybe')" ng-model-options="{ debounce: 500 }" ng-model="viewevent.attendees['maybe'].filters.firstName">
+                                <i class="search large icon"></i>
                             </div>
-                        </h4>
-                    </td>
-                    <td class="desktopview">
-                        <div class="tagline">{{::attendee.tagline}}</div>
-                    </td>
-                    <td class="desktopview">{{::attendee.cumulative_match_score}&nbsp;</td>
-                    <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="ui message" ng-show="viewevent.attendees['maybe'].noResults">
-            <div class="header">No attendees found.</div>
+                        </th>
+                        <th class="desktopview"><i class="intersecticon icon"></i></th>
+                        <th class="desktopview"><i class="empty user large usericon icon"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="attendee in viewevent.attendees['maybe'].data track by attendee.id">
+                        <td>
+                            <h4 class="ui image header">
+                        <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
+                        <div class="content">
+                            {{::attendee.first_name}}, {{::attendee.age}}
+                        </div>
+                    </h4>
+                        </td>
+                        <td class="desktopview">
+                            <div class="tagline">{{::attendee.tagline}}</div>
+                        </td>
+                        <td class="desktopview">{{::attendee.cumulative_match_score}&nbsp;</td>
+                        <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="ui message" ng-show="viewevent.attendees['maybe'].noResults">
+                <div class="header">No attendees found.</div>
+            </div>
         </div>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="third" ng-class="{'loading': viewevent.attendees['no'].loading}">
-        <table class="ui very basic unstackable table attendees-people">
-            <thead>
-                <tr>
-                    <th colspan="2" class="search-header-container">
-                        <div class="ui transparent left icon input searchbox">
-                            <input type="text" placeholder="" ng-change="viewevent.getAttendees('no')" ng-model-options="{ debounce: 500 }" ng-model="viewevent.attendees['no'].filters.firstName">
-                            <i class="search large icon"></i>
-                        </div>
-                    </th>
-                    <th class="desktopview"><i class="intersecticon icon"></i></th>
-                    <th class="desktopview"><i class="empty user large usericon icon"></i></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="attendee in viewevent.attendees['no'].data track by attendee.id">
-                    <td>
-                        <h4 class="ui image header">
-                            <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
-                            <div class="content">
-                                {{::attendee.first_name}}, {{::attendee.age}}
+    <div class="ui bottom attached tab segment" data-tab="third">
+        <div class="ui segment basic" ng-class="{'loading':  viewevent.attendees['no'].loading}">
+            <table class="ui very basic unstackable table attendees-people">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="search-header-container">
+                            <div class="ui transparent left icon input searchbox">
+                                <input type="text" placeholder="" ng-change="viewevent.getAttendees('no')" ng-model-options="{ debounce: 500 }" ng-model="viewevent.attendees['no'].filters.firstName">
+                                <i class="search large icon"></i>
                             </div>
-                        </h4>
-                    </td>
-                    <td class="desktopview">
-                        <div class="tagline">{{::attendee.tagline}}</div>
-                    </td>
-                    <td class="desktopview">{{::attendee.cumulative_match_score}}&nbsp;</td>
-                    <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="ui message" ng-show="viewevent.attendees['no'].noResults">
-            <div class="header">No attendees found.</div>
+                        </th>
+                        <th class="desktopview"><i class="intersecticon icon"></i></th>
+                        <th class="desktopview"><i class="empty user large usericon icon"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="attendee in viewevent.attendees['no'].data track by attendee.id">
+                        <td>
+                            <h4 class="ui image header">
+                        <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
+                        <div class="content">
+                            {{::attendee.first_name}}, {{::attendee.age}}
+                        </div>
+                    </h4>
+                        </td>
+                        <td class="desktopview">
+                            <div class="tagline">{{::attendee.tagline}}</div>
+                        </td>
+                        <td class="desktopview">{{::attendee.cumulative_match_score}}&nbsp;</td>
+                        <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="ui message" ng-show="viewevent.attendees['no'].noResults">
+                <div class="header">No attendees found.</div>
+            </div>
         </div>
     </div>
     <br>

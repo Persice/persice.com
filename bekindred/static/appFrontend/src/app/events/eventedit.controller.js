@@ -352,6 +352,9 @@
 
                 if (!vm.showError) {
                     $scope.eventpage.loadingSave = true;
+                    delete vm.eventEdit.members;
+                    delete vm.eventEdit.attendees;
+                    delete vm.eventEdit.most_common_elements;
                     vm.loadingSave = true;
                     EventsFactory.update({
                             eventId: vm.eventEdit.id
