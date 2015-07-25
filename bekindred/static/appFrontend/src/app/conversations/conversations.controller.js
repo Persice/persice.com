@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('persice')
-    .controller('ConversationsCtrl', function($rootScope, notify, $resource, $window, $state, NotificationsRepository, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory) {
+    .controller('ConversationsCtrl', function($rootScope, notify, $resource, $window, $state, NotificationsRepository, InboxRepository, myIoSocket, Connection, $q, $http, $scope, USER_ID, $log, $timeout, FRIEND, MessagesFactory, $filter, FriendsFactory, $sce) {
 
         $scope.leftActive = true;
         $scope.messages = [];
@@ -83,7 +83,7 @@ angular.module('persice')
 
                             if (responseMessages[obj].sender === $scope.sender) {
                                 $scope.messages[messageIndex].contents.push({
-                                    body: responseMessages[obj].body,
+                                    body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
                                     recipient: responseMessages[obj].recipient,
                                     date: localDatePlain,
@@ -92,7 +92,7 @@ angular.module('persice')
                                 });
                             } else {
                                 $scope.messages[messageIndex].contents.push({
-                                    body: responseMessages[obj].body,
+                                    body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
                                     recipient: responseMessages[obj].recipient,
                                     date: localDatePlain,
@@ -164,7 +164,7 @@ angular.module('persice')
 
                     if (responseMessages[obj].sender === $scope.sender) {
                         $scope.messages[messageIndex].contents.push({
-                            body: responseMessages[obj].body,
+                            body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
                             recipient: responseMessages[obj].recipient,
                             date: localDatePlain,
@@ -173,7 +173,7 @@ angular.module('persice')
                         });
                     } else {
                         $scope.messages[messageIndex].contents.push({
-                            body: responseMessages[obj].body,
+                            body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
                             recipient: responseMessages[obj].recipient,
                             date: localDatePlain,
@@ -309,7 +309,7 @@ angular.module('persice')
 
 
                 $scope.messages[messageIndex].contents.push({
-                    body: jsonData.body,
+                    body: $sce.trustAsHtml(jsonData.body),
                     sender: jsonData.sender,
                     recipient: jsonData.recipient,
                     date: localDatePlain,
@@ -318,7 +318,7 @@ angular.module('persice')
                 });
 
                 $rootScope.notifications.push({
-                    body: jsonData.body,
+                    body: $sce.trustAsHtml(jsonData.body),
                     sender: jsonData.sender,
                     recipient: jsonData.recipient,
                     date: localDatePlain,

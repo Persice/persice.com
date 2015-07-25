@@ -15,6 +15,8 @@
         vm.showError = false;
         vm.showMobile = true;
         vm.showSuccess = false;
+        vm.loadingSave = false;
+        vm.loadingDelete = false;
         $scope.eventpage.loadingSave = false;
         vm.errorMessage = [];
         vm.mapurl = '';
@@ -92,11 +94,16 @@
 
 
         function deleteEvent() {
+            if (vm.loadingDelete) {
+                return;
+            }
             vm.showError = false;
+            vm.loadingDelete = true;
             EventsFactory.delete({
                     eventId: vm.eventEdit.id
                 },
                 function(success) {
+                    vm.loadingDelete = false;
                     vm.showError = false;
 
                     notify({
@@ -115,6 +122,7 @@
                     }
                 },
                 function(error) {
+                    vm.loadingDelete = false;
                     vm.errorMessage = [];
                     vm.showError = true;
                     if (error.data.event) {
@@ -277,7 +285,9 @@
 
 
         function saveEvent() {
-
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
 
@@ -325,7 +335,7 @@
                     }
                 });
             $('.ui.form').form('validate form');
-            if (vm.eventEdit.description === '' || vm.event.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
+            if (vm.eventEdit.description === '' || vm.eventEdit.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
                 vm.showError = true;
                 if (vm.eventEdit.starts_on === '' || vm.eventEdit.starts_on === null) {
                     vm.startsTimeError = true;
@@ -342,12 +352,16 @@
 
                 if (!vm.showError) {
                     $scope.eventpage.loadingSave = true;
+                    delete vm.eventEdit.members;
+                    delete vm.eventEdit.attendees;
+                    delete vm.eventEdit.most_common_elements;
+                    vm.loadingSave = true;
                     EventsFactory.update({
                             eventId: vm.eventEdit.id
                         }, vm.eventEdit,
                         function(success) {
                             vm.showError = false;
-
+                            vm.loadingSave = false;
                             notify({
                                 messageTemplate: '<div class="notify-info-header">Success</div>' +
                                     '<p>All changes have been saved.</p>',
@@ -362,6 +376,7 @@
                             });
                         },
                         function(error) {
+                            vm.loadingSave = false;
                             vm.errorMessage = [];
                             vm.showError = true;
                             $scope.eventpage.loadingSave = false;

@@ -220,15 +220,17 @@ class MembershipResource(ModelResource):
             recipient = FacebookCustomUserActive.objects.get(pk=int(user_id))
 
             data = {'event_name': event.name,
-                    'event_start_date': str(event.starts_on)}
+                    'event_url': "/#/event/details/" + event_id}
 
             message_data = {'sent_at': now().isoformat(),
                             'sender': '/api/auth/user/{}/'.format(bundle.request.user.id),
                             'recipient': '/api/auth/user/{}/'.format(recipient.id),
                             'body': """
-                                    "You've been invited to the event {event_name}
-                                    on {event_start_date} at <start_time>.
-                                    (This is an automated message.)"
+                                    You've been invited to the following event:
+                                    <br><br>
+                                    <a href="{event_url}">{event_name}</a>
+                                    <br><br>
+                                    This is an automated message.
                                     """.format(**data)}
             pm_write(bundle.request.user, recipient, '', body=message_data['body'])
             r.publish('message.%s' % recipient.id, json.dumps(message_data))
@@ -497,6 +499,7 @@ class EventAttendees(ModelResource):
         filtering = {
             'rsvp': ALL,
             'event': ALL,
+            'is_organizer': ALL,
             'user': ALL_WITH_RELATIONS
         }
 
@@ -509,5 +512,5 @@ class EventAttendees(ModelResource):
         bundle.data['age'] = calculate_age(bundle.obj.user.date_of_birth)
         bundle.data['total_mutual_friends'] = 0
         bundle.data['mutual_match_score'] = 0
-        bundle.data['tagline'] = 'dummy'
+        bundle.data['tagline'] = 'tagline for my connection'
         return bundle

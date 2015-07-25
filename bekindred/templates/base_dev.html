@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app="persice" ng-strict-di ng-controller="AppCtrl">
+<html class="no-js" ng-app="persice" ng-hint ng-controller="AppCtrl">
 
 <head>
     <meta charset="utf-8">
@@ -17,8 +17,22 @@
     <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
 
-    <link href="/static/appFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
-    <link href="/static/appFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/static/appFrontend/.tmp/serve/app/vendor.css">
+
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/spinkit/css/spinkit.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/semantic/dist/semantic.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/angular-spinkit/build/angular-spinkit.min.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/ngImgCrop/compile/minified/ng-img-crop.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/flexslider/flexslider.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/angular-tooltips/dist/angular-tooltips.min.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/jquery-timepicker-jt/jquery.timepicker.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/jquery-timepicker-jt/lib/bootstrap-datepicker.css" />
+    <link rel="stylesheet" href="/static/appFrontend/bower_components/angularjs-slider/dist/rzslider.css" />
+
+    <link rel="stylesheet" href="/static/appFrontend/.tmp/serve/app/index.css">
+
+
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
@@ -150,8 +164,95 @@
     <!-- <script src="//test1.com:3000/socket.io/socket.io.js"></script> -->
     {%endverbatim%}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
-    <script src="/static/appFrontend/dist/scripts/vendor.js"></script>
-    <script src="/static/appFrontend/dist/scripts/app.js"></script>
+
+
+    <script src="/static/appFrontend/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/static/appFrontend/bower_components/modernizr/modernizr.js"></script>
+    <script src="/static/appFrontend/bower_components/angular/angular.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-touch/angular-touch.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-resource/angular-resource.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/static/appFrontend/bower_components/moment/moment.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-moment/angular-moment.js"></script>
+    <script src="/static/appFrontend/bower_components/ngDraggable/ngDraggable.js"></script>
+    <script src="/static/appFrontend/bower_components/semantic/dist/semantic.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-truncate/src/truncate.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-filter/dist/angular-filter.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-spinkit/build/angular-spinkit.js"></script>
+    <script src="/static/appFrontend/bower_components/ngImgCrop/compile/minified/ng-img-crop.js"></script>
+    <script src="/static/appFrontend/bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-socket-io/socket.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-notify/dist/angular-notify.js"></script>
+    <script src="/static/appFrontend/bower_components/ng-lodash/build/ng-lodash.js"></script>
+    <script src="/static/appFrontend/bower_components/gsap/src/uncompressed/TweenMax.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-gsapify-router/angular-gsapify-router.js"></script>
+    <script src="/static/appFrontend/bower_components/flexslider/jquery.flexslider.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-flexslider/angular-flexslider.js"></script>
+    <script src="/static/appFrontend/bower_components/ngGeolocation/ngGeolocation.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-easyfb/angular-easyfb.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-tooltips/dist/angular-tooltips.min.js"></script>
+    <script src="/static/appFrontend/bower_components/angular-mask/dist/ngMask.js"></script>
+    <script src="/static/appFrontend/bower_components/jquery-timepicker-jt/jquery.timepicker.js"></script>
+    <script src="/static/appFrontend/bower_components/jquery-timepicker-jt/lib/bootstrap-datepicker.js"></script>
+    <script src="/static/appFrontend/bower_components/datepair/dist/datepair.js"></script>
+    <script src="/static/appFrontend/bower_components/datepair/dist/jquery.datepair.js"></script>
+    <script src="/static/appFrontend/bower_components/angularjs-slider/rzslider.js"></script>
+    <script src="/static/appFrontend//bower_components/angular-hint-bower/dist/hint.js"></script>
+
+    <script src="/static/appFrontend/src/app/tooltip/frontend.ui.tooltips.js"></script>
+    <script src="/static/appFrontend/src/app/index.js"></script>
+    <script src="/static/appFrontend/src/app/settings/settings.controller.js"></script>
+    <script src="/static/appFrontend/src/app/offercreate/offercreate.controller.js"></script>
+    <script src="/static/appFrontend/src/app/myprofile/myprofile.controller.js"></script>
+    <script src="/static/appFrontend/src/app/myconnections/myconnections.controller.js"></script>
+    <script src="/static/appFrontend/src/app/matchfeed/matchfeed.factory.js"></script>
+    <script src="/static/appFrontend/src/app/matchfeed/matchfeed.controller.js"></script>
+    <script src="/static/appFrontend/src/app/main/main.controller.js"></script>
+    <script src="/static/appFrontend/src/app/interests/interests.controller.js"></script>
+    <script src="/static/appFrontend/src/app/inbox/inboxrepository.factory.js"></script>
+    <script src="/static/appFrontend/src/app/inbox/inbox.controller.js"></script>
+    <script src="/static/appFrontend/src/app/goalcreate/goalcreate.controller.js"></script>
+    <script src="/static/appFrontend/src/app/friendprofile/friendprofile.controller.js"></script>
+    <script src="/static/appFrontend/src/app/finalstep/finalstep.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventview.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventspage.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventpage.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventinvitations.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventedit.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventcreate.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventattendees.controller.js"></script>
+    <script src="/static/appFrontend/src/app/editmyprofile/editmyprofile.controller.js"></script>
+    <script src="/static/appFrontend/src/app/conversations/conversations.controller.js"></script>
+    <script src="/static/appFrontend/src/app/bigmatchfeed/bigmatchfeed.controller.js"></script>
+    <script src="/static/appFrontend/src/components/userprofile/userprofile.directive.js"></script>
+    <script src="/static/appFrontend/src/components/settings/settingsrepository.factory.js"></script>
+    <script src="/static/appFrontend/src/components/settings/settings.factory.js"></script>
+    <script src="/static/appFrontend/src/components/notifications/notifications.factory.js"></script>
+    <script src="/static/appFrontend/src/components/notifications/notificationCircle.directive.js"></script>
+    <script src="/static/appFrontend/src/components/modal/modal.directive.js"></script>
+    <script src="/static/appFrontend/src/components/modal/eventViewModal.directive.js"></script>
+    <script src="/static/appFrontend/src/components/modal/eventCreateModal.directive.js"></script>
+    <script src="/static/appFrontend/src/components/messagescounter/messagesCounter.directive.js"></script>
+    <script src="/static/appFrontend/src/components/matchfeedprofile/matchfeedprofile.directive.js"></script>
+    <script src="/static/appFrontend/src/components/googlemaps-autocomplete/google.places.autocomplete.js"></script>
+    <script src="/static/appFrontend/src/components/filterEvents/filtersrepositoryEvents.factory.js"></script>
+    <script src="/static/appFrontend/src/components/filterEvents/filterEvents.factory.js"></script>
+    <script src="/static/appFrontend/src/components/filterEvents/eventsfilter.directive.js"></script>
+    <script src="/static/appFrontend/src/components/filter/filtersrepository.factory.js"></script>
+    <script src="/static/appFrontend/src/components/filter/filter.factory.js"></script>
+    <script src="/static/appFrontend/src/components/filter/filter.directive.js"></script>
+    <script src="/static/appFrontend/src/components/eventsfeed/eventsfeed.directive.js"></script>
+    <script src="/static/appFrontend/src/components/dropdown/dropdown.js"></script>
+    <script src="/static/appFrontend/src/components/dimmer/dimmer.directive.js"></script>
+    <script src="/static/appFrontend/src/components/connectionscounter/connectionsCounter.directive.js"></script>
+    <script src="/static/appFrontend/src/components/angucomplete/autocomplete.js"></script>
+    <script src="/static/appFrontend/src/app/services.js"></script>
+    <script src="/static/appFrontend/src/app/app.controller.js"></script>
+    <script src="/static/appFrontend/.tmp/partials/templateCacheHtml.js"></script>
+
     <script>
         'use strict';
 

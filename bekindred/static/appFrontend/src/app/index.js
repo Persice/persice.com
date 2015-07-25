@@ -32,8 +32,8 @@ angular
 
 .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
-        //disable debug in production, enable debug manually angular.reloadWithDebugInfo();
-        // $compileProvider.debugInfoEnabled(false);
+        // disable debug in production, enable debug manually angular.reloadWithDebugInfo();
+        $compileProvider.debugInfoEnabled(false);
 
         ezfbProvider.setInitParams({
             appId: APP_ID,
@@ -789,4 +789,12 @@ angular
                 }, 0);
             }
         };
+    })
+    .directive('compile', function($compile) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+                element.append($compile(attr.compile)(scope));
+            }
+        }
     });

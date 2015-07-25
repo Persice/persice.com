@@ -20,6 +20,7 @@
         vm.mapurlTrue = false;
         vm.endsTimeError = false;
         vm.startsTimeError = false;
+        vm.loadingSave = false;
 
         vm.$geolocation = $geolocation;
 
@@ -166,7 +167,9 @@
 
 
         function saveEvent() {
-
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')
@@ -258,12 +261,15 @@
                 vm.showSuccess = false;
 
                 if (!vm.showError) {
+                    vm.loadingSave = true;
                     EventsFactory.save({}, vm.event,
                         function(success) {
+                            vm.loadingSave = false;
                             vm.showError = false;
                             $state.go('events.myevents');
                         },
                         function(error) {
+                            vm.loadingSave = false;
                             vm.errorMessage = [];
                             vm.showError = true;
                             if (error.data.event) {

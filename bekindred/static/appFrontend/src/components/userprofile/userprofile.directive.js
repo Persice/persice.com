@@ -249,7 +249,7 @@
                     }
 
                     if (data.objects[0].facebook_id !== null) {
-                        vm.social.facebook = 'https://www.facebook.com/app_scoped_user_id' + data.objects[0].facebook_id + '/';
+                        vm.social.facebook = 'https://www.facebook.com/app_scoped_user_id/' + data.objects[0].facebook_id;
                     }
 
                     var goals = [];

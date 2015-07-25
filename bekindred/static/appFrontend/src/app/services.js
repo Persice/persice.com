@@ -374,7 +374,7 @@ angular
                 method: 'POST'
             },
             update: {
-                method: 'PUT'
+                method: 'PATCH'
             },
             delete: {
                 method: 'DELETE'
