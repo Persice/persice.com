@@ -2,7 +2,7 @@ from operator import itemgetter, attrgetter
 from django_facebook.models import FacebookLike
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
-from goals.utils import calculate_age, calculate_distance
+from goals.utils import calculate_age, calculate_distance, social_extra_data
 from interests.models import Interest
 from match_engine.models import MatchEngine
 from members.models import FacebookCustomUserActive
@@ -46,6 +46,8 @@ class MatchedUser(object):
         self.gender = self.user.gender or 'm,f'
         self.about = self.user.about_me
         self.photos = []
+        self.twitter_provider, self.linkedin_provider, self.twitter_username = \
+            social_extra_data(self.user.id)
         self.distance = calculate_distance(current_user_id, user_id2)
         self.score = MatchEngine.objects.count_common_goals_and_offers(current_user_id, user_id2)
         self.friends_score = len(Friend.objects.mutual_friends(current_user_id, user_id2)) + \

@@ -23,10 +23,8 @@ def cum_score(event_id):
             CumulativeMatchScore.objects.create(event=m.event, user=m.user,
                                                 score=calc_score(m.user.id,
                                                                  m.event.id))
-            t = 1
 
 
 def update_match_score(sender, instance, created, **kwargs):
-    print instance.event.id
     cum_score.delay(instance.event_id)
 
