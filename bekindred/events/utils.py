@@ -1,8 +1,8 @@
-from events.models import Membership
+from events.models import Membership, CumulativeMatchScore
 from match_engine.models import MatchEngineManager
 
 
-def calculate_cumulative_match_score(user_id, event_id):
+def calc_score(user_id, event_id):
     """
     :param user_id:
     :param event_id:
@@ -22,10 +22,28 @@ def calculate_cumulative_match_score(user_id, event_id):
     return cumulative_match_score
 
 
-def update_cum_score(event_id):
-    ids = Membership.objects.filter(event=event_id).values_list('id', flat=True)
-    for id_ in ids:
-        m = Membership.objects.get(pk=id_)
-        print m
-        m.cumulative_match_score = calculate_cumulative_match_score(m.user.id, m.event.id)
-        m.save()
+def get_cum_score(event_id, user_id):
+    m = CumulativeMatchScore.objects.\
+        filter(event=event_id,
+               user=user_id)
+    if m:
+        return m[0].score
+    else:
+        return 0
+
+
+class ResourseObject(object):
+    def __init__(self, initial=None):
+        self.__dict__['_data'] = {}
+
+        if hasattr(initial, 'items'):
+            self.__dict__['_data'] = initial
+
+    def __getattr__(self, name):
+        return self._data.get(name, None)
+
+    def __setattr__(self, name, value):
+        self.__dict__['_data'][name] = value
+
+    def to_dict(self):
+        return self._data

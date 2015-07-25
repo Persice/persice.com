@@ -73,7 +73,6 @@ class Membership(models.Model):
     is_invited = models.BooleanField(default=False)
     rsvp = models.CharField(max_length=5, choices=RSVP_CHOICES, null=True)
     updated = models.DateTimeField(default=now())
-    cumulative_match_score = models.IntegerField(default=0)
 
     class Meta:
         unique_together = (('user', 'event', 'is_organizer'),)
@@ -83,8 +82,18 @@ class Membership(models.Model):
                             self.event.name)
 
     # def save(self, *args, **kwargs):
-    #     self.cumulative_match_score = 11
+    #     from events.tasks import cum_score
+    #     cum_score.apply_async(self.event_id)
     #     super(Membership, self).save(*args, **kwargs)
+
+
+class CumulativeMatchScore(models.Model):
+    user = models.ForeignKey(FacebookCustomUser)
+    event = models.ForeignKey(Event)
+    score = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ('user', 'event')
 
 
 class EventFilterState(models.Model):

@@ -1,9 +1,10 @@
 from __future__ import absolute_import
 
 from celery import task
+from django.db.models import signals
 
-from events.models import Membership
-from events.utils import calculate_cumulative_match_score
+from events.models import Membership, CumulativeMatchScore
+from events.utils import calc_score
 
 
 @task
@@ -14,11 +15,18 @@ def cum_score(event_id):
     ids = Membership.objects.filter(event=event_id).values_list('id', flat=True)
     for id_ in ids:
         m = Membership.objects.get(pk=id_)
-        # print m
-        m.cumulative_match_score = calculate_cumulative_match_score(m.user.id, m.event.id)
-        m.save()
+        try:
+            obj = CumulativeMatchScore.objects.get(event=m.event, user=m.user)
+            obj.score = calc_score(m.user.id, m.event.id)
+            obj.save()
+        except CumulativeMatchScore.DoesNotExist:
+            CumulativeMatchScore.objects.create(event=m.event, user=m.user,
+                                                score=calc_score(m.user.id,
+                                                                 m.event.id))
+            t = 1
 
 
 def update_match_score(sender, instance, created, **kwargs):
     print instance.event.id
-    cum_score.apply_async(instance.event_id)
+    cum_score.delay(instance.event_id)
+
