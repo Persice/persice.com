@@ -263,6 +263,7 @@ class MyEventFeedResource(ModelResource):
                 filter(membership__user=request.user.pk, ends_on__gt=now()). \
                 search(tsquery, raw=True). \
                 filter(point__distance_lte=(user_point, distance)). \
+                filter(membership__cumulative_match_score=efs[0].cumulative_match_score). \
                 order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
@@ -280,8 +281,12 @@ class MyEventFeedResource(ModelResource):
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
                                                             bundle.obj.pk)
 
-        bundle.data['cumulative_match_score'] = calculate_cumulative_match_score(bundle.request.user.id,
-                                                                                 bundle.obj.pk)
+        m = bundle.obj.membership_set.filter(event=bundle.obj.pk,
+                                             user=bundle.request.user.id)
+        if m:
+            bundle.data['cumulative_match_score'] = m[0].cumulative_match_score
+        else:
+            bundle.data['cumulative_match_score'] = 0
         return bundle
 
 
@@ -314,6 +319,7 @@ class AllEventFeedResource(ModelResource):
                 filter(ends_on__gt=now()). \
                 search(tsquery, raw=True). \
                 filter(point__distance_lte=(user_point, distance)). \
+                filter(membership__cumulative_match_score=efs[0].cumulative_match_score). \
                 order_by('starts_on')
         return super(AllEventFeedResource, self).get_object_list(request). \
             filter(ends_on__gt=now()).order_by('starts_on')
@@ -324,8 +330,14 @@ class AllEventFeedResource(ModelResource):
         attendees = Event.objects.get(pk=bundle.obj.pk). \
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
-        bundle.data['cumulative_match_score'] = calculate_cumulative_match_score(bundle.request.user.id,
-                                                                                 bundle.obj.pk)
+
+        m = bundle.obj.membership_set.filter(event=bundle.obj.pk,
+                                             user=bundle.request.user.id)
+        if m:
+            bundle.data['cumulative_match_score'] = m[0].cumulative_match_score
+        else:
+            bundle.data['cumulative_match_score'] = 0
+
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
                                                             bundle.obj.pk)
         return bundle
@@ -348,8 +360,14 @@ class FriendsEventFeedResource(ModelResource):
         attendees = Event.objects.get(pk=bundle.obj.pk). \
             membership_set.filter(user__in=friends, rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
-        bundle.data['cumulative_match_score'] = calculate_cumulative_match_score(bundle.request.user.id,
-                                                                                 bundle.obj.pk)
+
+        m = bundle.obj.membership_set.filter(event=bundle.obj.pk,
+                                             user=bundle.request.user.id)
+        if m:
+            bundle.data['cumulative_match_score'] = m[0].cumulative_match_score
+        else:
+            bundle.data['cumulative_match_score'] = 0
+
         bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
                                                             bundle.obj.pk)
         return bundle
@@ -373,6 +391,7 @@ class FriendsEventFeedResource(ModelResource):
                        ends_on__gt=now()). \
                 search(tsquery, raw=True). \
                 filter(point__distance_lte=(user_point, distance)). \
+                filter(membership__cumulative_match_score=efs[0].cumulative_match_score). \
                 order_by('starts_on').distinct()
 
         return super(FriendsEventFeedResource, self).get_object_list(request). \

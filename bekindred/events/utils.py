@@ -20,3 +20,12 @@ def calculate_cumulative_match_score(user_id, event_id):
             count_common_goals_and_offers(user_id, attendee_id)
 
     return cumulative_match_score
+
+
+def update_cum_score(event_id):
+    ids = Membership.objects.filter(event=event_id).values_list('id', flat=True)
+    for id_ in ids:
+        m = Membership.objects.get(pk=id_)
+        print m
+        m.cumulative_match_score = calculate_cumulative_match_score(m.user.id, m.event.id)
+        m.save()

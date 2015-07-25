@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from celery import Celery
 from django.conf import settings
 
+
 app = Celery('bekindred_django')
 
 # Using a string here means the worker will not have to

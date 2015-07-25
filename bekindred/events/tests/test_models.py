@@ -58,3 +58,17 @@ class EventTestCase(TestCase):
         event = Event.objects.filter(point__distance_lte=(lagrange, D(km=15000).m))
         self.assertEqual(len(event), 2)
         self.assertEqual(event[1].name, 'Ruby conference piano')
+
+
+class MembershipTest(TestCase):
+    def test_simple_save_member(self):
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.event = Event.objects.create(name="Play piano", location=[7000, 22965.83],
+                                          starts_on=now(), ends_on=now() + timedelta(days=10)
+                                          )
+        member = Membership.objects.create(user=self.user, event=self.event,
+                                           rsvp='yes', is_organizer=True)
+        m = Membership.objects.get(pk=member.id)
+        m.rsvp = 'no'
+        m.save()
+        self.assertEqual(member.rsvp, "no")
