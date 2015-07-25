@@ -95,7 +95,7 @@ class EventResource(ModelResource):
 
         # spots_remaining = max_attendees - total_attendees
         # TODO: max_attendees in ICE-938
-        bundle.data['spots_remaining'] = 0
+        bundle.data['spots_remaining'] = bundle.obj.max_attendees - total_attendees
 
         cumulative_match_score = 0
         for friend_id in friends:
