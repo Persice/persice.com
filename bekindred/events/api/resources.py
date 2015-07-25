@@ -270,7 +270,7 @@ class MyEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)). \
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs
+                return qs.distinct().order_by('-cumulativematchscore__score')
                 # return qs.order_by('cumulative_match_score__score').distinct('cumulative_match_score__score')
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on')
@@ -327,15 +327,14 @@ class AllEventFeedResource(ModelResource):
                 distinct('starts_on')
 
             if efs[0].order_criteria == 'distance':
-                t = qs.filter(point__distance_lte=(user_point, distance)). \
-                    distance(user_point).order_by('distance')
-                return t
+                return qs.filter(point__distance_lte=(user_point, distance)). \
+                    distance(user_point).order_by('distance').distinct()
 
             elif efs[0].order_criteria == 'match_score':
-                return qs
+                return qs.distinct().order_by('-cumulativematchscore__score')
 
             elif efs[0].order_criteria == 'date':
-                return qs.order_by('-starts_on').distinct('starts_on')
+                return qs.order_by('-starts_on')
         else:
             return super(AllEventFeedResource, self).get_object_list(request). \
                 filter(ends_on__gt=now()).order_by('starts_on')
@@ -402,7 +401,7 @@ class FriendsEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)).\
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs.order_by('starts_on').distinct('starts_on')
+                return qs.distinct().order_by('-cumulativematchscore__score')
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on').distinct('starts_on')
 
