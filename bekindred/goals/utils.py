@@ -133,7 +133,7 @@ def calculate_distance_events(user_id, event_id):
         except UserIPAddress.DoesNotExist:
             return distance
 
-    if not event_id:
+    if not event_id or (dist is None):
         return distance
 
     distance = dist
