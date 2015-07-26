@@ -270,8 +270,8 @@ class MyEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)). \
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs.distinct().order_by('-cumulativematchscore__score')
-                # return qs.order_by('cumulative_match_score__score').distinct('cumulative_match_score__score')
+                return qs
+                # return qs.distinct().order_by('-cumulativematchscore__score')
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on')
         else:
@@ -331,7 +331,8 @@ class AllEventFeedResource(ModelResource):
                     distance(user_point).order_by('distance').distinct()
 
             elif efs[0].order_criteria == 'match_score':
-                return qs.distinct().order_by('-cumulativematchscore__score')
+                return qs
+                # return qs.distinct().order_by('-cumulativematchscore__score')
 
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on')
@@ -401,7 +402,8 @@ class FriendsEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)).\
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs.distinct().order_by('-cumulativematchscore__score')
+                return qs
+                # return qs.distinct().order_by('-cumulativematchscore__score')
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on').distinct('starts_on')
 
