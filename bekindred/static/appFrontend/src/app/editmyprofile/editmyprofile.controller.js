@@ -466,8 +466,12 @@ angular.module('persice')
                     },
                     minCharacters: 3,
                     searchDelay: 300,
+                    searchFields: ['title'],
                     type: 'standard',
                     cache: false,
+                    error: {
+                        noResults: 'No existing goal found. Create new goal &raquo;',
+                    },
                     onSelect: function(result, response) {
                         var idx = $(this).attr('rel');
                         if (result !== undefined) {
@@ -503,12 +507,16 @@ angular.module('persice')
                     },
                     minCharacters: 3,
                     searchDelay: 400,
+                    searchFields: ['title'],
                     type: 'standard',
+                    error: {
+                        noResults: 'No existing offer found. Create new offer &raquo;',
+                    },
                     cache: false,
                     onSelect: function(result, response) {
                         var idx = $(this).attr('rel');
                         if (result !== undefined) {
-                            $scope.user.offers[idx].subject = result.description;
+                            $scope.user.offers[idx].subject = result.title;
 
                         }
 
@@ -537,14 +545,18 @@ angular.module('persice')
                             return response;
                         },
                     },
+                    searchFields: ['title'],
                     minCharacters: 3,
                     searchDelay: 400,
                     type: 'standard',
+                    error: {
+                        noResults: 'No existing interest found. Create new interest &raquo;',
+                    },
                     cache: false,
                     onSelect: function(result, response) {
                         var idx = $(this).attr('rel');
                         if (result !== undefined) {
-                            $scope.user.interests[idx].interest_subject = result.description;
+                            $scope.user.interests[idx].interest_subject = result.title;
 
                         }
 

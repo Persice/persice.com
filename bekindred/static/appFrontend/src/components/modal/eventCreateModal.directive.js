@@ -61,6 +61,7 @@
         vm.showMobile = false;
         vm.endsTimeError = false;
         vm.startsTimeError = false;
+        vm.loadingSave = false;
 
         vm.placeholder = {
             name: '',
@@ -74,7 +75,9 @@
             location: '',
             costs: '',
             invitations: '',
-            attachments: ''
+            attachments: '',
+            max_attendees: ''
+
         };
 
         vm.$geolocation = $geolocation;
@@ -118,7 +121,8 @@
             state: '',
             full_address: '',
             location_name: '',
-            country: ''
+            country: '',
+            max_attendees: ''
         };
 
         vm.saveEvent = saveEvent;
@@ -181,6 +185,9 @@
         }
 
         function saveEvent() {
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')
@@ -191,62 +198,72 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Event name'
-                                }]
+                            }]
                         },
                         location: {
                             identifier: 'location',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
-                                }]
+                            }]
                         },
                         repeat: {
                             identifier: 'repeat',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Repeat'
-                                }]
+                            }]
                         },
                         description: {
                             identifier: 'description',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Description'
-                                }]
+                            }]
+                        },
+                        max_attendees: {
+                            identifier: 'max_attendees',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Max. attendees'
+                            }, {
+                                type: 'integer',
+                                prompt: 'Please enter Max. attendees as numeric value'
+                            }]
                         },
                         starts_on_date: {
                             identifier: 'starts_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Date'
-                                }]
+                            }]
                         },
                         starts_on_time: {
                             identifier: 'starts_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Starts Time'
-                                }]
+                            }]
                         },
                         ends_on_date: {
                             identifier: 'ends_on_date',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Date'
-                                }]
+                            }]
                         },
                         ends_on_time: {
                             identifier: 'ends_on_time',
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Ends Time'
-                                }]
+                            }]
                         },
                     }
                 });
             $('.ui.form').form('validate form');
 
-            if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
+            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
                 if (vm.event.starts_on === '' || vm.event.starts_on === null) {
                     vm.startsTimeError = true;
                 }
@@ -264,13 +281,17 @@
 
                 vm.showSuccess = false;
                 if (!vm.showError) {
+                    vm.loadingSave = true;
                     EventsFactory.save({}, vm.event,
                         function(success) {
                             vm.showError = false;
+                            vm.loadingSave = false;
                             $rootScope.$broadcast('closeModalCreateEvent');
                             vm.resetForm();
+
                         },
                         function(error) {
+                            vm.loadingSave = false;
                             vm.errorMessage = [];
                             vm.showError = true;
                             if (error.data.event) {
@@ -367,7 +388,8 @@
                 state: '',
                 full_address: '',
                 location_name: '',
-                country: ''
+                country: '',
+                max_attendees: ''
             };
         }
 

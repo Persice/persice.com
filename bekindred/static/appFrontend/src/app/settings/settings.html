@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="ui divider"></div>
-                    <div ng-click="settings.saveSettings()" class="ui green button" ng-class="{'disabled': !settings.userSettingsChanged, 'loading': settings.loadingSave}">Save</div>
+                    <div ng-click="settings.saveSettings()" class="ui green button" ng-class="{'disabled': !settings.changed, 'loading': settings.loadingSave}">Save</div>
                 </form>
             </div>
             <br>

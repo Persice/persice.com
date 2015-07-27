@@ -40,6 +40,7 @@ class Event(models.Model):
     zipcode = models.CharField(max_length=7, null=True, blank=True)
     state = models.CharField(max_length=3, null=True, blank=True)
     members = models.ManyToManyField(FacebookCustomUser, through='Membership')
+    max_attendees = models.IntegerField(default=10)
 
     search_index = VectorField()
 
@@ -72,7 +73,6 @@ class Membership(models.Model):
     is_invited = models.BooleanField(default=False)
     rsvp = models.CharField(max_length=5, choices=RSVP_CHOICES, null=True)
     updated = models.DateTimeField(default=now())
-    cumulative_match_score = models.IntegerField(default=0)
 
     class Meta:
         unique_together = (('user', 'event', 'is_organizer'),)
@@ -80,6 +80,20 @@ class Membership(models.Model):
     def __unicode__(self):
         return '%s - %s' % (self.user.get_full_name(),
                             self.event.name)
+
+    # def save(self, *args, **kwargs):
+    #     from events.tasks import cum_score
+    #     cum_score.apply_async(self.event_id)
+    #     super(Membership, self).save(*args, **kwargs)
+
+
+class CumulativeMatchScore(models.Model):
+    user = models.ForeignKey(FacebookCustomUser)
+    event = models.ForeignKey(Event)
+    score = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ('user', 'event')
 
 
 class EventFilterState(models.Model):

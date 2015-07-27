@@ -27,11 +27,11 @@
             <i class="edit icon"></i>
         </div>
         <!-- edit screen -->
-        <div ng-if="viewevent.selection === 'edit'" class="ui green labeled icon right button" ng-click="viewevent.saveEvent()">
+        <div ng-class="{'loading': viewevent.loadingSave, 'disabled': viewevent.loadingSave}" ng-if="viewevent.selection === 'edit'" class="ui green labeled icon right button" ng-click="viewevent.saveEvent()">
             Save
             <i class="save icon"></i>
         </div>
-        <div id="deleteEventButton" ng-if="viewevent.selection === 'edit'" class="ui red icon labeled left button" ng-click="viewevent.editEvent()">
+        <div id="deleteEventButton" ng-class="{'loading': viewevent.loadingDelete, 'disabled': viewevent.loadingDelete}" ng-if="viewevent.selection === 'edit'" class="ui red icon labeled left button" ng-click="viewevent.openModalDelete()">
             Delete
             <i class="remove icon"></i>
         </div>
@@ -41,3 +41,6 @@
         </div>
     </div>
 </div>
+
+
+

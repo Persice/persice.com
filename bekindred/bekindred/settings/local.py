@@ -23,7 +23,7 @@ CACHES = {
 
 INSTALLED_APPS += (
     'debug_toolbar',
-    'tastypie_swagger'
+    'tastypie_swagger',
 )
 
 TASTYPIE_SWAGGER_API_MODULE = 'bekindred.urls.v1_api'

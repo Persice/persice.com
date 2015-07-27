@@ -9,7 +9,7 @@
      * classDesc Service for Filter
      * @ngInject
      */
-    function FilterRepository(FiltersFactory, $log, $filter, $rootScope, USER_ID) {
+    function FilterRepository(FiltersFactory, $log, $filter, $rootScope, USER_ID, $q) {
 
         var defaultState = {
             distance: 10000,
@@ -22,55 +22,44 @@
             user: '/api/v1/auth/user/' + USER_ID + '/'
         };
 
+
         var service = {
-            filterState: {
-                distance: 10000,
-                gender: 'm,f',
-                min_age: 25,
-                max_age: 60,
-                order_criteria: 'match_score',
-                keyword: '',
-                distance_unit: 'miles',
-                user: '/api/v1/auth/user/' + USER_ID + '/'
-            },
+            filterState: null,
             filterId: null,
+            filtersCreated: false,
             getFilters: getFilters,
             saveFilters: saveFilters,
             createFilters: createFilters,
             getFilterState: getFilterState,
-            setDistanceUnit: setDistanceUnit,
-            getDistanceUnit: getDistanceUnit
         };
         return service;
 
-        function setDistanceUnit(unit) {
-            $rootScope.distance_unit = unit;
-            service.filterState.distance_unit = unit;
-        }
-
-        function getDistanceUnit() {
-            return service.filterState.distance_unit;
-        }
-
         function getFilters() {
-            $log.info('fetching filters');
-            return FiltersFactory.query({
+            var deferred2 = $q.defer();
+
+
+            FiltersFactory.query({
                 format: 'json'
-            }).$promise.then(getFiltersComplete, getFiltersFailed);
+            }, getFiltersComplete, getFiltersFailed);
+
+            return deferred2.promise;
 
             function getFiltersComplete(response) {
                 if (response.objects.length === 0) {
-                    service.createFilters(defaultState);
+                    if (!service.filtersCreated) {
+                        service.filtersCreated = true;
+                        service.createFilters(defaultState);
+                    }
                     service.filterState = defaultState;
+                    deferred2.resolve(defaultState);
+
+
                 } else {
                     service.filterId = response.objects[0].id;
                     service.filterState = response.objects[0];
-                    $log.info('from service');
-                    $log.info(response.objects[0].distance_unit);
-                    $rootScope.$broadcast('distanceUnitChanged', response.objects[0].distance_unit);
-                    $rootScope.distance_unit = service.filterState.distance_unit;
-                    $rootScope.$broadcast('refreshFilters');
+                    deferred2.resolve(response.objects[0]);
                 }
+
             }
 
             function getFiltersFailed(error) {
@@ -81,7 +70,8 @@
                     message = 'Error ' + status;
                 $log.error(message);
                 service.filterState = defaultState;
-                $rootScope.$broadcast('refreshFilters');
+                deferred2.reject(message);
+
             }
         }
 
@@ -91,21 +81,23 @@
 
 
         function saveFilters(newFilters) {
-            $log.info('saving filters');
 
             if (service.filterId === null) {
                 return;
             }
 
+            var deferred = $q.defer();
 
-
-            return FiltersFactory.update({
+            FiltersFactory.update({
                 filterId: service.filterId
             }, newFilters, saveFiltersSuccess, saveFiltersError);
 
+            return deferred.promise;
+
             function saveFiltersSuccess(response) {
+                deferred.resolve();
                 service.filterState = newFilters;
-                $rootScope.$broadcast('refreshFilters');
+
             }
 
             function saveFiltersError(error) {
@@ -115,6 +107,7 @@
                     config = error.config,
                     message = 'Error ' + status;
                 $log.error(message);
+                deferred.reject();
 
 
             }
@@ -122,13 +115,13 @@
         }
 
         function createFilters(newFilters) {
-            $log.info('creating filters');
 
             return FiltersFactory.save(newFilters, createFiltersSuccess, createFiltersError);
 
+
             function createFiltersSuccess(response) {
-                $log.info('new filters created');
                 service.filterId = response.id;
+                service.filtersCreated = true;
             }
 
             function createFiltersError(error) {

@@ -40,25 +40,19 @@
     function FilterController($scope, $timeout, $rootScope, $window, SettingsRepository, FiltersFactory, FilterRepository, USER_ID, lodash, $log) {
         var vm = this;
 
-        $rootScope.filtersChanged = false;
-
+        vm.changed = false;
         $timeout(function() {
-            $rootScope.filtersChanged = false;
             vm.changed = false;
-        }, 2000);
+        }, 1000);
 
-
-        $rootScope.$watch('filtersChanged', function(newVal, oldVal) {
-            vm.changed = newVal;
-        });
 
         vm.toggleGender = toggleGender;
         vm.saveFilters = saveFilters;
-        vm.saveFiltersDebounce = lodash.debounce(saveFilters, 500);
         vm.getFilters = getFilters;
         vm.removeKeyword = removeKeyword;
         vm.addKeyword = addKeyword;
         vm.refreshMatchFeed = refreshMatchFeed;
+        vm.hasChanges = hasChanges;
 
         vm.orderByValues = [{
             name: 'Match score',
@@ -99,22 +93,26 @@
             floor: 18
         };
 
+        function hasChanges() {
+            vm.changed = true;
+        }
+
         $scope.$watch(angular.bind(this, function(distanceValue) {
             return vm.distanceValue;
         }), function(newVal) {
-            vm.saveFiltersDebounce();
+            vm.hasChanges();
         });
 
         $scope.$watch(angular.bind(this, function(ageSlider) {
             return vm.ageSlider.min;
         }), function(newVal) {
-            vm.saveFiltersDebounce();
+            vm.hasChanges();
         });
 
         $scope.$watch(angular.bind(this, function(ageSlider) {
             return vm.ageSlider.max;
         }), function(newVal) {
-            vm.saveFiltersDebounce();
+            vm.hasChanges();
         });
 
         vm.myKeywords = [];
@@ -124,61 +122,53 @@
         vm.getFilters();
 
 
-        $rootScope.$on('refreshFilters', function() {
-            vm.getFilters();
-        });
-
         function refreshMatchFeed() {
-            $rootScope.$emit('triggerRefreshMatchfeed');
-            $rootScope.$emit('filtersChanged');
+            vm.saveFilters();
         }
-
-        $rootScope.$on('filtersChanged', function() {
-            $rootScope.filtersChanged = false;
-        });
-
-        $rootScope.$on('distanceUnitChanged', function(event, value) {
-            vm.distanceUnit = value;
-        });
 
         function getFilters() {
 
-            vm.currentFilters = FilterRepository.getFilterState();
-            vm.distanceValue = vm.currentFilters.distance;
-            vm.distanceUnit = $rootScope.distance_unit;
-            vm.ageSlider.min = vm.currentFilters.min_age;
-            vm.ageSlider.max = vm.currentFilters.max_age;
+            vm.changed = false;
+            FilterRepository.getFilters().then(function(data) {
+                vm.currentFilters = data;
+                vm.distanceValue = vm.currentFilters.distance;
+                vm.distanceUnit = vm.currentFilters.distance_unit;
+                vm.ageSlider.min = vm.currentFilters.min_age;
+                vm.ageSlider.max = vm.currentFilters.max_age;
+                vm.orderBy = vm.currentFilters.order_criteria;
 
-            if (vm.currentFilters.keyword !== '' && vm.currentFilters.keyword !== undefined) {
-                vm.myKeywords = vm.currentFilters.keyword.split(',');
-            } else {
-                vm.myKeywords.splice(0, vm.myKeywords.length);
-            }
-            if (vm.currentFilters.gender === '') {
-                vm.male = false;
-                vm.female = false;
-            }
-            if (vm.currentFilters.gender === 'm,f') {
-                vm.male = true;
-                vm.female = true;
-            }
-            if (vm.currentFilters.gender === 'm') {
-                vm.male = true;
-                vm.female = false;
-            }
-            if (vm.currentFilters.gender === 'f') {
-                vm.male = false;
-                vm.female = true;
-            }
+                if (vm.currentFilters.keyword !== '' && vm.currentFilters.keyword !== undefined) {
+                    vm.myKeywords = vm.currentFilters.keyword.split(',');
+                } else {
+                    vm.myKeywords.splice(0, vm.myKeywords.length);
+                }
+                if (vm.currentFilters.gender === '') {
+                    vm.male = false;
+                    vm.female = false;
+                }
+                if (vm.currentFilters.gender === 'm,f') {
+                    vm.male = true;
+                    vm.female = true;
+                }
+                if (vm.currentFilters.gender === 'm') {
+                    vm.male = true;
+                    vm.female = false;
+                }
+                if (vm.currentFilters.gender === 'f') {
+                    vm.male = false;
+                    vm.female = true;
+                }
 
+                $scope.$broadcast('reCalcViewDimensions');
+                $scope.$broadcast('rzSliderForceRender');
+                vm.changed = false;
 
-            $rootScope.filtersChanged = true;
-            $scope.$broadcast('reCalcViewDimensions');
-            $scope.$broadcast('rzSliderForceRender');
+            }, function(error) {
+
+            });
+
 
         }
-
-
 
         function toggleGender(value, checked) {
             if (checked === true) {
@@ -189,7 +179,7 @@
             }
             vm.gendersArr.sort().reverse();
             vm.genders = vm.gendersArr.join(',');
-            vm.saveFiltersDebounce();
+            vm.hasChanges();
         }
 
         function saveFilters() {
@@ -204,9 +194,14 @@
                 user: '/api/v1/auth/user/' + USER_ID + '/'
             };
 
-            $rootScope.filtersChanged = true;
+            FilterRepository.saveFilters(vm.newFilters).then(function(data) {
+                vm.changed = false;
+                $rootScope.$emit('refreshMatchFeed');
+            }, function(error) {
 
-            FilterRepository.saveFilters(vm.newFilters);
+            });
+
+
             $scope.$broadcast('reCalcViewDimensions');
             $scope.$broadcast('rzSliderForceRender');
 
@@ -214,7 +209,7 @@
 
         function removeKeyword(index) {
             vm.myKeywords.splice(index, 1);
-            vm.saveFilters();
+            vm.hasChanges();
         }
 
         function addKeyword(item) {
@@ -235,7 +230,7 @@
 
                     if (vm.existing === false) {
                         vm.myKeywords.push(item);
-                        vm.saveFilters();
+                        vm.hasChanges();
                         vm.newKeyword = '';
                         vm.showFilterMessage = false;
                     } else {

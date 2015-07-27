@@ -129,10 +129,11 @@ def calculate_distance_events(user_id, event_id):
                 return distance
             # Fix after finishing
             user1_point = GEOSGeometry(point)
+            dist = Event.objects.distance(user1_point).filter(id=event_id)[0].distance
         except UserIPAddress.DoesNotExist:
             return distance
 
-    if not event_id:
+    if not event_id or (dist is None):
         return distance
 
     distance = dist

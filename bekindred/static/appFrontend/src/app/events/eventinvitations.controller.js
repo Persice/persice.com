@@ -6,7 +6,7 @@
      * classDesc event invitations
      * @ngInject
      */
-     function EventInvitationsController($scope, USER_ID, EventsFactory, MembersFactory, $q, EventsConnections, $state, $timeout, eventId, $rootScope, $log, $filter, notify) {
+     function EventInvitationsController($scope, USER_ID, EventsFactory, EventsAttendees, MembersFactory, $q, EventsConnections, $state, $timeout, eventId, $rootScope, $log, $filter, notify) {
         var vm = this;
 
         vm.loadingInvitesSave = false;
@@ -15,10 +15,18 @@
         vm.removeInvite = removeInvite;
         vm.sendInvites = sendInvites;
         vm.getConnections = getConnections;
+        vm.getInvitedPeople = getInvitedPeople;
+        vm.getEvent = getEvent;
 
         vm.nextOffset = 10;
         vm.loadingConnections = false;
         vm.connectionFirstName = '';
+
+        vm.invitedPeopleLoading = false;
+        vm.invitedPeopleCount = 0;
+        vm.invitedPeopleFirstName = '';
+        vm.invitedPeopleNext = null;
+        vm.invitedPeopleAlreadyLoaded = false;
 
         vm.invitationsOptions = {
             attendingPref: 'private',
@@ -34,11 +42,39 @@
 
         });
 
+        vm.loadingEvent = false;
+
+        vm.event = {};
+
         vm.friends = [];
         vm.connections = [];
         vm.invitedPeople = [];
 
         vm.getConnections();
+        vm.getEvent();
+        vm.getInvitedPeople();
+
+
+        function getEvent() {
+            vm.loadingEvent = true;
+            EventsFactory.query({
+                format: 'json'
+            }, {
+                eventId: eventId
+            }).$promise.then(function(data) {
+                vm.event = data;
+                vm.loadingEvent = false;
+
+            }, function(response) {
+                var data = response.data,
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
+                vm.loadingEvent = false;
+            });
+        }
+
 
 
         function markSelected(index) {
@@ -47,8 +83,7 @@
 
                 if (vm.connections[index].selected) {
                     vm.counterNewInvites++;
-                }
-                else {
+                } else {
                     vm.counterNewInvites--;
                 }
             }
@@ -57,18 +92,18 @@
 
         function removeInvite(index) {
             //remove from invite list and refresh selected status
-            var findIndex = $filter('getIndexByProperty')('friend_id', vm.invitedPeople[index].friend_id, vm.connections);
 
 
             MembersFactory.delete({
-                memberId: vm.connections[findIndex].member_id
+                memberId: vm.invitedPeople[index].id
             },
             function(success) {
-                vm.connections[findIndex].is_invited = false;
-                vm.connections[findIndex].selected = false;
+                vm.connectionFirstName = '';
+                vm.getConnections();
                 vm.invitedPeople.splice(index, 1);
-                if (vm.counterNewInvites > 0) {
-                    vm.counterNewInvites--;
+                vm.counterNewInvites = 0;
+                if (vm.invitedPeopleCount > 0) {
+                    vm.invitedPeopleCount--;
                 }
             },
             function(error) {
@@ -106,7 +141,7 @@
                             user: '/api/v1/auth/user/' + vm.connections[i].friend_id + '/'
                         };
 
-                        promises.push(MembersFactory.save({}, member));
+                        promises.push(MembersFactory.save({}, member).$promise);
                     }
 
                 }
@@ -114,12 +149,14 @@
 
                 $q.all(promises).then(function(result) {
                     angular.forEach(result, function(response) {
-                        $log.info(response);
                         var findMemberIndex = $filter('getIndexByProperty')('user', response.user, vm.connections);
                         vm.connections[findMemberIndex].member_id = response.id;
                         vm.connections[findMemberIndex].is_invited = true;
                         vm.connections[findMemberIndex].rsvp = '';
-                        vm.invitedPeople.push(vm.connections[findMemberIndex]);
+                        vm.invitedPeopleAlreadyLoaded = false;
+                        vm.invitedPeopleFirstName = '';
+                        vm.getInvitedPeople();
+
                     });
 
                 }).then(function(tmpResult) {
@@ -150,9 +187,8 @@
         }
 
         function getConnections() {
-            vm.connections = [];
+
             vm.friends = [];
-            vm.invitedPeople = [];
             vm.counterNewInvites = 0;
 
             vm.nextOffset = 10;
@@ -160,8 +196,8 @@
             vm.loadingConnections = true;
             EventsConnections.query({
                 format: 'json',
-                first_name: vm.connectionFirstName,
-                limit: 10,
+                first_name: vm.connectionFirstName.toLowerCase(),
+                limit: 1000,
                 offset: 0
             }).$promise.then(getEventsConnectionsSuccess, getEventsConnectionsFailure);
 
@@ -170,8 +206,7 @@
         function getEventsConnectionsSuccess(response) {
             vm.friends = response.objects;
             vm.next = response.meta.next;
-
-
+            vm.connections = [];
             for (var i = vm.friends.length - 1; i >= 0; i--) {
 
                 var mutual_friends = ((vm.friends[i].mutual_friends_count === null) ? 0 : vm.friends[i].mutual_friends_count);
@@ -201,8 +236,6 @@
                         friend.rsvp = vm.friends[i].events[j].rsvp;
                         friend.selected = true;
                         friend.member_id = vm.friends[i].events[j].id;
-
-                        vm.invitedPeople.push(friend);
                     }
                 }
 
@@ -226,10 +259,60 @@
             message = 'Error ' + status;
             $log.error(message);
 
-            vm.loadingConnetions = false;
+            vm.loadingConnections = false;
 
 
         }
+
+        function getInvitedPeople() {
+            vm.invitedPeopleLoading = true;
+
+            EventsAttendees.query({
+                format: 'json',
+                limit: 1000,
+                offset: 0,
+                event: eventId,
+                is_organizer: false,
+                user__first_name__icontains: vm.invitedPeopleFirstName
+            }).$promise.then(getInvitedPeopleSuccess, getInvitedPeopleFailure);
+
+            function getInvitedPeopleSuccess(response) {
+                vm.invitedPeopleLoading = false;
+
+                if (!vm.invitedPeopleAlreadyLoaded) {
+                    vm.invitedPeopleCount = response.meta.total_count;
+                }
+
+                vm.invitedPeopleAlreadyLoaded = true;
+
+
+
+                if (response.objects.length === 0) {
+                    vm.invitedPeople = [];
+                } else {
+                    vm.invitedPeople = response.objects;
+                    vm.invitedPeopleNext = response.meta.next;
+                }
+
+            }
+
+            function getInvitedPeopleFailure(response) {
+                var data = response.data,
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
+
+                $log.error(message);
+                vm.invitedPeopleLoading = false;
+
+
+            }
+        }
+
+
+
+
 
 
     }

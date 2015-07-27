@@ -1,5 +1,5 @@
 <div class="ui center aligned header" ng-show="viewevent.isHost === true && !viewevent.loadingEvent && !viewevent.eventNotFound">You are the host of this event.</div>
-<div class="row" ng-show="viewevent.isHost === false && !viewevent.loadingEvent && !viewevent.eventNotFound">
+<div class="row" ng-show="viewevent.isHost === false && !viewevent.eventNotFound">
     <div class="wide column">
         <div class="ui fluid secondary menu" id="event-going-menu">
             <div class="header item">GOING?</div>
@@ -16,7 +16,7 @@
     <p>This event doesn't exist anymore.</p>
 </div>
 <div class="ui basic segment" ng-class="{'hidevisibility': viewevent.eventNotFound}">
-    <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
+    <form class="ui form" style="min-height: 530px;" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui large form segment first editable" id="FirstSegment">
             <div class="field">
                 <label class="specialpadding">Event Name</label>
@@ -94,11 +94,17 @@
             <div class="field">
                 <label class="specialpadding">Attending</label>
                 <div class="ui right labeled icon button widthFull" ng-click="viewevent.openAttendees();">
-                    <span class="total-people">{{viewevent.event.friend_attendees_count}} people total</span>
-                    <span class="connections-people">0 connections</span>
-                    <span class="remaining-spots">0 spots remaining</span>
+                    <span class="total-people">{{viewevent.event.total_attendees}} people total</span>
+                    <span class="connections-people">{{viewevent.event.friend_attendees_count}} connections</span>
+                    <span class="remaining-spots">{{viewevent.event.spots_remaining}} spots remaining</span>
                     <div class="cleardiv"></div>
                     <i class="fa-angle-right fa icon large"></i>
+                </div>
+            </div>
+            <div class="field">
+                <label class="specialpadding">Max. attendees</label>
+                <div class="eventcontent">
+                    <span>{{viewevent.event.max_attendees}}&nbsp;</span>
                 </div>
             </div>
         </div>
@@ -110,11 +116,15 @@
             <div class="field attendees-view" ng-click="viewevent.openAttendees();">
                 <span class="label">Attendees:</span>
                 <div class="attendees-values">
-                    <span class="total-people">{{viewevent.event.friend_attendees_count}} people total</span>
-                    <span class="connections-people">0 connections</span>
-                    <span class="remaining-spots">0 spots remaining</span>
+                    <span class="total-people">{{viewevent.event.total_attendees}} people total</span>
+                    <span class="connections-people">{{viewevent.event.friend_attendees_count}} connections</span>
+                    <span class="remaining-spots">{{viewevent.event.spots_remaining}} spots remaining</span>
                 </div>
-                 <i class="fa-angle-right fa icon large"></i>
+                <i class="fa-angle-right fa icon large"></i>
+            </div>
+            <div class="ui divider" id="last-section"></div>
+            <div class="field">
+                Max. attendees: <span>{{viewevent.event.max_attendees}}&nbsp;</span>
             </div>
         </div>
         <div class="ui large form segment icon-segment">
@@ -136,6 +146,10 @@
                     <span>{{viewevent.event.description}}</span>
                 </div>
             </div>
+        </div>
+        <div ng-if="isState('event.details')" class="ui green labeled icon right button desktopview" ng-click="viewevent.editEvent()">
+            Edit
+            <i class="edit icon"></i>
         </div>
     </form>
 </div>

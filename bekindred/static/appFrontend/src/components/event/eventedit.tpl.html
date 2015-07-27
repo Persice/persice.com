@@ -1,4 +1,4 @@
-<div class="ui basic segment">
+<div class="ui basic segment" id="eventEditPage">
     <form class="ui form" ng-class="{'loading': viewevent.loadingEvent}">
         <div class="ui positive message" ng-show="viewevent.showSuccess">
             <div class="header">
@@ -14,7 +14,7 @@
         <div class="ui large form segment first" id="FirstSegment">
             <div class="field">
                 <label>Event Name</label>
-                <input  autocomplete="off" class="border-bottom" ng-model="viewevent.eventEdit.name" placeholder="{{::viewevent.placeholder.name}}" type="text" name="name">
+                <input autocomplete="off" class="border-bottom" ng-model="viewevent.eventEdit.name" placeholder="{{::viewevent.placeholder.name}}" type="text" name="name">
             </div>
             <div class="field">
                 <label>Location</label>
@@ -54,6 +54,12 @@
                 </div>
             </div>
         </div>
+        <div class="ui large form segment">
+            <div class="field">
+                <label>Max. attendees</label>
+                <input autocomplete="off" ng-model="viewevent.eventEdit.max_attendees" placeholder="{{::viewevent.placeholder.max_attendees}}" type="text" name="max_attendees">
+            </div>
+        </div>
         <div class="ui large form segment icon-segment">
             <div class="field">
                 <label>Costs</label>
@@ -84,6 +90,14 @@
                 <textarea autocomplete="off" name="description" rows="4" class="border-bottom" placeholder="{{::viewevent.placeholder.description}}" ng-model="viewevent.eventEdit.description"></textarea>
             </div>
         </div>
+        <div id="deleteEventButton" ng-class="{'loading': viewevent.loadingDelete, 'disabled': viewevent.loadingDelete}" ng-show="isState('event.edit')" class="ui red icon labeled left button">
+            Delete
+            <i class="remove icon"></i>
+        </div>
+        <div ng-class="{'loading': viewevent.loadingSave, 'disabled': viewevent.loadingSave}" ng-if="isState('event.edit')" class="ui green labeled icon right button desktopview" ng-click="viewevent.saveEvent()">
+            Save
+            <i class="save icon"></i>
+        </div>
     </form>
 </div>
 <!-- modals -->
@@ -105,19 +119,19 @@
     </div>
 </div>
 <script>
-    'use strict';
-    $('#deleteEventModal')
+'use strict';
+$('#deleteEventModal')
     .modal({
         onDeny: function() {},
         onApprove: function() {
-            angular.element($('#deleteEventButton')).scope().viewevent.deleteEvent();
+            angular.element($('#eventEditPage')).scope().viewevent.deleteEvent();
         }
     })
     .modal('attach events', '#deleteEventButton', 'show')
     .modal('setting', 'allowMultiple', true);
 </script>
 <script>
-    'use strict';
+'use strict';
 
 
 // initialize input widgets first
@@ -148,9 +162,7 @@ $('#datePairEdit').datepair({
 });
 
 
-$(".ui.form").scroll(function () {
-  $("input[type='text']:focus").blur();
+$(".ui.form").scroll(function() {
+    $("input[type='text']:focus").blur();
 });
-
-
 </script>

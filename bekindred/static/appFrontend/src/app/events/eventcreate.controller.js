@@ -20,6 +20,7 @@
         vm.mapurlTrue = false;
         vm.endsTimeError = false;
         vm.startsTimeError = false;
+        vm.loadingSave = false;
 
         vm.$geolocation = $geolocation;
 
@@ -53,7 +54,8 @@
             state: '',
             full_address: '',
             location_name: '',
-            country: ''
+            country: '',
+            max_attendees: ''
         };
 
         vm.eventLocation = '';
@@ -67,7 +69,8 @@
             description: 'Description',
             costs: 'Costs',
             invitations: 'Invitations',
-            attachments: 'Attachments'
+            attachments: 'Attachments',
+            max_attendees: 'Max. attendees'
         };
 
         vm.saveEvent = saveEvent;
@@ -164,12 +167,15 @@
 
 
         function saveEvent() {
-
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')
                 .form({
                     fields: {
+
                         name: {
                             identifier: 'name',
                             rules: [{
@@ -182,6 +188,16 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
+                            }]
+                        },
+                        max_attendees: {
+                            identifier: 'max_attendees',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Max. attendees'
+                            }, {
+                                type: 'integer',
+                                prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
                         repeat: {
@@ -229,7 +245,7 @@
                     }
                 });
             $('.ui.form').form('validate form');
-            if (vm.event.description === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
+            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
                 vm.showError = true;
                 if (vm.event.starts_on === '' || vm.event.starts_on === null) {
                     vm.startsTimeError = true;
@@ -245,12 +261,15 @@
                 vm.showSuccess = false;
 
                 if (!vm.showError) {
+                    vm.loadingSave = true;
                     EventsFactory.save({}, vm.event,
                         function(success) {
+                            vm.loadingSave = false;
                             vm.showError = false;
                             $state.go('events.myevents');
                         },
                         function(error) {
+                            vm.loadingSave = false;
                             vm.errorMessage = [];
                             vm.showError = true;
                             if (error.data.event) {
@@ -337,7 +356,8 @@
                 state: '',
                 full_address: '',
                 location_name: '',
-                country: ''
+                country: '',
+                max_attendees: ''
             };
         }
 

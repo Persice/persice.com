@@ -59,3 +59,7 @@ class TestMembershipResource(ResourceTestCase):
         resp = self.api_client.put(detail_url, format='json', data=new_data)
         updated_rsvp = self.deserialize(resp)['rsvp']
         self.assertEqual(updated_rsvp, 'yes')
+
+    def test_delete_member_by_id(self):
+        # TODO:
+        pass

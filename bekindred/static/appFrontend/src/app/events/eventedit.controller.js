@@ -15,6 +15,9 @@
         vm.showError = false;
         vm.showMobile = true;
         vm.showSuccess = false;
+        vm.loadingSave = false;
+        vm.loadingDelete = false;
+        $scope.eventpage.loadingSave = false;
         vm.errorMessage = [];
         vm.mapurl = '';
         vm.mapurlTrue = false;
@@ -34,7 +37,8 @@
             state: '',
             full_address: '',
             location_name: '',
-            country: ''
+            country: '',
+            max_attendees: ''
         };
 
         vm.eventLocation = '';
@@ -50,7 +54,8 @@
             description: 'Description',
             costs: 'Costs',
             invitations: 'Invitations',
-            attachments: 'Attachments'
+            attachments: 'Attachments',
+            max_attendees: 'Max. attendees'
         };
 
         vm.$geolocation = $geolocation;
@@ -89,11 +94,16 @@
 
 
         function deleteEvent() {
+            if (vm.loadingDelete) {
+                return;
+            }
             vm.showError = false;
+            vm.loadingDelete = true;
             EventsFactory.delete({
                     eventId: vm.eventEdit.id
                 },
                 function(success) {
+                    vm.loadingDelete = false;
                     vm.showError = false;
 
                     notify({
@@ -112,6 +122,7 @@
                     }
                 },
                 function(error) {
+                    vm.loadingDelete = false;
                     vm.errorMessage = [];
                     vm.showError = true;
                     if (error.data.event) {
@@ -274,9 +285,12 @@
 
 
         function saveEvent() {
-
+            if (vm.loadingSave) {
+                return;
+            }
             vm.showError = false;
             vm.showSuccess = false;
+
             $('.ui.form')
                 .form({
                     fields: {
@@ -292,6 +306,16 @@
                             rules: [{
                                 type: 'empty',
                                 prompt: 'Please enter Location'
+                            }]
+                        },
+                        max_attendees: {
+                            identifier: 'max_attendees',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Max. attendees'
+                            }, {
+                                type: 'integer',
+                                prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
                         repeat: {
@@ -311,7 +335,7 @@
                     }
                 });
             $('.ui.form').form('validate form');
-            if (vm.eventEdit.description === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
+            if (vm.eventEdit.description === '' || vm.eventEdit.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
                 vm.showError = true;
                 if (vm.eventEdit.starts_on === '' || vm.eventEdit.starts_on === null) {
                     vm.startsTimeError = true;
@@ -327,12 +351,17 @@
                 vm.showSuccess = false;
 
                 if (!vm.showError) {
+                    $scope.eventpage.loadingSave = true;
+                    delete vm.eventEdit.members;
+                    delete vm.eventEdit.attendees;
+                    delete vm.eventEdit.most_common_elements;
+                    vm.loadingSave = true;
                     EventsFactory.update({
                             eventId: vm.eventEdit.id
                         }, vm.eventEdit,
                         function(success) {
                             vm.showError = false;
-
+                            vm.loadingSave = false;
                             notify({
                                 messageTemplate: '<div class="notify-info-header">Success</div>' +
                                     '<p>All changes have been saved.</p>',
@@ -341,14 +370,16 @@
                                 duration: 4000
                             });
 
-
+                            $scope.eventpage.loadingSave = false;
                             $state.go('event.details', {
                                 eventId: vm.eventEdit.id
                             });
                         },
                         function(error) {
+                            vm.loadingSave = false;
                             vm.errorMessage = [];
                             vm.showError = true;
+                            $scope.eventpage.loadingSave = false;
                             if (error.data.event) {
                                 vm.errorMessage = error.data.event.error;
                             }

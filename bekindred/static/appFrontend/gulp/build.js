@@ -10,8 +10,7 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task('partials', function() {
     return gulp.src([
-            paths.src + '/{app,components}/**/*.html',
-            paths.tmp + '/{app,components}/**/*.html'
+            paths.src + '/{app,components}/**/*.html'
         ])
         .pipe($.minifyHtml({
             empty: true,
@@ -23,6 +22,7 @@ gulp.task('partials', function() {
         }))
         .pipe(gulp.dest(paths.tmp + '/partials/'));
 });
+
 
 gulp.task('html', ['inject', 'partials'], function() {
     var partialsInjectFile = gulp.src(paths.tmp + '/partials/templateCacheHtml.js', {
@@ -70,6 +70,47 @@ gulp.task('html', ['inject', 'partials'], function() {
         }));
 });
 
+
+gulp.task('htmldev', ['inject', 'partials'], function() {
+    var partialsInjectFile = gulp.src(paths.tmp + '/partials/templateCacheHtml.js', {
+        read: false
+    });
+    var partialsInjectOptions = {
+        starttag: '<!-- inject:partials -->',
+        ignorePath: paths.tmp + '/partials',
+        addRootSlash: false
+    };
+
+    var htmlFilter = $.filter('*.html');
+    var jsFilter = $.filter('**/*.js');
+    var cssFilter = $.filter('**/*.css');
+    var assets;
+
+    return gulp.src(paths.tmp + '/serve/*.html')
+        .pipe($.inject(partialsInjectFile, partialsInjectOptions))
+        .pipe(assets = $.useref.assets())
+        .pipe(jsFilter)
+        .pipe($.ngAnnotate())
+        .pipe(jsFilter.restore())
+        .pipe(cssFilter)
+        .pipe($.replace('themes/default/assets/fonts/', '../fonts/'))
+        .pipe($.csso())
+        .pipe(cssFilter.restore())
+        .pipe(assets.restore())
+        .pipe($.useref())
+        .pipe(gulp.dest(paths.dist + '/'))
+        .pipe($.size({
+            title: paths.dist + '/',
+            showFiles: true
+        }));
+});
+
+gulp.task('jshint', [], function() {
+    return gulp.src(paths.src + '/**/*.js')
+        .pipe($.jshint())
+        .pipe($.jshint.reporter('jshint-stylish'));
+});
+
 gulp.task('images', function() {
     return gulp.src(paths.src + '/assets/images/**/*')
         .pipe(gulp.dest(paths.dist + '/assets/images/'));
@@ -90,3 +131,4 @@ gulp.task('clean', function(done) {
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'misc']);
+gulp.task('builddev', ['htmldev', 'images', 'fonts', 'misc']);

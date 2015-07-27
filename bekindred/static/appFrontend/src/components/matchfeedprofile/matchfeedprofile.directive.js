@@ -50,12 +50,6 @@
             facebook: ''
         };
 
-
-
-        $timeout(function() {
-            $rootScope.filtersChanged = false;
-        }, 1000);
-
         vm.user = [];
         vm.total = 0;
         vm.offset = 0;
@@ -80,8 +74,6 @@
         $rootScope.$on('refreshMatchFeed', function() {
             vm.initloadMatches();
         });
-
-        $rootScope.$emit('triggerRefreshFilters');
 
         vm.nextImage = function() {
             $('#photoSlider').flexslider('next');
