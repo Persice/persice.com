@@ -915,7 +915,7 @@
                 }
                 vm.eventEdit.city = vm.extractFromAddress(location, 'locality', 'long_name');
 
-                vm.eventEdit.location = vm.eventLocation.geometry.location['A'] + ',' + vm.eventLocation.geometry.location['F'];
+                vm.eventEdit.location = vm.eventLocation.geometry.location.lat() + ',' + vm.eventLocation.geometry.location.lng();
                 vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation.formatted_address) + '/@' + vm.eventEdit.location + ',15z';
                 vm.mapurlTrue = true;
             } else {
