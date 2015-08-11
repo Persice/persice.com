@@ -3,6 +3,7 @@ import json
 from django.contrib.gis.measure import D
 from django.core import serializers
 from django.db import IntegrityError
+from django.db.models import Max, Avg
 from django.forms import model_to_dict
 
 from django.utils.timezone import now
@@ -270,8 +271,9 @@ class MyEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)). \
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs
-                # return qs.distinct().order_by('-cumulativematchscore__score')
+                return qs.select_related('cumulativematchscore').\
+                    filter(cumulativematchscore__user=request.user.pk).\
+                    order_by('-cumulativematchscore__score')
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on')
         else:
@@ -331,8 +333,13 @@ class AllEventFeedResource(ModelResource):
                     distance(user_point).order_by('distance').distinct()
 
             elif efs[0].order_criteria == 'match_score':
-                return qs
-                # return qs.distinct().order_by('-cumulativematchscore__score')
+                qs1 = super(AllEventFeedResource, self).get_object_list(request). \
+                    filter(ends_on__gt=now()). \
+                    search(tsquery, raw=True). \
+                    select_related('cumulativematchscore'). \
+                    filter(cumulativematchscore__user=request.user.pk). \
+                    order_by('-cumulativematchscore__score')
+                return qs1
 
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on')
@@ -402,8 +409,10 @@ class FriendsEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)).\
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs
-                # return qs.distinct().order_by('-cumulativematchscore__score')
+                # return qs
+                return qs.select_related('cumulativematchscore').\
+                    filter(cumulativematchscore__user_id__in=friends).\
+                    order_by('cumulativematchscore__score')
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on').distinct('starts_on')
 
