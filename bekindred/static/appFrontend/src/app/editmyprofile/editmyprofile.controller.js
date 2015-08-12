@@ -201,7 +201,6 @@ angular.module('persice')
             }
         };
 
-
         $scope.refreshUser = function() {
             UsersFactory.get({
                 format: 'json'

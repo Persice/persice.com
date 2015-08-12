@@ -33,7 +33,7 @@ angular
 .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
         // disable debug in production, enable debug manually angular.reloadWithDebugInfo();
-        $compileProvider.debugInfoEnabled(false);
+        // $compileProvider.debugInfoEnabled(false);
 
         ezfbProvider.setInitParams({
             appId: APP_ID,
@@ -797,4 +797,9 @@ angular
                 element.append($compile(attr.compile)(scope));
             }
         }
-    });
+    })
+    .filter('trustAsResourceUrl', ['$sce', function($sce) {
+        return function(val) {
+            return $sce.trustAsResourceUrl(val);
+        };
+    }])

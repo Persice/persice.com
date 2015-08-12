@@ -5630,7 +5630,10 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     body.editmyprofile-page .ui.labeled.icon.button {
         width: 95%!important;
     }
-    body.editmyprofile-page .ui.labeled.icon.button.facebook {
+    body.editmyprofile-page .ui.labeled.icon.button.facebook,
+    body.editmyprofile-page .ui.labeled.icon.button.twitter,
+    body.editmyprofile-page .ui.labeled.icon.button.linkedin,
+    {
         width: 68%!important;
     }
 }
