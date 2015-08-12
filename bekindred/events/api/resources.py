@@ -381,6 +381,8 @@ class FriendsEventFeedResource(ModelResource):
 
         bundle.data['cumulative_match_score'] = get_cum_score(bundle.obj.pk,
                                                               bundle.request.user.id)
+        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
+                                                            bundle.obj.pk)
         return bundle
 
     def get_object_list(self, request):
