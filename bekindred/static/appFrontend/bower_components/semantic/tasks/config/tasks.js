@@ -114,7 +114,7 @@ module.exports = {
     /* What Browsers to Prefix */
     prefix: {
       browsers: [
-        'last 2 versions',
+        'last 2 version',
         '> 1%',
         'opera 12.1',
         'bb 10',

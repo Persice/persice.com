@@ -1,6 +1,6 @@
 {
   "name": "angularjs-slider",
-  "version": "0.1.25",
+  "version": "0.1.21",
   "homepage": "https://github.com/rzajac/angularjs-slider",
   "authors": [
     "Rafal Zajac <rzajac@gmail.com>",
@@ -26,13 +26,14 @@
   "devDependencies": {
     "angular": "~1.4.0"
   },
-  "_release": "0.1.25",
+  "_release": "0.1.21",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.25",
-    "commit": "4b1ddca618e7dfb3bff56881340480d8ad9c7f1b"
+    "tag": "0.1.21",
+    "commit": "f2535332b449fcd0ab75a362f2cf7609edd9b258"
   },
   "_source": "git://github.com/rzajac/angularjs-slider.git",
   "_target": "~0.1.21",
-  "_originalSource": "angularjs-slider"
+  "_originalSource": "angularjs-slider",
+  "_direct": true
 }

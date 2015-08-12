@@ -16,7 +16,7 @@ angular.module('rzModule', [])
 
 .run(['$templateCache', function($templateCache) {
   'use strict';
-  var template = '<span class="rz-bar-wrapper"><span class="rz-bar"></span></span>' + // 0 The slider bar
+  var template = '<span class="rz-bar"></span>' + // 0 The slider bar
               '<span class="rz-bar rz-selection"></span>' + // 1 Highlight between two handles
               '<span class="rz-pointer"></span>' + // 2 Left slider handle
               '<span class="rz-pointer"></span>' + // 3 Right slider handle
@@ -333,8 +333,6 @@ function throttle(func, wait, options) {
       {
         self.minH.off();
         self.maxH.off();
-        self.fullBar.off();
-        self.selBar.off();
         angular.element($window).off('resize', calcDimFn);
         self.deRegFuncs.map(function(unbind) { unbind(); });
       });
@@ -474,6 +472,7 @@ function throttle(func, wait, options) {
       }, this);
 
       // Initialize offset cache properties
+      this.fullBar.rzsl = 0;
       this.selBar.rzsl = 0;
       this.minH.rzsl = 0;
       this.maxH.rzsl = 0;
@@ -562,17 +561,6 @@ function throttle(func, wait, options) {
     },
 
     /**
-     * Call the onChange callback if defined
-     *
-     * @returns {undefined}
-     */
-    callOnChange: function() {
-      if(this.scope.rzSliderOnChange) {
-        this.scope.rzSliderOnChange();
-      }
-    },
-
-    /**
      * Update slider handles and label positions
      *
      * @param {string} which
@@ -580,7 +568,6 @@ function throttle(func, wait, options) {
      */
     updateHandles: function(which, newOffset)
     {
-      this.callOnChange();
       if(which === 'rzSliderModel')
       {
         this.updateLowHandle(newOffset);
@@ -622,7 +609,7 @@ function throttle(func, wait, options) {
     {
       var delta = Math.abs(this.minH.rzsl - newOffset);
 
-      if(this.minLab.rzsv && delta < 1) { return; }
+      if(delta <= 0 && delta < 1) { return; }
 
       this.setLeft(this.minH, newOffset);
       this.translateFn(this.scope.rzSliderModel, this.minLab);
@@ -861,17 +848,9 @@ function throttle(func, wait, options) {
     {
       this.minH.on('mousedown', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
       if(this.range) { this.maxH.on('mousedown', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')); }
-      this.fullBar.on('mousedown', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
-      this.fullBar.on('mousedown', angular.bind(this, this.onMove, this.fullBar));
-      this.selBar.on('mousedown', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
-      this.selBar.on('mousedown', angular.bind(this, this.onMove, this.selBar));
 
       this.minH.on('touchstart', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
       if(this.range) { this.maxH.on('touchstart', angular.bind(this, this.onStart, this.maxH, 'rzSliderHigh')); }
-      this.fullBar.on('touchstart', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
-      this.fullBar.on('touchstart', angular.bind(this, this.onMove, this.fullBar));
-      this.selBar.on('touchstart', angular.bind(this, this.onStart, this.minH, 'rzSliderModel'));
-      this.selBar.on('touchstart', angular.bind(this, this.onMove, this.selBar));
     },
 
     /**
@@ -935,38 +914,34 @@ function throttle(func, wait, options) {
 
       if(newOffset <= 0)
       {
-        if(pointer.rzsl === 0)
-          return;
-        newValue = this.minValue;
-        newOffset = 0;
+        if(pointer.rzsl !== 0)
+        {
+          this.scope[this.tracking] = this.minValue;
+          this.updateHandles(this.tracking, 0);
+          this.scope.$apply();
+        }
+
+        return;
       }
-      else if(newOffset >= this.maxLeft)
+
+      if(newOffset >= this.maxLeft)
       {
-        if(pointer.rzsl === this.maxLeft)
-          return;
-        newValue = this.maxValue;
-        newOffset = this.maxLeft;
-      }
-      else {
-        newValue = this.offsetToValue(newOffset);
-        newValue = this.roundStep(newValue);
-        newOffset = this.valueToOffset(newValue);
-      }
-      this.positionTrackingHandle(newValue, newOffset);
-    },
+        if(pointer.rzsl !== this.maxLeft)
+        {
+          this.scope[this.tracking] = this.maxValue;
+          this.updateHandles(this.tracking, this.maxLeft);
+          this.scope.$apply();
+        }
 
+        return;
+      }
 
-    /**
-     * Set the new value and offset to the current tracking handle
-     *
-     * @param {number} newValue new model value
-     * @param {number} newOffset new offset value
-     */
-    positionTrackingHandle: function(newValue, newOffset)
-    {
+      newValue = this.offsetToValue(newOffset);
+      newValue = this.roundStep(newValue);
+      newOffset = this.valueToOffset(newValue);
+
       if (this.range)
       {
-        /* This is to check if we need to switch the min and max handles*/
         if (this.tracking === 'rzSliderModel' && newValue >= this.scope.rzSliderHigh)
         {
           this.scope[this.tracking] = this.scope.rzSliderHigh;
@@ -974,8 +949,6 @@ function throttle(func, wait, options) {
           this.tracking = 'rzSliderHigh';
           this.minH.removeClass('rz-active');
           this.maxH.addClass('rz-active');
-           /* We need to apply here because we are not sure that we will enter the next block */
-          this.scope.$apply();
         }
         else if(this.tracking === 'rzSliderHigh' && newValue <= this.scope.rzSliderModel)
         {
@@ -984,8 +957,6 @@ function throttle(func, wait, options) {
           this.tracking = 'rzSliderModel';
           this.maxH.removeClass('rz-active');
           this.minH.addClass('rz-active');
-           /* We need to apply here because we are not sure that we will enter the next block */
-          this.scope.$apply();
         }
       }
 
@@ -1062,8 +1033,7 @@ function throttle(func, wait, options) {
       rzSliderTranslate: '&',
       rzSliderHideLimitLabels: '=?',
       rzSliderAlwaysShowBar: '=?',
-      rzSliderPresentOnly: '@',
-      rzSliderOnChange: '&'
+      rzSliderPresentOnly: '@'
     },
 
     /**

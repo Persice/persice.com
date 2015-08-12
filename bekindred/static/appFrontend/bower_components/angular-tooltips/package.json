@@ -1,19 +1,13 @@
 {
   "name": "angular-tooltips",
-  "version": "0.1.20",
-  "description": "tooltips directive for angularjs.",
+  "version": "0.1.14",
+  "description": "A tooltips directive for angularjs.",
   "homepage": "http://720kb.github.io/angular-tooltips",
-  "main": [
-    "dist/angular-tooltips.min.js",
-    "dist/angular-tooltips.min.css"
-  ],
+  "main": "dist/angular-tooltips.min.js",
   "keywords": [
-    "tiptip",
-    "tooltip",
+    "date",
     "tooltips",
-    "popover",
-    "angularjs",
-    "angular"
+    "input"
   ],
   "repository": {
     "type": "git",

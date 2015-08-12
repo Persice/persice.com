@@ -9,10 +9,6 @@ Slider directive implementation for AngularJS, without any dependencies.
 - Simple to use
 - Compatibility with jQuery Lite, ie. with full jQuery ( Thanks Jusas! https://github.com/Jusas)
 
-## Reporting issues
-Make sure the report is accompanied by a reproducible demo. The ideal demo is created by forking [our standard jsFiddle](http://jsfiddle.net/pq7yr6d6/), adding your own code and stripping it down to an absolute minimum needed to demonstrate the bug.
-
-
 ## Examples
 
 [http://rzajac.github.io/angularjs-slider/](http://rzajac.github.io/angularjs-slider/)
@@ -110,10 +106,6 @@ $scope.priceSlider = {
 
 > Custom translate function. Use this if you want to translate values displayed on the slider. For example if you want to display dollar amounts instead of just numbers do this:
 
-**rz-slider-on-change**
-
-> Function to be called when rz-slider-model or rz-slider-high change.
-
 ```javascript
 // In your controller
 
@@ -128,11 +120,6 @@ $scope.translate = function(value)
 {
     return '$' + value;
 }
-
-$scope.onSliderChange = function()
-{
-    console.log('changed', $scope.priceSlider);
-}
 ```
 
 ```html
@@ -141,13 +128,12 @@ $scope.onSliderChange = function()
     rz-slider-ceil="priceSlider.ceil"
     rz-slider-model="priceSlider.min"
     rz-slider-high="priceSlider.max"
-    rz-slider-translate="translate"
-    rz-slider-on-change="onSliderChange()"></rzslider>
+    rz-slider-translate="translate"></rzslider>
 ```
 
 ## Slider events
 
-To force slider to recalculate dimensions broadcast **reCalcViewDimensions** event from parent scope. This is useful for example when you use slider inside a widget where the content is hidden at start - see the "Sliders into modal" example [on the demo site](http://rzajac.github.io/angularjs-slider/).
+To force slider to recalculate dimensions broadcast **reCalcViewDimensions** event from parent scope. This is useful for example when you use slider with tabs - see *demo/tabs.html* example.
 
 You can also force redraw with **rzSliderForceRender** event.
 

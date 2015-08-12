@@ -28,7 +28,7 @@ Safari ![ok](http://i.imgur.com/CK8qxk1.png)
 
 Opera ![ok](http://i.imgur.com/CK8qxk1.png)
 
-IE > 8    ![uhmmmm...](http://i.imgur.com/CK8qxk1.png)
+IE    ![mmm](http://i.imgur.com/iAIwqCL.png)
 
 
 ## Load
@@ -105,26 +105,13 @@ using the `tooltip-content=""` attribute
 ```html
 <a href="#" tooltips tooltip-title="tip" tooltip-content="Woa!">Tooltip me</a>
 ```
+
 ####Tooltip HTML content
 You can set your tooltip html content
 using the `tooltip-html=""` attribute
 
 ```html
 <a href="#" tooltips tooltip-title="tip" tooltip-html="<i>Woa!</i>">Tooltip me</a>
-```
-####Tooltip view
-You can use your own view inside the tooltip
-using the `tooltip-view=""` attribute
-
-```html
-<a href="#" tooltips tooltip-title="tip" tooltip-view="path/to/view.html">Tooltip me</a>
-```
-####Tooltip view controller
-You can set a controller for your tooltip view
-using the `tooltip-view=""` togheter with `tooltip-view-ctrl=""`  attribute
-
-```html
-<a href="#" tooltips tooltip-title="tip" tooltip-view="path/to/view.html" tooltip-view-ctrl="MyCtrl">Tooltip me</a>
 ```
 
 ####Tooltip size
@@ -154,7 +141,7 @@ using the `tooltip-delay=""` attribute
 <a href="#" tooltips tooltip-delay="800" tooltip-title="tip">Tooltip in 800ms</a>
 ```
 ####Tooltip try
-If space is not available for tooltip , it will automatically search for a similar alternative position to show. You can set tooltip try (1 || 0)
+If space is not available for tooltip , it will automatically search for a similar alternative position to show. You can set tooltip try (1 || 0) 
 using the `tooltip-try=""` attribute
 
 ```html
@@ -162,7 +149,7 @@ using the `tooltip-try=""` attribute
 <a href="#" tooltips tooltip-title="tip" tooltip-try="0">Tooltip me</a>
 ```
 ####Tooltip lazy
-If you don't want to re-init the tooltip position everytime the tooltip trigger events are fired, you can set tooltip lazy mode (true || false)
+If you don't want to re-init the tooltip position everytime the tooltip trigger events are fired, you can set tooltip lazy mode (true || false) 
 using the `tooltip-lazy=""` attribute
 
 ```html
@@ -190,30 +177,11 @@ If you want to hide on click, you can configure a close button using text or HTM
 <a href="#" tooltips tooltip-title="tip" tooltip-show-trigger="mouseover click" tooltip-hide-trigger="click" tooltip-close-button='<button type="button">Close Me!</button>' tooltip-side="left">Show tooltip on click and mouseover and hide tooltip only on click, with option to click on HTML button</a>
 ```
 
-####Tooltip hide trigger target
-You can use ```tooltip-hide-target=""``` to specify if the target of the ```tooltip-hide-trigger=""``` is the element or the tooltip itself.
-Values are "element" (default) or "tooltip".
-
-```html
-<a href="#" tooltips tooltip-title="tooltip" tooltip-hide-trigger="click" tooltip-hide-target="tooltip">
-Click on the tooltip to hide tooltip
-</a>
-```
-
 ####Tooltip CSS class
 You can set a custom CSS class or a set of, using the  `tooltip-class=""` attribute:
 ```html
 <a href="#" tooltips tooltip-class="tooltip-custom tooltip-for-me" tooltip-title="tip" tooltip-side="top">
 I will show a tooltip with class="tooltip-custom tooltip-for-me"
-</a>
-```
-
-
-####Tooltip scroll
-In case your tooltip target element moves (either by scrolling or by use of .js) you can enable tooltip positioning check using `tooltip-scroll="true"` attribute. When this is enabled, tooltip element position is checked every 20ms and tooltip position is updated when necessary. This comes extra handy when using close triggers and you need to keep tooltip besides the target element.
-```html
-<a href="#" tooltips tooltip-title="I move along with my element" tooltip-scroll="true">
-I will follow my element movements
 </a>
 ```
 
