@@ -798,8 +798,8 @@ angular
             }
         }
     })
-    .filter('trustAsResourceUrl', ['$sce', function($sce) {
+    .filter('trustAsResourceUrl', function($sce) {
         return function(val) {
             return $sce.trustAsResourceUrl(val);
         };
-    }])
+    });
