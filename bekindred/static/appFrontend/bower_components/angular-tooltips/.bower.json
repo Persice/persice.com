@@ -1,15 +1,18 @@
 {
   "name": "angular-tooltips",
-  "version": "0.1.14",
+  "version": "0.1.20",
   "description": "A tooltips directive for angularjs.",
   "authors": [
     "Filippo Oretti <filippo.oretti@gmail.com",
     "Dario Andrei <wouldgo84@gmail.com>"
   ],
   "keywords": [
+    "tiptip",
     "tooltip",
     "tooltips",
-    "angularjs"
+    "popover",
+    "angularjs",
+    "angular"
   ],
   "main": [
     "./dist/angular-tooltips.min.js",
@@ -24,11 +27,11 @@
     "test",
     "tests"
   ],
-  "_release": "0.1.14",
+  "_release": "0.1.20",
   "_resolution": {
     "type": "version",
-    "tag": "0.1.14",
-    "commit": "e2f3358f9bd9f7c94826a684ca749972820040c8"
+    "tag": "0.1.20",
+    "commit": "18887ecb59e573259bc79e9c43a268b9c6b8f1e6"
   },
   "_source": "git://github.com/720kb/angular-tooltips.git",
   "_target": "~0.1.9",
