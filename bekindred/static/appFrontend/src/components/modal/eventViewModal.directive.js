@@ -84,7 +84,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees, lodash) {
         var vm = this;
         vm.showMobile = false;
         vm.loadingSave = false;
@@ -205,6 +205,7 @@
         vm.friends = [];
         vm.connections = [];
         vm.invitedPeople = [];
+        vm.selectedPeople = [];
 
         function getEvent() {
             vm.loadingEvent = true;
@@ -234,7 +235,10 @@
 
                 if (vm.connections[index].selected) {
                     vm.counterNewInvites++;
+                    vm.selectedPeople.push(vm.connections[index].friend_id);
                 } else {
+                    var idx = lodash.findIndex(vm.selectedPeople, vm.connections[index].friend_id);
+                    vm.selectedPeople.splice(idx, 1);
                     vm.counterNewInvites--;
                 }
             }
@@ -273,7 +277,7 @@
         });
 
         function sendInvites() {
-            if (vm.counterNewInvites > 0) {
+            if (vm.selectedPeople.length > 0) {
                 //return if already sending invites
                 if (vm.loadingInvitesSave) {
                     return;
@@ -283,17 +287,15 @@
 
                 var promises = [];
 
-                for (var i = vm.connections.length - 1; i >= 0; i--) {
-                    if (vm.connections[i].selected && !vm.connections[i].is_invited) {
-                        //prepare promises array
-                        var member = {
-                            event: '/api/v1/event/' + vm.event.id + '/',
-                            is_invited: false,
-                            user: '/api/v1/auth/user/' + vm.connections[i].friend_id + '/'
-                        };
+                for (var i = vm.selectedPeople.length - 1; i >= 0; i--) {
+                    //prepare promises array
+                    var member = {
+                        event: '/api/v1/event/' + vm.event.id + '/',
+                        is_invited: false,
+                        user: '/api/v1/auth/user/' + vm.selectedPeople[i] + '/'
+                    };
 
-                        promises.push(MembersFactory.save({}, member).$promise);
-                    }
+                    promises.push(MembersFactory.save({}, member).$promise);
 
                 }
 
@@ -301,12 +303,13 @@
                 $q.all(promises).then(function(result) {
                     angular.forEach(result, function(response) {
                         var findMemberIndex = $filter('getIndexByProperty')('user', response.user, vm.connections);
-                        vm.connections[findMemberIndex].member_id = response.id;
-                        vm.connections[findMemberIndex].is_invited = true;
-                        vm.connections[findMemberIndex].rsvp = '';
-                        vm.invitedPeopleAlreadyLoaded = false;
-                        vm.invitedPeopleFirstName = '';
-                        vm.getInvitedPeople();
+                        if (findMemberIndex !== null) {
+                            vm.connections[findMemberIndex].member_id = response.id;
+                            vm.connections[findMemberIndex].is_invited = true;
+                            vm.connections[findMemberIndex].rsvp = '';
+
+                        }
+
 
                     });
 
@@ -314,6 +317,13 @@
                     $log.info('Sending invites finished.');
                     vm.counterNewInvites = 0;
                     vm.loadingInvitesSave = false;
+                    vm.selectedPeople = [];
+                    vm.invitedPeopleAlreadyLoaded = false;
+                    vm.invitedPeopleFirstName = '';
+                    vm.connectionFirstName = '';
+                    vm.getConnections();
+                    vm.getInvitedPeople();
+
                     notify({
                         messageTemplate: '<div class="notify-info-header">Success</div>' +
                             '<p>All event invitations have been successfully sent.</p>',
@@ -390,12 +400,19 @@
                     }
                 }
 
+                //check if connection was selected already
+                if (lodash.includes(vm.selectedPeople, friend.friend_id)) {
+                    friend.selected = true;
+                }
+
                 vm.connections.push(friend);
 
 
 
 
             }
+
+            vm.counterNewInvites = vm.selectedPeople.length;
 
             vm.loadingConnections = false;
 
@@ -473,6 +490,7 @@
             vm.invitedPeopleCount = 0;
             vm.invitedPeopleFirstName = '';
             vm.connectionFirstName = '';
+            vm.selectedPeople = [];
             vm.getConnections();
             vm.getInvitedPeople();
         }

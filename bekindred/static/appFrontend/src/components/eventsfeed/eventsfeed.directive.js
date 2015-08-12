@@ -150,7 +150,6 @@
                     var responseEvents = data.objects;
                     vm.events = [];
 
-                    $filter('orderBy')(responseEvents, 'starts_on', true);
                     vm.next = data.meta.next;
 
                     if (data.objects.length === 0) {
@@ -160,26 +159,11 @@
                     }
 
                     for (var obj in responseEvents) {
+
+
                         var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
-                        var today = moment().format('dddd, MMMM Do YYYY');
-                        $log.info(today);
-                        if (localDate === today) {
-                            localDate = 'Today';
-                        }
-                        var localDatePlain = $filter('amDateFormat')(responseEvents[obj].starts_on, 'L');
 
-                        var eventIndex = $filter('getIndexByProperty')('date', localDate, vm.events);
-
-                        if (eventIndex === null) {
-                            vm.events.push({
-                                date: localDate,
-                                realDate: localDatePlain,
-                                items: []
-                            });
-                            eventIndex = vm.events.length - 1;
-                        }
-
-                        vm.events[eventIndex].items.push({
+                        vm.events.push({
                             id: responseEvents[obj].id,
                             name: responseEvents[obj].name,
                             street: responseEvents[obj].street,
@@ -196,15 +180,10 @@
                             repeat: responseEvents[obj].repeat,
                             friend_attendees_count: responseEvents[obj].friend_attendees_count,
                             cumulative_match_score: responseEvents[obj].cumulative_match_score,
-                            distance: responseEvents[obj].distance
+                            distance: responseEvents[obj].distance,
+                            date: localDate
                         });
-
-                        vm.events[eventIndex].items = $filter('orderBy')(vm.events[eventIndex].items, 'starts_on', true);
                     }
-
-                    vm.events = $filter('orderBy')(vm.events, 'starts_on', true);
-
-
                     vm.loading = false;
 
 
@@ -246,31 +225,12 @@
                 }).$promise.then(function(data) {
                         var responseEvents = data.objects;
                         vm.nextOffset += 10;
-
-                        $filter('orderBy')(responseEvents, 'starts_on', true);
                         vm.next = data.meta.next;
 
                         for (var obj in responseEvents) {
                             var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
-                            var today = moment().format('dddd, MMMM Do YYYY');
-                            $log.info(today);
-                            if (localDate === today) {
-                                localDate = 'Today';
-                            }
-                            var localDatePlain = $filter('amDateFormat')(responseEvents[obj].starts_on, 'L');
 
-                            var eventIndex = $filter('getIndexByProperty')('date', localDate, vm.events);
-
-                            if (eventIndex === null) {
-                                vm.events.push({
-                                    date: localDate,
-                                    realDate: localDatePlain,
-                                    items: []
-                                });
-                                eventIndex = vm.events.length - 1;
-                            }
-
-                            vm.events[eventIndex].items.push({
+                            vm.events.push({
                                 id: responseEvents[obj].id,
                                 name: responseEvents[obj].name,
                                 street: responseEvents[obj].street,
@@ -287,17 +247,12 @@
                                 repeat: responseEvents[obj].repeat,
                                 friend_attendees_count: responseEvents[obj].friend_attendees_count,
                                 cumulative_match_score: responseEvents[obj].cumulative_match_score,
-                                distance: responseEvents[obj].distance
+                                distance: responseEvents[obj].distance,
+                                date: localDate
 
                             });
 
-                            vm.events[eventIndex].items = $filter('orderBy')(vm.events[eventIndex].items, 'starts_on', true);
                         }
-
-                        vm.events = $filter('orderBy')(vm.events, 'starts_on', true);
-
-
-
                         vm.loadingMore = false;
                         deferred.resolve();
 
