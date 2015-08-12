@@ -4,9 +4,9 @@
             <p>You don't have any events.</p>
         </div>
     </div>
-    <div class="eventgroup" ng-repeat="eventcontent in eventsfeed.events track by $index">
-        <div class="eventdate">{{eventcontent.date}}</div>
-        <a class="ui fluid card" ng-click="eventsfeed.gotoEvent(event.id)" class="item repeat-animation" ng-repeat="event in eventcontent.items track by $index">
+    <div class="eventgroup repeat-animation" ng-repeat="event in eventsfeed.events track by $index">
+        <div class="eventdate">{{event.date}}</div>
+        <a class="ui fluid card" ng-click="eventsfeed.gotoEvent(event.id)" class="item">
             <div class="image">
                 <img src="/static/img/placeholder-image.jpg">
             </div>
