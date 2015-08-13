@@ -275,7 +275,7 @@ class MyEventFeedResource(ModelResource):
                     filter(cumulativematchscore__user=request.user.pk).\
                     order_by('-cumulativematchscore__score')
             elif efs[0].order_criteria == 'date':
-                return qs.order_by('-starts_on')
+                return qs.order_by('starts_on')
         else:
             return super(MyEventFeedResource, self).get_object_list(request). \
                 filter(membership__user=request.user.pk, ends_on__gt=now(),
@@ -342,7 +342,7 @@ class AllEventFeedResource(ModelResource):
                 return qs1
 
             elif efs[0].order_criteria == 'date':
-                return qs.order_by('-starts_on')
+                return qs.order_by('starts_on')
         else:
             return super(AllEventFeedResource, self).get_object_list(request). \
                 filter(ends_on__gt=now()).order_by('starts_on')
@@ -422,7 +422,7 @@ class FriendsEventFeedResource(ModelResource):
                     order_by('-cumulativematchscore__score')
                 return qs1
             elif efs[0].order_criteria == 'date':
-                return qs.order_by('-starts_on').distinct('starts_on')
+                return qs.order_by('starts_on').distinct('starts_on')
 
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends,
