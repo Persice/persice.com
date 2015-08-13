@@ -48,3 +48,8 @@ class ResourseObject(object):
 
     def to_dict(self):
         return self._data
+
+
+class Struct(object):
+    def __init__(self, **entries):
+        self.__dict__.update(entries)

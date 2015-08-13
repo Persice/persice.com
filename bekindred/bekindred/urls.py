@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from django.contrib import admin
 from events.api.resources import EventResource, MyEventFeedResource, AllEventFeedResource, FriendsEventFeedResource, \
-    MembershipResource, EventFilterStateResource, EventConnections, EventAttendees
+    MembershipResource, EventFilterStateResource, EventConnections, EventAttendees, MyConnectionEventFeedResource
 
 from friends.api.resources import FriendsResource, ConnectionsResource, FriendsNewResource, FriendsNewCounterResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
@@ -44,6 +44,7 @@ v1_api.register(MembershipResource())
 v1_api.register(MyEventFeedResource())
 v1_api.register(AllEventFeedResource())
 v1_api.register(FriendsEventFeedResource())
+v1_api.register(MyConnectionEventFeedResource())
 v1_api.register(EventFilterStateResource())
 v1_api.register(EventConnections())
 v1_api.register(EventAttendees())
