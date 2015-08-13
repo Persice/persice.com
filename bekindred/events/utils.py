@@ -1,5 +1,6 @@
 from events.models import Membership, CumulativeMatchScore
 from match_engine.models import MatchEngineManager
+from members.models import FacebookCustomUserActive
 
 
 def calc_score(user_id, event_id):

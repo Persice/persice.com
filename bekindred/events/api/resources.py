@@ -411,10 +411,16 @@ class FriendsEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)).\
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                # return qs
-                return qs.select_related('cumulativematchscore').\
-                    filter(cumulativematchscore__user_id__in=friends).\
-                    order_by('cumulativematchscore__score')
+                events = Membership.objects.filter(user__in=[1,2]).\
+                    distinct().\
+                    values_list('event_id', flat=True)
+                qs1 = super(FriendsEventFeedResource, self).get_object_list(request). \
+                    select_related('cumulativematchscore'). \
+                    filter(cumulativematchscore__user_id=request.user.id,
+                           cumulativematchscore__event_id__in=events
+                           ). \
+                    order_by('-cumulativematchscore__score')
+                return qs1
             elif efs[0].order_criteria == 'date':
                 return qs.order_by('-starts_on').distinct('starts_on')
 
