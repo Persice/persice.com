@@ -31,7 +31,7 @@
             if ($state.is('events.myevents')) {
                 $rootScope.$broadcast('refreshEventFeed');
             } else {
-                $state.go('events.myevents');
+                $state.go('events.myevents.list');
             }
 
         });

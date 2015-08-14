@@ -88,7 +88,7 @@
             if ($rootScope.previousEventFeed !== undefined) {
                 $state.go($rootScope.previousEventFeed);
             } else {
-                $state.go('events.myevents');
+                $state.go('events.myevents.list');
             }
 
 
@@ -266,7 +266,7 @@
                         function(success) {
                             vm.loadingSave = false;
                             vm.showError = false;
-                            $state.go('events.myevents');
+                            $state.go('events.myevents.list');
                         },
                         function(error) {
                             vm.loadingSave = false;

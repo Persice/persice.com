@@ -830,28 +830,36 @@
         $scope.$watch(angular.bind(this, function(starts_on_date) {
             return vm.starts_on_date;
         }), function(newVal) {
-            vm.combineDateTime('starts_on');
-            vm.combineDateTime('ends_on');
+            if (newVal !== null) {
+                vm.combineDateTime('starts_on');
+                vm.combineDateTime('ends_on');
+            }
         });
 
         $scope.$watch(angular.bind(this, function(starts_on_time) {
             return vm.starts_on_time;
         }), function(newVal) {
-            vm.combineDateTime('starts_on');
-            vm.combineDateTime('ends_on');
+            if (newVal !== null) {
+                vm.combineDateTime('starts_on');
+                vm.combineDateTime('ends_on');
+            }
         });
         $scope.$watch(angular.bind(this, function(ends_on_date) {
             return vm.ends_on_date;
         }), function(newVal) {
-            vm.combineDateTime('starts_on');
-            vm.combineDateTime('ends_on');
+            if (newVal !== null) {
+                vm.combineDateTime('starts_on');
+                vm.combineDateTime('ends_on');
+            }
         });
 
         $scope.$watch(angular.bind(this, function(ends_on_time) {
             return vm.ends_on_time;
         }), function(newVal) {
-            vm.combineDateTime('starts_on');
-            vm.combineDateTime('ends_on');
+            if (newVal !== null) {
+                vm.combineDateTime('starts_on');
+                vm.combineDateTime('ends_on');
+            }
         });
 
 

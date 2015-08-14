@@ -62,7 +62,7 @@
         $rootScope.$on('refreshEventFeed', function(event, data) {
             $('.right.sidebar.eventsfeedfilter').sidebar('hide');
             $log.info($state.current.name);
-            if (vm.type === $state.current.name) {
+            if (vm.type + '.list' === $state.current.name) {
                 vm.getEvents();
             }
 
