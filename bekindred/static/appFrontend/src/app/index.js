@@ -327,56 +327,56 @@ angular
             })
             .state('events.mynetwork', {
                 url: '/my-network',
-                templateUrl: 'app/events/events_mynetwork.html',
+                template: '<ui-view/>',
             })
             .state('events.mynetwork.list', {
                 url: '/list',
-                templateUrl: 'app/events/events_mynetwork_list.html',
+                template: '<events-feed type="events.mynetwork"></events-feed>',
                 data: {
-
+                    eventsFeedType: 'events.mynetwork'
                 }
             })
             .state('events.mynetwork.map', {
                 url: '/map',
                 templateUrl: 'app/events/events_map.html',
                 data: {
-
+                    eventsFeedType: 'events.mynetwork'
                 }
             })
             .state('events.myevents', {
                 url: '/my-events',
-                templateUrl: 'app/events/events_myevents.html',
+                template: '<ui-view/>',
             })
             .state('events.myevents.list', {
                 url: '/list',
-                templateUrl: 'app/events/events_myevents_list.html',
+                template: '<events-feed type="events.myevents"></events-feed>',
                 data: {
-
+                    eventsFeedType: 'events.myevents'
                 }
             })
             .state('events.myevents.map', {
                 url: '/map',
                 templateUrl: 'app/events/events_map.html',
                 data: {
-
+                    eventsFeedType: 'events.myevents'
                 }
             })
             .state('events.allevents', {
                 url: '/all-events',
-                 templateUrl: 'app/events/events_allevents.html',
+                template: '<ui-view/>',
             })
             .state('events.allevents.list', {
                 url: '/list',
-                templateUrl: 'app/events/events_allevents_list.html',
+                template: '<events-feed type="events.allevents"></events-feed>',
                 data: {
-
+                    eventsFeedType: 'events.allevents'
                 }
             })
             .state('events.allevents.map', {
                 url: '/map',
                 templateUrl: 'app/events/events_map.html',
                 data: {
-
+                    eventsFeedType: 'events.allevents'
                 }
             })
             .state('event', {
