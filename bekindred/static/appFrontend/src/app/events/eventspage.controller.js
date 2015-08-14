@@ -23,6 +23,8 @@
         vm.closeEventModal = closeEventModal;
         vm.showEventViewModal = showEventViewModal;
         vm.closeEventViewModal = closeEventViewModal;
+        vm.viewMap = viewMap;
+        vm.viewList = viewList;
 
         $rootScope.$on('closeModalCreateEvent', function(event, data) {
             vm.closeEventModal();
@@ -42,6 +44,30 @@
 
 
         });
+
+        function viewMap() {
+            if ($state.is('events.myevents.list')) {
+                $state.go('events.myevents.map');
+            }
+            if ($state.is('events.mynetwork.list')) {
+                $state.go('events.mynetwork.map');
+            }
+            if ($state.is('events.allevents.list')) {
+                $state.go('events.allevents.map');
+            }
+        }
+
+        function viewList() {
+            if ($state.is('events.myevents.map')) {
+                $state.go('events.myevents.list');
+            }
+            if ($state.is('events.mynetwork.map')) {
+                $state.go('events.mynetwork.list');
+            }
+            if ($state.is('events.allevents.map')) {
+                $state.go('events.allevents.list');
+            }
+        }
 
         function showEventModal() {
             vm.showModal = true;

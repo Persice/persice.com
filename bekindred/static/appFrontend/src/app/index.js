@@ -27,13 +27,21 @@ angular
         'frontend.ui.autocomplete',
         'google.places',
         'ngMask',
-        'rzModule'
+        'rzModule',
+        'uiGmapgoogle-maps'
     ])
 
-.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
+.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider, uiGmapGoogleMapApiProvider) {
 
         // disable debug in production, enable debug manually angular.reloadWithDebugInfo();
         // $compileProvider.debugInfoEnabled(false);
+        //
+
+        // uiGmapGoogleMapApiProvider.configure({
+        //     // key: 'your api key',
+        //     v: '3.17',
+        //     libraries: 'weather,geometry,visualization,places'
+        // });
 
         ezfbProvider.setInitParams({
             appId: APP_ID,
@@ -320,6 +328,17 @@ angular
             .state('events.mynetwork', {
                 url: '/my-network',
                 templateUrl: 'app/events/events_mynetwork.html',
+            })
+            .state('events.mynetwork.list', {
+                url: '/list',
+                templateUrl: 'app/events/events_mynetwork_list.html',
+                data: {
+
+                }
+            })
+            .state('events.mynetwork.map', {
+                url: '/map',
+                templateUrl: 'app/events/events_map.html',
                 data: {
 
                 }
@@ -327,18 +346,33 @@ angular
             .state('events.myevents', {
                 url: '/my-events',
                 templateUrl: 'app/events/events_myevents.html',
+            })
+            .state('events.myevents.list', {
+                url: '/list',
+                templateUrl: 'app/events/events_myevents_list.html',
+                data: {
+
+                }
+            })
+            .state('events.myevents.map', {
+                url: '/map',
+                templateUrl: 'app/events/events_map.html',
                 data: {
 
                 }
             })
             .state('events.allevents', {
                 url: '/all-events',
-                templateUrl: 'app/events/events_allevents.html',
+                 templateUrl: 'app/events/events_allevents.html',
+            })
+            .state('events.allevents.list', {
+                url: '/list',
+                templateUrl: 'app/events/events_allevents_list.html',
                 data: {
 
                 }
             })
-            .state('events.map', {
+            .state('events.allevents.map', {
                 url: '/map',
                 templateUrl: 'app/events/events_map.html',
                 data: {

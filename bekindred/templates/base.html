@@ -19,7 +19,7 @@
 
     <link href="/static/appFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
     <link href="/static/appFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
@@ -79,7 +79,7 @@
             <a class="item launch center-aligned mobileview" ng-show="isState('events')">
                 <i class="fa fa-calendar icon"></i>
             </a>
-            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+            <a class="item launch center-aligned mobileview" ng-show="isState('events')" g-class="{'active': isState('events.myevents.map') || isState('events.mynetwork.map') || isState('events.allevents.map')}" ng-click="viewEventsFeedMap()">
                 <i class="fa fa-map-marker icon"></i>
             </a>
             <a class="item launch center-aligned mobileview" ui-sref="event.create" ng-show="isState('events')">
