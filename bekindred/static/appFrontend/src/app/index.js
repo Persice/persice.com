@@ -27,21 +27,14 @@ angular
         'frontend.ui.autocomplete',
         'google.places',
         'ngMask',
-        'rzModule',
-        'uiGmapgoogle-maps'
+        'rzModule'
     ])
 
-.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider, uiGmapGoogleMapApiProvider) {
+.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
 
         // disable debug in production, enable debug manually angular.reloadWithDebugInfo();
         // $compileProvider.debugInfoEnabled(false);
         //
-
-        // uiGmapGoogleMapApiProvider.configure({
-        //     // key: 'your api key',
-        //     v: '3.17',
-        //     libraries: 'weather,geometry,visualization,places'
-        // });
 
         ezfbProvider.setInitParams({
             appId: APP_ID,
@@ -338,7 +331,7 @@ angular
             })
             .state('events.mynetwork.map', {
                 url: '/map',
-                templateUrl: 'app/events/events_map.html',
+                template: '<events-map type="events.mynetwork"></events-map>',
                 data: {
                     eventsFeedType: 'events.mynetwork'
                 }
@@ -356,7 +349,7 @@ angular
             })
             .state('events.myevents.map', {
                 url: '/map',
-                templateUrl: 'app/events/events_map.html',
+                template: '<events-map type="events.mynetwork"></events-map>',
                 data: {
                     eventsFeedType: 'events.myevents'
                 }
@@ -374,7 +367,7 @@ angular
             })
             .state('events.allevents.map', {
                 url: '/map',
-                templateUrl: 'app/events/events_map.html',
+                template: '<events-map type="events.mynetwork"></events-map>',
                 data: {
                     eventsFeedType: 'events.allevents'
                 }

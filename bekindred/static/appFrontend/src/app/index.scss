@@ -6015,7 +6015,7 @@ body.events-page #eventsDesktopNav .item {
 #eventsDesktopNav .active.item:after {
     position: absolute!important;
     content: ''!important;
-    top: 92%!important;
+    top: 93%!important;
     left: 50%!important;
     -webkit-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
     -ms-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
@@ -7780,5 +7780,6 @@ body.matchfeed-page #matched-profile-header .ui.mini.statistics > .statistic:fir
 }
 
 .angular-google-map-container {
-    height: 400px;
+    height: 100%;
+
 }

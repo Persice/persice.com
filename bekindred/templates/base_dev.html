@@ -38,7 +38,7 @@
 
 </head>
 
-<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events.allevents.list') || isState('events.myevents.list') || isState('events.mynetwork.list') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
     {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -200,8 +200,6 @@
     <script src="/static/appFrontend/bower_components/datepair/dist/datepair.js"></script>
     <script src="/static/appFrontend/bower_components/datepair/dist/jquery.datepair.js"></script>
     <script src="/static/appFrontend/bower_components/angularjs-slider/rzslider.js"></script>
-    <script src="/static/appFrontend/bower_components/lodash/lodash.js"></script>
-    <script src="/static/appFrontend/bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
     <!-- <script src="/static/appFrontend/bower_components/angular-hint-bower/dist/hint.js"></script> -->
 
     <script src="/static/appFrontend/src/app/tooltip/frontend.ui.tooltips.js"></script>
@@ -247,6 +245,7 @@
     <script src="/static/appFrontend/src/components/filter/filter.factory.js"></script>
     <script src="/static/appFrontend/src/components/filter/filter.directive.js"></script>
     <script src="/static/appFrontend/src/components/eventsfeed/eventsfeed.directive.js"></script>
+    <script src="/static/appFrontend/src/components/eventsmap/eventsmap.directive.js"></script>
     <script src="/static/appFrontend/src/components/dropdown/dropdown.js"></script>
     <script src="/static/appFrontend/src/components/dimmer/dimmer.directive.js"></script>
     <script src="/static/appFrontend/src/components/connectionscounter/connectionsCounter.directive.js"></script>
