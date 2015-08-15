@@ -75,3 +75,25 @@ class TestInboxResource(ResourceTestCase):
         self.response = self.login()
         self.api_client.get('/api/v1/inbox/?sender_id=1', format='json')
         self.assertEqual(Message.objects.inbox_unread_count(self.user), 0)
+
+
+class TestChatMessageResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestChatMessageResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.resource_url = '/api/v1/chat/'
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get(self.resource_url, format='json'))
+
+    def test_get_list(self):
+        self.response = self.login()
+        resp = self.api_client.get(self.resource_url, format='json')
+        self.assertEqual(self.deserialize(resp)['objects'], [])
+
