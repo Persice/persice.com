@@ -3,15 +3,14 @@ import json
 import pprint
 
 from django.contrib.gis.geoip import GeoIP
-from django.contrib.gis.geos import GEOSGeometry, fromstr
+from django.contrib.gis.geos import GEOSGeometry
+
 from geopy.distance import distance as geopy_distance
-from django.contrib.gis.measure import D
-from geopy import distance
 import oauth2 as oauth
 
 from social_auth.db.django_models import UserSocialAuth
-from events.models import Event
 
+from events.models import Event
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
 from world.models import UserLocation

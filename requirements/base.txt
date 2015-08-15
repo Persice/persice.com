@@ -51,7 +51,7 @@ python-dateutil==2.2
 python-memcached==1.53
 python-mimeparse==0.1.4
 python-openid==2.2.5
-python-twitter==2.0
+python-twitter==2.2
 pytz==2014.7
 redis==2.10.3
 requests==2.4.0
