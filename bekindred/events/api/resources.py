@@ -499,6 +499,30 @@ class MyConnectionEventFeedResource(Resource):
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(Q(membership__user_id__in=friends,
+                                             membership__rsvp__in=['yes', 'maybe'],
+                                             ends_on__gt=now()) |
+                                           Q(membership__user_id__in=friends,
+                                             membership__is_organizer=True,
+                                             ends_on__gt=now())).\
+                search(tsquery, raw=True). \
+                filter(point__distance_lte=(user_point, distance)).distinct()
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
             if efs[0].order_criteria == 'distance':
                 return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
 
@@ -574,6 +598,25 @@ class AllEventFeedResource(Resource):
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(ends_on__gt=now()).\
+                search(tsquery, raw=True).\
+                filter(point__distance_lte=(user_point, distance))
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
             if efs[0].order_criteria == 'distance':
                 return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
 
