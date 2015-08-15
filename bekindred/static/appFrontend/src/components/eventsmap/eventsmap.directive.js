@@ -5,11 +5,11 @@
      * @desc display for events map
      * @example <events-map></events-map>
      */
-    angular
-        .module('persice')
-        .directive('eventsMap', eventsMap);
+     angular
+     .module('persice')
+     .directive('eventsMap', eventsMap);
 
-    function eventsMap() {
+     function eventsMap() {
         var directive = {
             controller: EventsMapController,
             controllerAs: 'eventsmap',
@@ -34,13 +34,13 @@
      * @desc controller for eventsFeed directive
      * @ngInject
      */
-    function EventsMapController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state, moment, $window, $geolocation) {
+     function EventsMapController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state, moment, $window, $geolocation) {
         var vm = this;
 
         vm.eventMarkers = [];
 
         vm.loading = true;
-
+        vm.loadingLocation = true;
 
 
         vm.noEvents = false;
@@ -64,9 +64,8 @@
         $rootScope.$on('refreshEventFeed', function(event, data) {
             $('.right.sidebar.eventsfeedfilter').sidebar('hide');
             $log.info($state.current.name);
-            if (vm.type + '.list' === $state.current.name) {
-                vm.getEvents();
-            }
+            vm.getEvents();
+
 
         });
 
@@ -89,7 +88,7 @@
 
 
         function drawMarkers(locations) {
-
+            vm.loadingLocation = true;
             $geolocation.getCurrentPosition({
                 enableHighAccuracy: true,
                 timeout: 60000,
@@ -160,255 +159,256 @@
                 if (map.getZoom() > 15) {
                     map.setZoom(15);
                 }
+                vm.loadingLocation = false;
             });
 
 
 
-        }
+}
 
 
-        function getEvents() {
-            vm.nextOffset = 100;
-            vm.next = null;
-            vm.loading = true;
-            vm.noEvents = false;
+function getEvents() {
+    vm.nextOffset = 100;
+    vm.next = null;
+    vm.loading = true;
+    vm.noEvents = false;
 
-            if ($state.is('events.mynetwork.map')) {
-                vm.EventsFeed = $resource('/api/v1/feed/events/friends/:eventId/:param', {
-                    eventId: '@eventId'
-                }, {
-                    query: {
-                        method: 'GET',
-                        isArray: false,
-                        cache: false
-                    },
-                    save: {
-                        method: 'POST'
-                    },
-                    update: {
-                        method: 'PATCH'
-                    },
-                    delete: {
-                        method: 'DELETE'
-                    }
-                });
+    if ($state.is('events.mynetwork.map')) {
+        vm.EventsFeed = $resource('/api/v1/feed/events/friends/:eventId/:param', {
+            eventId: '@eventId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
             }
-
-
-            if ($state.is('events.allevents.map')) {
-                vm.EventsFeed = $resource('/api/v1/feed/events/all/:eventId/:param', {
-                    eventId: '@eventId'
-                }, {
-                    query: {
-                        method: 'GET',
-                        isArray: false,
-                        cache: false
-                    },
-                    save: {
-                        method: 'POST'
-                    },
-                    update: {
-                        method: 'PATCH'
-                    },
-                    delete: {
-                        method: 'DELETE'
-                    }
-                });
-            }
-
-            if ($state.is('events.myevents.map')) {
-                vm.EventsFeed = $resource('/api/v1/feed/events/my/:eventId/:param', {
-                    eventId: '@eventId'
-                }, {
-                    query: {
-                        method: 'GET',
-                        isArray: false,
-                        cache: false
-                    },
-                    save: {
-                        method: 'POST'
-                    },
-                    update: {
-                        method: 'PATCH'
-                    },
-                    delete: {
-                        method: 'DELETE'
-                    }
-                });
-            }
-
-            vm.eventMarkers = [];
-            vm.EventsFeed.query({
-                format: 'json',
-                limit: 100,
-                offset: 0,
-                filter: true
-            }).$promise.then(function(data) {
-                    var responseEvents = data.objects;
-                    vm.events = [];
-
-                    vm.next = data.meta.next;
-
-                    if (data.objects.length === 0) {
-
-                        vm.noEvents = true;
-
-                    }
-
-                    for (var obj in responseEvents) {
-
-
-                        var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
-
-                        vm.events.push({
-                            id: responseEvents[obj].id,
-                            name: responseEvents[obj].name,
-                            street: responseEvents[obj].street,
-                            city: responseEvents[obj].city,
-                            state: responseEvents[obj].state,
-                            zipcode: responseEvents[obj].zipcode,
-                            description: responseEvents[obj].description,
-                            location: responseEvents[obj].location,
-                            starts_on: responseEvents[obj].starts_on,
-                            ends_on: responseEvents[obj].ends_on,
-                            full_address: responseEvents[obj].full_address,
-                            location_name: responseEvents[obj].location_name,
-                            country: responseEvents[obj].country,
-                            repeat: responseEvents[obj].repeat,
-                            friend_attendees_count: responseEvents[obj].friend_attendees_count,
-                            cumulative_match_score: responseEvents[obj].cumulative_match_score,
-                            distance: responseEvents[obj].distance,
-                            date: localDate
-                        });
-
-                        var loc = responseEvents[obj].location.split(',');
-                        vm.eventMarkers.push({
-                            title: responseEvents[obj].name,
-                            latitude: parseFloat(loc[0]),
-                            longitude: parseFloat(loc[1])
-                        });
-
-
-                    }
-                    drawMarkers(vm.eventMarkers);
-
-
-                    vm.loading = false;
-
-
-                },
-                function(response) {
-                    var data = response.data,
-                        status = response.status,
-                        header = response.header,
-                        config = response.config,
-                        message = 'Error ' + status;
-
-                    $log.error(message);
-
-                    vm.noEvents = true;
-
-                    vm.loading = false;
-
-                });
-
-        }
-
-        function loadMoreEvents() {
-            var deferred = $q.defer();
-
-
-
-            if (vm.next === null) {
-                deferred.reject();
-                return deferred.promise;
-            }
-
-            if (!vm.loadingMore) {
-
-                vm.loadingMore = true;
-                vm.EventsFeed.query({
-                    format: 'json',
-                    limit: 10,
-                    offset: vm.nextOffset
-                }).$promise.then(function(data) {
-                        var responseEvents = data.objects;
-                        vm.nextOffset += 10;
-                        vm.next = data.meta.next;
-
-                        for (var obj in responseEvents) {
-                            var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
-
-                            vm.events.push({
-                                id: responseEvents[obj].id,
-                                name: responseEvents[obj].name,
-                                street: responseEvents[obj].street,
-                                city: responseEvents[obj].city,
-                                state: responseEvents[obj].state,
-                                zipcode: responseEvents[obj].zipcode,
-                                description: responseEvents[obj].description,
-                                location: responseEvents[obj].location,
-                                full_address: responseEvents[obj].full_address,
-                                location_name: responseEvents[obj].location_name,
-                                country: responseEvents[obj].country,
-                                starts_on: responseEvents[obj].starts_on,
-                                ends_on: responseEvents[obj].ends_on,
-                                repeat: responseEvents[obj].repeat,
-                                friend_attendees_count: responseEvents[obj].friend_attendees_count,
-                                cumulative_match_score: responseEvents[obj].cumulative_match_score,
-                                distance: responseEvents[obj].distance,
-                                date: localDate
-
-                            });
-
-                        }
-                        vm.loadingMore = false;
-                        deferred.resolve();
-
-
-                    },
-                    function(response) {
-                        deferred.reject();
-                        var data = response.data,
-                            status = response.status,
-                            header = response.header,
-                            config = response.config,
-                            message = 'Error ' + status;
-
-                        $log.error(message);
-
-                        vm.loadingMore = false;
-                        deferred.reject();
-
-                    });
-
-
-            } else {
-                deferred.reject();
-            }
-
-
-            return deferred.promise;
-        }
-
-        function gotoEvent(id) {
-            var w = angular.element($window);
-
-            if (w.width() > 767) {
-                $rootScope.$broadcast('openViewEventModal', id);
-            } else {
-                $state.go('event.details', {
-                    eventId: id
-                });
-            }
-
-
-
-        }
-
-
-
+        });
     }
+
+
+    if ($state.is('events.allevents.map')) {
+        vm.EventsFeed = $resource('/api/v1/feed/events/all/:eventId/:param', {
+            eventId: '@eventId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
+    }
+
+    if ($state.is('events.myevents.map')) {
+        vm.EventsFeed = $resource('/api/v1/feed/events/my/:eventId/:param', {
+            eventId: '@eventId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
+    }
+
+    vm.eventMarkers = [];
+    vm.EventsFeed.query({
+        format: 'json',
+        limit: 100,
+        offset: 0,
+        filter: true
+    }).$promise.then(function(data) {
+        var responseEvents = data.objects;
+        vm.events = [];
+
+        vm.next = data.meta.next;
+
+        if (data.objects.length === 0) {
+
+            vm.noEvents = true;
+
+        }
+
+        for (var obj in responseEvents) {
+
+
+            var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
+
+            vm.events.push({
+                id: responseEvents[obj].id,
+                name: responseEvents[obj].name,
+                street: responseEvents[obj].street,
+                city: responseEvents[obj].city,
+                state: responseEvents[obj].state,
+                zipcode: responseEvents[obj].zipcode,
+                description: responseEvents[obj].description,
+                location: responseEvents[obj].location,
+                starts_on: responseEvents[obj].starts_on,
+                ends_on: responseEvents[obj].ends_on,
+                full_address: responseEvents[obj].full_address,
+                location_name: responseEvents[obj].location_name,
+                country: responseEvents[obj].country,
+                repeat: responseEvents[obj].repeat,
+                friend_attendees_count: responseEvents[obj].friend_attendees_count,
+                cumulative_match_score: responseEvents[obj].cumulative_match_score,
+                distance: responseEvents[obj].distance,
+                date: localDate
+            });
+
+var loc = responseEvents[obj].location.split(',');
+vm.eventMarkers.push({
+    title: responseEvents[obj].name,
+    latitude: parseFloat(loc[0]),
+    longitude: parseFloat(loc[1])
+});
+
+
+}
+drawMarkers(vm.eventMarkers);
+
+
+vm.loading = false;
+
+
+},
+function(response) {
+    var data = response.data,
+    status = response.status,
+    header = response.header,
+    config = response.config,
+    message = 'Error ' + status;
+
+    $log.error(message);
+
+    vm.noEvents = true;
+
+    vm.loading = false;
+
+});
+
+}
+
+function loadMoreEvents() {
+    var deferred = $q.defer();
+
+
+
+    if (vm.next === null) {
+        deferred.reject();
+        return deferred.promise;
+    }
+
+    if (!vm.loadingMore) {
+
+        vm.loadingMore = true;
+        vm.EventsFeed.query({
+            format: 'json',
+            limit: 10,
+            offset: vm.nextOffset
+        }).$promise.then(function(data) {
+            var responseEvents = data.objects;
+            vm.nextOffset += 10;
+            vm.next = data.meta.next;
+
+            for (var obj in responseEvents) {
+                var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
+
+                vm.events.push({
+                    id: responseEvents[obj].id,
+                    name: responseEvents[obj].name,
+                    street: responseEvents[obj].street,
+                    city: responseEvents[obj].city,
+                    state: responseEvents[obj].state,
+                    zipcode: responseEvents[obj].zipcode,
+                    description: responseEvents[obj].description,
+                    location: responseEvents[obj].location,
+                    full_address: responseEvents[obj].full_address,
+                    location_name: responseEvents[obj].location_name,
+                    country: responseEvents[obj].country,
+                    starts_on: responseEvents[obj].starts_on,
+                    ends_on: responseEvents[obj].ends_on,
+                    repeat: responseEvents[obj].repeat,
+                    friend_attendees_count: responseEvents[obj].friend_attendees_count,
+                    cumulative_match_score: responseEvents[obj].cumulative_match_score,
+                    distance: responseEvents[obj].distance,
+                    date: localDate
+
+                });
+
+}
+vm.loadingMore = false;
+deferred.resolve();
+
+
+},
+function(response) {
+    deferred.reject();
+    var data = response.data,
+    status = response.status,
+    header = response.header,
+    config = response.config,
+    message = 'Error ' + status;
+
+    $log.error(message);
+
+    vm.loadingMore = false;
+    deferred.reject();
+
+});
+
+
+} else {
+    deferred.reject();
+}
+
+
+return deferred.promise;
+}
+
+function gotoEvent(id) {
+    var w = angular.element($window);
+
+    if (w.width() > 767) {
+        $rootScope.$broadcast('openViewEventModal', id);
+    } else {
+        $state.go('event.details', {
+            eventId: id
+        });
+    }
+
+
+
+}
+
+
+
+}
 
 
 
