@@ -31,6 +31,6 @@ def load_twitter_user_friends(backend, user, social_user, is_new=False, new_asso
             parsed_tokens = parse_qs(access_token)
             oauth_token = parsed_tokens['oauth_token'][0]
             oauth_secret = parsed_tokens['oauth_token_secret'][0]
-            twitter_friends.delay(user, oauth_token, oauth_secret)
-            twitter_followers.delay(user, oauth_token, oauth_secret)
+            twitter_friends.apply_async(args=(user, oauth_token, oauth_secret), expires=600)
+            twitter_followers.apply_async(args=(user, oauth_token, oauth_secret), expires=600)
     return None
