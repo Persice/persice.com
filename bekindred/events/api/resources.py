@@ -14,7 +14,8 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
-from tastypie.exceptions import BadRequest
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
+from tastypie.http import HttpUnauthorized
 from tastypie.resources import ModelResource, Resource
 
 from tastypie.validation import Validation
@@ -237,8 +238,12 @@ class MembershipResource(ModelResource):
             r.publish('message.%s' % recipient.id, json.dumps(message_data))
         return super(MembershipResource, self).obj_create(bundle, **kwargs)
 
-    def obj_delete(self, bundle, **kwargs):
-        return super(MembershipResource, self).obj_delete(bundle, **kwargs)
+    def obj_delete_list(self, bundle, **kwargs):
+        raise ImmediateHttpResponse(
+            response=HttpUnauthorized(
+                json.dumps({'error': 'You can\'t delete membership without id'})
+            )
+        )
 
 
 class MyEventFeed2Resource(ModelResource):

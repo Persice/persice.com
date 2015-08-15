@@ -63,3 +63,8 @@ class TestMembershipResource(ResourceTestCase):
     def test_delete_member_by_id(self):
         # TODO:
         pass
+
+    def test_restrict_delete_all_members(self):
+        resp = self.login()
+        res = self.api_client.delete('/api/v1/member/', format='json')
+        self.assertEqual(res.content, '{"error": "You can\'t delete membership without id"}')
