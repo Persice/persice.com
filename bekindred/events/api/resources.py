@@ -14,7 +14,8 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
-from tastypie.exceptions import BadRequest
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
+from tastypie.http import HttpUnauthorized
 from tastypie.resources import ModelResource, Resource
 
 from tastypie.validation import Validation
@@ -237,6 +238,13 @@ class MembershipResource(ModelResource):
             r.publish('message.%s' % recipient.id, json.dumps(message_data))
         return super(MembershipResource, self).obj_create(bundle, **kwargs)
 
+    def obj_delete_list(self, bundle, **kwargs):
+        raise ImmediateHttpResponse(
+            response=HttpUnauthorized(
+                json.dumps({'error': 'You can\'t delete membership without id'})
+            )
+        )
+
 
 class MyEventFeed2Resource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
@@ -432,20 +440,20 @@ class FriendsEventFeedResource(ModelResource):
 
 class MyConnectionEventFeedResource(Resource):
     id = fields.CharField(attribute='id')
-    name = fields.CharField(attribute='name')
-    city = fields.CharField(attribute='city')
-    country = fields.CharField(attribute='country')
-    state = fields.CharField(attribute='state')
-    street = fields.CharField(attribute='street')
-    repeat = fields.CharField(attribute='repeat')
+    name = fields.CharField(attribute='name', null=True)
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
     zipcode = fields.CharField(attribute='zipcode', null=True)
-    full_address = fields.CharField(attribute='full_address')
-    location = fields.CharField(attribute='location')
-    location_name = fields.CharField(attribute='location_name')
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
     max_attendees = fields.IntegerField(attribute='max_attendees')
     cumulative_match_score = fields.IntegerField(attribute='cumulative_match_score')
     friend_attendees_count = fields.IntegerField(attribute='friend_attendees_count')
-    description = fields.CharField(attribute='description')
+    description = fields.CharField(attribute='description', null=True)
     ends_on = fields.DateTimeField(attribute='ends_on')
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
@@ -491,6 +499,30 @@ class MyConnectionEventFeedResource(Resource):
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(Q(membership__user_id__in=friends,
+                                             membership__rsvp__in=['yes', 'maybe'],
+                                             ends_on__gt=now()) |
+                                           Q(membership__user_id__in=friends,
+                                             membership__is_organizer=True,
+                                             ends_on__gt=now())).\
+                search(tsquery, raw=True). \
+                filter(point__distance_lte=(user_point, distance)).distinct()
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
             if efs[0].order_criteria == 'distance':
                 return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
 
@@ -512,20 +544,20 @@ class MyConnectionEventFeedResource(Resource):
 
 class AllEventFeedResource(Resource):
     id = fields.CharField(attribute='id')
-    name = fields.CharField(attribute='name')
-    city = fields.CharField(attribute='city')
-    country = fields.CharField(attribute='country')
-    state = fields.CharField(attribute='state')
-    street = fields.CharField(attribute='street')
-    repeat = fields.CharField(attribute='repeat')
+    name = fields.CharField(attribute='name', null=True)
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
     zipcode = fields.CharField(attribute='zipcode', null=True)
-    full_address = fields.CharField(attribute='full_address')
-    location = fields.CharField(attribute='location')
-    location_name = fields.CharField(attribute='location_name')
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
     max_attendees = fields.IntegerField(attribute='max_attendees')
     cumulative_match_score = fields.IntegerField(attribute='cumulative_match_score')
     friend_attendees_count = fields.IntegerField(attribute='friend_attendees_count')
-    description = fields.CharField(attribute='description')
+    description = fields.CharField(attribute='description', null=True)
     ends_on = fields.DateTimeField(attribute='ends_on')
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
@@ -566,6 +598,25 @@ class AllEventFeedResource(Resource):
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(ends_on__gt=now()).\
+                search(tsquery, raw=True).\
+                filter(point__distance_lte=(user_point, distance))
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
             if efs[0].order_criteria == 'distance':
                 return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
 
@@ -588,19 +639,19 @@ class AllEventFeedResource(Resource):
 class MyEventFeedResource(Resource):
     id = fields.CharField(attribute='id')
     name = fields.CharField(attribute='name')
-    city = fields.CharField(attribute='city')
-    country = fields.CharField(attribute='country')
-    state = fields.CharField(attribute='state')
-    street = fields.CharField(attribute='street')
-    repeat = fields.CharField(attribute='repeat')
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
     zipcode = fields.CharField(attribute='zipcode', null=True)
-    full_address = fields.CharField(attribute='full_address')
-    location = fields.CharField(attribute='location')
-    location_name = fields.CharField(attribute='location_name')
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
     max_attendees = fields.IntegerField(attribute='max_attendees')
     cumulative_match_score = fields.IntegerField(attribute='cumulative_match_score')
     friend_attendees_count = fields.IntegerField(attribute='friend_attendees_count')
-    description = fields.CharField(attribute='description')
+    description = fields.CharField(attribute='description', null=True)
     ends_on = fields.DateTimeField(attribute='ends_on')
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
@@ -642,9 +693,25 @@ class MyEventFeedResource(Resource):
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true' and efs:
-            # tsquery = ' | '.join(efs[0].keyword.split(','))
-            # user_point = get_user_location(request.user.id)
-            # distance = D(**{distance_unit: efs[0].distance}).m
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(membership__user=request.user.pk, ends_on__gt=now()).\
+                search(tsquery, raw=True).filter(point__distance_lte=(user_point, distance))
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
+
             if efs[0].order_criteria == 'distance':
                 return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
 

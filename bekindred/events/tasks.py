@@ -36,7 +36,6 @@ def cum_score(event_id):
                                                                  event_id))
 
 
-
-def update_match_score(sender, instance, created, **kwargs):
+def update_match_score(instance, **kwargs):
     cum_score.delay(instance.event_id)
 
