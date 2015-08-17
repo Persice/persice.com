@@ -54,10 +54,8 @@ Make sure your app depends on the `ngGeolocation` module. Geolocation methods ar
 angular
     .module('myApp', ['ngGeolocation'])
     .controller('geolocCtrl', ['$geolocation', '$scope', function($geolocation, $scope) {
-         $geolocation.getCurrentPosition({
+         $scope.myPosition = $geolocation.getCurrentPosition({
             timeout: 60000
-         }).then(function(position) {
-            $scope.myPosition = position;
          });
     }]);
 ```

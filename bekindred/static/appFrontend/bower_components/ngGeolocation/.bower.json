@@ -1,6 +1,6 @@
 {
   "name": "ngGeolocation",
-  "version": "0.0.8",
+  "version": "0.0.7",
   "author": "Ninjatronic",
   "description": "AngularJS support for HTML5 Geolocation",
   "main": "ngGeolocation.js",
@@ -30,13 +30,14 @@
     "angular-mocks": ">=1.0.8"
   },
   "homepage": "https://github.com/ninjatronic/ngGeolocation",
-  "_release": "0.0.8",
+  "_release": "0.0.7",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.8",
-    "commit": "c416316c92b8ae3da83bdf27a0e3378dae504749"
+    "tag": "v0.0.7",
+    "commit": "5b5d0e9e2f93b86c07bafdf092140f6474072e43"
   },
   "_source": "git://github.com/ninjatronic/ngGeolocation.git",
   "_target": "~0.0.7",
-  "_originalSource": "ngGeolocation"
+  "_originalSource": "ngGeolocation",
+  "_direct": true
 }

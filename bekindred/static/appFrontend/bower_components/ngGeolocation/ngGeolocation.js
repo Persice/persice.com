@@ -1,7 +1,6 @@
-(function(){
-    'use strict';
+'use strict';
 
-    angular
+angular
     .module('ngGeolocation', [])
     .factory('$geolocation', ['$rootScope', '$window', '$q', function($rootScope, $window, $q) {
 
@@ -78,4 +77,3 @@
 
         return retVal;
     }]);
-}());
