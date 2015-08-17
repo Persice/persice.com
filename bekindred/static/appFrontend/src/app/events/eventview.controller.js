@@ -56,7 +56,7 @@
             if ($rootScope.previousEventFeed !== undefined) {
                 $state.go($rootScope.previousEventFeed);
             } else {
-                $state.go('events.myevents');
+                $state.go('events.myevents.list');
             }
 
 

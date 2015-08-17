@@ -146,7 +146,7 @@ class ConnectionsResource(Resource):
             new_obj.mutual_linkedin_connections = l['mutual_linkedin']
             new_obj.mutual_linkedin_connections_count = l['mutual_linkedin_count']
 
-            t = get_mutual_twitter_friends(current_user, position_friend)
+            t = get_mutual_twitter_friends(current_user, new_obj.friend_id)
             new_obj.mutual_twitter_friends = t['mutual_twitter_friends']
             new_obj.mutual_twitter_friends_count = t['count_mutual_twitter_friends']
             new_obj.mutual_twitter_followers = t['mutual_twitter_followers']

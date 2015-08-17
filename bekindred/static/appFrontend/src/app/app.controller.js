@@ -99,6 +99,19 @@ angular.module('persice')
         $cookies.userid = USER_ID;
 
 
+        $rootScope.viewEventsFeedMap = function() {
+            if ($state.is('events.myevents.list')) {
+                $state.go('events.myevents.map');
+            }
+            if ($state.is('events.mynetwork.list')) {
+                $state.go('events.mynetwork.map');
+            }
+            if ($state.is('events.allevents.list')) {
+                $state.go('events.allevents.map');
+            }
+        };
+
+
         $rootScope.goBack = function() {
             $rootScope.hideTopMenu = false;
             $('.horizontal.top.sidebar')

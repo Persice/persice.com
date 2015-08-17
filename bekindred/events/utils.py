@@ -1,5 +1,6 @@
 from events.models import Membership, CumulativeMatchScore
 from match_engine.models import MatchEngineManager
+from members.models import FacebookCustomUserActive
 
 
 def calc_score(user_id, event_id):
@@ -47,3 +48,8 @@ class ResourseObject(object):
 
     def to_dict(self):
         return self._data
+
+
+class Struct(object):
+    def __init__(self, **entries):
+        self.__dict__.update(entries)

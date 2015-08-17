@@ -1,6 +1,5 @@
 {
   "name": "angular-filter",
-  "version": "0.5.4",
   "main": "dist/angular-filter.js",
   "description": "Bunch of useful filters for angularJS(with no external dependencies!)",
   "repository": {
@@ -13,6 +12,9 @@
   "devDependencies": {
     "angular-mocks": "*"
   },
+  "main":[
+    "./dist/angular-filter.min.js"
+  ],
   "ignore": [
     "node_modules",
     "bower_components",

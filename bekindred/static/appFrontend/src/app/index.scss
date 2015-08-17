@@ -5630,7 +5630,10 @@ body.selectinterests-page #interests .ui.button.toggle.active {
     body.editmyprofile-page .ui.labeled.icon.button {
         width: 95%!important;
     }
-    body.editmyprofile-page .ui.labeled.icon.button.facebook {
+    body.editmyprofile-page .ui.labeled.icon.button.facebook,
+    body.editmyprofile-page .ui.labeled.icon.button.twitter,
+    body.editmyprofile-page .ui.labeled.icon.button.linkedin,
+    {
         width: 68%!important;
     }
 }
@@ -6012,7 +6015,7 @@ body.events-page #eventsDesktopNav .item {
 #eventsDesktopNav .active.item:after {
     position: absolute!important;
     content: ''!important;
-    top: 92%!important;
+    top: 93%!important;
     left: 50%!important;
     -webkit-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
     -ms-transform: translateX(-50%)translateY(-50%)rotate(360deg)!important;
@@ -7774,4 +7777,9 @@ body.matchfeed-page #matched-profile-header .ui.mini.statistics > .statistic:fir
         width: 74px!important;
         height: 74px!important;
     }
+}
+
+.angular-google-map-container {
+    height: 100%;
+
 }

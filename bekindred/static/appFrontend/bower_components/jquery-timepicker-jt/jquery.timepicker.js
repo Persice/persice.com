@@ -754,6 +754,7 @@
 	{
 		if (self.is('input')) {
 			self.val(value);
+			self.trigger('input');
 
 			var settings = self.data('timepicker-settings');
 			if (settings.useSelect && source != 'select' && source != 'initial') {

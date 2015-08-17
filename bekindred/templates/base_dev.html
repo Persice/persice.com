@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app="persice" ng-hint ng-controller="AppCtrl">
+<html class="no-js" ng-app="persice" ng-controller="AppCtrl">
 
 <head>
     <meta charset="utf-8">
@@ -33,12 +33,12 @@
     <link rel="stylesheet" href="/static/appFrontend/.tmp/serve/app/index.css">
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=en"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
 
-<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events.allevents.list') || isState('events.myevents.list') || isState('events.mynetwork.list') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
     {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -68,7 +68,7 @@
         <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>   <messages-counter></message-counter></a>
         <a ui-sref="myprofile" ui-sref-active="active" class="item"><i class="fa fa-user icon"></i> <span class="content">Profile</span> </a>
         <a ui-sref="myconnections" ui-sref-active="active" class="item"><i class="fa fa-check-circle-o icon"></i> <span class="content">Connections</span> <connections-counter></connections-counter></a>
-        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events </span></a>
+        <a ui-sref="events.mynetwork.list" ng-class="{'active': isState('events')}" class="item"><i class="fa fa-calendar icon"></i> <span class="content under-construction">Events </span></a>
         <img tooltips tooltip-timeout="3000" tooltip-show-trigger="click" tooltip-title="Under Construction" class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/>
         <a ui-sref="settings" ui-sref-active="active" class="item"> <i class="fa fa-cog icon"></i> <span class="content">Settings</span></a>
         <div class="ui divided horizontal list" id="links_sidemenu_bottom">
@@ -93,7 +93,7 @@
             <a class="item launch center-aligned mobileview" ng-show="isState('events')">
                 <i class="fa fa-calendar icon"></i>
             </a>
-            <a class="item launch center-aligned mobileview" ng-show="isState('events')">
+            <a class="item launch center-aligned mobileview" ng-show="isState('events')" ng-class="{'active': isState('events.myevents.map') || isState('events.mynetwork.map') || isState('events.allevents.map')}" ng-click="viewEventsFeedMap()">
                 <i class="fa fa-map-marker icon"></i>
             </a>
             <a class="item launch center-aligned mobileview" ui-sref="event.create" ng-show="isState('events')">
@@ -141,7 +141,7 @@
                         <!-- <a ui-sref="bigmatchfeed" ui-sref-active="active" class="item"> Big Crowd </a> -->
                         <a ui-sref="myprofile" ui-sref-active="active" class="item">Profile </a>
                         <a ui-sref="myconnections" ui-sref-active="active" class="item">Connections <connections-counter></connections-counter> </a>
-                        <a ui-sref="events.mynetwork" ng-class="{'active': isState('events')}" class="item">Events <img tooltips tooltip-title="Under Construction" class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/> </a>
+                        <a ui-sref="events.mynetwork.list" ng-class="{'active': isState('events')}" class="item">Events <img tooltips tooltip-title="Under Construction" class="under-construction-image" src="/static/img/under-construction-icon-small.png" alt=""/> </a>
                         <a ui-sref="settings" ui-sref-active="active" class="item">Settings</a>
                     </div>
                     <div class="ui divided horizontal list" id="links_left_bottom">
@@ -200,7 +200,7 @@
     <script src="/static/appFrontend/bower_components/datepair/dist/datepair.js"></script>
     <script src="/static/appFrontend/bower_components/datepair/dist/jquery.datepair.js"></script>
     <script src="/static/appFrontend/bower_components/angularjs-slider/rzslider.js"></script>
-    <script src="/static/appFrontend//bower_components/angular-hint-bower/dist/hint.js"></script>
+    <!-- <script src="/static/appFrontend/bower_components/angular-hint-bower/dist/hint.js"></script> -->
 
     <script src="/static/appFrontend/src/app/tooltip/frontend.ui.tooltips.js"></script>
     <script src="/static/appFrontend/src/app/index.js"></script>
@@ -245,6 +245,7 @@
     <script src="/static/appFrontend/src/components/filter/filter.factory.js"></script>
     <script src="/static/appFrontend/src/components/filter/filter.directive.js"></script>
     <script src="/static/appFrontend/src/components/eventsfeed/eventsfeed.directive.js"></script>
+    <script src="/static/appFrontend/src/components/eventsmap/eventsmap.directive.js"></script>
     <script src="/static/appFrontend/src/components/dropdown/dropdown.js"></script>
     <script src="/static/appFrontend/src/components/dimmer/dimmer.directive.js"></script>
     <script src="/static/appFrontend/src/components/connectionscounter/connectionsCounter.directive.js"></script>

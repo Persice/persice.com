@@ -2,14 +2,15 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from django.contrib import admin
 from events.api.resources import EventResource, MyEventFeedResource, AllEventFeedResource, FriendsEventFeedResource, \
-    MembershipResource, EventFilterStateResource, EventConnections, EventAttendees
+    MembershipResource, EventFilterStateResource, EventConnections, EventAttendees, MyConnectionEventFeedResource
 
 from friends.api.resources import FriendsResource, ConnectionsResource, FriendsNewResource, FriendsNewCounterResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
     FacebookLikeResource
 from interests.api.resources import InterestResource, InterestSubjectResource
 from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource, ProfileResource
-from msgs.api.resources import MessageResource, InboxResource, InboxLastResource, UnreadMessageCounter
+from msgs.api.resources import MessageResource, InboxResource, InboxLastResource, UnreadMessageCounter, \
+    ChatMessageResource
 
 from photos.api.resources import FacebookPhotoResource, UserResource
 from world.api.resources import UserLocationResource
@@ -44,9 +45,11 @@ v1_api.register(MembershipResource())
 v1_api.register(MyEventFeedResource())
 v1_api.register(AllEventFeedResource())
 v1_api.register(FriendsEventFeedResource())
+v1_api.register(MyConnectionEventFeedResource())
 v1_api.register(EventFilterStateResource())
 v1_api.register(EventConnections())
 v1_api.register(EventAttendees())
+v1_api.register(ChatMessageResource())
 
 urlpatterns = patterns('',
                        url(r'^$', 'goals.views.main_page'),

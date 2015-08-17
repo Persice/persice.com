@@ -71,4 +71,5 @@ class MembershipTest(TestCase):
         m = Membership.objects.get(pk=member.id)
         m.rsvp = 'no'
         m.save()
-        self.assertEqual(member.rsvp, "no")
+        m = Membership.objects.get(pk=member.id)
+        self.assertEqual(m.rsvp, "no")

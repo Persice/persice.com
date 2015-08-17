@@ -88,7 +88,7 @@
             if ($rootScope.previousEventFeed !== undefined) {
                 $state.go($rootScope.previousEventFeed);
             } else {
-                $state.go('events.myevents');
+                $state.go('events.myevents.list');
             }
 
 
@@ -266,7 +266,7 @@
                         function(success) {
                             vm.loadingSave = false;
                             vm.showError = false;
-                            $state.go('events.myevents');
+                            $state.go('events.myevents.list');
                         },
                         function(error) {
                             vm.loadingSave = false;
@@ -315,7 +315,7 @@
                 if (vm.event.state.length > 3) {
                     vm.event.state = vm.event.country;
                 }
-                vm.event.location = vm.eventLocation.geometry.location['A'] + ',' + vm.eventLocation.geometry.location['F'];
+                vm.event.location = vm.eventLocation.geometry.location.lat() + ',' + vm.eventLocation.geometry.location.lng();
                 vm.mapurl = 'https://www.google.com/maps/search/' + encodeURIComponent(vm.eventLocation.formatted_address) + '/@' + vm.event.location + ',15z';
                 vm.mapurlTrue = true;
             } else {

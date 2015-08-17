@@ -352,11 +352,11 @@ class TestFriendsEventFeedResource(ResourceTestCase):
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
         self.event2 = Event.objects.create(name="Play piano2", location=[7000, 22965.83],
                                            starts_on=now(), ends_on=now() + timedelta(days=10))
-        Membership.objects.create(user=self.user, event=self.event)
-        Membership.objects.create(user=self.user, event=self.event1)
-        Membership.objects.create(user=self.user, event=self.event2)
-        Membership.objects.create(user=self.user1, event=self.event2)
-        Membership.objects.create(user=self.user2, event=self.event2)
+        Membership.objects.create(user=self.user, event=self.event, rsvp='yes')
+        Membership.objects.create(user=self.user, event=self.event1, rsvp='yes')
+        Membership.objects.create(user=self.user, event=self.event2, rsvp='yes')
+        Membership.objects.create(user=self.user1, event=self.event2, rsvp='yes')
+        Membership.objects.create(user=self.user2, event=self.event2, rsvp='yes')
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
         Friend.objects.create(friend1=self.user, friend2=self.user2, status=1)
 

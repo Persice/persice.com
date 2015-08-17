@@ -1,7 +1,8 @@
 {
   "name": "angular-filter",
-  "version": "0.5.4",
-  "main": "dist/angular-filter.js",
+  "main": [
+    "./dist/angular-filter.min.js"
+  ],
   "description": "Bunch of useful filters for angularJS(with no external dependencies!)",
   "repository": {
     "type": "git",
@@ -27,11 +28,12 @@
     ".bowercc"
   ],
   "homepage": "https://github.com/a8m/angular-filter",
-  "_release": "0.5.4",
+  "version": "0.5.5",
+  "_release": "0.5.5",
   "_resolution": {
     "type": "version",
-    "tag": "v0.5.4",
-    "commit": "13c430b3df656e3d0a3a78953d63bbce93f0ffe9"
+    "tag": "v0.5.5",
+    "commit": "69ee1ebe3bfb94cb5168e6a9531bc3e6e7bdce66"
   },
   "_source": "git://github.com/a8m/angular-filter.git",
   "_target": "*",

@@ -1,6 +1,6 @@
 {
   "name": "datepair.js",
-  "version": "0.4.7",
+  "version": "0.4.9",
   "main": [
     "dist/datepair.js",
     "dist/jquery.datepair.js"
@@ -33,14 +33,13 @@
     "form"
   ],
   "license": "MIT",
-  "_release": "0.4.7",
+  "_release": "0.4.9",
   "_resolution": {
     "type": "version",
-    "tag": "0.4.7",
-    "commit": "f3619b016aa04226aeebf19c12aab9593f0a2764"
+    "tag": "0.4.9",
+    "commit": "de32199df6e435d8af0ac26209e4bf89a80583f6"
   },
   "_source": "git://github.com/jonthornton/Datepair.js.git",
   "_target": "~0.4.7",
-  "_originalSource": "datepair",
-  "_direct": true
+  "_originalSource": "datepair"
 }

@@ -3,6 +3,7 @@ import json
 from django.contrib.gis.measure import D
 from django.core import serializers
 from django.db import IntegrityError
+from django.db.models import Max, Avg, Q
 from django.forms import model_to_dict
 
 from django.utils.timezone import now
@@ -13,13 +14,14 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
-from tastypie.exceptions import BadRequest
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
+from tastypie.http import HttpUnauthorized
 from tastypie.resources import ModelResource, Resource
 
 from tastypie.validation import Validation
 
 from events.models import Event, Membership, EventFilterState, CumulativeMatchScore
-from events.utils import calc_score, get_cum_score, ResourseObject
+from events.utils import calc_score, get_cum_score, ResourseObject, Struct
 from friends.models import Friend
 from goals.models import MatchFilterState
 from goals.utils import calculate_distance_events, get_user_location, calculate_age
@@ -55,7 +57,7 @@ class EventResource(ModelResource):
     attendees = fields.OneToManyField('events.api.resources.MembershipResource',
                                       attribute=lambda bundle: bundle.obj.membership_set.
                                       filter(user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id) +
-                                             [bundle.request.user.id],
+                                                      [bundle.request.user.id],
                                              rsvp='yes'),
                                       full=True, null=True)
 
@@ -77,7 +79,7 @@ class EventResource(ModelResource):
         friends = Friend.objects.all_my_friends(user_id=user_id)
         event = Event.objects.get(pk=bundle.obj.pk)
         try:
-            bundle.data['hosted_by'] = event.membership_set.\
+            bundle.data['hosted_by'] = event.membership_set. \
                 filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
         except IndexError:
             bundle.data['hosted_by'] = ''
@@ -236,13 +238,20 @@ class MembershipResource(ModelResource):
             r.publish('message.%s' % recipient.id, json.dumps(message_data))
         return super(MembershipResource, self).obj_create(bundle, **kwargs)
 
+    def obj_delete_list(self, bundle, **kwargs):
+        raise ImmediateHttpResponse(
+            response=HttpUnauthorized(
+                json.dumps({'error': 'You can\'t delete membership without id'})
+            )
+        )
 
-class MyEventFeedResource(ModelResource):
+
+class MyEventFeed2Resource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     'membership_set', full=True)
 
     class Meta:
-        resource_name = 'feed/events/my'
+        resource_name = 'feed/events/my_'
         queryset = Event.objects.all().order_by('starts_on')
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
@@ -260,9 +269,9 @@ class MyEventFeedResource(ModelResource):
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
             distance = D(**{distance_unit: efs[0].distance}).m
-            qs = super(MyEventFeedResource, self).get_object_list(request).\
+            qs = super(MyEventFeed2Resource, self).get_object_list(request). \
                 filter(membership__user=request.user.pk, ends_on__gt=now()). \
-                search(tsquery, raw=True).\
+                search(tsquery, raw=True). \
                 order_by('starts_on'). \
                 distinct()
 
@@ -270,12 +279,13 @@ class MyEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)). \
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs
-                # return qs.distinct().order_by('-cumulativematchscore__score')
+                return qs.select_related('cumulativematchscore'). \
+                    filter(cumulativematchscore__user=request.user.pk). \
+                    order_by('-cumulativematchscore__score')
             elif efs[0].order_criteria == 'date':
-                return qs.order_by('-starts_on')
+                return qs.order_by('starts_on')
         else:
-            return super(MyEventFeedResource, self).get_object_list(request). \
+            return super(MyEventFeed2Resource, self).get_object_list(request). \
                 filter(membership__user=request.user.pk, ends_on__gt=now(),
                        membership__rsvp__in=['yes', 'maybe'],
                        ).order_by('starts_on')
@@ -295,12 +305,12 @@ class MyEventFeedResource(ModelResource):
         return bundle
 
 
-class AllEventFeedResource(ModelResource):
+class AllEventFeed2Resource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     'membership_set', full=True)
 
     class Meta:
-        resource_name = 'feed/events/all'
+        resource_name = 'feed/events/all_'
         queryset = Event.objects.all()
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
@@ -331,11 +341,16 @@ class AllEventFeedResource(ModelResource):
                     distance(user_point).order_by('distance').distinct()
 
             elif efs[0].order_criteria == 'match_score':
-                return qs
-                # return qs.distinct().order_by('-cumulativematchscore__score')
+                qs1 = super(AllEventFeedResource, self).get_object_list(request). \
+                    filter(ends_on__gt=now()). \
+                    search(tsquery, raw=True). \
+                    select_related('cumulativematchscore'). \
+                    filter(cumulativematchscore__user=request.user.pk). \
+                    order_by('-cumulativematchscore__score')
+                return qs1
 
             elif efs[0].order_criteria == 'date':
-                return qs.order_by('-starts_on')
+                return qs.order_by('starts_on')
         else:
             return super(AllEventFeedResource, self).get_object_list(request). \
                 filter(ends_on__gt=now()).order_by('starts_on')
@@ -359,7 +374,7 @@ class FriendsEventFeedResource(ModelResource):
                                     'membership_set', full=True)
 
     class Meta:
-        resource_name = 'feed/events/friends'
+        resource_name = 'feed/events/friends_'
         queryset = Event.objects.all()
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
@@ -374,6 +389,8 @@ class FriendsEventFeedResource(ModelResource):
 
         bundle.data['cumulative_match_score'] = get_cum_score(bundle.obj.pk,
                                                               bundle.request.user.id)
+        bundle.data['distance'] = calculate_distance_events(bundle.request.user.id,
+                                                            bundle.obj.pk)
         return bundle
 
     def get_object_list(self, request):
@@ -402,10 +419,18 @@ class FriendsEventFeedResource(ModelResource):
                 return qs.filter(point__distance_lte=(user_point, distance)).\
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                return qs
-                # return qs.distinct().order_by('-cumulativematchscore__score')
+                events = Membership.objects.filter(user__in=[1,2]).\
+                    distinct().\
+                    values_list('event_id', flat=True)
+                qs1 = super(FriendsEventFeedResource, self).get_object_list(request). \
+                    select_related('cumulativematchscore'). \
+                    filter(cumulativematchscore__user_id=request.user.id,
+                           cumulativematchscore__event_id__in=events
+                           ). \
+                    order_by('-cumulativematchscore__score')
+                return qs1
             elif efs[0].order_criteria == 'date':
-                return qs.order_by('-starts_on').distinct('starts_on')
+                return qs.order_by('starts_on').distinct('starts_on')
 
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends,
@@ -413,41 +438,298 @@ class FriendsEventFeedResource(ModelResource):
             order_by('starts_on').distinct()
 
 
-# class MyEventFeedResource2(Resource):
-#     id = fields.CharField(attribute='id')
-#     name = fields.CharField(attribute='name')
-#
-#
-#     def get_object_list(self, request):
-#         friends = Friend.objects.friends(request.user.id)
-#         results = []
-#
-#         for friend in friends:
-#             new_obj = ResourseObject()
-#             new_obj.id = friend.id
-#             new_obj.friend_id = getattr(friend, position_friend).id
-#             new_obj.first_name = getattr(friend, position_friend).first_name
-#             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
-#             new_obj.age = calculate_age(getattr(friend, position_friend).date_of_birth)
-#             new_obj.tag_line = 'tagline for my connection'
-#             new_obj.events = [model_to_dict(m) for m in
-#                               Membership.objects.filter(user_id=getattr(friend, position_friend).id)]
-#
-#             first_name = request.GET.get('first_name')
-#
-#             if first_name:
-#                 if first_name in new_obj.first_name.lower():
-#                     results.append(new_obj)
-#                 else:
-#                     continue
-#             else:
-#                 results.append(new_obj)
-#
-#         return results
-#
-#     def obj_get_list(self, bundle, **kwargs):
-#         # Filtering disabled for brevity...
-#         return self.get_object_list(bundle.request)
+class MyConnectionEventFeedResource(Resource):
+    id = fields.CharField(attribute='id')
+    name = fields.CharField(attribute='name', null=True)
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
+    zipcode = fields.CharField(attribute='zipcode', null=True)
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
+    max_attendees = fields.IntegerField(attribute='max_attendees')
+    cumulative_match_score = fields.IntegerField(attribute='cumulative_match_score')
+    friend_attendees_count = fields.IntegerField(attribute='friend_attendees_count')
+    description = fields.CharField(attribute='description', null=True)
+    ends_on = fields.DateTimeField(attribute='ends_on')
+    starts_on = fields.DateTimeField(attribute='starts_on')
+    distance = fields.ListField(attribute='distance')
+
+    class Meta:
+        resource_name = 'feed/events/friends'
+        list_allowed_methods = ['get']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        user_id = request.user.id
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+
+        events = Event.objects.filter(Q(membership__user_id__in=friends,
+                                        membership__rsvp__in=['yes', 'maybe'],
+                                        ends_on__gt=now()) |
+                                      Q(membership__user_id__in=friends,
+                                        membership__is_organizer=True,
+                                        ends_on__gt=now())).distinct()
+        results = []
+
+        # Filter code
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
+
+        for event in events:
+            md = model_to_dict(event)
+            attendees = Event.objects.get(pk=event.pk). \
+                membership_set.filter(user__in=friends, rsvp='yes')
+            new_obj = Struct(**md)
+            new_obj.id = event.id
+            new_obj.distance = calculate_distance_events(request.user.id,
+                                                         event.id)
+            new_obj.friend_attendees_count = attendees.count()
+            new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                           request.user.id)
+            results.append(new_obj)
+
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(Q(membership__user_id__in=friends,
+                                             membership__rsvp__in=['yes', 'maybe'],
+                                             ends_on__gt=now()) |
+                                           Q(membership__user_id__in=friends,
+                                             membership__is_organizer=True,
+                                             ends_on__gt=now())).\
+                search(tsquery, raw=True). \
+                filter(point__distance_lte=(user_point, distance)).distinct()
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
+            if efs[0].order_criteria == 'distance':
+                return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
+
+            elif efs[0].order_criteria == 'match_score':
+                return sorted(results, key=lambda x: x.cumulative_match_score, reverse=True)
+
+            elif efs[0].order_criteria == 'data':
+                return sorted(results, key=lambda x: x.starts_on)
+
+            else:
+                return sorted(results, key=lambda x: x.starts_on)
+        else:
+            return sorted(results, key=lambda x: x.starts_on)
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+
+class AllEventFeedResource(Resource):
+    id = fields.CharField(attribute='id')
+    name = fields.CharField(attribute='name', null=True)
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
+    zipcode = fields.CharField(attribute='zipcode', null=True)
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
+    max_attendees = fields.IntegerField(attribute='max_attendees')
+    cumulative_match_score = fields.IntegerField(attribute='cumulative_match_score')
+    friend_attendees_count = fields.IntegerField(attribute='friend_attendees_count')
+    description = fields.CharField(attribute='description', null=True)
+    ends_on = fields.DateTimeField(attribute='ends_on')
+    starts_on = fields.DateTimeField(attribute='starts_on')
+    distance = fields.ListField(attribute='distance')
+
+    class Meta:
+        resource_name = 'feed/events/all'
+        list_allowed_methods = ['get']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        user_id = request.user.id
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+
+        events = Event.objects.filter(ends_on__gt=now())
+        results = []
+
+        # Filter code
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
+
+        for event in events:
+            md = model_to_dict(event)
+            attendees = Event.objects.get(pk=event.pk). \
+                membership_set.filter(user__in=friends, rsvp='yes')
+            new_obj = Struct(**md)
+            new_obj.id = event.id
+            new_obj.distance = calculate_distance_events(request.user.id,
+                                                         event.id)
+            new_obj.friend_attendees_count = attendees.count()
+            new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                           request.user.id)
+            results.append(new_obj)
+
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(ends_on__gt=now()).\
+                search(tsquery, raw=True).\
+                filter(point__distance_lte=(user_point, distance))
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
+            if efs[0].order_criteria == 'distance':
+                return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
+
+            elif efs[0].order_criteria == 'match_score':
+                return sorted(results, key=lambda x: x.cumulative_match_score, reverse=True)
+
+            elif efs[0].order_criteria == 'data':
+                return sorted(results, key=lambda x: x.starts_on)
+
+            else:
+                return sorted(results, key=lambda x: x.starts_on)
+        else:
+            return sorted(results, key=lambda x: x.starts_on)
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+
+class MyEventFeedResource(Resource):
+    id = fields.CharField(attribute='id')
+    name = fields.CharField(attribute='name')
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
+    zipcode = fields.CharField(attribute='zipcode', null=True)
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
+    max_attendees = fields.IntegerField(attribute='max_attendees')
+    cumulative_match_score = fields.IntegerField(attribute='cumulative_match_score')
+    friend_attendees_count = fields.IntegerField(attribute='friend_attendees_count')
+    description = fields.CharField(attribute='description', null=True)
+    ends_on = fields.DateTimeField(attribute='ends_on')
+    starts_on = fields.DateTimeField(attribute='starts_on')
+    distance = fields.ListField(attribute='distance')
+
+    class Meta:
+        resource_name = 'feed/events/my'
+        list_allowed_methods = ['get']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        user_id = request.user.id
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+
+        events = Event.objects.filter(membership__user=request.user.pk,
+                                      ends_on__gt=now())
+        results = []
+
+        # Filter code
+        efs = EventFilterState.objects.filter(user_id=request.user.id)
+        mfs = MatchFilterState.objects.filter(user_id=request.user.id)
+        distance_unit = 'km'
+        if mfs:
+            distance_unit = mfs[0].distance_unit
+            if distance_unit == 'miles':
+                distance_unit = 'mi'
+
+        for event in events:
+            md = model_to_dict(event)
+            attendees = Event.objects.get(pk=event.pk). \
+                membership_set.filter(user__in=friends, rsvp='yes')
+            new_obj = Struct(**md)
+            new_obj.id = event.id
+            new_obj.distance = calculate_distance_events(request.user.id,
+                                                         event.id)
+            new_obj.friend_attendees_count = attendees.count()
+            new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                           request.user.id)
+            results.append(new_obj)
+
+        if request.GET.get('filter') == 'true' and efs:
+            tsquery = ' | '.join(efs[0].keyword.split(','))
+            user_point = get_user_location(request.user.id)
+            distance = D(**{distance_unit: efs[0].distance}).m
+            events = Event.objects.filter(membership__user=request.user.pk, ends_on__gt=now()).\
+                search(tsquery, raw=True).filter(point__distance_lte=(user_point, distance))
+            results = []
+            for event in events:
+                md = model_to_dict(event)
+                attendees = Event.objects.get(pk=event.pk). \
+                    membership_set.filter(user__in=friends, rsvp='yes')
+                new_obj = Struct(**md)
+                new_obj.id = event.id
+                new_obj.distance = calculate_distance_events(request.user.id,
+                                                             event.id)
+                new_obj.friend_attendees_count = attendees.count()
+                new_obj.cumulative_match_score = get_cum_score(event.id,
+                                                               request.user.id)
+                results.append(new_obj)
+
+            if efs[0].order_criteria == 'distance':
+                return sorted(results, key=lambda x: (x.distance[0], x.distance[1]))
+
+            elif efs[0].order_criteria == 'match_score':
+                return sorted(results, key=lambda x: x.cumulative_match_score, reverse=True)
+
+            elif efs[0].order_criteria == 'data':
+                return sorted(results, key=lambda x: x.starts_on)
+
+            else:
+                return sorted(results, key=lambda x: x.starts_on)
+        else:
+            return sorted(results, key=lambda x: x.starts_on)
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
 
 
 class EventConnections(Resource):

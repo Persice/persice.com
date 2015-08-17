@@ -5,6 +5,7 @@ from django.db.models import signals
 
 from events.models import Membership, CumulativeMatchScore
 from events.utils import calc_score
+from members.models import FacebookCustomUserActive
 
 
 @task
@@ -23,8 +24,18 @@ def cum_score(event_id):
             CumulativeMatchScore.objects.create(event=m.event, user=m.user,
                                                 score=calc_score(m.user.id,
                                                                  m.event.id))
+    users = FacebookCustomUserActive.objects.all()
+    for user in users:
+        try:
+            obj = CumulativeMatchScore.objects.get(event=event_id, user=user)
+            obj.score = calc_score(user.id, event_id)
+            obj.save()
+        except CumulativeMatchScore.DoesNotExist:
+            CumulativeMatchScore.objects.create(event=event_id, user=user,
+                                                score=calc_score(user.id,
+                                                                 event_id))
 
 
-def update_match_score(sender, instance, created, **kwargs):
+def update_match_score(instance, **kwargs):
     cum_score.delay(instance.event_id)
 

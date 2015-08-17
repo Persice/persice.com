@@ -119,8 +119,8 @@
     </div>
 </div>
 
-<h4 ng-if="showfullprofile && userprofile.user.twitterfriends.length > 0" class="ui header">Mutual Twitter Friends ({{ userprofile.user.twitterfriends.length }})</h4>
-<div ng-if="showfullprofile && userprofile.user.twitterfriends.length > 0" class="ui selection list">
+<h4 ng-if="userprofile.showfullprofile && userprofile.user.twitterfriends.length > 0" class="ui header">Mutual Twitter Friends ({{ userprofile.user.twitterfriends.length }})</h4>
+<div ng-if="userprofile.showfullprofile && userprofile.user.twitterfriends.length > 0" class="ui selection list">
     <div class="item" ng-repeat="friend in userprofile.user.twitterfriends track by $index">
         <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
         <div class="content">
@@ -129,8 +129,8 @@
     </div>
 </div>
 
-<h4 ng-if="showfullprofile && userprofile.user.twitterfollowers.length > 0" class="ui header">Mutual Twitter Followers ({{ userprofile.user.twitterfollowers.length  }})</h4>
-<div ng-if="showfullprofile && userprofile.user.twitterfollowers.length > 0" class="ui selection list">
+<h4 ng-if="userprofile.showfullprofile && userprofile.user.twitterfollowers.length > 0" class="ui header">Mutual Twitter Followers ({{ userprofile.user.twitterfollowers.length  }})</h4>
+<div ng-if="userprofile.showfullprofile && userprofile.user.twitterfollowers.length > 0" class="ui selection list">
     <div class="item" ng-repeat="friend in userprofile.user.twitterfollowers track by $index">
         <img class="ui avatar image" ng-src="{{friend.profile_image_url}}">
         <div class="content">
@@ -139,8 +139,8 @@
     </div>
 </div>
 
-<h4 ng-if="showfullprofile && userprofile.user.linkedinconnections.length > 0" class="ui header">Mutual LinkedIn Connections ({{ userprofile.user.linkedinconnections.length }})</h4>
-<div ng-if="showfullprofile && userprofile.user.linkedinconnections.length > 0" class="ui selection list">
+<h4 ng-if="userprofile.showfullprofile && userprofile.user.linkedinconnections.length > 0" class="ui header">Mutual LinkedIn Connections ({{ userprofile.user.linkedinconnections.length }})</h4>
+<div ng-if="userprofile.showfullprofile && userprofile.user.linkedinconnections.length > 0" class="ui selection list">
     <div class="item" ng-repeat="friend in userprofile.user.linkedinconnections track by $index">
         <img class="ui avatar image" ng-src="{{friend.pictureUrls.values[0]}}">
         <div class="content">

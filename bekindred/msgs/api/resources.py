@@ -10,9 +10,12 @@ from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource, Resource
+from events.api.resources import EventResource
+from events.models import Event
 
 from friends.models import Friend
 from matchfeed.api.resources import A
+from msgs.models import ChatMessage
 from postman.models import Message
 from members.models import UserSession, FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -187,3 +190,17 @@ class UnreadMessageCounter(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+class ChatMessageResource(ModelResource):
+    sender = fields.ForeignKey(UserResource, 'sender', null=True)
+    event = fields.ForeignKey(EventResource, 'event')
+
+    class Meta:
+        queryset = ChatMessage.objects.all()
+        resource_name = 'chat'
+        allowed_methods = ['get', 'post']
+        always_return_data = True
+        fields = ['sender', 'body', 'sent_at']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
