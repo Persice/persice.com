@@ -37,7 +37,7 @@ angular.module('persice')
         $geolocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 60000,
-            maximumAge: 2
+            maximumAge: 75000
         }).then(function(location) {
             $scope.location = location;
             $scope.saveLocation($scope.location.coords);
