@@ -482,7 +482,13 @@ angular
             };
 
             //remember state in events feed
-            if ((fromState.name === 'events.myevents' || fromState.name === 'events.allevents' || fromState.name === 'events.mynetwork') && (toState.name === 'event.details' || toState.name === 'event.create')) {
+            if ((fromState.name === 'events.myevents.list' ||
+                    fromState.name === 'events.allevents.list' ||
+                    fromState.name === 'events.mynetwork.list' ||
+                    fromState.name === 'events.myevents.map' ||
+                    fromState.name === 'events.allevents.map' ||
+                    fromState.name === 'events.mynetwork.map'
+                ) && (toState.name === 'event.details' || toState.name === 'event.create')) {
                 $rootScope.previousEventFeed = fromState.name;
             }
 

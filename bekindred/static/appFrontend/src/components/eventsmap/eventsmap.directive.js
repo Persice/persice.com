@@ -89,6 +89,7 @@
                     };
 
                     vm.eventMarkers.push({
+                        id: null,
                         title: 'Your current location',
                         latitude: parseFloat(vm.currentLocation.latitude),
                         longitude: parseFloat(vm.currentLocation.longitude),
@@ -225,9 +226,10 @@
 
                         var loc = responseEvents[obj].location.split(',');
                         vm.eventMarkers.push({
+                            id: responseEvents[obj].id,
                             title: responseEvents[obj].name,
                             latitude: parseFloat(loc[0]),
-                            longitude: parseFloat(loc[1])
+                            longitude: parseFloat(loc[1]),
                         });
 
 
