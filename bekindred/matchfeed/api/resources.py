@@ -44,7 +44,7 @@ class MatchedFeedResource(Resource):
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
 
     class Meta:
-        max_limit = 1
+        # max_limit = 10
         resource_name = 'matchfeed'
         authentication = SessionAuthentication()
         authorization = Authorization()
