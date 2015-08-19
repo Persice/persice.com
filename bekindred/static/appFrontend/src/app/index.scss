@@ -6343,7 +6343,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7549,15 +7549,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
 
@@ -7781,5 +7781,88 @@ body.matchfeed-page #matched-profile-header .ui.mini.statistics > .statistic:fir
 
 .angular-google-map-container {
     height: 100%;
+}
 
+//CROWD
+body.crowd-page div#main-content {
+    background-color: #f9f9f9 !important;
+}
+
+#crowdList .ui.image {
+    width: 100%;
+}
+
+#crowdList .ui.image>img {
+    max-width: 140px;
+}
+
+#crowdList>.card>.content>.header {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#crowdList>.card>.content>.meta {
+    text-align: center;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#crowdList>.card>.content>.meta.info {
+    margin-bottom: 20px;
+}
+
+#crowdList>.card>.content>.meta.keywords-title {
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+#crowdList>.card>.content>.description.keywords {
+    margin-bottom: 20px;
+    margin-top: 0px;
+    text-align: center;
+    text-transform: lowercase;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+#crowdList .crowd-matchscore {
+    text-align: center;
+    position: relative;
+    margin-top: -25px;
+
+}
+
+#crowdList .crowd-matchscore canvas {
+
+    z-index: 19;
+}
+
+#crowdList .crowd-matchscore .label {
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    z-index: 999;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 37px;
+}
+
+#crowdList .crowd-matchscore .value {
+    font-weight: bold;
+    font-size: 1.1rem;
+    z-index: 999;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 20px;
 }

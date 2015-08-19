@@ -1,0 +1,32 @@
+<div class="ui three doubling stackable cards link" id="crowdList">
+    <div class="card" ng-repeat="profile in crowd.range(10) track by $index">
+        <div class="content">
+            <div class="center aligned header">
+                Elliot Fu
+            </div>
+            <div class="meta center info aligned">
+                FEMALE / AGE 25 / 2 MILES
+            </div>
+            <div class="ui center aligned circular image">
+                <img class="" src="http://lorempixel.com/400/400">
+            </div>
+            <div easypiechart class="crowd-matchscore" options="crowd.options" percent="crowd.percent">
+            <span class="value" class="percent" ng-bind="crowd.percent"></span>
+            <span class="label">match</span>
+
+            </div>
+            <div class="meta center keywords-title aligned">
+                TOP 3 KEYWORDS
+            </div>
+            <div class="description center keywords aligned">
+                <div class="ui list">
+                    <div class="item">dance</div>
+                    <div class="item">nightlife</div>
+                    <div class="item">Oranges</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+</script>

@@ -27,7 +27,8 @@ angular
         'frontend.ui.autocomplete',
         'google.places',
         'ngMask',
-        'rzModule'
+        'rzModule',
+        'easypiechart'
     ])
 
 .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
@@ -231,6 +232,15 @@ angular
                 templateUrl: 'app/matchfeed/matchfeed.html',
                 controller: 'MatchFeedController',
                 controllerAs: 'matchfeed'
+            })
+            .state('matchfeed2', {
+                url: '/crowd2',
+                data: {
+                    displayName: 'Crowd',
+                },
+                templateUrl: 'app/matchfeed/crowd.html',
+                controller: 'CrowdController',
+                controllerAs: 'crowd'
             })
             .state('bigmatchfeed', {
                 url: '/big-crowd',
