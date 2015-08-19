@@ -4,8 +4,8 @@ NAME="bekindred_app"                                  # Name of the application
 DJANGODIR=/webapps/bekindred/beKindred.com/bekindred  # Django project directory
 SOCKFILE=/webapps/bekindred/run/gunicorn.sock         # we will communicte using this unix socket
 USER=bekindred                                        # the user to run as
-GROUP=bekindred                                       # the group to run as
-NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
+GROUP=webapps                                       # the group to run as
+NUM_WORKERS=9                                     # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=bekindred.settings.production_linode             # which settings file should Django use
 DJANGO_WSGI_MODULE=bekindred.wsgi                     # WSGI module name
  
@@ -13,7 +13,7 @@ echo "Starting $NAME as `whoami`"
  
 # Activate the virtual environment
 cd $DJANGODIR
-source ../../bin/activate
+source /webapps/bin/activate
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
  
@@ -28,6 +28,7 @@ exec /webapps/bekindred/bin/gunicorn ${DJANGO_WSGI_MODULE} \
   --name $NAME \
   --workers $NUM_WORKERS \
   --user=$USER --group=$GROUP \
-  --bind=127.0.0.1:8000 \
+  --bind=unix:$SOCKFILE \
   --log-level=debug \
   --log-file=-
+

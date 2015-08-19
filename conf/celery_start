@@ -1,0 +1,14 @@
+#!/bin/bash
+ 
+NAME="bekindred_app"                                  # Name of the application
+DJANGODIR=/webapps/bekindred/beKindred.com/bekindred  # Django project directory
+DJANGO_SETTINGS_MODULE=bekindred.settings.production_linode             # which settings file should Django use
+ 
+echo "Starting $NAME as `whoami`"
+ 
+# Activate the virtual environment
+source /webapps/bin/activate
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+exec /webapps/bekindred/bin/celery --app=bekindred.celery:app worker --loglevel=DEBUG
