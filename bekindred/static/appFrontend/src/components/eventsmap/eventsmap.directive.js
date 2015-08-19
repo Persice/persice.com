@@ -34,7 +34,7 @@
      * @desc controller for eventsFeed directive
      * @ngInject
      */
-    function EventsMapController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state, moment, $window) {
+    function EventsMapController($scope, USER_ID, $rootScope, FeedEventsFriendsFactory, FeedEventsAllFactory, FeedEventsMyFactory, $resource, $log, $timeout, $q, $http, $filter, $state, moment, $window, LocationFactory) {
         var vm = this;
 
         vm.eventMarkers = [];
@@ -73,59 +73,63 @@
         function drawMap(locations) {
             vm.loadingLocation = true;
             vm.locationError = false;
-            if (navigator && navigator.geolocation) {
+            LocationFactory.query({
+                format: 'json'
+            }).$promise.then(function(data) {
 
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    $scope.$apply(function() {
+                vm.loadingLocation = false;
 
-                        vm.locationError = false;
+                if (data.meta.total_count > 0) {
 
-                        vm.currentLocation = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                        };
+                    var serverLocation = data.objects[0].position.split(',');
 
-                        vm.eventMarkers.push({
-                            title: 'Your current location',
-                            latitude: parseFloat(vm.currentLocation.latitude),
-                            longitude: parseFloat(vm.currentLocation.longitude),
-                            icon: {
-                                path: google.maps.SymbolPath.CIRCLE,
-                                scale: 10,
-                                strokeWeight: 5,
-                                fillColor: '#0099FF',
-                                fillOpacity: 1,
-                                strokeColor: '#FFFFFF',
-                            },
-                        });
+                    vm.currentLocation = {
+                        latitude: serverLocation[0],
+                        longitude: serverLocation[1]
+                    };
 
-                        var data = {
-                            locations: vm.eventMarkers,
-                            center: vm.currentLocation
-                        };
-
-                        $scope.$broadcast('drawMap', data);
-
-                        vm.loadingLocation = false;
+                    vm.eventMarkers.push({
+                        id: null,
+                        title: 'Your current location',
+                        latitude: parseFloat(vm.currentLocation.latitude),
+                        longitude: parseFloat(vm.currentLocation.longitude),
+                        icon: {
+                            path: google.maps.SymbolPath.CIRCLE,
+                            scale: 10,
+                            strokeWeight: 5,
+                            fillColor: '#0099FF',
+                            fillOpacity: 1,
+                            strokeColor: '#FFFFFF',
+                        },
                     });
-                }, function(error) {
-                    $log.info('There was a Geolocation error.');
-                    $log.error(error);
-                    vm.locationError = true;
-                    //there was an error getting user location with geolocation HTML5 javascript API, draw map without current user location
-                    $scope.$broadcast('drawMapWithoutCenter', vm.eventMarkers);
-                    vm.loadingLocation = false;
-                }, {
-                    maximumAge: 75000,
-                    timeout: 10000,
-                    enableHighAccuracy: true
-                });
 
-            } else {
-                vm.locationError = true;
-                //there is no support for geolocation HTML5 javascript API, draw map without user location
-                $scope.$broadcast('drawMapWithoutCenter', vm.eventMarkers);
-            }
+                    var data = {
+                        locations: vm.eventMarkers,
+                        center: vm.currentLocation
+                    };
+
+                    $scope.$broadcast('drawMap', data);
+
+
+                } else {
+
+                    //there is no support for geolocation HTML5 javascript API, draw map without user location
+                    // vm.locationError = true;
+                    $scope.$broadcast('drawMapWithoutCenter', vm.eventMarkers);
+
+                }
+
+            }, function(response) {
+                var data = response.data,
+                    status = response.status,
+                    header = response.header,
+                    config = response.config,
+                    message = 'Error ' + status;
+                $log.error(message);
+
+
+            });
+
         }
 
 
@@ -220,34 +224,12 @@
                     for (var obj in responseEvents) {
 
 
-                        var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
-
-                        vm.events.push({
-                            id: responseEvents[obj].id,
-                            name: responseEvents[obj].name,
-                            street: responseEvents[obj].street,
-                            city: responseEvents[obj].city,
-                            state: responseEvents[obj].state,
-                            zipcode: responseEvents[obj].zipcode,
-                            description: responseEvents[obj].description,
-                            location: responseEvents[obj].location,
-                            starts_on: responseEvents[obj].starts_on,
-                            ends_on: responseEvents[obj].ends_on,
-                            full_address: responseEvents[obj].full_address,
-                            location_name: responseEvents[obj].location_name,
-                            country: responseEvents[obj].country,
-                            repeat: responseEvents[obj].repeat,
-                            friend_attendees_count: responseEvents[obj].friend_attendees_count,
-                            cumulative_match_score: responseEvents[obj].cumulative_match_score,
-                            distance: responseEvents[obj].distance,
-                            date: localDate
-                        });
-
                         var loc = responseEvents[obj].location.split(',');
                         vm.eventMarkers.push({
+                            id: responseEvents[obj].id,
                             title: responseEvents[obj].name,
                             latitude: parseFloat(loc[0]),
-                            longitude: parseFloat(loc[1])
+                            longitude: parseFloat(loc[1]),
                         });
 
 

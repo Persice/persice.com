@@ -9,7 +9,7 @@
         .module('persice')
         .directive('mapCanvas', mapCanvas);
 
-    function mapCanvas($rootScope) {
+    function mapCanvas($compile) {
         var directive = {
             restrict: 'E',
             link: link,
@@ -46,6 +46,7 @@
 
                 for (i = 0; i < locations.length; i++) {
                     marker = new google.maps.Marker({
+                        id: locations[i].id,
                         position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
                         map: map,
                         title: locations[i].title,
@@ -56,8 +57,16 @@
 
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
                         return function() {
-                            infowindow.setContent(locations[i].title);
+                            //add direct link to event when clicked on event name
+                            if (locations[i].id !== null) {
+                                var htmlElement = '<a href="" ng-click="eventsmap.gotoEvent(' + locations[i].id + ')">' + locations[i].title + '</a>';
+                                var compiled = $compile(htmlElement)(scope);
+                                infowindow.setContent(compiled[0]);
+                            } else {
+                                infowindow.setContent(locations[i].title);
+                            }
                             infowindow.open(map, marker);
+
                         }
                     })(marker, i));
                 }
