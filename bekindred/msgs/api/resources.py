@@ -9,6 +9,7 @@ from tastypie.bundle import Bundle
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
+from tastypie.constants import ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource, Resource
 from events.api.resources import EventResource
 from events.models import Event
@@ -202,5 +203,6 @@ class ChatMessageResource(ModelResource):
         allowed_methods = ['get', 'post']
         always_return_data = True
         fields = ['sender', 'body', 'sent_at']
+        filtering = {'event': ALL_WITH_RELATIONS}
         authentication = SessionAuthentication()
         authorization = Authorization()
