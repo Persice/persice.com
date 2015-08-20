@@ -4968,6 +4968,10 @@ body.finalstep-page #topMenu,
     {
         display: none!important;
     }
+    body.eventchat-page #topMenu,
+    {
+        display: none!important;
+    }
     body.event-page #actionButton {
         display: none!important;
     }
@@ -7801,9 +7805,7 @@ body.crowd-page div#main-content {
     margin: 0 auto;
 }
 
-#crowdList .profile-photo > div {
-
-}
+#crowdList .profile-photo > div {}
 
 #crowdList>.card>.content>.header {
     margin-top: 20px;
@@ -7874,22 +7876,235 @@ body.crowd-page div#main-content {
     top: 20px;
 }
 
-
 .repeat-animation.ng-enter,
 .repeat-animation.ng-leave,
 .repeat-animation.ng-move {
-  -webkit-transition:0.5s linear all;
-  transition:0.5s linear all;
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all;
 }
 
 .repeat-animation.ng-enter-stagger,
 .repeat-animation.ng-leave-stagger,
 .repeat-animation.ng-move-stagger {
-  /* 50ms between each item being animated after the other */
-  -webkit-transition-delay:50ms;
-  transition-delay:50ms;
+    /* 50ms between each item being animated after the other */
+    -webkit-transition-delay: 50ms;
+    transition-delay: 50ms;
+    /* this is required here to prevent any CSS inheritance issues */
+    -webkit-transition-duration: 0;
+    transition-duration: 0;
+}
 
-  /* this is required here to prevent any CSS inheritance issues */
-  -webkit-transition-duration:0;
-  transition-duration:0;
+//message chat conversation
+// Desktop conversation content
+//
+#chat-conversation-content {
+    overflow-y: scroll!important;
+    -webkit-overflow-scrolling: touch;
+    position: absolute!important;
+    top: 230px!important;
+    width: 100%!important;
+    bottom: 45px!important;
+    padding: 0 1.5rem!important;
+    margin: 0!important;
+    left: 0;
+}
+
+#chat-conversation-header {
+    margin-top: 0px;
+}
+
+#chat-conversation-reply textarea {
+    height: 100px!important;
+    resize: none!important;
+}
+
+#chat-conversation-reply .ui.submit.button {
+    float: right;
+    margin-right: 0px;
+}
+
+#chat-conversation-reply .ui.form {
+    position: relative;
+    height: 146px;
+}
+
+#chat-conversation-content .quote {
+    display: inline-block;
+    margin: 2ex 0em;
+    width: 100%;
+}
+
+#chat-conversation-content .quote p {
+    font-weight: 500;
+}
+
+#chat-conversation-content .quote p .time-ago {
+    font-size: 90%;
+    color: #818d98;
+}
+
+#chat-conversation-content .quote blockquote {
+    color: #576776;
+    margin: 0;
+    line-height: 1.5em;
+}
+
+#chat-conversation-content .quote .round-avatar {
+    border-radius: 500rem;
+    border: 1px solid #E0E8ED;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+    width: 3.5em;
+    // height: 3.5em;
+}
+
+#chat-conversation-content .quote.left .round-avatar {
+    float: left;
+}
+
+#chat-conversation-content .quote .speech-bubble {
+    border-radius: 2px;
+}
+
+#chat-conversation-content .quote.right .round-avatar {
+    float: right;
+}
+
+#chat-conversation-content .speech-bubble {
+    width: 80%;
+    min-height: 50px;
+}
+
+#chat-conversation-content .quote .speech-bubble p {
+    line-height: 1.3em;
+    margin: 0;
+}
+
+#chat-conversation-content .quote .time-ago {
+    display: block;
+    clear: both;
+    color: #AAA;
+    font-size: 0.9em;
+}
+
+//left
+#chat-conversation-content .quote .round-avatar {
+    margin-right: 0.5em;
+    margin-left: 0em;
+}
+
+#chat-conversation-content .quote.left .speech-bubble {
+    border: 1px solid #E0E8ED;
+    position: relative;
+    margin-left: 9px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    margin-right: 4px;
+    margin-bottom: 4px;
+    padding: 1ex 1em;
+    background: #E0E8ED;
+    float: left;
+}
+
+#chat-conversation-content .quote.left .speech-bubble:after,
+#chat-conversation-content .quote.left .speech-bubble:before {
+    content: "";
+    display: block;
+    position: absolute;
+}
+
+#chat-conversation-content .quote.left .speech-bubble:after {
+    top: 16px;
+}
+
+#chat-conversation-content .quote.left .speech-bubble:before {
+    top: 14px;
+}
+
+#chat-conversation-content .quote.left .speech-bubble:after {
+    border: 8px solid transparent;
+    border-right: 8px solid #E0E8ED;
+    left: -8px;
+    border-left: none;
+}
+
+#chat-conversation-content .quote.left .speech-bubble:before {
+    border: 10px solid transparent;
+    border-right: 10px solid #E0E8ED;
+    left: -10px;
+    border-left: none;
+}
+
+#chat-conversation-content .quote.left .time-ago {
+    float: left;
+    padding-left: 67px;
+}
+
+//right
+#chat-conversation-content .quote.right .round-avatar {
+    margin-right: 0em!important;
+    margin-left: 0.5em!important;
+}
+
+#chat-conversation-content .quote.right .speech-bubble {
+    border: 1px solid #E0E8ED;
+    position: relative;
+    margin-right: 9px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    margin-left: 4px;
+    margin-bottom: 4px;
+    padding: 1ex 1em;
+    background: #E0E8ED;
+    float: right;
+}
+
+#chat-conversation-content .quote.right .speech-bubble:after,
+#chat-conversation-content .quote.right .speech-bubble:before {
+    content: "";
+    display: block;
+    position: absolute;
+}
+
+#chat-conversation-content .quote.right .speech-bubble:after {
+    top: 16px;
+}
+
+#chat-conversation-content .quote.right .speech-bubble:before {
+    top: 14px;
+}
+
+#chat-conversation-content .quote.right .speech-bubble:after {
+    border: 8px solid transparent;
+    border-left: 8px solid #E0E8ED;
+    right: -8px;
+    border-right: none;
+}
+
+#chat-conversation-content .quote.right .speech-bubble:before {
+    border: 10px solid transparent;
+    border-left: 10px solid #E0E8ED;
+    right: -10px;
+    border-right: none;
+}
+
+#chat-conversation-content .quote.right .time-ago {
+    float: right;
+    padding-right: 67px;
+}
+
+//desktop event chat in modal window
+.ui.modal #chat-conversation-container {
+    background-color: #FFF;
+    min-height: 700px;
+}
+
+.ui.modal #chat-conversation-reply textarea {
+    width: 100%!important;
+}
+
+.ui.modal #chat-conversation-reply {
+    padding: 1rem!important;
+}
+
+.ui.modal span.eventNameChat {
+    color: #2185d0;
+    font-weight: bold;
 }

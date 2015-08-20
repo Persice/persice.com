@@ -482,4 +482,24 @@ angular
                 cache: false
             }
         });
-    }]);
+    }])
+    .factory('EventChatFactory', ['$resource', function($resource) {
+        return $resource('/api/v1/chat/:chatId/:param', {
+            chatId: '@chatId'
+        }, {
+            query: {
+                method: 'GET',
+                isArray: false,
+                cache: false
+            },
+            save: {
+                method: 'POST'
+            },
+            update: {
+                method: 'PATCH'
+            },
+            delete: {
+                method: 'DELETE'
+            }
+        });
+    }])

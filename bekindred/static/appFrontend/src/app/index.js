@@ -405,6 +405,20 @@ angular
                     displayName: 'Event Details',
                 }
             })
+            .state('event.chat', {
+                url: '/chat/:eventId',
+                templateUrl: 'app/events/event_chat.html',
+                controller: 'EventChatController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
+                data: {
+                    displayName: 'Event Chat',
+                }
+            })
             .state('event.edit', {
                 url: '/edit/:eventId',
                 templateUrl: 'app/events/event_edit.html',

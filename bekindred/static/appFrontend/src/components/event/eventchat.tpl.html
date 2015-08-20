@@ -1,0 +1,26 @@
+<div id="chat-conversation-container">
+    <div id="chat-conversation-reply">
+        <div class="ui form">
+            <div class="field">
+                <label></label>
+                <textarea ng-enter="viewevent.sendMessage()" placeholder="Add your message here." ng-model="viewevent.newmessage"></textarea>
+            </div>
+            <div ng-click="viewevent.sendMessage()" ng-class="{'loading': viewevent.sendingMessage}" class="ui submit green button">Post Message</div>
+        </div>
+    </div>
+    <div id="chat-conversation-content" class="basic ui segment" ng-class="{'loading': viewevent.loadingMessages}" when-scroll-ends="viewevent.loadMoreChat()">
+        <h3 class="ui center aligned header" ng-if="viewevent.messages.length === 0">
+            There are no any messages
+        </h3>
+        <div class="repeat-animation" ng-repeat="message in viewevent.messages | orderBy:'-realDate' track by $index">
+            <div ng-style="" class="repeat-animation quote" ng-class="{'left': msg.left, 'right': !msg.left, 'lastMessage': $last}" ng-repeat="msg in message.contents | orderBy:'-sent_at' track by $index">
+                <img class="round-avatar" ng-src="{{ msg.left && msg.photo ||  !msg.left && msg.photo}}">
+                <div class="speech-bubble">
+                    <blockquote ng-bind-html="msg.body"></blockquote>
+                </div>
+                <span class="time-ago">{{message.date}} {{msg.sent_at | amDateFormat:'h:mm a'}}</span>
+            </div>
+        </div>
+        <three-bounce-spinner class="page-spinner-bar" ng-show="viewevent.status.loading"></three-bounce-spinner>
+    </div>
+</div>
