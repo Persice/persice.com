@@ -84,7 +84,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees, lodash) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees, lodash, USER_FACEBOOK_ID, EventChatFactory, $sce) {
         var vm = this;
         vm.showMobile = false;
         vm.loadingSave = false;
@@ -1134,6 +1134,272 @@
             }
 
         }
+
+
+
+        //event chat
+        vm.openChat = openChat;
+        vm.closeChat = closeChat;
+
+        function openChat() {
+            vm.selection = 'chat';
+            vm.header = $sce.trustAsHtml('Event Chat: <span class="eventNameChat">' + vm.event.name + '</span>');
+            vm.getMessages();
+        }
+
+        function closeChat() {
+            vm.selection = 'view';
+            vm.header = 'Event Details';
+        }
+
+        vm.newmessage = '';
+
+        vm.messages = [];
+
+        vm.loadingMessages = false;
+        vm.loadingOlderMessages = false;
+        vm.sendingMessage = false;
+
+        vm.sender = '/api/v1/auth/user/' + USER_ID + '/';
+        vm.currentEvent = '/api/v1/event/' + vm.eventid + '/';
+
+        var userPhoto = '//graph.facebook.com/' + USER_FACEBOOK_ID + '/picture?type=square';
+
+        vm.status = {
+            loading: false,
+            loaded: false
+        };
+
+        vm.nextOffsetChat = 20;
+        vm.nextChat = null;
+
+        vm.sendMessage = sendMessage;
+        vm.getMessages = getMessages;
+        vm.loadMoreChat = loadMoreChat;
+
+        function sendMessage() {
+
+            if (vm.newmessage === '') {
+                vm.sendingMessage = false;
+
+            } else {
+
+                vm.sendingMessage = true;
+                var newMessage = {};
+                newMessage = {
+                    sender: vm.sender,
+                    event: '/api/v1/event/' + vm.eventid + '/',
+                    body: vm.newmessage
+                };
+
+
+                EventChatFactory.save({}, newMessage,
+                    function(success) {
+                        newMessage.left = true;
+                        newMessage.sent_at = success.sent_at;
+                        newMessage.sender = success.sender;
+                        newMessage.photo = userPhoto;
+                        var localDatePlain = $filter('amDateFormat')(newMessage.sent_at, 'L');
+                        var localDate = $filter('amDateFormat')(newMessage.sent_at, 'dddd, MMMM D, YYYY');
+                        var messageIndex = $filter('getIndexByProperty')('date', localDate, vm.messages);
+                        newMessage.date = localDatePlain;
+
+                        if (messageIndex === null) {
+                            vm.messages.push({
+                                date: localDate,
+                                realDate: localDatePlain,
+                                contents: []
+                            });
+                            messageIndex = vm.messages.length - 1;
+                        }
+
+                        vm.messages[messageIndex].contents.push(newMessage);
+                        vm.newmessage = '';
+                        $log.info('New chat message sent.');
+                        vm.sendingMessage = false;
+                        //scroll chat to top
+                        $timeout(function() {
+                            angular.element('#chat-conversation-content').filter(':not(:animated)').animate({
+                                scrollTop: 0
+                            }, 1500);
+                        }, 100);
+
+                    },
+                    function(error) {
+                        vm.sendingMessage = false;
+                        $log.info(error);
+                    });
+
+            }
+
+        }
+
+        function getMessages() {
+            vm.messages = [];
+            vm.loadingMessages = true;
+            vm.status.loaded = false;
+            EventChatFactory.query({
+                event_id: vm.eventid,
+                limit: 20,
+                offset: 0
+            }).$promise.then(function(response) {
+                var responseMessages = response.objects;
+                vm.nextChat = response.meta.next;
+                $filter('orderBy')(responseMessages, 'sent_at', true);
+
+                vm.status.loaded = true;
+                for (var obj in responseMessages) {
+                    var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
+                    var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
+
+                    var messageIndex = $filter('getIndexByProperty')('date', localDate, vm.messages);
+
+                    if (messageIndex === null) {
+                        vm.messages.push({
+                            date: localDate,
+                            realDate: localDatePlain,
+                            contents: []
+                        });
+                        messageIndex = vm.messages.length - 1;
+                    }
+
+                    //TODO put photo url from facebook_id
+
+                    if (responseMessages[obj].sender === vm.sender) {
+                        vm.messages[messageIndex].contents.push({
+                            body: $sce.trustAsHtml(responseMessages[obj].body),
+                            sender: responseMessages[obj].sender,
+                            date: localDatePlain,
+                            photo: userPhoto,
+                            sent_at: responseMessages[obj].sent_at,
+                            left: true
+                        });
+                    } else {
+                        vm.messages[messageIndex].contents.push({
+                            body: $sce.trustAsHtml(responseMessages[obj].body),
+                            sender: responseMessages[obj].sender,
+                            date: localDatePlain,
+                            photo: userPhoto,
+                            sent_at: responseMessages[obj].sent_at,
+                            left: false
+                        });
+                    }
+                    vm.messages[messageIndex].contents = $filter('orderBy')(vm.messages[messageIndex].contents, 'sent_at', true);
+                }
+
+                vm.messages = $filter('orderBy')(vm.messages, 'realDate');
+
+
+                vm.loadingMessages = false;
+
+
+            }, function(response) {
+                vm.loadingMessages = false;
+                var data = response.data,
+                    status = response.status,
+                    header = response.header,
+                    config = response.config,
+                    message = 'Error ' + status;
+                // error handler
+                $log.error(message);
+
+            });
+        }
+
+        function loadMoreChat() {
+
+            $log.info('Loading more messages in chat');
+            var deferred = $q.defer();
+
+            if (vm.nextChat === null) {
+                deferred.reject();
+                return deferred.promise;
+            }
+
+            if (!vm.status.loading) {
+                vm.status.loading = true;
+                $timeout(function() {
+                    EventChatFactory.query({
+                        event_id: vm.eventid,
+                        offset: vm.nextOffsetChat,
+                        limit: 10
+                    }).$promise.then(function(response) {
+                        var responseMessages = response.objects;
+                        vm.nextChat = response.meta.next;
+                        $filter('orderBy')(responseMessages, 'sent_at', true);
+                        vm.nextOffsetChat += 10;
+
+                        for (var obj in responseMessages) {
+                            var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
+                            var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
+
+                            var messageIndex = $filter('getIndexByProperty')('date', localDate, vm.messages);
+
+                            if (messageIndex === null) {
+                                vm.messages.push({
+                                    date: localDate,
+                                    realDate: localDatePlain,
+                                    contents: []
+                                });
+                                messageIndex = vm.messages.length - 1;
+                            }
+
+
+                            //TODO put photo url from facebook_id
+
+                            if (responseMessages[obj].sender === vm.sender) {
+                                vm.messages[messageIndex].contents.push({
+                                    body: $sce.trustAsHtml(responseMessages[obj].body),
+                                    sender: responseMessages[obj].sender,
+                                    date: localDatePlain,
+                                    photo: userPhoto,
+                                    sent_at: responseMessages[obj].sent_at,
+                                    left: true
+                                });
+                            } else {
+                                vm.messages[messageIndex].contents.push({
+                                    body: $sce.trustAsHtml(responseMessages[obj].body),
+                                    sender: responseMessages[obj].sender,
+                                    date: localDatePlain,
+                                    photo: userPhoto,
+                                    sent_at: responseMessages[obj].sent_at,
+                                    left: false
+                                });
+                            }
+                            vm.messages[messageIndex].contents = $filter('orderBy')(vm.messages[messageIndex].contents, 'sent_at', true);
+                        }
+
+                        vm.messages = $filter('orderBy')(vm.messages, 'realDate');
+
+                        vm.status.loading = false;
+                        vm.status.loaded = true;
+                        deferred.resolve();
+                    }, function(response) {
+                        deferred.reject();
+                        vm.status.loading = false;
+                        var data = response.data,
+                            status = response.status,
+                            header = response.header,
+                            config = response.config,
+                            message = 'Error ' + status;
+                        // error handler
+                        $log.error(message);
+
+                    });
+                }, 400);
+
+
+
+            } else {
+                deferred.reject();
+            }
+            return deferred.promise;
+        }
+
+
+        //TODO websocket for chat
+
+        //END CHAT
 
 
 

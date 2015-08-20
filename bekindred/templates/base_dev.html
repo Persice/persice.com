@@ -38,7 +38,7 @@
 
 </head>
 
-<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event'), 'crowd-page': isState('matchfeed2')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('event.chat') || isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'eventchat-page': isState('event.chat'), 'event-page': isState('event.details') || isState('event.edit'), 'crowd-page': isState('matchfeed2')}">
     {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -220,6 +220,7 @@
     <script src="/static/appFrontend/src/app/events/eventview.controller.js"></script>
     <script src="/static/appFrontend/src/app/events/eventspage.controller.js"></script>
     <script src="/static/appFrontend/src/app/events/eventpage.controller.js"></script>
+    <script src="/static/appFrontend/src/app/events/eventchat.controller.js"></script>
     <script src="/static/appFrontend/src/app/events/eventinvitations.controller.js"></script>
     <script src="/static/appFrontend/src/app/events/eventedit.controller.js"></script>
     <script src="/static/appFrontend/src/app/events/eventcreate.controller.js"></script>
@@ -296,6 +297,7 @@
             }
         })());
         angular.module('persice').constant('USER_LASTNAME', '{{ user.last_name }}');
+        angular.module('persice').constant('USER_FACEBOOK_ID', '{{ user.facebook_id }}');
         angular.module('persice').constant('APP_ID', '{{ FACEBOOK_APP_ID }}');
 
 

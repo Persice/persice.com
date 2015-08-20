@@ -53,7 +53,7 @@ angular.module('persice')
 
             if (!$scope.status.loading) {
                 $scope.status.loading = true;
-                // simulate an ajax request
+
                 $timeout(function() {
                     MessagesFactory.query({
                         user_id: $scope.friend.id,
