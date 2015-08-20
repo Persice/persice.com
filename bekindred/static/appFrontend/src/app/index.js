@@ -845,4 +845,37 @@ angular
         return function(val) {
             return $sce.trustAsResourceUrl(val);
         };
+    })
+    .filter('gender', function() {
+        return function(val) {
+            var gender = '';
+            if (val === 'f') {
+                gender = 'female';
+            }
+            if (val === 'm') {
+                gender = 'male';
+            }
+            return gender;
+        };
+    })
+    .directive('animation', function($timeout) {
+        return {
+            scope: {
+                index: "@"
+            },
+            link: function($scope, element, attrs) {
+                console.log(attrs.index);
+                var initMargin = angular.element(element).css("margin");
+
+                TweenMax.staggerFrom(element, 2, {
+                    scale: 0.8,
+                    opacity: 0,
+                    delay: 0.2,
+                    ease: Elastic.easeOut,
+                    force3D: true
+                }, 0.9);
+
+
+            }
+        }
     });

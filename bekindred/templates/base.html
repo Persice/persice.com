@@ -64,7 +64,7 @@
             <img src="/static/appFrontend/dist/assets/images/logo/app-logo-big.png" alt="" class="ui image medium">
         </a>
     </div>
-    <div class="ui vertical right inverted labeled sidebar menu matchfeedfilter" id="filtersMenu" ng-show="isState('matchfeed')">
+    <div class="ui vertical right inverted labeled sidebar menu matchfeedfilter" id="filtersMenu" ng-show="isState('matchfeed') || isState('matchfeed2')">
         <matchfeed-filter id="filter" class="mobilefilters"></matchfeed-filter>
     </div>
     <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
@@ -112,7 +112,7 @@
                 </a>
                 <a href="" class="item displaynone"> <span class="content">Help</span></a>
             </div>
-            <div class="right menu" id="right-menu-launcher" ng-show="isState('matchfeed')">
+            <div class="right menu" id="right-menu-launcher" ng-show="isState('matchfeed') || isState('matchfeed2')">
                 <a class="launch item"><i class="fa fa-sliders icon"></i></a>
             </div>
         </div>
@@ -134,7 +134,7 @@
                         <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
                     </div>
                 </div>
-                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('matchfeed')">
+                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('matchfeed') || isState('matchfeed2')">
                     <matchfeed-filter id="matchfeed-filters" class="desktopview"></matchfeed-filter>
                 </div>
                 <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('events')">
