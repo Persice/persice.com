@@ -7961,6 +7961,22 @@ body.crowd-page div#main-content {
     float: left;
 }
 
+#chat-conversation-content .quote.left .avatar-name {
+    position: absolute;
+    left: 5px;
+    top: 47px;
+}
+
+#chat-conversation-content .quote.right .avatar-name {
+    position: absolute;
+    right: 5px;
+    top: 47px;
+}
+
+#chat-conversation-container .chat-conversation-message {
+    position: relative;
+}
+
 #chat-conversation-content .quote .speech-bubble {
     border-radius: 2px;
 }
@@ -7970,7 +7986,7 @@ body.crowd-page div#main-content {
 }
 
 #chat-conversation-content .speech-bubble {
-    width: 80%;
+    width: 70%;
     min-height: 50px;
 }
 
@@ -8107,4 +8123,8 @@ body.crowd-page div#main-content {
 .ui.modal span.eventNameChat {
     color: #2185d0;
     font-weight: bold;
+}
+
+.ui.modal #chat-conversation-container .speech-bubble {
+    width: 80%;
 }
