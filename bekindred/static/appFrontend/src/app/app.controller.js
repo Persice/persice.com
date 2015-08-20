@@ -259,6 +259,45 @@ angular.module('persice')
 
             }
 
+            //new event chat message notification
+            if (jsonData.type === 'chat_message.' + USER_ID) {
+
+                if ($rootScope.isState('event.chat')) {
+                    $rootScope.$broadcast('receivedEventChatMessage', jsonData.message);
+                } else {
+
+                    var jsonData = JSON.parse(data);
+                    var contentData = JSON.parse(jsonData.message);
+                    var message = $filter('words')(contentData.body, 10);
+                    var localTime = $filter('amDateFormat')(contentData.sent_at, 'h:mm a');
+
+                    var Sender = $resource(contentData.sender);
+                    Sender.get().$promise.then(function(data) {
+
+                        $scope.gotoEventChatMessage = function() {
+                            $state.go('event.chat', {
+                                eventId: contentData.event_id
+                            });
+                        };
+
+                        var notification = '<div class="notify-info-header"><a href="" ng-click="gotoEventChatMessage()">Received new event chat message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
+                            '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
+
+                        notify({
+                            messageTemplate: notification,
+                            scope: $scope,
+                            classes: 'notify-info',
+                            icon: 'wechat',
+                            duration: 4000
+                        });
+
+
+                    });
+
+                }
+
+            }
+
 
 
         });
