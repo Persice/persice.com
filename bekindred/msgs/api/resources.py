@@ -209,4 +209,9 @@ class ChatMessageResource(ModelResource):
 
     def dehydrate(self, bundle):
         bundle.data['facebook_id'] = bundle.obj.sender.facebook_id
+        bundle.data['first_name'] = bundle.obj.sender.first_name
         return bundle
+
+    def get_object_list(self, request):
+        return super(ChatMessageResource, self).get_object_list(request). \
+            order_by('-sent_at')
