@@ -206,3 +206,7 @@ class ChatMessageResource(ModelResource):
         filtering = {'event': ALL_WITH_RELATIONS}
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def dehydrate(self, bundle):
+        bundle.data['facebook_id'] = bundle.obj.sender.facebook_id
+        return bundle
