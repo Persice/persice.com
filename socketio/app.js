@@ -41,6 +41,7 @@ io.on('connection', function(socket) {
 
     // Create redis client
     clientNewMessage = redis.createClient();
+    eventChatNewMessage = redis.createClient();
     clientNewConnection = redis.createClient();
     clientEventDeleted = redis.createClient();
 
@@ -49,6 +50,9 @@ io.on('connection', function(socket) {
 
     // Subscribe to the Redis events channel for new messages
     clientNewMessage.subscribe('message.' + socket.cookie['userid']);
+
+    // Subscribe to the Redis events channel for new event chat messages
+    eventChatNewMessage.subscribe('chat_message.' + socket.cookie['userid']);
 
     // Subscribe to the Redis events channel for new connections
     clientNewConnection.subscribe('connection.' + socket.cookie['userid']);
@@ -65,6 +69,15 @@ io.on('connection', function(socket) {
         }));
     });
 
+    // Grab event chat message from Redis and send to client
+    eventChatNewMessage.on('message', function(channel, message) {
+        console.log('on chat message ' + socket.cookie['userid'], message);
+        socket.send(JSON.stringify({
+            type: channel,
+            message: message
+        }));
+    });
+
     // Grab new connection from Redis and send to client
     clientNewConnection.on('message', function(channel, message) {
 
@@ -74,6 +87,8 @@ io.on('connection', function(socket) {
             message: message
         }));
     });
+
+
 
     // Grab new event deleted from Redis and send to client
     clientEventDeleted.on('message', function(channel, message) {
@@ -90,6 +105,7 @@ io.on('connection', function(socket) {
         clientNewMessage.unsubscribe('message.' + socket.cookie['userid']);
         clientNewConnection.unsubscribe('connection.' + socket.cookie['userid']);
         clientEventDeleted.unsubscribe('event_deleted.' + socket.cookie['userid']);
+        eventChatNewMessage.unsubscribe('chat_message.' + socket.cookie['userid']);
     });
 
 });
