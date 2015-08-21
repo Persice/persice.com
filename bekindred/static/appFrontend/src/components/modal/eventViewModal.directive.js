@@ -1197,6 +1197,7 @@
 
                 EventChatFactory.save({}, newMessage,
                     function(success) {
+                        vm.noMessages = false;
                         newMessage.left = true;
                         newMessage.sender = success.sender;
                         newMessage.photo = userPhoto;
@@ -1286,7 +1287,6 @@
 
         function loadMoreChat() {
 
-            $log.info('Loading more messages in chat');
             var deferred = $q.defer();
 
             if (vm.nextChat === null) {

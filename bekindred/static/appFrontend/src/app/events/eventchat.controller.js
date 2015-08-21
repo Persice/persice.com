@@ -2,15 +2,15 @@
     'use strict';
 
     angular
-    .module('persice')
-    .controller('EventChatController', EventChatController);
+        .module('persice')
+        .controller('EventChatController', EventChatController);
 
     /**
      * class EventChatController
      * classDesc chat for event
      * @ngInject
      */
-     function EventChatController($scope, USER_ID, eventId, USER_FACEBOOK_ID, EventChatFactory, $state, $rootScope, $log, $window, $q, moment, $filter, $sce, $timeout) {
+    function EventChatController($scope, USER_ID, eventId, USER_FACEBOOK_ID, EventChatFactory, $state, $rootScope, $log, $window, $q, moment, $filter, $sce, $timeout) {
         var vm = this;
 
 
@@ -71,6 +71,7 @@
 
                 EventChatFactory.save({}, newMessage,
                     function(success) {
+                        vm.noMessages = false;
                         newMessage.left = true;
                         newMessage.sender = success.sender;
                         newMessage.photo = userPhoto;
@@ -95,90 +96,27 @@
                         $log.info(error);
                     });
 
-}
-
-}
-
-function getMessages() {
-    vm.messages = [];
-    vm.noMessages = false;
-    vm.loadingMessages = true;
-    vm.status.loaded = false;
-    EventChatFactory.query({
-        event: eventId,
-        limit: 20,
-        offset: 0
-    }).$promise.then(function(response) {
-        var responseMessages = response.objects;
-        vm.next = response.meta.next;
-        vm.status.loaded = true;
-
-        if (responseMessages.length === 0) {
-            vm.noMessages = true;
-        }
-
-        for (var obj in responseMessages) {
-            var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY h:mm a');
-
-            if (responseMessages[obj].sender === vm.sender) {
-                vm.messages.push({
-                    body: $sce.trustAsHtml(responseMessages[obj].body),
-                    sender: responseMessages[obj].sender,
-                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
-                    first_name: responseMessages[obj].first_name,
-                    sent_at: localDate,
-                    left: true
-                });
-            } else {
-                vm.messages.push({
-                    body: $sce.trustAsHtml(responseMessages[obj].body),
-                    sender: responseMessages[obj].sender,
-                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
-                    first_name: responseMessages[obj].first_name,
-                    sent_at: localDate,
-                    left: false
-                });
             }
+
         }
 
-
-        vm.loadingMessages = false;
-
-
-    }, function(response) {
-        vm.loadingMessages = false;
-        var data = response.data,
-        status = response.status,
-        header = response.header,
-        config = response.config,
-        message = 'Error ' + status;
-                // error handler
-                $log.error(message);
-
-            });
-}
-
-function loadMoreChat() {
-
-    $log.info('Loading more messages in chat');
-    var deferred = $q.defer();
-
-    if (vm.next === null) {
-        deferred.reject();
-        return deferred.promise;
-    }
-
-    if (!vm.status.loading) {
-        vm.status.loading = true;
-        $timeout(function() {
+        function getMessages() {
+            vm.messages = [];
+            vm.noMessages = false;
+            vm.loadingMessages = true;
+            vm.status.loaded = false;
             EventChatFactory.query({
                 event: eventId,
-                offset: vm.nextOffset,
-                limit: 10
+                limit: 20,
+                offset: 0
             }).$promise.then(function(response) {
                 var responseMessages = response.objects;
                 vm.next = response.meta.next;
-                vm.nextOffset += 10;
+                vm.status.loaded = true;
+
+                if (responseMessages.length === 0) {
+                    vm.noMessages = true;
+                }
 
                 for (var obj in responseMessages) {
                     var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY h:mm a');
@@ -203,30 +141,92 @@ function loadMoreChat() {
                         });
                     }
                 }
-                vm.status.loading = false;
-                vm.status.loaded = true;
-                deferred.resolve();
+
+
+                vm.loadingMessages = false;
+
+
             }, function(response) {
-                deferred.reject();
-                vm.status.loading = false;
+                vm.loadingMessages = false;
                 var data = response.data,
-                status = response.status,
-                header = response.header,
-                config = response.config,
-                message = 'Error ' + status;
+                    status = response.status,
+                    header = response.header,
+                    config = response.config,
+                    message = 'Error ' + status;
+                // error handler
+                $log.error(message);
+
+            });
+        }
+
+        function loadMoreChat() {
+
+            var deferred = $q.defer();
+
+            if (vm.next === null) {
+                deferred.reject();
+                return deferred.promise;
+            }
+
+            if (!vm.status.loading) {
+                vm.status.loading = true;
+                $timeout(function() {
+                    EventChatFactory.query({
+                        event: eventId,
+                        offset: vm.nextOffset,
+                        limit: 10
+                    }).$promise.then(function(response) {
+                        var responseMessages = response.objects;
+                        vm.next = response.meta.next;
+                        vm.nextOffset += 10;
+
+                        for (var obj in responseMessages) {
+                            var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY h:mm a');
+
+                            if (responseMessages[obj].sender === vm.sender) {
+                                vm.messages.push({
+                                    body: $sce.trustAsHtml(responseMessages[obj].body),
+                                    sender: responseMessages[obj].sender,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
+                                    sent_at: localDate,
+                                    left: true
+                                });
+                            } else {
+                                vm.messages.push({
+                                    body: $sce.trustAsHtml(responseMessages[obj].body),
+                                    sender: responseMessages[obj].sender,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
+                                    sent_at: localDate,
+                                    left: false
+                                });
+                            }
+                        }
+                        vm.status.loading = false;
+                        vm.status.loaded = true;
+                        deferred.resolve();
+                    }, function(response) {
+                        deferred.reject();
+                        vm.status.loading = false;
+                        var data = response.data,
+                            status = response.status,
+                            header = response.header,
+                            config = response.config,
+                            message = 'Error ' + status;
                         // error handler
                         $log.error(message);
 
                     });
-}, 400);
+                }, 400);
 
 
 
-} else {
-    deferred.reject();
-}
-return deferred.promise;
-}
+            } else {
+                deferred.reject();
+            }
+            return deferred.promise;
+        }
 
         //TODO
         // listen for the event when new message arrives
@@ -280,7 +280,7 @@ return deferred.promise;
 
 
 
-}
+    }
 
 
 
