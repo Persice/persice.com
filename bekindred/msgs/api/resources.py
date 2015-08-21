@@ -215,3 +215,20 @@ class ChatMessageResource(ModelResource):
     def get_object_list(self, request):
         return super(ChatMessageResource, self).get_object_list(request). \
             order_by('-sent_at')
+
+    def obj_create(self, bundle, **kwargs):
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        data = bundle.data
+        event_id = re.findall(r'/(\d+)/', bundle.data['event'])[0]
+        event = Event.objects.get(pk=int(event_id))
+
+        user_id = re.findall(r'/(\d+)/', bundle.data['sender'])[0]
+        sender = FacebookCustomUserActive.objects.get(pk=int(user_id))
+
+        messages = ChatMessage.objects.filter(event=event).\
+            exclude(sender=sender)
+        for message in messages:
+            data['facebook_id'] = message.sender.facebook_id
+            data['send_at'] = now().isoformat()
+            r.publish('chat_message.%s' % message.sender.id, json.dumps(data))
+        return super(ChatMessageResource, self).obj_create(bundle, **kwargs)
