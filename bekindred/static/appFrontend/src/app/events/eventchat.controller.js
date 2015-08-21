@@ -10,7 +10,7 @@
      * classDesc chat for event
      * @ngInject
      */
-    function EventChatController($scope, USER_ID, eventId, USER_FACEBOOK_ID, EventChatFactory, $state, $rootScope, $log, $window, $q, moment, $filter, $sce, $timeout) {
+    function EventChatController($scope, USER_ID, eventId, USER_FACEBOOK_ID, EventChatFactory, $state, $rootScope, $log, $window, $q, moment, $filter, $sce, $timeout, $resource) {
         var vm = this;
 
 
@@ -54,6 +54,9 @@
 
 
         function sendMessage() {
+            if (vm.sendingMessage) {
+                return;
+            }
 
             if (vm.newmessage === '') {
                 vm.sendingMessage = false;
@@ -228,43 +231,31 @@
             return deferred.promise;
         }
 
-        //TODO
         // listen for the event when new message arrives
         $rootScope.$on('receivedEventChatMessage', function(event, data) {
             var jsonData = JSON.parse(data);
-
-            if (jsonData.sender !== vm.sender) {
+            if (jsonData.sender !== vm.sender && vm.event === jsonData.event && $state.is('event.chat')) {
 
                 $log.info('new event chat message via websocket');
 
-                var localDate = $filter('amDateFormat')(jsonData.sent_at, 'dddd, MMMM D, YYYY');
-                var localDatePlain = $filter('amDateFormat')(jsonData.sent_at, 'L');
-
-                var messageIndex = $filter('getIndexByProperty')('date', localDate, $scope.messages);
-
-                if (messageIndex === null) {
-                    vm.messages.push({
-                        date: localDate,
-                        realDate: localDatePlain,
-                        contents: []
-                    });
-                    messageIndex = vm.messages.length - 1;
-                }
-
-
-
-                vm.messages[messageIndex].contents.push({
+                var localDate = $filter('amDateFormat')(jsonData.sent_at, 'dddd, MMMM D, YYYY h:mm a');
+                vm.receivedMessage = {
                     body: $sce.trustAsHtml(jsonData.body),
                     sender: jsonData.sender,
-                    photo: userPhoto,
-                    date: localDatePlain,
-                    sent_at: jsonData.sent_at,
+                    photo: '',
+                    sent_at: localDate,
+                    first_name: '',
                     left: false
+                };
+
+                var Sender = $resource(jsonData.sender);
+
+                Sender.get().$promise.then(function(response) {
+                    vm.receivedMessage.photo = '//graph.facebook.com/' + response.facebook_id + '/picture?type=square';
+                    vm.receivedMessage.first_name = response.first_name;
+                    vm.messages.unshift(vm.receivedMessage);
+
                 });
-
-
-                vm.messages[messageIndex].contents = $filter('orderBy')(vm.messages[messageIndex].contents, 'sent_at', true);
-                vm.messages = $filter('orderBy')(vm.messages, 'realDate');
 
 
                 //scroll chat to top

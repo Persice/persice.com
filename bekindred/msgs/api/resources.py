@@ -229,6 +229,7 @@ class ChatMessageResource(ModelResource):
             exclude(user=sender.id)
         for member in members:
             data['facebook_id'] = member.user.facebook_id
-            data['send_at'] = now().isoformat()
+            data['sent_at'] = now().isoformat()
+            data['event_id'] = event_id
             r.publish('chat_message.%s' % member.user.id, json.dumps(data))
         return super(ChatMessageResource, self).obj_create(bundle, **kwargs)

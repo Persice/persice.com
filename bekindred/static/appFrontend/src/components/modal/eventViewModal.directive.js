@@ -84,7 +84,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees, lodash, USER_FACEBOOK_ID, EventChatFactory, $sce) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees, lodash, USER_FACEBOOK_ID, EventChatFactory, $sce, $resource) {
         var vm = this;
         vm.showMobile = false;
         vm.loadingSave = false;
@@ -1143,6 +1143,7 @@
 
         function openChat() {
             vm.selection = 'chat';
+            $rootScope.eventChatModal = true;
             vm.header = $sce.trustAsHtml('Event Chat: <span class="eventNameChat">' + vm.event.name + '</span>');
             vm.getMessages();
         }
@@ -1150,6 +1151,7 @@
         function closeChat() {
             vm.selection = 'view';
             vm.header = 'Event Details';
+            $rootScope.eventChatModal = false;
         }
 
         vm.newmessage = '';
@@ -1180,7 +1182,9 @@
         vm.loadMoreChat = loadMoreChat;
 
         function sendMessage() {
-
+            if (vm.sendingMessage) {
+                return;
+            }
             if (vm.newmessage === '') {
                 vm.sendingMessage = false;
 
@@ -1356,7 +1360,44 @@
         }
 
 
-        //TODO websocket for chat
+        // listen for the event when new message arrives
+        $rootScope.$on('receivedEventChatMessage', function(event, data) {
+            var jsonData = JSON.parse(data);
+            if (jsonData.sender !== vm.sender && jsonData.event === '/api/v1/event/' + vm.eventid + '/' && $rootScope.eventChatModal) {
+
+                $log.info('new event chat message via websocket');
+
+                var localDate = $filter('amDateFormat')(jsonData.sent_at, 'dddd, MMMM D, YYYY h:mm a');
+
+                vm.receivedMessage = {
+                    body: $sce.trustAsHtml(jsonData.body),
+                    sender: jsonData.sender,
+                    photo: '',
+                    sent_at: localDate,
+                    first_name: '',
+                    left: false
+                };
+
+                var Sender = $resource(jsonData.sender);
+
+                Sender.get().$promise.then(function(response) {
+                    vm.receivedMessage.photo = '//graph.facebook.com/' + response.facebook_id + '/picture?type=square';
+                    vm.receivedMessage.first_name = response.first_name;
+                    vm.messages.unshift(vm.receivedMessage);
+
+                });
+
+
+                //scroll chat to top
+                $timeout(function() {
+                    angular.element('#chat-conversation-content').filter(':not(:animated)').animate({
+                        scrollTop: 0
+                    }, 1500);
+                }, 100);
+
+            }
+
+        });
 
         //END CHAT
 

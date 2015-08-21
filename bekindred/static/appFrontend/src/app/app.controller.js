@@ -5,6 +5,7 @@ angular.module('persice')
         $rootScope.hideTopMenu = false;
 
         $rootScope.distance_unit = 'miles';
+        $rootScope.eventChatModal = false;
 
         FilterRepository.getFilters().then(function(data) {
             $rootScope.distance_unit = data.distance_unit;
@@ -261,8 +262,8 @@ angular.module('persice')
 
             //new event chat message notification
             if (jsonData.type === 'chat_message.' + USER_ID) {
-
-                if ($rootScope.isState('event.chat')) {
+                $log.info($rootScope.eventChatModal);
+                if ($rootScope.isState('event.chat') || $rootScope.eventChatModal) {
                     $rootScope.$broadcast('receivedEventChatMessage', jsonData.message);
                 } else {
 
@@ -281,7 +282,7 @@ angular.module('persice')
                         };
 
                         var notification = '<div class="notify-info-header"><a href="" ng-click="gotoEventChatMessage()">Received new event chat message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
-                            '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
+                            '<p><a href="" ng-click="gotoEventChatMessage">' + message + '</a></p>';
 
                         notify({
                             messageTemplate: notification,
