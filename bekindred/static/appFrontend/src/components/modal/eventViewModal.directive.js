@@ -1198,6 +1198,7 @@
                         newMessage.left = true;
                         newMessage.sent_at = success.sent_at;
                         newMessage.sender = success.sender;
+                        newMessage.first_name = success.first_name;
                         newMessage.photo = userPhoto;
                         var localDatePlain = $filter('amDateFormat')(newMessage.sent_at, 'L');
                         var localDate = $filter('amDateFormat')(newMessage.sent_at, 'dddd, MMMM D, YYYY');
@@ -1239,7 +1240,7 @@
             vm.loadingMessages = true;
             vm.status.loaded = false;
             EventChatFactory.query({
-                event_id: vm.eventid,
+                event: vm.eventid,
                 limit: 20,
                 offset: 0
             }).$promise.then(function(response) {
@@ -1270,7 +1271,8 @@
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
                             date: localDatePlain,
-                            photo: userPhoto,
+                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            first_name: responseMessages[obj].first_name,
                             sent_at: responseMessages[obj].sent_at,
                             left: true
                         });
@@ -1279,7 +1281,8 @@
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
                             date: localDatePlain,
-                            photo: userPhoto,
+                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            first_name: responseMessages[obj].first_name,
                             sent_at: responseMessages[obj].sent_at,
                             left: false
                         });
@@ -1320,7 +1323,7 @@
                 vm.status.loading = true;
                 $timeout(function() {
                     EventChatFactory.query({
-                        event_id: vm.eventid,
+                        event: vm.eventid,
                         offset: vm.nextOffsetChat,
                         limit: 10
                     }).$promise.then(function(response) {
@@ -1352,7 +1355,8 @@
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
                                     date: localDatePlain,
-                                    photo: userPhoto,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
                                     sent_at: responseMessages[obj].sent_at,
                                     left: true
                                 });
@@ -1361,7 +1365,8 @@
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
                                     date: localDatePlain,
-                                    photo: userPhoto,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
                                     sent_at: responseMessages[obj].sent_at,
                                     left: false
                                 });
