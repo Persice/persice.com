@@ -15,11 +15,11 @@
         <div class="repeat-animation" ng-repeat="message in viewevent.messages | orderBy:'-realDate' track by $index">
             <div ng-style="" class="repeat-animation quote chat-conversation-message" ng-class="{'left': msg.left, 'right': !msg.left, 'lastMessage': $last}" ng-repeat="msg in message.contents | orderBy:'-sent_at' track by $index">
                 <img class="round-avatar" ng-src="{{ msg.left && msg.photo ||  !msg.left && msg.photo}}">
-                <span class="avatar-name">Marko</span>
+                <span class="avatar-name">{{::msg.first_name}}</span>
                 <div class="speech-bubble">
                     <blockquote ng-bind-html="msg.body"></blockquote>
                 </div>
-                <span class="time-ago">{{message.date}} {{msg.sent_at | amDateFormat:'h:mm a'}}</span>
+                <span class="time-ago">{{::message.date}} {{::msg.sent_at | amDateFormat:'h:mm a'}}</span>
             </div>
         </div>
         <three-bounce-spinner class="page-spinner-bar" ng-show="viewevent.status.loading"></three-bounce-spinner>

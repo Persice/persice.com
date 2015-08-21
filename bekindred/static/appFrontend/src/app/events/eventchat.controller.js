@@ -73,6 +73,7 @@
                         newMessage.sent_at = success.sent_at;
                         newMessage.sender = success.sender;
                         newMessage.photo = userPhoto;
+                        newMessage.first_name = success.first_name;
                         var localDatePlain = $filter('amDateFormat')(newMessage.sent_at, 'L');
                         var localDate = $filter('amDateFormat')(newMessage.sent_at, 'dddd, MMMM D, YYYY');
                         var messageIndex = $filter('getIndexByProperty')('date', localDate, vm.messages);
@@ -113,7 +114,7 @@
             vm.loadingMessages = true;
             vm.status.loaded = false;
             EventChatFactory.query({
-                event_id: eventId,
+                event: eventId,
                 limit: 20,
                 offset: 0
             }).$promise.then(function(response) {
@@ -137,14 +138,13 @@
                         messageIndex = vm.messages.length - 1;
                     }
 
-                    //TODO put photo url from facebook_id
-
                     if (responseMessages[obj].sender === vm.sender) {
                         vm.messages[messageIndex].contents.push({
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
                             date: localDatePlain,
-                            photo: userPhoto,
+                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            first_name: responseMessages[obj].first_name,
                             sent_at: responseMessages[obj].sent_at,
                             left: true
                         });
@@ -153,7 +153,8 @@
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
                             date: localDatePlain,
-                            photo: userPhoto,
+                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            first_name: responseMessages[obj].first_name,
                             sent_at: responseMessages[obj].sent_at,
                             left: false
                         });
@@ -194,7 +195,7 @@
                 vm.status.loading = true;
                 $timeout(function() {
                     EventChatFactory.query({
-                        event_id: eventId,
+                        event: eventId,
                         offset: vm.nextOffset,
                         limit: 10
                     }).$promise.then(function(response) {
@@ -218,15 +219,13 @@
                                 messageIndex = vm.messages.length - 1;
                             }
 
-
-                            //TODO put photo url from facebook_id
-
                             if (responseMessages[obj].sender === vm.sender) {
                                 vm.messages[messageIndex].contents.push({
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
                                     date: localDatePlain,
-                                    photo: userPhoto,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
                                     sent_at: responseMessages[obj].sent_at,
                                     left: true
                                 });
@@ -235,7 +234,8 @@
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
                                     date: localDatePlain,
-                                    photo: userPhoto,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
                                     sent_at: responseMessages[obj].sent_at,
                                     left: false
                                 });
