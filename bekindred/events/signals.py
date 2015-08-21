@@ -1,6 +1,6 @@
 import uuid
 from django.db.models import signals
-from events.models import CumulativeMatchScore, Membership
+from events.models import Membership
 from events.tasks import update_match_score
 
 

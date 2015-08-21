@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from celery import task
 from django.db.models import signals
 
-from events.models import Membership, CumulativeMatchScore
+from events.models import Membership, CumulativeMatchScore, Event
 from events.utils import calc_score
 from members.models import FacebookCustomUserActive
 
@@ -31,9 +31,10 @@ def cum_score(event_id):
             obj.score = calc_score(user.id, event_id)
             obj.save()
         except CumulativeMatchScore.DoesNotExist:
-            CumulativeMatchScore.objects.create(event=event_id, user=user,
+            event = Event.objects.get(id=event_id)
+            CumulativeMatchScore.objects.create(event=event, user=user,
                                                 score=calc_score(user.id,
-                                                                 event_id))
+                                                                 event))
 
 
 def update_match_score(instance, **kwargs):
