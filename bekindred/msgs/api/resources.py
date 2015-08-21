@@ -226,7 +226,7 @@ class ChatMessageResource(ModelResource):
         sender = FacebookCustomUserActive.objects.get(pk=int(user_id))
 
         members = Membership.objects.filter(event=event, rsvp='yes').\
-            exclude(sender=sender)
+            exclude(user=sender.id)
         for member in members:
             data['facebook_id'] = member.user.facebook_id
             data['send_at'] = now().isoformat()
