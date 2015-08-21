@@ -12,7 +12,7 @@ from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource, Resource
 from events.api.resources import EventResource
-from events.models import Event
+from events.models import Event, Membership
 
 from friends.models import Friend
 from matchfeed.api.resources import A
@@ -225,10 +225,10 @@ class ChatMessageResource(ModelResource):
         user_id = re.findall(r'/(\d+)/', bundle.data['sender'])[0]
         sender = FacebookCustomUserActive.objects.get(pk=int(user_id))
 
-        messages = ChatMessage.objects.filter(event=event).\
+        members = Membership.objects.filter(event=event, rsvp='yes').\
             exclude(sender=sender)
-        for message in messages:
-            data['facebook_id'] = message.sender.facebook_id
+        for member in members:
+            data['facebook_id'] = member.user.facebook_id
             data['send_at'] = now().isoformat()
-            r.publish('chat_message.%s' % message.sender.id, json.dumps(data))
+            r.publish('chat_message.%s' % member.user.id, json.dumps(data))
         return super(ChatMessageResource, self).obj_create(bundle, **kwargs)
