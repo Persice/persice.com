@@ -6347,7 +6347,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7553,15 +7553,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
 
@@ -7963,14 +7963,20 @@ body.crowd-page div#main-content {
 
 #chat-conversation-content .quote.left .avatar-name {
     position: absolute;
-    left: 5px;
+    left: 0px;
     top: 47px;
+    width: 49px;
+    text-align: center;
+    font-size: 0.9em;
 }
 
 #chat-conversation-content .quote.right .avatar-name {
     position: absolute;
-    right: 5px;
+    right: 0px;
     top: 47px;
+    width: 49px;
+    text-align: center;
+     font-size: 0.9em;
 }
 
 #chat-conversation-container .chat-conversation-message {
