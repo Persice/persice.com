@@ -18,6 +18,8 @@
 
         vm.messages = [];
 
+        vm.noMessages = false;
+
         vm.loadingMessages = false;
         vm.loadingOlderMessages = false;
         vm.sendingMessage = false;
@@ -69,25 +71,15 @@
 
                 EventChatFactory.save({}, newMessage,
                     function(success) {
+                        vm.noMessages = false;
                         newMessage.left = true;
-                        newMessage.sent_at = success.sent_at;
                         newMessage.sender = success.sender;
                         newMessage.photo = userPhoto;
-                        var localDatePlain = $filter('amDateFormat')(newMessage.sent_at, 'L');
-                        var localDate = $filter('amDateFormat')(newMessage.sent_at, 'dddd, MMMM D, YYYY');
-                        var messageIndex = $filter('getIndexByProperty')('date', localDate, vm.messages);
-                        newMessage.date = localDatePlain;
+                        newMessage.first_name = success.first_name;
+                        var localDate = $filter('amDateFormat')(success.sent_at, 'dddd, MMMM D, YYYY h:mm a');
+                        newMessage.sent_at = localDate;
 
-                        if (messageIndex === null) {
-                            vm.messages.push({
-                                date: localDate,
-                                realDate: localDatePlain,
-                                contents: []
-                            });
-                            messageIndex = vm.messages.length - 1;
-                        }
-
-                        vm.messages[messageIndex].contents.push(newMessage);
+                        vm.messages.unshift(newMessage);
                         vm.newmessage = '';
                         $log.info('New chat message sent.');
                         vm.sendingMessage = false;
@@ -110,58 +102,45 @@
 
         function getMessages() {
             vm.messages = [];
+            vm.noMessages = false;
             vm.loadingMessages = true;
             vm.status.loaded = false;
             EventChatFactory.query({
-                event_id: eventId,
+                event: eventId,
                 limit: 20,
                 offset: 0
             }).$promise.then(function(response) {
                 var responseMessages = response.objects;
                 vm.next = response.meta.next;
-                $filter('orderBy')(responseMessages, 'sent_at', true);
-
                 vm.status.loaded = true;
+
+                if (responseMessages.length === 0) {
+                    vm.noMessages = true;
+                }
+
                 for (var obj in responseMessages) {
-                    var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
-                    var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
-
-                    var messageIndex = $filter('getIndexByProperty')('date', localDate, vm.messages);
-
-                    if (messageIndex === null) {
-                        vm.messages.push({
-                            date: localDate,
-                            realDate: localDatePlain,
-                            contents: []
-                        });
-                        messageIndex = vm.messages.length - 1;
-                    }
-
-                    //TODO put photo url from facebook_id
+                    var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY h:mm a');
 
                     if (responseMessages[obj].sender === vm.sender) {
-                        vm.messages[messageIndex].contents.push({
+                        vm.messages.push({
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
-                            date: localDatePlain,
-                            photo: userPhoto,
-                            sent_at: responseMessages[obj].sent_at,
+                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            first_name: responseMessages[obj].first_name,
+                            sent_at: localDate,
                             left: true
                         });
                     } else {
-                        vm.messages[messageIndex].contents.push({
+                        vm.messages.push({
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
-                            date: localDatePlain,
-                            photo: userPhoto,
-                            sent_at: responseMessages[obj].sent_at,
+                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            first_name: responseMessages[obj].first_name,
+                            sent_at: localDate,
                             left: false
                         });
                     }
-                    vm.messages[messageIndex].contents = $filter('orderBy')(vm.messages[messageIndex].contents, 'sent_at', true);
                 }
-
-                vm.messages = $filter('orderBy')(vm.messages, 'realDate');
 
 
                 vm.loadingMessages = false;
@@ -182,7 +161,6 @@
 
         function loadMoreChat() {
 
-            $log.info('Loading more messages in chat');
             var deferred = $q.defer();
 
             if (vm.next === null) {
@@ -194,57 +172,37 @@
                 vm.status.loading = true;
                 $timeout(function() {
                     EventChatFactory.query({
-                        event_id: eventId,
+                        event: eventId,
                         offset: vm.nextOffset,
                         limit: 10
                     }).$promise.then(function(response) {
                         var responseMessages = response.objects;
                         vm.next = response.meta.next;
-                        $filter('orderBy')(responseMessages, 'sent_at', true);
                         vm.nextOffset += 10;
 
                         for (var obj in responseMessages) {
-                            var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
-                            var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');
-
-                            var messageIndex = $filter('getIndexByProperty')('date', localDate, vm.messages);
-
-                            if (messageIndex === null) {
-                                vm.messages.push({
-                                    date: localDate,
-                                    realDate: localDatePlain,
-                                    contents: []
-                                });
-                                messageIndex = vm.messages.length - 1;
-                            }
-
-
-                            //TODO put photo url from facebook_id
+                            var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY h:mm a');
 
                             if (responseMessages[obj].sender === vm.sender) {
-                                vm.messages[messageIndex].contents.push({
+                                vm.messages.push({
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
-                                    date: localDatePlain,
-                                    photo: userPhoto,
-                                    sent_at: responseMessages[obj].sent_at,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
+                                    sent_at: localDate,
                                     left: true
                                 });
                             } else {
-                                vm.messages[messageIndex].contents.push({
+                                vm.messages.push({
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
-                                    date: localDatePlain,
-                                    photo: userPhoto,
-                                    sent_at: responseMessages[obj].sent_at,
+                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    first_name: responseMessages[obj].first_name,
+                                    sent_at: localDate,
                                     left: false
                                 });
                             }
-                            vm.messages[messageIndex].contents = $filter('orderBy')(vm.messages[messageIndex].contents, 'sent_at', true);
                         }
-
-                        vm.messages = $filter('orderBy')(vm.messages, 'realDate');
-
                         vm.status.loading = false;
                         vm.status.loaded = true;
                         deferred.resolve();
