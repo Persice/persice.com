@@ -9,7 +9,7 @@
         </div>
     </div>
     <div id="chat-conversation-content" class="basic ui segment" ng-class="{'loading': viewevent.loadingMessages}" when-scroll-ends="viewevent.loadMoreChat()">
-        <h3 class="ui center aligned header" ng-if="viewevent.messages.length === 0">
+        <h3 class="ui center aligned header" ng-if="viewevent.noMessages">
             There are no any messages
         </h3>
         <div class="repeat-animation" ng-repeat="message in viewevent.messages | orderBy:'-realDate' track by $index">

@@ -18,6 +18,8 @@
 
         vm.messages = [];
 
+        vm.noMessages = false;
+
         vm.loadingMessages = false;
         vm.loadingOlderMessages = false;
         vm.sendingMessage = false;
@@ -111,6 +113,7 @@
 
         function getMessages() {
             vm.messages = [];
+            vm.noMessages = false;
             vm.loadingMessages = true;
             vm.status.loaded = false;
             EventChatFactory.query({
@@ -123,6 +126,10 @@
                 $filter('orderBy')(responseMessages, 'sent_at', true);
 
                 vm.status.loaded = true;
+
+                if (responseMessages.length === 0) {
+                     vm.noMessages = true;
+                }
                 for (var obj in responseMessages) {
                     var localDate = $filter('amDateFormat')(responseMessages[obj].sent_at, 'dddd, MMMM D, YYYY');
                     var localDatePlain = $filter('amDateFormat')(responseMessages[obj].sent_at, 'L');

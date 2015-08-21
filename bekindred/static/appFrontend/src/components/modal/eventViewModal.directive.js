@@ -1156,6 +1156,8 @@
 
         vm.messages = [];
 
+        vm.noMessages = false;
+
         vm.loadingMessages = false;
         vm.loadingOlderMessages = false;
         vm.sendingMessage = false;
@@ -1239,6 +1241,7 @@
             vm.messages = [];
             vm.loadingMessages = true;
             vm.status.loaded = false;
+            vm.noMessages = false;
             EventChatFactory.query({
                 event: vm.eventid,
                 limit: 20,
@@ -1246,6 +1249,10 @@
             }).$promise.then(function(response) {
                 var responseMessages = response.objects;
                 vm.nextChat = response.meta.next;
+                if (responseMessages.length === 0) {
+                     vm.noMessages = true;
+                }
+
                 $filter('orderBy')(responseMessages, 'sent_at', true);
 
                 vm.status.loaded = true;
