@@ -46,6 +46,7 @@ INSTALLED_APPS = (
 )
 
 INSTALLED_APPS += ('south',
+                   'haystack',
                    'import_export',
                    'pagination',
                    'django_facebook',
@@ -187,6 +188,15 @@ GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')
 # GEOIP_CITY = 'GeoLiteCity.dat'
 
 # TASTYPIE_DATETIME_FORMATTING = 'rfc-2822'
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
 
 LOGGING = {
     'version': 1,
