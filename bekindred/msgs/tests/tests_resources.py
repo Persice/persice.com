@@ -1,5 +1,9 @@
+from datetime import timedelta
+from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
+from events.models import Event, Membership
+from msgs.models import ChatMessage
 from postman.api import pm_write
 from postman.models import Message
 
@@ -84,6 +88,9 @@ class TestChatMessageResource(ResourceTestCase):
     def setUp(self):
         super(TestChatMessageResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
         self.resource_url = '/api/v1/chat/'
 
     def login(self):
@@ -97,3 +104,17 @@ class TestChatMessageResource(ResourceTestCase):
         resp = self.api_client.get(self.resource_url, format='json')
         self.assertEqual(self.deserialize(resp)['objects'], [])
 
+    def test_post_message(self):
+        self.response = self.login()
+        event1 = Event.objects.create(name="Play piano1", location=[7000, 22965.83],
+                                           starts_on=now(), ends_on=now() + timedelta(days=10))
+        Membership.objects.create(user=self.user, event=event1, is_organizer=True)
+        Membership.objects.create(user=self.user1, event=event1, rsvp='yes')
+        Membership.objects.create(user=self.user2, event=event1, rsvp='yes')
+        ChatMessage.objects.create(sender=self.user3, body='test', event=event1)
+        post_data = {
+            'body': "new",
+            'event': "/api/v1/event/{}/".format(event1.id),
+            'sender': "/api/v1/auth/user/{}/".format(self.user.id)
+        }
+        resp = self.api_client.post(self.resource_url, format='json', data=post_data)

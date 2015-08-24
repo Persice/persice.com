@@ -9,9 +9,10 @@ from tastypie.bundle import Bundle
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
+from tastypie.constants import ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource, Resource
 from events.api.resources import EventResource
-from events.models import Event
+from events.models import Event, Membership
 
 from friends.models import Friend
 from matchfeed.api.resources import A
@@ -202,5 +203,33 @@ class ChatMessageResource(ModelResource):
         allowed_methods = ['get', 'post']
         always_return_data = True
         fields = ['sender', 'body', 'sent_at']
+        filtering = {'event': ALL_WITH_RELATIONS}
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def dehydrate(self, bundle):
+        bundle.data['facebook_id'] = bundle.obj.sender.facebook_id
+        bundle.data['first_name'] = bundle.obj.sender.first_name
+        return bundle
+
+    def get_object_list(self, request):
+        return super(ChatMessageResource, self).get_object_list(request). \
+            order_by('-sent_at')
+
+    def obj_create(self, bundle, **kwargs):
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        data = bundle.data
+        event_id = re.findall(r'/(\d+)/', bundle.data['event'])[0]
+        event = Event.objects.get(pk=int(event_id))
+
+        user_id = re.findall(r'/(\d+)/', bundle.data['sender'])[0]
+        sender = FacebookCustomUserActive.objects.get(pk=int(user_id))
+
+        members = Membership.objects.filter(event=event, rsvp='yes').\
+            exclude(user=sender.id)
+        for member in members:
+            data['facebook_id'] = member.user.facebook_id
+            data['sent_at'] = now().isoformat()
+            data['event_id'] = event_id
+            r.publish('chat_message.%s' % member.user.id, json.dumps(data))
+        return super(ChatMessageResource, self).obj_create(bundle, **kwargs)

@@ -1,1 +1,2 @@
-import signals
+from __future__ import absolute_import
+from events.signals import *

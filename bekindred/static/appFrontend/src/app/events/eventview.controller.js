@@ -18,6 +18,7 @@
         vm.event = {};
         vm.eventNotFound = false;
         vm.editEvent = editEvent;
+        vm.openChat = openChat;
 
         vm.eventLocation = '';
 
@@ -64,6 +65,12 @@
 
         function editEvent() {
             $state.go('event.edit', {
+                eventId: eventId
+            });
+        }
+
+        function openChat() {
+            $state.go('event.chat', {
                 eventId: eventId
             });
         }

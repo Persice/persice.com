@@ -41,7 +41,7 @@
      * @desc controller for matchfeedProfile directive
      * @ngInject
      */
-    function MatchfeedProfileController($scope, $timeout, $filter, $rootScope, USER_ID, FriendsFactory, MatchFeedFactory, MutualFriendsFactory, PhotosFactory, $log, lodash) {
+    function MatchfeedProfileController($scope, $timeout, $filter, $rootScope, USER_ID, FriendsFactory, MatchFeedFactory, MutualFriendsFactory, PhotosFactory, $log, lodash, $state) {
         var vm = this;
 
         vm.social = {
@@ -72,7 +72,10 @@
         });
 
         $rootScope.$on('refreshMatchFeed', function() {
-            vm.initloadMatches();
+            if($state.is('matchfeed')) {
+                vm.initloadMatches();
+            }
+
         });
 
         vm.nextImage = function() {

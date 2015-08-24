@@ -5,6 +5,7 @@ angular.module('persice')
         $rootScope.hideTopMenu = false;
 
         $rootScope.distance_unit = 'miles';
+        $rootScope.eventChatModal = false;
 
         FilterRepository.getFilters().then(function(data) {
             $rootScope.distance_unit = data.distance_unit;
@@ -37,7 +38,7 @@ angular.module('persice')
         $geolocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 60000,
-            maximumAge: 2
+            maximumAge: 75000
         }).then(function(location) {
             $scope.location = location;
             $scope.saveLocation($scope.location.coords);
@@ -243,6 +244,45 @@ angular.module('persice')
 
                         var notification = '<div class="notify-info-header"><a href="" ng-click="gotoConversation()">Received new message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
                             '<p><a href="" ng-click="gotoConversation()">' + message + '</a></p>';
+
+                        notify({
+                            messageTemplate: notification,
+                            scope: $scope,
+                            classes: 'notify-info',
+                            icon: 'wechat',
+                            duration: 4000
+                        });
+
+
+                    });
+
+                }
+
+            }
+
+            //new event chat message notification
+            if (jsonData.type === 'chat_message.' + USER_ID) {
+                $log.info($rootScope.eventChatModal);
+                if ($rootScope.isState('event.chat') || $rootScope.eventChatModal) {
+                    $rootScope.$broadcast('receivedEventChatMessage', jsonData.message);
+                } else {
+
+                    var jsonData = JSON.parse(data);
+                    var contentData = JSON.parse(jsonData.message);
+                    var message = $filter('words')(contentData.body, 10);
+                    var localTime = $filter('amDateFormat')(contentData.sent_at, 'h:mm a');
+
+                    var Sender = $resource(contentData.sender);
+                    Sender.get().$promise.then(function(data) {
+
+                        $scope.gotoEventChatMessage = function() {
+                            $state.go('event.chat', {
+                                eventId: contentData.event_id
+                            });
+                        };
+
+                        var notification = '<div class="notify-info-header"><a href="" ng-click="gotoEventChatMessage()">Received new event chat message from ' + data.first_name + '<br>' + localTime + ' </a></div>' +
+                            '<p><a href="" ng-click="gotoEventChatMessage">' + message + '</a></p>';
 
                         notify({
                             messageTemplate: notification,

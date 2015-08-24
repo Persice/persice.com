@@ -24,7 +24,7 @@
 
 </head>
 
-<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('events.allevents.list') || isState('events.myevents.list') || isState('events.mynetwork.list') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'event-page': isState('event')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('event.chat') || isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'eventchat-page': isState('event.chat'), 'event-page': isState('event.details') || isState('event.edit'), 'crowd-page': isState('matchfeed2')}">
     {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -64,7 +64,7 @@
             <img src="/static/appFrontend/dist/assets/images/logo/app-logo-big.png" alt="" class="ui image medium">
         </a>
     </div>
-    <div class="ui vertical right inverted labeled sidebar menu matchfeedfilter" id="filtersMenu" ng-show="isState('matchfeed')">
+    <div class="ui vertical right inverted labeled sidebar menu matchfeedfilter" id="filtersMenu" ng-show="isState('matchfeed') || isState('matchfeed2')">
         <matchfeed-filter id="filter" class="mobilefilters"></matchfeed-filter>
     </div>
     <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
@@ -112,7 +112,7 @@
                 </a>
                 <a href="" class="item displaynone"> <span class="content">Help</span></a>
             </div>
-            <div class="right menu" id="right-menu-launcher" ng-show="isState('matchfeed')">
+            <div class="right menu" id="right-menu-launcher" ng-show="isState('matchfeed') || isState('matchfeed2')">
                 <a class="launch item"><i class="fa fa-sliders icon"></i></a>
             </div>
         </div>
@@ -134,7 +134,7 @@
                         <a href="/static/files/Icebrak_Privacy_Policy.pdf" target="_new" class="item">Privacy Policy</a>
                     </div>
                 </div>
-                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('matchfeed')">
+                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('matchfeed') || isState('matchfeed2')">
                     <matchfeed-filter id="matchfeed-filters" class="desktopview"></matchfeed-filter>
                 </div>
                 <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('events')">
@@ -191,6 +191,7 @@
             }
         })());
         angular.module('persice').constant('USER_LASTNAME', '{{ user.last_name }}');
+        angular.module('persice').constant('USER_FACEBOOK_ID', '{{ user.facebook_id }}');
         angular.module('persice').constant('APP_ID', '{{ FACEBOOK_APP_ID }}');
 
 

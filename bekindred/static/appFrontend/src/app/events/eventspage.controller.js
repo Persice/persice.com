@@ -86,6 +86,17 @@
             vm.showViewModal = false;
         }
 
+
+        $scope.$watch(angular.bind(this, function(showViewModal) {
+            return vm.showViewModal;
+        }), function(newVal) {
+            if (!newVal) {
+                $rootScope.eventChatModal = false;
+            }
+        });
+
+
+
     }
 
 

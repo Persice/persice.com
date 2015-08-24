@@ -1,8 +1,10 @@
 <div class="ui modal centeraligned" ng-class="viewevent.getActiveClass()" id="{{viewevent.modalId}}">
-    <div class="header" ng-class="{'leftalign': viewevent.selection === 'invitations' || viewevent.selection === 'attendees'}">{{viewevent.header}}
+    <div class="header" ng-class="{'leftalign': viewevent.selection === 'invitations' || viewevent.selection === 'attendees' || viewevent.selection === 'chat'}">
+        <span ng-bind-html="viewevent.header"></span>
         <i class="close icon" ng-click="viewevent.closeEventModal()"></i>
         <i ng-if="viewevent.selection === 'invitations'" class="left chevron icon" ng-click="viewevent.closeInvitations()"></i>
         <i ng-if="viewevent.selection === 'attendees'" class="left chevron icon" ng-click="viewevent.closeAttendees()"></i>
+        <i ng-if="viewevent.selection === 'chat'" class="left chevron icon" ng-click="viewevent.closeChat()"></i>
     </div>
     <div class="content">
         <div class="switch-content" ng-switch on="viewevent.selection">
@@ -17,6 +19,9 @@
             </div>
             <div ng-switch-when="attendees">
                 <ng-include src="'components/event/eventattendees.tpl.html'"></ng-include>
+            </div>
+            <div ng-switch-when="chat">
+                <ng-include src="'components/event/eventchat.tpl.html'"></ng-include>
             </div>
         </div>
     </div>
@@ -41,6 +46,3 @@
         </div>
     </div>
 </div>
-
-
-

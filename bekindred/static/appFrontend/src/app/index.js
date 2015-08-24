@@ -27,7 +27,8 @@ angular
         'frontend.ui.autocomplete',
         'google.places',
         'ngMask',
-        'rzModule'
+        'rzModule',
+        'easypiechart'
     ])
 
 .config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
@@ -232,6 +233,15 @@ angular
                 controller: 'MatchFeedController',
                 controllerAs: 'matchfeed'
             })
+            .state('matchfeed2', {
+                url: '/crowd2',
+                data: {
+                    displayName: 'Crowd',
+                },
+                templateUrl: 'app/matchfeed/crowd.html',
+                controller: 'CrowdController',
+                controllerAs: 'crowd'
+            })
             .state('bigmatchfeed', {
                 url: '/big-crowd',
                 data: {
@@ -395,6 +405,20 @@ angular
                     displayName: 'Event Details',
                 }
             })
+            .state('event.chat', {
+                url: '/chat/:eventId',
+                templateUrl: 'app/events/event_chat.html',
+                controller: 'EventChatController',
+                controllerAs: 'viewevent',
+                resolve: {
+                    eventId: ['$stateParams', function($stateParams) {
+                        return $stateParams.eventId;
+                    }],
+                },
+                data: {
+                    displayName: 'Event Chat',
+                }
+            })
             .state('event.edit', {
                 url: '/edit/:eventId',
                 templateUrl: 'app/events/event_edit.html',
@@ -482,7 +506,13 @@ angular
             };
 
             //remember state in events feed
-            if ((fromState.name === 'events.myevents' || fromState.name === 'events.allevents' || fromState.name === 'events.mynetwork') && (toState.name === 'event.details' || toState.name === 'event.create')) {
+            if ((fromState.name === 'events.myevents.list' ||
+                    fromState.name === 'events.allevents.list' ||
+                    fromState.name === 'events.mynetwork.list' ||
+                    fromState.name === 'events.myevents.map' ||
+                    fromState.name === 'events.allevents.map' ||
+                    fromState.name === 'events.mynetwork.map'
+                ) && (toState.name === 'event.details' || toState.name === 'event.create')) {
                 $rootScope.previousEventFeed = fromState.name;
             }
 
@@ -829,4 +859,37 @@ angular
         return function(val) {
             return $sce.trustAsResourceUrl(val);
         };
+    })
+    .filter('gender', function() {
+        return function(val) {
+            var gender = '';
+            if (val === 'f') {
+                gender = 'female';
+            }
+            if (val === 'm') {
+                gender = 'male';
+            }
+            return gender;
+        };
+    })
+    .directive('animation', function($timeout) {
+        return {
+            scope: {
+                index: "@"
+            },
+            link: function($scope, element, attrs) {
+                console.log(attrs.index);
+                var initMargin = angular.element(element).css("margin");
+
+                TweenMax.staggerFrom(element, 2, {
+                    scale: 0.8,
+                    opacity: 0,
+                    delay: 0.2,
+                    ease: Elastic.easeOut,
+                    force3D: true
+                }, 0.9);
+
+
+            }
+        }
     });
