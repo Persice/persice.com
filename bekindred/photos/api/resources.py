@@ -1,15 +1,33 @@
-from django_facebook.models import FacebookCustomUser
+from django.conf.urls import url
+from haystack.backends import SQ
 from tastypie import fields
-from tastypie.authentication import SessionAuthentication, Authentication
-from tastypie.authorization import DjangoAuthorization, Authorization
+from tastypie.authentication import SessionAuthentication
+from tastypie.authorization import Authorization
 from tastypie.constants import ALL
+from django.core.paginator import Paginator, InvalidPage
+from django.http import Http404
+from haystack.query import SearchQuerySet
 from tastypie.resources import ModelResource
+
+from tastypie.utils import trailing_slash
+from goals.models import Goal
+
 from members.models import FacebookCustomUserActive
-from photos.models import FacebookPhoto, Photo
+from photos.models import FacebookPhoto
 from goals.utils import calculate_age, social_extra_data
 
 
 class UserResource(ModelResource):
+    goals = fields.OneToManyField('goals.api.resources.GoalResource',
+                                  attribute=lambda bundle: bundle.obj.goal_set.all(),
+                                  full=True, null=True)
+    offers = fields.OneToManyField('goals.api.resources.OfferResource',
+                                   attribute=lambda bundle: bundle.obj.offer_set.all(),
+                                   full=True, null=True)
+    interests = fields.OneToManyField('interests.api.resources.InterestResource',
+                                      attribute=lambda bundle: bundle.obj.interest_set.all(),
+                                      full=True, null=True)
+
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
@@ -27,6 +45,43 @@ class UserResource(ModelResource):
         bundle.data['twitter_provider'], bundle.data['linkedin_provider'], bundle.data['twitter_username'] = \
             social_extra_data(bundle.request.user.id)
         return bundle
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_search'), name="api_get_search"),
+        ]
+
+    def get_search(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        # Do the query.
+        query = request.GET.get('q', '')
+        sqs = SearchQuerySet().models(FacebookCustomUserActive).load_all().filter(SQ(first_name=query) |
+                                                                                  SQ(last_name=query) |
+                                                                                  SQ(goals=query))
+        paginator = Paginator(sqs, 20)
+
+        try:
+            page = paginator.page(int(request.GET.get('page', 1)))
+        except InvalidPage:
+            raise Http404("Sorry, no results on that page.")
+
+        objects = []
+
+        for result in page.object_list:
+            bundle = self.build_bundle(obj=result.object, request=request)
+            bundle = self.full_dehydrate(bundle)
+            objects.append(bundle)
+
+        object_list = {
+            'objects': objects,
+        }
+
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
 
 
 class FacebookPhotoResource(ModelResource):
