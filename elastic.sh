@@ -12,7 +12,7 @@ cd elasticsearch-$VERSION
 echo 'marvel.agent.enabled: false' >> ./config/elasticsearch.yml
 
 # run elastic
-#  ./bin/elasticsearch
+./bin/elasticsearch -d
 
 
 # https://github.com/jprante/elasticsearch-jdbc
