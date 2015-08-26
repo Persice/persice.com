@@ -7976,7 +7976,7 @@ body.crowd-page div#main-content {
     top: 47px;
     width: 49px;
     text-align: center;
-     font-size: 0.9em;
+    font-size: 0.9em;
 }
 
 #chat-conversation-container .chat-conversation-message {
@@ -8139,3 +8139,59 @@ body.crowd-page div#main-content {
 .ui.modal #chat-conversation-content {
     bottom: 0px!important;
 }
+
+
+
+//search page
+
+.ui.icon.input.huge input {
+    font-size: 18px!important;
+}
+
+.ui.icon.input.huge.searchpage {
+    width: 100%!important;
+}
+
+.search-header.ui.header {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #BBB;
+}
+
+.search-results .avatar.image {
+    width: 4rem;
+    height: 4rem;
+}
+
+.search-results.ui.list .item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.search-results.ui.list .item div.header {
+   font-size: 1rem;
+   text-transform: uppercase;
+   color: #000;
+}
+
+.search-results.ui.list .item div.description {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #BBB;
+    font-weight: bold;
+}
+
+a.show-all-link {
+    color: #BBB;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+a.show-all-link span {
+    font-weight: bold;
+}
+
+div.search-results-container {
+    padding: 0!important;
+}
+

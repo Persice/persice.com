@@ -475,6 +475,18 @@ angular
                     displayName: 'Event Details',
                 }
 
+            })
+            .state('search', {
+                url: '/search',
+                templateUrl: 'app/search/search.html',
+                controller: 'SearchPageController',
+                controllerAs: 'search',
+                resolve: {
+
+                },
+                data: {
+                    displayName: 'Search Users and Events',
+                }
             });
 
 
