@@ -8148,8 +8148,13 @@ body.crowd-page div#main-content {
     font-size: 18px!important;
 }
 
-.ui.icon.input.huge.searchpage {
+.ui.icon.input.huge.searchinput {
     width: 100%!important;
+}
+
+.ui.icon.input.huge.searchinput .remove.icon{
+    left: auto;
+    right: 0.5em;
 }
 
 .search-header.ui.header {
@@ -8169,9 +8174,9 @@ body.crowd-page div#main-content {
 }
 
 .search-results.ui.list .item div.header {
-   font-size: 1rem;
-   text-transform: uppercase;
-   color: #000;
+ font-size: 1rem;
+ text-transform: uppercase;
+ color: #000;
 }
 
 .search-results.ui.list .item div.description {
@@ -8195,3 +8200,32 @@ div.search-results-container {
     padding: 0!important;
 }
 
+.search-results-container.ui.segment {
+    min-height: 90px;
+}
+
+.search-results-container.ui.segment .ui.message {
+    margin: 1rem;
+}
+
+
+
+.fadein.ng-hide-remove,
+.fadeout.ng-hide-add.ng-hide-add-active {
+  opacity: 0;
+  display: block !important;
+}
+
+.fadeout.ng-hide-add,
+.fadein.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+  display: block !important;
+}
+
+.fadein,
+.fadeout {
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+  -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+  -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+}

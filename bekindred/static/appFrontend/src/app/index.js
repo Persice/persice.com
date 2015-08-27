@@ -101,15 +101,15 @@ angular
         });
 
         gsapifyRouterProvider.transition('fadeIn', {
-            duration: 0.5,
-            delay: 0.2,
+            duration: 0,
+            delay: 0,
             css: {
                 opacity: 0,
             }
         });
 
         gsapifyRouterProvider.transition('fadeOut', {
-            duration: 0.2,
+            duration: 0,
             css: {
                 opacity: 0,
             }
