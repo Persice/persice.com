@@ -1,36 +1,28 @@
 <search-input></search-input>
-<div class="ui raised segments">
+<div class="ui raised segments" ng-hide="search.emptySearch">
     <h3 class="ui top block attached header search-header">Users</h3>
-    <div class="ui attached segment search-results-container">
-        <div class="ui middle aligned very relaxed divided link list search-results">
-            <a class="item">
-                <img class="ui avatar image" src="http://lorempixel.com/300/300">
+    <div class="ui attached segment search-results-container" ng-class="{'loading': search.isLoadingUsers}">
+        <div class="ui middle aligned very relaxed divided link list search-results" ng-show="!search.noResults.users">
+            <a class="item" ng-repeat="user in search.results.users track by $index">
+                <img class="ui avatar image" ng-src="//graph.facebook.com/{{::user.facebook_id}}/picture?type=square">
                 <div class="middle aligned content">
-                    <div class="header">Daniel Louise, 86 match</div>
-                    <div class="description">Female / Age 25 / 2 Miles / 2 Mutual Friends</div>
-                </div>
-            </a>
-            <a class="item">
-                <img class="ui avatar image" src="http://lorempixel.com/300/300">
-                <div class="middle aligned content">
-                    <div class="header">Stevie Feliciano, 86 match</div>
-                    <div class="description">Female / Age 25 / 2 Miles / 2 Mutual Friends</div>
-                </div>
-            </a>
-            <a class="item">
-                <img class="ui avatar image" src="http://lorempixel.com/300/300">
-                <div class="middle aligned content">
-                    <div class="header">Elliot Fu, 86 match</div>
-                    <div class="description">Female / Age 25 / 2 Miles / 2 Mutual Friends</div>
+                    <div class="header">{{user.first_name}} {{user.last_name}}, 0 match</div>
+                    <div class="description">Gender / Age {{user.age}} / 0 Miles / 0 Mutual Friends</div>
                 </div>
             </a>
         </div>
+        <div class="ui message fadein fadeout" ng-show="search.noResults.users">
+            <div class="header">
+                No results results found for users
+            </div>
+            Please try to search with another search term
+        </div>
     </div>
-    <div class="ui attached center aligned segment">
+    <!--   <div class="ui attached center aligned segment">
         <a class="show-all-link" href=""><span>show all</span> (32)</a>
-    </div>
+    </div> -->
     <h3 class="ui attached block header search-header">Events</h3>
-    <div class="ui attached segment search-results-container">
+    <div class="ui attached segment search-results-container" ng-class="{'loading': search.isLoadingEvents}">
         <div class="ui middle aligned very relaxed divided link list search-results">
             <a class="item">
                 <img class="ui avatar image" src="http://lorempixel.com/300/300">
@@ -39,23 +31,20 @@
                     <div class="description">Portland Or / Tue 33 Jul</div>
                 </div>
             </a>
-            <a class="item">
-                <img class="ui avatar image" src="http://lorempixel.com/300/300">
-                <div class="middle aligned content">
-                    <div class="header">Event 2</div>
-                    <div class="description">Portland Or / Tue 33 Jul</div>
-                </div>
-            </a>
-            <a class="item">
-                <img class="ui avatar image" src="http://lorempixel.com/300/300">
-                <div class="middle aligned content">
-                    <div class="header">Event 3</div>
-                    <div class="description">Portland Or / Tue 33 Jul</div>
-                </div>
-            </a>
+        </div>
+        <div class="ui message fadein fadeout" ng-if="search.noResults.events">
+            <div class="header">
+                No results found for events
+            </div>
+            Please try to search with another search term
         </div>
     </div>
-    <div class="ui attached center aligned segment">
-    <a class="show-all-link" href=""><span>show all</span> (32)</a>
+    <!--  <div class="ui attached center aligned segment">
+        <a class="show-all-link" href=""><span>show all</span> (32)</a>
+    </div> -->
+</div>
+<div class="ui info message searchpage fadein fadeout" ng-hide="!search.emptySearch">
+    <div class="header">
+        Please type a search term to find users and events
     </div>
 </div>

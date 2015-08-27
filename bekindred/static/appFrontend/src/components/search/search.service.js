@@ -11,14 +11,23 @@
      */
      function Search($http, $log, $q, $rootScope, $sanitize, $timeout) {
 
+        var baseUrl = '/api/v1/auth/user/search/';
+
+        var notify = notify;
 
         var service = {
-            results: [],
+            results: {
+                users: [],
+                events: []
+            },
             query: '',
             error: '',
             isLoading: false,
             search: search,
-            handleInput: handleInput
+            handleInput: handleInput,
+            subscribe: subscribe,
+            getResults: getResults,
+            clearResultsAndQuery: clearResultsAndQuery
         };
         return service;
 
@@ -28,7 +37,7 @@
             service.isLoading = true;
 
             return $http({
-                url: ' ',
+                url: baseUrl,
                 params: {
                     q: encodedQuery,
                     page: 1
@@ -40,22 +49,55 @@
 
         function handleInput (val) {
             service.query = val;
+            if (val.length === 0) {
+                service.clearResultsAndQuery();
+            }
 
-            if (val) {
-                // service.search(val).then(function(response) {
+            if (val.length > 0) {
+                notify('search.isloading.users');
+                service.search(val).then(function(response) {
 
-                //     $log.info(response);
+                    service.results.users = response.data.objects;
+                    notify('search.results.users');
+                    service.isLoading = false;
+                }, function(response) {
 
-                // }, function(response) {
-
-                // });
+                });
 
             }
+
         }
 
 
+        function subscribe (scope, callback) {
+            var handler1 = $rootScope.$on('search.results.users', callback);
+            var handler2 = $rootScope.$on('search.results.events', callback);
+            var handler3 = $rootScope.$on('search.isloading.users', callback);
+            var handler4 = $rootScope.$on('search.isloading.events', callback);
+            var handler5 = $rootScope.$on('search.results.cleared', callback);
+            scope.$on('$destroy', handler1);
+            scope.$on('$destroy', handler2);
+            scope.$on('$destroy', handler3);
+            scope.$on('$destroy', handler4);
+            scope.$on('$destroy', handler5);
+        }
 
+        function getResults (type) {
+            return service.results[type];
+        }
 
+        function clearResultsAndQuery (type) {
+            service.results = {
+                users: [],
+                events: []
+            };
+            service.query = '';
+            notify('search.results.cleared');
+        }
+
+        function notify (event) {
+            $rootScope.$emit(event);
+        }
 
     }
 
