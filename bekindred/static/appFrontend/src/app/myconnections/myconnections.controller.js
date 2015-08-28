@@ -10,7 +10,7 @@
      * classDesc Fetch user connections
      * @ngInject
      */
-    function MyConnectionsController($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log, $timeout, $q, $http, $filter, $state, NotificationsRepository) {
+    function MyConnectionsController($scope, FriendsFactory, USER_ID, $resource, ConnectionsFactory, $log, $timeout, $q, $http, $filter, $state, NotificationsRepository, $rootScope) {
         var vm = this;
         vm.friends = [];
         vm.q = '';
@@ -26,8 +26,18 @@
         vm.loadMoreFriends = loadMoreFriends;
         vm.gotoConnection = gotoConnection;
         vm.reset = reset;
+        vm.order = 'date';
 
         vm.getFriends();
+
+        $rootScope.$on('refreshConnections', function(event, data) {
+            $('.right.sidebar.connectionsfilter').sidebar('hide');
+            if ($state.current.name === 'myconnections') {
+                vm.order = data.order;
+                vm.getFriends();
+            }
+
+        });
 
         function reset() {
             vm.q = '';
@@ -35,6 +45,7 @@
         }
 
         function getFriends() {
+
             vm.nextOffset = 10;
             vm.next = null;
             vm.loading = true;
@@ -42,6 +53,7 @@
                 format: 'json',
                 first_name: vm.q,
                 limit: 10,
+                order: vm.order,
                 offset: 0
             }).$promise.then(function(data) {
 
@@ -109,6 +121,7 @@
                     format: 'json',
                     limit: 10,
                     first_name: vm.q,
+                    order: vm.order,
                     offset: vm.nextOffset
                 }).$promise.then(function(data) {
 

@@ -477,15 +477,23 @@ angular
 
             })
             .state('search', {
-                url: '/search',
+                url: '/search?query',
+                reloadOnSearch: false,
                 templateUrl: 'app/search/search.html',
                 controller: 'SearchPageController',
                 controllerAs: 'search',
                 resolve: {
+                    query: ['$stateParams', function($stateParams) {
+                        if ($stateParams.query) {
+                            return $stateParams.query;
+                        } else {
+                            return '';
+                        }
 
+                    }],
                 },
                 data: {
-                    displayName: 'Search Users and Events',
+                    displayName: 'Search for Users and Events',
                 }
             });
 
