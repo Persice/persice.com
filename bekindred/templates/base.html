@@ -70,6 +70,9 @@
     <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
         <events-filter id="filter" class="mobilefilters"></events-filter>
     </div>
+    <div class="ui vertical right inverted labeled sidebar menu connectionsfilter" id="filtersMenu" ng-show="isState('myconnections')">
+        <connections-filter id="filter" class="mobilefilters"></connections-filter>
+    </div>
     <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
@@ -115,6 +118,10 @@
             <div class="right menu" id="right-menu-launcher" ng-show="isState('matchfeed') || isState('matchfeed2')">
                 <a class="launch item"><i class="fa fa-sliders icon"></i></a>
             </div>
+            <div class="right menu" id="connectionsfilter-menu-launcher" ng-show="isState('myconnections')">
+                <a class="launch item"><i class="fa fa-sliders icon"></i></a>
+            </div>
+
         </div>
     </div>
     <div class="pusher">
@@ -139,6 +146,9 @@
                 </div>
                 <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('events')">
                     <events-filter id="matchfeed-filters" class="desktopview"></events-filter>
+                </div>
+                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('myconnections')">
+                    <connections-filter id="matchfeed-filters" class="desktopview"></connections-filter>
                 </div>
 
                 <div id="main-content" class="gsapify-router" ui-view autoscroll="false">
@@ -175,6 +185,12 @@
         .sidebar('attach events', '#eventsfilter-menu-launcher')
         .sidebar('setting', 'duration', 0);
         $('#eventsfilter-menu-launcher')
+        .removeClass('disabled');
+
+        $('.right.sidebar.connectionsfilter')
+        .sidebar('attach events', '#connectionsfilter-menu-launcher')
+        .sidebar('setting', 'duration', 0);
+        $('#connectionsfilter-menu-launcher')
         .removeClass('disabled');
     </script>
     <script>
