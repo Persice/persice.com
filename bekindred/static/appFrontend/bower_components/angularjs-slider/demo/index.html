@@ -20,6 +20,7 @@
         <article>
             <h2>Min/max slider example</h2>
             Value: <pre>{{ slider_data | json }}</pre>
+            <p>Value linked on change: {{ otherData.value }}</p>
 
             <rzslider
                     rz-slider-floor="0.5"
@@ -80,6 +81,23 @@
                 rz-slider-tpl-url="rzSliderTpl.html"></rzslider>
         </article>
 
+        <article>
+            <h2>Draggable range example</h2>
+            Value: <pre>{{ priceSlider | json }}</pre>
+
+            <input type="text" ng-model="priceSlider.min"/><br/>
+            <input type="text" ng-model="priceSlider.max"/><br/>
+
+            <rzslider
+                rz-slider-draggable-range="true"
+                rz-slider-floor="priceSlider.floor"
+                rz-slider-ceil="priceSlider.ceil"
+                rz-slider-model="priceSlider.min"
+                rz-slider-high="priceSlider.max"
+                rz-slider-step="5"
+                rz-slider-tpl-url="rzSliderTpl.html"></rzslider>
+        </article>
+
     </div>
 </body>
 
@@ -114,9 +132,11 @@
         };
 
         $scope.slider_data = {value: 1};
+        $scope.otherData = {value: 10};
 
         $scope.onChange = function() {
           console.info('changed', $scope.slider_data.value);
+          $scope.otherData.value = $scope.slider_data.value * 10;
         };
     });
 </script>
