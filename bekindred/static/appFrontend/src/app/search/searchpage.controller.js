@@ -10,8 +10,17 @@
      * classDesc Search for users and events
      * @ngInject
      */
-    function SearchPageController($scope, $log, $state, Search) {
+    function SearchPageController($scope, $log, $state, Search, query) {
         var vm = this;
+
+        var previousSearch = Search.query;
+
+        if (previousSearch.length > 0) {
+            vm.query = previousSearch;
+        }
+        else {
+            vm.query = query;
+        }
 
         vm.isLoadingEvents = false;
         vm.isLoadingUsers = false;
@@ -28,12 +37,10 @@
         vm.emptySearch = true;
 
         Search.subscribe($scope, function searchResultsChanged(event, data) {
-            $log.info(event.name);
             switch (event.name) {
                 case 'search.results.users':
                     vm.results.users = Search.getResults('users');
                     vm.isLoadingUsers = false;
-                    vm.isLoadingEvents = false;
                     if (vm.results.users.length === 0) {
                         vm.noResults.users = true;
                     } else {
