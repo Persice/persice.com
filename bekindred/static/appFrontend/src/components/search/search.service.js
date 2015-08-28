@@ -11,7 +11,7 @@
      */
      function Search($http, $log, $q, $rootScope, $sanitize, $timeout) {
 
-        var baseUrl = '/api/v1/auth/user/search/';
+        var baseUrl = '/api/v1/';
 
         var notify = notify;
 
@@ -31,13 +31,12 @@
         };
         return service;
 
-        function search(query) {
+        function search(query, type) {
             var encodedQuery = $sanitize(query);
-
             service.isLoading = true;
 
             return $http({
-                url: baseUrl,
+                url: baseUrl + type + '/search/',
                 params: {
                     q: encodedQuery,
                     page: 1
@@ -55,10 +54,20 @@
 
             if (val.length > 0) {
                 notify('search.isloading.users');
-                service.search(val).then(function(response) {
+                notify('search.isloading.events');
+                service.search(val, 'auth/user').then(function(response) {
 
                     service.results.users = response.data.objects;
                     notify('search.results.users');
+                    service.isLoading = false;
+                }, function(response) {
+
+                });
+
+                service.search(val, 'event').then(function(response) {
+
+                    service.results.events = response.data.objects;
+                    notify('search.results.events');
                     service.isLoading = false;
                 }, function(response) {
 
