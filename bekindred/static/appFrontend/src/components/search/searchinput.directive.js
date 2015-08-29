@@ -9,11 +9,12 @@
      .module('persice')
      .directive('searchInput', searchInput);
 
-     function searchInput(Search) {
+     function searchInput(Search, $location) {
         var directive = {
             scope: {
                 id: '@id',
-                class: '@class'
+                class: '@class',
+                query: '=query',
             },
             link: link,
             replace: true,
@@ -29,8 +30,9 @@
         return directive;
 
         function link(scope, element, attrs, filter) {
-
-
+            if (scope.query.length > 0) {
+                Search.handleInput(scope.query);
+            }
             element.bind('keydown', function(e) {
                 if (e.keyCode === 13) {
                     Search.handleInput(scope.query);
@@ -40,9 +42,11 @@
             scope.resetQuery = function () {
                 scope.query = '';
                 Search.clearResultsAndQuery();
+                $location.search('query', scope.query);
             };
 
             scope.searchQuery = function () {
+                $location.search('query', scope.query);
                 Search.handleInput(scope.query);
             };
 
