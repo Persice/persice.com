@@ -171,6 +171,9 @@ class ConnectionsResource(Resource):
         elif request.GET.get('order') == 'mutual_friends':
             return sorted(results, key=lambda x: x.mutual_friends, reverse=True)
 
+        elif request.GET.get('order') == 'first_name':
+            return sorted(results, key=lambda x: (x.first_name, x.last_name))
+
         return sorted(results, key=lambda x: x.updated_at, reverse=True)
 
     def obj_get_list(self, bundle, **kwargs):
