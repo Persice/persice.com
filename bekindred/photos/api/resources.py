@@ -65,7 +65,9 @@ class UserResource(ModelResource):
         query = request.GET.get('q', '')
         sqs = SearchQuerySet().models(FacebookCustomUserActive).load_all().filter(SQ(first_name=query) |
                                                                                   SQ(last_name=query) |
-                                                                                  SQ(goals=query))
+                                                                                  SQ(goals=query) |
+                                                                                  SQ(offers=query) |
+                                                                                  SQ(interests=query))
         paginator = Paginator(sqs, 20)
 
         try:
