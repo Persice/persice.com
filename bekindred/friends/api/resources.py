@@ -157,10 +157,9 @@ class ConnectionsResource(Resource):
 
             results.append(new_obj)
 
-        # Order by
-        #
+        # Order by match_score
         if request.GET.get('order') == 'match_score':
-            return sorted(results, key=lambda x: x.match_score)
+            return sorted(results, key=lambda x: -x.common_goals_offers_interests)
 
         return results
 
