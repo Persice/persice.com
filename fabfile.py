@@ -90,6 +90,12 @@ def migrate():
 
 
 @task
+def update_index():
+    require('hosts', provided_by=[production])
+    manage_py('update_index')
+
+
+@task
 def migrate_list():
     require('hosts', provided_by=[production])
     manage_py('migrate')
@@ -114,6 +120,13 @@ def restart_app():
 
 
 @task
+def restart_celery():
+    sudo('supervisorctl stop bekindred-celery')
+    sudo('supervisorctl start bekindred-celery')
+    sudo('supervisorctl status bekindred-celery')
+
+
+@task
 def restart_nginx():
     sudo('service nginx restart')
 
@@ -133,6 +146,7 @@ def restart_node():
 
 @task
 def reload():
+    restart_celery()
     restart_app()
     restart_node()
     restart_nginx()
@@ -152,6 +166,7 @@ def deploy(branch='origin/master'):
     install_requirements()
     syncdb()
     migrate()
+    update_index()
     collectstatic()
     reload()
     print green('Successful!')
