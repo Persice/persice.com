@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.utils.timezone import now
 from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
@@ -10,7 +11,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Changing field 'Friend.updated_at'
-        db.alter_column(u'friends_friend', 'updated_at', self.gf('django.db.models.fields.DateTimeField')())
+        db.alter_column(u'friends_friend', 'updated_at', self.gf('django.db.models.fields.DateTimeField')(default=now()))
 
     def backwards(self, orm):
 
