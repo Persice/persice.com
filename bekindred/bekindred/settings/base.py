@@ -198,6 +198,8 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
