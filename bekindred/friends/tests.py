@@ -218,3 +218,12 @@ class TestConnectionsResource(ResourceTestCase):
         ar = [item['common_goals_offers_interests'] for item in data['objects']]
         self.assertEqual(ar, [3, 2, 1, 0, 0, 0])
 
+    def test_get_connections_order_by_date(self):
+        """
+        Order by date default ordering
+        """
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/connections/', format='json', data={'order': 'date'})
+        data = self.deserialize(resp)
+        ar = [item['common_goals_offers_interests'] for item in data['objects']]
+        self.assertEqual(ar, [1, 2, 3, 0, 0, 0])

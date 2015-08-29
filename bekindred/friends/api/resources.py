@@ -159,9 +159,9 @@ class ConnectionsResource(Resource):
 
         # Order by match_score
         if request.GET.get('order') == 'match_score':
-            return sorted(results, key=lambda x: -x.common_goals_offers_interests)
+            return sorted(results, key=lambda x: x.common_goals_offers_interests, reverse=True)
 
-        return results
+        return sorted(results, key=lambda x: x.updated_at, reverse=True)
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
