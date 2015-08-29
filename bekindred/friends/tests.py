@@ -156,3 +156,28 @@ class TestFriendResource(ResourceTestCase):
         self.assertTrue(Friend.objects.checking_friendship(self.user1.pk, self.user.pk))
         self.assertTrue(Friend.objects.checking_friendship(self.user2.pk, self.user.pk))
         self.assertTrue(Friend.objects.checking_friendship(self.user.pk, self.user2.pk))
+
+
+class TestConnectionsResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestConnectionsResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
+        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
+        self.user4 = FacebookCustomUser.objects.create_user(username='user_e', password='test')
+        self.user5 = FacebookCustomUser.objects.create_user(username='user_f', password='test')
+        self.user6 = FacebookCustomUser.objects.create_user(username='user_g', password='test')
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/connections/', format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)

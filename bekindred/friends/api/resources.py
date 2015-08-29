@@ -156,6 +156,12 @@ class ConnectionsResource(Resource):
                 MatchEngine.objects.count_common_goals_and_offers(current_user, new_obj.friend_id)
 
             results.append(new_obj)
+
+        # Order by
+        #
+        if request.GET.get('order') == 'match_score':
+            return sorted(results, key=lambda x: x.match_score)
+
         return results
 
     def obj_get_list(self, bundle, **kwargs):
