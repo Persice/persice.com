@@ -1593,13 +1593,18 @@ Definition Container
 }
 
 #main-page .container .right.rail {
-    width: 190px;
-    padding-left: 0em;
+    width: 190px!important;
+    padding-left: 0em!important;
     background-color: #f9f9f9!important;
 }
 
+#main-page.absolutelayout .container .right.rail,
+#main-page.absolutelayout .container .left.rail {
+    margin-top: 45px!important;
+}
+
 #main-page .container .left.rail {
-    width: 190px;
+    width: 190px!important;
     padding-right: 0em;
     background-color: #f9f9f9!important;
 }
@@ -1631,8 +1636,8 @@ Definition Container
 
 #main-page #main-content {
     position: relative;
-    flex: 1;
     min-height: 100vh;
+    margin-top: 45px!important;
 }
 
 
@@ -1758,14 +1763,15 @@ Definition Container
 }
 
 #main-page > .pusher {
-    display: flex;
-    min-height: 100%!important;
-    flex-direction: column;
+    display: block!important;
+    min-height: 0px!important;
+    flex-direction: initial!important;
 }
 
 #main-page > .pusher > .full.height {
-    flex: 1;
-    margin-top: 45px;
+    display: block;
+    flex: none !important;
+    // margin-top: 45px;
 }
 
 .ui.basic.segment {
@@ -3021,7 +3027,11 @@ img {
 }
 
 #main-page.absolutelayout.pushable {
-    // overflow: hidden!important;
+    overflow: hidden!important;
+}
+
+#main-page.absolutelayout.pushable .main.container {
+    overflow: hidden!important;
 }
 
 #main-page.absolutelayout.pushable>.pusher>.full.height {
@@ -3030,11 +3040,11 @@ img {
 }
 
 #main-page.absolutelayout.pushable .pusher {
-    height: 100%!important;
+    height: 100vh!important;
 }
 
 #main-page.absolutelayout.pushable #main-content {
-    min-height: 100%!important;
+    min-height: 100vh!important;
 }
 
 span.conversation-time {
@@ -4248,12 +4258,12 @@ ul[rn-carousel]>li {
 }
 
 #mainheadermenu {
-    height: 45px;
-    background-color: #faf9fa;
-    z-index: 10001!important;
-    position: fixed;
-    margin: 0em;
-    width: 100%;
+    height: 45px!important;
+    background-color: #faf9fa!important;
+    z-index: 999!important;
+    position: fixed!important;
+    margin: 0em!important;
+    width: 100%!important;
 }
 
 #mainheadermenu.center {
@@ -4261,8 +4271,8 @@ ul[rn-carousel]>li {
 }
 
 #mainheadermenu .header.item {
-    margin-top: 0px;
-    background-color: #faf9fa;
+    margin-top: 0px!important;
+    background-color: #faf9fa!important;
     padding: 0.6em 1.2em!important;
 }
 
@@ -4334,7 +4344,7 @@ h2 hr {
 #edittopmenu {
     height: 45px;
     background-color: #faf9fa;
-    z-index: 999999!important;
+    z-index: 9!important;
 }
 
 #edittopmenu.center {
@@ -4655,7 +4665,7 @@ input#id_description_value {
 
 #interests {
     overflow-y: scroll!important;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch!important;
     position: absolute!important;
     top: 65px!important;
     width: 100%!important;
@@ -6347,7 +6357,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7376,11 +7386,10 @@ body.event-page .invitations-people .intersecticon {
 
 /* The starting CSS styles for the enter animation */
 
-.fade.ng-enter {
-    transition: 0.3s linear all;
-    opacity: 0;
-}
-
+// .fade.ng-enter {
+//     transition: 0.3s linear all;
+//     opacity: 0;
+// }
 #createEventsModal .invitations-people .ui.input.searchbox {
     width: 100%!important;
 }
@@ -7553,15 +7562,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
-     background-position: center;
-     background-size: contain;
-     height: 34px;
-     width: 34px;
- }
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
 
- #createEventsModal.ui.modal.centeraligned .field.button,
- #editEventsModal.ui.modal.centeraligned .field.button,
- {
+#createEventsModal.ui.modal.centeraligned .field.button,
+#editEventsModal.ui.modal.centeraligned .field.button,
+{
     height: 40px!important;
 }
 
@@ -8135,15 +8144,11 @@ body.crowd-page div#main-content {
     width: 80%;
 }
 
-
 .ui.modal #chat-conversation-content {
     bottom: 0px!important;
 }
 
-
-
 //search page
-
 .ui.icon.input.huge input {
     font-size: 18px!important;
 }
@@ -8152,7 +8157,7 @@ body.crowd-page div#main-content {
     width: 100%!important;
 }
 
-.ui.icon.input.huge.searchinput .remove.icon{
+.ui.icon.input.huge.searchinput .remove.icon {
     left: auto;
     right: 0.5em;
 }
@@ -8174,9 +8179,9 @@ body.crowd-page div#main-content {
 }
 
 .search-results.ui.list .item div.header {
- font-size: 1rem;
- text-transform: uppercase;
- color: #000;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #000;
 }
 
 .search-results.ui.list .item div.description {
@@ -8208,24 +8213,22 @@ div.search-results-container {
     margin: 1rem;
 }
 
-
-
 .fadein.ng-hide-remove,
 .fadeout.ng-hide-add.ng-hide-add-active {
-  opacity: 0;
-  display: block !important;
+    opacity: 0;
+    display: block !important;
 }
 
 .fadeout.ng-hide-add,
 .fadein.ng-hide-remove.ng-hide-remove-active {
-  opacity: 1;
-  display: block !important;
+    opacity: 1;
+    display: block !important;
 }
 
 .fadein,
 .fadeout {
-  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
-  -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
-  -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+    -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+    -moz-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+    -o-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
 }

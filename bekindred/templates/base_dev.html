@@ -38,7 +38,7 @@
 
 </head>
 
-<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('event.chat') || isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'eventchat-page': isState('event.chat'), 'event-page': isState('event.details') || isState('event.edit'), 'crowd-page': isState('matchfeed2')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('event.chat') || isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'eventchat-page': isState('event.chat'), 'event-page': isState('event.details') || isState('event.edit'), 'crowd-page': isState('matchfeed2')}">
     {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -63,6 +63,7 @@
             <span class="item"></span>
         </div>
     </div>
+
     <div class="ui vertical left inverted labeled icon sidebar menu" id="leftmenu">
         <a ui-sref="matchfeed" ui-sref-active="active" class="item"><i class="intersecticon-white-big icon"></i> <span class="content">Crowd</span></a>
         <a ui-sref="inbox" ui-sref-active="active" class="item"><i class="fa fa-comment-o icon"></i> <span class="content">Messages</span>   <messages-counter></message-counter></a>
@@ -84,10 +85,10 @@
     <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
         <events-filter id="filter" class="mobilefilters"></events-filter>
     </div>
-     <div class="ui vertical right inverted labeled sidebar menu connectionsfilter" id="filtersMenu" ng-show="isState('myconnections')">
+    <div class="ui vertical right inverted labeled sidebar menu connectionsfilter" id="filtersMenu" ng-show="isState('myconnections')">
         <connections-filter id="filter" class="mobilefilters"></connections-filter>
     </div>
-    <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
+    <div class="ui inverted top fixed menu" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
             <div class="title item mobileview" id="mobileTitle" ng-show="!isState('events')">
