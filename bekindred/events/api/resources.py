@@ -1,34 +1,39 @@
 import json
+import re
 
 from django.contrib.gis.measure import D
-from django.core import serializers
 from django.db import IntegrityError
-from django.db.models import Max, Avg, Q
+from django.db.models import Q
 from django.forms import model_to_dict
-
 from django.utils.timezone import now
-import re
 import redis
+from tastypie.bundle import Bundle
+from tastypie.constants import ALL_WITH_RELATIONS
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
+from tastypie.http import HttpUnauthorized
+from tastypie.resources import Resource
+from tastypie.utils import trailing_slash
+from tastypie.validation import Validation
+from haystack.backends import SQ
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
-from tastypie.bundle import Bundle
-from tastypie.constants import ALL, ALL_WITH_RELATIONS
-from tastypie.exceptions import BadRequest, ImmediateHttpResponse
-from tastypie.http import HttpUnauthorized
-from tastypie.resources import ModelResource, Resource
-
-from tastypie.validation import Validation
-
-from events.models import Event, Membership, EventFilterState, CumulativeMatchScore
-from events.utils import calc_score, get_cum_score, ResourseObject, Struct
+from tastypie.constants import ALL
+from django.core.paginator import Paginator, InvalidPage
+from django.http import Http404
+from haystack.query import SearchQuerySet
+from tastypie.resources import ModelResource
+from django.conf.urls import url
+from events.models import Event, Membership, EventFilterState
+from events.utils import get_cum_score, ResourseObject, Struct
 from friends.models import Friend
 from goals.models import MatchFilterState
-from goals.utils import calculate_distance_events, get_user_location, calculate_age
+from goals.utils import calculate_distance_events, get_user_location
 from match_engine.models import MatchEngineManager
-from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from postman.api import pm_write
+from members.models import FacebookCustomUserActive
+from goals.utils import calculate_age
 
 
 class EventValidation(Validation):
@@ -108,6 +113,42 @@ class EventResource(ModelResource):
             most_common_match_elements(user_id,
                                        attendees.values_list('user_id', flat=True))
         return bundle
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_search'), name="api_get_search"),
+        ]
+
+    def get_search(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        # Do the query.
+        query = request.GET.get('q', '')
+        sqs = SearchQuerySet().models(Event).load_all().filter(SQ(name=query) |
+                                                               SQ(description=query))
+        paginator = Paginator(sqs, 20)
+
+        try:
+            page = paginator.page(int(request.GET.get('page', 1)))
+        except InvalidPage:
+            raise Http404("Sorry, no results on that page.")
+
+        objects = []
+
+        for result in page.object_list:
+            bundle = self.build_bundle(obj=result.object, request=request)
+            bundle = self.full_dehydrate(bundle)
+            objects.append(bundle)
+
+        object_list = {
+            'objects': objects,
+        }
+
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)
@@ -411,16 +452,16 @@ class FriendsEventFeedResource(ModelResource):
             qs = super(FriendsEventFeedResource, self).get_object_list(request). \
                 filter(membership__user_id__in=friends,
                        ends_on__gt=now()). \
-                search(tsquery, raw=True).\
-                order_by('starts_on').\
+                search(tsquery, raw=True). \
+                order_by('starts_on'). \
                 distinct()
 
             if efs[0].order_criteria == 'distance':
-                return qs.filter(point__distance_lte=(user_point, distance)).\
+                return qs.filter(point__distance_lte=(user_point, distance)). \
                     distance(user_point).order_by('distance').distinct()
             elif efs[0].order_criteria == 'match_score':
-                events = Membership.objects.filter(user__in=[1,2]).\
-                    distinct().\
+                events = Membership.objects.filter(user__in=[1, 2]). \
+                    distinct(). \
                     values_list('event_id', flat=True)
                 qs1 = super(FriendsEventFeedResource, self).get_object_list(request). \
                     select_related('cumulativematchscore'). \
@@ -434,7 +475,7 @@ class FriendsEventFeedResource(ModelResource):
 
         return super(FriendsEventFeedResource, self).get_object_list(request). \
             filter(membership__user__in=friends,
-                   ends_on__gt=now()).\
+                   ends_on__gt=now()). \
             order_by('starts_on').distinct()
 
 
@@ -503,11 +544,11 @@ class MyConnectionEventFeedResource(Resource):
             user_point = get_user_location(request.user.id)
             distance = D(**{distance_unit: efs[0].distance}).m
             events = Event.objects.filter(Q(membership__user_id__in=friends,
-                                             membership__rsvp__in=['yes', 'maybe'],
-                                             ends_on__gt=now()) |
-                                           Q(membership__user_id__in=friends,
-                                             membership__is_organizer=True,
-                                             ends_on__gt=now())).\
+                                            membership__rsvp__in=['yes', 'maybe'],
+                                            ends_on__gt=now()) |
+                                          Q(membership__user_id__in=friends,
+                                            membership__is_organizer=True,
+                                            ends_on__gt=now())). \
                 search(tsquery, raw=True). \
                 filter(point__distance_lte=(user_point, distance)).distinct()
             results = []
@@ -601,8 +642,8 @@ class AllEventFeedResource(Resource):
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
             distance = D(**{distance_unit: efs[0].distance}).m
-            events = Event.objects.filter(ends_on__gt=now()).\
-                search(tsquery, raw=True).\
+            events = Event.objects.filter(ends_on__gt=now()). \
+                search(tsquery, raw=True). \
                 filter(point__distance_lte=(user_point, distance))
             results = []
             for event in events:
@@ -696,7 +737,7 @@ class MyEventFeedResource(Resource):
             tsquery = ' | '.join(efs[0].keyword.split(','))
             user_point = get_user_location(request.user.id)
             distance = D(**{distance_unit: efs[0].distance}).m
-            events = Event.objects.filter(membership__user=request.user.pk, ends_on__gt=now()).\
+            events = Event.objects.filter(membership__user=request.user.pk, ends_on__gt=now()). \
                 search(tsquery, raw=True).filter(point__distance_lte=(user_point, distance))
             results = []
             for event in events:
@@ -729,7 +770,6 @@ class MyEventFeedResource(Resource):
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
         return self.get_object_list(bundle.request)
-
 
 
 class EventConnections(Resource):

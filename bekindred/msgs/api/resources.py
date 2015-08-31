@@ -164,6 +164,7 @@ class InboxResource(Resource):
     def obj_get(self, bundle, **kwargs):
         pass
 
+
 class UnreadMessageCounter(Resource):
     unread_counter = fields.IntegerField(attribute='unread_counter')
 

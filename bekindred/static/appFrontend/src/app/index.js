@@ -101,15 +101,15 @@ angular
         });
 
         gsapifyRouterProvider.transition('fadeIn', {
-            duration: 0.5,
-            delay: 0.2,
+            duration: 0,
+            delay: 0,
             css: {
                 opacity: 0,
             }
         });
 
         gsapifyRouterProvider.transition('fadeOut', {
-            duration: 0.2,
+            duration: 0,
             css: {
                 opacity: 0,
             }
@@ -475,6 +475,26 @@ angular
                     displayName: 'Event Details',
                 }
 
+            })
+            .state('search', {
+                url: '/search?query',
+                reloadOnSearch: false,
+                templateUrl: 'app/search/search.html',
+                controller: 'SearchPageController',
+                controllerAs: 'search',
+                resolve: {
+                    query: ['$stateParams', function($stateParams) {
+                        if ($stateParams.query) {
+                            return $stateParams.query;
+                        } else {
+                            return '';
+                        }
+
+                    }],
+                },
+                data: {
+                    displayName: 'Search for Users and Events',
+                }
             });
 
 

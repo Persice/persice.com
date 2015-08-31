@@ -1,0 +1,45 @@
+<br>
+<div class="ui raised segments" ng-hide="search.emptySearch">
+    <h3 class="ui top block attached header search-header">Users</h3>
+    <div class="ui attached segment search-results-container" ng-class="{'loading': search.isLoadingUsers}">
+        <div class="ui middle aligned very relaxed divided link list search-results" ng-show="!search.noResults.users">
+            <a class="item" ng-repeat="user in search.results.users track by $index">
+                <img class="ui avatar image" ng-src="//graph.facebook.com/{{::user.facebook_id}}/picture?type=square">
+                <div class="middle aligned content">
+                    <div class="header">{{user.first_name}} {{user.last_name}}, {{user.match_score}} match</div>
+                    <div class="description">{{user.gender|gender}} / Age {{user.age}} / {{user.distance[0]}} {{user.distance[1]}} / {{user.mutual_friends}} Mutual Friends</div>
+                </div>
+            </a>
+        </div>
+        <div class="ui message fadein fadeout" ng-show="search.noResults.users">
+            <div class="header">
+                No results results found for users
+            </div>
+            Please try another search term
+        </div>
+    </div>
+    <!--   <div class="ui attached center aligned segment">
+        <a class="show-all-link" href=""><span>show all</span> (32)</a>
+    </div> -->
+    <h3 class="ui attached block header search-header">Events</h3>
+    <div class="ui attached segment search-results-container" ng-class="{'loading': search.isLoadingEvents}">
+        <div class="ui middle aligned very relaxed divided link list search-results">
+            <a class="item" ng-repeat="event in search.results.events track by $index" ui-sref="event.details({eventId: event.id})">
+                <img class="ui avatar image" src="/static/img/placeholder-image.jpg">
+                <div class="middle aligned content">
+                    <div class="header">{{event.name}}</div>
+                    <div class="description">{{event.city}} {{event.country}} / {{event.starts_on | amDateFormat:'ddd MMM YYYY h:mm a'}}</div>
+                </div>
+            </a>
+        </div>
+        <div class="ui message fadein fadeout" ng-if="search.noResults.events">
+            <div class="header">
+                No results found for events
+            </div>
+            Please try another search term
+        </div>
+    </div>
+    <!--  <div class="ui attached center aligned segment">
+        <a class="show-all-link" href=""><span>show all</span> (32)</a>
+    </div> -->
+</div>

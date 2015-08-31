@@ -84,6 +84,9 @@
     <div class="ui vertical right inverted labeled sidebar menu eventsfeedfilter" id="filtersMenu" ng-show="isState('events')">
         <events-filter id="filter" class="mobilefilters"></events-filter>
     </div>
+     <div class="ui vertical right inverted labeled sidebar menu connectionsfilter" id="filtersMenu" ng-show="isState('myconnections')">
+        <connections-filter id="filter" class="mobilefilters"></connections-filter>
+    </div>
     <div class="ui inverted top fixed menu" ng-class="{'hidden': hideTopMenu}" id="topMenu">
         <div class="container" ng-cloak>
             <a id="leftsidebarlaunch" class="launch item"><i class="content icon"></i> <notification-circle color="red"></notification-circle></a>
@@ -129,6 +132,9 @@
             <div class="right menu" id="right-menu-launcher" ng-show="isState('matchfeed') || isState('matchfeed2')">
                 <a class="launch item"><i class="fa fa-sliders icon"></i></a>
             </div>
+            <div class="right menu" id="connectionsfilter-menu-launcher" ng-show="isState('myconnections')">
+                <a class="launch item"><i class="fa fa-sliders icon"></i></a>
+            </div>
         </div>
     </div>
     <div class="pusher">
@@ -153,6 +159,10 @@
                 </div>
                 <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('events')">
                     <events-filter id="matchfeed-filters" class="desktopview"></events-filter>
+                </div>
+
+                <div class="ui desktopview attached internal right rail" id="matchfeed-filters-container" ng-if="isState('myconnections')">
+                    <connections-filter id="matchfeed-filters" class="desktopview"></connections-filter>
                 </div>
 
                 <div id="main-content" class="gsapify-router" ui-view autoscroll="false">
@@ -214,6 +224,7 @@
     <script src="/static/appFrontend/src/app/interests/interests.controller.js"></script>
     <script src="/static/appFrontend/src/app/inbox/inboxrepository.factory.js"></script>
     <script src="/static/appFrontend/src/app/inbox/inbox.controller.js"></script>
+    <script src="/static/appFrontend/src/app/search/searchpage.controller.js"></script>
     <script src="/static/appFrontend/src/app/goalcreate/goalcreate.controller.js"></script>
     <script src="/static/appFrontend/src/app/friendprofile/friendprofile.controller.js"></script>
     <script src="/static/appFrontend/src/app/finalstep/finalstep.controller.js"></script>
@@ -232,6 +243,8 @@
     <script src="/static/appFrontend/src/components/userprofile/userprofile.directive.js"></script>
     <script src="/static/appFrontend/src/components/settings/settingsrepository.factory.js"></script>
     <script src="/static/appFrontend/src/components/settings/settings.factory.js"></script>
+    <script src="/static/appFrontend/src/components/search/search.service.js"></script>
+    <script src="/static/appFrontend/src/components/search/searchinput.directive.js"></script>
     <script src="/static/appFrontend/src/components/notifications/notifications.factory.js"></script>
     <script src="/static/appFrontend/src/components/notifications/notificationCircle.directive.js"></script>
     <script src="/static/appFrontend/src/components/modal/modal.directive.js"></script>
@@ -246,6 +259,7 @@
     <script src="/static/appFrontend/src/components/filter/filtersrepository.factory.js"></script>
     <script src="/static/appFrontend/src/components/filter/filter.factory.js"></script>
     <script src="/static/appFrontend/src/components/filter/filter.directive.js"></script>
+    <script src="/static/appFrontend/src/components/connectionsFilter/connectionsfilter.directive.js"></script>
     <script src="/static/appFrontend/src/components/eventsfeed/eventsfeed.directive.js"></script>
     <script src="/static/appFrontend/src/components/eventsmap/eventsmap.directive.js"></script>
     <script src="/static/appFrontend/src/components/mapCanvas/mapCanvas.directive.js"></script>
@@ -281,6 +295,12 @@
         .sidebar('attach events', '#eventsfilter-menu-launcher')
         .sidebar('setting', 'duration', 0);
         $('#eventsfilter-menu-launcher')
+        .removeClass('disabled');
+
+        $('.right.sidebar.connectionsfilter')
+        .sidebar('attach events', '#connectionsfilter-menu-launcher')
+        .sidebar('setting', 'duration', 0);
+        $('#connectionsfilter-menu-launcher')
         .removeClass('disabled');
     </script>
     <script>

@@ -89,6 +89,7 @@ class ConnectionsResource(Resource):
     mutual_twitter_friends_count = fields.IntegerField(attribute='mutual_twitter_friends_count')
     mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
     mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
+    mutual_friends = fields.IntegerField(attribute='mutual_friends')
     common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
 
@@ -152,11 +153,28 @@ class ConnectionsResource(Resource):
             new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
             new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
 
+            new_obj.mutual_friends = new_obj.mutual_bk_friends_count + \
+                new_obj.mutual_fb_friends_count + \
+                new_obj.mutual_linkedin_connections_count + \
+                new_obj.mutual_twitter_friends_count + \
+                new_obj.mutual_twitter_followers_count
+
             new_obj.common_goals_offers_interests = \
                 MatchEngine.objects.count_common_goals_and_offers(current_user, new_obj.friend_id)
 
             results.append(new_obj)
-        return results
+
+        # Order by match_score
+        if request.GET.get('order') == 'match_score':
+            return sorted(results, key=lambda x: x.common_goals_offers_interests, reverse=True)
+
+        elif request.GET.get('order') == 'mutual_friends':
+            return sorted(results, key=lambda x: x.mutual_friends, reverse=True)
+
+        elif request.GET.get('order') == 'first_name':
+            return sorted(results, key=lambda x: (x.first_name, x.last_name))
+
+        return sorted(results, key=lambda x: x.updated_at, reverse=True)
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...

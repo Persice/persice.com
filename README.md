@@ -1,3 +1,51 @@
+#### Install ElasticSearch
+```bash
+#!/bin/bash
+
+VERSION=1.7.1
+
+curl -L -O https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-$VERSION.zip
+unzip elasticsearch-$VERSION.zip
+cd elasticsearch-$VERSION
+
+# Download plugin marvel
+./bin/plugin -i elasticsearch/marvel/latest
+
+echo 'marvel.agent.enabled: false' >> ./config/elasticsearch.yml
+
+# run elastic
+./bin/elasticsearch -d
+
+# https://github.com/jprante/elasticsearch-jdbc
+```
+
+##### Check elastic
+```
+curl 'http://localhost:9200/?pretty'
+
+{
+   "status": 200,
+   "name": "Shrunken Bones",
+   "version": {
+      "number": "1.4.0",
+      "lucene_version": "4.10"
+   },
+   "tagline": "You Know, for Search"
+}
+```
+
+##### Rebuild index
+A shortcut for `clear_index` followed by `update_index`. It accepts any/all of the arguments of the following arguments:
+```
+./manage.py rebuild_index
+```
+
+##### Update index
+```
+./manage.py update_index
+```
+
+
 #### Set up PostgerSQL OS X
 
 ```

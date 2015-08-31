@@ -3,6 +3,7 @@ from itertools import chain
 from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
+from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser, FacebookUser
 
 from members.models import FacebookCustomUserActive
@@ -121,7 +122,7 @@ class Friend(models.Model):
     friend1 = models.ForeignKey(FacebookCustomUser)
     friend2 = models.ForeignKey(FacebookCustomUser, related_name='friend2')
     status = models.IntegerField(max_length=1, choices=FRIENDSHIP_STATUS, default=0)
-    updated_at = models.DateTimeField(null=True, blank=True)
+    updated_at = models.DateTimeField(default=now())
 
     def __unicode__(self):
         return '%s %s %s' % (self.friend1.username, self.friend2.username, self.status)
