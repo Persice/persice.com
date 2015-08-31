@@ -23,7 +23,6 @@
     "angular-socket-io": "*",
     "angular-notify": "*",
     "ng-lodash": "*",
-    "angular-gsapify-router": "*",
     "angular-flexslider": "*",
     "ngGeolocation": "~0.0.7",
     "angular-easyfb": "~1.2.1",
