@@ -22,7 +22,7 @@
             <p>Try with another search term or <a href="" ng-click="myconnections.reset()">reset your search</a>.</p>
         </div>
 
-        <div ng-click="myconnections.gotoConnection($index)" ng-class="{'unread': friend.updated_at === null}" class="item repeat-animation" ng-repeat="friend in myconnections.friends track by $index" >
+        <div ng-click="myconnections.gotoConnection($index)" ng-class="{'unread': friend.updated_at === null}" class="item repeat-animation" ng-repeat="friend in myconnections.friends track by friend.id" >
             <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(//graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
             <div class="content">
                 <div class="header">{{friend.first_name}}</div>
