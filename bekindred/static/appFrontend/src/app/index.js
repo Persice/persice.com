@@ -465,6 +465,12 @@ angular
                 $rootScope.previousEventFeed = fromState.name;
             }
 
+            if (fromState.name === 'matchfeed') {
+                $rootScope.hideTopMenu = false;
+            }
+
+
+
 
         });
 

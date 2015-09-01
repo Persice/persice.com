@@ -32,13 +32,10 @@ angular.module('persice')
         NotificationsRepository.refreshTotalConnections();
 
         //gelocation
-
-        $scope.$geolocation = $geolocation;
-
         $geolocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 60000,
-            maximumAge: 75000
+            maximumAge: 250
         }).then(function(location) {
             $scope.location = location;
             $scope.saveLocation($scope.location.coords);
