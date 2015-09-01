@@ -19,7 +19,6 @@ angular
         'angularMoment',
         'btford.socket-io',
         'ngLodash',
-        'hj.gsapifyRouter',
         'angular-flexslider',
         'ngGeolocation',
         'ezfb',
@@ -31,7 +30,7 @@ angular
         'easypiechart'
     ])
 
-.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, gsapifyRouterProvider, ezfbProvider) {
+.config(function($compileProvider, $stateProvider, $urlRouterProvider, APP_ID, $httpProvider, $resourceProvider, ezfbProvider) {
 
         // disable debug in production, enable debug manually angular.reloadWithDebugInfo();
         // $compileProvider.debugInfoEnabled(false);
@@ -55,76 +54,6 @@ angular
             'Content-Type': 'application/json;charset=utf-8'
         };
 
-
-        // Set default transitions to use if unspecified
-        gsapifyRouterProvider.defaults = {
-
-            // name of transition to use or 'none'
-            enter: 'fadeIn',
-
-            leave: 'fadeOut'
-
-        };
-
-
-        gsapifyRouterProvider.transition('slideAbove', {
-            duration: 1,
-            ease: 'Quart.easeInOut',
-            css: {
-                y: '-100%'
-            }
-        });
-
-        gsapifyRouterProvider.transition('slideBelow', {
-            duration: 1,
-            ease: 'Quart.easeInOut',
-            css: {
-                y: '100%'
-            }
-        });
-
-        gsapifyRouterProvider.transition('slideLeft', {
-            duration: 1,
-            ease: 'Quint.easeInOut',
-            css: {
-                x: '-100%'
-            }
-        });
-
-        gsapifyRouterProvider.transition('slideRight', {
-            duration: 1,
-            ease: 'Quint.easeInOut',
-            delay: 0.5,
-            css: {
-                x: '100%'
-            }
-        });
-
-        gsapifyRouterProvider.transition('fadeIn', {
-            duration: 0,
-            delay: 0,
-            css: {
-                opacity: 0,
-            }
-        });
-
-        gsapifyRouterProvider.transition('fadeOut', {
-            duration: 0,
-            css: {
-                opacity: 0,
-            }
-        });
-
-        gsapifyRouterProvider.transition('scaleDown', {
-            duration: 0.5,
-            css: {
-                scale: 0,
-                opacity: 0
-            }
-        });
-
-        // Optionally enable transition on initial load
-        gsapifyRouterProvider.initialTransitionEnabled = true; // defaults to false
 
         $stateProvider
             .state('home', {
@@ -535,6 +464,12 @@ angular
                 ) && (toState.name === 'event.details' || toState.name === 'event.create')) {
                 $rootScope.previousEventFeed = fromState.name;
             }
+
+            if (fromState.name === 'matchfeed') {
+                $rootScope.hideTopMenu = false;
+            }
+
+
 
 
         });

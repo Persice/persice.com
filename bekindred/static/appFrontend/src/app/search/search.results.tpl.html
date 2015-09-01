@@ -4,7 +4,7 @@
     <div class="ui attached segment search-results-container" ng-class="{'loading': search.isLoadingUsers}">
         <div class="ui middle aligned very relaxed divided link list search-results" ng-show="!search.noResults.users">
             <a class="item" ng-repeat="user in search.results.users track by $index">
-                <img class="ui avatar image" ng-src="//graph.facebook.com/{{::user.facebook_id}}/picture?type=square">
+                <img class="ui avatar image" ng-src="//graph.facebook.com/{{user.facebook_id}}/picture?type=square">
                 <div class="middle aligned content">
                     <div class="header">{{user.first_name}} {{user.last_name}}, {{user.match_score}} match</div>
                     <div class="description">{{user.gender|gender}} / Age {{user.age}} / {{user.distance[0]}} {{user.distance[1]}} / {{user.mutual_friends}} Mutual Friends</div>
