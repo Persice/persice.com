@@ -6,7 +6,7 @@ angular.module('google.places', [])
      *
      * Note: requires the Google Places API to already be loaded on the page.
      */
-     .factory('googlePlacesApi', ['$window', function($window) {
+    .factory('googlePlacesApi', ['$window', function($window) {
         if (!$window.google) {
             throw 'Global `google` var missing. Did you forget to include the places API script?';
         }
@@ -19,7 +19,7 @@ angular.module('google.places', [])
  *
  * <input type="text" google-places-autocomplete ng-model="myScopeVar" />
  */
- .directive('googlePlacesAutocomplete', ['$parse', '$compile', '$timeout', '$document', 'googlePlacesApi',
+.directive('googlePlacesAutocomplete', ['$parse', '$compile', '$timeout', '$document', 'googlePlacesApi',
     function($parse, $compile, $timeout, $document, google) {
 
         return {
@@ -36,15 +36,15 @@ angular.module('google.places', [])
             controller: ['$scope', function($scope) {}],
             link: function($scope, element, attrs, controller) {
                 var keymap = {
-                    tab: 9,
-                    enter: 13,
-                    esc: 27,
-                    up: 38,
-                    down: 40
-                },
-                hotkeys = [keymap.tab, keymap.enter, keymap.esc, keymap.up, keymap.down],
-                autocompleteService = new google.maps.places.AutocompleteService(),
-                placesService = new google.maps.places.PlacesService(element[0]);
+                        tab: 9,
+                        enter: 13,
+                        esc: 27,
+                        up: 38,
+                        down: 40
+                    },
+                    hotkeys = [keymap.tab, keymap.enter, keymap.esc, keymap.up, keymap.down],
+                    autocompleteService = new google.maps.places.AutocompleteService(),
+                    placesService = new google.maps.places.PlacesService(element[0]);
 
                 (function init() {
                     $scope.query = '';
@@ -68,8 +68,8 @@ angular.module('google.places', [])
                 function initAutocompleteDrawer() {
                     // Drawer element used to display predictions
                     var drawerElement = angular.element('<div class="gplacesautocomplete" g-places-autocomplete-drawer></div>'),
-                    body = angular.element($document[0].body),
-                    $drawer;
+                        body = angular.element($document[0].body),
+                        $drawer;
 
                     drawerElement.attr({
                         input: 'input',
@@ -188,7 +188,6 @@ angular.module('google.places', [])
                         return viewValue;
                     }
                     $scope.query = viewValue;
-
                     request = angular.extend({
                         input: viewValue
                     }, $scope.options);
@@ -240,7 +239,7 @@ angular.module('google.places', [])
 
                 function getCustomPlacePredictions(query) {
                     var predictions = [],
-                    place, match, i;
+                        place, match, i;
 
                     for (i = 0; i < $scope.customPlaces.length; i++) {
                         place = $scope.customPlaces[i];
@@ -263,11 +262,11 @@ angular.module('google.places', [])
 
                 function getCustomPlaceMatches(query, place) {
                     var q = query + '', // make a copy so we don't interfere with subsequent matches
-                    terms = [],
-                    matched_substrings = [],
-                    fragment,
-                    termFragments,
-                    i;
+                        terms = [],
+                        matched_substrings = [],
+                        fragment,
+                        termFragments,
+                        i;
 
                     termFragments = place.formatted_address.split(',');
                     for (i = 0; i < termFragments.length; i++) {
@@ -340,17 +339,17 @@ angular.module('google.places', [])
             }
         };
     }
-    ])
+])
 
 
 .directive('gPlacesAutocompleteDrawer', ['$window', '$document', function($window, $document) {
     var TEMPLATE = [
-    '<div class="pac-container" ng-if="isOpen()" style="display: block;" role="listbox" aria-hidden="{{!isOpen()}}">',
-    '  <div class="pac-item" g-places-autocomplete-prediction index="$index" prediction="prediction" query="query"',
-    '       ng-repeat="prediction in predictions track by $index" ng-class="{\'pac-item-selected\': isActive($index) }"',
-    '       ng-mouseenter="selectActive($index)" ng-click="selectPrediction($index)" role="option" id="{{prediction.id}}">',
-    '  </div>',
-    '</div>'
+        '<div class="pac-container" ng-if="isOpen()" style="display: block;" role="listbox" aria-hidden="{{!isOpen()}}">',
+        '  <div class="pac-item" g-places-autocomplete-prediction index="$index" prediction="prediction" query="query"',
+        '       ng-repeat="prediction in predictions track by $index" ng-class="{\'pac-item-selected\': isActive($index) }"',
+        '       ng-mouseenter="selectActive($index)" ng-click="selectPrediction($index)" role="option" id="{{prediction.id}}">',
+        '  </div>',
+        '</div>'
     ];
 
     return {
@@ -396,11 +395,11 @@ angular.module('google.places', [])
 
             function getDrawerPosition(element) {
                 var domEl = element[0],
-                rect = domEl.getBoundingClientRect(),
-                docEl = $document[0].documentElement,
-                body = $document[0].body,
-                scrollTop = $window.pageYOffset || docEl.scrollTop || body.scrollTop,
-                scrollLeft = $window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+                    rect = domEl.getBoundingClientRect(),
+                    docEl = $document[0].documentElement,
+                    body = $document[0].body,
+                    scrollTop = $window.pageYOffset || docEl.scrollTop || body.scrollTop,
+                    scrollLeft = $window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
 
                 return {
                     width: rect.width,
@@ -415,10 +414,10 @@ angular.module('google.places', [])
 
 .directive('gPlacesAutocompletePrediction', [function() {
     var TEMPLATE = [
-    '<span class="pac-icon pac-icon-marker"></span>',
-    '<span class="pac-item-query" ng-bind-html="prediction | highlightMatched"></span>',
-    '<span ng-repeat="term in prediction.terms | unmatchedTermsOnly:prediction">{{term.value | trailingComma:!$last}}&nbsp;</span>',
-    '<span class="custom-prediction-label" ng-if="prediction.is_custom">&nbsp;{{prediction.custom_prediction_label}}</span>'
+        '<span class="pac-icon pac-icon-marker"></span>',
+        '<span class="pac-item-query" ng-bind-html="prediction | highlightMatched"></span>',
+        '<span ng-repeat="term in prediction.terms | unmatchedTermsOnly:prediction">{{term.value | trailingComma:!$last}}&nbsp;</span>',
+        '<span class="custom-prediction-label" ng-if="prediction.is_custom">&nbsp;{{prediction.custom_prediction_label}}</span>'
     ];
 
     return {
@@ -435,8 +434,8 @@ angular.module('google.places', [])
 .filter('highlightMatched', ['$sce', function($sce) {
     return function(prediction) {
         var matchedPortion = '',
-        unmatchedPortion = '',
-        matched;
+            unmatchedPortion = '',
+            matched;
 
         if (prediction.matched_substrings.length > 0 && prediction.terms.length > 0) {
             matched = prediction.matched_substrings[0];

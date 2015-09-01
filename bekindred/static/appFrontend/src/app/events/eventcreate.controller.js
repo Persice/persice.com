@@ -36,10 +36,7 @@
 
         });
 
-        vm.autocompleteOptions = {
-            location: '0,0',
-            radius: 50000
-        };
+        vm.autocompleteOptions = {};
         vm.event = {
             user: '/api/v1/auth/user/' + USER_ID + '/',
             description: '',
