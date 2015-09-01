@@ -96,6 +96,15 @@ class CumulativeMatchScore(models.Model):
         unique_together = ('user', 'event')
 
 
+# class CumulativeMatchScoreUser(models.Model):
+#     user1 = models.ForeignKey(FacebookCustomUser, related_name='user1')
+#     user2 = models.ForeignKey(FacebookCustomUser, related_name='user2')
+#     score = models.IntegerField(default=0)
+#
+#     class Meta:
+#         unique_together = ('user', 'event')
+
+
 class EventFilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
     distance = models.IntegerField(default=1)

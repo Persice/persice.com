@@ -121,6 +121,10 @@ LOGGING = {
             },
         },
     'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            },
         'open_facebook': {
             'handlers': ['console'],
             'level': 'DEBUG',

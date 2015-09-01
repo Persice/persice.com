@@ -24,7 +24,7 @@ from django.http import Http404
 from haystack.query import SearchQuerySet
 from tastypie.resources import ModelResource
 from django.conf.urls import url
-from events.models import Event, Membership, EventFilterState
+from events.models import Event, Membership, EventFilterState, CumulativeMatchScore
 from events.utils import get_cum_score, ResourseObject, Struct
 from friends.models import Friend
 from goals.models import MatchFilterState
@@ -82,21 +82,20 @@ class EventResource(ModelResource):
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
         friends = Friend.objects.all_my_friends(user_id=user_id)
-        event = Event.objects.get(pk=bundle.obj.pk)
         try:
-            bundle.data['hosted_by'] = event.membership_set. \
+            bundle.data['hosted_by'] = bundle.obj.membership_set. \
                 filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
         except IndexError:
             bundle.data['hosted_by'] = ''
 
         # Total number of event attendees
-        total_attendees = event. \
+        total_attendees = bundle.obj. \
             membership_set.filter(rsvp='yes').count()
         bundle.data['total_attendees'] = total_attendees
 
         # the number of people with RSVP = yes AND
         # are also a connection of the user who is viewing the event
-        attendees = event. \
+        attendees = bundle.obj. \
             membership_set.filter(user__in=friends + [user_id], rsvp='yes')
         bundle.data['friend_attendees_count'] = attendees.count()
 
@@ -105,13 +104,17 @@ class EventResource(ModelResource):
         bundle.data['spots_remaining'] = int(bundle.obj.max_attendees) - total_attendees
 
         cumulative_match_score = 0
-        for friend_id in friends:
-            cumulative_match_score += MatchEngineManager. \
-                count_common_goals_and_offers(friend_id, user_id)
+        try:
+            cumulative_match_score = CumulativeMatchScore.objects.\
+                filter(user=user_id, event=bundle.obj.id)[0].score
+        except IndexError:
+            pass
+
         bundle.data['cumulative_match_score'] = cumulative_match_score
-        bundle.data['most_common_elements'] = MatchEngineManager. \
-            most_common_match_elements(user_id,
-                                       attendees.values_list('user_id', flat=True))
+
+        # bundle.data['most_common_elements'] = MatchEngineManager. \
+        #     most_common_match_elements(user_id,
+        #                                attendees.values_list('user_id', flat=True))
         return bundle
 
     def prepend_urls(self):
