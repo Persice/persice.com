@@ -59,7 +59,38 @@ class EventValidation(Validation):
         return errors
 
 
-class EventResource(ModelResource):
+class MultiPartResource(object):
+    def deserialize(self, request, data, format=None):
+        if not format:
+            format = request.META.get('CONTENT_TYPE', 'application/json')
+
+        if format == 'application/x-www-form-urlencoded':
+            return request.POST
+
+        if format.startswith('multipart/form-data'):
+            multipart_data = request.POST.copy()
+            multipart_data.update(request.FILES)
+            return multipart_data
+
+        return super(MultiPartResource, self).\
+            deserialize(request, data, format)
+
+    def put_detail(self, request, **kwargs):
+        if request.META.get('CONTENT_TYPE', '').\
+                startswith('multipart/form-data') \
+                and not hasattr(request, '_body'):
+            request._body = ''
+        return super(MultiPartResource, self).put_detail(request, **kwargs)
+
+    def patch_detail(self, request, **kwargs):
+        if request.META.get('CONTENT_TYPE', '').\
+                startswith('multipart/form-data') \
+                and not hasattr(request, '_body'):
+            request._body = ''
+        return super(MultiPartResource, self).patch_detail(request, **kwargs)
+
+
+class EventResource(MultiPartResource, ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     attribute=lambda bundle:
                                     bundle.obj.membership_set.all(),
@@ -73,6 +104,8 @@ class EventResource(ModelResource):
                             [bundle.request.user.id],
                    rsvp='yes'),
         full=True, null=True)
+    event_photo = fields.FileField(attribute="event_photo", null=True,
+                                   blank=True)
 
     class Meta:
         always_return_data = True

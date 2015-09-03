@@ -1,4 +1,7 @@
 from datetime import timedelta
+import json
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
@@ -150,6 +153,7 @@ class TestEventResource(ResourceTestCase):
             'repeat': u'W',
             'starts_on': now() - timedelta(days=1)
         }
+        json_data = json.dumps(post_data)
         self.response = self.login()
         resp = self.api_client.post('/api/v1/event/', format='json', data=post_data)
         self.assertEqual(self.deserialize(resp),
@@ -215,6 +219,53 @@ class TestEventResource(ResourceTestCase):
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
         resp = self.api_client.get(detail_url, format='json')
         self.assertEqual(self.deserialize(resp)['friend_attendees_count'], 2)
+
+    def test_post_event_photo(self):
+        self.response = self.login()
+        new_file = SimpleUploadedFile('new_file.txt',
+                                      'Hello world!')
+
+        post_data = {'description': 'Test description',
+                     'ends_on': '2055-06-15T05:15:22.792659',
+                     'location': u'7000,22965.83',
+                     'name': u'Play piano',
+                     'repeat': u'W',
+                     'starts_on': '2055-06-13T05:15:22.792659',
+                     'event_photo': new_file}
+
+        self.response = self.login()
+        resp = self.api_client.client.post('/api/v1/event/', data=post_data)
+
+        self.assertNotEqual(self.deserialize(resp)['event_photo'], '')
+
+    def test_put_event_photo(self):
+        self.response = self.login()
+        file_ = SimpleUploadedFile('new_file.txt',
+                                  'Hello world!')
+
+        new_file = SimpleUploadedFile('best_file_eva.txt',
+                                      'these are the file contents!')
+
+        self.event = Event.objects.create(name="Play piano",
+                                          event_photo=file_,
+                                          location=[7000, 22965.83],
+                                          starts_on=now(),
+                                          ends_on=now() + timedelta(days=10))
+
+        put_data = {'description': 'Test description',
+                     'ends_on': '2055-06-15T05:15:22.792659',
+                     'location': u'7000,22965.83',
+                     'name': u'Play piano',
+                     'repeat': u'W',
+                     'starts_on': '2055-06-13T05:15:22.792659',
+                     'event_photo': new_file}
+
+        self.response = self.login()
+        resp = self.api_client.client.put('/api/v1/event/{}/'.
+                                          format(self.event.id),
+                                          data=put_data)
+
+        self.assertEqual(self.deserialize(resp)['event_photo'], '')
 
 
 class TestAllEventFeedResource(ResourceTestCase):

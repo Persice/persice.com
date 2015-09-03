@@ -41,6 +41,8 @@ class Event(models.Model):
     state = models.CharField(max_length=3, null=True, blank=True)
     members = models.ManyToManyField(FacebookCustomUser, through='Membership')
     max_attendees = models.IntegerField(default=10)
+    event_photo = models.FileField(null=True,
+                                   upload_to='event_photos/%Y/%m/%d')
 
     search_index = VectorField()
 
