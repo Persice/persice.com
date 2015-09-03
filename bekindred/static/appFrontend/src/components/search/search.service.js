@@ -39,7 +39,7 @@
                 url: baseUrl + type + '/search/',
                 params: {
                     q: encodedQuery,
-                    page: 1
+                    limit: 10
                 },
                 method: 'GET',
                 cache: false
