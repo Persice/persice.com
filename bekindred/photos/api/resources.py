@@ -11,6 +11,8 @@ from tastypie.resources import ModelResource
 
 from tastypie.utils import trailing_slash
 from goals.models import Goal
+from match_engine.models import MatchEngine
+from matchfeed.models import MatchFeedManager
 
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
@@ -48,6 +50,13 @@ class UserResource(ModelResource):
         # TODO chane user_id to url from user_id
         bundle.data['twitter_provider'], bundle.data['linkedin_provider'], bundle.data['twitter_username'] = \
             social_extra_data(bundle.request.user.id)
+
+        if bundle.obj.id != bundle.request.user.id:
+            bundle.data['match_score'] = MatchEngine.objects. \
+                count_common_goals_and_offers(bundle.obj.id,
+                                              bundle.request.user.id)
+        else:
+            bundle.data['match_score'] = 0
         return bundle
 
     def prepend_urls(self):
@@ -63,12 +72,13 @@ class UserResource(ModelResource):
 
         # Do the query.
         query = request.GET.get('q', '')
-        sqs = SearchQuerySet().models(FacebookCustomUserActive).load_all().filter(SQ(first_name=query) |
-                                                                                  SQ(last_name=query) |
-                                                                                  SQ(goals=query) |
-                                                                                  SQ(offers=query) |
-                                                                                  SQ(interests=query))
-        paginator = Paginator(sqs, 20)
+        sqs = SearchQuerySet().models(FacebookCustomUserActive).load_all(). \
+            filter(SQ(first_name=query) |
+                   SQ(last_name=query) |
+                   SQ(goals=query) |
+                   SQ(offers=query) |
+                   SQ(interests=query))
+        paginator = Paginator(sqs, 10)
 
         try:
             page = paginator.page(int(request.GET.get('page', 1)))
