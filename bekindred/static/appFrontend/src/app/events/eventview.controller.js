@@ -71,7 +71,8 @@
 
         function openChat() {
             $state.go('event.chat', {
-                eventId: eventId
+                eventId: eventId,
+                eventName: vm.event.name
             });
         }
 

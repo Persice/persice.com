@@ -10,7 +10,7 @@
      * classDesc chat for event
      * @ngInject
      */
-    function EventChatController($scope, USER_ID, eventId, USER_FACEBOOK_ID, EventChatFactory, $state, $rootScope, $log, $window, $q, moment, $filter, $sce, $timeout, $resource) {
+    function EventChatController($scope, USER_ID, eventId, eventName, USER_FACEBOOK_ID, EventChatFactory, $state, $rootScope, $log, $window, $q, moment, $filter, $sce, $timeout, $resource) {
         var vm = this;
 
 
@@ -23,6 +23,8 @@
         vm.loadingMessages = false;
         vm.loadingOlderMessages = false;
         vm.sendingMessage = false;
+        vm.eventName = eventName.name;
+        vm.eventId = eventId;
 
         vm.sender = '/api/v1/auth/user/' + USER_ID + '/';
         vm.event = '/api/v1/event/' + eventId + '/';
@@ -41,7 +43,7 @@
         vm.getMessages = getMessages;
         vm.loadMoreChat = loadMoreChat;
 
-        $scope.eventpage.header = 'Event Chat';
+        $scope.eventpage.header = $sce.trustAsHtml('Event chat:&nbsp;<span class="eventNameChat">' + vm.eventName + '</span>');
 
         $scope.$on('goBackEvents', function() {
             $state.go('event.details', {

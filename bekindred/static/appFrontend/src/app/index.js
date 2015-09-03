@@ -343,6 +343,11 @@ angular
                     eventId: ['$stateParams', function($stateParams) {
                         return $stateParams.eventId;
                     }],
+                    EventsFactory: 'EventsFactory',
+                    eventName: ['$stateParams', 'EventsFactory', function($stateParams, EventsFactory) {
+                        var eventId = $stateParams.eventId;
+                        return EventsFactory.get({eventId: eventId}).$promise;
+                    }]
                 },
                 data: {
                     displayName: 'Event Chat',
