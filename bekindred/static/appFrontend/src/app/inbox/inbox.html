@@ -16,7 +16,7 @@
                 </div>
             </div>
         </a>
-        <a ui-sref="event.chat({ eventId: msg.event })" class="item repeat-animation" ng-repeat="msg in inbox.eventMessages | filter:{eventName: inbox.q} track by msg.event">
+        <a ui-sref="event.chat({ eventId: msg.event})" class="item repeat-animation" ng-repeat="msg in inbox.eventMessages | filter:{eventName: inbox.q} track by msg.event">
             <img class="ui circular tiny image img-bounding-box" ng-src="{{msg.photo}}">
             <span class="message-time">{{msg.sentAt}}</span>
             <div class="content">

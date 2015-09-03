@@ -1,4 +1,10 @@
 <div id="chat-conversation-container">
+    <div id="desktop-conversation-header" class="ui dividing header large" ng-if="isState('event.chat')">
+        <div class="content">
+            Event chat: <a ui-sref="event.details({ eventId: viewevent.eventId})">{{viewevent.eventName}}</a>
+        </div>
+    </div>
+
     <div id="chat-conversation-reply">
         <div class="ui form">
             <div class="field">

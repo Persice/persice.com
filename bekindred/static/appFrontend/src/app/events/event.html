@@ -2,7 +2,7 @@
     <div class="left menu">
         <a class="ui item" ng-click="eventpage.gotoPreviousState();"><i class="left chevron icon"></i></a>
     </div>
-    <div class="header item">{{eventpage.header}}</div>
+    <div class="header item" ng-bind-html="eventpage.header"></div>
     <div class="right menu">
         <a class="ui item" ng-click="eventpage.makeactionEvent();">
             <span ng-show="isState('event.create') || (isState('event.edit') && eventpage.isHost.option)">Save <div ng-if="eventpage.loadingSave" class="ui active mini inline loader"></div></span>
