@@ -159,6 +159,11 @@
 
                         var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
 
+                        var photo = '/static/img/placeholder-image.jpg';
+                        if (responseEvents[obj].event_photo !== null) {
+                            photo = responseEvents[obj].event_photo;
+                        }
+
                         vm.events.push({
                             id: responseEvents[obj].id,
                             name: responseEvents[obj].name,
@@ -177,7 +182,8 @@
                             friend_attendees_count: responseEvents[obj].friend_attendees_count,
                             cumulative_match_score: responseEvents[obj].cumulative_match_score,
                             distance: responseEvents[obj].distance,
-                            date: localDate
+                            date: localDate,
+                            event_photo: photo
                         });
                     }
                     vm.loading = false;
@@ -225,7 +231,10 @@
 
                         for (var obj in responseEvents) {
                             var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
-
+                            var photo = '/static/img/placeholder-image.jpg';
+                            if (responseEvents[obj].event_photo !== null) {
+                                photo = responseEvents[obj].event_photo;
+                            }
                             vm.events.push({
                                 id: responseEvents[obj].id,
                                 name: responseEvents[obj].name,
@@ -244,7 +253,8 @@
                                 friend_attendees_count: responseEvents[obj].friend_attendees_count,
                                 cumulative_match_score: responseEvents[obj].cumulative_match_score,
                                 distance: responseEvents[obj].distance,
-                                date: localDate
+                                date: localDate,
+                                event_photo: photo
 
                             });
 
