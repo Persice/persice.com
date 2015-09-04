@@ -23,7 +23,7 @@
         </div>
 
         <div ng-click="myconnections.gotoConnection($index)" ng-class="{'unread': friend.updated_at === null}" class="item repeat-animation" ng-repeat="friend in myconnections.friends track by friend.id" >
-            <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url(//graph.facebook.com/{{ friend.facebook_id }}/picture?type=large)'}"></div>
+            <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url({{ friend.image }})'}"></div>
             <div class="content">
                 <div class="header">{{friend.first_name}}</div>
                 <div class="description">

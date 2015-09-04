@@ -6,7 +6,7 @@ angular.module('persice')
         $scope.leftActive = true;
         $scope.messages = [];
         $scope.friendshipId = Connection.objects[0].id;
-        $scope.friendImage = '//graph.facebook.com/' + Connection.objects[0].facebook_id + '/picture?type=square';
+        $scope.friendImage =  Connection.objects[0].image;
         notify.closeAll();
 
 

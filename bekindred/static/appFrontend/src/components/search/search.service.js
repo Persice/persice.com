@@ -65,8 +65,16 @@
                 });
 
                 service.search(val, 'event').then(function(response) {
+                    var res = response.data.objects;
 
-                    service.results.events = response.data.objects;
+                    for (var i = res.length - 1; i >= 0; i--) {
+                        var photo = '/static/img/placeholder-image.jpg';
+                        if (res[i].event_photo === null) {
+                            res[i].event_photo = photo;
+                        }
+                    }
+
+                    service.results.events = res;
                     notify('search.results.events');
                     service.isLoading = false;
                 }, function(response) {

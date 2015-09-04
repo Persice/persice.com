@@ -7,7 +7,7 @@
 <div id="inbox-body" class="basic ui segment" ng-class="{'loading': inbox.loadingMessages}" when-scroll-ends="inbox.loadMore()">
     <div class="ui selection divided list">
         <a ng-class="{'unread': message.readAt === null}" ui-sref="conversations({ userId: message.friendId })" class="item repeat-animation" ng-if="message.body !== null" ng-repeat="message in inbox.allMessages | filter:{firstName: inbox.q} track by message.id">
-            <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url(//graph.facebook.com/{{ message.facebookId }}/picture?type=large)'}"></div>
+            <div class="ui circular tiny image img-bounding-box" ng-style=" {'background-image': 'url({{ message.image }})'}"></div>
             <span class="message-time">{{message.sentAt}}</span>
             <div class="content">
                 <div class="header">{{message.firstName}}</div>

@@ -95,11 +95,15 @@
 
                                     for (var j in vm.events) {
 
+                                        vm.photo = '/static/img/placeholder-image.jpg';
+                                        if (vm.events[j].event_photo !== null) {
+                                            vm.photo = vm.events[j].event_photo;
+                                        }
                                         if (vm.events[j].resource_uri === res.objects[0].event) {
                                             var newEventMessage = {
                                                 eventName: vm.events[j].name,
                                                 event: vm.events[j].id,
-                                                photo: '/static/img/placeholder-image.jpg',
+                                                photo: vm.photo,
                                                 sentAt: $filter('amDateFormat')(res.objects[0].sent_at, 'h:mm a'),
                                                 body: res.objects[0].body
                                             };

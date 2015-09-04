@@ -234,7 +234,7 @@
                         rsvp: '',
                         selected: false,
                         event: parseInt(eventId),
-                        image: '//graph.facebook.com/' + vm.friends[i].facebook_id + '/picture?type=square'
+                        image:  vm.friends[i].image
                     };
 
 

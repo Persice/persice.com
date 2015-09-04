@@ -6138,6 +6138,11 @@ body.events-page .ui.card>.image {
     left: 0px!important;
     top: 0px!important;
     border-radius: 0px!important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    width: 140px;
+    height: 140px;
 }
 
 body.events-page .ui.cards>.card>.image>img,
@@ -8233,20 +8238,17 @@ div.search-results-container {
     transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
 }
 
-
-
 // file upload inout
-
 input.file {
     padding: 0.67861429em 1em 0.67861429em 0em!important;
 }
-
 
 .fileUpload {
     position: relative;
     overflow: hidden;
     margin: 10px;
 }
+
 .fileUpload input.file {
     position: absolute!important;
     top: 0!important;

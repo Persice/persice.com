@@ -153,7 +153,7 @@
                     }
 
                     if (vm.user.facebook_id !== null) {
-                        vm.social.facebook = 'https://www.facebook.com/app_scoped_user_id/' + vm.user.facebook_id;
+                        vm.social.facebook =  vm.user.image;
                     }
 
 
@@ -235,7 +235,7 @@
 
         function getPhotos() {
             //get default photo
-            vm.defaultUserPhoto = '//graph.facebook.com/' + vm.user.facebook_id + '/picture?type=large';
+            vm.defaultUserPhoto = '/media/'+ vm.user.image;
             //save default photo if no photos
 
             PhotosFactory.query({

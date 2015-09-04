@@ -43,11 +43,12 @@
                     <tr ng-repeat="attendee in viewevent.attendees['yes'].data track by attendee.id">
                         <td>
                             <h4 class="ui image header">
-                            <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
-                            <div class="content">
-                                {{::attendee.first_name}}, {{::attendee.age}}
-                            </div>
-                        </h4>
+                                <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+
+                                <div class="content">
+                                    {{::attendee.first_name}}, {{::attendee.age}}
+                                </div>
+                            </h4>
                         </td>
                         <td class="desktopview">
                             <div class="tagline">{{::attendee.tagline}}</div>
@@ -81,11 +82,12 @@
                     <tr ng-repeat="attendee in viewevent.attendees['maybe'].data track by attendee.id">
                         <td>
                             <h4 class="ui image header">
-                        <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
-                        <div class="content">
-                            {{::attendee.first_name}}, {{::attendee.age}}
-                        </div>
-                    </h4>
+                                <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+
+                                <div class="content">
+                                    {{::attendee.first_name}}, {{::attendee.age}}
+                                </div>
+                            </h4>
                         </td>
                         <td class="desktopview">
                             <div class="tagline">{{::attendee.tagline}}</div>
@@ -119,11 +121,11 @@
                     <tr ng-repeat="attendee in viewevent.attendees['no'].data track by attendee.id">
                         <td>
                             <h4 class="ui image header">
-                        <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
-                        <div class="content">
-                            {{::attendee.first_name}}, {{::attendee.age}}
-                        </div>
-                    </h4>
+                                <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+                                <div class="content">
+                                    {{::attendee.first_name}}, {{::attendee.age}}
+                                </div>
+                            </h4>
                         </td>
                         <td class="desktopview">
                             <div class="tagline">{{::attendee.tagline}}</div>

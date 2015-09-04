@@ -94,7 +94,7 @@ angular.module('persice')
         $rootScope.userImg = USER_PHOTO_SMALL;
         $rootScope.userName = USER_FIRSTNAME;
 
-        $cookies.userid = USER_ID;
+        $cookies.put('userid', USER_ID);
 
 
         $rootScope.viewEventsFeedMap = function() {

@@ -84,7 +84,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventViewModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees, lodash, USER_FACEBOOK_ID, EventChatFactory, $sce, $resource) {
+    function EventViewModalController($scope, USER_ID, EventsFactory, USER_PHOTO, $state, $rootScope, $log, $window, moment, angularMomentConfig, notify, MembersFactory, $geolocation, $filter, $timeout, EventsConnections, $q, EventsAttendees, lodash, USER_FACEBOOK_ID, EventChatFactory, $sce, $resource) {
         var vm = this;
         vm.showMobile = false;
         vm.loadingSave = false;
@@ -383,7 +383,7 @@
                     rsvp: '',
                     selected: false,
                     event: parseInt(vm.event.id),
-                    image: '//graph.facebook.com/' + vm.friends[i].facebook_id + '/picture?type=square'
+                    image:  vm.friends[i].image
                 };
 
 
@@ -1164,7 +1164,7 @@
         vm.sender = '/api/v1/auth/user/' + USER_ID + '/';
         vm.currentEvent = '/api/v1/event/' + vm.eventid + '/';
 
-        var userPhoto = '//graph.facebook.com/' + USER_FACEBOOK_ID + '/picture?type=square';
+        var userPhoto = USER_PHOTO;
 
         vm.status = {
             loading: false,
@@ -1252,7 +1252,7 @@
                         vm.messages.push({
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
-                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            photo:  '/media/'+responseMessages[obj].image,
                             first_name: responseMessages[obj].first_name,
                             sent_at: localDate,
                             left: true
@@ -1261,7 +1261,7 @@
                         vm.messages.push({
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
-                            photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                            photo:  '/media/'+responseMessages[obj].image,
                             first_name: responseMessages[obj].first_name,
                             sent_at: localDate,
                             left: false
@@ -1314,7 +1314,7 @@
                                 vm.messages.push({
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
-                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    photo:  '/media/'+responseMessages[obj].image,
                                     first_name: responseMessages[obj].first_name,
                                     sent_at: localDate,
                                     left: true
@@ -1323,7 +1323,7 @@
                                 vm.messages.push({
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
-                                    photo: '//graph.facebook.com/' + responseMessages[obj].facebook_id + '/picture?type=square',
+                                    photo:  '/media/'+responseMessages[obj].image,
                                     first_name: responseMessages[obj].first_name,
                                     sent_at: localDate,
                                     left: false
@@ -1378,7 +1378,7 @@
                 var Sender = $resource(jsonData.sender);
 
                 Sender.get().$promise.then(function(response) {
-                    vm.receivedMessage.photo = '//graph.facebook.com/' + response.facebook_id + '/picture?type=square';
+                    vm.receivedMessage.photo =  '/media/' + response.image;
                     vm.receivedMessage.first_name = response.first_name;
                     vm.messages.unshift(vm.receivedMessage);
 
