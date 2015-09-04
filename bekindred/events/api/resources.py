@@ -75,19 +75,7 @@ class MultiPartResource(object):
         return super(MultiPartResource, self).\
             deserialize(request, data, format)
 
-    def put_detail(self, request, **kwargs):
-        if request.META.get('CONTENT_TYPE', '').\
-                startswith('multipart/form-data') \
-                and not hasattr(request, '_body'):
-            request._body = ''
-        return super(MultiPartResource, self).put_detail(request, **kwargs)
 
-    def patch_detail(self, request, **kwargs):
-        if request.META.get('CONTENT_TYPE', '').\
-                startswith('multipart/form-data') \
-                and not hasattr(request, '_body'):
-            request._body = ''
-        return super(MultiPartResource, self).patch_detail(request, **kwargs)
 
 
 class EventResource(MultiPartResource, ModelResource):
@@ -119,6 +107,13 @@ class EventResource(MultiPartResource, ModelResource):
         validation = EventValidation()
         authentication = SessionAuthentication()
         authorization = Authorization()
+
+    def put_detail(self, request, **kwargs):
+        if request.META.get('CONTENT_TYPE', ''). \
+                startswith('multipart/form-data') \
+                and not hasattr(request, '_body'):
+            request._body = ''
+        return super(EventResource, self).put_detail(request, **kwargs)
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -247,15 +242,15 @@ class EventResource(MultiPartResource, ModelResource):
                 except IntegrityError:
                     continue
 
-    def update_in_place(self, request, original_bundle, new_data):
-        ends_on = original_bundle.data['ends_on']
-        if ends_on < now():
-            raise BadRequest(
-                'Users cannot edit events which have an end date that occurred in the past.'
-            )
-        return super(EventResource, self).update_in_place(
-            request, original_bundle, new_data
-        )
+    # def update_in_place(self, request, original_bundle, new_data):
+    #     ends_on = original_bundle.data['ends_on']
+    #     if ends_on < now():
+    #         raise BadRequest(
+    #             'Users cannot edit events which have an end date that occurred in the past.'
+    #         )
+    #     return super(EventResource, self).update_in_place(
+    #         request, original_bundle, new_data
+    #     )
 
 
 class EventFilterStateResource(ModelResource):
