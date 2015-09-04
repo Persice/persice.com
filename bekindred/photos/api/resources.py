@@ -78,7 +78,8 @@ class UserResource(ModelResource):
                    SQ(last_name=query) |
                    SQ(goals=query) |
                    SQ(offers=query) |
-                   SQ(interests=query))
+                   SQ(interests=query)).\
+            exclude(id=request.user.id)
         paginator = Paginator(sqs, 10)
 
         try:
