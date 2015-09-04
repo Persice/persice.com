@@ -24,6 +24,8 @@
 
         vm.$geolocation = $geolocation;
 
+        vm.image = '';
+
         $geolocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 60000,
@@ -52,7 +54,8 @@
             full_address: '',
             location_name: '',
             country: '',
-            max_attendees: ''
+            max_attendees: '',
+            event_photo: ''
         };
 
         vm.eventLocation = '';
@@ -67,7 +70,8 @@
             costs: 'Costs',
             invitations: 'Invitations',
             attachments: 'Attachments',
-            max_attendees: 'Max. attendees'
+            max_attendees: 'Max. attendees',
+            event_photo: 'Event photo'
         };
 
         vm.saveEvent = saveEvent;
@@ -354,7 +358,8 @@
                 full_address: '',
                 location_name: '',
                 country: '',
-                max_attendees: ''
+                max_attendees: '',
+                event_photo: ''
             };
         }
 

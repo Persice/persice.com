@@ -8232,3 +8232,36 @@ div.search-results-container {
     -o-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
     transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
 }
+
+
+
+// file upload inout
+
+input.file {
+    padding: 0.67861429em 1em 0.67861429em 0em!important;
+}
+
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.file {
+    position: absolute!important;
+    top: 0!important;
+    right: 0!important;
+    margin: 0!important;
+    padding: 0!important;
+    font-size: 20px!important;
+    cursor: pointer!important;
+    opacity: 0!important;
+    filter: alpha(opacity=0)!important;
+    width: 100%!important;
+    height: 100%!important;
+    cursor: pointer!important;
+}
+
+.fileUpload {
+    margin-top: 0.3em!important;
+}
