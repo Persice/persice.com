@@ -464,6 +464,8 @@ class AllEventFeed2Resource(ModelResource):
 class FriendsEventFeedResource(ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     'membership_set', full=True)
+    event_photo = fields.FileField(attribute="event_photo", null=True,
+                                   blank=True)
 
     class Meta:
         resource_name = 'feed/events/friends_'
@@ -554,6 +556,8 @@ class MyConnectionEventFeedResource(Resource):
     ends_on = fields.DateTimeField(attribute='ends_on')
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
+    event_photo = fields.FileField(attribute="event_photo", null=True,
+                                   blank=True)
 
     class Meta:
         resource_name = 'feed/events/friends'
@@ -663,6 +667,8 @@ class AllEventFeedResource(Resource):
     ends_on = fields.DateTimeField(attribute='ends_on')
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
+    event_photo = fields.FileField(attribute="event_photo", null=True,
+                                   blank=True)
 
     class Meta:
         resource_name = 'feed/events/all'
@@ -761,6 +767,8 @@ class MyEventFeedResource(Resource):
     ends_on = fields.DateTimeField(attribute='ends_on')
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
+    event_photo = fields.FileField(attribute="event_photo", null=True,
+                                   blank=True)
 
     class Meta:
         resource_name = 'feed/events/my'
