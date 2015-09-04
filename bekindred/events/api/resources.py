@@ -76,8 +76,6 @@ class MultiPartResource(object):
             deserialize(request, data, format)
 
 
-
-
 class EventResource(MultiPartResource, ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     attribute=lambda bundle:
@@ -108,12 +106,12 @@ class EventResource(MultiPartResource, ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
-    def put_detail(self, request, **kwargs):
-        if request.META.get('CONTENT_TYPE', ''). \
-                startswith('multipart/form-data') \
-                and not hasattr(request, '_body'):
-            request._body = ''
-        return super(EventResource, self).put_detail(request, **kwargs)
+    # def put_detail(self, request, **kwargs):
+    #     if request.META.get('CONTENT_TYPE', ''). \
+    #             startswith('multipart/form-data') \
+    #             and not hasattr(request, '_body'):
+    #         request._body = ''
+    #     return super(EventResource, self).put_detail(request, **kwargs)
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -242,15 +240,15 @@ class EventResource(MultiPartResource, ModelResource):
                 except IntegrityError:
                     continue
 
-    # def update_in_place(self, request, original_bundle, new_data):
-    #     ends_on = original_bundle.data['ends_on']
-    #     if ends_on < now():
-    #         raise BadRequest(
-    #             'Users cannot edit events which have an end date that occurred in the past.'
-    #         )
-    #     return super(EventResource, self).update_in_place(
-    #         request, original_bundle, new_data
-    #     )
+    def update_in_place(self, request, original_bundle, new_data):
+        ends_on = original_bundle.data['ends_on']
+        if ends_on < now():
+            raise BadRequest(
+                'Users cannot edit events which have an end date that occurred in the past.'
+            )
+        return super(EventResource, self).update_in_place(
+            request, original_bundle, new_data
+        )
 
 
 class EventFilterStateResource(ModelResource):
@@ -272,7 +270,7 @@ class UserResourceShort(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
-        fields = ['first_name', 'last_name', 'facebook_id']
+        fields = ['first_name', 'last_name', 'facebook_id', 'image']
         authentication = SessionAuthentication()
         authorization = Authorization()
         filtering = {
@@ -848,6 +846,7 @@ class EventConnections(Resource):
     first_name = fields.CharField(attribute='first_name', null=True)
     friend_id = fields.IntegerField(attribute='friend_id', null=True)
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
+    image = fields.CharField(attribute='image', null=True)
     tagline = fields.CharField(attribute='tag_line', null=True)
     age = fields.IntegerField(attribute='age', null=True)
     common_goals_offers_interests = fields.IntegerField(
@@ -887,6 +886,7 @@ class EventConnections(Resource):
             new_obj.friend_id = getattr(friend, position_friend).id
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.image = getattr(friend, position_friend).image
             new_obj.age = calculate_age(
                 getattr(friend, position_friend).date_of_birth)
             new_obj.tag_line = 'tagline for my connection'
@@ -937,6 +937,7 @@ class EventAttendees(ModelResource):
     def dehydrate(self, bundle):
         bundle.data['first_name'] = bundle.obj.user.first_name
         bundle.data['facebook_id'] = bundle.obj.user.facebook_id
+        bundle.data['image'] = bundle.obj.user.image
         bundle.data['age'] = calculate_age(bundle.obj.user.date_of_birth)
         bundle.data['total_mutual_friends'] = 0
         bundle.data['mutual_match_score'] = 0

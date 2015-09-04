@@ -25,6 +25,7 @@ class MatchedFeedResource(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
+    image = fields.CharField(attribute='image')
     user_id = fields.CharField(attribute='user_id')
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
     twitter_username = fields.CharField(attribute='twitter_username', null=True)
@@ -75,6 +76,7 @@ class MatchedFeedResource(Resource):
             new_obj.first_name = user.first_name
             new_obj.last_name = user.last_name
             new_obj.facebook_id = user.facebook_id
+            new_obj.image = user.image
             new_obj.age = calculate_age(user.date_of_birth)
             new_obj.gender = user.gender or 'm,f'
             new_obj.user_id = user.id

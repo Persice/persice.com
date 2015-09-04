@@ -33,8 +33,9 @@ class UserResource(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
-        fields = ['username', 'first_name', 'last_name', 'last_login', 'about_me',
-                  'facebook_id', 'id', 'date_of_birth', 'facebook_profile_url', 'gender']
+        fields = ['username', 'first_name', 'last_name', 'last_login',
+                  'about_me', 'facebook_id', 'id', 'date_of_birth',
+                  'facebook_profile_url', 'gender', 'image']
         filtering = {
             'facebook_id': ALL
         }
