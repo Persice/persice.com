@@ -239,6 +239,7 @@ class ProfileResource(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
+    image = fields.FileField(attribute="image", null=True, blank=True)
     user_id = fields.CharField(attribute='user_id')
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
     twitter_username = fields.CharField(attribute='twitter_username', null=True)
@@ -296,6 +297,7 @@ class ProfileResource(Resource):
                 new_obj.first_name = request_user.first_name
                 new_obj.last_name = request_user.last_name
                 new_obj.facebook_id = request_user.facebook_id
+                new_obj.image = request_user.image
                 new_obj.user_id = request_user.id
                 new_obj.age = calculate_age(request_user.date_of_birth)
                 new_obj.about = request_user.about_me

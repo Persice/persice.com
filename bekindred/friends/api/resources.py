@@ -94,6 +94,7 @@ class ConnectionsResource(Resource):
     common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
     distance = fields.ListField(attribute='distance')
+    image = fields.FileField(attribute="image", null=True, blank=True)
 
     class Meta:
         resource_name = 'connections'
@@ -127,6 +128,7 @@ class ConnectionsResource(Resource):
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
             new_obj.updated_at = friend.updated_at
 
