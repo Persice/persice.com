@@ -5,12 +5,12 @@
      * @desc display modal
      * @example <ui-event-create-modal></ui-event-create-modal>
      */
-     angular
-     .module('frontend.semantic.modal.event.create', [])
+    angular
+        .module('frontend.semantic.modal.event.create', [])
 
-     .directive('uiEventCreateModal', uiEventCreateModal);
+    .directive('uiEventCreateModal', uiEventCreateModal);
 
-     function uiEventCreateModal() {
+    function uiEventCreateModal() {
         var directive = {
             restrict: 'E',
             replace: true,
@@ -37,9 +37,9 @@
 
             scope.$watch('singleevent.show', function(modelValue) {
                 element
-                .modal('setting', 'transition', 'scale')
-                .modal('setting', 'closable', false)
-                .modal(modelValue ? 'show' : 'hide');
+                    .modal('setting', 'transition', 'scale')
+                    .modal('setting', 'closable', false)
+                    .modal(modelValue ? 'show' : 'hide');
             });
 
         }
@@ -52,7 +52,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-     function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation) {
+    function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation) {
         var vm = this;
 
         vm.mapurl = '';
@@ -76,7 +76,8 @@
             costs: '',
             invitations: '',
             attachments: '',
-            max_attendees: ''
+            max_attendees: '',
+            event_photo: 'Event Photo'
 
         };
 
@@ -93,12 +94,9 @@
             };
         });
 
-        vm.autocompleteOptions = {
-            location: '0,0',
-            radius: 50000
-        };
+        vm.autocompleteOptions = {};
 
-
+        vm.image = '';
         vm.starts_on_date = '';
         vm.starts_on_time = '';
         vm.ends_on_date = '';
@@ -122,7 +120,8 @@
             full_address: '',
             location_name: '',
             country: '',
-            max_attendees: ''
+            max_attendees: '',
+            event_photo: ''
         };
 
         vm.saveEvent = saveEvent;
@@ -191,90 +190,90 @@
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')
-            .form({
-                fields: {
-                    name: {
-                        identifier: 'name',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Event name'
-                        }]
-                    },
-                    location: {
-                        identifier: 'location',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Location'
-                        }]
-                    },
-                    repeat: {
-                        identifier: 'repeat',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Repeat'
-                        }]
-                    },
-                    description: {
-                        identifier: 'description',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Description'
-                        }]
-                    },
-                    max_attendees: {
-                        identifier: 'max_attendees',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Max. attendees'
-                        }, {
-                            type: 'integer',
-                            prompt: 'Please enter Max. attendees as numeric value'
-                        }]
-                    },
-                    starts_on_date: {
-                        identifier: 'starts_on_date',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Starts Date'
-                        }]
-                    },
-                    starts_on_time: {
-                        identifier: 'starts_on_time',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Starts Time'
-                        }]
-                    },
-                    ends_on_date: {
-                        identifier: 'ends_on_date',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Ends Date'
-                        }]
-                    },
-                    ends_on_time: {
-                        identifier: 'ends_on_time',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Ends Time'
-                        }]
-                    },
+                .form({
+                    fields: {
+                        name: {
+                            identifier: 'name',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Event name'
+                            }]
+                        },
+                        location: {
+                            identifier: 'location',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Location'
+                            }]
+                        },
+                        repeat: {
+                            identifier: 'repeat',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Repeat'
+                            }]
+                        },
+                        description: {
+                            identifier: 'description',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Description'
+                            }]
+                        },
+                        max_attendees: {
+                            identifier: 'max_attendees',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Max. attendees'
+                            }, {
+                                type: 'integer',
+                                prompt: 'Please enter Max. attendees as numeric value'
+                            }]
+                        },
+                        starts_on_date: {
+                            identifier: 'starts_on_date',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Starts Date'
+                            }]
+                        },
+                        starts_on_time: {
+                            identifier: 'starts_on_time',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Starts Time'
+                            }]
+                        },
+                        ends_on_date: {
+                            identifier: 'ends_on_date',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Ends Date'
+                            }]
+                        },
+                        ends_on_time: {
+                            identifier: 'ends_on_time',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Ends Time'
+                            }]
+                        },
+                    }
+                });
+
+            $('.ui.form').form('validate form');
+
+            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
+                if (vm.event.starts_on === '' || vm.event.starts_on === null) {
+                    vm.startsTimeError = true;
                 }
-            });
+                if (vm.event.ends_on === '' || vm.event.ends_on === null) {
+                    vm.endsTimeError = true;
+                }
 
-$('.ui.form').form('validate form');
-
-if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
-    if (vm.event.starts_on === '' || vm.event.starts_on === null) {
-        vm.startsTimeError = true;
-    }
-    if (vm.event.ends_on === '' || vm.event.ends_on === null) {
-        vm.endsTimeError = true;
-    }
-
-    vm.showError = true;
-    vm.errorMessage = ['Please enter all required fields.'];
-} else {
+                vm.showError = true;
+                vm.errorMessage = ['Please enter all required fields.'];
+            } else {
 
                 //validate dates
 
@@ -375,6 +374,7 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
             vm.mapurl = '';
             vm.mapurlTrue = false;
             vm.eventLocation = '';
+            vm.image = '';
             vm.event = {
                 user: '/api/v1/auth/user/' + USER_ID + '/',
                 description: '',
@@ -390,7 +390,8 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
                 full_address: '',
                 location_name: '',
                 country: '',
-                max_attendees: ''
+                max_attendees: '',
+                event_photo: ''
             };
         }
 
@@ -418,7 +419,7 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
         $scope.$watch(angular.bind(this, function(ends_on_date) {
             return vm.ends_on_date;
         }), function(newVal) {
-           if (newVal !== null) {
+            if (newVal !== null) {
                 vm.combineDateTime('starts_on');
                 vm.combineDateTime('ends_on');
             }

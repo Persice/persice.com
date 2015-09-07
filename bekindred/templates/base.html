@@ -19,12 +19,12 @@
 
     <link href="/static/appFrontend/dist/styles/vendor.css" rel="stylesheet" media="screen">
     <link href="/static/appFrontend/dist/styles/app.css" rel="stylesheet" media="screen">
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en&key=AIzaSyDFhIBwi7u03g0LpqN7JOkcYsROYwT36Lk"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
 
 </head>
 
-<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('event.chat') || isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'editmyprofile-page': isState('editmyprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'eventchat-page': isState('event.chat'), 'event-page': isState('event.details') || isState('event.edit'), 'crowd-page': isState('matchfeed2')}">
+<body id="main-page" class="pushable" ng-class="{'absolutelayout': isState('event.chat') || isState('events') || isState('conversations') || isState('selectinterests') || isState('myconnections') || isState('inbox'), 'conversations-page': isState('conversations'), 'friend-page': isState('friendprofile'), 'selectinterests-page': isState('selectinterests'), 'goalcreate-page': isState('goalcreate'), 'offercreate-page': isState('offercreate'), 'finalstep-page': isState('finalstep'), 'matchfeed-page': isState('matchfeed'), 'myprofile-page': isState('myprofile'), 'editmyprofile-page': isState('editmyprofile'), 'events-page': isState('events'), 'eventchat-page': isState('event.chat'), 'event-page': isState('event.details') || isState('event.create') || isState('event.edit') || isState('event.attendees') || isState('event.invitations'), 'crowd-page': isState('matchfeed2')}">
     {%verbatim%}
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -159,7 +159,7 @@
     </div>
     <!-- <script src="//test1.com:3000/socket.io/socket.io.js"></script> -->
     {%endverbatim%}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.4/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
     <script src="/static/appFrontend/dist/scripts/vendor.js"></script>
     <script src="/static/appFrontend/dist/scripts/app.js"></script>
     <script>
@@ -212,8 +212,8 @@
 
 
         angular.module('persice').constant('FB_TOKEN', '{{ user.access_token }}');
-        angular.module('persice').constant('USER_PHOTO', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=large');
-        angular.module('persice').constant('USER_PHOTO_SMALL', '//graph.facebook.com/' + {{user.facebook_id}} + '/picture?type=square');
+        angular.module('persice').constant('USER_PHOTO', '/media/{{user.image}}');
+        angular.module('persice').constant('USER_PHOTO_SMALL', '/media/{{user.image}}');
     </script>
 </body>
 

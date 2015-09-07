@@ -13,7 +13,8 @@ from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
 
 from friends.models import Friend, FacebookFriendUser
-from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, social_extra_data
+from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, social_extra_data, \
+    calculate_distance
 from match_engine.models import MatchEngine
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
 from photos.api.resources import UserResource
@@ -92,6 +93,8 @@ class ConnectionsResource(Resource):
     mutual_friends = fields.IntegerField(attribute='mutual_friends')
     common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
+    distance = fields.ListField(attribute='distance')
+    image = fields.FileField(attribute="image", null=True, blank=True)
 
     class Meta:
         resource_name = 'connections'
@@ -125,13 +128,15 @@ class ConnectionsResource(Resource):
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
             new_obj.updated_at = friend.updated_at
 
             if _friend_id and not int(_friend_id) == new_obj.friend_id:
                 continue
 
-            if _first_name and not _first_name.lower() in new_obj.first_name.lower():
+            if _first_name and \
+                    not _first_name.lower() in new_obj.first_name.lower():
                 continue
 
             new_obj.twitter_provider, new_obj.linkedin_provider, new_obj.twitter_username = \
@@ -159,20 +164,29 @@ class ConnectionsResource(Resource):
                 new_obj.mutual_twitter_friends_count + \
                 new_obj.mutual_twitter_followers_count
 
-            new_obj.common_goals_offers_interests = \
-                MatchEngine.objects.count_common_goals_and_offers(current_user, new_obj.friend_id)
+            new_obj.common_goals_offers_interests = MatchEngine.\
+                objects.count_common_goals_and_offers(current_user,
+                                                      new_obj.friend_id)
 
+            new_obj.distance = calculate_distance(request.user.id,
+                                                  new_obj.friend_id)
             results.append(new_obj)
 
         # Order by match_score
         if request.GET.get('order') == 'match_score':
-            return sorted(results, key=lambda x: x.common_goals_offers_interests, reverse=True)
+            return sorted(results,
+                          key=lambda x: x.common_goals_offers_interests,
+                          reverse=True)
 
         elif request.GET.get('order') == 'mutual_friends':
-            return sorted(results, key=lambda x: x.mutual_friends, reverse=True)
+            return sorted(results,
+                          key=lambda x: x.mutual_friends, reverse=True)
 
         elif request.GET.get('order') == 'first_name':
             return sorted(results, key=lambda x: (x.first_name, x.last_name))
+
+        elif request.GET.get('order') == 'distance':
+            return sorted(results, key=lambda x: x.distance[0])
 
         return sorted(results, key=lambda x: x.updated_at, reverse=True)
 
@@ -200,7 +214,8 @@ class FriendsNewResource(Resource):
             user = FacebookCustomUserActive.objects.get(id=request.user.id)
             fb_obj = FacebookCustomUserActive.objects.get(id=friend_id)
             Friend.objects.filter(Q(friend1=fb_obj, friend2=user) |
-                                  Q(friend1=user, friend2=fb_obj)).update(updated_at=now())
+                                  Q(friend1=user, friend2=fb_obj)).\
+                update(updated_at=now())
         return list()
 
     def obj_get_list(self, bundle, **kwargs):
@@ -215,7 +230,8 @@ class FriendsNewResource(Resource):
 
 
 class FriendsNewCounterResource(Resource):
-    new_connection_counter = fields.IntegerField(attribute='new_connection_counter')
+    new_connection_counter = fields.IntegerField(
+        attribute='new_connection_counter')
 
     class Meta:
         resource_name = 'new_connections/counter'
@@ -225,7 +241,8 @@ class FriendsNewCounterResource(Resource):
     def get_object_list(self, request):
         results = []
         new_obj = A()
-        new_obj.new_connection_counter = Friend.objects.new_friends(request.user.id).count()
+        new_obj.new_connection_counter = Friend.objects.\
+            new_friends(request.user.id).count()
         results.append(new_obj)
         return results
 

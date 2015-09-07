@@ -32,13 +32,10 @@ angular.module('persice')
         NotificationsRepository.refreshTotalConnections();
 
         //gelocation
-
-        $scope.$geolocation = $geolocation;
-
         $geolocation.getCurrentPosition({
             enableHighAccuracy: true,
             timeout: 60000,
-            maximumAge: 75000
+            maximumAge: 250
         }).then(function(location) {
             $scope.location = location;
             $scope.saveLocation($scope.location.coords);
@@ -97,7 +94,7 @@ angular.module('persice')
         $rootScope.userImg = USER_PHOTO_SMALL;
         $rootScope.userName = USER_FIRSTNAME;
 
-        $cookies.userid = USER_ID;
+        $cookies.put('userid', USER_ID);
 
 
         $rootScope.viewEventsFeedMap = function() {

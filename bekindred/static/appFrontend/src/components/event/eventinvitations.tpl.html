@@ -59,11 +59,12 @@
                         <tr ng-repeat="connection in viewevent.connections track by connection.friend_id" ng-class="{'active': connection.selected}" ng-click="viewevent.markSelected($index)">
                             <td>
                                 <h4 class="ui image header">
-                                <img ng-src="{{::connection.image}}" class="ui circular image">
-                                <div class="content">
-                                    {{::connection.first_name}}, {{::connection.age}}
-                                </div>
-                            </h4>
+                                <div style="background-image: url('/media/{{::connection.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+
+                                    <div class="content">
+                                        {{::connection.first_name}}, {{::connection.age}}
+                                    </div>
+                                </h4>
                             </td>
                             <td class="desktopview">
                                 <div class="tagline">{{::connection.tagline}}</div>
@@ -98,11 +99,12 @@
                         <tr ng-repeat="attendee in viewevent.invitedPeople track by attendee.id">
                             <td>
                                 <h4 class="ui image header">
-                                <img ng-src="//graph.facebook.com/{{::attendee.facebook_id}}/picture?type=square" class="ui circular image">
-                                <div class="content">
-                                    {{::attendee.first_name}}, {{::attendee.age}}
-                                </div>
-                            </h4>
+                                    <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+
+                                    <div class="content">
+                                        {{::attendee.first_name}}, {{::attendee.age}}
+                                    </div>
+                                </h4>
                             </td>
                             <td class="desktopview">
                                 <div class="tagline">{{::attendee.tagline}}</div>

@@ -41,6 +41,8 @@ class Event(models.Model):
     state = models.CharField(max_length=3, null=True, blank=True)
     members = models.ManyToManyField(FacebookCustomUser, through='Membership')
     max_attendees = models.IntegerField(default=10)
+    event_photo = models.FileField(null=True,
+                                   upload_to='event_photos/%Y/%m/%d')
 
     search_index = VectorField()
 
@@ -94,6 +96,15 @@ class CumulativeMatchScore(models.Model):
 
     class Meta:
         unique_together = ('user', 'event')
+
+
+# class CumulativeMatchScoreUser(models.Model):
+#     user1 = models.ForeignKey(FacebookCustomUser, related_name='user1')
+#     user2 = models.ForeignKey(FacebookCustomUser, related_name='user2')
+#     score = models.IntegerField(default=0)
+#
+#     class Meta:
+#         unique_together = ('user', 'event')
 
 
 class EventFilterState(models.Model):

@@ -9,6 +9,7 @@ from interests.models import Interest, InterestSubject
 
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
+
 class MatchEngineManager(models.Manager):
     @staticmethod
     def match_goals_to_goals(user_id, exclude_friends):

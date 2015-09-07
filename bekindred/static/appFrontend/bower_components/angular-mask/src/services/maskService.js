@@ -111,6 +111,9 @@
             var mask = opts['mask'];
             var repeat = opts['repeat'];
 
+            if (!mask)
+              return;
+
             if (repeat) {
               mask = Array((parseInt(repeat)+1)).join(mask);
             }
@@ -202,6 +205,7 @@
         }
 
         function removeDivisors(value) {
+              value = value.toString();
           try {
             if (divisors.length > 0 && value) {
               var keys = Object.keys(divisorElements);
@@ -372,7 +376,7 @@
           var wrongPositions = getWrongPositions(viewValueWithDivisors, false);
           var newViewValue = viewValueWithDivisors;
 
-          for (var i in wrongPositions) {
+          for(var i = 0; i < wrongPositions.length; i++){
             var wrongPosition = wrongPositions[i];
             var viewValueArray = viewValueWithDivisors.split('');
             viewValueArray.splice(wrongPosition, 1);

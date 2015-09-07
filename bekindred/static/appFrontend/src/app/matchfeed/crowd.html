@@ -10,7 +10,7 @@
             <div class="meta center info aligned">
                 {{::person.gender|gender}} / AGE {{::person.age}} / {{::person.distance[0]}} {{::person.distance[1]}}
             </div>
-            <div class="profile-photo" style="background-image: url('//graph.facebook.com/{{::person.facebook_id}}/picture?type=large'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;">
+            <div class="profile-photo" style="background-image: url('/media/{{::person.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;">
             </div>
             <div easypiechart class="crowd-matchscore" options="crowd.options" percent="person.score">
                 <span class="value" class="percent" ng-bind="person.score"></span>

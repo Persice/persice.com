@@ -7,8 +7,7 @@
     <div class="eventgroup repeat-animation" ng-repeat="event in eventsfeed.events track by $index">
         <div class="eventdate">{{event.date}}</div>
         <a class="ui fluid card" ng-click="eventsfeed.gotoEvent(event.id)" class="item">
-            <div class="image">
-                <img src="/static/img/placeholder-image.jpg">
+            <div class="image" style="background-image: url('{{event.event_photo}}');">
             </div>
             <div class="content">
                 <div class="header">{{event.name}}</div>

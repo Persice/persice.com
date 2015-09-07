@@ -73,6 +73,7 @@ class InboxLastResource(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
+    image = fields.FileField(attribute="image", null=True, blank=True)
     last_message_body = fields.CharField(attribute='last_message_body', null=True)
     recipient_id = fields.CharField(attribute='recipient_id', null=True)
     sender_id = fields.CharField(attribute='sender_id', null=True)
@@ -109,6 +110,7 @@ class InboxLastResource(Resource):
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
             try:
                 message = Message.objects.filter(sender=new_obj.friend_id,
@@ -210,6 +212,7 @@ class ChatMessageResource(ModelResource):
 
     def dehydrate(self, bundle):
         bundle.data['facebook_id'] = bundle.obj.sender.facebook_id
+        bundle.data['image'] = bundle.obj.sender.image
         bundle.data['first_name'] = bundle.obj.sender.first_name
         return bundle
 
