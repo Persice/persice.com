@@ -28,8 +28,9 @@ from events.models import (CumulativeMatchScore, Event, EventFilterState,
 from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
 from goals.models import MatchFilterState
-from goals.utils import calculate_distance_events, get_user_location, \
-    calculate_age
+from goals.utils import (calculate_age, calculate_distance_events,
+                         get_user_location)
+from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from postman.api import pm_write
 
