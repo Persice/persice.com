@@ -1,40 +1,37 @@
 import json
 import re
 
+import redis
+from django.conf.urls import url
 from django.contrib.gis.measure import D
+from django.core.paginator import InvalidPage, Paginator
 from django.db import IntegrityError
 from django.db.models import Q
 from django.forms import model_to_dict
+from django.http import Http404
 from django.utils.timezone import now
-import redis
-from tastypie.bundle import Bundle
-from tastypie.constants import ALL_WITH_RELATIONS
-from tastypie.exceptions import BadRequest, ImmediateHttpResponse
-from tastypie.http import HttpUnauthorized
-from tastypie.resources import Resource
-from tastypie.utils import trailing_slash
-from tastypie.validation import Validation
 from haystack.backends import SQ
+from haystack.query import SearchQuerySet
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
-from tastypie.constants import ALL
-from django.core.paginator import Paginator, InvalidPage
-from django.http import Http404
-from haystack.query import SearchQuerySet
-from tastypie.resources import ModelResource
-from django.conf.urls import url
-from events.models import Event, Membership, EventFilterState, \
-    CumulativeMatchScore
-from events.utils import get_cum_score, ResourseObject, Struct
+from tastypie.bundle import Bundle
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
+from tastypie.http import HttpUnauthorized
+from tastypie.resources import ModelResource, Resource
+from tastypie.utils import trailing_slash
+from tastypie.validation import Validation
+
+from events.models import (CumulativeMatchScore, Event, EventFilterState,
+                           Membership)
+from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
 from goals.models import MatchFilterState
-from goals.utils import calculate_distance_events, get_user_location
-from match_engine.models import MatchEngineManager
+from goals.utils import calculate_distance_events, get_user_location, \
+    calculate_age
 from photos.api.resources import UserResource
 from postman.api import pm_write
-from members.models import FacebookCustomUserActive
-from goals.utils import calculate_age
 
 
 class EventValidation(Validation):
@@ -244,7 +241,8 @@ class EventResource(MultiPartResource, ModelResource):
         ends_on = original_bundle.data['ends_on']
         if ends_on < now():
             raise BadRequest(
-                'Users cannot edit events which have an end date that occurred in the past.'
+                'Users cannot edit events which have an end date that '
+                'occurred in the past.'
             )
         return super(EventResource, self).update_in_place(
             request, original_bundle, new_data
