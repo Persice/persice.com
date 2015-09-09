@@ -29,15 +29,15 @@
                 <label>Event Photo</label>
                 <div class="ui labeled icon button fileUpload primary">
                     <i class="photo icon"></i>
-                    <span ng-if="singleevent.event.event_photo === ''">Choose Event Photo</span>
-                    <span ng-if="singleevent.event.event_photo !== ''">Change Event Photo</span>
+                    <span ng-show="singleevent.event.event_photo === ''">Choose Event Photo</span>
+                    <span ng-show="singleevent.event.event_photo !== ''">Change Event Photo</span>
                     <input class="file" preview="singleevent.image" autocomplete="off" file-model="singleevent.event.event_photo" ng-model="singleevent.event.event_photo" accept="image/*" placeholder="{{::singleevent.placeholder.event_photo}}" type="file" name="event_photo">
                 </div>
                 <a ng-show="singleevent.event.event_photo !== ''" ng-click="singleevent.image = ''; singleevent.event.event_photo = '';" class="ui button icon fileUpload red">
                     <i class="remove icon"></i>
                 </a>
             </div>
-            <div class="field" ng-if="singleevent.event.event_photo !== '' && singleevent.image">
+            <div class="field" ng-show="singleevent.event.event_photo !== '' && singleevent.image">
                <label></label>
                <img ng-src="{{singleevent.image}}" class="ui image small">
            </div>
