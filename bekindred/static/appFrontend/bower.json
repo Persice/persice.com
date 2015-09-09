@@ -14,7 +14,7 @@
     "font-awesome": "*",
     "angular-moment": "*",
     "ngDraggable": "*",
-    "semantic": "~2.0",
+    "semantic": "~2.1.x",
     "angular-truncate": "*",
     "angular-filter": "*",
     "angular-spinkit": "*",
