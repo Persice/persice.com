@@ -206,13 +206,13 @@
                                 prompt: 'Please enter Location'
                             }]
                         },
-                        repeat: {
-                            identifier: 'repeat',
-                            rules: [{
-                                type: 'empty',
-                                prompt: 'Please enter Repeat'
-                            }]
-                        },
+                        // repeat: {
+                        //     identifier: 'repeat',
+                        //     rules: [{
+                        //         type: 'empty',
+                        //         prompt: 'Please enter Repeat'
+                        //     }]
+                        // },
                         description: {
                             identifier: 'description',
                             rules: [{
@@ -263,7 +263,7 @@
 
             $('.ui.form').form('validate form');
 
-            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
+            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '') {
                 if (vm.event.starts_on === '' || vm.event.starts_on === null) {
                     vm.startsTimeError = true;
                 }

@@ -315,13 +315,13 @@
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
-                        repeat: {
-                            identifier: 'repeat',
-                            rules: [{
-                                type: 'empty',
-                                prompt: 'Please enter Repeat'
-                            }]
-                        },
+                        // repeat: {
+                        //     identifier: 'repeat',
+                        //     rules: [{
+                        //         type: 'empty',
+                        //         prompt: 'Please enter Repeat'
+                        //     }]
+                        // },
                         description: {
                             identifier: 'description',
                             rules: [{
@@ -332,7 +332,7 @@
                     }
                 });
             $('.ui.form').form('validate form');
-            if (vm.eventEdit.description === '' || vm.eventEdit.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
+            if (vm.eventEdit.description === '' || vm.eventEdit.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null || vm.eventEdit.starts_on === null || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '') {
                 vm.showError = true;
                 if (vm.eventEdit.starts_on === '' || vm.eventEdit.starts_on === null) {
                     vm.startsTimeError = true;

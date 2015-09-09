@@ -45,14 +45,14 @@
                 <input name="ends_on" autocomplete="off" ng-change="viewevent.checkDatesEnds()" ng-class="{'fulldisplay':  viewevent.eventEdit.ends_on !== '' && viewevent.eventEdit.ends_on !== null}" ng-if="viewevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="Ends" type="datetime-local" ng-model="viewevent.eventEdit.ends_on">
                 <input autocomplete="off" id="endsAtTime" class="time end" class="" placeholder="{{::viewevent.placeholder.endsTime}}" type="text" ng-model="viewevent.ends_on_time" name="ends_on_time">
             </div>
-            <div class="field">
+          <!--   <div class="field">
                 <label>Repeat</label>
                 <input autocomplete="off" name="repeat" id="repeat" placeholder="{{::viewevent.placeholder.repeat}}" type="text" ng-model="viewevent.eventEdit.repeat">
                 <div class="ui icon input" id="desktopRepeatUntil">
                     <input autocomplete="off" class="simpledate" ng-model="viewevent.eventEdit.repeatUntil" placeholder="{{::viewevent.placeholder.repeatUntil}}" type="text">
                     <i class="calendar icon"></i>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="ui large form segment">
             <div class="field">
