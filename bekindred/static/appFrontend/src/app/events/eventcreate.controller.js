@@ -106,15 +106,22 @@
                 return;
             }
 
-            if (moment(vm.event.ends_on) >= moment(vm.event.starts_on)) {
+            if (moment(vm.event.ends_on) <= moment(vm.event.starts_on)) {
                 vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
+                 return;
             }
+
 
         }
 
         function checkDatesEnds() {
 
             if (vm.event.starts_on === '' || vm.event.starts_on === null) {
+                vm.event.starts_on = moment(vm.event.ends_on).subtract(1, 'hour').toDate();
+                return;
+            }
+
+            if (moment(vm.event.ends_on) <= moment(vm.event.starts_on)) {
                 vm.event.starts_on = moment(vm.event.ends_on).subtract(1, 'hour').toDate();
                 return;
             }
