@@ -6362,7 +6362,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
-.gplacesautocomplete {
+ .gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7567,15 +7567,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
-    background-position: center;
-    background-size: contain;
-    height: 34px;
-    width: 34px;
-}
+     background-position: center;
+     background-size: contain;
+     height: 34px;
+     width: 34px;
+ }
 
-#createEventsModal.ui.modal.centeraligned .field.button,
-#editEventsModal.ui.modal.centeraligned .field.button,
-{
+ #createEventsModal.ui.modal.centeraligned .field.button,
+ #editEventsModal.ui.modal.centeraligned .field.button,
+ {
     height: 40px!important;
 }
 
@@ -7663,6 +7663,7 @@ body.events-page .card:hover {
     font-weight: 400;
     font-variant: italic;
     color: rgba(0, 0, 0, .5);
+    max-width: 77px!important;
 }
 
 .attendees-people .intersecticon {
@@ -8368,4 +8369,43 @@ input.file {
 .ui.modal .ui.image.small.event-image {
     padding-top: 5px !important;
     padding-left: 1px;
+}
+
+.connection-icon {
+    text-align: center;
+    float: left;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #000;
+    border-radius: 100%;
+    background-color: #FFF;
+    position: absolute!important;
+    left: -19px !important;
+    bottom: -3px !important;
+}
+
+.connection-icon i {
+    font-size: 18px;
+    line-height: 26px;
+    color: #000;
+}
+
+.attendees-header div {
+    width: 3.5em!important;
+    height: 3.5em!important;
+}
+
+.attendees-people td .header .attendees-content {
+    padding-left: 18px!important;
+    min-width: 90px!important;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .attendees-people td .header .attendees-content {
+        padding-left: 18px!important;
+        min-width: 150px!important;
+    }
+
 }
