@@ -1,30 +1,30 @@
 <div id="search-header">
-  <div class="ui left icon input">
-    <input type="text" ng-model="myconnections.q" ng-change="myconnections.getFriends()" placeholder="Search" ng-model-options="{debounce:300}">
-    <i class="circular search icon"></i>
+    <div class="ui left icon input">
+        <input type="text" ng-model="myconnections.q" ng-change="myconnections.getFriends()" placeholder="Search" ng-model-options="{debounce:300}">
+        <i class="circular search icon"></i>
+    </div>
 </div>
-</div>
-
 <div id="friends-list-body" class="basic ui segment" ng-class="{'loading': myconnections.loading}" when-scroll-ends="myconnections.loadMoreFriends()">
     <div class="ui basic segment notice" ng-if="myconnections.noConnections">
         <div class="ui info message">
             <p>You don't have any connections. Go to your Match Feed to find people with similar goals and interests.</p>
             <p><a class="ui icon button blue" ui-sref="matchfeed">Match Feed</a></p>
-
         </div>
-
     </div>
-
     <div class="ui divided selection list">
-
         <div class="ui info message" ng-show="myconnections.noResults && !myconnections.loading && !myconnections.noConnections">
             <p>No connections found.</p>
             <p>Try with another search term or <a href="" ng-click="myconnections.reset()">reset your search</a>.</p>
         </div>
-
-        <div ng-click="myconnections.gotoConnection($index)" ng-class="{'unread': friend.updated_at === null}" class="item repeat-animation" ng-repeat="friend in myconnections.friends track by friend.id" >
+        <div class="item header-item">
+            <div class="right floated content">
+                <span class="connected">Connected</span>
+                <span class="distance">Distance</span>
+            </div>
+        </div>
+        <div ng-click="myconnections.gotoConnection($index)" ng-class="{'unread': friend.updated_at === null}" class="item friend-item repeat-animation" ng-repeat="friend in myconnections.friends track by friend.id">
             <div class="ui circular tiny image img-bounding-box" ng-style="{'background-image': 'url({{ friend.image }})'}"></div>
-            <div class="content">
+            <div class="content friend-content">
                 <div class="header">{{friend.first_name}}</div>
                 <div class="description">
                     <div class="ui mini statistics">
@@ -47,14 +47,11 @@
                     </div>
                 </div>
             </div>
+             <div class="right floated content">
+                <span class="connected">{{friend.updated_at | amDateFormat:'MMM D, YYYY'}}</span>
+                <span class="distance">{{friend.distance[0]}} {{friend.distance[1]}}</span>
+            </div>
         </div>
     </div>
-
-
-
-
-
     <three-bounce-spinner class="page-spinner-bar" ng-show="myconnections.loadingMore"></three-bounce-spinner>
-
 </div>
-
