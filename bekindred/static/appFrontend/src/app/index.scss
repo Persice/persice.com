@@ -6362,7 +6362,7 @@ body.event-page #repeatUntil,
  * the required "powered by Google" logo.
  */
 
- .gplacesautocomplete {
+.gplacesautocomplete {
     position: absolute !important;
     top: 45px !important;
     left: 0px !important;
@@ -7567,15 +7567,15 @@ body.event-page .invitations-people .intersecticon {
     /* Add your own default image here
      background-image: url('/assets/default.png');
      */
-     background-position: center;
-     background-size: contain;
-     height: 34px;
-     width: 34px;
- }
+    background-position: center;
+    background-size: contain;
+    height: 34px;
+    width: 34px;
+}
 
- #createEventsModal.ui.modal.centeraligned .field.button,
- #editEventsModal.ui.modal.centeraligned .field.button,
- {
+#createEventsModal.ui.modal.centeraligned .field.button,
+#editEventsModal.ui.modal.centeraligned .field.button,
+{
     height: 40px!important;
 }
 
@@ -8268,13 +8268,11 @@ input.file {
     margin-top: 0.3em!important;
 }
 
-
 #friends-list-body .item.header-item {
     height: 50px!important;
 }
 
-
-#friends-list-body .header-item .content{
+#friends-list-body .header-item .content {
     position: absolute;
     right: 0px;
 }
@@ -8282,7 +8280,6 @@ input.file {
 #friends-list-body .item.friend-item .connected,
 #friends-list-body .item.friend-item .distance {
     top: 30px;
-
 }
 
 #friends-list-body .content .connected {
@@ -8307,7 +8304,6 @@ input.file {
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-
     #friends-list-body .content .connected,
     #friends-list-body .content .distance {
         font-size: 1.2rem;
@@ -8315,11 +8311,9 @@ input.file {
     #friends-list-body .content .connected {
         right: 160px;
     }
-
 }
 
 @media only screen and (min-width: 768px) and (max-width: 840px) {
-
     #friends-list-body .content .connected,
     #friends-list-body .content .distance {
         font-size: 1rem;
@@ -8327,50 +8321,41 @@ input.file {
     #friends-list-body .content .connected {
         right: 85px;
     }
-
 }
 
 @media only screen and (max-width: 480px) {
-
     #friends-list-body .content .connected,
     #friends-list-body .content .distance {
         font-size: 0.9rem;
         top: 10px!important;
     }
-
     #friends-list-body .content .distance {
         right: 0px;
     }
     #friends-list-body .content .connected {
         right: 80px;
     }
-
     #friends-list-body .tiny.circular.image {
         height: 60px !important;
         width: 60px !important;
     }
-
     #friends-list-body .item .content.friend-content {
         left: 70px;
         top: 0.5em;
     }
-
     #friends-list-body .item .content.friend-content .header {
         font-size: 1.2rem;
         margin-bottom: 5px !important;
     }
-
     #friends-list-body .item.friend-item {
         height: 80px;
     }
-
     #friends-list-body .item .content.friend-content .icon {
         width: 15px !important;
         height: 15px !important;
         max-width: 15px !important;
         max-height: 15px !important;
     }
-
     #friends-list-body .item .content.friend-content .intersecticon {
         background-image: url(/static/img/squares18_small.png) !important;
         width: 17px !important;
@@ -8378,5 +8363,9 @@ input.file {
         max-width: 17px !important;
         max-height: 17px !important;
     }
+}
 
+.ui.modal .ui.image.small.event-image {
+    padding-top: 5px !important;
+    padding-left: 1px;
 }

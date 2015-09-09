@@ -21,6 +21,7 @@
         vm.openChat = openChat;
 
         vm.eventLocation = '';
+        vm.image = '';
 
         $scope.eventpage.header = 'Event Details';
 
@@ -209,6 +210,13 @@
                             }
                         }
                     }
+                }
+
+                if (data.event_photo !== null) {
+                    vm.image = data.event_photo;
+                } else {
+                    vm.event.event_photo = '';
+                    vm.image = '';
                 }
 
 

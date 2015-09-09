@@ -25,6 +25,22 @@
                     </button>
                 </div>
             </div>
+            <div class="field">
+                <label>Event Photo</label>
+                <div class="ui labeled icon button fileUpload primary">
+                    <i class="photo icon"></i>
+                    <span ng-show="viewevent.eventEdit.event_photo === ''">Choose Event Photo</span>
+                    <span ng-show="viewevent.eventEdit.event_photo !== ''">Change Event Photo</span>
+                    <input class="file" preview="viewevent.image" autocomplete="off" file-model="viewevent.eventEdit.event_photo" ng-model="viewevent.eventEdit.event_photo" accept="image/*" placeholder="{{::viewevent.placeholder.event_photo}}" type="file" name="event_photo">
+                </div>
+                <a ng-show="viewevent.eventEdit.event_photo !== ''" ng-click="viewevent.image = ''; viewevent.eventEdit.event_photo = '';" class="ui button icon fileUpload red">
+                    <i class="remove icon"></i>
+                </a>
+            </div>
+            <div class="field" ng-show="viewevent.eventEdit.event_photo !== '' && viewevent.image">
+                <label></label>
+                <img ng-src="{{viewevent.image}}" class="ui image small">
+            </div>
         </div>
         <div class="ui large form segment" id="datePairEdit">
             <div class="field" ng-class="{'error': viewevent.startsTimeError}">
@@ -45,7 +61,7 @@
                 <input name="ends_on" autocomplete="off" ng-change="viewevent.checkDatesEnds()" ng-class="{'fulldisplay':  viewevent.eventEdit.ends_on !== '' && viewevent.eventEdit.ends_on !== null}" ng-if="viewevent.showMobile" id="endsAtDate" class="ui border-bottom" placeholder="Ends" type="datetime-local" ng-model="viewevent.eventEdit.ends_on">
                 <input autocomplete="off" id="endsAtTime" class="time end" class="" placeholder="{{::viewevent.placeholder.endsTime}}" type="text" ng-model="viewevent.ends_on_time" name="ends_on_time">
             </div>
-          <!--   <div class="field">
+            <!--   <div class="field">
                 <label>Repeat</label>
                 <input autocomplete="off" name="repeat" id="repeat" placeholder="{{::viewevent.placeholder.repeat}}" type="text" ng-model="viewevent.eventEdit.repeat">
                 <div class="ui icon input" id="desktopRepeatUntil">

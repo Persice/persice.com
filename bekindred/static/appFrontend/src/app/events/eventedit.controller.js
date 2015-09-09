@@ -20,6 +20,7 @@
         $scope.eventpage.loadingSave = false;
         vm.errorMessage = [];
         vm.mapurl = '';
+        vm.image = '';
         vm.mapurlTrue = false;
         vm.endsTimeError = false;
         vm.startsTimeError = false;
@@ -55,7 +56,8 @@
             costs: 'Costs',
             invitations: 'Invitations',
             attachments: 'Attachments',
-            max_attendees: 'Max. attendees'
+            max_attendees: 'Max. attendees',
+            event_photo: 'Event photo'
         };
 
         vm.$geolocation = $geolocation;
@@ -181,7 +183,12 @@
                         }
                     }
                 }
-
+                if (data.event_photo !== null) {
+                   vm.image = data.event_photo;
+                }
+                else {
+                    vm.eventEdit.event_photo = '';
+                }
 
                 vm.loadingEvent = false;
 

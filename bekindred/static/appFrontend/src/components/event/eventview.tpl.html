@@ -31,13 +31,17 @@
                     <i ng-click="viewevent.openMap()" class="marker large icon"></i>
                     <span class="locationContent">
                         <span ng-if="viewevent.event.location_name.trim() !== viewevent.event.city.trim()">{{viewevent.event.location_name}}</span>
-                    <span>
+                        <span>
                             <br ng-if="viewevent.event.location_name.trim() !== viewevent.event.city.trim() && viewevent.event.location_name !== null && viewevent.event.location_name.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">
                             <span ng-if="viewevent.event.street !== null && viewevent.event.street.trim() !== '' && viewevent.event.location_name.trim() !== viewevent.event.street.trim()">{{viewevent.event.street}}<br></span>
-                    <span ng-if="viewevent.event.city !== null && viewevent.event.city.trim() !== ''">{{viewevent.event.city}} {{viewevent.event.zipcode}} {{viewevent.event.state}}</span>
-                    </span>
+                            <span ng-if="viewevent.event.city !== null && viewevent.event.city.trim() !== ''">{{viewevent.event.city}} {{viewevent.event.zipcode}} {{viewevent.event.state}}</span>
+                        </span>
                     </span>
                 </div>
+            </div>
+            <div class="field" ng-show="viewevent.event.event_photo !== '' && viewevent.image">
+                <label>Event photo</label>
+                <img ng-src="{{viewevent.image}}" class="ui image event-image small">
             </div>
         </div>
         <div class="ui large form segment" id="DatesSection" ng-if="viewevent.showMobile">
