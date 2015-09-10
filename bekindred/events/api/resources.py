@@ -118,13 +118,6 @@ class EventResource(MultiPartResource, ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
-    # def put_detail(self, request, **kwargs):
-    #     if request.META.get('CONTENT_TYPE', ''). \
-    #             startswith('multipart/form-data') \
-    #             and not hasattr(request, '_body'):
-    #         request._body = ''
-    #     return super(EventResource, self).put_detail(request, **kwargs)
-
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
         friends = Friend.objects.all_my_friends(user_id=user_id)
