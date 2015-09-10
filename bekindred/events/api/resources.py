@@ -74,6 +74,20 @@ class MultiPartResource(object):
         return super(MultiPartResource, self). \
             deserialize(request, data, format)
 
+    def put_detail(self, request, **kwargs):
+        if request.META.get('CONTENT_TYPE', '').\
+                startswith('multipart/form-data') \
+                and not hasattr(request, '_body'):
+            request._body = ''
+        return super(MultiPartResource, self).put_detail(request, **kwargs)
+
+    def patch_detail(self, request, **kwargs):
+        if request.META.get('CONTENT_TYPE', '').\
+                startswith('multipart/form-data') \
+                and not hasattr(request, '_body'):
+            request._body = ''
+        return super(MultiPartResource, self).patch_detail(request, **kwargs)
+
 
 class EventResource(MultiPartResource, ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',

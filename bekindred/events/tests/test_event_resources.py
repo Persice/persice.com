@@ -242,9 +242,9 @@ class TestEventResource(ResourceTestCase):
         new_data['name'] = 'new_name'
         new_data['event_photo'] = new_file
 
-        resp = self.api_client.put(detail_url,
-                                           data=new_data,
-                                           content_type='multipart/form-data')
+        resp = self.api_client.patch(detail_url,
+                                     data=new_data,
+                                     content_type='multipart/form-data')
         d = self.deserialize(resp)
         self.assertEqual(d['name'], 'new_name')
 
