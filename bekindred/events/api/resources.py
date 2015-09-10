@@ -52,7 +52,8 @@ class EventValidation(Validation):
 
         if bundle.obj.starts_on >= bundle.obj.ends_on:
             errors['error'] = [
-                'The event end date and time must occur after the start date and time.']
+                'The event end date and time must occur '
+                'after the start date and time.']
 
         return errors
 
@@ -949,4 +950,6 @@ class EventAttendees(ModelResource):
         bundle.data['total_mutual_friends'] = 0
         bundle.data['mutual_match_score'] = 0
         bundle.data['tagline'] = 'tagline for my connection'
+        bundle.data['is_connection'] = Friend.objects.\
+            checking_friendship(bundle.obj.user.id, bundle.request.user.id)
         return bundle
