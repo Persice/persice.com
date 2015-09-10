@@ -46,7 +46,7 @@
                                 <div style="background-image: url('/media/{{attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;" class="ui circular image attendee-is-connection"></div>
 
                                 <div class="content attendees-content">
-                                    <span class="connection-icon"><i class="fa fa-bolt"></i></span>
+                                    <span ng-show="attendee.is_connection" class="connection-icon"><i class="fa fa-bolt"></i></span>
                                     <span>{{attendee.first_name}}, {{attendee.age}}</span>
                                 </div>
                             </h4>
@@ -86,7 +86,7 @@
                                 <div style="background-image: url('/media/{{attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;" class="ui circular image"></div>
 
                                 <div class="content attendees-content">
-                                    <span class="connection-icon"><i class="fa fa-bolt"></i></span>
+                                    <span ng-show="attendee.is_connection" class="connection-icon"><i class="fa fa-bolt"></i></span>
                                     <span>{{attendee.first_name}}, {{attendee.age}}</span>
                                 </div>
                             </h4>
@@ -125,7 +125,7 @@
                             <h4 class="ui image header attendees-header">
                                 <div style="background-image: url('/media/{{attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;" class="ui circular image"></div>
                                 <div class="content attendees-content">
-                                    <span class="connection-icon"><i class="fa fa-bolt"></i></span>
+                                    <span ng-show="attendee.is_connection" class="connection-icon"><i class="fa fa-bolt"></i></span>
                                     <span>{{attendee.first_name}}, {{attendee.age}}</span>
                                 </div>
                             </h4>
