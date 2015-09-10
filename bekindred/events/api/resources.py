@@ -71,7 +71,7 @@ class MultiPartResource(object):
             multipart_data.update(request.FILES)
             return multipart_data
 
-        return super(MultiPartResource, self).\
+        return super(MultiPartResource, self). \
             deserialize(request, data, format)
 
 
@@ -83,11 +83,10 @@ class EventResource(MultiPartResource, ModelResource):
     attendees = fields.OneToManyField(
         'events.api.resources.MembershipResource',
         attribute=lambda bundle:
-        bundle.obj.membership_set.
-        filter(user__in=Friend.objects.all_my_friends(
-            user_id=bundle.request.user.id) +
-                            [bundle.request.user.id],
-                   rsvp='yes'),
+        bundle.obj.membership_set.filter(
+            user__in=Friend.objects.all_my_friends(user_id=
+                                                   bundle.request.user.id) +
+            [bundle.request.user.id], rsvp='yes'),
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,
                                    blank=True)
@@ -950,6 +949,6 @@ class EventAttendees(ModelResource):
         bundle.data['total_mutual_friends'] = 0
         bundle.data['mutual_match_score'] = 0
         bundle.data['tagline'] = 'tagline for my connection'
-        bundle.data['is_connection'] = Friend.objects.\
+        bundle.data['is_connection'] = Friend.objects. \
             checking_friendship(bundle.obj.user.id, bundle.request.user.id)
         return bundle
