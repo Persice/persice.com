@@ -64,8 +64,19 @@ INSTALLED_APPS += ('south',
                    'matchfeed',
                    'msgs',
                    'tastypie',
-                   'geoposition'
-)
+                   'geoposition',
+                   'easy_thumbnails',
+                   )
+
+SOUTH_MIGRATION_MODULES = {
+    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+}
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (140, 140), 'crop': True, 'quality': 100},
+    },
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
