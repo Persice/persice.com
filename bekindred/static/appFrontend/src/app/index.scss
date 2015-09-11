@@ -8409,3 +8409,17 @@ input.file {
     }
 
 }
+
+
+
+@media only screen and (max-width: 374px) {
+
+    #friends-list-body .content .distance {
+        right: -33px;
+    }
+
+     #friends-list-body .content .connected {
+        right: 40px;
+    }
+
+}
