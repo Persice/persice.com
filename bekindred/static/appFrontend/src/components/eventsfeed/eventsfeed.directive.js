@@ -161,7 +161,7 @@
 
                         var photo = '/static/img/placeholder-image.jpg';
                         if (responseEvents[obj].event_photo !== null) {
-                            photo = responseEvents[obj].event_photo;
+                            photo = responseEvents[obj].event_photo + '.140x140_q100_crop.jpg';
                         }
 
                         vm.events.push({
@@ -233,7 +233,7 @@
                             var localDate = $filter('amDateFormat')(responseEvents[obj].starts_on, 'dddd, MMMM Do YYYY');
                             var photo = '/static/img/placeholder-image.jpg';
                             if (responseEvents[obj].event_photo !== null) {
-                                photo = responseEvents[obj].event_photo;
+                                photo = responseEvents[obj].event_photo + '.140x140_q100_crop.jpg';
                             }
                             vm.events.push({
                                 id: responseEvents[obj].id,
