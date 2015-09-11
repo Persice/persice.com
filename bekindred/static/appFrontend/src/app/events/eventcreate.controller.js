@@ -100,18 +100,7 @@
         vm.checkDatesEnds = checkDatesEnds;
 
         function checkDatesStarts() {
-
-            if (vm.event.ends_on === '' || vm.event.ends_on === null) {
-                vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
-                return;
-            }
-
-            if (moment(vm.event.ends_on) <= moment(vm.event.starts_on)) {
-                vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
-                 return;
-            }
-
-
+            vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
         }
 
         function checkDatesEnds() {
@@ -121,7 +110,7 @@
                 return;
             }
 
-            if (moment(vm.event.ends_on) <= moment(vm.event.starts_on)) {
+            if (moment(vm.event.ends_on).isBefore(vm.event.starts_on, 'minute')) {
                 vm.event.starts_on = moment(vm.event.ends_on).subtract(1, 'hour').toDate();
                 return;
             }
