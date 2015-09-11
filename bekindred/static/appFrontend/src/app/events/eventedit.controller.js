@@ -222,15 +222,7 @@
 
         function checkDatesStarts() {
 
-            if (vm.eventEdit.ends_on === '' || vm.eventEdit.ends_on === null) {
-                vm.eventEdit.ends_on = moment(vm.eventEdit.starts_on).add(1, 'hour').toDate();
-                return;
-            }
-
-            if (moment(vm.eventEdit.ends_on) <= moment(vm.eventEdit.starts_on)) {
-                vm.eventEdit.ends_on = moment(vm.eventEdit.starts_on).add(1, 'hour').toDate();
-                return;
-            }
+            vm.eventEdit.ends_on = moment(vm.eventEdit.starts_on).add(1, 'hour').toDate();
 
         }
 
@@ -241,12 +233,13 @@
                 return;
             }
 
-            if (moment(vm.eventEdit.ends_on) <= moment(vm.eventEdit.starts_on)) {
+            if (moment(vm.eventEdit.ends_on).isBefore(vm.eventEdit.starts_on, 'minute')) {
                 vm.eventEdit.starts_on = moment(vm.eventEdit.ends_on).subtract(1, 'hour').toDate();
                 return;
             }
 
         }
+
 
 
 
