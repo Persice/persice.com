@@ -224,30 +224,6 @@ class TestEventResource(ResourceTestCase):
 
         self.assertNotEqual(self.deserialize(resp)['event_photo'], '')
 
-    def test_put_event_photo(self):
-        self.response = self.login()
-        file_ = SimpleUploadedFile('file.txt', 'Hello world!')
-        new_file = SimpleUploadedFile('new_file.txt', 'Hello world2!')
-
-        self.event = Event.objects.create(name="Play piano",
-                                          event_photo=file_,
-                                          location=[7000, 22965.83],
-                                          starts_on=now() + timedelta(days=9),
-                                          ends_on=now() + timedelta(days=10))
-
-        detail_url = '/api/v1/event/{}/'.format(self.event.id)
-        original_data = self.deserialize(self.api_client.get(detail_url,
-                                                             format='json'))
-        new_data = original_data.copy()
-        new_data['name'] = 'new_name'
-        new_data['event_photo'] = new_file
-
-        resp = self.api_client.put(detail_url,
-                                           data=new_data,
-                                           content_type='multipart/form-data')
-        d = self.deserialize(resp)
-        self.assertEqual(d['name'], 'new_name')
-
 
 class TestAllEventFeedResource(ResourceTestCase):
     def setUp(self):

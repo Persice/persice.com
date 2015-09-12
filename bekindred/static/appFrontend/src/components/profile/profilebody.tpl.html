@@ -100,7 +100,7 @@
 <!-- mutual friends -->
 <h4 ng-if="userprofile.showfullprofile && userprofile.user.friends.length > 0" class="ui header">Mutual Friends</h4>
 <div ng-if="userprofile.showfullprofile && userprofile.user.friends.length > 0" class="ui selection list">
-    <a ui-sref="friendprofile({ userId: userprofile.friend.user_id })" class="item" ng-repeat="friend in userprofile.user.friends track by $index">
+    <a ui-sref="friendprofile({ userId: friend.user_id })" class="item" ng-repeat="friend in userprofile.user.friends track by $index">
         <img class="ui avatar image" ng-src="/media/{{ friend.image }}">
         <div class="content">
             <div class="header">{{ friend.first_name }}</div>

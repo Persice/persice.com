@@ -5,7 +5,7 @@ from djorm_pgfulltext.fields import VectorField
 from djorm_pgfulltext.models import SearchManagerMixIn, SearchQuerySet
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import fromstr
-
+from easy_thumbnails import fields
 from django.contrib.gis.db.models.query import GeoQuerySet
 
 
@@ -113,3 +113,6 @@ class EventFilterState(models.Model):
     cumulative_match_score = models.IntegerField(default=0)
     keyword = models.CharField(max_length=50)
     order_criteria = models.CharField(max_length=20, default='distance')
+
+
+

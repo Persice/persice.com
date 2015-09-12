@@ -1,24 +1,23 @@
-import re
 import json
+import re
 
+import redis
 from django.db.models import Q
 from django.utils.timezone import now
-import redis
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL
-
 from tastypie.resources import ModelResource, Resource
 
-from friends.models import Friend, FacebookFriendUser
-from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, social_extra_data, \
-    calculate_distance
+from friends.models import FacebookFriendUser, Friend
+from goals.utils import (calculate_distance, get_mutual_linkedin_connections,
+                         get_mutual_twitter_friends, social_extra_data)
 from match_engine.models import MatchEngine
-from members.models import FacebookCustomUserActive, FacebookLikeProxy
-from photos.api.resources import UserResource
 from matchfeed.api.resources import A
+from members.models import FacebookCustomUserActive
+from photos.api.resources import UserResource
 
 
 class FriendsResource(ModelResource):
@@ -38,7 +37,8 @@ class FriendsResource(ModelResource):
 
     def get_object_list(self, request):
         u = request.user.id
-        return super(FriendsResource, self).get_object_list(request).filter(Q(friend1=u) | Q(friend2=u))
+        return super(FriendsResource, self).get_object_list(request).\
+            filter(Q(friend1=u) | Q(friend2=u))
 
     def obj_create(self, bundle, **kwargs):
         status = bundle.data['status']
@@ -46,7 +46,8 @@ class FriendsResource(ModelResource):
         f1 = int(re.findall(r'/(\d+)/', bundle.data['friend1'])[0])
         f2 = int(re.findall(r'/(\d+)/', bundle.data['friend2'])[0])
 
-        result = Friend.objects.filter(Q(friend1=f1, friend2=f2) | Q(friend1=f2, friend2=f1))
+        result = Friend.objects.filter(Q(friend1=f1, friend2=f2) |
+                                       Q(friend1=f2, friend2=f1))
         if result:
             if result[0].status == 0 and status in (0, 1):
                 bundle.obj = result[0]
@@ -54,14 +55,18 @@ class FriendsResource(ModelResource):
                 bundle.data['status'] = 1
                 # redis
                 r = redis.StrictRedis(host='localhost', port=6379, db=0)
-                r.publish('connection.%s' % result[0].friend1_id, json.dumps(bundle.data))
-                r.publish('connection.%s' % result[0].friend2_id, json.dumps(bundle.data))
-                return super(FriendsResource, self).obj_update(bundle, **kwargs)
+                r.publish('connection.%s' % result[0].friend1_id,
+                          json.dumps(bundle.data))
+                r.publish('connection.%s' % result[0].friend2_id,
+                          json.dumps(bundle.data))
+                return super(FriendsResource, self).obj_update(bundle,
+                                                               **kwargs)
             elif result[0].status == -1 or status == -1:
                 bundle.obj = result[0]
                 bundle.obj.status = -1
                 bundle.data['status'] = -1
-                return super(FriendsResource, self).obj_update(bundle, **kwargs)
+                return super(FriendsResource, self).obj_update(bundle,
+                                                               **kwargs)
         else:
             bundle = super(FriendsResource, self).obj_create(bundle, **kwargs)
         return bundle
@@ -73,25 +78,45 @@ class ConnectionsResource(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     friend_id = fields.CharField(attribute='friend_id')
-    twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
-    twitter_username = fields.CharField(attribute='twitter_username', null=True)
-    linkedin_provider = fields.CharField(attribute='linkedin_provider', null=True)
+    twitter_provider = fields.CharField(attribute='twitter_provider',
+                                        null=True)
+    twitter_username = fields.CharField(attribute='twitter_username',
+                                        null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider',
+                                         null=True)
 
     mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
-    mutual_bk_friends_count = fields.IntegerField(attribute='mutual_bk_friends_count')
+    mutual_bk_friends_count = fields.IntegerField(
+        attribute='mutual_bk_friends_count')
 
     mutual_fb_friends = fields.ListField(attribute='mutual_fb_friends')
-    mutual_fb_friends_count = fields.IntegerField(attribute='mutual_fb_friends_count')
 
-    mutual_linkedin_connections = fields.ListField(attribute='mutual_linkedin_connections')
-    mutual_linkedin_connections_count = fields.IntegerField(attribute='mutual_linkedin_connections_count')
+    mutual_fb_friends_count = fields.IntegerField(
+        attribute='mutual_fb_friends_count')
 
-    mutual_twitter_friends = fields.ListField(attribute='mutual_twitter_friends')
-    mutual_twitter_friends_count = fields.IntegerField(attribute='mutual_twitter_friends_count')
-    mutual_twitter_followers = fields.ListField(attribute='mutual_twitter_followers')
-    mutual_twitter_followers_count = fields.IntegerField(attribute='mutual_twitter_followers_count')
+    mutual_linkedin_connections = fields.ListField(
+        attribute='mutual_linkedin_connections')
+
+    mutual_linkedin_connections_count = fields.IntegerField(
+        attribute='mutual_linkedin_connections_count')
+
+    mutual_twitter_friends = fields.ListField(
+        attribute='mutual_twitter_friends')
+
+    mutual_twitter_friends_count = fields.IntegerField(
+        attribute='mutual_twitter_friends_count')
+
+    mutual_twitter_followers = fields.ListField(
+        attribute='mutual_twitter_followers')
+
+    mutual_twitter_followers_count = fields.IntegerField(
+        attribute='mutual_twitter_followers_count')
+
     mutual_friends = fields.IntegerField(attribute='mutual_friends')
-    common_goals_offers_interests = fields.IntegerField(attribute='common_goals_offers_interests', null=True)
+
+    common_goals_offers_interests = fields.IntegerField(
+        attribute='common_goals_offers_interests', null=True)
+
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
     distance = fields.ListField(attribute='distance')
     image = fields.FileField(attribute="image", null=True, blank=True)
@@ -139,24 +164,30 @@ class ConnectionsResource(Resource):
                     not _first_name.lower() in new_obj.first_name.lower():
                 continue
 
-            new_obj.twitter_provider, new_obj.linkedin_provider, new_obj.twitter_username = \
-                social_extra_data(new_obj.friend_id)
+            new_obj.twitter_provider, new_obj.linkedin_provider, \
+                new_obj.twitter_username = social_extra_data(new_obj.friend_id)
 
-            new_obj.mutual_bk_friends = Friend.objects.mutual_friends(current_user, new_obj.friend_id)
+            new_obj.mutual_bk_friends = Friend.objects.\
+                mutual_friends(current_user, new_obj.friend_id)
             new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)
 
-            new_obj.mutual_fb_friends = FacebookFriendUser.objects.mutual_friends(current_user, new_obj.friend_id)
+            new_obj.mutual_fb_friends = FacebookFriendUser.objects.\
+                mutual_friends(current_user, new_obj.friend_id)
             new_obj.mutual_fb_friends_count = len(new_obj.mutual_fb_friends)
 
-            l = get_mutual_linkedin_connections(current_user, new_obj.friend_id)
+            l = get_mutual_linkedin_connections(current_user,
+                                                new_obj.friend_id)
             new_obj.mutual_linkedin_connections = l['mutual_linkedin']
-            new_obj.mutual_linkedin_connections_count = l['mutual_linkedin_count']
+            new_obj.mutual_linkedin_connections_count = \
+                l['mutual_linkedin_count']
 
             t = get_mutual_twitter_friends(current_user, new_obj.friend_id)
             new_obj.mutual_twitter_friends = t['mutual_twitter_friends']
-            new_obj.mutual_twitter_friends_count = t['count_mutual_twitter_friends']
+            new_obj.mutual_twitter_friends_count = \
+                t['count_mutual_twitter_friends']
             new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
-            new_obj.mutual_twitter_followers_count = t['count_mutual_twitter_followers']
+            new_obj.mutual_twitter_followers_count = \
+                t['count_mutual_twitter_followers']
 
             new_obj.mutual_friends = new_obj.mutual_bk_friends_count + \
                 new_obj.mutual_fb_friends_count + \

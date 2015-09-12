@@ -1,40 +1,38 @@
 import json
 import re
 
+import redis
+from django.conf.urls import url
 from django.contrib.gis.measure import D
+from django.core.paginator import InvalidPage, Paginator
 from django.db import IntegrityError
 from django.db.models import Q
 from django.forms import model_to_dict
+from django.http import Http404
 from django.utils.timezone import now
-import redis
-from tastypie.bundle import Bundle
-from tastypie.constants import ALL_WITH_RELATIONS
-from tastypie.exceptions import BadRequest, ImmediateHttpResponse
-from tastypie.http import HttpUnauthorized
-from tastypie.resources import Resource
-from tastypie.utils import trailing_slash
-from tastypie.validation import Validation
 from haystack.backends import SQ
+from haystack.query import SearchQuerySet
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
-from tastypie.constants import ALL
-from django.core.paginator import Paginator, InvalidPage
-from django.http import Http404
-from haystack.query import SearchQuerySet
-from tastypie.resources import ModelResource
-from django.conf.urls import url
-from events.models import Event, Membership, EventFilterState, \
-    CumulativeMatchScore
-from events.utils import get_cum_score, ResourseObject, Struct
+from tastypie.bundle import Bundle
+from tastypie.constants import ALL, ALL_WITH_RELATIONS
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
+from tastypie.http import HttpUnauthorized
+from tastypie.resources import ModelResource, Resource
+from tastypie.utils import trailing_slash
+from tastypie.validation import Validation
+
+from events.models import (CumulativeMatchScore, Event, EventFilterState,
+                           Membership)
+from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
 from goals.models import MatchFilterState
-from goals.utils import calculate_distance_events, get_user_location
-from match_engine.models import MatchEngineManager
+from goals.utils import (calculate_age, calculate_distance_events,
+                         get_user_location)
+from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from postman.api import pm_write
-from members.models import FacebookCustomUserActive
-from goals.utils import calculate_age
 
 
 class EventValidation(Validation):
@@ -54,7 +52,8 @@ class EventValidation(Validation):
 
         if bundle.obj.starts_on >= bundle.obj.ends_on:
             errors['error'] = [
-                'The event end date and time must occur after the start date and time.']
+                'The event end date and time must occur '
+                'after the start date and time.']
 
         return errors
 
@@ -72,8 +71,22 @@ class MultiPartResource(object):
             multipart_data.update(request.FILES)
             return multipart_data
 
-        return super(MultiPartResource, self).\
+        return super(MultiPartResource, self). \
             deserialize(request, data, format)
+
+    def put_detail(self, request, **kwargs):
+        if request.META.get('CONTENT_TYPE', '').\
+                startswith('multipart/form-data') \
+                and not hasattr(request, '_body'):
+            request._body = ''
+        return super(MultiPartResource, self).put_detail(request, **kwargs)
+
+    def patch_detail(self, request, **kwargs):
+        if request.META.get('CONTENT_TYPE', '').\
+                startswith('multipart/form-data') \
+                and not hasattr(request, '_body'):
+            request._body = ''
+        return super(MultiPartResource, self).patch_detail(request, **kwargs)
 
 
 class EventResource(MultiPartResource, ModelResource):
@@ -84,11 +97,10 @@ class EventResource(MultiPartResource, ModelResource):
     attendees = fields.OneToManyField(
         'events.api.resources.MembershipResource',
         attribute=lambda bundle:
-        bundle.obj.membership_set.
-        filter(user__in=Friend.objects.all_my_friends(
-            user_id=bundle.request.user.id) +
-                            [bundle.request.user.id],
-                   rsvp='yes'),
+        bundle.obj.membership_set.filter(
+            user__in=Friend.objects.all_my_friends(user_id=
+                                                   bundle.request.user.id) +
+            [bundle.request.user.id], rsvp='yes'),
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,
                                    blank=True)
@@ -105,13 +117,6 @@ class EventResource(MultiPartResource, ModelResource):
         validation = EventValidation()
         authentication = SessionAuthentication()
         authorization = Authorization()
-
-    # def put_detail(self, request, **kwargs):
-    #     if request.META.get('CONTENT_TYPE', ''). \
-    #             startswith('multipart/form-data') \
-    #             and not hasattr(request, '_body'):
-    #         request._body = ''
-    #     return super(EventResource, self).put_detail(request, **kwargs)
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -244,7 +249,8 @@ class EventResource(MultiPartResource, ModelResource):
         ends_on = original_bundle.data['ends_on']
         if ends_on < now():
             raise BadRequest(
-                'Users cannot edit events which have an end date that occurred in the past.'
+                'Users cannot edit events which have an end date that '
+                'occurred in the past.'
             )
         return super(EventResource, self).update_in_place(
             request, original_bundle, new_data
@@ -950,4 +956,6 @@ class EventAttendees(ModelResource):
         bundle.data['total_mutual_friends'] = 0
         bundle.data['mutual_match_score'] = 0
         bundle.data['tagline'] = 'tagline for my connection'
+        bundle.data['is_connection'] = Friend.objects. \
+            checking_friendship(bundle.obj.user.id, bundle.request.user.id)
         return bundle

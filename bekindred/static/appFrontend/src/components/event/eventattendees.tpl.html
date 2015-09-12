@@ -10,9 +10,9 @@
             </div>
             <div class="eight wide field attendees">
                 <div class="field-section">
-                    <div class="label">Max. attendees <span class="label number">{{::viewevent.event.max_attendees}}</span></div>
+                    <div class="label">Max. attendees <span class="label number">{{viewevent.event.max_attendees}}</span></div>
                     <div class="ui divider"></div>
-                    <div class="label">Spots remaining <span class="label number">{{::viewevent.event.spots_remaining}}</span></div>
+                    <div class="label">Spots remaining <span class="label number">{{viewevent.event.spots_remaining}}</span></div>
                 </div>
             </div>
         </div>
@@ -42,19 +42,20 @@
                 <tbody>
                     <tr ng-repeat="attendee in viewevent.attendees['yes'].data track by attendee.id">
                         <td>
-                            <h4 class="ui image header">
-                                <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+                            <h4 class="ui image header attendees-header">
+                                <div style="background-image: url('/media/{{attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;" class="ui circular image attendee-is-connection"></div>
 
-                                <div class="content">
-                                    {{::attendee.first_name}}, {{::attendee.age}}
+                                <div class="content attendees-content">
+                                    <span ng-show="attendee.is_connection" class="connection-icon"><i class="fa fa-bolt"></i></span>
+                                    <span>{{attendee.first_name}}, {{attendee.age}}</span>
                                 </div>
                             </h4>
                         </td>
                         <td class="desktopview">
-                            <div class="tagline">{{::attendee.tagline}}</div>
+                            <div class="tagline">{{attendee.tagline}}</div>
                         </td>
-                        <td class="desktopview">{{::attendee.cumulative_match_score}}&nbsp;</td>
-                        <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
+                        <td class="desktopview">{{attendee.mutual_match_score}}&nbsp;</td>
+                        <td class="desktopview">{{attendee.total_mutual_friends}}&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -81,19 +82,20 @@
                 <tbody>
                     <tr ng-repeat="attendee in viewevent.attendees['maybe'].data track by attendee.id">
                         <td>
-                            <h4 class="ui image header">
-                                <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+                            <h4 class="ui image header attendees-header">
+                                <div style="background-image: url('/media/{{attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;" class="ui circular image"></div>
 
-                                <div class="content">
-                                    {{::attendee.first_name}}, {{::attendee.age}}
+                                <div class="content attendees-content">
+                                    <span ng-show="attendee.is_connection" class="connection-icon"><i class="fa fa-bolt"></i></span>
+                                    <span>{{attendee.first_name}}, {{attendee.age}}</span>
                                 </div>
                             </h4>
                         </td>
                         <td class="desktopview">
-                            <div class="tagline">{{::attendee.tagline}}</div>
+                            <div class="tagline">{{attendee.tagline}}</div>
                         </td>
-                        <td class="desktopview">{{::attendee.cumulative_match_score}&nbsp;</td>
-                        <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
+                        <td class="desktopview">{{attendee.mutual_match_score}&nbsp;</td>
+                        <td class="desktopview">{{attendee.total_mutual_friends}}&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -120,18 +122,19 @@
                 <tbody>
                     <tr ng-repeat="attendee in viewevent.attendees['no'].data track by attendee.id">
                         <td>
-                            <h4 class="ui image header">
-                                <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
-                                <div class="content">
-                                    {{::attendee.first_name}}, {{::attendee.age}}
+                            <h4 class="ui image header attendees-header">
+                                <div style="background-image: url('/media/{{attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%;" class="ui circular image"></div>
+                                <div class="content attendees-content">
+                                    <span ng-show="attendee.is_connection" class="connection-icon"><i class="fa fa-bolt"></i></span>
+                                    <span>{{attendee.first_name}}, {{attendee.age}}</span>
                                 </div>
                             </h4>
                         </td>
                         <td class="desktopview">
-                            <div class="tagline">{{::attendee.tagline}}</div>
+                            <div class="tagline">{{attendee.tagline}}</div>
                         </td>
-                        <td class="desktopview">{{::attendee.cumulative_match_score}}&nbsp;</td>
-                        <td class="desktopview">{{::attendee.total_mutual_friends}}&nbsp;</td>
+                        <td class="desktopview">{{attendee.mutual_match_score}}&nbsp;</td>
+                        <td class="desktopview">{{attendee.total_mutual_friends}}&nbsp;</td>
                     </tr>
                 </tbody>
             </table>
@@ -143,7 +146,7 @@
     <br>
 </div>
 <script>
-'use strict';
-$('.menu .item')
+    'use strict';
+    $('.menu .item')
     .tab();
 </script>

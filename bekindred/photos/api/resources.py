@@ -1,33 +1,35 @@
 from django.conf.urls import url
+from django.core.paginator import InvalidPage, Paginator
+from django.http import Http404
 from haystack.backends import SQ
+from haystack.query import SearchQuerySet
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
-from django.core.paginator import Paginator, InvalidPage
-from django.http import Http404
-from haystack.query import SearchQuerySet
 from tastypie.resources import ModelResource
-
 from tastypie.utils import trailing_slash
-from goals.models import Goal
-from match_engine.models import MatchEngine
-from matchfeed.models import MatchFeedManager
+from friends.models import Friend
 
+from goals.utils import calculate_age, social_extra_data, calculate_distance
+from match_engine.models import MatchEngine
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
-from goals.utils import calculate_age, social_extra_data
 
 
 class UserResource(ModelResource):
     goals = fields.OneToManyField('goals.api.resources.GoalResource',
-                                  attribute=lambda bundle: bundle.obj.goal_set.all(),
+                                  attribute=lambda bundle:
+                                  bundle.obj.goal_set.all(),
                                   full=True, null=True)
     offers = fields.OneToManyField('goals.api.resources.OfferResource',
-                                   attribute=lambda bundle: bundle.obj.offer_set.all(),
+                                   attribute=lambda bundle:
+                                   bundle.obj.offer_set.all(),
                                    full=True, null=True)
-    interests = fields.OneToManyField('interests.api.resources.InterestResource',
-                                      attribute=lambda bundle: bundle.obj.interest_set.all(),
+    interests = fields.OneToManyField('interests.api.resources.'
+                                      'InterestResource',
+                                      attribute=lambda bundle:
+                                      bundle.obj.interest_set.all(),
                                       full=True, null=True)
 
     class Meta:
@@ -43,13 +45,18 @@ class UserResource(ModelResource):
         authorization = Authorization()
 
     def dehydrate(self, bundle):
+        bundle.data['distance'] = calculate_distance(bundle.request.user.id,
+                                                     bundle.obj.id)
+
+        bundle.data['mutual_friends'] = \
+            len(Friend.objects.mutual_friends(bundle.request.user.id,
+                                              bundle.obj.id))
+
         bundle.data['age'] = calculate_age(bundle.data['date_of_birth'])
-        bundle.data['match_score'] = 0
-        bundle.data['distance'] = [10000, 'miles']
-        bundle.data['mutual_friends'] = 0
-        bundle.data['age'] = calculate_age(bundle.data['date_of_birth'])
+
         # TODO chane user_id to url from user_id
-        bundle.data['twitter_provider'], bundle.data['linkedin_provider'], bundle.data['twitter_username'] = \
+        bundle.data['twitter_provider'], bundle.data['linkedin_provider'], \
+            bundle.data['twitter_username'] = \
             social_extra_data(bundle.request.user.id)
 
         if bundle.obj.id != bundle.request.user.id:
@@ -58,11 +65,13 @@ class UserResource(ModelResource):
                                               bundle.request.user.id)
         else:
             bundle.data['match_score'] = 0
+
         return bundle
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()),
+            url(r"^(?P<resource_name>%s)/search%s$" %
+                (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('get_search'), name="api_get_search"),
         ]
 
@@ -114,4 +123,5 @@ class FacebookPhotoResource(ModelResource):
 
     def get_object_list(self, request):
         user = request.GET.get('user_id', request.user.id)
-        return super(FacebookPhotoResource, self).get_object_list(request).filter(user_id=user)
+        return super(FacebookPhotoResource, self).get_object_list(request).\
+            filter(user_id=user)

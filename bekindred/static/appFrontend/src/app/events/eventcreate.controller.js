@@ -100,21 +100,17 @@
         vm.checkDatesEnds = checkDatesEnds;
 
         function checkDatesStarts() {
-
-            if (vm.event.ends_on === '' || vm.event.ends_on === null) {
-                vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
-                return;
-            }
-
-            if (moment(vm.event.ends_on) >= moment(vm.event.starts_on)) {
-                vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
-            }
-
+            vm.event.ends_on = moment(vm.event.starts_on).add(1, 'hour').toDate();
         }
 
         function checkDatesEnds() {
 
             if (vm.event.starts_on === '' || vm.event.starts_on === null) {
+                vm.event.starts_on = moment(vm.event.ends_on).subtract(1, 'hour').toDate();
+                return;
+            }
+
+            if (moment(vm.event.ends_on).isBefore(vm.event.starts_on, 'minute')) {
                 vm.event.starts_on = moment(vm.event.ends_on).subtract(1, 'hour').toDate();
                 return;
             }
@@ -201,13 +197,13 @@
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
-                        repeat: {
-                            identifier: 'repeat',
-                            rules: [{
-                                type: 'empty',
-                                prompt: 'Please enter Repeat'
-                            }]
-                        },
+                        // repeat: {
+                        //     identifier: 'repeat',
+                        //     rules: [{
+                        //         type: 'empty',
+                        //         prompt: 'Please enter Repeat'
+                        //     }]
+                        // },
                         description: {
                             identifier: 'description',
                             rules: [{
@@ -246,7 +242,7 @@
                     }
                 });
             $('.ui.form').form('validate form');
-            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '' || vm.event.repeat === '') {
+            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.ends_on === null || vm.event.starts_on === null || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '') {
                 vm.showError = true;
                 if (vm.event.starts_on === '' || vm.event.starts_on === null) {
                     vm.startsTimeError = true;

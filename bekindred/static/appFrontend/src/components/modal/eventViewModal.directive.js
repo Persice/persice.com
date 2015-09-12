@@ -103,6 +103,7 @@
         vm.errorMessage = [];
         vm.endsTimeError = false;
         vm.startsTimeError = false;
+        vm.image = '';
 
         vm.modalId = 'viewEventsModal';
 
@@ -203,26 +204,6 @@
         vm.connections = [];
         vm.invitedPeople = [];
         vm.selectedPeople = [];
-
-        function getEvent() {
-            vm.loadingEvent = true;
-            EventsFactory.query({
-                format: 'json'
-            }, {
-                eventId: eventId
-            }).$promise.then(function(data) {
-                vm.event = data;
-                vm.loadingEvent = false;
-
-            }, function(response) {
-                var data = response.data,
-                    status = response.status,
-                    header = response.header,
-                    config = response.config,
-                    message = 'Error ' + status;
-                vm.loadingEvent = false;
-            });
-        }
 
 
 
@@ -383,7 +364,7 @@
                     rsvp: '',
                     selected: false,
                     event: parseInt(vm.event.id),
-                    image:  vm.friends[i].image
+                    image: vm.friends[i].image
                 };
 
 
@@ -784,6 +765,14 @@
                     vm.secondrow = vm.starts_on_time + ' to ' + vm.ends_on_time;
                 }
 
+                if (data.event_photo !== null) {
+                    vm.image = data.event_photo;
+                    vm.event.event_photo = data.event_photo;
+                } else {
+                    vm.event.event_photo = '';
+                    vm.image = '';
+                }
+
                 vm.loadingEvent = false;
 
 
@@ -988,6 +977,14 @@
             vm.endsTimeError = false;
             vm.startsTimeError = false;
             vm.eventEdit = angular.copy(vm.event);
+            if (vm.event.event_photo !== null) {
+                vm.image = vm.event.event_photo;
+            } else {
+                vm.eventEdit.event_photo = '';
+                vm.image = '';
+            }
+
+
             //convert datetime to local timezone
             vm.starts_on_date = moment.utc(vm.event.starts_on, moment.ISO_8601).local().format('MM/DD/YYYY');
             vm.ends_on_date = moment.utc(vm.event.ends_on, moment.ISO_8601).local().format('MM/DD/YYYY');
@@ -1032,13 +1029,13 @@
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
-                        repeat: {
-                            identifier: 'repeat',
-                            rules: [{
-                                type: 'empty',
-                                prompt: 'Please enter Repeat'
-                            }]
-                        },
+                        // repeat: {
+                        //     identifier: 'repeat',
+                        //     rules: [{
+                        //         type: 'empty',
+                        //         prompt: 'Please enter Repeat'
+                        //     }]
+                        // },
                         description: {
                             identifier: 'description',
                             rules: [{
@@ -1078,7 +1075,7 @@
                 });
             $('.ui.form').form('validate form');
 
-            if (vm.eventEdit.description === '' || vm.eventEdit.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '' || vm.eventEdit.repeat === '') {
+            if (vm.eventEdit.description === '' || vm.eventEdit.max_attendees === '' || vm.eventEdit.ends_on === '' || vm.eventEdit.location === '' || vm.eventEdit.name === '' || vm.eventEdit.starts_on === '') {
                 if (vm.eventEdit.starts_on === '' || vm.eventEdit.starts_on === null) {
                     vm.startsTimeError = true;
                 }
@@ -1252,7 +1249,7 @@
                         vm.messages.push({
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
-                            photo:  '/media/'+responseMessages[obj].image,
+                            photo: '/media/' + responseMessages[obj].image,
                             first_name: responseMessages[obj].first_name,
                             sent_at: localDate,
                             left: true
@@ -1261,7 +1258,7 @@
                         vm.messages.push({
                             body: $sce.trustAsHtml(responseMessages[obj].body),
                             sender: responseMessages[obj].sender,
-                            photo:  '/media/'+responseMessages[obj].image,
+                            photo: '/media/' + responseMessages[obj].image,
                             first_name: responseMessages[obj].first_name,
                             sent_at: localDate,
                             left: false
@@ -1314,7 +1311,7 @@
                                 vm.messages.push({
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
-                                    photo:  '/media/'+responseMessages[obj].image,
+                                    photo: '/media/' + responseMessages[obj].image,
                                     first_name: responseMessages[obj].first_name,
                                     sent_at: localDate,
                                     left: true
@@ -1323,7 +1320,7 @@
                                 vm.messages.push({
                                     body: $sce.trustAsHtml(responseMessages[obj].body),
                                     sender: responseMessages[obj].sender,
-                                    photo:  '/media/'+responseMessages[obj].image,
+                                    photo: '/media/' + responseMessages[obj].image,
                                     first_name: responseMessages[obj].first_name,
                                     sent_at: localDate,
                                     left: false
@@ -1378,7 +1375,7 @@
                 var Sender = $resource(jsonData.sender);
 
                 Sender.get().$promise.then(function(response) {
-                    vm.receivedMessage.photo =  '/media/' + response.image;
+                    vm.receivedMessage.photo = '/media/' + response.image;
                     vm.receivedMessage.first_name = response.first_name;
                     vm.messages.unshift(vm.receivedMessage);
 
