@@ -44,9 +44,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django.contrib.humanize',
 )
 
 INSTALLED_APPS += ('south',
+                   'guardian',
                    'haystack',
                    'import_export',
                    'pagination',
@@ -163,7 +165,11 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.contrib.linkedin.LinkedinBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
 )
+
+# Configure anonymous user ID for django-guardian
+ANONYMOUS_USER_ID = -1
 
 AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL

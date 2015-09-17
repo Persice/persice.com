@@ -66,3 +66,4 @@ django-geoposition==0.2.2
 django-haystack==2.4.0
 elasticsearch==1.6.0
 django-flat-theme==1.1.1
+django-guardian==1.2.4

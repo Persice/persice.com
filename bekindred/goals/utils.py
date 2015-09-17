@@ -4,6 +4,7 @@ import pprint
 
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 from geopy.distance import distance as geopy_distance
 import oauth2 as oauth
@@ -54,7 +55,7 @@ def calculate_distance(user_id1, user_id2, units='miles'):
     m	Meter, Metre
     """
     g = GeoIP()
-    distance = [10000, 'miles']
+    distance = [intcomma(10000), 'miles']
 
     try:
         user1_location = UserLocation.objects.filter(user_id=user_id1).order_by('-timestamp')[0]
@@ -93,9 +94,9 @@ def calculate_distance(user_id1, user_id2, units='miles'):
         if getattr(distance, 'm') <= 10.0:
             return [10, 'meters']
         else:
-            return [int(getattr(distance, 'm')), 'meters']
+            return [intcomma(int(getattr(distance, 'm'))), 'meters']
     else:
-        return [int(getattr(distance, units)), units]
+        return [intcomma(int(getattr(distance, units))), units]
 
 
 def calculate_distance_events(user_id, event_id):
@@ -107,7 +108,7 @@ def calculate_distance_events(user_id, event_id):
     m	Meter, Metre
     """
     g = GeoIP()
-    distance = [10000, 'miles']
+    distance = [intcomma(10000), 'miles']
     dist = None
     units = 'miles'
 
@@ -141,13 +142,13 @@ def calculate_distance_events(user_id, event_id):
         if distance.m <= 10.0:
             return [10, 'meters']
         else:
-            return [int(distance.m), 'meters']
+            return [intcomma(int(distance.m)), 'meters']
     else:
         if units == 'miles':
-            return [int(distance.mi), 'miles']
+            return [intcomma(int(distance.mi)), 'miles']
         # meters
         else:
-            return [int(distance.km), 'km']
+            return [intcomma(int(distance.km)), 'km']
 
 
 def linkedin_connections(uid, oauth_token, oauth_token_secret):

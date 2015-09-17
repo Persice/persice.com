@@ -25,6 +25,11 @@ class Event(models.Model):
         ('Y', 'Yearly'),
     )
 
+    class Meta:
+        permissions = (
+            ("view_event", "View event"),
+        )
+
     description = models.CharField(max_length=300, null=True, blank=True)
     name = models.CharField(max_length=300)
     location = GeopositionField()
