@@ -205,7 +205,7 @@
                                 type: 'empty',
                                 prompt: 'Please enter Max. attendees'
                             }, {
-                                type: 'integer[1..1000]',
+                                type: 'integer[1..99999]',
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
@@ -414,6 +414,13 @@
             } else {
                 vm.loadingSave = false;
                 vm.showError = false;
+                notify({
+                    messageTemplate: '<div class="notify-info-header">Success</div>' +
+                        '<p>New event has been created.</p>',
+                    classes: 'notify-info',
+                    icon: 'check circle',
+                    duration: 4000
+                });
                 $state.go('events.myevents.list');
 
             }
