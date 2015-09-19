@@ -36,6 +36,10 @@
                 $scope.$broadcast('saveEvent');
             }
 
+            if ($state.current.name === 'event.create.invitations') {
+                $scope.$broadcast('saveEvent');
+            }
+
             if ($state.current.name === 'event.details') {
                 $state.go('event.edit', {
                     eventId: vm.eventId

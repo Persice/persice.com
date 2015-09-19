@@ -334,6 +334,15 @@ angular
                     displayName: 'Event Details',
                 }
             })
+            .state('event.create.invitations', {
+                url: '/invitations',
+                templateUrl: 'app/events/event_invitations.html',
+                controller: 'EventCreateInvitationsController',
+                controllerAs: 'viewevent',
+                data: {
+                    displayName: 'Event Invitations',
+                }
+            })
             .state('event.chat', {
                 url: '/chat/:eventId',
                 templateUrl: 'app/events/event_chat.html',
