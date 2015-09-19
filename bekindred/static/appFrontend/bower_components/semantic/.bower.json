@@ -10,7 +10,7 @@
     "jquery": ">=1.8"
   },
   "main": [
-    "src/semantic.less",
+    "dist/semantic.css",
     "dist/semantic.js"
   ],
   "keywords": [
