@@ -263,6 +263,9 @@
                     vm.endsTimeError = true;
                 }
                 vm.errorMessage = ['Please enter all required fields.'];
+                if ($state.is('event.create.invitations')) {
+                    $state.go('event.create');
+                }
             } else {
                 vm.showError = false;
                 vm.validateDates();

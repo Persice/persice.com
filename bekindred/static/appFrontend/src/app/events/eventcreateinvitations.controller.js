@@ -2,7 +2,7 @@
     'use strict';
 
     /**
-     * class EventInvitationsController
+     * class EventCreateInvitationsController
      * classDesc event invitations
      * @ngInject
      */
@@ -65,7 +65,7 @@
 
         function getConnections() {
 
-            // vm.friends = [];
+            vm.friends = [];
             vm.counterNewInvites = 0;
 
             vm.nextOffset = 10;
