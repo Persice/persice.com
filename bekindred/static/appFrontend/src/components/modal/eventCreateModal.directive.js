@@ -5,12 +5,12 @@
      * @desc display modal
      * @example <ui-event-create-modal></ui-event-create-modal>
      */
-    angular
-        .module('frontend.semantic.modal.event.create', [])
+     angular
+     .module('frontend.semantic.modal.event.create', [])
 
-    .directive('uiEventCreateModal', uiEventCreateModal);
+     .directive('uiEventCreateModal', uiEventCreateModal);
 
-    function uiEventCreateModal() {
+     function uiEventCreateModal() {
         var directive = {
             restrict: 'E',
             replace: true,
@@ -30,6 +30,13 @@
             element.modal({
                 onHide: function() {
                     scope.singleevent.show = false;
+                    scope.singleevent.selection = 'create';
+                    scope.singleevent.header = 'Create Event';
+                    scope.singleevent.resetForm();
+                },
+                onShow: function() {
+                    scope.singleevent.selection = 'create';
+                    scope.singleevent.header = 'Create Event';
                     scope.singleevent.resetForm();
                 }
             });
@@ -37,9 +44,9 @@
 
             scope.$watch('singleevent.show', function(modelValue) {
                 element
-                    .modal('setting', 'transition', 'scale')
-                    .modal('setting', 'closable', false)
-                    .modal(modelValue ? 'show' : 'hide');
+                .modal('setting', 'transition', 'scale')
+                .modal('setting', 'closable', false)
+                .modal(modelValue ? 'show' : 'hide');
             });
 
         }
@@ -52,7 +59,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-    function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation) {
+     function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation, $q, EventsConnections, MembersFactory, $filter, notify, lodash) {
         var vm = this;
 
         vm.mapurl = '';
@@ -62,6 +69,33 @@
         vm.endsTimeError = false;
         vm.startsTimeError = false;
         vm.loadingSave = false;
+
+        vm.header = 'Create Event';
+
+        vm.loadingInvitesSave = false;
+        vm.counterNewInvites = 0;
+        vm.markSelected = markSelected;
+        vm.getConnections = getConnections;
+        vm.sendInvites = sendInvites;
+
+        vm.nextOffset = 10;
+        vm.loadingConnections = false;
+        vm.connectionFirstName = '';
+
+        vm.invitedPeopleLoading = false;
+        vm.invitedPeopleCount = 0;
+        vm.invitedPeopleFirstName = '';
+        vm.invitedPeopleNext = null;
+        vm.invitedPeopleAlreadyLoaded = false;
+
+        vm.invitationsOptions = {
+            attendingPref: 'private',
+            guestInvite: true
+        };
+
+        vm.friends = [];
+        vm.connections = [];
+        vm.invitedPeople = [];
 
         vm.placeholder = {
             name: '',
@@ -133,6 +167,27 @@
         vm.closeEventModal = closeEventModal;
         vm.validateDates = validateDates;
 
+        vm.openInvitations = openInvitations;
+        vm.closeInvitations = closeInvitations;
+
+
+        function openInvitations() {
+            vm.selection = 'invitations';
+            vm.header = 'Invitations';
+            vm.invitedPeopleAlreadyLoaded = false;
+            vm.counterNewInvites = 0;
+            vm.invitedPeopleCount = 0;
+            vm.invitedPeopleFirstName = '';
+            vm.connectionFirstName = '';
+            vm.getConnections();
+        }
+
+        function closeInvitations() {
+            vm.selection = 'create';
+            vm.header = 'Create Event';
+        }
+
+
         function closeEventModal() {
             vm.show = false;
         }
@@ -190,22 +245,22 @@
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')
-                .form({
-                    fields: {
-                        name: {
-                            identifier: 'name',
-                            rules: [{
-                                type: 'empty',
-                                prompt: 'Please enter Event name'
-                            }]
-                        },
-                        location: {
-                            identifier: 'location',
-                            rules: [{
-                                type: 'empty',
-                                prompt: 'Please enter Location'
-                            }]
-                        },
+            .form({
+                fields: {
+                    name: {
+                        identifier: 'name',
+                        rules: [{
+                            type: 'empty',
+                            prompt: 'Please enter Event name'
+                        }]
+                    },
+                    location: {
+                        identifier: 'location',
+                        rules: [{
+                            type: 'empty',
+                            prompt: 'Please enter Location'
+                        }]
+                    },
                         // repeat: {
                         //     identifier: 'repeat',
                         //     rules: [{
@@ -226,7 +281,7 @@
                                 type: 'empty',
                                 prompt: 'Please enter Max. attendees'
                             }, {
-                                type: 'integer',
+                                type: 'integer[1..99999]',
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
@@ -261,19 +316,23 @@
                     }
                 });
 
-            $('.ui.form').form('validate form');
+$('.ui.form').form('validate form');
 
-            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '') {
-                if (vm.event.starts_on === '' || vm.event.starts_on === null) {
-                    vm.startsTimeError = true;
-                }
-                if (vm.event.ends_on === '' || vm.event.ends_on === null) {
-                    vm.endsTimeError = true;
-                }
+if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '') {
+    if (vm.event.starts_on === '' || vm.event.starts_on === null) {
+        vm.startsTimeError = true;
+    }
+    if (vm.event.ends_on === '' || vm.event.ends_on === null) {
+        vm.endsTimeError = true;
+    }
 
-                vm.showError = true;
-                vm.errorMessage = ['Please enter all required fields.'];
-            } else {
+    vm.showError = true;
+    vm.errorMessage = ['Please enter all required fields.'];
+
+    if (vm.selection === 'invitations') {
+        vm.closeInvitations();
+    }
+} else {
 
                 //validate dates
 
@@ -284,11 +343,7 @@
                     vm.loadingSave = true;
                     EventsFactory.save({}, vm.event,
                         function(success) {
-                            vm.showError = false;
-                            vm.loadingSave = false;
-                            $rootScope.$broadcast('closeModalCreateEvent');
-                            vm.resetForm();
-
+                            vm.sendInvites(success.id);
                         },
                         function(error) {
                             vm.loadingSave = false;
@@ -393,6 +448,14 @@
                 max_attendees: '',
                 event_photo: ''
             };
+
+            //reset invitations page
+            vm.invitedPeopleAlreadyLoaded = false;
+            vm.counterNewInvites = 0;
+            vm.invitedPeopleCount = 0;
+            vm.invitedPeopleFirstName = '';
+            vm.connectionFirstName = '';
+            vm.selectedPeople = [];
         }
 
 
@@ -457,6 +520,162 @@
                     vm.event[type] = moment(datePartsSorted.concat(timeParts)).utc().format('YYYY-MM-DDTHH:mm:ss');
                 }
             }
+        }
+
+        //invitations
+
+        function markSelected(index) {
+            if (!vm.connections[index].is_invited) {
+                vm.connections[index].selected = !vm.connections[index].selected;
+
+                if (vm.connections[index].selected) {
+                    vm.counterNewInvites++;
+                    vm.selectedPeople.push(vm.connections[index].friend_id);
+                } else {
+                    var idx = lodash.findIndex(vm.selectedPeople, vm.connections[index].friend_id);
+                    vm.selectedPeople.splice(idx, 1);
+                    vm.counterNewInvites--;
+                }
+            }
+
+        }
+
+
+
+
+        function getConnections() {
+
+            vm.friends = [];
+            vm.counterNewInvites = 0;
+
+            vm.nextOffset = 10;
+            vm.next = null;
+            vm.loadingConnections = true;
+            EventsConnections.query({
+                format: 'json',
+                first_name: vm.connectionFirstName.toLowerCase(),
+                limit: 1000,
+                offset: 0
+            }).$promise.then(getEventsConnectionsSuccess, getEventsConnectionsFailure);
+
+        }
+
+        function getEventsConnectionsSuccess(response) {
+            vm.friends = response.objects;
+            vm.next = response.meta.next;
+            vm.connections = [];
+            for (var i = vm.friends.length - 1; i >= 0; i--) {
+
+                var mutual_friends = ((vm.friends[i].mutual_friends_count === null) ? 0 : vm.friends[i].mutual_friends_count);
+                var common_goals = ((vm.friends[i].common_goals_offers_interests === null) ? 0 : vm.friends[i].common_goals_offers_interests);
+                var friend = {
+                    first_name: vm.friends[i].first_name,
+                    age: vm.friends[i].age,
+                    common_goals_offers_interests: common_goals,
+                    mutual_friends_count: mutual_friends,
+                    tagline: vm.friends[i].tagline,
+                    facebook_id: vm.friends[i].facebook_id,
+                    friend_id: vm.friends[i].friend_id,
+                    user: '/api/v1/auth/user/' + vm.friends[i].friend_id + '/',
+                    is_invited: false,
+                    member_id: null,
+                    rsvp: '',
+                    selected: false,
+                    image: vm.friends[i].image
+                };
+
+
+                for (var j = vm.friends[i].events.length - 1; j >= 0; j--) {
+
+                    if (vm.friends[i].events[j].event === friend.event) {
+                        friend.is_invited = true;
+                        friend.rsvp = vm.friends[i].events[j].rsvp;
+                        friend.selected = true;
+                        friend.member_id = vm.friends[i].events[j].id;
+                    }
+                }
+
+                //check if connection was selected already
+                if (lodash.includes(vm.selectedPeople, friend.friend_id)) {
+                    friend.selected = true;
+                }
+
+                vm.connections.push(friend);
+
+            }
+            vm.counterNewInvites = vm.selectedPeople.length;
+            vm.loadingConnections = false;
+
+        }
+
+        function getEventsConnectionsFailure(response) {
+
+            var data = response.data,
+            status = response.status,
+            header = response.header,
+            config = response.config,
+            message = 'Error ' + status;
+            $log.error(message);
+
+            vm.loadingConnections = false;
+
+
+        }
+
+        function sendInvites(eventId) {
+            if (vm.selectedPeople.length > 0) {
+
+                var promises = [];
+
+                for (var i = vm.selectedPeople.length - 1; i >= 0; i--) {
+
+                    //prepare promises array
+                    var member = {
+                        event: '/api/v1/event/' + eventId + '/',
+                        is_invited: false,
+                        user: '/api/v1/auth/user/' + vm.selectedPeople[i] + '/'
+                    };
+
+                    promises.push(MembersFactory.save({}, member).$promise);
+                }
+
+
+                $q.all(promises).then(function(result) {
+
+                }).then(function(tmpResult) {
+                    $log.info('Sending invites finished.');
+
+                    notify({
+                        messageTemplate: '<div class="notify-info-header">Success</div>' +
+                        '<p>New event has been created and all invitations have been successfully sent.</p>',
+                        classes: 'notify-info',
+                        icon: 'check circle',
+                        duration: 4000
+                    });
+
+                    vm.showError = false;
+                    vm.loadingSave = false;
+                    vm.resetForm();
+                    $rootScope.$broadcast('closeModalCreateEvent');
+                });
+
+            } else {
+                vm.showError = false;
+                vm.loadingSave = false;
+                vm.resetForm();
+                notify({
+                    messageTemplate: '<div class="notify-info-header">Success</div>' +
+                    '<p>New event has been created.</p>',
+                    classes: 'notify-info',
+                    icon: 'check circle',
+                    duration: 4000
+                });
+
+                $rootScope.$broadcast('closeModalCreateEvent');
+
+            }
+
+
         }
 
 

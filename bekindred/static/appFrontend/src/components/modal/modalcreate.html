@@ -1,7 +1,23 @@
 <div class="ui modal small centeraligned" id="createEventsModal">
-    <div class="header">Create Event <i class="close icon" ng-click="singleevent.closeEventModal()"></i></div>
+    <div class="header" ng-class="{'leftalign': singleevent.selection === 'invitations'}">
+        <span ng-bind-html="singleevent.header"></span>
+        <i class="close icon" ng-click="singleevent.closeEventModal()"></i>
+        <i ng-if="singleevent.selection === 'invitations'" class="left chevron icon" ng-click="singleevent.closeInvitations()"></i>
+    </div>
     <div class="content">
-        <ng-include src="'components/event/event.tpl.html'"></ng-include>
+        <div class="ui segment basic">
+            <div class="switch-content" ng-switch on="singleevent.selection">
+                <div ng-switch-when="create">
+                    <ng-include src="'components/event/event.tpl.html'"></ng-include>
+                </div>
+                <div ng-switch-when="invitations">
+                    <ng-include src="'components/event/eventinvitationscreate.tpl.html'"></ng-include>
+                </div>
+            </div>
+            <div class="ui active inverted dimmer" ng-if="singleevent.loadingSave">
+                <div class="ui text loader">Creating event <span ng-if="singleevent.selectedPeople.length > 0">and sending invitations...</span></div>
+            </div>
+        </div>
     </div>
     <div class="actions">
         <div class="ui green labeled icon right button" ng-class="{'loading': singleevent.loadingSave, 'disabled': singleevent.loadingSave}" ng-click="singleevent.saveEvent()">

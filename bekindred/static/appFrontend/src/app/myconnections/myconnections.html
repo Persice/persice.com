@@ -16,7 +16,7 @@
             <p>No connections found.</p>
             <p>Try with another search term or <a href="" ng-click="myconnections.reset()">reset your search</a>.</p>
         </div>
-        <div class="item header-item">
+        <div class="item header-item" ng-show="!myconnections.noResults && !myconnections.noConnections &&  !myconnections.loading">
             <div class="right floated content">
                 <span class="connected">Connected</span>
                 <span class="distance">Distance</span>

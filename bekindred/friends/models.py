@@ -4,8 +4,8 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.utils.timezone import now
-from django_facebook.models import FacebookCustomUser, FacebookUser
 
+from django_facebook.models import FacebookCustomUser, FacebookUser
 from members.models import FacebookCustomUserActive
 
 
@@ -18,9 +18,11 @@ class FriendsQuerySet(QuerySet):
 
     def new_friends(self, user_id):
         return self.filter(Q(friend1=user_id, friend1__is_active=True,
-                             friend2__is_active=True, status=1, updated_at__isnull=True) |
+                             friend2__is_active=True, status=1,
+                             updated_at__isnull=True) |
                            Q(friend2=user_id, friend2__is_active=True,
-                             friend1__is_active=True, status=1, updated_at__isnull=True))
+                             friend1__is_active=True, status=1,
+                             updated_at__isnull=True))
 
 
 class FriendsManager(models.Manager):
@@ -33,19 +35,12 @@ class FriendsManager(models.Manager):
     def new_friends(self, user_id):
         return self.get_queryset().new_friends(user_id)
 
-    def update_friend(self, friend1, friend2):
-        sender = FacebookCustomUser.objects.get(pk=1)
-        u1 = FacebookCustomUser.objects.get(pk=friend1)
-        u2 = FacebookCustomUser.objects.get(pk=friend2)
-        result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
-                                       Q(friend1=friend2, friend2=friend1))[0]
-        return result
-
     def delete_friend(self, friend1, friend2):
         """
         """
         result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
-                                       Q(friend1=friend2, friend2=friend1)).update(status=2)
+                                       Q(friend1=friend2,
+                                         friend2=friend1)).update(status=2)
         return result
 
     def confirm_friend_request(self, friend1, friend2):
@@ -55,18 +50,12 @@ class FriendsManager(models.Manager):
             result.update(status=1)
         return result
 
-    def check_friend_request(self, friend1, friend2):
-        try:
-            result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2, status=0) |
-                                           Q(friend1=friend2, friend2=friend1, status=0))[0]
-        except IndexError:
-            return False
-        return True
-
     def checking_friendship(self, friend1, friend2):
         try:
-            result = Friend.objects.filter(Q(friend1=friend1, friend2=friend2) |
-                                           Q(friend1=friend2, friend2=friend1))[0]
+            result = Friend.objects.filter(Q(friend1=friend1,
+                                             friend2=friend2) |
+                                           Q(friend1=friend2,
+                                             friend2=friend1))[0]
         except IndexError:
             return False
         if result.status == 1:
@@ -77,9 +66,11 @@ class FriendsManager(models.Manager):
     @staticmethod
     def all_my_friends(user_id):
         result = Friend.objects.filter(Q(friend1=user_id, status=1,
-                                         friend1__is_active=True, friend2__is_active=True) |
+                                         friend1__is_active=True,
+                                         friend2__is_active=True) |
                                        Q(friend2=user_id, status=1,
-                                         friend1__is_active=True, friend2__is_active=True))
+                                         friend1__is_active=True,
+                                         friend2__is_active=True))
         all_ = list(chain(*result.values_list('friend1', 'friend2')))
         return [x for x in all_ if x != user_id]
 
@@ -94,7 +85,8 @@ class FriendsManager(models.Manager):
 
     def mutual_friends(self, friend1, friend2):
         results = []
-        friends_ids = list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
+        friends_ids = list(set(self.all_my_friends(friend1)) &
+                           set(self.all_my_friends(friend2)))
         users = FacebookCustomUser.objects.filter(id__in=friends_ids)
         for user in users:
             d = dict()
@@ -102,14 +94,17 @@ class FriendsManager(models.Manager):
             d['facebook_id'] = user.facebook_id
             d['first_name'] = user.first_name
             d['last_name'] = user.last_name
+            d['image'] = user.image
             results.append(d)
         return results
 
     def thumbed_up_i(self, user_id):
-        return list(Friend.objects.filter(friend1=user_id, status=0).values_list('friend2', flat=True))
+        return list(Friend.objects.filter(friend1=user_id, status=0).
+                    values_list('friend2', flat=True))
 
     def thumbed_up_me(self, friend1, friend2):
-        return Friend.objects.filter(friend1=friend1, friend2=friend2, status=0)
+        return Friend.objects.filter(friend1=friend1, friend2=friend2,
+                                     status=0)
 
 
 class Friend(models.Model):
@@ -121,11 +116,13 @@ class Friend(models.Model):
     )
     friend1 = models.ForeignKey(FacebookCustomUser)
     friend2 = models.ForeignKey(FacebookCustomUser, related_name='friend2')
-    status = models.IntegerField(max_length=1, choices=FRIENDSHIP_STATUS, default=0)
+    status = models.IntegerField(max_length=1, choices=FRIENDSHIP_STATUS,
+                                 default=0)
     updated_at = models.DateTimeField(default=now())
 
     def __unicode__(self):
-        return '%s %s %s' % (self.friend1.username, self.friend2.username, self.status)
+        return '%s %s %s' % (self.friend1.username, self.friend2.username,
+                             self.status)
 
     class Meta:
         unique_together = ("friend1", "friend2")
@@ -133,11 +130,14 @@ class Friend(models.Model):
 
 class FacebookFriendManager(models.Manager):
     def all_my_friends(self, user_id):
-        return list(FacebookUser.objects.filter(user_id=user_id).values_list('facebook_id', flat=True))
+        return list(FacebookUser.objects.filter(user_id=user_id).
+                    values_list('facebook_id', flat=True))
 
     def mutual_friends(self, friend1, friend2):
-        facebook_ids = list(set(self.all_my_friends(friend1)) & set(self.all_my_friends(friend2)))
-        users = FacebookCustomUserActive.objects.filter(facebook_id__in=facebook_ids)
+        facebook_ids = list(set(self.all_my_friends(friend1)) &
+                            set(self.all_my_friends(friend2)))
+        users = FacebookCustomUserActive.objects.\
+            filter(facebook_id__in=facebook_ids)
         result = []
         for user in users:
             d = dict()

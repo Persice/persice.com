@@ -10,7 +10,7 @@
      * classDesc Create event
      * @ngInject
      */
-    function EventCreateController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation) {
+    function EventCreateController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation, MembersFactory, $q, notify) {
         var vm = this;
         vm.showError = false;
         vm.showMobile = true;
@@ -21,6 +21,10 @@
         vm.endsTimeError = false;
         vm.startsTimeError = false;
         vm.loadingSave = false;
+
+        vm.sendInvites = sendInvites;
+
+        $scope.eventpage.header = 'Event Details';
 
         vm.$geolocation = $geolocation;
 
@@ -80,6 +84,14 @@
         vm.extractFromAddress = extractFromAddress;
         vm.parseLocation = parseLocation;
         vm.validateDates = validateDates;
+
+        vm.openInvitations = openInvitations;
+
+        vm.selectedPeople = [];
+
+        function openInvitations() {
+            $state.go('event.create.invitations');
+        }
 
         $scope.$on('saveEvent', function() {
             vm.saveEvent();
@@ -193,7 +205,7 @@
                                 type: 'empty',
                                 prompt: 'Please enter Max. attendees'
                             }, {
-                                type: 'integer',
+                                type: 'integer[1..99999]',
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
@@ -251,6 +263,9 @@
                     vm.endsTimeError = true;
                 }
                 vm.errorMessage = ['Please enter all required fields.'];
+                if ($state.is('event.create.invitations')) {
+                    $state.go('event.create');
+                }
             } else {
                 vm.showError = false;
                 vm.validateDates();
@@ -261,9 +276,9 @@
                     vm.loadingSave = true;
                     EventsFactory.save({}, vm.event,
                         function(success) {
-                            vm.loadingSave = false;
-                            vm.showError = false;
-                            $state.go('events.myevents.list');
+
+                            vm.sendInvites(success.id);
+
                         },
                         function(error) {
                             vm.loadingSave = false;
@@ -357,6 +372,60 @@
                 max_attendees: '',
                 event_photo: ''
             };
+        }
+
+
+        function sendInvites(eventId) {
+            if (vm.selectedPeople.length > 0) {
+
+                var promises = [];
+
+                for (var i = vm.selectedPeople.length - 1; i >= 0; i--) {
+
+                    //prepare promises array
+                    var member = {
+                        event: '/api/v1/event/' + eventId + '/',
+                        is_invited: false,
+                        user: '/api/v1/auth/user/' + vm.selectedPeople[i] + '/'
+                    };
+
+                    promises.push(MembersFactory.save({}, member).$promise);
+                }
+
+
+                $q.all(promises).then(function(result) {
+
+                }).then(function(tmpResult) {
+                    $log.info('Sending invites finished.');
+
+                    notify({
+                        messageTemplate: '<div class="notify-info-header">Success</div>' +
+                            '<p>New event has been created and all invitations have been successfully sent.</p>',
+                        classes: 'notify-info',
+                        icon: 'check circle',
+                        duration: 4000
+                    });
+
+                    vm.loadingSave = false;
+                    vm.showError = false;
+                    $state.go('events.myevents.list');
+                });
+
+            } else {
+                vm.loadingSave = false;
+                vm.showError = false;
+                notify({
+                    messageTemplate: '<div class="notify-info-header">Success</div>' +
+                        '<p>New event has been created.</p>',
+                    classes: 'notify-info',
+                    icon: 'check circle',
+                    duration: 4000
+                });
+                $state.go('events.myevents.list');
+
+            }
+
+
         }
 
     }

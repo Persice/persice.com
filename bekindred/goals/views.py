@@ -53,11 +53,11 @@ def main_page(request, template_name="homepage.html"):
             user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
             user.save()
 
-        if fb_user.facebook_id and fb_user.access_token \
-                and not fb_user.about_me:
-            facebook = OpenFacebook(fb_user.access_token)
-            fb_user.about_me = facebook.get('me').get('bio', None)
-            fb_user.save()
+        # if fb_user.facebook_id and fb_user.access_token \
+        #         and not fb_user.about_me:
+        #     facebook = OpenFacebook(fb_user.access_token)
+        #     fb_user.about_me = facebook.get('me').get('bio', None)
+        #     fb_user.save()
     return render_to_response(template_name, context)
 
 def close_login_popup(request):
