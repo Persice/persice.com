@@ -94,7 +94,24 @@ class TestEventResource(ResourceTestCase):
             'starts_on': str(now() + timedelta(days=1))
         }
         self.response = self.login()
-        self.assertHttpCreated(self.api_client.post('/api/v1/event/', format='json', data=post_data))
+        self.assertHttpCreated(self.api_client.post('/api/v1/event/',
+                                                    format='json',
+                                                    data=post_data))
+
+    def test_create_public_event(self):
+        post_data = {
+            'description': 'Test description',
+            'ends_on': str(now() + timedelta(days=2)),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'repeat': u'W',
+            'access_level': 'public',
+            'starts_on': str(now() + timedelta(days=1))
+        }
+        self.response = self.login()
+        self.assertHttpCreated(self.api_client.post('/api/v1/event/',
+                                                    format='json',
+                                                    data=post_data))
 
     def test_update_simple_event(self):
         self.response = self.login()
@@ -323,7 +340,7 @@ class TestMyEventFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
                                    data={'filter': 'true'})
         data = self.deserialize(resp)
-        self.assertEqual(data['objects'][0]['distance'], [927, u'km'])
+        self.assertEqual(data['objects'][0]['distance'], ['927', u'km'])
 
     def test_my_feed_event_without_filter_by_distance(self):
         self.response = self.login()
@@ -334,7 +351,7 @@ class TestMyEventFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
                                    )
         data = self.deserialize(resp)
-        self.assertEqual(data['objects'][0]['distance'], [927, u'km'])
+        self.assertEqual(data['objects'][0]['distance'], ['927', u'km'])
 
     def test_my_feed_event_filter_by_distance2(self):
         self.response = self.login()

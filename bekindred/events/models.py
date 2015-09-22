@@ -25,6 +25,12 @@ class Event(models.Model):
         ('Y', 'Yearly'),
     )
 
+    ACCESS_LEVEL_CHOICES = (
+        ('PUBLIC', 'public'),
+        ('PRIVATE', 'private'),
+        ('CONNECTIONS', 'connections')
+    )
+
     class Meta:
         permissions = (
             ("view_event", "View event"),
@@ -46,6 +52,10 @@ class Event(models.Model):
     state = models.CharField(max_length=3, null=True, blank=True)
     members = models.ManyToManyField(FacebookCustomUser, through='Membership')
     max_attendees = models.IntegerField(default=10)
+    access_level = models.CharField(choices=ACCESS_LEVEL_CHOICES,
+                                    default=ACCESS_LEVEL_CHOICES[0],
+                                    max_length=20)
+
     event_photo = models.FileField(null=True,
                                    upload_to='event_photos/%Y/%m/%d')
 

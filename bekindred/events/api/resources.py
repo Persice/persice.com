@@ -1,5 +1,6 @@
 import json
 import re
+from guardian.shortcuts import assign_perm
 
 import redis
 from django.conf.urls import url
@@ -22,6 +23,7 @@ from tastypie.http import HttpUnauthorized
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
+from events.authorization import GuardianAuthorization
 
 from events.models import (CumulativeMatchScore, Event, EventFilterState,
                            Membership)
@@ -192,6 +194,8 @@ class EventResource(MultiPartResource, ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)
+        # if bundle.obj.access_level == 'public':
+        #     assign_perm('view_event', bundle.request.user, bundle.obj)
         Membership.objects.create(user=bundle.request.user, event=bundle.obj,
                                   is_organizer=True, rsvp='yes')
         return bundle
