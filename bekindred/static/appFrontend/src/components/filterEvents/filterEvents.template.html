@@ -5,7 +5,7 @@
     <div id="{{filter.id}}" class="ui form">
         <form name="filterForm" id="filterForm">
             <div class="field">
-                <label>Distance <span class="range">{{filter.distanceValue}} {{filter.distanceUnit}}</span></label>
+                <label>Distance <span class="range">{{filter.distanceValue | number:0}} {{filter.distanceUnit}}</span></label>
                 <rzslider rz-slider-always-show-bar="true" rz-slider-hide-limit-labels="false" rz-slider-model="filter.distanceValue" rz-slider-floor="1" rz-slider-ceil="10000"></rzslider>
             </div>
             <div class="field">
