@@ -106,7 +106,6 @@ class EventResource(MultiPartResource, ModelResource):
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,
                                    blank=True)
-    access_user_list = fields.ListField(null=True)
 
     class Meta:
         always_return_data = True
@@ -201,6 +200,13 @@ class EventResource(MultiPartResource, ModelResource):
         assign_perm('view_event', bundle.request.user, bundle.obj)
         Membership.objects.create(user=bundle.request.user, event=bundle.obj,
                                   is_organizer=True, rsvp='yes')
+        users = FacebookCustomUserActive.objects.all().\
+            exclude(pk=bundle.request.user.id)
+        if bundle.obj.access_level == 'public':
+            for user in users:
+                assign_perm('view_event', user, bundle.obj)
+        elif bundle.obj.access_level == 'private':
+            pass
         return bundle
 
     def obj_delete(self, bundle, **kwargs):

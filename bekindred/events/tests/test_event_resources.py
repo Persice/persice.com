@@ -37,8 +37,9 @@ class TestEventResource(ResourceTestCase):
     def get_credentials(self):
         pass
 
-    def login(self):
-        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+    def login(self, username='user_a', password='test'):
+        return self.api_client.client.post('/login/', {'username': username,
+                                                       'password': password})
 
     def test_get_list_unauthorzied(self):
         self.assertHttpUnauthorized(self.api_client.get('/api/v1/event/', format='json'))
@@ -254,7 +255,7 @@ class TestEventResource(ResourceTestCase):
 
         self.assertNotEqual(self.deserialize(resp)['event_photo'], '')
 
-    def test_private_event(self):
+    def test_get_private_event(self):
         self.response = self.login()
         event = Event.objects.create(name="Public Event",
                                      location=[7000, 22965.83],
@@ -270,6 +271,53 @@ class TestEventResource(ResourceTestCase):
 
         json = self.deserialize(resp)
         self.assertEqual(json['name'], 'Public Event')
+
+    def test_post_private_event(self):
+        user = FacebookCustomUser.objects. \
+            create_user(username='user_mary', password='test',
+                        first_name='Mary', last_name='Mal')
+        post_data = {
+            'description': 'Test description',
+            'ends_on': str(now() + timedelta(days=2)),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'access_level': 'private',
+            'access_user_list': str(user.id),
+            'repeat': u'W',
+            'starts_on': str(now() + timedelta(days=1))
+        }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/event/',
+                                    format='json',
+                                    data=post_data)
+        self.assertHttpCreated(resp)
+        json = self.deserialize(resp)
+        self.assertEqual(json['access_user_list'], str(user.id))
+
+    def test_post_public_event(self):
+        user = FacebookCustomUser.objects. \
+            create_user(username='user_mary', password='test',
+                        first_name='Mary', last_name='Mal')
+        post_data = {
+            'description': 'Test description',
+            'ends_on': str(now() + timedelta(days=2)),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'access_level': 'public',
+            'repeat': u'W',
+            'starts_on': str(now() + timedelta(days=1))
+        }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/event/',
+                                    format='json',
+                                    data=post_data)
+        self.assertHttpCreated(resp)
+        event = self.deserialize(resp)
+
+        self.response1 = self.login(username='user_mary', password='test')
+        resp = self.api_client.get('/api/v1/event/{}/'.format(event['id']),
+                                   format='json')
+        self.assertEqual(json['access_user_list'], str(user.id))
 
 
 class TestAllEventFeedResource(ResourceTestCase):
