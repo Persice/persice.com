@@ -1,9 +1,10 @@
-from datetime import timedelta
+from datetime import timedelta, date
 import json
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 from django_facebook.models import FacebookCustomUser
+from guardian.shortcuts import assign_perm
 from tastypie.test import ResourceTestCase
 from django.utils.timezone import now
 
@@ -16,11 +17,17 @@ from world.models import UserLocation
 class TestEventResource(ResourceTestCase):
     def setUp(self):
         super(TestEventResource, self).setUp()
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test',
-                                                           first_name='Andrii', last_name='Soldatenko')
-        self.event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
-                                          name="Play piano", location=[7000, 22965.83])
-        self.membership = Membership.objects.create(user=self.user, event=self.event, is_organizer=True, rsvp='yes')
+        self.user = FacebookCustomUser.objects.\
+            create_user(username='user_a', password='test',
+                        first_name='Andrii', last_name='Soldatenko')
+        self.event = Event.objects.\
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="Play piano", location=[7000, 22965.83])
+        self.membership = Membership.objects.\
+            create(user=self.user, event=self.event,
+                   is_organizer=True, rsvp='yes')
+        assign_perm('view_event', self.user, self.event)
         self.detail_url = '/api/v1/event/{0}/'.format(self.event.pk)
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
@@ -80,6 +87,7 @@ class TestEventResource(ResourceTestCase):
         Membership.objects.create(user=user1, event=event, rsvp='yes')
         Membership.objects.create(user=user2, event=event, rsvp='yes')
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        assign_perm('view_event', self.user, event)
         resp = self.api_client.get(detail_url, format='json')
         # TODO: because of need read test celery tasks
         self.assertEqual(self.deserialize(resp)['cumulative_match_score'], 0)
@@ -151,7 +159,7 @@ class TestEventResource(ResourceTestCase):
         Membership.objects.create(user=self.user, event=event, is_organizer=True)
 
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
-
+        assign_perm('view_event', self.user, event)
         original_data = self.deserialize(self.api_client.get(detail_url, format='json'))
         new_data = original_data.copy()
         new_data['name'] = 'learn erlang'
@@ -199,13 +207,17 @@ class TestEventResource(ResourceTestCase):
 
     def test_delete_event(self):
         self.response = self.login()
-        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
+        event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                     ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[7000, 22965.83])
-        Membership.objects.create(user=self.user, event=event, is_organizer=True, rsvp='yes')
+        Membership.objects.create(user=self.user, event=event,
+                                  is_organizer=True, rsvp='yes')
 
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
         self.assertEqual(Event.objects.count(), 2)
-        self.assertHttpAccepted(self.api_client.delete(detail_url, format='json'))
+        assign_perm('view_event', self.user, event)
+        self.assertHttpAccepted(self.api_client.delete(detail_url,
+                                                       format='json'))
         self.assertEqual(Event.objects.count(), 1)
 
     def test_friend_attendees_count(self):
@@ -220,6 +232,7 @@ class TestEventResource(ResourceTestCase):
         Membership.objects.create(user=user1, event=event, rsvp='yes')
         Membership.objects.create(user=user2, event=event, rsvp='yes')
         detail_url = '/api/v1/event/{0}/'.format(event.pk)
+        assign_perm('view_event', self.user, event)
         resp = self.api_client.get(detail_url, format='json')
         self.assertEqual(self.deserialize(resp)['friend_attendees_count'], 2)
 
@@ -240,6 +253,23 @@ class TestEventResource(ResourceTestCase):
         resp = self.api_client.client.post('/api/v1/event/', data=post_data)
 
         self.assertNotEqual(self.deserialize(resp)['event_photo'], '')
+
+    def test_private_event(self):
+        self.response = self.login()
+        event = Event.objects.create(name="Public Event",
+                                     location=[7000, 22965.83],
+                                     access_level='public',
+                                     starts_on=now(),
+                                     ends_on=now() + timedelta(days=10))
+        Membership.objects.create(user=self.user, event=event)
+        assign_perm('view_event', self.user, event)
+
+        resp = self.api_client.get('/api/v1/event/{}/'.format(event.id),
+                                   format='json')
+        self.assertValidJSONResponse(resp)
+
+        json = self.deserialize(resp)
+        self.assertEqual(json['name'], 'Public Event')
 
 
 class TestAllEventFeedResource(ResourceTestCase):
@@ -363,7 +393,6 @@ class TestMyEventFeedResource(ResourceTestCase):
                                    data={'filter': 'true'})
         data = self.deserialize(resp)
         self.assertEqual(data['objects'], [])
-
 
 class TestFriendsEventFeedResource(ResourceTestCase):
     def setUp(self):

@@ -118,7 +118,10 @@ class EventResource(MultiPartResource, ModelResource):
         }
         validation = EventValidation()
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = GuardianAuthorization(
+            view_permission_code='view_event',
+            # create_permission_code='add_event',
+        )
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -194,8 +197,7 @@ class EventResource(MultiPartResource, ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)
-        # if bundle.obj.access_level == 'public':
-        #     assign_perm('view_event', bundle.request.user, bundle.obj)
+        assign_perm('view_event', bundle.request.user, bundle.obj)
         Membership.objects.create(user=bundle.request.user, event=bundle.obj,
                                   is_organizer=True, rsvp='yes')
         return bundle
