@@ -4576,6 +4576,7 @@ input#id_description_value {
 
 #matchfeed-filters-container #FilterController {
     position: fixed!important;
+    max-width: 190px!important;
 }
 
 #matchfeed-filters a.item .content {
@@ -5715,6 +5716,10 @@ body.editmyprofile-page #my-profile-body.edit .socialbuttons .ui.labeled.icon.bu
 //orderby dropdown
 #FilterController .ui.selection.dropdown {
     min-width: inherit!important;
+}
+
+#FilterController.desktopview {
+    max-width: 190px!important;
 }
 
 #FilterController .ui.form .field>.selection.dropdown {
