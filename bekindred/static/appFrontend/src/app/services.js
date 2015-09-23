@@ -370,6 +370,9 @@ angular
                 isArray: false,
                 cache: false
             },
+            patch: {
+                method: 'PATCH'
+            },
             save: {
                 method: 'POST',
                 transformRequest: function(data, headersGetter) {

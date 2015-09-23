@@ -25,9 +25,15 @@
         vm.invitedPeopleAlreadyLoaded = false;
 
         vm.invitationsOptions = {
-            attendingPref: 'private',
+            attendingPref: 'connections',
             guestInvite: true
         };
+
+        $scope.$watch(angular.bind(this, function(invitationsOptions) {
+            return vm.invitationsOptions.attendingPref;
+        }), function(newVal) {
+            $scope.singleevent.access_level = newVal;
+        });
 
         $scope.eventpage.header = 'Invitations';
 
@@ -101,7 +107,7 @@
                     member_id: null,
                     rsvp: '',
                     selected: false,
-                    image:  vm.friends[i].image
+                    image: vm.friends[i].image
                 };
 
 
@@ -116,7 +122,7 @@
                 }
 
                 //check if connection was selected already
-                if ( lodash.includes($scope.singleevent.selectedPeople, friend.friend_id)) {
+                if (lodash.includes($scope.singleevent.selectedPeople, friend.friend_id)) {
                     friend.selected = true;
                 }
 
