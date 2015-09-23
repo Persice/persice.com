@@ -106,6 +106,7 @@ class EventResource(MultiPartResource, ModelResource):
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,
                                    blank=True)
+    access_user_list = fields.ListField(null=True)
 
     class Meta:
         always_return_data = True
