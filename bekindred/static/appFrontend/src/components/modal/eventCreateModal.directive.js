@@ -5,12 +5,12 @@
      * @desc display modal
      * @example <ui-event-create-modal></ui-event-create-modal>
      */
-     angular
-     .module('frontend.semantic.modal.event.create', [])
+    angular
+        .module('frontend.semantic.modal.event.create', [])
 
-     .directive('uiEventCreateModal', uiEventCreateModal);
+    .directive('uiEventCreateModal', uiEventCreateModal);
 
-     function uiEventCreateModal() {
+    function uiEventCreateModal() {
         var directive = {
             restrict: 'E',
             replace: true,
@@ -44,9 +44,9 @@
 
             scope.$watch('singleevent.show', function(modelValue) {
                 element
-                .modal('setting', 'transition', 'scale')
-                .modal('setting', 'closable', false)
-                .modal(modelValue ? 'show' : 'hide');
+                    .modal('setting', 'transition', 'scale')
+                    .modal('setting', 'closable', false)
+                    .modal(modelValue ? 'show' : 'hide');
             });
 
         }
@@ -59,7 +59,7 @@
      * @desc controller for modal directive
      * @ngInject
      */
-     function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation, $q, EventsConnections, MembersFactory, $filter, notify, lodash) {
+    function EventModalController($scope, USER_ID, EventsFactory, $state, $rootScope, $log, $window, moment, $geolocation, $q, EventsConnections, MembersFactory, $filter, notify, lodash) {
         var vm = this;
 
         vm.mapurl = '';
@@ -155,7 +155,9 @@
             location_name: '',
             country: '',
             max_attendees: '',
-            event_photo: ''
+            event_photo: '',
+            access_level: '',
+            access_user_list: []
         };
 
         vm.saveEvent = saveEvent;
@@ -245,22 +247,22 @@
             vm.showError = false;
             vm.showSuccess = false;
             $('.ui.form')
-            .form({
-                fields: {
-                    name: {
-                        identifier: 'name',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Event name'
-                        }]
-                    },
-                    location: {
-                        identifier: 'location',
-                        rules: [{
-                            type: 'empty',
-                            prompt: 'Please enter Location'
-                        }]
-                    },
+                .form({
+                    fields: {
+                        name: {
+                            identifier: 'name',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Event name'
+                            }]
+                        },
+                        location: {
+                            identifier: 'location',
+                            rules: [{
+                                type: 'empty',
+                                prompt: 'Please enter Location'
+                            }]
+                        },
                         // repeat: {
                         //     identifier: 'repeat',
                         //     rules: [{
@@ -316,23 +318,23 @@
                     }
                 });
 
-$('.ui.form').form('validate form');
+            $('.ui.form').form('validate form');
 
-if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '') {
-    if (vm.event.starts_on === '' || vm.event.starts_on === null) {
-        vm.startsTimeError = true;
-    }
-    if (vm.event.ends_on === '' || vm.event.ends_on === null) {
-        vm.endsTimeError = true;
-    }
+            if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.ends_on === '' || vm.event.location === '' || vm.event.name === '' || vm.event.starts_on === '') {
+                if (vm.event.starts_on === '' || vm.event.starts_on === null) {
+                    vm.startsTimeError = true;
+                }
+                if (vm.event.ends_on === '' || vm.event.ends_on === null) {
+                    vm.endsTimeError = true;
+                }
 
-    vm.showError = true;
-    vm.errorMessage = ['Please enter all required fields.'];
+                vm.showError = true;
+                vm.errorMessage = ['Please enter all required fields.'];
 
-    if (vm.selection === 'invitations') {
-        vm.closeInvitations();
-    }
-} else {
+                if (vm.selection === 'invitations') {
+                    vm.closeInvitations();
+                }
+            } else {
 
                 //validate dates
 
@@ -341,6 +343,14 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
                 vm.showSuccess = false;
                 if (!vm.showError) {
                     vm.loadingSave = true;
+                    vm.event.access_level = vm.invitationsOptions.attendingPref;
+                    if (vm.invitationsOptions.attendingPref !== 'private') {
+                        delete vm.event.access_user_list;
+                    } else {
+                        vm.event.access_user_list = vm.selectedPeople;
+                    }
+
+
                     EventsFactory.save({}, vm.event,
                         function(success) {
                             vm.sendInvites(success.id);
@@ -446,7 +456,9 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
                 location_name: '',
                 country: '',
                 max_attendees: '',
-                event_photo: ''
+                event_photo: '',
+                access_level: '',
+                access_user_list: []
             };
 
             //reset invitations page
@@ -611,10 +623,10 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
         function getEventsConnectionsFailure(response) {
 
             var data = response.data,
-            status = response.status,
-            header = response.header,
-            config = response.config,
-            message = 'Error ' + status;
+                status = response.status,
+                header = response.header,
+                config = response.config,
+                message = 'Error ' + status;
             $log.error(message);
 
             vm.loadingConnections = false;
@@ -647,7 +659,7 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
 
                     notify({
                         messageTemplate: '<div class="notify-info-header">Success</div>' +
-                        '<p>New event has been created and all invitations have been successfully sent.</p>',
+                            '<p>New event has been created and all invitations have been successfully sent.</p>',
                         classes: 'notify-info',
                         icon: 'check circle',
                         duration: 4000
@@ -665,7 +677,7 @@ if (vm.event.description === '' || vm.event.max_attendees === '' || vm.event.end
                 vm.resetForm();
                 notify({
                     messageTemplate: '<div class="notify-info-header">Success</div>' +
-                    '<p>New event has been created.</p>',
+                        '<p>New event has been created.</p>',
                     classes: 'notify-info',
                     icon: 'check circle',
                     duration: 4000

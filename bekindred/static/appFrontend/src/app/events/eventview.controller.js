@@ -231,6 +231,18 @@
                 vm.loadingEvent = false;
                 vm.eventNotFound = true;
 
+                switch(status){
+                    case 401:
+                        vm.errorMessage = 'You are not authorized to view this event.';
+                        break;
+                    case 404:
+                         vm.errorMessage = 'This event doesn\'t exist.';
+                        break;
+                    default:
+                         vm.errorMessage = 'Event details could not be displayed.';
+                        break;
+                }
+
 
             });
         }
