@@ -200,9 +200,10 @@ class EventResource(MultiPartResource, ModelResource):
         assign_perm('view_event', bundle.request.user, bundle.obj)
         Membership.objects.create(user=bundle.request.user, event=bundle.obj,
                                   is_organizer=True, rsvp='yes')
-        users = FacebookCustomUserActive.objects.all().\
-            exclude(pk=bundle.request.user.id)
+
         if bundle.obj.access_level == 'public':
+            users = FacebookCustomUserActive.objects.all(). \
+                exclude(pk=bundle.request.user.id)
             for user in users:
                 assign_perm('view_event', user, bundle.obj)
         elif bundle.obj.access_level == 'private':

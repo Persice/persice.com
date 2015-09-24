@@ -304,6 +304,7 @@ class TestEventResource(ResourceTestCase):
             'location': u'7000,22965.83',
             'name': u'Play piano',
             'access_level': 'public',
+            'access_user_list': str(user.id),
             'repeat': u'W',
             'starts_on': str(now() + timedelta(days=1))
         }
@@ -317,7 +318,8 @@ class TestEventResource(ResourceTestCase):
         self.response1 = self.login(username='user_mary', password='test')
         resp = self.api_client.get('/api/v1/event/{}/'.format(event['id']),
                                    format='json')
-        self.assertEqual(json['access_user_list'], str(user.id))
+        self.assertEqual(self.deserialize(resp)['access_user_list'],
+                         str(user.id))
 
 
 class TestAllEventFeedResource(ResourceTestCase):
