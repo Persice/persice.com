@@ -317,7 +317,7 @@
                                 type: 'empty',
                                 prompt: 'Please enter Max. attendees'
                             }, {
-                                type: 'integer',
+                                type: 'integer[1..99999]',
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },
