@@ -1,6 +1,7 @@
 from datetime import date
 from django.contrib.gis.geos import fromstr
 from django_facebook.models import FacebookCustomUser
+from guardian.shortcuts import assign_perm
 from tastypie.test import ResourceTestCase
 from events.models import Event, Membership, EventFilterState
 from world.models import UserLocation
@@ -47,7 +48,8 @@ class TestEventFilterStateResource(ResourceTestCase):
                                       name="ruby", location=[-87.63, 41.76])
         Membership.objects.create(user=self.user, event=event, rsvp='yes')
         Membership.objects.create(user=self.user, event=event1, rsvp='yes')
-
+        assign_perm('view_event', self.user, event)
+        assign_perm('view_event', self.user, event1)
         resp = self.api_client.get('/api/v1/feed/events/my/',
                                    data={'filter': 'true'},
                                    format='json')
@@ -64,7 +66,8 @@ class TestEventFilterStateResource(ResourceTestCase):
                                       name="ruby", location=[-87.63, 41.76])
         Membership.objects.create(user=self.user, event=event, rsvp='yes')
         Membership.objects.create(user=self.user, event=event1, rsvp='yes')
-
+        assign_perm('view_event', self.user, event)
+        assign_perm('view_event', self.user, event1)
         resp = self.api_client.get('/api/v1/feed/events/my/',
                                    data={'filter': 'true'},
                                    format='json')
