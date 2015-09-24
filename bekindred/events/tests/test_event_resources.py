@@ -339,6 +339,10 @@ class TestAllEventFeedResource(ResourceTestCase):
         Membership.objects.create(user=self.user, event=self.event)
         Membership.objects.create(user=self.user, event=self.event1)
         Membership.objects.create(user=self.user, event=self.event2)
+        assign_perm('view_event', self.user, self.event)
+        assign_perm('view_event', self.user, self.event1)
+        assign_perm('view_event', self.user, self.event2)
+        assign_perm('view_event', self.user, self.event3)
 
     def login(self):
         return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
@@ -378,6 +382,15 @@ class TestMyEventFeedResource(ResourceTestCase):
         Membership.objects.create(user=self.user, event=self.event, rsvp='yes', is_organizer=True)
         Membership.objects.create(user=self.user, event=self.event1, rsvp='yes')
         Membership.objects.create(user=self.user, event=self.event2, rsvp='maybe')
+        assign_perm('view_event', self.user, self.event)
+        assign_perm('view_event', self.user, self.event1)
+        assign_perm('view_event', self.user, self.event2)
+        assign_perm('view_event', self.user1, self.event)
+        assign_perm('view_event', self.user1, self.event1)
+        assign_perm('view_event', self.user1, self.event2)
+        assign_perm('view_event', self.user2, self.event)
+        assign_perm('view_event', self.user2, self.event1)
+        assign_perm('view_event', self.user2, self.event2)
 
     def login(self):
         return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
@@ -399,6 +412,8 @@ class TestMyEventFeedResource(ResourceTestCase):
                                       starts_on=now() + timedelta(days=7), ends_on=now() + timedelta(days=8))
         Membership.objects.create(user=self.user, event=event1, rsvp='yes')
         Membership.objects.create(user=self.user, event=event2, rsvp='yes')
+        assign_perm('view_event', self.user, event1)
+        assign_perm('view_event', self.user, event2)
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json')
         res = self.deserialize(resp)['objects']
         self.assertEqual(len(res), 4)
@@ -417,6 +432,7 @@ class TestMyEventFeedResource(ResourceTestCase):
         # maybe miles
         efs = EventFilterState.objects.create(user=self.user, distance=928)
         MatchFilterState.objects.create(user=self.user, distance_unit='km')
+
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
                                    data={'filter': 'true'})
         data = self.deserialize(resp)
@@ -463,6 +479,17 @@ class TestFriendsEventFeedResource(ResourceTestCase):
         Membership.objects.create(user=self.user2, event=self.event2, rsvp='yes')
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
         Friend.objects.create(friend1=self.user, friend2=self.user2, status=1)
+        assign_perm('view_event', self.user, self.event)
+        assign_perm('view_event', self.user1, self.event)
+        assign_perm('view_event', self.user2, self.event)
+
+        assign_perm('view_event', self.user, self.event1)
+        assign_perm('view_event', self.user1, self.event1)
+        assign_perm('view_event', self.user2, self.event1)
+
+        assign_perm('view_event', self.user, self.event2)
+        assign_perm('view_event', self.user1, self.event2)
+        assign_perm('view_event', self.user2, self.event2)
 
     def login(self):
         return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
