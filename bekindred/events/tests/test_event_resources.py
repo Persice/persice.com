@@ -320,17 +320,21 @@ class TestEventResource(ResourceTestCase):
         json = self.deserialize(resp)
         self.assertEqual(json['name'], 'Public Event')
 
-    def test_post_private_event(self):
+    def test_post_private_event_with_access_user_list(self):
         user = FacebookCustomUser.objects. \
             create_user(username='user_mary', password='test',
                         first_name='Mary', last_name='Mal')
+
+        user2 = FacebookCustomUser.objects. \
+            create_user(username='user_mary_kay', password='test',
+                        first_name='Mary Kay', last_name='Peterson')
         post_data = {
             'description': 'Test description',
             'ends_on': str(now() + timedelta(days=2)),
             'location': u'7000,22965.83',
             'name': u'Play piano',
             'access_level': 'private',
-            'access_user_list': str(user.id),
+            'access_user_list': ','.join(map(str, [user.id, user2.id])),
             'repeat': u'W',
             'starts_on': str(now() + timedelta(days=1))
         }
@@ -339,8 +343,10 @@ class TestEventResource(ResourceTestCase):
                                     format='json',
                                     data=post_data)
         self.assertHttpCreated(resp)
-        json = self.deserialize(resp)
-        self.assertEqual(json['access_user_list'], str(user.id))
+        event = self.deserialize(resp)
+        e = Event.objects.get(pk=int(event['id']))
+        self.assertEqual(user.has_perm('view_event', e), True)
+        self.assertEqual(user2.has_perm('view_event', e), True)
 
     def test_post_public_event(self):
         user = FacebookCustomUser.objects. \
