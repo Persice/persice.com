@@ -136,6 +136,54 @@ class TestEventResource(ResourceTestCase):
         self.api_client.put(self.detail_url, format='json', data=new_data)
         self.assertEqual(Event.objects.filter(membership__user=self.user, name='learn erlang')[0].name, 'learn erlang')
 
+    def test_update_public_event_to_private(self):
+        user1 = FacebookCustomUser.objects.create_user(username='user_b_new',
+                                                       password='test')
+        self.response = self.login()
+        post_data = {
+            'description': 'Test description',
+            'ends_on': str(now() + timedelta(days=2)),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'repeat': u'W',
+            'access_level': 'public',
+            'starts_on': str(now() + timedelta(days=1))
+        }
+        resp = self.api_client.post('/api/v1/event/', format='json',
+                                    data=post_data)
+        original_event = self.deserialize(resp)
+        detail_url = '/api/v1/event/{}/'.format(original_event['id'])
+
+        new_data = original_event.copy()
+        new_data['access_level'] = 'private'
+        self.api_client.put(self.detail_url, format='json', data=new_data)
+        e = Event.objects.get(pk=int(original_event['id']))
+        self.assertEqual(user1.has_perm('view_event', e), False)
+
+    def test_update_private_event_to_public(self):
+        user1 = FacebookCustomUser.objects.create_user(username='user_b_new',
+                                                       password='test')
+        self.response = self.login()
+        post_data = {
+            'description': 'Test description',
+            'ends_on': str(now() + timedelta(days=2)),
+            'location': u'7000,22965.83',
+            'name': u'Play piano',
+            'repeat': u'W',
+            'access_level': 'private',
+            'starts_on': str(now() + timedelta(days=1))
+        }
+        resp = self.api_client.post('/api/v1/event/', format='json',
+                                    data=post_data)
+        original_event = self.deserialize(resp)
+        detail_url = '/api/v1/event/{}/'.format(original_event['id'])
+
+        new_data = original_event.copy()
+        new_data['access_level'] = 'public'
+        self.api_client.put(self.detail_url, format='json', data=new_data)
+        e = Event.objects.get(pk=int(original_event['id']))
+        self.assertEqual(user1.has_perm('view_event', e), True)
+
     def test_total_number_of_event_attendees(self):
         self.response = self.login()
         user1 = FacebookCustomUser.objects.create_user(username='user_b_new', password='test')

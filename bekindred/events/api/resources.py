@@ -213,6 +213,30 @@ class EventResource(MultiPartResource, ModelResource):
                 assign_perm('view_event', user, bundle.obj)
         return bundle
 
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        new_access_level = bundle.data.get('access_level', '')
+        current_access_level = bundle.obj.access_level
+        bundle = super(EventResource, self).obj_update(bundle, **kwargs)
+        if current_access_level != new_access_level:
+            if new_access_level == 'public':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    assign_perm('view_event', user, bundle.obj)
+            elif new_access_level == 'private':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    remove_perm('view_event', user, bundle.obj)
+
+                connections = Friend.objects\
+                    .all_my_friends(bundle.request.user)
+                users_ = FacebookCustomUserActive.objects.\
+                    filter(pk__in=connections)
+                for user in users_:
+                    assign_perm('view_event', user, bundle.obj)
+        return bundle
+
     def obj_delete(self, bundle, **kwargs):
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         event = Event.objects.get(pk=int(kwargs['pk']))
