@@ -1,2 +1,4 @@
 node_modules
-.tmp
+src/public/lib
+src/public/app.js
+typings
