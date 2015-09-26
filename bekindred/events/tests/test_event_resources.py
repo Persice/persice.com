@@ -460,6 +460,7 @@ class TestMyEventFeedResource(ResourceTestCase):
         data = self.deserialize(resp)
         self.assertEqual(data['objects'], [])
 
+
 class TestFriendsEventFeedResource(ResourceTestCase):
     def setUp(self):
         super(TestFriendsEventFeedResource, self).setUp()

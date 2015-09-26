@@ -1,6 +1,6 @@
 import json
 import re
-from guardian.shortcuts import assign_perm, get_objects_for_user
+from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 
 import redis
 from django.conf.urls import url
@@ -207,8 +207,9 @@ class EventResource(MultiPartResource, ModelResource):
             for user in users:
                 assign_perm('view_event', user, bundle.obj)
         elif bundle.obj.access_level == 'private':
-            connections = Friend.objects.friends(bundle.request.user)
-            for user in connections:
+            connections = Friend.objects.all_my_friends(bundle.request.user)
+            users = FacebookCustomUserActive.objects.filter(pk__in=connections)
+            for user in users:
                 assign_perm('view_event', user, bundle.obj)
         return bundle
 
