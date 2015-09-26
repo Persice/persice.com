@@ -1,6 +1,6 @@
 import json
 import re
-from guardian.shortcuts import assign_perm, get_objects_for_user
+from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 
 import redis
 from django.conf.urls import url
@@ -207,9 +207,42 @@ class EventResource(MultiPartResource, ModelResource):
             for user in users:
                 assign_perm('view_event', user, bundle.obj)
         elif bundle.obj.access_level == 'private':
-            connections = Friend.objects.friends(bundle.request.user)
-            for user in connections:
+            user_ids = []
+            if bundle.obj.access_user_list:
+                try:
+                    user_ids = map(int, bundle.obj.access_user_list.split(','))
+                except TypeError as e:
+                    print e
+            else:
+                user_ids = Friend.objects.all_my_friends(bundle.request.user)
+
+            users = FacebookCustomUserActive.objects.filter(pk__in=user_ids)
+            for user in users:
                 assign_perm('view_event', user, bundle.obj)
+        return bundle
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        new_access_level = bundle.data.get('access_level', '')
+        current_access_level = bundle.obj.access_level
+        bundle = super(EventResource, self).obj_update(bundle, **kwargs)
+        if current_access_level != new_access_level:
+            if new_access_level == 'public':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    assign_perm('view_event', user, bundle.obj)
+            elif new_access_level == 'private':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    remove_perm('view_event', user, bundle.obj)
+
+                connections = Friend.objects\
+                    .all_my_friends(bundle.request.user)
+                users_ = FacebookCustomUserActive.objects.\
+                    filter(pk__in=connections)
+                for user in users_:
+                    assign_perm('view_event', user, bundle.obj)
         return bundle
 
     def obj_delete(self, bundle, **kwargs):
