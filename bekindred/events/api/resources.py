@@ -237,10 +237,17 @@ class EventResource(MultiPartResource, ModelResource):
                 for user in users:
                     remove_perm('view_event', user, bundle.obj)
 
-                connections = Friend.objects\
-                    .all_my_friends(bundle.request.user)
+                user_ids = []
+                if bundle.obj.access_user_list:
+                    try:
+                        user_ids = map(int, bundle.obj.access_user_list.split(','))
+                    except TypeError as e:
+                        print e
+                else:
+                    user_ids = Friend.objects.all_my_friends(bundle.request.user)
+                
                 users_ = FacebookCustomUserActive.objects.\
-                    filter(pk__in=connections)
+                    filter(pk__in=user_ids)
                 for user in users_:
                     assign_perm('view_event', user, bundle.obj)
         return bundle
