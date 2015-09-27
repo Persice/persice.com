@@ -376,7 +376,6 @@ angular
             save: {
                 method: 'POST',
                 transformRequest: function(data, headersGetter) {
-                    console.log(data);
                     if (data === undefined) {
 
                         return data;

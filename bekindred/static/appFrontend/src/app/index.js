@@ -378,8 +378,8 @@ angular
                     displayName: 'Event Details',
                 }
             })
-            .state('event.invitations', {
-                url: '/invitations/:eventId',
+            .state('event.edit.invitations', {
+                url: '/invitations',
                 templateUrl: 'app/events/event_invitations.html',
                 controller: 'EventInvitationsController',
                 controllerAs: 'viewevent',

@@ -86,7 +86,7 @@
         vm.openInvitations = openInvitations;
 
         function openInvitations() {
-            $state.go('event.invitations', {
+            $state.go('event.edit.invitations', {
                 eventId: vm.eventEdit.id
             });
         }
