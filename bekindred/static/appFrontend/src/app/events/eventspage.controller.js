@@ -29,7 +29,7 @@
 
         $rootScope.$on('closeModalCreateEvent', function(event, data) {
             vm.closeEventModal();
-            if ($state.is('events.myevents')) {
+            if ($state.is('events.myevents.list')) {
                 $rootScope.$broadcast('refreshEventFeed');
             } else {
                 $state.go('events.myevents.list');

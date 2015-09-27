@@ -287,7 +287,6 @@
 
         //check if connection was selected already
         if (lodash.includes(vm.selectedPeople, friend.friend_id)) {
-          console.log('bla');
           friend.selected = true;
 
 
