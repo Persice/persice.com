@@ -16,6 +16,19 @@ What is needed to run this app:
 * `npm`
 * `gulp`
 
+To install dependencies and start compiling:
+
+```
+make install
+make watch
+```
+
+Then, in another tab run a local filesystem HTTP server:
+
+```
+make serve
+```
+
 ## Running App
 
 Install dependancies
