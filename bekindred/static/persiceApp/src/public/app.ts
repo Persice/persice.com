@@ -1,6 +1,30 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
+/// <reference path="../typings/angular2/http.d.ts" />
 
 import {Component, View, bootstrap} from 'angular2/angular2';
+import {Http, HTTP_BINDINGS} from "angular2/http";
+
+
+export class AuthUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+  image_url: string;
+  facebook_id: string;
+  constructor(
+    first_name: string,
+    last_name: string,
+    image_url: string,
+    facebook_id: string,
+    id: number
+   ) {
+    this.id = id;
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.image_url = image_url;
+    this.facebook_id = facebook_id;
+  }
+}
 
 
 @Component({
@@ -328,7 +352,8 @@ class CrowdPage {
 }
 
 @Component({
-  selector: 'persice-app'
+  selector: 'persice-app',
+  viewBindings: [HTTP_BINDINGS]
 })
 @View({
   directives: [LeftNav, TopHeader, CrowdPage],
@@ -348,15 +373,21 @@ class CrowdPage {
   `
 })
 class PersiceApp {
+  user: AuthUser;
+  data: Object;
+  constructor(public http: Http) {
+    this.getAuthUser();
+  }
 
-  constructor() {
+  getAuthUser(): void {
+
+    this.http.get('/api/v1/auth/user/?format=json')
+      .toRx()
+      .map(res => res.json())
+      .subscribe(data => console.log(data));
+
   }
 }
-
-
-
-
-
 
 
 bootstrap(PersiceApp)

@@ -1,4 +1,5 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
+/// <reference path="../typings/angular2/http.d.ts" />
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
     switch (arguments.length) {
@@ -11,6 +12,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var angular2_1 = require('angular2/angular2');
+var http_1 = require("angular2/http");
+var AuthUser = (function () {
+    function AuthUser(first_name, last_name, image_url, facebook_id, id) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.image_url = image_url;
+        this.facebook_id = facebook_id;
+    }
+    return AuthUser;
+})();
+exports.AuthUser = AuthUser;
 var LeftNav = (function () {
     function LeftNav() {
     }
@@ -54,17 +67,26 @@ var CrowdPage = (function () {
     return CrowdPage;
 })();
 var PersiceApp = (function () {
-    function PersiceApp() {
+    function PersiceApp(http) {
+        this.http = http;
+        this.getAuthUser();
     }
+    PersiceApp.prototype.getAuthUser = function () {
+        this.http.get('/api/v1/auth/user/?format=json')
+            .toRx()
+            .map(function (res) { return res.json(); })
+            .subscribe(function (data) { return console.log(data); });
+    };
     PersiceApp = __decorate([
         angular2_1.Component({
-            selector: 'persice-app'
+            selector: 'persice-app',
+            viewBindings: [http_1.HTTP_BINDINGS]
         }),
         angular2_1.View({
             directives: [LeftNav, TopHeader, CrowdPage],
             template: "\n  <div class=\"tableize tableize--full\">\n  <div class=\"tableize__cell\">\n    <left-nav></left-nav>\n  </div>\n  <div class=\"tableize__cell tableize__cell--fill page-content\">\n      <div class=\"tableize__content\">\n      <top-header></top-header>\n      <crowd-page></crowd-page>\n      </div>\n  </div>\n\n  </div>\n  "
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http])
     ], PersiceApp);
     return PersiceApp;
 })();
