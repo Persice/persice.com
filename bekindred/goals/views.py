@@ -59,6 +59,8 @@ def main_page(request, template_name="homepage.html"):
         #     fb_user.about_me = facebook.get('me').get('bio', None)
         #     fb_user.save()
     return render_to_response(template_name, context)
+
+
 def main_page_angular2(request, template_name="homepage_angular2.html"):
     twitter_provider, linkedin_provider, twitter_username = social_extra_data(request.user.id)
     context = RequestContext(request, {
@@ -82,8 +84,10 @@ def main_page_angular2(request, template_name="homepage_angular2.html"):
         #     fb_user.save()
     return render_to_response(template_name, context)
 
+
 def close_login_popup(request):
     return render_to_response('goals/close_popup.html', {}, RequestContext(request))
+
 
 def error_window(request):
     return render_to_response('error_window.html', {}, RequestContext(request))

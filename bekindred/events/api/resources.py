@@ -207,6 +207,16 @@ class EventResource(MultiPartResource, ModelResource):
             for user in users:
                 assign_perm('view_event', user, bundle.obj)
         elif bundle.obj.access_level == 'private':
+            if bundle.obj.access_user_list:
+                try:
+                    user_ids = map(int, bundle.obj.access_user_list.split(','))
+                    users = FacebookCustomUserActive.objects.\
+                        filter(pk__in=user_ids)
+                    for user in users:
+                        assign_perm('view_event', user, bundle.obj)
+                except TypeError as e:
+                    print e
+        elif bundle.obj.access_level == 'connections':
             user_ids = []
             if bundle.obj.access_user_list:
                 try:
@@ -219,6 +229,7 @@ class EventResource(MultiPartResource, ModelResource):
             users = FacebookCustomUserActive.objects.filter(pk__in=user_ids)
             for user in users:
                 assign_perm('view_event', user, bundle.obj)
+
         return bundle
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
@@ -231,7 +242,25 @@ class EventResource(MultiPartResource, ModelResource):
                     exclude(pk=bundle.request.user.id)
                 for user in users:
                     assign_perm('view_event', user, bundle.obj)
+
             elif new_access_level == 'private':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    remove_perm('view_event', user, bundle.obj)
+
+                if bundle.obj.access_user_list:
+                    try:
+                        user_ids = map(int,
+                                       bundle.obj.access_user_list.split(','))
+                        users_ = FacebookCustomUserActive.objects. \
+                            filter(pk__in=user_ids)
+                        for user in users_:
+                            assign_perm('view_event', user, bundle.obj)
+                    except TypeError as e:
+                        print e
+
+            elif new_access_level == 'connections':
                 users = FacebookCustomUserActive.objects.all(). \
                     exclude(pk=bundle.request.user.id)
                 for user in users:
@@ -240,13 +269,15 @@ class EventResource(MultiPartResource, ModelResource):
                 user_ids = []
                 if bundle.obj.access_user_list:
                     try:
-                        user_ids = map(int, bundle.obj.access_user_list.split(','))
+                        user_ids = map(int,
+                                       bundle.obj.access_user_list.split(','))
                     except TypeError as e:
                         print e
                 else:
-                    user_ids = Friend.objects.all_my_friends(bundle.request.user)
-                
-                users_ = FacebookCustomUserActive.objects.\
+                    user_ids = Friend.objects.\
+                        all_my_friends(bundle.request.user)
+
+                users_ = FacebookCustomUserActive.objects. \
                     filter(pk__in=user_ids)
                 for user in users_:
                     assign_perm('view_event', user, bundle.obj)
