@@ -89,7 +89,7 @@
         vm.invitedPeopleAlreadyLoaded = false;
 
         vm.invitationsOptions = {
-            attendingPref: 'private',
+            attendingPref: 'public',
             guestInvite: true
         };
 

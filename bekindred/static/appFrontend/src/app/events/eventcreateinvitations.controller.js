@@ -25,7 +25,7 @@
         vm.invitedPeopleAlreadyLoaded = false;
 
         vm.invitationsOptions = {
-            attendingPref: 'connections',
+            attendingPref: 'public',
             guestInvite: true
         };
 
