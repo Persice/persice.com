@@ -112,7 +112,7 @@
 <h4 ng-if="userprofile.showfullprofile && userprofile.user.facebookfriends.length > 0 " class="ui header">Mutual Facebook Friends ({{ userprofile.user.facebookfriends.length }})</h4>
 <div ng-if="userprofile.showfullprofile && userprofile.user.facebookfriends.length > 0" class="ui selection list">
     <div class="item" ng-repeat="friend in userprofile.user.facebookfriends track by $index">
-        <img class="ui avatar image" ng-src="'//graph.facebook.com/' + {{friend.facebook_id}} + '/picture?type=square'">
+        <img class="ui avatar image" ng-src="//graph.facebook.com/{{friend.facebook_id}}/picture?type=square">
         <div class="content">
             <div class="header">{{ friend.first_name }}</div>
         </div>
