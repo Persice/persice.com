@@ -1,4 +1,5 @@
 import itertools
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -158,6 +159,11 @@ class MatchedFeedResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+    def dehydrate_distance(self, bundle):
+        bundle.data['distance'] = [intcomma(bundle.data['distance'][0]),
+                                   bundle.data['distance'][1]]
+        return bundle.data['distance']
 
 
 class MutualFriendsResource(Resource):

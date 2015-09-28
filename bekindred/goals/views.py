@@ -60,8 +60,34 @@ def main_page(request, template_name="homepage.html"):
         #     fb_user.save()
     return render_to_response(template_name, context)
 
+
+def main_page_angular2(request, template_name="homepage_angular2.html"):
+    twitter_provider, linkedin_provider, twitter_username = social_extra_data(request.user.id)
+    context = RequestContext(request, {
+        'twitter_provider': twitter_provider,
+        'linkedin_provider': linkedin_provider,
+        'twitter_username': twitter_username,
+    })
+
+    if request.user.is_authenticated():
+        fb_user = FacebookCustomUserActive.objects.get(pk=request.user.id)
+        try:
+            UserIPAddress.objects.get(user=request.user.id)
+        except UserIPAddress.DoesNotExist:
+            user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
+            user.save()
+
+        # if fb_user.facebook_id and fb_user.access_token \
+        #         and not fb_user.about_me:
+        #     facebook = OpenFacebook(fb_user.access_token)
+        #     fb_user.about_me = facebook.get('me').get('bio', None)
+        #     fb_user.save()
+    return render_to_response(template_name, context)
+
+
 def close_login_popup(request):
     return render_to_response('goals/close_popup.html', {}, RequestContext(request))
+
 
 def error_window(request):
     return render_to_response('error_window.html', {}, RequestContext(request))

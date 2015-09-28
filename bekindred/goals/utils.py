@@ -55,7 +55,7 @@ def calculate_distance(user_id1, user_id2, units='miles'):
     m	Meter, Metre
     """
     g = GeoIP()
-    distance = [intcomma(10000), 'miles']
+    distance = [10000, 'miles']
 
     try:
         user1_location = UserLocation.objects.filter(user_id=user_id1).order_by('-timestamp')[0]
@@ -94,9 +94,9 @@ def calculate_distance(user_id1, user_id2, units='miles'):
         if getattr(distance, 'm') <= 10.0:
             return [10, 'meters']
         else:
-            return [intcomma(int(getattr(distance, 'm'))), 'meters']
+            return [int(getattr(distance, 'm')), 'meters']
     else:
-        return [intcomma(int(getattr(distance, units))), units]
+        return [int(getattr(distance, units)), units]
 
 
 def calculate_distance_events(user_id, event_id):

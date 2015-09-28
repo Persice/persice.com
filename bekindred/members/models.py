@@ -10,7 +10,11 @@ remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 class ActiveManager(UserManager):
     def get_queryset(self):
-        return super(ActiveManager, self).get_queryset().filter(is_active=True, is_superuser=False)
+        """
+        Exclude Anonymous user and Admin user
+        """
+        return super(ActiveManager, self).get_queryset().\
+            filter(is_active=True, is_superuser=False).exclude(pk=-1)
 
 
 class FacebookCustomUserActive(FacebookCustomUser):

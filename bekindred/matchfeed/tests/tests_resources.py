@@ -12,7 +12,7 @@ from world.models import UserLocation
 class TestMatchFeedResource(ResourceTestCase):
     def setUp(self):
         super(TestMatchFeedResource, self).setUp()
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', facebook_id=1234567,
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', facebook_id=999234567,
                                                            password='test', date_of_birth=date(1989, 5, 20))
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', facebook_id=12345671,
                                                             password='test', date_of_birth=date(1989, 1, 9))
@@ -223,11 +223,11 @@ class TestMatchFeedResource(ResourceTestCase):
             resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true', 'offset': x}, format='json')
             result = self.deserialize(resp)
             distance.append(result['objects'][0]['distance'])
-        self.assertEqual(distance, [[131, u'meters'],
-                                    [157, u'meters'],
-                                    [269, u'meters'],
-                                    [3450, u'miles'],
-                                    [3914, u'miles']])
+        self.assertEqual(distance, [['131', u'meters'],
+                                    ['157', u'meters'],
+                                    ['269', u'meters'],
+                                    ['3,450', u'miles'],
+                                    ['3,914', u'miles']])
 
     def test_matchfeed_order_by_match_score(self):
         MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99,

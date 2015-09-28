@@ -24,6 +24,7 @@ def order_by(target, **kwargs):
         result = sorted(target, key=attrgetter('distance'))
         return result
 
+
 class MatchedUser(object):
     """
     user_id1 - original user

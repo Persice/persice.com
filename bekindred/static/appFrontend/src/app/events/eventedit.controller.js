@@ -86,7 +86,7 @@
         vm.openInvitations = openInvitations;
 
         function openInvitations() {
-            $state.go('event.invitations', {
+            $state.go('event.edit.invitations', {
                 eventId: vm.eventEdit.id
             });
         }
@@ -317,7 +317,7 @@
                                 type: 'empty',
                                 prompt: 'Please enter Max. attendees'
                             }, {
-                                type: 'integer',
+                                type: 'integer[1..99999]',
                                 prompt: 'Please enter Max. attendees as numeric value'
                             }]
                         },

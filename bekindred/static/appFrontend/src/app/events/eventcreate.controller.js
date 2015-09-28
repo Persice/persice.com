@@ -59,8 +59,12 @@
             location_name: '',
             country: '',
             max_attendees: '',
-            event_photo: ''
+            event_photo: '',
+            access_level: '',
+            access_user_list: []
         };
+
+        vm.access_level = 'connections';
 
         vm.eventLocation = '';
 
@@ -274,6 +278,14 @@
 
                 if (!vm.showError) {
                     vm.loadingSave = true;
+                    vm.event.access_level = vm.access_level;
+
+                    if (vm.access_level !== 'private') {
+                        delete vm.event.access_user_list;
+                    } else {
+                        vm.event.access_user_list = vm.selectedPeople;
+                    }
+
                     EventsFactory.save({}, vm.event,
                         function(success) {
 
@@ -370,7 +382,10 @@
                 location_name: '',
                 country: '',
                 max_attendees: '',
-                event_photo: ''
+                event_photo: '',
+                access_level: '',
+                access_user_list: []
+
             };
         }
 

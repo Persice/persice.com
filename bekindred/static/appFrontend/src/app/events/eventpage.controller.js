@@ -46,7 +46,7 @@
                 });
             }
 
-            if ($state.current.name === 'event.invitations') {
+            if ($state.current.name === 'event.edit.invitations') {
                 $scope.$broadcast('sendInvites');
             }
         }

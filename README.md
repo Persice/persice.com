@@ -34,6 +34,16 @@ curl 'http://localhost:9200/?pretty'
 }
 ```
 
+##### Chechk TCP ports
+```
+sudo lsof -i -n -P | grep TCP
+```
+
+##### Run celery locally
+```
+celery -A bekindred.celery:app worker --loglevel=INFO
+```
+
 ##### Rebuild index
 A shortcut for `clear_index` followed by `update_index`. It accepts any/all of the arguments of the following arguments:
 ```

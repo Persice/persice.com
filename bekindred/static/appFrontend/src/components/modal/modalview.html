@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="actions">
+    <div class="actions" ng-if="viewevent.isHost">
         <!-- view screen -->
         <div ng-if="viewevent.isHost && viewevent.selection === 'view'" class="ui green labeled icon right button" ng-click="viewevent.editEvent()">
             Edit

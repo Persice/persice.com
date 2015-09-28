@@ -1,7 +1,8 @@
-<div class="ui grid" ng-cloak>
+<div class="ui grid" ng-cloak ng-hide="isState('event.edit.invitations')">
     <div class="row">
         <div class="wide column">
             <ng-include src="'components/event/eventedit.tpl.html'"></ng-include>
         </div>
     </div>
 </div>
+<div ui-view></div>

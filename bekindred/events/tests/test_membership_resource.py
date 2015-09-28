@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
+from guardian.shortcuts import assign_perm
 from tastypie.test import ResourceTestCase
 
 from events.models import Event, Membership
@@ -42,6 +43,7 @@ class TestMembershipResource(ResourceTestCase):
                      "starts_on": now(),
                      'ends_on': now() + timedelta(days=10),
                      "user": "/api/v1/auth/user/{}/".format(self.user.id)}
+        assign_perm('view_event', self.user, self.event1)
         self.assertHttpCreated(self.api_client.post('/api/v1/member/', format='json',
                                                     data=post_data))
         # Verify a new one has been added.
@@ -51,6 +53,7 @@ class TestMembershipResource(ResourceTestCase):
         self.response = self.login()
         m = Membership.objects.create(user=self.user, event=self.event1, rsvp='no')
         detail_url = '/api/v1/member/{}/'.format(m.id)
+        assign_perm('view_event', self.user, self.event1)
         original_data = self.deserialize(self.api_client.get(detail_url, format='json'))
         new_data = original_data.copy()
         new_data['rsvp'] = 'yes'

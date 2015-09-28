@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--[if IE 8]>    <html class=" no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class=" no-js ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <title>Persice</title>
+  <!-- Prefetch DNS for external assets (Twitter widgets etc). -->
+  <link rel="dns-prefetch" href="//ajax.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//themes.googleusercontent.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
+  <!-- build:css /css/screen.css -->
+  <link rel="stylesheet" href="/static/persiceApp/src/public/css/ion.rangeSlider.css" />
+  <link rel="stylesheet" href="/static/persiceApp/src/public/css/ion.rangeSlider.skinNice.css" />
+  <link rel="stylesheet" href="/static/persiceApp/src/public/css/screen.css">
+  <!-- endbuild -->
+  <meta name="description" content="">
+  <meta name="author" content=""> </head>
+
+<body>
+  <persice-app></persice-app>
+  <script src="/static/persiceApp/src/public/lib/traceur-runtime.js"></script>
+  <script src="/static/persiceApp/src/public/lib/system.js"></script>
+  <script>
+  System.config({
+    baseURL: '/static/persiceApp/src/public',
+    defaultJSExtensions: true
+  });
+  System.import('app');
+  </script>
+  <script src="/static/persiceApp/src/public/lib/angular2dev/angular2.dev.js"></script>
+  <script src="/static/persiceApp/src/public/lib/angular2dev/http.dev.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jquery.min.js"></script>
+  <script src="/static/persiceApp/src/public/lib/svg4everybody.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jquery.minimalect.js"></script>
+  <script src="/static/persiceApp/src/public/lib/circle-progress.js"></script>
+  <script src="/static/persiceApp/src/public/lib/ion.rangeSlider.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jquery.dotdotdot.js"></script>
+  <script src="/static/persiceApp/src/public/js/init.js"></script>
+
+</body>

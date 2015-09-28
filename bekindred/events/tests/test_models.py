@@ -7,6 +7,7 @@ from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 from django.contrib.gis.geos import fromstr
 from django.contrib.gis.measure import D  # alias for Distance
+from guardian.shortcuts import assign_perm
 
 from events.models import Event, Membership
 
@@ -80,6 +81,20 @@ class EventTestCase(TestCase):
             point__distance_lte=(lagrange, D(km=15000).m))
         self.assertEqual(len(event), 2)
         self.assertEqual(event[1].name, 'Ruby conference piano')
+
+    def test_create_private_event(self):
+        user_z = FacebookCustomUser.objects.\
+            create_user(username='user_z', facebook_id=9934567,
+                        password='test', date_of_birth=date(1989, 5, 20))
+        event = Event.objects.create(name="Public Event",
+                                     location=[7000, 22965.83],
+                                     access_level='public',
+                                     starts_on=now(),
+                                     ends_on=now() + timedelta(days=10))
+        Membership.objects.create(user=self.user, event=event)
+        assign_perm('view_event', self.user, event)
+        self.assertEqual(user_z.has_perm('view_event', event), False)
+        self.assertEqual(self.user.has_perm('view_event', event), True)
 
 
 class MembershipTest(TestCase):

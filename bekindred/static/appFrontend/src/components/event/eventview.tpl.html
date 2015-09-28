@@ -13,7 +13,7 @@
     <div class="header">
         Warning
     </div>
-    <p>This event doesn't exist anymore.</p>
+    <p>{{viewevent.errorMessage}}</p>
 </div>
 <div class="ui basic segment" ng-class="{'hidevisibility': viewevent.eventNotFound}">
     <form class="ui form" style="min-height: 530px;" ng-class="{'loading': viewevent.loadingEvent}">
@@ -151,7 +151,7 @@
                 </div>
             </div>
         </div>
-        <div ng-if="isState('event.details')" class="ui green labeled icon right button desktopview" ng-click="viewevent.editEvent()">
+        <div ng-if="isState('event.details') && viewevent.isHost" class="ui green labeled icon right button desktopview" ng-click="viewevent.editEvent()">
             Edit
             <i class="edit icon"></i>
         </div>

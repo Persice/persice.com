@@ -1,6 +1,6 @@
 import json
 import re
-from guardian.shortcuts import assign_perm
+from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 
 import redis
 from django.conf.urls import url
@@ -118,7 +118,10 @@ class EventResource(MultiPartResource, ModelResource):
         }
         validation = EventValidation()
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = GuardianAuthorization(
+            view_permission_code='view_event',
+            # create_permission_code='add_event',
+        )
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -194,10 +197,90 @@ class EventResource(MultiPartResource, ModelResource):
 
     def obj_create(self, bundle, **kwargs):
         bundle = super(EventResource, self).obj_create(bundle, **kwargs)
-        # if bundle.obj.access_level == 'public':
-        #     assign_perm('view_event', bundle.request.user, bundle.obj)
+        assign_perm('view_event', bundle.request.user, bundle.obj)
         Membership.objects.create(user=bundle.request.user, event=bundle.obj,
                                   is_organizer=True, rsvp='yes')
+
+        if bundle.obj.access_level == 'public':
+            users = FacebookCustomUserActive.objects.all(). \
+                exclude(pk=bundle.request.user.id)
+            for user in users:
+                assign_perm('view_event', user, bundle.obj)
+        elif bundle.obj.access_level == 'private':
+            if bundle.obj.access_user_list:
+                try:
+                    user_ids = map(int, bundle.obj.access_user_list.split(','))
+                    users = FacebookCustomUserActive.objects.\
+                        filter(pk__in=user_ids)
+                    for user in users:
+                        assign_perm('view_event', user, bundle.obj)
+                except TypeError as e:
+                    print e
+        elif bundle.obj.access_level == 'connections':
+            user_ids = []
+            if bundle.obj.access_user_list:
+                try:
+                    user_ids = map(int, bundle.obj.access_user_list.split(','))
+                except TypeError as e:
+                    print e
+            else:
+                user_ids = Friend.objects.all_my_friends(bundle.request.user)
+
+            users = FacebookCustomUserActive.objects.filter(pk__in=user_ids)
+            for user in users:
+                assign_perm('view_event', user, bundle.obj)
+
+        return bundle
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        new_access_level = bundle.data.get('access_level', '')
+        current_access_level = bundle.obj.access_level
+        bundle = super(EventResource, self).obj_update(bundle, **kwargs)
+        if current_access_level != new_access_level:
+            if new_access_level == 'public':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    assign_perm('view_event', user, bundle.obj)
+
+            elif new_access_level == 'private':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    remove_perm('view_event', user, bundle.obj)
+
+                if bundle.obj.access_user_list:
+                    try:
+                        user_ids = map(int,
+                                       bundle.obj.access_user_list.split(','))
+                        users_ = FacebookCustomUserActive.objects. \
+                            filter(pk__in=user_ids)
+                        for user in users_:
+                            assign_perm('view_event', user, bundle.obj)
+                    except TypeError as e:
+                        print e
+
+            elif new_access_level == 'connections':
+                users = FacebookCustomUserActive.objects.all(). \
+                    exclude(pk=bundle.request.user.id)
+                for user in users:
+                    remove_perm('view_event', user, bundle.obj)
+
+                user_ids = []
+                if bundle.obj.access_user_list:
+                    try:
+                        user_ids = map(int,
+                                       bundle.obj.access_user_list.split(','))
+                    except TypeError as e:
+                        print e
+                else:
+                    user_ids = Friend.objects.\
+                        all_my_friends(bundle.request.user)
+
+                users_ = FacebookCustomUserActive.objects. \
+                    filter(pk__in=user_ids)
+                for user in users_:
+                    assign_perm('view_event', user, bundle.obj)
         return bundle
 
     def obj_delete(self, bundle, **kwargs):
@@ -354,7 +437,7 @@ class MyEventFeed2Resource(ModelResource):
         queryset = Event.objects.all().order_by('starts_on')
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = GuardianAuthorization()
 
     def get_object_list(self, request):
         efs = EventFilterState.objects.filter(user_id=request.user.id)
@@ -414,7 +497,7 @@ class AllEventFeed2Resource(ModelResource):
         queryset = Event.objects.all()
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = GuardianAuthorization()
 
     def get_object_list(self, request):
 
@@ -482,7 +565,7 @@ class FriendsEventFeedResource(ModelResource):
         queryset = Event.objects.all()
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = GuardianAuthorization()
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
@@ -573,7 +656,7 @@ class MyConnectionEventFeedResource(Resource):
         resource_name = 'feed/events/friends'
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = GuardianAuthorization()
 
     def get_object_list(self, request):
         user_id = request.user.id
@@ -652,8 +735,18 @@ class MyConnectionEventFeedResource(Resource):
             return sorted(results, key=lambda x: x.starts_on)
 
     def obj_get_list(self, bundle, **kwargs):
-        # Filtering disabled for brevity...
-        return self.get_object_list(bundle.request)
+        try:
+            object_list = self.get_object_list(bundle.request)
+            authorized_object_list = []
+            for obj in object_list:
+                event = Event.objects.get(pk=obj.id)
+                if bundle.request.user.has_perm('view_event', event):
+                    authorized_object_list.append(obj)
+
+            return authorized_object_list
+        except ValueError:
+            raise BadRequest("Invalid resource lookup data provided "
+                             "(mismatched type).")
 
 
 class AllEventFeedResource(Resource):
@@ -752,8 +845,18 @@ class AllEventFeedResource(Resource):
             return sorted(results, key=lambda x: x.starts_on)
 
     def obj_get_list(self, bundle, **kwargs):
-        # Filtering disabled for brevity...
-        return self.get_object_list(bundle.request)
+        try:
+            object_list = self.get_object_list(bundle.request)
+            authorized_object_list = []
+            for obj in object_list:
+                event = Event.objects.get(pk=obj.id)
+                if bundle.request.user.has_perm('view_event', event):
+                    authorized_object_list.append(obj)
+
+            return authorized_object_list
+        except ValueError:
+            raise BadRequest("Invalid resource lookup data provided "
+                             "(mismatched type).")
 
 
 class MyEventFeedResource(Resource):
@@ -784,7 +887,7 @@ class MyEventFeedResource(Resource):
         resource_name = 'feed/events/my'
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = GuardianAuthorization()
 
     def get_object_list(self, request):
         user_id = request.user.id
@@ -855,8 +958,18 @@ class MyEventFeedResource(Resource):
             return sorted(results, key=lambda x: x.starts_on)
 
     def obj_get_list(self, bundle, **kwargs):
-        # Filtering disabled for brevity...
-        return self.get_object_list(bundle.request)
+        try:
+            object_list = self.get_object_list(bundle.request)
+            authorized_object_list = []
+            for obj in object_list:
+                event = Event.objects.get(pk=obj.id)
+                if bundle.request.user.has_perm('view_event', event):
+                    authorized_object_list.append(obj)
+
+            return authorized_object_list
+        except ValueError:
+            raise BadRequest("Invalid resource lookup data provided "
+                             "(mismatched type).")
 
 
 class EventConnections(Resource):

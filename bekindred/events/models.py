@@ -55,7 +55,7 @@ class Event(models.Model):
     access_level = models.CharField(choices=ACCESS_LEVEL_CHOICES,
                                     default=ACCESS_LEVEL_CHOICES[0],
                                     max_length=20)
-
+    access_user_list = models.TextField(null=True, blank=True)
     event_photo = models.FileField(null=True,
                                    upload_to='event_photos/%Y/%m/%d')
 

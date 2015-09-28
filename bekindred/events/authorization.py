@@ -44,12 +44,12 @@ class GuardianAuthorization(DjangoAuthorization):
     def __init__(self, *args, **kwargs):
         self.view_permission_code = kwargs.pop("view_permission_code",
                                                'can_view')
-        self.create_permission_code = kwargs.pop("create_permission_code",
-                                                 'can_create')
-        self.update_permission_code = kwargs.pop("update_permission_code",
-                                                 'can_update')
-        self.delete_permission_code = kwargs.pop("delete_permission_code",
-                                                 'can_delete')
+        # self.create_permission_code = kwargs.pop("create_permission_code",
+        #                                          'can_create')
+        # self.update_permission_code = kwargs.pop("update_permission_code",
+        #                                          'can_update')
+        # self.delete_permission_code = kwargs.pop("delete_permission_code",
+        #                                          'can_delete')
         super(GuardianAuthorization, self).__init__(*args, **kwargs)
 
     def generic_base_check(self, object_list, bundle):
@@ -77,39 +77,32 @@ class GuardianAuthorization(DjangoAuthorization):
         if not self.generic_base_check(object_list, bundle):
             raise Unauthorized("You are not allowed to access that resource.")
 
-        return get_objects_for_user(bundle.request.user, object_list, permission)
+        return get_objects_for_user(bundle.request.user, permission, object_list)
 
     # List Checks
     def create_list(self, object_list, bundle):
-        return self.generic_list_check(object_list, bundle,
-            self.create_permission_code)
+        return object_list
 
     def read_list(self, object_list, bundle):
         return self.generic_list_check(object_list, bundle,
             self.view_permission_code)
 
     def update_list(self, object_list, bundle):
-        return self.generic_list_check(object_list, bundle,
-            self.update_permission_code)
+        return object_list
 
     def delete_list(self, object_list, bundle):
-        return self.generic_list_check(object_list, bundle,
-            self.delete_permission_code)
+        return object_list
 
     # Item Checks
     def create_detail(self, object_list, bundle):
-        return self.generic_item_check(object_list, bundle,
-            self.create_permission_code)
+        return True
 
     def read_detail(self, object_list, bundle):
         return self.generic_item_check(object_list, bundle,
             self.view_permission_code)
 
     def update_detail(self, object_list, bundle):
-        return self.generic_item_check(object_list, bundle,
-            self.update_permission_code)
+        return True
 
     def delete_detail(self, object_list, bundle):
-        return self.generic_item_check(object_list, bundle,
-            self.delete_permission_code)
-
+        return True
