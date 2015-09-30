@@ -8,14 +8,18 @@
     "removeComments": true,
     "noLib": false,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "sourceMap": true
   },
   "filesGlob": [
     "./**/*.ts",
     "!./node_modules/**/*.ts"
   ],
   "files": [
-    "./src/public/app.ts",
-    "./src/typings/angular2/angular2.d.ts"
+    "src/typings/_custom.d.ts",
+    "src/app/components/app.ts",
+    "src/app/components/leftnav/leftnav.ts",
+    "src/app/components/logo/logo.ts",
+    "src/app/bootstrap.ts"
   ]
 }
