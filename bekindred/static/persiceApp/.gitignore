@@ -49,3 +49,8 @@ __build__/**
 
 # IDE #
 .idea/
+
+
+# Webpack
+
+webpack-stats-*
