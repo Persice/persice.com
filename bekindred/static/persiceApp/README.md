@@ -16,19 +16,6 @@ What is needed to run this app:
 * `npm`
 * `gulp`
 
-# Quick start
-To install dependencies and start compiling:
-
-```
-make install (or npm install)
-make watch
-```
-
-Then, in another tab run a local filesystem HTTP server:
-
-```
-make serve
-```
 
 
 Install type definitions
