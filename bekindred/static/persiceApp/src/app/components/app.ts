@@ -18,6 +18,7 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
  */
 
 import {LeftNav} from './leftnav/leftnav';
+import {TopHeader} from './topheader/topheader';
 
 let template = require('./app.html');
 /*
@@ -31,7 +32,7 @@ let template = require('./app.html');
   selector: 'persice-app' // <persice-app></persice-app>
 })
 @View({
-    directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, LeftNav],
+    directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, LeftNav, TopHeader],
   styles: [`
   `],
   template: template
