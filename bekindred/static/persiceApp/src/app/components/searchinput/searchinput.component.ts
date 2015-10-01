@@ -9,7 +9,7 @@ let view = require('./searchinput.html');
 @View({
   template: view
 })
-export class SearchInput {
+export class SearchInputComponent {
   constructor() {
 
   }

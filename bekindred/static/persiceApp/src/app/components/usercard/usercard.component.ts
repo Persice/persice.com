@@ -2,16 +2,16 @@
 
 import {Component, View, Directive, ElementRef} from 'angular2/angular2';
 
-import {Search} from '../search/search';
-let view = require('./topheader.html');
+let view = require('./usercard.html');
+
 @Component({
-  selector: 'top-header'
+  selector: 'user-card'
 })
 @View({
-  directives: [Search],
+  directives: [],
   template: view
 })
-export class TopHeader {
+export class UserCardComponent {
   constructor() {
 
   }

@@ -39,7 +39,7 @@ Thumbs.db
 /typings/
 /tsd_typings/
 
-# Dist #
+# Dist
 /dist
 /public/__build__/
 /src/*/__build__/
@@ -54,3 +54,9 @@ __build__/**
 # Webpack
 
 webpack-stats-*
+
+
+# ignore typescript to js
+
+/src/app/**/*.js
+/src/app/**/*.js.map

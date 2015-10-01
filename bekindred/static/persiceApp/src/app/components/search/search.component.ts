@@ -2,18 +2,18 @@
 
 import {Component, View, Directive, ElementRef} from 'angular2/angular2';
 
-import {SearchResults} from '../searchresults/searchresults';
-import {SearchInput} from '../searchinput/searchinput';
+import {SearchResultsComponent} from '../searchresults/searchresults.component';
+import {SearchInputComponent} from '../searchinput/searchinput.component';
 
 let view = require('./search.html');
 @Component({
   selector: 'search'
 })
 @View({
-  directives: [SearchInput, SearchResults],
+  directives: [SearchInputComponent, SearchResultsComponent],
   template: view
 })
-export class Search {
+export class SearchComponent {
   constructor() {
 
   }

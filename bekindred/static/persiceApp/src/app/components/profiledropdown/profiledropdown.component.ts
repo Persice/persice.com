@@ -2,15 +2,16 @@
 
 import {Component, View, Directive, ElementRef} from 'angular2/angular2';
 
-let view = require('./searchresults.html');
+let view = require('./profiledropdown.html');
+
 @Component({
-  selector: 'search-results'
+  selector: 'profile-dropdown'
 })
 @View({
-  directives: [SearchResults],
+  directives: [],
   template: view
 })
-export class SearchResults {
+export class ProfileDropdownComponent {
   constructor() {
 
   }

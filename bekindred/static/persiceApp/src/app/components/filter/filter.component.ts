@@ -2,16 +2,16 @@
 
 import {Component, View, Directive, ElementRef} from 'angular2/angular2';
 
-import {Logo} from '../logo/logo';
-let view = require('./leftnav.html');
+let view = require('./filter.html');
+
 @Component({
-  selector: 'left-nav'
+  selector: 'filter'
 })
 @View({
-  directives: [Logo],
+  directives: [],
   template: view
 })
-export class LeftNav {
+export class FilterComponent {
   constructor() {
 
   }

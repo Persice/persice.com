@@ -38,7 +38,7 @@ import {HTTP_BINDINGS} from 'angular2/http';
  * App Component
  * our top level component that holds all of our components
  */
-import {App} from './components/app';
+import {AppComponent} from './components/app.component';
 
 
 /*
@@ -77,7 +77,7 @@ const APP_BINDINGS = [
  */
 bootstrap(
     // Top Level Component
-    App,
+    AppComponent,
     // AppBindings
     APP_BINDINGS
 );

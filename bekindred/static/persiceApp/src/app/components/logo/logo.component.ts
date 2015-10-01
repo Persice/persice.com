@@ -10,7 +10,7 @@ let view = require('./logo.html');
 @View({
   template: view
 })
-export class Logo {
+export class LogoComponent {
   constructor() {
 
   }

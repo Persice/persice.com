@@ -2,15 +2,14 @@
 
 import {Component, View, Directive, ElementRef} from 'angular2/angular2';
 
-let view = require('./crowdfilter.html');
+let view = require('./searchresults.html');
 @Component({
-  selector: 'crowd-filter'
+  selector: 'search-results'
 })
 @View({
-  directives: [],
   template: view
 })
-export class CrowdFilter {
+export class SearchResultsComponent {
   constructor() {
 
   }
