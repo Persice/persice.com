@@ -15,6 +15,5 @@ let view = require('./topheader.html');
 })
 export class TopHeaderComponent {
   constructor() {
-
   }
 }
