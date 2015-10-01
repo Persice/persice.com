@@ -371,6 +371,22 @@ class UserResourceShort(ModelResource):
         }
 
 
+class AboutMeResource(ModelResource):
+    class Meta:
+        queryset = FacebookCustomUserActive.objects.all()
+        resource_name = 'me'
+        fields = ['first_name', 'last_name', 'facebook_id', 'image']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+        filtering = {
+            'first_name': ALL
+        }
+
+    def get_object_list(self, request):
+        return super(AboutMeResource, self).get_object_list(request).\
+            filter(pk=request.user.id)
+
+
 class MembershipResource(ModelResource):
     event = fields.ToOneField(EventResource, 'event')
     user = fields.ToOneField(UserResourceShort, 'user')

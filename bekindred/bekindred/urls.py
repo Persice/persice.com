@@ -2,7 +2,8 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from django.contrib import admin
 from events.api.resources import EventResource, MyEventFeedResource, AllEventFeedResource, FriendsEventFeedResource, \
-    MembershipResource, EventFilterStateResource, EventConnections, EventAttendees, MyConnectionEventFeedResource
+    MembershipResource, EventFilterStateResource, EventConnections, EventAttendees, MyConnectionEventFeedResource, \
+    AboutMeResource
 
 from friends.api.resources import FriendsResource, ConnectionsResource, FriendsNewResource, FriendsNewCounterResource
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
@@ -21,6 +22,7 @@ admin.autodiscover()
 v1_api = Api(api_name='v1')
 v1_api.register(SubjectResource())
 v1_api.register(UserResource())
+v1_api.register(AboutMeResource())
 v1_api.register(MatchFilterStateResource())
 v1_api.register(FacebookPhotoResource())
 v1_api.register(GoalResource())

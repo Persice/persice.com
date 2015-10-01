@@ -119,7 +119,8 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 0)
 
     def test_filter_match_exact_age(self):
-        MatchFilterState.objects.create(user=self.user, distance=10000, min_age=26, max_age=26)
+        MatchFilterState.objects.create(user=self.user, distance=10000,
+                                        min_age=26, max_age=26)
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
 
@@ -128,7 +129,7 @@ class TestMatchFeedResource(ResourceTestCase):
 
         self.response = self.login()
         resp = self.api_client.get('/api/v1/matchfeed/', data={'filter': 'true'}, format='json')
-        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
+        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 2)
 
     def test_filter_match_age_full_range(self):
         MatchFilterState.objects.create(user=self.user, distance=10000, min_age=18, max_age=99)
