@@ -5,7 +5,7 @@
  */
 import {Directive, Component, View, ElementRef} from 'angular2/angular2';
 import {RouteConfig, Router} from 'angular2/router';
-import {Http, Headers, HTTP_BINDINGS} from 'angular2/http';
+import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
@@ -22,7 +22,14 @@ import {TopHeaderComponent} from './topheader/topheader.component';
 import {UsersListComponent} from './userslist/userslist.component';
 import {FilterComponent} from './filter/filter.component';
 
+
+import {AuthUser} from '../models/user.model';
 let view = require('./app.html');
+
+
+
+
+
 /*
  * Persice App Component
  * Top Level Component
@@ -32,30 +39,37 @@ let view = require('./app.html');
   viewBindings: [HTTP_BINDINGS]
 })
 @View({
-    directives: [
-      CORE_DIRECTIVES,
-      FORM_DIRECTIVES,
-      ROUTER_DIRECTIVES,
-      LeftNavComponent,
-      TopHeaderComponent,
-      UsersListComponent,
-      FilterComponent
-    ],
+  directives: [
+    CORE_DIRECTIVES,
+    FORM_DIRECTIVES,
+    ROUTER_DIRECTIVES,
+    LeftNavComponent,
+    TopHeaderComponent,
+    UsersListComponent,
+    FilterComponent
+  ],
   styles: [`
   `],
   template: view
 })
 export class AppComponent {
-
+  crowd: Array<any>;
   constructor(public http: Http) {
 
   }
   onInit() {
-    this.http.get('/api/v1/auth/user/?format=json')
+
+
+    this.http.get('/api/v1/matchfeed/?format=json&filter=true')
       .toRx()
       .map(res => res.json())
-      .subscribe(data => console.log(data));
+      .subscribe(data => this.setCrowdList(data.objects));
 
+  }
+
+
+  setCrowdList(data) {
+    this.crowd = data;
   }
 
 
