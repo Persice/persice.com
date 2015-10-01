@@ -375,7 +375,7 @@ class AboutMeResource(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'me'
-        fields = ['first_name', 'last_name', 'facebook_id', 'image']
+        fields = ['id', 'first_name', 'last_name', 'facebook_id', 'image']
         authentication = SessionAuthentication()
         authorization = Authorization()
         filtering = {
