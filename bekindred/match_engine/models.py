@@ -375,12 +375,12 @@ class MatchEngineManager(models.Manager):
         return result
 
 
-
 class AbstractMatchEngine(models.Model):
     objects = MatchEngineManager()
 
     class Meta:
         abstract = True
+
 
 class MatchEngine(AbstractMatchEngine):
     pass
