@@ -10,12 +10,13 @@ Slider directive implementation for AngularJS, without any dependencies.
 - Compatibility with jQuery Lite, ie. with full jQuery ( Thanks Jusas! https://github.com/Jusas)
 
 ## Reporting issues
-Make sure the report is accompanied by a reproducible demo. The ideal demo is created by forking [our standard jsFiddle](http://jsfiddle.net/pq7yr6d6/), adding your own code and stripping it down to an absolute minimum needed to demonstrate the bug.
+Make sure the report is accompanied by a reproducible demo. The ideal demo is created by forking [our standard jsFiddle](http://jsfiddle.net/1ruqgnhk/), adding your own code and stripping it down to an absolute minimum needed to demonstrate the bug.
 
 
 ## Examples
 
-[http://rzajac.github.io/angularjs-slider/](http://rzajac.github.io/angularjs-slider/)
+- **Various examples:** [http://rzajac.github.io/angularjs-slider/](http://rzajac.github.io/angularjs-slider/)
+- **Slider inside Angular UI tabs:** http://jsfiddle.net/7w755fLv/
 
 ### Single slider
 
@@ -126,6 +127,14 @@ $scope.priceSlider = {
 
 > Function to be called when a slider update is ended.
 
+**rz-slider-show-ticks**
+
+> Display a tick for each value.
+
+**rz-slider-show-ticks-value**
+
+> Display a tick for each value and the value of the tick.
+
 ```javascript
 // In your controller
 
@@ -154,7 +163,8 @@ $scope.onSliderChange = function()
     rz-slider-model="priceSlider.min"
     rz-slider-high="priceSlider.max"
     rz-slider-translate="translate"
-    rz-slider-on-change="onSliderChange()"></rzslider>
+    rz-slider-on-change="onSliderChange()"
+    rz-slider-show-ticks="true"></rzslider>
 ```
 
 ## Slider events

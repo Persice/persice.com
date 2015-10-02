@@ -49,6 +49,13 @@ To use the directive, include the angular tooltips's javascript and css files in
 ```
 $ bower install angular-tooltips --save
 ```
+_then load the js files in your html_
+
+###Npm installation
+
+```
+$ npm install angular-tooltips --save
+```
 
 _then load the js files in your html_
 
@@ -115,7 +122,7 @@ using the `tooltip-view=""` attribute
 ```
 ####Tooltip view controller
 You can set a controller for your tooltip view
-using the `tooltip-view=""` togheter with `tooltip-view-ctrl=""`  attribute
+using the `tooltip-view=""` together with `tooltip-view-ctrl=""`  attribute
 
 ```html
 <a href="#" tooltips tooltip-title="tip" tooltip-view="path/to/view.html" tooltip-view-ctrl="MyCtrl">Tooltip me</a>
@@ -221,7 +228,7 @@ angular
   .config(function(tooltipsConfigProvider) {
     tooltipsConfigProvider.options({
       lazy: false,
-      size: large
+      size: 'large'
     })
   });
 ```
