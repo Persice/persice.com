@@ -29,7 +29,6 @@
         "./src/app/components/search/search.component.ts",
         "./src/app/components/searchinput/searchinput.component.ts",
         "./src/app/components/searchresults/searchresults.component.ts",
-        "./src/app/components/topheader/topheader.component.ts",
         "./src/app/components/usercard/usercard.component.ts",
         "./src/app/components/userslist/userslist.component.ts",
         "./src/app/directives/circleprogress.directive.ts",
