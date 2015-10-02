@@ -4,13 +4,13 @@
   </div>
   <div class="tableize__cell tableize__cell--fill page-content">
     <div class="tableize__content">
-      <top-header></top-header>
+      <top-header [image]="image"></top-header>
       <div class="layout layout--flush content">
         <div class="layout__item 1/1 extralarge-and-up-3/4">
           <users-list [users]="crowd"></users-list>
         </div>
         <div class="layout__item extralarge-and-up-1/4 filter-place">
-          <filter></filter>
+          <filter [state]="filters"></filter>
         </div>
       </div>
     </div>

@@ -3,26 +3,25 @@
 import {Component, View, Directive, ElementRef, Pipe, Injectable} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 
+import {DropdownDirective} from '../../directives/dropdown.directive';
 
 let view = require('./profiledropdown.html');
 
+const mediaFolder = '/media/';
 
 @Component({
-  selector: 'profile-dropdown'
+  selector: 'profile-dropdown',
+  properties: ['image']
 })
 @View({
-  template: view
+  template: view,
+  directives: [DropdownDirective]
 })
 export class ProfileDropdownComponent {
   image: string;
   constructor(public http: Http) {
-    this.http.get('/api/v1/me/?format=json')
-      .toRx()
-      .map(res => res.json())
-      .subscribe(data => this.image = data.objects[0].image);
-  }
-
-  inInit() {
+    // fix for undefined image while it loads from server
+    this.image = '';
 
   }
 }

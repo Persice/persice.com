@@ -23,54 +23,75 @@ import {UsersListComponent} from './userslist/userslist.component';
 import {FilterComponent} from './filter/filter.component';
 
 
-import {AuthUser} from '../models/user.model';
+import {AuthUserModel} from '../models/user.model';
+import {FilterModel, InterfaceFilter} from '../models/filter.model';
+
+
 let view = require('./app.html');
-
-
-
-
 
 /*
  * Persice App Component
  * Top Level Component
  */
 @Component({
-  selector: 'persice-app',
-  viewBindings: [HTTP_BINDINGS]
+    selector: 'persice-app',
+    viewBindings: [HTTP_BINDINGS]
 })
 @View({
-  directives: [
-    CORE_DIRECTIVES,
-    FORM_DIRECTIVES,
-    ROUTER_DIRECTIVES,
-    LeftNavComponent,
-    TopHeaderComponent,
-    UsersListComponent,
-    FilterComponent
-  ],
-  styles: [`
-  `],
-  template: view
+    directives: [
+        CORE_DIRECTIVES,
+        FORM_DIRECTIVES,
+        ROUTER_DIRECTIVES,
+        LeftNavComponent,
+        TopHeaderComponent,
+        UsersListComponent,
+        FilterComponent
+    ],
+    styles: [`
+   `],
+    template: view
 })
 export class AppComponent {
-  crowd: Array<any>;
-  constructor(public http: Http) {
+    crowd: Array<any>;
+    user: AuthUserModel;
+    image: string;
+    filters: FilterModel;
+    constructor(public http: Http) {
+        this.image = '';
+    }
+    onInit() {
+        const defaultFilters: InterfaceFilter = {
+            distance: 10000,
+            distance_unit: 'miles',
+            keyword: '',
+            gender: 'aa',
+            min_age: '',
+            max_age: '60',
+            order_criteria: 'match_score'
+        };
 
-  }
-  onInit() {
+        this.filters = new FilterModel(defaultFilters);
+
+        this.http.get('/api/v1/matchfeed/?format=json&filter=true')
+            .toRx()
+            .map(res => res.json())
+            .subscribe(data => this.crowd = data.objects);
+
+        this.http.get('/api/v1/me/?format=json')
+            .toRx()
+            .map(res => res.json())
+            .subscribe(data => this.assignAuthUser(data));
 
 
-    this.http.get('/api/v1/matchfeed/?format=json&filter=true')
-      .toRx()
-      .map(res => res.json())
-      .subscribe(data => this.setCrowdList(data.objects));
 
-  }
+    }
+
+    assignAuthUser(data) {
+        this.user = new AuthUserModel(data.objects[0]);
+        this.image = this.user.info.image;
+    }
 
 
-  setCrowdList(data) {
-    this.crowd = data;
-  }
 
 
 }

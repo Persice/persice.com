@@ -1,42 +1,25 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, View, Directive, ElementRef, Pipe, Injectable} from 'angular2/angular2';
+import {Component, View, Directive} from 'angular2/angular2';
 
-
-// We use the @Pipe decorator to register the name of the pipe
-@Pipe({
-  name: 'gender'
-})
-@Injectable()
-class GenderPipe {
-  transform(value: string, args: any[]) {
-    if (value === 'f') {
-      return 'female';
-    }
-    else {
-      return 'male';
-    }
-
-    return;
-  }
-}
-
-
+import {CircleProgressDirective} from '../../directives/circleprogress.directive';
+import {GenderPipe} from '../../pipes/gender.pipe';
 
 let view = require('./usercard.html');
 
 @Component({
-  properties: ['user'],
-  selector: 'user-card'
+    properties: ['user'],
+    selector: 'user-card'
 })
 @View({
-  pipes: [GenderPipe],
-  template: require('./usercard.html')
+    pipes: [GenderPipe],
+    template: require('./usercard.html'),
+    directives: [CircleProgressDirective]
 
 })
 export class UserCardComponent {
-  user: any;
-  constructor() {
+    user: any;
+    constructor() {
 
-  }
+    }
 }

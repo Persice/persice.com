@@ -4,20 +4,20 @@
 $(document).ready(function() {
   'use strict';
 
-  $('.match-percent').circleProgress({
-    value: 0.75,
-    size: 128,
-    thickness: 2,
-    fill: {
-      color: '#6dcbe8'
-    }
-  });
+  // $('.match-percent').circleProgress({
+  //   value: 0.75,
+  //   size: 128,
+  //   thickness: 2,
+  //   fill: {
+  //     color: '#6dcbe8'
+  //   }
+  // });
 
-  //Filter toggle for small screens
-  $('.js-filter-toggle').on('click', function(e) {
-    e.preventDefault();
-    $('body').toggleClass('filter-is-open');
-  });
+  // //Filter toggle for small screens
+  // $('.js-filter-toggle').on('click', function(e) {
+  //   e.preventDefault();
+  //   $('body').toggleClass('filter-is-open');
+  // });
 
   //Search drop prototype
   $('.search__input').focus(function() {
@@ -36,10 +36,10 @@ $(document).ready(function() {
   //Select replacement
   $('select').minimalect();
 
-  //Profile Drop
-  $('.profile-drop__arrow').click(function() {
-    $('.profile-drop__expand').slideToggle();
-  });
+  // //Profile Drop
+  // $('.profile-drop__arrow').click(function() {
+  //   $('.profile-drop__expand').slideToggle();
+  // });
 
   //Multiple line content ellipsis
   $('.truncate').dotdotdot({

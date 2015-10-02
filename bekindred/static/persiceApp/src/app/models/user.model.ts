@@ -1,21 +1,17 @@
 
-export class AuthUser {
+interface InterfaceAuthUser {
   id: number;
   first_name: string;
   last_name: string;
   image: string;
   facebook_id: string;
+}
+
+export class AuthUserModel {
+  info: InterfaceAuthUser;
   constructor(
-    id: number,
-    first_name: string,
-    last_name: string,
-    image: string,
-    facebook_id: string
+    info: InterfaceAuthUser
    ) {
-    this.id = id;
-    this.first_name = first_name;
-    this.last_name = last_name;
-    this.image = image;
-    this.facebook_id = facebook_id;
+      this.info = info;
   }
 }
