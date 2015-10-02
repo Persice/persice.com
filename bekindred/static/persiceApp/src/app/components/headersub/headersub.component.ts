@@ -6,16 +6,16 @@ import {SearchComponent} from '../search/search.component';
 import {ProfileDropdownComponent} from '../profiledropdown/profiledropdown.component';
 import {ToggleFilterDirective} from '../../directives/togglefilter.directive';
 
-let view = require('./topheader.html');
+let view = require('./headersub.html');
 @Component({
-  selector: 'top-header',
+  selector: 'header-sub',
   properties: ['image']
 })
 @View({
   directives: [SearchComponent, ProfileDropdownComponent, ToggleFilterDirective],
   template: view
 })
-export class TopHeaderComponent {
+export class HeaderSubComponent {
   image: string;
   constructor() {
   }

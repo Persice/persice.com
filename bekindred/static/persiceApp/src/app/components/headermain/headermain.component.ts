@@ -2,17 +2,18 @@
 
 import {Component, View, Directive, ElementRef} from 'angular2/angular2';
 
+import {NavMainComponent} from '../navmain/navmain.component';
 import {LogoComponent} from '../logo/logo.component';
-let view = require('./leftnav.html');
+
+let view = require('./headermain.html');
 @Component({
-  selector: 'left-nav'
+  selector: 'header-main'
 })
 @View({
-  directives: [LogoComponent],
+  directives: [NavMainComponent, LogoComponent],
   template: view
 })
-export class LeftNavComponent {
+export class HeaderMainComponent {
   constructor() {
-
   }
 }
