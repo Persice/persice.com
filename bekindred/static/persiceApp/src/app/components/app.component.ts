@@ -4,46 +4,49 @@
  * Angular 2 decorators and services
  */
 import {Directive, Component, View, ElementRef} from 'angular2/angular2';
-import {RouteConfig, Router} from 'angular2/router';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 /*
  * Components
  */
 
 
+import {HomePageComponent} from './homepage/homepage.component';
+import {CrowdPageComponent} from './crowdpage/crowdpage.component';
+import {MessagePageComponent} from './messagepage/messagepage.component';
+import {ConnectionPageComponent} from './connectionpage/connectionpage.component';
+import {EventsPageComponent} from './eventspage/eventspage.component';
+
+
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
-import {UsersListComponent} from './userslist/userslist.component';
-import {FilterComponent} from './filter/filter.component';
+import {LoadingIndicatorComponent} from './loadingindicator/loadingindicator.component';
+import {AutofocusDirective} from '../directives/autofocus.directive';
 
 
 import {AuthUserModel} from '../models/user.model';
-import {FilterModel, InterfaceFilter} from '../models/filter.model';
 
 
 let view = require('./app.html');
 
-const defaultFilters: InterfaceFilter = {
-  distance: 10000,
-  distance_unit: 'miles',
-  keyword: '',
-  gender: 'm,f',
-  min_age: '25',
-  max_age: '60',
-  order_criteria: 'match_score'
-};
 
 /*
  * Persice App Component
  * Top Level Component
  */
+ @RouteConfig([
+  { path: '/', component: HomePageComponent, as: 'home'},
+  { path: '/crowd', component: CrowdPageComponent, as: 'crowd'},
+  { path: '/message', component: MessagePageComponent, as: 'message'},
+  { path: '/connection', component: ConnectionPageComponent, as: 'connection'},
+  { path: '/events', component: EventsPageComponent, as: 'events'}
+])
 @Component({
   selector: 'persice-app',
   viewBindings: [HTTP_BINDINGS]
@@ -55,30 +58,23 @@ const defaultFilters: InterfaceFilter = {
     ROUTER_DIRECTIVES,
     HeaderMainComponent,
     HeaderSubComponent,
-    UsersListComponent,
-    FilterComponent
+    LoadingIndicatorComponent,
+    AutofocusDirective
   ],
   styles: [`
    `],
   template: view
 })
 export class AppComponent {
-  crowd: Array<any>;
   user: AuthUserModel;
   image: string;
-  filters: FilterModel;
+  loading: boolean;
+
   constructor(public http: Http) {
     this.image = '';
+    // this.loading = true;
   }
   onInit() {
-    // set initial filters for Crowd page
-    this.filters = new FilterModel(defaultFilters);
-
-    // Crowd page load users list
-    this.http.get('/api/v1/matchfeed/?format=json&filter=true')
-      .toRx()
-      .map(res => res.json())
-      .subscribe(data => this.crowd = data.objects);
 
     // Get AuthUser info for the app
     this.http.get('/api/v1/me/?format=json')

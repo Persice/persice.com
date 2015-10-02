@@ -3,12 +3,7 @@
   <div class="page-content">
     <header-sub [image]="image"></header-sub>
     <div class="layout layout--flush content">
-      <div class="layout__item 1/1 extralarge-and-up-3/4">
-        <users-list [users]="crowd"></users-list>
-      </div>
-      <div class="layout__item extralarge-and-up-1/4 filter-place">
-        <filter [state]="filters"></filter>
-      </div>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

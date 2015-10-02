@@ -13,11 +13,39 @@ $(document).ready(function() {
   //   }
   // });
 
+  $('.match-percent-large').circleProgress({
+    value: 0.75,
+    size: 246,
+    thickness: 4,
+    fill: {
+      color: '#6dcbe8'
+    }
+  });
+
   // //Filter toggle for small screens
   // $('.js-filter-toggle').on('click', function(e) {
   //   e.preventDefault();
   //   $('body').toggleClass('filter-is-open');
   // });
+
+  //Sick slider
+  $('.match-profile__avatar').slick({
+    arrows: false,
+    dots: true,
+    appendDots: $('.match-profile__avatar-nav')
+  });
+
+  $('.js-slide-likes').slick({
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1
+  });
+
+  $('.js-slide-mutuals').slick({
+    infinite: true,
+    slidesToShow: 6,
+    slidesToScroll: 1
+  });
 
   //Search drop prototype
   $('.search__input').focus(function() {
