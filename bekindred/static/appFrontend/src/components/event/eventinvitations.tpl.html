@@ -56,21 +56,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="connection in viewevent.connections track by connection.friend_id" ng-class="{'active': connection.selected}" ng-click="viewevent.markSelected($index)">
+                        <tr ng-repeat="connection in viewevent.connections track by connection.friend_id" ng-class="{'active': connection.selected}" ng-click="viewevent.markSelected($index, connection.friend_id)">
                             <td>
                                 <h4 class="ui image header">
-                                <div style="background-image: url('/media/{{::connection.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+                                <div style="background-image: url('/media/{{connection.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
 
                                     <div class="content">
-                                        {{::connection.first_name}}, {{::connection.age}}
+                                     {{connection.first_name}}, {{connection.age}}
                                     </div>
                                 </h4>
                             </td>
                             <td class="desktopview">
-                                <div class="tagline">{{::connection.tagline}}</div>
+                                <div class="tagline">{{connection.tagline}}</div>
                             </td>
-                            <td class="desktopview">{{::connection.common_goals_offers_interests}}&nbsp;</td>
-                            <td class="desktopview">{{::connection.mutual_friends_count}}&nbsp;</td>
+                            <td class="desktopview">{{connection.common_goals_offers_interests}}&nbsp;</td>
+                            <td class="desktopview">{{connection.mutual_friends_count}}&nbsp;</td>
                             <td class="selected"><i ng-if="connection.selected" class="check fade icon big circle invite outline" ng-class="{'green': !connection.is_invited && connection.selected}"></i></td>
                         </tr>
                     </tbody>
@@ -99,19 +99,19 @@
                         <tr ng-repeat="attendee in viewevent.invitedPeople track by attendee.id">
                             <td>
                                 <h4 class="ui image header">
-                                    <div style="background-image: url('/media/{{::attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
+                                    <div style="background-image: url('/media/{{attendee.image}}'); background-size: cover;background-repeat: no-repeat; background-position: 50% 50%; height: 2.5em;" class="ui circular image"></div>
 
                                     <div class="content">
-                                        {{::attendee.first_name}}, {{::attendee.age}}
+                                        {{attendee.first_name}}, {{attendee.age}}
                                     </div>
                                 </h4>
                             </td>
                             <td class="desktopview">
-                                <div class="tagline">{{::attendee.tagline}}</div>
+                                <div class="tagline">{{attendee.tagline}}</div>
                             </td>
-                            <td class="desktopview">{{::attendee.common_goals_offers_interests}}&nbsp;</td>
-                            <td class="desktopview">{{::attendee.mutual_friends_count}}&nbsp;</td>
-                            <td>{{::attendee.rsvp | uppercase}}</td>
+                            <td class="desktopview">{{attendee.common_goals_offers_interests}}&nbsp;</td>
+                            <td class="desktopview">{{attendee.mutual_friends_count}}&nbsp;</td>
+                            <td>{{attendee.rsvp | uppercase}}</td>
                             <td class="selected"><i ng-click="viewevent.removeInvite($index)" class="remove fade icon big circle outline red"></i></td>
                         </tr>
                     </tbody>

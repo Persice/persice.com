@@ -208,18 +208,18 @@
 
 
 
-    function markSelected(index) {
+    function markSelected(index, id) {
       if (!vm.connections[index].is_invited) {
         vm.connections[index].selected = !vm.connections[index].selected;
 
-        if (vm.connections[index].selected) {
-          vm.counterNewInvites++;
-          vm.selectedPeople.push(vm.connections[index].friend_id);
-        } else {
-          var idx = lodash.findIndex(vm.selectedPeople, vm.connections[index].friend_id);
-          vm.selectedPeople.splice(idx, 1);
-          vm.counterNewInvites--;
+        if (vm.connections[index].selected && vm.selectedPeople.indexOf(id) === -1) {
+          vm.selectedPeople.push(id);
         }
+        if (!vm.connections[index].selected && vm.selectedPeople.indexOf(id) !== -1) {
+          vm.selectedPeople = lodash.without(vm.selectedPeople, id);
+
+        }
+        vm.counterNewInvites = vm.selectedPeople.length;
       }
 
     }
