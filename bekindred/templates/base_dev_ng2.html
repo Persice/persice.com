@@ -10,6 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
   <title>Persice</title>
   <!-- base url -->
+  <!-- <base href="/"> -->
   <!-- Prefetch DNS for external assets (Twitter widgets etc). -->
   <link rel="dns-prefetch" href="//ajax.googleapis.com">
   <link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -20,23 +21,32 @@
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/ion.rangeSlider.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/ion.rangeSlider.skinNice.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/screen.css">
+  <link rel="stylesheet" href="/static/persiceApp/src/app/components/app.css">
 
   <meta name="description" content="">
   <meta name="author" content="">
 </head>
 
 <body>
-  <persice-app>loading...</persice-app>
+  <persice-app (loading)="loading = $event">
+    <loading-indicator [(status)]="loading"></loading-indicator>
+  </persice-app>
 
   <!-- development mode only -->
  <!--  <script src="//localhost:8080/__build__/common.js"></script>
   <script src="//localhost:8080/__build__/angular2.js"></script>
-  <script src="//localhost:8080/__build__/app.js"></script> -->
+  <script src="//localhost:8080/__build__/app.js"></script>
+ -->
+  <!-- staging mode only -->
+ <!--  <script src="/static/persiceApp/__build__/common.js"></script>
+  <script src="/static/persiceApp/__build__/angular2.js"></script>
+  <script src="/static/persiceApp/__build__/app.js"></script> -->
 
-   <!-- staging mode only -->
+
+   <!-- production mode only -->
   <script src="/static/persiceApp/__build__/common.js"></script>
   <script src="/static/persiceApp/__build__/angular2.js"></script>
-  <script src="/static/persiceApp/__build__/app.js"></script>
+  <script src="/static/persiceApp/__build__/app.73d4fb842201f68d4218.min.js"></script>
 
   <!-- Theme scripts -->
   <script src="/static/persiceApp/src/public/lib/jquery.min.js"></script>
