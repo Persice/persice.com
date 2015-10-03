@@ -1,11 +1,13 @@
 import string
 from django.db import models
 from django_facebook.models import FacebookLike, FacebookCustomUser
-from djorm_pgfulltext.fields import VectorField
-from djorm_pgfulltext.models import SearchManager
 import itertools
+from haystack.inputs import AutoQuery, Raw
+from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Search, Q
 from goals.models import Goal, Subject, Offer
 from interests.models import Interest, InterestSubject
+from members.models import FacebookCustomUserActive, FacebookLikeProxy
 
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
@@ -375,12 +377,45 @@ class MatchEngineManager(models.Manager):
         return result
 
 
+class ElasticSearchMatchEngineManager(models.Manager):
+    @staticmethod
+    def match_goals(user_id, friends):
+        user = FacebookCustomUserActive.objects.get(pk=user_id)
+        goals = user.goal_set.all()
+        offers = user.offer_set.all()
+        interests = user.interest_set.all()
+        likes = FacebookLikeProxy.objects.filter(user_id=user.id)
+        words = set()
+        for goal in itertools.chain(goals, offers, interests, likes):
+            words |= set(unicode(goal).
+                         translate(remove_punctuation_map).split())
+
+        query = ' '.join(words)
+        fields = ["goals", "offers", "interests", "interests"]
+        client = Elasticsearch()
+        s = Search(using=client, index="test_haystack") \
+            .query(Q("multi_match", query=query,
+                     fields=fields)) \
+            .highlight(*fields)
+        print s.to_dict()
+        response = s.execute()
+
+        for hit in response:
+            print hit.meta.score
+        return 1
+
+
 class AbstractMatchEngine(models.Model):
     objects = MatchEngineManager()
+    elastic_objects = ElasticSearchMatchEngineManager()
 
     class Meta:
         abstract = True
 
 
 class MatchEngine(AbstractMatchEngine):
+    pass
+
+
+class ElasticSearchMatchEngine(AbstractMatchEngine):
     pass

@@ -26,6 +26,17 @@ INSTALLED_APPS += (
     'tastypie_swagger',
 )
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'test_haystack',
+    },
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+
 TASTYPIE_SWAGGER_API_MODULE = 'bekindred.urls.v1_api'
 
 FIXTURE_DIRS = (
@@ -121,6 +132,11 @@ LOGGING = {
             },
         },
     'loggers': {
+        'haystack': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'django.db.backends': {
             'level': 'INFO',
             'handlers': ['console'],
