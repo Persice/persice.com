@@ -64,6 +64,9 @@ class FacebookLikeProxy(FacebookLike):
     class Meta:
         proxy = True
 
+    def __unicode__(self):
+        return self.name
+
     objects = FacebookLikeProxyManager()
 
 

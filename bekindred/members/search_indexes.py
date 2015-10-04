@@ -1,4 +1,4 @@
-
+from django_facebook.models import FacebookLike
 from haystack import indexes
 from .models import FacebookCustomUserActive
 
@@ -10,6 +10,7 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
     goals = indexes.MultiValueField()
     offers = indexes.MultiValueField()
     interests = indexes.MultiValueField()
+    likes = indexes.MultiValueField()
 
     def get_model(self):
         return FacebookCustomUserActive
@@ -32,3 +33,7 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
         # Since we're using a M2M relationship with a complex lookup,
         # we can prepare the list here.
         return [unicode(interest) for interest in obj.interest_set.all()]
+
+    def prepare_likes(self, obj):
+        return [unicode(like.name) for like in
+                FacebookLike.objects.filter(user_id=obj.id)]
