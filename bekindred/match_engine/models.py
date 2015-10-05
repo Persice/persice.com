@@ -380,6 +380,9 @@ class MatchEngineManager(models.Manager):
 class StopWords(models.Model):
     word = models.CharField(max_length=100, unique=True)
 
+    def __unicode__(self):
+        return self.word
+
 
 class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
