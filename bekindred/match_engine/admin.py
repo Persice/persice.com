@@ -1,3 +1,8 @@
-from django.contrib import admin
+from import_export import resources
 
-# Register your models here.
+from match_engine.models import StopWords
+
+
+class StopWordsResource(resources.ModelResource):
+    class Meta:
+        model = StopWords
