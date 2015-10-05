@@ -19,6 +19,8 @@ class BaseTestCase(TestCase):
 
 
 class TestInterestManager(BaseTestCase):
+    fixtures = ['initial_data.json']
+
     def setUp(self):
         haystack.connections.reload('default')
         self.user = FacebookCustomUser.objects.\
@@ -41,11 +43,9 @@ class TestInterestManager(BaseTestCase):
     def tearDown(self):
         haystack.connections['default'].get_backend().clear()
 
-    def test_match_goals(self):
+    def test_simple_match_goals(self):
         Goal.objects.create(user=self.user, goal=self.subject)
-        Goal.objects.create(user=self.user, goal=self.subject2)
-        Offer.objects.create(user=self.user1, offer=self.subject5)
-        Offer.objects.create(user=self.user1, offer=self.subject6)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
         update_index.Command().handle(interactive=False)
         match_users = ElasticSearchMatchEngine.\
             elastic_objects.match_goals(user_id=self.user.id, friends=[])
