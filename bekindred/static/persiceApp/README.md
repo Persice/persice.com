@@ -6,8 +6,9 @@ Angular 2.0 Persice App using Typescript as a ECMAScript 6 standard.
 * Angular 2.0
 * TypeScript
 * ECMAScript 6 Standard
-* Traceur for ES6 features support in today's browsers
 * SystemJS module loader
+* Testing Angular 2 code with Jasmine and Karma
+* end-to-end Angular 2 code using Protractor
 
 # Getting Started
 ## Dependencies
@@ -30,25 +31,47 @@ cd src
 tsd install angular2 es6-promise rx rx-lite
 ```
 
-Build
+Build Development
 ```
-./node_modules/.bin/tsc
+npm run build:dev
+
+```
+
+Build Production
+```
+npm run build:prod
 
 ```
 
 Watch
 ```
-./node_modules/.bin/tsc --watch -m commonjs -t es5 --experimentalDecorators --emitDecoratorMetadata src/public/app.ts
-
+npm run watch # or webpack --watch
 ```
 
-Run local HTTP server:
+Run local Webpack dev server:
 ```
-  ./node_modules/http-server/bin/http-server src/public/ -p 8080 -a localhost
+  npm run server
 ```
 
 And visit [http://localhost:8080](http://localhost:8080)
 
+# Testing
+
+### run tests
+```bash
+npm run test  # or karma start
+```
+
+### run webdriver (for end-to-end)
+```bash
+npm run webdriver-start  # or webdriver-manager start
+```
+
+### run end-to-end tests
+```bash
+# make sure you have webdriver running and a sever for the client app
+npm run e2e  # or protractor
+```
 
 # Angular 2.0 API
 reference: https://angular.io/docs/js/latest/api/
