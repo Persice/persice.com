@@ -21,7 +21,6 @@ export class FilterComponent {
   constructor(public http: Http) {
     console.log('Filter Component');
     this.http.get('/api/v1/filter/state/?format=json')
-      .toRx()
       .map(res => res.json())
       .subscribe(data => this.assignCrowdFilter(data));
 

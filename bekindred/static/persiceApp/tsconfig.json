@@ -1,5 +1,5 @@
 {
-    "version": "1.6.2",
+    "version": "1.5.0",
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
@@ -48,13 +48,14 @@
         "./src/bindings/location_bindings.ts",
         "./src/typings/_custom.d.ts",
         "./src/typings/browser.d.ts",
-        "./src/typings/ng2.d.ts",
         "./src/typings/persice.d.ts",
         "./src/typings/webpack.d.ts",
-        "./typings/es6-promise/es6-promise.d.ts",
-        "./typings/jquery/jquery.d.ts",
-        "./typings/rx/rx-lite.d.ts",
-        "./typings/rx/rx.d.ts",
-        "./typings/tsd.d.ts"
+        "./test/app/app.spec.ts",
+        "./tsd_typings/angular-protractor/angular-protractor.d.ts",
+        "./tsd_typings/jquery/jquery.d.ts",
+        "./tsd_typings/rx/rx-lite.d.ts",
+        "./tsd_typings/rx/rx.d.ts",
+        "./tsd_typings/selenium-webdriver/selenium-webdriver.d.ts",
+        "./tsd_typings/tsd.d.ts"
     ]
 }

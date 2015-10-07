@@ -8,12 +8,13 @@ import {bind, bootstrap} from 'angular2/angular2';
  * Common Injectables
  * our custom helper injectables to configure our app differently using the dependency injection system
  */
- import {
-   JIT_CHANGEDETECTION_BINDINGS,
-   DYNAMIC_CHANGEDETECTION_BINDINGS,
-   PREGENERATED_CHANGEDETECTION_BINDINGS,
-   BEST_CHANGEDETECTION_BINDINGS
- } from '../bindings/change_detection_bindings';
+ // import {
+ //   JIT_CHANGEDETECTION_BINDINGS,
+ //   DYNAMIC_CHANGEDETECTION_BINDINGS,
+ //   PREGENERATED_CHANGEDETECTION_BINDINGS,
+ //   BEST_CHANGEDETECTION_BINDINGS
+ // } from '../bindings/change_detection_bindings';
+
  import {
    PATH_LOCATION_BINDINGS,
    HASH_LOCATION_BINDINGS
@@ -24,7 +25,12 @@ import {bind, bootstrap} from 'angular2/angular2';
  */
  import {FORM_BINDINGS} from 'angular2/angular2';
  //TODO add ROUTER_PRIMARY_COMPONENT
- import {ROUTER_BINDINGS, HashLocationStrategy, LocationStrategy} from 'angular2/router';
+ import {
+   ROUTER_BINDINGS,
+   ROUTER_PRIMARY_COMPONENT,
+   HashLocationStrategy,
+   LocationStrategy
+ } from 'angular2/router';
  import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
@@ -68,8 +74,7 @@ import {bind, bootstrap} from 'angular2/angular2';
     const APP_BINDINGS = [
     UNIVERSAL_BINDINGS,
     PLATFORM_BINDINGS,
-    // TODO add after upgrade to angular 2 0.38
-    // bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent)
+    bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent)
 
     ];
 
@@ -92,4 +97,3 @@ import {bind, bootstrap} from 'angular2/angular2';
        );
    });
  }
-

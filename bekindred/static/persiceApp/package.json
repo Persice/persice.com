@@ -25,8 +25,8 @@
     "protractor": "protractor",
     "e2e": "npm run protractor",
     "test": "karma start",
-    "remove-tsd-loader-typings": "rm -rf node_modules/typescript-simple-loader/typescript-simple-loader.d.ts",
-    "tsd-update": "npm run remove-tsd-loader-typings && tsd reinstall --overwrite",
+    "tsd-update": "tsd reinstall --overwrite",
+    "docs": "typedoc  --options typedoc.json  src/**/*.ts",
     "postinstall": "npm run tsd-update && tsd install && tsd link",
     "prestart": "npm install",
     "start": "npm run server"
@@ -39,20 +39,19 @@
   },
   "homepage": "https://persice.com",
   "dependencies": {
-    "angular2": "2.0.0-alpha.37",
+    "@reactivex/rxjs": "0.0.0-prealpha.3",
+    "angular2": "2.0.0-alpha.39",
     "reflect-metadata": "^0.1.1",
-    "rx": "^2.5.3",
-    "zone.js": "^0.5.4"
+    "zone.js": "^0.5.7"
   },
   "devDependencies": {
-    "css-loader": "^0.19.0",
-    "exports-loader": "^0.6.2",
-    "expose-loader": "^0.7.0",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "file-loader": "^0.8.1",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
     "gulp-util": "^3.0.6",
+    "css-loader": "^0.19.0",
+    "exports-loader": "^0.6.2",
+    "expose-loader": "^0.7.0",
+    "file-loader": "^0.8.1",
     "imports-loader": "^0.6.3",
     "json-loader": "^0.5.1",
     "karma": "^0.13.3",
@@ -66,18 +65,14 @@
     "phantomjs": "^1.9.17",
     "protractor": "^2.1.0",
     "raw-loader": "^0.5.1",
-    "require-dir": "^0.3.0",
     "rimraf": "^2.4.3",
     "style-loader": "^0.12.2",
-    "traceur-loader": "0.6.3",
+    "ts-loader": "^0.5.6",
     "tsd": "^0.6.4",
-    "tslint-loader": "^1.0.2",
+    "typedoc": "^0.3.11",
     "typescript": "^1.6.2",
-    "typescript-simple-loader": "^0.3.7",
     "url-loader": "^0.5.5",
     "webpack": "^1.12.2",
-    "webpack-bundle-tracker": "0.0.8",
-    "webpack-dev-server": "^1.12.0",
-    "webpack-path-rewriter": "^1.1.2"
+    "webpack-dev-server": "^1.12.0"
   }
 }

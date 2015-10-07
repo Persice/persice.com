@@ -16,6 +16,8 @@ What is needed to run this app:
 * `node`
 * `npm`
 * `gulp`
+* `npm install phantomjs --global` #for testing end-to-end
+
 
 
 

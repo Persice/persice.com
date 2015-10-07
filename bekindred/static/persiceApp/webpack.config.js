@@ -72,14 +72,14 @@ module.exports = {
   entry: {
     'angular2': [
       // Angular 2 Deps
-      'rx',
+      '@reactivex/rxjs',
       'zone.js',
       'reflect-metadata',
       // to ensure these modules are grouped together in one file
       'angular2/angular2',
       'angular2/core',
       'angular2/router',
-      'angular2/http',
+      'angular2/http'
     ],
     'app': [
       // App
@@ -106,6 +106,7 @@ module.exports = {
     root: __dirname,
     extensions: ['', '.ts', '.js', '.json'],
     alias: {
+      'rx': '@reactivex/rxjs'
       // 'app': 'src/app',
       // 'common': 'src/common',
       // 'bindings': 'src/bindings',
@@ -156,13 +157,10 @@ module.exports = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'typescript-simple',
+        loader: 'ts',
         query: {
           'ignoreWarnings': [
-            2300, // 2300 -> Duplicate identifier
             2309, // 2309 -> An export assignment cannot be used in a module with other exported elements.
-            2346, // 2346 -> Supplied parameters do not match any signature of call target.
-            2432 // 2432 -> In an enum with multiple declarations, only one declaration can omit an initializer for its first enum element.
           ]
         },
         exclude: [
@@ -179,10 +177,10 @@ module.exports = {
       /rtts_assert\/src\/rtts_assert/,
       /reflect-metadata/
     ],
-    preLoaders: [{
-      test: /\.ts$/,
-      loader: "tslint"
-    }]
+    // preLoaders: [{
+    //   test: /\.ts$/,
+    //   loader: "tslint"
+    // }]
   },
   plugins: env({
     'production': [

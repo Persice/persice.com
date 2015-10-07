@@ -32,7 +32,6 @@ import {AutofocusDirective} from '../directives/autofocus.directive';
 
 import {AuthUserModel} from '../models/user.model';
 
-
 let view = require('./app.html');
 
 
@@ -41,11 +40,11 @@ let view = require('./app.html');
  * Top Level Component
  */
  @RouteConfig([
-  { path: '/', component: HomePageComponent, as: 'home'},
-  { path: '/crowd', component: CrowdPageComponent, as: 'crowd'},
-  { path: '/message', component: MessagePageComponent, as: 'message'},
-  { path: '/connection', component: ConnectionPageComponent, as: 'connection'},
-  { path: '/events', component: EventsPageComponent, as: 'events'}
+  { path: '/', component: HomePageComponent, as: 'Home'},
+  { path: '/crowd', component: CrowdPageComponent, as: 'Crowd'},
+  { path: '/message', component: MessagePageComponent, as: 'Message'},
+  { path: '/connection', component: ConnectionPageComponent, as: 'Connection'},
+  { path: '/events', component: EventsPageComponent, as: 'Events'}
 ])
 @Component({
   selector: 'persice-app',
@@ -78,7 +77,6 @@ export class AppComponent {
 
     // Get AuthUser info for the app
     this.http.get('/api/v1/me/?format=json')
-      .toRx()
       .map(res => res.json())
       .subscribe(data => this.assignAuthUser(data));
   }
