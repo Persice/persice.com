@@ -77,12 +77,9 @@ module.exports = {
       'reflect-metadata',
       // to ensure these modules are grouped together in one file
       'angular2/angular2',
-      'angular2/forms',
       'angular2/core',
       'angular2/router',
       'angular2/http',
-      'angular2/debug',
-      'angular2/di'
     ],
     'app': [
       // App

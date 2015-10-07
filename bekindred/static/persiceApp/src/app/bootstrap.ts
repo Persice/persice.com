@@ -23,8 +23,8 @@ import {bind, bootstrap} from 'angular2/angular2';
  * Angular Modules
  */
  import {FORM_BINDINGS} from 'angular2/angular2';
+ //TODO add ROUTER_PRIMARY_COMPONENT
  import {ROUTER_BINDINGS, HashLocationStrategy, LocationStrategy} from 'angular2/router';
- import {ELEMENT_PROBE_BINDINGS} from 'angular2/debug';
  import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
@@ -45,11 +45,10 @@ import {bind, bootstrap} from 'angular2/angular2';
  * Universal injectables
  */
  const UNIVERSAL_BINDINGS = [
-// angular's http/form/router services/bindings
-ROUTER_BINDINGS,
-ELEMENT_PROBE_BINDINGS,
-FORM_BINDINGS,
-HTTP_BINDINGS,
+    // angular's http/form/router services/bindings
+    ROUTER_BINDINGS,
+    FORM_BINDINGS,
+    HTTP_BINDINGS,
     // bind(LocationStrategy).toClass(HashLocationStrategy)
     // our collection of services from /services
     // APP_SERVICES_BINDINGS
@@ -68,7 +67,10 @@ HTTP_BINDINGS,
 
     const APP_BINDINGS = [
     UNIVERSAL_BINDINGS,
-    PLATFORM_BINDINGS
+    PLATFORM_BINDINGS,
+    // TODO add after upgrade to angular 2 0.38
+    // bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent)
+
     ];
 
 /*
@@ -82,7 +84,7 @@ HTTP_BINDINGS,
     APP_BINDINGS
     );
 
-if (module.hot) {
+ if (module.hot) {
    module.hot.accept(function() {
      bootstrap(
        AppComponent,

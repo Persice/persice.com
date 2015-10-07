@@ -27,6 +27,7 @@
         "./src/app/components/headermain/headermain.component.ts",
         "./src/app/components/headersub/headersub.component.ts",
         "./src/app/components/homepage/homepage.component.ts",
+        "./src/app/components/loadingindicator/loadingindicator.component.ts",
         "./src/app/components/logo/logo.component.ts",
         "./src/app/components/messagepage/messagepage.component.ts",
         "./src/app/components/navmain/navmain.component.ts",
@@ -36,6 +37,7 @@
         "./src/app/components/searchresults/searchresults.component.ts",
         "./src/app/components/usercard/usercard.component.ts",
         "./src/app/components/userslist/userslist.component.ts",
+        "./src/app/directives/autofocus.directive.ts",
         "./src/app/directives/circleprogress.directive.ts",
         "./src/app/directives/dropdown.directive.ts",
         "./src/app/directives/togglefilter.directive.ts",
@@ -49,7 +51,10 @@
         "./src/typings/ng2.d.ts",
         "./src/typings/persice.d.ts",
         "./src/typings/webpack.d.ts",
+        "./typings/es6-promise/es6-promise.d.ts",
         "./typings/jquery/jquery.d.ts",
+        "./typings/rx/rx-lite.d.ts",
+        "./typings/rx/rx.d.ts",
         "./typings/tsd.d.ts"
     ]
 }
