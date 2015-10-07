@@ -4,7 +4,8 @@ from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data
 from interests.models import Interest
-from match_engine.models import MatchEngine
+from match_engine.models import MatchEngine, ElasticSearchMatchEngineManager, \
+    ElasticSearchMatchEngine
 from members.models import FacebookCustomUserActive
 
 
@@ -91,3 +92,64 @@ class MatchedResults(object):
 
     def add(self, item):
         self.items.append(item)
+
+
+class MatchUser(object):
+    def __init__(self, current_user_id, user_object):
+        self.user = self.get_user_info(user_object)
+        self.goals = self.highlight_goals(user_object)
+        self.offers = user_object['_source']['offers']
+        self.interests = user_object['_source']['interests']
+        self.likes = user_object['_source']['likes']
+        self.id = self.user.id
+        self.user_id = self.user.id
+        self.first_name = self.user.first_name
+        self.last_name = self.user.last_name
+        self.facebook_id = self.user.facebook_id
+        self.image = self.user.image
+        self.age = calculate_age(self.user.date_of_birth)
+        self.gender = self.user.gender or 'm,f'
+        self.about = self.user.about_me
+        self.photos = []
+        self.twitter_provider, self.linkedin_provider, self.twitter_username = \
+            social_extra_data(self.user.id)
+        self.distance = calculate_distance(current_user_id, self.user_id)
+        # TODO
+        self.score = self.match_score()
+        self.friends_score = self.match_score()
+
+    def get_user_info(self, user_object):
+        user_id = int(user_object['_id'].split('.')[-1])
+        return FacebookCustomUserActive.objects.get(pk=user_id)
+
+    def match_score(self):
+        return 0
+
+    def friends_score(self):
+        return 0
+
+    def highlight_goals(self, user_object):
+        """
+        Match highlighted goals to list of all user goals
+        """
+        result = {}
+        goals = user_object['_source']['goals']
+        for goal in goals:
+            result[goal.lower()] = 0
+
+        h_goals = user_object['highlight']['goals']
+        for h in h_goals:
+            new_h = h.replace('<em>', '').replace('</em>', '')
+            result[new_h] = 1
+        return [result]
+
+
+class MatchQuerySet(object):
+    @staticmethod
+    def all(current_user_id):
+        hits = ElasticSearchMatchEngine.elastic_objects.match(current_user_id)
+        users = []
+        for hit in hits:
+            users.append(MatchUser(current_user_id, hit))
+        return users
+

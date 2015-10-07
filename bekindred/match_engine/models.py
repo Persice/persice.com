@@ -386,7 +386,7 @@ class StopWords(models.Model):
 
 class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
-    def match_goals(user_id, friends):
+    def match(user_id, friends=()):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         goals = user.goal_set.all()
         offers = user.offer_set.all()

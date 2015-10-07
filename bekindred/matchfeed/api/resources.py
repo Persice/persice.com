@@ -12,7 +12,7 @@ from goals.models import MatchFilterState, Subject, Goal
 from interests.models import InterestSubject, Interest
 from match_engine.models import ElasticSearchMatchEngine
 from matchfeed.models import MatchFeedManager
-from matchfeed.utils import MatchedResults, order_by
+from matchfeed.utils import MatchedResults, order_by, MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
@@ -210,10 +210,8 @@ class MatchedFeedResource2(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        match_users = ElasticSearchMatchEngine. \
-            elastic_objects.match_goals(user_id=request.user.id, friends=[])
-
-        pass
+        match_users = MatchQuerySet.all(request.user.id)
+        return match_users
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
