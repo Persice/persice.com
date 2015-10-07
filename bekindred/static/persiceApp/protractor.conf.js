@@ -14,10 +14,14 @@ exports.config = {
   },
 
   capabilities: {
-    'browserName': 'chrome',
-    'chromeOptions': {
-      'args': ['show-fps-counter=true']
-    }
+    // 'browserName': 'chrome',
+    // 'chromeOptions': {
+    //   'args': ['show-fps-counter=true']
+    // },
+    //phantomjs
+    'browserName': 'phantomjs',
+    'phantomjs.binary.path': require('phantomjs').path,
+    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
   },
 
   seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.47.1.jar',
