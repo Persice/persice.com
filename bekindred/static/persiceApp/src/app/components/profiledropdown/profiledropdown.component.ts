@@ -11,7 +11,7 @@ const mediaFolder = '/media/';
 
 @Component({
   selector: 'profile-dropdown',
-  properties: ['image']
+  inputs: ['image']
 })
 @View({
   template: view,

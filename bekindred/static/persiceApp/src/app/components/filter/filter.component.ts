@@ -10,7 +10,7 @@ let view = require('./filter.html');
 
 @Component({
   selector: 'filter',
-  properties: ['state']
+  inputs: ['state']
 })
 @View({
   directives: [],

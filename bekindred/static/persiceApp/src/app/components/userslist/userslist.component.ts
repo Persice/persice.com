@@ -7,7 +7,7 @@ import {UserCardComponent} from '../usercard/usercard.component';
 let view = require('./userslist.html');
 
 @Component({
-  properties: ['users'],
+  inputs: ['users'],
   selector: 'users-list'
 })
 @View({
