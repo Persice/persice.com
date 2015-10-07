@@ -94,6 +94,28 @@ $(document).ready(function() {
     // jscs:enable
     keyboard: true
   });
+
+  //INIT IMGLIQUID used for images streching
+  $('.js-image-liquid').imgLiquid({
+    fill: true,
+    horizontalAlign: 'center',
+    verticalAlign: 'center'
+  });
+
+  //TABS
+  $('.event-photo-map__switch li').click(function() {
+    var tabId = $(this).attr('data-tab');
+    $(this)
+      .closest('.event-photo-map')
+      .find('.event-photo-map__switch li')
+      .removeClass('is-current');
+    $(this)
+      .closest('.event-photo-map')
+      .find('.tab-content')
+      .removeClass('is-current');
+    $(this).addClass('is-current');
+    $('#' + tabId).addClass('is-current');
+  });
 });
 
 //WINDOW ONLOAD
