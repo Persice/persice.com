@@ -20,7 +20,7 @@ class BaseTestCase(TestCase):
         call_command('clear_index', interactive=False, verbosity=0)
 
 
-class TestInterestManager(BaseTestCase):
+class TestMatchQuerySet(BaseTestCase):
     fixtures = ['initial_data.json']
 
     def setUp(self):
@@ -64,7 +64,7 @@ class TestInterestManager(BaseTestCase):
         match_users = ElasticSearchMatchEngine.\
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
-                         u'members.facebookcustomuseractive.2')
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
                          [u'teach <em>django</em>'])
 
@@ -75,7 +75,7 @@ class TestInterestManager(BaseTestCase):
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
-                         u'members.facebookcustomuseractive.2')
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['offers'],
                          [u'teach <em>python</em>'])
 
@@ -86,7 +86,7 @@ class TestInterestManager(BaseTestCase):
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
-                         u'members.facebookcustomuseractive.2')
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['interests'],
                          [u'learn <em>django</em>'])
 
@@ -99,7 +99,7 @@ class TestInterestManager(BaseTestCase):
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
-                         u'members.facebookcustomuseractive.2')
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['likes'],
                          [u'teach <em>python</em>'])
 
@@ -112,7 +112,7 @@ class TestInterestManager(BaseTestCase):
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
-                         u'members.facebookcustomuseractive.2')
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['offers'],
                          [u'teach <em>django</em>', u'teach <em>python</em>'])
 
@@ -125,7 +125,7 @@ class TestInterestManager(BaseTestCase):
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
-                         u'members.facebookcustomuseractive.2')
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['_source']['offers'],
                          [u'teach django', u'teach erlang'])
         self.assertEqual(match_users[0]['highlight']['offers'],
@@ -139,3 +139,23 @@ class TestInterestManager(BaseTestCase):
         self.assertEqual(len(users), 1)
         self.assertEqual(users[0].first_name, 'Sasa')
 
+    def test_highlight_simple_match_goal_query_set(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        update_index.Command().handle(interactive=False)
+        users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(users[0].goals, [{u'teach django': 1}])
+
+    def test_highlight_simple_match_offer_query_set(self):
+        Offer.objects.create(user=self.user, offer=self.subject)
+        Offer.objects.create(user=self.user1, offer=self.subject5)
+        update_index.Command().handle(interactive=False)
+        users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(users[0].offers, [{u'teach django': 1}])
+
+    def test_highlight_simple_match_interest_query_set(self):
+        Interest.objects.create(user=self.user, interest=self.i_subject)
+        Interest.objects.create(user=self.user1, interest=self.i_subject1)
+        update_index.Command().handle(interactive=False)
+        users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(users[0].interests, [{u'learn django': 1}])

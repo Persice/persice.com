@@ -97,10 +97,10 @@ class MatchedResults(object):
 class MatchUser(object):
     def __init__(self, current_user_id, user_object):
         self.user = self.get_user_info(user_object)
-        self.goals = self.highlight_goals(user_object)
-        self.offers = user_object['_source']['offers']
-        self.interests = user_object['_source']['interests']
-        self.likes = user_object['_source']['likes']
+        self.goals = self.highlight(user_object, 'goals')
+        self.offers = self.highlight(user_object, 'offers')
+        self.interests = self.highlight(user_object, 'interests')
+        self.likes = self.highlight(user_object, 'likes')
         self.id = self.user.id
         self.user_id = self.user.id
         self.first_name = self.user.first_name
@@ -128,19 +128,22 @@ class MatchUser(object):
     def friends_score(self):
         return 0
 
-    def highlight_goals(self, user_object):
+    def highlight(self, user_object, target='goals'):
         """
         Match highlighted goals to list of all user goals
         """
         result = {}
-        goals = user_object['_source']['goals']
-        for goal in goals:
-            result[goal.lower()] = 0
+        objects = user_object['_source'].get(target)
+        for obj in objects:
+            result[obj.lower()] = 0
+        try:
+            h_objects = user_object['highlight'].get(target, [])
+            for h in h_objects:
+                new_h = h.replace('<em>', '').replace('</em>', '')
+                result[new_h] = 1
+        except KeyError as er:
+            print er
 
-        h_goals = user_object['highlight']['goals']
-        for h in h_goals:
-            new_h = h.replace('<em>', '').replace('</em>', '')
-            result[new_h] = 1
         return [result]
 
 
