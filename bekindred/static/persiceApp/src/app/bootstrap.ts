@@ -24,7 +24,6 @@ import {bind, bootstrap} from 'angular2/angular2';
  * Angular Modules
  */
  import {FORM_BINDINGS} from 'angular2/angular2';
- //TODO add ROUTER_PRIMARY_COMPONENT
  import {
    ROUTER_BINDINGS,
    ROUTER_PRIMARY_COMPONENT,
@@ -37,7 +36,7 @@ import {bind, bootstrap} from 'angular2/angular2';
  * App Services
  * our collection of injectables services
  */
-// import {APP_SERVICES_BINDINGS} from './services/services';
+import {APP_SERVICES_BINDINGS} from './services/services';
 
 
 /*
@@ -55,9 +54,8 @@ import {bind, bootstrap} from 'angular2/angular2';
     ROUTER_BINDINGS,
     FORM_BINDINGS,
     HTTP_BINDINGS,
-    // bind(LocationStrategy).toClass(HashLocationStrategy)
     // our collection of services from /services
-    // APP_SERVICES_BINDINGS
+    APP_SERVICES_BINDINGS
     ];
 
 /*

@@ -4,10 +4,11 @@ import {bind, Inject, Injectable} from 'angular2/angular2';
 
 
 @Injectable()
-export class SearchService {
+export class UserService {
 
 }
 
-export var searchServiceInjectables: Array<any> = [
-    bind(SearchService).toClass(SearchService)
+export var userServiceInjectables: Array<any> = [
+    bind(UserService).toClass(UserService)
 ];
+

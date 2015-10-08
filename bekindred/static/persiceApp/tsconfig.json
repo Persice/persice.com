@@ -45,6 +45,7 @@
         "./src/app/models/user.model.ts",
         "./src/app/pipes/gender.pipe.ts",
         "./src/app/services/search.service.ts",
+        "./src/app/services/user.service.ts",
         "./src/bindings/change_detection_bindings.ts",
         "./src/bindings/location_bindings.ts",
         "./src/typings/_custom.d.ts",
