@@ -107,7 +107,7 @@ module.exports = {
   resolve: {
     root: __dirname,
     modulesDirectories: [
-        'node_modules', 'src', 'src/app', '.'
+      'node_modules', 'src', 'src/app', '.'
     ],
     extensions: ['', '.ts', '.js', '.json'],
     alias: {
@@ -117,7 +117,7 @@ module.exports = {
       'bindings': 'src/bindings',
       'components': 'src/app/components',
       'services': 'src/app/services'
-      // 'stores': 'src/app/stores'
+        // 'stores': 'src/app/stores'
     }
   },
 
@@ -135,24 +135,13 @@ module.exports = {
         loader: 'raw'
       },
       // // Support for images
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   loaders: [
-      //     'url?limit=8192',
-      //     'img'
-      //   ]
-      // },
       {
-        test: /\.png$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/png'
+        test: /\.(png|jpg|gif)$/,
+        loader: "url-loader?limit=50000&name=[path][name].[ext]"
       }, {
-        test: /\.gif$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/gif'
-      }, {
-        test: /\.svg$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/svg'
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "url-loader"
       },
-
       // support for .html as raw text
       {
         test: /\.html$/,
@@ -182,10 +171,14 @@ module.exports = {
       /rtts_assert\/src\/rtts_assert/,
       /reflect-metadata/
     ],
-    // preLoaders: [{
-    //   test: /\.ts$/,
-    //   loader: "tslint"
-    // }]
+    preLoaders: [{
+      test: /\.ts$/,
+      loader: "tslint"
+    }],
+    tslint: {
+      emitErrors: true,
+      failOnHint: false
+    }
   },
   plugins: env({
     'production': [

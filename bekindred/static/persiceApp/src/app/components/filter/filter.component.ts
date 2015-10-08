@@ -19,16 +19,12 @@ let view = require('./filter.html');
 export class FilterComponent {
   state: FilterModel;
   constructor(public http: Http) {
-    console.log('Filter Component');
     this.http.get('/api/v1/filter/state/?format=json')
       .map(res => res.json())
       .subscribe(data => this.assignCrowdFilter(data));
-
-
   }
 
   assignCrowdFilter(data) {
     this.state = new FilterModel(data.objects[0]);
-    console.log(this.state);
   }
 }
