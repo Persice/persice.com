@@ -8,7 +8,7 @@ import {GenderPipe} from '../../pipes/gender.pipe';
 let view = require('./usercard.html');
 
 @Component({
-    properties: ['user'],
+    inputs: ['user'],
     selector: 'user-card'
 })
 @View({

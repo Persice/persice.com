@@ -10,7 +10,7 @@ let view = require('./filter.html');
 
 @Component({
   selector: 'filter',
-  properties: ['state']
+  inputs: ['state']
 })
 @View({
   directives: [],
@@ -19,17 +19,12 @@ let view = require('./filter.html');
 export class FilterComponent {
   state: FilterModel;
   constructor(public http: Http) {
-    console.log('Filter Component');
     this.http.get('/api/v1/filter/state/?format=json')
-      .toRx()
       .map(res => res.json())
       .subscribe(data => this.assignCrowdFilter(data));
-
-
   }
 
   assignCrowdFilter(data) {
     this.state = new FilterModel(data.objects[0]);
-    console.log(this.state);
   }
 }

@@ -9,7 +9,7 @@ import {ToggleFilterDirective} from '../../directives/togglefilter.directive';
 let view = require('./headersub.html');
 @Component({
   selector: 'header-sub',
-  properties: ['image']
+  inputs: ['image']
 })
 @View({
   directives: [SearchComponent, ProfileDropdownComponent, ToggleFilterDirective],

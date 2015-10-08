@@ -4,7 +4,7 @@ import {Component, View, Directive, NgIf} from 'angular2/angular2';
 
 let view = require('./loadingindicator.html');
 @Component({
-  properties: ['status'],
+  inputs: ['status'],
   selector: 'loading-indicator'
 })
 @View({

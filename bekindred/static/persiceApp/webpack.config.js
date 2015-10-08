@@ -9,6 +9,7 @@ var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
 var toString = Function.prototype.call.bind(Object.prototype.toString);
 var NODE_ENV = process.env.NODE_ENV || 'development';
 var pkg = require('./package.json');
+var publicDir = __dirname + "/src/public";
 
 // Polyfill
 Object.assign = require('object-assign');
@@ -29,6 +30,7 @@ var BannerPlugin = webpack.BannerPlugin;
 var BundleTracker = require('webpack-bundle-tracker');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var PathRewriterPlugin = require('webpack-path-rewriter');
+var WebpackNotifierPlugin = require('webpack-notifier');
 
 console.log('Build environment: ', NODE_ENV);
 /*
@@ -72,14 +74,14 @@ module.exports = {
   entry: {
     'angular2': [
       // Angular 2 Deps
-      'rx',
+      '@reactivex/rxjs',
       'zone.js',
       'reflect-metadata',
       // to ensure these modules are grouped together in one file
       'angular2/angular2',
       'angular2/core',
       'angular2/router',
-      'angular2/http',
+      'angular2/http'
     ],
     'app': [
       // App
@@ -104,14 +106,18 @@ module.exports = {
 
   resolve: {
     root: __dirname,
+    modulesDirectories: [
+      'node_modules', 'src', 'src/app', '.'
+    ],
     extensions: ['', '.ts', '.js', '.json'],
     alias: {
-      // 'app': 'src/app',
+      'rx': '@reactivex/rxjs',
+      'app': 'src/app',
       // 'common': 'src/common',
-      // 'bindings': 'src/bindings',
-      // 'components': 'src/app/components'
-      // 'services': 'src/app/services',
-      // 'stores': 'src/app/stores'
+      'bindings': 'src/bindings',
+      'components': 'src/app/components',
+      'services': 'src/app/services'
+        // 'stores': 'src/app/stores'
     }
   },
 
@@ -129,24 +135,13 @@ module.exports = {
         loader: 'raw'
       },
       // // Support for images
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   loaders: [
-      //     'url?limit=8192',
-      //     'img'
-      //   ]
-      // },
       {
-        test: /\.png$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/png'
+        test: /\.(png|jpg|gif)$/,
+        loader: "url-loader?limit=50000&name=[path][name].[ext]"
       }, {
-        test: /\.gif$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/gif'
-      }, {
-        test: /\.svg$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/svg'
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "url-loader"
       },
-
       // support for .html as raw text
       {
         test: /\.html$/,
@@ -156,13 +151,10 @@ module.exports = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'typescript-simple',
+        loader: 'ts',
         query: {
           'ignoreWarnings': [
-            2300, // 2300 -> Duplicate identifier
             2309, // 2309 -> An export assignment cannot be used in a module with other exported elements.
-            2346, // 2346 -> Supplied parameters do not match any signature of call target.
-            2432 // 2432 -> In an enum with multiple declarations, only one declaration can omit an initializer for its first enum element.
           ]
         },
         exclude: [
@@ -182,7 +174,11 @@ module.exports = {
     preLoaders: [{
       test: /\.ts$/,
       loader: "tslint"
-    }]
+    }],
+    tslint: {
+      emitErrors: true,
+      failOnHint: false
+    }
   },
   plugins: env({
     'production': [
@@ -211,6 +207,11 @@ module.exports = {
       // new webpack.HotModuleReplacementPlugin(),
       new BundleTracker({
         filename: './webpack-stats-dev.json'
+      }),
+
+      new WebpackNotifierPlugin({
+        title: "Persice",
+        // contentImage: path.join(publicDir, 'images/logo.svg')
       }),
 
     ],
