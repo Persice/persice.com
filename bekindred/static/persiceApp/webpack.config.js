@@ -9,6 +9,7 @@ var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
 var toString = Function.prototype.call.bind(Object.prototype.toString);
 var NODE_ENV = process.env.NODE_ENV || 'development';
 var pkg = require('./package.json');
+var publicDir = __dirname + "/src/public";
 
 // Polyfill
 Object.assign = require('object-assign');
@@ -29,6 +30,7 @@ var BannerPlugin = webpack.BannerPlugin;
 var BundleTracker = require('webpack-bundle-tracker');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var PathRewriterPlugin = require('webpack-path-rewriter');
+var WebpackNotifierPlugin = require('webpack-notifier');
 
 console.log('Build environment: ', NODE_ENV);
 /*
@@ -104,14 +106,17 @@ module.exports = {
 
   resolve: {
     root: __dirname,
+    modulesDirectories: [
+        'node_modules', 'src', 'src/app', '.'
+    ],
     extensions: ['', '.ts', '.js', '.json'],
     alias: {
-      'rx': '@reactivex/rxjs'
-      // 'app': 'src/app',
+      'rx': '@reactivex/rxjs',
+      'app': 'src/app',
       // 'common': 'src/common',
-      // 'bindings': 'src/bindings',
-      // 'components': 'src/app/components'
-      // 'services': 'src/app/services',
+      'bindings': 'src/bindings',
+      'components': 'src/app/components',
+      'services': 'src/app/services'
       // 'stores': 'src/app/stores'
     }
   },
@@ -209,6 +214,11 @@ module.exports = {
       // new webpack.HotModuleReplacementPlugin(),
       new BundleTracker({
         filename: './webpack-stats-dev.json'
+      }),
+
+      new WebpackNotifierPlugin({
+        title: "Persice",
+        // contentImage: path.join(publicDir, 'images/logo.svg')
       }),
 
     ],

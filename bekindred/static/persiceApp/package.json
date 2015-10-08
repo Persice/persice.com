@@ -45,13 +45,13 @@
     "zone.js": "^0.5.7"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-clean": "^0.3.1",
-    "gulp-util": "^3.0.6",
     "css-loader": "^0.19.0",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.7.0",
     "file-loader": "^0.8.1",
+    "gulp": "^3.9.0",
+    "gulp-clean": "^0.3.1",
+    "gulp-util": "^3.0.6",
     "imports-loader": "^0.6.3",
     "json-loader": "^0.5.1",
     "karma": "^0.13.3",
@@ -73,6 +73,7 @@
     "typescript": "^1.6.2",
     "url-loader": "^0.5.5",
     "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.0"
+    "webpack-dev-server": "^1.12.0",
+    "webpack-notifier": "^1.2.1"
   }
 }
