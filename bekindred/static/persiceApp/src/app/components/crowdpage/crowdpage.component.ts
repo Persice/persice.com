@@ -23,8 +23,7 @@ const defaultFilters: InterfaceFilter = {
 
 
 @Component({
-  selector: 'crowd-page',
-  viewBindings: [HTTP_BINDINGS]
+  selector: 'crowd-page'
 })
 @View({
   template: view,
@@ -58,7 +57,7 @@ export class CrowdPageComponent {
     if (this.crowd.length === 0 ) {
       this.isListEmpty = true;
     } else {
-      this.isListEmpty = true;
+      this.isListEmpty = false;
     }
 
 
