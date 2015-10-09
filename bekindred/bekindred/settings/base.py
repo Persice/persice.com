@@ -218,8 +218,6 @@ HAYSTACK_CONNECTIONS = {
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
-HAYSTACK_DEFAULT_OPERATOR = 'OR'
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

@@ -159,3 +159,24 @@ class TestMatchQuerySet(BaseTestCase):
         update_index.Command().handle(interactive=False)
         users = MatchQuerySet.all(self.user.id)
         self.assertEqual(users[0].interests, [{u'learn django': 1}])
+
+    def test_simple_match_score_goals(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject6)
+        Goal.objects.create(user=self.user1, goal=self.subject7)
+        update_index.Command().handle(interactive=False)
+        users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(users[0].score, 2)
+
+    def test_simple_match_score_offers(self):
+        Offer.objects.create(user=self.user, offer=self.subject)
+        Offer.objects.create(user=self.user, offer=self.subject2)
+        Offer.objects.create(user=self.user1, offer=self.subject5)
+        Offer.objects.create(user=self.user1, offer=self.subject6)
+        Offer.objects.create(user=self.user1, offer=self.subject7)
+        update_index.Command().handle(interactive=False)
+        users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(users[0].score, 2)
+

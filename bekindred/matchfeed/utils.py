@@ -123,7 +123,9 @@ class MatchUser(object):
         return FacebookCustomUserActive.objects.get(pk=user_id)
 
     def match_score(self):
-        return 0
+        score = sum(self.goals[0].values()) + sum(self.offers[0].values()) + \
+            sum(self.likes[0].values()) + sum(self.interests[0].values())
+        return score
 
     def friends_score(self):
         return 0
@@ -143,7 +145,6 @@ class MatchUser(object):
                 result[new_h] = 1
         except KeyError as er:
             print er
-
         return [result]
 
 
