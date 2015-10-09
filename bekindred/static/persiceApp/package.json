@@ -40,7 +40,7 @@
   "homepage": "https://persice.com",
   "dependencies": {
     "@reactivex/rxjs": "0.0.0-prealpha.3",
-    "angular2": "2.0.0-alpha.39",
+    "angular2": "2.0.0-alpha.40",
     "reflect-metadata": "^0.1.1",
     "zone.js": "^0.5.7"
   },
