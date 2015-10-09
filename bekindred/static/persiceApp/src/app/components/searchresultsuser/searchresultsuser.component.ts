@@ -2,23 +2,23 @@
 
 import {Component, View, Directive, NgIf} from 'angular2/angular2';
 
-import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
+import {SearchResultUserModel} from '../../models/searchresults.model';
 
-let view = require('./usercard.html');
+let view = require('./searchresultsuser.html');
 
 @Component({
     inputs: ['user'],
-    selector: 'user-card'
+    selector: 'searchresult-user'
 })
 @View({
     pipes: [GenderPipe],
     template: view,
-    directives: [CircleProgressDirective,  NgIf]
+    directives: [NgIf]
 
 })
-export class UserCardComponent {
-    user: any;
+export class SearchResultsUserComponent {
+    user: SearchResultUserModel;
     constructor() {
 
     }

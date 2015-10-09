@@ -5,11 +5,11 @@
  * env(), getBanner(), root(), and rootDir()
  * are defined at the bottom
  */
-var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
-var toString = Function.prototype.call.bind(Object.prototype.toString);
-var NODE_ENV = process.env.NODE_ENV || 'development';
-var pkg = require('./package.json');
-var publicDir = __dirname + "/src/public";
+ var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
+ var toString = Function.prototype.call.bind(Object.prototype.toString);
+ var NODE_ENV = process.env.NODE_ENV || 'development';
+ var pkg = require('./package.json');
+ var publicDir = __dirname + "/src/public";
 
 // Polyfill
 Object.assign = require('object-assign');
@@ -28,7 +28,6 @@ var DedupePlugin = webpack.optimize.DedupePlugin;
 var DefinePlugin = webpack.DefinePlugin;
 var BannerPlugin = webpack.BannerPlugin;
 var BundleTracker = require('webpack-bundle-tracker');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var PathRewriterPlugin = require('webpack-path-rewriter');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
@@ -36,7 +35,7 @@ console.log('Build environment: ', NODE_ENV);
 /*
  * Config
  */
-module.exports = {
+ module.exports = {
   devtool: env({
     'development': 'eval',
     'all': 'source-map'
@@ -82,12 +81,12 @@ module.exports = {
       'angular2/core',
       'angular2/router',
       'angular2/http'
-    ],
-    'app': [
+      ],
+      'app': [
       // App
       './src/app/bootstrap'
-    ],
-  },
+      ],
+    },
 
   // Config for our build files
   output: {
@@ -107,7 +106,7 @@ module.exports = {
   resolve: {
     root: __dirname,
     modulesDirectories: [
-      'node_modules', 'src', 'src/app', '.'
+    'node_modules', 'src', 'src/app', '.'
     ],
     extensions: ['', '.ts', '.js', '.json'],
     alias: {
@@ -118,11 +117,11 @@ module.exports = {
       'components': 'src/app/components',
       'services': 'src/app/services'
         // 'stores': 'src/app/stores'
-    }
-  },
+      }
+    },
 
-  module: {
-    loaders: [
+    module: {
+      loaders: [
       // Support for *.json files.
       {
         test: /\.json$/,
@@ -151,37 +150,26 @@ module.exports = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts',
-        query: {
-          'ignoreWarnings': [
-            2309, // 2309 -> An export assignment cannot be used in a module with other exported elements.
-          ]
-        },
-        exclude: [
-          /\.min\.js$/,
-          /\.spec\.ts$/,
-          /\.e2e\.ts$/,
-          /web_modules/,
-          /test/,
-          /node_modules/
-        ]
-      }
-    ],
-    noParse: [
+        loader: 'awesome-typescript-loader?ignoreWarnings[]=2304',
+        exclude: [/test/, /node_modules/]
+      },
+
+      ],
+      noParse: [
       /rtts_assert\/src\/rtts_assert/,
       /reflect-metadata/
-    ],
-    preLoaders: [{
-      test: /\.ts$/,
-      loader: "tslint"
-    }],
-    tslint: {
-      emitErrors: true,
-      failOnHint: false
-    }
-  },
-  plugins: env({
-    'production': [
+      ],
+      preLoaders: [{
+        test: /\.ts$/,
+        loader: "tslint"
+      }],
+      tslint: {
+        emitErrors: true,
+        failOnHint: false
+      }
+    },
+    plugins: env({
+      'production': [
       new UglifyJsPlugin({
         compress: {
           warnings: false,
@@ -201,8 +189,8 @@ module.exports = {
       new BundleTracker({
         filename: './webpack-stats-prod.json'
       })
-    ],
-    'development': [
+      ],
+      'development': [
       /* Dev Plugin */
       // new webpack.HotModuleReplacementPlugin(),
       new BundleTracker({
@@ -214,8 +202,8 @@ module.exports = {
         // contentImage: path.join(publicDir, 'images/logo.svg')
       }),
 
-    ],
-    'all': [
+      ],
+      'all': [
       new DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
         'VERSION': JSON.stringify(pkg.version)
@@ -238,15 +226,15 @@ module.exports = {
           'all': 'common.min.js'
         })
       })
-    ]
+      ]
 
-  }),
+    }),
 
   /*
    * When using `templateUrl` and `styleUrls` please use `__filename`
    * rather than `module.id` for `moduleId` in `@View`
    */
-  node: {
+   node: {
     crypto: false,
     __filename: true
   }
@@ -260,13 +248,13 @@ function env(configEnv) {
   }
   switch (toString(configEnv[NODE_ENV])) {
     case '[object Object]':
-      return Object.assign({}, configEnv.all || {}, configEnv[NODE_ENV]);
+    return Object.assign({}, configEnv.all || {}, configEnv[NODE_ENV]);
     case '[object Array]':
-      return [].concat(configEnv.all || [], configEnv[NODE_ENV]);
+    return [].concat(configEnv.all || [], configEnv[NODE_ENV]);
     case '[object Undefined]':
-      return configEnv.all;
+    return configEnv.all;
     default:
-      return configEnv[NODE_ENV];
+    return configEnv[NODE_ENV];
   }
 }
 

@@ -1,6 +1,1 @@
-<div class="search__top">
-  <svg role="img" class="icon icon--large">
-    <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-search"></use>
-  </svg>
-  <input type="text" class="search__input" placeholder="Search">
-</div>
+<input #inputvalue (keyup)="inputChanged($event, inputvalue.value)" type="text" class="search__input" placeholder="Search">
