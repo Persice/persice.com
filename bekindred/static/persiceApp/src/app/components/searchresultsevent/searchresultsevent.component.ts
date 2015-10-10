@@ -3,6 +3,7 @@
 import {Component, View, Directive} from 'angular2/angular2';
 
 import {SearchResultEventModel} from '../../models/searchresults.model';
+import {ImageStretchDirective} from '../../directives/imagestretch.directive';
 
 let view = require('./searchresultsevent.html');
 
@@ -11,7 +12,8 @@ let view = require('./searchresultsevent.html');
   selector: 'searchresult-event'
 })
 @View({
-  template: view
+  template: view,
+  directives: [ImageStretchDirective]
 })
 export class SearchResultsEventComponent {
   event: SearchResultEventModel;

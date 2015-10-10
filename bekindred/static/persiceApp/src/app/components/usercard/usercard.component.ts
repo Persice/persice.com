@@ -2,6 +2,7 @@
 
 import {Component, View, Directive, NgIf} from 'angular2/angular2';
 
+import {ImageStretchDirective} from '../../directives/imagestretch.directive';
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
 
@@ -14,7 +15,7 @@ let view = require('./usercard.html');
 @View({
     pipes: [GenderPipe],
     template: view,
-    directives: [CircleProgressDirective,  NgIf]
+    directives: [CircleProgressDirective, ImageStretchDirective, NgIf]
 
 })
 export class UserCardComponent {

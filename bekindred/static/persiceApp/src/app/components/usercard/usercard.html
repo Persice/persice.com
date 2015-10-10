@@ -4,8 +4,14 @@
     {{user.gender | gender}} / age {{user.age}} / {{user.distance[0]}} {{user.distance[1]}}
   </p>
   <div class="avatar-box mb">
-    <img *ng-if="user.image !== ''" src="/media/{{user.image}}" alt="User name" class="avatar">
-    <img *ng-if="user.image === '' || user.image === null" src="/static/persiceApp/src/public/images/avatar_user.jpg" alt="User name" class="avatar">
+    <div image-stretch class="avatar-holder js-image-liquid">
+      <img *ng-if="user.image !== ''" src="/media/{{user.image}}" alt="User name" class="avatar">
+      <img *ng-if="(user.image === '' || user.image === null) && user.gender === 'm'" src="/static/persiceApp/src/public/images/avatar_user_m.jpg" alt="User name" class="avatar">
+      <img *ng-if="(user.image === '' || user.image === null) && user.gender === 'f'" src="/static/persiceApp/src/public/images/avatar_user_f.jpg" alt="User name" class="avatar">
+    </div>
+    <svg role="img" class="icon">
+      <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-persice-2"></use>
+    </svg>
     <div circle-progress="{{user.score}}" class="match-percent"></div>
   </div>
   <h6 class="card-subtitle">Shared Interest</h6>

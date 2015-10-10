@@ -22,7 +22,7 @@ $(document).ready(function() {
     }
   });
 
-  // //Filter toggle for small screens
+  //Filter toggle for small screens
   // $('.js-filter-toggle').on('click', function(e) {
   //   e.preventDefault();
   //   $('body').toggleClass('filter-is-open');
@@ -47,24 +47,43 @@ $(document).ready(function() {
     slidesToScroll: 1
   });
 
-  //Search drop prototype
-  $('.search__input').focus(function() {
-    $(this)
-      .closest('.search')
-      .find('.has-search__drop')
-      .addClass('is-visible');
+  $(document).on('opened', '.remodal', function() {
+    $('.modal-gallery__images').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      adaptiveHeight: true,
+      fade: true,
+      asNavFor: '.modal-gallery__thumbs'
+    });
+    $('.modal-gallery__thumbs').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.modal-gallery__images',
+      centerMode: true,
+      focusOnSelect: true
+    });
+    console.log('Modal is opened');
   });
-  $('.search__input').focusout(function() {
-    $(this)
-      .closest('.search')
-      .find('.has-search__drop')
-      .removeClass('is-visible');
-  });
+
+  // //Search drop prototype
+  // $('.search__input').focus(function() {
+  //   $(this)
+  //     .closest('.search')
+  //     .find('.has-search__drop')
+  //     .addClass('is-visible');
+  // });
+  // $('.search__input').focusout(function() {
+  //   $(this)
+  //     .closest('.search')
+  //     .find('.has-search__drop')
+  //     .removeClass('is-visible');
+  // });
 
   //Select replacement
   $('select').minimalect();
 
-  // //Profile Drop
+  //Profile Drop
   // $('.profile-drop__arrow').click(function() {
   //   $('.profile-drop__expand').slideToggle();
   // });
@@ -96,11 +115,11 @@ $(document).ready(function() {
   });
 
   //INIT IMGLIQUID used for images streching
-  $('.js-image-liquid').imgLiquid({
-    fill: true,
-    horizontalAlign: 'center',
-    verticalAlign: 'center'
-  });
+  // $('.js-image-liquid').imgLiquid({
+  //   fill: true,
+  //   horizontalAlign: 'center',
+  //   verticalAlign: 'center'
+  // });
 
   //TABS
   $('.event-photo-map__switch li').click(function() {

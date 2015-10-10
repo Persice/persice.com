@@ -4,6 +4,7 @@ import {Component, View, Directive, NgIf} from 'angular2/angular2';
 
 import {GenderPipe} from '../../pipes/gender.pipe';
 import {SearchResultUserModel} from '../../models/searchresults.model';
+import {ImageStretchDirective} from '../../directives/imagestretch.directive';
 
 let view = require('./searchresultsuser.html');
 
@@ -14,7 +15,7 @@ let view = require('./searchresultsuser.html');
 @View({
     pipes: [GenderPipe],
     template: view,
-    directives: [NgIf]
+    directives: [NgIf, ImageStretchDirective]
 
 })
 export class SearchResultsUserComponent {
