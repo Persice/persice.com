@@ -65,5 +65,6 @@ wsgiref==0.1.2
 django-geoposition==0.2.2
 django-haystack==2.4.0
 elasticsearch==1.6.0
-django-flat-theme==1.1.1elasticsearch==1.6.0
+django-flat-theme==1.1.1
+elasticsearch==1.6.0
 elasticsearch-dsl==0.0.8
