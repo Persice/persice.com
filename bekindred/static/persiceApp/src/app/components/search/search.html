@@ -1,10 +1,11 @@
-<div class="search search--spaced">
+<div class="search">
   <div class="search__top">
+  <pre>{{focusout}}</pre>
     <svg role="img" class="icon icon--large">
       <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-search"></use>
     </svg>
-    <search-input (loading-users)="loadingUsers = $event" (results-users)="updateResultsUsers($event)" (total-users)="updateResultsUsersTotalCount($event)" (loading-events)="loadingEvents = $event" (results-events)="updateResultsEvents($event)" (total-events)="updateResultsEventsTotalCount($event)">
+    <search-input (focused-input)="focusinput = $event" (loading-users)="loadingUsers = $event" (results-users)="updateResultsUsers($event)" (total-users)="updateResultsUsersTotalCount($event)" (loading-events)="loadingEvents = $event" (results-events)="updateResultsEvents($event)" (total-events)="updateResultsEventsTotalCount($event)">
     </search-input>
   </div>
-  <search-results [users]="resultsUsers" [users-total]="resultsUsersTotalCount" [events]="resultsEvents" [events-total]="resultsEventsTotalCount"></search-results>
+  <search-results [focus]="focusinput" [users]="resultsUsers" [users-total]="resultsUsersTotalCount" [events]="resultsEvents" [events-total]="resultsEventsTotalCount"></search-results>
 </div>

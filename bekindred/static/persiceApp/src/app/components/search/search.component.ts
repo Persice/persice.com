@@ -17,7 +17,7 @@ let view = require('./search.html');
   template: view
 })
 export class SearchComponent {
-
+  focusinput: boolean = false;
   resultsUsers: SearchResultUserModel[];
   resultsUsersTotalCount: number = 0;
   resultsEvents: SearchResultEventModel[];

@@ -11,10 +11,14 @@
   fill: #6dcbe8;
 }
 
-/* Fix for images with no square aspect ratio (1:1) */
+.avatar-box.mb svg {
+  z-index: 9999;
+}
 
-.avatar-box .avatar, .profile-drop__avatar img {
-  object-fit: cover!important;
-  overflow: hidden!important;
-  object-position: 50% 0%!important;
+/*temp fix for streched images in search results */
+.flag__img .avatar-holder {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
 }

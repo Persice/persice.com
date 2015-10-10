@@ -10,13 +10,14 @@ import {SearchResultEventModel} from '../../models/searchresults.model';
 let view = require('./searchinput.html');
 @Component({
   selector: 'search-input',
-  outputs: ['loadingUsers', 'resultsUsers', 'loadingEvents', 'resultsEvents', 'totalUsers', 'totalEvents']
+  outputs: ['loadingUsers', 'resultsUsers', 'loadingEvents', 'resultsEvents', 'totalUsers', 'totalEvents', 'focusedInput']
 })
 @View({
   template: view
 })
 export class SearchInputComponent {
   loadingUsers: EventEmitter = new EventEmitter();
+  focusedInput: EventEmitter = new EventEmitter();
   loadingEvents: EventEmitter = new EventEmitter();
   resultsUsers: EventEmitter = new EventEmitter();
   resultsEvents: EventEmitter = new EventEmitter();
@@ -28,7 +29,7 @@ export class SearchInputComponent {
 
   }
 
-  inputChanged($eventm, query): void {
+  inputChanged($event, query): void {
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
@@ -70,6 +71,17 @@ export class SearchInputComponent {
     }, 250);
 
 
+
+
+
+  }
+
+  focusIn($event) {
+    this.focusedInput.next(true);
+  }
+
+  focusOut($event) {
+    this.focusedInput.next(false);
   }
 
 }
