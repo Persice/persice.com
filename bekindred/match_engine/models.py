@@ -408,7 +408,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         client = Elasticsearch()
 
-        s = Search(using=client, index="test_haystack") \
+        s = Search(using=client, index="haystack") \
             .query(Q("multi_match", query=query, fields=fields)) \
             .filter(~F("ids", type="modelresult",
                     values=exclude_user_ids)) \
