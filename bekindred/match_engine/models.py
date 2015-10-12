@@ -4,7 +4,7 @@ from django_facebook.models import FacebookLike, FacebookCustomUser
 import itertools
 from haystack.inputs import AutoQuery, Raw
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Search, Q
+from elasticsearch_dsl import Search, Q, F
 from goals.models import Goal, Subject, Offer
 from interests.models import Interest, InterestSubject
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
@@ -377,32 +377,46 @@ class MatchEngineManager(models.Manager):
         return result
 
 
+class StopWords(models.Model):
+    word = models.CharField(max_length=100, unique=True)
+
+    def __unicode__(self):
+        return self.word
+
+
 class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
-    def match_goals(user_id, friends):
+    def match(user_id, friends=()):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         goals = user.goal_set.all()
         offers = user.offer_set.all()
         interests = user.interest_set.all()
         likes = FacebookLikeProxy.objects.filter(user_id=user.id)
         words = set()
-        for goal in itertools.chain(goals, offers, interests, likes):
-            words |= set(unicode(goal).
+        for subject in itertools.chain(goals, offers, interests, likes):
+            words |= set(unicode(subject).
                          translate(remove_punctuation_map).split())
 
-        query = ' '.join(words)
-        fields = ["goals", "offers", "interests", "interests"]
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+
+        removed_stopwords = [word for word in words if word not in stop_words]
+        query = ' '.join(removed_stopwords)
+
+        fields = ["goals", "offers", "interests", "likes"]
+        exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
+        # TODO: Added exclude friends
+
         client = Elasticsearch()
-        s = Search(using=client, index="test_haystack") \
-            .query(Q("multi_match", query=query,
-                     fields=fields)) \
+
+        s = Search(using=client, index="haystack") \
+            .query(Q("multi_match", query=query, fields=fields)) \
+            .filter(~F("ids", type="modelresult",
+                    values=exclude_user_ids)) \
             .highlight(*fields)
         print s.to_dict()
         response = s.execute()
 
-        for hit in response:
-            print hit.meta.score
-        return 1
+        return response.hits.hits
 
 
 class AbstractMatchEngine(models.Model):
@@ -419,3 +433,4 @@ class MatchEngine(AbstractMatchEngine):
 
 class ElasticSearchMatchEngine(AbstractMatchEngine):
     pass
+

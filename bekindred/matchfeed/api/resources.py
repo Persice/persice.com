@@ -10,8 +10,9 @@ from tastypie.resources import Resource
 from friends.models import FacebookFriendUser, Friend
 from goals.models import MatchFilterState, Subject, Goal
 from interests.models import InterestSubject, Interest
+from match_engine.models import ElasticSearchMatchEngine
 from matchfeed.models import MatchFeedManager
-from matchfeed.utils import MatchedResults, order_by
+from matchfeed.utils import MatchedResults, order_by, MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
@@ -158,6 +159,86 @@ class MatchedFeedResource(Resource):
         pass
 
     def obj_get(self, bundle, **kwargs):
+        pass
+
+    def dehydrate_distance(self, bundle):
+        bundle.data['distance'] = [intcomma(bundle.data['distance'][0]),
+                                   bundle.data['distance'][1]]
+        return bundle.data['distance']
+
+
+class MatchedFeedResource2(Resource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name')
+    last_name = fields.CharField(attribute='last_name')
+    facebook_id = fields.CharField(attribute='facebook_id')
+    image = fields.CharField(attribute='image')
+    user_id = fields.CharField(attribute='user_id')
+    twitter_provider = fields.CharField(attribute='twitter_provider',
+                                        null=True)
+    twitter_username = fields.CharField(attribute='twitter_username',
+                                        null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider',
+                                         null=True)
+    age = fields.IntegerField(attribute='age')
+    distance = fields.ListField(attribute='distance')
+    about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
+
+    photos = fields.ListField(attribute='photos')
+    goals = fields.ListField(attribute='goals')
+    offers = fields.ListField(attribute='offers')
+    likes = fields.ListField(attribute='likes')
+    interests = fields.ListField(attribute='interests')
+
+    score = fields.IntegerField(attribute='score', null=True)
+    friends_score = fields.IntegerField(attribute='friends_score', null=True)
+
+    class Meta:
+        # max_limit = 10
+        resource_name = 'matchfeed2'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        match_users = MatchQuerySet.all(request.user.id)
+        return match_users
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+    def obj_delete(self, bundle, **kwargs):
+        pass
+
+    def apply_filters(self, request, applicable_filters):
+        pass
+
+    def obj_update(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list(self, bundle, **kwargs):
+        pass
+
+    def obj_create(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list_for_update(self, bundle, **kwargs):
         pass
 
     def dehydrate_distance(self, bundle):

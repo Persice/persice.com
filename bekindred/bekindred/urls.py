@@ -9,7 +9,8 @@ from friends.api.resources import FriendsResource, ConnectionsResource, FriendsN
 from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
     FacebookLikeResource
 from interests.api.resources import InterestResource, InterestSubjectResource
-from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource, ProfileResource
+from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource, ProfileResource, \
+    MatchedFeedResource2
 from msgs.api.resources import MessageResource, InboxResource, InboxLastResource, UnreadMessageCounter, \
     ChatMessageResource
 
@@ -28,6 +29,7 @@ v1_api.register(FacebookPhotoResource())
 v1_api.register(GoalResource())
 v1_api.register(OfferResource())
 v1_api.register(MatchedFeedResource())
+v1_api.register(MatchedFeedResource2())
 v1_api.register(MutualFriendsResource())
 v1_api.register(ProfileResource())
 v1_api.register(MessageResource())

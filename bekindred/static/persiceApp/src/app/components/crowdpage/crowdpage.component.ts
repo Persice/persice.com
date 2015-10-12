@@ -23,8 +23,7 @@ const defaultFilters: InterfaceFilter = {
 
 
 @Component({
-  selector: 'crowd-page',
-  viewBindings: [HTTP_BINDINGS]
+  selector: 'crowd-page'
 })
 @View({
   template: view,
@@ -48,7 +47,6 @@ export class CrowdPageComponent {
 
     // Crowd page load users list
     this.http.get('/api/v1/matchfeed/?format=json&filter=true')
-    .toRx()
     .map(res => res.json())
     .subscribe(data => this.assignCrowd(data));
   }
@@ -59,7 +57,7 @@ export class CrowdPageComponent {
     if (this.crowd.length === 0 ) {
       this.isListEmpty = true;
     } else {
-      this.isListEmpty = true;
+      this.isListEmpty = false;
     }
 
 

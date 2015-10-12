@@ -1,33 +1,10 @@
-<div class="has-search__drop">
+<div class="has-search__drop" [ng-class]="{'is-visible': (usersTotal > 0 || eventsTotal > 0) && focus}">
   <div class="search__drop">
-    <h3 class="search__drop__title">Users</h3>
-    <a href="#" class="search__drop__flag flag">
-      <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/pixeliris/128.jpg" alt="User name" class="avatar avatar--small"> </div>
-      <div class="flag__body">
-        <h6 class="search__flag__title">Sarah Davidson, 86% match</h6>
-        <p class="search__flag__desc">Female / Age 25 / 2 miles / 2 mutual friends</p>
-      </div>
-    </a>
-    <a href="#" class="search__drop__flag flag">
-      <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/pixeliris/128.jpg" alt="User name" class="avatar avatar--small"> </div>
-      <div class="flag__body">
-        <h6 class="search__flag__title">Sarah Davidson, 86% match</h6>
-        <p class="search__flag__desc">Female / Age 25 / 2 miles / 2 mutual friends</p>
-      </div>
-    </a> <a href="" class="search__show-all">Show All <span>(32)</span></a>
-    <h3 class="search__drop__title">Events</h3>
-    <a href="" class="search__drop__flag flag">
-      <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg" alt="User name" class="avatar avatar--small"> </div>
-      <div class="flag__body">
-        <h6 class="search__flag__title">Snach speed ladder</h6>
-        <p class="search__flag__desc">Portland OR / Tue 33 Jul</p>
-      </div>
-    </a>
-    <a href="" class="search__drop__flag flag">
-      <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg" alt="User name" class="avatar avatar--small"> </div>
-      <div class="flag__body">
-        <h6 class="search__flag__title">Snach speed ladder</h6>
-        <p class="search__flag__desc">Portland OR / Tue 33 Jul</p>
-      </div>
-    </a> <a href="" class="search__show-all">Show All <span>(32)</span></a> </div>
+    <h3 class="search__drop__title" *ng-if="usersTotal > 0">Users</h3>
+    <searchresult-user *ng-for="#user of users" [user]="user"></searchresult-user>
+    <a *ng-if="usersTotal > 0" href="" class="search__show-all">Show All <span>({{usersTotal}})</span></a>
+    <h3 class="search__drop__title" *ng-if="eventsTotal > 0">Events</h3>
+    <searchresult-event *ng-for="#event of events" [event]="event"></searchresult-event>
+    <a *ng-if="eventsTotal > 0" href="" class="search__show-all">Show All <span>({{eventsTotal}})</span></a>
+  </div>
 </div>

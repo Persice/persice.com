@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {Directive, ElementRef, Attribute} from 'angular2/angular2';
+import {Directive, ElementRef, Attribute, Inject} from 'angular2/angular2';
 
 declare var jQuery: any;
 
@@ -15,7 +15,7 @@ export class DropdownDirective {
   el: ElementRef;
   target: string;
 
-  constructor(el: ElementRef) {
+  constructor(@Inject(ElementRef) el: ElementRef) {
     this.el = el;
   }
 

@@ -3,10 +3,11 @@ from __future__ import absolute_import
 from celery import task
 from social_auth.db.django_models import UserSocialAuth
 import twitter
+from django.conf import settings
+from haystack.management.commands import update_index
 
 from friends.models import TwitterListFriends, TwitterListFollowers
 from members.models import FacebookCustomUserActive
-from django.conf import settings
 
 
 @task
@@ -67,3 +68,12 @@ def twitter_followers(user, oauth_token, oauth_secret):
             profile_image_url1='',
             profile_image_url2=follower.profile_image_url
         )
+
+
+@task
+def update_index_elastic():
+    update_index.Command().handle(interactive=False)
+
+
+def update_index_delay(*args, **kwargs):
+    update_index_elastic.delay()

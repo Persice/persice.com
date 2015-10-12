@@ -1,14 +1,24 @@
 .loader {
-    height: 100px;
-    width: 100px;
-    text-align: center;
-    padding: 1em;
-    margin: 5em auto 1em;
-    display: block;
-    vertical-align: top;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  padding: 1em;
+  margin: 5em auto 1em;
+  display: block;
+  vertical-align: top;
+}
+.loader svg path, .loader svg rect {
+  fill: #6dcbe8;
 }
 
-.loader svg path,
-.loader svg rect {
-    fill: #6dcbe8;
+.avatar-box.mb svg {
+  z-index: 9999;
+}
+
+/*temp fix for streched images in search results */
+.flag__img .avatar-holder {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
 }

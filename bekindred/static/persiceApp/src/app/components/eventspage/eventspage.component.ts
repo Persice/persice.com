@@ -8,8 +8,7 @@ let view = require('./eventspage.html');
   selector: 'events-page'
 })
 @View({
-  template: view,
-  directives: [RouterOutlet, RouterLink]
+  template: view
 })
 export class EventsPageComponent {
   constructor() {

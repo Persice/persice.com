@@ -5,10 +5,11 @@
  * env(), getBanner(), root(), and rootDir()
  * are defined at the bottom
  */
-var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
-var toString = Function.prototype.call.bind(Object.prototype.toString);
-var NODE_ENV = process.env.NODE_ENV || 'development';
-var pkg = require('./package.json');
+ var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
+ var toString = Function.prototype.call.bind(Object.prototype.toString);
+ var NODE_ENV = process.env.NODE_ENV || 'development';
+ var pkg = require('./package.json');
+ var publicDir = __dirname + "/src/public";
 
 // Polyfill
 Object.assign = require('object-assign');
@@ -27,14 +28,14 @@ var DedupePlugin = webpack.optimize.DedupePlugin;
 var DefinePlugin = webpack.DefinePlugin;
 var BannerPlugin = webpack.BannerPlugin;
 var BundleTracker = require('webpack-bundle-tracker');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var PathRewriterPlugin = require('webpack-path-rewriter');
+var WebpackNotifierPlugin = require('webpack-notifier');
 
 console.log('Build environment: ', NODE_ENV);
 /*
  * Config
  */
-module.exports = {
+ module.exports = {
   devtool: env({
     'development': 'eval',
     'all': 'source-map'
@@ -72,23 +73,20 @@ module.exports = {
   entry: {
     'angular2': [
       // Angular 2 Deps
-      'rx',
+      '@reactivex/rxjs',
       'zone.js',
       'reflect-metadata',
       // to ensure these modules are grouped together in one file
       'angular2/angular2',
-      'angular2/forms',
       'angular2/core',
       'angular2/router',
-      'angular2/http',
-      'angular2/debug',
-      'angular2/di'
-    ],
-    'app': [
+      'angular2/http'
+      ],
+      'app': [
       // App
       './src/app/bootstrap'
-    ],
-  },
+      ],
+    },
 
   // Config for our build files
   output: {
@@ -107,19 +105,23 @@ module.exports = {
 
   resolve: {
     root: __dirname,
+    modulesDirectories: [
+    'node_modules', 'src', 'src/app', '.'
+    ],
     extensions: ['', '.ts', '.js', '.json'],
     alias: {
-      // 'app': 'src/app',
+      'rx': '@reactivex/rxjs',
+      'app': 'src/app',
       // 'common': 'src/common',
-      // 'bindings': 'src/bindings',
-      // 'components': 'src/app/components'
-      // 'services': 'src/app/services',
-      // 'stores': 'src/app/stores'
-    }
-  },
+      'bindings': 'src/bindings',
+      'components': 'src/app/components',
+      'services': 'src/app/services'
+        // 'stores': 'src/app/stores'
+      }
+    },
 
-  module: {
-    loaders: [
+    module: {
+      loaders: [
       // Support for *.json files.
       {
         test: /\.json$/,
@@ -132,24 +134,13 @@ module.exports = {
         loader: 'raw'
       },
       // // Support for images
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   loaders: [
-      //     'url?limit=8192',
-      //     'img'
-      //   ]
-      // },
       {
-        test: /\.png$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/png'
+        test: /\.(png|jpg|gif)$/,
+        loader: "url-loader?limit=50000&name=[path][name].[ext]"
       }, {
-        test: /\.gif$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/gif'
-      }, {
-        test: /\.svg$/,
-        loader: 'url?name=img/[name].[ext]&mimetype=image/svg'
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "url-loader"
       },
-
       // support for .html as raw text
       {
         test: /\.html$/,
@@ -159,36 +150,26 @@ module.exports = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'typescript-simple',
-        query: {
-          'ignoreWarnings': [
-            2300, // 2300 -> Duplicate identifier
-            2309, // 2309 -> An export assignment cannot be used in a module with other exported elements.
-            2346, // 2346 -> Supplied parameters do not match any signature of call target.
-            2432 // 2432 -> In an enum with multiple declarations, only one declaration can omit an initializer for its first enum element.
-          ]
-        },
-        exclude: [
-          /\.min\.js$/,
-          /\.spec\.ts$/,
-          /\.e2e\.ts$/,
-          /web_modules/,
-          /test/,
-          /node_modules/
-        ]
-      }
-    ],
-    noParse: [
+        loader: 'awesome-typescript-loader?ignoreWarnings[]=2304',
+        exclude: [/test/, /node_modules/]
+      },
+
+      ],
+      noParse: [
       /rtts_assert\/src\/rtts_assert/,
       /reflect-metadata/
-    ],
-    preLoaders: [{
-      test: /\.ts$/,
-      loader: "tslint"
-    }]
-  },
-  plugins: env({
-    'production': [
+      ],
+      preLoaders: [{
+        test: /\.ts$/,
+        loader: "tslint"
+      }],
+      tslint: {
+        emitErrors: true,
+        failOnHint: false
+      }
+    },
+    plugins: env({
+      'production': [
       new UglifyJsPlugin({
         compress: {
           warnings: false,
@@ -208,16 +189,21 @@ module.exports = {
       new BundleTracker({
         filename: './webpack-stats-prod.json'
       })
-    ],
-    'development': [
+      ],
+      'development': [
       /* Dev Plugin */
       // new webpack.HotModuleReplacementPlugin(),
       new BundleTracker({
         filename: './webpack-stats-dev.json'
       }),
 
-    ],
-    'all': [
+      new WebpackNotifierPlugin({
+        title: "Persice",
+        // contentImage: path.join(publicDir, 'images/logo.svg')
+      }),
+
+      ],
+      'all': [
       new DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
         'VERSION': JSON.stringify(pkg.version)
@@ -240,15 +226,15 @@ module.exports = {
           'all': 'common.min.js'
         })
       })
-    ]
+      ]
 
-  }),
+    }),
 
   /*
    * When using `templateUrl` and `styleUrls` please use `__filename`
    * rather than `module.id` for `moduleId` in `@View`
    */
-  node: {
+   node: {
     crypto: false,
     __filename: true
   }
@@ -262,13 +248,13 @@ function env(configEnv) {
   }
   switch (toString(configEnv[NODE_ENV])) {
     case '[object Object]':
-      return Object.assign({}, configEnv.all || {}, configEnv[NODE_ENV]);
+    return Object.assign({}, configEnv.all || {}, configEnv[NODE_ENV]);
     case '[object Array]':
-      return [].concat(configEnv.all || [], configEnv[NODE_ENV]);
+    return [].concat(configEnv.all || [], configEnv[NODE_ENV]);
     case '[object Undefined]':
-      return configEnv.all;
+    return configEnv.all;
     default:
-      return configEnv[NODE_ENV];
+    return configEnv[NODE_ENV];
   }
 }
 
