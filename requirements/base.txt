@@ -67,3 +67,4 @@ django-haystack==2.4.0
 django-flat-theme==1.1.1
 elasticsearch==1.6.0
 elasticsearch-dsl==0.0.8
+elasticstack==0.2.0
