@@ -1,4 +1,4 @@
-<div class="has-search__drop" [ng-class]="{'is-visible': (usersTotal > 0 || eventsTotal > 0) && focus}">
+<div class="has-search__drop" [ng-class]="{'is-visible':  (usersTotal > 0 || eventsTotal > 0) && focus}">
   <div class="search__drop">
     <h3 class="search__drop__title" *ng-if="usersTotal > 0">Users</h3>
     <searchresult-user *ng-for="#user of users" [user]="user"></searchresult-user>

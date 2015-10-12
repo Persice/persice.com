@@ -27,7 +27,7 @@ export class SearchComponent {
   constructor() {
   }
 
-  updateResultsUsers(results): void {
+  updateResultsUsers(results: SearchResultUserModel[]): void {
     this.resultsUsers = results;
   }
 

@@ -60,7 +60,6 @@
         "src/typings/webpack.d.ts",
         "test/app/app.spec.ts",
         "tsd_typings/angular-protractor/angular-protractor.d.ts",
-        "tsd_typings/jasmine/jasmine.d.ts",
         "tsd_typings/jquery/jquery.d.ts",
         "tsd_typings/rx/rx-lite.d.ts",
         "tsd_typings/rx/rx.d.ts",

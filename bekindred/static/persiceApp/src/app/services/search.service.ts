@@ -20,36 +20,28 @@ export class SearchService {
 
   }
 
-  public searchUsers(query: string): Rx.Observable<SearchResultUserModel[]> {
+  public search(query: string, type) {
     let params: string = [
-      `format=json`,
-      `q=${query}`,
-      `page=1`,
+    `format=json`,
+    `q=${query}`,
+    `page=1`,
     ].join('&');
-    let queryUrl: string = `${this.apiUrlUser}?${params}`;
-    return this.http.get(queryUrl)
-      .map((response: Response) => {
-      return (<any>response.json()).objects.map(item => {
-        return new SearchResultUserModel(item);
-      });
-    });
+    let apiUrl = '';
+    switch (type) {
+      case 'user':
+      apiUrl = this.apiUrlUser;
+      break;
+      case 'event':
+      apiUrl = this.apiUrlEvent;
+      break;
 
-  }
+      default:
 
-  public searchEvents(query: string): Rx.Observable<SearchResultEventModel[]> {
-    let params: string = [
-      `format=json`,
-      `q=${query}`,
-      `page=1`,
-    ].join('&');
-    let queryUrl: string = `${this.apiUrlEvent}?${params}`;
-    return this.http.get(queryUrl)
-      .map((response: Response) => {
-      return (<any>response.json()).objects.map(item => {
-        return new SearchResultEventModel(item);
-      });
-    });
+      break;
+    }
 
+    let queryUrl: string = `${apiUrl}?${params}`;
+    return this.http.get(queryUrl);
   }
 
 
@@ -57,6 +49,6 @@ export class SearchService {
 
 export var searchServiceInjectables: Array<any> = [
   bind(SearchService).toClass(SearchService),
-  bind( API_URL_USER).toValue(API_URL_USER),
-  bind( API_URL_EVENT).toValue(API_URL_EVENT)
+  bind(API_URL_USER).toValue(API_URL_USER),
+  bind(API_URL_EVENT).toValue(API_URL_EVENT)
 ];
