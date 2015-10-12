@@ -42,6 +42,8 @@ class TestMatchQuerySet(BaseTestCase):
         self.subject6 = Subject.objects.create(description='teach python')
         self.subject7 = Subject.objects.create(description='learn erlang')
         self.subject8 = Subject.objects.create(description='learn javascript')
+        self.subject9 = Subject.objects.\
+            create(description='django under the hood')
 
         self.i_subject = InterestSubject.objects.\
             create(description='teach django')
@@ -180,3 +182,13 @@ class TestMatchQuerySet(BaseTestCase):
         users = MatchQuerySet.all(self.user.id)
         self.assertEqual(users[0].score, 2)
 
+    def test_simple_match_goals_with_stop_words(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject9)
+        update_index.Command().handle(interactive=False)
+        match_users = ElasticSearchMatchEngine. \
+            elastic_objects.match(user_id=self.user.id)
+        self.assertEqual(match_users[0]['_id'],
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
+        self.assertEqual(match_users[0]['highlight']['goals'],
+                         [u'<em>django</em> under the hood'])

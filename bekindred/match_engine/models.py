@@ -1,10 +1,12 @@
 import string
-from django.db import models
-from django_facebook.models import FacebookLike, FacebookCustomUser
 import itertools
-from haystack.inputs import AutoQuery, Raw
+
+from django.db import models
+from django.conf import settings
+from django_facebook.models import FacebookLike, FacebookCustomUser
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q, F
+
 from goals.models import Goal, Subject, Offer
 from interests.models import Interest, InterestSubject
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
@@ -408,7 +410,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         client = Elasticsearch()
 
-        s = Search(using=client, index="haystack") \
+        s = Search(using=client,
+                   index=settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']) \
             .query(Q("multi_match", query=query, fields=fields)) \
             .filter(~F("ids", type="modelresult",
                     values=exclude_user_ids)) \
