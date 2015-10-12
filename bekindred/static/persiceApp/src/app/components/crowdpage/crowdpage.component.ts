@@ -46,7 +46,7 @@ export class CrowdPageComponent {
     this.loading = true;
 
     // Crowd page load users list
-    this.http.get('/api/v1/matchfeed/?format=json&filter=true')
+    this.http.get('/api/v1/matchfeed2/?format=json&filter=true')
     .map(res => res.json())
     .subscribe(data => this.assignCrowd(data));
   }
