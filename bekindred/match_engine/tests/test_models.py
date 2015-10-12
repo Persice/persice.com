@@ -44,6 +44,10 @@ class TestMatchQuerySet(BaseTestCase):
         self.subject8 = Subject.objects.create(description='learn javascript')
         self.subject9 = Subject.objects.\
             create(description='django under the hood')
+        self.subject10 = Subject.objects.\
+            create(description='learn kiteboarding and foxes')
+        self.subject11 = Subject.objects.\
+            create(description='like a kiteboard and fox')
 
         self.i_subject = InterestSubject.objects.\
             create(description='teach django')
@@ -192,3 +196,14 @@ class TestMatchQuerySet(BaseTestCase):
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
                          [u'<em>django</em> under the hood'])
+
+    def test_simple_match_goals_with_root_forms_of_word(self):
+        Goal.objects.create(user=self.user, goal=self.subject10)
+        Goal.objects.create(user=self.user1, goal=self.subject11)
+        update_index.Command().handle(interactive=False)
+        match_users = ElasticSearchMatchEngine. \
+            elastic_objects.match(user_id=self.user.id)
+        self.assertEqual(match_users[0]['_id'],
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
+        self.assertEqual(match_users[0]['highlight']['goals'],
+                         [u'like a <em>kiteboard</em> and <em>fox</em>'])
