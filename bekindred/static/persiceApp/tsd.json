@@ -19,6 +19,15 @@
     },
     "jquery/jquery.d.ts": {
       "commit": "66f88ec51858bb21bc375fa91a963c04bc09401e"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "1e992ae7921c0f52f364d70804fe8e626259780f"
+    },
+    "moment/moment.d.ts": {
+      "commit": "1e992ae7921c0f52f364d70804fe8e626259780f"
+    },
+    "moment/moment-node.d.ts": {
+      "commit": "1e992ae7921c0f52f364d70804fe8e626259780f"
     }
   }
 }

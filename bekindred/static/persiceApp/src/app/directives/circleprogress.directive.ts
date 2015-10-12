@@ -17,9 +17,9 @@ export class CircleProgressDirective {
   }
 
   onInit() {
-    // ToDo add real value for circle progress
+
     jQuery(this.el.nativeElement).circleProgress({
-      value: 0.75,
+      value: this.value / 100,
       size: 128,
       thickness: 2,
       fill: {

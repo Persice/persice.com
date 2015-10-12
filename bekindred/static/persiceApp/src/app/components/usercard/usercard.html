@@ -16,8 +16,6 @@
   </div>
   <h6 class="card-subtitle">Shared Interest</h6>
   <ul class="interest-list">
-    <li>Dance</li>
-    <li>3D printing</li>
-    <li>Cooking</li>
+    <li *ng-for="#key of keys(user.interests)">{{key}}</li>
   </ul>
 </div>

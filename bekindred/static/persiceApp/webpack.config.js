@@ -102,7 +102,9 @@ module.exports = {
     chunkFilename: '[id].chunk.js',
     publicPath: './static/persiceApp/src/public/',
   },
-
+  externals: {
+    // 'lodash': '_'
+  },
   resolve: {
     root: __dirname,
     modulesDirectories: [
@@ -112,6 +114,7 @@ module.exports = {
     alias: {
       'rx': '@reactivex/rxjs',
       'app': 'src/app',
+      'lodash': 'lodash',
       // 'common': 'src/common',
       'bindings': 'src/bindings',
       'components': 'src/app/components',
@@ -215,6 +218,10 @@ module.exports = {
 
     ],
     'all': [
+      new webpack.ProvidePlugin({
+        _: "lodash",
+        moment: "moment"
+      }),
       new DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
         'VERSION': JSON.stringify(pkg.version)

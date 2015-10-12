@@ -1,5 +1,5 @@
 <div class="layout__item 1/1 extralarge-and-up-3/4">
-  <loading-indicator [(status)]="loading"></loading-indicator>
+  <loading-indicator [status]="loading"></loading-indicator>
   <h3 *ng-if="!loading % emptyList">No results...</h3>
   <users-list [users]="crowd"></users-list>
 </div>
