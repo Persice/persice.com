@@ -49,9 +49,14 @@ ELASTICSEARCH_INDEX_SETTINGS = {
                     "tokenizer": "lowercase",
                     "filter": ["haystack_edgengram"]
                 },
-                "english_analyzer": {
-                    "type": "english",
-                    "stopwords": "_english_"
+                "english": {
+                    "tokenizer":  "standard",
+                    "filter": [
+                        "english_possessive_stemmer",
+                        "lowercase",
+                        "english_stop",
+                        "english_stemmer"
+                    ]
                 }
             },
             "tokenizer": {
@@ -77,6 +82,18 @@ ELASTICSEARCH_INDEX_SETTINGS = {
                     "type": "edgeNGram",
                     "min_gram": 2,
                     "max_gram": 15
+                },
+                "english_stop": {
+                    "type":       "stop",
+                    "stopwords":  "_english_"
+                },
+                "english_stemmer": {
+                    "type":       "stemmer",
+                    "language":   "english"
+                },
+                "english_possessive_stemmer": {
+                    "type":       "stemmer",
+                    "language":   "possessive_english"
                 }
             }
         }

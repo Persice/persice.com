@@ -192,6 +192,7 @@ class MatchedFeedResource2(Resource):
     interests = fields.ListField(attribute='interests')
 
     score = fields.IntegerField(attribute='score', null=True)
+    es_score = fields.FloatField(attribute='es_score', null=True)
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
 
     class Meta:
