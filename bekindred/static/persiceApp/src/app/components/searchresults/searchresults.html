@@ -1,5 +1,11 @@
-<div class="has-search__drop" [ng-class]="{'is-visible':  (usersTotal > 0 || eventsTotal > 0) && focus}">
+<div class="has-search__drop" [ng-class]="{'is-visible': focus}">
   <div class="search__drop">
+    <div class="search__drop__flag flag" *ng-if="loadingUsers || loadingEvents || (noResultsUsers && noResultsEvents)">
+      <div class="flag__body">
+        <loading-indicator [status]="loadingUsers || loadingEvents"></loading-indicator>
+        <p *ng-if="noResultsUsers && noResultsEvents && !(loadingUsers || loadingEvents)">No results found</p>
+      </div>
+    </div>
     <h3 class="search__drop__title" *ng-if="usersTotal > 0">Users</h3>
     <searchresult-user *ng-for="#user of users" [user]="user"></searchresult-user>
     <a *ng-if="usersTotal > 0" href="" class="search__show-all">Show All <span>({{usersTotal}})</span></a>

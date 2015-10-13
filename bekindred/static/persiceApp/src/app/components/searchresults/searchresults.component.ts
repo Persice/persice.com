@@ -10,14 +10,13 @@ import {LoadingIndicatorComponent} from '../loadingindicator/loadingindicator.co
 let view = require('./searchresults.html');
 @Component({
   selector: 'search-results',
-  inputs: ['users', 'usersTotal', 'focus', 'events', 'eventsTotal', 'loadingUsers', 'loadingEvents']
+  inputs: ['users', 'usersTotal', 'focus', 'events', 'eventsTotal', 'loadingUsers', 'loadingEvents', 'noResultsUsers', 'noResultsEvents']
 })
 @View({
   template: view,
   directives: [NgFor, NgIf, NgClass, SearchResultsUserComponent, SearchResultsEventComponent, LoadingIndicatorComponent]
 })
 export class SearchResultsComponent {
-
   constructor() {
 
   }

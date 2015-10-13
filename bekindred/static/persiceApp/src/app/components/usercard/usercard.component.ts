@@ -11,32 +11,30 @@ import {take, sample} from 'lodash';
 let view = require('./usercard.html');
 
 @Component({
-    inputs: ['user'],
-    selector: 'user-card'
+  inputs: ['user'],
+  selector: 'user-card'
 })
 @View({
-    pipes: [GenderPipe],
-    template: view,
-    directives: [CircleProgressDirective, ImageStretchDirective, NgIf, NgFor]
+  pipes: [GenderPipe],
+  template: view,
+  directives: [CircleProgressDirective, ImageStretchDirective, NgIf, NgFor]
 })
 export class UserCardComponent {
-    user: any;
-    constructor() {
+  user: any;
+  constructor() {
 
-    }
+  }
 
     //take 3 shared interests
     keys(data): Array<string> {
       let keys = [];
-      for (var key in data) {
-        for (var k in data[key]) {
-          if (data[key][k] === 1) {
-            keys.push(k);
-          };
+      for (var key in data[0]) {
+        if (data[0][key] === 1) {
+          keys.push(key);
         }
       }
 
       return take(keys, 3);
 
     }
-}
+  }

@@ -13,12 +13,13 @@ let API_URL_USER: string = '/api/v1/auth/user/search/';
 
 @Component({
   selector: 'search-input',
-  outputs: ['loadingUsers', 'resultsUsers', 'loadingEvents', 'resultsEvents', 'totalUsers', 'totalEvents', 'focusedInput']
+  outputs: ['loadingUsers', 'resultsUsers', 'reset', 'loadingEvents', 'resultsEvents', 'totalUsers', 'totalEvents', 'focusedInput']
 })
 @View({
   template: view
 })
 export class SearchInputComponent {
+  reset: EventEmitter = new EventEmitter();
   loadingUsers: EventEmitter = new EventEmitter();
   focusedInput: EventEmitter = new EventEmitter();
   loadingEvents: EventEmitter = new EventEmitter();
@@ -34,23 +35,29 @@ export class SearchInputComponent {
 
   inputChanged($event, query): void {
 
+    if (!query) {
+      this.reset.next(true);
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId);
+      }
+      return;
+    }
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }
 
     this.timeoutId = setTimeout(() => {
-
+      this.loadingUsers.next(true);
       this.service.search(query, 'user')
-        .do(() => this.loadingUsers.next(true))
-        .map(res => res.json())
-        .subscribe(data => this.assignDataUsers(data));
+      .map(res => res.json())
+      .subscribe(data => this.assignDataUsers(data));
 
+      this.loadingEvents.next(true);
       this.service.search(query, 'event')
-        .do(() => this.loadingEvents.next(true))
-        .map(res => res.json())
-        .subscribe(data => this.assignDataEvents(data));
-    }, 500);
+      .map(res => res.json())
+      .subscribe(data => this.assignDataEvents(data));
+    }, 700);
   }
 
   assignDataUsers(data) {

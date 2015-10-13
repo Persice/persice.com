@@ -19,11 +19,13 @@ let view = require('./search.html');
 export class SearchComponent {
   focusinput: boolean = false;
   resultsUsers: SearchResultUserModel[];
-  resultsUsersTotalCount: number = 0;
+  resultsUsersTotalCount: number;
   resultsEvents: SearchResultEventModel[];
-  resultsEventsTotalCount: number = 0;
+  resultsEventsTotalCount: number;
   loadingUsers: boolean = false;
   loadingEvents: boolean = false;
+  noResEvents = false;
+  noResUsers = false;
   constructor() {
   }
 
@@ -35,12 +37,35 @@ export class SearchComponent {
     this.resultsEvents = results;
   }
 
+  reset(): void {
+    this.noResUsers = false;
+    this.noResEvents = false;
+    this.resultsUsers = null;
+    this.resultsEvents = null;
+    this.loadingUsers = false;
+    this.loadingEvents = false;
+    this.resultsEventsTotalCount = 0;
+    this.resultsUsersTotalCount = 0;
+  }
+
   updateResultsUsersTotalCount(count: number): void {
     this.resultsUsersTotalCount = count;
+    if (count === 0) {
+      this.noResUsers = true;
+    }
+    else {
+      this.noResUsers = false;
+    }
   }
 
   updateResultsEventsTotalCount(count: number): void {
     this.resultsEventsTotalCount = count;
+    if (count === 0) {
+      this.noResEvents = true;
+    }
+    else {
+      this.noResEvents = false;
+    }
   }
 
 }
