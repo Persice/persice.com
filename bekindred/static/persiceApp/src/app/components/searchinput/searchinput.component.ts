@@ -35,13 +35,14 @@ export class SearchInputComponent {
 
   inputChanged($event, query): void {
 
-    if (!query) {
+    if (!query || query.length < 2) {
       this.reset.next(true);
       if (this.timeoutId) {
         clearTimeout(this.timeoutId);
       }
       return;
     }
+
 
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
