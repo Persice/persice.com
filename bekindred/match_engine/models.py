@@ -421,6 +421,41 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         return response.hits.hits
 
+    @staticmethod
+    def match_between(user_id1, user_id2):
+        user = FacebookCustomUserActive.objects.get(pk=user_id1)
+        goals = user.goal_set.all()
+        offers = user.offer_set.all()
+        interests = user.interest_set.all()
+        likes = FacebookLikeProxy.objects.filter(user_id=user.id)
+        words = set()
+        for subject in itertools.chain(goals, offers, interests, likes):
+            words |= set(unicode(subject).lower().
+                         translate(remove_punctuation_map).split())
+
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+
+        removed_stopwords = [word for word in words if word not in stop_words]
+        query = ' '.join(removed_stopwords)
+
+        fields = ["goals", "offers", "interests", "likes"]
+        exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id1]
+
+        client = Elasticsearch()
+
+        s = Search(using=client,
+                   index=settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']) \
+            .query(Q("multi_match", query=query, fields=fields)) \
+            .filter(F("ids", type="modelresult",
+                      values=['members.facebookcustomuseractive.%s' % user_id2])) \
+            .filter(~F("ids", type="modelresult",
+                       values=exclude_user_ids)) \
+            .highlight(*fields)
+        print s.to_dict()
+        response = s.execute()
+
+        return response.hits.hits
+
 
 class AbstractMatchEngine(models.Model):
     objects = MatchEngineManager()

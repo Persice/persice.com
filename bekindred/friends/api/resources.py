@@ -16,6 +16,7 @@ from goals.utils import (calculate_distance, get_mutual_linkedin_connections,
                          get_mutual_twitter_friends, social_extra_data)
 from match_engine.models import MatchEngine
 from matchfeed.api.resources import A
+from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 
@@ -198,6 +199,165 @@ class ConnectionsResource(Resource):
             new_obj.common_goals_offers_interests = MatchEngine.\
                 objects.count_common_goals_and_offers(current_user,
                                                       new_obj.friend_id)
+
+            new_obj.distance = calculate_distance(request.user.id,
+                                                  new_obj.friend_id)
+            results.append(new_obj)
+
+        # Order by match_score
+        if request.GET.get('order') == 'match_score':
+            return sorted(results,
+                          key=lambda x: x.common_goals_offers_interests,
+                          reverse=True)
+
+        elif request.GET.get('order') == 'mutual_friends':
+            return sorted(results,
+                          key=lambda x: x.mutual_friends, reverse=True)
+
+        elif request.GET.get('order') == 'first_name':
+            return sorted(results, key=lambda x: (x.first_name, x.last_name))
+
+        elif request.GET.get('order') == 'distance':
+            return sorted(results, key=lambda x: x.distance[0])
+
+        return sorted(results, key=lambda x: x.updated_at, reverse=True)
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+
+class ConnectionsResource2(Resource):
+    id = fields.CharField(attribute='id')
+    facebook_id = fields.CharField(attribute='facebook_id', null=True)
+    first_name = fields.CharField(attribute='first_name')
+    last_name = fields.CharField(attribute='last_name')
+    friend_id = fields.CharField(attribute='friend_id')
+    twitter_provider = fields.CharField(attribute='twitter_provider',
+                                        null=True)
+    twitter_username = fields.CharField(attribute='twitter_username',
+                                        null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider',
+                                         null=True)
+
+    mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
+    mutual_bk_friends_count = fields.IntegerField(
+        attribute='mutual_bk_friends_count')
+
+    mutual_fb_friends = fields.ListField(attribute='mutual_fb_friends')
+
+    mutual_fb_friends_count = fields.IntegerField(
+        attribute='mutual_fb_friends_count')
+
+    mutual_linkedin_connections = fields.ListField(
+        attribute='mutual_linkedin_connections')
+
+    mutual_linkedin_connections_count = fields.IntegerField(
+        attribute='mutual_linkedin_connections_count')
+
+    mutual_twitter_friends = fields.ListField(
+        attribute='mutual_twitter_friends')
+
+    mutual_twitter_friends_count = fields.IntegerField(
+        attribute='mutual_twitter_friends_count')
+
+    mutual_twitter_followers = fields.ListField(
+        attribute='mutual_twitter_followers')
+
+    mutual_twitter_followers_count = fields.IntegerField(
+        attribute='mutual_twitter_followers_count')
+
+    mutual_friends = fields.IntegerField(attribute='mutual_friends')
+
+    common_goals_offers_interests = fields.IntegerField(
+        attribute='common_goals_offers_interests', null=True)
+
+    updated_at = fields.DateTimeField(attribute='updated_at', null=True)
+    distance = fields.ListField(attribute='distance')
+    image = fields.FileField(attribute="image", null=True, blank=True)
+
+    class Meta:
+        resource_name = 'connections2'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        results = []
+        _first_name = request.GET.get('first_name', None)
+        _friend_id = request.GET.get('friend', None)
+        current_user = request.user.id
+        friends = Friend.objects.friends(current_user)
+        for friend in friends:
+
+            new_obj = A()
+            new_obj.id = friend.id
+            if friend.friend1.id == current_user:
+                position_friend = 'friend2'
+            else:
+                position_friend = 'friend1'
+
+            new_obj.first_name = getattr(friend, position_friend).first_name
+            new_obj.last_name = getattr(friend, position_friend).last_name
+            new_obj.facebook_id = getattr(friend, position_friend).facebook_id
+            new_obj.image = getattr(friend, position_friend).image
+            new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.updated_at = friend.updated_at
+
+            if _friend_id and not int(_friend_id) == new_obj.friend_id:
+                continue
+
+            if _first_name and \
+                    not _first_name.lower() in new_obj.first_name.lower():
+                continue
+
+            new_obj.twitter_provider, new_obj.linkedin_provider, \
+            new_obj.twitter_username = social_extra_data(new_obj.friend_id)
+
+            new_obj.mutual_bk_friends = Friend.objects. \
+                mutual_friends(current_user, new_obj.friend_id)
+            new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)
+
+            new_obj.mutual_fb_friends = FacebookFriendUser.objects. \
+                mutual_friends(current_user, new_obj.friend_id)
+            new_obj.mutual_fb_friends_count = len(new_obj.mutual_fb_friends)
+
+            l = get_mutual_linkedin_connections(current_user,
+                                                new_obj.friend_id)
+            new_obj.mutual_linkedin_connections = l['mutual_linkedin']
+            new_obj.mutual_linkedin_connections_count = \
+                l['mutual_linkedin_count']
+
+            t = get_mutual_twitter_friends(current_user, new_obj.friend_id)
+            new_obj.mutual_twitter_friends = t['mutual_twitter_friends']
+            new_obj.mutual_twitter_friends_count = \
+                t['count_mutual_twitter_friends']
+            new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
+            new_obj.mutual_twitter_followers_count = \
+                t['count_mutual_twitter_followers']
+
+            new_obj.mutual_friends = new_obj.mutual_bk_friends_count + \
+                                     new_obj.mutual_fb_friends_count + \
+                                     new_obj.mutual_linkedin_connections_count + \
+                                     new_obj.mutual_twitter_friends_count + \
+                                     new_obj.mutual_twitter_followers_count
+
+            m = MatchQuerySet.between(current_user, new_obj.friend_id)
+            new_obj.common_goals_offers_interests = m[0].score if m else 0
 
             new_obj.distance = calculate_distance(request.user.id,
                                                   new_obj.friend_id)

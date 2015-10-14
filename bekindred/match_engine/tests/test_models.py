@@ -33,6 +33,14 @@ class TestMatchQuerySet(BaseTestCase):
             create_user(username='user_b', facebook_id=12345671,
                         first_name='Sasa',
                         password='test', date_of_birth=date(1989, 1, 9))
+        self.user2 = FacebookCustomUser.objects. \
+            create_user(username='user_c', facebook_id=12345672,
+                        first_name='Sasa1',
+                        password='test', date_of_birth=date(1989, 1, 9))
+        self.user3 = FacebookCustomUser.objects. \
+            create_user(username='user_d', facebook_id=12345673,
+                        first_name='Sasa2',
+                        password='test', date_of_birth=date(1989, 1, 9))
         self.subject = Subject.objects.create(description='learn django')
         self.subject2 = Subject.objects.create(description='learn python')
         self.subject3 = Subject.objects.create(description='teach erlang')
@@ -207,3 +215,13 @@ class TestMatchQuerySet(BaseTestCase):
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
                          [u'like a <em>kiteboard</em> and <em>fox</em>'])
+
+    def test_simple_match_between(self):
+        Goal.objects.create(user=self.user, goal=self.subject10)
+        Goal.objects.create(user=self.user1, goal=self.subject11)
+        Goal.objects.create(user=self.user2, goal=self.subject11)
+        Goal.objects.create(user=self.user3, goal=self.subject11)
+        update_index.Command().handle(interactive=False)
+        users = MatchQuerySet.between(self.user.id, self.user1.id)
+        self.assertEqual(len(users), 1)
+        self.assertEqual(users[0].score, 1)
