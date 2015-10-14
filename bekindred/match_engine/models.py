@@ -396,7 +396,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         likes = FacebookLikeProxy.objects.filter(user_id=user.id)
         words = set()
         for subject in itertools.chain(goals, offers, interests, likes):
-            words |= set(unicode(subject).
+            words |= set(unicode(subject).lower().
                          translate(remove_punctuation_map).split())
 
         stop_words = StopWords.objects.all().values_list('word', flat=True)
