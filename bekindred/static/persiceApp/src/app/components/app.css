@@ -72,3 +72,17 @@
   width: 64px;
   height: 64px;
 }
+
+
+
+
+/* fix for keywords wrap in filter */
+
+.keyword {
+  display: inline-block;
+}
+
+.errorMessage {
+  font-size: 0.8rem;
+  color: red;
+}
