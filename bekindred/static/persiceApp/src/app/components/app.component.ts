@@ -41,7 +41,7 @@ let view = require('./app.html');
  */
  @RouteConfig([
   { path: '/', component: HomePageComponent, as: 'Home'},
-  { path: '/crowd', component: CrowdPageComponent, as: 'Crowd'},
+  { path: '/crowd/:version', component: CrowdPageComponent, as: 'Crowd'},
   { path: '/message', component: MessagePageComponent, as: 'Message'},
   { path: '/connection', component: ConnectionPageComponent, as: 'Connection'},
   { path: '/events', component: EventsPageComponent, as: 'Events'}
@@ -70,11 +70,10 @@ export class AppComponent {
   loading: boolean;
 
   constructor(public http: Http) {
-    this.image = '';
-    // this.loading = true;
+    //default image
+    this.image = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
   }
   onInit() {
-
     // Get AuthUser info for the app
     this.http.get('/api/v1/me/?format=json')
       .map(res => res.json())

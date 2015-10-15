@@ -16,8 +16,7 @@ export class CircleProgressDirective {
     this.el = el;
   }
 
-  onInit() {
-
+  afterViewInit() {
     jQuery(this.el.nativeElement).circleProgress({
       value: this.value / 100,
       size: 128,
