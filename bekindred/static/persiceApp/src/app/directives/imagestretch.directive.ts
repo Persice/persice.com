@@ -8,14 +8,14 @@ declare var jQuery: any;
   selector: '[image-stretch]'
 })
 export class ImageStretchDirective {
-  el: ElementRef;
+  private element: ElementRef;
 
-  constructor(@Inject(ElementRef) el: ElementRef) {
-    this.el = el;
+  constructor( element: ElementRef) {
+    this.element = element;
   }
 
-  afterContentChecked() {
-    jQuery(this.el.nativeElement).imgLiquid({
+  afterViewInit() {
+    jQuery(this.element.nativeElement).imgLiquid({
       fill: true,
       horizontalAlign: 'center',
       verticalAlign: 'center'
