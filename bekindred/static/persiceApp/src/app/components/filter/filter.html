@@ -3,17 +3,17 @@
     <div class="filter__item">
       <h3 class="filter__item__title mb">Gender</h3>
       <label class="c-radio">
-        <input class="c-radio__input" #all type="radio" (click)="gender = all.value" name="radio" value="m,f" [checked]="gender === 'm,f'">
+        <input class="c-radio__input" #all type="radio" (click)="changeGender(all.value)" name="radio" value="m,f" [checked]="gender === 'm,f'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">All</span>
       </label>
       <label class="c-radio">
-        <input class="c-radio__input" type="radio" #male (click)="gender = male.value" name="radio" value="m" [checked]="gender === 'm'">
+        <input class="c-radio__input" type="radio" #male (click)="changeGender(male.value)" name="radio" value="m" [checked]="gender === 'm'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">Male</span>
       </label>
       <label class="c-radio">
-        <input class="c-radio__input" type="radio" #female (click)="gender = female.value" name="radio" value="f" [checked]="gender === 'f'">
+        <input class="c-radio__input" type="radio" #female (click)="changeGender(female.value)" name="radio" value="f" [checked]="gender === 'f'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">Female</span>
       </label>
@@ -66,8 +66,8 @@
   </div>
   <footer class="filter__footer">
     <div class="layout layout--small">
-      <div class="layout__item 3/5"> <a class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full" href="#">Filter</a> </div>
-      <div class="layout__item 2/5"> <a class="btn btn-1 btn-1--small btn-1--darkblue btn--full" href="#">Reset</a> </div>
+      <div class="layout__item 3/5"> <a [class.is-disabled]="isFilterDisabled" (click)="updateCrowdList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a> </div>
+      <div class="layout__item 2/5"> <a (click)="resetFilters($event)" class="btn btn-1 btn-1--small btn-1--darkblue btn--full">Reset</a> </div>
     </div>
   </footer>
 </div>
