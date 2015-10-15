@@ -34,6 +34,8 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+ELASTICSEARCH_DEFAULT_ANALYZER = 'synonym_analyzer'
+
 
 ELASTICSEARCH_INDEX_SETTINGS = {
     'settings': {
@@ -42,12 +44,17 @@ ELASTICSEARCH_INDEX_SETTINGS = {
                 "ngram_analyzer": {
                     "type": "custom",
                     "tokenizer": "lowercase",
-                    "filter": ["haystack_ngram"]
+                    "filter": ["haystack_ngram", "synonym"]
                 },
                 "edgengram_analyzer": {
                     "type": "custom",
                     "tokenizer": "lowercase",
                     "filter": ["haystack_edgengram"]
+                },
+                "synonym_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["synonym"]
                 },
                 "english": {
                     "tokenizer":  "standard",
@@ -77,6 +84,12 @@ ELASTICSEARCH_INDEX_SETTINGS = {
                     "type": "nGram",
                     "min_gram": 3,
                     "max_gram": 15
+                },
+                "synonym": {
+                    "type": "synonym",
+                    "ignore_case": "true",
+                    "format": "wordnet",
+                    "synonyms_path": "analysis/synonym.txt"
                 },
                 "haystack_edgengram": {
                     "type": "edgeNGram",

@@ -56,6 +56,10 @@ class TestMatchQuerySet(BaseTestCase):
             create(description='learn kiteboarding and foxes')
         self.subject11 = Subject.objects.\
             create(description='like a kiteboard and fox')
+        self.subject12 = Subject.objects. \
+            create(description='baby')
+        self.subject13 = Subject.objects. \
+            create(description='child')
 
         self.i_subject = InterestSubject.objects.\
             create(description='teach django')
@@ -69,7 +73,8 @@ class TestMatchQuerySet(BaseTestCase):
         rebuild_index.Command().handle(interactive=False)
 
     def tearDown(self):
-        haystack.connections['default'].get_backend().clear()
+        # haystack.connections['default'].get_backend().clear()
+        pass
 
     def test_simple_match_goals(self):
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -225,3 +230,14 @@ class TestMatchQuerySet(BaseTestCase):
         users = MatchQuerySet.between(self.user.id, self.user1.id)
         self.assertEqual(len(users), 1)
         self.assertEqual(users[0].score, 1)
+
+    def test_simple_match_synonyms(self):
+        Goal.objects.create(user=self.user, goal=self.subject12)
+        Goal.objects.create(user=self.user1, goal=self.subject13)
+        update_index.Command().handle(interactive=False)
+        match_users = ElasticSearchMatchEngine. \
+            elastic_objects.match(user_id=self.user.id)
+        self.assertEqual(match_users[0]['_id'],
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
+        self.assertEqual(match_users[0]['highlight']['goals'],
+                         [u'<em>child</em>'])
