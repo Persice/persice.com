@@ -4,5 +4,5 @@
   <users-list [users]="crowd"></users-list>
 </div>
 <div class="layout__item extralarge-and-up-1/4 filter-place">
-  <filter [state]="filters"></filter>
+  <filter (refresh-crowd)="refreshCrowd($event)" [state]="filters"></filter>
 </div>∫
