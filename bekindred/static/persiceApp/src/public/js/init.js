@@ -18,7 +18,7 @@ $(document).ready(function() {
     size: 246,
     thickness: 4,
     fill: {
-      color: '#6dcbe8'
+      color: '#39c9f5'
     }
   });
 
@@ -81,7 +81,7 @@ $(document).ready(function() {
   // });
 
   //Select replacement
-  $('select').minimalect();
+  // $('select').minimalect();
 
   //Profile Drop
   // $('.profile-drop__arrow').click(function() {

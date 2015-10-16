@@ -22,7 +22,7 @@ export class CircleProgressDirective {
       size: 128,
       thickness: 2,
       fill: {
-        color: '#6dcbe8'
+        color: '#39c9f5'
       }
     });
   }
