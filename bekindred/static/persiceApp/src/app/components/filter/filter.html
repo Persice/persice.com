@@ -42,7 +42,7 @@
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>
-      <select-element [options]="orderBy"></select-element>
+      <select-element (selected-value)="changeOrder($event)" [options]="orderBy"></select-element>
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Keywords</h3>

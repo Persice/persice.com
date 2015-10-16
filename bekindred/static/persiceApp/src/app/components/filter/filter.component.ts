@@ -47,27 +47,27 @@ export class FilterComponent {
   keywordErrorMessage: string = '';
   isFilterDisabled: boolean = true;
   orderBy: Array<Object> = [
-    {
-      'label': 'Match Score',
-      'value': 'match_score',
-      'selected': false
-    },
-    {
-      'label': 'Distance',
-      'value': 'distance',
-      'selected': false
-    },
-    {
-      'label': 'Mutual Friends',
-      'value': 'mutual_friends',
-      'selected': false
-    }
+  {
+    'label': 'Match Score',
+    'value': 'match_score',
+    'selected': false
+  },
+  {
+    'label': 'Distance',
+    'value': 'distance',
+    'selected': false
+  },
+  {
+    'label': 'Mutual Friends',
+    'value': 'mutual_friends',
+    'selected': false
+  }
   ];
 
   constructor(public http: Http, fb: FormBuilder) {
     this.http.get('/api/v1/filter/state/?format=json')
-      .map(res => res.json())
-      .subscribe(data => this.setFilters(data));
+    .map(res => res.json())
+    .subscribe(data => this.setFilters(data));
   }
 
   changeGender(value) {
@@ -79,9 +79,19 @@ export class FilterComponent {
 
   }
 
+  changeOrder(value) {
+    if (this.order !== value) {
+      this.order = value;
+      this.filters.state.order_criteria = value;
+      this.saveFilters(false);
+    }
+
+  }
+
   setFilters(data) {
     this.filters = new FilterModel(data.objects[0]);
     this.gender = this.filters.state.gender;
+    this.order = this.filters.state.order_criteria;
     if (this.filters.state.keyword.length > 0) {
       this.keywords = this.filters.state.keyword.split(',');
     }
@@ -113,10 +123,10 @@ export class FilterComponent {
 
     this.http.patch(
       this.filters.state.resource_uri,
-        JSON.stringify(this.filters.state),
-        opts)
-      .map(res => res.json())
-      .subscribe(data => {
+      JSON.stringify(this.filters.state),
+      opts)
+    .map(res => res.json())
+    .subscribe(data => {
       this.isFilterDisabled = false;
       if (reset) {
         this.updateCrowdList();
