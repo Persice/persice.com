@@ -23,7 +23,6 @@ export class SelectComponent {
   }
 
   onInit() {
-    console.log('selectcomp');
     let changeCounter = 0;
     let selectEl = this.el.nativeElement.children[0];
     jQuery(selectEl).minimalect({
