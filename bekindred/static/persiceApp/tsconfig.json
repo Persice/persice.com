@@ -38,6 +38,7 @@
         "src/app/components/searchresultsevent/searchresultsevent.component.ts",
         "src/app/components/searchresultsuser/searchresultsuser.component.ts",
         "src/app/components/select/select.component.ts",
+        "src/app/components/rangeslider/rangeslider.component.ts",
         "src/app/components/usercard/usercard.component.ts",
         "src/app/components/userslist/userslist.component.ts",
         "src/app/directives/autofocus.directive.ts",
