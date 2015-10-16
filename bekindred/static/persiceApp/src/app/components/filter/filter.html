@@ -27,7 +27,7 @@
           <span class="range-value">{{minAge}} - {{maxAge}}</span>
         </div>
       </div>
-      <input type="text" value="" [(ng-model)]="age" name="range" class="range">
+      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsAge" (on-change)="ageChanged($event)" (on-finish)="saveAge($event)"></range-slider>
     </div>
     <div class="filter__item">
       <div class="layout layout--middle">
@@ -35,10 +35,10 @@
           <h3 class="filter__item__title">Distance</h3>
         </div>
         <div class="layout__item 1/2 text-right">
-          <span class="range-value">{{distanceValue}} {{distanceUnit}}</span>
+          <span class="range-value">{{distanceValue | number}} {{distanceUnit}}</span>
         </div>
       </div>
-      <input type="text" class="range-to" value="" name="range">
+      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsDistance" (on-change)="distanceChanged($event)" (on-finish)="saveDistance($event)"></range-slider>
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>
