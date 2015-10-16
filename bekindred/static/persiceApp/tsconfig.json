@@ -37,6 +37,7 @@
         "src/app/components/searchresults/searchresults.component.ts",
         "src/app/components/searchresultsevent/searchresultsevent.component.ts",
         "src/app/components/searchresultsuser/searchresultsuser.component.ts",
+        "src/app/components/select/select.component.ts",
         "src/app/components/usercard/usercard.component.ts",
         "src/app/components/userslist/userslist.component.ts",
         "src/app/directives/autofocus.directive.ts",
@@ -58,7 +59,12 @@
         "src/typings/_custom.d.ts",
         "src/typings/browser.d.ts",
         "src/typings/webpack.d.ts",
-        "test/app/app.spec.ts"
+        "test/app/app.spec.ts",
+        "typings/jquery/jquery.d.ts",
+        "typings/lodash/lodash.d.ts",
+        "typings/rx/rx-lite.d.ts",
+        "typings/rx/rx.d.ts",
+        "typings/tsd.d.ts"
     ],
     "exclude": []
 }
