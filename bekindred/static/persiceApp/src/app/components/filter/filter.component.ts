@@ -14,7 +14,9 @@ import {
   EventEmitter
 } from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
-import {includes} from 'lodash';
+import {includes, findIndex, forEach, isUndefined} from 'lodash';
+
+import {SelectComponent} from '../select/select.component';
 
 import {FilterModel} from '../../models/filter.model';
 
@@ -26,7 +28,7 @@ declare var jQuery: any;
   selector: 'filter',
   inputs: ['state'],
   outputs: ['refreshCrowd'],
-  directives: [FORM_DIRECTIVES, NgFor, NgIf],
+  directives: [FORM_DIRECTIVES, NgFor, NgIf, SelectComponent],
   template: view
 })
 export class FilterComponent {
@@ -44,11 +46,28 @@ export class FilterComponent {
   keywordError: boolean = false;
   keywordErrorMessage: string = '';
   isFilterDisabled: boolean = true;
+  orderBy: Array<Object> = [
+    {
+      'label': 'Match Score',
+      'value': 'match_score',
+      'selected': false
+    },
+    {
+      'label': 'Distance',
+      'value': 'distance',
+      'selected': false
+    },
+    {
+      'label': 'Mutual Friends',
+      'value': 'mutual_friends',
+      'selected': false
+    }
+  ];
 
   constructor(public http: Http, fb: FormBuilder) {
     this.http.get('/api/v1/filter/state/?format=json')
-    .map(res => res.json())
-    .subscribe(data => this.refreshFilters(data));
+      .map(res => res.json())
+      .subscribe(data => this.setFilters(data));
   }
 
   changeGender(value) {
@@ -60,12 +79,26 @@ export class FilterComponent {
 
   }
 
-  refreshFilters(data) {
+  setFilters(data) {
     this.filters = new FilterModel(data.objects[0]);
     this.gender = this.filters.state.gender;
     if (this.filters.state.keyword.length > 0) {
       this.keywords = this.filters.state.keyword.split(',');
     }
+
+    let index = findIndex(this.orderBy, (option) => {
+      return option['value'] === this.filters.state.order_criteria;
+    });
+
+    if (!isUndefined(index)) {
+      this.orderBy[index]['selected'] = true;
+    }
+    else {
+      //set match score as default selected option
+      this.orderBy[0]['selected'] = true;
+    }
+
+
 
   }
 
@@ -80,10 +113,10 @@ export class FilterComponent {
 
     this.http.patch(
       this.filters.state.resource_uri,
-      JSON.stringify(this.filters.state),
-      opts)
-    .map(res => res.json())
-    .subscribe(data => {
+        JSON.stringify(this.filters.state),
+        opts)
+      .map(res => res.json())
+      .subscribe(data => {
       this.isFilterDisabled = false;
       if (reset) {
         this.updateCrowdList();

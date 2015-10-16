@@ -42,11 +42,7 @@
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>
-      <select>
-        <option value="match-score">Match Score</option>
-        <option value="distance">Distance</option>
-        <option value="mutual-friends">Mutual Friends</option>
-      </select>
+      <select-element [options]="orderBy"></select-element>
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Keywords</h3>
