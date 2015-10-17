@@ -11,7 +11,7 @@ export class AuthUserModel {
   info: InterfaceAuthUser;
   constructor(
     info: InterfaceAuthUser
-   ) {
-      this.info = info;
+  ) {
+    this.info = info;
   }
 }

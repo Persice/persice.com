@@ -1,7 +1,7 @@
 /// <reference path="../typings/_custom.d.ts" />
 
 // Angular 2
-import {bind, bootstrap} from 'angular2/angular2';
+import {bind, bootstrap, provide} from 'angular2/angular2';
 
 
 /*
@@ -49,11 +49,9 @@ import {AppComponent} from './components/app.component';
  * Universal injectables
  */
 const UNIVERSAL_BINDINGS = [
-// angular's http/form/router services/bindings
   ROUTER_BINDINGS,
   FORM_BINDINGS,
   HTTP_BINDINGS,
-// our collection of services from /services
   APP_SERVICES_BINDINGS
 ];
 
@@ -63,24 +61,16 @@ const UNIVERSAL_BINDINGS = [
 const PLATFORM_BINDINGS = [
 // if we want to explicit change detection
 // BEST_CHANGEDETECTION_BINDINGS,
-
-// if we want to use hashBash url for the router
   HASH_LOCATION_BINDINGS,
 ];
 
 const APP_BINDINGS = [
   UNIVERSAL_BINDINGS,
   PLATFORM_BINDINGS,
-  bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent)
+  provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent })
 ];
 
-/*
- * Bootstrap our Angular app with a top level component `App` and inject
- * our Universal/Platform services/bindings into Angular's dependency injection
- */
 bootstrap(
-// Top Level Component
   AppComponent,
-// AppBindings
   APP_BINDINGS
-  );
+);

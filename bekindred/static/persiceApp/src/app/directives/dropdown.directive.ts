@@ -15,12 +15,8 @@ export class DropdownDirective {
   el: ElementRef;
   target: string;
 
-  constructor(@Inject(ElementRef) el: ElementRef) {
+  constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
-  }
-
-  onInit() {
-
   }
 
   onClick(event: Event) {

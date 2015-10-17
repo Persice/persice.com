@@ -78,7 +78,7 @@
 
 			var op = this.options,
 				m = this;
-				
+
 			if(op.ajax)
 				op.live = false;
 
@@ -248,7 +248,7 @@
 						m.wrapper.removeClass(op.class_disabled);
 				}, 100);
 			}
- 
+
 
 			// after init callback
 			op.afterinit();
@@ -550,7 +550,7 @@
 
 			// if it's disabled, au revoir
 			if(ch.hasClass(this.options.class_disabled)) return false;
-			
+
 			if(!op.live)
 				this.items = this.wrapper.find('li');
 

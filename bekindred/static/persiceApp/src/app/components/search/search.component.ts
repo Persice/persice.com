@@ -1,6 +1,6 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, View, Directive, ElementRef, CORE_DIRECTIVES} from 'angular2/angular2';
+import {Component, CORE_DIRECTIVES} from 'angular2/angular2';
 
 import {SearchResultsComponent} from '../searchresults/searchresults.component';
 import {SearchInputComponent} from '../searchinput/searchinput.component';
@@ -10,9 +10,7 @@ import {SearchResultEventModel} from '../../models/searchresults.model';
 
 let view = require('./search.html');
 @Component({
-  selector: 'search'
-})
-@View({
+  selector: 'search',
   directives: [CORE_DIRECTIVES, SearchInputComponent, SearchResultsComponent],
   template: view
 })

@@ -28,10 +28,10 @@ export class SearchResultEventModel {
   image: string;
 
   constructor(obj?: any) {
-     this.name = obj && obj.name || null;
-     this.image = obj && obj.event_photo || '/static/img/placeholder-image.jpg';
-     this.city = obj && obj.city || null;
-     this.state = obj && obj.state || null;
-     this.date = obj && new Date(obj.starts_on) || null;
+    this.name = obj && obj.name || null;
+    this.image = obj && obj.event_photo || '/static/img/placeholder-image.jpg';
+    this.city = obj && obj.city || null;
+    this.state = obj && obj.state || null;
+    this.date = obj && new Date(obj.starts_on) || null;
   }
 }

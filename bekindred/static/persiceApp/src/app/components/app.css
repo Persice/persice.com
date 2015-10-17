@@ -17,7 +17,7 @@
 }
 
 .spinner > div {
-  background-color: #6dcbe8;
+  background-color: #39c9f5;
   height: 100%;
   width: 6px;
   display: inline-block;
@@ -79,8 +79,8 @@
 .flag__img .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
-  width: 64px;
-  height: 64px;
+  width: 46px;
+  height: 46px;
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;

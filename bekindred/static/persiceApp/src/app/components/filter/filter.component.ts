@@ -1,20 +1,17 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
 import {
-  Component,
-  View,
-  Directive,
-  ElementRef,
-  FORM_DIRECTIVES,
-  FormBuilder,
-  ControlGroup,
-  AbstractControl,
-  NgFor,
-  NgIf,
-  EventEmitter
+Component,
+NgFor,
+NgIf,
+FORM_DIRECTIVES,
+EventEmitter
 } from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
-import {includes} from 'lodash';
+import {includes, findIndex, forEach, isUndefined} from 'lodash';
+
+import {SelectComponent} from '../select/select.component';
+import {RangeSliderComponent} from '../rangeslider/rangeslider.component';
 
 import {FilterModel} from '../../models/filter.model';
 
@@ -26,29 +23,67 @@ declare var jQuery: any;
   selector: 'filter',
   inputs: ['state'],
   outputs: ['refreshCrowd'],
-  directives: [FORM_DIRECTIVES, NgFor, NgIf],
+  directives: [FORM_DIRECTIVES, NgFor, NgIf, SelectComponent, RangeSliderComponent],
   template: view
 })
 export class FilterComponent {
   refreshCrowd: EventEmitter = new EventEmitter();
   filters: FilterModel;
-  filterForm: ControlGroup;
   gender: string = 'm,f';
   order: String = 'match_score';
-  distanceValue: Number = 10000;
+  distanceValue: any = 10000;
   distanceUnit: String = 'miles';
-  minAge: Number = 25;
-  maxAge: Number = 60;
+  minAge: any = 25;
+  maxAge: any = 60;
   keywords: Array<string> = [];
   keywordValue: string = '';
   keywordError: boolean = false;
   keywordErrorMessage: string = '';
   isFilterDisabled: boolean = true;
+  renderSlider: Boolean = false;
+  orderBy: Array<Object> = [
+    {
+      'label': 'Match Score',
+      'value': 'match_score',
+      'selected': false
+    },
+    {
+      'label': 'Distance',
+      'value': 'distance',
+      'selected': false
+    },
+    {
+      'label': 'Mutual Friends',
+      'value': 'mutual_friends',
+      'selected': false
+    }
+  ];
+  rangeSliderOptionsAge = {
+    hide_min_max: true,
+    hide_from_to: true,
+    keyboard: true,
+    min: 18,
+    max: 115,
+    from: 25,
+    to: 60,
+    type: 'double',
+    step: 1
+  };
+  rangeSliderOptionsDistance = {
+    hide_min_max: true,
+    hide_from_to: true,
+    keyboard: true,
+    min: 0,
+    max: 10000,
+    step: 1,
+    from: 0,
+    type: 'single'
+  };
 
-  constructor(public http: Http, fb: FormBuilder) {
+  constructor(public http: Http) {
     this.http.get('/api/v1/filter/state/?format=json')
-    .map(res => res.json())
-    .subscribe(data => this.refreshFilters(data));
+      .map(res => res.json())
+      .subscribe(data => this.setFilters(data));
   }
 
   changeGender(value) {
@@ -60,12 +95,64 @@ export class FilterComponent {
 
   }
 
-  refreshFilters(data) {
+  changeOrder(value) {
+    if (this.order !== value) {
+      this.order = value;
+      this.filters.state.order_criteria = value;
+      this.saveFilters(false);
+    }
+  }
+
+  ageChanged(value) {
+    this.minAge = value.from;
+    this.maxAge = value.to;
+  }
+
+  saveAge(value) {
+    this.filters.state.min_age = value.from;
+    this.filters.state.max_age = value.to;
+    this.saveFilters(false);
+  }
+
+  distanceChanged(value) {
+    this.distanceValue = value.from;
+  }
+
+  saveDistance(value) {
+    this.filters.state.distance = value.from;
+    this.saveFilters(false);
+  }
+
+  setFilters(data) {
     this.filters = new FilterModel(data.objects[0]);
     this.gender = this.filters.state.gender;
+    this.minAge = this.filters.state.min_age;
+    this.maxAge = this.filters.state.max_age;
+    this.rangeSliderOptionsAge.from = parseInt(this.minAge, 10);
+    this.rangeSliderOptionsAge.to = parseInt(this.maxAge, 10);
+    this.distanceValue = this.filters.state.distance;
+    this.rangeSliderOptionsDistance.from = parseInt(this.distanceValue, 10);
+    //trigger change for rerender Slider plugin
+    this.renderSlider = !this.renderSlider;
+    this.distanceUnit = this.filters.state.distance_unit;
+    this.order = this.filters.state.order_criteria;
     if (this.filters.state.keyword.length > 0) {
       this.keywords = this.filters.state.keyword.split(',');
     }
+
+    let index = findIndex(this.orderBy, (option) => {
+      return option['value'] === this.filters.state.order_criteria;
+    });
+
+    if (!isUndefined(index)) {
+      this.orderBy[index]['selected'] = true;
+    }
+    else {
+      //set match score as default selected option
+      this.orderBy[0]['selected'] = true;
+    }
+
+
 
   }
 
@@ -82,13 +169,13 @@ export class FilterComponent {
       this.filters.state.resource_uri,
       JSON.stringify(this.filters.state),
       opts)
-    .map(res => res.json())
-    .subscribe(data => {
-      this.isFilterDisabled = false;
-      if (reset) {
-        this.updateCrowdList();
-      }
-    });
+      .map(res => res.json())
+      .subscribe(data => {
+        this.isFilterDisabled = false;
+        if (reset) {
+          this.updateCrowdList();
+        }
+      });
   }
 
 
@@ -137,6 +224,7 @@ export class FilterComponent {
   resetFilters(event) {
 
     //update view
+    this.keywordError = false;
     this.gender = 'm,f';
     this.keywords = [];
     this.keywordValue = '';
@@ -145,6 +233,11 @@ export class FilterComponent {
     this.distanceUnit = 'miles';
     this.minAge = 25;
     this.maxAge = 60;
+    this.rangeSliderOptionsAge.from = parseInt(this.minAge, 10);
+    this.rangeSliderOptionsAge.to = parseInt(this.maxAge, 10);
+    this.rangeSliderOptionsDistance.from = parseInt(this.distanceValue, 10);
+    //trigger change for rerender Slider plugin
+    this.renderSlider = !this.renderSlider;
 
     //update model
     this.filters.state.gender = 'm,f';
@@ -163,6 +256,7 @@ export class FilterComponent {
 
   updateCrowdList() {
     if (!this.isFilterDisabled) {
+      this.keywordError = false;
       this.refreshCrowd.next(true);
       this.isFilterDisabled = true;
       // jQuery('html, body').animate({ scrollTop: 0 }, 'slow');
