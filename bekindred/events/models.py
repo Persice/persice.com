@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+from django.db.models.signals import post_save
 from django.utils.timezone import now
 from geoposition.fields import GeopositionField
 from django_facebook.models import FacebookCustomUser
@@ -130,4 +132,8 @@ class EventFilterState(models.Model):
     order_criteria = models.CharField(max_length=20, default='distance')
 
 
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        EventFilterState.objects.get_or_create(user=instance)
 
+post_save.connect(create_user_profile, sender=FacebookCustomUser)
