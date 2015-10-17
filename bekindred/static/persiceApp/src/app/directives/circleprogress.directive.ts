@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {Directive, ElementRef, Attribute, NgStyle, Inject} from 'angular2/angular2';
+import {Directive, ElementRef, NgStyle, Inject} from 'angular2/angular2';
 
 declare var jQuery: any;
 
@@ -12,7 +12,7 @@ export class CircleProgressDirective {
   el: ElementRef;
   value: any;
 
-  constructor(@Inject(ElementRef) el: ElementRef) {
+  constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
   }
 

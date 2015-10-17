@@ -1,6 +1,6 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, View, Directive, ElementRef, NgIf, Inject} from 'angular2/angular2';
+import {Component, NgIf, Inject} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
 

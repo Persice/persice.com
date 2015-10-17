@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import { Directive, ElementRef, Attribute, NgStyle, Inject} from 'angular2/angular2';
+import { Directive, ElementRef, NgStyle, Inject} from 'angular2/angular2';
 
 declare var jQuery: any;
 
@@ -10,7 +10,7 @@ declare var jQuery: any;
 export class ImageStretchDirective {
   private element: ElementRef;
 
-  constructor( element: ElementRef) {
+  constructor( @Inject(ElementRef) element: ElementRef) {
     this.element = element;
   }
 

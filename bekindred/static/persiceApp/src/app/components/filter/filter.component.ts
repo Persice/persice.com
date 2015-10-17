@@ -1,17 +1,11 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
 import {
-  Component,
-  View,
-  Directive,
-  ElementRef,
-  FORM_DIRECTIVES,
-  FormBuilder,
-  ControlGroup,
-  AbstractControl,
-  NgFor,
-  NgIf,
-  EventEmitter
+Component,
+NgFor,
+NgIf,
+FORM_DIRECTIVES,
+EventEmitter
 } from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
 import {includes, findIndex, forEach, isUndefined} from 'lodash';
@@ -35,7 +29,6 @@ declare var jQuery: any;
 export class FilterComponent {
   refreshCrowd: EventEmitter = new EventEmitter();
   filters: FilterModel;
-  filterForm: ControlGroup;
   gender: string = 'm,f';
   order: String = 'match_score';
   distanceValue: any = 10000;
@@ -49,21 +42,21 @@ export class FilterComponent {
   isFilterDisabled: boolean = true;
   renderSlider: Boolean = false;
   orderBy: Array<Object> = [
-  {
-    'label': 'Match Score',
-    'value': 'match_score',
-    'selected': false
-  },
-  {
-    'label': 'Distance',
-    'value': 'distance',
-    'selected': false
-  },
-  {
-    'label': 'Mutual Friends',
-    'value': 'mutual_friends',
-    'selected': false
-  }
+    {
+      'label': 'Match Score',
+      'value': 'match_score',
+      'selected': false
+    },
+    {
+      'label': 'Distance',
+      'value': 'distance',
+      'selected': false
+    },
+    {
+      'label': 'Mutual Friends',
+      'value': 'mutual_friends',
+      'selected': false
+    }
   ];
   rangeSliderOptionsAge = {
     hide_min_max: true,
@@ -87,10 +80,10 @@ export class FilterComponent {
     type: 'single'
   };
 
-  constructor(public http: Http, fb: FormBuilder) {
+  constructor(public http: Http) {
     this.http.get('/api/v1/filter/state/?format=json')
-    .map(res => res.json())
-    .subscribe(data => this.setFilters(data));
+      .map(res => res.json())
+      .subscribe(data => this.setFilters(data));
   }
 
   changeGender(value) {
@@ -176,13 +169,13 @@ export class FilterComponent {
       this.filters.state.resource_uri,
       JSON.stringify(this.filters.state),
       opts)
-    .map(res => res.json())
-    .subscribe(data => {
-      this.isFilterDisabled = false;
-      if (reset) {
-        this.updateCrowdList();
-      }
-    });
+      .map(res => res.json())
+      .subscribe(data => {
+        this.isFilterDisabled = false;
+        if (reset) {
+          this.updateCrowdList();
+        }
+      });
   }
 
 
@@ -231,6 +224,7 @@ export class FilterComponent {
   resetFilters(event) {
 
     //update view
+    this.keywordError = false;
     this.gender = 'm,f';
     this.keywords = [];
     this.keywordValue = '';
@@ -262,6 +256,7 @@ export class FilterComponent {
 
   updateCrowdList() {
     if (!this.isFilterDisabled) {
+      this.keywordError = false;
       this.refreshCrowd.next(true);
       this.isFilterDisabled = true;
       // jQuery('html, body').animate({ scrollTop: 0 }, 'slow');

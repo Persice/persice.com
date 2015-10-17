@@ -1,8 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-
 import {Pipe, Injectable} from 'angular2/angular2';
-
 
 @Pipe({
     name: 'gender'

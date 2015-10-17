@@ -1,13 +1,10 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, View, Directive, ElementRef} from 'angular2/angular2';
-import { RouterOutlet, RouterLink } from 'angular2/router';
+import {Component} from 'angular2/angular2';
 
 let view = require('./eventspage.html');
 @Component({
-  selector: 'events-page'
-})
-@View({
+  selector: 'events-page',
   template: view
 })
 export class EventsPageComponent {

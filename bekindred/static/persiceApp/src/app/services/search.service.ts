@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {bind, Inject, Injectable} from 'angular2/angular2';
+import {provide, Inject, Injectable} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 import * as Rx from 'rx';
 
@@ -22,22 +22,22 @@ export class SearchService {
 
   public search(query: string, type) {
     let params: string = [
-    `format=json`,
-    `q=${query}`,
-    `page=1`,
+      `format=json`,
+      `q=${query}`,
+      `page=1`,
     ].join('&');
     let apiUrl = '';
     switch (type) {
       case 'user':
-      apiUrl = this.apiUrlUser;
-      break;
+        apiUrl = this.apiUrlUser;
+        break;
       case 'event':
-      apiUrl = this.apiUrlEvent;
-      break;
+        apiUrl = this.apiUrlEvent;
+        break;
 
       default:
 
-      break;
+        break;
     }
 
     let queryUrl: string = `${apiUrl}?${params}`;
@@ -48,7 +48,7 @@ export class SearchService {
 }
 
 export var searchServiceInjectables: Array<any> = [
-  bind(SearchService).toClass(SearchService),
-  bind(API_URL_USER).toValue(API_URL_USER),
-  bind(API_URL_EVENT).toValue(API_URL_EVENT)
+  provide(SearchService, { useClass: SearchService }),
+  provide(API_URL_USER, { useValue: API_URL_USER }),
+  provide(API_URL_EVENT, { useValue: API_URL_EVENT })
 ];
