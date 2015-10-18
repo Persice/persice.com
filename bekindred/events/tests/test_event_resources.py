@@ -484,8 +484,10 @@ class TestMyEventFeedResource(ResourceTestCase):
         self.response = self.login()
         # TODO: What's unit for distance?
         # maybe miles
-        efs = EventFilterState.objects.create(user=self.user, distance=928)
-        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        efs = EventFilterState.objects.filter(user=self.user).\
+            update(distance=928)
+        MatchFilterState.objects.filter(user=self.user).\
+            update(distance_unit='km')
 
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
                                    data={'filter': 'true'})
@@ -496,8 +498,9 @@ class TestMyEventFeedResource(ResourceTestCase):
         self.response = self.login()
         # TODO: What's unit for distance?
         # maybe miles
-        efs = EventFilterState.objects.create(user=self.user, distance=111)
-        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        efs = EventFilterState.objects.filter(user=self.user).\
+            update(distance=111)
+        MatchFilterState.objects.update(user=self.user, distance_unit='km')
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
                                    )
         data = self.deserialize(resp)
@@ -507,8 +510,9 @@ class TestMyEventFeedResource(ResourceTestCase):
         self.response = self.login()
         # TODO: What's unit for distance?
         # maybe miles
-        efs = EventFilterState.objects.create(user=self.user, distance=926)
-        MatchFilterState.objects.create(user=self.user, distance_unit='km')
+        efs = EventFilterState.objects.filter(user=self.user).\
+            update(distance=926)
+        MatchFilterState.objects.update(user=self.user, distance_unit='km')
         resp = self.api_client.get('/api/v1/feed/events/my/', format='json',
                                    data={'filter': 'true'})
         data = self.deserialize(resp)
