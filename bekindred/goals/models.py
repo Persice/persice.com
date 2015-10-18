@@ -154,10 +154,10 @@ class UserIPAddress(models.Model):
 
 class MatchFilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
-    distance = models.IntegerField(default=1)
+    distance = models.IntegerField(default=10000)
     distance_unit = models.CharField(max_length=5, default='miles')
-    min_age = models.CharField(max_length=3, default=18)
-    max_age = models.CharField(max_length=4, default=90)
+    min_age = models.CharField(max_length=3, default=25)
+    max_age = models.CharField(max_length=4, default=60)
     gender = models.CharField(max_length=3, default='m,f')
     keyword = models.CharField(max_length=50, default='')
-    order_criteria = models.CharField(max_length=20, default='distance')
+    order_criteria = models.CharField(max_length=20, default='match_score')
