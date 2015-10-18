@@ -243,6 +243,24 @@ export class FilterComponent {
     this.filters.state.gender = 'm,f';
     this.filters.state.keyword = '';
     this.filters.state.order_criteria = 'match_score';
+    this.orderBy = [
+      {
+        'label': 'Match Score',
+        'value': 'match_score',
+        'selected': true
+      },
+      {
+        'label': 'Distance',
+        'value': 'distance',
+        'selected': false
+      },
+      {
+        'label': 'Mutual Friends',
+        'value': 'mutual_friends',
+        'selected': false
+      }
+    ];
+
     this.filters.state.distance = 10000;
     this.filters.state.distance_unit = 'miles';
     this.filters.state.min_age = '25';
