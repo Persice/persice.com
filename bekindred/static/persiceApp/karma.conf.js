@@ -50,7 +50,7 @@ module.exports = function(config) {
       module: {
         loaders: [{
           test: /\.ts$/,
-          loader: 'ts?ignoreWarnings[]=2309',
+          loader: 'ts?ignoreWarnings[]=2309,2345',
           exclude: [
             /web_modules/,
             /node_modules/
@@ -81,8 +81,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
-
+    reporters: ['progress', 'osx', 'verbose'],
 
     // web server port
     port: 9876,
@@ -98,7 +97,7 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // start these browsers
@@ -108,7 +107,7 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: false
   };
   config.set(_config);
 };

@@ -2,8 +2,13 @@
 
 describe('App', () => {
 
-  it('should also be able to test', () => {
+
+  it('should be able to test', () => {
     expect(true).toBe(true);
   });
+
+  it('null is not the same thing as undefined',
+    () => expect(null).not.toEqual(undefined)
+  );
 
 });
