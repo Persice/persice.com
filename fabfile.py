@@ -96,6 +96,12 @@ def update_index():
 
 
 @task
+def rebuild_index():
+    require('hosts', provided_by=[production])
+    manage_py('rebuild_index')
+
+
+@task
 def migrate_list():
     require('hosts', provided_by=[production])
     manage_py('migrate')

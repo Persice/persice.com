@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {bind, Inject, Injectable} from 'angular2/angular2';
+import {provide, Inject, Injectable} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 import * as Rx from 'rx';
 
@@ -20,43 +20,35 @@ export class SearchService {
 
   }
 
-  public searchUsers(query: string): Rx.Observable<SearchResultUserModel[]> {
+  public search(query: string, type) {
     let params: string = [
       `format=json`,
       `q=${query}`,
       `page=1`,
     ].join('&');
-    let queryUrl: string = `${this.apiUrlUser}?${params}`;
-    return this.http.get(queryUrl)
-      .map((response: Response) => {
-      return (<any>response.json()).objects.map(item => {
-        return new SearchResultUserModel(item);
-      });
-    });
+    let apiUrl = '';
+    switch (type) {
+      case 'user':
+        apiUrl = this.apiUrlUser;
+        break;
+      case 'event':
+        apiUrl = this.apiUrlEvent;
+        break;
 
-  }
+      default:
 
-  public searchEvents(query: string): Rx.Observable<SearchResultEventModel[]> {
-    let params: string = [
-      `format=json`,
-      `q=${query}`,
-      `page=1`,
-    ].join('&');
-    let queryUrl: string = `${this.apiUrlEvent}?${params}`;
-    return this.http.get(queryUrl)
-      .map((response: Response) => {
-      return (<any>response.json()).objects.map(item => {
-        return new SearchResultEventModel(item);
-      });
-    });
+        break;
+    }
 
+    let queryUrl: string = `${apiUrl}?${params}`;
+    return this.http.get(queryUrl);
   }
 
 
 }
 
 export var searchServiceInjectables: Array<any> = [
-  bind(SearchService).toClass(SearchService),
-  bind( API_URL_USER).toValue(API_URL_USER),
-  bind( API_URL_EVENT).toValue(API_URL_EVENT)
+  provide(SearchService, { useClass: SearchService }),
+  provide(API_URL_USER, { useValue: API_URL_USER }),
+  provide(API_URL_EVENT, { useValue: API_URL_EVENT })
 ];

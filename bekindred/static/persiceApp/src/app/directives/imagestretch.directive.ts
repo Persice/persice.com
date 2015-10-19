@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import { Directive, ElementRef, Attribute, NgStyle, Inject} from 'angular2/angular2';
+import { Directive, ElementRef, NgStyle, Inject} from 'angular2/angular2';
 
 declare var jQuery: any;
 
@@ -8,14 +8,14 @@ declare var jQuery: any;
   selector: '[image-stretch]'
 })
 export class ImageStretchDirective {
-  el: ElementRef;
+  private element: ElementRef;
 
-  constructor(@Inject(ElementRef) el: ElementRef) {
-    this.el = el;
+  constructor( @Inject(ElementRef) element: ElementRef) {
+    this.element = element;
   }
 
-  afterContentChecked() {
-    jQuery(this.el.nativeElement).imgLiquid({
+  afterViewInit() {
+    jQuery(this.element.nativeElement).imgLiquid({
       fill: true,
       horizontalAlign: 'center',
       verticalAlign: 'center'

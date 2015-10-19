@@ -8,7 +8,7 @@ export * from './search.service';
 export * from './crowd.service';
 export * from './filter.service';
 
-export var APP_SERVICES_BINDINGS: Array<any> = [
+export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
   searchServiceInjectables,
   crowdServiceInjectables,

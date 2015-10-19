@@ -243,13 +243,9 @@ class MatchFeedManagerTestCase(TestCase):
 class MatchFilterStateTestCase(TestCase):
     def setUp(self):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
-        MatchFilterState.objects.create(user=self.user,
-                                        distance=1,
-                                        min_age=18,
-                                        max_age=98,
-                                        gender='all',
-                                        keyword='python,ruby',
-                                        order_criteria='distance')
+        MatchFilterState.objects.filter(user=self.user).\
+            update(distance=1, min_age=18, max_age=98, gender='all',
+                   keyword='python,ruby', order_criteria='distance')
 
     def test_save_state(self):
         self.assertEqual(MatchFilterState.objects.filter(user=self.user).count(), 1)

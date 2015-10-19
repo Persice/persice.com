@@ -1,10 +1,12 @@
 import string
-from django.db import models
-from django_facebook.models import FacebookLike, FacebookCustomUser
 import itertools
-from haystack.inputs import AutoQuery, Raw
+
+from django.db import models
+from django.conf import settings
+from django_facebook.models import FacebookLike, FacebookCustomUser
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q, F
+
 from goals.models import Goal, Subject, Offer
 from interests.models import Interest, InterestSubject
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
@@ -394,7 +396,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         likes = FacebookLikeProxy.objects.filter(user_id=user.id)
         words = set()
         for subject in itertools.chain(goals, offers, interests, likes):
-            words |= set(unicode(subject).
+            words |= set(unicode(subject).lower().
                          translate(remove_punctuation_map).split())
 
         stop_words = StopWords.objects.all().values_list('word', flat=True)
@@ -408,10 +410,46 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         client = Elasticsearch()
 
-        s = Search(using=client, index="haystack") \
+        s = Search(using=client,
+                   index=settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']) \
             .query(Q("multi_match", query=query, fields=fields)) \
             .filter(~F("ids", type="modelresult",
                     values=exclude_user_ids)) \
+            .highlight(*fields)
+        print s.to_dict()
+        response = s.execute()
+
+        return response.hits.hits
+
+    @staticmethod
+    def match_between(user_id1, user_id2):
+        user = FacebookCustomUserActive.objects.get(pk=user_id1)
+        goals = user.goal_set.all()
+        offers = user.offer_set.all()
+        interests = user.interest_set.all()
+        likes = FacebookLikeProxy.objects.filter(user_id=user.id)
+        words = set()
+        for subject in itertools.chain(goals, offers, interests, likes):
+            words |= set(unicode(subject).lower().
+                         translate(remove_punctuation_map).split())
+
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+
+        removed_stopwords = [word for word in words if word not in stop_words]
+        query = ' '.join(removed_stopwords)
+
+        fields = ["goals", "offers", "interests", "likes"]
+        exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id1]
+
+        client = Elasticsearch()
+
+        s = Search(using=client,
+                   index=settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']) \
+            .query(Q("multi_match", query=query, fields=fields)) \
+            .filter(F("ids", type="modelresult",
+                      values=['members.facebookcustomuseractive.%s' % user_id2])) \
+            .filter(~F("ids", type="modelresult",
+                       values=exclude_user_ids)) \
             .highlight(*fields)
         print s.to_dict()
         response = s.execute()

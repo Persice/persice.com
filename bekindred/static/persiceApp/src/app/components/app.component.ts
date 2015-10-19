@@ -3,14 +3,14 @@
 /*
  * Angular 2 decorators and services
  */
-import {Directive, Component, View, ElementRef} from 'angular2/angular2';
+import {Component, provide} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Route} from 'angular2/router';
 
 /*
  * Components
@@ -39,18 +39,17 @@ let view = require('./app.html');
  * Persice App Component
  * Top Level Component
  */
- @RouteConfig([
-  { path: '/', component: HomePageComponent, as: 'Home'},
-  { path: '/crowd', component: CrowdPageComponent, as: 'Crowd'},
-  { path: '/message', component: MessagePageComponent, as: 'Message'},
-  { path: '/connection', component: ConnectionPageComponent, as: 'Connection'},
-  { path: '/events', component: EventsPageComponent, as: 'Events'}
+@RouteConfig([
+  // 'as' will be renamed to 'name' => https://github.com/angular/angular/issues/4622
+  new Route({ path: '/', component: HomePageComponent, as: 'Home' }),
+  new Route({ path: '/crowd/:version', component: CrowdPageComponent, as: 'Crowd' }),
+  new Route({ path: '/message', component: MessagePageComponent, as: 'Message' }),
+  new Route({ path: '/connection', component: ConnectionPageComponent, as: 'Connection' }),
+  new Route({ path: '/events', component: EventsPageComponent, as: 'Events' })
 ])
 @Component({
   selector: 'persice-app',
-  viewBindings: [HTTP_BINDINGS]
-})
-@View({
+  viewBindings: [HTTP_BINDINGS],
   directives: [
     CORE_DIRECTIVES,
     FORM_DIRECTIVES,
@@ -70,11 +69,10 @@ export class AppComponent {
   loading: boolean;
 
   constructor(public http: Http) {
-    this.image = '';
-    // this.loading = true;
+    //default image
+    this.image = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
   }
   onInit() {
-
     // Get AuthUser info for the app
     this.http.get('/api/v1/me/?format=json')
       .map(res => res.json())

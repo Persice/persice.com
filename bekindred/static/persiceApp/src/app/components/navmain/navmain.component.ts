@@ -1,21 +1,17 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, View, Directive, ElementRef, Inject} from 'angular2/angular2';
-import {RouterLink, Location, Router} from 'angular2/router';
+import {Component} from 'angular2/angular2';
+import {ROUTER_DIRECTIVES, Location} from 'angular2/router';
 
 let view = require('./navmain.html');
 @Component({
-  selector: 'nav-main'
-})
-@View({
+  selector: 'nav-main',
   template: view,
-  directives: [RouterLink]
+  directives: [ROUTER_DIRECTIVES]
 })
 export class NavMainComponent {
   location: Location;
-  router: Router;
-  constructor(router: Router, location: Location) {
-    this.router = router;
+  constructor(location: Location) {
     this.location = location;
   }
   isLinkActive(path) {

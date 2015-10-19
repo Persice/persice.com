@@ -116,6 +116,7 @@ class MatchUser(object):
         self.distance = calculate_distance(current_user_id, self.user_id)
         # TODO
         self.score = self.match_score()
+        self.es_score = user_object.get('_score', 0)
         self.friends_score = self.match_score()
 
     def get_user_info(self, user_object):
@@ -157,3 +158,11 @@ class MatchQuerySet(object):
             users.append(MatchUser(current_user_id, hit))
         return users
 
+    @staticmethod
+    def between(user_id1, user_id2):
+        hits = ElasticSearchMatchEngine.elastic_objects.\
+            match_between(user_id1, user_id2)
+        users = []
+        for hit in hits:
+            users.append(MatchUser(user_id1, hit))
+        return users

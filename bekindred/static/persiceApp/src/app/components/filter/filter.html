@@ -3,17 +3,17 @@
     <div class="filter__item">
       <h3 class="filter__item__title mb">Gender</h3>
       <label class="c-radio">
-        <input class="c-radio__input" type="radio" name="radio" value="All" checked>
+        <input class="c-radio__input" #all type="radio" (click)="changeGender(all.value)" name="radio" value="m,f" [checked]="gender === 'm,f'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">All</span>
       </label>
       <label class="c-radio">
-        <input class="c-radio__input" type="radio" name="radio" value="Male">
+        <input class="c-radio__input" type="radio" #male (click)="changeGender(male.value)" name="radio" value="m" [checked]="gender === 'm'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">Male</span>
       </label>
       <label class="c-radio">
-        <input class="c-radio__input" type="radio" name="radio" value="Female">
+        <input class="c-radio__input" type="radio" #female (click)="changeGender(female.value)" name="radio" value="f" [checked]="gender === 'f'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">Female</span>
       </label>
@@ -24,46 +24,46 @@
           <h3 class="filter__item__title">Age</h3>
         </div>
         <div class="layout__item 1/2 text-right">
-          <span class="range-value">25 - 60</span>
+          <span class="range-value">{{minAge}} - {{maxAge}}</span>
         </div>
       </div>
-      <input type="text" value="" name="range" class="range"> </div>
+      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsAge" (on-change)="ageChanged($event)" (on-finish)="saveAge($event)"></range-slider>
+    </div>
     <div class="filter__item">
       <div class="layout layout--middle">
         <div class="layout__item 1/2">
           <h3 class="filter__item__title">Distance</h3>
         </div>
         <div class="layout__item 1/2 text-right">
-          <span class="range-value">500 miles</span>
+          <span class="range-value">{{distanceValue | number}} {{distanceUnit}}</span>
         </div>
       </div>
-      <input type="text" class="range-to" value="" name="range"> </div>
+      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsDistance" (on-change)="distanceChanged($event)" (on-finish)="saveDistance($event)"></range-slider>
+    </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>
-      <select>
-        <option value="match-score">Match Score</option>
-        <option value="distance">Distance</option>
-        <option value="mutual-friends">Mutual Friends</option>
-      </select>
+      <select-element (selected-value)="changeOrder($event)" [(options)]="orderBy"></select-element>
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Keywords</h3>
-      <input type="text" class="c-input" placeholder="Example: Movies, nightlife...">
+      <input #keyword [(ng-model)]="keywordValue" (keyup)="addKeyword($event)" type="text" class="c-input" placeholder="Example: Movies, nightlife...">
+      <span class="errorMessage" *ng-if="keywordError">{{keywordErrorMessage}}</span>
       <div class="keywords">
-        <span class="keyword">
-          <a href="">
+        <span class="keyword" *ng-for="#keyword of keywords; #i = index">
+          <a (click)="removeKeyword(i)">
             <svg role="img" class="icon icon--small">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
             </svg>
-          </a>Dance
+          </a>
+          {{keyword}}
         </span>
       </div>
     </div>
   </div>
   <footer class="filter__footer">
     <div class="layout layout--small">
-      <div class="layout__item 3/5"> <a class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full" href="#">Filter</a> </div>
-      <div class="layout__item 2/5"> <a class="btn btn-1 btn-1--small btn-1--darkblue btn--full" href="#">Reset</a> </div>
+      <div class="layout__item 3/5"> <a [class.is-disabled]="isFilterDisabled" (click)="updateCrowdList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a> </div>
+      <div class="layout__item 2/5"> <a (click)="resetFilters($event)" class="btn btn-1 btn-1--small btn-1--darkblue btn--full">Reset</a> </div>
     </div>
   </footer>
 </div>

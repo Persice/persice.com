@@ -13,30 +13,34 @@ module.exports = function(config) {
 
 
     // list of files / patterns to load in the browser
-    files: [
-      { pattern: './src/public/lib/es6-shim.js', watched: false },
+    files: [{
+        pattern: './src/public/lib/es6-shim.js',
+        watched: false
+      },
       // { pattern: 'test/**/*.spec.ts', watched: false }
-      { pattern: 'spec.bundle.js', watched: false }
+      {
+        pattern: 'spec.bundle.js',
+        watched: false
+      }
     ],
 
 
     // list of files to exclude
-    exclude: [
-    ],
+    exclude: [],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'spec.bundle.js': ['webpack', 'sourcemap']
-      // 'test/**/*.spec.ts': ['webpack', 'sourcemap']
+        // 'test/**/*.spec.ts': ['webpack', 'sourcemap']
     },
 
     webpack: {
 
       resolve: {
         root: __dirname,
-        extensions: ['','.ts','.js','.json'],
+        extensions: ['', '.ts', '.js', '.json'],
         alias: {
           'app': 'src/app',
           'common': 'src/common',
@@ -44,18 +48,28 @@ module.exports = function(config) {
       },
       devtool: 'inline-source-map',
       module: {
-        loaders: [
-          { test: /\.ts$/,   loader: 'typescript-simple?ignoreWarnings[]=2345', exclude: [
-              /web_modules/,
-              /node_modules/
-            ]
-          },
-          { test: /\.json$/, loader: 'json' },
-          { test: /\.html$/, loader: 'raw' },
-          { test: /\.css$/,  loader: 'raw' }
-        ]
+        loaders: [{
+          test: /\.ts$/,
+          loader: 'ts?ignoreWarnings[]=2309,2345',
+          exclude: [
+            /web_modules/,
+            /node_modules/
+          ]
+        }, {
+          test: /\.json$/,
+          loader: 'json'
+        }, {
+          test: /\.html$/,
+          loader: 'raw'
+        }, {
+          test: /\.css$/,
+          loader: 'raw'
+        }]
       },
-      stats: { colors: true, reasons: true },
+      stats: {
+        colors: true,
+        reasons: true
+      },
       debug: false
     },
 
@@ -67,8 +81,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
-
+    reporters: ['progress', 'osx', 'verbose'],
 
     // web server port
     port: 9876,
@@ -84,7 +97,7 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // start these browsers
@@ -94,7 +107,7 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: false
   };
   config.set(_config);
 };

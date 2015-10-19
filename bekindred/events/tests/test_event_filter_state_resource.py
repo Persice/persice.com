@@ -39,7 +39,8 @@ class TestEventFilterStateResource(ResourceTestCase):
 
     def test_simple_filter_keywords(self):
         self.response = self.login()
-        EventFilterState.objects.create(user=self.user, distance=1000, keyword='piano')
+        EventFilterState.objects.filter(user=self.user).\
+            update(distance=1000, keyword='piano')
         event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
                                      ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[-87.627675, 41.881925])
@@ -57,7 +58,7 @@ class TestEventFilterStateResource(ResourceTestCase):
 
     def test_simple_filter_distance(self):
         self.response = self.login()
-        EventFilterState.objects.create(user=self.user, distance=1)
+        EventFilterState.objects.filter(user=self.user).update(distance=1)
         event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
                                      ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[-87.627675, 41.881925])

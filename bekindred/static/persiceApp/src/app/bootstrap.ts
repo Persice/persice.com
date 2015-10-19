@@ -1,42 +1,26 @@
 /// <reference path="../typings/_custom.d.ts" />
 
 // Angular 2
-import {bind, bootstrap} from 'angular2/angular2';
+import {bind, bootstrap, provide} from 'angular2/angular2';
 
-
-/*
- * Common Injectables
- * our custom helper injectables to configure our app differently using the dependency injection system
- */
-// import {
-//   JIT_CHANGEDETECTION_BINDINGS,
-//   DYNAMIC_CHANGEDETECTION_BINDINGS,
-//   PREGENERATED_CHANGEDETECTION_BINDINGS,
-//   BEST_CHANGEDETECTION_BINDINGS
-// } from '../bindings/change_detection_bindings';
-
-import {
-PATH_LOCATION_BINDINGS,
-HASH_LOCATION_BINDINGS
-} from '../bindings/location_bindings';
 
 /*
  * Angular Modules
  */
-import {FORM_BINDINGS} from 'angular2/angular2';
+import {FORM_PROVIDERS, ELEMENT_PROBE_PROVIDERS} from 'angular2/angular2';
 import {
-ROUTER_BINDINGS,
+ROUTER_PROVIDERS,
 ROUTER_PRIMARY_COMPONENT,
 HashLocationStrategy,
 LocationStrategy
 } from 'angular2/router';
-import {HTTP_BINDINGS} from 'angular2/http';
+import {HTTP_PROVIDERS} from 'angular2/http';
 
 /*
  * App Services
  * our collection of injectables services
  */
-import {APP_SERVICES_BINDINGS} from './services/services';
+import {APP_SERVICES_PROVIDERS} from './services/services';
 
 /*
  * App Component
@@ -48,39 +32,28 @@ import {AppComponent} from './components/app.component';
 /*
  * Universal injectables
  */
-const UNIVERSAL_BINDINGS = [
-// angular's http/form/router services/bindings
-  ROUTER_BINDINGS,
-  FORM_BINDINGS,
-  HTTP_BINDINGS,
-// our collection of services from /services
-  APP_SERVICES_BINDINGS
+const UNIVERSAL_PROVIDERS = [
+  ELEMENT_PROBE_PROVIDERS,
+  ROUTER_PROVIDERS,
+  FORM_PROVIDERS,
+  HTTP_PROVIDERS,
+  APP_SERVICES_PROVIDERS
 ];
 
 /*
  * Platform injectables
  */
-const PLATFORM_BINDINGS = [
-// if we want to explicit change detection
-// BEST_CHANGEDETECTION_BINDINGS,
-
-// if we want to use hashBash url for the router
-  HASH_LOCATION_BINDINGS,
+const PLATFORM_PROVIDERS = [
+  provide(LocationStrategy, { useClass: HashLocationStrategy }),
+  provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent })
 ];
 
-const APP_BINDINGS = [
-  UNIVERSAL_BINDINGS,
-  PLATFORM_BINDINGS,
-  bind(ROUTER_PRIMARY_COMPONENT).toValue(AppComponent)
+const APP_PROVIDERS = [
+  UNIVERSAL_PROVIDERS,
+  PLATFORM_PROVIDERS
 ];
 
-/*
- * Bootstrap our Angular app with a top level component `App` and inject
- * our Universal/Platform services/bindings into Angular's dependency injection
- */
 bootstrap(
-// Top Level Component
   AppComponent,
-// AppBindings
-  APP_BINDINGS
-  );
+  APP_PROVIDERS
+);

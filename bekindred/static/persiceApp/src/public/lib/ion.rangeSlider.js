@@ -887,7 +887,9 @@
             }
 
             if (this.options.type === "single") {
-                this.coords.p_bar_x = (this.coords.p_handle / 2);
+                // this.coords.p_bar_x = (this.coords.p_handle / 2);
+                // fix for left bar space
+                this.coords.p_bar_x = 0;
                 this.coords.p_bar_w = this.coords.p_single;
 
                 this.result.from_percent = this.coords.p_single_real;

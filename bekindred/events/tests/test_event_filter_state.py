@@ -8,7 +8,5 @@ class TestEventFilterState(TestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
 
     def test_simple_save(self):
-        EventFilterState.objects.create(user=self.user, distance=100,
-                                        keyword='django,python')
-        self.assertEqual(EventFilterState.objects.all().count(), 1)
-
+        self.assertEqual(EventFilterState.objects.
+                         filter(user_id=self.user.id).count(), 1)
