@@ -86,6 +86,7 @@ class ConnectionsResource(Resource):
     linkedin_provider = fields.CharField(attribute='linkedin_provider',
                                          null=True)
 
+    shared_interest = fields.ListField(attribute='shared_interest')
     mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
     mutual_bk_friends_count = fields.IntegerField(
         attribute='mutual_bk_friends_count')
@@ -115,12 +116,14 @@ class ConnectionsResource(Resource):
 
     mutual_friends = fields.IntegerField(attribute='mutual_friends')
 
-    common_goals_offers_interests = fields.IntegerField(
-        attribute='common_goals_offers_interests', null=True)
+    score = fields.IntegerField(
+        attribute='score', null=True
+    )
 
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
     distance = fields.ListField(attribute='distance')
     image = fields.FileField(attribute="image", null=True, blank=True)
+    gender = fields.CharField(attribute='gender', default='m,f')
 
     class Meta:
         resource_name = 'connections'
@@ -155,6 +158,7 @@ class ConnectionsResource(Resource):
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.image = getattr(friend, position_friend).image
+            new_obj.gender = getattr(friend, position_friend).gender
             new_obj.friend_id = getattr(friend, position_friend).id
             new_obj.updated_at = friend.updated_at
 
@@ -196,18 +200,19 @@ class ConnectionsResource(Resource):
                 new_obj.mutual_twitter_friends_count + \
                 new_obj.mutual_twitter_followers_count
 
-            new_obj.common_goals_offers_interests = MatchEngine.\
+            new_obj.score = MatchEngine.\
                 objects.count_common_goals_and_offers(current_user,
                                                       new_obj.friend_id)
 
             new_obj.distance = calculate_distance(request.user.id,
                                                   new_obj.friend_id)
+            new_obj.shared_interest = ['dancing', 'cooking', '3D printing']
             results.append(new_obj)
 
         # Order by match_score
         if request.GET.get('order') == 'match_score':
             return sorted(results,
-                          key=lambda x: x.common_goals_offers_interests,
+                          key=lambda x: x.score,
                           reverse=True)
 
         elif request.GET.get('order') == 'mutual_friends':

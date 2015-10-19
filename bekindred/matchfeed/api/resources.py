@@ -27,7 +27,8 @@ class MatchedFeedResource(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
-    image = fields.CharField(attribute='image')
+    image = fields.FileField(attribute="image", null=True, blank=True)
+    shared_interest = fields.ListField(attribute='shared_interest')
     user_id = fields.CharField(attribute='user_id')
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
     twitter_username = fields.CharField(attribute='twitter_username', null=True)
@@ -98,6 +99,7 @@ class MatchedFeedResource(Resource):
             new_obj.score = t1 + t2 + t3 + t4
             new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
                                     len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
+            new_obj.shared_interest = ['dancing', 'cooking', '3D printing']
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true':
@@ -174,6 +176,7 @@ class MatchedFeedResource2(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     image = fields.CharField(attribute='image')
     user_id = fields.CharField(attribute='user_id')
+    shared_interest = fields.ListField(attribute='shared_interest')
     twitter_provider = fields.CharField(attribute='twitter_provider',
                                         null=True)
     twitter_username = fields.CharField(attribute='twitter_username',
