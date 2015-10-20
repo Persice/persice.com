@@ -174,7 +174,7 @@ class MatchedFeedResource2(Resource):
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
-    image = fields.CharField(attribute='image')
+    image = fields.FileField(attribute="image", null=True, blank=True)
     user_id = fields.CharField(attribute='user_id')
     shared_interest = fields.ListField(attribute='shared_interest')
     twitter_provider = fields.CharField(attribute='twitter_provider',
