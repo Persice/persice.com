@@ -11,4 +11,7 @@ export class HomePageComponent {
   constructor() {
 
   }
+  onInit() {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  }
 }
