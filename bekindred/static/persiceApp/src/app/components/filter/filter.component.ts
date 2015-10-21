@@ -13,26 +13,36 @@ import {includes, findIndex, forEach, isUndefined} from 'lodash';
 import {SelectComponent} from '../select/select.component';
 import {RangeSliderComponent} from '../rangeslider/rangeslider.component';
 
-import {FilterModel} from '../../models/filter.model';
+import {FilterModel, InterfaceFilter} from '../../models/filter.model';
+
 
 let view = require('./filter.html');
+
+const defaultFilters: InterfaceFilter = {
+  distance: 10000,
+  distance_unit: 'miles',
+  keyword: '',
+  gender: 'm,f',
+  min_age: '25',
+  max_age: '60',
+  order_criteria: 'match_score'
+};
 
 declare var jQuery: any;
 
 @Component({
   selector: 'filter',
-  inputs: ['state'],
-  outputs: ['refreshCrowd'],
+  outputs: ['refreshList'],
   directives: [FORM_DIRECTIVES, NgFor, NgIf, SelectComponent, RangeSliderComponent],
   template: view
 })
 export class FilterComponent {
-  refreshCrowd: EventEmitter = new EventEmitter();
+  refreshList: EventEmitter = new EventEmitter();
   filters: FilterModel;
   gender: string = 'm,f';
-  order: String = 'match_score';
+  order: string = 'match_score';
   distanceValue: any = 10000;
-  distanceUnit: String = 'miles';
+  distanceUnit: string = 'miles';
   minAge: any = 25;
   maxAge: any = 60;
   keywords: Array<string> = [];
@@ -40,7 +50,7 @@ export class FilterComponent {
   keywordError: boolean = false;
   keywordErrorMessage: string = '';
   isFilterDisabled: boolean = true;
-  renderSlider: Boolean = false;
+  renderSlider: boolean = false;
   orderBy: Array<Object> = [
     {
       'label': 'Match Score',
@@ -84,6 +94,11 @@ export class FilterComponent {
     this.http.get('/api/v1/filter/state/?format=json')
       .map(res => res.json())
       .subscribe(data => this.setFilters(data));
+  }
+
+  onInit() {
+    // set initial filters
+    this.filters = new FilterModel(defaultFilters);
   }
 
   changeGender(value) {
@@ -173,46 +188,45 @@ export class FilterComponent {
       .subscribe(data => {
         this.isFilterDisabled = false;
         if (reset) {
-          this.updateCrowdList();
+          this.updateList();
         }
       });
   }
 
 
   addKeyword(event) {
-    // add keyword on key enter,
-    if (event.keyCode === 13) {
-      //check string length
-      if (this.keywordValue.length < 3) {
-        this.keywordError = true;
-        this.keywordErrorMessage = 'Keyword must have at least 3 letters.';
-        return;
-      }
-      //prevent duplicate entry
-      if (includes(this.keywords, this.keywordValue)) {
-        this.keywordError = true;
-        this.keywordErrorMessage = 'Keyword already exists';
+    // add keyword on key enter
+    //check string length
+    if (this.keywordValue.length < 3) {
+      this.keywordError = true;
+      this.keywordErrorMessage = 'Keyword must have at least 3 letters.';
+      return;
+    }
+    //prevent duplicate entry
+    if (includes(this.keywords, this.keywordValue)) {
+      this.keywordError = true;
+      this.keywordErrorMessage = 'Keyword already exists';
+    }
+    else {
+
+      let keywordsTemp = this.keywords;
+      keywordsTemp.push(this.keywordValue);
+
+      if (keywordsTemp.join().length < 50) {
+        this.keywordError = false;
+        this.keywordErrorMessage = '';
+        this.filters.state.keyword = this.keywords.join();
+        this.saveFilters(false);
+        this.keywordValue = '';
       }
       else {
-
-        let keywordsTemp = this.keywords;
-        keywordsTemp.push(this.keywordValue);
-
-        if (keywordsTemp.join().length < 50) {
-          this.keywordError = false;
-          this.keywordErrorMessage = '';
-          this.filters.state.keyword = this.keywords.join();
-          this.saveFilters(false);
-          this.keywordValue = '';
-        }
-        else {
-          this.keywordError = true;
-          this.keywordErrorMessage = 'You cannot enter more keywords.';
-        }
-
+        this.keywordError = true;
+        this.keywordErrorMessage = 'You cannot enter more keywords.';
       }
 
     }
+
+
   }
 
   removeKeyword(index) {
@@ -272,10 +286,10 @@ export class FilterComponent {
 
   }
 
-  updateCrowdList() {
+  updateList() {
     if (!this.isFilterDisabled) {
       this.keywordError = false;
-      this.refreshCrowd.next(true);
+      this.refreshList.next(true);
       this.isFilterDisabled = true;
       // jQuery('html, body').animate({ scrollTop: 0 }, 'slow');
     }

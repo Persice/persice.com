@@ -46,7 +46,7 @@
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Keywords</h3>
-      <input #keyword [(ng-model)]="keywordValue" (keyup)="addKeyword($event)" type="text" class="c-input" placeholder="Example: Movies, nightlife...">
+      <input #keyword [(ng-model)]="keywordValue" (keyup.enter)="addKeyword($event)" type="text" class="c-input" placeholder="Example: Movies, nightlife...">
       <span class="errorMessage" *ng-if="keywordError">{{keywordErrorMessage}}</span>
       <div class="keywords">
         <span class="keyword" *ng-for="#keyword of keywords; #i = index">
@@ -62,7 +62,7 @@
   </div>
   <footer class="filter__footer">
     <div class="layout layout--small">
-      <div class="layout__item 3/5"> <a [class.is-disabled]="isFilterDisabled" (click)="updateCrowdList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a> </div>
+      <div class="layout__item 3/5"> <a [class.is-disabled]="isFilterDisabled" (click)="updateList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a> </div>
       <div class="layout__item 2/5"> <a (click)="resetFilters($event)" class="btn btn-1 btn-1--small btn-1--darkblue btn--full">Reset</a> </div>
     </div>
   </footer>
