@@ -22,11 +22,12 @@ import {CrowdPageComponent} from './crowdpage/crowdpage.component';
 import {MessagePageComponent} from './messagepage/messagepage.component';
 import {ConnectionPageComponent} from './connectionpage/connectionpage.component';
 import {EventsPageComponent} from './eventspage/eventspage.component';
+import {ProfilePageComponent} from './profilepage/profilepage.component';
 
 
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
-import {LoadingIndicatorComponent} from './loadingindicator/loadingindicator.component';
+import {LoadingComponent} from './loading/loading.component';
 import {AutofocusDirective} from '../directives/autofocus.directive';
 
 
@@ -41,11 +42,36 @@ let view = require('./app.html');
  */
 @RouteConfig([
   // 'as' will be renamed to 'name' => https://github.com/angular/angular/issues/4622
-  new Route({ path: '/', component: HomePageComponent, as: 'Home' }),
-  new Route({ path: '/crowd/:version', component: CrowdPageComponent, as: 'Crowd' }),
-  new Route({ path: '/message', component: MessagePageComponent, as: 'Message' }),
-  new Route({ path: '/connection', component: ConnectionPageComponent, as: 'Connection' }),
-  new Route({ path: '/events', component: EventsPageComponent, as: 'Events' })
+  new Route({
+    path: '/',
+    component: HomePageComponent,
+    as: 'Home'
+  }),
+  new Route({
+    path: '/crowd/:version',
+    component: CrowdPageComponent,
+    as: 'Crowd'
+  }),
+  new Route({
+    path: '/message',
+    component: MessagePageComponent,
+    as: 'Message'
+  }),
+  new Route({
+    path: '/connection',
+    component: ConnectionPageComponent,
+    as: 'Connection'
+  }),
+  new Route({
+    path: '/events',
+    component: EventsPageComponent,
+    as: 'Events'
+  }),
+  new Route({
+    path: '/profilepage',
+    component: ProfilePageComponent,
+    as: 'Profile'
+  })
 ])
 @Component({
   selector: 'persice-app',
@@ -56,7 +82,7 @@ let view = require('./app.html');
     ROUTER_DIRECTIVES,
     HeaderMainComponent,
     HeaderSubComponent,
-    LoadingIndicatorComponent,
+    LoadingComponent,
     AutofocusDirective
   ],
   styles: [`
