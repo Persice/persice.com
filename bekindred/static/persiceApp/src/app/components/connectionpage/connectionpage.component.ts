@@ -5,7 +5,7 @@ import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
 import {RouteParams} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
-import {LoadingIndicatorComponent} from '../loadingindicator/loadingindicator.component';
+import {LoadingComponent} from '../loading/loading.component';
 import {FilterComponent} from '../filter/filter.component';
 
 import {ConnectionsService} from '../../services/connections.service';
@@ -21,14 +21,14 @@ declare var jQuery: any;
     NgIf,
     FilterComponent,
     UsersListComponent,
-    LoadingIndicatorComponent
+    LoadingComponent
   ]
 })
 export class ConnectionPageComponent {
   items: Array<any> = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
-  limit: number = 6;
+  limit: number = 9;
   filter: boolean = true;
   next: string = '';
   total_count: number = 0;
