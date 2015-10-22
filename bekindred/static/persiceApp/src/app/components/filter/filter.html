@@ -1,4 +1,14 @@
 <div class="filter">
+  <div class="mb">
+    <div class="layout layout--small">
+      <div class="layout__item 3/5">
+        <a [class.is-disabled]="isFilterDisabled" (click)="updateList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a>
+      </div>
+      <div class="layout__item 2/5">
+        <a (click)="resetFilters($event)" class="btn btn-1 btn-1--small btn-1--darkblue btn--full">Reset</a>
+      </div>
+    </div>
+  </div>
   <div class="filter__items">
     <div class="filter__item">
       <h3 class="filter__item__title mb">Gender</h3>
@@ -44,9 +54,17 @@
       <h3 class="filter__item__title mb">Order by</h3>
       <select-element (selected-value)="changeOrder($event)" [(options)]="orderBy"></select-element>
     </div>
-    <div class="filter__item">
+    <div class="filter__item filter__item--keywords">
       <h3 class="filter__item__title mb">Keywords</h3>
-      <input #keyword [(ng-model)]="keywordValue" (keyup.enter)="addKeyword($event)" type="text" class="c-input" placeholder="Example: Movies, nightlife...">
+      <div class="c-input-icon-holder">
+        <input #keyword [(ng-model)]="keywordValue" type="text" class="c-input" placeholder="Example: Movies, nightlife...">
+        <a (click)="addKeyword($event)" class="filter__item--link">
+          <svg role="img" class="icon icon--small">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-plus"></use>
+          </svg>
+        </a>
+
+      </div>
       <span class="errorMessage" *ng-if="keywordError">{{keywordErrorMessage}}</span>
       <div class="keywords">
         <span class="keyword" *ng-for="#keyword of keywords; #i = index">
@@ -60,10 +78,4 @@
       </div>
     </div>
   </div>
-  <footer class="filter__footer">
-    <div class="layout layout--small">
-      <div class="layout__item 3/5"> <a [class.is-disabled]="isFilterDisabled" (click)="updateList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a> </div>
-      <div class="layout__item 2/5"> <a (click)="resetFilters($event)" class="btn btn-1 btn-1--small btn-1--darkblue btn--full">Reset</a> </div>
-    </div>
-  </footer>
 </div>
