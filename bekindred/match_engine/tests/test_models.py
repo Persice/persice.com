@@ -69,6 +69,9 @@ class TestMatchQuerySet(BaseTestCase):
             create(description='teach python')
         self.i_subject3 = InterestSubject.objects. \
             create(description='learn python')
+        self.i_subject4 = InterestSubject.objects. \
+            create(description='kiteboarding')
+
 
         rebuild_index.Command().handle(interactive=False)
 
@@ -211,21 +214,21 @@ class TestMatchQuerySet(BaseTestCase):
                          [u'<em>django</em> under the hood'])
 
     def test_simple_match_goals_with_root_forms_of_word(self):
-        Goal.objects.create(user=self.user, goal=self.subject10)
-        Goal.objects.create(user=self.user1, goal=self.subject11)
+        Goal.objects.create(user=self.user, goal=self.subject11)
+        Goal.objects.create(user=self.user1, goal=self.subject10)
         update_index.Command().handle(interactive=False)
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
-                         [u'like a <em>kiteboard</em> and <em>fox</em>'])
+                         [u'learn <em>kiteboarding</em> and foxes'])
 
     def test_simple_match_between(self):
-        Goal.objects.create(user=self.user, goal=self.subject10)
-        Goal.objects.create(user=self.user1, goal=self.subject11)
-        Goal.objects.create(user=self.user2, goal=self.subject11)
-        Goal.objects.create(user=self.user3, goal=self.subject11)
+        Goal.objects.create(user=self.user, goal=self.subject11)
+        Goal.objects.create(user=self.user1, goal=self.subject10)
+        Goal.objects.create(user=self.user2, goal=self.subject10)
+        Goal.objects.create(user=self.user3, goal=self.subject10)
         update_index.Command().handle(interactive=False)
         users = MatchQuerySet.between(self.user.id, self.user1.id)
         self.assertEqual(len(users), 1)
@@ -241,3 +244,45 @@ class TestMatchQuerySet(BaseTestCase):
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
                          [u'<em>child</em>'])
+
+    def test_simple_top_interests(self):
+        Goal.objects.create(user=self.user, goal=self.subject12)
+        Goal.objects.create(user=self.user1, goal=self.subject13)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].top_interests,
+                         [{u'child': 1, u'teach django': 0, u'test': 0}])
+
+    def test_top_interests(self):
+        Goal.objects.create(user=self.user, goal=self.subject12)
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+        Offer.objects.create(user=self.user, offer=self.subject3)
+        Goal.objects.create(user=self.user1, goal=self.subject13)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject6)
+        Offer.objects.create(user=self.user1, offer=self.subject7)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].top_interests,
+                         [{u'child': 1, u'django': 1, u'python': 1}])
+
+    def test_simple_top_interests_less_than_3(self):
+        Goal.objects.create(user=self.user, goal=self.subject11)
+        Goal.objects.create(user=self.user1, goal=self.subject10)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].top_interests,
+                         [{u'kiteboarding': 1,
+                           u'teach django': 0,
+                           u'test': 0}])
+
+    def test_simple_top_interests_less_than_1(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject10)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 0)
