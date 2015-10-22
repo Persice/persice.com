@@ -195,7 +195,6 @@ export class FilterComponent {
 
 
   addKeyword(event) {
-    // add keyword on key enter
     //check string length
     if (this.keywordValue.length < 3) {
       this.keywordError = true;

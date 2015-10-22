@@ -52,6 +52,19 @@ $(document).ready(function() {
     console.log('Modal is opened');
   });
 
+  //Date picker
+  $('.datepicker').pickadate({
+    format: 'dd/mm/yyyy'
+  });
+
+  $('.timepicker').pickatime();
+
+
+  //Search tag
+  $('.search-tag').on('click', function() {
+    $(this).toggleClass('is-current');
+  });
+
 
 
   //Multiple line content ellipsis

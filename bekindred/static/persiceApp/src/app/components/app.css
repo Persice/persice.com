@@ -111,3 +111,17 @@
   font-size: 0.8rem;
   color: red;
 }
+
+
+
+
+/* fix for filter add keyword link */
+
+.filter__item--link {
+  display: block;
+  height: 43px;
+  width: 43px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
