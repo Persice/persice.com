@@ -5,7 +5,7 @@ import {Component, NgFor, NgIf, NgClass} from 'angular2/angular2';
 
 import {SearchResultsUserComponent} from '../searchresultsuser/searchresultsuser.component';
 import {SearchResultsEventComponent} from '../searchresultsevent/searchresultsevent.component';
-import {LoadingIndicatorComponent} from '../loadingindicator/loadingindicator.component';
+import {LoadingComponent} from '../loading/loading.component';
 
 let view = require('./searchresults.html');
 @Component({
@@ -28,7 +28,7 @@ let view = require('./searchresults.html');
     NgClass,
     SearchResultsUserComponent,
     SearchResultsEventComponent,
-    LoadingIndicatorComponent
+    LoadingComponent
   ]
 })
 export class SearchResultsComponent {

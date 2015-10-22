@@ -17,12 +17,12 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Route} from 'angular2/
  */
 
 
-import {HomePageComponent} from './homepage/homepage.component';
-import {CrowdPageComponent} from './crowdpage/crowdpage.component';
-import {MessagePageComponent} from './messagepage/messagepage.component';
-import {ConnectionPageComponent} from './connectionpage/connectionpage.component';
-import {EventsPageComponent} from './eventspage/eventspage.component';
-import {ProfilePageComponent} from './profilepage/profilepage.component';
+import {HomeComponent} from './home/home.component';
+import {CrowdComponent} from './crowd/crowd.component';
+import {MessageComponent} from './message/message.component';
+import {ConnectionComponent} from './connection/connection.component';
+import {EventsComponent} from './events/events.component';
+import {ProfileComponent} from './profile/profile.component';
 
 
 import {HeaderMainComponent} from './headermain/headermain.component';
@@ -44,32 +44,32 @@ let view = require('./app.html');
   // 'as' will be renamed to 'name' => https://github.com/angular/angular/issues/4622
   new Route({
     path: '/',
-    component: HomePageComponent,
+    component: HomeComponent,
     as: 'Home'
   }),
   new Route({
     path: '/crowd/:version',
-    component: CrowdPageComponent,
+    component: CrowdComponent,
     as: 'Crowd'
   }),
   new Route({
     path: '/message',
-    component: MessagePageComponent,
+    component: MessageComponent,
     as: 'Message'
   }),
   new Route({
     path: '/connection',
-    component: ConnectionPageComponent,
+    component: ConnectionComponent,
     as: 'Connection'
   }),
   new Route({
     path: '/events',
-    component: EventsPageComponent,
+    component: EventsComponent,
     as: 'Events'
   }),
   new Route({
     path: '/profilepage',
-    component: ProfilePageComponent,
+    component: ProfileComponent,
     as: 'Profile'
   })
 ])

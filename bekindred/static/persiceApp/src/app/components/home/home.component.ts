@@ -2,12 +2,12 @@
 
 import {Component} from 'angular2/angular2';
 
-let view = require('./homepage.html');
+let view = require('./home.html');
 @Component({
-  selector: 'home-page',
+  selector: 'home',
   template: view
 })
-export class HomePageComponent {
+export class HomeComponent {
   constructor() {
 
   }

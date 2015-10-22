@@ -2,12 +2,12 @@
 
 import {Component} from 'angular2/angular2';
 
-let view = require('./eventspage.html');
+let view = require('./events.html');
 @Component({
-  selector: 'events-page',
+  selector: 'events',
   template: view
 })
-export class EventsPageComponent {
+export class EventsComponent {
   constructor() {
 
   }

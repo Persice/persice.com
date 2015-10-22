@@ -7,30 +7,32 @@ import {RouteParams} from 'angular2/router';
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {FilterComponent} from '../filter/filter.component';
+import {ProfileComponent} from '../profile/profile.component';
 
 import {CrowdService} from '../../services/crowd.service';
 
-let view = require('./crowdpage.html');
+let view = require('./crowd.html');
 
 declare var jQuery: any;
 
 @Component({
-  selector: 'crowd-page',
+  selector: 'crowd',
   template: view,
   providers: [CrowdService],
   directives: [
     NgIf,
     FilterComponent,
     UsersListComponent,
-    LoadingComponent
+    LoadingComponent,
+    ProfileComponent
   ]
 })
-export class CrowdPageComponent {
+export class CrowdComponent {
   version: string = 'v2';
   items: Array<any> = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
-  limit: number = 9;
+  limit: number = 6;
   filter: boolean = true;
   next: string = '';
   total_count: number = 0;

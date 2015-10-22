@@ -10,7 +10,7 @@ import {FilterComponent} from '../filter/filter.component';
 
 import {ConnectionsService} from '../../services/connections.service';
 
-let view = require('./connectionpage.html');
+let view = require('./connection.html');
 
 declare var jQuery: any;
 
@@ -24,11 +24,11 @@ declare var jQuery: any;
     LoadingComponent
   ]
 })
-export class ConnectionPageComponent {
+export class ConnectionComponent {
   items: Array<any> = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
-  limit: number = 9;
+  limit: number = 6;
   filter: boolean = true;
   next: string = '';
   total_count: number = 0;
