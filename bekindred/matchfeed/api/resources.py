@@ -28,7 +28,7 @@ class MatchedFeedResource(Resource):
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
     image = fields.FileField(attribute="image", null=True, blank=True)
-    shared_interest = fields.ListField(attribute='shared_interest')
+    top_interests = fields.ListField(attribute='top_interests', null=True, blank=True)
     user_id = fields.CharField(attribute='user_id')
     twitter_provider = fields.CharField(attribute='twitter_provider', null=True)
     twitter_username = fields.CharField(attribute='twitter_username', null=True)
@@ -99,7 +99,8 @@ class MatchedFeedResource(Resource):
             new_obj.score = t1 + t2 + t3 + t4
             new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
                                     len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
-            new_obj.shared_interest = ['dancing', 'cooking', '3D printing']
+            new_obj.top_interests = [{'dancing': 1}, {'cooking': 1},
+                                     {'3D printing': 1}]
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true':

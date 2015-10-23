@@ -87,7 +87,7 @@ class ConnectionsResource(Resource):
     linkedin_provider = fields.CharField(attribute='linkedin_provider',
                                          null=True)
 
-    shared_interest = fields.ListField(attribute='shared_interest')
+    top_interests = fields.ListField(attribute='top_interests')
     mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
     mutual_bk_friends_count = fields.IntegerField(
         attribute='mutual_bk_friends_count')
@@ -209,7 +209,8 @@ class ConnectionsResource(Resource):
 
             new_obj.distance = calculate_distance(request.user.id,
                                                   new_obj.friend_id)
-            new_obj.shared_interest = ['dancing', 'cooking', '3D printing']
+            new_obj.top_interests = [{'dancing': 1}, {'cooking': 1},
+                                     {'3D printing': 1}]
             results.append(new_obj)
 
         # Order by match_score
