@@ -10,6 +10,7 @@ import {FilterComponent} from '../filter/filter.component';
 import {ProfileComponent} from '../profile/profile.component';
 
 import {CrowdService} from '../../services/crowd.service';
+import {MutualFriendsService} from '../../services/mutualfriends.service';
 
 let view = require('./crowd.html');
 
@@ -39,10 +40,12 @@ export class CrowdComponent {
   offset: number = 0;
   profileViewActive = false;
   selectedUser;
+  mutuals: Array<any> = [];
 
   constructor(
     @Inject(RouteParams) params: RouteParams,
-    public service: CrowdService
+    public service: CrowdService,
+    public mutualfriendsService: MutualFriendsService
   ) {
     this.version = params.get('version');
 
@@ -52,6 +55,17 @@ export class CrowdComponent {
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
+  }
+
+  getMutualFriends(id) {
+    this.mutualfriendsService.get('', 100, 'v1', id)
+      .map(res => res.json())
+      .subscribe(data => this.assignMutualFriends(data));
+  }
+
+  assignMutualFriends(data) {
+    console.log(data);
+    this.mutuals = data.objects;
   }
 
   getList() {
@@ -118,6 +132,7 @@ export class CrowdComponent {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
         this.selectedUser.photos.reverse();
+        this.getMutualFriends(this.selectedUser.id);
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }

@@ -9,5 +9,5 @@ let view = require('./profilemutuals.html');
   selector: 'profile-mutuals'
 })
 export class ProfileMutualsComponent {
-  @Input() user;
+  @Input() mutuals;
 }
