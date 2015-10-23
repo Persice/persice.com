@@ -1,8 +1,20 @@
 <div class="layout layout--flush content p">
   <div class="platform">
-    <profile-about></profile-about>
-    <profile-features></profile-features>
-    <profile-likes></profile-likes>
-    <profile-mutuals></profile-mutuals>
-  </div>
+    <profile-about
+    [name]="user.first_name"
+    [about]="user.about"
+    [images]="user.photos"
+    [avatar]="user.image"
+    [score]="user.score"
+    [gender]="user.gender"
+    [age]="user.age"
+    [distance-value]="user.distance[0]"
+    [distance-unit]="user.distance[1]"
+    (pass-event)="passUser($event)"
+    (accept-event)="acceptUser($event)">
+  </profile-about>
+  <profile-features [user]="user"></profile-features>
+  <profile-likes [user]="user"></profile-likes>
+  <profile-mutuals [user]="user"></profile-mutuals>
+</div>
 </div>

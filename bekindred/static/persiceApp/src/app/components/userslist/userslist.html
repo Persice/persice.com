@@ -1,7 +1,7 @@
 <div class="listed-users p">
   <div class="layout">
     <div class="layout__item 1/1 medium-and-up-1/2 extralarge-and-up-1/3" *ng-for="#user of users">
-      <user-card [user]="user"></user-card>
+      <user-card [user]="user" (on-click)="onUserClicked($event)"></user-card>
     </div>
   </div>
 </div>

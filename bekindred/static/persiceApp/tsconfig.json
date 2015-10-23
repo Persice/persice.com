@@ -51,6 +51,7 @@
         "src/app/directives/dropdown.directive.ts",
         "src/app/directives/imagestretch.directive.ts",
         "src/app/directives/togglefilter.directive.ts",
+        "src/app/directives/slick.directive.ts",
         "src/app/models/filter.model.ts",
         "src/app/models/searchresults.model.ts",
         "src/app/models/user.model.ts",

@@ -96,6 +96,16 @@
   background-repeat: no-repeat;
 }
 
+.match-profile__avatar .avatar-holder {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 230px;
+  height: 230px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
 .profile-drop__avatar .avatar-holder img {
   display: none;
 }

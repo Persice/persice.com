@@ -24,6 +24,7 @@ export class RangeSliderComponent {
   }
 
   onInit() {
+    console.log('range slider element started');
     let rangesliderEl = this.el.nativeElement.children[0];
 
     this.options['onFinish'] = (data) => {
@@ -47,6 +48,13 @@ export class RangeSliderComponent {
 
     if (this.slider && changes.renderSlider) {
       this.slider.update(this.options);
+    }
+  }
+
+  onDestroy() {
+    if (this.slider) {
+      console.log('range slider element destroyed');
+      this.slider.destroy();
     }
   }
 }
