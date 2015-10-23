@@ -13,8 +13,12 @@
     (pass-event)="passUser($event)"
     (accept-event)="acceptUser($event)">
   </profile-about>
-  <profile-features [user]="user"></profile-features>
-  <profile-likes [user]="user"></profile-likes>
-  <profile-mutuals [user]="user"></profile-mutuals>
+  <profile-features
+  [goals]="user.goals"
+  [offers]="user.offers"
+  [interests]="user.interests">
+</profile-features>
+<profile-likes [likes]="user.likes"></profile-likes>
+<profile-mutuals [mutuals]="mutuals"></profile-mutuals>
 </div>
 </div>

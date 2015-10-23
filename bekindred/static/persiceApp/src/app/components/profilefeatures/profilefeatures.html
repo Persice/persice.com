@@ -1,65 +1,58 @@
 <div class="match-profile__features">
   <div class="layout">
     <div class="layout__item 1/1 large-and-up-1/3">
-      <h4 class="module-title">Interests <span>(11)</span></h4>
+      <h4 class="module-title">Interests <span>({{count(interests[0])}})</span></h4>
       <ul class="features-list">
-        <li class="features-list__match">
-          <svg role="img" class="icon icon--tiny">
+        <li [class]="{'features-list__match': item.match}" *ng-for="#item of first(interests[0], 6)">
+          <svg role="img" class="icon icon--tiny" *ng-if="item.match">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
-          </svg> Lego building
+          </svg> {{item.value}}
         </li>
-        <li class="features-list__match">
-          <svg role="img" class="icon icon--tiny">
-            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
-          </svg> Tablet games anbd role-playing games
-        </li>
-        <li class="features-list__match">
-          <svg role="img" class="icon icon--tiny">
-            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
-          </svg> Glassblowing
-        </li>
-        <li>Astronomy</li>
-        <li>Kitsurfing / Liteboarding / Surfing</li>
-        <li>Theoretical Physics</li>
       </ul>
-      <a href="" class="link-blank">Show all</a>
+      <ul class="features-list" *ng-if="showAllInterests">
+        <li  [class]="{'features-list__match': item.match}" *ng-for="#item of skip(interests[0], 6)">
+          <svg role="img" class="icon icon--tiny" *ng-if="item.match">
+            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
+          </svg> {{item.value}}
+        </li>
+      </ul>
+      <a *ng-if="!showAllInterests && count(interests[0]) > 6" (click)="toggleAll('interests')" class="link-blank">Show all</a>
     </div>
     <div class="layout__item 1/1 large-and-up-1/3">
-      <h4 class="module-title">Goals <span>(5)</span></h4>
+      <h4 class="module-title">Goals <span>({{count(goals[0])}})</span></h4>
       <ul class="features-list">
-        <li class="features-list__match">
-          <svg role="img" class="icon icon--tiny">
+        <li [class]="{'features-list__match': item.match}" *ng-for="#item of first(goals[0], 6)">
+          <svg role="img" class="icon icon--tiny" *ng-if="item.match">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
-          </svg>
-          Lego building
+          </svg> {{item.value}}
         </li>
-        <li class="features-list__match">
-          <svg role="img" class="icon icon--tiny">
-            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
-          </svg> Ride in the hot air balloon
-        </li>
-        <li>Snorkel in Hawaii</li>
-        <li>Find People to go mountian biking with</li>
-        <li>Learn more about artificial intelligence</li>
-        <li>Join a Tought Mudder team</li>
       </ul>
-      <a href="" class="link-blank">Show all</a>
+      <ul class="features-list" *ng-if="showAllGoals">
+        <li  [class]="{'features-list__match': item.match}" *ng-for="#item of skip(goals[0], 6)">
+          <svg role="img" class="icon icon--tiny" *ng-if="item.match">
+            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
+          </svg> {{item.value}}
+        </li>
+      </ul>
+      <a *ng-if="!showAllGoals && count(goals[0]) > 6" (click)="toggleAll('goals')" class="link-blank">Show all</a>
     </div>
     <div class="layout__item 1/1 large-and-up-1/3">
-      <h4 class="module-title">Offers <span>(11)</span></h4>
+      <h4 class="module-title">Offers <span>({{count(offers[0])}})</span></h4>
       <ul class="features-list">
-        <li class="features-list__match">
-          <svg role="img" class="icon icon--tiny">
+        <li [class]="{'features-list__match': item.match}" *ng-for="#item of first(offers[0], 6)">
+          <svg role="img" class="icon icon--tiny" *ng-if="item.match">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
-          </svg> Help people fix stuff
+          </svg> {{item.value}}
         </li>
-        <li>Teach people how to surf</li>
-        <li>Teach people how to cook</li>
-        <li>Mentor people in tech</li>
-        <li>Tech pople how to play ukelele</li>
-        <li>Provide tips to kiteboard beginners</li>
       </ul>
-      <a href="" class="link-blank">Show all</a>
+      <ul class="features-list" *ng-if="showAllOffers">
+        <li  [class]="{'features-list__match': item.match}" *ng-for="#item of skip(offers[0], 6)">
+          <svg role="img" class="icon icon--tiny" *ng-if="item.match">
+            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
+          </svg> {{item.value}}
+        </li>
+      </ul>
+      <a *ng-if="!showAllOffers && count(offers[0]) > 6" (click)="toggleAll('offers')" class="link-blank">Show all</a>
     </div>
   </div>
 </div>
