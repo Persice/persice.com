@@ -30,7 +30,7 @@ HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'elasticstack.backends.ConfigurableElasticSearchEngine',
         'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
+        'INDEX_NAME': 'test_haystack',
     },
 }
 

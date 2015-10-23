@@ -110,7 +110,6 @@ class MatchUser(object):
         self.last_name = self.user.last_name
         self.facebook_id = self.user.facebook_id
         self.image = self.user.image
-        self.shared_interest = ['dancing', 'cooking', '3D printing']
         self.age = calculate_age(self.user.date_of_birth)
         self.gender = self.user.gender or 'm,f'
         self.about = self.user.about_me
@@ -118,7 +117,7 @@ class MatchUser(object):
         self.twitter_provider, self.linkedin_provider, self.twitter_username = \
             social_extra_data(self.user.id)
         self.distance = calculate_distance(current_user_id, self.user_id)
-        # TODO
+        # Scores
         self.score = self.match_score()
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.match_score()
@@ -151,7 +150,7 @@ class MatchUser(object):
         if len(interests) == 3:
             return [dict(zip(interests, [1]*len(interests)))]
         elif len(interests) > 3:
-            return [dict(zip(interests[:3], [1]*len(interests[:3])))]
+            return [dict(zip(interests[:3], [1]*3))]
         elif len(interests) < 3:
             d = dict(zip(interests, [1]*len(interests)))
             for subj in interests_dict[:3-len(interests)]:

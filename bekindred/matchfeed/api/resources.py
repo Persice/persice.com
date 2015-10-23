@@ -176,7 +176,6 @@ class MatchedFeedResource2(Resource):
     facebook_id = fields.CharField(attribute='facebook_id')
     image = fields.FileField(attribute="image", null=True, blank=True)
     user_id = fields.CharField(attribute='user_id')
-    shared_interest = fields.ListField(attribute='shared_interest')
     twitter_provider = fields.CharField(attribute='twitter_provider',
                                         null=True)
     twitter_username = fields.CharField(attribute='twitter_username',
@@ -193,6 +192,7 @@ class MatchedFeedResource2(Resource):
     offers = fields.ListField(attribute='offers')
     likes = fields.ListField(attribute='likes')
     interests = fields.ListField(attribute='interests')
+    top_interests = fields.ListField(attribute='top_interests')
 
     score = fields.IntegerField(attribute='score', null=True)
     es_score = fields.FloatField(attribute='es_score', null=True)
