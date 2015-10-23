@@ -37,6 +37,8 @@ export class CrowdComponent {
   next: string = '';
   total_count: number = 0;
   offset: number = 0;
+  profileViewActive = false;
+  selectedUser;
 
   constructor(
     @Inject(RouteParams) params: RouteParams,
@@ -107,6 +109,31 @@ export class CrowdComponent {
 
 
   }
+
+  setSelectedUser(id) {
+    console.log('user is selected');
+    console.log(id);
+
+    for (var i = this.items.length - 1; i >= 0; i--) {
+      if (this.items[i].id === id) {
+        this.selectedUser = this.items[i];
+        this.selectedUser.photos.reverse();
+        this.profileViewActive = true;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+      }
+    }
+  }
+
+  passUser(event) {
+    console.log('User pass');
+    this.profileViewActive = false;
+  }
+
+  acceptUser(event) {
+    console.log('User accept');
+    this.profileViewActive = false;
+  }
+
 
   handleScrollEvent(event) {
     let scrollOffset = jQuery(window).scrollTop();

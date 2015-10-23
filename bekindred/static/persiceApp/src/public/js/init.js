@@ -4,22 +4,22 @@
 $(document).ready(function() {
   'use strict';
 
-  $('.match-percent-large').circleProgress({
-    value: 0.75,
-    size: 246,
-    thickness: 4,
-    fill: {
-      color: '#39c9f5'
-    }
-  });
+  // $('.match-percent-large').circleProgress({
+  //   value: 0.75,
+  //   size: 246,
+  //   thickness: 4,
+  //   fill: {
+  //     color: '#39c9f5'
+  //   }
+  // });
 
 
   //Sick slider
-  $('.match-profile__avatar').slick({
-    arrows: false,
-    dots: true,
-    appendDots: $('.match-profile__avatar-nav')
-  });
+  // $('.match-profile__avatar').slick({
+  //   arrows: false,
+  //   dots: true,
+  //   appendDots: $('.match-profile__avatar-nav')
+  // });
 
   $('.js-slide-likes').slick({
     infinite: true,

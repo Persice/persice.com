@@ -1,6 +1,6 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, NgIf, NgFor} from 'angular2/angular2';
+import {Component, NgIf, NgFor, EventEmitter} from 'angular2/angular2';
 
 import {ImageStretchDirective} from '../../directives/imagestretch.directive';
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
@@ -12,6 +12,7 @@ let view = require('./usercard.html');
 
 @Component({
   inputs: ['user'],
+  outputs: ['onClick'],
   selector: 'user-card',
   pipes: [GenderPipe],
   template: view,
@@ -19,10 +20,15 @@ let view = require('./usercard.html');
 })
 export class UserCardComponent {
   user: any;
+  onClick: EventEmitter = new EventEmitter;
   mediaUrl: string = '';
 
   constructor() {
 
+  }
+
+  userClicked() {
+    this.onClick.next(this.user.id);
   }
 
   afterContentInit() {
