@@ -21,17 +21,17 @@ $(document).ready(function() {
   //   appendDots: $('.match-profile__avatar-nav')
   // });
 
-  $('.js-slide-likes').slick({
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1
-  });
+  // $('.js-slide-likes').slick({
+  //   infinite: true,
+  //   slidesToShow: 3,
+  //   slidesToScroll: 1
+  // });
 
-  $('.js-slide-mutuals').slick({
-    infinite: true,
-    slidesToShow: 6,
-    slidesToScroll: 1
-  });
+  // $('.js-slide-mutuals').slick({
+  //   infinite: true,
+  //   slidesToShow: 6,
+  //   slidesToScroll: 1
+  // });
 
   $(document).on('opened', '.remodal', function() {
     $('.modal-gallery__images').slick({

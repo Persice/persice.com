@@ -52,27 +52,13 @@ export class UserCardComponent {
       }
     }
 
-
-    // //temp fix for shared_interest
-    // let interest = [{
-    //   acting: 1,
-    //   animals: 0,
-    //   antiques: 1,
-    //   archery: 1,
-    //   art: 0,
-    //   backpacking: 1,
-    //   badminton: 1,
-    //   ballet: 1,
-    //   baseball: 0
-    // }];
-    // this.user.shared_interest = this.keys(interest);
   }
 
   //take 3 shared interests
-  keys(data): Array<string> {
+  keys(data, n): Array<string> {
     let keys = [];
-    for (var key in data[0]) {
-      if (data[0][key] === 1) {
+    for (var key in data) {
+      if (data[key] === 1) {
         keys.push({
           value: key,
           match: true
@@ -84,7 +70,7 @@ export class UserCardComponent {
         });
       }
     }
-    return take(keys, 3);
+    return take(keys, n);
   }
 
 }

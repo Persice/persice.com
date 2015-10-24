@@ -10,6 +10,7 @@ import {FilterComponent} from '../filter/filter.component';
 import {ProfileComponent} from '../profile/profile.component';
 
 import {CrowdService} from '../../services/crowd.service';
+import {MutualFriendsService} from '../../services/mutualfriends.service';
 
 let view = require('./crowd.html');
 
@@ -32,17 +33,19 @@ export class CrowdComponent {
   items: Array<any> = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
-  limit: number = 6;
+  limit: number = 12;
   filter: boolean = true;
   next: string = '';
   total_count: number = 0;
   offset: number = 0;
   profileViewActive = false;
   selectedUser;
+  mutuals: Array<any> = [];
 
   constructor(
     @Inject(RouteParams) params: RouteParams,
-    public service: CrowdService
+    public service: CrowdService,
+    public mutualfriendsService: MutualFriendsService
   ) {
     this.version = params.get('version');
 
@@ -52,6 +55,16 @@ export class CrowdComponent {
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
+  }
+
+  getMutualFriends(id) {
+    this.mutualfriendsService.get('', 100, 'v1', id)
+      .map(res => res.json())
+      .subscribe(data => this.assignMutualFriends(data));
+  }
+
+  assignMutualFriends(data) {
+    this.mutuals = data.objects;
   }
 
   getList() {
@@ -117,7 +130,7 @@ export class CrowdComponent {
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
-        this.selectedUser.photos.reverse();
+        this.getMutualFriends(this.selectedUser.id);
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
@@ -132,6 +145,7 @@ export class CrowdComponent {
   acceptUser(event) {
     console.log('User accept');
     this.profileViewActive = false;
+    this.selectedUser = {};
   }
 
 

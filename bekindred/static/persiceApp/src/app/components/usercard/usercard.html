@@ -12,8 +12,8 @@
     </svg>
     <div circle-progress="{{user.score}}" size="128" thickness="2" class="match-percent"></div>
   </div>
-  <h6 class="card-subtitle">Interest</h6>
-  <ul class="interest-list">
-    <li *ng-for="#key of user.shared_interest">{{key}}</li>
+  <h6 class="card-subtitle">Interests</h6>
+  <ul class="interest-list" *ng-if="user.top_interests">
+    <li *ng-for="#key of keys(user.top_interests[0], 3)"><span *ng-if="key.match">&#149;</span> {{key.value}}</li>
   </ul>
 </div>

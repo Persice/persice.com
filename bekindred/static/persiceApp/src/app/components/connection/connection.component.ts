@@ -28,7 +28,7 @@ export class ConnectionComponent {
   items: Array<any> = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
-  limit: number = 6;
+  limit: number = 12;
   filter: boolean = true;
   next: string = '';
   total_count: number = 0;

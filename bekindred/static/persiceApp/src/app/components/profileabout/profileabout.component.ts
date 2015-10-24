@@ -14,6 +14,8 @@ import {GenderPipe} from '../../pipes/gender.pipe';
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {SlickDirective} from '../../directives/slick.directive';
 
+declare var jQuery: any;
+
 
 let view = require('./profileabout.html');
 @Component({
