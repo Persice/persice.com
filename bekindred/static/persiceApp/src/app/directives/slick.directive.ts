@@ -5,10 +5,18 @@ import {Directive, ElementRef, NgStyle, Inject} from 'angular2/angular2';
 declare var jQuery: any;
 
 @Directive({
-  selector: '[slick]'
+  selector: '[slick]',
+  properties: ['show', 'scroll', 'infinite', 'append', 'arrows', 'dots']
 })
 export class SlickDirective {
   el: ElementRef;
+  show: string;
+  scroll: string;
+  infinite: string;
+  append: string;
+  arrows: string;
+  dots: string;
+
   constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
 
@@ -17,13 +25,25 @@ export class SlickDirective {
   afterViewInit() {
     console.log('slick has changes');
 
-    jQuery(this.el.nativeElement).slick({
-      arrows: false,
-      dots: true,
-      appendDots: jQuery('.match-profile__avatar-nav')
-    });
 
-    jQuery(this.el.nativeElement).slick('slickRemove', 0);
+
+    let options = {
+      arrows: (this.arrows === 'true') ? true : false,
+      dots: (this.dots === 'true') ? true : false,
+      infinite: (this.infinite === 'true') ? true : false,
+      slidesToShow: parseInt(this.show, 10),
+      slidesToScroll: parseInt(this.scroll, 10),
+      appendDots: jQuery(this.append),
+      slide: 'div'
+    };
+
+    if (!this.dots) {
+      delete options.appendDots;
+    }
+
+    jQuery(this.el.nativeElement).slick(options);
+
+
 
   }
 

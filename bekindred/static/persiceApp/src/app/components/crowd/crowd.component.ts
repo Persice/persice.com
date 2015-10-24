@@ -64,7 +64,6 @@ export class CrowdComponent {
   }
 
   assignMutualFriends(data) {
-    console.log(data);
     this.mutuals = data.objects;
   }
 
@@ -131,7 +130,6 @@ export class CrowdComponent {
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
-        this.selectedUser.photos.reverse();
         this.getMutualFriends(this.selectedUser.id);
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -147,6 +145,7 @@ export class CrowdComponent {
   acceptUser(event) {
     console.log('User accept');
     this.profileViewActive = false;
+    this.selectedUser = {};
   }
 
 
