@@ -26,7 +26,7 @@ from tastypie.validation import Validation
 from events.authorization import GuardianAuthorization
 
 from events.models import (CumulativeMatchScore, Event, EventFilterState,
-                           Membership)
+                           Membership, FilterState)
 from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
 from goals.models import MatchFilterState
@@ -356,6 +356,21 @@ class EventFilterStateResource(ModelResource):
 
     def get_object_list(self, request):
         return super(EventFilterStateResource, self).get_object_list(request). \
+            filter(user_id=request.user.id)
+
+
+class FilterStateResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+
+    class Meta:
+        always_return_data = True
+        queryset = FilterState.objects.all()
+        resource_name = 'filter/state2'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        return super(FilterStateResource, self).get_object_list(request). \
             filter(user_id=request.user.id)
 
 
