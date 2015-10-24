@@ -99,8 +99,8 @@ class MatchedFeedResource(Resource):
             new_obj.score = t1 + t2 + t3 + t4
             new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
                                     len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
-            new_obj.top_interests = [{'dancing': 1}, {'cooking': 1},
-                                     {'3D printing': 1}]
+            new_obj.top_interests = [{'dancing': 1, 'cooking': 1,
+                                     '3D printing': 1}]
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true':

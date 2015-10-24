@@ -209,8 +209,8 @@ class ConnectionsResource(Resource):
 
             new_obj.distance = calculate_distance(request.user.id,
                                                   new_obj.friend_id)
-            new_obj.top_interests = [{'dancing': 1}, {'cooking': 1},
-                                     {'3D printing': 1}]
+            new_obj.top_interests = [{'dancing': 1, 'cooking': 1,
+                                      '3D printing': 1}]
             results.append(new_obj)
 
         # Order by match_score
