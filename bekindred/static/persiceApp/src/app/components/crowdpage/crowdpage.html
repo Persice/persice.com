@@ -1,8 +1,0 @@
-<div class="layout__item 1/1 extralarge-and-up-3/4">
-  <loading-indicator [status]="loading"></loading-indicator>
-  <h3 *ng-if="!loading && emptyList">No results...</h3>
-  <users-list [users]="crowd"></users-list>
-</div>
-<div class="layout__item extralarge-and-up-1/4 filter-place">
-  <filter (refresh-crowd)="refreshCrowd($event)" [state]="filters"></filter>
-</div>

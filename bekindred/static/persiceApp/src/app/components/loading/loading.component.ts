@@ -2,14 +2,14 @@
 
 import {Component, NgIf} from 'angular2/angular2';
 
-let view = require('./loadingindicator.html');
+let view = require('./loading.html');
 @Component({
   inputs: ['status'],
-  selector: 'loading-indicator',
+  selector: 'loading',
   template: view,
   directives: [NgIf]
 })
-export class LoadingIndicatorComponent {
+export class LoadingComponent {
   status: boolean;
   constructor() {
     this.status = false;

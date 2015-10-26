@@ -1,21 +1,19 @@
-<div class="card card--user">
+<div class="card card--user" (click)="userClicked($event)">
   <h4 class="card-title">{{user.first_name}}</h4>
   <p class="card-subtitle mb">
     {{user.gender | gender}} / age {{user.age}} / {{user.distance[0]}} {{user.distance[1]}}
   </p>
   <div class="avatar-box mb">
     <div image-stretch class="avatar-holder js-image-liquid">
-      <img *ng-if="user.image !== ''" src="/media/{{user.image}}" alt="User name" class="avatar">
-      <img *ng-if="(user.image === '' || user.image === null) && user.gender === 'm'" src="/static/persiceApp/src/public/images/avatar_user_m.jpg" alt="User name" class="avatar">
-      <img *ng-if="(user.image === '' || user.image === null) && user.gender === 'f'" src="/static/persiceApp/src/public/images/avatar_user_f.jpg" alt="User name" class="avatar">
+      <img src="{{user.image}}" alt="User name" class="avatar">
     </div>
     <svg role="img" class="icon">
       <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-persice-2"></use>
     </svg>
-    <div circle-progress="{{user.score}}" class="match-percent"></div>
+    <div circle-progress="{{user.score}}" size="128" thickness="2" class="match-percent"></div>
   </div>
-  <h6 class="card-subtitle">Shared Interest</h6>
-  <ul class="interest-list">
-    <li *ng-for="#key of keys(user.interests)">{{key}}</li>
+  <h6 class="card-subtitle">Interests</h6>
+  <ul class="interest-list" *ng-if="user.top_interests">
+    <li *ng-for="#key of keys(user.top_interests[0], 3)"><span *ng-if="key.match">&#149;</span> {{key.value}}</li>
   </ul>
 </div>

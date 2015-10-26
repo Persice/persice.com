@@ -96,6 +96,16 @@
   background-repeat: no-repeat;
 }
 
+.match-profile__avatar .avatar-holder {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 230px;
+  height: 230px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
 .profile-drop__avatar .avatar-holder img {
   display: none;
 }
@@ -110,4 +120,25 @@
 .errorMessage {
   font-size: 0.8rem;
   color: red;
+}
+
+
+
+
+/* fix for filter add keyword link */
+
+.filter__item--link {
+  display: block;
+  height: 43px;
+  width: 43px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+
+/* fix for link cursor in match profile */
+
+.match-profile__features .link-blank {
+  cursor: pointer;
 }

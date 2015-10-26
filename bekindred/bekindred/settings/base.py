@@ -228,18 +228,18 @@ ELASTICSEARCH_INDEX_SETTINGS = {
                 "ngram_analyzer": {
                     "type": "custom",
                     "tokenizer": "lowercase",
-                    "filter": ["haystack_ngram", "synonym"]
+                    "filter": ["haystack_ngram"]
                 },
                 "edgengram_analyzer": {
                     "type": "custom",
                     "tokenizer": "lowercase",
                     "filter": ["haystack_edgengram"]
                 },
-                "synonym_analyzer": {
-                    "type": "custom",
-                    "tokenizer": "standard",
-                    "filter": ["synonym"]
-                },
+                # "synonym_analyzer": {
+                #     "type": "custom",
+                #     "tokenizer": "standard",
+                #     "filter": ["synonym"]
+                # },
                 "english": {
                     "tokenizer":  "standard",
                     "filter": [
@@ -269,12 +269,12 @@ ELASTICSEARCH_INDEX_SETTINGS = {
                     "min_gram": 3,
                     "max_gram": 15
                 },
-                "synonym": {
-                    "type": "synonym",
-                    "ignore_case": "true",
-                    "format": "wordnet",
-                    "synonyms_path": "analysis/synonym.txt"
-                },
+                # "synonym": {
+                #     "type": "synonym",
+                #     "ignore_case": "true",
+                #     "format": "wordnet",
+                #     "synonyms_path": "analysis/synonym.txt"
+                # },
                 "haystack_edgengram": {
                     "type": "edgeNGram",
                     "min_gram": 2,

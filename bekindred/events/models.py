@@ -132,8 +132,19 @@ class EventFilterState(models.Model):
     order_criteria = models.CharField(max_length=20, default='distance')
 
 
+class FilterState(models.Model):
+    user = models.ForeignKey(FacebookCustomUser)
+    distance = models.IntegerField(default=1)
+    distance_unit = models.CharField(max_length=5, default='miles')
+    cumulative_match_score = models.IntegerField(default=0)
+    gender = models.CharField(max_length=3, default='m,f')
+    keyword = models.CharField(max_length=50)
+    order_criteria = models.CharField(max_length=20, default='distance')
+
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         EventFilterState.objects.get_or_create(user=instance)
+        FilterState.objects.get_or_create(user=instance)
 
 post_save.connect(create_user_profile, sender=FacebookCustomUser)

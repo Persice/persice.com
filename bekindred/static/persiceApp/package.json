@@ -25,6 +25,7 @@
     "protractor": "protractor",
     "e2e": "npm run protractor",
     "test": "karma start",
+    "testwatch": "karma start --auto-watch --no-single-run --reporters=osx,verbose",
     "testinbrowser": "live-server --open=src/public/unit-tests.html",
     "tsd-update": "tsd reinstall --overwrite",
     "docs": "typedoc  --options typedoc.json  src/**/*.ts",

@@ -1,6 +1,10 @@
-from datetime import date
+from datetime import date, datetime
+import os
+from django.conf import settings
+from django.utils.timezone import now
 
 from django_facebook.models import FacebookCustomUser, FacebookLike
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from tastypie.test import ResourceTestCase
 
@@ -154,6 +158,46 @@ class TestMatchFeedResource(ResourceTestCase):
         resp = self.api_client.get('/api/v1/matchfeed/', format='json')
 
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 2)
+
+    def test_correct_image_url(self):
+        date_folder = now().strftime('%Y/%m/%d')
+
+        tmp_file = os.path.join(
+            settings.MEDIA_ROOT,
+            "images/facebook_profiles/%s/best_file_eva.txt" % date_folder
+        )
+        new_file = SimpleUploadedFile('best_file_eva.txt',
+                                      'these are the file contents!')
+        user = FacebookCustomUser.objects.create_user(
+            username='user_abc',
+            facebook_id=9992345671212,
+            password='test',
+            image=new_file,
+            date_of_birth=date(
+                1989,
+                5,
+                20))
+
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user, goal=self.subject2)
+
+        Goal.objects.create(user=user, goal=self.subject)
+        Goal.objects.create(user=user, goal=self.subject2)
+
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
+
+        data = self.deserialize(resp)
+        self.assertEqual(data['meta']['total_count'], 1)
+
+        self.assertEqual(
+            data['objects'][0]['image'],
+            u'/media/images/facebook_profiles/%s/best_file_eva.txt'
+            % date_folder
+        )
+        # clean up temp file
+        if os.path.exists(tmp_file):
+            os.remove(tmp_file)
 
     def test_match_interest_fb_likes(self):
         interest_id = InterestSubject.objects.create(

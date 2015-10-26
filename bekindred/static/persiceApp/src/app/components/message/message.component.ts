@@ -3,14 +3,18 @@
 import {Component} from 'angular2/angular2';
 import {RouterLink } from 'angular2/router';
 
-let view = require('./connectionpage.html');
+let view = require('./message.html');
 @Component({
-  selector: 'connection-page',
+  selector: 'message',
   template: view,
   directives: [RouterLink]
 })
-export class ConnectionPageComponent {
+export class MessageComponent {
   constructor() {
 
+  }
+
+  onInit() {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 }

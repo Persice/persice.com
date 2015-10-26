@@ -30,91 +30,9 @@ HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'elasticstack.backends.ConfigurableElasticSearchEngine',
         'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'haystack',
+        'INDEX_NAME': 'test_haystack',
     },
 }
-
-ELASTICSEARCH_DEFAULT_ANALYZER = 'synonym_analyzer'
-
-
-ELASTICSEARCH_INDEX_SETTINGS = {
-    'settings': {
-        "analysis": {
-            "analyzer": {
-                "ngram_analyzer": {
-                    "type": "custom",
-                    "tokenizer": "lowercase",
-                    "filter": ["haystack_ngram", "synonym"]
-                },
-                "edgengram_analyzer": {
-                    "type": "custom",
-                    "tokenizer": "lowercase",
-                    "filter": ["haystack_edgengram"]
-                },
-                "synonym_analyzer": {
-                    "type": "custom",
-                    "tokenizer": "standard",
-                    "filter": ["synonym"]
-                },
-                "english": {
-                    "tokenizer":  "standard",
-                    "filter": [
-                        "english_possessive_stemmer",
-                        "lowercase",
-                        "english_stop",
-                        "english_stemmer"
-                    ]
-                }
-            },
-            "tokenizer": {
-                "haystack_ngram_tokenizer": {
-                    "type": "nGram",
-                    "min_gram": 3,
-                    "max_gram": 15,
-                },
-                "haystack_edgengram_tokenizer": {
-                    "type": "edgeNGram",
-                    "min_gram": 2,
-                    "max_gram": 15,
-                    "side": "front"
-                }
-            },
-            "filter": {
-                "haystack_ngram": {
-                    "type": "nGram",
-                    "min_gram": 3,
-                    "max_gram": 15
-                },
-                "synonym": {
-                    "type": "synonym",
-                    "ignore_case": "true",
-                    "format": "wordnet",
-                    "synonyms_path": "analysis/synonym.txt"
-                },
-                "haystack_edgengram": {
-                    "type": "edgeNGram",
-                    "min_gram": 2,
-                    "max_gram": 15
-                },
-                "english_stop": {
-                    "type":       "stop",
-                    "stopwords":  "_english_"
-                },
-                "english_stemmer": {
-                    "type":       "stemmer",
-                    "language":   "english"
-                },
-                "english_possessive_stemmer": {
-                    "type":       "stemmer",
-                    "language":   "possessive_english"
-                }
-            }
-        }
-    }
-}
-
-
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
 TASTYPIE_SWAGGER_API_MODULE = 'bekindred.urls.v1_api'
@@ -219,7 +137,7 @@ LOGGING = {
         },
         'elasticsearch.trace': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'django.db.backends': {

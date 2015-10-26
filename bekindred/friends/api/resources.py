@@ -13,7 +13,8 @@ from tastypie.resources import ModelResource, Resource
 
 from friends.models import FacebookFriendUser, Friend
 from goals.utils import (calculate_distance, get_mutual_linkedin_connections,
-                         get_mutual_twitter_friends, social_extra_data)
+                         get_mutual_twitter_friends, social_extra_data,
+                         calculate_age)
 from match_engine.models import MatchEngine
 from matchfeed.api.resources import A
 from matchfeed.utils import MatchQuerySet
@@ -86,6 +87,7 @@ class ConnectionsResource(Resource):
     linkedin_provider = fields.CharField(attribute='linkedin_provider',
                                          null=True)
 
+    top_interests = fields.ListField(attribute='top_interests')
     mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
     mutual_bk_friends_count = fields.IntegerField(
         attribute='mutual_bk_friends_count')
@@ -115,12 +117,15 @@ class ConnectionsResource(Resource):
 
     mutual_friends = fields.IntegerField(attribute='mutual_friends')
 
-    common_goals_offers_interests = fields.IntegerField(
-        attribute='common_goals_offers_interests', null=True)
+    score = fields.IntegerField(
+        attribute='score', null=True
+    )
 
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
     distance = fields.ListField(attribute='distance')
     image = fields.FileField(attribute="image", null=True, blank=True)
+    gender = fields.CharField(attribute='gender', default='m,f')
+    age = fields.IntegerField(attribute='age', null=True, blank=True)
 
     class Meta:
         resource_name = 'connections'
@@ -155,7 +160,9 @@ class ConnectionsResource(Resource):
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.image = getattr(friend, position_friend).image
+            new_obj.gender = getattr(friend, position_friend).gender
             new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.age = calculate_age(getattr(friend, position_friend).date_of_birth)
             new_obj.updated_at = friend.updated_at
 
             if _friend_id and not int(_friend_id) == new_obj.friend_id:
@@ -196,18 +203,21 @@ class ConnectionsResource(Resource):
                 new_obj.mutual_twitter_friends_count + \
                 new_obj.mutual_twitter_followers_count
 
-            new_obj.common_goals_offers_interests = MatchEngine.\
+            new_obj.score = MatchEngine.\
                 objects.count_common_goals_and_offers(current_user,
                                                       new_obj.friend_id)
 
             new_obj.distance = calculate_distance(request.user.id,
                                                   new_obj.friend_id)
+            new_obj.top_interests = [{'dancing': 1, 'cooking': 1,
+                                      '3D printing': 1}]
+
             results.append(new_obj)
 
         # Order by match_score
         if request.GET.get('order') == 'match_score':
             return sorted(results,
-                          key=lambda x: x.common_goals_offers_interests,
+                          key=lambda x: x.score,
                           reverse=True)
 
         elif request.GET.get('order') == 'mutual_friends':
@@ -281,6 +291,7 @@ class ConnectionsResource2(Resource):
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
     distance = fields.ListField(attribute='distance')
     image = fields.FileField(attribute="image", null=True, blank=True)
+    age = fields.IntegerField(attribute='age', null=True, blank=True)
 
     class Meta:
         resource_name = 'connections2'
@@ -316,6 +327,7 @@ class ConnectionsResource2(Resource):
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.age = calculate_age(getattr(friend, position_friend).date_of_birth)
             new_obj.updated_at = friend.updated_at
 
             if _friend_id and not int(_friend_id) == new_obj.friend_id:

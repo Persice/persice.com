@@ -1,9 +1,11 @@
+from itertools import chain
 from operator import itemgetter, attrgetter
 from django_facebook.models import FacebookLike
+import re
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data
-from interests.models import Interest
+from interests.models import Interest, InterestSubject
 from match_engine.models import MatchEngine, ElasticSearchMatchEngineManager, \
     ElasticSearchMatchEngine
 from members.models import FacebookCustomUserActive
@@ -43,6 +45,7 @@ class MatchedUser(object):
         self.user_id = self.user.id
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
+        self.shared_interest = ['dancing', 'cooking', '3D printing']
         self.facebook_id = self.user.facebook_id
         self.image = self.user.image
         self.age = calculate_age(self.user.date_of_birth)
@@ -114,10 +117,11 @@ class MatchUser(object):
         self.twitter_provider, self.linkedin_provider, self.twitter_username = \
             social_extra_data(self.user.id)
         self.distance = calculate_distance(current_user_id, self.user_id)
-        # TODO
+        # Scores
         self.score = self.match_score()
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.match_score()
+        self.top_interests = self.get_top_interests(user_object)
 
     def get_user_info(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
@@ -127,6 +131,31 @@ class MatchUser(object):
         score = sum(self.goals[0].values()) + sum(self.offers[0].values()) + \
             sum(self.likes[0].values()) + sum(self.interests[0].values())
         return score
+
+    def get_top_interests(self, user_object):
+        """
+        Return
+        """
+        targets = ['goals', 'offers', 'interests']
+        interests = []
+        interests_dict = InterestSubject.objects.all().\
+            values_list('description', flat=True)
+
+        for target in targets:
+            h_objects = user_object['highlight'].get(target, [])
+            for h in h_objects:
+                new_h = re.findall(r'<em>(.*?)</em>', h)
+                interests.append(new_h[0])
+
+        if len(interests) == 3:
+            return [dict(zip(interests, [1]*len(interests)))]
+        elif len(interests) > 3:
+            return [dict(zip(interests[:3], [1]*3))]
+        elif len(interests) < 3:
+            d = dict(zip(interests, [1]*len(interests)))
+            for subj in interests_dict[:3-len(interests)]:
+                d[subj] = 0
+            return [d]
 
     def friends_score(self):
         return 0

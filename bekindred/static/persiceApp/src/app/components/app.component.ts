@@ -17,16 +17,17 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Route} from 'angular2/
  */
 
 
-import {HomePageComponent} from './homepage/homepage.component';
-import {CrowdPageComponent} from './crowdpage/crowdpage.component';
-import {MessagePageComponent} from './messagepage/messagepage.component';
-import {ConnectionPageComponent} from './connectionpage/connectionpage.component';
-import {EventsPageComponent} from './eventspage/eventspage.component';
+import {HomeComponent} from './home/home.component';
+import {CrowdComponent} from './crowd/crowd.component';
+import {MessageComponent} from './message/message.component';
+import {ConnectionComponent} from './connection/connection.component';
+import {EventsComponent} from './events/events.component';
+import {ProfileComponent} from './profile/profile.component';
 
 
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
-import {LoadingIndicatorComponent} from './loadingindicator/loadingindicator.component';
+import {LoadingComponent} from './loading/loading.component';
 import {AutofocusDirective} from '../directives/autofocus.directive';
 
 
@@ -41,11 +42,36 @@ let view = require('./app.html');
  */
 @RouteConfig([
   // 'as' will be renamed to 'name' => https://github.com/angular/angular/issues/4622
-  new Route({ path: '/', component: HomePageComponent, as: 'Home' }),
-  new Route({ path: '/crowd/:version', component: CrowdPageComponent, as: 'Crowd' }),
-  new Route({ path: '/message', component: MessagePageComponent, as: 'Message' }),
-  new Route({ path: '/connection', component: ConnectionPageComponent, as: 'Connection' }),
-  new Route({ path: '/events', component: EventsPageComponent, as: 'Events' })
+  new Route({
+    path: '/',
+    component: HomeComponent,
+    as: 'Home'
+  }),
+  new Route({
+    path: '/crowd/:version',
+    component: CrowdComponent,
+    as: 'Crowd'
+  }),
+  new Route({
+    path: '/message',
+    component: MessageComponent,
+    as: 'Message'
+  }),
+  new Route({
+    path: '/connection',
+    component: ConnectionComponent,
+    as: 'Connection'
+  }),
+  new Route({
+    path: '/events',
+    component: EventsComponent,
+    as: 'Events'
+  }),
+  new Route({
+    path: '/profilepage',
+    component: ProfileComponent,
+    as: 'Profile'
+  })
 ])
 @Component({
   selector: 'persice-app',
@@ -56,7 +82,7 @@ let view = require('./app.html');
     ROUTER_DIRECTIVES,
     HeaderMainComponent,
     HeaderSubComponent,
-    LoadingIndicatorComponent,
+    LoadingComponent,
     AutofocusDirective
   ],
   styles: [`

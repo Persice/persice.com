@@ -2,7 +2,7 @@
   "rules": {
     "class-name": true,
     "forin": true,
-    "indent": [true, 4],
+    "indent": [true, 2],
     "jsdoc-format": true,
     "member-ordering": [
       true,

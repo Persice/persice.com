@@ -1,0 +1,24 @@
+<div class="layout layout--flush content p">
+  <div class="platform">
+    <profile-about
+    [name]="user.first_name"
+    [about]="user.about"
+    [images]="user.photos"
+    [avatar]="user.image"
+    [score]="user.score"
+    [gender]="user.gender"
+    [age]="user.age"
+    [distance-value]="user.distance[0]"
+    [distance-unit]="user.distance[1]"
+    (pass-event)="passUser($event)"
+    (accept-event)="acceptUser($event)">
+  </profile-about>
+  <profile-features
+  [goals]="user.goals"
+  [offers]="user.offers"
+  [interests]="user.interests">
+</profile-features>
+<profile-likes [likes]="user.likes"></profile-likes>
+<profile-mutuals [mutuals]="mutuals"></profile-mutuals>
+</div>
+</div>
