@@ -125,7 +125,7 @@
 
 
 
-/* fix for filter add keyword link */
+/*/* fix for filter add keyword link */
 
 .filter__item--link {
   display: block;
@@ -135,10 +135,23 @@
   right: 0px;
   top: 0px;
 }
-
+*/
 
 /* fix for link cursor in match profile */
 
 .match-profile__features .link-blank {
   cursor: pointer;
+}
+
+
+/* fix for rangeslider */
+
+input.range,
+input.range-to {
+  display: none;
+}
+
+
+.interest-list li {
+  text-transform: capitalize;
 }

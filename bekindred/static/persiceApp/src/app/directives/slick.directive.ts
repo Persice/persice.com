@@ -6,7 +6,17 @@ declare var jQuery: any;
 
 @Directive({
   selector: '[slick]',
-  properties: ['show', 'scroll', 'infinite', 'append', 'arrows', 'dots']
+  properties: [
+  'show',
+  'scroll',
+  'infinite',
+  'append',
+  'arrows',
+  'dots',
+  'responsive',
+  'breakpoint',
+  'slidestoshow'
+  ]
 })
 export class SlickDirective {
   el: ElementRef;
@@ -16,6 +26,8 @@ export class SlickDirective {
   append: string;
   arrows: string;
   dots: string;
+  breakpoint: string;
+  slidestoshow: string;
 
   constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
@@ -23,9 +35,6 @@ export class SlickDirective {
   }
 
   afterViewInit() {
-    console.log('slick has changes');
-
-
 
     let options = {
       arrows: (this.arrows === 'true') ? true : false,
@@ -34,21 +43,29 @@ export class SlickDirective {
       slidesToShow: parseInt(this.show, 10),
       slidesToScroll: parseInt(this.scroll, 10),
       appendDots: jQuery(this.append),
-      slide: 'div'
+      slide: 'div',
+      responsive: [{
+        breakpoint: parseInt(this.breakpoint, 10),
+        settings: {
+          slidesToShow: parseInt(this.slidestoshow, 10)
+        }
+      }]
     };
 
     if (!this.dots) {
       delete options.appendDots;
     }
 
-    jQuery(this.el.nativeElement).slick(options);
+    if (!this.breakpoint) {
+      delete options.responsive;
+    }
 
+    jQuery(this.el.nativeElement).slick(options);
 
 
   }
 
   onDestroy() {
-    console.log('slick element destroyed');
     jQuery(this.el.nativeElement).slick('unslick');
   }
 }

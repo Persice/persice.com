@@ -6,11 +6,15 @@
   <div class="avatar-box mb">
     <div image-stretch class="avatar-holder js-image-liquid">
       <img src="{{user.image}}" alt="User name" class="avatar">
+      <div class="avatar-box__match-percents">
+        <span class="avatar-box__match-percents__value">{{user.score}}%</span>
+        <span class="avatar-box__match-percents__label">Similar</span>
+      </div>
     </div>
     <svg role="img" class="icon">
       <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-persice-2"></use>
     </svg>
-    <div circle-progress="{{user.score}}" size="128" thickness="2" class="match-percent"></div>
+    <div circle-progress="{{user.score}}" size="128" thickness="2" reverse="false" angle="140" class="match-percent"></div>
   </div>
   <h6 class="card-subtitle">Interests</h6>
   <ul class="interest-list" *ng-if="user.top_interests">

@@ -37,7 +37,7 @@
           <span class="range-value">{{minAge}} - {{maxAge}}</span>
         </div>
       </div>
-      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsAge" (on-change)="ageChanged($event)" (on-finish)="saveAge($event)"></range-slider>
+      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsAge" (on-change)="ageChanged($event)" (on-finish)="saveAge($event)" [class]="'range'"></range-slider>
     </div>
     <div class="filter__item">
       <div class="layout layout--middle">
@@ -48,7 +48,7 @@
           <span class="range-value">{{distanceValue | number}} {{distanceUnit}}</span>
         </div>
       </div>
-      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsDistance" (on-change)="distanceChanged($event)" (on-finish)="saveDistance($event)"></range-slider>
+      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsDistance" (on-change)="distanceChanged($event)" (on-finish)="saveDistance($event)" [class]="'range-to'"></range-slider>
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>
@@ -57,8 +57,8 @@
     <div class="filter__item filter__item--keywords">
       <h3 class="filter__item__title mb">Keywords</h3>
       <div class="c-input-icon-holder">
-        <input #keyword [(ng-model)]="keywordValue" type="text" class="c-input" placeholder="Example: Movies, nightlife...">
-        <a (click)="addKeyword($event)" class="filter__item--link">
+        <input #keyword [(ng-model)]="keywordValue" type="text" class="c-input js-c-input-keywords" placeholder="Example: Movies, nightlife...">
+        <a (click)="addKeyword($event)" class="filter__item--keywords__btn">
           <svg role="img" class="icon icon--small">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-plus"></use>
           </svg>
