@@ -50,7 +50,7 @@ export class CircleProgressDirective {
   }
 
   calculateValue (value) {
-    return parseInt(value, 10) * 10 / 100;
+    return parseInt(value, 10) / 100;
   }
 
 }

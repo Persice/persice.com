@@ -125,7 +125,7 @@
 
 
 
-/*/* fix for filter add keyword link */
+/* fix for filter add keyword link */
 
 .filter__item--link {
   display: block;
@@ -135,12 +135,11 @@
   right: 0px;
   top: 0px;
 }
-*/
 
 /* fix for link cursor in match profile */
 
-.match-profile__features .link-blank {
-  cursor: pointer;
+a.link-blank {
+  cursor: pointer!important;
 }
 
 
@@ -151,7 +150,12 @@ input.range-to {
   display: none;
 }
 
-
+/* fix for interests capitalize */
 .interest-list li {
   text-transform: capitalize;
 }
+
+
+/* fix for outline on likes */
+
+.match-profile__likes .layout__item:focus {outline:none;}
