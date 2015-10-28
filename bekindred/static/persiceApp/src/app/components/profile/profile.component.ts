@@ -23,8 +23,11 @@ export class ProfileComponent {
   @Input() user;
   @Output() acceptEvent: EventEmitter = new EventEmitter;
   @Output() passEvent: EventEmitter = new EventEmitter;
+  @Output() closeprofileEvent: EventEmitter = new EventEmitter;
   profileLikes: Array<any> = [];
   profileLikesCount: number = 0;
+  profileMutuals: Array<any> = [];
+  profileMutualsCount: number = 0;
 
   constructor() {
   }
@@ -32,6 +35,8 @@ export class ProfileComponent {
   onInit() {
     this.profileLikes = this.transform(this.user.likes[0]);
     this.profileLikesCount = this.count(this.user.likes[0]);
+
+    // this.profileMutualsCount = this.user.
   }
 
   passUser(event) {
@@ -40,6 +45,10 @@ export class ProfileComponent {
 
   acceptUser(event) {
     this.acceptEvent.next(true);
+  }
+
+  closeProfile(event) {
+    this.closeprofileEvent.next(event);
   }
 
   count(data) {

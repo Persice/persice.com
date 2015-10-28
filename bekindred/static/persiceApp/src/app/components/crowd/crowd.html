@@ -12,6 +12,7 @@
 <profile
 *ng-if="profileViewActive"
 [user]="selectedUser"
+(closeprofile-event)="closeProfile($event)"
 (pass-event)="passUser($event)"
 (accept-event)="acceptUser($event)">
 </profile>

@@ -42,6 +42,7 @@ export class ProfileAboutComponent {
   @Input() score;
   @Output() acceptEvent: EventEmitter = new EventEmitter;
   @Output() passEvent: EventEmitter = new EventEmitter;
+  @Output() closeprofileEvent: EventEmitter = new EventEmitter;
   constructor() {
 
   }
@@ -52,5 +53,9 @@ export class ProfileAboutComponent {
 
   passUser(event) {
     this.acceptEvent.next(true);
+  }
+
+  closeProfile(event) {
+    this.closeprofileEvent.next(event);
   }
 }

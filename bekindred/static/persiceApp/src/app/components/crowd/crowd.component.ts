@@ -148,6 +148,10 @@ export class CrowdComponent {
     this.selectedUser = {};
   }
 
+  closeProfile(event) {
+    this.profileViewActive = false;
+  }
+
 
   handleScrollEvent(event) {
     let scrollOffset = jQuery(window).scrollTop();

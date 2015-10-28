@@ -11,7 +11,8 @@
     [distance-value]="user.distance[0]"
     [distance-unit]="user.distance[1]"
     (pass-event)="passUser($event)"
-    (accept-event)="acceptUser($event)">
+    (accept-event)="acceptUser($event)"
+    (closeprofile-event)="closeProfile($event)">
   </profile-about>
   <profile-features
   [goals]="user.goals"
@@ -19,6 +20,6 @@
   [interests]="user.interests">
 </profile-features>
 <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
-<profile-mutuals [mutuals]="mutuals"></profile-mutuals>
+<profile-mutuals [mutuals]="profileMutuals" [count]="profileMutualsCount"></profile-mutuals>
 </div>
 </div>
