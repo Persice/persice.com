@@ -8,9 +8,13 @@ import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {FilterComponent} from '../filter/filter.component';
 import {ProfileComponent} from '../profile/profile.component';
+import {NotificationComponent} from '../notification/notification.component';
 
 import {CrowdService} from '../../services/crowd.service';
+import {FriendService} from '../../services/friend.service';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
+
+import {remove, contains} from 'lodash';
 
 let view = require('./crowd.html');
 
@@ -21,11 +25,12 @@ declare var jQuery: any;
   template: view,
   providers: [CrowdService],
   directives: [
-    NgIf,
-    FilterComponent,
-    UsersListComponent,
-    LoadingComponent,
-    ProfileComponent
+  NgIf,
+  FilterComponent,
+  UsersListComponent,
+  LoadingComponent,
+  ProfileComponent,
+  NotificationComponent
   ]
 })
 export class CrowdComponent {
@@ -40,13 +45,19 @@ export class CrowdComponent {
   offset: number = 0;
   profileViewActive = false;
   selectedUser;
-  mutuals: Array<any> = [];
+  mutuals;
+  notification = {
+    body: '',
+    title: '',
+    active: false
+  };
 
   constructor(
     @Inject(RouteParams) params: RouteParams,
     public service: CrowdService,
-    public mutualfriendsService: MutualFriendsService
-  ) {
+    public mutualfriendsService: MutualFriendsService,
+    public friendService: FriendService
+    ) {
     this.version = params.get('version');
 
   }
@@ -59,8 +70,8 @@ export class CrowdComponent {
 
   getMutualFriends(id) {
     this.mutualfriendsService.get('', 100, 'v1', id)
-      .map(res => res.json())
-      .subscribe(data => this.assignMutualFriends(data));
+    .map(res => res.json())
+    .subscribe(data => this.assignMutualFriends(data));
   }
 
   assignMutualFriends(data) {
@@ -73,8 +84,8 @@ export class CrowdComponent {
     if (this.next === null) return;
     this.loading = true;
     this.service.get(this.next, this.limit, this.version, this.filter)
-      .map(res => res.json())
-      .subscribe(data => this.assignList(data));
+    .map(res => res.json())
+    .subscribe(data => this.assignList(data));
   }
 
 
@@ -136,11 +147,38 @@ export class CrowdComponent {
 
   passUser(event) {
     this.profileViewActive = false;
+    this.friendService.saveFriendship(-1, this.selectedUser.id)
+    .map(res => res.json())
+    .subscribe(data => {
+      remove(this.items, (item) => {
+        return item.id === this.selectedUser.id;
+      });
+      this.notification.body = this.selectedUser.first_name + ' has been removed from crowd.';
+      this.notification.active = true;
+      this.selectedUser = {};
+      this.mutuals = {};
+    });
+
   }
 
   acceptUser(event) {
     this.profileViewActive = false;
-    this.selectedUser = {};
+    this.friendService.saveFriendship(0, this.selectedUser.id)
+    .map(res => res.json())
+    .subscribe(data => {
+      remove(this.items, (item) => {
+        return item.id === this.selectedUser.id;
+      });
+      this.notification.body = 'You and ' + this.selectedUser.first_name + ' are now friends.';
+      this.notification.active = true;
+      this.selectedUser = {};
+      this.mutuals = {};
+    });
+
+  }
+
+  closeNotification() {
+    this.notification.active = false;
   }
 
   closeProfile(event) {

@@ -1,0 +1,25 @@
+<div class="notification" [ng-class]="{'is-removed': !active}">
+  <div class="layout layout--auto layout--middle layout--flush">
+    <div class="layout__item 3/4">
+      <div class="flag flag--small">
+        <div class="flag__img">
+          <svg role="img" class="icon icon--large">
+            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-success"></use>
+          </svg>
+        </div>
+        <div class="flag__body">
+          <p class="notification__message"><b>{{title}}</b> {{body}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item text-right 1/4">
+      <a class="notification__close js-notification__close" (click)="close($event)">
+        <svg role="img" class="icon icon--close">
+          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+

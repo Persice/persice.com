@@ -47,11 +47,11 @@ export class ProfileAboutComponent {
 
   }
 
-  acceptUser(event) {
+  passUser(event) {
     this.passEvent.next(true);
   }
 
-  passUser(event) {
+  acceptUser(event) {
     this.acceptEvent.next(true);
   }
 

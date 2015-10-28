@@ -4,11 +4,14 @@ import {crowdServiceInjectables} from './crowd.service';
 import {connectionsServiceInjectables} from './connections.service';
 import {filterServiceInjectables} from './filter.service';
 import {mutualfriendsServiceInjectables} from './mutualfriends.service';
+import {friendServiceInjectables} from './friend.service';
 
 export * from './user.service';
 export * from './search.service';
+export * from './search.service';
 export * from './crowd.service';
 export * from './filter.service';
+export * from './mutualfriends.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
@@ -16,5 +19,6 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   crowdServiceInjectables,
   connectionsServiceInjectables,
   filterServiceInjectables,
-  mutualfriendsServiceInjectables
+  mutualfriendsServiceInjectables,
+  friendServiceInjectables
 ];

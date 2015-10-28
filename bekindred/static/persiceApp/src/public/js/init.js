@@ -4,24 +4,24 @@
 $(document).ready(function() {
   'use strict';
 
-$(document).on('opened', '.remodal', function() {
-  $('.modal-gallery__images').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    adaptiveHeight: true,
-    fade: true,
-    asNavFor: '.modal-gallery__thumbs'
+  $(document).on('opened', '.remodal', function() {
+    $('.modal-gallery__images').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      adaptiveHeight: true,
+      fade: true,
+      asNavFor: '.modal-gallery__thumbs'
+    });
+    $('.modal-gallery__thumbs').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.modal-gallery__images',
+      centerMode: true,
+      focusOnSelect: true
+    });
+    console.log('Modal is opened');
   });
-  $('.modal-gallery__thumbs').slick({
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    asNavFor: '.modal-gallery__images',
-    centerMode: true,
-    focusOnSelect: true
-  });
-  console.log('Modal is opened');
-});
 
   //Date picker
   $('.datepicker').pickadate({
@@ -48,6 +48,14 @@ $(document).on('opened', '.remodal', function() {
   $('.js-match-height-1').matchHeight({
     byRow: false
   });
+
+  //Notification close prototype
+  // $('.js-notification__close').on('click', function(e) {
+  //   e.preventDefault();
+  //   $(this)
+  //   .closest('.notification')
+  //   .addClass('is-removed');
+  // });
 
 
   //Keyword focus
