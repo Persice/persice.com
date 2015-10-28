@@ -21,6 +21,7 @@ let view = require('./profile.html');
 })
 export class ProfileComponent {
   @Input() user;
+  @Input() mutuals;
   @Output() acceptEvent: EventEmitter = new EventEmitter;
   @Output() passEvent: EventEmitter = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter = new EventEmitter;
@@ -36,7 +37,13 @@ export class ProfileComponent {
     this.profileLikes = this.transform(this.user.likes[0]);
     this.profileLikesCount = this.count(this.user.likes[0]);
 
-    // this.profileMutualsCount = this.user.
+    this.profileMutualsCount += parseInt(this.mutuals.mutual_bk_friends_count, 10);
+    this.profileMutualsCount += parseInt(this.mutuals.mutual_fb_friends_count, 10);
+    this.profileMutualsCount += parseInt(this.mutuals.mutual_linkedin_connections_count, 10);
+    this.profileMutualsCount += parseInt(this.mutuals.mutual_twitter_followers_count, 10);
+    this.profileMutualsCount += parseInt(this.mutuals.mutual_twitter_friends_count, 10);
+
+    this.profileMutuals = this.mutuals;
   }
 
   passUser(event) {

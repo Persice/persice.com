@@ -64,7 +64,9 @@ export class CrowdComponent {
   }
 
   assignMutualFriends(data) {
-    this.mutuals = data.objects;
+    this.mutuals = data.objects[0];
+    this.profileViewActive = true;
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 
   getList() {
@@ -124,26 +126,19 @@ export class CrowdComponent {
   }
 
   setSelectedUser(id) {
-    console.log('user is selected');
-    console.log(id);
-
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
         this.getMutualFriends(this.selectedUser.id);
-        this.profileViewActive = true;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
     }
   }
 
   passUser(event) {
-    console.log('User pass');
     this.profileViewActive = false;
   }
 
   acceptUser(event) {
-    console.log('User accept');
     this.profileViewActive = false;
     this.selectedUser = {};
   }

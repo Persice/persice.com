@@ -106,6 +106,17 @@
   background-repeat: no-repeat;
 }
 
+
+.listed-user-avatar-place .avatar-holder {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
 .profile-drop__avatar .avatar-holder img {
   display: none;
 }
