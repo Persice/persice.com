@@ -81,6 +81,7 @@ export class CrowdComponent {
   }
 
   getList() {
+    this.closeNotification();
     if (this.next === null) return;
     this.loading = true;
     this.service.get(this.next, this.limit, this.version, this.filter)

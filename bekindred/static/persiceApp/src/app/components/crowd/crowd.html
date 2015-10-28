@@ -1,7 +1,6 @@
 <div class="layout layout--flush content" *ng-if="!profileViewActive">
 
   <div class="layout__item 3/4 extralarge-and-up-4/5">
-    <notification [title]="notification.title" [body]="notification.body" [active]="notification.active"></notification>
     <h3 *ng-if="!loading && isListEmpty">No results...</h3>
     <users-list [users]="items" (on-clicked)="setSelectedUser($event)"></users-list>
     <loading [status]="loading"></loading>
