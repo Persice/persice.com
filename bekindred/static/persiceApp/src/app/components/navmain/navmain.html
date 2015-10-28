@@ -8,20 +8,20 @@
         <span>Crowd</span>
       </a>
     </li>
-    <li [class.is-current]="isLinkActive('/message')">
-      <a [router-link]="['./Message']">
+    <li [class.is-current]="isLinkActive('/messages')">
+      <a [router-link]="['./Messages']">
         <svg role="img" class="icon icon--large">
           <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-messages"></use>
         </svg>
-        <span>Message</span>
+        <span>Messages</span>
       </a>
     </li>
-    <li [class.is-current]="isLinkActive('/connection')">
-      <a [router-link]="['./Connection']">
+    <li [class.is-current]="isLinkActive('/connections')">
+      <a [router-link]="['./Connections']">
         <svg role="img" class="icon icon--large">
           <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-connections"></use>
         </svg>
-        <span>Connection</span>
+        <span>Connections</span>
       </a>
     </li>
     <li [class.is-current]="isLinkActive('/events')">

@@ -53,14 +53,14 @@ let view = require('./app.html');
     as: 'Crowd'
   }),
   new Route({
-    path: '/message',
+    path: '/messages',
     component: MessageComponent,
-    as: 'Message'
+    as: 'Messages'
   }),
   new Route({
-    path: '/connection',
+    path: '/connections',
     component: ConnectionComponent,
-    as: 'Connection'
+    as: 'Connections'
   }),
   new Route({
     path: '/events',
