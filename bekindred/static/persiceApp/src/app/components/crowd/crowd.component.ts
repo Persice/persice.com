@@ -140,6 +140,7 @@ export class CrowdComponent {
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
+        this.closeNotification();
         this.getMutualFriends(this.selectedUser.id);
       }
     }
