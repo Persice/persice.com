@@ -156,7 +156,7 @@ export class CrowdComponent {
       remove(this.items, (item) => {
         return item.id === this.selectedUser.id;
       });
-      this.notification.body = 'You and ' + this.selectedUser.first_name + ' are now friends.';
+      this.notification.body = 'You sent friendship request to ' + this.selectedUser.first_name + '.';
       this.notification.active = true;
       this.selectedUser = {};
     });
