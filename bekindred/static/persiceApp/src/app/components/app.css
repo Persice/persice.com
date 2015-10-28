@@ -158,4 +158,7 @@ input.range-to {
 
 /* fix for outline on likes */
 
-.match-profile__likes .layout__item:focus {outline:none;}
+.match-profile__likes .layout__item:focus,
+.match-profile__mutual .layout__item:focus {
+  outline:none;
+}

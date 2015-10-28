@@ -2,7 +2,6 @@
 
 import {Component, Input, NgFor} from 'angular2/angular2';
 import {SlickDirective} from '../../directives/slick.directive';
-import {take, sample, slice} from 'lodash';
 
 let view = require('./profilelikes.html');
 
