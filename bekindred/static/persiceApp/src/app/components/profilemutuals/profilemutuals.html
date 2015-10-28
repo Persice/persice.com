@@ -2,7 +2,7 @@
   <div class="match-profile__likes__top">
     <h4 class="module-title">Mutual Friends <span>({{count}})</span></h4>
   </div>
-  <div class="layout slide-users js-slide-mutuals" slick show="9" breakpoint="1480" slidestoshow="6" infinite="true" scroll="1" dots="false" arrows="true" append="0">
+  <div *ng-if="count > 0" class="layout slide-users js-slide-mutuals" slick show="9" breakpoint="1480" slidestoshow="6" infinite="true" scroll="1" dots="false" arrows="true" append="0">
 
     <div class="layout__item" *ng-for="#item of mutuals.mutual_bk_friends">
       <a class="user-listed user-listed--1">

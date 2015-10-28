@@ -12,7 +12,6 @@ import {NotificationComponent} from '../notification/notification.component';
 
 import {CrowdService} from '../../services/crowd.service';
 import {FriendService} from '../../services/friend.service';
-import {MutualFriendsService} from '../../services/mutualfriends.service';
 
 import {remove, contains} from 'lodash';
 
@@ -45,7 +44,6 @@ export class CrowdComponent {
   offset: number = 0;
   profileViewActive = false;
   selectedUser;
-  mutuals;
   notification = {
     body: '',
     title: '',
@@ -55,7 +53,6 @@ export class CrowdComponent {
   constructor(
     @Inject(RouteParams) params: RouteParams,
     public service: CrowdService,
-    public mutualfriendsService: MutualFriendsService,
     public friendService: FriendService
     ) {
     this.version = params.get('version');
@@ -66,18 +63,6 @@ export class CrowdComponent {
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
-  }
-
-  getMutualFriends(id) {
-    this.mutualfriendsService.get('', 100, 'v1', id)
-    .map(res => res.json())
-    .subscribe(data => this.assignMutualFriends(data));
-  }
-
-  assignMutualFriends(data) {
-    this.mutuals = data.objects[0];
-    this.profileViewActive = true;
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 
   getList() {
@@ -142,7 +127,8 @@ export class CrowdComponent {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
         this.closeNotification();
-        this.getMutualFriends(this.selectedUser.id);
+        this.profileViewActive = true;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
     }
   }
@@ -158,7 +144,6 @@ export class CrowdComponent {
       this.notification.body = this.selectedUser.first_name + ' has been removed from crowd.';
       this.notification.active = true;
       this.selectedUser = {};
-      this.mutuals = {};
     });
 
   }
@@ -174,7 +159,6 @@ export class CrowdComponent {
       this.notification.body = 'You and ' + this.selectedUser.first_name + ' are now friends.';
       this.notification.active = true;
       this.selectedUser = {};
-      this.mutuals = {};
     });
 
   }
