@@ -31,7 +31,7 @@ const defaultFilters: InterfaceFilter = {
 declare var jQuery: any;
 
 @Component({
-  selector: 'filter',
+  selector: 'filters',
   outputs: ['refreshList'],
   directives: [FORM_DIRECTIVES, NgFor, NgIf, SelectComponent, RangeSliderComponent],
   template: view
