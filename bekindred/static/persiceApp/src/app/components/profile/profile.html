@@ -15,10 +15,16 @@
     (closeprofile-event)="closeProfile($event)">
   </profile-about>
   <profile-features
-  [goals]="user.goals"
-  [offers]="user.offers"
-  [interests]="user.interests">
-</profile-features>
+  [goals]="profileGoals"
+  [goals-more]="profileGoalsMore"
+  [goals-count]="profileGoalsCount"
+  [offers]="profileOffers"
+  [offers-more]="profileOffersMore"
+  [offers-count]="profileOffersCount"
+  [interests]="profileInterests"
+  [interests-more]="profileInterestsMore"
+  [interests-count]="profileInterestsCount">
+  </profile-features>
 <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
 <profile-mutuals [mutuals]="profileMutuals" [count]="profileMutualsCount"></profile-mutuals>
 </div>

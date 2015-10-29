@@ -26,7 +26,16 @@ export class ProfileComponent {
   @Output() acceptEvent: EventEmitter = new EventEmitter;
   @Output() passEvent: EventEmitter = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter = new EventEmitter;
-  profileLikes: Array<any> = [];
+  profileInterests: any[] = [];
+  profileInterestsMore: any[] = [];
+  profileGoals: any[] = [];
+  profileGoalsMore: any[] = [];
+  profileOffers: any[] = [];
+  profileOffersMore: any[] = [];
+  profileInterestsCount: number = 0;
+  profileGoalsCount: number = 0;
+  profileOffersCount: number = 0;
+  profileLikes: any[] = [];
   profileLikesCount: number = 0;
   profileMutuals = {
     mutual_bk_friends: [],
@@ -49,6 +58,17 @@ export class ProfileComponent {
   onInit() {
     this.profileLikes = this.transform(this.user.likes[0]);
     this.profileLikesCount = this.count(this.user.likes[0]);
+
+    this.profileOffers = this.first(this.user.offers[0], 6);
+    this.profileInterests = this.first(this.user.interests[0], 6);
+    this.profileGoals = this.first(this.user.goals[0], 6);
+    this.profileOffersMore = this.skip(this.user.offers[0], 6);
+    this.profileInterestsMore = this.skip(this.user.interests[0], 6);
+    this.profileGoalsMore = this.skip(this.user.goals[0], 6);
+    this.profileInterestsCount = this.count(this.user.interests[0]);
+    this.profileOffersCount = this.count(this.user.offers[0]);
+    this.profileGoalsCount = this.count(this.user.goals[0]);
+
     this.getMutualFriends(this.user.id);
 
   }
@@ -90,6 +110,46 @@ export class ProfileComponent {
 
   count(data) {
     return Object.keys(data).length;
+  }
+
+
+  //transform and take first n items from {key: value} to [{value: VALUE, match: 1|0}]
+  first(data, n): Array<string> {
+    let keys = [];
+    for (var key in data) {
+      if (data[key] === 1) {
+        keys.push({
+          value: key,
+          match: true
+        });
+      } else {
+        keys.push({
+          value: key,
+          match: false
+        });
+      }
+    }
+    return take(keys, n);
+  }
+
+  //transform and take first n items from {key: value} to [{value: VALUE, match: 1|0}]
+  skip(data, n): Array<string> {
+    let keys = [];
+    for (var key in data) {
+      if (data[key] === 1) {
+        keys.push({
+          value: key,
+          match: true
+        });
+      } else {
+        keys.push({
+          value: key,
+          match: false
+        });
+      }
+    }
+    let sliced = slice(keys, n);
+    return sliced;
   }
 
   //tranfsorm and items from '{key: value, key: value}' to [{value: VALUE, match: 1|0}]

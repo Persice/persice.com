@@ -12,8 +12,14 @@ let view = require('./profilefeatures.html');
 })
 export class ProfileFeaturesComponent {
   @Input() interests;
+  @Input() interestsCount;
+  @Input() interestsMore;
   @Input() goals;
+  @Input() goalsCount;
+  @Input() goalsMore;
   @Input() offers;
+  @Input() offersCount;
+  @Input() offersMore;
   showAllInterests: boolean = false;
   showAllGoals: boolean = false;
   showAllOffers: boolean = false;
@@ -34,45 +40,5 @@ export class ProfileFeaturesComponent {
     }
   }
 
-  count(data) {
-    return Object.keys(data).length;
-  }
 
-  //tranfsorm and take first n items from {key: value}
-  first(data, n): Array<string> {
-    let keys = [];
-    for (var key in data) {
-      if (data[key] === 1) {
-        keys.push({
-          value: key,
-          match: true
-        });
-      } else {
-        keys.push({
-          value: key,
-          match: false
-        });
-      }
-    }
-    return take(keys, n);
-  }
-
-  skip(data, n): Array<string> {
-    let keys = [];
-    for (var key in data) {
-      if (data[key] === 1) {
-        keys.push({
-          value: key,
-          match: true
-        });
-      } else {
-        keys.push({
-          value: key,
-          match: false
-        });
-      }
-    }
-    let sliced = slice(keys, n);
-    return sliced;
-  }
 }
