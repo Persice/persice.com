@@ -20,7 +20,7 @@ export class DropdownDirective {
   }
 
   onClick(event: Event) {
-    jQuery(this.target).slideToggle();
+    jQuery(this.target).toggleClass('is-active');
   }
 
 
