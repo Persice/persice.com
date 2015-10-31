@@ -3,7 +3,7 @@
 import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
 import {FilterModel, InterfaceFilter} from '../../models/filter.model';
-import {pluck} from 'lodash';
+import {pluck, debounce} from 'lodash';
 
 declare var jQuery: any;
 
@@ -79,12 +79,18 @@ export class SearchKeywordsInputComponent {
 
     //save keywords to backend after token created
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {
-      this.saveKeywords();
+      let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
+      existingTokens = pluck(existingTokens, 'value');
+      let debounced = debounce(() => this.saveKeywords(existingTokens.join()), 1000, true);
+      debounced();
     });
 
     //save keywords to backend after token removed
     jQuery(this.el.nativeElement).on('tokenfield:removedtoken', (event) => {
-      this.saveKeywords();
+      let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
+      existingTokens = pluck(existingTokens, 'value');
+      let debounced = debounce(() => this.saveKeywords(existingTokens.join()), 1000, true);
+      debounced();
     });
 
     //prevent duplicates and total keywords string length > 50 chars
@@ -105,7 +111,8 @@ export class SearchKeywordsInputComponent {
     });
   }
 
-  saveKeywords() {
+  saveKeywords(tokens) {
+
     let headers: Headers = new Headers();
     let csrftoken = this.getCookieValue('csrftoken');
     headers.append('X-CSRFToken', csrftoken);
@@ -113,18 +120,15 @@ export class SearchKeywordsInputComponent {
 
     let opts: RequestOptions = new RequestOptions();
     opts.headers = headers;
-    let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-    existingTokens = pluck(existingTokens, 'value');
     this.http.patch(
       this.filters.state.resource_uri,
       JSON.stringify({
-        keyword: existingTokens.join(),
+        keyword: tokens,
         user: this.filters.state.user
       }),
       opts)
       .map(res => res.json())
       .subscribe(data => {
-
       });
   }
 
