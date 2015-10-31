@@ -91,8 +91,8 @@ export class ProfileComponent {
       this.profileMutuals.mutual_bk_friends = items.mutual_bk_friends;
       this.profileMutuals.mutual_fb_friends = items.mutual_fb_friends;
       this.profileMutuals.mutual_linkedin_connections = items.mutual_linkedin_connections;
-      this.profileMutuals.mutual_linkedin_connections = items.mutual_linkedin_connections;
-      this.profileMutuals.mutual_linkedin_connections = items.mutual_linkedin_connections;
+      this.profileMutuals.mutual_twitter_friends = items.mutual_twitter_friends;
+      this.profileMutuals.mutual_twitter_followers = items.mutual_twitter_followers;
     }
   }
 
