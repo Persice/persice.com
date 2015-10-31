@@ -287,12 +287,12 @@ export class FilterComponent {
   }
 
   updateList() {
-    if (!this.isFilterDisabled) {
+    // if (!this.isFilterDisabled) {
       this.keywordError = false;
       this.refreshList.next(true);
       this.isFilterDisabled = true;
       // jQuery('html, body').animate({ scrollTop: 0 }, 'slow');
-    }
+    // }
 
   }
 
