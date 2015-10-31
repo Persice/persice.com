@@ -39,6 +39,7 @@
         "src/app/components/profiledropdown/profiledropdown.component.ts",
         "src/app/components/rangeslider/rangeslider.component.ts",
         "src/app/components/search/search.component.ts",
+        "src/app/components/searchkeywords/searchkeywords.component.ts",
         "src/app/components/searchinput/searchinput.component.ts",
         "src/app/components/searchresults/searchresults.component.ts",
         "src/app/components/searchresultsevent/searchresultsevent.component.ts",

@@ -179,7 +179,8 @@ export class FilterComponent {
 
     let opts: RequestOptions = new RequestOptions();
     opts.headers = headers;
-
+    //prevent saving keywords
+    delete this.filters.state.keyword;
     this.http.patch(
       this.filters.state.resource_uri,
       JSON.stringify(this.filters.state),

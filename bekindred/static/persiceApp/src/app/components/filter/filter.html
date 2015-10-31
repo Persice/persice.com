@@ -2,7 +2,7 @@
   <div class="mb">
     <div class="layout layout--small">
       <div class="layout__item 3/5">
-        <a [class.is-disabled]="isFilterDisabled" (click)="updateList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a>
+        <a (click)="updateList($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue btn--full">Filter</a>
       </div>
       <div class="layout__item 2/5">
         <a (click)="resetFilters($event)" class="btn btn-1 btn-1--small btn-1--darkblue btn--full">Reset</a>
@@ -54,7 +54,7 @@
       <h3 class="filter__item__title mb">Order by</h3>
       <select-element (selected-value)="changeOrder($event)" [(options)]="orderBy"></select-element>
     </div>
-    <div class="filter__item filter__item--keywords">
+    <!-- <div class="filter__item filter__item--keywords">
       <h3 class="filter__item__title mb">Keywords</h3>
       <div class="c-input-icon-holder">
         <input #keyword [(ng-model)]="keywordValue" type="text" class="c-input js-c-input-keywords" placeholder="Example: Movies, nightlife...">
@@ -76,6 +76,6 @@
           {{keyword}}
         </span>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
