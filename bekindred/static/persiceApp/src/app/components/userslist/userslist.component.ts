@@ -17,8 +17,6 @@ export class UsersListComponent {
   onClicked: EventEmitter = new EventEmitter();
 
   onUserClicked(data) {
-    console.log('user clicked');
-    console.log(data);
     this.onClicked.next(data);
   }
 }

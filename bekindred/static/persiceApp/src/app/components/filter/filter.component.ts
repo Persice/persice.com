@@ -31,7 +31,7 @@ const defaultFilters: InterfaceFilter = {
 declare var jQuery: any;
 
 @Component({
-  selector: 'filter',
+  selector: 'filters',
   outputs: ['refreshList'],
   directives: [FORM_DIRECTIVES, NgFor, NgIf, SelectComponent, RangeSliderComponent],
   template: view
@@ -179,7 +179,8 @@ export class FilterComponent {
 
     let opts: RequestOptions = new RequestOptions();
     opts.headers = headers;
-
+    //prevent saving keywords
+    delete this.filters.state.keyword;
     this.http.patch(
       this.filters.state.resource_uri,
       JSON.stringify(this.filters.state),
@@ -286,12 +287,12 @@ export class FilterComponent {
   }
 
   updateList() {
-    if (!this.isFilterDisabled) {
+    // if (!this.isFilterDisabled) {
       this.keywordError = false;
       this.refreshList.next(true);
       this.isFilterDisabled = true;
       // jQuery('html, body').animate({ scrollTop: 0 }, 'slow');
-    }
+    // }
 
   }
 

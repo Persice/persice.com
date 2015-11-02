@@ -8,7 +8,7 @@
         <div class="match-profile__avatar" *ng-if="images.length === 1 || images.length === 0">
           <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + avatar + ')'}"></div>
         </div>
-        <div circle-progress="{{score}}" size="246" thickness="4" class="match-percent-large"></div>
+        <div circle-progress="{{score}}" size="246" thickness="4" reverse="true" angle="55" class="match-percent-large"></div>
         <div class="match-profile__similar">
           <span class="match-profile__similar__value">{{score}}</span>
           <span class="match-profile__similar__label">Similar</span>
@@ -43,4 +43,9 @@
       </div>
     </div>
   </div>
+  <a (click)="closeProfile($event)" class="platform__back">
+    <svg role="img" class="icon ">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
+    </svg>
+  </a>
 </div>

@@ -8,9 +8,12 @@ import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {FilterComponent} from '../filter/filter.component';
 import {ProfileComponent} from '../profile/profile.component';
+import {NotificationComponent} from '../notification/notification.component';
 
 import {CrowdService} from '../../services/crowd.service';
-import {MutualFriendsService} from '../../services/mutualfriends.service';
+import {FriendService} from '../../services/friend.service';
+
+import {remove, contains} from 'lodash';
 
 let view = require('./crowd.html');
 
@@ -21,11 +24,12 @@ declare var jQuery: any;
   template: view,
   providers: [CrowdService],
   directives: [
-    NgIf,
-    FilterComponent,
-    UsersListComponent,
-    LoadingComponent,
-    ProfileComponent
+  NgIf,
+  FilterComponent,
+  UsersListComponent,
+  LoadingComponent,
+  ProfileComponent,
+  NotificationComponent
   ]
 })
 export class CrowdComponent {
@@ -40,13 +44,17 @@ export class CrowdComponent {
   offset: number = 0;
   profileViewActive = false;
   selectedUser;
-  mutuals: Array<any> = [];
+  notification = {
+    body: '',
+    title: '',
+    active: false
+  };
 
   constructor(
     @Inject(RouteParams) params: RouteParams,
     public service: CrowdService,
-    public mutualfriendsService: MutualFriendsService
-  ) {
+    public friendService: FriendService
+    ) {
     this.version = params.get('version');
 
   }
@@ -57,22 +65,13 @@ export class CrowdComponent {
     this.getList();
   }
 
-  getMutualFriends(id) {
-    this.mutualfriendsService.get('', 100, 'v1', id)
-      .map(res => res.json())
-      .subscribe(data => this.assignMutualFriends(data));
-  }
-
-  assignMutualFriends(data) {
-    this.mutuals = data.objects;
-  }
-
   getList() {
+    this.closeNotification();
     if (this.next === null) return;
     this.loading = true;
     this.service.get(this.next, this.limit, this.version, this.filter)
-      .map(res => res.json())
-      .subscribe(data => this.assignList(data));
+    .map(res => res.json())
+    .subscribe(data => this.assignList(data));
   }
 
 
@@ -124,13 +123,10 @@ export class CrowdComponent {
   }
 
   setSelectedUser(id) {
-    console.log('user is selected');
-    console.log(id);
-
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
-        this.getMutualFriends(this.selectedUser.id);
+        this.closeNotification();
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
@@ -138,14 +134,41 @@ export class CrowdComponent {
   }
 
   passUser(event) {
-    console.log('User pass');
     this.profileViewActive = false;
+    this.friendService.saveFriendship(-1, this.selectedUser.id)
+    .map(res => res.json())
+    .subscribe(data => {
+      remove(this.items, (item) => {
+        return item.id === this.selectedUser.id;
+      });
+      this.notification.body = this.selectedUser.first_name + ' has been removed from crowd.';
+      this.notification.active = true;
+      this.selectedUser = {};
+    });
+
   }
 
   acceptUser(event) {
-    console.log('User accept');
     this.profileViewActive = false;
-    this.selectedUser = {};
+    this.friendService.saveFriendship(0, this.selectedUser.id)
+    .map(res => res.json())
+    .subscribe(data => {
+      remove(this.items, (item) => {
+        return item.id === this.selectedUser.id;
+      });
+      this.notification.body = 'You sent friendship request to ' + this.selectedUser.first_name + '.';
+      this.notification.active = true;
+      this.selectedUser = {};
+    });
+
+  }
+
+  closeNotification() {
+    this.notification.active = false;
+  }
+
+  closeProfile(event) {
+    this.profileViewActive = false;
   }
 
 

@@ -106,6 +106,17 @@
   background-repeat: no-repeat;
 }
 
+
+.listed-user-avatar-place .avatar-holder {
+  margin: 0 auto;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
 .profile-drop__avatar .avatar-holder img {
   display: none;
 }
@@ -136,9 +147,29 @@
   top: 0px;
 }
 
-
 /* fix for link cursor in match profile */
 
-.match-profile__features .link-blank {
-  cursor: pointer;
+a.link-blank {
+  cursor: pointer!important;
+}
+
+
+/* fix for rangeslider */
+
+input.range,
+input.range-to {
+  display: none;
+}
+
+/* fix for interests capitalize */
+.interest-list li {
+  text-transform: capitalize;
+}
+
+
+/* fix for outline on likes */
+
+.match-profile__likes .layout__item:focus,
+.match-profile__mutual .layout__item:focus {
+  outline:none;
 }

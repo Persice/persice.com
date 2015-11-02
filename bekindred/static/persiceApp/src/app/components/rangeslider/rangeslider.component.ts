@@ -9,7 +9,7 @@ let view = require('./rangeslider.html');
 @Component({
   selector: 'range-slider',
   template: view,
-  inputs: ['options', 'renderSlider'],
+  inputs: ['options', 'renderSlider', 'class'],
   outputs: ['onChange', 'onFinish']
 })
 export class RangeSliderComponent {
@@ -24,7 +24,6 @@ export class RangeSliderComponent {
   }
 
   onInit() {
-    console.log('range slider element started');
     let rangesliderEl = this.el.nativeElement.children[0];
 
     this.options['onFinish'] = (data) => {
@@ -53,7 +52,6 @@ export class RangeSliderComponent {
 
   onDestroy() {
     if (this.slider) {
-      console.log('range slider element destroyed');
       this.slider.destroy();
     }
   }
