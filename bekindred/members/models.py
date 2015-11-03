@@ -7,8 +7,11 @@ from django.contrib.auth.signals import user_logged_in
 from django.contrib.sessions.models import Session
 from django.db import models
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-from django_facebook.models import FacebookCustomUser, FacebookLike
+from django_facebook.models import FacebookCustomUser, FacebookLike, \
+    FacebookProfileModel, get_user_model_setting, FacebookModel
+from django_facebook.utils import get_user_model, get_profile_model
 
 from goals.models import MatchFilterState
 from interests.models import Interest
@@ -32,6 +35,23 @@ class FacebookCustomUserActive(FacebookCustomUser):
         proxy = True
 
     objects = ActiveManager()
+
+
+class MyCustomProfile(FacebookModel):
+    """
+    Not abstract version of the facebook profile model
+    Use this by setting
+    AUTH_PROFILE_MODULE = 'django_facebook.FacebookProfile'
+    """
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    religion = models.CharField(max_length=255, blank=True, null=True)
+
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile, created = MyCustomProfile.objects.get_or_create(user=instance)
+
+post_save.connect(create_user_profile, sender=FacebookCustomUser)
 
 
 class FacebookLikeProxyManager(models.Manager):
