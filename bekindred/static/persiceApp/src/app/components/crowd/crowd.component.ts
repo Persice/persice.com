@@ -6,6 +6,7 @@ import {RouteParams, Location} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
+import {LoadingCardComponent} from '../loadingcard/loadingcard.component';
 import {FilterComponent} from '../filter/filter.component';
 import {ProfileComponent} from '../profile/profile.component';
 import {NotificationComponent} from '../notification/notification.component';
@@ -30,7 +31,8 @@ declare var jQuery: any;
     UsersListComponent,
     LoadingComponent,
     ProfileComponent,
-    NotificationComponent
+    NotificationComponent,
+    LoadingCardComponent
   ]
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -38,6 +40,7 @@ export class CrowdComponent {
   version: string = 'v2';
   items: Array<any> = [];
   loading: boolean = false;
+  loadingInitial: boolean = false;
   isListEmpty: boolean = false;
   limit: number = 12;
   filter: boolean = true;
@@ -89,6 +92,9 @@ export class CrowdComponent {
     this.closeNotification();
     if (this.next === null) return;
     this.loading = true;
+    if (this.next === '') {
+      this.loadingInitial = true;
+    }
     this.service.get(this.next, this.limit, this.version, this.filter)
       .map(res => res.json())
       .subscribe(data => this.assignList(data));
@@ -107,6 +113,7 @@ export class CrowdComponent {
   assignList(data) {
 
     this.loading = false;
+    this.loadingInitial = false;
 
     this.total_count = data.meta.total_count;
     if (this.total_count === 0) {
