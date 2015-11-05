@@ -26,8 +26,6 @@ export class FilterService {
   timeoutIdFiltersSave;
   timeoutIdFiltersEvent;
   observers: any[] = [];
-  crowdSubscribed: boolean = false;
-  connectionsSubscribed: boolean = false;
 
   constructor(
     public http: Http,
