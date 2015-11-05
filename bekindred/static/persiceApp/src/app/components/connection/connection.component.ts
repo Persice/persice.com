@@ -1,14 +1,16 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, NgIf, Inject} from 'angular2/angular2';
+import {Component, NgIf, Inject, ChangeDetectionStrategy} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
+import {RouteParams, Location} from 'angular2/router';
+import * as Rx from '@reactivex/rxjs';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {FilterComponent} from '../filter/filter.component';
 
 import {ConnectionsService} from '../../services/connections.service';
+import {FilterService} from '../../services/filter.service';
 
 let view = require('./connection.html');
 
@@ -23,6 +25,7 @@ declare var jQuery: any;
     UsersListComponent,
     LoadingComponent
   ]
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectionComponent {
   items: Array<any> = [];
@@ -35,15 +38,37 @@ export class ConnectionComponent {
   offset: number = 0;
 
   constructor(
-    public service: ConnectionsService
+    public service: ConnectionsService,
+    public filterService: FilterService,
+    private location: Location
   ) {
-
+    this.location = location;
   }
 
 
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
+
+    //create new observer and subscribe
+    let obs = this.filterService.addObserver('connections');
+    this.filterService.observer('connections')
+      .subscribe(
+      (data) => {
+        this.refreshList();
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {
+      }
+      );
+
+  }
+
+  onDestroy() {
+    this.filterService.observer('connections').unsubscribe();
+    this.filterService.removeObserver('connections');
   }
 
   getList() {
@@ -55,7 +80,7 @@ export class ConnectionComponent {
   }
 
 
-  refreshList(event) {
+  refreshList() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
     this.isListEmpty = false;

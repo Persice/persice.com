@@ -1,8 +1,9 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
 import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
-import {FilterModel, InterfaceFilter} from '../../models/filter.model';
+import {FilterModel} from '../../models/filter.model';
+import {FilterService} from '../../services/filter.service';
+
 import {pluck, debounce} from 'lodash';
 
 declare var jQuery: any;
@@ -20,13 +21,16 @@ export class SearchKeywordsInputComponent {
   keywords: any[];
   filters: FilterModel;
 
-  constructor( @Inject(ElementRef) el: ElementRef, public http: Http) {
+  constructor(
+    @Inject(ElementRef) el: ElementRef,
+    public filterService: FilterService
+  ) {
     this.el = el;
   }
 
   afterViewInit() {
 
-    this.http.get('/api/v1/filter/state/?format=json')
+    this.filterService.get()
       .map(res => res.json())
       .subscribe(data => this.setKeywords(data));
 
@@ -65,9 +69,6 @@ export class SearchKeywordsInputComponent {
       typeahead: [null, { source: engine.ttAdapter() }]
     });
 
-    //create initial tokens
-    // jQuery(this.el.nativeElement).tokenfield('setTokens', initialTokens);
-
     //prevent duplicates for token entry
     jQuery(this.el.nativeElement).on('tokenfield:createtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
@@ -81,16 +82,14 @@ export class SearchKeywordsInputComponent {
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
       existingTokens = pluck(existingTokens, 'value');
-      let debounced = debounce(() => this.saveKeywords(existingTokens.join()), 1000, true);
-      debounced();
+      this.save(existingTokens.join());
     });
 
     //save keywords to backend after token removed
     jQuery(this.el.nativeElement).on('tokenfield:removedtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
       existingTokens = pluck(existingTokens, 'value');
-      let debounced = debounce(() => this.saveKeywords(existingTokens.join()), 1000, true);
-      debounced();
+      this.save(existingTokens.join());
     });
 
     //prevent duplicates and total keywords string length > 50 chars
@@ -111,31 +110,12 @@ export class SearchKeywordsInputComponent {
     });
   }
 
-  saveKeywords(tokens) {
-
-    let headers: Headers = new Headers();
-    let csrftoken = this.getCookieValue('csrftoken');
-    headers.append('X-CSRFToken', csrftoken);
-    headers.append('Content-Type', 'application/json');
-
-    let opts: RequestOptions = new RequestOptions();
-    opts.headers = headers;
-    this.http.patch(
-      this.filters.state.resource_uri,
-      JSON.stringify({
-        keyword: tokens,
-        user: this.filters.state.user
-      }),
-      opts)
-      .map(res => res.json())
-      .subscribe(data => {
-      });
-  }
-
-  private getCookieValue(name) {
-    let value = '; ' + document.cookie;
-    let parts = value.split('; ' + name + '=');
-    if (parts.length === 2) return parts.pop().split(';').shift();
+  save(tokens) {
+    let data = {
+      keyword: tokens,
+      user: this.filters.state.user
+    };
+    this.filterService.save(this.filters.state.resource_uri, data);
   }
 
 }
