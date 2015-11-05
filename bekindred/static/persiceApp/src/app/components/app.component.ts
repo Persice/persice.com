@@ -3,14 +3,16 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component, provide} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
+import {Component, provide, EventEmitter, QueryList, Query} from 'angular2/angular2';
+import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Route} from 'angular2/router';
+
+
 
 /*
  * Components
@@ -28,10 +30,16 @@ import {ProfileComponent} from './profile/profile.component';
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
 import {LoadingComponent} from './loading/loading.component';
-import {AutofocusDirective} from '../directives/autofocus.directive';
 
 
 import {AuthUserModel} from '../models/user.model';
+
+/*
+ * Services available to child components
+ */
+import {FilterService} from '../services/filter.service';
+import {UserService} from '../services/user.service';
+
 
 let view = require('./app.html');
 
@@ -82,26 +90,27 @@ let view = require('./app.html');
     ROUTER_DIRECTIVES,
     HeaderMainComponent,
     HeaderSubComponent,
-    LoadingComponent,
-    AutofocusDirective
+    LoadingComponent
   ],
   styles: [`
    `],
-  template: view
+  template: view,
+  providers: [FilterService, UserService]
 })
 export class AppComponent {
   user: AuthUserModel;
   image: string;
   loading: boolean;
 
-  constructor(public http: Http) {
+  constructor(
+    public userService: UserService
+    ) {
     //default image
-    this.image = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
+    this.image = this.userService.getDefaultImage();
   }
   onInit() {
     // Get AuthUser info for the app
-    this.http.get('/api/v1/me/?format=json')
-      .map(res => res.json())
+    this.userService.get()
       .subscribe(data => this.assignAuthUser(data));
   }
 
