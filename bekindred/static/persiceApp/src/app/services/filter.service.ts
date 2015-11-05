@@ -8,7 +8,7 @@ import {FilterModel, InterfaceFilter} from '../models/filter.model';
 
 import {remove, find} from 'lodash';
 
-let API_URL: string = '/api/v1/filter/state/';
+let API_URL: string = '/api/v1/filter/state2/';
 
 let DEFAULT_FILTERS: InterfaceFilter = {
   distance: 10000,
