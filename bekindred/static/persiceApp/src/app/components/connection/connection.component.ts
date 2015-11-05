@@ -51,17 +51,12 @@ export class ConnectionComponent {
     this.getList();
 
     //create new observer and subscribe
-    let obs = this.filterService.addObserver('connections');
+    this.filterService.addObserver('connections');
     this.filterService.observer('connections')
       .subscribe(
-      (data) => {
-        this.refreshList();
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      }
+      (data) => this.refreshList(),
+      (err) => console.log(err),
+      () => console.log('event completed')
       );
 
   }

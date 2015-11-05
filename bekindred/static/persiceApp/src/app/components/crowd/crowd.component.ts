@@ -49,7 +49,8 @@ export class CrowdComponent {
   notification = {
     body: '',
     title: '',
-    active: false
+    active: false,
+    type: 'success'
   };
 
   constructor(
@@ -68,20 +69,16 @@ export class CrowdComponent {
     this.getList();
 
     //create new observer and subscribe
-    let obs = this.filterService.addObserver('crowd');
+    this.filterService.addObserver('crowd');
     this.filterService.observer('crowd')
       .subscribe(
-      (data) => {
-        this.refreshList();
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-      }
+      (data) => this.refreshList(),
+      (err) => console.log(err),
+      () => console.log('event completed')
       );
 
   }
+
 
   onDestroy() {
     this.filterService.observer('crowd').unsubscribe();
