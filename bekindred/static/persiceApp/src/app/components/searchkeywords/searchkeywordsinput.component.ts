@@ -3,8 +3,10 @@
 import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
 import {FilterModel} from '../../models/filter.model';
 import {FilterService} from '../../services/filter.service';
+import {KeywordsService} from '../../services/keywords.service';
+import {NotificationService} from '../../services/notification.service';
 
-import {pluck, debounce} from 'lodash';
+import {pluck, debounce, map} from 'lodash';
 
 declare var jQuery: any;
 
@@ -14,6 +16,7 @@ let view = require('./searchkeywordsinput.html');
 @Component({
   selector: 'search-keywordsinput',
   directives: [CORE_DIRECTIVES],
+  providers: [KeywordsService],
   template: view
 })
 export class SearchKeywordsInputComponent {
@@ -23,16 +26,18 @@ export class SearchKeywordsInputComponent {
 
   constructor(
     @Inject(ElementRef) el: ElementRef,
-    public filterService: FilterService
-  ) {
+    public filterService: FilterService,
+    public keywordsService: KeywordsService,
+    public notificationService: NotificationService
+    ) {
     this.el = el;
   }
 
   afterViewInit() {
 
     this.filterService.get()
-      .map(res => res.json())
-      .subscribe(data => this.setKeywords(data));
+    .map(res => res.json())
+    .subscribe(data => this.setKeywords(data));
 
   }
 
@@ -45,38 +50,34 @@ export class SearchKeywordsInputComponent {
   }
 
   initializeTokenInput(initialTokens) {
-    let keywords = ['Acting', 'Animals', 'Backpacking', 'Django', 'Angular',
-      'Code', 'Badminton', 'Swim', 'Kitesurf', 'Crossfit', 'Chinese', 'Volleybal',
-      'Animals', 'Mountain Biking', 'Machine Learning', 'Incubator', 'Astronomy',
-      'Cycling', 'Banjo'
-    ];
-
-
-    let engine = new Bloodhound({
-      local: keywords,
+    let keywordsEngine = new Bloodhound({
+      remote: {
+        url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
+        filter: (x: any) => {
+          return jQuery.map(x.objects, (item) => {
+            return item.description;
+          });
+        },
+        wildcard: '%QUERY'
+      },
       datumTokenizer: (d) => {
         return Bloodhound.tokenizers.whitespace(d);
       },
       queryTokenizer: Bloodhound.tokenizers.whitespace
     });
 
-    engine.initialize();
+    keywordsEngine.initialize();
 
     jQuery(this.el.nativeElement).tokenfield({
-      minLength: 2,
       limit: 10,
       tokens: initialTokens,
-      typeahead: [null, { source: engine.ttAdapter() }]
+      typeahead: [null, {
+        source: keywordsEngine.ttAdapter(),
+        minLength: 2,
+        highlight: true
+      }]
     });
 
-    //prevent duplicates for token entry
-    jQuery(this.el.nativeElement).on('tokenfield:createtoken', (event) => {
-      let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-      $.each(existingTokens, (idex, token) => {
-        if (token.value === event.attrs.value)
-          event.preventDefault();
-      });
-    });
 
     //save keywords to backend after token created
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {
@@ -95,27 +96,47 @@ export class SearchKeywordsInputComponent {
     //prevent duplicates and total keywords string length > 50 chars
     jQuery(this.el.nativeElement).on('tokenfield:createtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-
       let tokensString = pluck(existingTokens, 'value');
+
+      let tokenInput = event.attrs.value;
+
       if (tokensString.join().length > 45) {
+        this.notificationService.push({
+          content: 'No more keywords allowed.',
+          type: 'warning'
+        });
         event.preventDefault();
       }
       else {
-        $.each(existingTokens, (index, token) => {
-          if (token.value === event.attrs.value)
+
+        if (tokenInput.length < 2) {
+          this.notificationService.push({
+            content: 'Keyword must have at least two characters',
+            type: 'warning'
+          });
+          event.preventDefault();
+          return;
+        }
+        jQuery.each(existingTokens, (index, token) => {
+          if (token.value === event.attrs.value) {
+            this.notificationService.push({
+              content: 'Keyword is already entered',
+              type: 'warning'
+            });
             event.preventDefault();
+          }
         });
       }
 
     });
-  }
+}
 
-  save(tokens) {
-    let data = {
-      keyword: tokens,
-      user: this.filters.state.user
-    };
-    this.filterService.save(this.filters.state.resource_uri, data);
-  }
+save(tokens) {
+  let data = {
+    keyword: tokens,
+    user: this.filters.state.user
+  };
+  this.filterService.save(this.filters.state.resource_uri, data);
+}
 
 }
