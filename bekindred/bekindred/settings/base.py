@@ -173,6 +173,7 @@ AUTHENTICATION_BACKENDS = (
 ANONYMOUS_USER_ID = -1
 
 AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
+AUTH_PROFILE_MODULE = 'members.MyCustomProfile'
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'

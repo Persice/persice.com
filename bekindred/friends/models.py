@@ -1,4 +1,5 @@
 from itertools import chain
+from django.conf import settings
 
 from django.db import models
 from django.db.models import Q
@@ -94,7 +95,7 @@ class FriendsManager(models.Manager):
             d['facebook_id'] = user.facebook_id
             d['first_name'] = user.first_name
             d['last_name'] = user.last_name
-            d['image'] = user.image
+            d['image'] = "%s%s" % (settings.MEDIA_URL, user.image)
             results.append(d)
         return results
 
