@@ -173,3 +173,12 @@ input.range-to {
 .match-profile__mutual .layout__item:focus {
   outline:none;
 }
+
+
+
+/* notification warning */
+.notification.warning {
+  background: #F1BB4B;
+}
+
+

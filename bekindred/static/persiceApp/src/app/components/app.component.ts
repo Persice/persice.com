@@ -30,7 +30,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
 import {LoadingComponent} from './loading/loading.component';
-
+import {NotificationComponent} from './notification/notification.component';
 
 import {AuthUserModel} from '../models/user.model';
 
@@ -39,7 +39,7 @@ import {AuthUserModel} from '../models/user.model';
  */
 import {FilterService} from '../services/filter.service';
 import {UserService} from '../services/user.service';
-
+import {NotificationService} from '../services/notification.service';
 
 let view = require('./app.html');
 
@@ -90,20 +90,28 @@ let view = require('./app.html');
     ROUTER_DIRECTIVES,
     HeaderMainComponent,
     HeaderSubComponent,
-    LoadingComponent
+    LoadingComponent,
+    NotificationComponent
   ],
   styles: [`
    `],
   template: view,
-  providers: [FilterService, UserService]
+  providers: [FilterService, UserService, NotificationService]
 })
 export class AppComponent {
   user: AuthUserModel;
   image: string;
   loading: boolean;
+  notificationOther = {
+    body: '',
+    title: '',
+    active: false,
+    type: ''
+  };
 
   constructor(
-    public userService: UserService
+    public userService: UserService,
+    public notificationService: NotificationService
     ) {
     //default image
     this.image = this.userService.getDefaultImage();
@@ -112,6 +120,29 @@ export class AppComponent {
     // Get AuthUser info for the app
     this.userService.get()
       .subscribe(data => this.assignAuthUser(data));
+
+    //create new observer and subscribe for notification service
+    this.notificationService.addObserver('app');
+    this.notificationService.observer('app')
+      .subscribe(
+      (data) => this.showNotification(data),
+      (err) => console.log(err),
+      () => console.log('event completed')
+      );
+  }
+
+  onDestroy() {
+    this.notificationService.observer('app').unsubscribe();
+    this.notificationService.removeObserver('app');
+  }
+
+  showNotification(data) {
+    this.notificationOther.body = data.content;
+    this.notificationOther.type = data.type;
+    this.notificationOther.active = true;
+    setTimeout(() => {
+      this.notificationOther.active = false;
+    }, 4000);
   }
 
   // Assign AuthUser user from the /me Api
