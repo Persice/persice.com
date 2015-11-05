@@ -1,9 +1,12 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
 import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
-import {FilterModel, InterfaceFilter} from '../../models/filter.model';
-import {pluck, debounce} from 'lodash';
+import {FilterModel} from '../../models/filter.model';
+import {FilterService} from '../../services/filter.service';
+import {KeywordsService} from '../../services/keywords.service';
+import {NotificationService} from '../../services/notification.service';
+
+import {pluck, debounce, map} from 'lodash';
 
 declare var jQuery: any;
 
@@ -13,6 +16,7 @@ let view = require('./searchkeywordsinput.html');
 @Component({
   selector: 'search-keywordsinput',
   directives: [CORE_DIRECTIVES],
+  providers: [KeywordsService],
   template: view
 })
 export class SearchKeywordsInputComponent {
@@ -20,15 +24,20 @@ export class SearchKeywordsInputComponent {
   keywords: any[];
   filters: FilterModel;
 
-  constructor( @Inject(ElementRef) el: ElementRef, public http: Http) {
+  constructor(
+    @Inject(ElementRef) el: ElementRef,
+    public filterService: FilterService,
+    public keywordsService: KeywordsService,
+    public notificationService: NotificationService
+    ) {
     this.el = el;
   }
 
   afterViewInit() {
 
-    this.http.get('/api/v1/filter/state/?format=json')
-      .map(res => res.json())
-      .subscribe(data => this.setKeywords(data));
+    this.filterService.get()
+    .map(res => res.json())
+    .subscribe(data => this.setKeywords(data));
 
   }
 
@@ -41,101 +50,93 @@ export class SearchKeywordsInputComponent {
   }
 
   initializeTokenInput(initialTokens) {
-    let keywords = ['Acting', 'Animals', 'Backpacking', 'Django', 'Angular',
-      'Code', 'Badminton', 'Swim', 'Kitesurf', 'Crossfit', 'Chinese', 'Volleybal',
-      'Animals', 'Mountain Biking', 'Machine Learning', 'Incubator', 'Astronomy',
-      'Cycling', 'Banjo'
-    ];
-
-
-    let engine = new Bloodhound({
-      local: keywords,
+    let keywordsEngine = new Bloodhound({
+      remote: {
+        url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
+        filter: (x: any) => {
+          return jQuery.map(x.objects, (item) => {
+            return item.description;
+          });
+        },
+        wildcard: '%QUERY'
+      },
       datumTokenizer: (d) => {
         return Bloodhound.tokenizers.whitespace(d);
       },
       queryTokenizer: Bloodhound.tokenizers.whitespace
     });
 
-    engine.initialize();
+    keywordsEngine.initialize();
 
     jQuery(this.el.nativeElement).tokenfield({
-      minLength: 2,
       limit: 10,
       tokens: initialTokens,
-      typeahead: [null, { source: engine.ttAdapter() }]
+      typeahead: [null, {
+        source: keywordsEngine.ttAdapter(),
+        minLength: 2,
+        highlight: true
+      }]
     });
 
-    //create initial tokens
-    // jQuery(this.el.nativeElement).tokenfield('setTokens', initialTokens);
-
-    //prevent duplicates for token entry
-    jQuery(this.el.nativeElement).on('tokenfield:createtoken', (event) => {
-      let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-      $.each(existingTokens, (idex, token) => {
-        if (token.value === event.attrs.value)
-          event.preventDefault();
-      });
-    });
 
     //save keywords to backend after token created
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
       existingTokens = pluck(existingTokens, 'value');
-      let debounced = debounce(() => this.saveKeywords(existingTokens.join()), 1000, true);
-      debounced();
+      this.save(existingTokens.join());
     });
 
     //save keywords to backend after token removed
     jQuery(this.el.nativeElement).on('tokenfield:removedtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
       existingTokens = pluck(existingTokens, 'value');
-      let debounced = debounce(() => this.saveKeywords(existingTokens.join()), 1000, true);
-      debounced();
+      this.save(existingTokens.join());
     });
 
     //prevent duplicates and total keywords string length > 50 chars
     jQuery(this.el.nativeElement).on('tokenfield:createtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-
       let tokensString = pluck(existingTokens, 'value');
+
+      let tokenInput = event.attrs.value;
+
       if (tokensString.join().length > 45) {
+        this.notificationService.push({
+          content: 'No more keywords allowed.',
+          type: 'warning'
+        });
         event.preventDefault();
       }
       else {
-        $.each(existingTokens, (index, token) => {
-          if (token.value === event.attrs.value)
+
+        if (tokenInput.length < 2) {
+          this.notificationService.push({
+            content: 'Keyword must have at least two characters',
+            type: 'warning'
+          });
+          event.preventDefault();
+          return;
+        }
+        jQuery.each(existingTokens, (index, token) => {
+          if (token.value === event.attrs.value) {
+            this.notificationService.push({
+              content: 'Keyword is already entered',
+              type: 'warning'
+            });
             event.preventDefault();
+          }
         });
       }
 
     });
-  }
+}
 
-  saveKeywords(tokens) {
-
-    let headers: Headers = new Headers();
-    let csrftoken = this.getCookieValue('csrftoken');
-    headers.append('X-CSRFToken', csrftoken);
-    headers.append('Content-Type', 'application/json');
-
-    let opts: RequestOptions = new RequestOptions();
-    opts.headers = headers;
-    this.http.patch(
-      this.filters.state.resource_uri,
-      JSON.stringify({
-        keyword: tokens,
-        user: this.filters.state.user
-      }),
-      opts)
-      .map(res => res.json())
-      .subscribe(data => {
-      });
-  }
-
-  private getCookieValue(name) {
-    let value = '; ' + document.cookie;
-    let parts = value.split('; ' + name + '=');
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
+save(tokens) {
+  let data = {
+    keyword: tokens,
+    user: this.filters.state.user
+  };
+  this.filterService.save(this.filters.state.resource_uri, data);
+}
 
 }
