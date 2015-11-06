@@ -189,7 +189,7 @@ class OfferResource(ModelResource):
 class FacebookLikeResource(ModelResource):
     class Meta:
         queryset = FacebookLike.objects.all()
-        fields = ['id', 'name', 'facebook_id']
+        fields = ['id', 'name', 'facebook_id', 'picture']
         list_allowed_methods = ['get']
         resource_name = 'likes'
         authentication = SessionAuthentication()
