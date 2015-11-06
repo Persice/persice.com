@@ -140,6 +140,8 @@ class FilterState(models.Model):
     gender = models.CharField(max_length=3, default='m,f')
     keyword = models.CharField(max_length=50)
     order_criteria = models.CharField(max_length=20, default='distance')
+    min_age = models.CharField(max_length=3, default=25)
+    max_age = models.CharField(max_length=4, default=60)
 
 
 def create_user_profile(sender, instance, created, **kwargs):

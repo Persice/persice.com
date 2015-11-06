@@ -1961,7 +1961,7 @@
             }
             www.mixin(this);
             this.eventBus = o.eventBus;
-            this.minLength = _.isNumber(o.minLength) ? o.minLength : 1;
+            this.minLength = 2;
             this.input = o.input;
             this.menu = o.menu;
             this.enabled = true;
