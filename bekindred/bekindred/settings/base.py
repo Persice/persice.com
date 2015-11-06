@@ -176,6 +176,14 @@ AUTH_USER_MODEL = 'django_facebook.FacebookCustomUser'
 AUTH_PROFILE_MODULE = 'members.MyCustomProfile'
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
+FACEBOOK_DEFAULT_FIELDS = [
+     'id', 'name', 'gender', 'first_name', 'last_name', 'birthday',
+     'email', 'relationship_status', 'religion', 'political',
+     'meeting_for', 'sports', 'favorite_teams', 'languages', 'hometown',
+     'location', 'quotes', 'work', 'is_verified', 'verified',
+     'is_shared_login'
+]
+
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'
 BROKER_URL = 'redis://localhost:6379/0'
 FACEBOOK_CELERY_STORE = False
