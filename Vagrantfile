@@ -37,6 +37,7 @@ Vagrant.configure("2") do |config|
 config.vm.provider "virtualbox" do |v|
    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+   v.customize ["modifyvm", :id, "--memory", 1024*2]
 end
 config.vm.network "private_network", ip: "192.168.10.11"
   config.vm.network "forwarded_port", guest: 8000, host: 8000
