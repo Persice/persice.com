@@ -19,6 +19,12 @@ echo 'marvel.agent.enabled: false' >> ./config/elasticsearch.yml
 # https://github.com/jprante/elasticsearch-jdbc
 ```
 
+##### Update south_migrationhistory for Django-facebook
+```sql
+INSERT INTO south_migrationhistory VALUES (nextval('south_migrationhistory_id_seq'::regclass),'django_facebook', '0001_initial', CURRENT_TIMESTAMP);
+INSERT INTO south_migrationhistory VALUES (nextval('south_migrationhistory_id_seq'::regclass), 'django_facebook', '0002_auto__add_field_facebooklike_search_index', CURRENT_TIMESTAMP);
+```
+
 ##### Check elastic
 ```
 curl 'http://localhost:9200/?pretty'
