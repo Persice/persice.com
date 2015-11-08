@@ -32,6 +32,7 @@
         "src/app/components/headersub/headersub.component.ts",
         "src/app/components/home/home.component.ts",
         "src/app/components/loading/loading.component.ts",
+        "src/app/components/loadingcard/loadingcard.component.ts",
         "src/app/components/logo/logo.component.ts",
         "src/app/components/message/message.component.ts",
         "src/app/components/notification/notification.component.ts",
@@ -63,18 +64,16 @@
         "src/app/services/filter.service.ts",
         "src/app/services/search.service.ts",
         "src/app/services/friend.service.ts",
+        "src/app/services/notification.service.ts",
+        "src/app/services/interests.service.ts",
+        "src/app/services/keywords.service.ts",
         "src/app/services/mutualfriends.service.ts",
         "src/app/services/services.ts",
         "src/app/services/user.service.ts",
         "src/typings/_custom.d.ts",
         "src/typings/browser.d.ts",
         "src/typings/webpack.d.ts",
-        "test/app/app.spec.ts",
-        "typings/jquery/jquery.d.ts",
-        "typings/lodash/lodash.d.ts",
-        "typings/rx/rx-lite.d.ts",
-        "typings/rx/rx.d.ts",
-        "typings/tsd.d.ts"
+        "test/app/app.spec.ts"
         ],
         "exclude": []
     }

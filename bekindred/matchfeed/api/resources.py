@@ -6,17 +6,18 @@ from tastypie.authorization import Authorization
 from tastypie import fields
 from tastypie.bundle import Bundle
 from tastypie.resources import Resource
+from events.models import FilterState
 
 from friends.models import FacebookFriendUser, Friend
-from goals.models import MatchFilterState, Subject, Goal
-from interests.models import InterestSubject, Interest
-from match_engine.models import ElasticSearchMatchEngine
+from goals.models import Subject
+from interests.models import InterestSubject
 from matchfeed.models import MatchFeedManager
 from matchfeed.utils import MatchedResults, order_by, MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
     social_extra_data
+
 
 class A(object):
     pass
@@ -104,7 +105,7 @@ class MatchedFeedResource(Resource):
             results.append(new_obj)
 
         if request.GET.get('filter') == 'true':
-            mfs = MatchFilterState.objects.get(user_id=request.user.id)
+            mfs = FilterState.objects.get(user_id=request.user.id)
             mfs.gender = mfs.gender if mfs.gender else 'm,f'
             subj_descriptions = list()
             interests_descriptions = list()
@@ -215,6 +216,7 @@ class MatchedFeedResource2(Resource):
         return kwargs
 
     def get_object_list(self, request):
+        # TODO: Add filter based on FilterState model
         match_users = MatchQuerySet.all(request.user.id)
         return match_users
 

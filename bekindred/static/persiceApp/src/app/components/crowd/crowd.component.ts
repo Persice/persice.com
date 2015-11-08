@@ -1,17 +1,19 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, NgIf, Inject} from 'angular2/angular2';
+import {Component, NgIf, Inject, ChangeDetectionStrategy} from 'angular2/angular2';
 import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
-import {RouteParams} from 'angular2/router';
+import {RouteParams, Location} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
+import {LoadingCardComponent} from '../loadingcard/loadingcard.component';
 import {FilterComponent} from '../filter/filter.component';
 import {ProfileComponent} from '../profile/profile.component';
 import {NotificationComponent} from '../notification/notification.component';
 
 import {CrowdService} from '../../services/crowd.service';
 import {FriendService} from '../../services/friend.service';
+import {FilterService} from '../../services/filter.service';
 
 import {remove, contains} from 'lodash';
 
@@ -24,18 +26,21 @@ declare var jQuery: any;
   template: view,
   providers: [CrowdService],
   directives: [
-  NgIf,
-  FilterComponent,
-  UsersListComponent,
-  LoadingComponent,
-  ProfileComponent,
-  NotificationComponent
+    NgIf,
+    FilterComponent,
+    UsersListComponent,
+    LoadingComponent,
+    ProfileComponent,
+    NotificationComponent,
+    LoadingCardComponent
   ]
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrowdComponent {
   version: string = 'v2';
   items: Array<any> = [];
   loading: boolean = false;
+  loadingInitial: boolean = false;
   isListEmpty: boolean = false;
   limit: number = 12;
   filter: boolean = true;
@@ -47,37 +52,59 @@ export class CrowdComponent {
   notification = {
     body: '',
     title: '',
-    active: false
+    active: false,
+    type: 'success'
   };
 
   constructor(
     @Inject(RouteParams) params: RouteParams,
     public service: CrowdService,
-    public friendService: FriendService
-    ) {
+    public friendService: FriendService,
+    public filterService: FilterService,
+    private location: Location
+  ) {
     this.version = params.get('version');
-
+    this.location = location;
   }
-
 
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
+
+    //create new observer and subscribe
+    this.filterService.addObserver('crowd');
+    this.filterService.observer('crowd')
+      .subscribe(
+      (data) => this.refreshList(),
+      (err) => console.log(err),
+      () => console.log('event completed')
+      );
+
+  }
+
+
+  onDestroy() {
+    this.filterService.observer('crowd').unsubscribe();
+    this.filterService.removeObserver('crowd');
   }
 
   getList() {
     this.closeNotification();
     if (this.next === null) return;
     this.loading = true;
+    if (this.next === '') {
+      this.loadingInitial = true;
+    }
     this.service.get(this.next, this.limit, this.version, this.filter)
-    .map(res => res.json())
-    .subscribe(data => this.assignList(data));
+      .map(res => res.json())
+      .subscribe(data => this.assignList(data));
   }
 
 
-  refreshList(event) {
+  refreshList() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
+    this.total_count = 0;
     this.isListEmpty = false;
     this.next = '';
     this.getList();
@@ -86,6 +113,7 @@ export class CrowdComponent {
   assignList(data) {
 
     this.loading = false;
+    this.loadingInitial = false;
 
     this.total_count = data.meta.total_count;
     if (this.total_count === 0) {
@@ -136,30 +164,30 @@ export class CrowdComponent {
   passUser(event) {
     this.profileViewActive = false;
     this.friendService.saveFriendship(-1, this.selectedUser.id)
-    .map(res => res.json())
-    .subscribe(data => {
-      remove(this.items, (item) => {
-        return item.id === this.selectedUser.id;
+      .map(res => res.json())
+      .subscribe(data => {
+        remove(this.items, (item) => {
+          return item.id === this.selectedUser.id;
+        });
+        this.notification.body = this.selectedUser.first_name + ' has been removed from crowd.';
+        this.notification.active = true;
+        this.selectedUser = {};
       });
-      this.notification.body = this.selectedUser.first_name + ' has been removed from crowd.';
-      this.notification.active = true;
-      this.selectedUser = {};
-    });
 
   }
 
   acceptUser(event) {
     this.profileViewActive = false;
     this.friendService.saveFriendship(0, this.selectedUser.id)
-    .map(res => res.json())
-    .subscribe(data => {
-      remove(this.items, (item) => {
-        return item.id === this.selectedUser.id;
+      .map(res => res.json())
+      .subscribe(data => {
+        remove(this.items, (item) => {
+          return item.id === this.selectedUser.id;
+        });
+        this.notification.body = 'You sent friendship request to ' + this.selectedUser.first_name + '.';
+        this.notification.active = true;
+        this.selectedUser = {};
       });
-      this.notification.body = 'You sent friendship request to ' + this.selectedUser.first_name + '.';
-      this.notification.active = true;
-      this.selectedUser = {};
-    });
 
   }
 

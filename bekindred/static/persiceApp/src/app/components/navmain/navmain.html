@@ -2,32 +2,32 @@
   <ul>
     <li [class.is-current]="isLinkActive('/crowd/v2') || isLinkActive('/crowd/v1')">
       <a [router-link]="['./Crowd', {version: 'v1'}]">
-        <svg role="img" class="icon icon--large">
-          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-crowd"></use>
+        <svg role="img" class="icon">
+          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-menu-crowd"></use>
         </svg>
         <span>Crowd</span>
       </a>
     </li>
     <li [class.is-current]="isLinkActive('/messages')">
       <a [router-link]="['./Messages']">
-        <svg role="img" class="icon icon--large">
-          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-messages"></use>
+        <svg role="img" class="icon">
+          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-menu-messages"></use>
         </svg>
         <span>Messages</span>
       </a>
     </li>
     <li [class.is-current]="isLinkActive('/connections')">
       <a [router-link]="['./Connections']">
-        <svg role="img" class="icon icon--large">
-          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-connections"></use>
+        <svg role="img" class="icon">
+          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-menu-connections"></use>
         </svg>
         <span>Connections</span>
       </a>
     </li>
     <li [class.is-current]="isLinkActive('/events')">
       <a [router-link]="['./Events']">
-        <svg role="img" class="icon icon--large">
-          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-events"></use>
+        <svg role="img" class="icon">
+          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-menu-events"></use>
         </svg>
         <span>Events</span>
       </a>

@@ -7,8 +7,9 @@ from django_facebook.models import FacebookCustomUser, FacebookLike
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from tastypie.test import ResourceTestCase
+from events.models import FilterState
 
-from goals.models import Subject, Goal, MatchFilterState, Offer
+from goals.models import Subject, Goal, Offer
 from interests.models import Interest, InterestSubject
 from world.models import UserLocation
 
@@ -123,7 +124,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.resource_url = '/api/v1/matchfeed/'
 
     def tearDown(self):
-        MatchFilterState.objects.all().delete()
+        FilterState.objects.all().delete()
 
     def login(self):
         return self.api_client.client.post(
@@ -226,7 +227,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
 
     def test_filter_match_distance(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=500, min_age=4, max_age=5)
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
@@ -244,7 +245,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 0)
 
     def test_filter_match_exact_age(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000, min_age=26, max_age=26)
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
@@ -261,7 +262,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 2)
 
     def test_filter_match_age_full_range(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000, min_age=18, max_age=99)
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
@@ -278,7 +279,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 6)
 
     def test_filter_match_gender_male(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000, min_age=18, max_age=99, gender='f')
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
@@ -296,7 +297,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['meta']['total_count'], 1)
 
     def test_filter_match_keywords(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000, min_age=18, max_age=99,
                    gender='f', keyword='django,python')
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -353,7 +354,7 @@ class TestMatchFeedResource(ResourceTestCase):
                          {u'find people to go mountain biking with': 0, u'learn django': 1}])
 
     def test_matchfeed_order_by_distance(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000, min_age=18,
                    max_age=99, order_criteria='distance')
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -387,7 +388,7 @@ class TestMatchFeedResource(ResourceTestCase):
                                     ['3,914', u'miles']])
 
     def test_matchfeed_order_by_match_score(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000, min_age=18, max_age=99,
                    order_criteria='match_score')
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -435,7 +436,7 @@ class TestMatchFeedResource(ResourceTestCase):
         self.assertEqual(distance, [3, 2, 1, 0, 0])
 
     def test_matchfeed_counter_only_goals(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000, min_age=18, max_age=99,
                    order_criteria='match_score')
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -460,7 +461,7 @@ class TestMatchFeedResource(ResourceTestCase):
                                                           u'teach django': 1}])
 
     def test_matchfeed_counter_only_offers(self):
-        MatchFilterState.objects.filter(user=self.user).\
+        FilterState.objects.filter(user=self.user).\
             update(distance=10000,
                    min_age=18, max_age=99, order_criteria='match_score')
         Offer.objects.create(user=self.user, offer=self.subject)

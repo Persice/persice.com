@@ -401,6 +401,11 @@ class AboutMeResource(ModelResource):
         return super(AboutMeResource, self).get_object_list(request).\
             filter(pk=request.user.id)
 
+    def dehydrate(self, bundle):
+        raw_data = json.loads(bundle.obj.raw_data)
+        bundle.data.update(raw_data)
+        return bundle
+
 
 class MembershipResource(ModelResource):
     event = fields.ToOneField(EventResource, 'event')

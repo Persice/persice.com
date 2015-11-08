@@ -134,12 +134,14 @@ class EventFilterState(models.Model):
 
 class FilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
-    distance = models.IntegerField(default=1)
+    distance = models.IntegerField(default=10000)
     distance_unit = models.CharField(max_length=5, default='miles')
     cumulative_match_score = models.IntegerField(default=0)
     gender = models.CharField(max_length=3, default='m,f')
-    keyword = models.CharField(max_length=50)
+    keyword = models.CharField(max_length=50, default='')
     order_criteria = models.CharField(max_length=20, default='distance')
+    min_age = models.CharField(max_length=3, default=25)
+    max_age = models.CharField(max_length=4, default=60)
 
 
 def create_user_profile(sender, instance, created, **kwargs):
