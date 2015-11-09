@@ -23,7 +23,7 @@ export class CircleProgressDirective {
   onInit() {
     if (jQuery(this.el.nativeElement).data('circle-progress') === undefined) {
       jQuery(this.el.nativeElement).circleProgress({
-        value: this.calculateValue(this.value),
+        value: this.calculateValue(parseFloat(this.value)),
         size: parseInt(this.size, 10),
         thickness: parseInt(this.thickness, 10),
         startAngle: parseInt(this.angle, 10),

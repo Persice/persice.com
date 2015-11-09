@@ -1,13 +1,11 @@
 <div class="translate-50"  *ng-if="status">
   <div class="loading-card">
-    <div class="match-percent"></div>
+    <div circle-progress="100" size="128" thickness="2" reverse="false" angle="140" class="match-percent"></div>
     <div class="loading-card__icon">
       <svg role="img" class="icon icon--large">
         <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-searching_cards"></use>
       </svg>
     </div>
   </div>
-  <br>
-  <br>
   <h2 class="loading-card__heading">Finding people with similar goals and interests...</h2>
 </div>
