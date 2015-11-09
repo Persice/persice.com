@@ -1,4 +1,4 @@
-test_reports/
+test_reports/*.xml
 elastic/
 media/
 .DS_Store
