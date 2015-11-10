@@ -6,7 +6,7 @@ import {FilterService} from '../../services/filter.service';
 import {KeywordsService} from '../../services/keywords.service';
 import {NotificationService} from '../../services/notification.service';
 
-import {pluck, debounce, map} from 'lodash';
+import {pluck} from 'lodash';
 
 declare var jQuery: any;
 

@@ -1,10 +1,9 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
 import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
-import * as Rx from 'rx';
+import {Http, Headers, RequestOptions} from 'angular2/http';
 
-let API_URL: string = '/api/v1/friends/';
+let API_URL = '/api/v1/friends/';
 
 
 @Injectable()

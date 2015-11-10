@@ -1,14 +1,13 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, EventEmitter, OnInit} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
+import {Component, EventEmitter} from 'angular2/angular2';
+import {Http} from 'angular2/http';
 
 import {SearchService} from '../../services/search.service';
 import {SearchResultUserModel} from '../../models/searchresults.model';
 import {SearchResultEventModel} from '../../models/searchresults.model';
 
 let view = require('./searchinput.html');
-let API_URL_USER: string = '/api/v1/auth/user/search/';
 
 @Component({
   selector: 'search-input',
@@ -54,17 +53,20 @@ export class SearchInputComponent {
       clearTimeout(this.timeoutId);
     }
 
-    this.timeoutId = setTimeout(() => {
-      this.loadingUsers.next(true);
-      this.service.search(query, 'user')
-        .map(res => res.json())
-        .subscribe(data => this.assignDataUsers(data));
+    this.timeoutId = setTimeout(
+      () => {
+        this.loadingUsers.next(true);
+        this.service.search(query, 'user')
+          .map(res => res.json())
+          .subscribe(data => this.assignDataUsers(data));
 
-      this.loadingEvents.next(true);
-      this.service.search(query, 'event')
-        .map(res => res.json())
-        .subscribe(data => this.assignDataEvents(data));
-    }, 700);
+        this.loadingEvents.next(true);
+        this.service.search(query, 'event')
+          .map(res => res.json())
+          .subscribe(data => this.assignDataEvents(data));
+      },
+      700
+    );
   }
 
   assignDataUsers(data) {

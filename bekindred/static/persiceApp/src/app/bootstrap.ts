@@ -1,7 +1,7 @@
 /// <reference path="../typings/_custom.d.ts" />
 
 // Angular 2
-import {bind, bootstrap, provide} from 'angular2/angular2';
+import {bootstrap, provide} from 'angular2/angular2';
 
 
 /*

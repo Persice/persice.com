@@ -43,9 +43,6 @@ export class ProfileAboutComponent {
   @Output() acceptEvent: EventEmitter = new EventEmitter;
   @Output() passEvent: EventEmitter = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter = new EventEmitter;
-  constructor() {
-
-  }
 
   passUser(event) {
     this.passEvent.next(true);

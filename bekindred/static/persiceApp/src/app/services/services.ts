@@ -28,5 +28,6 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   mutualfriendsServiceInjectables,
   friendServiceInjectables,
   keywordsServiceInjectables,
-  notificationServiceInjectables
+  notificationServiceInjectables,
+  interestsServiceInjectables
 ];

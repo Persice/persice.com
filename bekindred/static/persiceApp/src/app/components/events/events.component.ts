@@ -8,9 +8,6 @@ let view = require('./events.html');
   template: view
 })
 export class EventsComponent {
-  constructor() {
-
-  }
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   }

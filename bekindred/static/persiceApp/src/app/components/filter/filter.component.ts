@@ -1,11 +1,7 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
-import {
-Component,
-FORM_DIRECTIVES,
-EventEmitter
-} from 'angular2/angular2';
-import {includes, findIndex, forEach, isUndefined} from 'lodash';
+import {Component, FORM_DIRECTIVES} from 'angular2/angular2';
+import {findIndex, isUndefined} from 'lodash';
 
 import {SelectComponent} from '../select/select.component';
 import {RangeSliderComponent} from '../rangeslider/rangeslider.component';

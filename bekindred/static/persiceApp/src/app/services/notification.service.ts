@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable, EventEmitter} from 'angular2/angular2';
+import {provide, Injectable} from 'angular2/angular2';
 import * as Rx from '@reactivex/rxjs';
 
 import {remove, find} from 'lodash';
@@ -10,16 +10,8 @@ import {remove, find} from 'lodash';
 export class NotificationService {
   observers: any[] = [];
 
-
-  constructor(
-
-    ) {
-
-  }
-
   push(content) {
     for (var i = this.observers.length - 1; i >= 0; i--) {
-      let name = this.observers[i].name;
       let subject = this.observers[i].subject;
       subject.next(content);
     }

@@ -21,6 +21,4 @@ let view = require('./headersub.html');
 })
 export class HeaderSubComponent {
   image: string;
-  constructor() {
-  }
 }

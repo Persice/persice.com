@@ -1,9 +1,7 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, NgIf, Inject, ChangeDetectionStrategy} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
-import {RouteParams, Location} from 'angular2/router';
-import * as Rx from '@reactivex/rxjs';
+import {Component, NgIf} from 'angular2/angular2';
+import {Location} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
@@ -25,7 +23,6 @@ declare var jQuery: any;
     UsersListComponent,
     LoadingComponent
   ]
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectionComponent {
   items: Array<any> = [];

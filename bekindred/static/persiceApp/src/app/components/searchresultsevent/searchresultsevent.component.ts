@@ -15,7 +15,4 @@ let view = require('./searchresultsevent.html');
 })
 export class SearchResultsEventComponent {
   event: SearchResultEventModel;
-  constructor() {
-
-  }
 }

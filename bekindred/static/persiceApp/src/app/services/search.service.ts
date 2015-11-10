@@ -1,14 +1,13 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
 import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
-import * as Rx from 'rx';
+import {Http} from 'angular2/http';
 
-import {SearchResultUserModel} from '../models/searchresults.model';
-import {SearchResultEventModel} from '../models/searchresults.model';
+// import {SearchResultUserModel} from '../models/searchresults.model';
+// import {SearchResultEventModel} from '../models/searchresults.model';
 
-let API_URL_USER: string = '/api/v1/auth/user/search/';
-let API_URL_EVENT: string = '/api/v1/event/search/';
+let API_URL_USER = '/api/v1/auth/user/search/';
+let API_URL_EVENT = '/api/v1/event/search/';
 
 
 @Injectable()
@@ -20,7 +19,7 @@ export class SearchService {
 
   }
 
-  public search(query: string, type) {
+  public search(query, type) {
     let params: string = [
     `format=json`,
     `q=${query}`,

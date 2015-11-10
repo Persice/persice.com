@@ -18,9 +18,4 @@ export class SearchKeywordsComponent {
     this.el = el;
   }
 
-  onInit() {
-
-  }
-
-
 }

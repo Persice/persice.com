@@ -3,14 +3,14 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component, provide, EventEmitter, QueryList, Query} from 'angular2/angular2';
+import {Component} from 'angular2/angular2';
 import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Route} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, Route} from 'angular2/router';
 
 
 
@@ -112,7 +112,7 @@ export class AppComponent {
   constructor(
     public userService: UserService,
     public notificationService: NotificationService
-    ) {
+  ) {
     //default image
     this.image = this.userService.getDefaultImage();
   }
@@ -140,9 +140,12 @@ export class AppComponent {
     this.notificationOther.body = data.content;
     this.notificationOther.type = data.type;
     this.notificationOther.active = true;
-    setTimeout(() => {
-      this.notificationOther.active = false;
-    }, 4000);
+    setTimeout(
+      () => {
+        this.notificationOther.active = false;
+      },
+      4000
+    );
   }
 
   // Assign AuthUser user from the /me Api

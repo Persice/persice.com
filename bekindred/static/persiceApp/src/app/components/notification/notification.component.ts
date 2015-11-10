@@ -13,9 +13,6 @@ export class NotificationComponent {
   @Input() title;
   @Input() active;
   @Input() type;
-  constructor() {
-
-  }
 
   close(event) {
     this.active = false;

@@ -24,8 +24,6 @@ export class SearchComponent {
   loadingEvents: boolean = false;
   noResEvents = false;
   noResUsers = false;
-  constructor() {
-  }
 
   updateResultsUsers(results: SearchResultUserModel[]): void {
     this.resultsUsers = results;

@@ -6,7 +6,7 @@ import {ProfileFeaturesComponent} from '../profilefeatures/profilefeatures.compo
 import {ProfileLikesComponent} from '../profilelikes/profilelikes.component';
 import {ProfileMutualsComponent} from '../profilemutuals/profilemutuals.component';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
-import {take, sample, slice} from 'lodash';
+import {take, slice} from 'lodash';
 
 let view = require('./profile.html');
 

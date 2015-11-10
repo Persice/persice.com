@@ -1,11 +1,11 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
 import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
+import {Http} from 'angular2/http';
 
 import {AuthUserModel} from '../models/user.model';
 
-let API_URL: string = '/api/v1/me/';
+let API_URL = '/api/v1/me/';
 
 let DEFAULT_IMAGE = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
 
@@ -23,7 +23,7 @@ export class UserService {
 
   public get() {
 
-    let params: string = [
+    let params = [
       `format=json`
     ].join('&');
 

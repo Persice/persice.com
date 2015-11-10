@@ -6,7 +6,7 @@ import {ImageStretchDirective} from '../../directives/imagestretch.directive';
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
 
-import {take, sample} from 'lodash';
+import {take} from 'lodash';
 
 let view = require('./usercard.html');
 
@@ -22,10 +22,6 @@ export class UserCardComponent {
   user: any;
   onClick: EventEmitter = new EventEmitter;
   mediaUrl: string = '';
-
-  constructor() {
-
-  }
 
   userClicked() {
     this.onClick.next(this.user.id);

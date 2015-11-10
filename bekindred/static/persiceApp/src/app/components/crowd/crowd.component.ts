@@ -1,7 +1,6 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, NgIf, Inject, ChangeDetectionStrategy} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
+import {Component, NgIf, Inject} from 'angular2/angular2';
 import {RouteParams, Location} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
@@ -15,7 +14,7 @@ import {CrowdService} from '../../services/crowd.service';
 import {FriendService} from '../../services/friend.service';
 import {FilterService} from '../../services/filter.service';
 
-import {remove, contains} from 'lodash';
+import {remove} from 'lodash';
 
 let view = require('./crowd.html');
 
@@ -34,7 +33,6 @@ declare var jQuery: any;
     NotificationComponent,
     LoadingCardComponent
   ]
-  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrowdComponent {
   version: string = 'v2';

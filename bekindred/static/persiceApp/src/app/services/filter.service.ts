@@ -1,14 +1,14 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable, EventEmitter} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
+import {provide, Inject, Injectable} from 'angular2/angular2';
+import {Http, Headers, RequestOptions} from 'angular2/http';
 import * as Rx from '@reactivex/rxjs';
 
 import {FilterModel, InterfaceFilter} from '../models/filter.model';
 
 import {remove, find} from 'lodash';
 
-let API_URL: string = '/api/v1/filter/state2/';
+let API_URL = '/api/v1/filter/state2/';
 
 let DEFAULT_FILTERS: InterfaceFilter = {
   distance: 10000,
@@ -81,24 +81,30 @@ export class FilterService {
     opts.headers = headers;
 
     if (this.timeoutIdFiltersSave) window.clearTimeout(this.timeoutIdFiltersSave);
-    this.timeoutIdFiltersSave = window.setTimeout(() => {
-      this.http.patch(
-        resourceUri,
-        JSON.stringify(data),
-        opts)
-        .map(res => res.json())
-        .subscribe(res => {
-          if (this.timeoutIdFiltersEvent) window.clearTimeout(this.timeoutIdFiltersEvent);
-          this.timeoutIdFiltersEvent = window.setTimeout(() => {
-            for (var i = this.observers.length - 1; i >= 0; i--) {
-              let name = this.observers[i].name;
-              let subject = this.observers[i].subject;
-              subject.next(name + ' filters:modified');
-            }
-          }, 250);
+    this.timeoutIdFiltersSave = window.setTimeout(
+      () => {
+        this.http.patch(
+          resourceUri,
+          JSON.stringify(data),
+          opts)
+          .map(res => res.json())
+          .subscribe(res => {
+            if (this.timeoutIdFiltersEvent) window.clearTimeout(this.timeoutIdFiltersEvent);
+            this.timeoutIdFiltersEvent = window.setTimeout(
+              () => {
+                for (var i = this.observers.length - 1; i >= 0; i--) {
+                  let name = this.observers[i].name;
+                  let subject = this.observers[i].subject;
+                  subject.next(name + ' filters:modified');
+                }
+              },
+              250
+            );
 
-        });
-    }, 500);
+          });
+      },
+      500
+    );
 
 
   }
