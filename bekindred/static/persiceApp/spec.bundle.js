@@ -10,7 +10,7 @@
 */
 Error.stackTraceLimit = Infinity;
 require('reflect-metadata');
-require('angular2/test');
+require('angular2/testing');
 require('angular2/mock');
 
 /*
