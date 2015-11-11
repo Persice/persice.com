@@ -76,7 +76,6 @@ export class FilterComponent {
     public filterService: FilterService
   ) {
     this.filterService.get()
-      .map(res => res.json())
       .subscribe(data => this.setFilters(data));
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
