@@ -234,29 +234,25 @@ ELASTICSEARCH_INDEX_SETTINGS = {
     'settings': {
         "analysis": {
             "analyzer": {
+                "synonym_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "standard",
+                    "filter": ["synonym"]
+                },
+                "english_analyzer": {
+                    "type": "english",
+                    "tokenizer": "standard",
+                    "stopwords": "_english_"
+                },
                 "ngram_analyzer": {
                     "type": "custom",
                     "tokenizer": "lowercase",
-                    "filter": ["haystack_ngram"]
+                    "filter": ["haystack_ngram", "synonym", "english"]
                 },
                 "edgengram_analyzer": {
                     "type": "custom",
                     "tokenizer": "lowercase",
                     "filter": ["haystack_edgengram"]
-                },
-                # "synonym_analyzer": {
-                #     "type": "custom",
-                #     "tokenizer": "standard",
-                #     "filter": ["synonym"]
-                # },
-                "english": {
-                    "tokenizer":  "standard",
-                    "filter": [
-                        "english_possessive_stemmer",
-                        "lowercase",
-                        "english_stop",
-                        "english_stemmer"
-                    ]
                 }
             },
             "tokenizer": {
@@ -278,28 +274,20 @@ ELASTICSEARCH_INDEX_SETTINGS = {
                     "min_gram": 3,
                     "max_gram": 15
                 },
-                # "synonym": {
-                #     "type": "synonym",
-                #     "ignore_case": "true",
-                #     "format": "wordnet",
-                #     "synonyms_path": "analysis/synonym.txt"
-                # },
                 "haystack_edgengram": {
                     "type": "edgeNGram",
                     "min_gram": 2,
                     "max_gram": 15
                 },
-                "english_stop": {
-                    "type":       "stop",
-                    "stopwords":  "_english_"
+                "english": {
+                    "type": "stop",
+                    "stopwords": "_english_"
                 },
-                "english_stemmer": {
-                    "type":       "stemmer",
-                    "language":   "english"
-                },
-                "english_possessive_stemmer": {
-                    "type":       "stemmer",
-                    "language":   "possessive_english"
+                "synonym": {
+                    "type": "synonym",
+                    "ignore_case": "true",
+                    "format": "wordnet",
+                    "synonyms_path": "synonym.txt"
                 }
             }
         }

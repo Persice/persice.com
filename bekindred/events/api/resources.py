@@ -402,7 +402,9 @@ class AboutMeResource(ModelResource):
             filter(pk=request.user.id)
 
     def dehydrate(self, bundle):
-        raw_data = json.loads(bundle.obj.raw_data)
+        raw_data = {}
+        if bundle.obj.raw_data:
+            raw_data = json.loads(bundle.obj.raw_data)
         bundle.data.update(raw_data)
         return bundle
 
