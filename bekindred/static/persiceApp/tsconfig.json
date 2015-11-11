@@ -18,6 +18,8 @@
         ],
         "files": [
         "src/app/bootstrap.ts",
+        "src/app/core/http_constants.ts",
+        "src/app/core/util.ts",
         "src/app/components/app.component.ts",
         "src/app/components/connection/connection.component.ts",
         "src/app/components/crowd/crowd.component.ts",
