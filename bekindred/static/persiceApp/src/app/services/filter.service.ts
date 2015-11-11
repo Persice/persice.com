@@ -1,10 +1,11 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http, Headers, RequestOptions} from 'angular2/http';
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
 import * as Rx from '@reactivex/rxjs';
 
 import {FilterModel, InterfaceFilter} from '../models/filter.model';
+import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 
 import {remove, find} from 'lodash';
 
@@ -26,11 +27,11 @@ export class FilterService {
   timeoutIdFiltersSave;
   timeoutIdFiltersEvent;
   observers: any[] = [];
+  defaultFilters: InterfaceFilter = DEFAULT_FILTERS;
+  apiUrl: string = API_URL;
 
   constructor(
-    public http: Http,
-    @Inject(API_URL) private apiUrl: string,
-    @Inject(DEFAULT_FILTERS) private defaultFilters: InterfaceFilter
+    private http: Http
   ) {
 
   }
@@ -55,7 +56,7 @@ export class FilterService {
     return obs.subject;
   }
 
-  public get() {
+  public get(): Rx.Observable<any> {
 
     let params: string = [
       `format=json`
@@ -63,7 +64,7 @@ export class FilterService {
 
     let url = `${this.apiUrl}?${params}`;
 
-    return this.http.get(url);
+    return this.http.get(url).map((res: Response) => res.json());
   }
 
   public getDefaultState() {
@@ -72,22 +73,16 @@ export class FilterService {
 
 
   public save(resourceUri, data) {
-    let headers: Headers = new Headers();
-    let csrftoken = this.getCookieValue('csrftoken');
-    headers.append('X-CSRFToken', csrftoken);
-    headers.append('Content-Type', 'application/json');
-
-    let opts: RequestOptions = new RequestOptions();
-    opts.headers = headers;
+    const body = JSON.stringify(data);
 
     if (this.timeoutIdFiltersSave) window.clearTimeout(this.timeoutIdFiltersSave);
     this.timeoutIdFiltersSave = window.setTimeout(
       () => {
         this.http.patch(
           resourceUri,
-          JSON.stringify(data),
-          opts)
-          .map(res => res.json())
+          body,
+          OPTS_REQ_JSON_CSRF)
+          .map((res: Response) => res.json())
           .subscribe(res => {
             if (this.timeoutIdFiltersEvent) window.clearTimeout(this.timeoutIdFiltersEvent);
             this.timeoutIdFiltersEvent = window.setTimeout(
@@ -109,15 +104,8 @@ export class FilterService {
 
   }
 
-  private getCookieValue(name) {
-    let value = '; ' + document.cookie;
-    let parts = value.split('; ' + name + '=');
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
 
 }
 export var filterServiceInjectables: Array<any> = [
-  provide(FilterService, { useClass: FilterService }),
-  provide(API_URL, { useValue: API_URL }),
-  provide(DEFAULT_FILTERS, { useValue: DEFAULT_FILTERS })
+  provide(FilterService, { useClass: FilterService })
 ];

@@ -36,7 +36,6 @@ export class SearchKeywordsInputComponent {
   afterViewInit() {
 
     this.filterService.get()
-    .map(res => res.json())
     .subscribe(data => this.setKeywords(data));
 
   }
