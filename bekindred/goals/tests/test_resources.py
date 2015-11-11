@@ -52,7 +52,6 @@ class TestSubjectResource(ResourceTestCase):
         self.assertEqual(Subject.objects.count(), 3)
 
 
-
 class TestGoalResource(ResourceTestCase):
     def setUp(self):
         super(TestGoalResource, self).setUp()

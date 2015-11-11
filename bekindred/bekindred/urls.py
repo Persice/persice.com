@@ -1,22 +1,28 @@
-from django.conf.urls import patterns, include, url
-from tastypie.api import Api
+from django.conf import settings
+from django.conf.urls import include, patterns, url
 from django.contrib import admin
-from events.api.resources import EventResource, MyEventFeedResource, AllEventFeedResource, FriendsEventFeedResource, \
-    MembershipResource, EventFilterStateResource, EventConnections, EventAttendees, MyConnectionEventFeedResource, \
-    AboutMeResource, FilterStateResource
-
-from friends.api.resources import FriendsResource, ConnectionsResource, FriendsNewResource, FriendsNewCounterResource
-from goals.api.resources import SubjectResource, MatchFilterStateResource, GoalResource, OfferResource, \
-    FacebookLikeResource
+from events.api.resources import (AboutMeResource, AllEventFeedResource,
+                                  EventAttendees, EventConnections,
+                                  EventFilterStateResource, EventResource,
+                                  FilterStateResource,
+                                  FriendsEventFeedResource, MembershipResource,
+                                  MyConnectionEventFeedResource,
+                                  MyEventFeedResource)
+from friends.api.resources import (ConnectionsResource,
+                                   FriendsNewCounterResource,
+                                   FriendsNewResource, FriendsResource)
+from goals.api.resources import (FacebookLikeResource, GoalResource,
+                                 MatchFilterStateResource, OfferResource,
+                                 SubjectResource)
 from interests.api.resources import InterestResource, InterestSubjectResource
-from matchfeed.api.resources import MatchedFeedResource, MutualFriendsResource, ProfileResource, \
-    MatchedFeedResource2
-from msgs.api.resources import MessageResource, InboxResource, InboxLastResource, UnreadMessageCounter, \
-    ChatMessageResource
-
+from matchfeed.api.resources import (MatchedFeedResource, MatchedFeedResource2,
+                                     MutualFriendsResource, ProfileResource)
+from msgs.api.resources import (ChatMessageResource, InboxLastResource,
+                                InboxResource, MessageResource,
+                                UnreadMessageCounter)
 from photos.api.resources import FacebookPhotoResource, UserResource
+from tastypie.api import Api
 from world.api.resources import UserLocationResource
-
 
 admin.autodiscover()
 
@@ -71,10 +77,8 @@ urlpatterns = patterns('',
                            {'template_name': 'registration/login_dev.html'}, name='auth_login_dev'),
                        url(r'^accounts/', include('django_facebook.auth_urls')),
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^photo/', include('photos.urls')),
-)
-
-from django.conf import settings
+                       url(r'^photo/', include('photos.urls'))
+                       )
 
 
 urlpatterns += patterns('',
@@ -91,4 +95,4 @@ if settings.DEBUG:
     urlpatterns += patterns('',
                             url(r'^__debug__/', include(debug_toolbar.urls)),
                             url(r'api/doc/', include('tastypie_swagger.urls', namespace='tastypie_swagger'))
-    )
+                            )

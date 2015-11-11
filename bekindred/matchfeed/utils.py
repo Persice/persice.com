@@ -57,7 +57,7 @@ class MatchedUser(object):
         self.distance = calculate_distance(current_user_id, user_id2)
         self.score = MatchEngine.objects.count_common_goals_and_offers(current_user_id, user_id2)
         self.friends_score = len(Friend.objects.mutual_friends(current_user_id, user_id2)) + \
-                             len(FacebookFriendUser.objects.mutual_friends(current_user_id, user_id2))
+            len(FacebookFriendUser.objects.mutual_friends(current_user_id, user_id2))
 
     def _add(self, model, attr_name, limit=2):
         # TODO: update accordiing to SUbjects and SUbjectInteres
@@ -77,8 +77,8 @@ class MatchedResults(object):
         self.items = []
         self.current_user = FacebookCustomUserActive.objects.get(pk=current_user_id)
         exclude_friends = Friend.objects.all_my_friends(current_user_id) + Friend.objects.thumbed_up_i(current_user_id) + \
-                          FacebookFriendUser.objects.all_my_friends(current_user_id) + \
-                          Friend.objects.deleted_friends(current_user_id)
+            FacebookFriendUser.objects.all_my_friends(current_user_id) + \
+            Friend.objects.deleted_friends(current_user_id)
         self.exclude_user_ids = exclude_user_ids + [current_user_id] + exclude_friends
 
     def find(self):

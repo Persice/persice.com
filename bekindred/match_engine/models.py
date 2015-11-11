@@ -471,4 +471,3 @@ class MatchEngine(AbstractMatchEngine):
 
 class ElasticSearchMatchEngine(AbstractMatchEngine):
     pass
-

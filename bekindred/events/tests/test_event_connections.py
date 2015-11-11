@@ -11,7 +11,7 @@ class TestEventConnections(ResourceTestCase):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test',
                                                            first_name='Andrii', last_name='Soldatenko')
         self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test',
-                                                           first_name='Andrii', last_name='Soldatenko')
+                                                            first_name='Andrii', last_name='Soldatenko')
         self.event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
                                           ends_on='2055-06-14T05:15:22.792659',
                                           name="Play piano", location=[7000, 22965.83])

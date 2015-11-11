@@ -100,8 +100,7 @@ class EventResource(MultiPartResource, ModelResource):
         'events.api.resources.MembershipResource',
         attribute=lambda bundle:
         bundle.obj.membership_set.filter(
-            user__in=Friend.objects.all_my_friends(user_id=
-                                                   bundle.request.user.id) +
+            user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id) +
             [bundle.request.user.id], rsvp='yes'),
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,

@@ -138,6 +138,7 @@ class GoalManagerTestCase(TestCase):
         goals = [unicode(x) for x in MatchEngineManager.match_interests_to_goals(self.user.id, [])]
         self.assertEqual(goals, ['python'])
 
+
 class OfferManagerTestCase(TestCase):
     def setUp(self):
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
