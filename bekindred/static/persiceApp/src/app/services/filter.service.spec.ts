@@ -1,53 +1,27 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {
-Injector,
-provide,
-Inject
-} from 'angular2/angular2';
+import {Injector, provide} from 'angular2/angular2';
 
-import {
-afterEach,
-beforeEach,
-describe,
-expect,
-injectAsync,
-it
-} from 'angular2/testing';
+import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
+  beforeEachProviders
+}from 'angular2/testing';
 
-
-import {
-MockBackend,
-MockConnection,
-ConnectionBackend,
-BaseRequestOptions,
-ResponseOptions,
-Response,
-Http
+import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
+  ResponseOptions, RequestMethods
 } from 'angular2/http';
 
 import {FilterService} from './filter.service';
 import {FilterModel, InterfaceFilter} from '../models/filter.model';
+import {filters} from './filters.mock';
 
-describe('Filter Service', () => {
+describe('FilterService', () => {
 
   let injector: Injector;
   let backend: MockBackend;
   let response;
+  let connection;
 
   let filterService: FilterService;
-
-  let API_URL: string = '/api/v1/filter/state2/';
-
-  let DEFAULT_FILTERS: InterfaceFilter = {
-    distance: 10000,
-    distance_unit: 'miles',
-    keyword: '',
-    gender: 'm,f',
-    min_age: '25',
-    max_age: '60',
-    order_criteria: 'match_score'
-  };
 
   beforeEach(() => {
     injector = Injector.resolveAndCreate([
@@ -58,40 +32,46 @@ describe('Filter Service', () => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [
-          MockBackend,
-          BaseRequestOptions
+        MockBackend,
+        BaseRequestOptions
         ]
       }),
       provide(FilterService, {
         useFactory: (
-          http: Http,
-          API_URL: string,
-          DEFAULT_FILTERS: InterfaceFilter
-        ) => {
-          return new FilterService(http, API_URL, DEFAULT_FILTERS);
+          http: Http
+          ) => {
+          return new FilterService(http);
         },
         deps: [
-          Http,
-          API_URL,
-          DEFAULT_FILTERS
+        Http
         ]
       })
-    ]);
+      ]);
 
     backend = injector.get(MockBackend);
     filterService = injector.get(FilterService);
-    response = new Response(
-      new ResponseOptions({ body: 'base response' })
-    );
 
   });
 
   afterEach(() => backend.verifyNoPendingRequests());
 
 
-  it('should do something with filter service', injectAsync([FilterService], (filterService) => {
-    // filterService.done();
-    expect(true).toBe(true);
-  }));
+  it('should perform get request', (done: Function) => {
+    ensureCommunication(backend, RequestMethods.Get, filters);
+
+    filterService.get()
+    .subscribe(resp => {
+      expect(resp).toBe(filters);
+      done();
+    });
+
+  });
+
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+    backend.connections.subscribe((c: any) => {
+      expect(c.request.method).toBe(reqMethod);
+      c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));
+    });
+  }
 
 });
