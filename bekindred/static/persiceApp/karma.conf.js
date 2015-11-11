@@ -1,4 +1,5 @@
 // @AngularClass
+var webpackConfig = require('./webpack.config.js');
 
 module.exports = function(config) {
   var _config = {
@@ -14,15 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [{
-        pattern: './src/public/lib/es6-shim.js',
-        watched: false
-      },
+      pattern: './src/public/lib/es6-shim.js',
+      watched: false
+    },
       // { pattern: 'test/**/*.spec.ts', watched: false }
       {
         pattern: 'spec.bundle.js',
         watched: false
-      }
-    ],
+      },
+
+      ],
 
 
     // list of files to exclude
@@ -32,8 +34,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec.bundle.js': ['webpack', 'sourcemap']
-        // 'test/**/*.spec.ts': ['webpack', 'sourcemap']
+      'spec.bundle.js': ['webpack', 'sourcemap'],
     },
 
     webpack: {
@@ -46,14 +47,14 @@ module.exports = function(config) {
           'common': 'src/common',
         }
       },
-      devtool: 'inline-source-map',
+      devtool: 'inline-source-map', //'inline-source-map',
       module: {
         loaders: [{
           test: /\.ts$/,
-          loader: 'ts?ignoreWarnings[]=2309,2345',
+          loader: 'ts-loader',
           exclude: [
-            /web_modules/,
-            /node_modules/
+          /web_modules/,
+          /node_modules/
           ]
         }, {
           test: /\.json$/,
@@ -66,11 +67,13 @@ module.exports = function(config) {
           loader: 'raw'
         }]
       },
+      quiet: false,
       stats: {
         colors: true,
         reasons: true
       },
-      debug: false
+      debug: true,
+      resolve: webpackConfig.resolve
     },
 
     webpackServer: {
@@ -78,10 +81,19 @@ module.exports = function(config) {
     },
 
 
+    coverageReporter: {
+      reporters:[
+      {type: 'html', dir:'coverage/'},
+      {type: 'text'},
+      {type: 'text-summary'}
+      ],
+    },
+
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['mocha'],
 
     // web server port
     port: 9876,
