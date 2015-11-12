@@ -61,8 +61,10 @@ export class FilterService {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
-  public getDefaultState() {
+  public getDefaultState(): InterfaceFilter {
+
     return FilterService.DEFAULT_FILTERS;
+
   }
 
   public findOneByUri(resourceUri: string): Rx.Observable<InterfaceFilter> {

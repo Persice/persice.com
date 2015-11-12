@@ -1,18 +1,20 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
+// TODO: add tests for observers
+
 import {Injector, provide} from 'angular2/angular2';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
-  beforeEachProviders
+beforeEachProviders
 }from 'angular2/testing';
 
 import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-  ResponseOptions, RequestMethods
+ResponseOptions, RequestMethods
 } from 'angular2/http';
 
 import {FilterService} from './filter.service';
 import {FilterModel, InterfaceFilter} from '../models/filter.model';
-import {filters} from './filters.mock';
+import {filters, filter, defaultFilters} from './filter.mock';
 
 describe('FilterService', () => {
 
@@ -32,21 +34,21 @@ describe('FilterService', () => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [
-        MockBackend,
-        BaseRequestOptions
+          MockBackend,
+          BaseRequestOptions
         ]
       }),
       provide(FilterService, {
         useFactory: (
           http: Http
-          ) => {
+        ) => {
           return new FilterService(http);
         },
         deps: [
-        Http
+          Http
         ]
       })
-      ]);
+    ]);
 
     backend = injector.get(MockBackend);
     filterService = injector.get(FilterService);
@@ -56,15 +58,35 @@ describe('FilterService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
 
-  it('should perform get request', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, filters);
+  it('should be able to get default state', (done: Function) => {
+    let res = filterService.getDefaultState();
+    expect(res).toEqual(defaultFilters);
+    done();
+  });
 
-    filterService.get()
-    .subscribe(resp => {
-      expect(resp).toBe(filters);
+  it('should perform find resource', (done: Function) => {
+    ensureCommunication(backend, RequestMethods.Get, filters);
+    filterService.find()
+      .subscribe(resp => {
+        expect(resp).toBe(filters);
+        done();
+      });
+  });
+
+  it('should perform update one resource by uri', (done: Function) => {
+    ensureCommunication(backend, RequestMethods.Patch, filter);
+    filterService.updateOne(filter.resource_uri, filter).subscribe((resp: InterfaceFilter) => {
+      expect(resp).toBe(filter);
       done();
     });
+  });
 
+  it('should perform find one resource by uri', (done: Function) => {
+    ensureCommunication(backend, RequestMethods.Get, filter);
+    filterService.findOneByUri(filter.resource_uri).subscribe((resp: InterfaceFilter) => {
+      expect(resp).toBe(filter);
+      done();
+    });
   });
 
   function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
