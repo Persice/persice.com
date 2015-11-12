@@ -1,22 +1,18 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http} from 'angular2/http';
-
-let API_URL_V1 = '/api/v1/mutual/friends/';
-
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
+import * as Rx from '@reactivex/rxjs';
 
 @Injectable()
 export class MutualFriendsService {
+  static API_URL_V1: string = '/api/v1/mutual/friends/';
   next: string = '';
-  constructor(
-    public http: Http,
-    @Inject(API_URL_V1) private apiUrlV1: string
-  ) {
+  constructor(private http: Http) {
 
   }
 
-  public get(url: string, limit: number, version: string, id: number) {
+  public get(url: string, limit: number, version: string, id: number): Rx.Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -29,7 +25,7 @@ export class MutualFriendsService {
 
       switch (version) {
         default:
-          apiUrl = `${this.apiUrlV1}?${params}`;
+          apiUrl = `${MutualFriendsService.API_URL_V1}?${params}`;
           break;
       }
       this.next = apiUrl;
@@ -38,13 +34,12 @@ export class MutualFriendsService {
       this.next = url;
     }
 
-    return this.http.get(this.next);
+    return this.http.get(this.next).map((res: Response) => res.json());
   }
 
 
 }
 
 export var mutualfriendsServiceInjectables: Array<any> = [
-  provide(MutualFriendsService, { useClass: MutualFriendsService }),
-  provide(API_URL_V1, { useValue: API_URL_V1 }),
+  provide(MutualFriendsService, { useClass: MutualFriendsService })
 ];

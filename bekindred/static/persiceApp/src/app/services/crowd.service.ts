@@ -1,24 +1,20 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http} from 'angular2/http';
-
-let API_URL_V1 = '/api/v1/matchfeed/';
-let API_URL_V2 = '/api/v1/matchfeed2/';
-
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
+import * as Rx from '@reactivex/rxjs';
 
 @Injectable()
 export class CrowdService {
+  static API_URL_V1: string = '/api/v1/matchfeed/';
+  static API_URL_V2: string = '/api/v1/matchfeed2/';
   next: string = '';
-  constructor(
-    public http: Http,
-    @Inject(API_URL_V1) private apiUrlV1: string,
-    @Inject(API_URL_V2) private apiUrlV2: string
-  ) {
+
+  constructor(private http: Http) {
 
   }
 
-  public get(url: string, limit: number, version: string, filter: boolean) {
+  public get(url: string, limit: number, version: string, filter: boolean): Rx.Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -31,13 +27,13 @@ export class CrowdService {
 
       switch (version) {
         case 'v1':
-          apiUrl = `${this.apiUrlV1}?${params}`;
+          apiUrl = `${CrowdService.API_URL_V1}?${params}`;
           break;
         case 'v2':
-          apiUrl = `${this.apiUrlV2}?${params}`;
+          apiUrl = `${CrowdService.API_URL_V2}?${params}`;
           break;
         default:
-          apiUrl = `${this.apiUrlV2}?${params}`;
+          apiUrl = `${CrowdService.API_URL_V2}?${params}`;
           break;
       }
       this.next = apiUrl;
@@ -46,14 +42,12 @@ export class CrowdService {
       this.next = url;
     }
 
-    return this.http.get(this.next);
+    return this.http.get(this.next).map((res: Response) => res.json());
   }
 
 
 }
 
 export var crowdServiceInjectables: Array<any> = [
-  provide(CrowdService, { useClass: CrowdService }),
-  provide(API_URL_V1, { useValue: API_URL_V1 }),
-  provide(API_URL_V2, { useValue: API_URL_V2 })
+  provide(CrowdService, { useClass: CrowdService })
 ];

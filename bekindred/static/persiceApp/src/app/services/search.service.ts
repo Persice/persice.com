@@ -1,53 +1,44 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http} from 'angular2/http';
-
-// import {SearchResultUserModel} from '../models/searchresults.model';
-// import {SearchResultEventModel} from '../models/searchresults.model';
-
-let API_URL_USER = '/api/v1/auth/user/search/';
-let API_URL_EVENT = '/api/v1/event/search/';
-
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
+import * as Rx from '@reactivex/rxjs';
 
 @Injectable()
 export class SearchService {
+  static API_URL_USER: string = '/api/v1/auth/user/search/';
+  static API_URL_EVENT: string = '/api/v1/event/search/';
 
-  constructor(public http: Http,
-    @Inject(API_URL_USER) private apiUrlUser: string,
-    @Inject(API_URL_EVENT) private apiUrlEvent: string) {
+  constructor(private http: Http) {
 
   }
 
-  public search(query, type) {
+  public search(query, type): Rx.Observable<any> {
     let params: string = [
-    `format=json`,
-    `q=${query}`,
-    `page=1`,
+      `format=json`,
+      `q=${query}`,
+      `page=1`,
     ].join('&');
     let apiUrl = '';
     switch (type) {
       case 'user':
-      apiUrl = this.apiUrlUser;
-      break;
+        apiUrl = SearchService.API_URL_USER;
+        break;
       case 'event':
-      apiUrl = this.apiUrlEvent;
-      break;
+        apiUrl = SearchService.API_URL_EVENT;
+        break;
 
       default:
 
-      break;
+        break;
     }
 
     let queryUrl: string = `${apiUrl}?${params}`;
-    return this.http.get(queryUrl);
+    return this.http.get(queryUrl).map((res: Response) => res.json());
   }
-
 
 }
 
 export var searchServiceInjectables: Array<any> = [
-provide(SearchService, { useClass: SearchService }),
-provide(API_URL_USER, { useValue: API_URL_USER }),
-provide(API_URL_EVENT, { useValue: API_URL_EVENT })
+  provide(SearchService, { useClass: SearchService })
 ];

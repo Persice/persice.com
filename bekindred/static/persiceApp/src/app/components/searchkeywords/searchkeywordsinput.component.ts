@@ -29,14 +29,14 @@ export class SearchKeywordsInputComponent {
     public filterService: FilterService,
     public keywordsService: KeywordsService,
     public notificationService: NotificationService
-    ) {
+  ) {
     this.el = el;
   }
 
   afterViewInit() {
 
-    this.filterService.get()
-    .subscribe(data => this.setKeywords(data));
+    this.filterService.find()
+      .subscribe(data => this.setKeywords(data));
 
   }
 
@@ -128,14 +128,17 @@ export class SearchKeywordsInputComponent {
       }
 
     });
-}
+  }
 
-save(tokens) {
-  let data = {
-    keyword: tokens,
-    user: this.filters.state.user
-  };
-  this.filterService.save(this.filters.state.resource_uri, data);
-}
+  save(tokens) {
+    let data = {
+      keyword: tokens,
+      user: this.filters.state.user
+    };
+    this.filterService.updateOne(this.filters.state.resource_uri, data)
+      .subscribe(res => {
+        this.filterService.publishObservers();
+      });
+  }
 
 }

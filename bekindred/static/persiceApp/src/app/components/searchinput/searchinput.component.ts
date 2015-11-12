@@ -57,12 +57,10 @@ export class SearchInputComponent {
       () => {
         this.loadingUsers.next(true);
         this.service.search(query, 'user')
-          .map(res => res.json())
           .subscribe(data => this.assignDataUsers(data));
 
         this.loadingEvents.next(true);
         this.service.search(query, 'event')
-          .map(res => res.json())
           .subscribe(data => this.assignDataEvents(data));
       },
       700

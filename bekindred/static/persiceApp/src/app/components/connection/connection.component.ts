@@ -67,7 +67,6 @@ export class ConnectionComponent {
     if (this.next === null) return;
     this.loading = true;
     this.service.get(this.next, this.limit, 'v1', this.filter)
-      .map(res => res.json())
       .subscribe(data => this.assignList(data));
   }
 

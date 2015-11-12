@@ -75,7 +75,7 @@ export class FilterComponent {
   constructor(
     public filterService: FilterService
   ) {
-    this.filterService.get()
+    this.filterService.find()
       .subscribe(data => this.setFilters(data));
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
@@ -153,7 +153,10 @@ export class FilterComponent {
     delete data.keyword;
 
     let resourceUri = this.filters.state.resource_uri;
-    this.filterService.save(resourceUri, data);
+    this.filterService.updateOne(resourceUri, data)
+    .subscribe(res => {
+      this.filterService.publishObservers();
+    });
   }
 
 

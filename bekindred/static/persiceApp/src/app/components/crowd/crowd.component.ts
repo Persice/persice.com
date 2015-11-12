@@ -94,7 +94,6 @@ export class CrowdComponent {
       this.loadingInitial = true;
     }
     this.service.get(this.next, this.limit, this.version, this.filter)
-      .map(res => res.json())
       .subscribe(data => this.assignList(data));
   }
 
@@ -162,7 +161,6 @@ export class CrowdComponent {
   passUser(event) {
     this.profileViewActive = false;
     this.friendService.saveFriendship(-1, this.selectedUser.id)
-      .map(res => res.json())
       .subscribe(data => {
         remove(this.items, (item) => {
           return item.id === this.selectedUser.id;
@@ -177,7 +175,6 @@ export class CrowdComponent {
   acceptUser(event) {
     this.profileViewActive = false;
     this.friendService.saveFriendship(0, this.selectedUser.id)
-      .map(res => res.json())
       .subscribe(data => {
         remove(this.items, (item) => {
           return item.id === this.selectedUser.id;
