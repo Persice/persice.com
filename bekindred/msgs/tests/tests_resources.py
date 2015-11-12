@@ -7,6 +7,7 @@ from msgs.models import ChatMessage
 from postman.api import pm_write
 from postman.models import Message
 
+
 class TestMessagesResource(ResourceTestCase):
     def setUp(self):
         super(TestMessagesResource, self).setUp()

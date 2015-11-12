@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django_facebook.models import FacebookCustomUser
 from social_auth.db.django_models import UserSocialAuth
-from goals.models import Goal
 
 
 def deactivate_user(request, template_name='members/account_confirm_delete.html'):

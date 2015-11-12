@@ -6,3 +6,4 @@ ipdb
 PyYAML 
 python-jenkins
 unittest-xml-reporting
+coverage

@@ -85,7 +85,7 @@ class GuardianAuthorization(DjangoAuthorization):
 
     def read_list(self, object_list, bundle):
         return self.generic_list_check(object_list, bundle,
-            self.view_permission_code)
+                                       self.view_permission_code)
 
     def update_list(self, object_list, bundle):
         return object_list
@@ -99,7 +99,7 @@ class GuardianAuthorization(DjangoAuthorization):
 
     def read_detail(self, object_list, bundle):
         return self.generic_item_check(object_list, bundle,
-            self.view_permission_code)
+                                       self.view_permission_code)
 
     def update_detail(self, object_list, bundle):
         return True

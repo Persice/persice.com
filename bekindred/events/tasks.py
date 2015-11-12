@@ -1,9 +1,10 @@
 from __future__ import absolute_import
 
 from celery import task
+from django.dispatch import receiver
 from easy_thumbnails.files import generate_all_aliases
-
-from events.models import Membership, CumulativeMatchScore, Event
+from easy_thumbnails.signals import saved_file
+from events.models import CumulativeMatchScore, Event, Membership
 from events.utils import calc_score
 from members.models import FacebookCustomUserActive
 
@@ -46,10 +47,6 @@ def generate_thumbnails(model, pk, field):
     instance = model._default_manager.get(pk=pk)
     fieldfile = getattr(instance, field)
     generate_all_aliases(fieldfile, include_global=True)
-
-
-from django.dispatch import receiver
-from easy_thumbnails.signals import saved_file
 
 
 @receiver(saved_file)

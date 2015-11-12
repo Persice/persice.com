@@ -72,7 +72,6 @@ class TestMatchQuerySet(BaseTestCase):
         self.i_subject4 = InterestSubject.objects. \
             create(description='kiteboarding')
 
-
         rebuild_index.Command().handle(interactive=False)
 
     def tearDown(self):

@@ -18,4 +18,3 @@ class ChatMessageTestCase(TestCase):
         Membership.objects.create(user=self.user, event=event)
         m = ChatMessage.objects.create(body='new', event=event)
         self.assertEqual(ChatMessage.objects.all().count(), 1)
-

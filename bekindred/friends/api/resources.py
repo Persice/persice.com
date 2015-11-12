@@ -338,7 +338,7 @@ class ConnectionsResource2(Resource):
                 continue
 
             new_obj.twitter_provider, new_obj.linkedin_provider, \
-            new_obj.twitter_username = social_extra_data(new_obj.friend_id)
+                new_obj.twitter_username = social_extra_data(new_obj.friend_id)
 
             new_obj.mutual_bk_friends = Friend.objects. \
                 mutual_friends(current_user, new_obj.friend_id)
@@ -363,10 +363,10 @@ class ConnectionsResource2(Resource):
                 t['count_mutual_twitter_followers']
 
             new_obj.mutual_friends = new_obj.mutual_bk_friends_count + \
-                                     new_obj.mutual_fb_friends_count + \
-                                     new_obj.mutual_linkedin_connections_count + \
-                                     new_obj.mutual_twitter_friends_count + \
-                                     new_obj.mutual_twitter_followers_count
+                new_obj.mutual_fb_friends_count + \
+                new_obj.mutual_linkedin_connections_count + \
+                new_obj.mutual_twitter_friends_count + \
+                new_obj.mutual_twitter_followers_count
 
             m = MatchQuerySet.between(current_user, new_obj.friend_id)
             new_obj.common_goals_offers_interests = m[0].score if m else 0
