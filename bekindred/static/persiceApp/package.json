@@ -41,7 +41,7 @@
   "homepage": "https://persice.com",
   "dependencies": {
     "@reactivex/rxjs": "5.0.0-alpha.7",
-    "angular2": "2.0.0-alpha.45",
+    "angular2": "2.0.0-alpha.46",
     "lodash": "^3.10.1",
     "lodash-node": "^3.10.1",
     "moment": "^2.10.6",

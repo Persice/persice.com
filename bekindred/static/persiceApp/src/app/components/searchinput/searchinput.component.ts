@@ -24,14 +24,14 @@ let view = require('./searchinput.html');
   template: view
 })
 export class SearchInputComponent {
-  reset: EventEmitter = new EventEmitter();
-  loadingUsers: EventEmitter = new EventEmitter();
-  focusedInput: EventEmitter = new EventEmitter();
-  loadingEvents: EventEmitter = new EventEmitter();
-  resultsUsers: EventEmitter = new EventEmitter();
-  resultsEvents: EventEmitter = new EventEmitter();
-  totalEvents: EventEmitter = new EventEmitter();
-  totalUsers: EventEmitter = new EventEmitter();
+  reset: EventEmitter<any> = new EventEmitter();
+  loadingUsers: EventEmitter<any> = new EventEmitter();
+  focusedInput: EventEmitter<any> = new EventEmitter();
+  loadingEvents: EventEmitter<any> = new EventEmitter();
+  resultsUsers: EventEmitter<any> = new EventEmitter();
+  resultsEvents: EventEmitter<any> = new EventEmitter();
+  totalEvents: EventEmitter<any> = new EventEmitter();
+  totalUsers: EventEmitter<any> = new EventEmitter();
   timeoutId: number;
 
   constructor(public service: SearchService, public http: Http) {

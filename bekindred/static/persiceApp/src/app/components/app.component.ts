@@ -53,32 +53,32 @@ let view = require('./app.html');
   new Route({
     path: '/',
     component: HomeComponent,
-    as: 'Home'
+    name: 'Home'
   }),
   new Route({
     path: '/crowd/:version',
     component: CrowdComponent,
-    as: 'Crowd'
+    name: 'Crowd'
   }),
   new Route({
     path: '/messages',
     component: MessageComponent,
-    as: 'Messages'
+    name: 'Messages'
   }),
   new Route({
     path: '/connections',
     component: ConnectionComponent,
-    as: 'Connections'
+    name: 'Connections'
   }),
   new Route({
     path: '/events',
     component: EventsComponent,
-    as: 'Events'
+    name: 'Events'
   }),
   new Route({
     path: '/profilepage',
     component: ProfileComponent,
-    as: 'Profile'
+    name: 'Profile'
   })
 ])
 @Component({

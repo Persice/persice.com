@@ -14,7 +14,7 @@ let view = require('./userslist.html');
 })
 export class UsersListComponent {
   users: Array<any>;
-  onClicked: EventEmitter = new EventEmitter();
+  onClicked: EventEmitter<any> = new EventEmitter();
 
   onUserClicked(data) {
     this.onClicked.next(data);

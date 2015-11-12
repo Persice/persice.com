@@ -20,7 +20,7 @@ let view = require('./usercard.html');
 })
 export class UserCardComponent {
   user: any;
-  onClick: EventEmitter = new EventEmitter;
+  onClick: EventEmitter<any> = new EventEmitter;
   mediaUrl: string = '';
 
   userClicked() {

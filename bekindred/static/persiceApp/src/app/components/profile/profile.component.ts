@@ -24,9 +24,9 @@ let view = require('./profile.html');
 export class ProfileComponent {
   @Input() user;
   @Input() mutuals;
-  @Output() acceptEvent: EventEmitter = new EventEmitter;
-  @Output() passEvent: EventEmitter = new EventEmitter;
-  @Output() closeprofileEvent: EventEmitter = new EventEmitter;
+  @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
+  @Output() passEvent: EventEmitter<any> = new EventEmitter;
+  @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
   profileInterests: any[] = [];
   profileInterestsMore: any[] = [];
   profileGoals: any[] = [];

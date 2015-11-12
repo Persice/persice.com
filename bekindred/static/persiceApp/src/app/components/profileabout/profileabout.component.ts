@@ -40,9 +40,9 @@ export class ProfileAboutComponent {
   @Input() distanceUnit;
   @Input() gender;
   @Input() score;
-  @Output() acceptEvent: EventEmitter = new EventEmitter;
-  @Output() passEvent: EventEmitter = new EventEmitter;
-  @Output() closeprofileEvent: EventEmitter = new EventEmitter;
+  @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
+  @Output() passEvent: EventEmitter<any> = new EventEmitter;
+  @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
 
   passUser(event) {
     this.passEvent.next(true);
