@@ -37,6 +37,19 @@ export class NotificationService {
     return obs.subject;
   }
 
+  hasObserver(name) {
+    let obs = find(this.observers, (o) => {
+      return o.name === name;
+    });
+
+    if (obs) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
 }
 export var notificationServiceInjectables: Array<any> = [
 provide(NotificationService, { useClass: NotificationService })

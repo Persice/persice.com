@@ -14,13 +14,12 @@ export class FriendService {
 
   }
 
-  public get(url: string, limit: number, version: string, filter: boolean): Rx.Observable<any> {
+  public get(url: string, limit: number): Rx.Observable<any> {
 
     if (url === '') {
       let params: string = [
         `format=json`,
         `limit=${limit}`,
-        `filter=${filter}`,
         `offset=0`,
       ].join('&');
 

@@ -75,7 +75,7 @@ export class ProfileComponent {
   }
 
   getMutualFriends(id) {
-    this.mutualfriendsService.get('', 100, 'v1', id)
+    this.mutualfriendsService.get('', 100, id)
       .subscribe(data => this.assignMutualFriends(data));
   }
 

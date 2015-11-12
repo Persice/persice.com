@@ -31,7 +31,7 @@ export class InterestsService {
     let url = `${InterestsService.API_URL}?${params}`;
 
     return this.http.get(url)
-      .map((res: Response) => res.json);
+      .map((res: Response) => res.json());
   }
 
 }

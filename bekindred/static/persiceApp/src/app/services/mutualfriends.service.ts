@@ -12,7 +12,7 @@ export class MutualFriendsService {
 
   }
 
-  public get(url: string, limit: number, version: string, id: number): Rx.Observable<any> {
+  public get(url: string, limit: number, id: number): Rx.Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -21,14 +21,8 @@ export class MutualFriendsService {
         `user_id=${id}`,
         `offset=0`,
       ].join('&');
-      let apiUrl = '';
 
-      switch (version) {
-        default:
-          apiUrl = `${MutualFriendsService.API_URL_V1}?${params}`;
-          break;
-      }
-      this.next = apiUrl;
+      this.next = `${MutualFriendsService.API_URL_V1}?${params}`;
     }
     else {
       this.next = url;

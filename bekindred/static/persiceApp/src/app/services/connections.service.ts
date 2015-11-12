@@ -13,7 +13,7 @@ export class ConnectionsService {
 
   }
 
-  public get(url: string, limit: number, version: string, filter: boolean): Rx.Observable<any> {
+  public get(url: string, limit: number, filter: boolean): Rx.Observable<any> {
 
     if (url === '') {
       let params: string = [

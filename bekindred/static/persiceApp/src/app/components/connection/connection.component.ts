@@ -66,7 +66,7 @@ export class ConnectionComponent {
   getList() {
     if (this.next === null) return;
     this.loading = true;
-    this.service.get(this.next, this.limit, 'v1', this.filter)
+    this.service.get(this.next, this.limit, this.filter)
       .subscribe(data => this.assignList(data));
   }
 
