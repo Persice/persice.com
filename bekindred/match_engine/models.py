@@ -397,15 +397,15 @@ class ElasticSearchMatchEngineManager(models.Manager):
         if is_filter:
             fs = FilterState.objects.filter(user=user)
             gender_predicate = {}
+            age_predicate = {}
             if fs:
-                if fs[0].gender in ('m,f', 'f,m'):
-                    gender_predicate = [{"term": {"gender": 'm'}},
-                                        {"term": {"gender": 'f'}},
-                                        {"term": {"gender": 'm,f'}}]
-                else:
-                    gender_predicate = {"term": {"gender": fs[0].gender}}
+                age_predicate = {"range": {"age": {"gte": fs[0].min_age,
+                                                   "lte": fs[0].max_age}}}
 
-            predicate = gender_predicate
+                if fs[0].gender in ('m,f', 'f,m'):
+                    gender_predicate = []
+                else:
+                    gender_predicate = [{"term": {"gender": fs[0].gender}}]
             body = {
                 "highlight": {
                     "fields": {
@@ -433,8 +433,9 @@ class ElasticSearchMatchEngineManager(models.Manager):
                                         }
                                     }
                                 ],
-                                "should": [
-                                    predicate
+                                "should": gender_predicate,
+                                "must": [
+                                    age_predicate
                                 ]
                             }
                         }
