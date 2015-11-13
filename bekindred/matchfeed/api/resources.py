@@ -217,7 +217,10 @@ class MatchedFeedResource2(Resource):
 
     def get_object_list(self, request):
         # TODO: Add filter based on FilterState model
-        match_users = MatchQuerySet.all(request.user.id)
+        if request.GET.get('filter') == 'true':
+            match_users = MatchQuerySet.all(request.user.id, is_filter=True)
+        else:
+            match_users = MatchQuerySet.all(request.user.id)
         return match_users
 
     def obj_get_list(self, bundle, **kwargs):
