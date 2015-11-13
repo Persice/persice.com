@@ -21,8 +21,8 @@ import {RouteConfig, ROUTER_DIRECTIVES, Route} from 'angular2/router';
 
 import {HomeComponent} from './home/home.component';
 import {CrowdComponent} from './crowd/crowd.component';
-import {MessageComponent} from './message/message.component';
-import {ConnectionComponent} from './connection/connection.component';
+import {MessagesComponent} from './messages/messages.component';
+import {ConnectionsComponent} from './connections/connections.component';
 import {EventsComponent} from './events/events.component';
 import {ProfileComponent} from './profile/profile.component';
 
@@ -62,12 +62,12 @@ let view = require('./app.html');
   }),
   new Route({
     path: '/messages',
-    component: MessageComponent,
+    component: MessagesComponent,
     name: 'Messages'
   }),
   new Route({
     path: '/connections',
-    component: ConnectionComponent,
+    component: ConnectionsComponent,
     name: 'Connections'
   }),
   new Route({

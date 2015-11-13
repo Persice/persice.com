@@ -10,12 +10,12 @@ import {FilterComponent} from '../filter/filter.component';
 import {ConnectionsService} from '../../services/connections.service';
 import {FilterService} from '../../services/filter.service';
 
-let view = require('./connection.html');
+let view = require('./connections.html');
 
 declare var jQuery: any;
 
 @Component({
-  selector: 'connection-page',
+  selector: 'connections-page',
   template: view,
   directives: [
     NgIf,
@@ -24,7 +24,7 @@ declare var jQuery: any;
     LoadingComponent
   ]
 })
-export class ConnectionComponent {
+export class ConnectionsComponent {
   items: Array<any> = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
