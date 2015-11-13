@@ -1,8 +1,6 @@
 <header-main></header-main>
-<div>
-  <div class="page-content">
-    <header-sub [image]="image"></header-sub>
-    <notification [title]="notificationOther.title" [body]="notificationOther.body" [active]="notificationOther.active" [type]="notificationOther.type"></notification>
-    <router-outlet></router-outlet>
-  </div>
+<div class="page-content">
+  <header-sub [image]="image"></header-sub>
+  <notification [title]="notificationOther.title" [body]="notificationOther.body" [active]="notificationOther.active" [type]="notificationOther.type"></notification>
+  <router-outlet></router-outlet>
 </div>
