@@ -21,7 +21,7 @@
         "src/app/core/http_constants.ts",
         "src/app/core/util.ts",
         "src/app/components/app.component.ts",
-        "src/app/components/connection/connection.component.ts",
+        "src/app/components/connections/connections.component.ts",
         "src/app/components/crowd/crowd.component.ts",
         "src/app/components/profile/profile.component.ts",
         "src/app/components/profileabout/profileabout.component.ts",
@@ -36,7 +36,7 @@
         "src/app/components/loading/loading.component.ts",
         "src/app/components/loadingcard/loadingcard.component.ts",
         "src/app/components/logo/logo.component.ts",
-        "src/app/components/message/message.component.ts",
+        "src/app/components/messages/messages.component.ts",
         "src/app/components/notification/notification.component.ts",
         "src/app/components/navmain/navmain.component.ts",
         "src/app/components/profiledropdown/profiledropdown.component.ts",
@@ -71,11 +71,7 @@
         "src/app/services/keywords.service.ts",
         "src/app/services/mutualfriends.service.ts",
         "src/app/services/services.ts",
-        "src/app/services/user.service.ts",
-        "src/typings/_custom.d.ts",
-        "src/typings/browser.d.ts",
-        "src/typings/webpack.d.ts",
-        "test/app/app.spec.ts"
+        "src/app/services/user.service.ts"
         ],
         "exclude": []
     }
