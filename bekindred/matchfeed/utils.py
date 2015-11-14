@@ -180,8 +180,9 @@ class MatchUser(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id):
-        hits = ElasticSearchMatchEngine.elastic_objects.match(current_user_id)
+    def all(current_user_id, is_filter=False):
+        hits = ElasticSearchMatchEngine.elastic_objects.\
+            match(current_user_id, is_filter=is_filter)
         users = []
         for hit in hits:
             users.append(MatchUser(current_user_id, hit))
