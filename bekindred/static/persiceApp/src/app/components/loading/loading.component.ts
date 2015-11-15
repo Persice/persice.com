@@ -10,8 +10,5 @@ let view = require('./loading.html');
   directives: [NgIf]
 })
 export class LoadingComponent {
-  status: boolean;
-  constructor() {
-    this.status = false;
-  }
+  status: boolean = false;
 }
