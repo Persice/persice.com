@@ -339,3 +339,40 @@ class TestMatchQuerySet(BaseTestCase):
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].first_name, 'Sasa')
         self.assertEqual(match_users[0].age, 36)
+
+    def test_filter_keywords(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='python')
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learn python': 0, u'teach django': 1}])
+
+    def test_filter_two_keywords(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='python,ruby')
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learn python': 0, u'teach django': 1}])
+
+    def test_filter_keywords_negative_case(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='ruby')
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 0)

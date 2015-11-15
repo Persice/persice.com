@@ -390,7 +390,8 @@ class StopWords(models.Model):
 class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
-    def query_builder(user, query, fields, exclude_user_ids, is_filter=False):
+    def query_builder(user, query, fields, exclude_user_ids, stop_words,
+                      is_filter=False):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         body = {}
@@ -398,6 +399,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
             fs = FilterState.objects.filter(user=user)
             gender_predicate = {}
             age_predicate = {}
+            q = ''
             if fs:
                 age_predicate = {"range": {"age": {"gte": fs[0].min_age,
                                                    "lte": fs[0].max_age}}}
@@ -406,6 +408,16 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     gender_predicate = []
                 else:
                     gender_predicate = [{"term": {"gender": fs[0].gender}}]
+
+                if fs[0].keyword:
+                    keywords = fs[0].keyword.split(',')
+                    for word in keywords:
+                        if word not in stop_words:
+                            gender_predicate.append({"term": {"goals": word}})
+                            gender_predicate.append({"term": {"offers": word}})
+                            gender_predicate.append({"term": {"likes": word}})
+                            gender_predicate.append({"term": {"interests": word}})
+
             body = {
                 "highlight": {
                     "fields": {
@@ -507,7 +519,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
 
         response = ElasticSearchMatchEngineManager.\
-            query_builder(user, query, fields, exclude_user_ids, is_filter=is_filter)
+            query_builder(user, query, fields, exclude_user_ids, stop_words,
+                          is_filter=is_filter)
 
         return response['hits']['hits']
 
