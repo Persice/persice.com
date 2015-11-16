@@ -24,18 +24,58 @@ import {LoadingCardComponent} from './loadingcard.component';
   directives: [LoadingCardComponent]
 })
 class TestComponent {
+  testStatus = false;
 }
 
-describe('LoadingCard component', () => {
+describe('Loading component', () => {
+
+
   it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb
+    return tcb.overrideTemplate(TestComponent, '<div><loading-card [status]="testStatus"></loading-card><div>')
+      .createAsync(TestComponent).then((fixture: any) => {
+        fixture.detectChanges();
+        let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
+        let componentDOMEl = fixture.debugElement.nativeElement;
+        let elRef = fixture.debugElement.elementRef;
+
+        expect(elRef).not.toBeNull(true);
+
+
+      });
+  }));
+
+  it('should by default be hidden', injectAsync([TestComponentBuilder], (tcb) => {
+    return tcb.overrideTemplate(TestComponent, '<div><loading-card [status]="testStatus"></loading-card></div>')
+      .createAsync(TestComponent).then((fixture: any) => {
+        fixture.detectChanges();
+        let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
+        let componentDOMEl = fixture.debugElement.nativeElement;
+        let elRef = fixture.debugElement.elementRef;
+
+        expect(componentInstance.status).toEqual(false);
+
+
+      });
+  }));
+
+
+
+  it('should change status', injectAsync([TestComponentBuilder], (tcb) => {
+    return tcb.overrideTemplate(TestComponent, '<div><loading-card [status]="testStatus"></loading-card></div>')
       .createAsync(TestComponent).then((fixture: any) => {
 
-        let compiled = fixture.debugElement.nativeElement;
-
         fixture.detectChanges();
-        expect(true).toBe(true);
+        let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
+        let componentDOMEl = fixture.debugElement.nativeElement;
+        let elRef = fixture.debugElement.elementRef;
 
+        fixture.debugElement.componentInstance.testStatus = true;
+        fixture.detectChanges();
+        expect(componentInstance.status).toEqual(true);
+
+        fixture.debugElement.componentInstance.testStatus = false;
+        fixture.detectChanges();
+        expect(componentInstance.status).toEqual(false);
 
       });
   }));
