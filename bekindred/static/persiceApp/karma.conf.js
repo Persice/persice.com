@@ -7,6 +7,19 @@ module.exports = function(config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
+    proxies: {
+      '/media/images/': '/base/src/public/images/',
+      '/static/persiceApp/src/public/images/': '/base/src/public/images/',
+      '/static/persiceApp/src/public/icons/': '/base/src/public/icons/'
+    },
+
+
+    junitReporter: {
+      outputDir: 'test/results/',
+      outputFile: 'test-results.xml',
+      useBrowserName: false
+    },
+
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -16,11 +29,23 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
     {
+      pattern: './src/public/**/*.jpg',
+      watched: false,
+      included: false,
+      served: true
+    },
+    {
+      pattern: './src/public/**/*.svg',
+      watched: false,
+      included: false,
+      served: true
+    },
+    {
       pattern: './src/public/lib/es6-shim.js',
       watched: false
     },
     {
-      pattern: './src/public/lib/jquery.min.js',
+      pattern: './src/public/lib/jquery-2.1.4.js',
       watched: false
     },
     {
@@ -98,7 +123,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec.bundle.js': ['webpack', 'sourcemap'],
+      'spec.bundle.js': ['webpack', 'sourcemap', 'coverage'],
     },
 
     webpack: {
@@ -147,7 +172,7 @@ module.exports = function(config) {
 
     coverageReporter: {
       reporters:[
-      {type: 'html', dir:'coverage/'},
+      {type: 'html', dir:'test/coverage/'},
       {type: 'text'},
       {type: 'text-summary'}
       ],
@@ -157,7 +182,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['dots', 'junit'],
 
     // web server port
     port: 9876,
