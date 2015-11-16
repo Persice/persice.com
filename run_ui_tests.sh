@@ -1,4 +1,3 @@
 #!/bin/bash
 
-bekindred/static/persiceApp/npm install
-bekindred/static/persiceApp/npm run test
+bekindred/static/persiceApp/npm run unit-tests
