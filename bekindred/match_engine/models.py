@@ -9,6 +9,7 @@ from elasticsearch_dsl import Search, Q, F
 
 from events.models import FilterState
 from goals.models import Goal, Subject, Offer
+from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
 
@@ -399,6 +400,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
             fs = FilterState.objects.filter(user=user)
             gender_predicate = {}
             age_predicate = {}
+            distance_predicate = {}
             q = ''
             if fs:
                 age_predicate = {"range": {"age": {"gte": fs[0].min_age,
@@ -418,6 +420,17 @@ class ElasticSearchMatchEngineManager(models.Manager):
                             gender_predicate.append({"term": {"likes": word}})
                             gender_predicate.append({"term": {"interests": word}})
 
+                if fs[0].distance:
+                    distance = "%skm" % fs[0].distance
+                    location = get_user_location(user.id)
+                    distance_predicate = {"geo_distance": {
+                        "distance": distance,
+                        "location": {
+                            "lat": location.y,
+                            "lon": location.x
+                        }
+                    }
+                    }
             body = {
                 "highlight": {
                     "fields": {
@@ -447,12 +460,24 @@ class ElasticSearchMatchEngineManager(models.Manager):
                                 ],
                                 "should": gender_predicate,
                                 "must": [
-                                    age_predicate
+                                    age_predicate, distance_predicate
                                 ]
                             }
                         }
                     }
-                }
+                },
+                "sort": [
+                    {
+                        "_geo_distance": {
+                            "location": {
+                                "lat": location.y,
+                                "lon": location.x
+                            },
+                            "order": "asc",
+                            "unit": "km"
+                        }
+                    }
+                ]
             }
             response = client.search(index=index, body=body)
             #     .query(Q("multi_match", query=query, fields=fields)) \
