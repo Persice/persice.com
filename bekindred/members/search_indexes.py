@@ -1,7 +1,7 @@
 from django_facebook.models import FacebookLike
 from haystack import indexes
 
-from goals.utils import calculate_age
+from goals.utils import calculate_age, get_user_location
 from .models import FacebookCustomUserActive
 
 
@@ -23,6 +23,10 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
         return self.get_model().objects.all()
+
+    def prepare_location(self, obj):
+        location = get_user_location(obj.id)
+        return {"lat": location.y, "lon": location.x}
 
     def prepare_age(self, obj):
         return calculate_age(obj.date_of_birth)
