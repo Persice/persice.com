@@ -11,8 +11,5 @@ let view = require('./loadingcard.html');
   directives: [NgIf, CircleProgressDirective]
 })
 export class LoadingCardComponent {
-  status: boolean;
-  constructor() {
-    this.status = false;
-  }
+  status: boolean = false;
 }

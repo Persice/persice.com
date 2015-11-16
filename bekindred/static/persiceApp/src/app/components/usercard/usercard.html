@@ -4,13 +4,14 @@
     {{user.gender | gender}} / age {{user.age}} / {{user.distance[0]}} {{user.distance[1]}}
   </p>
   <div class="avatar-box mb">
-    <div image-stretch class="avatar-holder js-image-liquid">
-      <img src="{{user.image}}" alt="User name" class="avatar">
+
+  <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + user.image + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
       <div class="avatar-box__match-percents">
         <span class="avatar-box__match-percents__value">{{user.score}}</span>
         <span class="avatar-box__match-percents__label">Similar</span>
       </div>
     </div>
+
     <svg role="img" class="icon">
       <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-persice-match-percent"></use>
     </svg>
@@ -18,8 +19,8 @@
   </div>
   <h6 class="card-subtitle">Interests</h6>
   <ul class="interest-list" *ng-if="user.top_interests">
-    <li *ng-for="#key of keys(user.top_interests[0], 3)">
-      <svg *ng-if="key.match" role="img" class="icon icon--tiny">
+    <li *ng-for="#key of interests">
+      <svg role="img" class="icon icon--tiny">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
       </svg> {{key.value}}</li>
     </ul>
