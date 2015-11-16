@@ -421,7 +421,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                             gender_predicate.append({"term": {"interests": word}})
 
                 if fs[0].distance:
-                    distance = "%s%s" % (fs[0].distance, fs[0].distance_unit)
+                    distance = "%skm" % fs[0].distance
                     location = get_user_location(user.id)
                     distance_predicate = {"geo_distance": {
                         "distance": distance,
@@ -465,7 +465,19 @@ class ElasticSearchMatchEngineManager(models.Manager):
                             }
                         }
                     }
-                }
+                },
+                "sort": [
+                    {
+                        "_geo_distance": {
+                            "location": {
+                                "lat": location.y,
+                                "lon": location.x
+                            },
+                            "order": "asc",
+                            "unit": "km"
+                        }
+                    }
+                ]
             }
             response = client.search(index=index, body=body)
             #     .query(Q("multi_match", query=query, fields=fields)) \

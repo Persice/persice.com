@@ -315,7 +315,7 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user1, goal=self.subject5)
         Goal.objects.create(user=self.user3, goal=self.subject5)
-        FilterState.objects.create(user=self.user, gender='m')
+        FilterState.objects.create(user=self.user, gender='m', distance=16516)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 1)
@@ -337,7 +337,8 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user1, goal=self.subject5)
         Goal.objects.create(user=self.user3, goal=self.subject5)
         Goal.objects.create(user=self.user4, goal=self.subject5)
-        FilterState.objects.create(user=self.user, gender='f,m', max_age=99)
+        FilterState.objects.create(user=self.user, gender='f,m', max_age=99,
+                                   distance=16516)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 3)
@@ -347,12 +348,12 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user1, goal=self.subject5)
         Goal.objects.create(user=self.user3, goal=self.subject5)
         Goal.objects.create(user=self.user4, goal=self.subject5)
-        FilterState.objects.create(user=self.user, min_age=36, max_age=36)
+        FilterState.objects.create(user=self.user, min_age=36, max_age=76)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 1)
-        self.assertEqual(match_users[0].first_name, 'Sasa')
-        self.assertEqual(match_users[0].age, 36)
+        self.assertEqual(match_users[0].first_name, 'Tati')
+        self.assertEqual(match_users[0].age, 66)
 
     def test_filter_keywords(self):
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -360,7 +361,8 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user1, goal=self.subject2)
         Goal.objects.create(user=self.user3, goal=self.subject5)
         FilterState.objects.create(user=self.user, min_age=18,
-                                   max_age=99, keyword='python')
+                                   max_age=99, keyword='python',
+                                   distance=16516)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 1)
@@ -373,7 +375,8 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user1, goal=self.subject2)
         Goal.objects.create(user=self.user3, goal=self.subject5)
         FilterState.objects.create(user=self.user, min_age=18,
-                                   max_age=99, keyword='python,ruby')
+                                   max_age=99, keyword='python,ruby',
+                                   distance=16516)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 1)
