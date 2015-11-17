@@ -1,7 +1,7 @@
 <nav class="nav-main">
   <ul>
-    <li [class.is-current]="isLinkActive('/crowd/v2') || isLinkActive('/crowd/v1')">
-      <a [router-link]="['./Crowd', {version: 'v2'}]">
+    <li [class.is-current]="isLinkActive('/crowd')">
+      <a [router-link]="['./Crowd']">
         <svg role="img" class="icon">
           <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-menu-crowd"></use>
         </svg>

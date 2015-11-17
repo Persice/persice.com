@@ -56,7 +56,7 @@ let view = require('./app.html');
     name: 'Home'
   }),
   new Route({
-    path: '/crowd/:version',
+    path: '/crowd',
     component: CrowdComponent,
     name: 'Crowd'
   }),
