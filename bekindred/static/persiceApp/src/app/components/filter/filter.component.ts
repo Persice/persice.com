@@ -1,10 +1,11 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
-import {Component, FORM_DIRECTIVES} from 'angular2/angular2';
+import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES} from 'angular2/angular2';
 import {findIndex, isUndefined} from 'lodash';
 
 import {SelectComponent} from '../select/select.component';
 import {RangeSliderComponent} from '../rangeslider/rangeslider.component';
+import {NumeralPipe} from '../../pipes/numeral.pipe';
 
 import {FilterModel, InterfaceFilter} from '../../models/filter.model';
 import {FilterService} from '../../services/filter.service';
@@ -18,9 +19,11 @@ declare var jQuery: any;
   selector: 'filters',
   directives: [
     FORM_DIRECTIVES,
+    CORE_DIRECTIVES,
     SelectComponent,
     RangeSliderComponent
   ],
+  pipes: [NumeralPipe],
   template: view
 })
 export class FilterComponent {
