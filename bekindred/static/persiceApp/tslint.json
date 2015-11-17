@@ -12,7 +12,7 @@
     "jsdoc-format": true,
     "member-ordering": [true, "public-before-private", "static-before-instance", "variables-before-functions"],
     "no-arg": true,
-    "no-bitwise": true,
+    "no-bitwise": false,
     "no-conditional-assignment": true,
     "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
     "no-construct": true,
