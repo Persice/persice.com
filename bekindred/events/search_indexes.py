@@ -7,6 +7,7 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True)
     name = indexes.CharField(model_attr='name')
     description = indexes.CharField(model_attr='description', null=True)
+    location = indexes.LocationField(null=True)
 
     def get_model(self):
         return Event

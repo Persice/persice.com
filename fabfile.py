@@ -11,7 +11,7 @@ env.port = '20005'
 env.password = os.getenv('SUDO_PASSWORDS')
 
 env.user = 'bekindred'
-env.key_filename = '~/.ssh/id_rsa'
+env.key_filename = '~/.ssh/id_rsa_pr'
 
 
 env.project_name = 'bekindred'
