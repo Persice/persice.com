@@ -100,8 +100,7 @@ class EventResource(MultiPartResource, ModelResource):
         'events.api.resources.MembershipResource',
         attribute=lambda bundle:
         bundle.obj.membership_set.filter(
-            user__in=Friend.objects.all_my_friends(user_id=
-                                                   bundle.request.user.id) +
+            user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id) +
             [bundle.request.user.id], rsvp='yes'),
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,
@@ -402,7 +401,9 @@ class AboutMeResource(ModelResource):
             filter(pk=request.user.id)
 
     def dehydrate(self, bundle):
-        raw_data = json.loads(bundle.obj.raw_data)
+        raw_data = {}
+        if bundle.obj.raw_data:
+            raw_data = json.loads(bundle.obj.raw_data)
         bundle.data.update(raw_data)
         return bundle
 

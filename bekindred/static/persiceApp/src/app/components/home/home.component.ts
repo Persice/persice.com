@@ -8,9 +8,7 @@ let view = require('./home.html');
   template: view
 })
 export class HomeComponent {
-  constructor() {
 
-  }
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   }

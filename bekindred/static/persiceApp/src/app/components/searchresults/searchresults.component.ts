@@ -32,7 +32,4 @@ let view = require('./searchresults.html');
   ]
 })
 export class SearchResultsComponent {
-  constructor() {
-
-  }
 }

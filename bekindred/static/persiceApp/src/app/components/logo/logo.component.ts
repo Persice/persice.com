@@ -11,7 +11,4 @@ let view = require('./logo.html');
   directives: [RouterLink]
 })
 export class LogoComponent {
-  constructor() {
-
-  }
 }

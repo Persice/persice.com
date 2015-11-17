@@ -152,7 +152,7 @@ module.exports = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts',
+        loader: 'ts-loader',
         query: {
           'ignoreDiagnostics': [
             // 2300, // 2300 -> Duplicate identifier
@@ -163,8 +163,6 @@ module.exports = {
           /\.min\.js$/,
           /\.spec\.ts$/,
           /\.e2e\.ts$/,
-          /web_modules/,
-          /test/,
           /node_modules/
         ]
       }

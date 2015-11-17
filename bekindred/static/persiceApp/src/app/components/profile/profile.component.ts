@@ -6,7 +6,8 @@ import {ProfileFeaturesComponent} from '../profilefeatures/profilefeatures.compo
 import {ProfileLikesComponent} from '../profilelikes/profilelikes.component';
 import {ProfileMutualsComponent} from '../profilemutuals/profilemutuals.component';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
-import {take, sample, slice} from 'lodash';
+
+import {ObjectUtil} from '../../core/util';
 
 let view = require('./profile.html');
 
@@ -23,9 +24,9 @@ let view = require('./profile.html');
 export class ProfileComponent {
   @Input() user;
   @Input() mutuals;
-  @Output() acceptEvent: EventEmitter = new EventEmitter;
-  @Output() passEvent: EventEmitter = new EventEmitter;
-  @Output() closeprofileEvent: EventEmitter = new EventEmitter;
+  @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
+  @Output() passEvent: EventEmitter<any> = new EventEmitter;
+  @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
   profileInterests: any[] = [];
   profileInterestsMore: any[] = [];
   profileGoals: any[] = [];
@@ -56,26 +57,25 @@ export class ProfileComponent {
   }
 
   onInit() {
-    this.profileLikes = this.transform(this.user.likes[0]);
-    this.profileLikesCount = this.count(this.user.likes[0]);
+    this.profileLikes = ObjectUtil.transform(this.user.likes[0]);
+    this.profileLikesCount = ObjectUtil.count(this.user.likes[0]);
 
-    this.profileOffers = this.first(this.user.offers[0], 6);
-    this.profileInterests = this.first(this.user.interests[0], 6);
-    this.profileGoals = this.first(this.user.goals[0], 6);
-    this.profileOffersMore = this.skip(this.user.offers[0], 6);
-    this.profileInterestsMore = this.skip(this.user.interests[0], 6);
-    this.profileGoalsMore = this.skip(this.user.goals[0], 6);
-    this.profileInterestsCount = this.count(this.user.interests[0]);
-    this.profileOffersCount = this.count(this.user.offers[0]);
-    this.profileGoalsCount = this.count(this.user.goals[0]);
+    this.profileOffers = ObjectUtil.first(this.user.offers[0], 6);
+    this.profileInterests = ObjectUtil.first(this.user.interests[0], 6);
+    this.profileGoals = ObjectUtil.first(this.user.goals[0], 6);
+    this.profileOffersMore = ObjectUtil.skip(this.user.offers[0], 6);
+    this.profileInterestsMore = ObjectUtil.skip(this.user.interests[0], 6);
+    this.profileGoalsMore = ObjectUtil.skip(this.user.goals[0], 6);
+    this.profileInterestsCount = ObjectUtil.count(this.user.interests[0]);
+    this.profileOffersCount = ObjectUtil.count(this.user.offers[0]);
+    this.profileGoalsCount = ObjectUtil.count(this.user.goals[0]);
 
     this.getMutualFriends(this.user.id);
 
   }
 
   getMutualFriends(id) {
-    this.mutualfriendsService.get('', 100, 'v1', id)
-      .map(res => res.json())
+    this.mutualfriendsService.get('', 100, id)
       .subscribe(data => this.assignMutualFriends(data));
   }
 
@@ -108,67 +108,6 @@ export class ProfileComponent {
     this.closeprofileEvent.next(event);
   }
 
-  count(data) {
-    return Object.keys(data).length;
-  }
 
-
-  //transform and take first n items from {key: value} to [{value: VALUE, match: 1|0}]
-  first(data, n): Array<string> {
-    let keys = [];
-    for (var key in data) {
-      if (data[key] === 1) {
-        keys.push({
-          value: key,
-          match: true
-        });
-      } else {
-        keys.push({
-          value: key,
-          match: false
-        });
-      }
-    }
-    return take(keys, n);
-  }
-
-  //transform and take first n items from {key: value} to [{value: VALUE, match: 1|0}]
-  skip(data, n): Array<string> {
-    let keys = [];
-    for (var key in data) {
-      if (data[key] === 1) {
-        keys.push({
-          value: key,
-          match: true
-        });
-      } else {
-        keys.push({
-          value: key,
-          match: false
-        });
-      }
-    }
-    let sliced = slice(keys, n);
-    return sliced;
-  }
-
-  //tranfsorm and items from '{key: value, key: value}' to [{value: VALUE, match: 1|0}]
-  transform(data): Array<string> {
-    let keys = [];
-    for (var key in data) {
-      if (data[key] === 1) {
-        keys.push({
-          value: key,
-          match: true
-        });
-      } else {
-        keys.push({
-          value: key,
-          match: false
-        });
-      }
-    }
-    return keys;
-  }
 }
 

@@ -52,8 +52,7 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('email-address', 'email'),
                        ('date-of-birth', 'date_of_birth'),
                        ('picture-url', 'image'),
-                       ('relation-to-viewer ', 'relation-to-viewer')
-]
+                       ('relation-to-viewer ', 'relation-to-viewer')]
 
 # twitter social auth
 

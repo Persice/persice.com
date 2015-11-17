@@ -1,14 +1,11 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
-import {
-Component,
-FORM_DIRECTIVES,
-EventEmitter
-} from 'angular2/angular2';
-import {includes, findIndex, forEach, isUndefined} from 'lodash';
+import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES} from 'angular2/angular2';
+import {findIndex, isUndefined} from 'lodash';
 
 import {SelectComponent} from '../select/select.component';
 import {RangeSliderComponent} from '../rangeslider/rangeslider.component';
+import {NumeralPipe} from '../../pipes/numeral.pipe';
 
 import {FilterModel, InterfaceFilter} from '../../models/filter.model';
 import {FilterService} from '../../services/filter.service';
@@ -22,9 +19,11 @@ declare var jQuery: any;
   selector: 'filters',
   directives: [
     FORM_DIRECTIVES,
+    CORE_DIRECTIVES,
     SelectComponent,
     RangeSliderComponent
   ],
+  pipes: [NumeralPipe],
   template: view
 })
 export class FilterComponent {
@@ -79,8 +78,7 @@ export class FilterComponent {
   constructor(
     public filterService: FilterService
   ) {
-    this.filterService.get()
-      .map(res => res.json())
+    this.filterService.find()
       .subscribe(data => this.setFilters(data));
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
@@ -158,7 +156,10 @@ export class FilterComponent {
     delete data.keyword;
 
     let resourceUri = this.filters.state.resource_uri;
-    this.filterService.save(resourceUri, data);
+    this.filterService.updateOne(resourceUri, data)
+    .subscribe(res => {
+      this.filterService.publishObservers();
+    });
   }
 
 

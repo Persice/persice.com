@@ -9,15 +9,13 @@ import {ImageStretchDirective} from '../../directives/imagestretch.directive';
 let view = require('./searchresultsuser.html');
 
 @Component({
-    inputs: ['user'],
-    selector: 'searchresult-user',
-    pipes: [GenderPipe],
-    template: view,
-    directives: [NgIf, ImageStretchDirective]
+  inputs: ['user'],
+  selector: 'searchresult-user',
+  pipes: [GenderPipe],
+  template: view,
+  directives: [NgIf, ImageStretchDirective]
 })
 export class SearchResultsUserComponent {
-    user: SearchResultUserModel;
-    constructor() {
+  user: SearchResultUserModel;
 
-    }
 }

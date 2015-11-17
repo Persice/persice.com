@@ -2,12 +2,15 @@ from datetime import date
 from django.core.management import call_command
 from django_facebook.models import FacebookCustomUser, FacebookLike
 import haystack
+
+from events.models import FilterState
 from goals.models import Subject, Offer, Goal
 from interests.models import InterestSubject, Interest
 from match_engine.models import ElasticSearchMatchEngine
 from django.test import TestCase
 from haystack.management.commands import update_index, rebuild_index
 from matchfeed.utils import MatchQuerySet
+from world.models import UserLocation
 
 
 class BaseTestCase(TestCase):
@@ -27,20 +30,42 @@ class TestMatchQuerySet(BaseTestCase):
         haystack.connections.reload('default')
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', facebook_id=1234567,
-                        first_name='Andrii', password='test',
+                        first_name='Andrii', password='test', gender='m',
                         date_of_birth=date(1989, 5, 20))
         self.user1 = FacebookCustomUser.objects.\
             create_user(username='user_b', facebook_id=12345671,
-                        first_name='Sasa',
-                        password='test', date_of_birth=date(1989, 1, 9))
+                        first_name='Sasa', gender='m', password='test',
+                        date_of_birth=date(1979, 1, 9))
         self.user2 = FacebookCustomUser.objects. \
             create_user(username='user_c', facebook_id=12345672,
-                        first_name='Sasa1',
-                        password='test', date_of_birth=date(1989, 1, 9))
+                        first_name='Ira', gender='f', password='test',
+                        date_of_birth=date(1969, 1, 9))
         self.user3 = FacebookCustomUser.objects. \
-            create_user(username='user_d', facebook_id=12345673,
-                        first_name='Sasa2',
-                        password='test', date_of_birth=date(1989, 1, 9))
+            create_user(username='user_d', facebook_id=12345676,
+                        first_name='Natali', gender='f', password='test',
+                        date_of_birth=date(1959, 1, 9))
+        self.user4 = FacebookCustomUser.objects. \
+            create_user(username='user_e', facebook_id=12345675,
+                        first_name='Tati', gender='f', password='test',
+                        date_of_birth=date(1949, 1, 9))
+        self.user5 = FacebookCustomUser.objects. \
+            create_user(username='user_f', facebook_id=12345674,
+                        first_name='Ken', gender='m', password='test',
+                        date_of_birth=date(1939, 1, 9))
+
+        user_location = UserLocation.objects.create(
+            user=self.user, position=[-87.627696, 41.880745])
+        user_location1 = UserLocation.objects.create(
+            user=self.user1, position=[60.627675, 21.881925])
+        user_location2 = UserLocation.objects.create(
+            user=self.user2, position=[-87.6281729688, 41.881849562])
+        user_location3 = UserLocation.objects.create(
+            user=self.user5, position=[-87.62839, 41.88206])
+        user_location4 = UserLocation.objects.create(
+            user=self.user4, position=[-87.6269801114, 41.8814058757])
+        user_location5 = UserLocation.objects.create(
+            user=self.user3, position=[38.53, 77.02])
+
         self.subject = Subject.objects.create(description='learn django')
         self.subject2 = Subject.objects.create(description='learn python')
         self.subject3 = Subject.objects.create(description='teach erlang')
@@ -71,7 +96,6 @@ class TestMatchQuerySet(BaseTestCase):
             create(description='learn python')
         self.i_subject4 = InterestSubject.objects. \
             create(description='kiteboarding')
-
 
         rebuild_index.Command().handle(interactive=False)
 
@@ -285,4 +309,98 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user1, goal=self.subject10)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 0)
+
+    def test_filter_gender_male(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, gender='m', distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].gender, 'm')
+
+    def test_filter_gender_female(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user4, goal=self.subject5)
+        FilterState.objects.create(user=self.user, gender='f', max_age=99)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Tati')
+        self.assertEqual(match_users[0].gender, 'f')
+
+    def test_filter_gender_all(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        Goal.objects.create(user=self.user4, goal=self.subject5)
+        FilterState.objects.create(user=self.user, gender='f,m', max_age=99,
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 3)
+
+    def test_filter_age(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        Goal.objects.create(user=self.user4, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=36, max_age=76)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Tati')
+        self.assertEqual(match_users[0].age, 66)
+
+    def test_filter_keywords(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='python',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learn python': 0, u'teach django': 1}])
+
+    def test_filter_two_keywords(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='python,ruby',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learn python': 0, u'teach django': 1}])
+
+    def test_filter_keywords_negative_case(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='ruby')
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 0)
+
+    def test_filter_distance(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user1, goal=self.subject2)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, distance=1)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 0)

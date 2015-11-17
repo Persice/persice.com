@@ -120,6 +120,11 @@ POSTMAN_AUTOCOMPLETER_APP = {
     'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
 }  # default is {}
 
+
+TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+TEST_OUTPUT_DIR = 'test_reports'
+TEST_OUTPUT_VERBOSE = 2
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

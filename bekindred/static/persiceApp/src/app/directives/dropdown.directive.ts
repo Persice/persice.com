@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {Directive, ElementRef, Attribute, Inject} from 'angular2/angular2';
+import {Directive, ElementRef, Inject} from 'angular2/angular2';
 
 declare var jQuery: any;
 

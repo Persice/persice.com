@@ -23,7 +23,7 @@ class WorldBorder(models.Model):
     # overriding the default manager with a GeoManager instance.
     mpoly = models.MultiPolygonField()
     objects = models.GeoManager()
-    
+
     # Returns the string representation of the model.
     def __str__(self):              # __unicode__ on Python 2
         return self.name
@@ -53,4 +53,3 @@ class UserLocation(models.Model):
         point = fromstr("POINT(%s %s)" % (self.position.longitude, self.position.latitude))
         self.geometry = point
         super(UserLocation, self).save(*args, **kwargs)
-

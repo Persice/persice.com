@@ -12,6 +12,5 @@ let view = require('./headermain.html');
   template: view
 })
 export class HeaderMainComponent {
-  constructor() {
-  }
+
 }

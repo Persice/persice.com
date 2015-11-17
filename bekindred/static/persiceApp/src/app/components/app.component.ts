@@ -3,14 +3,14 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component, provide, EventEmitter, QueryList, Query} from 'angular2/angular2';
+import {Component} from 'angular2/angular2';
 import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Route} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, Route} from 'angular2/router';
 
 
 
@@ -21,8 +21,8 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Route} from 'angular2/
 
 import {HomeComponent} from './home/home.component';
 import {CrowdComponent} from './crowd/crowd.component';
-import {MessageComponent} from './message/message.component';
-import {ConnectionComponent} from './connection/connection.component';
+import {MessagesComponent} from './messages/messages.component';
+import {ConnectionsComponent} from './connections/connections.component';
 import {EventsComponent} from './events/events.component';
 import {ProfileComponent} from './profile/profile.component';
 
@@ -53,32 +53,32 @@ let view = require('./app.html');
   new Route({
     path: '/',
     component: HomeComponent,
-    as: 'Home'
+    name: 'Home'
   }),
   new Route({
     path: '/crowd/:version',
     component: CrowdComponent,
-    as: 'Crowd'
+    name: 'Crowd'
   }),
   new Route({
     path: '/messages',
-    component: MessageComponent,
-    as: 'Messages'
+    component: MessagesComponent,
+    name: 'Messages'
   }),
   new Route({
     path: '/connections',
-    component: ConnectionComponent,
-    as: 'Connections'
+    component: ConnectionsComponent,
+    name: 'Connections'
   }),
   new Route({
     path: '/events',
     component: EventsComponent,
-    as: 'Events'
+    name: 'Events'
   }),
   new Route({
     path: '/profilepage',
     component: ProfileComponent,
-    as: 'Profile'
+    name: 'Profile'
   })
 ])
 @Component({
@@ -112,7 +112,7 @@ export class AppComponent {
   constructor(
     public userService: UserService,
     public notificationService: NotificationService
-    ) {
+  ) {
     //default image
     this.image = this.userService.getDefaultImage();
   }
@@ -140,9 +140,12 @@ export class AppComponent {
     this.notificationOther.body = data.content;
     this.notificationOther.type = data.type;
     this.notificationOther.active = true;
-    setTimeout(() => {
-      this.notificationOther.active = false;
-    }, 4000);
+    setTimeout(
+      () => {
+        this.notificationOther.active = false;
+      },
+      4000
+    );
   }
 
   // Assign AuthUser user from the /me Api

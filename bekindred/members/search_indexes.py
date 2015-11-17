@@ -1,5 +1,7 @@
 from django_facebook.models import FacebookLike
 from haystack import indexes
+
+from goals.utils import calculate_age, get_user_location
 from .models import FacebookCustomUserActive
 
 
@@ -7,6 +9,9 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True)
     first_name = indexes.CharField(model_attr='first_name')
     last_name = indexes.CharField(model_attr='last_name')
+    gender = indexes.CharField(model_attr='gender', null=True)
+    age = indexes.IntegerField(null=True)
+    location = indexes.LocationField()
     goals = indexes.MultiValueField()
     offers = indexes.MultiValueField()
     interests = indexes.MultiValueField()
@@ -18,6 +23,13 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
         return self.get_model().objects.all()
+
+    def prepare_location(self, obj):
+        location = get_user_location(obj.id)
+        return {"lat": location.y, "lon": location.x}
+
+    def prepare_age(self, obj):
+        return calculate_age(obj.date_of_birth)
 
     def prepare_goals(self, obj):
         # Since we're using a M2M relationship with a complex lookup,

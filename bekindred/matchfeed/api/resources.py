@@ -99,7 +99,7 @@ class MatchedFeedResource(Resource):
             t4 = sum(new_obj.likes[0].values()) if new_obj.likes else 0
             new_obj.score = t1 + t2 + t3 + t4
             new_obj.friends_score = len(Friend.objects.mutual_friends(request.user.id, user.id)) + \
-                                    len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
+                len(FacebookFriendUser.objects.mutual_friends(request.user.id, user.id))
             new_obj.top_interests = [{'dancing': 1, 'cooking': 1,
                                      '3D printing': 1}]
             results.append(new_obj)
@@ -217,7 +217,16 @@ class MatchedFeedResource2(Resource):
 
     def get_object_list(self, request):
         # TODO: Add filter based on FilterState model
-        match_users = MatchQuerySet.all(request.user.id)
+        if request.GET.get('filter') == 'true':
+            match_users = MatchQuerySet.all(request.user.id, is_filter=True)
+            fs = FilterState.objects.filter(user=request.user.id)
+            if fs:
+                if fs[0].order_criteria == 'match_score':
+                    return sorted(match_users, key=lambda x: -x.score)
+                elif fs[0].order_criteria == 'mutual_friends':
+                    return sorted(match_users, key=lambda x: -x.friends_score)
+        else:
+            match_users = MatchQuerySet.all(request.user.id)
         return match_users
 
     def obj_get_list(self, bundle, **kwargs):

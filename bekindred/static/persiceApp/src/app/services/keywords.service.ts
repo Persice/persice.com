@@ -1,34 +1,28 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
-
-let API_URL: string = '/api/v1/interest_subject/';
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
+import * as Rx from '@reactivex/rxjs';
 
 @Injectable()
 export class KeywordsService {
-  constructor(
-    public http: Http,
-    @Inject(API_URL) private apiUrl: string
-  ) {
+  static API_URL: string = '/api/v1/interest_subject/';
+  constructor(private http: Http) {
   }
 
-  public get() {
+  public get(): Rx.Observable<any> {
 
     let params: string = [
       `format=json`
     ].join('&');
 
-    let url = `${this.apiUrl}?${params}`;
+    let url = `${KeywordsService.API_URL}?${params}`;
 
     return this.http.get(url)
-      .map(res => {
-        let data = res.json();
-        return data;
-      });
+      .map((res: Response) => res.json());
   }
 
-  public find(query, limit) {
+  public find(query, limit): Rx.Observable<any>  {
 
     let params: string = [
       `format=json`,
@@ -36,19 +30,15 @@ export class KeywordsService {
       `limit=${limit}`
     ].join('&');
 
-    let url = `${this.apiUrl}?${params}`;
+    let url = `${KeywordsService.API_URL}?${params}`;
 
     return this.http.get(url)
-      .map(res => {
-        let data = res.json();
-        return data;
-      });
+      .map((res: Response) => res.json());
   }
 
 }
 
 export var keywordsServiceInjectables: Array<any> = [
-  provide(KeywordsService, { useClass: KeywordsService }),
-  provide(API_URL, { useValue: API_URL })
+  provide(KeywordsService, { useClass: KeywordsService })
 ];
 

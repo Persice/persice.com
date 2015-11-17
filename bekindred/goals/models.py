@@ -38,7 +38,7 @@ class Subject(models.Model):
     search_index = VectorField()
 
     objects = SearchManager(
-        fields= ('description', ),
+        fields=('description', ),
         config='pg_catalog.english',
         search_field='search_index',
         auto_update_search_field=True

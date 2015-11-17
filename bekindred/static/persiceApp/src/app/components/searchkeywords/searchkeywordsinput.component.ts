@@ -6,7 +6,7 @@ import {FilterService} from '../../services/filter.service';
 import {KeywordsService} from '../../services/keywords.service';
 import {NotificationService} from '../../services/notification.service';
 
-import {pluck, debounce, map} from 'lodash';
+import {pluck} from 'lodash';
 
 declare var jQuery: any;
 
@@ -29,15 +29,14 @@ export class SearchKeywordsInputComponent {
     public filterService: FilterService,
     public keywordsService: KeywordsService,
     public notificationService: NotificationService
-    ) {
+  ) {
     this.el = el;
   }
 
   afterViewInit() {
 
-    this.filterService.get()
-    .map(res => res.json())
-    .subscribe(data => this.setKeywords(data));
+    this.filterService.find()
+      .subscribe(data => this.setKeywords(data));
 
   }
 
@@ -129,14 +128,17 @@ export class SearchKeywordsInputComponent {
       }
 
     });
-}
+  }
 
-save(tokens) {
-  let data = {
-    keyword: tokens,
-    user: this.filters.state.user
-  };
-  this.filterService.save(this.filters.state.resource_uri, data);
-}
+  save(tokens) {
+    let data = {
+      keyword: tokens,
+      user: this.filters.state.user
+    };
+    this.filterService.updateOne(this.filters.state.resource_uri, data)
+      .subscribe(res => {
+        this.filterService.publishObservers();
+      });
+  }
 
 }

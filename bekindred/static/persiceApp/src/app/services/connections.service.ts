@@ -1,23 +1,19 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS} from 'angular2/http';
-import * as Rx from 'rx';
-
-let API_URL: string = '/api/v1/connections/';
-
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
+import * as Rx from '@reactivex/rxjs';
 
 @Injectable()
 export class ConnectionsService {
+  static API_URL: string = '/api/v1/connections/';
   next: string = '';
-  constructor(
-    public http: Http,
-    @Inject(API_URL) private apiUrl: string
-  ) {
+
+  constructor(public http: Http) {
 
   }
 
-  public get(url: string, limit: number, version: string, filter: boolean) {
+  public get(url: string, limit: number, filter: boolean): Rx.Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -27,18 +23,14 @@ export class ConnectionsService {
         `offset=0`,
       ].join('&');
 
-      this.next = `${this.apiUrl}?${params}`;
+      this.next = `${ConnectionsService.API_URL}?${params}`;
     } else {
       this.next = url;
     }
-
-    return this.http.get(this.next);
+    return this.http.get(this.next).map((res: Response) => res.json());
   }
-
-
 }
 
 export var connectionsServiceInjectables: Array<any> = [
-  provide(ConnectionsService, { useClass: ConnectionsService }),
-  provide(API_URL, { useValue: API_URL })
+  provide(ConnectionsService, { useClass: ConnectionsService })
 ];

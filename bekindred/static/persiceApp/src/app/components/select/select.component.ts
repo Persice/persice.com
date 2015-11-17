@@ -15,7 +15,7 @@ let view = require('./select.html');
 })
 export class SelectComponent {
   el: ElementRef;
-  selectedValue: EventEmitter = new EventEmitter();
+  selectedValue: EventEmitter<any> = new EventEmitter();
   options: any;
 
   constructor( @Inject(ElementRef) el: ElementRef) {

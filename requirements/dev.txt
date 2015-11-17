@@ -3,3 +3,7 @@ pep8
 pylint
 ipython
 ipdb
+PyYAML 
+python-jenkins
+unittest-xml-reporting
+coverage

@@ -1,117 +1,95 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable, EventEmitter} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
 import * as Rx from '@reactivex/rxjs';
 
-import {FilterModel, InterfaceFilter} from '../models/filter.model';
+import {InterfaceFilter} from '../models/filter.model';
+import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 
 import {remove, find} from 'lodash';
 
-let API_URL: string = '/api/v1/filter/state2/';
-
-let DEFAULT_FILTERS: InterfaceFilter = {
-  distance: 10000,
-  distance_unit: 'miles',
-  keyword: '',
-  gender: 'm,f',
-  min_age: '25',
-  max_age: '60',
-  order_criteria: 'match_score'
-};
-
 @Injectable()
 export class FilterService {
-  _filters: FilterModel;
-  timeoutIdFiltersSave;
-  timeoutIdFiltersEvent;
+  static API_URL: string = '/api/v1/filter/state2/';
+
+  static DEFAULT_FILTERS: InterfaceFilter = {
+    cumulative_match_score: 0,
+    distance: 10000,
+    distance_unit: 'miles',
+    keyword: '',
+    gender: 'm,f',
+    min_age: '25',
+    max_age: '60',
+    order_criteria: 'match_score'
+  };
+
   observers: any[] = [];
 
-  constructor(
-    public http: Http,
-    @Inject(API_URL) private apiUrl: string,
-    @Inject(DEFAULT_FILTERS) private defaultFilters: InterfaceFilter
-  ) {
+  constructor(private http: Http) {
 
   }
 
-  addObserver(name) {
+  addObserver(name: string) {
     let obs = { name: '', subject: null };
     obs.name = name;
     obs.subject = new Rx.Subject(null);
     this.observers.push(obs);
   };
 
-  removeObserver(name) {
+  removeObserver(name: string) {
     remove(this.observers, (o) => {
       return o.name === name;
     });
   }
 
-  observer(name) {
+  observer(name: string) {
     let obs = find(this.observers, (o) => {
       return o.name === name;
     });
     return obs.subject;
   }
 
-  public get() {
+  public find(): Rx.Observable<any> {
 
     let params: string = [
       `format=json`
     ].join('&');
 
-    let url = `${this.apiUrl}?${params}`;
+    let url = `${FilterService.API_URL}?${params}`;
 
-    return this.http.get(url);
+    return this.http.get(url).map((res: Response) => res.json());
   }
 
-  public getDefaultState() {
-    return this.defaultFilters;
-  }
+  public getDefaultState(): InterfaceFilter {
 
-
-  public save(resourceUri, data) {
-    let headers: Headers = new Headers();
-    let csrftoken = this.getCookieValue('csrftoken');
-    headers.append('X-CSRFToken', csrftoken);
-    headers.append('Content-Type', 'application/json');
-
-    let opts: RequestOptions = new RequestOptions();
-    opts.headers = headers;
-
-    if (this.timeoutIdFiltersSave) window.clearTimeout(this.timeoutIdFiltersSave);
-    this.timeoutIdFiltersSave = window.setTimeout(() => {
-      this.http.patch(
-        resourceUri,
-        JSON.stringify(data),
-        opts)
-        .map(res => res.json())
-        .subscribe(res => {
-          if (this.timeoutIdFiltersEvent) window.clearTimeout(this.timeoutIdFiltersEvent);
-          this.timeoutIdFiltersEvent = window.setTimeout(() => {
-            for (var i = this.observers.length - 1; i >= 0; i--) {
-              let name = this.observers[i].name;
-              let subject = this.observers[i].subject;
-              subject.next(name + ' filters:modified');
-            }
-          }, 250);
-
-        });
-    }, 500);
-
+    return FilterService.DEFAULT_FILTERS;
 
   }
 
-  private getCookieValue(name) {
-    let value = '; ' + document.cookie;
-    let parts = value.split('; ' + name + '=');
-    if (parts.length === 2) return parts.pop().split(';').shift();
+  public findOneByUri(resourceUri: string): Rx.Observable<InterfaceFilter> {
+    return this.http.get(resourceUri).map((res: Response) => res.json());
   }
+
+  public updateOne(resourceUri: string, data: any): Rx.Observable<InterfaceFilter> {
+    const body = JSON.stringify(data);
+    return this.http.patch(
+      resourceUri,
+      body,
+      OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json());
+  }
+
+  public publishObservers() {
+    for (var i = this.observers.length - 1; i >= 0; i--) {
+      let name = this.observers[i].name;
+      let subject = this.observers[i].subject;
+      subject.next(name + ' filters:modified');
+    }
+  }
+
 
 }
 export var filterServiceInjectables: Array<any> = [
-  provide(FilterService, { useClass: FilterService }),
-  provide(API_URL, { useValue: API_URL }),
-  provide(DEFAULT_FILTERS, { useValue: DEFAULT_FILTERS })
+  provide(FilterService, { useClass: FilterService })
 ];

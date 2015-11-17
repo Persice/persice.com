@@ -86,7 +86,7 @@
   background-repeat: no-repeat;
 }
 
-.profile-drop__avatar .avatar-holder {
+.user-profile__avatar .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
   width: 56px;

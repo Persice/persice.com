@@ -7,7 +7,9 @@ from django_facebook.models import FacebookLike, FacebookCustomUser
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q, F
 
+from events.models import FilterState
 from goals.models import Goal, Subject, Offer
+from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
 
@@ -387,8 +389,142 @@ class StopWords(models.Model):
 
 
 class ElasticSearchMatchEngineManager(models.Manager):
+
     @staticmethod
-    def match(user_id, friends=()):
+    def query_builder(user, query, fields, exclude_user_ids, stop_words,
+                      is_filter=False):
+        client = Elasticsearch()
+        index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
+        body = {}
+        if is_filter:
+            fs = FilterState.objects.filter(user=user)
+            gender_predicate = {}
+            age_predicate = {}
+            distance_predicate = {}
+            q = ''
+            if fs:
+                age_predicate = {"range": {"age": {"gte": fs[0].min_age,
+                                                   "lte": fs[0].max_age}}}
+
+                if fs[0].gender in ('m,f', 'f,m'):
+                    gender_predicate = []
+                else:
+                    gender_predicate = [{"term": {"gender": fs[0].gender}}]
+
+                if fs[0].keyword:
+                    keywords = fs[0].keyword.split(',')
+                    for word in keywords:
+                        if word not in stop_words:
+                            gender_predicate.append({"term": {"goals": word}})
+                            gender_predicate.append({"term": {"offers": word}})
+                            gender_predicate.append({"term": {"likes": word}})
+                            gender_predicate.append({"term": {"interests": word}})
+
+                if fs[0].distance:
+                    distance = "%skm" % fs[0].distance
+                    location = get_user_location(user.id)
+                    distance_predicate = {"geo_distance": {
+                        "distance": distance,
+                        "location": {
+                            "lat": location.y,
+                            "lon": location.x
+                        }
+                    }
+                    }
+            body = {
+                "highlight": {
+                    "fields": {
+                        "goals": {},
+                        "interests": {},
+                        "likes": {},
+                        "offers": {}
+                    }
+                },
+                "query": {
+                    "filtered": {
+                        "query": {
+                            "multi_match": {
+                                "fields": fields,
+                                "query": query
+                            }
+                        },
+                        "filter": {
+                            "bool": {
+                                "must_not": [
+                                    {
+                                        "ids": {
+                                            "type": "modelresult",
+                                            "values": exclude_user_ids
+                                        }
+                                    }
+                                ],
+                                "should": gender_predicate,
+                                "must": [
+                                    age_predicate, distance_predicate
+                                ]
+                            }
+                        }
+                    }
+                },
+                "sort": [
+                    {
+                        "_geo_distance": {
+                            "location": {
+                                "lat": location.y,
+                                "lon": location.x
+                            },
+                            "order": "asc",
+                            "unit": "km"
+                        }
+                    }
+                ]
+            }
+            response = client.search(index=index, body=body)
+            #     .query(Q("multi_match", query=query, fields=fields)) \
+            #     .filter(~F("ids", type="modelresult", values=exclude_user_ids)) \
+            #     .filter(F("term", gender=gender)) \
+            #     .highlight(*fields)
+        else:
+            body = {
+                "highlight": {
+                    "fields": {
+                        "goals": {},
+                        "interests": {},
+                        "likes": {},
+                        "offers": {}
+                    }
+                },
+                "query": {
+                    "filtered": {
+                        "query": {
+                            "multi_match": {
+                                "fields": fields,
+                                "query": query
+                            }
+                        },
+                        "filter": {
+                            "bool": {
+                                "must_not": [
+                                    {
+                                        "ids": {
+                                            "type": "modelresult",
+                                            "values": exclude_user_ids
+                                        }
+                                    }
+                                ],
+                                "should": []
+                            }
+                        }
+                    }
+                }
+            }
+            response = client.search(index=index, body=body)
+
+        print response
+        return response
+
+    @staticmethod
+    def match(user_id, friends=(), is_filter=False):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         goals = user.goal_set.all()
         offers = user.offer_set.all()
@@ -406,20 +542,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
-        # TODO: Added exclude friends
 
-        client = Elasticsearch()
+        response = ElasticSearchMatchEngineManager.\
+            query_builder(user, query, fields, exclude_user_ids, stop_words,
+                          is_filter=is_filter)
 
-        s = Search(using=client,
-                   index=settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']) \
-            .query(Q("multi_match", query=query, fields=fields)) \
-            .filter(~F("ids", type="modelresult",
-                    values=exclude_user_ids)) \
-            .highlight(*fields)
-        print s.to_dict()
-        response = s.execute()
-
-        return response.hits.hits
+        return response['hits']['hits']
 
     @staticmethod
     def match_between(user_id1, user_id2):
@@ -471,4 +599,3 @@ class MatchEngine(AbstractMatchEngine):
 
 class ElasticSearchMatchEngine(AbstractMatchEngine):
     pass
-

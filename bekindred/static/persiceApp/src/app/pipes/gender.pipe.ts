@@ -2,13 +2,13 @@
 
 import {Pipe, Injectable} from 'angular2/angular2';
 
+@Injectable()
 @Pipe({
   name: 'gender'
 })
-@Injectable()
 export class GenderPipe {
   transform(value: string, args: any[]): string {
-    let retValue = '';
+    let retValue: string = '';
     switch (value) {
       case 'm':
         retValue = 'male';
@@ -17,11 +17,9 @@ export class GenderPipe {
         retValue = 'female';
         break;
       default:
-        retValue = '';
+        retValue = value;
         break;
     }
-
-
     return retValue;
   }
 }

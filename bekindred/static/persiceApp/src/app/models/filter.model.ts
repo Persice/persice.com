@@ -1,5 +1,6 @@
 
 export interface InterfaceFilter {
+  cumulative_match_score?: number;
   distance: number;
   distance_unit: string;
   gender: string;

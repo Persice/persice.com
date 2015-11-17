@@ -1,72 +1,49 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Inject, Injectable} from 'angular2/angular2';
-import {Http, Headers, Response, HTTP_BINDINGS, RequestOptions} from 'angular2/http';
-import * as Rx from 'rx';
-
-let API_URL: string = '/api/v1/friends/';
-
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
+import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
+import {CookieUtil} from '../core/util';
+import * as Rx from '@reactivex/rxjs';
 
 @Injectable()
 export class FriendService {
+  static API_URL: string = '/api/v1/friends/';
   next: string = '';
-  constructor(
-    public http: Http,
-    @Inject(API_URL) private apiUrl: string
-  ) {
+  constructor(private http: Http) {
 
   }
 
-  public get(url: string, limit: number, version: string, filter: boolean) {
+  public get(url: string, limit: number): Rx.Observable<any> {
 
     if (url === '') {
       let params: string = [
         `format=json`,
         `limit=${limit}`,
-        `filter=${filter}`,
         `offset=0`,
       ].join('&');
 
-      this.next = `${this.apiUrl}?${params}`;
+      this.next = `${FriendService.API_URL}?${params}`;
     } else {
       this.next = url;
     }
 
-    return this.http.get(this.next);
+    return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-  public saveFriendship(status: number, friendId: number) {
-    let headers: Headers = new Headers();
-    let csrftoken = this.getCookieValue('csrftoken');
-    let userId = this.getCookieValue('userid');
-    headers.append('X-CSRFToken', csrftoken);
-    headers.append('Content-Type', 'application/json');
-
-    let opts: RequestOptions = new RequestOptions();
-    opts.headers = headers;
-
+  public saveFriendship(status: number, friendId: number): Rx.Observable<any> {
+    let userId = CookieUtil.getValue('userid');
     let friendship = {
       friend1: '/api/v1/auth/user/' + userId + '/',
       friend2: '/api/v1/auth/user/' + friendId + '/',
       status: status
     };
-
-    return this.http.post(this.apiUrl, JSON.stringify(friendship), opts);
-
+    let body = JSON.stringify(friendship);
+    return this.http.post(FriendService.API_URL, body, OPTS_REQ_JSON_CSRF)
+    .map((res: Response) => res.json());
   }
-
-
-  private getCookieValue(name) {
-    let value = '; ' + document.cookie;
-    let parts = value.split('; ' + name + '=');
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
-
-
-
 }
 
 export var friendServiceInjectables: Array<any> = [
-  provide(FriendService, { useClass: FriendService }),
-  provide(API_URL, { useValue: API_URL })
+  provide(FriendService, { useClass: FriendService })
 ];

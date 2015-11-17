@@ -14,8 +14,8 @@ let view = require('./rangeslider.html');
 })
 export class RangeSliderComponent {
   el: ElementRef;
-  onChange: EventEmitter = new EventEmitter();
-  onFinish: EventEmitter = new EventEmitter();
+  onChange: EventEmitter<any> = new EventEmitter();
+  onFinish: EventEmitter<any> = new EventEmitter();
   options: Object;
   slider;
 

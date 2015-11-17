@@ -27,7 +27,8 @@ def photo_list(request):
             # Redirect to the document list after POST
             return HttpResponseRedirect(reverse_lazy('photo_list'))
     else:
-        form = PhotoForm(user=request.user) # A empty, unbound form
+        # A empty, unbound form
+        form = PhotoForm(user=request.user)
 
     # Load documents for the list page
     documents = Photo.objects.filter(user=request.user)
