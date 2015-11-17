@@ -479,7 +479,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     }
                 ]
             }
-            response = client.search(index=index, body=body)
+            response = client.search(index=index, body=body, size=50)
             #     .query(Q("multi_match", query=query, fields=fields)) \
             #     .filter(~F("ids", type="modelresult", values=exclude_user_ids)) \
             #     .filter(F("term", gender=gender)) \
@@ -518,7 +518,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     }
                 }
             }
-            response = client.search(index=index, body=body)
+            response = client.search(index=index, body=body, size=50)
 
         print response
         return response
