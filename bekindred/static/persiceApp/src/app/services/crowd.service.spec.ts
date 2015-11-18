@@ -59,7 +59,7 @@ describe('CrowdService', () => {
 
   it('should find resource', (done: Function) => {
     ensureCommunication(backend, RequestMethods.Get, crowd);
-    service.get('', 12, 'v2', true)
+    service.get('', 12, true)
       .subscribe(resp => {
         expect(resp).toBe(crowd);
         done();

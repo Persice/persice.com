@@ -302,7 +302,7 @@ angular
         });
     }])
     .factory('FiltersFactory', ['$resource', function($resource) {
-        return $resource('/api/v1/filter/state/:filterId/:param', {
+        return $resource('/api/v1/filter/state2/:filterId/:param', {
             filterId: '@filterId'
         }, {
             query: {
