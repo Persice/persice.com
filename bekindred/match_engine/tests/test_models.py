@@ -66,7 +66,7 @@ class TestMatchQuerySet(BaseTestCase):
         user_location5 = UserLocation.objects.create(
             user=self.user3, position=[38.53, 77.02])
 
-        self.subject = Subject.objects.create(description='learn django')
+        self.subject = Subject.objects.create(description='learning django')
         self.subject2 = Subject.objects.create(description='learn python')
         self.subject3 = Subject.objects.create(description='teach erlang')
         self.subject4 = Subject.objects.create(description='teach javascript')
@@ -90,7 +90,7 @@ class TestMatchQuerySet(BaseTestCase):
         self.subject16 = Subject.objects. \
             create(description='play with dogs')
         self.subject15 = Subject.objects. \
-            create(description='learn to play piano')
+            create(description='learn to code django python')
 
         self.i_subject = InterestSubject.objects.\
             create(description='teach django')
@@ -287,13 +287,13 @@ class TestMatchQuerySet(BaseTestCase):
                          [u'<em>baby</em>'])
 
     def test_simple_top_interests(self):
-        Goal.objects.create(user=self.user, goal=self.subject12)
-        Goal.objects.create(user=self.user1, goal=self.subject12)
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject15)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].top_interests,
-                         [{u'baby': 1, u'teach django': 0, u'test': 0}])
+                         [{u'django': 1, u'teach django': 0, u'test': 0}])
 
     def test_top_interests(self):
         Goal.objects.create(user=self.user, goal=self.subject12)
