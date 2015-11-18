@@ -525,6 +525,9 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
     def match(user_id, friends=(), is_filter=False):
+        from nltk.stem.porter import PorterStemmer
+        porter_stemmer = PorterStemmer()
+
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         goals = user.goal_set.all()
         offers = user.offer_set.all()
@@ -536,8 +539,11 @@ class ElasticSearchMatchEngineManager(models.Manager):
                          translate(remove_punctuation_map).split())
 
         stop_words = StopWords.objects.all().values_list('word', flat=True)
+        st_stop_words = [porter_stemmer.stem(w) for w in stop_words]
 
-        removed_stopwords = [word for word in words if word not in stop_words]
+        removed_stopwords = [word for word in words
+                             if porter_stemmer.stem(word) not in st_stop_words]
+
         query = ' '.join(removed_stopwords)
 
         fields = ["goals", "offers", "interests", "likes"]
