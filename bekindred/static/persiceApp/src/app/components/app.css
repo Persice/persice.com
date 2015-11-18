@@ -182,3 +182,9 @@ input.range-to {
 }
 
 
+
+/* fix for loading card placement */
+
+#crowd .translate-50 {
+  left: 40%!important;
+}
