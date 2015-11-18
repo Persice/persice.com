@@ -562,7 +562,6 @@ class TestMatchFeedResource2(ResourceTestCase):
                                            {'username': 'user_a',
                                             'password': 'test'})
 
-    @unittest.skip("skipping")
     def test_get_matchfeed_list(self):
         self.assertHttpUnauthorized(self.api_client.get(self.resource_url,
                                                         format='json'))
@@ -571,6 +570,7 @@ class TestMatchFeedResource2(ResourceTestCase):
         self.response = self.login()
         self.assertEqual(self.response.status_code, 302)
 
+    @unittest.skip("elastic")
     def test_get_list_json(self):
         self.response = self.login()
         resp = self.api_client.get('/api/v1/matchfeed2/', format='json')
