@@ -85,6 +85,12 @@ class TestMatchQuerySet(BaseTestCase):
             create(description='baby')
         self.subject13 = Subject.objects. \
             create(description='child')
+        self.subject14 = Subject.objects. \
+            create(description='hire a dog sitter')
+        self.subject16 = Subject.objects. \
+            create(description='play with dogs')
+        self.subject15 = Subject.objects. \
+            create(description='learn to play piano')
 
         self.i_subject = InterestSubject.objects.\
             create(description='teach django')
@@ -237,6 +243,17 @@ class TestMatchQuerySet(BaseTestCase):
         self.assertEqual(match_users[0]['highlight']['goals'],
                          [u'<em>django</em> under the hood'])
 
+    def test_simple_match_goals_with_stop_words2(self):
+        Goal.objects.create(user=self.user, goal=self.subject14)
+        Goal.objects.create(user=self.user1, goal=self.subject16)
+        update_index.Command().handle(interactive=False)
+        match_users = ElasticSearchMatchEngine. \
+            elastic_objects.match(user_id=self.user.id)
+        self.assertEqual(match_users[0]['_id'],
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
+        self.assertEqual(match_users[0]['highlight']['goals'],
+                         [u'play with <em>dogs</em>'])
+
     def test_simple_match_goals_with_root_forms_of_word(self):
         Goal.objects.create(user=self.user, goal=self.subject11)
         Goal.objects.create(user=self.user1, goal=self.subject10)
@@ -246,7 +263,7 @@ class TestMatchQuerySet(BaseTestCase):
         self.assertEqual(match_users[0]['_id'],
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
-                         [u'learn <em>kiteboarding</em> and foxes'])
+                         [u'learn <em>kiteboarding</em> and <em>foxes</em>'])
 
     def test_simple_match_between(self):
         Goal.objects.create(user=self.user, goal=self.subject11)
@@ -260,23 +277,23 @@ class TestMatchQuerySet(BaseTestCase):
 
     def test_simple_match_synonyms(self):
         Goal.objects.create(user=self.user, goal=self.subject12)
-        Goal.objects.create(user=self.user1, goal=self.subject13)
+        Goal.objects.create(user=self.user1, goal=self.subject12)
         update_index.Command().handle(interactive=False)
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
-                         [u'<em>child</em>'])
+                         [u'<em>baby</em>'])
 
     def test_simple_top_interests(self):
         Goal.objects.create(user=self.user, goal=self.subject12)
-        Goal.objects.create(user=self.user1, goal=self.subject13)
+        Goal.objects.create(user=self.user1, goal=self.subject12)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].top_interests,
-                         [{u'child': 1, u'teach django': 0, u'test': 0}])
+                         [{u'baby': 1, u'teach django': 0, u'test': 0}])
 
     def test_top_interests(self):
         Goal.objects.create(user=self.user, goal=self.subject12)
@@ -291,7 +308,7 @@ class TestMatchQuerySet(BaseTestCase):
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].top_interests,
-                         [{u'child': 1, u'django': 1, u'python': 1}])
+                         [{u'django': 1, u'erlang': 1, u'python': 1}])
 
     def test_simple_top_interests_less_than_3(self):
         Goal.objects.create(user=self.user, goal=self.subject11)
