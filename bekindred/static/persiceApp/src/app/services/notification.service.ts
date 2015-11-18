@@ -10,34 +10,34 @@ import {remove, find} from 'lodash';
 export class NotificationService {
   observers: any[] = [];
 
-  push(content) {
+  push(content): void {
     for (var i = this.observers.length - 1; i >= 0; i--) {
       let subject = this.observers[i].subject;
       subject.next(content);
     }
   }
 
-  addObserver(name) {
+  addObserver(name): void {
     let obs = { name: '', subject: null };
     obs.name = name;
     obs.subject = new Rx.Subject(null);
     this.observers.push(obs);
   };
 
-  removeObserver(name) {
+  removeObserver(name): void {
     remove(this.observers, (o) => {
       return o.name === name;
     });
   }
 
-  observer(name) {
+  observer(name): Rx.Subject<any> {
     let obs = find(this.observers, (o) => {
       return o.name === name;
     });
     return obs.subject;
   }
 
-  hasObserver(name) {
+  hasObserver(name): boolean {
     let obs = find(this.observers, (o) => {
       return o.name === name;
     });

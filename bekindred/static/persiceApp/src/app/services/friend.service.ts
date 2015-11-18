@@ -1,10 +1,10 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 import {CookieUtil} from '../core/util';
-import * as Rx from '@reactivex/rxjs';
+
 
 @Injectable()
 export class FriendService {
@@ -14,7 +14,7 @@ export class FriendService {
 
   }
 
-  public get(url: string, limit: number): Rx.Observable<any> {
+  public get(url: string, limit: number): Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -31,7 +31,7 @@ export class FriendService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-  public saveFriendship(status: number, friendId: number): Rx.Observable<any> {
+  public saveFriendship(status: number, friendId: number): Observable<any> {
     let userId = CookieUtil.getValue('userid');
     let friendship = {
       friend1: '/api/v1/auth/user/' + userId + '/',

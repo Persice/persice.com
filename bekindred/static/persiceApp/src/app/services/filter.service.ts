@@ -1,6 +1,6 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
 import * as Rx from '@reactivex/rxjs';
 
@@ -50,7 +50,7 @@ export class FilterService {
     return obs.subject;
   }
 
-  public find(): Rx.Observable<any> {
+  public find(): Observable<any> {
 
     let params: string = [
       `format=json`
@@ -67,11 +67,11 @@ export class FilterService {
 
   }
 
-  public findOneByUri(resourceUri: string): Rx.Observable<InterfaceFilter> {
+  public findOneByUri(resourceUri: string): Observable<any> {
     return this.http.get(resourceUri).map((res: Response) => res.json());
   }
 
-  public updateOne(resourceUri: string, data: any): Rx.Observable<InterfaceFilter> {
+  public updateOne(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
     return this.http.patch(
       resourceUri,
