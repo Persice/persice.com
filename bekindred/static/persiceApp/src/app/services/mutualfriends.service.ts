@@ -1,8 +1,8 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
-import * as Rx from '@reactivex/rxjs';
+
 
 @Injectable()
 export class MutualFriendsService {
@@ -12,7 +12,7 @@ export class MutualFriendsService {
 
   }
 
-  public get(url: string, limit: number, id: number): Rx.Observable<any> {
+  public get(url: string, limit: number, id: number): Observable<any> {
 
     if (url === '') {
       let params: string = [

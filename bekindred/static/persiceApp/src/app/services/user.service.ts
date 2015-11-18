@@ -1,8 +1,8 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
-import * as Rx from '@reactivex/rxjs';
+
 
 import {AuthUserModel} from '../models/user.model';
 
@@ -18,7 +18,7 @@ export class UserService {
 
   }
 
-  public get(): Rx.Observable<any> {
+  public get(): Observable<any> {
 
     let params = [
       `format=json`

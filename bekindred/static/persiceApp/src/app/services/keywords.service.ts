@@ -1,8 +1,8 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
-import * as Rx from '@reactivex/rxjs';
+
 
 @Injectable()
 export class KeywordsService {
@@ -10,7 +10,7 @@ export class KeywordsService {
   constructor(private http: Http) {
   }
 
-  public get(): Rx.Observable<any> {
+  public get(): Observable<any> {
 
     let params: string = [
       `format=json`
@@ -22,7 +22,7 @@ export class KeywordsService {
       .map((res: Response) => res.json());
   }
 
-  public find(query, limit): Rx.Observable<any>  {
+  public find(query, limit): Observable<any>  {
 
     let params: string = [
       `format=json`,

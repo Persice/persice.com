@@ -1,8 +1,8 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
-import * as Rx from '@reactivex/rxjs';
+
 
 @Injectable()
 export class CrowdService {
@@ -13,7 +13,7 @@ export class CrowdService {
 
   }
 
-  public get(url: string, limit: number, filter: boolean): Rx.Observable<any> {
+  public get(url: string, limit: number, filter: boolean): Observable<any> {
 
     if (url === '') {
       let params: string = [
