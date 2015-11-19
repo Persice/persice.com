@@ -366,7 +366,7 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user1, goal=self.subject5)
         Goal.objects.create(user=self.user3, goal=self.subject5)
         Goal.objects.create(user=self.user4, goal=self.subject5)
-        FilterState.objects.create(user=self.user, min_age=36, max_age=76)
+        FilterState.objects.create(user=self.user, min_age=60, max_age=67)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 1)

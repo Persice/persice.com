@@ -423,10 +423,10 @@ class ElasticSearchMatchEngineManager(models.Manager):
                             gender_predicate.append({"term": {"interests": word}})
 
                 if fs[0].distance:
-                    distance = "%skm" % fs[0].distance
                     location = get_user_location(user.id)
                     distance_predicate = {"geo_distance": {
-                        "distance": distance,
+                        "distance": fs[0].distance,
+                        "unit": fs[0].distance_unit[:2],
                         "location": {
                             "lat": location.y,
                             "lon": location.x
