@@ -34,10 +34,6 @@ Thumbs.db
 /node_modules
 /bower_components
 
-# Typing TSD #
-/src/typings/tsd/
-/typings/
-/tsd_typings/
 
 # Dist
 /dist
