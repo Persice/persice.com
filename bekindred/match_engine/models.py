@@ -550,7 +550,15 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
-        fids = Friend.objects.all_my_friends(user_id)
+
+        fids = Friend.objects.all_my_friends(user_id) + \
+            Friend.objects.thumbed_up_i(user_id) + \
+            Friend.objects.deleted_friends(user_id) + \
+            list(FacebookCustomUser.objects.filter(is_superuser=True).
+                 values_list('id', flat=True)) + \
+            list(FacebookCustomUser.objects.
+                 filter(is_active=False, facebook_id__isnull=True).
+                 values_list('id', flat=True))
 
         for f in fids:
             exclude_user_ids.append('members.facebookcustomuseractive.%s' % f)
