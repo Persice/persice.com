@@ -11,7 +11,7 @@ import oauth2 as oauth
 
 from social_auth.db.django_models import UserSocialAuth
 
-from events.models import Event
+from events.models import Event, FilterState
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
 from world.models import UserLocation
@@ -83,10 +83,10 @@ def calculate_distance(user_id1, user_id2, units='miles'):
         except UserIPAddress.DoesNotExist:
             return distance
     try:
-        _units = MatchFilterState.objects.get(user_id=user_id1).distance_unit
+        _units = FilterState.objects.filter(user_id=user_id1)[0].distance_unit
         if _units in ('miles', 'km'):
             units = _units
-    except MatchFilterState.DoesNotExist:
+    except IndexError:
         pass
 
     distance = geopy_distance(user1_point, user2_point)

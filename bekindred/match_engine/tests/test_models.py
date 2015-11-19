@@ -4,6 +4,7 @@ from django_facebook.models import FacebookCustomUser, FacebookLike
 import haystack
 
 from events.models import FilterState
+from friends.models import Friend
 from goals.models import Subject, Offer, Goal
 from interests.models import InterestSubject, Interest
 from match_engine.models import ElasticSearchMatchEngine
@@ -421,3 +422,15 @@ class TestMatchQuerySet(BaseTestCase):
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 0)
+
+    def test_exclude_friends(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, distance=10000)
+        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')

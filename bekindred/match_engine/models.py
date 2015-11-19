@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import string
 import itertools
 
@@ -12,6 +13,7 @@ from goals.models import Goal, Subject, Offer
 from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
+from friends.models import Friend
 
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
@@ -548,6 +550,10 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
+        fids = Friend.objects.all_my_friends(user_id)
+
+        for f in fids:
+            exclude_user_ids.append('members.facebookcustomuseractive.%s' % f)
 
         response = ElasticSearchMatchEngineManager.\
             query_builder(user, query, fields, exclude_user_ids, stop_words,
