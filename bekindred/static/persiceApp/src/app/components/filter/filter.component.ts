@@ -1,6 +1,6 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
-import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES} from 'angular2/angular2';
+import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES, Input} from 'angular2/angular2';
 import {findIndex, isUndefined} from 'lodash';
 
 import {SelectComponent} from '../select/select.component';
@@ -27,6 +27,7 @@ declare var jQuery: any;
   template: view
 })
 export class FilterComponent {
+  @Input() showGender = true;
   filters: FilterModel;
   defaultState: InterfaceFilter;
   gender: string = 'm,f';

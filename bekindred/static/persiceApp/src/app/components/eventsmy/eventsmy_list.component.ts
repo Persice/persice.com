@@ -6,6 +6,7 @@ import {EventsListComponent} from '../eventslist/eventslist.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {NewEventCardComponent} from '../neweventcard/neweventcard.component';
 import {EventsService} from '../../services/events.service';
+import {FilterService} from '../../services/filter.service';
 
 declare var jQuery: any;
 
@@ -41,9 +42,39 @@ export class EventsMyListComponent {
     type: 'success'
   };
 
-  constructor(public service: EventsService) {
+  constructor(public service: EventsService, public filterService: FilterService) {
+
+  }
+
+  onInit() {
+    this.getList();
+    //create new observer and subscribe
+    this.filterService.addObserver('eventsmy');
+    this.filterService.observer('eventsmy')
+      .subscribe(
+      (data) => this.refreshList(),
+      (err) => console.log(err),
+      () => console.log('event completed')
+      );
+
+  }
+
+
+  onDestroy() {
+    this.filterService.observer('eventsmy').unsubscribe();
+    this.filterService.removeObserver('eventsmy');
+  }
+
+
+  refreshList() {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    this.items = [];
+    this.total_count = 0;
+    this.isListEmpty = false;
+    this.next = '';
     this.getList();
   }
+
 
 
   getList() {
