@@ -1,6 +1,12 @@
 /// <reference path="../../typings/_custom.d.ts" />
 import {take, slice} from 'lodash';
 
+
+declare var jstz: any;
+const moment = require('moment');
+const momentTz = require('moment-timezone/builds/moment-timezone-with-data.min');
+
+
 export class ObjectUtil {
 
   static clone<T extends Object>(data: T): T {
@@ -113,6 +119,19 @@ export class StringUtil {
     else {
       return false;
     }
+  }
+
+}
+
+
+
+export class DateUtil {
+  static format<T extends Date, S extends String>(data: T, format: S): S {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+    let formatedDate = moment.utc(data).tz(tzName).format(format);
+
+    return formatedDate;
   }
 
 }
