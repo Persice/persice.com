@@ -428,7 +428,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 if fs[0].distance:
                     location = get_user_location(user.id)
                     distance_predicate = {"geo_distance": {
-                        "distance": "%smi" % fs[0].distance,
+                        "distance": "{0}{1}".format(fs[0].distance,
+                                                    fs[0].distance_unit),
                         "location": {
                             "lat": location.y,
                             "lon": location.x

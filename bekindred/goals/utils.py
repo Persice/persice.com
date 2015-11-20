@@ -75,7 +75,7 @@ def calculate_distance_es(user_id, user_object):
     if _units == 'km':
         return [int(miles_to_km(distance)), 'km']
 
-    return [int(distance), 'mi']
+    return [int(distance), 'miles']
 
 
 def calculate_distance(user_id1, user_id2, units='miles'):
