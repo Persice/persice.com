@@ -59,7 +59,7 @@ describe('EventsService', () => {
 
   it('should find resource', (done: Function) => {
     ensureCommunication(backend, RequestMethods.Get, events);
-    service.get('', 12, true)
+    service.get('', 12, true, 'my')
       .subscribe(resp => {
         expect(resp).toBe(events);
         done();

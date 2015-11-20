@@ -6,14 +6,16 @@ import {Http, Response} from 'angular2/http';
 
 @Injectable()
 export class EventsService {
-  static API_URL: string = '/api/v1/feed/events/my/';
+  static API_URL_MY_EVENTS: string = '/api/v1/feed/events/my/';
+  static API_URL_MY_NETWORK: string = '/api/v1/feed/events/friends/';
+  static API_URL_ALL: string = '/api/v1/feed/events/all/';
   next: string = '';
 
   constructor(private http: Http) {
 
   }
 
-  public get(url: string, limit: number, filter: boolean): Observable<any> {
+  public get(url: string, limit: number, filter: boolean, type: string): Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -23,7 +25,22 @@ export class EventsService {
         `offset=0`,
       ].join('&');
 
-      this.next = `${EventsService.API_URL}?${params}`;
+      let apiUrl = '';
+      switch (type) {
+        case 'my':
+          apiUrl = `${EventsService.API_URL_MY_EVENTS}`;
+          break;
+        case 'all':
+          apiUrl = `${EventsService.API_URL_ALL}`;
+          break;
+        case 'network':
+          apiUrl = `${EventsService.API_URL_MY_NETWORK}`;
+          break;
+        default:
+          break;
+      }
+
+      this.next = `${apiUrl}?${params}`;
     }
     else {
       this.next = url;
