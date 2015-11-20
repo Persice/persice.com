@@ -1,7 +1,7 @@
 <div class="filter">
   <div class="filter__items">
     <div class="filter__item" *ng-if="showGender">
-      <h3 class="filter__item__title mb" >Gender</h3>
+      <h3 class="filter__item__title mb">Gender</h3>
       <label class="c-radio">
         <input class="c-radio__input" #all type="radio" (click)="changeGender(all.value)" name="radio" value="m,f" [checked]="gender === 'm,f'">
         <span class="c-radio__trigger"></span>
