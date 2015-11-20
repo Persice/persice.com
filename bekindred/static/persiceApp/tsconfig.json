@@ -61,6 +61,7 @@
         "src/app/models/user.model.ts",
         "src/app/pipes/gender.pipe.spec.ts",
         "src/app/pipes/gender.pipe.ts",
+        "src/app/pipes/moment.pipe.ts",
         "src/app/pipes/numeral.pipe.ts",
         "src/app/services/crowd.service.ts",
         "src/app/services/connections.service.ts",

@@ -3,6 +3,7 @@
 import {Component, NgFor, EventEmitter} from 'angular2/angular2';
 
 import {EventCardComponent} from '../eventcard/eventcard.component';
+declare var jQuery: any;
 
 @Component({
   inputs: ['events'],
@@ -10,7 +11,9 @@ import {EventCardComponent} from '../eventcard/eventcard.component';
   selector: 'events-list',
   directives: [EventCardComponent, NgFor],
   template: `
-    events-list
+  <div class="layout__item large-1/3 extralarge-and-up-1/4" *ng-for="#event of events">
+    <event-card [event]="event"></event-card>
+  </div>
   `
 })
 export class EventsListComponent {
@@ -20,4 +23,5 @@ export class EventsListComponent {
   onItemClicked(data) {
     this.onClicked.next(data);
   }
+
 }
