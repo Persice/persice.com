@@ -398,8 +398,11 @@ class ElasticSearchMatchEngineManager(models.Manager):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         body = {}
+        location = get_user_location(user.id)
+        fs = FilterState.objects.filter(user=user)
+        distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+
         if is_filter:
-            fs = FilterState.objects.filter(user=user)
             gender_predicate = {}
             age_predicate = {}
             distance_predicate = {}
@@ -425,8 +428,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 if fs[0].distance:
                     location = get_user_location(user.id)
                     distance_predicate = {"geo_distance": {
-                        "distance": fs[0].distance,
-                        "unit": fs[0].distance_unit[:2],
+                        "distance": "%smi" % fs[0].distance,
                         "location": {
                             "lat": location.y,
                             "lon": location.x
@@ -476,7 +478,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                                 "lon": location.x
                             },
                             "order": "asc",
-                            "unit": "km"
+                            "unit": distance_unit
                         }
                     }
                 ]
@@ -518,7 +520,19 @@ class ElasticSearchMatchEngineManager(models.Manager):
                             }
                         }
                     }
-                }
+                },
+                "sort": [
+                    {
+                        "_geo_distance": {
+                            "location": {
+                                "lat": location.y,
+                                "lon": location.x
+                            },
+                            "order": "asc",
+                            "unit": distance_unit
+                        }
+                    }
+                ]
             }
             response = client.search(index=index, body=body, size=50)
 

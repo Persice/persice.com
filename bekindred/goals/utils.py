@@ -46,6 +46,38 @@ def get_user_location(user_id):
             pass
 
 
+def miles_to_km(x):
+    return 1.60934 * x
+
+
+def km_to_mile(x):
+    return x * 0.62137
+
+
+def miles_to_meters(x):
+    return x * 1609.34
+
+
+def calculate_distance_es(user_id, user_object):
+    _units = FilterState.objects.filter(user_id=user_id)[0].distance_unit
+
+    distance = user_object.get('sort', [0])[0]
+
+    if _units == 'km':
+        distance = km_to_mile(distance)
+
+    if distance < 1.0:
+        if miles_to_meters(distance) <= 10.0:
+            return [10, 'm']
+        else:
+            return [int(miles_to_meters(distance)), 'm']
+
+    if _units == 'km':
+        return [int(miles_to_km(distance)), 'km']
+
+    return [int(distance), 'mi']
+
+
 def calculate_distance(user_id1, user_id2, units='miles'):
     """
     calculate distance

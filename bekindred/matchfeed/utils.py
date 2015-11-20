@@ -4,7 +4,8 @@ from django_facebook.models import FacebookLike
 import re
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
-from goals.utils import calculate_age, calculate_distance, social_extra_data
+from goals.utils import calculate_age, calculate_distance, social_extra_data, \
+    calculate_distance_es
 from interests.models import Interest, InterestSubject
 from match_engine.models import MatchEngine, ElasticSearchMatchEngineManager, \
     ElasticSearchMatchEngine
@@ -116,7 +117,7 @@ class MatchUser(object):
         self.photos = []
         self.twitter_provider, self.linkedin_provider, self.twitter_username = \
             social_extra_data(self.user.id)
-        self.distance = calculate_distance(current_user_id, self.user_id)
+        self.distance = calculate_distance_es(current_user_id, user_object)
         # Scores
         self.score = self.match_score()
         self.es_score = user_object.get('_score', 0)
