@@ -118,7 +118,7 @@ export class CrowdComponent {
 
     if (this.items.length > 0) {
       let more = data.objects;
-      for (var i = more.length - 1; i >= 0; i--) {
+      for (var i = 0; i <= more.length - 1; i++) {
         this.items.push(more[i]);
       }
 

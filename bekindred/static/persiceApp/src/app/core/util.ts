@@ -104,3 +104,16 @@ export class CookieUtil {
   }
 }
 
+
+export class StringUtil {
+  static contains<T extends string>(data: T, substring): boolean {
+    if (data.indexOf(substring) !== -1) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+}
+
