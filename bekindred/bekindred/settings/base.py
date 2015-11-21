@@ -307,7 +307,6 @@ ELASTICSEARCH_INDEX_SETTINGS = {
 }
 
 
-
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 LOGGING = {
