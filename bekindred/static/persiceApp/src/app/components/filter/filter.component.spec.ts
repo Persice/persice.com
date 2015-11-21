@@ -32,6 +32,7 @@ import {FilterService} from '../../services/filter.service';
   directives: [FilterComponent]
 })
 class TestComponent {
+  showGender: Boolean = true;
 }
 
 describe('Filter component', () => {
@@ -54,9 +55,9 @@ describe('Filter component', () => {
 
 
   it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><filters></filters><div>')
+    return tcb.overrideTemplate(TestComponent, '<div><filters [show-gender]="showGender"></filters><div>')
       .createAsync(TestComponent).then((fixture: any) => {
-
+        fixture.detectChanges();
         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
         let componentDOMEl = fixture.debugElement.nativeElement;
         let elRef = fixture.debugElement.elementRef;
@@ -67,9 +68,9 @@ describe('Filter component', () => {
   }));
 
   it('should have gender', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><filters></filters><div>')
+    return tcb.overrideTemplate(TestComponent, '<div><filters [show-gender]="showGender"></filters><div>')
       .createAsync(TestComponent).then((fixture: any) => {
-
+        fixture.detectChanges();
         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
         let componentDOMEl = fixture.debugElement.nativeElement;
         let elRef = fixture.debugElement.elementRef;
@@ -82,9 +83,9 @@ describe('Filter component', () => {
   }));
 
   it('should have age', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><filters></filters><div>')
+    return tcb.overrideTemplate(TestComponent, '<div><filters [show-gender]="showGender"></filters><div>')
       .createAsync(TestComponent).then((fixture: any) => {
-
+        fixture.detectChanges();
         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
         let componentDOMEl = fixture.debugElement.nativeElement;
         let elRef = fixture.debugElement.elementRef;
@@ -96,9 +97,9 @@ describe('Filter component', () => {
   }));
 
   it('should have distance', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><filters></filters><div>')
+    return tcb.overrideTemplate(TestComponent, '<div><filters [show-gender]="showGender"></filters><div>')
       .createAsync(TestComponent).then((fixture: any) => {
-
+        fixture.detectChanges();
         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
         let componentDOMEl = fixture.debugElement.nativeElement;
         let elRef = fixture.debugElement.elementRef;
@@ -111,9 +112,9 @@ describe('Filter component', () => {
 
 
   it('should have order by', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><filters></filters><div>')
+    return tcb.overrideTemplate(TestComponent, '<div><filters [show-gender]="showGender"></filters><div>')
       .createAsync(TestComponent).then((fixture: any) => {
-
+        fixture.detectChanges();
         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
         let componentDOMEl = fixture.debugElement.nativeElement;
         let elRef = fixture.debugElement.elementRef;

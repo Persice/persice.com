@@ -6,6 +6,7 @@ import {RouteConfig, RouterLink, ROUTER_DIRECTIVES, Router, Location} from 'angu
 
 import {StringUtil} from '../../core/util';
 
+import {FilterComponent} from '../filter/filter.component';
 import {SubnavComponent} from '../subnav/subnav.component';
 import {EventsMyListComponent} from '../eventsmy/eventsmy_list.component';
 import {EventsMyMapComponent} from '../eventsmy/eventsmy_map.component';
@@ -22,61 +23,64 @@ let view = require('./events.html');
   selector: 'events',
   template: view,
   directives: [
-  SubnavComponent,
-  ROUTER_DIRECTIVES,
-  RouterLink,
-  NgClass
+    SubnavComponent,
+    ROUTER_DIRECTIVES,
+    RouterLink,
+    NgClass,
+    FilterComponent
   ]
 })
 @RouteConfig([
-{
-  path: '/my/list',
-  component: EventsMyListComponent,
-  name: 'MyEventsList'
-},
-{
-  path: '/my/map',
-  component: EventsMyMapComponent,
-  name: 'MyEventsMap'
-},
-{
-  path: '/my/calendar',
-  component: EventsMyCalendarComponent,
-  name: 'MyEventsCalendar'
-},
-{
-  path: '/all/list',
-  component: EventsAllListComponent,
-  name: 'AllEventsList'
-},
-{
-  path: '/all/map',
-  component: EventsAllMapComponent,
-  name: 'AllEventsMap'
-},
-{
-  path: '/all/calendar',
-  component: EventsAllCalendarComponent,
-  name: 'AllEventsCalendar'
-},
-{
-  path: '/network/list',
-  component: EventsNetworkListComponent,
-  name: 'NetworkEventsList'
-},
-{
-  path: '/network/map',
-  component: EventsNetworkMapComponent,
-  name: 'NetworkEventsMap'
-},
-{
-  path: '/network/calendar',
-  component: EventsNetworkCalendarComponent,
-  name: 'NetworkEventsCalendar'
-}
+  {
+    path: '/my/list',
+    component: EventsMyListComponent,
+    name: 'MyEventsList'
+  },
+  {
+    path: '/my/map',
+    component: EventsMyMapComponent,
+    name: 'MyEventsMap'
+  },
+  {
+    path: '/my/calendar',
+    component: EventsMyCalendarComponent,
+    name: 'MyEventsCalendar'
+  },
+  {
+    path: '/all/list',
+    component: EventsAllListComponent,
+    name: 'AllEventsList'
+  },
+  {
+    path: '/all/map',
+    component: EventsAllMapComponent,
+    name: 'AllEventsMap'
+  },
+  {
+    path: '/all/calendar',
+    component: EventsAllCalendarComponent,
+    name: 'AllEventsCalendar'
+  },
+  {
+    path: '/network/list',
+    component: EventsNetworkListComponent,
+    name: 'NetworkEventsList'
+  },
+  {
+    path: '/network/map',
+    component: EventsNetworkMapComponent,
+    name: 'NetworkEventsMap'
+  },
+  {
+    path: '/network/calendar',
+    component: EventsNetworkCalendarComponent,
+    name: 'NetworkEventsCalendar'
+  }
 ])
 
 export class EventsComponent {
+
+  showGender: Boolean = false;
   activeRoute = {
     list: true,
     map: false,

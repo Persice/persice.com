@@ -1,15 +1,12 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, NgIf, NgFor, EventEmitter, NgStyle} from 'angular2/angular2';
-
-
+import {Component, EventEmitter} from 'angular2/angular2';
 let view = require('./neweventcard.html');
 
 @Component({
   outputs: ['onClick'],
   selector: 'newevent-card',
-  template: view,
-  directives: [NgIf, NgFor, NgStyle]
+  template: view
 })
 export class NewEventCardComponent {
 

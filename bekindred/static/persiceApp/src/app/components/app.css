@@ -201,6 +201,10 @@ input.range-to {
   height: 43px;
 }
 
+.switch-list__link {
+  cursor: pointer;
+}
+
 
 /* fix for navmain active link class */
 
@@ -208,5 +212,7 @@ input.range-to {
   color: #fff;
   background: #3d474d;
 }
+
+
 
 
