@@ -52,7 +52,7 @@ class DistanceMilesTestCase(TestCase):
     def test_mi(self):
         user_object = {'sort': [5.323]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [5, 'mi'])
+        self.assertEqual(d, [5, 'miles'])
 
     def test_m_50(self):
         user_object = {'sort': [0.0]}
@@ -62,14 +62,14 @@ class DistanceMilesTestCase(TestCase):
     def test_m_gte_50(self):
         user_object = {'sort': [0.9]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d,[1448, 'm'])
+        self.assertEqual(d, [1448, 'm'])
 
     def test_1_mi(self):
         user_object = {'sort': [1.0]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [1, 'mi'])
+        self.assertEqual(d, [1, 'miles'])
 
     def test_gte_1_mi(self):
         user_object = {'sort': [1.7]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [1, 'mi'])
+        self.assertEqual(d, [1, 'miles'])

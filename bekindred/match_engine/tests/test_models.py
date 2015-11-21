@@ -9,7 +9,7 @@ from goals.models import Subject, Offer, Goal
 from interests.models import InterestSubject, Interest
 from match_engine.models import ElasticSearchMatchEngine
 from django.test import TestCase
-from haystack.management.commands import update_index, rebuild_index
+from haystack.management.commands import update_index, rebuild_index, clear_index
 from matchfeed.utils import MatchQuerySet
 from world.models import UserLocation
 
@@ -29,6 +29,10 @@ class TestMatchQuerySet(BaseTestCase):
 
     def setUp(self):
         haystack.connections.reload('default')
+        Goal.objects.all().delete()
+        Offer.objects.all().delete()
+        Subject.objects.all().delete()
+        FacebookCustomUser.objects.all().delete()
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', facebook_id=1234567,
                         first_name='Andrii', password='test', gender='m',
@@ -103,7 +107,7 @@ class TestMatchQuerySet(BaseTestCase):
             create(description='learn python')
         self.i_subject4 = InterestSubject.objects. \
             create(description='kiteboarding')
-
+        clear_index.Command().handle(interactive=False)
         rebuild_index.Command().handle(interactive=False)
 
     def tearDown(self):
@@ -434,3 +438,21 @@ class TestMatchQuerySet(BaseTestCase):
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].first_name, 'Sasa')
+
+    def test_order_mutual_friends(self):
+        Goal.objects.get_or_create(user=self.user, goal=self.subject)
+        Goal.objects.get_or_create(user=self.user1, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user2, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user3, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user4, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user5, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, distance=16000)
+        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
+        Friend.objects.create(friend1=self.user5, friend2=self.user1, status=1)
+        Friend.objects.create(friend1=self.user5, friend2=self.user3, status=1)
+        Friend.objects.create(friend1=self.user4, friend2=self.user1, status=1)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 1)

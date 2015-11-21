@@ -122,8 +122,7 @@ class MatchUser(object):
         # Scores
         self.score = self.match_score()
         self.es_score = user_object.get('_score', 0)
-        self.friends_score = 0
-        # self.friends_score = self.get_friends_score(current_user_id, user_object)
+        self.friends_score = self.get_friends_score(current_user_id, user_object)
         self.top_interests = self.get_top_interests(user_object)
 
     def get_user_info(self, user_object):
@@ -161,13 +160,13 @@ class MatchUser(object):
             return [d]
 
     def get_friends_score(self, current_user_id, user_object):
-        user_id = int(user_object.get(id).split('.')[-1])
+        user_id = int(user_object['_id'].split('.')[-1])
         mutual_bk_friends_count = len(
                 Friend.objects.mutual_friends(current_user_id, user_id))
 
         mutual_fb_friends_count = len(
                 FacebookFriendUser.objects.mutual_friends(
-                        current_user_id, user_object))
+                        current_user_id, user_id))
 
         l = get_mutual_linkedin_connections(current_user_id, user_id)
         mutual_linkedin_connections_count = l['mutual_linkedin_count']
