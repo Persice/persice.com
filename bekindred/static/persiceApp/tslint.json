@@ -1,9 +1,9 @@
 {
   "rules": {
-    "align": [true,
+    "align": [false
     // "parameters",
-    "arguments",
-    "statements"
+    // "arguments",
+    // "statements"
     ],
     "class-name": true,
     "comment-format": [true],
