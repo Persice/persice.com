@@ -29,7 +29,7 @@ class DistanceKmTestCase(TestCase):
     def test_m_gte_50(self):
         user_object = {'sort': [0.9]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d,[899, 'm'])
+        self.assertEqual(d, [899, 'm'])
 
     def test_1_km(self):
         user_object = {'sort': [1.0]}
