@@ -2,6 +2,7 @@ from datetime import date
 from django.core.management import call_command
 from django_facebook.models import FacebookCustomUser, FacebookLike
 import haystack
+from tastypie.test import ResourceTestCase
 
 from events.models import FilterState
 from friends.models import Friend
@@ -24,10 +25,11 @@ class BaseTestCase(TestCase):
         call_command('clear_index', interactive=False, verbosity=0)
 
 
-class TestMatchQuerySet(BaseTestCase):
+class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
     fixtures = ['initial_data.json']
 
     def setUp(self):
+        super(TestMatchQuerySet, self).setUp()
         haystack.connections.reload('default')
         Goal.objects.all().delete()
         Offer.objects.all().delete()
@@ -439,6 +441,10 @@ class TestMatchQuerySet(BaseTestCase):
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].first_name, 'Sasa')
 
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a',
+                                                       'password': 'test'})
+
     def test_order_mutual_friends(self):
         Goal.objects.get_or_create(user=self.user, goal=self.subject)
         Goal.objects.get_or_create(user=self.user1, goal=self.subject5)
@@ -446,13 +452,22 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.get_or_create(user=self.user3, goal=self.subject5)
         Goal.objects.get_or_create(user=self.user4, goal=self.subject5)
         Goal.objects.get_or_create(user=self.user5, goal=self.subject5)
-        FilterState.objects.create(user=self.user, min_age=18,
-                                   max_age=99, distance=16000)
+        FilterState.objects.create(user=self.user, min_age=18, max_age=99,
+                                   distance=16000, order_criteria='mutual_friends')
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
         Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
         Friend.objects.create(friend1=self.user5, friend2=self.user1, status=1)
         Friend.objects.create(friend1=self.user5, friend2=self.user3, status=1)
         Friend.objects.create(friend1=self.user4, friend2=self.user1, status=1)
         update_index.Command().handle(interactive=False)
-        match_users = MatchQuerySet.all(self.user.id)
-        self.assertEqual(len(match_users), 1)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 3)
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed2/',
+                                   data={'filter': 'true'}, format='json')
+        self.assertValidJSONResponse(resp)
+        data = self.deserialize(resp)['objects']
+        self.assertEqual(data[0]['friends_score'], 2)
+        self.assertEqual(data[1]['friends_score'], 1)
+        self.assertEqual(data[2]['friends_score'], 0)
+
