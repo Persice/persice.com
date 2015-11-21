@@ -76,6 +76,8 @@ export class FilterComponent {
     type: 'single'
   };
 
+  timeoutIdFiltersSave = null;
+
   constructor(
     public filterService: FilterService
   ) {
@@ -157,10 +159,18 @@ export class FilterComponent {
     delete data.keyword;
 
     let resourceUri = this.filters.state.resource_uri;
-    this.filterService.updateOne(resourceUri, data)
-    .subscribe(res => {
-      this.filterService.publishObservers();
-    });
+
+    if (this.timeoutIdFiltersSave) {
+      window.clearTimeout(this.timeoutIdFiltersSave);
+    }
+    this.timeoutIdFiltersSave = window.setTimeout(() => {
+
+      this.filterService.updateOne(resourceUri, data)
+        .subscribe(res => {
+          this.filterService.publishObservers();
+        });
+    }, 250);
+
   }
 
 

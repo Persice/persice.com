@@ -23,6 +23,7 @@ export class SearchKeywordsInputComponent {
   el: ElementRef;
   keywords: any[];
   filters: FilterModel;
+  timeoutIdFiltersSave = null;
 
   constructor(
     @Inject(ElementRef) el: ElementRef,
@@ -135,10 +136,15 @@ export class SearchKeywordsInputComponent {
       keyword: tokens,
       user: this.filters.state.user
     };
-    this.filterService.updateOne(this.filters.state.resource_uri, data)
-      .subscribe(res => {
-        this.filterService.publishObservers();
-      });
+    if (this.timeoutIdFiltersSave) {
+      window.clearTimeout(this.timeoutIdFiltersSave);
+    }
+    this.timeoutIdFiltersSave = window.setTimeout(() => {
+      this.filterService.updateOne(this.filters.state.resource_uri, data)
+        .subscribe(res => {
+          this.filterService.publishObservers();
+        });
+    }, 250);
   }
 
 }
