@@ -470,4 +470,3 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         self.assertEqual(data[0]['friends_score'], 2)
         self.assertEqual(data[1]['friends_score'], 1)
         self.assertEqual(data[2]['friends_score'], 0)
-

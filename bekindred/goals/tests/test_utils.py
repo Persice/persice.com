@@ -12,6 +12,7 @@ class DistanceKmTestCase(TestCase):
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', facebook_id=1234567,
                         password='test', date_of_birth=date(1989, 5, 20))
+        FilterState.objects.all().delete()
         FilterState.objects.create(user=self.user, distance=10,
                                    distance_unit='km')
 
@@ -46,6 +47,7 @@ class DistanceMilesTestCase(TestCase):
         self.user = FacebookCustomUser.objects. \
             create_user(username='user_a', facebook_id=1234567,
                         password='test', date_of_birth=date(1989, 5, 20))
+        FilterState.objects.all().delete()
         FilterState.objects.create(user=self.user, distance=10,
                                    distance_unit='miles')
 
