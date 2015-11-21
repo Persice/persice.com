@@ -65,7 +65,7 @@ describe('UsersList component', () => {
 
         let usersLength = users.length;
 
-        expect(DOM.querySelectorAll(componentDOMEl, 'div.layout__item').length).toEqual(usersLength);
+        expect(DOM.querySelectorAll(componentDOMEl, '.card--user').length).toEqual(usersLength);
 
 
       });
