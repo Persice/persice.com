@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import string
 import itertools
 
@@ -12,6 +13,7 @@ from goals.models import Goal, Subject, Offer
 from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
 from members.models import FacebookCustomUserActive, FacebookLikeProxy
+from friends.models import Friend
 
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
@@ -396,8 +398,11 @@ class ElasticSearchMatchEngineManager(models.Manager):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         body = {}
+        location = get_user_location(user.id)
+        fs = FilterState.objects.filter(user=user)
+        distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+
         if is_filter:
-            fs = FilterState.objects.filter(user=user)
             gender_predicate = {}
             age_predicate = {}
             distance_predicate = {}
@@ -421,10 +426,10 @@ class ElasticSearchMatchEngineManager(models.Manager):
                             gender_predicate.append({"term": {"interests": word}})
 
                 if fs[0].distance:
-                    distance = "%skm" % fs[0].distance
                     location = get_user_location(user.id)
                     distance_predicate = {"geo_distance": {
-                        "distance": distance,
+                        "distance": "{0}{1}".format(fs[0].distance,
+                                                    fs[0].distance_unit),
                         "location": {
                             "lat": location.y,
                             "lon": location.x
@@ -474,12 +479,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
                                 "lon": location.x
                             },
                             "order": "asc",
-                            "unit": "km"
+                            "unit": distance_unit
                         }
                     }
                 ]
             }
-            response = client.search(index=index, body=body)
+            response = client.search(index=index, body=body, size=50)
             #     .query(Q("multi_match", query=query, fields=fields)) \
             #     .filter(~F("ids", type="modelresult", values=exclude_user_ids)) \
             #     .filter(F("term", gender=gender)) \
@@ -516,15 +521,30 @@ class ElasticSearchMatchEngineManager(models.Manager):
                             }
                         }
                     }
-                }
+                },
+                "sort": [
+                    {
+                        "_geo_distance": {
+                            "location": {
+                                "lat": location.y,
+                                "lon": location.x
+                            },
+                            "order": "asc",
+                            "unit": distance_unit
+                        }
+                    }
+                ]
             }
-            response = client.search(index=index, body=body)
+            response = client.search(index=index, body=body, size=50)
 
         print response
         return response
 
     @staticmethod
     def match(user_id, friends=(), is_filter=False):
+        from nltk.stem.porter import PorterStemmer
+        porter_stemmer = PorterStemmer()
+
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         goals = user.goal_set.all()
         offers = user.offer_set.all()
@@ -536,12 +556,27 @@ class ElasticSearchMatchEngineManager(models.Manager):
                          translate(remove_punctuation_map).split())
 
         stop_words = StopWords.objects.all().values_list('word', flat=True)
+        st_stop_words = [porter_stemmer.stem(w) for w in stop_words]
 
-        removed_stopwords = [word for word in words if word not in stop_words]
+        removed_stopwords = [word for word in words
+                             if porter_stemmer.stem(word) not in st_stop_words]
+
         query = ' '.join(removed_stopwords)
 
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
+
+        fids = Friend.objects.all_my_friends(user_id) + \
+            Friend.objects.thumbed_up_i(user_id) + \
+            Friend.objects.deleted_friends(user_id) + \
+            list(FacebookCustomUser.objects.filter(is_superuser=True).
+                 values_list('id', flat=True)) + \
+            list(FacebookCustomUser.objects.
+                 filter(is_active=False, facebook_id__isnull=True).
+                 values_list('id', flat=True))
+
+        for f in fids:
+            exclude_user_ids.append('members.facebookcustomuseractive.%s' % f)
 
         response = ElasticSearchMatchEngineManager.\
             query_builder(user, query, fields, exclude_user_ids, stop_words,

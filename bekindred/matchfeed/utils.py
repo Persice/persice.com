@@ -4,7 +4,9 @@ from django_facebook.models import FacebookLike
 import re
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
-from goals.utils import calculate_age, calculate_distance, social_extra_data
+from goals.utils import calculate_age, calculate_distance, social_extra_data, \
+    calculate_distance_es, get_mutual_linkedin_connections, \
+    get_mutual_twitter_friends
 from interests.models import Interest, InterestSubject
 from match_engine.models import MatchEngine, ElasticSearchMatchEngineManager, \
     ElasticSearchMatchEngine
@@ -116,11 +118,11 @@ class MatchUser(object):
         self.photos = []
         self.twitter_provider, self.linkedin_provider, self.twitter_username = \
             social_extra_data(self.user.id)
-        self.distance = calculate_distance(current_user_id, self.user_id)
+        self.distance = calculate_distance_es(current_user_id, user_object)
         # Scores
         self.score = self.match_score()
         self.es_score = user_object.get('_score', 0)
-        self.friends_score = self.match_score()
+        self.friends_score = self.get_friends_score(current_user_id, user_object)
         self.top_interests = self.get_top_interests(user_object)
 
     def get_user_info(self, user_object):
@@ -157,8 +159,27 @@ class MatchUser(object):
                 d[subj] = 0
             return [d]
 
-    def friends_score(self):
-        return 0
+    def get_friends_score(self, current_user_id, user_object):
+        user_id = int(user_object['_id'].split('.')[-1])
+        mutual_bk_friends_count = len(
+                Friend.objects.mutual_friends(current_user_id, user_id))
+
+        mutual_fb_friends_count = len(
+                FacebookFriendUser.objects.mutual_friends(
+                        current_user_id, user_id))
+
+        l = get_mutual_linkedin_connections(current_user_id, user_id)
+        mutual_linkedin_connections_count = l['mutual_linkedin_count']
+
+        t = get_mutual_twitter_friends(current_user_id, user_id)
+        mutual_twitter_friends_count = t['count_mutual_twitter_friends']
+        mutual_twitter_followers_count = t['count_mutual_twitter_followers']
+
+        friends_score = mutual_bk_friends_count + mutual_fb_friends_count + \
+            mutual_linkedin_connections_count + \
+            mutual_twitter_followers_count + mutual_twitter_friends_count
+
+        return friends_score
 
     def highlight(self, user_object, target='goals'):
         """

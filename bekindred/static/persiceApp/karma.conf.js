@@ -48,6 +48,10 @@ module.exports = function(config) {
       pattern: './src/public/lib/jquery-2.1.4.js',
       watched: false
     },
+     {
+      pattern: './src/public/lib/jstz.js',
+      watched: false
+    },
     {
       pattern: './src/public/lib/circle-progress.js',
       watched: false

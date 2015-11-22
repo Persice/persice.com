@@ -1,8 +1,8 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
-import * as Rx from '@reactivex/rxjs';
+
 
 @Injectable()
 export class SearchService {
@@ -13,7 +13,7 @@ export class SearchService {
 
   }
 
-  public search(query, type): Rx.Observable<any> {
+  public search(query, type): Observable<any> {
     let params: string = [
       `format=json`,
       `q=${query}`,

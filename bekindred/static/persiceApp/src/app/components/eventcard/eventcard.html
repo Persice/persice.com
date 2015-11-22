@@ -1,0 +1,22 @@
+<a class="card card--event">
+  <div class="card--event__inside js-match-height-1">
+    <div class="card--event__img">
+    <div class="card--event__img__holder js-image-liquid" [ng-style]="{'background-image': 'url(' + photo + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
+      </div>
+    </div>
+    <div class="card--event__info">
+      <div class="layout">
+        <div class="layout__item 1/2 text-left eventdate"> {{date}}</div>
+        <div class="layout__item 1/2 text-right eventdistance"> {{event.distance[0]}} {{event.distance[1]}} </div>
+      </div>
+    </div>
+    <h4 class="card-title mb- eventname">{{event.name}}</h4>
+    <p class="card-subtitle mb eventlocation">{{event.location_name}} / {{event.city}}</p>
+  </div>
+  <div class="card__stat">
+    <div class="layout layout--flush">
+      <div class="layout__item 1/2 eventscore"> <span class="card-stat__value">{{event.cumulative_match_score}}</span> <span class="card-stat__label">Similar</span> </div>
+      <div class="layout__item 1/2 eventattendees"> <span class="card-stat__value">{{event.friend_attendees_count}}</span> <span class="card-stat__label">Connections</span> </div>
+    </div>
+  </div>
+</a>

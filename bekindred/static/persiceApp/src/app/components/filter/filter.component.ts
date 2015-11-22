@@ -1,6 +1,6 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
-import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES} from 'angular2/angular2';
+import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES, Input} from 'angular2/angular2';
 import {findIndex, isUndefined} from 'lodash';
 
 import {SelectComponent} from '../select/select.component';
@@ -27,6 +27,7 @@ declare var jQuery: any;
   template: view
 })
 export class FilterComponent {
+  @Input() showGender = true;
   filters: FilterModel;
   defaultState: InterfaceFilter;
   gender: string = 'm,f';
@@ -74,6 +75,8 @@ export class FilterComponent {
     from: 0,
     type: 'single'
   };
+
+  timeoutIdFiltersSave = null;
 
   constructor(
     public filterService: FilterService
@@ -156,10 +159,18 @@ export class FilterComponent {
     delete data.keyword;
 
     let resourceUri = this.filters.state.resource_uri;
-    this.filterService.updateOne(resourceUri, data)
-    .subscribe(res => {
-      this.filterService.publishObservers();
-    });
+
+    if (this.timeoutIdFiltersSave) {
+      window.clearTimeout(this.timeoutIdFiltersSave);
+    }
+    this.timeoutIdFiltersSave = window.setTimeout(() => {
+
+      this.filterService.updateOne(resourceUri, data)
+        .subscribe(res => {
+          this.filterService.publishObservers();
+        });
+    }, 250);
+
   }
 
 

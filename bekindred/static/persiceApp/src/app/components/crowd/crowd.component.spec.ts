@@ -15,7 +15,6 @@ tick
 } from 'angular2/testing';
 
 import {Component, View, provide, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
-import {Location} from 'angular2/router';
 import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
 ResponseOptions, RequestMethods, HTTP_BINDINGS
 } from 'angular2/http';
@@ -36,13 +35,27 @@ import {FilterService} from '../../services/filter.service';
 class TestComponent {
 }
 
+
+class MockFilterService extends FilterService {
+
+}
+
+
+class MockFriendService extends FriendService {
+
+}
+
+
+class MockCrowdService extends CrowdService {
+
+}
+
 describe('Crowd component', () => {
 
   beforeEachProviders(() => [
-    CrowdService,
-    FriendService,
-    FilterService,
-    Location,
+    provide(FilterService, {useClass: MockFilterService}),
+    provide(CrowdService, {useClass: MockCrowdService}),
+    provide(FriendService, {useClass: MockFriendService}),
     BaseRequestOptions,
     CORE_DIRECTIVES,
     MockBackend,
@@ -68,7 +81,7 @@ describe('Crowd component', () => {
         let componentDOMEl = fixture.debugElement.nativeElement;
         let elRef = fixture.debugElement.elementRef;
 
-        expect(true).toBe(true);
+        expect(elRef).not.toBeNull(true);
 
 
       });

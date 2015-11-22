@@ -1,20 +1,19 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable} from 'angular2/angular2';
+import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
-import * as Rx from '@reactivex/rxjs';
+
 
 @Injectable()
 export class CrowdService {
-  static API_URL_V1: string = '/api/v1/matchfeed/';
-  static API_URL_V2: string = '/api/v1/matchfeed2/';
+  static API_URL: string = '/api/v1/matchfeed2/';
   next: string = '';
 
   constructor(private http: Http) {
 
   }
 
-  public get(url: string, limit: number, version: string, filter: boolean): Rx.Observable<any> {
+  public get(url: string, limit: number, filter: boolean): Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -23,20 +22,8 @@ export class CrowdService {
         `filter=${filter}`,
         `offset=0`,
       ].join('&');
-      let apiUrl = '';
 
-      switch (version) {
-        case 'v1':
-          apiUrl = `${CrowdService.API_URL_V1}?${params}`;
-          break;
-        case 'v2':
-          apiUrl = `${CrowdService.API_URL_V2}?${params}`;
-          break;
-        default:
-          apiUrl = `${CrowdService.API_URL_V2}?${params}`;
-          break;
-      }
-      this.next = apiUrl;
+      this.next = `${CrowdService.API_URL}?${params}`;
     }
     else {
       this.next = url;

@@ -10,7 +10,7 @@ import {HTTP_BINDINGS} from 'angular2/http';
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
-import {RouteConfig, ROUTER_DIRECTIVES, Route} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 
 
@@ -40,6 +40,7 @@ import {AuthUserModel} from '../models/user.model';
 import {FilterService} from '../services/filter.service';
 import {UserService} from '../services/user.service';
 import {NotificationService} from '../services/notification.service';
+import {EventsService} from '../services/events.service';
 
 let view = require('./app.html');
 
@@ -49,37 +50,36 @@ let view = require('./app.html');
  * Top Level Component
  */
 @RouteConfig([
-  // 'as' will be renamed to 'name' => https://github.com/angular/angular/issues/4622
-  new Route({
+  {
     path: '/',
     component: HomeComponent,
     name: 'Home'
-  }),
-  new Route({
-    path: '/crowd/:version',
+  },
+  {
+    path: '/crowd',
     component: CrowdComponent,
     name: 'Crowd'
-  }),
-  new Route({
+  },
+  {
     path: '/messages',
     component: MessagesComponent,
     name: 'Messages'
-  }),
-  new Route({
+  },
+  {
     path: '/connections',
     component: ConnectionsComponent,
     name: 'Connections'
-  }),
-  new Route({
-    path: '/events',
+  },
+  {
+    path: '/events/...',
     component: EventsComponent,
     name: 'Events'
-  }),
-  new Route({
+  },
+  {
     path: '/profilepage',
     component: ProfileComponent,
     name: 'Profile'
-  })
+  }
 ])
 @Component({
   selector: 'persice-app',
@@ -96,7 +96,7 @@ let view = require('./app.html');
   styles: [`
    `],
   template: view,
-  providers: [FilterService, UserService, NotificationService]
+  providers: [FilterService, UserService, NotificationService, EventsService]
 })
 export class AppComponent {
   user: AuthUserModel;
@@ -115,7 +115,9 @@ export class AppComponent {
   ) {
     //default image
     this.image = this.userService.getDefaultImage();
+
   }
+
   onInit() {
     // Get AuthUser info for the app
     this.userService.get()

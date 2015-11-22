@@ -2,13 +2,15 @@ from datetime import date
 from django.core.management import call_command
 from django_facebook.models import FacebookCustomUser, FacebookLike
 import haystack
+from tastypie.test import ResourceTestCase
 
 from events.models import FilterState
+from friends.models import Friend
 from goals.models import Subject, Offer, Goal
 from interests.models import InterestSubject, Interest
 from match_engine.models import ElasticSearchMatchEngine
 from django.test import TestCase
-from haystack.management.commands import update_index, rebuild_index
+from haystack.management.commands import update_index, rebuild_index, clear_index
 from matchfeed.utils import MatchQuerySet
 from world.models import UserLocation
 
@@ -23,11 +25,16 @@ class BaseTestCase(TestCase):
         call_command('clear_index', interactive=False, verbosity=0)
 
 
-class TestMatchQuerySet(BaseTestCase):
+class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
     fixtures = ['initial_data.json']
 
     def setUp(self):
+        super(TestMatchQuerySet, self).setUp()
         haystack.connections.reload('default')
+        Goal.objects.all().delete()
+        Offer.objects.all().delete()
+        Subject.objects.all().delete()
+        FacebookCustomUser.objects.all().delete()
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', facebook_id=1234567,
                         first_name='Andrii', password='test', gender='m',
@@ -66,7 +73,7 @@ class TestMatchQuerySet(BaseTestCase):
         user_location5 = UserLocation.objects.create(
             user=self.user3, position=[38.53, 77.02])
 
-        self.subject = Subject.objects.create(description='learn django')
+        self.subject = Subject.objects.create(description='learning django')
         self.subject2 = Subject.objects.create(description='learn python')
         self.subject3 = Subject.objects.create(description='teach erlang')
         self.subject4 = Subject.objects.create(description='teach javascript')
@@ -85,6 +92,12 @@ class TestMatchQuerySet(BaseTestCase):
             create(description='baby')
         self.subject13 = Subject.objects. \
             create(description='child')
+        self.subject14 = Subject.objects. \
+            create(description='hire a dog sitter')
+        self.subject16 = Subject.objects. \
+            create(description='play with dogs')
+        self.subject15 = Subject.objects. \
+            create(description='learn to code django python')
 
         self.i_subject = InterestSubject.objects.\
             create(description='teach django')
@@ -96,7 +109,7 @@ class TestMatchQuerySet(BaseTestCase):
             create(description='learn python')
         self.i_subject4 = InterestSubject.objects. \
             create(description='kiteboarding')
-
+        clear_index.Command().handle(interactive=False)
         rebuild_index.Command().handle(interactive=False)
 
     def tearDown(self):
@@ -237,6 +250,17 @@ class TestMatchQuerySet(BaseTestCase):
         self.assertEqual(match_users[0]['highlight']['goals'],
                          [u'<em>django</em> under the hood'])
 
+    def test_simple_match_goals_with_stop_words2(self):
+        Goal.objects.create(user=self.user, goal=self.subject14)
+        Goal.objects.create(user=self.user1, goal=self.subject16)
+        update_index.Command().handle(interactive=False)
+        match_users = ElasticSearchMatchEngine. \
+            elastic_objects.match(user_id=self.user.id)
+        self.assertEqual(match_users[0]['_id'],
+                         u'members.facebookcustomuseractive.%s' % self.user1.id)
+        self.assertEqual(match_users[0]['highlight']['goals'],
+                         [u'play with <em>dogs</em>'])
+
     def test_simple_match_goals_with_root_forms_of_word(self):
         Goal.objects.create(user=self.user, goal=self.subject11)
         Goal.objects.create(user=self.user1, goal=self.subject10)
@@ -246,7 +270,7 @@ class TestMatchQuerySet(BaseTestCase):
         self.assertEqual(match_users[0]['_id'],
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
-                         [u'learn <em>kiteboarding</em> and foxes'])
+                         [u'learn <em>kiteboarding</em> and <em>foxes</em>'])
 
     def test_simple_match_between(self):
         Goal.objects.create(user=self.user, goal=self.subject11)
@@ -260,23 +284,23 @@ class TestMatchQuerySet(BaseTestCase):
 
     def test_simple_match_synonyms(self):
         Goal.objects.create(user=self.user, goal=self.subject12)
-        Goal.objects.create(user=self.user1, goal=self.subject13)
+        Goal.objects.create(user=self.user1, goal=self.subject12)
         update_index.Command().handle(interactive=False)
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
         self.assertEqual(match_users[0]['highlight']['goals'],
-                         [u'<em>child</em>'])
+                         [u'<em>baby</em>'])
 
     def test_simple_top_interests(self):
-        Goal.objects.create(user=self.user, goal=self.subject12)
-        Goal.objects.create(user=self.user1, goal=self.subject13)
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject15)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].top_interests,
-                         [{u'child': 1, u'teach django': 0, u'test': 0}])
+                         [{u'django': 1, u'teach django': 0, u'test': 0}])
 
     def test_top_interests(self):
         Goal.objects.create(user=self.user, goal=self.subject12)
@@ -291,7 +315,7 @@ class TestMatchQuerySet(BaseTestCase):
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].top_interests,
-                         [{u'child': 1, u'django': 1, u'python': 1}])
+                         [{u'django': 1, u'erlang': 1, u'python': 1}])
 
     def test_simple_top_interests_less_than_3(self):
         Goal.objects.create(user=self.user, goal=self.subject11)
@@ -348,7 +372,7 @@ class TestMatchQuerySet(BaseTestCase):
         Goal.objects.create(user=self.user1, goal=self.subject5)
         Goal.objects.create(user=self.user3, goal=self.subject5)
         Goal.objects.create(user=self.user4, goal=self.subject5)
-        FilterState.objects.create(user=self.user, min_age=36, max_age=76)
+        FilterState.objects.create(user=self.user, min_age=60, max_age=67)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 1)
@@ -404,3 +428,45 @@ class TestMatchQuerySet(BaseTestCase):
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 0)
+
+    def test_exclude_friends(self):
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject5)
+        Goal.objects.create(user=self.user3, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, distance=10000)
+        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a',
+                                                       'password': 'test'})
+
+    def test_order_mutual_friends(self):
+        Goal.objects.get_or_create(user=self.user, goal=self.subject)
+        Goal.objects.get_or_create(user=self.user1, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user2, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user3, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user4, goal=self.subject5)
+        Goal.objects.get_or_create(user=self.user5, goal=self.subject5)
+        FilterState.objects.create(user=self.user, min_age=18, max_age=99,
+                                   distance=16000, order_criteria='mutual_friends')
+        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
+        Friend.objects.create(friend1=self.user5, friend2=self.user1, status=1)
+        Friend.objects.create(friend1=self.user5, friend2=self.user3, status=1)
+        Friend.objects.create(friend1=self.user4, friend2=self.user1, status=1)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 3)
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/matchfeed2/',
+                                   data={'filter': 'true'}, format='json')
+        self.assertValidJSONResponse(resp)
+        data = self.deserialize(resp)['objects']
+        self.assertEqual(data[0]['friends_score'], 2)
+        self.assertEqual(data[1]['friends_score'], 1)
+        self.assertEqual(data[2]['friends_score'], 0)

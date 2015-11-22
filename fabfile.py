@@ -11,7 +11,7 @@ env.port = '20005'
 env.password = os.getenv('SUDO_PASSWORDS')
 
 env.user = 'bekindred'
-env.key_filename = '~/.ssh/id_rsa'
+env.key_filename = '~/.ssh/id_rsa_pr'
 
 
 env.project_name = 'bekindred'
@@ -99,6 +99,12 @@ def update_index():
 def rebuild_index():
     require('hosts', provided_by=[production])
     manage_py('rebuild_index')
+
+
+@task
+def clear_index():
+    require('hosts', provided_by=[production])
+    manage_py('clear_index')
 
 
 @task

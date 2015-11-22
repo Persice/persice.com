@@ -217,8 +217,7 @@ module.exports = {
     ],
     'all': [
       new webpack.ProvidePlugin({
-        _: "lodash",
-        moment: "moment"
+        _: "lodash"
       }),
       new DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),

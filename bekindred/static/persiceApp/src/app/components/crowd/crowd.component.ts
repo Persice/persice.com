@@ -1,7 +1,6 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, NgIf, Inject} from 'angular2/angular2';
-import {RouteParams, Location} from 'angular2/router';
+import {Component, NgIf} from 'angular2/angular2';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
@@ -35,7 +34,6 @@ declare var jQuery: any;
   ]
 })
 export class CrowdComponent {
-  version: string = 'v2';
   items: Array<any> = [];
   loading: boolean = false;
   loadingInitial: boolean = false;
@@ -55,14 +53,11 @@ export class CrowdComponent {
   };
 
   constructor(
-    @Inject(RouteParams) params: RouteParams,
     public service: CrowdService,
     public friendService: FriendService,
-    public filterService: FilterService,
-    private location: Location
+    public filterService: FilterService
   ) {
-    this.version = params.get('version');
-    this.location = location;
+
   }
 
   onInit() {
@@ -93,7 +88,7 @@ export class CrowdComponent {
     if (this.next === '') {
       this.loadingInitial = true;
     }
-    this.service.get(this.next, this.limit, this.version, this.filter)
+    this.service.get(this.next, this.limit, this.filter)
       .subscribe(data => this.assignList(data));
   }
 
@@ -123,7 +118,7 @@ export class CrowdComponent {
 
     if (this.items.length > 0) {
       let more = data.objects;
-      for (var i = more.length - 1; i >= 0; i--) {
+      for (var i = 0; i <= more.length - 1; i++) {
         this.items.push(more[i]);
       }
 

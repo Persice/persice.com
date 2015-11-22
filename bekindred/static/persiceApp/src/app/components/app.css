@@ -182,3 +182,37 @@ input.range-to {
 }
 
 
+
+/* fix for loading card placement */
+
+#crowd .translate-50 {
+  left: 40%!important;
+}
+
+
+/* fix for subnav on events page, height changes when link is clicked  */
+
+.sub-nav__link.router-link-active {
+  border-bottom: 3px solid #39c9f5;
+  color: #3d474d;
+}
+
+.sub-nav__item {
+  height: 43px;
+}
+
+.switch-list__link {
+  cursor: pointer;
+}
+
+
+/* fix for navmain active link class */
+
+.nav-main li a.router-link-active {
+  color: #fff;
+  background: #3d474d;
+}
+
+
+
+

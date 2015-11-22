@@ -20,8 +20,11 @@
   <h6 class="card-subtitle">Interests</h6>
   <ul class="interest-list" *ng-if="user.top_interests">
     <li *ng-for="#key of interests">
-      <svg role="img" class="icon icon--tiny">
+      <span *ng-if="key && key.match">
+        <svg role="img" class="icon icon--tiny">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
-      </svg> {{key.value}}</li>
+      </svg>
+      </span>
+       {{key.value}}</li>
     </ul>
   </div>
