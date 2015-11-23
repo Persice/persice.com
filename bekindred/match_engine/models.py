@@ -401,7 +401,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         location = get_user_location(user.id)
         fs = FilterState.objects.filter(user=user)
         distance_unit = fs[0].distance_unit[:2] if fs else "mi"
-
+        friends_predicate = {}
         if friends:
             friends_predicate = {
                 "ids": {
