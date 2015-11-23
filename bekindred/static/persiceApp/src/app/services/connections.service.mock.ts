@@ -162,4 +162,4 @@ export const connections: Object = {
       "updated_at": "2015-11-05T16:08:18.400960"
     }
   ]
-}
+};
