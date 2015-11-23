@@ -6,7 +6,7 @@ import {Injector, provide} from 'angular2/angular2';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
-}from 'angular2/testing';
+} from 'angular2/testing';
 
 import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
 ResponseOptions, RequestMethods
