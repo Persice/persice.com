@@ -183,12 +183,6 @@ input.range-to {
 
 
 
-/* fix for loading card placement */
-
-#crowd .translate-50 {
-  left: 40%!important;
-}
-
 
 /* fix for subnav on events page, height changes when link is clicked  */
 
