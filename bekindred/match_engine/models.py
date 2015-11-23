@@ -394,13 +394,21 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
     def query_builder(user, query, fields, exclude_user_ids, stop_words,
-                      is_filter=False):
+                      is_filter=False, friends=()):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         body = {}
         location = get_user_location(user.id)
         fs = FilterState.objects.filter(user=user)
         distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+
+        if friends:
+            friends_predicate = {
+                "ids": {
+                    "type": "modelresult",
+                    "values": friends
+                }
+            }
 
         if is_filter:
             gender_predicate = {}
@@ -465,7 +473,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
                                 ],
                                 "should": gender_predicate,
                                 "must": [
-                                    age_predicate, distance_predicate
+                                    age_predicate, distance_predicate,
+                                    friends_predicate
                                 ]
                             }
                         }
@@ -485,10 +494,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 ]
             }
             response = client.search(index=index, body=body, size=50)
-            #     .query(Q("multi_match", query=query, fields=fields)) \
-            #     .filter(~F("ids", type="modelresult", values=exclude_user_ids)) \
-            #     .filter(F("term", gender=gender)) \
-            #     .highlight(*fields)
         else:
             body = {
                 "highlight": {
@@ -517,7 +522,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
                                         }
                                     }
                                 ],
-                                "should": []
+                                "should": [],
+                                "must": [friends_predicate]
                             }
                         }
                     }
@@ -541,7 +547,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
-    def match(user_id, friends=(), is_filter=False):
+    def match(user_id, friends=False, is_filter=False):
         from nltk.stem.porter import PorterStemmer
         porter_stemmer = PorterStemmer()
 
@@ -575,14 +581,22 @@ class ElasticSearchMatchEngineManager(models.Manager):
                  filter(is_active=False, facebook_id__isnull=True).
                  values_list('id', flat=True))
 
-        for f in fids:
-            exclude_user_ids.append('members.facebookcustomuseractive.%s' % f)
-
+        friends_list = []
+        if not friends:
+            for f in fids:
+                exclude_user_ids.append('members.facebookcustomuseractive.%s' % f)
+        else:
+            for f in fids:
+                friends_list.append('members.facebookcustomuseractive.%s' % f)
         response = ElasticSearchMatchEngineManager.\
             query_builder(user, query, fields, exclude_user_ids, stop_words,
-                          is_filter=is_filter)
+                          is_filter=is_filter, friends=friends_list)
 
         return response['hits']['hits']
+
+    @staticmethod
+    def match_friends(user_id, friends=(), is_filter=False):
+        pass
 
     @staticmethod
     def match_between(user_id1, user_id2):

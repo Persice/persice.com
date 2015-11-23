@@ -201,9 +201,9 @@ class MatchUser(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id, is_filter=False):
+    def all(current_user_id, is_filter=False, friends=False):
         hits = ElasticSearchMatchEngine.elastic_objects.\
-            match(current_user_id, is_filter=is_filter)
+            match(current_user_id, is_filter=is_filter, friends=friends)
         users = []
         for hit in hits:
             users.append(MatchUser(current_user_id, hit))
