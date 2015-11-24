@@ -206,7 +206,11 @@ class MatchQuerySet(object):
             match(current_user_id, is_filter=is_filter, friends=friends)
         users = []
         for hit in hits:
-            users.append(MatchUser(current_user_id, hit))
+            try:
+                user = MatchUser(current_user_id, hit)
+                users.append(user)
+            except FacebookCustomUserActive.DoesNotExist as e:
+                print e
         return users
 
     @staticmethod
