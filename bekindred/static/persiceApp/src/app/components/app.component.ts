@@ -41,6 +41,7 @@ import {FilterService} from '../services/filter.service';
 import {UserService} from '../services/user.service';
 import {NotificationService} from '../services/notification.service';
 import {EventsService} from '../services/events.service';
+import {EventService} from '../services/event.service';
 
 let view = require('./app.html');
 
@@ -96,7 +97,11 @@ let view = require('./app.html');
   styles: [`
    `],
   template: view,
-  providers: [FilterService, UserService, NotificationService, EventsService]
+  providers: [
+    FilterService,
+    UserService,
+    NotificationService
+  ]
 })
 export class AppComponent {
   user: AuthUserModel;

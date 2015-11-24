@@ -12,6 +12,7 @@ declare var jQuery: any;
 
 @Component({
   selector: 'events-my-list',
+  providers: [EventsService],
   directives: [
     NgIf,
     NewEventCardComponent,
