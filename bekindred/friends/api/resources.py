@@ -248,50 +248,28 @@ class ConnectionsResource2(Resource):
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
+    user_id = fields.CharField(attribute='user_id')
+
+    age = fields.IntegerField(attribute='age')
+    distance = fields.ListField(attribute='distance')
+    about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
+
+    photos = fields.ListField(attribute='photos')
+    goals = fields.ListField(attribute='goals')
+    offers = fields.ListField(attribute='offers')
+    likes = fields.ListField(attribute='likes')
+    interests = fields.ListField(attribute='interests')
+    top_interests = fields.ListField(attribute='top_interests')
+
+    score = fields.IntegerField(attribute='score', null=True)
+    es_score = fields.FloatField(attribute='es_score', null=True)
+    friends_score = fields.IntegerField(attribute='friends_score', null=True)
+
     friend_id = fields.CharField(attribute='friend_id', null=True)
-    twitter_provider = fields.CharField(attribute='twitter_provider',
-                                        null=True)
-    twitter_username = fields.CharField(attribute='twitter_username',
-                                        null=True)
-    linkedin_provider = fields.CharField(attribute='linkedin_provider',
-                                         null=True)
-
-    mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends', null=True)
-    mutual_bk_friends_count = fields.IntegerField(
-        attribute='mutual_bk_friends_count', null=True)
-
-    mutual_fb_friends = fields.ListField(attribute='mutual_fb_friends', null=True)
-
-    mutual_fb_friends_count = fields.IntegerField(
-        attribute='mutual_fb_friends_count', null=True)
-
-    mutual_linkedin_connections = fields.ListField(
-        attribute='mutual_linkedin_connections', null=True)
-
-    mutual_linkedin_connections_count = fields.IntegerField(
-        attribute='mutual_linkedin_connections_count', null=True)
-
-    mutual_twitter_friends = fields.ListField(
-        attribute='mutual_twitter_friends', null=True)
-
-    mutual_twitter_friends_count = fields.IntegerField(
-        attribute='mutual_twitter_friends_count', null=True)
-
-    mutual_twitter_followers = fields.ListField(
-        attribute='mutual_twitter_followers', null=True)
-
-    mutual_twitter_followers_count = fields.IntegerField(
-        attribute='mutual_twitter_followers_count', null=True)
-
-    mutual_friends = fields.IntegerField(attribute='mutual_friends', null=True)
-
-    common_goals_offers_interests = fields.IntegerField(
-        attribute='common_goals_offers_interests', null=True)
 
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
-    distance = fields.ListField(attribute='distance')
     image = fields.FileField(attribute="image", null=True, blank=True)
-    age = fields.IntegerField(attribute='age', null=True, blank=True)
 
     class Meta:
         resource_name = 'connections2'
