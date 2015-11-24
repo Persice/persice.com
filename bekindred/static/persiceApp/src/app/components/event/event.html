@@ -1,32 +1,21 @@
 <div class="content p">
   <!-- {% include "01-molecules/molecule.notification-success.html" %} -->
   <div class="platform">
-       <!--  {% include "02-organisms/organism.event-info.html" %}
-        {% include "02-organisms/organism.event-photo-map-stat.html" %}
-        {% include "02-organisms/organism.event-people.html" %}
-        {% include "02-organisms/organism.invite-connections.html" %} -->
-        <div class="event-desc-and-host">
-          <div class="layout layout--large">
-            <div class="layout__item 1/2">
-              <h3 class="module-title">Description</h3>
-              <p class="module-type">At the New York Mobile App Developer (NYCMAD) meetup mobile developers (Web, iOS, Android) get together to talk shop, share tips and tricks, help each other tackle development problems, and enjoy talks by featured speakers. No matter what your level of experience, you'd be mad not to join in!</p>
-              <a href="" class="link-blank">View more</a>
-            </div>
-            <div class="layout__item 1/2">
-              <h3 class="module-title">Event host</h3>
-              <div class="flag flag--small mb">
-                <div class="flag__img">
-                  <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--small">
-                </div>
-                <div class="flag__body">
-                  <h5 class="host-name">Elon Musk</h5>
-                  <p class="single-title-subinfo single-title-subinfo--small">Male / Age 25 / 2 Miles</p>
-                </div>
-              </div>
-              <p class="module-type">I have yet to find a company that doesn’t at least pay lip service to the concept that they want their employees to be happy and fulfilled.</p>
-            </div>
-          </div>
+    <event-info></event-info>
+    <event-photomap></event-photomap>
+    <event-people></event-people>
+
+    <!-- TODO {% include "02-organisms/organism.invite-connections.html" %}  -->
+    <div class="event-desc-and-host">
+      <div class="layout layout--large">
+        <div class="layout__item 1/2">
+          <event-description [description]="event.description"></event-description>
         </div>
-        <!-- {% include "02-organisms/organism.discussion.html" %} -->
+        <div class="layout__item 1/2">
+          <event-host [host]="event.host"></event-host>
+        </div>
       </div>
     </div>
+    <event-discussion></event-discussion>
+  </div>
+</div>
