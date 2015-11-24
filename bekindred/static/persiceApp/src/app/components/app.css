@@ -207,6 +207,11 @@ input.range-to {
   background: #3d474d;
 }
 
+/* fix for remove outline on events feed right subnav */
 
-
-
+.switch-list__item a:focus,
+.switch-list__item:focus,
+.switch-list__item a .icon:focus,
+.switch-list__item a .icon use:focus {
+  outline: none!important;
+}
