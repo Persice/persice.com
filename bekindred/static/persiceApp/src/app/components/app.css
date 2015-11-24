@@ -210,6 +210,8 @@ input.range-to {
 /* fix for remove outline on events feed right subnav */
 
 .switch-list__item a:focus,
+.icon:focus,
+.icon use:focus,
 .switch-list__item:focus,
 .switch-list__item a .icon:focus,
 .switch-list__item a .icon use:focus {
