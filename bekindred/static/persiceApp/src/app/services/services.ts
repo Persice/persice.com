@@ -9,6 +9,10 @@ import {friendServiceInjectables} from './friend.service';
 import {keywordsServiceInjectables} from './keywords.service';
 import {notificationServiceInjectables} from './notification.service';
 import {eventsServiceInjectables} from './events.service';
+import {eventServiceInjectables} from './event.service';
+import {eventMessagesServiceInjectables} from './eventmessages.service';
+import {eventConnectionsServiceInjectables} from './eventconnections.service';
+import {eventAttendeesServiceInjectables} from './eventattendees.service';
 
 export * from './user.service';
 export * from './search.service';
@@ -20,6 +24,10 @@ export * from './interests.service';
 export * from './keywords.service';
 export * from './notification.service';
 export * from './events.service';
+export * from './event.service';
+export * from './eventmessages.service';
+export * from './eventconnections.service';
+export * from './eventattendees.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
@@ -32,5 +40,8 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   keywordsServiceInjectables,
   notificationServiceInjectables,
   interestsServiceInjectables,
-  eventsServiceInjectables
+  eventsServiceInjectables,
+  eventMessagesServiceInjectables,
+  eventConnectionsServiceInjectables,
+  eventAttendeesServiceInjectables
 ];

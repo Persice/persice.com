@@ -69,7 +69,7 @@ export const events: Object = {
         "km"
       ],
       "ends_on": "2015-11-28T02:00:00",
-      "event_photo": "/media/event_photos/2015/11/18/10603793_10204923365583450_5959507845619162714_n.jpg",
+      "event_photo": "/media/images/avatar_user_f.jpg",
       "friend_attendees_count": 0,
       "full_address": "Paris, France",
       "id": "3",
