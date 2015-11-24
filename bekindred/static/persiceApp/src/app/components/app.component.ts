@@ -25,6 +25,7 @@ import {MessagesComponent} from './messages/messages.component';
 import {ConnectionsComponent} from './connections/connections.component';
 import {EventsComponent} from './events/events.component';
 import {ProfileComponent} from './profile/profile.component';
+import {EventComponent} from './event/event.component';
 
 
 import {HeaderMainComponent} from './headermain/headermain.component';
@@ -65,6 +66,11 @@ let view = require('./app.html');
     path: '/messages',
     component: MessagesComponent,
     name: 'Messages'
+  },
+  {
+    path: '/event',
+    component: EventComponent,
+    name: 'Event'
   },
   {
     path: '/connections',
