@@ -57,13 +57,13 @@
           </div>
           <div class="flag__img">
             <div class="event-share">
-              <a href="" class="btn btn-1 btn-1--blue btn--icon-circle js-share">
+              <a class="btn btn-1 btn-1--blue btn--icon-circle js-share" dropdown="#eventDropdown">
                <svg role="img" class="icon icon--tiny">
                  <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-more"></use>
                </svg>
              </a>
              <!-- TODO insert dropdown component -->
-             <div class="dropdown-basic">
+             <div class="dropdown-basic" id="eventDropdown">
               <ul class="list-bare">
                 <li><a href="#">Share</a></li>
                 <li><a href="#">Similar events</a></li>
