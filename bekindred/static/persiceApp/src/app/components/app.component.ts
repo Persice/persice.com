@@ -68,9 +68,9 @@ let view = require('./app.html');
     name: 'Messages'
   },
   {
-    path: '/event',
+    path: '/event/:eventId',
     component: EventComponent,
-    name: 'Event'
+    name: 'EventDetails'
   },
   {
     path: '/connections',
