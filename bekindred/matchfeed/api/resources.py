@@ -216,7 +216,6 @@ class MatchedFeedResource2(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        # TODO: Add filter based on FilterState model
         if request.GET.get('filter') == 'true':
             match_users = MatchQuerySet.all(request.user.id, is_filter=True)
             fs = FilterState.objects.filter(user=request.user.id)
