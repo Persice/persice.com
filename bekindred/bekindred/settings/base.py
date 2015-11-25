@@ -32,6 +32,7 @@ TEMPLATE_DIRS = (
 
 ALLOWED_HOSTS = []
 
+SESSION_COOKIE_AGE = 1 * 24 * 60 * 60
 
 # Application definition
 

@@ -124,6 +124,7 @@ class MatchUser(object):
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.get_friends_score(current_user_id, user_object)
         self.top_interests = self.get_top_interests(user_object)
+        self.last_login = self.user.last_login
 
     def get_user_info(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
