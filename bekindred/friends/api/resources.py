@@ -11,6 +11,7 @@ from tastypie.bundle import Bundle
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
 
+from events.models import FilterState
 from friends.models import FacebookFriendUser, Friend
 from goals.utils import (calculate_distance, get_mutual_linkedin_connections,
                          get_mutual_twitter_friends, social_extra_data,
@@ -287,8 +288,14 @@ class ConnectionsResource2(Resource):
 
     def get_object_list(self, request):
         if request.GET.get('filter') == 'true':
-            match_users = MatchQuerySet.\
+            match_users = MatchQuerySet. \
                 all(request.user.id, is_filter=True, friends=True)
+            fs = FilterState.objects.filter(user=request.user.id)
+            if fs:
+                if fs[0].order_criteria == 'match_score':
+                    return sorted(match_users, key=lambda x: -x.score)
+                elif fs[0].order_criteria == 'mutual_friends':
+                    return sorted(match_users, key=lambda x: -x.friends_score)
         else:
             match_users = MatchQuerySet.all(request.user.id, friends=True)
         return match_users

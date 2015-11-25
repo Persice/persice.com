@@ -586,6 +586,9 @@ class ElasticSearchMatchEngineManager(models.Manager):
             for f in fids:
                 exclude_user_ids.append('members.facebookcustomuseractive.%s' % f)
         else:
+            # All my friends
+            #
+            fids = Friend.objects.all_my_friends(user_id)
             for f in fids:
                 friends_list.append('members.facebookcustomuseractive.%s' % f)
         response = ElasticSearchMatchEngineManager.\
