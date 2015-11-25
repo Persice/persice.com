@@ -3,14 +3,12 @@
     <h4 class="module-title">Mutual Friends <span>({{count}})</span></h4>
   </div>
   <div *ng-if="count > 0" class="layout slide-users js-slide-mutuals" slick show="9" breakpoint="1480" slidestoshow="6" infinite="true" scroll="1" dots="false" arrows="true" append="0">
-
     <div class="layout__item" *ng-for="#item of mutuals.mutual_bk_friends">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
             <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + item.image + ')'}"></div>
           </div>
-
           <svg role="img" class="icon avatar-icon">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-persice"></use>
           </svg>
@@ -18,14 +16,12 @@
         <h5 class="user-name">{{item.first_name}}</h5>
       </a>
     </div>
-
     <div class="layout__item" *ng-for="#item of mutuals.mutual_fb_friends">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
             <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + '//graph.facebook.com/' + item.facebook_id + '/picture?type=square' + ')'}"></div>
           </div>
-
           <svg role="img" class="icon avatar-icon">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-facebook"></use>
           </svg>
@@ -33,14 +29,12 @@
         <h5 class="user-name">{{item.first_name}}</h5>
       </a>
     </div>
-
     <div class="layout__item" *ng-for="#item of mutuals.mutual_twitter_friends">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
             <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
           </div>
-
           <svg role="img" class="icon avatar-icon">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-twitter"></use>
           </svg>
@@ -48,14 +42,12 @@
         <h5 class="user-name">{{item.name}}</h5>
       </a>
     </div>
-
     <div class="layout__item" *ng-for="#item of mutuals.mutual_twitter_followers">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
             <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
           </div>
-
           <svg role="img" class="icon avatar-icon">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-twitter"></use>
           </svg>
@@ -63,14 +55,12 @@
         <h5 class="user-name">{{item.name}}</h5>
       </a>
     </div>
-
     <div class="layout__item" *ng-for="#item of mutuals.mutual_linkedin_connections">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
             <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + item.pictureUrls.values[0] + ')'}"></div>
           </div>
-
           <svg role="img" class="icon avatar-icon">
             <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-linkedin"></use>
           </svg>
@@ -78,6 +68,5 @@
         <h5 class="user-name">{{item.firstName}}</h5>
       </a>
     </div>
-
   </div>
 </div>

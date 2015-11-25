@@ -27,7 +27,7 @@ class TestComponent {
   testStatus = false;
 }
 
-describe('Loading component', () => {
+describe('LoadingCard component', () => {
 
 
   it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
