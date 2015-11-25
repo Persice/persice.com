@@ -200,6 +200,7 @@ class MatchedFeedResource2(Resource):
     es_score = fields.FloatField(attribute='es_score', null=True)
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
     last_login = fields.DateField(attribute='last_login', null=True)
+    keywords = fields.ListField(attribute='keywords', null=True)
 
     class Meta:
         # max_limit = 10

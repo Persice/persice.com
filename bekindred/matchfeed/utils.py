@@ -1,15 +1,20 @@
-from itertools import chain
-from operator import itemgetter, attrgetter
-from django_facebook.models import FacebookLike
+import string
+from operator import attrgetter
+
 import re
+import nltk
+from nltk.stem.porter import PorterStemmer
+
+from django_facebook.models import FacebookLike
+
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     calculate_distance_es, get_mutual_linkedin_connections, \
     get_mutual_twitter_friends
 from interests.models import Interest, InterestSubject
-from match_engine.models import MatchEngine, ElasticSearchMatchEngineManager, \
-    ElasticSearchMatchEngine
+from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
+    StopWords
 from members.models import FacebookCustomUserActive
 
 
@@ -125,6 +130,7 @@ class MatchUser(object):
         self.friends_score = self.get_friends_score(current_user_id, user_object)
         self.top_interests = self.get_top_interests(user_object)
         self.last_login = self.user.last_login
+        self.keywords = self.get_keywords(user_object)
 
     def get_user_info(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
@@ -159,6 +165,27 @@ class MatchUser(object):
             for subj in interests_dict[:3-len(interests)]:
                 d[subj] = 0
             return [d]
+
+    def get_keywords(self, user_object):
+        keywords = []
+        draft_keywords = set()
+        porter_stemmer = PorterStemmer()
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+        st_stop_words = [porter_stemmer.stem(w) for w in stop_words]
+        targets = ['goals', 'offers', 'interests', 'likes']
+        translate_table = dict((ord(char), None) for char in string.punctuation)
+
+        for target in targets:
+            h_objects = user_object['_source'].get(target, [])
+            for h in h_objects:
+                s = h.translate(translate_table)
+                tokens = nltk.word_tokenize(s)
+                draft_keywords.update(tokens)
+        for word in draft_keywords:
+            if (porter_stemmer.stem(word.lower()) not in st_stop_words) and \
+                    len(word.lower()) > 2:
+                keywords.append(word.lower())
+        return keywords
 
     def get_friends_score(self, current_user_id, user_object):
         user_id = int(user_object['_id'].split('.')[-1])

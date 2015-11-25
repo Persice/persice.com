@@ -4,7 +4,9 @@ from fabric.colors import green
 
 # Vagrant for local testing
 # env.hosts = ['127.0.0.1']
-# env.port = '2222'
+# env.port = '2200'
+# env.user = 'vagrant'
+# env.password = 'vagrant'
 
 env.hosts = ['104.200.24.201']
 env.port = '20005'
@@ -81,6 +83,12 @@ def manage_py(command, use_sudo=False):
 def syncdb(app=None):
     require('hosts', provided_by=[production])
     manage_py('syncdb --noinput')
+
+
+@task
+def nltk_update():
+    require('hosts', provided_by=[production])
+    virtualenv("python -c 'import nltk;nltk.download(\"punkt\")'")
 
 
 @task
