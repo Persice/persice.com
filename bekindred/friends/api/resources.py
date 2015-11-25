@@ -270,6 +270,7 @@ class ConnectionsResource2(Resource):
     friend_id = fields.CharField(attribute='friend_id', null=True)
 
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
+    last_login = fields.DateTimeField(attribute='last_login', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
 
     class Meta:
@@ -296,6 +297,9 @@ class ConnectionsResource2(Resource):
                     return sorted(match_users, key=lambda x: -x.score)
                 elif fs[0].order_criteria == 'mutual_friends':
                     return sorted(match_users, key=lambda x: -x.friends_score)
+                elif fs[0].order_criteria == 'date':
+                    return sorted(match_users, key=lambda x: x.last_login,
+                                  reverse=True)
         else:
             match_users = MatchQuerySet.all(request.user.id, friends=True)
         return match_users
