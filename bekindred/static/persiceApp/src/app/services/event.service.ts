@@ -43,7 +43,7 @@ export class EventService {
       `format=json`,
     ].join('&');
 
-    let apiUrl = `${EventService.API_URL}/${id}/`;
+    let apiUrl = `${EventService.API_URL}${id}/`;
     let url = `${apiUrl}?${params}`;
     return this.http.get(url).map((res: Response) => res.json());
   }
