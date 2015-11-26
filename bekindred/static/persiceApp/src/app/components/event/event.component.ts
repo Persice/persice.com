@@ -63,6 +63,7 @@ export class EventComponent {
   }
 
   onInit() {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getEventDetails(this.eventId);
   }
 
