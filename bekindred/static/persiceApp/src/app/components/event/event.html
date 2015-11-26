@@ -1,6 +1,11 @@
 <div class="content p">
   <!-- TODO {% include "01-molecules/molecule.notification-success.html" %} -->
   <div class="platform">
+    <a (click)="goBack($event)" class="platform__back">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
+      </svg>
+    </a>
     <event-info [info]="info"></event-info>
     <event-photomap [photo]="photo" [location]="location" [stats]="stats"></event-photomap>
     <event-people [people]="people"></event-people>

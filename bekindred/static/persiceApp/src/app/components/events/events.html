@@ -6,13 +6,13 @@
           <nav class="sub-nav">
             <ul class="list-bare">
               <li class="sub-nav__item">
-                <a href="#/events/all/list" [class.is-active]="activeRouteNav.all" (click)="activate('AllEventsList')" class="sub-nav__link">All events</a>
+                <a href="#/events/all/list" [class.is-active]="activeRouteNav.all" (click)="activateMain('AllEventsList')" class="sub-nav__link">All events</a>
               </li>
               <li class="sub-nav__item">
-                <a href="#/events/my/list" [class.is-active]="activeRouteNav.my" (click)="activate('MyEventsList')" class="sub-nav__link">My events</a>
+                <a href="#/events/my/list" [class.is-active]="activeRouteNav.my" (click)="activateMain('MyEventsList')" class="sub-nav__link">My events</a>
               </li>
               <li class="sub-nav__item">
-                <a href="#/events/network/list" [class.is-active]="activeRouteNav.network" (click)="activate('NetworkEventsList')" class="sub-nav__link">My network</a>
+                <a href="#/events/network/list" [class.is-active]="activeRouteNav.network" (click)="activateMain('NetworkEventsList')" class="sub-nav__link">My network</a>
               </li>
             </ul>
           </nav>

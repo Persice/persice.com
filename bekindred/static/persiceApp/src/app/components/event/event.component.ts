@@ -105,6 +105,10 @@ export class EventComponent {
 
   }
 
+  goBack(event) {
+    window.history.back();
+  }
+
   accessLevel(name) {
     let returnValue = '';
     switch (name) {

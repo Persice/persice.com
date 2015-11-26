@@ -228,3 +228,7 @@ input.range-to {
   height: 364px!important;
   width: 100%!important;
 }
+
+a.platform__back {
+  cursor: pointer;
+}
