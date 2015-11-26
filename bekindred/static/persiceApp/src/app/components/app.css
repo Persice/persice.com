@@ -106,7 +106,6 @@
   background-repeat: no-repeat;
 }
 
-
 .listed-user-avatar-place .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
@@ -134,8 +133,6 @@
 }
 
 
-
-
 /* fix for filter add keyword link */
 
 .filter__item--link {
@@ -146,6 +143,7 @@
   right: 0px;
   top: 0px;
 }
+
 
 /* fix for link cursor in match profile */
 
@@ -161,7 +159,9 @@ input.range-to {
   display: none;
 }
 
+
 /* fix for interests capitalize */
+
 .interest-list li {
   text-transform: capitalize;
 }
@@ -171,17 +171,15 @@ input.range-to {
 
 .match-profile__likes .layout__item:focus,
 .match-profile__mutual .layout__item:focus {
-  outline:none;
+  outline: none;
 }
-
 
 
 /* notification warning */
+
 .notification.warning {
   background: #F1BB4B;
 }
-
-
 
 
 /* fix for subnav on events page, height changes when link is clicked  */
@@ -207,6 +205,7 @@ input.range-to {
   background: #3d474d;
 }
 
+
 /* fix for remove outline on events feed right subnav */
 
 .switch-list__item a:focus,
@@ -216,4 +215,16 @@ input.range-to {
 .switch-list__item a .icon:focus,
 .switch-list__item a .icon use:focus {
   outline: none!important;
+}
+
+#js-map {
+  height: 364px!important;
+  width: 100%!important;
+  position: relative!important;
+}
+
+#eventmap {
+  position: absolute;
+  height: 364px!important;
+  width: 100%!important;
 }

@@ -134,5 +134,12 @@ export class DateUtil {
     return formatedDate;
   }
 
+
+  static localTimezone<S extends String>(): S {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+    return moment.tz(tzName).format('z');
+  }
+
 }
 

@@ -1,9 +1,9 @@
 <div class="content p">
   <!-- TODO {% include "01-molecules/molecule.notification-success.html" %} -->
   <div class="platform">
-    <event-info></event-info>
-    <event-photomap></event-photomap>
-    <event-people></event-people>
+    <event-info [info]="info"></event-info>
+    <event-photomap [photo]="photo" [location]="location" [stats]="stats"></event-photomap>
+    <event-people [people]="people"></event-people>
     <!-- TODO {% include "02-organisms/organism.invite-connections.html" %}  -->
     <div class="event-desc-and-host">
       <div class="layout layout--large">
@@ -11,7 +11,7 @@
           <event-description [description]="event.description"></event-description>
         </div>
         <div class="layout__item 1/2">
-          <event-host [host]="event.host"></event-host>
+          <event-host [host]="host"></event-host>
         </div>
       </div>
     </div>

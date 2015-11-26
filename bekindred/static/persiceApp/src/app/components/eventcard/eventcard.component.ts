@@ -15,7 +15,7 @@ let view = require('./eventcard.html');
 })
 export class EventCardComponent {
   event: any;
-  photo: string = '/static/img/placeholder-image.jpg';
+  photo: string = '/static/img/placeholder-image.png';
   date: string = '';
 
   onInit() {

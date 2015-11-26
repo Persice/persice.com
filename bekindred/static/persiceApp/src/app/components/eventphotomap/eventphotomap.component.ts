@@ -5,6 +5,8 @@ import {Component, Input} from 'angular2/angular2';
 let view = require('./eventphotomap.html');
 
 declare var jQuery: any;
+declare var google: any;
+
 @Component({
   selector: 'event-photomap',
   template: view
@@ -12,6 +14,7 @@ declare var jQuery: any;
 export class EventPhotoMapComponent {
   @Input() location;
   @Input() photo;
+  @Input() stats;
 
   afterViewInit() {
 
@@ -29,5 +32,12 @@ export class EventPhotoMapComponent {
       jQuery(this).addClass('is-current');
       jQuery('#' + tabId).addClass('is-current');
     });
+
+    this.initMap();
+  }
+
+
+  initMap() {
+
   }
 }

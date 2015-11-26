@@ -4,10 +4,10 @@
       <div class="date-and-price">
         <div class="event-date-place">
           <time class="event-date">
-            <span class="event-date__predate">Sept, 2015</span>
-            <span class="event-date__date">18</span>
+            <span class="event-date__predate">{{info.startDate.month}}, {{info.startDate.year}}</span>
+            <span class="event-date__date">{{info.startDate.day}}</span>
           </time>
-          <p class="event-date-from-to">9pm - 11pm / Cest</p>
+          <p class="event-date-from-to">{{info.startDate.hour}} / {{info.timezone}}</p>
           <p class="event-date-repeats">(Repeats weekly)</p>
         </div>
         <div class="event-price">
@@ -32,13 +32,13 @@
     <div class="layout__item 3/4 p">
       <div class="layout layout--middle">
         <div class="layout__item 1/1">
-          <h2 class="single-title mb-">New York city mobile app developer (nycmad) meetup</h2>
-          <p class="single-title-subinfo">New York University / New York NY</p>
-          <p class="single-title-subinfo">6 miles from you</p>
+          <h2 class="single-title mb-">{{info.name}}</h2>
+          <p class="single-title-subinfo">{{info.location_name}} / {{info.city}} {{info.state}}</p>
+          <p class="single-title-subinfo">{{info.distance}} from you</p>
         </div>
         <div class="layout__item 2/5">
           <p class="opento-label">Open to</p>
-          <p class="opento-value">Public (All Persice users)</p>
+          <p class="opento-value">{{info.openTo}}</p>
         </div>
         <div class="layout__item 3/5">
           <div class="flag event-info__controls">
