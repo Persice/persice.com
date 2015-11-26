@@ -13,7 +13,7 @@ import {EventDiscussionComponent} from '../eventdiscussion/eventdiscussion.compo
 
 import {EventService} from '../../services/event.service';
 
-import {DateUtil} from '../../core/util';
+import {DateUtil, EventUtil} from '../../core/util';
 
 let view = require('./event.html');
 
@@ -82,7 +82,7 @@ export class EventComponent {
       location_name: resp.location_name,
       state: resp.state,
       distance: '6 miles',
-      openTo: this.accessLevel(resp.access_level),
+      openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
         hour: DateUtil.format(resp.starts_on, 'h A'),
         day: DateUtil.format(resp.starts_on, 'D'),
@@ -109,22 +109,6 @@ export class EventComponent {
     window.history.back();
   }
 
-  accessLevel(name) {
-    let returnValue = '';
-    switch (name) {
-      case 'public':
-        returnValue = 'Public (all Persice users)';
-        break;
-      case 'private':
-        returnValue = 'Private (only select users)';
-        break;
-      case 'connections':
-        returnValue = 'Only my connections (default)';
-        break;
-      default:
-        break;
-    }
-    return returnValue;
-  }
+
 
 }

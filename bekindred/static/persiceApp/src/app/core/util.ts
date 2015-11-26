@@ -143,3 +143,26 @@ export class DateUtil {
 
 }
 
+
+export class EventUtil {
+  static accessLevel(data: string): string {
+    let returnValue = '';
+    switch (name) {
+      case 'public':
+        returnValue = 'Public (all Persice users)';
+        break;
+      case 'private':
+        returnValue = 'Private (only select users)';
+        break;
+      case 'connections':
+        returnValue = 'Only my connections (default)';
+        break;
+      default:
+        break;
+    }
+    return returnValue;
+
+  }
+
+}
+
