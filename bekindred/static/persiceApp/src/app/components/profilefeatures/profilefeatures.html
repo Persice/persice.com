@@ -56,3 +56,15 @@
     </div>
   </div>
 </div>
+<div class="match-profile__features">
+  <div class="layout">
+    <div class="layout__item 1/1 large-and-up-1/3">
+      <h4 class="module-title">Keywords <span>({{keywordsCount}})</span></h4>
+      <ul class="features-list">
+        <li *ng-for="#key of keywords[0]">
+          {{key}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

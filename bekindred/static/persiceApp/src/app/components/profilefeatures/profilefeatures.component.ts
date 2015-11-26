@@ -11,6 +11,8 @@ let view = require('./profilefeatures.html');
 })
 export class ProfileFeaturesComponent {
   @Input() interests;
+  @Input() keywords;
+  @Input() keywordsCount;
   @Input() interestsCount;
   @Input() interestsMore;
   @Input() goals;
