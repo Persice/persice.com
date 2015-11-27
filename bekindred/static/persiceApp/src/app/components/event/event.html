@@ -6,9 +6,9 @@
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
       </svg>
     </a>
-    <event-info [info]="info"></event-info>
+    <event-info [info]="info" [host]="isHost" [rsvp]="rsvpStatus" (change-rsvp)="changeRsvpStatus($event)"></event-info>
     <event-photomap [photo]="photo" [location]="location" [stats]="stats"></event-photomap>
-    <event-people [people]="people"></event-people>
+    <event-people [people]="people" [host]="isHost"></event-people>
     <!-- TODO {% include "02-organisms/organism.invite-connections.html" %}  -->
     <div class="event-desc-and-host">
       <div class="layout layout--large">
@@ -16,7 +16,7 @@
           <event-description [description]="event.description"></event-description>
         </div>
         <div class="layout__item 1/2">
-          <event-host [host]="host"></event-host>
+          <event-host [host]="userInfo"></event-host>
         </div>
       </div>
     </div>

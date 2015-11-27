@@ -11,9 +11,11 @@ import {EventPeopleComponent} from '../eventpeople/eventpeople.component';
 import {EventPhotoMapComponent} from '../eventphotomap/eventphotomap.component';
 import {EventDiscussionComponent} from '../eventdiscussion/eventdiscussion.component';
 
+import {UserService} from '../../services/user.service';
 import {EventService} from '../../services/event.service';
+import {EventMembersService} from '../../services/eventmembers.service';
 
-import {DateUtil, EventUtil} from '../../core/util';
+import {DateUtil, EventUtil, CookieUtil, UserUtil} from '../../core/util';
 
 let view = require('./event.html');
 
@@ -28,10 +30,24 @@ let view = require('./event.html');
     EventPhotoMapComponent,
     EventDiscussionComponent
   ],
-  providers: [EventService]
+  providers: [EventService, EventMembersService]
 })
 export class EventComponent {
   event = {};
+  isHost: boolean = false;
+  rsvpStatus: string;
+  authUserUri: string;
+  memberExists: boolean = false;
+  member;
+  host;
+  userInfo = {
+    name: '',
+    description: '',
+    distance: '',
+    gender: '',
+    age: '',
+    image: ''
+  };
   info = {
     name: '',
     city: '',
@@ -58,7 +74,12 @@ export class EventComponent {
   };
   eventId;
 
-  constructor(params: RouteParams, private service: EventService) {
+  constructor(
+    params: RouteParams,
+    private service: EventService,
+    private serviceMembers: EventMembersService,
+    private serviceUser: UserService
+  ) {
     this.eventId = params.get('eventId');
   }
 
@@ -100,9 +121,50 @@ export class EventComponent {
 
     this.stats = {
       maxAttendees: resp.max_attendees,
-      friendsCount: resp.friend_attendees_count,
+      friendsCount: resp.total_attendees,
       score: resp.cumulative_match_score
     };
+
+
+    let authUserId = CookieUtil.getValue('userid');
+    this.authUserUri = `/api/v1/auth/user/${authUserId}/`;
+
+
+
+
+    // check if the user is host and member
+    this.memberExists = false;
+    for (var i = 0; i <= resp.members.length - 1; i++) {
+      if (resp.members[i].is_organizer) {
+        this.host = resp.members[i];
+        if (this.authUserUri === resp.members[i].user) {
+          this.isHost = true;
+        }
+      }
+      else {
+        if (this.authUserUri === resp.members[i].user) {
+          this.isHost = false;
+          this.memberExists = true;
+          this.member = resp.members[i];
+          if (resp.members[i].rsvp !== null) {
+            this.rsvpStatus = resp.members[i].rsvp;
+          }
+        }
+      }
+    }
+
+    //get event host info
+    this.serviceUser.findOneByUri(this.host.user)
+      .subscribe((data) => {
+        this.userInfo = {
+          name: data.first_name,
+          description: data.about_me,
+          distance: data.distance && this.host.user === this.authUserUri ? '' : `/ ${data.distance[0]} ${data.distance[1]}`,
+          gender: UserUtil.gender(data.gender),
+          age: data.age,
+          image: data.image
+        };
+      });
 
   }
 
@@ -110,6 +172,28 @@ export class EventComponent {
     window.history.back();
   }
 
+  changeRsvpStatus(event) {
+    let data = {
+      event: this.event['resource_uri'],
+      rsvp: event,
+      user: this.authUserUri
+    };
+
+    if (this.memberExists) {
+      this.serviceMembers.updateOneByUri(this.member.resource_uri, data)
+        .subscribe((res) => {
+          this.rsvpStatus = res.rsvp;
+        });
+    }
+    else {
+      this.serviceMembers.createOne(data)
+        .subscribe((res) => {
+          this.rsvpStatus = res.rsvp;
+          this.member = res;
+          this.memberExists = true;
+        });
+    }
+  }
 
 
 }
