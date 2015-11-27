@@ -7,15 +7,15 @@ import {Response} from 'angular2/http';
 import {EventDescriptionComponent} from '../eventdescription/eventdescription.component';
 import {EventHostComponent} from '../eventhost/eventhost.component';
 import {EventInfoComponent} from '../eventinfo/eventinfo.component';
-import {EventPeopleComponent} from '../eventpeople/eventpeople.component';
 import {EventPhotoMapComponent} from '../eventphotomap/eventphotomap.component';
 import {EventDiscussionComponent} from '../eventdiscussion/eventdiscussion.component';
 
 import {UserService} from '../../services/user.service';
 import {EventService} from '../../services/event.service';
 import {EventMembersService} from '../../services/eventmembers.service';
-
-import {DateUtil, EventUtil, CookieUtil, UserUtil} from '../../core/util';
+import {EventAttendeesService} from '../../services/eventattendees.service';
+import {EventPeopleListComponent} from '../eventpeoplelist/eventpeoplelist.component';
+import {DateUtil, EventUtil, CookieUtil, UserUtil, StringUtil} from '../../core/util';
 
 let view = require('./event.html');
 
@@ -26,13 +26,15 @@ let view = require('./event.html');
     EventInfoComponent,
     EventHostComponent,
     EventDescriptionComponent,
-    EventPeopleComponent,
     EventPhotoMapComponent,
-    EventDiscussionComponent
+    EventDiscussionComponent,
+    EventPeopleListComponent
   ],
-  providers: [EventService, EventMembersService]
+  providers: [EventService, EventMembersService, EventAttendeesService]
 })
 export class EventComponent {
+  selected = 'yes';
+  savingRsvp: boolean = false;
   event = {};
   isHost: boolean = false;
   rsvpStatus: string;
@@ -64,7 +66,14 @@ export class EventComponent {
     repeat: 'Repeats Weekly',
     timezone: DateUtil.localTimezone()
   };
-  people = [];
+  peopleYes: any[] = [];
+  peopleNo: any[] = [];
+  peopleMaybe: any[] = [];
+
+  peopleYescounter = 0;
+  peopleNocounter = 0;
+  peopleMaybecounter = 0;
+
   photo: string = '/static/img/placeholder-image.png';
   location = {};
   stats = {
@@ -78,7 +87,8 @@ export class EventComponent {
     params: RouteParams,
     private service: EventService,
     private serviceMembers: EventMembersService,
-    private serviceUser: UserService
+    private serviceUser: UserService,
+    private serviceAttendees: EventAttendeesService
   ) {
     this.eventId = params.get('eventId');
   }
@@ -86,12 +96,32 @@ export class EventComponent {
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getEventDetails(this.eventId);
+    this.getAttendees(this.eventId);
   }
 
 
   getEventDetails(id) {
     this.service.findOneById(id).subscribe((data) => {
       this.assignEvent(data);
+    });
+  }
+
+  refreshEventStats(id) {
+    this.peopleYes = [];
+    this.peopleNo = [];
+    this.peopleMaybe = [];
+
+    this.peopleYescounter = 0;
+    this.peopleNocounter = 0;
+    this.peopleMaybecounter = 0;
+
+    this.getAttendees(id);
+    this.service.findOneById(id).subscribe((data) => {
+      this.stats = {
+        maxAttendees: data.max_attendees,
+        friendsCount: data.total_attendees,
+        score: data.cumulative_match_score
+      };
     });
   }
 
@@ -129,9 +159,6 @@ export class EventComponent {
     let authUserId = CookieUtil.getValue('userid');
     this.authUserUri = `/api/v1/auth/user/${authUserId}/`;
 
-
-
-
     // check if the user is host and member
     this.memberExists = false;
     for (var i = 0; i <= resp.members.length - 1; i++) {
@@ -168,11 +195,55 @@ export class EventComponent {
 
   }
 
+  getAttendees(eventId) {
+    this.serviceAttendees.get('', 1000, eventId, 'yes', '')
+      .subscribe((data) => {
+        let items = this.fixImageUrl(data.objects);
+        this.peopleYes = items;
+        this.peopleYescounter = items.length;
+      });
+
+    this.serviceAttendees.get('', 1000, eventId, 'no', '')
+      .subscribe((data) => {
+        let items = this.fixImageUrl(data.objects);
+        this.peopleNo = items;
+        this.peopleNocounter = items.length;
+      });
+
+    this.serviceAttendees.get('', 1000, eventId, 'maybe', '')
+      .subscribe((data) => {
+        let items = this.fixImageUrl(data.objects);
+        this.peopleMaybe = items;
+        this.peopleMaybecounter = items.length;
+
+        this.selected = '';
+        this.selected = 'yes';
+      });
+  }
+
+  fixImageUrl(items) {
+    let data = items;
+    for (var i = 0; i <= data.length - 1; ++i) {
+      if (!StringUtil.contains(data[i].image, '/media')) {
+        data[i].image = '/media/' + data[i].image;
+      }
+    }
+
+    return data;
+  }
+
   goBack(event) {
     window.history.back();
   }
 
   changeRsvpStatus(event) {
+    if (this.savingRsvp) {
+      return;
+    }
+    this.savingRsvp = true;
+
+    this.rsvpStatus = event;
+
     let data = {
       event: this.event['resource_uri'],
       rsvp: event,
@@ -182,17 +253,34 @@ export class EventComponent {
     if (this.memberExists) {
       this.serviceMembers.updateOneByUri(this.member.resource_uri, data)
         .subscribe((res) => {
-          this.rsvpStatus = res.rsvp;
+          setTimeout(() => {
+            this.refreshEventStats(this.eventId);
+          }, 250);
+          this.savingRsvp = false;
+
         });
     }
     else {
       this.serviceMembers.createOne(data)
         .subscribe((res) => {
-          this.rsvpStatus = res.rsvp;
           this.member = res;
           this.memberExists = true;
+          this.savingRsvp = false;
+          setTimeout(() => {
+            this.refreshEventStats(this.eventId);
+          }, 250);
         });
     }
+  }
+
+
+
+
+  activate(type) {
+    if (type !== this.selected) {
+      this.selected = type;
+    }
+
   }
 
 

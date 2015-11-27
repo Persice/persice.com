@@ -232,3 +232,16 @@ input.range-to {
 a.platform__back {
   cursor: pointer;
 }
+
+#single-event-peoplenav a.btn-1.btn-1--mid {
+  height: 46px!important;
+  min-width: 140px;
+}
+
+.hidden {
+  display: none!important;
+}
+
+div.event-people {
+  min-height: 304px!important;
+}

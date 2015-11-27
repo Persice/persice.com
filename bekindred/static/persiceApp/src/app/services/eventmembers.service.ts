@@ -9,7 +9,7 @@ import {remove, find} from 'lodash';
 
 @Injectable()
 export class EventMembersService {
-  static API_URL: string = '/api/v1/filter/state2/';
+  static API_URL: string = '/api/v1/member/';
 
   constructor(private http: Http) {
 

@@ -16,22 +16,22 @@ tick
 
 import {Component, View, provide} from 'angular2/angular2';
 
-import {EventPeopleComponent} from './eventpeople.component';
+import {EventPeopleListComponent} from './eventpeoplelist.component';
 
 // Create a test component to test directives
 @Component({
   template: '',
-  directives: [EventPeopleComponent]
+  directives: [EventPeopleListComponent]
 })
 class TestComponent {
 
 }
 
-describe('EventPeople component', () => {
+describe('EventPeopleList component', () => {
 
 
   it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><event-people></event-people><div>')
+    return tcb.overrideTemplate(TestComponent, '<div><event-peoplelist></event-peoplelist><div>')
       .createAsync(TestComponent).then((fixture: any) => {
         fixture.detectChanges();
         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
