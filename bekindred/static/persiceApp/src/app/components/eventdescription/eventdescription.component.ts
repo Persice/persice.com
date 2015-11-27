@@ -1,14 +1,32 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, Input} from 'angular2/angular2';
+import {Component, Input, NgIf} from 'angular2/angular2';
 
 let view = require('./eventdescription.html');
 
 @Component({
   selector: 'event-description',
-  template: view
+  template: view,
+  directives: [NgIf]
 })
 export class EventDescriptionComponent {
   @Input() description;
+  descriptionMore: string = '';
+  hideMoreLink: boolean = true;
 
+  onChanges(values) {
+    if (values.description.currentValue && values.description.currentValue.length > 200) {
+      this.descriptionMore = values.description.currentValue.substring(0, 199) + '...';
+      this.hideMoreLink = false;
+    }
+    else {
+      this.descriptionMore = values.description.currentValue;
+      this.hideMoreLink = true;
+    }
+  }
+
+  showMore() {
+    this.hideMoreLink = true;
+    this.descriptionMore = this.description;
+  }
 }
