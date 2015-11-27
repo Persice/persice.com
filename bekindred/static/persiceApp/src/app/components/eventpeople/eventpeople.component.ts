@@ -1,6 +1,6 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, Input} from 'angular2/angular2';
+import {Component, Input, NgIf} from 'angular2/angular2';
 import {SlickDirective} from '../../directives/slick.directive';
 
 let view = require('./eventpeople.html');
@@ -9,10 +9,12 @@ let view = require('./eventpeople.html');
   selector: 'event-people',
   template: view,
   directives: [
-    SlickDirective
+    SlickDirective,
+    NgIf
   ]
 })
 export class EventPeopleComponent {
   @Input() people;
+  @Input() host;
 
 }
