@@ -149,6 +149,16 @@ export class EventComponent {
       this.photo = resp.event_photo;
     }
 
+    if (resp.location !== null) {
+      let loc = resp.location.split(',');
+      this.location = {
+        latitude: loc[0],
+        longitude: loc[1],
+        name: resp.location_name + ' / ' + resp.city
+      };
+    }
+
+
     this.stats = {
       maxAttendees: resp.max_attendees,
       friendsCount: resp.total_attendees,

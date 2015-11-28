@@ -48,7 +48,7 @@
     "moment": "^2.10.6",
     "moment-timezone": "^0.4.1",
     "reflect-metadata": "^0.1.2",
-    "rx": "^2.5.3",
+    "rx": "latest",
     "zone.js": "^0.5.8"
   },
   "devDependencies": {

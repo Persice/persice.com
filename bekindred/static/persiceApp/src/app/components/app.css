@@ -245,3 +245,8 @@ a.platform__back {
 div.event-people {
   min-height: 304px!important;
 }
+
+.google-map-container {
+  height: 364px;
+  width: 100%;
+}
