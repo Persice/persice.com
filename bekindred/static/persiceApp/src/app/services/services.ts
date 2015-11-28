@@ -13,6 +13,7 @@ import {eventServiceInjectables} from './event.service';
 import {eventMessagesServiceInjectables} from './eventmessages.service';
 import {eventConnectionsServiceInjectables} from './eventconnections.service';
 import {eventAttendeesServiceInjectables} from './eventattendees.service';
+import {eventMembersServiceInjectables} from './eventmembers.service';
 
 export * from './user.service';
 export * from './search.service';
@@ -28,6 +29,7 @@ export * from './event.service';
 export * from './eventmessages.service';
 export * from './eventconnections.service';
 export * from './eventattendees.service';
+export * from './eventmembers.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
@@ -43,5 +45,6 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   eventsServiceInjectables,
   eventMessagesServiceInjectables,
   eventConnectionsServiceInjectables,
-  eventAttendeesServiceInjectables
+  eventAttendeesServiceInjectables,
+  eventMembersServiceInjectables
 ];

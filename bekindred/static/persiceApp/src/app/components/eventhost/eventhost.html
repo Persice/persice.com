@@ -1,11 +1,12 @@
 <h3 class="module-title">Event hosts</h3>
 <div class="flag flag--small mb">
   <div class="flag__img">
-    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--small">
+    <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + host.image + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
+    </div>
   </div>
   <div class="flag__body">
-    <h5 class="host-name">Elon Musk</h5>
-    <p class="single-title-subinfo single-title-subinfo--small">Male / Age 25 / 2 Miles</p>
+    <h5 class="host-name">{{host.name}}</h5>
+    <p class="single-title-subinfo single-title-subinfo--small">{{host.gender}} / Age {{host.age}} {{host.distance}}</p>
   </div>
 </div>
-<p class="module-type">I have yet to find a company that doesn’t at least pay lip service to the concept that they want their employees to be happy and fulfilled.</p>
+<p class="module-type">{{host.description}}</p>

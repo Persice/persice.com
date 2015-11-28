@@ -22,6 +22,16 @@ import {HTTP_PROVIDERS} from 'angular2/http';
  */
 import {APP_SERVICES_PROVIDERS} from './services/services';
 
+
+/*
+ * Google maps
+ */
+import {
+MapsAPILoader,
+NoOpMapsAPILoader,
+ANGULAR2_GOOGLE_MAPS_PROVIDERS
+} from './components/map/angular2_google_maps';
+
 /*
  * App Component
  * our top level component that holds all of our components
@@ -37,7 +47,8 @@ const UNIVERSAL_PROVIDERS = [
   ROUTER_PROVIDERS,
   FORM_PROVIDERS,
   HTTP_PROVIDERS,
-  APP_SERVICES_PROVIDERS
+  APP_SERVICES_PROVIDERS,
+  ANGULAR2_GOOGLE_MAPS_PROVIDERS
 ];
 
 /*
@@ -45,7 +56,8 @@ const UNIVERSAL_PROVIDERS = [
  */
 const PLATFORM_PROVIDERS = [
   provide(LocationStrategy, { useClass: HashLocationStrategy }),
-  provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent })
+  provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
+  provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 
 const APP_PROVIDERS = [

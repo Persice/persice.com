@@ -35,6 +35,10 @@ export class UserService {
       });
   }
 
+  public findOneByUri(resourceUri: string): Observable<any> {
+    return this.http.get(resourceUri).map((res: Response) => res.json());
+  }
+
   public getDefaultImage() {
     return UserService.DEFAULT_IMAGE;
   }

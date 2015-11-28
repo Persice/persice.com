@@ -7,15 +7,15 @@ declare var jQuery: any;
 @Directive({
   selector: '[slick]',
   properties: [
-  'show',
-  'scroll',
-  'infinite',
-  'append',
-  'arrows',
-  'dots',
-  'responsive',
-  'breakpoint',
-  'slidestoshow'
+    'show',
+    'scroll',
+    'infinite',
+    'append',
+    'arrows',
+    'dots',
+    'responsive',
+    'breakpoint',
+    'slidestoshow'
   ]
 })
 export class SlickDirective {
@@ -61,7 +61,6 @@ export class SlickDirective {
     }
 
     jQuery(this.el.nativeElement).slick(options);
-
 
   }
 

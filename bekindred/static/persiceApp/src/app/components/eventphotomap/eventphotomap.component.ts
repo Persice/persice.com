@@ -1,6 +1,22 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-import {Component, Input} from 'angular2/angular2';
+import {Component, Input, CORE_DIRECTIVES} from 'angular2/angular2';
+
+
+import {
+GoogleMap,
+GoogleMapMarker,
+ANGULAR2_GOOGLE_MAPS_PROVIDERS
+} from '../map/angular2_google_maps';
+
+
+// just an interface for type safety.
+interface IMarker {
+  lat: number;
+  lng: number;
+  label?: string;
+}
+
 
 let view = require('./eventphotomap.html');
 
@@ -9,35 +25,44 @@ declare var google: any;
 
 @Component({
   selector: 'event-photomap',
-  template: view
+  template: view,
+  directives: [GoogleMap, GoogleMapMarker, CORE_DIRECTIVES]
 })
 export class EventPhotoMapComponent {
   @Input() location;
   @Input() photo;
   @Input() stats;
+  @Input() host;
 
-  afterViewInit() {
 
-    //TABS
-    jQuery('.event-photo-map__switch li').click(function() {
-      let tabId = jQuery(this).attr('data-tab');
-      jQuery(this)
-        .closest('.event-photo-map')
-        .find('.event-photo-map__switch li')
-        .removeClass('is-current');
-      jQuery(this)
-        .closest('.event-photo-map')
-        .find('.tab-content')
-        .removeClass('is-current');
-      jQuery(this).addClass('is-current');
-      jQuery('#' + tabId).addClass('is-current');
-    });
+  showMap: boolean = false;
+  showPhoto: boolean = true;
 
-    this.initMap();
+  // google maps zoom level
+  zoom: number = 8;
+
+  // initial center position for the map
+  lat: number;
+  lng: number;
+
+  markers: IMarker[] = [];
+
+  onChanges(values) {
+
+    // check if location exists
+    if (Object.keys(values.location.currentValue).length > 0) {
+      this.markers = [
+        {
+          lat: parseFloat(values.location.currentValue.latitude),
+          lng: parseFloat(values.location.currentValue.longitude),
+          label: values.location.currentValue.name
+        }
+      ];
+
+      this.lat = parseFloat(values.location.currentValue.latitude);
+      this.lng = parseFloat(values.location.currentValue.longitude);
+      this.zoom = 12;
+    }
   }
 
-
-  initMap() {
-
-  }
 }

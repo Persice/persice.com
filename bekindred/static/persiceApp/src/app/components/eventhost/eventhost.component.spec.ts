@@ -24,14 +24,21 @@ import {EventHostComponent} from './eventhost.component';
   directives: [EventHostComponent]
 })
 class TestComponent {
-
+  userInfo = {
+    name: 'Sasa',
+    description: 'desc',
+    distance: '10 miles',
+    gender: 'Male',
+    age: '20',
+    image: '/media/images/avatar_user_f.jpg'
+  };
 }
 
 describe('EventHost component', () => {
 
 
   it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><event-host></event-host><div>')
+    return tcb.overrideTemplate(TestComponent, '<div><event-host [host]="userInfo"></event-host><div>')
       .createAsync(TestComponent).then((fixture: any) => {
         fixture.detectChanges();
         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
