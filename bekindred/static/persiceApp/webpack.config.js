@@ -116,7 +116,6 @@ module.exports = {
       'app': 'src/app',
       'lodash': 'lodash',
       // 'common': 'src/common',
-      'bindings': 'src/bindings',
       'components': 'src/app/components',
       'services': 'src/app/services'
         // 'stores': 'src/app/stores'
