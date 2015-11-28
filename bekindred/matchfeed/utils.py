@@ -4,6 +4,7 @@ from operator import attrgetter
 import re
 import nltk
 from nltk.stem.porter import PorterStemmer
+from nltk.corpus import wordnet as wn
 
 from django_facebook.models import FacebookLike
 
@@ -14,7 +15,7 @@ from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     get_mutual_twitter_friends
 from interests.models import Interest, InterestSubject
 from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
-    StopWords
+    StopWords, GerundWords
 from members.models import FacebookCustomUserActive
 
 
@@ -33,6 +34,36 @@ def order_by(target, **kwargs):
     else:
         result = sorted(target, key=attrgetter('distance'))
         return result
+
+
+def make_gerund(word):
+    """
+    Create gerund form of word if it's possible
+    code -> coding
+    :param word:
+    :return:
+    """
+    is_found = False
+    gerund = word
+    for lem in wn.lemmas(word):
+        for related_form in lem.derivationally_related_forms():
+            if related_form.name().endswith('ing'):
+                gerund = related_form.name()
+                GerundWords.objects.get_or_create(word=gerund)
+                is_found = True
+                break
+        if is_found:
+            break
+    if not is_found:
+        if word.endswith('e'):
+            g_word = GerundWords.objects.filter(word='%sing' % gerund[:-1])
+            if g_word:
+                return g_word[0].word
+        else:
+            g_word = GerundWords.objects.filter(word='%sing' % gerund)
+            if g_word:
+                return g_word[0].word
+    return gerund
 
 
 class MatchedUser(object):
@@ -184,7 +215,11 @@ class MatchUser(object):
         for word in draft_keywords:
             if (porter_stemmer.stem(word.lower()) not in st_stop_words) and \
                     len(word.lower()) > 2:
-                keywords.append(word.lower())
+                if isinstance(word, str) and not word.endwith('ing'):
+                    gerund = make_gerund(word.lower())
+                    keywords.append(gerund)
+                else:
+                    keywords.append(word.lower())
         return keywords
 
     def get_friends_score(self, current_user_id, user_object):

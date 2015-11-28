@@ -98,6 +98,12 @@ def migrate():
 
 
 @task
+def loaddata():
+    require('hosts', provided_by=[production])
+    manage_py('loaddata ./match_engine/fixtures/gerund.json')
+
+
+@task
 def update_index():
     require('hosts', provided_by=[production])
     manage_py('update_index')
