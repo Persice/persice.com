@@ -7,7 +7,7 @@
       </svg>
     </a>
     <event-info [info]="info" [host]="isHost" [rsvp]="rsvpStatus" (change-rsvp)="changeRsvpStatus($event)"></event-info>
-    <event-photomap [photo]="photo" [location]="location" [stats]="stats"></event-photomap>
+    <event-photomap [photo]="photo" [host]="isHost" [location]="location" [stats]="stats"></event-photomap>
     <div class="event-people">
       <div class="layout layout--middle mb" id="single-event-peoplenav">
         <div class="layout__item 2/3">

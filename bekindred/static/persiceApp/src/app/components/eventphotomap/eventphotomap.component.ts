@@ -32,6 +32,7 @@ export class EventPhotoMapComponent {
   @Input() location;
   @Input() photo;
   @Input() stats;
+  @Input() host;
 
 
   showMap: boolean = false;
