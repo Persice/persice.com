@@ -15,13 +15,18 @@ export class EventDescriptionComponent {
   hideMoreLink: boolean = true;
 
   onChanges(values) {
-    if (values.description.currentValue && values.description.currentValue.length > 200) {
-      this.descriptionMore = values.description.currentValue.substring(0, 199) + '...';
-      this.hideMoreLink = false;
-    }
-    else {
-      this.descriptionMore = values.description.currentValue;
-      this.hideMoreLink = true;
+    console.log(values);
+    if (values.description && values.description.currentValue) {
+
+
+      if (values.description.currentValue.length > 200) {
+        this.descriptionMore = values.description.currentValue.substring(0, 199) + '...';
+        this.hideMoreLink = false;
+      }
+      else {
+        this.descriptionMore = values.description.currentValue;
+        this.hideMoreLink = true;
+      }
     }
   }
 

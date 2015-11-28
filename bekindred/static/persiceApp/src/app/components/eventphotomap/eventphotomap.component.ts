@@ -48,20 +48,23 @@ export class EventPhotoMapComponent {
   markers: IMarker[] = [];
 
   onChanges(values) {
-
+    console.log(values);
     // check if location exists
-    if (Object.keys(values.location.currentValue).length > 0) {
-      this.markers = [
-        {
-          lat: parseFloat(values.location.currentValue.latitude),
-          lng: parseFloat(values.location.currentValue.longitude),
-          label: values.location.currentValue.name
-        }
-      ];
+    if (values.location && values.location.currentValue) {
 
-      this.lat = parseFloat(values.location.currentValue.latitude);
-      this.lng = parseFloat(values.location.currentValue.longitude);
-      this.zoom = 12;
+      if (Object.keys(values.location.currentValue).length > 0) {
+        this.markers = [
+          {
+            lat: parseFloat(values.location.currentValue.latitude),
+            lng: parseFloat(values.location.currentValue.longitude),
+            label: values.location.currentValue.name
+          }
+        ];
+
+        this.lat = parseFloat(values.location.currentValue.latitude);
+        this.lng = parseFloat(values.location.currentValue.longitude);
+        this.zoom = 12;
+      }
     }
   }
 
