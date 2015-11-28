@@ -215,7 +215,7 @@ class MatchUser(object):
         for word in draft_keywords:
             if (porter_stemmer.stem(word.lower()) not in st_stop_words) and \
                     len(word.lower()) > 2:
-                if isinstance(word, str) and not word.endwith('ing'):
+                if not word.endswith('ing'):
                     gerund = make_gerund(word.lower())
                     keywords.append(gerund)
                 else:
