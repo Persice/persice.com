@@ -88,7 +88,7 @@ def syncdb(app=None):
 @task
 def nltk_update():
     require('hosts', provided_by=[production])
-    virtualenv("python -c 'import nltk;nltk.download(\"punkt\")'")
+    virtualenv("python -c 'import nltk;nltk.download(\"all\")'")
 
 
 @task
