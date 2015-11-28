@@ -101,53 +101,141 @@ export class EventsComponent {
   }
   onInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
+    this.checkUrl();
+  }
+
+  checkUrl() {
+    let path = this.location.path();
+
+    //list
+    if (StringUtil.contains(path, 'my/list')) {
+      this.markNav('my');
+      this.markSubnav('list');
+    }
+    if (StringUtil.contains(path, 'network/list')) {
+      this.markNav('network');
+      this.markSubnav('list');
+    }
+    if (StringUtil.contains(path, 'all/list')) {
+      this.markNav('all');
+      this.markSubnav('list');
+    }
+
+    //map
+    if (StringUtil.contains(path, 'my/map')) {
+      this.markNav('my');
+      this.markSubnav('map');
+    }
+    if (StringUtil.contains(path, 'network/map')) {
+      this.markNav('network');
+      this.markSubnav('map');
+    }
+    if (StringUtil.contains(path, 'all/map')) {
+      this.markNav('all');
+      this.markSubnav('map');
+    }
+
+    //calendar
+    if (StringUtil.contains(path, 'my/calendar')) {
+      this.markNav('my');
+      this.markSubnav('calendar');
+    }
+    if (StringUtil.contains(path, 'network/calendar')) {
+      this.markNav('network');
+      this.markSubnav('calendar');
+    }
+    if (StringUtil.contains(path, 'all/calendar')) {
+      this.markNav('all');
+      this.markSubnav('calendar');
+    }
+
+
+
+  }
+
+  markNav(type) {
+
+    switch (type) {
+      case 'my':
+        this.activeRouteNav = {
+          my: true,
+          network: false,
+          all: false
+        };
+        break;
+      case 'all':
+        this.activeRouteNav = {
+          my: false,
+          network: false,
+          all: true
+        };
+        break;
+
+      case 'network':
+        this.activeRouteNav = {
+          my: false,
+          network: true,
+          all: false
+        };
+        break;
+      default:
+        break;
+    }
+
+    this.activeRoute = {
+      list: true,
+      map: false,
+      calendar: false
+    };
+  }
+
+  markSubnav(type) {
+    switch (type) {
+      case 'list':
+        this.activeRoute = {
+          list: true,
+          map: false,
+          calendar: false
+        };
+        break;
+      case 'map':
+        this.activeRoute = {
+          list: false,
+          map: true,
+          calendar: false
+        };
+        break;
+
+      case 'calendar':
+        this.activeRoute = {
+          list: false,
+          map: false,
+          calendar: true
+        };
+        break;
+      default:
+        break;
+    }
   }
 
 
-  activate(path) {
+  activateMain(path) {
 
     if (path === 'AllEventsList') {
-      this.activeRouteNav = {
-        my: false,
-        network: false,
-        all: true
-      };
-
-      this.activeRoute = {
-        list: true,
-        map: false,
-        calendar: false
-      };
-
-
+      this.markNav('all');
+      this.markSubnav('list');
     }
     if (path === 'MyEventsList') {
-      this.activeRouteNav = {
-        my: true,
-        network: false,
-        all: false
-      };
-
-      this.activeRoute = {
-        list: true,
-        map: false,
-        calendar: false
-      };
+      this.markNav('my');
+      this.markSubnav('list');
     }
     if (path === 'NetworkEventsList') {
-      this.activeRouteNav = {
-        my: false,
-        network: true,
-        all: false
-      };
-
-      this.activeRoute = {
-        list: true,
-        map: false,
-        calendar: false
-      };
+      this.markNav('network');
+      this.markSubnav('list');
     }
+
     this.router.parent.navigate(['./Events', path]);
+
   }
 
 
@@ -160,40 +248,22 @@ export class EventsComponent {
   activateMap() {
     let path = this.location.path();
     if (StringUtil.contains(path, 'my')) {
-      this.activeRouteNav = {
-        my: true,
-        network: false,
-        all: false
-      };
-      this.activeRoute.list = false;
-      this.activeRoute.map = true;
-      this.activeRoute.calendar = false;
+      this.markNav('my');
+      this.markSubnav('map');
       this.router.parent.navigate(['./Events', 'MyEventsMap']);
       return;
     }
 
     if (StringUtil.contains(path, 'all')) {
-      this.activeRouteNav = {
-        my: false,
-        network: false,
-        all: true
-      };
-      this.activeRoute.list = false;
-      this.activeRoute.map = true;
-      this.activeRoute.calendar = false;
+      this.markNav('all');
+      this.markSubnav('map');
       this.router.parent.navigate(['./Events', 'AllEventsMap']);
       return;
     }
 
     if (StringUtil.contains(path, 'network')) {
-      this.activeRouteNav = {
-        my: false,
-        network: true,
-        all: false
-      };
-      this.activeRoute.list = false;
-      this.activeRoute.map = true;
-      this.activeRoute.calendar = false;
+      this.markNav('network');
+      this.markSubnav('map');
       this.router.parent.navigate(['./Events', 'NetworkEventsMap']);
       return;
     }
@@ -203,41 +273,23 @@ export class EventsComponent {
     let path = this.location.path();
 
     if (StringUtil.contains(path, 'my')) {
-      this.activeRouteNav = {
-        my: true,
-        network: false,
-        all: false
-      };
-      this.activeRoute.list = true;
-      this.activeRoute.map = false;
-      this.activeRoute.calendar = false;
+      this.markNav('my');
+      this.markSubnav('list');
       this.router.parent.navigate(['./Events', 'MyEventsList']);
       return;
     }
 
     if (StringUtil.contains(path, 'all')) {
-      this.activeRouteNav = {
-        my: false,
-        network: false,
-        all: true
-      };
-      this.activeRoute.list = true;
-      this.activeRoute.map = false;
-      this.activeRoute.calendar = false;
+      this.markNav('all');
+      this.markSubnav('list');
       this.router.parent.navigate(['./Events', 'AllEventsList']);
       return;
     }
 
 
     if (StringUtil.contains(path, 'network')) {
-      this.activeRouteNav = {
-        my: false,
-        network: true,
-        all: false
-      };
-      this.activeRoute.list = true;
-      this.activeRoute.map = false;
-      this.activeRoute.calendar = false;
+      this.markNav('network');
+      this.markSubnav('list');
       this.router.parent.navigate(['./Events', 'NetworkEventsList']);
       return;
     }
@@ -251,41 +303,23 @@ export class EventsComponent {
     let path = this.location.path();
 
     if (StringUtil.contains(path, 'my')) {
-      this.activeRouteNav = {
-        my: true,
-        network: false,
-        all: false
-      };
-      this.activeRoute.list = false;
-      this.activeRoute.map = false;
-      this.activeRoute.calendar = true;
+      this.markNav('my');
+      this.markSubnav('calendar');
       this.router.parent.navigate(['./Events', 'MyEventsCalendar']);
       return;
     }
 
     if (StringUtil.contains(path, 'all')) {
-      this.activeRouteNav = {
-        my: false,
-        network: false,
-        all: true
-      };
-      this.activeRoute.list = false;
-      this.activeRoute.map = false;
-      this.activeRoute.calendar = true;
+      this.markNav('all');
+      this.markSubnav('calendar');
       this.router.parent.navigate(['./Events', 'AllEventsCalendar']);
       return;
     }
 
 
     if (StringUtil.contains(path, 'network')) {
-      this.activeRouteNav = {
-        my: false,
-        network: true,
-        all: false
-      };
-      this.activeRoute.list = false;
-      this.activeRoute.map = false;
-      this.activeRoute.calendar = true;
+      this.markNav('network');
+      this.markSubnav('calendar');
       this.router.parent.navigate(['./Events', 'NetworkEventsCalendar']);
       return;
     }

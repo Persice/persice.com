@@ -11,6 +11,7 @@ from tastypie.bundle import Bundle
 from tastypie.constants import ALL
 from tastypie.resources import ModelResource, Resource
 
+from events.models import FilterState
 from friends.models import FacebookFriendUser, Friend
 from goals.utils import (calculate_distance, get_mutual_linkedin_connections,
                          get_mutual_twitter_friends, social_extra_data,
@@ -248,50 +249,29 @@ class ConnectionsResource2(Resource):
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
-    friend_id = fields.CharField(attribute='friend_id')
-    twitter_provider = fields.CharField(attribute='twitter_provider',
-                                        null=True)
-    twitter_username = fields.CharField(attribute='twitter_username',
-                                        null=True)
-    linkedin_provider = fields.CharField(attribute='linkedin_provider',
-                                         null=True)
+    user_id = fields.CharField(attribute='user_id')
 
-    mutual_bk_friends = fields.ListField(attribute='mutual_bk_friends')
-    mutual_bk_friends_count = fields.IntegerField(
-        attribute='mutual_bk_friends_count')
+    age = fields.IntegerField(attribute='age')
+    distance = fields.ListField(attribute='distance')
+    about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
 
-    mutual_fb_friends = fields.ListField(attribute='mutual_fb_friends')
+    photos = fields.ListField(attribute='photos')
+    goals = fields.ListField(attribute='goals')
+    offers = fields.ListField(attribute='offers')
+    likes = fields.ListField(attribute='likes')
+    interests = fields.ListField(attribute='interests')
+    top_interests = fields.ListField(attribute='top_interests')
 
-    mutual_fb_friends_count = fields.IntegerField(
-        attribute='mutual_fb_friends_count')
+    score = fields.IntegerField(attribute='score', null=True)
+    es_score = fields.FloatField(attribute='es_score', null=True)
+    friends_score = fields.IntegerField(attribute='friends_score', null=True)
 
-    mutual_linkedin_connections = fields.ListField(
-        attribute='mutual_linkedin_connections')
-
-    mutual_linkedin_connections_count = fields.IntegerField(
-        attribute='mutual_linkedin_connections_count')
-
-    mutual_twitter_friends = fields.ListField(
-        attribute='mutual_twitter_friends')
-
-    mutual_twitter_friends_count = fields.IntegerField(
-        attribute='mutual_twitter_friends_count')
-
-    mutual_twitter_followers = fields.ListField(
-        attribute='mutual_twitter_followers')
-
-    mutual_twitter_followers_count = fields.IntegerField(
-        attribute='mutual_twitter_followers_count')
-
-    mutual_friends = fields.IntegerField(attribute='mutual_friends')
-
-    common_goals_offers_interests = fields.IntegerField(
-        attribute='common_goals_offers_interests', null=True)
+    friend_id = fields.CharField(attribute='friend_id', null=True)
 
     updated_at = fields.DateTimeField(attribute='updated_at', null=True)
-    distance = fields.ListField(attribute='distance')
+    last_login = fields.DateTimeField(attribute='last_login', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
-    age = fields.IntegerField(attribute='age', null=True, blank=True)
 
     class Meta:
         resource_name = 'connections2'
@@ -308,90 +288,21 @@ class ConnectionsResource2(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        results = []
-        _first_name = request.GET.get('first_name', None)
-        _friend_id = request.GET.get('friend', None)
-        current_user = request.user.id
-        friends = Friend.objects.friends(current_user)
-        for friend in friends:
-
-            new_obj = A()
-            new_obj.id = friend.id
-            if friend.friend1.id == current_user:
-                position_friend = 'friend2'
-            else:
-                position_friend = 'friend1'
-
-            new_obj.first_name = getattr(friend, position_friend).first_name
-            new_obj.last_name = getattr(friend, position_friend).last_name
-            new_obj.facebook_id = getattr(friend, position_friend).facebook_id
-            new_obj.image = getattr(friend, position_friend).image
-            new_obj.friend_id = getattr(friend, position_friend).id
-            new_obj.age = calculate_age(getattr(friend, position_friend).date_of_birth)
-            new_obj.updated_at = friend.updated_at
-
-            if _friend_id and not int(_friend_id) == new_obj.friend_id:
-                continue
-
-            if _first_name and \
-                    not _first_name.lower() in new_obj.first_name.lower():
-                continue
-
-            new_obj.twitter_provider, new_obj.linkedin_provider, \
-                new_obj.twitter_username = social_extra_data(new_obj.friend_id)
-
-            new_obj.mutual_bk_friends = Friend.objects. \
-                mutual_friends(current_user, new_obj.friend_id)
-            new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)
-
-            new_obj.mutual_fb_friends = FacebookFriendUser.objects. \
-                mutual_friends(current_user, new_obj.friend_id)
-            new_obj.mutual_fb_friends_count = len(new_obj.mutual_fb_friends)
-
-            l = get_mutual_linkedin_connections(current_user,
-                                                new_obj.friend_id)
-            new_obj.mutual_linkedin_connections = l['mutual_linkedin']
-            new_obj.mutual_linkedin_connections_count = \
-                l['mutual_linkedin_count']
-
-            t = get_mutual_twitter_friends(current_user, new_obj.friend_id)
-            new_obj.mutual_twitter_friends = t['mutual_twitter_friends']
-            new_obj.mutual_twitter_friends_count = \
-                t['count_mutual_twitter_friends']
-            new_obj.mutual_twitter_followers = t['mutual_twitter_followers']
-            new_obj.mutual_twitter_followers_count = \
-                t['count_mutual_twitter_followers']
-
-            new_obj.mutual_friends = new_obj.mutual_bk_friends_count + \
-                new_obj.mutual_fb_friends_count + \
-                new_obj.mutual_linkedin_connections_count + \
-                new_obj.mutual_twitter_friends_count + \
-                new_obj.mutual_twitter_followers_count
-
-            m = MatchQuerySet.between(current_user, new_obj.friend_id)
-            new_obj.common_goals_offers_interests = m[0].score if m else 0
-
-            new_obj.distance = calculate_distance(request.user.id,
-                                                  new_obj.friend_id)
-            results.append(new_obj)
-
-        # Order by match_score
-        if request.GET.get('order') == 'match_score':
-            return sorted(results,
-                          key=lambda x: x.common_goals_offers_interests,
-                          reverse=True)
-
-        elif request.GET.get('order') == 'mutual_friends':
-            return sorted(results,
-                          key=lambda x: x.mutual_friends, reverse=True)
-
-        elif request.GET.get('order') == 'first_name':
-            return sorted(results, key=lambda x: (x.first_name, x.last_name))
-
-        elif request.GET.get('order') == 'distance':
-            return sorted(results, key=lambda x: x.distance[0])
-
-        return sorted(results, key=lambda x: x.updated_at, reverse=True)
+        if request.GET.get('filter') == 'true':
+            match_users = MatchQuerySet. \
+                all(request.user.id, is_filter=True, friends=True)
+            fs = FilterState.objects.filter(user=request.user.id)
+            if fs:
+                if fs[0].order_criteria == 'match_score':
+                    return sorted(match_users, key=lambda x: -x.score)
+                elif fs[0].order_criteria == 'mutual_friends':
+                    return sorted(match_users, key=lambda x: -x.friends_score)
+                elif fs[0].order_criteria == 'date':
+                    return sorted(match_users, key=lambda x: x.last_login,
+                                  reverse=True)
+        else:
+            match_users = MatchQuerySet.all(request.user.id, friends=True)
+        return match_users
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...

@@ -27,6 +27,8 @@ export class ProfileComponent {
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
+  profileKeywords: any[] = [];
+  profileKeywordsCount: number = 0;
   profileInterests: any[] = [];
   profileInterestsMore: any[] = [];
   profileGoals: any[] = [];
@@ -69,6 +71,9 @@ export class ProfileComponent {
     this.profileInterestsCount = ObjectUtil.count(this.user.interests[0]);
     this.profileOffersCount = ObjectUtil.count(this.user.offers[0]);
     this.profileGoalsCount = ObjectUtil.count(this.user.goals[0]);
+
+    this.profileKeywords = this.user.keywords;
+    this.profileKeywordsCount = this.user.keywords.length;
 
     this.getMutualFriends(this.user.id);
 

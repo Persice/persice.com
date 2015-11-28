@@ -199,6 +199,8 @@ class MatchedFeedResource2(Resource):
     score = fields.IntegerField(attribute='score', null=True)
     es_score = fields.FloatField(attribute='es_score', null=True)
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
+    last_login = fields.DateField(attribute='last_login', null=True)
+    keywords = fields.ListField(attribute='keywords', null=True)
 
     class Meta:
         # max_limit = 10
@@ -216,7 +218,6 @@ class MatchedFeedResource2(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        # TODO: Add filter based on FilterState model
         if request.GET.get('filter') == 'true':
             match_users = MatchQuerySet.all(request.user.id, is_filter=True)
             fs = FilterState.objects.filter(user=request.user.id)
@@ -225,6 +226,9 @@ class MatchedFeedResource2(Resource):
                     return sorted(match_users, key=lambda x: -x.score)
                 elif fs[0].order_criteria == 'mutual_friends':
                     return sorted(match_users, key=lambda x: -x.friends_score)
+                elif fs[0].order_criteria == 'date':
+                    return sorted(match_users, key=lambda x: x.last_login,
+                                  reverse=True)
         else:
             match_users = MatchQuerySet.all(request.user.id)
         return match_users

@@ -134,5 +134,54 @@ export class DateUtil {
     return formatedDate;
   }
 
+
+  static localTimezone<S extends String>(): S {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+    return moment.tz(tzName).format('z');
+  }
+
+}
+
+
+export class EventUtil {
+  static accessLevel(data: string): string {
+    let returnValue = '';
+    switch (data) {
+      case 'public':
+        returnValue = 'Public (all Persice users)';
+        break;
+      case 'private':
+        returnValue = 'Private (only select users)';
+        break;
+      case 'connections':
+        returnValue = 'Only my connections (default)';
+        break;
+      default:
+        break;
+    }
+    return returnValue;
+
+  }
+
+}
+
+export class UserUtil {
+  static gender(data: string): string {
+    let returnValue = '';
+    switch (data) {
+      case 'm':
+        returnValue = 'Male';
+        break;
+      case 'f':
+        returnValue = 'Female';
+        break;
+      default:
+        break;
+    }
+    return returnValue;
+
+  }
+
 }
 

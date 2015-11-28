@@ -25,6 +25,7 @@ import {MessagesComponent} from './messages/messages.component';
 import {ConnectionsComponent} from './connections/connections.component';
 import {EventsComponent} from './events/events.component';
 import {ProfileComponent} from './profile/profile.component';
+import {EventComponent} from './event/event.component';
 
 
 import {HeaderMainComponent} from './headermain/headermain.component';
@@ -41,6 +42,7 @@ import {FilterService} from '../services/filter.service';
 import {UserService} from '../services/user.service';
 import {NotificationService} from '../services/notification.service';
 import {EventsService} from '../services/events.service';
+import {EventService} from '../services/event.service';
 
 let view = require('./app.html');
 
@@ -64,6 +66,11 @@ let view = require('./app.html');
     path: '/messages',
     component: MessagesComponent,
     name: 'Messages'
+  },
+  {
+    path: '/event/:eventId',
+    component: EventComponent,
+    name: 'EventDetails'
   },
   {
     path: '/connections',
@@ -96,7 +103,11 @@ let view = require('./app.html');
   styles: [`
    `],
   template: view,
-  providers: [FilterService, UserService, NotificationService, EventsService]
+  providers: [
+    FilterService,
+    UserService,
+    NotificationService
+  ]
 })
 export class AppComponent {
   user: AuthUserModel;

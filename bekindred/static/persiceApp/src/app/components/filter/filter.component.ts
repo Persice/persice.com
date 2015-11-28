@@ -49,6 +49,11 @@ export class FilterComponent {
       'selected': false
     },
     {
+      'label': 'Date',
+      'value': 'date',
+      'selected': false
+    },
+    {
       'label': 'Mutual Friends',
       'value': 'mutual_friends',
       'selected': false

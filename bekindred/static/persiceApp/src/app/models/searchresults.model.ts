@@ -29,7 +29,7 @@ export class SearchResultEventModel {
 
   constructor(obj?: any) {
     this.name = obj && obj.name || null;
-    this.image = obj && obj.event_photo || '/static/img/placeholder-image.jpg';
+    this.image = obj && obj.event_photo || '/static/img/placeholder-image.png';
     this.city = obj && obj.city || null;
     this.state = obj && obj.state || null;
     this.date = obj && new Date(obj.starts_on) || null;

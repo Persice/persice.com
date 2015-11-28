@@ -1,0 +1,12 @@
+<h3 class="module-title">Event hosts</h3>
+<div class="flag flag--small mb">
+  <div class="flag__img">
+    <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + host.image + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
+    </div>
+  </div>
+  <div class="flag__body">
+    <h5 class="host-name">{{host.name}}</h5>
+    <p class="single-title-subinfo single-title-subinfo--small">{{host.gender}} / Age {{host.age}} {{host.distance}}</p>
+  </div>
+</div>
+<p class="module-type">{{host.description}}</p>

@@ -6,7 +6,7 @@ import {Http, Response} from 'angular2/http';
 
 @Injectable()
 export class ConnectionsService {
-  static API_URL: string = '/api/v1/connections/';
+  static API_URL: string = '/api/v1/connections2/';
   next: string = '';
 
   constructor(public http: Http) {

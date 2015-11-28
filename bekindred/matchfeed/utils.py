@@ -1,15 +1,21 @@
-from itertools import chain
-from operator import itemgetter, attrgetter
-from django_facebook.models import FacebookLike
+import string
+from operator import attrgetter
+
 import re
+import nltk
+from nltk.stem.porter import PorterStemmer
+from nltk.corpus import wordnet as wn
+
+from django_facebook.models import FacebookLike
+
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     calculate_distance_es, get_mutual_linkedin_connections, \
     get_mutual_twitter_friends
 from interests.models import Interest, InterestSubject
-from match_engine.models import MatchEngine, ElasticSearchMatchEngineManager, \
-    ElasticSearchMatchEngine
+from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
+    StopWords, GerundWords
 from members.models import FacebookCustomUserActive
 
 
@@ -28,6 +34,36 @@ def order_by(target, **kwargs):
     else:
         result = sorted(target, key=attrgetter('distance'))
         return result
+
+
+def make_gerund(word):
+    """
+    Create gerund form of word if it's possible
+    code -> coding
+    :param word:
+    :return:
+    """
+    is_found = False
+    gerund = word
+    for lem in wn.lemmas(word):
+        for related_form in lem.derivationally_related_forms():
+            if related_form.name().endswith('ing'):
+                gerund = related_form.name()
+                GerundWords.objects.get_or_create(word=gerund)
+                is_found = True
+                break
+        if is_found:
+            break
+    if not is_found:
+        if word.endswith('e'):
+            g_word = GerundWords.objects.filter(word='%sing' % gerund[:-1])
+            if g_word:
+                return g_word[0].word
+        else:
+            g_word = GerundWords.objects.filter(word='%sing' % gerund)
+            if g_word:
+                return g_word[0].word
+    return gerund
 
 
 class MatchedUser(object):
@@ -124,6 +160,8 @@ class MatchUser(object):
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.get_friends_score(current_user_id, user_object)
         self.top_interests = self.get_top_interests(user_object)
+        self.last_login = self.user.last_login
+        self.keywords = self.get_keywords(user_object)
 
     def get_user_info(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
@@ -158,6 +196,31 @@ class MatchUser(object):
             for subj in interests_dict[:3-len(interests)]:
                 d[subj] = 0
             return [d]
+
+    def get_keywords(self, user_object):
+        keywords = []
+        draft_keywords = set()
+        porter_stemmer = PorterStemmer()
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+        st_stop_words = [porter_stemmer.stem(w) for w in stop_words]
+        targets = ['goals', 'offers', 'interests', 'likes']
+        translate_table = dict((ord(char), None) for char in string.punctuation)
+
+        for target in targets:
+            h_objects = user_object['_source'].get(target, [])
+            for h in h_objects:
+                s = h.translate(translate_table)
+                tokens = nltk.word_tokenize(s)
+                draft_keywords.update(tokens)
+        for word in draft_keywords:
+            if (porter_stemmer.stem(word.lower()) not in st_stop_words) and \
+                    len(word.lower()) > 2:
+                if not word.endswith('ing'):
+                    gerund = make_gerund(word.lower())
+                    keywords.append(gerund)
+                else:
+                    keywords.append(word.lower())
+        return keywords
 
     def get_friends_score(self, current_user_id, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
@@ -201,12 +264,16 @@ class MatchUser(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id, is_filter=False):
+    def all(current_user_id, is_filter=False, friends=False):
         hits = ElasticSearchMatchEngine.elastic_objects.\
-            match(current_user_id, is_filter=is_filter)
+            match(current_user_id, is_filter=is_filter, friends=friends)
         users = []
         for hit in hits:
-            users.append(MatchUser(current_user_id, hit))
+            try:
+                user = MatchUser(current_user_id, hit)
+                users.append(user)
+            except FacebookCustomUserActive.DoesNotExist as e:
+                print e
         return users
 
     @staticmethod

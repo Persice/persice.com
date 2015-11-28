@@ -37,7 +37,7 @@ export const filter: InterfaceFilter = {
   "max_age": "95",
   "min_age": "47",
   "order_criteria": "match_score",
-  "resource_uri": "/api/v1/filter/state2/2/",
+  "resource_uri": "/api/v1/filter/state2/2/"
 };
 
 

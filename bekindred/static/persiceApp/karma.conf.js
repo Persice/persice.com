@@ -10,7 +10,8 @@ module.exports = function(config) {
     proxies: {
       '/media/images/': '/base/src/public/images/',
       '/static/persiceApp/src/public/images/': '/base/src/public/images/',
-      '/static/persiceApp/src/public/icons/': '/base/src/public/icons/'
+      '/static/persiceApp/src/public/icons/': '/base/src/public/icons/',
+      '/static/img/': '/base/src/public/images/',
     },
 
 
