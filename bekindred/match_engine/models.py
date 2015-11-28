@@ -390,6 +390,13 @@ class StopWords(models.Model):
         return self.word
 
 
+class GerundWords(models.Model):
+    word = models.CharField(max_length=100, unique=True, db_index=True)
+
+    def __unicode__(self):
+        return self.word
+
+
 class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod

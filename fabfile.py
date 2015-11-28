@@ -88,13 +88,19 @@ def syncdb(app=None):
 @task
 def nltk_update():
     require('hosts', provided_by=[production])
-    virtualenv("python -c 'import nltk;nltk.download(\"punkt\")'")
+    virtualenv("python -c 'import nltk;nltk.download(\"all\")'")
 
 
 @task
 def migrate():
     require('hosts', provided_by=[production])
     manage_py('migrate')
+
+
+@task
+def loaddata():
+    require('hosts', provided_by=[production])
+    manage_py('loaddata ./match_engine/fixtures/gerund.json')
 
 
 @task
