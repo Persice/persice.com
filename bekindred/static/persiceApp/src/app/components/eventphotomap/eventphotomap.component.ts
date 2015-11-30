@@ -48,7 +48,6 @@ export class EventPhotoMapComponent {
   markers: IMarker[] = [];
 
   onChanges(values) {
-    console.log(values);
     // check if location exists
     if (values.location && values.location.currentValue) {
 

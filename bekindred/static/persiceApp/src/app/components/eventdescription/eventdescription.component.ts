@@ -15,7 +15,6 @@ export class EventDescriptionComponent {
   hideMoreLink: boolean = true;
 
   onChanges(values) {
-    console.log(values);
     if (values.description && values.description.currentValue) {
 
 
