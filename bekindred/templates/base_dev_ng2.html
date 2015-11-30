@@ -13,6 +13,7 @@
   <!-- <base href="/"> -->
   <!-- Prefetch DNS for external assets (Twitter widgets etc). -->
   <link rel="dns-prefetch" href="//ajax.googleapis.com">
+  <link rel="dns-prefetch" href="//maps.googleapis.com">
   <link rel="dns-prefetch" href="//fonts.googleapis.com">
   <link rel="dns-prefetch" href="//themes.googleusercontent.com">
   <link rel="dns-prefetch" href="//www.google-analytics.com">
@@ -26,6 +27,8 @@
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/classic.time.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/tokenfield.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/tokenfield-typeahead.css" />
+  <link rel="stylesheet" href="/static/persiceApp/src/public/css/jquery.tagit.css" />
+  <link rel="stylesheet" href="/static/persiceApp/src/public/css/tagit.ui-zendesk.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/screen.css">
   <link rel="stylesheet" href="/static/persiceApp/src/app/components/app.css">
   <meta name="description" content="">
@@ -34,7 +37,7 @@
 
 <body>
   <persice-app></persice-app>
-  <script src="/static/persiceApp/src/public/lib/es6-shim.js"></script>
+  <!--<script src="/static/persiceApp/src/public/lib/es6-shim.js"></script>-->
   <!-- Theme scripts -->
   <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en&key=AIzaSyDFhIBwi7u03g0LpqN7JOkcYsROYwT36Lk"></script>
   <script src="/static/persiceApp/src/public/lib/jquery-2.1.4.min.js"></script>
@@ -53,20 +56,25 @@
   <script src="/static/persiceApp/src/public/lib/jquery.matchHeight.js"></script>
   <script src="/static/persiceApp/src/public/lib/typeahead.js"></script>
   <script src="/static/persiceApp/src/public/lib/tokenfield.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jqueryui/core.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jqueryui/widget.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jqueryui/position.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jqueryui/menu.js"></script>
+  <script src="/static/persiceApp/src/public/lib/jqueryui/autocomplete.js"></script>
+  <script src="/static/persiceApp/src/public/lib/tag-it.js"></script>
   <script src="/static/persiceApp/src/public/js/init.js"></script>
   <!-- development only
   <script src="//localhost:8080/__build__/common.js"></script>
   <script src="//localhost:8080/__build__/angular2.js"></script>
   <script src="//localhost:8080/__build__/app.js"></script>
- -->
-  <!-- staging only
-<script src="/static/persiceApp/__build__/common.js"></script>
-<script src="/static/persiceApp/__build__/angular2.js"></script>
-<script src="/static/persiceApp/__build__/app.js"></script>
--->
-  <!-- production only  -->
+  -->
+  <!-- staging only -->
+  <script src="/static/persiceApp/__build__/common.js"></script>
+  <script src="/static/persiceApp/__build__/angular2.js"></script>
+  <script src="/static/persiceApp/__build__/app.js"></script>
+  <!-- production only
   <script src="/static/persiceApp/__build__/common.min.js"></script>
   <script src="/static/persiceApp/__build__/angular2.min.js"></script>
   <script src="/static/persiceApp/__build__/app.1b5a0384bac9ab6e0641.min.js"></script>
-
+   -->
 </body>
