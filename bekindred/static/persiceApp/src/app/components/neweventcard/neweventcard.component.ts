@@ -1,6 +1,7 @@
 /// <reference path="../../../typings/_custom.d.ts" />
+import {Component, EventEmitter, NgZone} from 'angular2/angular2';
 
-import {Component, EventEmitter} from 'angular2/angular2';
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 declare var jQuery: any;
 
@@ -9,11 +10,18 @@ let view = require('./neweventcard.html');
 @Component({
   outputs: ['onClick'],
   selector: 'newevent-card',
-  template: view
+  template: view,
+  directives: [RemodalDirective]
 })
 export class NewEventCardComponent {
 
   onClick: EventEmitter<any> = new EventEmitter;
+  zone: NgZone;
+  remodal = null;
+
+  constructor(zone: NgZone) {
+    this.zone = zone;
+  }
 
   userClicked() {
     this.onClick.next(true);
@@ -23,13 +31,13 @@ export class NewEventCardComponent {
     console.log('Save event');
   }
 
-  afterViewInit() {
-    let options = {
-      hashTracking: false,
-      closeOnOutsideClick: false
-    };
+  onInit() {
 
-    jQuery('[data-remodal-id=create-event]').remodal(options);
+
+  }
+
+  onDestroy() {
+
   }
 
 }

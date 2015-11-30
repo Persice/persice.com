@@ -20,94 +20,95 @@
       </div>
     </div>
   </a>
-  <div class="remodal remodal--common" data-remodal-id="create-event">
-    <header class="remodal__header">
-      <div class="layout">
-        <div class="layout__item 1/2">
-          <h5 class="remodal__title">Create event</h5> </div>
+</div>
+
+<div class="remodal--common" data-remodal-id="create-event" remodal>
+  <header class="remodal__header">
+    <div class="layout">
+      <div class="layout__item 1/2">
+        <h5 class="remodal__title">Create event</h5> </div>
+    </div>
+    <button data-remodal-action="close" class="remodal-close">
+      <svg role="img" class="icon">
+        <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
+      </svg>
+    </button>
+  </header>
+  <div class="remodal--common__content">
+    <div class="layout layout--bottom">
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Event Name</label>
+        <input class="c-input" type="text" placeholder="Add short, clear name"> </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Location</label>
+        <input class="c-input" type="text" placeholder="Include a place or address"> </div>
+      <div class="layout__item 1/1">
+        <label class="c-label mb--">Description</label>
+        <textarea class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
       </div>
-      <button data-remodal-action="close" class="remodal-close">
-        <svg role="img" class="icon">
-          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
-        </svg>
-      </button>
-    </header>
-    <div class="remodal--common__content">
-      <div class="layout layout--bottom">
-        <div class="layout__item 1/2">
-          <label class="c-label mb--">Event Name</label>
-          <input class="c-input" type="text" placeholder="Add short, clear name"> </div>
-        <div class="layout__item 1/2">
-          <label class="c-label mb--">Location</label>
-          <input class="c-input" type="text" placeholder="Include a place or address"> </div>
-        <div class="layout__item 1/1">
-          <label class="c-label mb--">Description</label>
-          <textarea class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
-        </div>
-        <div class="layout__item 1/2">
-          <div class="layout layout--small layout--bottom">
-            <div class="layout__item 1/2">
-              <label class="c-label mb--">Date / Time</label>
-              <div class="c-input-icon-holder">
-                <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
-                <svg role="img" class="icon ">
-                  <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
-                </svg>
-              </div>
+      <div class="layout__item 1/2">
+        <div class="layout layout--small layout--bottom">
+          <div class="layout__item 1/2">
+            <label class="c-label mb--">Date / Time</label>
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
+              <svg role="img" class="icon ">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
+              </svg>
             </div>
-            <div class="layout__item 1/2">
-              <div class="c-input-icon-holder">
-                <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
-                <svg role="img" class="icon icon--clock">
-                  <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
-                </svg>
-              </div>
+          </div>
+          <div class="layout__item 1/2">
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
+              <svg role="img" class="icon icon--clock">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
+              </svg>
             </div>
           </div>
         </div>
-        <div class="layout__item 1/2"> <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a>
-          <div data-attr-to="to" class="layout layout--small layout--bottom js-end-time end-time hidden">
-            <div class="layout__item 1/2 mb0">
-              <div class="c-input-icon-holder">
-                <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
-                <svg role="img" class="icon ">
-                  <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
-                </svg>
-              </div>
+      </div>
+      <div class="layout__item 1/2"> <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a>
+        <div data-attr-to="to" class="layout layout--small layout--bottom js-end-time end-time hidden">
+          <div class="layout__item 1/2 mb0">
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
+              <svg role="img" class="icon ">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
+              </svg>
             </div>
-            <div class="layout__item 1/2 mb0 text-right"> <a href="" class="link-blank js-remove-end-time-trigger">Remove</a>
-              <div class="c-input-icon-holder">
-                <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
-                <svg role="img" class="icon icon--clock">
-                  <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
-                </svg>
-              </div>
+          </div>
+          <div class="layout__item 1/2 mb0 text-right"> <a href="" class="link-blank js-remove-end-time-trigger">Remove</a>
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
+              <svg role="img" class="icon icon--clock">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
+              </svg>
             </div>
           </div>
         </div>
-        <div class="layout__item 1/2">
-          <label class="c-label mb--">Max number of attendees</label>
-          <input class="c-input" type="text" placeholder="0"> </div>
-        <div class="layout__item 1/2">
-          <label class="c-label mb--">Cost</label>
-          <input class="c-input" type="text" placeholder="00.0"> </div>
-        <div class="layout__item 1/2">
-          <label class="c-label mb--">Open to</label>
-          <select class="js-select-rep-create-event">
-            <option value="public-event">Only my connections (default)</option>
-            <option value="private-event">Public (all Persice users)</option>
-            <option value="connections-event">Private (only invited)</option>
-          </select>
-        </div>
-        <div class="layout__item 1/2">
-          <label class="c-checkbox mb--">
-            <input class="c-checkbox__input" type="checkbox" name="checkbox" value="99"> <span class="c-checkbox__trigger c-radio__trigger--transparent"></span> <span class="c-checkbox__label c-checkbox__label--unprominent">Guest can invite friends</span> </label>
-        </div>
+      </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Max number of attendees</label>
+        <input class="c-input" type="text" placeholder="0"> </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Cost</label>
+        <input class="c-input" type="text" placeholder="00.0"> </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Open to</label>
+        <select class="js-select-rep-create-event">
+          <option value="public-event">Only my connections (default)</option>
+          <option value="private-event">Public (all Persice users)</option>
+          <option value="connections-event">Private (only invited)</option>
+        </select>
+      </div>
+      <div class="layout__item 1/2">
+        <label class="c-checkbox mb--">
+          <input class="c-checkbox__input" type="checkbox" name="checkbox" value="99"> <span class="c-checkbox__trigger c-radio__trigger--transparent"></span> <span class="c-checkbox__label c-checkbox__label--unprominent">Guest can invite friends</span> </label>
       </div>
     </div>
-    <footer class="remodal__footer text--right">
-      <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="close">Cancel</button>
-      <button (click)="saveEvent($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
-    </footer>
   </div>
+  <footer class="remodal__footer text--right">
+    <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="close">Cancel</button>
+    <button (click)="saveEvent($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
+  </footer>
 </div>
