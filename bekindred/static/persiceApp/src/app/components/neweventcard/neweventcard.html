@@ -21,7 +21,6 @@
     </div>
   </a>
 </div>
-
 <div class="remodal--common" data-remodal-id="create-event" remodal>
   <header class="remodal__header">
     <div class="layout">
@@ -95,10 +94,8 @@
         <input class="c-input" type="text" placeholder="00.0"> </div>
       <div class="layout__item 1/2">
         <label class="c-label mb--">Open to</label>
-        <select class="js-select-rep-create-event">
-          <option value="public-event">Only my connections (default)</option>
-          <option value="private-event">Public (all Persice users)</option>
-          <option value="connections-event">Private (only invited)</option>
+        <select class="js-select-rep-create-event" minimalect (selected-value)="changeOpenTo($event)">
+          <option *ng-for="#order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
         </select>
       </div>
       <div class="layout__item 1/2">
