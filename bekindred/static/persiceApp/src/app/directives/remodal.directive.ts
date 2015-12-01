@@ -36,6 +36,8 @@ export class RemodalDirective {
   }
 
   onDestroy() {
+    jQuery('select.js-select-rep-create-event').minimalect('destroy');
     jQuery(this.el.nativeElement).remodal().destroy();
+
   }
 }
