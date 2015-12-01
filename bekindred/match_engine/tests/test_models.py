@@ -407,6 +407,50 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         self.assertEqual(match_users[0].first_name, 'Sasa')
         self.assertEqual(match_users[0].goals, [{u'learn python': 0, u'teach django': 1}])
 
+    def test_filter_with_different_word_form_of_keywords(self):
+        """
+        Searching Crowd for "hiking" yields no results
+        (but search for "hike" does) - ICE-1311
+        """
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user1,
+                            goal=Subject.objects.create(description='hiking'))
+
+        Goal.objects.create(user=self.user2, goal=self.subject)
+
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='hike',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learning django': 1,
+                                                 u'hiking': 0}])
+
+    def test_filter_with_different_word_form_of_keywords2(self):
+        """
+        Searching Crowd for "hiking" yields no results
+        (but search for "hike" does) - ICE-1311
+        """
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user1,
+                            goal=Subject.objects.create(description='hike'))
+
+        Goal.objects.create(user=self.user2, goal=self.subject)
+
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='hiking',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learning django': 1,
+                                                 u'hike': 0}])
+
     def test_filter_keywords_negative_case(self):
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user1, goal=self.subject5)
