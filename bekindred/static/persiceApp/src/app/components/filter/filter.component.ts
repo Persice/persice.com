@@ -3,7 +3,7 @@
 import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES, Input} from 'angular2/angular2';
 import {findIndex, isUndefined} from 'lodash';
 
-import {SelectComponent} from '../select/select.component';
+import {SelectDirective} from '../../directives/select.directive';
 import {RangeSliderComponent} from '../rangeslider/rangeslider.component';
 import {NumeralPipe} from '../../pipes/numeral.pipe';
 
@@ -20,7 +20,7 @@ declare var jQuery: any;
   directives: [
     FORM_DIRECTIVES,
     CORE_DIRECTIVES,
-    SelectComponent,
+    SelectDirective,
     RangeSliderComponent
   ],
   pipes: [NumeralPipe],

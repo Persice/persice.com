@@ -21,7 +21,6 @@ interface IMarker {
 let view = require('./eventphotomap.html');
 
 declare var jQuery: any;
-declare var google: any;
 
 @Component({
   selector: 'event-photomap',
