@@ -504,8 +504,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     }
                 ]
             }
-            print '--'* 100
-            print body
             response = client.search(index=index, body=body, size=50)
         else:
             body = {
