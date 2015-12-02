@@ -3,6 +3,7 @@ import {Component, EventEmitter, NgZone} from 'angular2/angular2';
 
 import {RemodalDirective} from '../../directives/remodal.directive';
 import {SelectDirective} from '../../directives/select.directive';
+import {EventService} from '../../services/event.service';
 
 declare var jQuery: any;
 
@@ -35,7 +36,7 @@ export class NewEventCardComponent {
     country: '',
     max_attendees: '',
     event_photo: '',
-    access_level: '',
+    access_level: 'connections',
     access_user_list: []
   };
 
@@ -57,7 +58,7 @@ export class NewEventCardComponent {
     }
   ];
 
-  constructor() {
+  constructor(private service: EventService) {
 
   }
 
@@ -70,7 +71,7 @@ export class NewEventCardComponent {
   }
 
   changeOpenTo(event) {
-    console.log(event);
+
   }
 
   ngOnDestroy() {

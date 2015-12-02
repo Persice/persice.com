@@ -20,3 +20,12 @@ export const OPTS_REQ_JSON_CSRF = {
   })
 };
 
+
+export const OPTS_REQ_UNDEFINED_CSRF = {
+
+  headers: new Headers({
+    'Content-Type': 'undefined',
+    'X-CSRFToken': csrfToken
+  })
+};
+
