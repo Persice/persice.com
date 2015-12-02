@@ -36,7 +36,7 @@ export class CircleProgressDirective {
 
   }
 
-  onChanges(changes) {
+  ngOnChanges(changes) {
 
     if (jQuery(this.el.nativeElement).data('circle-progress') !== undefined) {
       jQuery(this.el.nativeElement).circleProgress({ 'value': this.calculateValue(changes.value.currentValue) });

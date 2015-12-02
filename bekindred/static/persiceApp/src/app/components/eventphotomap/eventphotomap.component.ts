@@ -46,7 +46,7 @@ export class EventPhotoMapComponent {
 
   markers: IMarker[] = [];
 
-  onChanges(values) {
+  ngOnChanges(values) {
     // check if location exists
     if (values.location && values.location.currentValue) {
 
