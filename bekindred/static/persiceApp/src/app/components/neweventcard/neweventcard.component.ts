@@ -52,7 +52,7 @@ export class NewEventCardComponent {
     console.log(event);
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');
   }
 

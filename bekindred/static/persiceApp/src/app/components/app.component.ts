@@ -129,7 +129,7 @@ export class AppComponent {
 
   }
 
-  onInit() {
+  ngOnInit() {
     // Get AuthUser info for the app
     this.userService.get()
       .subscribe(data => this.assignAuthUser(data));
@@ -144,7 +144,7 @@ export class AppComponent {
       );
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     this.notificationService.observer('app').unsubscribe();
     this.notificationService.removeObserver('app');
   }

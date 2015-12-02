@@ -34,7 +34,7 @@ export class SearchKeywordsInputComponent {
     this.el = el;
   }
 
-  afterViewInit() {
+  ngAfterViewInit() {
 
     this.filterService.find()
       .subscribe(data => this.setKeywords(data));

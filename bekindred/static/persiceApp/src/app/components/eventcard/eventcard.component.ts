@@ -18,7 +18,7 @@ export class EventCardComponent {
   photo: string = '/static/img/placeholder-image.png';
   date: string = '';
 
-  onInit() {
+  ngOnInit() {
     if (this.event.event_photo !== null) {
       this.photo = this.event.event_photo;
     }

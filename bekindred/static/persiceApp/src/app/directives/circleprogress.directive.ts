@@ -20,7 +20,7 @@ export class CircleProgressDirective {
     this.el = el;
   }
 
-  onInit() {
+  ngOnInit() {
     if (jQuery(this.el.nativeElement).data('circle-progress') === undefined) {
       jQuery(this.el.nativeElement).circleProgress({
         value: this.calculateValue(parseFloat(this.value)),
@@ -43,7 +43,7 @@ export class CircleProgressDirective {
     }
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     jQuery(this.el.nativeElement).off('circle-progress');
     jQuery(this.el.nativeElement).unbind('circle-progress');
 

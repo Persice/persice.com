@@ -29,85 +29,85 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [{
-        pattern: './src/public/**/*.jpg',
-        watched: false,
-        included: false,
-        served: true
-      }, {
-        pattern: './src/public/**/*.svg',
-        watched: false,
-        included: false,
-        served: true
-      }, {
-        pattern: './src/public/lib/es6-shim.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jquery-2.1.4.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jstz.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/circle-progress.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/imgLiquid.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/ion.rangeSlider.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jquery.dotdotdot.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jquery.matchHeight.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jquery.minimalect.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/picker.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/picker.date.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/picker.time.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/remodal.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/slick.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/svg4everybody.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/tokenfield.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jqueryui/core.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jqueryui/widget.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jqueryui/position.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jqueryui/menu.js',
-        watched: false
-      }, {
-        pattern: './src/public/lib/jqueryui/autocomplete.js',
-        watched: false
-      }, {
-        pattern: './src/public/js/init.js',
-        watched: false
-      }, {
-        pattern: 'spec.bundle.js',
-        watched: false
-      },
+      pattern: './src/public/**/*.jpg',
+      watched: false,
+      included: false,
+      served: true
+    }, {
+      pattern: './src/public/**/*.svg',
+      watched: false,
+      included: false,
+      served: true
+    }, {
+      pattern: './src/public/lib/es6-shim.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jquery-2.1.4.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jstz.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/circle-progress.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/imgLiquid.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/ion.rangeSlider.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jquery.dotdotdot.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jquery.matchHeight.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jquery.minimalect.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/picker.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/picker.date.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/picker.time.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/remodal.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/slick.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/svg4everybody.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/tokenfield.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jqueryui/core.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jqueryui/widget.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jqueryui/position.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jqueryui/menu.js',
+      watched: false
+    }, {
+      pattern: './src/public/lib/jqueryui/autocomplete.js',
+      watched: false
+    }, {
+      pattern: './src/public/js/init.js',
+      watched: false
+    }, {
+      pattern: 'spec.bundle.js',
+      watched: false
+    },
 
     ],
 
@@ -137,10 +137,12 @@ module.exports = function(config) {
         loaders: [{
           test: /\.ts$/,
           loader: 'ts-loader',
-          exclude: [
-            /web_modules/,
-            /node_modules/
-          ]
+          query: {
+            'ignoreDiagnostics': [
+            2309,
+            2403
+            ]
+          }
         }, {
           test: /\.json$/,
           loader: 'json'

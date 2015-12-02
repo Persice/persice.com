@@ -60,7 +60,7 @@ export class CrowdComponent {
 
   }
 
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
 
@@ -76,7 +76,7 @@ export class CrowdComponent {
   }
 
 
-  onDestroy() {
+  ngOnDestroy() {
     this.filterService.observer('crowd').unsubscribe();
     this.filterService.removeObserver('crowd');
   }

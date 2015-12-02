@@ -17,7 +17,7 @@ export class SelectDirective {
 
   }
 
-  onInit() {
+  ngOnInit() {
     let changeCounter = 0;
 
     console.log('creating select directive');

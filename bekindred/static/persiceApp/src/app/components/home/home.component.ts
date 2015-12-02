@@ -9,7 +9,7 @@ let view = require('./home.html');
 })
 export class HomeComponent {
 
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 }

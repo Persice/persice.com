@@ -26,7 +26,7 @@ export class RemodalDirective {
 
   }
 
-  afterViewInit() {
+  ngAfterViewInit() {
     let options = {
       hashTracking: false,
       closeOnOutsideClick: false
@@ -35,7 +35,7 @@ export class RemodalDirective {
 
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     jQuery(this.el.nativeElement).remodal().destroy();
   }
 }

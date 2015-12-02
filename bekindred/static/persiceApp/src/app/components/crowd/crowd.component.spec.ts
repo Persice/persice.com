@@ -1,18 +1,20 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
 import {
-iit,
 it,
-ddescribe,
+iit,
+xit,
 describe,
+ddescribe,
+xdescribe,
 expect,
+tick,
+beforeEach,
 inject,
-injectAsync,
-TestComponentBuilder,
 beforeEachProviders,
-fakeAsync,
-tick
-} from 'angular2/testing';
+TestComponentBuilder,
+AsyncTestCompleter
+} from 'angular2/testing_internal';
 
 import {Component, View, provide, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
@@ -72,8 +74,8 @@ describe('Crowd component', () => {
   ]);
 
 
-  it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
-    return tcb.overrideTemplate(TestComponent, '<div><div>')
+  it('should exist', inject([TestComponentBuilder, AsyncTestCompleter], (tcb, async) => {
+    tcb.overrideTemplate(TestComponent, '<div><div>')
       .createAsync(TestComponent).then((fixture: any) => {
 
         fixture.detectChanges();
@@ -82,7 +84,7 @@ describe('Crowd component', () => {
         let elRef = fixture.debugElement.elementRef;
 
         expect(elRef).not.toBeNull(true);
-
+        async.done();
 
       });
   }));

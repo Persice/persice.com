@@ -10,7 +10,7 @@ let view = require('./messages.html');
   directives: [RouterLink]
 })
 export class MessagesComponent {
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 }

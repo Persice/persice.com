@@ -93,7 +93,7 @@ export class EventComponent {
     this.eventId = params.get('eventId');
   }
 
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getEventDetails(this.eventId);
     this.getAttendees(this.eventId);

@@ -151,11 +151,11 @@ module.exports = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts-loader',
+        loader: 'ts',
         query: {
           'ignoreDiagnostics': [
-            // 2300, // 2300 -> Duplicate identifier
-            2309 // 2309 -> An export assignment cannot be used in a module with other exported elements.
+            2309,
+            2403
           ]
         },
         exclude: [
@@ -177,6 +177,13 @@ module.exports = {
     tslint: {
       emitErrors: true,
       failOnHint: false
+      // fileOutput: {
+      //   dir: "./lint/",
+      //   ext: "xml",
+      //   clean: true,
+      //   header: '<?xml version="1.0" encoding="utf-8"?>\n<checkstyle version="5.7">',
+      //   footer: "</checkstyle>"
+      // }
     }
   },
   plugins: env({
