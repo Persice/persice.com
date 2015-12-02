@@ -17,6 +17,27 @@ let view = require('./neweventcard.html');
 export class NewEventCardComponent {
 
   onClick: EventEmitter<any> = new EventEmitter;
+  authUser: string = '/api/v1/auth/user/2/';
+  event = {
+    user: '',
+    description: '',
+    ends_on: '',
+    location: '',
+    name: '',
+    repeat: '',
+    starts_on: '',
+    street: '',
+    city: '',
+    zipcode: null,
+    state: '',
+    full_address: '',
+    location_name: '',
+    country: '',
+    max_attendees: '',
+    event_photo: '',
+    access_level: '',
+    access_user_list: []
+  };
 
   openTo: Array<Object> = [
     {

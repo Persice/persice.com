@@ -59,20 +59,20 @@ $(document).ready(function() {
 
 
   //Keyword focus
-  $('.js-c-input-keywords').on('focus', function() {
-    $(this)
-      .closest('.c-input-icon-holder')
-      .addClass('is-focused');
-  });
-  $('.js-c-input-keywords').on('blur', function() {
-    $(this)
-      .closest('.c-input-icon-holder')
-      .removeClass('is-focused');
-  });
+  // $('.js-c-input-keywords').on('focus', function() {
+  //   $(this)
+  //     .closest('.c-input-icon-holder')
+  //     .addClass('is-focused');
+  // });
+  // $('.js-c-input-keywords').on('blur', function() {
+  //   $(this)
+  //     .closest('.c-input-icon-holder')
+  //     .removeClass('is-focused');
+  // });
 
-  $('.filter__item--keywords__btn').on('click', function(e) {
-    e.preventDefault();
-  });
+  // $('.filter__item--keywords__btn').on('click', function(e) {
+  //   e.preventDefault();
+  // });
 
 
 
