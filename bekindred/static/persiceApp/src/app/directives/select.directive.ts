@@ -20,8 +20,6 @@ export class SelectDirective {
   ngOnInit() {
     let changeCounter = 0;
 
-    console.log('creating select directive');
-
     jQuery(this.el.nativeElement).minimalect({
       searchable: false,
       onchange: (value) => {
