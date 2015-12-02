@@ -13,12 +13,12 @@ let view = require('./neweventcard.html');
   outputs: ['onClick'],
   selector: 'newevent-card',
   template: view,
-  directives: [RemodalDirective, SelectDirective]
+  directives: [RemodalDirective, SelectDirective],
+  providers: [EventService]
 })
 export class NewEventCardComponent {
 
   onClick: EventEmitter<any> = new EventEmitter;
-  authUser: string = '/api/v1/auth/user/2/';
   event = {
     user: '',
     description: '',
