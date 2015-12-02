@@ -250,3 +250,10 @@ div.event-people {
   height: 364px;
   width: 100%;
 }
+
+
+/* fix for input focus outline */
+
+input, .c-radio__trigger {
+  outline: none!important;
+}
