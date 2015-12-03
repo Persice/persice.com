@@ -2,12 +2,9 @@
 
 import {provide, Injectable, Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
-import {forEach} from 'lodash';
+import {CookieUtil, FormUtil} from '../core/util';
 
-import {OPTS_REQ_UNDEFINED_CSRF} from '../core/http_constants';
-import {CookieUtil} from '../core/util';
-
-
+declare var jQuery: any;
 
 @Injectable()
 export class EventService {
@@ -55,34 +52,33 @@ export class EventService {
 
 
   public create(data): Observable<any> {
+
     let userId = CookieUtil.getValue('userid');
-
     let event = data;
+    event.user = '/api/v1/auth/user/' + userId + '/';
 
-    if (Object.keys(data).length > 0) {
-      event['user'] = '/api/v1/auth/user/' + userId + '/';
-      let fd = new FormData();
+    let body = FormUtil.formData(event);
+    let csrftoken = CookieUtil.getValue('csrftoken');
 
-      forEach(event, (value, key) => {
-        if (value instanceof FileList) {
-          if (value.length === 1) {
-            fd.append(key, value[0]);
-          } else {
-            forEach(value, (file, index) => {
-              fd.append(key + '_' + index, file);
-            });
-          }
-        } else {
-          fd.append(key, value);
+    return Observable.create(observer => {
+      jQuery.ajax({
+        url: EventService.API_URL,
+        data: body,
+        processData: false,
+        type: 'POST',
+        beforeSend: (xhr, settings) => {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        contentType: false,
+        success: (data) => {
+          observer.next(data);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
         }
       });
-
-
-      let body = JSON.stringify(fd);
-      return this.http.post(EventService.API_URL, body, OPTS_REQ_UNDEFINED_CSRF)
-        .map((res: Response) => res.json());
-    }
-
+    });
 
 
   }

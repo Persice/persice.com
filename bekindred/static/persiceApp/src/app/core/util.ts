@@ -1,11 +1,11 @@
 /// <reference path="../../typings/_custom.d.ts" />
-import {take, slice} from 'lodash';
+import {take, slice, forEach} from 'lodash';
 
 
 declare var jstz: any;
+
 const moment = require('moment');
 const momentTz = require('moment-timezone/builds/moment-timezone-with-data.min');
-
 
 export class ObjectUtil {
 
@@ -110,6 +110,27 @@ export class CookieUtil {
   }
 }
 
+export class FormUtil {
+  static formData(data: any): FormData {
+    let formData = new FormData();
+
+    forEach(data, (value, key) => {
+      if (value instanceof FileList) {
+        if (value.length === 1) {
+          formData.append(key, value[0]);
+        } else {
+          forEach(value, (file, index) => {
+            formData.append(key + '_' + index, file);
+          });
+        }
+      } else {
+        formData.append(key, value);
+      }
+    });
+    return formData;
+  }
+}
+
 
 export class StringUtil {
   static contains<T extends string>(data: T, substring): boolean {
@@ -122,7 +143,6 @@ export class StringUtil {
   }
 
 }
-
 
 
 export class DateUtil {
@@ -140,6 +160,26 @@ export class DateUtil {
     let tzName = tz.name();
     return moment.tz(tzName).format('z');
   }
+
+  //round up nearest hour
+  static todayRoundUp(): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+
+    let datetime = new Date();
+    return moment(datetime).tz(tzName).add(1, 'hours').startOf('hour');
+  }
+
+  //round up nearest hour
+  static todayAddHourRoundUp(): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+
+    let datetime = new Date();
+    return moment(datetime).tz(tzName).add(2, 'hours').startOf('hour');
+  }
+
+
 
 }
 
