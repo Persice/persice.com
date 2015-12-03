@@ -1141,7 +1141,7 @@ class EventFeedResource(Resource):
                                    blank=True)
 
     class Meta:
-        resource_name = 'feed/event2/my'
+        resource_name = 'events'
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
         authorization = GuardianAuthorization()
@@ -1157,6 +1157,10 @@ class EventFeedResource(Resource):
 
     def get_object_list(self, request):
         match_events = MatchQuerySet.all_event(request.user.id)
+        if request.GET.get('feed') == 'my':
+            match_events = MatchQuerySet.all_event(request.user.id)
+        elif request.GET.get('feed') == 'all':
+            match_events = MatchQuerySet.all_event(request.user.id)
         return match_events
 
     def obj_get_list(self, bundle, **kwargs):
