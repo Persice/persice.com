@@ -5,6 +5,9 @@ import {RemodalDirective} from '../../directives/remodal.directive';
 import {SelectDirective} from '../../directives/select.directive';
 import {EventService} from '../../services/event.service';
 
+import {EventModel} from '../../models/event.model';
+import {NotificationComponent} from '../notification/notification.component';
+
 declare var jQuery: any;
 
 let view = require('./neweventcard.html');
@@ -13,32 +16,15 @@ let view = require('./neweventcard.html');
   outputs: ['onClick'],
   selector: 'newevent-card',
   template: view,
-  directives: [RemodalDirective, SelectDirective],
+  directives: [RemodalDirective, SelectDirective, NotificationComponent],
   providers: [EventService]
 })
 export class NewEventCardComponent {
 
   onClick: EventEmitter<any> = new EventEmitter;
-  event = {
-    user: '',
-    description: '',
-    ends_on: '',
-    location: '',
-    name: '',
-    repeat: '',
-    starts_on: '',
-    street: '',
-    city: '',
-    zipcode: null,
-    state: '',
-    full_address: '',
-    location_name: '',
-    country: '',
-    max_attendees: '',
-    event_photo: '',
-    access_level: 'connections',
-    access_user_list: []
-  };
+  model;
+  showErrors: boolean = true;
+  message: string = 'Please enter all required fields.';
 
   openTo: Array<Object> = [
     {
@@ -59,7 +45,13 @@ export class NewEventCardComponent {
   ];
 
   constructor(private service: EventService) {
-
+    this.model = new EventModel(
+      '',
+      '',
+      '45.8248713,16.149078199999963',
+      11,
+      'connections'
+    );
   }
 
   userClicked() {
@@ -68,10 +60,21 @@ export class NewEventCardComponent {
 
   saveEvent(event) {
     console.log('Save event');
+    this.showErrors = false;
+    this.service.create(this.model).subscribe((res) => {
+      console.log('Saving event success');
+      this.showErrors = false;
+    }, (err) => {
+      console.log('Saving event error');
+      this.showErrors = true;
+    }, () => {
+      console.log('Saving event completed');
+      this.showErrors = false;
+    });
   }
 
   changeOpenTo(event) {
-
+    this.model.access_level = event;
   }
 
   ngOnDestroy() {
