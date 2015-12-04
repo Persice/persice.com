@@ -275,7 +275,8 @@ div.event-people {
 /* fix for input focus outline */
 
 input,
-.c-radio__trigger {
+.c-radio__trigger,
+.c-checkbox__trigger {
   outline: none!important;
 }
 
@@ -291,6 +292,22 @@ input,
 }
 
 
+/*fix for layout in create event form with validation */
+
 .layout__item.layout--alignbottom {
   vertical-align: bottom!important;
+}
+
+
+/*google autocomplete fix */
+
+.pac-container {
+  z-index: 99999!important;
+  border: 1px solid #cbd2d5!important;
+  border-radius: 15px!important;
+  transition: all 0.25s!important;
+  color: #2b3d51!important;
+}
+
+.pac-item {
 }

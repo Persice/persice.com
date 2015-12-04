@@ -45,9 +45,9 @@
       </div>
       <div class="layout__item 1/2">
         <label class="c-label mb--">Location</label>
-        <input [ng-model]="model.location" (ng-model-change)="model.location = $event; validateForm();" class="c-input" type="text" placeholder="Include a place or address" [ng-class]="{'c-input--error': validationErrors.location}">
+        <input [ng-model]="model.event_location" (ng-model-change)="model.event_location = $event; validateForm();" class="c-input" geocomplete (selected-value)="changeLocation($event)" type="text" placeholder="Include a place or address" [ng-class]="{'c-input--error': validationErrors.event_location}">
         <div class="c-message c-message--error pt-- pl-">
-          <p *ng-for="#e of validationErrors.location">{{e}}</p>
+          <p *ng-for="#e of validationErrors.event_location">{{e}}</p>
         </div>
       </div>
       <div class="layout__item 1/1">

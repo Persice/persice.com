@@ -1,28 +1,34 @@
 /// <reference path="../../../typings/_custom.d.ts" />
-import {Component, EventEmitter, NgClass} from 'angular2/angular2';
+import {Component, NgClass} from 'angular2/angular2';
 import {Router} from 'angular2/router';
 
 import {RemodalDirective} from '../../directives/remodal.directive';
 import {SelectDirective} from '../../directives/select.directive';
+import {GeocompleteDirective} from '../../directives/geocomplete.directive';
 import {EventService} from '../../services/event.service';
 import {NotificationService} from '../../services/notification.service';
 
 import {EventModel, EventOpenTo} from '../../models/event.model';
 import {NotificationComponent} from '../notification/notification.component';
+import {GoogleUtil, ObjectUtil} from '../../core/util';
 
 declare var jQuery: any;
 
 let view = require('./neweventcard.html');
 
 @Component({
-  outputs: ['onClick'],
   selector: 'newevent-card',
   template: view,
-  directives: [RemodalDirective, SelectDirective, NotificationComponent, NgClass],
+  directives: [
+    RemodalDirective,
+    SelectDirective,
+    NotificationComponent,
+    NgClass,
+    GeocompleteDirective
+  ],
   providers: [EventService]
 })
 export class NewEventCardComponent {
-  onClick: EventEmitter<any> = new EventEmitter;
   model;
   validationErrors = {};
   showValidationError: boolean = false;
@@ -40,16 +46,7 @@ export class NewEventCardComponent {
     private notificationService: NotificationService
   ) {
     this.router = router;
-    this.model = new EventModel(
-      '',
-      '',
-      '45.8248713,16.149078199999963',
-      'connections'
-    );
-  }
-
-  userClicked() {
-    this.onClick.next(true);
+    this.model = new EventModel();
   }
 
   saveEvent(event) {
@@ -71,7 +68,6 @@ export class NewEventCardComponent {
 
     }, (err) => {
       console.log('Saving event error');
-      console.log(err);
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
         this.showValidationError = true;
@@ -86,6 +82,14 @@ export class NewEventCardComponent {
 
   changeOpenTo(event) {
     this.model.access_level = event;
+  }
+
+  changeLocation(event) {
+    let loc = GoogleUtil.parseLocation(event);
+
+    this.model = ObjectUtil.merge(this.model, loc);
+
+
   }
 
   ngOnDestroy() {
@@ -107,6 +111,7 @@ export class NewEventCardComponent {
     });
 
   }
+
 
 }
 

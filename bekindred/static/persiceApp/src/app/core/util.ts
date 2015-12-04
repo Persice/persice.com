@@ -1,5 +1,5 @@
 /// <reference path="../../typings/_custom.d.ts" />
-import {take, slice, forEach} from 'lodash';
+import {take, slice, forEach, merge, assign, defaults} from 'lodash';
 
 
 declare var jstz: any;
@@ -11,6 +11,18 @@ export class ObjectUtil {
 
   static clone<T extends Object>(data: T): T {
     return JSON.parse(JSON.stringify(data));
+  }
+
+  static join<T extends Object>(objA: T, objB: T): any {
+    return merge(objA, objB);
+  }
+
+  static assign<T extends Object>(objA: T, objB: T): any {
+    return merge(objA, objB);
+  }
+
+  static defaults<T extends Object>(objA: T, objB: T): any {
+    return merge(objA, objB);
   }
 
   static merge<T extends Object>(dest: T, src: T): T {
@@ -108,6 +120,65 @@ export class CookieUtil {
     let parts = value.split('; ' + name + '=');
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
+}
+
+
+export class GoogleUtil {
+  static extractFromAddress(components, type, type2) {
+    for (var i = 0; i < components.length; i++) {
+      for (var j = 0; j < components[i].types.length; j++) {
+        if (components[i].types[j] === type) {
+          return components[i][type2];
+        }
+      }
+    }
+    return '';
+
+  }
+
+  static parseLocation(loc) {
+    let model = {
+      street: '',
+      zipcode: '',
+      state: '',
+      address: '',
+      full_address: '',
+      city: '',
+      country: '',
+      location: '',
+      location_name: ''
+    };
+
+    if (loc !== null && typeof loc === 'object' && loc.hasOwnProperty('address_components') && loc.hasOwnProperty('geometry')) {
+      let location = loc.address_components;
+
+
+
+      model.street = GoogleUtil.extractFromAddress(location, 'route', 'long_name') + ' ' + GoogleUtil.extractFromAddress(location, 'street_number', 'long_name');
+      model.zipcode = GoogleUtil.extractFromAddress(location, 'postal_code', 'long_name');
+      if (model.zipcode === '') {
+        model.zipcode = null;
+      }
+      model.location_name = loc.name;
+      model.full_address = loc.formatted_address;
+      model.state = GoogleUtil.extractFromAddress(location, 'administrative_area_level_1', 'short_name');
+      model.country = GoogleUtil.extractFromAddress(location, 'country', 'short_name');
+      model.city = GoogleUtil.extractFromAddress(location, 'locality', 'long_name');
+      if (model.state.length > 3) {
+        model.state = model.country;
+      }
+      model.location = loc.geometry.location.lat() + ',' + loc.geometry.location.lng();
+    } else {
+      model.address = loc;
+      model.full_address = '';
+      model.location_name = loc;
+      model.location = '0,0';
+    }
+
+    return model;
+
+  }
+
 }
 
 export class FormUtil {

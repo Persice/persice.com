@@ -11,7 +11,7 @@
       </div>
     </div>
     <h4 class="card-title mb- eventname">{{event.name}}</h4>
-    <p class="card-subtitle mb eventlocation">{{event.location_name}} / {{event.city}}</p>
+    <p class="card-subtitle mb eventlocation">{{event.location_name}} <span *ng-if="event.city !== ''">/</span> {{event.city}}</p>
   </div>
   <div class="card__stat">
     <div class="layout layout--flush">

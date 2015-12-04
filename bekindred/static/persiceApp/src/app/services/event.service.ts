@@ -40,7 +40,7 @@ export class EventService {
     ends_on: {
       presence: true
     },
-    location: {
+    event_location: {
       presence: true
     },
     description: {
@@ -96,6 +96,12 @@ export class EventService {
     let userId = CookieUtil.getValue('userid');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
+
+    //fix location if not found by autocomplete
+    if (data.location === '' || data.location === undefined || data.location === null) {
+      data.location = '0,0';
+      data.location_name = data.event_location;
+    }
 
     let body = FormUtil.formData(event);
     let csrftoken = CookieUtil.getValue('csrftoken');

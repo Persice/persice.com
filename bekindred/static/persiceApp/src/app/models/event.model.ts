@@ -5,8 +5,7 @@ export class EventModel {
   constructor(
     public name: string = '',
     public description: string = '',
-    public location: string = '',
-    public access_level: string,
+    public access_level: string = 'connections',
     public starts_on: string = DateUtil.todayRoundUp().utc().format(),
     public ends_on: string = DateUtil.todayAddHourRoundUp().utc().format(),
     public repeat: string = 'w',
@@ -19,6 +18,7 @@ export class EventModel {
     public location_name: string = '',
     public country: string = '',
     public address: string = '',
+    public location: string = '',
     public max_attendees?: number
   ) {
 
