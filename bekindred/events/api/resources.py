@@ -1141,7 +1141,7 @@ class EventFeedResource(Resource):
                                    blank=True)
 
     class Meta:
-        resource_name = 'events'
+        resource_name = 'events2'
         list_allowed_methods = ['get']
         authentication = SessionAuthentication()
         authorization = GuardianAuthorization()
