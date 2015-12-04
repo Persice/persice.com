@@ -4,6 +4,8 @@ from celery import task
 from django.dispatch import receiver
 from easy_thumbnails.files import generate_all_aliases
 from easy_thumbnails.signals import saved_file
+from haystack.management.commands import update_index
+
 from events.models import CumulativeMatchScore, Event, Membership
 from events.utils import calc_score
 from members.models import FacebookCustomUserActive
@@ -54,3 +56,12 @@ def generate_thumbnails_async(sender, fieldfile, **kwargs):
     generate_thumbnails.delay(
         model=sender, pk=fieldfile.instance.pk,
         field=fieldfile.field.name)
+
+
+@task
+def update_index_elastic():
+    update_index.Command().handle(interactive=False)
+
+
+def update_index_delay(*args, **kwargs):
+    update_index_elastic.delay()
