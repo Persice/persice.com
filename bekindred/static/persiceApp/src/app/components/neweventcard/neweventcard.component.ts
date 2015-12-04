@@ -5,6 +5,8 @@ import {Router} from 'angular2/router';
 import {RemodalDirective} from '../../directives/remodal.directive';
 import {SelectDirective} from '../../directives/select.directive';
 import {GeocompleteDirective} from '../../directives/geocomplete.directive';
+import {DatepickerDirective} from '../../directives/datepicker.directive';
+import {TimepickerDirective} from '../../directives/timepicker.directive';
 import {EventService} from '../../services/event.service';
 import {NotificationService} from '../../services/notification.service';
 
@@ -24,7 +26,9 @@ let view = require('./neweventcard.html');
     SelectDirective,
     NotificationComponent,
     NgClass,
-    GeocompleteDirective
+    GeocompleteDirective,
+    DatepickerDirective,
+    TimepickerDirective
   ],
   providers: [EventService]
 })
@@ -51,11 +55,11 @@ export class NewEventCardComponent {
 
   saveEvent(event) {
     console.log('Save event');
-    this.showValidationError = false;
+
     this.service.create(this.model).subscribe((res) => {
       console.log('Saving event success');
       this.validationErrors = {};
-      this.showValidationError = false;
+
 
       this.notificationService.push({
         type: 'success',
@@ -70,18 +74,35 @@ export class NewEventCardComponent {
       console.log('Saving event error');
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
-        this.showValidationError = true;
       }
 
     }, () => {
       console.log('Saving event completed');
       this.validationErrors = {};
-      this.showValidationError = false;
+
     });
   }
 
   changeOpenTo(event) {
     this.model.access_level = event;
+  }
+
+  changeStartDate(event) {
+    console.log(event);
+  }
+
+
+  changeStartTime(event) {
+    console.log(event);
+  }
+
+  changeEndDate(event) {
+    console.log(event);
+  }
+
+
+  changeEndTime(event) {
+    console.log(event);
   }
 
   changeLocation(event) {
@@ -92,6 +113,31 @@ export class NewEventCardComponent {
 
   }
 
+
+  ngAfterViewInit() {
+    //TODO : rewrite - End time
+    jQuery('.js-end-time-trigger').on('click', function(e) {
+      e.preventDefault();
+      jQuery(this)
+        .closest('.remodal')
+        .find('.js-end-time')
+        .toggleClass('hidden');
+      jQuery(this)
+        .toggleClass('hidden');
+    });
+
+    jQuery('.js-remove-end-time-trigger').on('click', function(e) {
+      e.preventDefault();
+      jQuery(this).closest('.remodal')
+        .find('.js-end-time-trigger')
+        .toggleClass('hidden');
+      jQuery(this)
+        .closest('.remodal')
+        .find('.js-end-time')
+        .toggleClass('hidden');
+    });
+  }
+
   ngOnDestroy() {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');
   }
@@ -99,15 +145,15 @@ export class NewEventCardComponent {
   validateForm(attribute) {
     this.service.validate(this.model).subscribe((res) => {
       this.validationErrors = {};
-      this.showValidationError = false;
+
     }, (err) => {
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
-        this.showValidationError = false;
+
       }
     }, () => {
       this.validationErrors = {};
-      this.showValidationError = false;
+
     });
 
   }

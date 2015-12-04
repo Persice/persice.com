@@ -62,7 +62,7 @@
           <div class="layout__item 1/2">
             <label class="c-label mb--">Date / Time</label>
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
+              <input class="c-input c-input--prominent datepicker" datepicker (selected-value)="changeStartDate($event)" type="text" placeholder="10/10/2015">
               <svg role="img" class="icon ">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
               </svg>
@@ -70,7 +70,7 @@
           </div>
           <div class="layout__item layout--alignbottom 1/2">
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
+              <input class="c-input c-input--prominent timepicker" timepicker (selected-value)="changeStartTime($event)" type="text" placeholder="1:00 PM">
               <svg role="img" class="icon icon--clock">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
               </svg>
@@ -80,17 +80,17 @@
       </div>
       <div class="layout__item layout--alignbottom 1/2"> <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a>
         <div data-attr-to="to" class="layout layout--small js-end-time end-time hidden">
-          <div class="layout__item 1/2 mb0">
+          <div class="layout__item layout--alignbottom 1/2 mb0">
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
+              <input class="c-input c-input--prominent datepicker" datepicker (selected-value)="changeEndDate($event)" type="text" placeholder="10/10/2015">
               <svg role="img" class="icon ">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
               </svg>
             </div>
           </div>
-          <div class="layout__item 1/2 mb0 text-right"> <a href="" class="link-blank js-remove-end-time-trigger">Remove</a>
+          <div class="layout__item layout--alignbottom 1/2 mb0 text-right"> <a href="" class="link-blank js-remove-end-time-trigger">Remove</a>
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
+              <input class="c-input c-input--prominent timepicker" timepicker (selected-value)="changeEndTime($event)" type="text" placeholder="1:00 PM">
               <svg role="img" class="icon icon--clock">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
               </svg>
