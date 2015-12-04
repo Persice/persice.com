@@ -26,88 +26,103 @@
     <div class="layout">
       <div class="layout__item 1/2">
         <h5 class="remodal__title">Create event</h5> </div>
-      </div>
-      <button data-remodal-action="close" class="remodal-close">
-        <svg role="img" class="icon">
-          <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
-        </svg>
-      </button>
-    </header>
-    <div class="remodal--common__content">
-      <notification [type]="'warning'" [body]="message" [title]="''" [active]="showErrors"></notification>
-      <div class="layout layout--bottom">
-        <div class="layout__item 1/2">
-          <label class="c-label mb--">Event Name</label>
-          <input required [(ng-model)]="model.name" class="c-input c-input--error" type="text" placeholder="Add short, clear name">
+    </div>
+    <button data-remodal-action="close" class="remodal-close">
+      <svg role="img" class="icon">
+        <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
+      </svg>
+    </button>
+  </header>
+  <div class="remodal--common__content">
+    <notification [type]="notification.type" [body]="notification.body" [title]="notification.title" [active]="showValidationError"></notification>
+    <div class="layout">
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Event Name</label>
+        <input [ng-model]="model.name" (ng-model-change)="model.name = $event; validateForm();" class="c-input" type="text" placeholder="Add short, clear name" [ng-class]="{'c-input--error': validationErrors.name}">
+        <div class="c-message c-message--error pt-- pl-">
+          <p *ng-for="#e of validationErrors.name">{{e}}</p>
         </div>
-        <div class="layout__item 1/2">
-          <label class="c-label mb--">Location</label>
-          <input class="c-input" type="text" placeholder="Include a place or address"> </div>
-          <div class="layout__item 1/1">
-            <label class="c-label mb--">Description</label>
-            <textarea [(ng-model)]="model.description" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
-          </div>
+      </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Location</label>
+        <input [ng-model]="model.event_location" (ng-model-change)="model.event_location = $event; validateForm();" class="c-input" geocomplete (selected-value)="changeLocation($event)" type="text" placeholder="Include a place or address" [ng-class]="{'c-input--error': validationErrors.event_location}">
+        <div class="c-message c-message--error pt-- pl-">
+          <p *ng-for="#e of validationErrors.event_location">{{e}}</p>
+        </div>
+      </div>
+      <div class="layout__item 1/1">
+        <label class="c-label mb--">Description</label>
+        <textarea [ng-model]="model.description" (ng-model-change)="model.description = $event; validateForm();" [ng-class]="{'c-input--error': validationErrors.description}" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
+        <div class="c-message c-message--error pt-- pl-">
+          <p *ng-for="#e of validationErrors.description">{{e}}</p>
+        </div>
+      </div>
+      <div class="layout__item 1/2">
+        <div class="layout layout--small">
           <div class="layout__item 1/2">
-            <div class="layout layout--small layout--bottom">
-              <div class="layout__item 1/2">
-                <label class="c-label mb--">Date / Time</label>
-                <div class="c-input-icon-holder">
-                  <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
-                  <svg role="img" class="icon ">
-                    <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
-                  </svg>
-                </div>
-              </div>
-              <div class="layout__item 1/2">
-                <div class="c-input-icon-holder">
-                  <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
-                  <svg role="img" class="icon icon--clock">
-                    <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
-                  </svg>
-                </div>
-              </div>
+            <label class="c-label mb--">Date / Time</label>
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent datepicker" datepicker (selected-value)="changeStartDate($event)" type="text" placeholder="10/10/2015">
+              <svg role="img" class="icon ">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
+              </svg>
             </div>
           </div>
-          <div class="layout__item 1/2"> <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a>
-            <div data-attr-to="to" class="layout layout--small layout--bottom js-end-time end-time hidden">
-              <div class="layout__item 1/2 mb0">
-                <div class="c-input-icon-holder">
-                  <input class="c-input c-input--prominent datepicker" type="text" placeholder="10/10/2015">
-                  <svg role="img" class="icon ">
-                    <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
-                  </svg>
-                </div>
-              </div>
-              <div class="layout__item 1/2 mb0 text-right"> <a href="" class="link-blank js-remove-end-time-trigger">Remove</a>
-                <div class="c-input-icon-holder">
-                  <input class="c-input c-input--prominent timepicker" type="text" placeholder="10/10/2015">
-                  <svg role="img" class="icon icon--clock">
-                    <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
-                  </svg>
-                </div>
-              </div>
+          <div class="layout__item layout--alignbottom 1/2">
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent timepicker" timepicker (selected-value)="changeStartTime($event)" type="text" placeholder="1:00 PM">
+              <svg role="img" class="icon icon--clock">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
+              </svg>
             </div>
           </div>
-          <div class="layout__item 1/2">
-            <label class="c-label mb--">Max number of attendees</label>
-            <input [(ng-model)]="model.max_attendees" class="c-input" type="text" placeholder="0"> </div>
-            <div class="layout__item 1/2">
-              <label class="c-label mb--">Cost</label>
-              <input class="c-input" type="text" placeholder="00.0"> </div>
-              <div class="layout__item 1/2">
-                <label class="c-label mb--">Open to</label>
-                <select class="js-select-rep-create-event" minimalect (selected-value)="changeOpenTo($event)">
-                  <option *ng-for="#order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
-                </select>
-              </div>
-              <div class="layout__item 1/2">
-                <label class="c-checkbox mb--">
-                  <input class="c-checkbox__input" type="checkbox" name="checkbox" value="99"> <span class="c-checkbox__trigger c-radio__trigger--transparent"></span> <span class="c-checkbox__label c-checkbox__label--unprominent">Guest can invite friends</span> </label>
-                </div>
-              </div>
+        </div>
+      </div>
+      <div class="layout__item layout--alignbottom 1/2"> <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a>
+        <div data-attr-to="to" class="layout layout--small js-end-time end-time hidden">
+          <div class="layout__item layout--alignbottom 1/2 mb0">
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent datepicker" datepicker (selected-value)="changeEndDate($event)" type="text" placeholder="10/10/2015">
+              <svg role="img" class="icon ">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
+              </svg>
             </div>
-            <footer class="remodal__footer text--right">
-              <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="close">Cancel</button>
-              <button (click)="saveEvent($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
-            </footer>
           </div>
+          <div class="layout__item layout--alignbottom 1/2 mb0 text-right"> <a href="" class="link-blank js-remove-end-time-trigger">Remove</a>
+            <div class="c-input-icon-holder">
+              <input class="c-input c-input--prominent timepicker" timepicker (selected-value)="changeEndTime($event)" type="text" placeholder="1:00 PM">
+              <svg role="img" class="icon icon--clock">
+                <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Max number of attendees</label>
+        <input [ng-model]="model.max_attendees" (ng-model-change)="model.max_attendees = $event; validateForm();" class="c-input" type="text" placeholder="0" [ng-class]="{'c-input--error': validationErrors.max_attendees}">
+        <div class="c-message c-message--error pt-- pl-">
+          <p *ng-for="#e of validationErrors.max_attendees">{{e}}</p>
+        </div>
+      </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Cost</label>
+        <input class="c-input" type="text" placeholder="00.0">
+      </div>
+      <div class="layout__item 1/2">
+        <label class="c-label mb--">Open to</label>
+        <select class="js-select-rep-create-event" minimalect (selected-value)="changeOpenTo($event)">
+          <option *ng-for="#order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
+        </select>
+      </div>
+      <div class="layout__item layout--alignbottom 1/2">
+        <label class="c-checkbox mb--">
+          <input class="c-checkbox__input" type="checkbox" name="checkbox" value="99"> <span class="c-checkbox__trigger c-radio__trigger--transparent"></span> <span class="c-checkbox__label c-checkbox__label--unprominent">Guest can invite friends</span> </label>
+      </div>
+    </div>
+  </div>
+  <footer class="remodal__footer text--right">
+    <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="close">Cancel</button>
+    <button (click)="saveEvent($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
+  </footer>
+</div>

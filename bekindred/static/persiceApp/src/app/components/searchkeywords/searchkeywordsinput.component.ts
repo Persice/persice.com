@@ -102,8 +102,10 @@ export class SearchKeywordsInputComponent {
 
       if (tokensString.join().length > 45) {
         this.notificationService.push({
-          content: 'No more keywords allowed.',
-          type: 'warning'
+          title: '',
+          body: 'No more keywords allowed.',
+          type: 'warning',
+          autoclose: 4000
         });
         event.preventDefault();
       }
@@ -111,8 +113,10 @@ export class SearchKeywordsInputComponent {
 
         if (tokenInput.length < 2) {
           this.notificationService.push({
-            content: 'Keyword must have at least two characters',
-            type: 'warning'
+            title: '',
+            body: 'Keyword must have at least two characters',
+            type: 'warning',
+            autoclose: 4000
           });
           event.preventDefault();
           return;
@@ -120,8 +124,10 @@ export class SearchKeywordsInputComponent {
         jQuery.each(existingTokens, (index, token) => {
           if (token.value === event.attrs.value) {
             this.notificationService.push({
-              content: 'Keyword is already entered',
-              type: 'warning'
+              title: '',
+              body: 'Keyword is already entered',
+              type: 'warning',
+              autoclose: 4000
             });
             event.preventDefault();
           }

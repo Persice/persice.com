@@ -2,18 +2,28 @@
 
 import {provide, Injectable} from 'angular2/angular2';
 import * as Rx from '@reactivex/rxjs';
-
+import {InterfaceNotification, NotificationModel} from '../models/notification.model';
 import {remove, find} from 'lodash';
 
 
 @Injectable()
 export class NotificationService {
   observers: any[] = [];
+  notifications: NotificationModel[] = [];
 
-  push(content): void {
+  push(content: InterfaceNotification): void {
+    let notification = new NotificationModel(
+      content.type,
+      content.title,
+      content.body,
+      content.autoclose
+    );
+
+    this.notifications.push(notification);
+
     for (var i = this.observers.length - 1; i >= 0; i--) {
       let subject = this.observers[i].subject;
-      subject.next(content);
+      subject.next(notification);
     }
   }
 
@@ -52,5 +62,5 @@ export class NotificationService {
 
 }
 export var notificationServiceInjectables: Array<any> = [
-provide(NotificationService, { useClass: NotificationService })
+  provide(NotificationService, { useClass: NotificationService })
 ];

@@ -123,14 +123,15 @@
 
 /* fix for keywords wrap in filter */
 
-.keyword {
+
+/*.keyword {
   display: inline-block;
 }
 
 .errorMessage {
   font-size: 0.8rem;
   color: red;
-}
+  }*/
 
 
 /* fix for filter add keyword link */
@@ -175,10 +176,29 @@ input.range-to {
 }
 
 
-/* notification warning */
+/* notifications */
 
 .notification.warning {
   background: #F1BB4B;
+}
+
+.notification.error {
+  background: #ec8672;
+}
+
+.notification__close:hover {
+  cursor: pointer;
+}
+
+.notification.notification-main.is-removed {
+  margin-top: 0px;
+}
+
+.notification.notification-main {
+  margin-bottom: 0px!important;
+  margin-top: 30px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 
@@ -254,6 +274,40 @@ div.event-people {
 
 /* fix for input focus outline */
 
-input, .c-radio__trigger {
+input,
+.c-radio__trigger,
+.c-checkbox__trigger {
   outline: none!important;
+}
+
+
+/* Input validation */
+
+.ng-valid[required] {
+  /*border-color: #42A948;*/
+}
+
+.ng-invalid:not(.ng-untouched) {
+  border-color: #ec8672;
+}
+
+
+/*fix for layout in create event form with validation */
+
+.layout__item.layout--alignbottom {
+  vertical-align: bottom!important;
+}
+
+
+/*google autocomplete fix */
+
+.pac-container {
+  z-index: 99999!important;
+  border: 1px solid #cbd2d5!important;
+  border-radius: 15px!important;
+  transition: all 0.25s!important;
+  color: #2b3d51!important;
+}
+
+.pac-item {
 }
