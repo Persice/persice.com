@@ -781,7 +781,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         event_ids_types = list(set(event_ids_types))
 
         response = ElasticSearchMatchEngineManager. \
-            event_query_builder(user, event_ids_types, is_filter=False)
+            event_query_builder(user, event_ids_types, is_filter=is_filter)
         return response['hits']['hits']
 
 

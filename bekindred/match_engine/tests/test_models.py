@@ -604,3 +604,24 @@ class TestMatchEvents(BaseTestCase, ResourceTestCase):
         events = MatchQuerySet.all_event(self.user.id, feed='connections')
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0].name, 'python meetup')
+
+    def test_filter_by_distance_my_events(self):
+        e = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                 ends_on='2055-06-14T05:15:22.792659',
+                                 name="Play piano", location=[7000, 22965.83])
+
+        e1 = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                  ends_on='2055-06-14T05:15:22.792659',
+                                  name="python meetup",
+                                  location=[700, 22965.83])
+
+        Membership.objects.create(user=self.user, event=e, is_organizer=True,
+                                  rsvp='yes')
+        Membership.objects.create(user=self.user, event=e1, is_organizer=True,
+                                  rsvp='yes')
+        assign_perm('view_event', self.user, e)
+        assign_perm('view_event', self.user, e1)
+        update_index.Command().handle(interactive=False)
+        events = MatchQuerySet.all_event(self.user.id, feed='my')
+        self.assertEqual(len(events), 2)
+        self.assertEqual(events[0].distance[0], 4904)
