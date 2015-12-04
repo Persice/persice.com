@@ -4,12 +4,13 @@ import itertools
 
 from django.db import models
 from django.conf import settings
+from django.utils.timezone import now
 from django_facebook.models import FacebookLike, FacebookCustomUser
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q, F
 from nltk.stem.porter import PorterStemmer
 
-from events.models import FilterState
+from events.models import FilterState, Event
 from goals.models import Goal, Subject, Offer
 from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
@@ -558,6 +559,58 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
+    def event_query_builder(user, event_ids, is_filter=False):
+        client = Elasticsearch()
+        index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
+        location = get_user_location(user.id)
+        fs = FilterState.objects.filter(user=user)
+        distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+        body = {
+            "highlight": {
+                "fields": {
+                    "goals": {},
+                    "interests": {},
+                    "likes": {},
+                    "offers": {}
+                }
+            },
+            "query": {
+                "filtered": {
+                    "filter": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "ids": {
+                                        "type": "modelresult",
+                                        "values": event_ids
+                                    }
+                                }
+                            ],
+                            "should": [],
+                            "must_not": []
+                        }
+                    }
+                }
+            },
+            "sort": [
+                {
+                    "_geo_distance": {
+                        "location": {
+                            "lat": location.y,
+                            "lon": location.x
+                        },
+                        "order": "asc",
+                        "unit": distance_unit
+                    }
+                }
+            ]
+        }
+        response = client.search(index=index, body=body, size=50)
+
+        print response
+        return response
+
+    @staticmethod
     def match(user_id, friends=False, is_filter=False):
         from nltk.stem.porter import PorterStemmer
         porter_stemmer = PorterStemmer()
@@ -646,6 +699,19 @@ class ElasticSearchMatchEngineManager(models.Manager):
         response = s.execute()
 
         return response.hits.hits
+
+    @staticmethod
+    def match_events(user_id, is_filter=False):
+        user = FacebookCustomUserActive.objects.get(pk=user_id)
+        events = Event.objects.filter(membership__user=user_id,
+                                      ends_on__gt=now())
+        event_ids_types = []
+        for event in events:
+            event_ids_types.append('events.event.%s' % event.id)
+
+        response = ElasticSearchMatchEngineManager. \
+            event_query_builder(user, event_ids_types, is_filter=False)
+        return response['hits']['hits']
 
 
 class AbstractMatchEngine(models.Model):
