@@ -560,14 +560,27 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
-    def event_query_builder(user, event_ids, is_filter=False):
+    def event_query_builder(user, event_ids, is_filter=False,
+                            stop_words=()):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         location = get_user_location(user.id)
         fs = FilterState.objects.filter(user=user)
         distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+        keyword_predicate = {}
         if is_filter:
             distance_predicate = {}
+            keyword_predicate = []
+            if fs[0].keyword:
+                keywords = fs[0].keyword.split(',')
+                porter_stemmer = PorterStemmer()
+                s_stop_words = [porter_stemmer.stem(w) for w in stop_words]
+                for word in keywords:
+                    s_word = porter_stemmer.stem(word.lower())
+                    if s_word not in s_stop_words:
+                        keyword_predicate.append({"term": {"name": s_word}})
+                        keyword_predicate.append({"term": {"description": s_word}})
+
             if fs[0].distance:
                 location = get_user_location(user.id)
                 distance_predicate = {"geo_distance": {
@@ -601,7 +614,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                                     },
                                     distance_predicate
                                 ],
-                                "should": [],
+                                "should": keyword_predicate,
                                 "must_not": []
                             }
                         }
@@ -760,6 +773,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
     def match_events(user_id, is_filter=False, feed='my'):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         events = []
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
 
         if feed == 'my':
             events = Event.objects.filter(membership__user=user_id,
@@ -781,7 +795,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
         event_ids_types = list(set(event_ids_types))
 
         response = ElasticSearchMatchEngineManager. \
-            event_query_builder(user, event_ids_types, is_filter=is_filter)
+            event_query_builder(user, event_ids_types, is_filter=is_filter,
+                                stop_words=stop_words)
         return response['hits']['hits']
 
 
