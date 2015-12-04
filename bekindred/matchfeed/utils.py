@@ -307,9 +307,9 @@ class MatchQuerySet(object):
         return users
 
     @staticmethod
-    def all_event(current_user_id, is_filter=False):
+    def all_event(current_user_id, is_filter=False, feed='my'):
         hits = ElasticSearchMatchEngine.elastic_objects. \
-            match_events(current_user_id, is_filter=is_filter)
+            match_events(current_user_id, is_filter=is_filter, feed=feed)
         events = []
         for hit in hits:
             event = MatchEvent(current_user_id, hit)

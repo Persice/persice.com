@@ -701,10 +701,24 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response.hits.hits
 
     @staticmethod
-    def match_events(user_id, is_filter=False):
+    def match_events(user_id, is_filter=False, feed='my'):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
-        events = Event.objects.filter(membership__user=user_id,
-                                      ends_on__gt=now())
+        events = []
+
+        if feed == 'my':
+            events = Event.objects.filter(membership__user=user_id,
+                                          ends_on__gt=now())
+        elif feed == 'all':
+            events = Event.objects.all(ends_on__gt=now())
+
+        elif feed == 'connections':
+            friends = Friend.objects.all_my_friends(user_id=user_id)
+            events = Event.objects.filter(Q(membership__user_id__in=friends,
+                                            membership__rsvp__in=['yes', 'maybe'],
+                                            ends_on__gt=now()) |
+                                          Q(membership__user_id__in=friends,
+                                            membership__is_organizer=True,
+                                            ends_on__gt=now())).distinct()
         event_ids_types = []
         for event in events:
             event_ids_types.append('events.event.%s' % event.id)
