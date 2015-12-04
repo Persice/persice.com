@@ -3,24 +3,43 @@ import {DateUtil} from '../core/util';
 
 export class EventModel {
   constructor(
-    public name: String = '',
-    public description: String = '',
-    public location: String = '',
-    public max_attendees: number,
-    public access_level: String,
-    public starts_on: String = DateUtil.todayRoundUp().utc().format(),
-    public ends_on: String = DateUtil.todayAddHourRoundUp().utc().format(),
-    public repeat: String = 'w',
-    public event_photo: String = '',
-    public street: String = '',
-    public city: String = '',
-    public zipcode: String = '',
-    public state: String = '',
-    public full_address: String = '',
-    public location_name: String = '',
-    public country: String = '',
-    public address: String = ''
+    public name: string = '',
+    public description: string = '',
+    public location: string = '',
+    public access_level: string,
+    public starts_on: string = DateUtil.todayRoundUp().utc().format(),
+    public ends_on: string = DateUtil.todayAddHourRoundUp().utc().format(),
+    public repeat: string = 'w',
+    public event_photo: string = '',
+    public street: string = '',
+    public city: string = '',
+    public zipcode: string = '',
+    public state: string = '',
+    public full_address: string = '',
+    public location_name: string = '',
+    public country: string = '',
+    public address: string = '',
+    public max_attendees?: number
   ) {
 
   }
 }
+
+
+export const EventOpenTo: Object[] = [
+  {
+    'label': 'Only my connections (default)',
+    'value': 'connections',
+    'selected': true
+  },
+  {
+    'label': 'Public (all Persice users)',
+    'value': 'public',
+    'selected': false
+  },
+  {
+    'label': 'Private (only invited)',
+    'value': 'private',
+    'selected': false
+  }
+];

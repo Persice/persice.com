@@ -1,11 +1,13 @@
 /// <reference path="../../../typings/_custom.d.ts" />
-import {Component, EventEmitter, NgZone} from 'angular2/angular2';
+import {Component, EventEmitter, NgClass} from 'angular2/angular2';
+import {Router} from 'angular2/router';
 
 import {RemodalDirective} from '../../directives/remodal.directive';
 import {SelectDirective} from '../../directives/select.directive';
 import {EventService} from '../../services/event.service';
+import {NotificationService} from '../../services/notification.service';
 
-import {EventModel} from '../../models/event.model';
+import {EventModel, EventOpenTo} from '../../models/event.model';
 import {NotificationComponent} from '../notification/notification.component';
 
 declare var jQuery: any;
@@ -16,40 +18,32 @@ let view = require('./neweventcard.html');
   outputs: ['onClick'],
   selector: 'newevent-card',
   template: view,
-  directives: [RemodalDirective, SelectDirective, NotificationComponent],
+  directives: [RemodalDirective, SelectDirective, NotificationComponent, NgClass],
   providers: [EventService]
 })
 export class NewEventCardComponent {
-
   onClick: EventEmitter<any> = new EventEmitter;
   model;
-  showErrors: boolean = true;
-  message: string = 'Please enter all required fields.';
+  validationErrors = {};
+  showValidationError: boolean = false;
+  notification = {
+    title: 'There are some errors.',
+    body: 'Please correct them below.',
+    type: 'error'
+  };
 
-  openTo: Array<Object> = [
-    {
-      'label': 'Only my connections (default)',
-      'value': 'connections',
-      'selected': true
-    },
-    {
-      'label': 'Public (all Persice users)',
-      'value': 'public',
-      'selected': false
-    },
-    {
-      'label': 'Private (only invited)',
-      'value': 'private',
-      'selected': false
-    }
-  ];
+  openTo: Object = EventOpenTo;
 
-  constructor(private service: EventService) {
+  constructor(
+    private router: Router,
+    private service: EventService,
+    private notificationService: NotificationService
+  ) {
+    this.router = router;
     this.model = new EventModel(
       '',
       '',
       '45.8248713,16.149078199999963',
-      11,
       'connections'
     );
   }
@@ -60,16 +54,33 @@ export class NewEventCardComponent {
 
   saveEvent(event) {
     console.log('Save event');
-    this.showErrors = false;
+    this.showValidationError = false;
     this.service.create(this.model).subscribe((res) => {
       console.log('Saving event success');
-      this.showErrors = false;
+      this.validationErrors = {};
+      this.showValidationError = false;
+
+      this.notificationService.push({
+        type: 'success',
+        title: 'Success',
+        body: 'Your event has been created.',
+        autoclose: 4000
+      });
+
+      this.router.parent.navigate(['/EventDetails', { 'eventId': res.id }]);
+
     }, (err) => {
       console.log('Saving event error');
-      this.showErrors = true;
+      console.log(err);
+      if ('validationErrors' in err) {
+        this.validationErrors = err.validationErrors;
+        this.showValidationError = true;
+      }
+
     }, () => {
       console.log('Saving event completed');
-      this.showErrors = false;
+      this.validationErrors = {};
+      this.showValidationError = false;
     });
   }
 
@@ -79,6 +90,22 @@ export class NewEventCardComponent {
 
   ngOnDestroy() {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');
+  }
+
+  validateForm(attribute) {
+    this.service.validate(this.model).subscribe((res) => {
+      this.validationErrors = {};
+      this.showValidationError = false;
+    }, (err) => {
+      if ('validationErrors' in err) {
+        this.validationErrors = err.validationErrors;
+        this.showValidationError = false;
+      }
+    }, () => {
+      this.validationErrors = {};
+      this.showValidationError = false;
+    });
+
   }
 
 }

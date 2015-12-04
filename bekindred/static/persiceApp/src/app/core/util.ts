@@ -146,7 +146,7 @@ export class StringUtil {
 
 
 export class DateUtil {
-  static format<T extends Date, S extends String>(data: T, format: S): S {
+  static format<T extends Date, S extends string>(data: T, format: S): S {
     let tz = jstz.determine();
     let tzName = tz.name();
     let formatedDate = moment.utc(data).tz(tzName).format(format);
@@ -155,7 +155,7 @@ export class DateUtil {
   }
 
 
-  static localTimezone<S extends String>(): S {
+  static localTimezone<S extends string>(): S {
     let tz = jstz.determine();
     let tzName = tz.name();
     return moment.tz(tzName).format('z');
