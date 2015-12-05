@@ -46,7 +46,7 @@ export class EventEditComponent {
   eventId: number = null;
   resourceUri: string = null;
 
-  openTo: Object = EventOpenTo;
+  openTo: any = EventOpenTo;
 
   START_DATE = DateUtil.todayRoundUp().unix() * 1000;
   END_DATE = DateUtil.todayAddHourRoundUp().unix() * 1000;
@@ -75,6 +75,33 @@ export class EventEditComponent {
       this.model.location_name = ev.location_name;
       this.model.event_location = ev.location_name;
       this.model.max_attendees = ev.max_attendees;
+      this.model.access_level = ev.access_level;
+
+      let selectOpenTo = [
+        {
+          'label': 'Only my connections (default)',
+          'value': 'connections',
+          'selected': false
+        },
+        {
+          'label': 'Public (all Persice users)',
+          'value': 'public',
+          'selected': false
+        },
+        {
+          'label': 'Private (only invited)',
+          'value': 'private',
+          'selected': false
+        }
+      ];
+
+      for (var i = 0; i < selectOpenTo.length; ++i) {
+        if (selectOpenTo[i].value === this.model.access_level) {
+          selectOpenTo[i].selected = true;
+        }
+      }
+
+      this.openTo = selectOpenTo;
 
       //assing dates
       let startDate = DateUtil.convertToLocal(this.model.starts_on);
