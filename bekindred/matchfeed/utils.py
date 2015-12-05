@@ -9,6 +9,7 @@ from nltk.corpus import wordnet as wn
 from django_facebook.models import FacebookLike
 
 from events import Event
+from events.utils import get_cum_score
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
@@ -278,8 +279,9 @@ class MatchEvent(object):
         self.location_name = self.event.location_name
         self.location = self.event.location
         self.max_attendees = self.event.max_attendees
-        self.cumulative_match_score = 0
-        self.friend_attendees_count = 0
+        self.cumulative_match_score = get_cum_score(self.id, current_user_id)
+        self.friend_attendees_count = MatchEvent.get_attendees(current_user_id,
+                                                               self.id).count()
         self.description = self.event.description
         self.starts_on = self.event.starts_on
         self.ends_on = self.event.ends_on
@@ -290,6 +292,13 @@ class MatchEvent(object):
     def get_event_info(event_object):
         event_id = int(event_object['_id'].split('.')[-1])
         return Event.objects.get(pk=event_id)
+
+    @staticmethod
+    def get_attendees(user_id, event_id):
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+        attendees = Event.objects.get(pk=event_id). \
+            membership_set.filter(user__in=friends, rsvp='yes')
+        return attendees
 
 
 class MatchQuerySet(object):
