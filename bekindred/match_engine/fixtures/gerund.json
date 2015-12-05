@@ -61615,23 +61615,16 @@
   },
   {
     "fields": {
-      "word": "drawing"
+      "word": "kitesurfing"
     },
     "model": "match_engine.gerundwords",
     "pk": 8804
   },
   {
     "fields": {
-      "word": "kitesurfing"
-    },
-    "model": "match_engine.gerundwords",
-    "pk": 8805
-  },
-  {
-    "fields": {
       "word": "mentoring"
     },
     "model": "match_engine.gerundwords",
-    "pk": 8806
+    "pk": 8805
   }
 ]
