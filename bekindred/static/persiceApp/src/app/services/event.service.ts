@@ -145,6 +145,54 @@ export class EventService {
 
   }
 
+  public updateByUri(data, resourceUri): Observable<any> {
+
+    let userId = CookieUtil.getValue('userid');
+    let event = data;
+    event.user = '/api/v1/auth/user/' + userId + '/';
+
+    //fix location if not found by autocomplete
+    if (data.location === '' || data.location === undefined || data.location === null) {
+      data.location = '0,0';
+      data.location_name = data.event_location;
+    }
+
+    let body = FormUtil.formData(event);
+    let csrftoken = CookieUtil.getValue('csrftoken');
+
+    return Observable.create(observer => {
+
+      if (!this._validateData(event)) {
+        observer.error({
+          validationErrors: this.validationErrors
+        });
+      } else {
+        jQuery.ajax({
+          url: resourceUri,
+          data: body,
+          processData: false,
+          type: 'PUT',
+          beforeSend: (xhr, settings) => {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          },
+          contentType: false,
+          success: (data) => {
+            observer.next(data);
+            observer.complete();
+          },
+          error: (error) => {
+            observer.error(error);
+          }
+        });
+      }
+
+
+
+    });
+
+
+  }
+
   public validate(data): Observable<any> {
     return Observable.create(observer => {
 
