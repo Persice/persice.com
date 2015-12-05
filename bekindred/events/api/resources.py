@@ -1177,8 +1177,7 @@ class EventFeedResource(Resource):
                     return sorted(match, key=lambda x: (-x.distance[0],
                                                         x.distance[1]))
                 elif fs[0].order_criteria == 'date':
-                    return sorted(match, key=lambda x: -x.starts_on,
-                                  reverse=True)
+                    return sorted(match, key=lambda x: x.starts_on)
         else:
             match = MatchQuerySet.all_event(request.user.id, feed='my')
 
