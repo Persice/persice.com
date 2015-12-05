@@ -1157,10 +1157,29 @@ class EventFeedResource(Resource):
 
     def get_object_list(self, request):
         match_events = MatchQuerySet.all_event(request.user.id, feed='my')
-        if request.GET.get('feed') == 'my':
-            match_events = MatchQuerySet.all_event(request.user.id)
-        elif request.GET.get('feed') == 'all':
-            match_events = MatchQuerySet.all_event(request.user.id)
+        if request.GET.get('filter') == 'true':
+            if request.GET.get('feed') == 'my':
+                match_events = MatchQuerySet.all_event(request.user.id,
+                                                       feed='my')
+            elif request.GET.get('feed') == 'all':
+                match_events = MatchQuerySet.all_event(request.user.id,
+                                                       feed='all')
+            elif request.GET.get('feed') == 'connections':
+                match_events = MatchQuerySet.all_event(request.user.id,
+                                                       feed='connections')
+            fs = FilterState.objects.filter(user=request.user.id)
+            if fs:
+                if fs[0].order_criteria == 'match_score':
+                    return sorted(match_events, key=lambda x: -x.cumulative_match_score)
+                elif fs[0].order_criteria == 'mutual_friends':
+                    return sorted(match_events, key=lambda x: (-x.distance[0],
+                                                               x.distance[1]))
+                elif fs[0].order_criteria == 'date':
+                    return sorted(match_events, key=lambda x: x.starts_on,
+                                  reverse=True)
+        else:
+            match_events = MatchQuerySet.all_event(request.user.id, feed='my')
+
         return match_events
 
     def obj_get_list(self, bundle, **kwargs):
