@@ -194,6 +194,10 @@ input.range-to {
   margin-top: 0px;
 }
 
+.notification.notification-full:not(.is-removed) {
+  height: auto;
+}
+
 .notification.notification-main {
   margin-bottom: 0px!important;
   margin-top: 30px;
@@ -310,4 +314,9 @@ input,
 }
 
 .pac-item {
+}
+
+
+.layout--datetimeevent {
+  margin-bottom: 0px;
 }

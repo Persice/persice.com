@@ -14,6 +14,7 @@ export class NotificationComponent {
   @Input() active;
   @Input() type;
   @Input() main;
+  @Input() full;
 
   close(event) {
     this.active = false;

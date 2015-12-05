@@ -217,10 +217,43 @@ export class StringUtil {
 
 
 export class DateUtil {
+
+
+  static convertFromUnixToDate<S extends string, N extends number>(timestamp: N): S {
+    return moment.unix(timestamp).format('MM/DD/YYYY');
+  }
+
+
+  static convertToHours(mins: number): string {
+    let hours = Math.trunc(mins / 60);
+    let minutes = mins % 60;
+    let combined = `${hours}:${minutes}`;
+    return combined;
+  }
+
+
+  static convertTo24Hour(time: any): any {
+    let hours = parseInt(time.substr(0, 2), 10);
+    if (time.indexOf('AM') !== -1 && hours === 12) {
+      time = time.replace('12', '0');
+    }
+    if (time.indexOf('PM') !== -1 && hours < 12) {
+      time = time.replace(hours, (hours + 12));
+    }
+    return time.replace(/(AM|PM)/, '');
+  }
+
   static format<T extends Date, S extends string>(data: T, format: S): S {
     let tz = jstz.determine();
     let tzName = tz.name();
     let formatedDate = moment.utc(data).tz(tzName).format(format);
+
+    return formatedDate;
+  }
+
+
+  static formatUTC<A extends any[], S extends string>(data: A, format: S): S {
+    let formatedDate = moment(data).utc().format(format);
 
     return formatedDate;
   }

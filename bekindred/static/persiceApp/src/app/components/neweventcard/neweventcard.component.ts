@@ -12,7 +12,7 @@ import {NotificationService} from '../../services/notification.service';
 
 import {EventModel, EventOpenTo} from '../../models/event.model';
 import {NotificationComponent} from '../notification/notification.component';
-import {GoogleUtil, ObjectUtil} from '../../core/util';
+import {GoogleUtil, ObjectUtil, DateUtil} from '../../core/util';
 
 declare var jQuery: any;
 
@@ -37,12 +37,19 @@ export class NewEventCardComponent {
   validationErrors = {};
   showValidationError: boolean = false;
   notification = {
-    title: 'There are some errors.',
-    body: 'Please correct them below.',
+    title: 'There are some errors. Please correct them below.',
+    body: '',
     type: 'error'
   };
 
   openTo: Object = EventOpenTo;
+
+  START_DATE = DateUtil.todayRoundUp().unix() * 1000;
+  END_DATE = DateUtil.todayAddHourRoundUp().unix() * 1000;
+
+  START_TIME = DateUtil.todayRoundUp().hour() * 60 + DateUtil.todayRoundUp().minute();
+  END_TIME = DateUtil.todayAddHourRoundUp().hour() * 60 + DateUtil.todayAddHourRoundUp().minute();
+  full = true;
 
   constructor(
     private router: Router,
@@ -55,7 +62,7 @@ export class NewEventCardComponent {
 
   saveEvent(event) {
     console.log('Save event');
-
+    this.showValidationError = false;
     this.service.create(this.model).subscribe((res) => {
       console.log('Saving event success');
       this.validationErrors = {};
@@ -72,13 +79,26 @@ export class NewEventCardComponent {
 
     }, (err) => {
       console.log('Saving event error');
+      console.log(err);
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }
 
+      if ('status' in err && err.status === 400) {
+        let parseError = JSON.parse(err.responseText);
+        if ('event' in parseError) {
+          this.notification.body = parseError.event.error[0];
+        }
+        else {
+          this.notification.body = 'There has been an error during saving this event.';
+        }
+        this.showValidationError = true;
+
+      }
+
     }, () => {
       console.log('Saving event completed');
-      this.validationErrors = {};
+
 
     });
   }
@@ -88,61 +108,95 @@ export class NewEventCardComponent {
   }
 
   changeStartDate(event) {
-    console.log(event);
+    if (event !== 'Invalid date') {
+      this.model.starts_on_date = event;
+      this.combineDateTime('starts_on');
+    }
+    else {
+      this.model.starts_on_date = '';
+      this.model.starts_on = '';
+      this.validateForm();
+    }
+
   }
 
 
   changeStartTime(event) {
-    console.log(event);
+    if (event !== 'Invalid time') {
+      this.model.starts_on_time = event;
+      this.combineDateTime('starts_on');
+    }
+    else {
+      this.model.starts_on_time = '';
+      this.model.starts_on = '';
+      this.validateForm();
+    }
+
   }
 
   changeEndDate(event) {
-    console.log(event);
+    if (event !== 'Invalid date') {
+      this.model.ends_on_date = event;
+      this.combineDateTime('ends_on');
+    }
+    else {
+      this.model.ends_on_date = '';
+      this.model.ends_on = '';
+      this.validateForm();
+    }
+
   }
 
 
   changeEndTime(event) {
-    console.log(event);
+
+    if (event !== 'Invalid time') {
+      this.model.ends_on_time = event;
+      this.combineDateTime('ends_on');
+    }
+    else {
+      this.model.ends_on_time = '';
+      this.model.ends_on = '';
+      this.validateForm();
+    }
+
   }
 
   changeLocation(event) {
     let loc = GoogleUtil.parseLocation(event);
-
     this.model = ObjectUtil.merge(this.model, loc);
-
-
   }
 
 
   ngAfterViewInit() {
     //TODO : rewrite - End time
-    jQuery('.js-end-time-trigger').on('click', function(e) {
-      e.preventDefault();
-      jQuery(this)
-        .closest('.remodal')
-        .find('.js-end-time')
-        .toggleClass('hidden');
-      jQuery(this)
-        .toggleClass('hidden');
-    });
+    // jQuery('.js-end-time-trigger').on('click', function(e) {
+    //   e.preventDefault();
+    //   jQuery(this)
+    //     .closest('.remodal')
+    //     .find('.js-end-time')
+    //     .toggleClass('hidden');
+    //   jQuery(this)
+    //     .toggleClass('hidden');
+    // });
 
-    jQuery('.js-remove-end-time-trigger').on('click', function(e) {
-      e.preventDefault();
-      jQuery(this).closest('.remodal')
-        .find('.js-end-time-trigger')
-        .toggleClass('hidden');
-      jQuery(this)
-        .closest('.remodal')
-        .find('.js-end-time')
-        .toggleClass('hidden');
-    });
+    // jQuery('.js-remove-end-time-trigger').on('click', function(e) {
+    //   e.preventDefault();
+    //   jQuery(this).closest('.remodal')
+    //     .find('.js-end-time-trigger')
+    //     .toggleClass('hidden');
+    //   jQuery(this)
+    //     .closest('.remodal')
+    //     .find('.js-end-time')
+    //     .toggleClass('hidden');
+    // });
   }
 
   ngOnDestroy() {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');
   }
 
-  validateForm(attribute) {
+  validateForm() {
     this.service.validate(this.model).subscribe((res) => {
       this.validationErrors = {};
 
@@ -156,6 +210,19 @@ export class NewEventCardComponent {
 
     });
 
+  }
+
+
+  combineDateTime(type) {
+    if (this.model[type + '_date'] && this.model[type + '_time']) {
+      let dateParts = this.model[type + '_date'].split('/');
+      let datePartsSorted = [dateParts[2], dateParts[0], dateParts[1]];
+      let timeParts = this.model[type + '_time'].split(':');
+      if (datePartsSorted && timeParts) {
+        datePartsSorted[1] -= 1;
+        this.model[type] = DateUtil.formatUTC(datePartsSorted.concat(timeParts), 'YYYY-MM-DDTHH:mm:ss');
+      }
+    }
   }
 
 

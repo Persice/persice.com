@@ -19,6 +19,10 @@ export class EventModel {
     public country: string = '',
     public address: string = '',
     public location: string = '',
+    public starts_on_date: string = '',
+    public starts_on_time: string = '',
+    public ends_on_date: string = '',
+    public ends_on_time: string = '',
     public max_attendees?: number
   ) {
 

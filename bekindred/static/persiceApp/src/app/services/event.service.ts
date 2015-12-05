@@ -34,10 +34,16 @@ export class EventService {
     access_level: {
       presence: true
     },
-    starts_on: {
+    starts_on_date: {
       presence: true
     },
-    ends_on: {
+    starts_on_time: {
+      presence: true
+    },
+    ends_on_date: {
+      presence: true
+    },
+    ends_on_time: {
       presence: true
     },
     event_location: {

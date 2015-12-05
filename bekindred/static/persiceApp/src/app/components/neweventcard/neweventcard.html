@@ -34,7 +34,7 @@
     </button>
   </header>
   <div class="remodal--common__content">
-    <notification [type]="notification.type" [body]="notification.body" [title]="notification.title" [active]="showValidationError"></notification>
+    <notification [type]="notification.type" [body]="notification.body" [full]="full" [title]="notification.title" [active]="showValidationError"></notification>
     <div class="layout">
       <div class="layout__item 1/2">
         <label class="c-label mb--">Event Name</label>
@@ -57,12 +57,12 @@
           <p *ng-for="#e of validationErrors.description">{{e}}</p>
         </div>
       </div>
-      <div class="layout__item 1/2">
+      <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
         <div class="layout layout--small">
           <div class="layout__item 1/2">
             <label class="c-label mb--">Date / Time</label>
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent datepicker" datepicker (selected-value)="changeStartDate($event)" type="text" placeholder="10/10/2015">
+              <input [ng-class]="{'c-input--error': validationErrors.starts_on_date}" class="c-input c-input--prominent datepicker" id="starts_on_date" datepicker="{{START_DATE}}" (selected-value)="changeStartDate($event)" type="text" placeholder="Start date">
               <svg role="img" class="icon ">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
               </svg>
@@ -70,7 +70,7 @@
           </div>
           <div class="layout__item layout--alignbottom 1/2">
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent timepicker" timepicker (selected-value)="changeStartTime($event)" type="text" placeholder="1:00 PM">
+              <input [ng-class]="{'c-input--error': validationErrors.starts_on_time}" class="c-input c-input--prominent timepicker" id="starts_on_time" timepicker="{{START_TIME}}" (selected-value)="changeStartTime($event)" type="text" placeholder="Start time">
               <svg role="img" class="icon icon--clock">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
               </svg>
@@ -78,22 +78,62 @@
           </div>
         </div>
       </div>
-      <div class="layout__item layout--alignbottom 1/2"> <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a>
-        <div data-attr-to="to" class="layout layout--small js-end-time end-time hidden">
-          <div class="layout__item layout--alignbottom 1/2 mb0">
+      <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
+        <!-- <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a> -->
+        <div data-attr-to="to" class="layout layout--small js-end-time end-time">
+          <div class="layout__item 1/2 mb0">
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent datepicker" datepicker (selected-value)="changeEndDate($event)" type="text" placeholder="10/10/2015">
+              <input [ng-class]="{'c-input--error': validationErrors.ends_on_date}" class="c-input c-input--prominent datepicker" id="ends_on_date" datepicker="{{END_DATE}}" (selected-value)="changeEndDate($event)" type="text" placeholder="End date">
               <svg role="img" class="icon ">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
               </svg>
             </div>
           </div>
-          <div class="layout__item layout--alignbottom 1/2 mb0 text-right"> <a href="" class="link-blank js-remove-end-time-trigger">Remove</a>
+          <div class="layout__item 1/2 mb0 text-right">
+            <!-- <a href="" class="link-blank js-remove-end-time-trigger">Remove</a> -->
             <div class="c-input-icon-holder">
-              <input class="c-input c-input--prominent timepicker" timepicker (selected-value)="changeEndTime($event)" type="text" placeholder="1:00 PM">
+              <input [ng-class]="{'c-input--error': validationErrors.ends_on_time}" class="c-input c-input--prominent timepicker" id="ends_on_time" timepicker="{{END_TIME}}" (selected-value)="changeEndTime($event)" type="text" placeholder="End time">
               <svg role="img" class="icon icon--clock">
                 <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
               </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layout__item layout--alignbottom 1/2">
+        <div class="layout layout--small">
+          <div class="layout__item 1/2">
+            <label class="c-label mb--"></label>
+            <div class="c-input-icon-holder">
+              <div class="c-message c-message--error pt-- pl-">
+                <p *ng-for="#e of validationErrors.starts_on_date">{{e}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="layout__item layout--alignbottom 1/2">
+            <div class="c-input-icon-holder">
+              <div class="c-message c-message--error pt-- pl-">
+                <p *ng-for="#e of validationErrors.starts_on_time">{{e}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layout__item layout--alignbottom 1/2">
+        <div class="layout layout--small">
+          <div class="layout__item 1/2">
+            <label class="c-label mb--"></label>
+            <div class="c-input-icon-holder">
+              <div class="c-message c-message--error pt-- pl-">
+                <p *ng-for="#e of validationErrors.ends_on_date">{{e}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="layout__item layout--alignbottom 1/2">
+            <div class="c-input-icon-holder">
+              <div class="c-message c-message--error pt-- pl-">
+                <p *ng-for="#e of validationErrors.ends_on_time">{{e}}</p>
+              </div>
             </div>
           </div>
         </div>
