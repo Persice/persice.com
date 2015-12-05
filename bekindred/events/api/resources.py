@@ -1156,31 +1156,33 @@ class EventFeedResource(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        match_events = MatchQuerySet.all_event(request.user.id, feed='my')
+        match = MatchQuerySet.all_event(request.user.id, feed='my')
         if request.GET.get('filter') == 'true':
             if request.GET.get('feed') == 'my':
-                match_events = MatchQuerySet.all_event(request.user.id,
-                                                       feed='my')
+                match = MatchQuerySet.\
+                    all_event(request.user.id, feed='my', is_filter=True)
             elif request.GET.get('feed') == 'all':
-                match_events = MatchQuerySet.all_event(request.user.id,
-                                                       feed='all')
+                match = MatchQuerySet.\
+                    all_event(request.user.id, feed='all', is_filter=True)
             elif request.GET.get('feed') == 'connections':
-                match_events = MatchQuerySet.all_event(request.user.id,
-                                                       feed='connections')
+                match = MatchQuerySet.\
+                    all_event(request.user.id, feed='connections',
+                              is_filter=True)
             fs = FilterState.objects.filter(user=request.user.id)
+
             if fs:
                 if fs[0].order_criteria == 'match_score':
-                    return sorted(match_events, key=lambda x: -x.cumulative_match_score)
+                    return sorted(match, key=lambda x: -x.cumulative_match_score)
                 elif fs[0].order_criteria == 'mutual_friends':
-                    return sorted(match_events, key=lambda x: (-x.distance[0],
-                                                               x.distance[1]))
+                    return sorted(match, key=lambda x: (-x.distance[0],
+                                                        x.distance[1]))
                 elif fs[0].order_criteria == 'date':
-                    return sorted(match_events, key=lambda x: x.starts_on,
+                    return sorted(match, key=lambda x: -x.starts_on,
                                   reverse=True)
         else:
-            match_events = MatchQuerySet.all_event(request.user.id, feed='my')
+            match = MatchQuerySet.all_event(request.user.id, feed='my')
 
-        return match_events
+        return match
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
