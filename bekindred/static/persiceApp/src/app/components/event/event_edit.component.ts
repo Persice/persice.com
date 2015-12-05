@@ -63,8 +63,6 @@ export class EventEditComponent {
   }
 
   ngOnChanges(values) {
-    console.log(values);
-
     if ('event' in values && Object.keys(values.event.currentValue).length > 0) {
       let ev = values.event.currentValue;
       this.eventId = ev.id;
@@ -78,8 +76,19 @@ export class EventEditComponent {
       this.model.event_location = ev.location_name;
       this.model.max_attendees = ev.max_attendees;
 
-      //TODO start date
-      // this.START_DATE
+      //assing dates
+      let startDate = DateUtil.convertToLocal(this.model.starts_on);
+      let endDate = DateUtil.convertToLocal(this.model.ends_on);
+      this.START_DATE = startDate.unix() * 1000;
+      this.END_DATE = endDate.unix() * 1000;
+      this.START_TIME = startDate.hour() * 60 + startDate.minute();
+      this.END_TIME = endDate.hour() * 60 + endDate.minute();
+
+      jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
+      jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
+      jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
+      jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+
     }
   }
 
@@ -104,7 +113,6 @@ export class EventEditComponent {
 
     }, (err) => {
       console.log('Saving event error');
-      console.log(err);
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }

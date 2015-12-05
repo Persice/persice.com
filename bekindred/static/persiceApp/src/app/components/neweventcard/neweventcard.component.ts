@@ -79,7 +79,6 @@ export class NewEventCardComponent {
 
     }, (err) => {
       console.log('Saving event error');
-      console.log(err);
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }

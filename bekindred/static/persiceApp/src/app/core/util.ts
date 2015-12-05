@@ -258,6 +258,14 @@ export class DateUtil {
     return formatedDate;
   }
 
+  static convertToLocal(data): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+    let localDate = moment.utc(data).tz(tzName);
+
+    return localDate;
+  }
+
 
   static localTimezone<S extends string>(): S {
     let tz = jstz.determine();

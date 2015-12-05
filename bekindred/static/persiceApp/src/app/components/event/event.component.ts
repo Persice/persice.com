@@ -142,7 +142,7 @@ export class EventComponent {
       distance: '6 miles',
       openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
-        hour: DateUtil.format(resp.starts_on, 'h A'),
+        hour: DateUtil.format(resp.starts_on, 'h:mm A'),
         day: DateUtil.format(resp.starts_on, 'D'),
         month: DateUtil.format(resp.starts_on, 'MMM'),
         year: DateUtil.format(resp.starts_on, 'YYYY')

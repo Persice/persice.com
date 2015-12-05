@@ -38,7 +38,6 @@ export class DatepickerDirective {
 
   }
 
-
   ngOnDestroy() {
     jQuery(this.el.nativeElement).pickadate('destroy');
   }
