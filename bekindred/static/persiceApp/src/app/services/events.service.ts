@@ -20,7 +20,7 @@ export class EventsService {
 
     if (url === '') {
 
-      let newtype = ''
+      let newtype = '';
       switch (type) {
         case 'my':
           newtype = 'my';
