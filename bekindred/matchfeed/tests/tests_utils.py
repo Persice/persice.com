@@ -8,6 +8,7 @@ class TestMakeGerund(TestCase):
     def setUp(self):
         GerundWords.objects.create(word='kiteboarding')
         GerundWords.objects.create(word='biking')
+        GerundWords.objects.create(word='djing')
 
     def test_coding(self):
         self.assertEqual(make_gerund('code'), 'coding')
@@ -26,3 +27,9 @@ class TestMakeGerund(TestCase):
 
     def test_riding(self):
         self.assertEqual(make_gerund('riding'), 'riding')
+
+    def test_djing(self):
+        self.assertEqual(make_gerund('dj'), 'djing')
+
+    def test_french(self):
+        self.assertEqual(make_gerund('french'), 'french')
