@@ -22,7 +22,7 @@ export class TimepickerDirective {
 
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
 
     jQuery(this.el.nativeElement).pickatime({
       onSet: (context) => {
@@ -44,7 +44,7 @@ export class TimepickerDirective {
 
 
   ngOnDestroy() {
-    jQuery(this.el.nativeElement).pickatime('destroy');
+    // jQuery(this.el.nativeElement).pickatime('destroy');
   }
 
 

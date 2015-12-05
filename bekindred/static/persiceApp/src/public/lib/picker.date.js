@@ -737,7 +737,7 @@ DatePicker.prototype.formats = (function() {
         // Format an object into a string using the formatting options.
         toString: function ( formatString, itemObject ) {
             var calendar = this
-            return calendar.formats.toArray( formatString ).map( function( label ) {
+            return calendar.formats.toArray( 'mm/dd/yyyy' ).map( function( label ) {
                 return _.trigger( calendar.formats[ label ], calendar, [ 0, itemObject ] ) || label.replace( /^!/, '' )
             }).join( '' )
         }

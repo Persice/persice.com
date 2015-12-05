@@ -62,6 +62,7 @@ export class EventEditComponent {
     this.model = new EventModel();
   }
 
+
   ngOnChanges(values) {
     if ('event' in values && Object.keys(values.event.currentValue).length > 0) {
       let ev = values.event.currentValue;
@@ -76,6 +77,8 @@ export class EventEditComponent {
       this.model.event_location = ev.location_name;
       this.model.max_attendees = ev.max_attendees;
       this.model.access_level = ev.access_level;
+
+
 
       let selectOpenTo = [
         {
@@ -111,11 +114,15 @@ export class EventEditComponent {
       this.START_TIME = startDate.hour() * 60 + startDate.minute();
       this.END_TIME = endDate.hour() * 60 + endDate.minute();
 
+      this.model.starts_on_date = startDate.format('MM/DD/YYYY');
+      this.model.ends_on_date = endDate.format('MM/DD/YYYY');
+      this.model.starts_on_time = startDate.format('hh:mm');
+      this.model.ends_on_time = endDate.format('hh:mm');
+
       jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
       jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
       jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
       jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
-
     }
   }
 
@@ -229,6 +236,12 @@ export class EventEditComponent {
 
 
   ngAfterViewInit() {
+
+    jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
+    jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
+    jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
+    jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+
     //TODO : rewrite - End time
     // jQuery('.js-end-time-trigger').on('click', function(e) {
     //   e.preventDefault();

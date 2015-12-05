@@ -22,7 +22,7 @@ export class DatepickerDirective {
 
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
 
     jQuery(this.el.nativeElement).pickadate({
       format: 'mm/dd/yyyy',
@@ -39,7 +39,7 @@ export class DatepickerDirective {
   }
 
   ngOnDestroy() {
-    jQuery(this.el.nativeElement).pickadate('destroy');
+    // jQuery(this.el.nativeElement).pickadate('destroy');
   }
 
 

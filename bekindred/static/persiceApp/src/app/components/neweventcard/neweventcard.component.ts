@@ -58,13 +58,11 @@ export class NewEventCardComponent {
   ) {
     this.router = router;
     this.model = new EventModel();
-  }
 
-  afterViewInit() {
-    jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
-    jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
-    jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
-    jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+    this.model.starts_on_date = DateUtil.todayRoundUp().format('MM/DD/YYYY');
+    this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
+    this.model.starts_on_time = DateUtil.todayRoundUp().format('h:mm A');
+    this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('h:mm A');
   }
 
   saveEvent(event) {
@@ -175,6 +173,11 @@ export class NewEventCardComponent {
 
 
   ngAfterViewInit() {
+    console.log('afterview init new');
+    jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
+    jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
+    jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
+    jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
     //TODO : rewrite - End time
     // jQuery('.js-end-time-trigger').on('click', function(e) {
     //   e.preventDefault();
