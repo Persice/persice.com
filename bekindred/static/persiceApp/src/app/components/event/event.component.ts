@@ -9,6 +9,7 @@ import {EventHostComponent} from '../eventhost/eventhost.component';
 import {EventInfoComponent} from '../eventinfo/eventinfo.component';
 import {EventPhotoMapComponent} from '../eventphotomap/eventphotomap.component';
 import {EventDiscussionComponent} from '../eventdiscussion/eventdiscussion.component';
+import {EventEditComponent} from './event_edit.component';
 
 import {UserService} from '../../services/user.service';
 import {EventService} from '../../services/event.service';
@@ -28,7 +29,8 @@ let view = require('./event.html');
     EventDescriptionComponent,
     EventPhotoMapComponent,
     EventDiscussionComponent,
-    EventPeopleListComponent
+    EventPeopleListComponent,
+    EventEditComponent
   ],
   providers: [EventService, EventMembersService, EventAttendeesService]
 })
@@ -97,6 +99,10 @@ export class EventComponent {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getEventDetails(this.eventId);
     this.getAttendees(this.eventId);
+  }
+
+  refreshEvent(event) {
+    this.getEventDetails(this.eventId);
   }
 
 

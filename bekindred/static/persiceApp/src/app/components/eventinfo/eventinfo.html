@@ -42,7 +42,7 @@
         </div>
         <div class="layout__item 2/9 text-right" *ng-if="host">
           <div class="flag event-info__controls">
-            <a (click)="openEditEvent($event)" class="btn btn-1 btn-1--blue">Edit event</a>
+            <a data-remodal-target="edit-event" class="btn btn-1 btn-1--blue">Edit event</a>
           </div>
         </div>
         <div class="layout__item 3/5" *ng-if="!host">
