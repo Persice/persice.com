@@ -8,9 +8,13 @@ import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions,
 } from 'angular2/http';
+
+import { MockBackend} from 'angular2/http/testing';
+
+import {RequestMethod} from 'angular2/src/http/enums';
 
 import {CrowdService} from './crowd.service';
 import {crowd} from './crowd.service.mock';
@@ -58,7 +62,7 @@ describe('CrowdService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, crowd);
+    ensureCommunication(backend, RequestMethod.Get, crowd);
     service.get('', 12, true)
       .subscribe(resp => {
         expect(resp).toBe(crowd);
@@ -67,7 +71,7 @@ describe('CrowdService', () => {
   });
 
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));

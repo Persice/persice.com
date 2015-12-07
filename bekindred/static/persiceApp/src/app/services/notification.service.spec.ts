@@ -8,9 +8,12 @@ import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+import { MockBackend } from 'angular2/http/testing';
 
 import {NotificationService} from './notification.service';
 

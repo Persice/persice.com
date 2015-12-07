@@ -8,9 +8,12 @@ import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+import { MockBackend } from 'angular2/http/testing';
 
 import {UserService} from './user.service';
 import {user} from './user.service.mock';
@@ -58,7 +61,7 @@ describe('UserService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, user);
+    ensureCommunication(backend, RequestMethod.Get, user);
     service.get()
       .subscribe(resp => {
         expect(resp).toBe(user);
@@ -67,7 +70,7 @@ describe('UserService', () => {
   });
 
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));

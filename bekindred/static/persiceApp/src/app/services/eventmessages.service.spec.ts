@@ -8,9 +8,12 @@ import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+import { MockBackend } from 'angular2/http/testing';
 
 import {EventMessagesService} from './eventmessages.service';
 import {messages, message} from './eventmessages.service.mock';
@@ -58,7 +61,7 @@ describe('EventMessagesService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, messages);
+    ensureCommunication(backend, RequestMethod.Get, messages);
     service.get('', 12, 12)
       .subscribe(resp => {
         expect(resp).toBe(messages);
@@ -67,7 +70,7 @@ describe('EventMessagesService', () => {
   });
 
   it('should find one resource by uri', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, message);
+    ensureCommunication(backend, RequestMethod.Get, message);
     service.findOneByUri(message['resource_uri']).subscribe((resp: any) => {
       expect(resp).toBe(message);
       done();
@@ -75,7 +78,7 @@ describe('EventMessagesService', () => {
   });
 
   it('should find one resource by id', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, message);
+    ensureCommunication(backend, RequestMethod.Get, message);
     service.findOneByUri(message['id']).subscribe((resp: any) => {
       expect(resp).toBe(message);
       done();
@@ -83,7 +86,7 @@ describe('EventMessagesService', () => {
   });
 
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));
