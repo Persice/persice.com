@@ -2,9 +2,10 @@ from datetime import date
 from django.core.management import call_command
 from django_facebook.models import FacebookCustomUser, FacebookLike
 import haystack
+from guardian.shortcuts import assign_perm
 from tastypie.test import ResourceTestCase
 
-from events.models import FilterState
+from events.models import FilterState, Event, Membership
 from friends.models import Friend
 from goals.models import Subject, Offer, Goal
 from interests.models import InterestSubject, Interest
@@ -407,6 +408,50 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         self.assertEqual(match_users[0].first_name, 'Sasa')
         self.assertEqual(match_users[0].goals, [{u'learn python': 0, u'teach django': 1}])
 
+    def test_filter_with_different_word_form_of_keywords(self):
+        """
+        Searching Crowd for "hiking" yields no results
+        (but search for "hike" does) - ICE-1311
+        """
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user1,
+                            goal=Subject.objects.create(description='hiking'))
+
+        Goal.objects.create(user=self.user2, goal=self.subject)
+
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='hike',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learning django': 1,
+                                                 u'hiking': 0}])
+
+    def test_filter_with_different_word_form_of_keywords2(self):
+        """
+        Searching Crowd for "hiking" yields no results
+        (but search for "hike" does) - ICE-1311
+        """
+        Goal.objects.create(user=self.user, goal=self.subject)
+        Goal.objects.create(user=self.user1, goal=self.subject)
+        Goal.objects.create(user=self.user1,
+                            goal=Subject.objects.create(description='hike'))
+
+        Goal.objects.create(user=self.user2, goal=self.subject)
+
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='hiking',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+        self.assertEqual(len(match_users), 1)
+        self.assertEqual(match_users[0].first_name, 'Sasa')
+        self.assertEqual(match_users[0].goals, [{u'learning django': 1,
+                                                 u'hike': 0}])
+
     def test_filter_keywords_negative_case(self):
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user1, goal=self.subject5)
@@ -470,3 +515,138 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         self.assertEqual(data[0]['friends_score'], 2)
         self.assertEqual(data[1]['friends_score'], 1)
         self.assertEqual(data[2]['friends_score'], 0)
+
+
+class TestMatchEvents(BaseTestCase, ResourceTestCase):
+    def setUp(self):
+        super(TestMatchEvents, self).setUp()
+        haystack.connections.reload('default')
+        FacebookCustomUser.objects.all().delete()
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', facebook_id=1234567,
+                        first_name='Andrii', password='test', gender='m',
+                        date_of_birth=date(1989, 5, 20))
+        self.user1 = FacebookCustomUser.objects. \
+            create_user(username='user_b', facebook_id=12345671,
+                        first_name='Sasa', gender='m', password='test',
+                        date_of_birth=date(1979, 1, 9))
+        user_location = UserLocation.objects.create(
+                user=self.user, position=[-87.627696, 41.880745])
+        user_location1 = UserLocation.objects.create(
+                user=self.user1, position=[-87.627696, 41.880745])
+        clear_index.Command().handle(interactive=False)
+        rebuild_index.Command().handle(interactive=False)
+
+    def get_credentials(self):
+        pass
+
+    def test_my_events(self):
+        self.event = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="Play piano", location=[7000, 22965.83])
+        self.event1 = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="python meetup", location=[7000, 22965.83])
+        self.membership = Membership.objects. \
+            create(user=self.user, event=self.event,
+                   is_organizer=True, rsvp='yes')
+        self.membership = Membership.objects. \
+            create(user=self.user1, event=self.event1,
+                   is_organizer=True, rsvp='yes')
+        assign_perm('view_event', self.user, self.event)
+        update_index.Command().handle(interactive=False)
+        events = MatchQuerySet.all_event(self.user.id, feed='my')
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0].name, 'Play piano')
+
+    def test_all_events(self):
+        self.event = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="Play piano", location=[7000, 22965.83])
+        self.event1 = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="python meetup", location=[7000, 22965.83])
+        self.membership = Membership.objects. \
+            create(user=self.user, event=self.event,
+                   is_organizer=True, rsvp='yes')
+        self.membership = Membership.objects. \
+            create(user=self.user1, event=self.event1,
+                   is_organizer=True, rsvp='yes')
+        assign_perm('view_event', self.user, self.event)
+        update_index.Command().handle(interactive=False)
+        events = MatchQuerySet.all_event(self.user.id, feed='all')
+        self.assertEqual(len(events), 2)
+        self.assertEqual(sorted(events, key=lambda x: x.name)[0].name,
+                         'Play piano')
+
+    def test_connections_events(self):
+        self.event = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="Play piano", location=[7000, 22965.83])
+        self.event1 = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="python meetup", location=[7000, 22965.83])
+        self.membership = Membership.objects. \
+            create(user=self.user, event=self.event,
+                   is_organizer=True, rsvp='yes')
+        self.membership = Membership.objects. \
+            create(user=self.user1, event=self.event1,
+                   is_organizer=True, rsvp='yes')
+        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        assign_perm('view_event', self.user, self.event)
+        update_index.Command().handle(interactive=False)
+        events = MatchQuerySet.all_event(self.user.id, feed='connections')
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0].name, 'python meetup')
+
+    def test_filter_by_distance_my_events(self):
+        e = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                 ends_on='2055-06-14T05:15:22.792659',
+                                 name="Play piano", location=[7000, 22965.83])
+
+        e1 = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                  ends_on='2055-06-14T05:15:22.792659',
+                                  name="python meetup",
+                                  location=[700, 22965.83])
+
+        Membership.objects.create(user=self.user, event=e, is_organizer=True,
+                                  rsvp='yes')
+        Membership.objects.create(user=self.user, event=e1, is_organizer=True,
+                                  rsvp='yes')
+        assign_perm('view_event', self.user, e)
+        assign_perm('view_event', self.user, e1)
+        update_index.Command().handle(interactive=False)
+        events = MatchQuerySet.all_event(self.user.id, feed='my')
+        self.assertEqual(len(events), 2)
+        self.assertEqual(events[0].distance[0], 4904)
+
+    def test_filter_by_keywords_my_events(self):
+        e = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                 ends_on='2055-06-14T05:15:22.792659',
+                                 name="Play piano", location=[7000, 22965.83])
+
+        e1 = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                  ends_on='2055-06-14T05:15:22.792659',
+                                  name="python meetup",
+                                  location=[700, 22965.83])
+
+        Membership.objects.create(user=self.user, event=e, is_organizer=True,
+                                  rsvp='yes')
+        Membership.objects.create(user=self.user, event=e1, is_organizer=True,
+                                  rsvp='yes')
+        assign_perm('view_event', self.user, e)
+        assign_perm('view_event', self.user, e1)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='python',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        events = MatchQuerySet.all_event(self.user.id, feed='my',
+                                         is_filter=True)
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0].name, 'python meetup')

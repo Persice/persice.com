@@ -1,16 +1,28 @@
 /// <reference path="../../typings/_custom.d.ts" />
-import {take, slice} from 'lodash';
+import {take, slice, forEach, merge, assign, defaults} from 'lodash';
 
 
 declare var jstz: any;
+
 const moment = require('moment');
 const momentTz = require('moment-timezone/builds/moment-timezone-with-data.min');
-
 
 export class ObjectUtil {
 
   static clone<T extends Object>(data: T): T {
     return JSON.parse(JSON.stringify(data));
+  }
+
+  static join<T extends Object>(objA: T, objB: T): any {
+    return merge(objA, objB);
+  }
+
+  static assign<T extends Object>(objA: T, objB: T): any {
+    return merge(objA, objB);
+  }
+
+  static defaults<T extends Object>(objA: T, objB: T): any {
+    return merge(objA, objB);
   }
 
   static merge<T extends Object>(dest: T, src: T): T {
@@ -111,6 +123,86 @@ export class CookieUtil {
 }
 
 
+export class GoogleUtil {
+  static extractFromAddress(components, type, type2) {
+    for (var i = 0; i < components.length; i++) {
+      for (var j = 0; j < components[i].types.length; j++) {
+        if (components[i].types[j] === type) {
+          return components[i][type2];
+        }
+      }
+    }
+    return '';
+
+  }
+
+  static parseLocation(loc) {
+    let model = {
+      street: '',
+      zipcode: '',
+      state: '',
+      address: '',
+      full_address: '',
+      city: '',
+      country: '',
+      location: '',
+      location_name: ''
+    };
+
+    if (loc !== null && typeof loc === 'object' && loc.hasOwnProperty('address_components') && loc.hasOwnProperty('geometry')) {
+      let location = loc.address_components;
+
+
+
+      model.street = GoogleUtil.extractFromAddress(location, 'route', 'long_name') + ' ' + GoogleUtil.extractFromAddress(location, 'street_number', 'long_name');
+      model.zipcode = GoogleUtil.extractFromAddress(location, 'postal_code', 'long_name');
+      if (model.zipcode === '') {
+        model.zipcode = null;
+      }
+      model.location_name = loc.name;
+      model.full_address = loc.formatted_address;
+      model.state = GoogleUtil.extractFromAddress(location, 'administrative_area_level_1', 'short_name');
+      model.country = GoogleUtil.extractFromAddress(location, 'country', 'short_name');
+      model.city = GoogleUtil.extractFromAddress(location, 'locality', 'long_name');
+      if (model.state.length > 3) {
+        model.state = model.country;
+      }
+      model.location = loc.geometry.location.lat() + ',' + loc.geometry.location.lng();
+    } else {
+      model.address = loc;
+      model.full_address = '';
+      model.location_name = loc;
+      model.location = '0,0';
+    }
+
+    return model;
+
+  }
+
+}
+
+export class FormUtil {
+  static formData(data: any): FormData {
+    let formData = new FormData();
+
+    forEach(data, (value, key) => {
+      if (value instanceof FileList) {
+        if (value.length === 1) {
+          formData.append(key, value[0]);
+        } else {
+          forEach(value, (file, index) => {
+            formData.append(key + '_' + index, file);
+          });
+        }
+      } else {
+        formData.append(key, value);
+      }
+    });
+    return formData;
+  }
+}
+
+
 export class StringUtil {
   static contains<T extends string>(data: T, substring): boolean {
     if (data.indexOf(substring) !== -1) {
@@ -124,9 +216,34 @@ export class StringUtil {
 }
 
 
-
 export class DateUtil {
-  static format<T extends Date, S extends String>(data: T, format: S): S {
+
+
+  static convertFromUnixToDate<S extends string, N extends number>(timestamp: N): S {
+    return moment.unix(timestamp).format('MM/DD/YYYY');
+  }
+
+
+  static convertToHours(mins: number): string {
+    let hours = Math.trunc(mins / 60);
+    let minutes = mins % 60;
+    let combined = `${hours}:${minutes}`;
+    return combined;
+  }
+
+
+  static convertTo24Hour(time: any): any {
+    let hours = parseInt(time.substr(0, 2), 10);
+    if (time.indexOf('AM') !== -1 && hours === 12) {
+      time = time.replace('12', '0');
+    }
+    if (time.indexOf('PM') !== -1 && hours < 12) {
+      time = time.replace(hours, (hours + 12));
+    }
+    return time.replace(/(AM|PM)/, '');
+  }
+
+  static format<T extends Date, S extends string>(data: T, format: S): S {
     let tz = jstz.determine();
     let tzName = tz.name();
     let formatedDate = moment.utc(data).tz(tzName).format(format);
@@ -135,11 +252,46 @@ export class DateUtil {
   }
 
 
-  static localTimezone<S extends String>(): S {
+  static formatUTC<A extends any[], S extends string>(data: A, format: S): S {
+    let formatedDate = moment(data).utc().format(format);
+
+    return formatedDate;
+  }
+
+  static convertToLocal(data): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+    let localDate = moment.utc(data).tz(tzName);
+
+    return localDate;
+  }
+
+
+  static localTimezone<S extends string>(): S {
     let tz = jstz.determine();
     let tzName = tz.name();
     return moment.tz(tzName).format('z');
   }
+
+  //round up nearest hour
+  static todayRoundUp(): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+
+    let datetime = new Date();
+    return moment(datetime).tz(tzName).add(1, 'hours').startOf('hour');
+  }
+
+  //round up nearest hour
+  static todayAddHourRoundUp(): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+
+    let datetime = new Date();
+    return moment(datetime).tz(tzName).add(2, 'hours').startOf('hour');
+  }
+
+
 
 }
 

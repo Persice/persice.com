@@ -1,18 +1,20 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
 import {
-iit,
-it,
-ddescribe,
-describe,
-expect,
-inject,
-injectAsync,
-TestComponentBuilder,
-beforeEachProviders,
-fakeAsync,
-tick
-} from 'angular2/testing';
+  it,
+  iit,
+  xit,
+  describe,
+  ddescribe,
+  xdescribe,
+  expect,
+  tick,
+  beforeEach,
+  inject,
+  beforeEachProviders,
+  TestComponentBuilder,
+  AsyncTestCompleter
+} from 'angular2/testing_internal';
 
 import {Component, View, provide} from 'angular2/angular2';
 
@@ -21,28 +23,24 @@ import {EventComponent} from './event.component';
 import {EventService} from '../../services/event.service';
 // Create a test component to test directives
 @Component({
-  template: '',
+  template: '<div>Original Child</div>',
   directives: [EventComponent]
 })
-class TestComponent {
+class ChildCmp {
 
 }
 
-describe('Single Event component', () => {
+describe('Event component', () => {
 
 
-  // it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
-  //   return tcb.overrideTemplate(TestComponent, '<div><event></event><div>')
-  //     .createAsync(TestComponent).then((fixture: any) => {
-  //       fixture.detectChanges();
-  //       let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
-  //       let componentDOMEl = fixture.debugElement.nativeElement;
-  //       let elRef = fixture.debugElement.elementRef;
+  it('should instantiate a component with valid DOM',
+    inject([TestComponentBuilder, AsyncTestCompleter], (tcb: TestComponentBuilder, async) => {
 
-  //       expect(elRef).not.toBeNull(true);
-
-
-  //     });
-  // }));
+      tcb.createAsync(ChildCmp).then((componentFixture) => {
+        componentFixture.detectChanges();
+        expect(componentFixture.debugElement.nativeElement).toHaveText('Original Child');
+        async.done();
+      });
+    }));
 
 });

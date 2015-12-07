@@ -1,5 +1,4 @@
 <div class="content p">
-  <!-- TODO {% include "01-molecules/molecule.notification-success.html" %} -->
   <div class="platform">
     <a (click)="goBack($event)" class="platform__back">
       <svg role="img" class="icon ">
@@ -37,3 +36,4 @@
     <event-discussion></event-discussion>
   </div>
 </div>
+<event-edit [event]="event" (refresh-event)="refreshEvent($event)"></event-edit>

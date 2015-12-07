@@ -34,6 +34,7 @@ import {LoadingComponent} from './loading/loading.component';
 import {NotificationComponent} from './notification/notification.component';
 
 import {AuthUserModel} from '../models/user.model';
+import {InterfaceNotification} from '../models/notification.model';
 
 /*
  * Services available to child components
@@ -113,7 +114,7 @@ export class AppComponent {
   user: AuthUserModel;
   image: string;
   loading: boolean;
-  notificationOther = {
+  notificationMain = {
     body: '',
     title: '',
     active: false,
@@ -129,7 +130,7 @@ export class AppComponent {
 
   }
 
-  onInit() {
+  ngOnInit() {
     // Get AuthUser info for the app
     this.userService.get()
       .subscribe(data => this.assignAuthUser(data));
@@ -139,25 +140,37 @@ export class AppComponent {
     this.notificationService.observer('app')
       .subscribe(
       (data) => this.showNotification(data),
-      (err) => console.log(err),
+      (err) => {
+        console.log('Notification error %s', err);
+      },
       () => console.log('event completed')
       );
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     this.notificationService.observer('app').unsubscribe();
     this.notificationService.removeObserver('app');
   }
 
-  showNotification(data) {
-    this.notificationOther.body = data.content;
-    this.notificationOther.type = data.type;
-    this.notificationOther.active = true;
+  showNotification(data: InterfaceNotification) {
+    this.notificationMain.body = data.body;
+    this.notificationMain.type = data.type;
+    this.notificationMain.title = data.title;
+    this.notificationMain.active = true;
+
+    //autoclose notification if autoclose option enabled
+    if (data.autoclose > 0) {
+      this.closeNotification(data.autoclose);
+    }
+
+  }
+
+  closeNotification(timeout) {
     setTimeout(
       () => {
-        this.notificationOther.active = false;
+        this.notificationMain.active = false;
       },
-      4000
+      timeout
     );
   }
 

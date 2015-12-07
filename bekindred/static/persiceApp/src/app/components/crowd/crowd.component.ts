@@ -7,11 +7,11 @@ import {LoadingComponent} from '../loading/loading.component';
 import {LoadingCardComponent} from '../loadingcard/loadingcard.component';
 import {FilterComponent} from '../filter/filter.component';
 import {ProfileComponent} from '../profile/profile.component';
-import {NotificationComponent} from '../notification/notification.component';
 
 import {CrowdService} from '../../services/crowd.service';
 import {FriendService} from '../../services/friend.service';
 import {FilterService} from '../../services/filter.service';
+import {NotificationService} from '../../services/notification.service';
 
 import {remove} from 'lodash';
 
@@ -29,7 +29,6 @@ declare var jQuery: any;
     UsersListComponent,
     LoadingComponent,
     ProfileComponent,
-    NotificationComponent,
     LoadingCardComponent
   ]
 })
@@ -45,22 +44,17 @@ export class CrowdComponent {
   offset: number = 0;
   profileViewActive = false;
   selectedUser;
-  notification = {
-    body: '',
-    title: '',
-    active: false,
-    type: 'success'
-  };
 
   constructor(
     public service: CrowdService,
     public friendService: FriendService,
-    public filterService: FilterService
+    public filterService: FilterService,
+    public notificationService: NotificationService
   ) {
 
   }
 
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
 
@@ -76,13 +70,12 @@ export class CrowdComponent {
   }
 
 
-  onDestroy() {
+  ngOnDestroy() {
     this.filterService.observer('crowd').unsubscribe();
     this.filterService.removeObserver('crowd');
   }
 
   getList() {
-    this.closeNotification();
     if (this.next === null) return;
     this.loading = true;
     if (this.next === '') {
@@ -146,7 +139,6 @@ export class CrowdComponent {
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
-        this.closeNotification();
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
@@ -160,8 +152,14 @@ export class CrowdComponent {
         remove(this.items, (item) => {
           return item.id === this.selectedUser.id;
         });
-        this.notification.body = this.selectedUser.first_name + ' has been removed from crowd.';
-        this.notification.active = true;
+
+        this.notificationService.push({
+          type: 'warning',
+          title: '',
+          body: `${this.selectedUser.first_name} has been removed from crowd.`,
+          autoclose: 4000
+        });
+
         this.selectedUser = {};
       });
 
@@ -174,16 +172,19 @@ export class CrowdComponent {
         remove(this.items, (item) => {
           return item.id === this.selectedUser.id;
         });
-        this.notification.body = 'You sent friendship request to ' + this.selectedUser.first_name + '.';
-        this.notification.active = true;
+
+        this.notificationService.push({
+          type: 'success',
+          title: 'Success',
+          body: `You sent friendship request to ${this.selectedUser.first_name}.`,
+          autoclose: 4000
+        });
+
         this.selectedUser = {};
       });
 
   }
 
-  closeNotification() {
-    this.notification.active = false;
-  }
 
   closeProfile(event) {
     this.profileViewActive = false;

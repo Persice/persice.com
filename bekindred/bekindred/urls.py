@@ -7,7 +7,7 @@ from events.api.resources import (AboutMeResource, AllEventFeedResource,
                                   FilterStateResource,
                                   FriendsEventFeedResource, MembershipResource,
                                   MyConnectionEventFeedResource,
-                                  MyEventFeedResource)
+                                  MyEventFeedResource, EventFeedResource)
 from friends.api.resources import (ConnectionsResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
@@ -54,6 +54,7 @@ v1_api.register(FriendsNewResource())
 v1_api.register(FriendsNewCounterResource())
 v1_api.register(EventResource())
 v1_api.register(MembershipResource())
+v1_api.register(EventFeedResource())
 v1_api.register(MyEventFeedResource())
 v1_api.register(AllEventFeedResource())
 v1_api.register(FriendsEventFeedResource())

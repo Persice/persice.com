@@ -43,7 +43,7 @@ export class ConnectionsComponent {
   }
 
 
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getList();
 
@@ -58,7 +58,7 @@ export class ConnectionsComponent {
 
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     this.filterService.observer('connections').unsubscribe();
     this.filterService.removeObserver('connections');
   }

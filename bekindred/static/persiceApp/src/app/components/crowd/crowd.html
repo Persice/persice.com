@@ -1,6 +1,5 @@
 <div class="layout layout--flush content" *ng-if="!profileViewActive">
   <div class="layout__item 3/4 extralarge-and-up-4/5" id="crowd">
-    <notification [title]="notification.title" [body]="notification.body" [active]="notification.active" [type]="notification.type"></notification>
     <users-list [users]="items" (on-clicked)="setSelectedUser($event)"></users-list>
     <loading-card [status]="loadingInitial"></loading-card>
     <loading [status]="loading && !loadingInitial"></loading>

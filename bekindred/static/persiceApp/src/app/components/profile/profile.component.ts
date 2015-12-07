@@ -58,7 +58,7 @@ export class ProfileComponent {
   constructor(public mutualfriendsService: MutualFriendsService) {
   }
 
-  onInit() {
+  ngOnInit() {
     this.profileLikes = ObjectUtil.transform(this.user.likes[0]);
     this.profileLikesCount = ObjectUtil.count(this.user.likes[0]);
 

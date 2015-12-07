@@ -34,7 +34,7 @@ export class SlickDirective {
 
   }
 
-  afterViewInit() {
+  ngAfterViewInit() {
 
     let options = {
       arrows: (this.arrows === 'true') ? true : false,
@@ -64,7 +64,7 @@ export class SlickDirective {
 
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     jQuery(this.el.nativeElement).slick('unslick');
   }
 }

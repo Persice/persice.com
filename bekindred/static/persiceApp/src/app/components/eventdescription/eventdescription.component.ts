@@ -14,8 +14,7 @@ export class EventDescriptionComponent {
   descriptionMore: string = '';
   hideMoreLink: boolean = true;
 
-  onChanges(values) {
-    console.log(values);
+  ngOnChanges(values) {
     if (values.description && values.description.currentValue) {
 
 

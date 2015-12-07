@@ -8,20 +8,15 @@ socketio/node_modules/
 .swp
 # images
 *.jpg
-
 # ignore idea files
 *.idea
-
 # Redis
 dump.rdb
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
 # C extensions
 *.so
-
 # Distribution / packaging
 .Python
 env/
@@ -37,11 +32,9 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
-
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -49,15 +42,13 @@ htmlcov/
 .cache
 nosetests.xml
 coverage.xml
-
 # Translations
 *.mo
 *.pot
-
 # Django stuff:
 *.log
-
 # Sphinx documentation
 docs/_build/
 .vagrant
 *.box
+bekindred/static/persiceApp/typescriptlint.json

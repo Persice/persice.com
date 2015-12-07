@@ -14,7 +14,7 @@ export class ImageStretchDirective {
     this.element = element;
   }
 
-  afterViewInit() {
+  ngAfterViewInit() {
     jQuery(this.element.nativeElement).imgLiquid({
       fill: true,
       horizontalAlign: 'center',

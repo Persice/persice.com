@@ -21260,13 +21260,6 @@
 },
 {
 "fields": {
-"word": "frenching"
-},
-"model": "match_engine.gerundwords",
-"pk": 3038
-},
-{
-"fields": {
 "word": "frenzying"
 },
 "model": "match_engine.gerundwords",
@@ -61612,5 +61605,26 @@
 },
 "model": "match_engine.gerundwords",
 "pk": 8802
-}
+},
+  {
+    "fields": {
+      "word": "djing"
+    },
+    "model": "match_engine.gerundwords",
+    "pk": 8803
+  },
+  {
+    "fields": {
+      "word": "kitesurfing"
+    },
+    "model": "match_engine.gerundwords",
+    "pk": 8804
+  },
+  {
+    "fields": {
+      "word": "mentoring"
+    },
+    "model": "match_engine.gerundwords",
+    "pk": 8805
+  }
 ]

@@ -32,6 +32,7 @@ from friends.models import Friend
 from goals.models import MatchFilterState
 from goals.utils import (calculate_age, calculate_distance_events,
                          get_user_location)
+from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from postman.api import pm_write
@@ -1113,3 +1114,75 @@ class EventAttendees(ModelResource):
         bundle.data['is_connection'] = Friend.objects. \
             checking_friendship(bundle.obj.user.id, bundle.request.user.id)
         return bundle
+
+
+class EventFeedResource(Resource):
+    id = fields.CharField(attribute='id')
+    name = fields.CharField(attribute='name')
+    city = fields.CharField(attribute='city', null=True)
+    country = fields.CharField(attribute='country', null=True)
+    state = fields.CharField(attribute='state', null=True)
+    street = fields.CharField(attribute='street', null=True)
+    repeat = fields.CharField(attribute='repeat', null=True)
+    zipcode = fields.CharField(attribute='zipcode', null=True)
+    full_address = fields.CharField(attribute='full_address', null=True)
+    location = fields.CharField(attribute='location', null=True)
+    location_name = fields.CharField(attribute='location_name', null=True)
+    max_attendees = fields.IntegerField(attribute='max_attendees')
+    cumulative_match_score = fields.IntegerField(
+        attribute='cumulative_match_score')
+    friend_attendees_count = fields.IntegerField(
+        attribute='friend_attendees_count')
+    description = fields.CharField(attribute='description', null=True)
+    ends_on = fields.DateTimeField(attribute='ends_on')
+    starts_on = fields.DateTimeField(attribute='starts_on')
+    distance = fields.ListField(attribute='distance')
+    event_photo = fields.FileField(attribute="event_photo", null=True,
+                                   blank=True)
+
+    class Meta:
+        resource_name = 'events2'
+        list_allowed_methods = ['get']
+        authentication = SessionAuthentication()
+        authorization = GuardianAuthorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        match = MatchQuerySet.all_event(request.user.id, feed='my')
+        if request.GET.get('filter') == 'true':
+            if request.GET.get('feed') == 'my':
+                match = MatchQuerySet.\
+                    all_event(request.user.id, feed='my', is_filter=True)
+            elif request.GET.get('feed') == 'all':
+                match = MatchQuerySet.\
+                    all_event(request.user.id, feed='all', is_filter=True)
+            elif request.GET.get('feed') == 'connections':
+                match = MatchQuerySet.\
+                    all_event(request.user.id, feed='connections',
+                              is_filter=True)
+            fs = FilterState.objects.filter(user=request.user.id)
+
+            if fs:
+                if fs[0].order_criteria == 'match_score':
+                    return sorted(match, key=lambda x: -x.cumulative_match_score)
+                elif fs[0].order_criteria == 'mutual_friends':
+                    return sorted(match, key=lambda x: (-x.distance[0],
+                                                        x.distance[1]))
+                elif fs[0].order_criteria == 'date':
+                    return sorted(match, key=lambda x: x.starts_on)
+        else:
+            match = MatchQuerySet.all_event(request.user.id, feed='my')
+
+        return match
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)

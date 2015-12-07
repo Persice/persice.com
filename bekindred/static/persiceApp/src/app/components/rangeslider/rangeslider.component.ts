@@ -23,7 +23,7 @@ export class RangeSliderComponent {
     this.el = el;
   }
 
-  onInit() {
+  ngOnInit() {
     let rangesliderEl = this.el.nativeElement.children[0];
 
     this.options['onFinish'] = (data) => {
@@ -43,14 +43,14 @@ export class RangeSliderComponent {
     this.slider = jQuery(rangesliderEl).data('ionRangeSlider');
   }
 
-  onChanges(changes) {
+  ngOnChanges(changes) {
 
     if (this.slider && changes.renderSlider) {
       this.slider.update(this.options);
     }
   }
 
-  onDestroy() {
+  ngOnDestroy() {
     if (this.slider) {
       this.slider.destroy();
     }

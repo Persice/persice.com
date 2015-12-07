@@ -27,7 +27,7 @@ export class UserCardComponent {
   }
 
 
-  afterContentInit() {
+  ngAfterContentInit() {
     this.interests = ObjectUtil.first(this.user.top_interests[0], 3);
 
     if (!this.user.image) {

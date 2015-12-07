@@ -21,7 +21,6 @@ interface IMarker {
 let view = require('./eventphotomap.html');
 
 declare var jQuery: any;
-declare var google: any;
 
 @Component({
   selector: 'event-photomap',
@@ -47,8 +46,7 @@ export class EventPhotoMapComponent {
 
   markers: IMarker[] = [];
 
-  onChanges(values) {
-    console.log(values);
+  ngOnChanges(values) {
     // check if location exists
     if (values.location && values.location.currentValue) {
 

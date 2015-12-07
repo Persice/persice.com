@@ -8,6 +8,8 @@ from nltk.corpus import wordnet as wn
 
 from django_facebook.models import FacebookLike
 
+from events import Event
+from events.utils import get_cum_score
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
@@ -214,7 +216,7 @@ class MatchUser(object):
                 draft_keywords.update(tokens)
         for word in draft_keywords:
             if (porter_stemmer.stem(word.lower()) not in st_stop_words) and \
-                    len(word.lower()) > 2:
+                    len(word.lower()) >= 2:
                 if not word.endswith('ing'):
                     gerund = make_gerund(word.lower())
                     keywords.append(gerund)
@@ -262,6 +264,43 @@ class MatchUser(object):
         return [result]
 
 
+class MatchEvent(object):
+    def __init__(self, current_user_id, event_object):
+        self.event = MatchEvent.get_event_info(event_object)
+        self.id = self.event.id
+        self.name = self.event.name
+        self.city = self.event.city
+        self.country = self.event.country
+        self.state = self.event.state
+        self.street = self.event.street
+        self.repeat = self.event.repeat
+        self.zipcode = self.event.zipcode
+        self.full_address = self.event.full_address
+        self.location_name = self.event.location_name
+        self.location = self.event.location
+        self.max_attendees = self.event.max_attendees
+        self.cumulative_match_score = get_cum_score(self.id, current_user_id)
+        self.friend_attendees_count = MatchEvent.get_attendees(current_user_id,
+                                                               self.id).count()
+        self.description = self.event.description
+        self.starts_on = self.event.starts_on
+        self.ends_on = self.event.ends_on
+        self.distance = calculate_distance_es(current_user_id, event_object)
+        self.event_photo = self.event.event_photo
+
+    @staticmethod
+    def get_event_info(event_object):
+        event_id = int(event_object['_id'].split('.')[-1])
+        return Event.objects.get(pk=event_id)
+
+    @staticmethod
+    def get_attendees(user_id, event_id):
+        friends = Friend.objects.all_my_friends(user_id=user_id)
+        attendees = Event.objects.get(pk=event_id). \
+            membership_set.filter(user__in=friends, rsvp='yes')
+        return attendees
+
+
 class MatchQuerySet(object):
     @staticmethod
     def all(current_user_id, is_filter=False, friends=False):
@@ -275,6 +314,16 @@ class MatchQuerySet(object):
             except FacebookCustomUserActive.DoesNotExist as e:
                 print e
         return users
+
+    @staticmethod
+    def all_event(current_user_id, is_filter=False, feed='my'):
+        hits = ElasticSearchMatchEngine.elastic_objects. \
+            match_events(current_user_id, is_filter=is_filter, feed=feed)
+        events = []
+        for hit in hits:
+            event = MatchEvent(current_user_id, hit)
+            events.append(event)
+        return events
 
     @staticmethod
     def between(user_id1, user_id2):

@@ -42,7 +42,9 @@
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>
-      <select-element (selected-value)="changeOrder($event)" [(options)]="orderBy"></select-element>
+      <select minimalect (selected-value)="changeOrder($event)">
+        <option *ng-for="#order of orderBy" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
+      </select>
     </div>
   </div>
 </div>

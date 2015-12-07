@@ -47,7 +47,7 @@ export class EventsNetworkListComponent {
 
   }
 
-  onInit() {
+  ngOnInit() {
     this.getList();
     //create new observer and subscribe
     this.filterService.addObserver('eventsnetwork');
@@ -61,7 +61,7 @@ export class EventsNetworkListComponent {
   }
 
 
-  onDestroy() {
+  ngOnDestroy() {
     this.filterService.observer('eventsnetwork').unsubscribe();
     this.filterService.removeObserver('eventsnetwork');
   }

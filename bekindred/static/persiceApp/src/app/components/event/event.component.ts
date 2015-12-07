@@ -9,6 +9,7 @@ import {EventHostComponent} from '../eventhost/eventhost.component';
 import {EventInfoComponent} from '../eventinfo/eventinfo.component';
 import {EventPhotoMapComponent} from '../eventphotomap/eventphotomap.component';
 import {EventDiscussionComponent} from '../eventdiscussion/eventdiscussion.component';
+import {EventEditComponent} from './event_edit.component';
 
 import {UserService} from '../../services/user.service';
 import {EventService} from '../../services/event.service';
@@ -28,7 +29,8 @@ let view = require('./event.html');
     EventDescriptionComponent,
     EventPhotoMapComponent,
     EventDiscussionComponent,
-    EventPeopleListComponent
+    EventPeopleListComponent,
+    EventEditComponent
   ],
   providers: [EventService, EventMembersService, EventAttendeesService]
 })
@@ -93,10 +95,14 @@ export class EventComponent {
     this.eventId = params.get('eventId');
   }
 
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getEventDetails(this.eventId);
     this.getAttendees(this.eventId);
+  }
+
+  refreshEvent(event) {
+    this.getEventDetails(this.eventId);
   }
 
 
@@ -136,7 +142,7 @@ export class EventComponent {
       distance: '6 miles',
       openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
-        hour: DateUtil.format(resp.starts_on, 'h A'),
+        hour: DateUtil.format(resp.starts_on, 'h:mm A'),
         day: DateUtil.format(resp.starts_on, 'D'),
         month: DateUtil.format(resp.starts_on, 'MMM'),
         year: DateUtil.format(resp.starts_on, 'YYYY')

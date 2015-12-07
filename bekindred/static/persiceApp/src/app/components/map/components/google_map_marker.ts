@@ -1,14 +1,14 @@
 /// <reference path="../../../../typings/_custom.d.ts" />
 
 
-import {Directive, Input, SimpleChange, OnDestroy, OnChanges} from 'angular2/angular2';
+import {Directive, Input, SimpleChange} from 'angular2/angular2';
 import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {MarkerManager} from '../services/marker_manager';
 
 let markerId = 0;
 
 @Directive({ selector: 'google-map-marker' })
-export class GoogleMapMarker implements OnDestroy, OnChanges {
+export class GoogleMapMarker {
   @Input() latitude: number;
   @Input() longitude: number;
   @Input() title: string;
@@ -19,7 +19,8 @@ export class GoogleMapMarker implements OnDestroy, OnChanges {
 
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
-  onChanges(changes: { [key: string]: SimpleChange }) {
+  ngOnChanges(changes: { [key: string]: SimpleChange }) {
+    console.log('added marker');
     if (!this._markerAddedToManger && this.latitude && this.longitude) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;
@@ -40,5 +41,5 @@ export class GoogleMapMarker implements OnDestroy, OnChanges {
 
   toString(): string { return 'GoogleMapMarker-' + this._id.toString(); }
 
-  onDestroy() { this._markerManager.deleteMarker(this); }
+  ngOnDestroy() { this._markerManager.deleteMarker(this); }
 }

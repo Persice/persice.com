@@ -99,7 +99,7 @@ export class EventsComponent {
     this.location = location;
 
   }
-  onInit() {
+  ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.checkUrl();
   }

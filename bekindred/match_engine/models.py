@@ -4,11 +4,14 @@ import itertools
 
 from django.db import models
 from django.conf import settings
+from django.utils.timezone import now
 from django_facebook.models import FacebookLike, FacebookCustomUser
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search, Q, F
+from django.db.models import Q as Q_
+from nltk.stem.porter import PorterStemmer
 
-from events.models import FilterState
+from events.models import FilterState, Event
 from goals.models import Goal, Subject, Offer
 from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
@@ -409,6 +412,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
         fs = FilterState.objects.filter(user=user)
         distance_unit = fs[0].distance_unit[:2] if fs else "mi"
         friends_predicate = {}
+        porter_stemmer = PorterStemmer()
+        s_stop_words = [porter_stemmer.stem(w) for w in stop_words]
         if friends:
             friends_predicate = {
                 "ids": {
@@ -434,11 +439,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 if fs[0].keyword:
                     keywords = fs[0].keyword.split(',')
                     for word in keywords:
-                        if word not in stop_words:
-                            gender_predicate.append({"term": {"goals": word}})
-                            gender_predicate.append({"term": {"offers": word}})
-                            gender_predicate.append({"term": {"likes": word}})
-                            gender_predicate.append({"term": {"interests": word}})
+                        s_word = porter_stemmer.stem(word.lower())
+                        if s_word not in s_stop_words:
+                            gender_predicate.append({"term": {"goals": s_word}})
+                            gender_predicate.append({"term": {"offers": s_word}})
+                            gender_predicate.append({"term": {"likes": s_word}})
+                            gender_predicate.append({"term": {"interests": s_word}})
 
                 if fs[0].distance:
                     location = get_user_location(user.id)
@@ -554,6 +560,126 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
+    def event_query_builder(user, event_ids, is_filter=False,
+                            stop_words=()):
+        client = Elasticsearch()
+        index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
+        location = get_user_location(user.id)
+        fs = FilterState.objects.filter(user=user)
+        distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+        keyword_predicate = {}
+        if is_filter:
+            distance_predicate = {}
+            keyword_predicate = []
+            if fs[0].keyword:
+                keywords = fs[0].keyword.split(',')
+                porter_stemmer = PorterStemmer()
+                s_stop_words = [porter_stemmer.stem(w) for w in stop_words]
+                for word in keywords:
+                    s_word = porter_stemmer.stem(word.lower())
+                    if s_word not in s_stop_words:
+                        keyword_predicate.append({"term": {"name": s_word}})
+                        keyword_predicate.append({"term": {"description": s_word}})
+
+            if fs[0].distance:
+                location = get_user_location(user.id)
+                distance_predicate = {"geo_distance": {
+                    "distance": "{0}{1}".format(fs[0].distance,
+                                                fs[0].distance_unit),
+                    "location": {
+                        "lat": location.y,
+                        "lon": location.x
+                    }
+                }
+                }
+            body = {
+                "highlight": {
+                    "fields": {
+                        "goals": {},
+                        "interests": {},
+                        "likes": {},
+                        "offers": {}
+                    }
+                },
+                "query": {
+                    "filtered": {
+                        "filter": {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "ids": {
+                                            "type": "modelresult",
+                                            "values": event_ids
+                                        }
+                                    },
+                                    distance_predicate
+                                ],
+                                "should": keyword_predicate,
+                                "must_not": []
+                            }
+                        }
+                    }
+                },
+                "sort": [
+                    {
+                        "_geo_distance": {
+                            "location": {
+                                "lat": location.y,
+                                "lon": location.x
+                            },
+                            "order": "asc",
+                            "unit": distance_unit
+                        }
+                    }
+                ]
+            }
+        else:
+            body = {
+                "highlight": {
+                    "fields": {
+                        "goals": {},
+                        "interests": {},
+                        "likes": {},
+                        "offers": {}
+                    }
+                },
+                "query": {
+                    "filtered": {
+                        "filter": {
+                            "bool": {
+                                "must": [
+                                    {
+                                        "ids": {
+                                            "type": "modelresult",
+                                            "values": event_ids
+                                        }
+                                    }
+                                ],
+                                "should": [],
+                                "must_not": []
+                            }
+                        }
+                    }
+                },
+                "sort": [
+                    {
+                        "_geo_distance": {
+                            "location": {
+                                "lat": location.y,
+                                "lon": location.x
+                            },
+                            "order": "asc",
+                            "unit": distance_unit
+                        }
+                    }
+                ]
+            }
+        response = client.search(index=index, body=body, size=50)
+
+        print response
+        return response
+
+    @staticmethod
     def match(user_id, friends=False, is_filter=False):
         from nltk.stem.porter import PorterStemmer
         porter_stemmer = PorterStemmer()
@@ -642,6 +768,36 @@ class ElasticSearchMatchEngineManager(models.Manager):
         response = s.execute()
 
         return response.hits.hits
+
+    @staticmethod
+    def match_events(user_id, is_filter=False, feed='my'):
+        user = FacebookCustomUserActive.objects.get(pk=user_id)
+        events = []
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+
+        if feed == 'my':
+            events = Event.objects.filter(membership__user=user_id,
+                                          ends_on__gt=now())
+        elif feed == 'all':
+            events = Event.objects.filter(ends_on__gt=now())
+
+        elif feed == 'connections':
+            friends = Friend.objects.all_my_friends(user_id=user_id)
+            events = Event.objects.filter(
+                Q_(membership__user_id__in=friends,
+                   membership__rsvp__in=['yes', 'maybe'], ends_on__gt=now()) |
+                Q_(membership__user_id__in=friends,
+                   membership__is_organizer=True, ends_on__gt=now())).\
+                distinct()
+        event_ids_types = []
+        for event in events:
+            event_ids_types.append('events.event.%s' % event.id)
+        event_ids_types = list(set(event_ids_types))
+
+        response = ElasticSearchMatchEngineManager. \
+            event_query_builder(user, event_ids_types, is_filter=is_filter,
+                                stop_words=stop_words)
+        return response['hits']['hits']
 
 
 class AbstractMatchEngine(models.Model):

@@ -4,7 +4,7 @@ exports.config = {
   // baseUrl: 'http://test1.com:8000/',
   baseUrl: 'http://localhost:8080/',
 
-  allScriptsTimeout: 11000,
+  allScriptsTimeout:  60000,
 
   framework: 'jasmine',
 
