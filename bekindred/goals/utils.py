@@ -6,7 +6,7 @@ from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.humanize.templatetags.humanize import intcomma
 
-from geopy.distance import distance as geopy_distance
+from geopy.distance import distance as geopy_distance, Distance
 import oauth2 as oauth
 
 from social_auth.db.django_models import UserSocialAuth
@@ -59,9 +59,21 @@ def miles_to_meters(x):
 
 
 def calculate_distance_es(user_id, user_object):
+    distance = user_object.get('sort', [0])[0]
+    return format_distance(distance, user_id)
+
+
+def format_distance(distance, user_id):
+    """
+    :param distance: in miles or Distance class
+    :param user_id:
+    :return: list [int, unit_name] e.g [5, "miles"]
+    """
     _units = FilterState.objects.filter(user_id=user_id)[0].distance_unit
 
-    distance = user_object.get('sort', [0])[0]
+    if isinstance(distance, Distance):
+        # convert to float number
+        distance = getattr(distance, _units)
 
     if _units == 'km':
         distance = km_to_mile(distance)
@@ -76,6 +88,18 @@ def calculate_distance_es(user_id, user_object):
         return [int(miles_to_km(distance)), 'km']
 
     return [int(distance), 'miles']
+
+
+def get_event_location(event_id):
+    e = Event.objects.get(pk=event_id)
+    return e.point
+
+
+def calculate_distance_user_event(user_id, event_id):
+    user_location = get_user_location(user_id)
+    event_location = get_event_location(event_id)
+    distance = geopy_distance(user_location, event_location)
+    return format_distance(distance, user_id)
 
 
 def calculate_distance(user_id1, user_id2, units='miles'):
