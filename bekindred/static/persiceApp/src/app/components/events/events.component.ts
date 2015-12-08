@@ -87,9 +87,9 @@ export class EventsComponent {
     calendar: false
   };
   activeRouteNav = {
-    my: true,
+    my: false,
     network: false,
-    all: false
+    all: true
   };
   router: Router;
   location: Location;
