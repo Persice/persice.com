@@ -3,55 +3,57 @@
 import {provide, Injectable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
 
+import * as Rx from '@reactivex/rxjs';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
 
-
 import * as io from 'socket.io-client';
 
+
+import {CookieUtil} from '../core/util';
+
 const HOSTNAME = window.location.hostname;
+
+const USER_ID = CookieUtil.getValue('userid');
 
 @Injectable()
 export class WebsocketService {
 
   static API_URL: string = '//' + HOSTNAME + ':3000';
-  static _socket: any = io();
+  static _socket: any;
 
   constructor() {
-
     console.log('creating socket object');
-
     WebsocketService._socket = io();
-    console.log('establishing connection to server... %s', WebsocketService.API_URL);
-    WebsocketService._socket.connect(WebsocketService.API_URL);
-
   }
 
-  // public on(eventName: string): Observable<any> {
+  public connect() {
+    console.log('establishing websocket connection to server... %s', WebsocketService.API_URL);
+    WebsocketService._socket.connect(WebsocketService.API_URL);
+  }
 
-    // return Observable.create(observer => {
-    //   WebsocketService._socket.on(eventName, (ev, data) => {
-    //     observer.next(data);
-    //     observer.complete();
-    //   });
-
-    // });
-
-
-  // }
-
-  // public emit(eventName, data, callback): void {
-  //   WebsocketService._socket.emit(eventName, data, function() {
-  //     let args = arguments;
-  //     if (typeof callback === 'function') {
-  //       callback.apply(this.socket, args);
-
-  //     }
-  //   });
-  // }
+  public disconnect() {
+    console.log('disconnecting websocket connection from server... %s', WebsocketService.API_URL);
+    WebsocketService._socket.disconnect();
+  }
 
 
+  public on(evt: string): Rx.Subject<any> {
+    let subj = new Rx.Subject<any>();
+    WebsocketService._socket.on(evt, (res) => {
+      subj.next(res);
+    });
+    return subj;
+  }
+
+  public emit(evt: string, data): Rx.Subject<any> {
+    let subj = new Rx.Subject<any>();
+    WebsocketService._socket.emit(evt, data, (res) => {
+      subj.next(res);
+    });
+    return subj;
+  }
 
 }
 

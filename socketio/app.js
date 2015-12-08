@@ -63,41 +63,32 @@ io.on('connection', function(socket) {
     // Grab message from Redis and send to client
     clientNewMessage.on('message', function(channel, message) {
         console.log('on message ' + socket.cookie['userid'], message);
-        socket.send(JSON.stringify({
-            type: channel,
-            message: message
-        }));
+        message = JSON.parse(message);
+        socket.emit('messages:new', message);
     });
 
     // Grab event chat message from Redis and send to client
     eventChatNewMessage.on('message', function(channel, message) {
         console.log('on chat message ' + socket.cookie['userid'], message);
-        socket.send(JSON.stringify({
-            type: channel,
-            message: message
-        }));
+        message = JSON.parse(message);
+        socket.emit('messages:event', message);
     });
 
     // Grab new connection from Redis and send to client
     clientNewConnection.on('message', function(channel, message) {
 
         console.log('on connection ' + socket.cookie['userid'], message);
-        socket.send(JSON.stringify({
-            type: channel,
-            message: message
-        }));
+        message = JSON.parse(message);
+        socket.emit('connections:new', message);
     });
 
 
 
     // Grab new event deleted from Redis and send to client
     clientEventDeleted.on('message', function(channel, message) {
-
         console.log('on event deleted ' + socket.cookie['userid'], message);
-        socket.send(JSON.stringify({
-            type: channel,
-            message: message
-        }));
+        message = JSON.parse(message);
+        socket.emit('event:deleted', message);
     });
 
     socket.on('disconnect', function() {

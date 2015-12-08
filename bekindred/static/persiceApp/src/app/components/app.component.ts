@@ -134,9 +134,21 @@ export class AppComponent {
   }
 
   ngAfterViewInit() {
-    // this.websocketService.messageDataSubject.subscribe((data: any) => {
-    //   console.log(data)
-    // });
+
+    //websocket initialise
+    this.websocketService.connect();
+    this.initWebsocket('messages:new');
+    this.initWebsocket('messages:event');
+    this.initWebsocket('connections:new');
+    this.initWebsocket('event:deleted');
+  }
+
+
+  initWebsocket(channel: string) {
+    this.websocketService.on(channel).subscribe((data: any) => {
+      console.log('websocket recieved data for channel %s', channel);
+      console.log(data);
+    });
   }
 
   ngOnInit() {
