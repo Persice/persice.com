@@ -1,84 +1,82 @@
-// /// <reference path="../../../typings/_custom.d.ts" />
+/// <reference path="../../../typings/_custom.d.ts" />
 
-// import {
-// iit,
-// it,
-// ddescribe,
-// describe,
-// expect,
-// inject,
-// injectAsync,
-// TestComponentBuilder,
-// beforeEachProviders,
-// fakeAsync,
-// tick
-// } from 'angular2/testing';
+import {
+iit,
+it,
+ddescribe,
+describe,
+expect,
+inject,
+injectAsync,
+TestComponentBuilder,
+beforeEachProviders,
+fakeAsync,
+tick
+} from 'angular2/testing';
 
-// import {Component, View, provide, DirectiveResolver} from 'angular2/angular2';
-// import {Location, Router, RouteRegistry, RouterLink} from 'angular2/router';
-// import {SpyLocation} from 'angular2/src/mock/location_mock';
-// import {RootRouter} from 'angular2/src/router/router';
-// import {DOM} from 'angular2/src/platform/dom/dom_adapter';
+import {Component, View, provide, DirectiveResolver} from 'angular2/angular2';
 
-// import {SubnavComponent} from './subnav.component';
-// import {AppComponent} from '../app.component';
+import {Router, RootRouter} from 'angular2/src/router/router';
+import {SpyLocation} from 'angular2/src/mock/location_mock';
+import {Location} from 'angular2/src/router/location';
 
-// // Create a test component to test directives
-// @Component({
-//   template: '',
-//   directives: [SubnavComponent]
-// })
-// class TestComponent {
-// }
+import {RouteRegistry, ROUTER_PRIMARY_COMPONENT} from 'angular2/src/router/route_registry';
+import {RouteConfig, AsyncRoute, Route} from 'angular2/src/router/route_config_decorator';
 
-// describe('NavMain component', () => {
+import {DOM} from 'angular2/src/platform/dom/dom_adapter';
 
-//   beforeEachProviders(() => [
-//     RouterLink,
-//     RouteRegistry,
-//     DirectiveResolver,
-//     provide(Location, { useClass: SpyLocation }),
-//     provide(Router,
-//       {
-//         useFactory:
-//         (registry, location) => { return new RootRouter(registry, location, AppComponent); },
-//         deps: [RouteRegistry, Location]
-//       })
+import {SubnavComponent} from './subnav.component';
+import {AppComponent} from '../app.component';
 
-//   ]);
+// Create a test component to test directives
+@Component({
+  template: `<span>aaaa</span>`,
+  directives: [SubnavComponent]
+})
+class TestComponent {
+}
 
+describe('Subnav component', () => {
 
-//   it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
-//     return tcb.overrideTemplate(TestComponent, '<div><subnav></subnav></div>')
-//       .createAsync(TestComponent).then((fixture: any) => {
+  beforeEachProviders(() => [
+    RouteRegistry,
+    DirectiveResolver,
+    provide(Location, { useClass: SpyLocation }),
+    provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
+    provide(Router, { useClass: RootRouter })
 
-//         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
-//         let componentDOMEl = fixture.debugElement.nativeElement;
-//         let elRef = fixture.debugElement.elementRef;
-
-//         expect(elRef).not.toBeNull(true);
+  ]);
 
 
-//       });
-//   }));
+  it('should exist', inject([TestComponentBuilder], (tcb) => {
+    tcb.overrideTemplate(TestComponent, '<div><subnav></subnav></div>')
+      .createAsync(TestComponent).then((fixture: any) => {
+        fixture.detectChanges();
+        let componentInstance = fixture.componentInstance;
+        let componentDOMEl = fixture.debugElement.nativeElement;
+        let elRef = fixture.debugElement.elementRef;
+
+        expect(elRef).not.toBeNull(true);
+      });
+  }));
 
 
-//   it('should have links', injectAsync([TestComponentBuilder], (tcb) => {
-//     return tcb.overrideTemplate(TestComponent, '<div><subnav></subnav></div>')
-//       .createAsync(TestComponent).then((fixture: any) => {
+  it('should have links', inject([TestComponentBuilder], (tcb) => {
+    tcb.overrideTemplate(TestComponent, '<div><subnav></subnav></div>')
+      .createAsync(TestComponent).then((fixture: any) => {
 
-//         let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
-//         let componentDOMEl = fixture.debugElement.nativeElement;
-//         let elRef = fixture.debugElement.elementRef;
+        let componentInstance = fixture.debugElement.componentViewChildren[0].componentInstance;
+        let componentDOMEl = fixture.debugElement.nativeElement;
+        let elRef = fixture.debugElement.elementRef;
 
 
-//         let links = DOM.querySelectorAll(componentDOMEl, 'a.sub-nav__link');
+        let links = DOM.querySelectorAll(componentDOMEl, 'a.sub-nav__link');
 
-//         expect(links.length).toEqual(3);
-//         expect(links[0].textContent.trim()).toEqual('All events');
-//         expect(links[1].textContent.trim()).toEqual('My events');
-//         expect(links[2].textContent.trim()).toEqual('My network');
-//       });
-//   }));
+        expect(links.length).toEqual(3);
+        expect(links[0].textContent.trim()).toEqual('All events');
+        expect(links[1].textContent.trim()).toEqual('My events');
+        expect(links[2].textContent.trim()).toEqual('My network');
+      });
+  }));
 
-// });
+});
