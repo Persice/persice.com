@@ -8,9 +8,12 @@ import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+import { MockBackend } from 'angular2/http/testing';
 
 import {SearchService} from './search.service';
 import {searchResultsUsers, searchResultsEvents} from './search.service.mock';
@@ -58,7 +61,7 @@ describe('SearchService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find users resource by first name', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, searchResultsUsers);
+    ensureCommunication(backend, RequestMethod.Get, searchResultsUsers);
     service.search('mike', 'user')
       .subscribe(resp => {
         expect(resp).toBe(searchResultsUsers);
@@ -67,7 +70,7 @@ describe('SearchService', () => {
   });
 
   it('should find events resource by name', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, searchResultsEvents);
+    ensureCommunication(backend, RequestMethod.Get, searchResultsEvents);
     service.search('angular', 'event')
       .subscribe(resp => {
         expect(resp).toBe(searchResultsEvents);
@@ -76,7 +79,7 @@ describe('SearchService', () => {
   });
 
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));

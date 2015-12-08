@@ -72,11 +72,10 @@ module.exports = {
   //
   entry: {
     'angular2': [
-      // Angular 2 Deps
+      // to ensure these modules are grouped together in one file
       '@reactivex/rxjs',
       'zone.js',
       'reflect-metadata',
-      // to ensure these modules are grouped together in one file
       'angular2/angular2',
       'angular2/core',
       'angular2/router',
@@ -110,9 +109,13 @@ module.exports = {
     modulesDirectories: [
       'node_modules', 'src', 'src/app', '.'
     ],
-    extensions: ['', '.ts', '.js', '.json'],
+    extensions: ['','.ts','.js','.json', '.css', '.html'],
     alias: {
       'rx': '@reactivex/rxjs',
+      'rxjs/operators/toPromise': 'rxjs/add/operator/toPromise.js',
+      'rxjs/operators/take': 'rxjs/add/operator/take.js',
+      'rxjs/operators/map': 'rxjs/add/operator/map.js',
+      'rxjs/subjects/ReplaySubject': 'rxjs/subject/ReplaySubject.js',
       'app': 'src/app',
       'lodash': 'lodash',
       // 'common': 'src/common',

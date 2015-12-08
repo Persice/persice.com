@@ -18,10 +18,13 @@ AsyncTestCompleter
 
 import {Component, View, provide, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 import {Location} from 'angular2/router';
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods, HTTP_BINDINGS
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions, HTTP_BINDINGS
 } from 'angular2/http';
 
+import {RequestMethod} from 'angular2/src/http/enums';
+
+import {MockBackend} from 'angular2/http/testing';
 
 import {ConnectionsComponent} from './connections.component';
 import {ConnectionsService} from '../../services/connections.service';

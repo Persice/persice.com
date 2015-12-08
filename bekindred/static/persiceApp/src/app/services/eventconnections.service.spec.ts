@@ -8,9 +8,13 @@ import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+
+import { MockBackend } from 'angular2/http/testing';
 
 import {EventConnectionsService} from './eventconnections.service';
 import {connections} from './eventconnections.service.mock';
@@ -58,7 +62,7 @@ describe('EventConnectionsService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, connections);
+    ensureCommunication(backend, RequestMethod.Get, connections);
     service.get('', 1000, '')
       .subscribe(resp => {
         expect(resp).toBe(connections);
@@ -66,7 +70,7 @@ describe('EventConnectionsService', () => {
       });
   });
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));

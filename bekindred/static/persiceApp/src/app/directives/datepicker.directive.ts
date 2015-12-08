@@ -28,7 +28,16 @@ export class DatepickerDirective {
       format: 'mm/dd/yyyy',
       formatSubmit: 'mm/dd/yyyy',
       onSet: (context) => {
-        let dateString = DateUtil.convertFromUnixToDate(context.select / 1000);
+
+        let dateString = '';
+
+        if ('object' === typeof context.select) {
+          dateString = DateUtil.convertFromUnixToDate(context.select.pick / 1000);
+        }
+        else {
+          dateString = DateUtil.convertFromUnixToDate(context.select / 1000);
+        }
+
         this.selectedValue.next(dateString);
       },
       onStart: () => {

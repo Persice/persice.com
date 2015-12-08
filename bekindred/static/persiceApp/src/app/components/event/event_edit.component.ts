@@ -182,7 +182,7 @@ export class EventEditComponent {
     else {
       this.model.starts_on_date = '';
       this.model.starts_on = '';
-      this.validateForm();
+
     }
 
   }
@@ -196,7 +196,7 @@ export class EventEditComponent {
     else {
       this.model.starts_on_time = '';
       this.model.starts_on = '';
-      this.validateForm();
+
     }
 
   }
@@ -209,7 +209,7 @@ export class EventEditComponent {
     else {
       this.model.ends_on_date = '';
       this.model.ends_on = '';
-      this.validateForm();
+
     }
 
   }
@@ -224,7 +224,7 @@ export class EventEditComponent {
     else {
       this.model.ends_on_time = '';
       this.model.ends_on = '';
-      this.validateForm();
+
     }
 
   }
@@ -267,22 +267,6 @@ export class EventEditComponent {
 
   ngOnDestroy() {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');
-  }
-
-  validateForm() {
-    this.service.validate(this.model).subscribe((res) => {
-      this.validationErrors = {};
-
-    }, (err) => {
-      if ('validationErrors' in err) {
-        this.validationErrors = err.validationErrors;
-
-      }
-    }, () => {
-      this.validationErrors = {};
-
-    });
-
   }
 
 

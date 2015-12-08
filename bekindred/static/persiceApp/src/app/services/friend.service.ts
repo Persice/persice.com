@@ -1,7 +1,14 @@
 /// <reference path="../../typings/_custom.d.ts" />
 
-import {provide, Injectable, Observable} from 'angular2/angular2';
-import {Http, Response} from 'angular2/http';
+import { provide, Injectable } from 'angular2/angular2';
+import { Http, Response } from 'angular2/http';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operator/map';
+import { mergeMap } from 'rxjs/operator/mergeMap';
+
+Observable.prototype.map = map;
+Observable.prototype.flatMap = mergeMap;
+
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 import {CookieUtil} from '../core/util';
 
