@@ -60,7 +60,7 @@ export class EventService {
     description: {
       presence: true,
       length: {
-        maximum: 300
+        maximum: 1000
       }
     }
   };
