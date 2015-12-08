@@ -139,7 +139,7 @@ export class EventComponent {
       city: resp.city,
       location_name: resp.location_name,
       state: resp.state,
-      distance: '6 miles',
+      distance: resp.distance,
       openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
         hour: DateUtil.format(resp.starts_on, 'h:mm A'),

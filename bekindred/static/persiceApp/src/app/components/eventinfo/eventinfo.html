@@ -34,7 +34,7 @@
         <div class="layout__item 1/1">
           <h2 class="single-title mb-">{{info.name}}</h2>
           <p class="single-title-subinfo">{{info.location_name}} <span *ng-if="info.city !== ''">/</span> {{info.city}} {{info.state}}</p>
-          <p class="single-title-subinfo">{{info.distance}} from you</p>
+          <p class="single-title-subinfo">{{info.distance[0]}} {{info.distance[1]}} from you</p>
         </div>
         <div class="layout__item" [ng-class]="{'2/5': !host, '7/9': host}">
           <p class="opento-label">Open to</p>
