@@ -49,6 +49,7 @@
     "moment-timezone": "^0.4.1",
     "reflect-metadata": "^0.1.2",
     "rx": "latest",
+    "socket.io-client": "^1.3.7",
     "validate.js": "^0.9.0",
     "zone.js": "^0.5.8"
   },

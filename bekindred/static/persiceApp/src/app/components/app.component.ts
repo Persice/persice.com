@@ -44,6 +44,7 @@ import {UserService} from '../services/user.service';
 import {NotificationService} from '../services/notification.service';
 import {EventsService} from '../services/events.service';
 import {EventService} from '../services/event.service';
+import {WebsocketService} from '../services/websocket.service';
 
 let view = require('./app.html');
 
@@ -107,7 +108,8 @@ let view = require('./app.html');
   providers: [
     FilterService,
     UserService,
-    NotificationService
+    NotificationService,
+    WebsocketService
   ]
 })
 export class AppComponent {
@@ -123,11 +125,18 @@ export class AppComponent {
 
   constructor(
     public userService: UserService,
-    public notificationService: NotificationService
+    public notificationService: NotificationService,
+    public websocketService: WebsocketService
   ) {
     //default image
     this.image = this.userService.getDefaultImage();
 
+  }
+
+  ngAfterViewInit() {
+    // this.websocketService.messageDataSubject.subscribe((data: any) => {
+    //   console.log(data)
+    // });
   }
 
   ngOnInit() {
