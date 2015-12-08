@@ -38,21 +38,21 @@
     <div class="layout">
       <div class="layout__item 1/2">
         <label class="c-label mb--">Event Name</label>
-        <input [ng-model]="model.name" (ng-model-change)="model.name = $event; validateForm();" class="c-input" type="text" placeholder="Add short, clear name" [ng-class]="{'c-input--error': validationErrors.name}">
+        <input [ng-model]="model.name" (ng-model-change)="model.name = $event;" class="c-input" type="text" placeholder="Add short, clear name" [ng-class]="{'c-input--error': validationErrors.name}">
         <div class="c-message c-message--error pt-- pl-">
           <p *ng-for="#e of validationErrors.name">{{e}}</p>
         </div>
       </div>
       <div class="layout__item 1/2">
         <label class="c-label mb--">Location</label>
-        <input [ng-model]="model.event_location" (ng-model-change)="model.event_location = $event; validateForm();" class="c-input" geocomplete (selected-value)="changeLocation($event)" type="text" placeholder="Include a place or address" [ng-class]="{'c-input--error': validationErrors.event_location}">
+        <input [ng-model]="model.event_location" (ng-model-change)="model.event_location = $event;" class="c-input" geocomplete (selected-value)="changeLocation($event)" type="text" placeholder="Include a place or address" [ng-class]="{'c-input--error': validationErrors.event_location}">
         <div class="c-message c-message--error pt-- pl-">
           <p *ng-for="#e of validationErrors.event_location">{{e}}</p>
         </div>
       </div>
       <div class="layout__item 1/1">
         <label class="c-label mb--">Description</label>
-        <textarea [ng-model]="model.description" (ng-model-change)="model.description = $event; validateForm();" [ng-class]="{'c-input--error': validationErrors.description}" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
+        <textarea [ng-model]="model.description" (ng-model-change)="model.description = $event;" [ng-class]="{'c-input--error': validationErrors.description}" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
         <div class="c-message c-message--error pt-- pl-">
           <p *ng-for="#e of validationErrors.description">{{e}}</p>
         </div>
@@ -140,7 +140,7 @@
       </div>
       <div class="layout__item 1/2">
         <label class="c-label mb--">Max number of attendees</label>
-        <input [ng-model]="model.max_attendees" (ng-model-change)="model.max_attendees = $event; validateForm();" class="c-input" type="text" placeholder="0" [ng-class]="{'c-input--error': validationErrors.max_attendees}">
+        <input [ng-model]="model.max_attendees" (ng-model-change)="model.max_attendees = $event;" class="c-input" type="text" placeholder="0" [ng-class]="{'c-input--error': validationErrors.max_attendees}">
         <div class="c-message c-message--error pt-- pl-">
           <p *ng-for="#e of validationErrors.max_attendees">{{e}}</p>
         </div>
