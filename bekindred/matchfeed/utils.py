@@ -326,6 +326,16 @@ class MatchQuerySet(object):
         return events
 
     @staticmethod
+    def user_event(user_id, event_id):
+        hits = ElasticSearchMatchEngine.elastic_objects. \
+            get_distance(user_id, event_id)
+        events = []
+        for hit in hits:
+            event = MatchEvent(user_id, hit)
+            events.append(event)
+        return events
+
+    @staticmethod
     def between(user_id1, user_id2):
         hits = ElasticSearchMatchEngine.elastic_objects.\
             match_between(user_id1, user_id2)
