@@ -38,7 +38,7 @@ class Event(models.Model):
             ("view_event", "View event"),
         )
 
-    description = models.CharField(max_length=300, null=True, blank=True)
+    description = models.CharField(max_length=1000, null=True, blank=True)
     name = models.CharField(max_length=300)
     location = GeopositionField()
     point = models.PointField(null=True)
