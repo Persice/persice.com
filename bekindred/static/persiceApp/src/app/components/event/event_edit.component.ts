@@ -158,7 +158,6 @@ export class EventEditComponent extends BaseEventComponent {
       }
 
     }, () => {
-
     });
   }
 

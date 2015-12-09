@@ -2,6 +2,7 @@ import { provide, Injectable } from 'angular2/angular2';
 import { Http, Response } from 'angular2/http';
 import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
+import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class EventsService {
@@ -11,7 +12,7 @@ export class EventsService {
   static NEW_API: string = '/api/v1/events2/';
   next: string = '';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
 
 import {AuthUserModel} from '../models/user.model';
-
+import {HttpClient} from '../core/http_client';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UserService {
   static DEFAULT_IMAGE: string = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

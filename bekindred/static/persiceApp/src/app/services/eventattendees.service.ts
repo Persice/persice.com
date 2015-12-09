@@ -3,12 +3,14 @@ import { Http, Response } from 'angular2/http';
 import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
 
+import {HttpClient} from '../core/http_client';
+
 @Injectable()
 export class EventAttendeesService {
   static API_URL: string = '/api/v1/attendees/';
   next: string = '';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

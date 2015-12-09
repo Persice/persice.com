@@ -3,14 +3,14 @@ import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
-
+import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class SearchService {
   static API_URL_USER: string = '/api/v1/auth/user/search/';
   static API_URL_EVENT: string = '/api/v1/event/search/';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

@@ -1,14 +1,16 @@
-import { provide, Injectable } from 'angular2/angular2';
-import { Http, Response } from 'angular2/http';
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
 import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
+
+import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class CrowdService {
   static API_URL: string = '/api/v1/matchfeed2/';
   next: string = '';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

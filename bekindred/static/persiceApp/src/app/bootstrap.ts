@@ -21,6 +21,9 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 import {APP_SERVICES_PROVIDERS} from './services/services';
 
 
+
+import {HttpClient} from './core/http_client';
+
 /*
  * Google maps
  */
@@ -45,6 +48,7 @@ const UNIVERSAL_PROVIDERS = [
   ROUTER_PROVIDERS,
   FORM_PROVIDERS,
   HTTP_PROVIDERS,
+  HttpClient,
   APP_SERVICES_PROVIDERS,
   ANGULAR2_GOOGLE_MAPS_PROVIDERS
 ];

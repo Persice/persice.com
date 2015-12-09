@@ -80,7 +80,22 @@ export class CrowdComponent {
       this.loadingInitial = true;
     }
     this.service.get(this.next, this.limit, this.filter)
-      .subscribe(data => this.assignList(data));
+      .subscribe(
+      data => this.assignList(data),
+      (err) => {
+        console.log(err);
+        this.loading = false;
+        this.loadingInitial = false;
+        // this.notificationService.push({
+        //   type: 'error',
+        //   title: 'Error',
+        //   body: 'Data could not be loaded.',
+        //   autoclose: 4000
+        // });
+      },
+      () => {
+
+      });
   }
 
 

@@ -3,12 +3,14 @@ import { Http, Response } from 'angular2/http';
 import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
 
+import {HttpClient} from '../core/http_client';
+
 @Injectable()
 export class ConnectionsService {
   static API_URL: string = '/api/v1/connections2/';
   next: string = '';
 
-  constructor(public http: Http) {
+  constructor(public http: HttpClient) {
 
   }
 

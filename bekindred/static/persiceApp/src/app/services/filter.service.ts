@@ -1,5 +1,6 @@
 import { provide, Injectable } from 'angular2/angular2';
 import { Http, Response } from 'angular2/http';
+import {HttpClient} from '../core/http_client';
 
 import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
@@ -26,7 +27,7 @@ export class FilterService {
 
   observers: any[] = [];
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

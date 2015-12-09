@@ -29,6 +29,10 @@ export abstract class BaseResourceService<T extends BaseDto> {
     return this.http.delete(`${this.url}/${id}`).map((res: Response) => res.json());
   }
 
+  removeOneByUri(uri: string): Observable<T> {
+    return this.http.delete(`${uri}`).map((res: Response) => res.json());
+  }
+
   findOneById(id: string): Observable<T> {
     return this.http.get(`${this.url}/${id}`).map((res: Response) => res.json());
   }
@@ -37,9 +41,9 @@ export abstract class BaseResourceService<T extends BaseDto> {
     return this.http.get(`${uri}`).map((res: Response) => res.json());
   }
 
-  // find(): Observable<T[]> {
-  //   return this.http.get(`${this.url}/_find`).map((res: Response) => res.json());
-  // }
+  find(): Observable<T[]> {
+    return this.http.get(`${this.url}`).map((res: Response) => res.json());
+  }
 
 }
 

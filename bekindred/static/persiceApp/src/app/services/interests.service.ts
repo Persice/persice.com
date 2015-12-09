@@ -4,10 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
 
+import {HttpClient} from '../core/http_client';
+
 @Injectable()
 export class InterestsService {
   static API_URL: string = '/api/v1/interest/';
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   public get(): Observable<any> {

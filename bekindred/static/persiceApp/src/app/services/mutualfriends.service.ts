@@ -3,6 +3,7 @@ import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
+import {HttpClient} from '../core/http_client';
 
 Observable.prototype.map = map;
 Observable.prototype.flatMap = mergeMap;
@@ -11,7 +12,7 @@ Observable.prototype.flatMap = mergeMap;
 export class MutualFriendsService {
   static API_URL_V1: string = '/api/v1/mutual/friends/';
   next: string = '';
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

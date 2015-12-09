@@ -1,7 +1,9 @@
-import { provide, Injectable} from 'angular2/angular2';
-import { Http, Response } from 'angular2/http';
+import {provide, Injectable} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
 import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
+
+import {HttpClient} from '../core/http_client';
 
 import {CookieUtil, FormUtil} from '../core/util';
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
@@ -60,7 +62,7 @@ export class EventService {
     }
   };
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 
@@ -197,10 +199,7 @@ export class EventService {
   }
 
   public deleteByUri(resourceUri: string): Observable<any> {
-    return this.http.delete(
-      resourceUri,
-      OPTS_REQ_JSON_CSRF)
-      .map(this._mapResponse);
+    return this.http.delete(resourceUri, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json());
   }
 
   public validate(data): Observable<any> {
@@ -252,19 +251,6 @@ export class EventService {
       return true;
     }
   }
-
-  // TODO remove this function once the angular2's http provider throw errors accordingly to http codes.
-  private _mapResponse(response: Response): Response {
-    if (response.status >= 200 && response.status < 300) {
-      return response;
-    }
-    const error = new Error(response['_body'] ? response['_body'] : response.statusText);
-    error['response'] = response;
-    throw error;
-  }
-
-
-
 
 }
 

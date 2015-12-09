@@ -87,7 +87,13 @@ export class FilterComponent {
     public filterService: FilterService
   ) {
     this.filterService.find()
-      .subscribe(data => this.setFilters(data));
+      .subscribe(data => this.setFilters(data),
+      (err) => {
+        console.log(err);
+      },
+      () => {
+
+      });
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
   }

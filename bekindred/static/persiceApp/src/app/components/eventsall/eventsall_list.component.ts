@@ -84,7 +84,14 @@ export class EventsAllListComponent {
       this.loadingInitial = true;
     }
     this.service.get(this.next, this.limit, this.filter, this.type)
-      .subscribe(data => this.assignList(data));
+      .subscribe(data => this.assignList(data),
+      (err) => {
+        console.log(err);
+        this.loading = false;
+      },
+      () => {
+
+      });
 
   }
 

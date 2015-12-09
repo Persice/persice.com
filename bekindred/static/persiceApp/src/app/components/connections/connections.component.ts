@@ -65,7 +65,14 @@ export class ConnectionsComponent {
     if (this.next === null) return;
     this.loading = true;
     this.service.get(this.next, this.limit, this.filter)
-      .subscribe(data => this.assignList(data));
+      .subscribe(data => this.assignList(data),
+      (err) => {
+        console.log(err);
+        this.loading = false;
+      },
+      () => {
+
+      });
   }
 
 

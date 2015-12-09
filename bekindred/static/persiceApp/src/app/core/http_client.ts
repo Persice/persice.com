@@ -78,10 +78,16 @@ export class HttpClient {
   // TODO remove this function once the angular2's http provider throw errors accordingly to http codes.
   private _mapResponse(response: Response): Response {
     if (response.status >= 200 && response.status < 300) {
+      //prevent empty response;
+      if (response['_body'] === '') {
+        response['_body'] = '{}';
+      }
       return response;
     }
     const error = new Error(response['_body'] ? response['_body'] : response.statusText);
     error['response'] = response;
+    console.log('HTTP error');
+    console.log(error);
     throw error;
   }
 
