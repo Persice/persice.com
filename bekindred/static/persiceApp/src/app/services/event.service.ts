@@ -4,6 +4,7 @@ import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
 
 import {CookieUtil, FormUtil} from '../core/util';
+import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 import {pick} from 'lodash';
 
 declare var jQuery: any;
@@ -195,6 +196,13 @@ export class EventService {
 
   }
 
+  public deleteByUri(resourceUri: string): Observable<any> {
+    return this.http.delete(
+      resourceUri,
+      OPTS_REQ_JSON_CSRF)
+      .map(this._mapResponse);
+  }
+
   public validate(data): Observable<any> {
     return Observable.create(observer => {
 
@@ -243,6 +251,16 @@ export class EventService {
     else {
       return true;
     }
+  }
+
+  // TODO remove this function once the angular2's http provider throw errors accordingly to http codes.
+  private _mapResponse(response: Response): Response {
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    }
+    const error = new Error(response['_body'] ? response['_body'] : response.statusText);
+    error['response'] = response;
+    throw error;
   }
 
 

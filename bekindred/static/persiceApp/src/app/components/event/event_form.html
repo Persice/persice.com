@@ -140,7 +140,7 @@
 <footer class="remodal__footer text--right">
   <div class="layout layout--middle">
     <div class="layout__item 1/2 text-left" *ng-if="type == 'edit-event'">
-      <a href="" class="link-blank link-blank--red">Delete event</a>
+      <a (click)="deleteEvent($event)" class="link-blank link-blank--red">Delete event</a>
     </div>
     <div class="layout__item 1/2">
       <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="close">Cancel</button>

@@ -1,4 +1,5 @@
 import {Component, NgClass, NgIf, Input, Output, EventEmitter} from 'angular2/angular2';
+import {Router} from 'angular2/router';
 
 import {EventService} from '../../services/event.service';
 import {NotificationService} from '../../services/notification.service';
@@ -44,9 +45,11 @@ export class EventEditComponent extends BaseEventComponent {
 
   constructor(
     public service: EventService,
-    public notificationService: NotificationService
+    public notificationService: NotificationService,
+    public router: Router
   ) {
     super(service, notificationService, 'edit');
+    this.router = router;
   }
 
 
@@ -137,6 +140,25 @@ export class EventEditComponent extends BaseEventComponent {
       }
 
     }, () => {
+    });
+  }
+
+
+  deleteEvent(event) {
+    this.showValidationError = false;
+    this.service.deleteByUri(this.resourceUri).subscribe((res) => {
+      this.showValidationError = false;
+      this._notifySuccess(`Your event ${this.model.name} has been deleted.`);
+      this.router.parent.navigate(['./Events', 'AllEventsList']);
+    }, (err) => {
+      if ('status' in err) {
+        let parseError = JSON.parse(err.responseText);
+        this.notification.body = 'Your event could not be deleted.';
+        this.showValidationError = true;
+      }
+
+    }, () => {
+
     });
   }
 
