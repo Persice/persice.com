@@ -8,6 +8,8 @@ import {BaseRequestOptions, ConnectionBackend, Http, Response,
 ResponseOptions
 } from 'angular2/http';
 
+import {HttpClient} from '../core/http_client';
+
 import {RequestMethod} from 'angular2/src/http/enums';
 
 import { MockBackend } from 'angular2/http/testing';
@@ -28,6 +30,7 @@ describe('EventAttendeesService', () => {
     injector = Injector.resolveAndCreate([
       BaseRequestOptions,
       MockBackend,
+      HttpClient,
       provide(Http, {
         useFactory: (connectionBackend: ConnectionBackend,
           defaultOptions: BaseRequestOptions) => {
@@ -40,7 +43,7 @@ describe('EventAttendeesService', () => {
       }),
       provide(EventAttendeesService, {
         useFactory: (
-          http: Http
+          http: HttpClient
         ) => {
           return new EventAttendeesService(http);
         },

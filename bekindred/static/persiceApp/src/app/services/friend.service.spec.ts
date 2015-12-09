@@ -8,6 +8,8 @@ import {BaseRequestOptions, ConnectionBackend, Http, Response,
 ResponseOptions
 } from 'angular2/http';
 
+import {HttpClient} from '../core/http_client';
+
 import {RequestMethod} from 'angular2/src/http/enums';
 import { MockBackend } from 'angular2/http/testing';
 
@@ -27,6 +29,7 @@ describe('FriendService', () => {
     injector = Injector.resolveAndCreate([
       BaseRequestOptions,
       MockBackend,
+      HttpClient,
       provide(Http, {
         useFactory: (connectionBackend: ConnectionBackend,
           defaultOptions: BaseRequestOptions) => {
@@ -39,7 +42,7 @@ describe('FriendService', () => {
       }),
       provide(FriendService, {
         useFactory: (
-          http: Http
+          http: HttpClient
         ) => {
           return new FriendService(http);
         },
