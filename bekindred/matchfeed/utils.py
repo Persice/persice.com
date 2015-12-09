@@ -221,7 +221,6 @@ class MatchUser(object):
                     d[subj] = 0
                 return [d]
 
-
     def get_keywords(self, user_object):
         keywords = []
         draft_keywords = set()
