@@ -21,6 +21,10 @@ export class DropdownDirective {
     jQuery(this.target).toggleClass('is-active');
   }
 
+  ngOnDestroy() {
+    jQuery(this.target).removeClass('is-active');
+  }
+
 
 
 }
