@@ -6,9 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
 
-Observable.prototype.map = map;
-Observable.prototype.flatMap = mergeMap;
-
 import {AuthUserModel} from '../models/user.model';
 
 

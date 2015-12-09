@@ -2,14 +2,9 @@
 
 import { provide, Injectable } from 'angular2/angular2';
 import { Http, Response } from 'angular2/http';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operator/map';
-import { mergeMap } from 'rxjs/operator/mergeMap';
 
-Observable.prototype.map = map;
-Observable.prototype.flatMap = mergeMap;
-
-import * as Rx from '@reactivex/rxjs';
+import * as Rx from 'rxjs';
+import {Observable} from 'rxjs';
 
 import {InterfaceFilter} from '../models/filter.model';
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';

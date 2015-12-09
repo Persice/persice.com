@@ -2,14 +2,11 @@
 
 import { provide, Injectable } from 'angular2/angular2';
 import { Http, Response } from 'angular2/http';
+import * as Rx from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
 
-Observable.prototype.map = map;
-Observable.prototype.flatMap = mergeMap;
-
-import * as Rx from '@reactivex/rxjs';
 import {InterfaceNotification, NotificationModel} from '../models/notification.model';
 import {remove, find} from 'lodash';
 
