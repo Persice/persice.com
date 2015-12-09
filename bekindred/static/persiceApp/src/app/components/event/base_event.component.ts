@@ -1,34 +1,11 @@
 /// <reference path="../../../typings/_custom.d.ts" />
-import {Component, NgClass, NgIf, Input, Output, EventEmitter} from 'angular2/angular2';
 
-import {SelectDirective} from '../../directives/select.directive';
-import {GeocompleteDirective} from '../../directives/geocomplete.directive';
-import {DatepickerDirective} from '../../directives/datepicker.directive';
-import {TimepickerDirective} from '../../directives/timepicker.directive';
 import {EventService} from '../../services/event.service';
 import {NotificationService} from '../../services/notification.service';
 
 import {EventModel, EventOpenTo} from '../../models/event.model';
-import {NotificationComponent} from '../notification/notification.component';
 import {GoogleUtil, ObjectUtil, DateUtil} from '../../core/util';
 
-declare var jQuery: any;
-
-let view = require('./event_form.html');
-
-@Component({
-  selector: 'event-edit',
-  template: view,
-  directives: [
-    SelectDirective,
-    NotificationComponent,
-    NgClass,
-    GeocompleteDirective,
-    DatepickerDirective,
-    TimepickerDirective
-  ],
-  providers: [EventService]
-})
 export abstract class BaseEventComponent {
   model;
   validationErrors = {};
