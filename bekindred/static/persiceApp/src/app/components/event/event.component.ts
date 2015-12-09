@@ -18,7 +18,11 @@ import {EventAttendeesService} from '../../services/eventattendees.service';
 import {EventPeopleListComponent} from '../eventpeoplelist/eventpeoplelist.component';
 import {DateUtil, EventUtil, CookieUtil, UserUtil, StringUtil} from '../../core/util';
 
+import {RemodalDirective} from '../../directives/remodal.directive';
+
 let view = require('./event.html');
+
+declare var jQuery: any;
 
 @Component({
   selector: 'event',
@@ -30,11 +34,13 @@ let view = require('./event.html');
     EventPhotoMapComponent,
     EventDiscussionComponent,
     EventPeopleListComponent,
-    EventEditComponent
+    EventEditComponent,
+    RemodalDirective
   ],
   providers: [EventService, EventMembersService, EventAttendeesService]
 })
 export class EventComponent {
+  remodalId: string = 'edit-event';
   selected = 'yes';
   savingRsvp: boolean = false;
   event = {};
@@ -99,6 +105,10 @@ export class EventComponent {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getEventDetails(this.eventId);
     this.getAttendees(this.eventId);
+  }
+
+  ngOnDestroy() {
+    jQuery('select.js-select-rep-create-event').minimalect('destroy');
   }
 
   refreshEvent(event) {

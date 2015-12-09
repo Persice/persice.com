@@ -36,4 +36,6 @@
     <event-discussion></event-discussion>
   </div>
 </div>
-<event-edit [event]="event" (refresh-event)="refreshEvent($event)"></event-edit>
+<div class="remodal--common" data-remodal-id="edit-event" remodal>
+  <event-edit [type]="'edit-event'" [event]="event" (refresh-event)="refreshEvent($event)"></event-edit>
+</div>

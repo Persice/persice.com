@@ -1,5 +1,6 @@
 /// <reference path="../../../typings/_custom.d.ts" />
-import {Component, NgClass, NgIf, Input, Output, EventEmitter} from 'angular2/angular2';
+import {Component, NgClass, NgIf, Input} from 'angular2/angular2';
+import {Router} from 'angular2/router';
 
 import {SelectDirective} from '../../directives/select.directive';
 import {GeocompleteDirective} from '../../directives/geocomplete.directive';
@@ -17,22 +18,21 @@ declare var jQuery: any;
 let view = require('./event_form.html');
 
 @Component({
-  selector: 'event-edit',
+  selector: 'event-create',
   template: view,
   directives: [
     SelectDirective,
     NotificationComponent,
     NgClass,
+    NgIf,
     GeocompleteDirective,
     DatepickerDirective,
     TimepickerDirective
   ],
   providers: [EventService]
 })
-export class EventEditComponent {
-  @Input() event;
+export class EventCreateComponent {
   @Input() type;
-  @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
   model;
   validationErrors = {};
   showValidationError: boolean = false;
@@ -42,10 +42,7 @@ export class EventEditComponent {
     type: 'error'
   };
 
-  eventId: number = null;
-  resourceUri: string = null;
-
-  openTo: any = EventOpenTo;
+  openTo: Object = EventOpenTo;
 
   START_DATE = DateUtil.todayRoundUp().unix() * 1000;
   END_DATE = DateUtil.todayAddHourRoundUp().unix() * 1000;
@@ -55,80 +52,23 @@ export class EventEditComponent {
   full = true;
 
   constructor(
+    private router: Router,
     private service: EventService,
     private notificationService: NotificationService
   ) {
+    this.router = router;
     this.model = new EventModel();
-  }
 
-
-  ngOnChanges(values) {
-    if ('event' in values && Object.keys(values.event.currentValue).length > 0) {
-      let ev = values.event.currentValue;
-      this.eventId = ev.id;
-      this.resourceUri = ev.resource_uri;
-      this.model.name = ev.name;
-      this.model.description = ev.description;
-      this.model.starts_on = ev.starts_on;
-      this.model.ends_on = ev.ends_on;
-      this.model.location = ev.location;
-      this.model.location_name = ev.location_name;
-      this.model.event_location = ev.location_name;
-      this.model.max_attendees = ev.max_attendees;
-      this.model.access_level = ev.access_level;
-
-
-
-      let selectOpenTo = [
-        {
-          'label': 'Only my connections (default)',
-          'value': 'connections',
-          'selected': false
-        },
-        {
-          'label': 'Public (all Persice users)',
-          'value': 'public',
-          'selected': false
-        },
-        {
-          'label': 'Private (only invited)',
-          'value': 'private',
-          'selected': false
-        }
-      ];
-
-      for (var i = 0; i < selectOpenTo.length; ++i) {
-        if (selectOpenTo[i].value === this.model.access_level) {
-          selectOpenTo[i].selected = true;
-        }
-      }
-
-      this.openTo = selectOpenTo;
-
-      //assing dates
-      let startDate = DateUtil.convertToLocal(this.model.starts_on);
-      let endDate = DateUtil.convertToLocal(this.model.ends_on);
-      this.START_DATE = startDate.unix() * 1000;
-      this.END_DATE = endDate.unix() * 1000;
-      this.START_TIME = startDate.hour() * 60 + startDate.minute();
-      this.END_TIME = endDate.hour() * 60 + endDate.minute();
-
-      this.model.starts_on_date = startDate.format('MM/DD/YYYY');
-      this.model.ends_on_date = endDate.format('MM/DD/YYYY');
-      this.model.starts_on_time = startDate.format('hh:mm');
-      this.model.ends_on_time = endDate.format('hh:mm');
-
-      jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
-      jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
-      jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
-      jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
-    }
+    this.model.starts_on_date = DateUtil.todayRoundUp().format('MM/DD/YYYY');
+    this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
+    this.model.starts_on_time = DateUtil.todayRoundUp().format('h:mm A');
+    this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('h:mm A');
   }
 
   saveEvent(event) {
-    console.log('Update event');
+    console.log('Save event');
     this.showValidationError = false;
-    this.service.updateByUri(this.model, this.resourceUri).subscribe((res) => {
+    this.service.create(this.model).subscribe((res) => {
       console.log('Saving event success');
       this.validationErrors = {};
 
@@ -136,13 +76,11 @@ export class EventEditComponent {
       this.notificationService.push({
         type: 'success',
         title: 'Success',
-        body: 'Event has been updated.',
+        body: 'Your event has been created.',
         autoclose: 4000
       });
 
-      this.refreshEvent.next(true);
-      let remodal = jQuery('[data-remodal-id=edit-event]').remodal();
-      remodal.close();
+      this.router.parent.navigate(['/EventDetails', { 'eventId': res.id }]);
 
     }, (err) => {
       console.log('Saving event error');
@@ -232,6 +170,7 @@ export class EventEditComponent {
     let loc = GoogleUtil.parseLocation(event);
     this.model = ObjectUtil.merge(this.model, loc);
   }
+
 
   combineDateTime(type) {
     if (this.model[type + '_date'] && this.model[type + '_time']) {

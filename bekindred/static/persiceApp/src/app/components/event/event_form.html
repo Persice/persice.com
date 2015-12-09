@@ -1,0 +1,150 @@
+<header class="remodal__header">
+  <div class="layout">
+    <div class="layout__item 1/2">
+      <h5 class="remodal__title">Create event</h5> </div>
+  </div>
+  <button data-remodal-action="close" class="remodal-close">
+    <svg role="img" class="icon">
+      <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
+    </svg>
+  </button>
+</header>
+<div class="remodal--common__content">
+  <notification [type]="notification.type" [body]="notification.body" [full]="full" [title]="notification.title" [active]="showValidationError"></notification>
+  <div class="layout">
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Event Name</label>
+      <input [ng-model]="model.name" (ng-model-change)="model.name = $event;" class="c-input" type="text" placeholder="Add short, clear name" [ng-class]="{'c-input--error': validationErrors.name}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ng-for="#e of validationErrors.name">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Location</label>
+      <input [ng-model]="model.event_location" (ng-model-change)="model.event_location = $event;" class="c-input" geocomplete (selected-value)="changeLocation($event)" type="text" placeholder="Include a place or address" [ng-class]="{'c-input--error': validationErrors.event_location}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ng-for="#e of validationErrors.event_location">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item 1/1">
+      <label class="c-label mb--">Description</label>
+      <textarea [ng-model]="model.description" (ng-model-change)="model.description = $event;" [ng-class]="{'c-input--error': validationErrors.description}" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ng-for="#e of validationErrors.description">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
+      <div class="layout layout--small">
+        <div class="layout__item 1/2">
+          <label class="c-label mb--">Date / Time</label>
+          <div class="c-input-icon-holder">
+            <input [ng-class]="{'c-input--error': validationErrors.starts_on_date}" class="c-input c-input--prominent datepicker" id="starts_on_date" datepicker="{{START_DATE}}" (selected-value)="changeStartDate($event)" type="text" placeholder="Start date">
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
+            </svg>
+          </div>
+        </div>
+        <div class="layout__item layout--alignbottom 1/2">
+          <div class="c-input-icon-holder">
+            <input [ng-class]="{'c-input--error': validationErrors.starts_on_time}" class="c-input c-input--prominent timepicker" id="starts_on_time" timepicker="{{START_TIME}}" (selected-value)="changeStartTime($event)" type="text" placeholder="Start time">
+            <svg role="img" class="icon icon--clock">
+              <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
+      <!-- <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a> -->
+      <div data-attr-to="to" class="layout layout--small js-end-time end-time">
+        <div class="layout__item 1/2 mb0">
+          <div class="c-input-icon-holder">
+            <input [ng-class]="{'c-input--error': validationErrors.ends_on_date}" class="c-input c-input--prominent datepicker" id="ends_on_date" datepicker="{{END_DATE}}" (selected-value)="changeEndDate($event)" type="text" placeholder="End date">
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
+            </svg>
+          </div>
+        </div>
+        <div class="layout__item 1/2 mb0 text-right">
+          <!-- <a href="" class="link-blank js-remove-end-time-trigger">Remove</a> -->
+          <div class="c-input-icon-holder">
+            <input [ng-class]="{'c-input--error': validationErrors.ends_on_time}" class="c-input c-input--prominent timepicker" id="ends_on_time" timepicker="{{END_TIME}}" (selected-value)="changeEndTime($event)" type="text" placeholder="End time">
+            <svg role="img" class="icon icon--clock">
+              <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom 1/2">
+      <div class="layout layout--small">
+        <div class="layout__item 1/2">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ng-for="#e of validationErrors.starts_on_date">{{e}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="layout__item layout--alignbottom 1/2">
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ng-for="#e of validationErrors.starts_on_time">{{e}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom 1/2">
+      <div class="layout layout--small">
+        <div class="layout__item 1/2">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ng-for="#e of validationErrors.ends_on_date">{{e}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="layout__item layout--alignbottom 1/2">
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ng-for="#e of validationErrors.ends_on_time">{{e}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Max number of attendees</label>
+      <input [ng-model]="model.max_attendees" (ng-model-change)="model.max_attendees = $event;" class="c-input" type="text" placeholder="0" [ng-class]="{'c-input--error': validationErrors.max_attendees}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ng-for="#e of validationErrors.max_attendees">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Cost</label>
+      <input class="c-input" type="text" placeholder="00.0">
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Open to</label>
+      <select class="js-select-rep-create-event" minimalect (selected-value)="changeOpenTo($event)">
+        <option *ng-for="#order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
+      </select>
+    </div>
+    <div class="layout__item layout--alignbottom 1/2">
+      <label class="c-checkbox mb--">
+        <input class="c-checkbox__input" type="checkbox" name="checkbox" value="99"> <span class="c-checkbox__trigger c-radio__trigger--transparent"></span> <span class="c-checkbox__label c-checkbox__label--unprominent">Guest can invite friends</span> </label>
+    </div>
+  </div>
+</div>
+<footer class="remodal__footer text--right">
+  <div class="layout layout--middle">
+    <div class="layout__item 1/2 text-left" *ng-if="type == 'edit-event'">
+      <a href="" class="link-blank link-blank--red">Delete event</a>
+    </div>
+    <div class="layout__item 1/2">
+      <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="close">Cancel</button>
+      <button (click)="saveEvent($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
+    </div>
+  </div>
+</footer>
