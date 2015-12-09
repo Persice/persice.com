@@ -1,3 +1,4 @@
+from random import sample
 import string
 from operator import attrgetter
 
@@ -178,10 +179,10 @@ class MatchUser(object):
         """
         Return
         """
+        # Number of top interests to select
+        top_num = 3
         targets = ['goals', 'offers', 'interests']
         interests = []
-        interests_dict = InterestSubject.objects.all().\
-            values_list('description', flat=True)
 
         for target in targets:
             h_objects = user_object['highlight'].get(target, [])
@@ -189,15 +190,37 @@ class MatchUser(object):
                 new_h = re.findall(r'<em>(.*?)</em>', h)
                 interests.append(new_h[0])
 
-        if len(interests) == 3:
-            return [dict(zip(interests, [1]*len(interests)))]
-        elif len(interests) > 3:
-            return [dict(zip(interests[:3], [1]*3))]
-        elif len(interests) < 3:
-            d = dict(zip(interests, [1]*len(interests)))
-            for subj in interests_dict[:3-len(interests)]:
-                d[subj] = 0
-            return [d]
+        keywords = self.get_keywords(user_object)
+
+        result_interests = []
+        other_keywords = []
+        s = PorterStemmer()
+        for interest in interests:
+            for keyword in keywords:
+                if s.stem(interest.lower()) == s.stem(keyword.lower()):
+                    result_interests.append(keyword)
+                else:
+                    other_keywords.append(keyword)
+
+        shuffled_interests = []
+        if len(result_interests) >= top_num:
+            shuffled_interests = sample(result_interests, top_num)
+            return [dict(zip(shuffled_interests, [1]*len(shuffled_interests)))]
+        else:
+            if len(other_keywords) >= (top_num - len(result_interests)):
+                d = dict(zip(result_interests, [1]*len(result_interests)))
+
+                sample_keywords = sample(other_keywords, top_num-len(result_interests))
+                for subj in sample_keywords:
+                    d[subj] = 0
+                return [d]
+            else:
+                shuffled_interests = list(set(result_interests + keywords))
+                d = dict(zip(result_interests, [1]*len(result_interests)))
+                for subj in other_keywords:
+                    d[subj] = 0
+                return [d]
+
 
     def get_keywords(self, user_object):
         keywords = []

@@ -20,6 +20,8 @@ class TestEventResource(ResourceTestCase):
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', password='test',
                         first_name='Andrii', last_name='Soldatenko')
+        UserLocation.objects.create(user=self.user,
+                                    position=[-87.627696, 41.880745])
         self.event = Event.objects.\
             create(starts_on='2055-06-13T05:15:22.792659',
                    ends_on='2055-06-14T05:15:22.792659',
@@ -69,7 +71,10 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-
+        UserLocation.objects.create(user=user1,
+                                    position=[-87.627696, 41.880745])
+        UserLocation.objects.create(user=user2,
+                                    position=[-87.627696, 41.880745])
         self.subject = Subject.objects.create(description='Python')
         self.subject2 = Subject.objects.create(description='Ruby')
         self.subject3 = Subject.objects.create(description='Erlang')
@@ -352,6 +357,8 @@ class TestEventResource(ResourceTestCase):
         user = FacebookCustomUser.objects. \
             create_user(username='user_mary', password='test',
                         first_name='Mary', last_name='Mal')
+        UserLocation.objects.create(user=user,
+                                    position=[-87.627696, 41.880745])
         post_data = {
             'description': 'Test description',
             'ends_on': str(now() + timedelta(days=2)),

@@ -300,8 +300,8 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
-        self.assertEqual(match_users[0].top_interests,
-                         [{u'django': 1, u'teach django': 0, u'test': 0}])
+        self.assertEqual(match_users[0].top_interests[0],
+                         {u'coding': 0, u'django': 1, u'python': 0})
 
     def test_top_interests(self):
         Goal.objects.create(user=self.user, goal=self.subject12)
@@ -324,10 +324,9 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
-        self.assertEqual(match_users[0].top_interests,
-                         [{u'kiteboarding': 1,
-                           u'teach django': 0,
-                           u'test': 0}])
+        self.assertEqual(match_users[0].top_interests[0],
+                         {u'kiteboarding': 1,
+                          u'foxes': 0})
 
     def test_simple_top_interests_less_than_1(self):
         Goal.objects.create(user=self.user, goal=self.subject)
