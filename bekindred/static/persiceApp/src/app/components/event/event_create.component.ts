@@ -12,7 +12,6 @@ import {EventModel, EventOpenTo} from '../../models/event.model';
 import {NotificationComponent} from '../notification/notification.component';
 import {GoogleUtil, ObjectUtil, DateUtil} from '../../core/util';
 
-
 import {BaseEventComponent} from './base_event.component';
 
 declare var jQuery: any;
