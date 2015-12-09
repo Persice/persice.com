@@ -52,28 +52,15 @@ export class EventCreateComponent extends BaseEventComponent {
   }
 
   saveEvent(event) {
-    console.log('Save event');
     this.showValidationError = false;
     this.service.create(this.model).subscribe((res) => {
-      console.log('Saving event success');
       this.validationErrors = {};
-
-
-      this.notificationService.push({
-        type: 'success',
-        title: 'Success',
-        body: 'Your event has been created.',
-        autoclose: 4000
-      });
-
+      this._notifySuccess('Your event has been created.');
       this.router.parent.navigate(['/EventDetails', { 'eventId': res.id }]);
-
     }, (err) => {
-      console.log('Saving event error');
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }
-
       if ('status' in err && err.status === 400) {
         let parseError = JSON.parse(err.responseText);
         if ('event' in parseError) {
@@ -87,9 +74,6 @@ export class EventCreateComponent extends BaseEventComponent {
       }
 
     }, () => {
-      console.log('Saving event completed');
-
-
     });
   }
 

@@ -66,8 +66,6 @@ export class EventEditComponent extends BaseEventComponent {
       this.model.max_attendees = ev.max_attendees;
       this.model.access_level = ev.access_level;
 
-
-
       let selectOpenTo = [
         {
           'label': 'Only my connections (default)',
@@ -115,26 +113,14 @@ export class EventEditComponent extends BaseEventComponent {
   }
 
   saveEvent(event) {
-    console.log('Update event');
     this.showValidationError = false;
     this.service.updateByUri(this.model, this.resourceUri).subscribe((res) => {
-      console.log('Saving event success');
       this.validationErrors = {};
-
-
-      this.notificationService.push({
-        type: 'success',
-        title: 'Success',
-        body: 'Event has been updated.',
-        autoclose: 4000
-      });
-
+      this._notifySuccess('Event has been updated.');
       this.refreshEvent.next(true);
       let remodal = jQuery('[data-remodal-id=edit-event]').remodal();
       remodal.close();
-
     }, (err) => {
-      console.log('Saving event error');
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }
@@ -152,9 +138,6 @@ export class EventEditComponent extends BaseEventComponent {
       }
 
     }, () => {
-      console.log('Saving event completed');
-
-
     });
   }
 

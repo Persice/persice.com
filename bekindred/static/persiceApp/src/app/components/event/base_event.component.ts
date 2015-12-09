@@ -105,6 +105,15 @@ export abstract class BaseEventComponent {
     }
   }
 
+  _notifySuccess(body) {
+    this.notificationService.push({
+      type: 'success',
+      title: 'Success',
+      body: body,
+      autoclose: 4000
+    });
+  }
+
 
 }
 
