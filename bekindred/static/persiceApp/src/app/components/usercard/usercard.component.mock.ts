@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 export const user: any = {
   "about": null,
   "age": 35,

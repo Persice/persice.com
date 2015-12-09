@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 export const crowd: Object = {
   "meta": {
     "limit": 12,

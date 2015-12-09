@@ -1,4 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
 import {Component, NgClass, NgIf, Input, Output, EventEmitter} from 'angular2/angular2';
 
 import {EventService} from '../../services/event.service';

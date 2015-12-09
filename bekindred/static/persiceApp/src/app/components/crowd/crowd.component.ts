@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, NgIf} from 'angular2/angular2';
 
 import {UsersListComponent} from '../userslist/userslist.component';

@@ -1,7 +1,4 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, Input, CORE_DIRECTIVES} from 'angular2/angular2';
-
 
 import {
 GoogleMap,

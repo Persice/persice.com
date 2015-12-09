@@ -1,7 +1,7 @@
 import {Injectable, Observable} from 'angular2/angular2';
 import {Http, RequestOptionsArgs, Response} from 'angular2/http';
 
-import * as Rx from '@reactivex/rxjs';
+import * as Rx from 'rxjs';
 
 import {Notification} from './dto';
 

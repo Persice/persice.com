@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, NgIf, NgFor, EventEmitter, NgStyle} from 'angular2/angular2';
 
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';

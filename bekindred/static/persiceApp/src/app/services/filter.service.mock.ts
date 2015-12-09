@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 import {FilterModel, InterfaceFilter} from '../models/filter.model';
 
 export const filters: Object = {

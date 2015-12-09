@@ -1,4 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
 import {Component, NgClass, NgIf, Input} from 'angular2/angular2';
 import {Router} from 'angular2/router';
 

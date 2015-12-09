@@ -1,7 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
-// TODO: add tests for observers
-
 import {Injector, provide} from 'angular2/angular2';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,

@@ -1,4 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
 import {Component, NgClass} from 'angular2/angular2';
 
 import {EventCreateComponent} from '../event/event_create.component';

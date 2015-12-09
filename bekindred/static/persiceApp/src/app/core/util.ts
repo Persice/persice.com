@@ -1,4 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
 import {take, slice, forEach, merge, assign, defaults} from 'lodash';
 
 

@@ -1,8 +1,5 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, NgClass} from 'angular2/angular2';
 import {RouteConfig, RouterLink, ROUTER_DIRECTIVES, Router, Location} from 'angular2/router';
-
 
 import {StringUtil} from '../../core/util';
 

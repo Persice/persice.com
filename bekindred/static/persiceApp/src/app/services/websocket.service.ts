@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 import {provide, Injectable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
 

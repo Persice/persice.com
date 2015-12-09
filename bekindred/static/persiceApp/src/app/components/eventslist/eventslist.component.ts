@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, NgFor, EventEmitter} from 'angular2/angular2';
 
 import {EventCardComponent} from '../eventcard/eventcard.component';

@@ -1,5 +1,3 @@
-/// <reference path="../typings/_custom.d.ts" />
-
 // Angular 2
 import {bootstrap, provide} from 'angular2/angular2';
 

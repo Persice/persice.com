@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {EventService} from '../../services/event.service';
 import {NotificationService} from '../../services/notification.service';
 

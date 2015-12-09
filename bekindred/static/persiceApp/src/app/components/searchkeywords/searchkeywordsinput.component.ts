@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
 import {FilterModel} from '../../models/filter.model';
 import {FilterService} from '../../services/filter.service';

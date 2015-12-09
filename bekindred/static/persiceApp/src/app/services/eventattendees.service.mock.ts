@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 export const attendees: Object = {
   "meta": {
     "limit": 1000,
