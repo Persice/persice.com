@@ -3,9 +3,9 @@
     <svg role="img" class="icon">
       <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-search"></use>
     </svg>
-    <search-input (focused-input)="focusinput = $event" (loading-users)="loadingUsers = $event" (results-users)="updateResultsUsers($event)" (reset)="reset($event)" (total-users)="updateResultsUsersTotalCount($event)" (loading-events)="loadingEvents = $event" (results-events)="updateResultsEvents($event)" (total-events)="updateResultsEventsTotalCount($event)">
+    <search-input (focusedInput)="focusinput = $event" (loadingUsers)="loadingUsers = $event" (resultsUsers)="updateResultsUsers($event)" (reset)="reset($event)" (total-users)="updateResultsUsersTotalCount($event)" (loadingEvents)="loadingEvents = $event" (resultsEvents)="updateResultsEvents($event)" (totalEvents)="updateResultsEventsTotalCount($event)">
     </search-input>
   </div>
-  <search-results [focus]="focusinput" [users]="resultsUsers" [loading-users]="loadingUsers" [loading-events]="loadingEvents" [users-total]="resultsUsersTotalCount" [events]="resultsEvents" [events-total]="resultsEventsTotalCount" [no-results-users]="noResUsers" [no-results-events]="noResEvents">
+  <search-results [focus]="focusinput" [users]="resultsUsers" [loadingUsers]="loadingUsers" [loadingEvents]="loadingEvents" [usersTotal]="resultsUsersTotalCount" [events]="resultsEvents" [eventsTotal]="resultsEventsTotalCount" [noResultsUsers]="noResUsers" [noResultsEvents]="noResEvents">
   </search-results>
 </div>

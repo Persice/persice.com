@@ -18,7 +18,7 @@ declare var jQuery: any;
     LoadingComponent
   ],
   template: `
-  <newevent-card *ng-if="!loading" (on-click)="openNewEventModal($event)"></newevent-card>
+  <newevent-card *ngIf="!loading" (on-click)="openNewEventModal($event)"></newevent-card>
   <events-list [events]="items"></events-list>
   <loading [status]="loading"></loading>
   `

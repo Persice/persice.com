@@ -1,8 +1,8 @@
 <div class="layout layout--flush content p">
   <div class="platform">
-    <profile-about [name]="user.first_name" [about]="user.about" [images]="user.photos" [avatar]="user.image" [score]="user.score" [gender]="user.gender" [age]="user.age" [distance-value]="user.distance[0]" [distance-unit]="user.distance[1]" (pass-event)="passUser($event)" (accept-event)="acceptUser($event)" (closeprofile-event)="closeProfile($event)">
+    <profile-about [name]="user.first_name" [about]="user.about" [images]="user.photos" [avatar]="user.image" [score]="user.score" [gender]="user.gender" [age]="user.age" [distanceValue]="user.distance[0]" [distanceUnit]="user.distance[1]" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" (closeprofileEvent)="closeProfile($event)">
     </profile-about>
-    <profile-features [keywords]=[profileKeywords] [keywords-count]="profileKeywordsCount" [goals]="profileGoals" [goals-more]="profileGoalsMore" [goals-count]="profileGoalsCount" [offers]="profileOffers" [offers-more]="profileOffersMore" [offers-count]="profileOffersCount" [interests]="profileInterests" [interests-more]="profileInterestsMore" [interests-count]="profileInterestsCount">
+    <profile-features [keywords]=[profileKeywords] [keywordsCount]="profileKeywordsCount" [goals]="profileGoals" [goalsMore]="profileGoalsMore" [goalsCount]="profileGoalsCount" [offers]="profileOffers" [offersMore]="profileOffersMore" [offersCount]="profileOffersCount" [interests]="profileInterests" [interestsMore]="profileInterestsMore" [interestsCount]="profileInterestsCount">
     </profile-features>
     <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
     <profile-mutuals [mutuals]="profileMutuals" [count]="profileMutualsCount"></profile-mutuals>

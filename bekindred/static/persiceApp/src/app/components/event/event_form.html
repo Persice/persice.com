@@ -14,23 +14,23 @@
   <div class="layout">
     <div class="layout__item 1/2">
       <label class="c-label mb--">Event Name</label>
-      <input [ng-model]="model.name" (ng-model-change)="model.name = $event;" class="c-input" type="text" placeholder="Add short, clear name" [ng-class]="{'c-input--error': validationErrors.name}">
+      <input [ngModel]="model.name" (ngModelChange)="model.name = $event;" class="c-input" type="text" placeholder="Add short, clear name" [ngClass]="{'c-input--error': validationErrors.name}">
       <div class="c-message c-message--error pt-- pl-">
-        <p *ng-for="#e of validationErrors.name">{{e}}</p>
+        <p *ngFor="#e of validationErrors.name">{{e}}</p>
       </div>
     </div>
     <div class="layout__item 1/2">
       <label class="c-label mb--">Location</label>
-      <input [ng-model]="model.event_location" (ng-model-change)="model.event_location = $event;" class="c-input" geocomplete (selected-value)="changeLocation($event)" type="text" placeholder="Include a place or address" [ng-class]="{'c-input--error': validationErrors.event_location}">
+      <input [ngModel]="model.event_location" (ngModelChange)="model.event_location = $event;" class="c-input" geocomplete (selectedValue)="changeLocation($event)" type="text" placeholder="Include a place or address" [ngClass]="{'c-input--error': validationErrors.event_location}">
       <div class="c-message c-message--error pt-- pl-">
-        <p *ng-for="#e of validationErrors.event_location">{{e}}</p>
+        <p *ngFor="#e of validationErrors.event_location">{{e}}</p>
       </div>
     </div>
     <div class="layout__item 1/1">
       <label class="c-label mb--">Description</label>
-      <textarea [ng-model]="model.description" (ng-model-change)="model.description = $event;" [ng-class]="{'c-input--error': validationErrors.description}" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
+      <textarea [ngModel]="model.description" (ngModelChange)="model.description = $event;" [ngClass]="{'c-input--error': validationErrors.description}" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
       <div class="c-message c-message--error pt-- pl-">
-        <p *ng-for="#e of validationErrors.description">{{e}}</p>
+        <p *ngFor="#e of validationErrors.description">{{e}}</p>
       </div>
     </div>
     <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
@@ -38,7 +38,7 @@
         <div class="layout__item 1/2">
           <label class="c-label mb--">Date / Time</label>
           <div class="c-input-icon-holder">
-            <input [ng-class]="{'c-input--error': validationErrors.starts_on_date}" class="c-input c-input--prominent datepicker" id="starts_on_date" datepicker="{{START_DATE}}" (selected-value)="changeStartDate($event)" type="text" placeholder="Start date">
+            <input [ngClass]="{'c-input--error': validationErrors.starts_on_date}" class="c-input c-input--prominent datepicker" id="starts_on_date" datepicker="{{START_DATE}}" (selectedValue)="changeStartDate($event)" type="text" placeholder="Start date">
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
             </svg>
@@ -46,7 +46,7 @@
         </div>
         <div class="layout__item layout--alignbottom 1/2">
           <div class="c-input-icon-holder">
-            <input [ng-class]="{'c-input--error': validationErrors.starts_on_time}" class="c-input c-input--prominent timepicker" id="starts_on_time" timepicker="{{START_TIME}}" (selected-value)="changeStartTime($event)" type="text" placeholder="Start time">
+            <input [ngClass]="{'c-input--error': validationErrors.starts_on_time}" class="c-input c-input--prominent timepicker" id="starts_on_time" timepicker="{{START_TIME}}" (selectedValue)="changeStartTime($event)" type="text" placeholder="Start time">
             <svg role="img" class="icon icon--clock">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
             </svg>
@@ -59,7 +59,7 @@
       <div data-attr-to="to" class="layout layout--small js-end-time end-time">
         <div class="layout__item 1/2 mb0">
           <div class="c-input-icon-holder">
-            <input [ng-class]="{'c-input--error': validationErrors.ends_on_date}" class="c-input c-input--prominent datepicker" id="ends_on_date" datepicker="{{END_DATE}}" (selected-value)="changeEndDate($event)" type="text" placeholder="End date">
+            <input [ngClass]="{'c-input--error': validationErrors.ends_on_date}" class="c-input c-input--prominent datepicker" id="ends_on_date" datepicker="{{END_DATE}}" (selectedValue)="changeEndDate($event)" type="text" placeholder="End date">
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
             </svg>
@@ -68,7 +68,7 @@
         <div class="layout__item 1/2 mb0 text-right">
           <!-- <a href="" class="link-blank js-remove-end-time-trigger">Remove</a> -->
           <div class="c-input-icon-holder">
-            <input [ng-class]="{'c-input--error': validationErrors.ends_on_time}" class="c-input c-input--prominent timepicker" id="ends_on_time" timepicker="{{END_TIME}}" (selected-value)="changeEndTime($event)" type="text" placeholder="End time">
+            <input [ngClass]="{'c-input--error': validationErrors.ends_on_time}" class="c-input c-input--prominent timepicker" id="ends_on_time" timepicker="{{END_TIME}}" (selectedValue)="changeEndTime($event)" type="text" placeholder="End time">
             <svg role="img" class="icon icon--clock">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
             </svg>
@@ -82,14 +82,14 @@
           <label class="c-label mb--"></label>
           <div class="c-input-icon-holder">
             <div class="c-message c-message--error pt-- pl-">
-              <p *ng-for="#e of validationErrors.starts_on_date">{{e}}</p>
+              <p *ngFor="#e of validationErrors.starts_on_date">{{e}}</p>
             </div>
           </div>
         </div>
         <div class="layout__item layout--alignbottom 1/2">
           <div class="c-input-icon-holder">
             <div class="c-message c-message--error pt-- pl-">
-              <p *ng-for="#e of validationErrors.starts_on_time">{{e}}</p>
+              <p *ngFor="#e of validationErrors.starts_on_time">{{e}}</p>
             </div>
           </div>
         </div>
@@ -101,14 +101,14 @@
           <label class="c-label mb--"></label>
           <div class="c-input-icon-holder">
             <div class="c-message c-message--error pt-- pl-">
-              <p *ng-for="#e of validationErrors.ends_on_date">{{e}}</p>
+              <p *ngFor="#e of validationErrors.ends_on_date">{{e}}</p>
             </div>
           </div>
         </div>
         <div class="layout__item layout--alignbottom 1/2">
           <div class="c-input-icon-holder">
             <div class="c-message c-message--error pt-- pl-">
-              <p *ng-for="#e of validationErrors.ends_on_time">{{e}}</p>
+              <p *ngFor="#e of validationErrors.ends_on_time">{{e}}</p>
             </div>
           </div>
         </div>
@@ -116,9 +116,9 @@
     </div>
     <div class="layout__item 1/2">
       <label class="c-label mb--">Max number of attendees</label>
-      <input [ng-model]="model.max_attendees" (ng-model-change)="model.max_attendees = $event;" class="c-input" type="text" placeholder="0" [ng-class]="{'c-input--error': validationErrors.max_attendees}">
+      <input [ngModel]="model.max_attendees" (ngModelChange)="model.max_attendees = $event;" class="c-input" type="text" placeholder="0" [ngClass]="{'c-input--error': validationErrors.max_attendees}">
       <div class="c-message c-message--error pt-- pl-">
-        <p *ng-for="#e of validationErrors.max_attendees">{{e}}</p>
+        <p *ngFor="#e of validationErrors.max_attendees">{{e}}</p>
       </div>
     </div>
     <div class="layout__item 1/2">
@@ -127,8 +127,8 @@
     </div>
     <div class="layout__item 1/2">
       <label class="c-label mb--">Open to</label>
-      <select class="js-select-rep-create-event" minimalect (selected-value)="changeOpenTo($event)">
-        <option *ng-for="#order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
+      <select class="js-select-rep-create-event" minimalect (selectedValue)="changeOpenTo($event)">
+        <option *ngFor="#order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
       </select>
     </div>
     <div class="layout__item layout--alignbottom 1/2">
@@ -139,7 +139,7 @@
 </div>
 <footer class="remodal__footer text--right">
   <div class="layout layout--middle">
-    <div class="layout__item 1/2 text-left" *ng-if="type == 'edit-event'">
+    <div class="layout__item 1/2 text-left" *ngIf="type == 'edit-event'">
       <a (click)="deleteEvent($event)" class="link-blank link-blank--red">Delete event</a>
     </div>
     <div class="layout__item 1/2">
