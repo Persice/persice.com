@@ -199,8 +199,9 @@ class MatchUser(object):
             for keyword in keywords:
                 if s.stem(interest.lower()) == s.stem(keyword.lower()):
                     result_interests.append(keyword)
-                else:
-                    other_keywords.append(keyword)
+
+        other_keywords = list(set(keywords) - set(result_interests))
+        result_interests = list(set(result_interests))
 
         shuffled_interests = []
         if len(result_interests) >= top_num:
@@ -215,7 +216,6 @@ class MatchUser(object):
                     d[subj] = 0
                 return [d]
             else:
-                shuffled_interests = list(set(result_interests + keywords))
                 d = dict(zip(result_interests, [1]*len(result_interests)))
                 for subj in other_keywords:
                     d[subj] = 0
