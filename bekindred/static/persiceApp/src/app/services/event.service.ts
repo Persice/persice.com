@@ -198,6 +198,38 @@ export class EventService {
 
   }
 
+  public updateImageByUri(data, resourceUri): Observable<any> {
+
+    let userId = CookieUtil.getValue('userid');
+    let event = data;
+    event.user = '/api/v1/auth/user/' + userId + '/';
+    let body = FormUtil.formData(event);
+    let csrftoken = CookieUtil.getValue('csrftoken');
+
+    return Observable.create(observer => {
+      jQuery.ajax({
+        url: resourceUri,
+        data: body,
+        processData: false,
+        type: 'PUT',
+        beforeSend: (xhr, settings) => {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        contentType: false,
+        success: (data) => {
+          observer.next(data);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
+
+
+  }
+
+
   public deleteByUri(resourceUri: string): Observable<any> {
     return this.http.delete(resourceUri, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json());
   }

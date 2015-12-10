@@ -1,4 +1,4 @@
-<div class="content p" *ng-if="!eventDoesntExist">
+<div class="content p">
   <div class="platform">
     <a (click)="goBack($event)" class="platform__back">
       <svg role="img" class="icon ">
@@ -6,7 +6,7 @@
       </svg>
     </a>
     <event-info [info]="info" [host]="isHost" [rsvp]="rsvpStatus" (change-rsvp)="changeRsvpStatus($event)"></event-info>
-    <event-photomap [photo]="photo" [host]="isHost" [location]="location" [stats]="stats"></event-photomap>
+    <event-photomap (refresh-event)="refreshEvent($event)" [uri]="event.resource_uri" [photo]="photo" [host]="isHost" [location]="location" [stats]="stats"></event-photomap>
     <div class="event-people">
       <div class="layout layout--middle mb" id="single-event-peoplenav">
         <div class="layout__item 2/3">
