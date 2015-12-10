@@ -26,7 +26,7 @@ export class UserCardComponent {
 
 
   ngAfterContentInit() {
-    this.interests = ObjectUtil.first(this.user.top_interests[0], 3);
+    this.interests = ObjectUtil.firstSorted(this.user.top_interests[0], 3);
 
     if (!this.user.image) {
       this.user.image = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
