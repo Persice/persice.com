@@ -92,22 +92,26 @@ export class EventPhotoMapComponent {
       event_photo: file
     };
 
-    if (FileUtil.isImage(event.event_photo.type)) {
-      this.service.updateImageByUri(event, this.uri).subscribe((res) => {
-        this.refreshEvent.next(true);
-      }, (err) => {
-        console.log(err);
-      }, () => {
-      });
+    if (file !== undefined) {
+      if (FileUtil.isImage(event.event_photo.type)) {
+        this.service.updateImageByUri(event, this.uri).subscribe((res) => {
+          this.refreshEvent.next(true);
+        }, (err) => {
+          console.log(err);
+        }, () => {
+        });
+      }
+      else {
+        this.notificationService.push({
+          type: 'error',
+          title: 'Error',
+          body: 'Selected file is not a valid image.',
+          autoclose: 4000
+        });
+      }
     }
-    else {
-      this.notificationService.push({
-        type: 'error',
-        title: 'Error',
-        body: 'Selected file is not a valid image.',
-        autoclose: 4000
-      });
-    }
+
+
 
 
   }
