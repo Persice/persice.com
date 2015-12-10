@@ -1,4 +1,5 @@
-import {Component, Input, Output, CORE_DIRECTIVES, EventEmitter} from 'angular2/angular2';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {CORE_DIRECTIVES} from 'angular2/common';
 
 import {EventService} from '../../services/event.service';
 import {NotificationService} from '../../services/notification.service';

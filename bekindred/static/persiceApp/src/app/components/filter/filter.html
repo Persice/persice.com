@@ -1,6 +1,6 @@
 <div class="filter">
   <div class="filter__items">
-    <div class="filter__item" *ng-if="showGender">
+    <div class="filter__item" *ngIf="showGender">
       <h3 class="filter__item__title mb">Gender</h3>
       <label class="c-radio">
         <input class="c-radio__input" #all type="radio" (click)="changeGender(all.value)" name="radio" value="m,f" [checked]="gender === 'm,f'">
@@ -27,7 +27,7 @@
           <span class="range-value">{{minAge}} - {{maxAge}}</span>
         </div>
       </div>
-      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsAge" (on-change)="ageChanged($event)" (on-finish)="saveAge($event)" [class]="'range'"></range-slider>
+      <range-slider [renderSlider]="renderSlider" [options]="rangeSliderOptionsAge" (onChange)="ageChanged($event)" (onFinish)="saveAge($event)" [class]="'range'"></range-slider>
     </div>
     <div class="filter__item">
       <div class="layout layout--middle">
@@ -38,12 +38,12 @@
           <span class="range-value">{{ distanceValue | numeral }} {{distanceUnit}}</span>
         </div>
       </div>
-      <range-slider [render-slider]="renderSlider" [options]="rangeSliderOptionsDistance" (on-change)="distanceChanged($event)" (on-finish)="saveDistance($event)" [class]="'range-to'"></range-slider>
+      <range-slider [renderSlider]="renderSlider" [options]="rangeSliderOptionsDistance" (onChange)="distanceChanged($event)" (onFinish)="saveDistance($event)" [class]="'range-to'"></range-slider>
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>
-      <select minimalect (selected-value)="changeOrder($event)">
-        <option *ng-for="#order of orderBy" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
+      <select minimalect (selectedValue)="changeOrder($event)">
+        <option *ngFor="#order of orderBy" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
       </select>
     </div>
   </div>

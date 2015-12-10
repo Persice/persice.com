@@ -1,7 +1,6 @@
-import {Component} from 'angular2/angular2';
-import {RouteParams} from 'angular2/router';
+import {Component} from 'angular2/core';
+import {RouteParams, Router} from 'angular2/router';
 import {Response} from 'angular2/http';
-import {Router} from 'angular2/router';
 
 import {EventDescriptionComponent} from '../eventdescription/eventdescription.component';
 import {EventHostComponent} from '../eventhost/eventhost.component';

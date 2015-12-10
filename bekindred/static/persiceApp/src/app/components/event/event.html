@@ -5,22 +5,22 @@
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
       </svg>
     </a>
-    <event-info [info]="info" [host]="isHost" [rsvp]="rsvpStatus" (change-rsvp)="changeRsvpStatus($event)"></event-info>
-    <event-photomap (refresh-event)="refreshEvent($event)" [uri]="event.resource_uri" [photo]="photo" [host]="isHost" [location]="location" [stats]="stats"></event-photomap>
+    <event-info [info]="info" [host]="isHost" [rsvp]="rsvpStatus" (changeRsvp)="changeRsvpStatus($event)"></event-info>
+    <event-photomap (refreshEvent)="refreshEvent($event)" [uri]="event.resource_uri" [photo]="photo" [host]="isHost" [location]="location" [stats]="stats"></event-photomap>
     <div class="event-people">
       <div class="layout layout--middle mb" id="single-event-peoplenav">
         <div class="layout__item 2/3">
-          <a (click)="activate('yes')" class="btn btn-1 btn-1--mid btn-1--blue" [ng-class]="{'btn-1--blank': selected !== 'yes'}"><span>Going <i>({{peopleYescounter}})</i></span></a>
-          <a (click)="activate('maybe')" class="btn btn-1 btn-1--mid btn-1--blue" [ng-class]="{'btn-1--blank': selected !== 'maybe'}"><span>Maybe <i>({{peopleMaybecounter}})</i></span></a>
-          <a (click)="activate('no')" class="btn btn-1 btn-1--mid btn-1--blue" [ng-class]="{'btn-1--blank': selected !== 'no'}"><span>Can't go <i>({{peopleNocounter}})</i></span></a>
+          <a (click)="activate('yes')" class="btn btn-1 btn-1--mid btn-1--blue" [ngClass]="{'btn-1--blank': selected !== 'yes'}"><span>Going <i>({{peopleYescounter}})</i></span></a>
+          <a (click)="activate('maybe')" class="btn btn-1 btn-1--mid btn-1--blue" [ngClass]="{'btn-1--blank': selected !== 'maybe'}"><span>Maybe <i>({{peopleMaybecounter}})</i></span></a>
+          <a (click)="activate('no')" class="btn btn-1 btn-1--mid btn-1--blue" [ngClass]="{'btn-1--blank': selected !== 'no'}"><span>Can't go <i>({{peopleNocounter}})</i></span></a>
         </div>
-        <div class="layout__item 1/3 text-right" *ng-if="isHost">
+        <div class="layout__item 1/3 text-right" *ngIf="isHost">
           <a data-remodal-target="invite-connections" href="#" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Invite connections</a>
         </div>
       </div>
-      <event-peoplelist [people]="peopleYes" [count]="peopleYescounter" *ng-if="selected === 'yes'"></event-peoplelist>
-      <event-peoplelist [people]="peopleNo" [count]="peopleNocounter" *ng-if="selected === 'no'"></event-peoplelist>
-      <event-peoplelist [people]="peopleMaybe" [count]="peopleMaybecounter" *ng-if="selected === 'maybe'"></event-peoplelist>
+      <event-peoplelist [people]="peopleYes" [count]="peopleYescounter" *ngIf="selected === 'yes'"></event-peoplelist>
+      <event-peoplelist [people]="peopleNo" [count]="peopleNocounter" *ngIf="selected === 'no'"></event-peoplelist>
+      <event-peoplelist [people]="peopleMaybe" [count]="peopleMaybecounter" *ngIf="selected === 'maybe'"></event-peoplelist>
     </div>
     <!-- TODO {% include "02-organisms/organism.invite-connections.html" %}  -->
     <div class="event-desc-and-host">
@@ -37,5 +37,5 @@
   </div>
 </div>
 <div class="remodal--common" data-remodal-id="edit-event" remodal>
-  <event-edit [type]="'edit-event'" [event]="event" (refresh-event)="refreshEvent($event)"></event-edit>
+  <event-edit [type]="'edit-event'" [event]="event" (refreshEvent)="refreshEvent($event)"></event-edit>
 </div>

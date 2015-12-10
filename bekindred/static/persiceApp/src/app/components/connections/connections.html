@@ -1,6 +1,6 @@
 <div class="layout layout--flush content">
   <div class="layout__item 3/4 extralarge-and-up-4/5">
-    <h3 *ng-if="!loading && emptyList">No results...</h3>
+    <h3 *ngIf="!loading && emptyList">No results...</h3>
     <users-list [users]="items"></users-list>
     <loading [status]="loading"></loading>
   </div>

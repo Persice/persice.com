@@ -2,8 +2,8 @@
   <div class="match-profile__likes__top">
     <h4 class="module-title">Likes <span>({{count}})</span></h4>
   </div>
-  <div *ng-if="count > 0" class="layout slide-users js-slide-likes" slick show="5" breakpoint="1550" slidestoshow="3" infinite="true" scroll="1" dots="false" arrows="true" append="">
-    <div class="layout__item" *ng-for="#item of likes">
+  <div *ngIf="count > 0" class="layout slide-users js-slide-likes" slick show="5" breakpoint="1550" slidestoshow="3" infinite="true" scroll="1" dots="false" arrows="true" append="">
+    <div class="layout__item" *ngFor="#item of likes">
       <div class="flag flag--small flag--fix">
         <div class="flag__img">
           <div class="listed-user-avatar-place">
