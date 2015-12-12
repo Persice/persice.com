@@ -11,6 +11,8 @@ var NODE_ENV = process.env.NODE_ENV || 'development';
 var pkg = require('./package.json');
 var publicDir = __dirname + "/src/public";
 
+var node_dir = __dirname + '/node_modules';
+var lib_dir = __dirname + '/public/js/libs';
 // Polyfill
 Object.assign = require('object-assign');
 
