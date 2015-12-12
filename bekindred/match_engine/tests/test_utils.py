@@ -23,3 +23,9 @@ class FindCollectionsTestCase(TestCase):
                           "ballet", "basketball", "backpacking",
                           "tennis", "tutoring", "animation",
                           "piano", "banjo", "3d", "djing", "foreign language"])
+
+    def test_empty_collocation(self):
+        keywords = []
+        new_keywords = find_collocations(keywords)
+        self.assertEqual(len(new_keywords), len(keywords)-1)
+        self.assertEqual(new_keywords, [])

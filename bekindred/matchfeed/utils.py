@@ -19,6 +19,7 @@ from goals.utils import calculate_age, calculate_distance, social_extra_data, \
 from interests.models import Interest
 from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
     StopWords, GerundWords
+from match_engine.utils import find_collocations
 from members.models import FacebookCustomUserActive
 
 
@@ -191,6 +192,7 @@ class MatchUser(object):
                 interests.append(new_h[0])
 
         keywords = self.get_keywords(user_object)
+        keywords = find_collocations(keywords)
 
         result_interests = []
         other_keywords = []
@@ -198,6 +200,10 @@ class MatchUser(object):
         for interest in interests:
             for keyword in keywords:
                 if s.stem(interest.lower()) == s.stem(keyword.lower()):
+                    result_interests.append(keyword)
+                elif len(keyword.lower().split()) == 2 and \
+                        s.stem(interest.lower()) == \
+                                s.stem(keyword.lower().split()[0]):
                     result_interests.append(keyword)
 
         other_keywords = list(set(keywords) - set(result_interests))

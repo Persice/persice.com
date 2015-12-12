@@ -14,6 +14,8 @@ def find_collocations(keywords):
     new_keywords = []
     for collocation in collocations:
         collocation_ = collocation.split()
+        if len(collocation_) < 2:
+            continue
         for keyword in keywords:
             if s.stem(keyword) == s.stem(collocation_[0]) or \
                             s.stem(keyword) == s.stem(collocation_[1]):
