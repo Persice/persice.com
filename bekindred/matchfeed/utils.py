@@ -192,7 +192,7 @@ class MatchUser(object):
                 interests.append(new_h[0])
 
         keywords = self.get_keywords(user_object)
-        keywords = find_collocations(keywords)
+        # keywords = find_collocations(keywords)
 
         result_interests = []
         other_keywords = []
