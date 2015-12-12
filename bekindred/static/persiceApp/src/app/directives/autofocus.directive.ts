@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 import {Directive, ElementRef, Inject} from 'angular2/angular2';
 @Directive({
   selector: '[autofocus]'

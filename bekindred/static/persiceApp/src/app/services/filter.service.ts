@@ -1,8 +1,9 @@
-/// <reference path="../../typings/_custom.d.ts" />
+import { provide, Injectable } from 'angular2/angular2';
+import { Http, Response } from 'angular2/http';
+import {HttpClient} from '../core/http_client';
 
-import {provide, Injectable, Observable} from 'angular2/angular2';
-import {Http, Response} from 'angular2/http';
-import * as Rx from '@reactivex/rxjs';
+import * as Rx from 'rxjs';
+import {Observable} from 'rxjs';
 
 import {InterfaceFilter} from '../models/filter.model';
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
@@ -26,7 +27,7 @@ export class FilterService {
 
   observers: any[] = [];
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

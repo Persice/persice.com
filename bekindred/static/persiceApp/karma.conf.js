@@ -29,85 +29,85 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [{
-      pattern: './src/public/**/*.jpg',
-      watched: false,
-      included: false,
-      served: true
-    }, {
-      pattern: './src/public/**/*.svg',
-      watched: false,
-      included: false,
-      served: true
-    }, {
-      pattern: './src/public/lib/es6-shim.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jquery-2.1.4.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jstz.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/circle-progress.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/imgLiquid.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/ion.rangeSlider.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jquery.dotdotdot.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jquery.matchHeight.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jquery.minimalect.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/picker.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/picker.date.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/picker.time.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/remodal.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/slick.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/svg4everybody.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/tokenfield.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jqueryui/core.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jqueryui/widget.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jqueryui/position.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jqueryui/menu.js',
-      watched: false
-    }, {
-      pattern: './src/public/lib/jqueryui/autocomplete.js',
-      watched: false
-    }, {
-      pattern: './src/public/js/init.js',
-      watched: false
-    }, {
-      pattern: 'spec.bundle.js',
-      watched: false
-    },
+        pattern: './src/public/**/*.jpg',
+        watched: false,
+        included: false,
+        served: true
+      }, {
+        pattern: './src/public/**/*.svg',
+        watched: false,
+        included: false,
+        served: true
+      }, {
+        pattern: './src/public/lib/jquery-2.1.4.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jstz.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/circle-progress.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/imgLiquid.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/ion.rangeSlider.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jquery.dotdotdot.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jquery.matchHeight.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jquery.minimalect.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/picker.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/picker.date.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/picker.time.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/remodal.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/slick.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/svg4everybody.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/tokenfield.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jqueryui/core.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jqueryui/widget.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jqueryui/position.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jqueryui/menu.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/jqueryui/autocomplete.js',
+        watched: false
+      }, {
+        pattern: './src/public/lib/tag-it.js',
+        watched: false
+      }, {
+        pattern: './src/public/js/init.js',
+        watched: false
+      }, {
+        pattern: 'spec.bundle.js',
+        watched: false
+      },
 
     ],
 
@@ -119,29 +119,22 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec.bundle.js': ['webpack', 'sourcemap', 'coverage'],
+      'spec.bundle.js': ['webpack', 'sourcemap'],
     },
+
 
     webpack: {
 
-      resolve: {
-        root: __dirname,
-        extensions: ['', '.ts', '.js', '.json'],
-        alias: {
-          'app': 'src/app',
-          'common': 'src/common',
-        }
-      },
-      devtool: 'inline-source-map', //'inline-source-map',
+      debug: true,
+      resolve: webpackConfig.resolve,
+      devtool: 'inline-source-map',
       module: {
         loaders: [{
-          test: /\.ts$/,
-          loader: 'ts-loader',
+          test: /\.tsx?$/,
+          loader: 'ts',
+          exclude: [/node_modules/],
           query: {
-            'ignoreDiagnostics': [
-            2309,
-            2403
-            ]
+            'ignoreDiagnostics': [2403, 2309]
           }
         }, {
           test: /\.json$/,
@@ -154,13 +147,16 @@ module.exports = function(config) {
           loader: 'raw'
         }]
       },
-      quiet: false,
       stats: {
         colors: true,
         reasons: true
       },
-      debug: true,
-      resolve: webpackConfig.resolve
+      debug: false,
+      noParse: [
+        /zone\.js\/dist\/zone-microtask\.js/,
+        /zone\.js\/dist\/long-stack-trace-zone\.js/,
+        /zone\.js\/dist\/jasmine-patch\.js/
+      ]
     },
 
     webpackServer: {

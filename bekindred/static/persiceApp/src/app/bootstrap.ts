@@ -1,5 +1,3 @@
-/// <reference path="../typings/_custom.d.ts" />
-
 // Angular 2
 import {bootstrap, provide} from 'angular2/angular2';
 
@@ -22,6 +20,9 @@ import {HTTP_PROVIDERS} from 'angular2/http';
  */
 import {APP_SERVICES_PROVIDERS} from './services/services';
 
+
+
+import {HttpClient} from './core/http_client';
 
 /*
  * Google maps
@@ -47,6 +48,7 @@ const UNIVERSAL_PROVIDERS = [
   ROUTER_PROVIDERS,
   FORM_PROVIDERS,
   HTTP_PROVIDERS,
+  HttpClient,
   APP_SERVICES_PROVIDERS,
   ANGULAR2_GOOGLE_MAPS_PROVIDERS
 ];

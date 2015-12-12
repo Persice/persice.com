@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
 import {SearchKeywordsInputComponent} from '../searchkeywords/searchkeywordsinput.component';
 

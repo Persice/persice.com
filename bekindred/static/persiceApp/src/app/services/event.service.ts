@@ -1,12 +1,30 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
-import {provide, Injectable, Observable} from 'angular2/angular2';
+import {provide, Injectable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
+import * as Rx from 'rxjs';
+import {Observable} from 'rxjs';
+
+import {HttpClient} from '../core/http_client';
+
 import {CookieUtil, FormUtil} from '../core/util';
+import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 import {pick} from 'lodash';
+
 declare var jQuery: any;
 
+
+
 let validate = require('validate.js');
+const moment = require('moment');
+
+validate.extend(validate.validators.datetime, {
+  parse: function(value, options) {
+    return +moment.utc(value);
+  },
+  format: function(value, options) {
+    let format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DDThh:mm:ss";
+    return moment.utc(value).format(format);
+  }
+});
 
 @Injectable()
 export class EventService {
@@ -46,19 +64,32 @@ export class EventService {
     ends_on_time: {
       presence: true
     },
+    starts_on: {
+      datetime: {
+        dateOnly: false,
+        earliest: moment.utc(),
+        message: "^Start date/time cannot be in the past."
+      }
+    },
+    ends_on: {
+      datetime: {
+        dateOnly: false,
+        earliest: moment.utc(),
+        message: "^End date/time should be after Start date/time."
+      }
+    },
     event_location: {
       presence: true
     },
     description: {
       presence: true,
       length: {
-        maximum: 300
+        maximum: 1000
       }
     }
   };
 
-  constructor(private http: Http) {
-
+  constructor(private http: HttpClient) {
   }
 
   public get(url: string, limit: number): Observable<any> {
@@ -109,6 +140,9 @@ export class EventService {
       data.location_name = data.event_location;
     }
 
+    this.constraints.starts_on.datetime.earliest = moment.utc();
+    this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
+
     let body = FormUtil.formData(event);
     let csrftoken = CookieUtil.getValue('csrftoken');
 
@@ -157,6 +191,9 @@ export class EventService {
       data.location_name = data.event_location;
     }
 
+    this.constraints.starts_on.datetime.earliest = moment.utc();
+    this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
+
     let body = FormUtil.formData(event);
     let csrftoken = CookieUtil.getValue('csrftoken');
 
@@ -191,6 +228,42 @@ export class EventService {
     });
 
 
+  }
+
+  public updateImageByUri(data, resourceUri): Observable<any> {
+
+    let userId = CookieUtil.getValue('userid');
+    let event = data;
+    event.user = '/api/v1/auth/user/' + userId + '/';
+    let body = FormUtil.formData(event);
+    let csrftoken = CookieUtil.getValue('csrftoken');
+
+    return Observable.create(observer => {
+      jQuery.ajax({
+        url: resourceUri,
+        data: body,
+        processData: false,
+        type: 'PUT',
+        beforeSend: (xhr, settings) => {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        contentType: false,
+        success: (data) => {
+          observer.next(data);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
+
+
+  }
+
+
+  public deleteByUri(resourceUri: string): Observable<any> {
+    return this.http.delete(resourceUri, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json());
   }
 
   public validate(data): Observable<any> {
@@ -242,9 +315,6 @@ export class EventService {
       return true;
     }
   }
-
-
-
 
 }
 

@@ -1,6 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
-
 import {Provider} from 'angular2/angular2';
 
 import {MapsAPILoader} from './services/maps_api_loader/maps_api_loader';

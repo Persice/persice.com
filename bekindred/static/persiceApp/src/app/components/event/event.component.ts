@@ -1,7 +1,5 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
-import {Component} from 'angular2/angular2';
-import {RouteParams} from 'angular2/router';
+import {Component} from 'angular2/core';
+import {RouteParams, Router} from 'angular2/router';
 import {Response} from 'angular2/http';
 
 import {EventDescriptionComponent} from '../eventdescription/eventdescription.component';
@@ -17,8 +15,13 @@ import {EventMembersService} from '../../services/eventmembers.service';
 import {EventAttendeesService} from '../../services/eventattendees.service';
 import {EventPeopleListComponent} from '../eventpeoplelist/eventpeoplelist.component';
 import {DateUtil, EventUtil, CookieUtil, UserUtil, StringUtil} from '../../core/util';
+import {NotificationService} from '../../services/notification.service';
+
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 let view = require('./event.html');
+
+declare var jQuery: any;
 
 @Component({
   selector: 'event',
@@ -30,11 +33,13 @@ let view = require('./event.html');
     EventPhotoMapComponent,
     EventDiscussionComponent,
     EventPeopleListComponent,
-    EventEditComponent
+    EventEditComponent,
+    RemodalDirective
   ],
   providers: [EventService, EventMembersService, EventAttendeesService]
 })
 export class EventComponent {
+  remodalId: string = 'edit-event';
   selected = 'yes';
   savingRsvp: boolean = false;
   event = {};
@@ -84,13 +89,16 @@ export class EventComponent {
     score: 0
   };
   eventId;
+  eventDoesntExist: boolean = false;
 
   constructor(
     params: RouteParams,
     private service: EventService,
     private serviceMembers: EventMembersService,
     private serviceUser: UserService,
-    private serviceAttendees: EventAttendeesService
+    private serviceAttendees: EventAttendeesService,
+    private notificationService: NotificationService,
+    private router: Router
   ) {
     this.eventId = params.get('eventId');
   }
@@ -101,6 +109,10 @@ export class EventComponent {
     this.getAttendees(this.eventId);
   }
 
+  ngOnDestroy() {
+    jQuery('select.js-select-rep-create-event').minimalect('destroy');
+  }
+
   refreshEvent(event) {
     this.getEventDetails(this.eventId);
   }
@@ -109,6 +121,17 @@ export class EventComponent {
   getEventDetails(id) {
     this.service.findOneById(id).subscribe((data) => {
       this.assignEvent(data);
+    }, (err) => {
+      this.eventDoesntExist = true;
+      this.notificationService.push({
+        type: 'error',
+        title: 'Error',
+        body: 'This event doesn\'t exist',
+        autoclose: 4000
+      });
+      this.router.parent.navigate(['./Events', 'AllEventsList']);
+
+    }, () => {
     });
   }
 
@@ -139,7 +162,7 @@ export class EventComponent {
       city: resp.city,
       location_name: resp.location_name,
       state: resp.state,
-      distance: '6 miles',
+      distance: resp.distance,
       openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
         hour: DateUtil.format(resp.starts_on, 'h:mm A'),

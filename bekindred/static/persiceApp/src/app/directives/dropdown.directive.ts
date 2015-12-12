@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 import {Directive, ElementRef, Inject} from 'angular2/angular2';
 
 declare var jQuery: any;
@@ -21,6 +19,10 @@ export class DropdownDirective {
 
   onClick(event: Event) {
     jQuery(this.target).toggleClass('is-active');
+  }
+
+  ngOnDestroy() {
+    jQuery(this.target).removeClass('is-active');
   }
 
 

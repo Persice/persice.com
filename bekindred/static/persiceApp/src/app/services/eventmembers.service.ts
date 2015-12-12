@@ -1,7 +1,8 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
-import {provide, Injectable, Observable} from 'angular2/angular2';
-import {Http, Response} from 'angular2/http';
+import { provide, Injectable } from 'angular2/angular2';
+import { Http, Response } from 'angular2/http';
+import * as Rx from 'rxjs';
+import {Observable} from 'rxjs';
+import {HttpClient} from '../core/http_client';
 
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 
@@ -11,7 +12,7 @@ import {remove, find} from 'lodash';
 export class EventMembersService {
   static API_URL: string = '/api/v1/member/';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

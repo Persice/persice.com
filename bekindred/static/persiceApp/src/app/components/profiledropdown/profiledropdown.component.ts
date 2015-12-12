@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, NgStyle} from 'angular2/angular2';
 
 import {DropdownDirective} from '../../directives/dropdown.directive';

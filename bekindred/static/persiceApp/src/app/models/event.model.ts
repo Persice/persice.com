@@ -1,4 +1,4 @@
-/// <reference path="../../typings/_custom.d.ts" />
+import { MockBackend } from 'angular2/http/testing';
 import {DateUtil} from '../core/util';
 
 export class EventModel {

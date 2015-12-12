@@ -1,3 +1,4 @@
+from random import sample
 import string
 from operator import attrgetter
 
@@ -15,9 +16,10 @@ from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     calculate_distance_es, get_mutual_linkedin_connections, \
     get_mutual_twitter_friends
-from interests.models import Interest, InterestSubject
+from interests.models import Interest
 from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
     StopWords, GerundWords
+from match_engine.utils import find_collocations
 from members.models import FacebookCustomUserActive
 
 
@@ -178,10 +180,10 @@ class MatchUser(object):
         """
         Return
         """
+        # Number of top interests to select
+        top_num = 3
         targets = ['goals', 'offers', 'interests']
         interests = []
-        interests_dict = InterestSubject.objects.all().\
-            values_list('description', flat=True)
 
         for target in targets:
             h_objects = user_object['highlight'].get(target, [])
@@ -189,15 +191,41 @@ class MatchUser(object):
                 new_h = re.findall(r'<em>(.*?)</em>', h)
                 interests.append(new_h[0])
 
-        if len(interests) == 3:
-            return [dict(zip(interests, [1]*len(interests)))]
-        elif len(interests) > 3:
-            return [dict(zip(interests[:3], [1]*3))]
-        elif len(interests) < 3:
-            d = dict(zip(interests, [1]*len(interests)))
-            for subj in interests_dict[:3-len(interests)]:
-                d[subj] = 0
-            return [d]
+        keywords = self.get_keywords(user_object)
+        # keywords = find_collocations(keywords)
+
+        result_interests = []
+        other_keywords = []
+        s = PorterStemmer()
+        for interest in interests:
+            for keyword in keywords:
+                if s.stem(interest.lower()) == s.stem(keyword.lower()):
+                    result_interests.append(keyword)
+                elif len(keyword.lower().split()) == 2 and \
+                        s.stem(interest.lower()) == \
+                        s.stem(keyword.lower().split()[0]):
+                    result_interests.append(keyword)
+
+        other_keywords = list(set(keywords) - set(result_interests))
+        result_interests = list(set(result_interests))
+
+        shuffled_interests = []
+        if len(result_interests) >= top_num:
+            shuffled_interests = sample(result_interests, top_num)
+            return [dict(zip(shuffled_interests, [1]*len(shuffled_interests)))]
+        else:
+            if len(other_keywords) >= (top_num - len(result_interests)):
+                d = dict(zip(result_interests, [1]*len(result_interests)))
+
+                sample_keywords = sample(other_keywords, top_num-len(result_interests))
+                for subj in sample_keywords:
+                    d[subj] = 0
+                return [d]
+            else:
+                d = dict(zip(result_interests, [1]*len(result_interests)))
+                for subj in other_keywords:
+                    d[subj] = 0
+                return [d]
 
     def get_keywords(self, user_object):
         keywords = []
@@ -322,6 +350,16 @@ class MatchQuerySet(object):
         events = []
         for hit in hits:
             event = MatchEvent(current_user_id, hit)
+            events.append(event)
+        return events
+
+    @staticmethod
+    def user_event(user_id, event_id):
+        hits = ElasticSearchMatchEngine.elastic_objects. \
+            get_distance(user_id, event_id)
+        events = []
+        for hit in hits:
+            event = MatchEvent(user_id, hit)
             events.append(event)
         return events
 

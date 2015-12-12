@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 export const friends: Object = {
   "meta": {
     "limit": 20,

@@ -31,7 +31,7 @@ from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
 from goals.models import MatchFilterState
 from goals.utils import (calculate_age, calculate_distance_events,
-                         get_user_location)
+                         get_user_location, calculate_distance_user_event)
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -154,7 +154,13 @@ class EventResource(MultiPartResource, ModelResource):
                 filter(user=user_id, event=bundle.obj.id)[0].score
         except IndexError:
             pass
-
+        try:
+            bundle.data['distance'] = MatchQuerySet.user_event(
+                    bundle.request.user.id,
+                    bundle.obj.pk
+            )[0].distance
+        except IndexError:
+            bundle.data['distance'] = [10000, 'mi']
         bundle.data['cumulative_match_score'] = cumulative_match_score
         return bundle
 

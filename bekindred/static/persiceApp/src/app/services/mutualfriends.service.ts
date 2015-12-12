@@ -1,14 +1,18 @@
-/// <reference path="../../typings/_custom.d.ts" />
+import { provide, Injectable } from 'angular2/angular2';
+import { Http, Response } from 'angular2/http';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operator/map';
+import { mergeMap } from 'rxjs/operator/mergeMap';
+import {HttpClient} from '../core/http_client';
 
-import {provide, Injectable, Observable} from 'angular2/angular2';
-import {Http, Response} from 'angular2/http';
-
+Observable.prototype.map = map;
+Observable.prototype.flatMap = mergeMap;
 
 @Injectable()
 export class MutualFriendsService {
   static API_URL_V1: string = '/api/v1/mutual/friends/';
   next: string = '';
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

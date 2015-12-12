@@ -4,7 +4,7 @@
     {{user.gender | gender}} / age {{user.age}} / {{user.distance[0]}} {{user.distance[1]}}
   </p>
   <div class="avatar-box mb">
-    <div class="avatar-holder" [ng-style]="{'background-image': 'url(' + user.image + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
+    <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + user.image + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
       <div class="avatar-box__match-percents">
         <span class="avatar-box__match-percents__value">{{user.score}}</span>
         <span class="avatar-box__match-percents__label">Similar</span>
@@ -16,9 +16,9 @@
     <div circle-progress="{{user.score}}" size="128" thickness="2" reverse="false" angle="140" class="match-percent"></div>
   </div>
   <h6 class="card-subtitle">Interests</h6>
-  <ul class="interest-list" *ng-if="user.top_interests">
-    <li *ng-for="#key of interests">
-      <span *ng-if="key && key.match">
+  <ul class="interest-list" *ngIf="user.top_interests">
+    <li *ngFor="#key of interests">
+      <span *ngIf="key && key.match">
         <svg role="img" class="icon icon--tiny">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
       </svg>

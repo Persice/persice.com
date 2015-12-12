@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, NgFor, NgIf, NgClass} from 'angular2/angular2';
 
 

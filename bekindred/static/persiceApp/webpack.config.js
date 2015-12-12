@@ -11,6 +11,8 @@ var NODE_ENV = process.env.NODE_ENV || 'development';
 var pkg = require('./package.json');
 var publicDir = __dirname + "/src/public";
 
+var node_dir = __dirname + '/node_modules';
+var lib_dir = __dirname + '/public/js/libs';
 // Polyfill
 Object.assign = require('object-assign');
 
@@ -72,11 +74,10 @@ module.exports = {
   //
   entry: {
     'angular2': [
-      // Angular 2 Deps
-      '@reactivex/rxjs',
+      // to ensure these modules are grouped together in one file
+      'rxjs',
       'zone.js',
       'reflect-metadata',
-      // to ensure these modules are grouped together in one file
       'angular2/angular2',
       'angular2/core',
       'angular2/router',
@@ -110,9 +111,8 @@ module.exports = {
     modulesDirectories: [
       'node_modules', 'src', 'src/app', '.'
     ],
-    extensions: ['', '.ts', '.js', '.json'],
+    extensions: ['','.ts','.js','.json', '.css', '.html'],
     alias: {
-      'rx': '@reactivex/rxjs',
       'app': 'src/app',
       'lodash': 'lodash',
       // 'common': 'src/common',

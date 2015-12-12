@@ -400,6 +400,13 @@ class GerundWords(models.Model):
         return self.word
 
 
+class CollocationDict(models.Model):
+    phrase = models.CharField(max_length=100, unique=True, db_index=True)
+
+    def __unicode__(self):
+        return self.phrase
+
+
 class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
@@ -555,6 +562,49 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 ]
             }
             response = client.search(index=index, body=body, size=50)
+
+        print response
+        return response
+
+    @staticmethod
+    def user_event_query_builder(user_id, event_id):
+        client = Elasticsearch()
+        index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
+        location = get_user_location(user_id)
+        fs = FilterState.objects.filter(user_id=user_id)
+        distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+        body = {
+            "query": {
+                "filtered": {
+                    "filter": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "ids": {
+                                        "type": "modelresult",
+                                        "values": [event_id]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "sort": [
+                {
+                    "_geo_distance": {
+                        "location": {
+                            "lat": location.y,
+                            "lon": location.x
+                        },
+                        "order": "asc",
+                        "unit": distance_unit
+                    }
+                }
+            ]
+        }
+
+        response = client.search(index=index, body=body, size=50)
 
         print response
         return response
@@ -727,6 +777,14 @@ class ElasticSearchMatchEngineManager(models.Manager):
         response = ElasticSearchMatchEngineManager.\
             query_builder(user, query, fields, exclude_user_ids, stop_words,
                           is_filter=is_filter, friends=friends_list)
+
+        return response['hits']['hits']
+
+    @staticmethod
+    def get_distance(user_id, event_id):
+        es_event_id = 'events.event.%s' % event_id
+        response = ElasticSearchMatchEngineManager. \
+            user_event_query_builder(user_id, es_event_id)
 
         return response['hits']['hits']
 

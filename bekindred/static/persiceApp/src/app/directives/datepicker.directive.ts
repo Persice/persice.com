@@ -1,5 +1,3 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
 import {Directive, ElementRef, Inject, EventEmitter} from 'angular2/angular2';
 import {DateUtil} from '../core/util';
 
@@ -24,11 +22,23 @@ export class DatepickerDirective {
 
   ngAfterViewInit() {
 
+    let today = DateUtil.getTodayDate();
+
     jQuery(this.el.nativeElement).pickadate({
       format: 'mm/dd/yyyy',
       formatSubmit: 'mm/dd/yyyy',
+      // min: new Date( today[0], today[1] - 1, today[2] ),
       onSet: (context) => {
-        let dateString = DateUtil.convertFromUnixToDate(context.select / 1000);
+
+        let dateString = '';
+
+        if ('object' === typeof context.select) {
+          dateString = DateUtil.convertFromUnixToDate(context.select.pick / 1000);
+        }
+        else {
+          dateString = DateUtil.convertFromUnixToDate(context.select / 1000);
+        }
+
         this.selectedValue.next(dateString);
       },
       onStart: () => {

@@ -1,7 +1,9 @@
-/// <reference path="../../../typings/_custom.d.ts" />
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {CORE_DIRECTIVES} from 'angular2/common';
 
-import {Component, Input, CORE_DIRECTIVES} from 'angular2/angular2';
-
+import {EventService} from '../../services/event.service';
+import {NotificationService} from '../../services/notification.service';
+import {FileUtil} from '../../core/util';
 
 import {
 GoogleMap,
@@ -25,13 +27,16 @@ declare var jQuery: any;
 @Component({
   selector: 'event-photomap',
   template: view,
-  directives: [GoogleMap, GoogleMapMarker, CORE_DIRECTIVES]
+  directives: [GoogleMap, GoogleMapMarker, CORE_DIRECTIVES],
+  providers: [EventService]
 })
 export class EventPhotoMapComponent {
   @Input() location;
   @Input() photo;
   @Input() stats;
   @Input() host;
+  @Input() uri;
+  @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
 
 
   showMap: boolean = false;
@@ -45,6 +50,13 @@ export class EventPhotoMapComponent {
   lng: number;
 
   markers: IMarker[] = [];
+
+  constructor(
+    private service: EventService,
+    private notificationService: NotificationService
+  ) {
+
+  }
 
   ngOnChanges(values) {
     // check if location exists
@@ -64,6 +76,44 @@ export class EventPhotoMapComponent {
         this.zoom = 12;
       }
     }
+  }
+
+  openFileDialog(event) {
+    document.getElementById('inputfile').click();
+  }
+
+  changeListener($event): void {
+    this.readThis($event.target);
+  }
+
+  readThis(inputValue: any): void {
+    let file: File = inputValue.files[0];
+    let event = {
+      event_photo: file
+    };
+
+    if (file !== undefined) {
+      if (FileUtil.isImage(event.event_photo.type)) {
+        this.service.updateImageByUri(event, this.uri).subscribe((res) => {
+          this.refreshEvent.next(true);
+        }, (err) => {
+          console.log(err);
+        }, () => {
+        });
+      }
+      else {
+        this.notificationService.push({
+          type: 'error',
+          title: 'Error',
+          body: 'Selected file is not a valid image.',
+          autoclose: 4000
+        });
+      }
+    }
+
+
+
+
   }
 
 }

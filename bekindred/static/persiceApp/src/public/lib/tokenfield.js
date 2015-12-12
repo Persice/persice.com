@@ -102,7 +102,7 @@
 
     // Store original input width
     var elStyleWidth = element.style.width
-      , elCSSWidth = css( $(element ) ).width
+      , elCSSWidth = this.$element.width()
       , elWidth = this.$element.width()
 
 

@@ -20,7 +20,6 @@ export class GoogleMapMarker {
   constructor(private _markerManager: MarkerManager) { this._id = (markerId++).toString(); }
 
   ngOnChanges(changes: { [key: string]: SimpleChange }) {
-    console.log('added marker');
     if (!this._markerAddedToManger && this.latitude && this.longitude) {
       this._markerManager.addMarker(this);
       this._markerAddedToManger = true;

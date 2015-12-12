@@ -1,11 +1,11 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
-import {provide, Injectable, Observable} from 'angular2/angular2';
-import {Http, Response} from 'angular2/http';
-
+import { provide, Injectable } from 'angular2/angular2';
+import { Http, Response } from 'angular2/http';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operator/map';
+import { mergeMap } from 'rxjs/operator/mergeMap';
 
 import {AuthUserModel} from '../models/user.model';
-
+import {HttpClient} from '../core/http_client';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UserService {
   static DEFAULT_IMAGE: string = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 

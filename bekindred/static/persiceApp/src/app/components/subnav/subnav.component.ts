@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component} from 'angular2/angular2';
 import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 

@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
 import {Component, NgFor, EventEmitter} from 'angular2/angular2';
 
 import {EventCardComponent} from '../eventcard/eventcard.component';
@@ -11,7 +9,7 @@ declare var jQuery: any;
   selector: 'events-list',
   directives: [EventCardComponent, NgFor],
   template: `
-  <div class="layout__item large-1/3 extralarge-and-up-1/4" *ng-for="#event of events">
+  <div class="layout__item large-1/3 extralarge-and-up-1/4" *ngFor="#event of events">
     <event-card [event]="event"></event-card>
   </div>
   `

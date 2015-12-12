@@ -1,16 +1,17 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
-// TODO: add tests for observers
-
 import {Injector, provide} from 'angular2/angular2';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {HttpClient} from '../core/http_client';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+import { MockBackend } from 'angular2/http/testing';
 
 import {FriendService} from './friend.service';
 import {friends, friend} from './friend.service.mock';
@@ -28,6 +29,7 @@ describe('FriendService', () => {
     injector = Injector.resolveAndCreate([
       BaseRequestOptions,
       MockBackend,
+      HttpClient,
       provide(Http, {
         useFactory: (connectionBackend: ConnectionBackend,
           defaultOptions: BaseRequestOptions) => {
@@ -40,7 +42,7 @@ describe('FriendService', () => {
       }),
       provide(FriendService, {
         useFactory: (
-          http: Http
+          http: HttpClient
         ) => {
           return new FriendService(http);
         },
@@ -58,7 +60,7 @@ describe('FriendService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, friends);
+    ensureCommunication(backend, RequestMethod.Get, friends);
     service.get('', 12)
       .subscribe(resp => {
         expect(resp).toBe(friends);
@@ -67,7 +69,7 @@ describe('FriendService', () => {
   });
 
   it('should save friendship', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Post, friend);
+    ensureCommunication(backend, RequestMethod.Post, friend);
     service.saveFriendship(11, -1)
       .subscribe(resp => {
         expect(resp).toBe(friend);
@@ -76,7 +78,7 @@ describe('FriendService', () => {
   });
 
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));

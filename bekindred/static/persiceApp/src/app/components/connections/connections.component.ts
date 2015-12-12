@@ -1,6 +1,4 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
-import {Component, NgIf} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 import {Location} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
@@ -18,7 +16,6 @@ declare var jQuery: any;
   selector: 'connections-page',
   template: view,
   directives: [
-    NgIf,
     FilterComponent,
     UsersListComponent,
     LoadingComponent
@@ -67,7 +64,14 @@ export class ConnectionsComponent {
     if (this.next === null) return;
     this.loading = true;
     this.service.get(this.next, this.limit, this.filter)
-      .subscribe(data => this.assignList(data));
+      .subscribe(data => this.assignList(data),
+      (err) => {
+        console.log(err);
+        this.loading = false;
+      },
+      () => {
+
+      });
   }
 
 

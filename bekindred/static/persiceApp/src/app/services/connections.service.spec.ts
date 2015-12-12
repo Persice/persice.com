@@ -1,16 +1,18 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
-// TODO: add tests for observers
-
 import {Injector, provide} from 'angular2/angular2';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {HttpClient} from '../core/http_client';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+
+import { MockBackend } from 'angular2/http/testing';
 
 import {ConnectionsService} from './connections.service';
 import {connections} from './connections.service.mock';
@@ -28,6 +30,7 @@ describe('ConnectionsService', () => {
     injector = Injector.resolveAndCreate([
       BaseRequestOptions,
       MockBackend,
+      HttpClient,
       provide(Http, {
         useFactory: (connectionBackend: ConnectionBackend,
           defaultOptions: BaseRequestOptions) => {
@@ -40,7 +43,7 @@ describe('ConnectionsService', () => {
       }),
       provide(ConnectionsService, {
         useFactory: (
-          http: Http
+          http: HttpClient
         ) => {
           return new ConnectionsService(http);
         },
@@ -58,7 +61,7 @@ describe('ConnectionsService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, connections);
+    ensureCommunication(backend, RequestMethod.Get, connections);
     service.get('', 12, true)
       .subscribe(resp => {
         expect(resp).toBe(connections);
@@ -67,7 +70,7 @@ describe('ConnectionsService', () => {
   });
 
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));

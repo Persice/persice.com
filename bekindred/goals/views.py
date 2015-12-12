@@ -61,6 +61,7 @@ def main_page(request, template_name="homepage.html"):
     return render_to_response(template_name, context)
 
 
+@login_required
 def main_page_angular2(request, template_name="homepage_angular2.html"):
     twitter_provider, linkedin_provider, twitter_username = social_extra_data(request.user.id)
     context = RequestContext(request, {

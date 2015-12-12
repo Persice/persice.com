@@ -1,16 +1,17 @@
-/// <reference path="../../typings/_custom.d.ts" />
-
-// TODO: add tests for observers
-
 import {Injector, provide} from 'angular2/angular2';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
 } from 'angular2/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+ResponseOptions
 } from 'angular2/http';
+
+import {HttpClient} from '../core/http_client';
+
+import {RequestMethod} from 'angular2/src/http/enums';
+import { MockBackend } from 'angular2/http/testing';
 
 import {MutualFriendsService} from './mutualfriends.service';
 import {mutualfriends} from './mutualfriends.service.mock';
@@ -28,6 +29,7 @@ describe('MutualFriendsService', () => {
     injector = Injector.resolveAndCreate([
       BaseRequestOptions,
       MockBackend,
+      HttpClient,
       provide(Http, {
         useFactory: (connectionBackend: ConnectionBackend,
           defaultOptions: BaseRequestOptions) => {
@@ -40,7 +42,7 @@ describe('MutualFriendsService', () => {
       }),
       provide(MutualFriendsService, {
         useFactory: (
-          http: Http
+          http: HttpClient
         ) => {
           return new MutualFriendsService(http);
         },
@@ -58,7 +60,7 @@ describe('MutualFriendsService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethods.Get, mutualfriends);
+    ensureCommunication(backend, RequestMethod.Get, mutualfriends);
     service.get('', 12, 1)
       .subscribe(resp => {
         expect(resp).toEqual(mutualfriends);
@@ -67,7 +69,7 @@ describe('MutualFriendsService', () => {
   });
 
 
-  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethods, expectedBody: string | Object) {
+  function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
       c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));

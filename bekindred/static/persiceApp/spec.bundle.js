@@ -8,8 +8,14 @@
  * all here! Crazy huh. So we need to do some setup
 */
 Error.stackTraceLimit = Infinity;
+window.angularDevMode = true;
+// window.jasmine.DEFAULT_TIMEOUT_INTERVAL = 100;
+require('./src/public/lib/es6-shim.js');
 require('reflect-metadata');
-require('angular2/test');
+require('zone.js/dist/zone-microtask.js');
+require('zone.js/dist/long-stack-trace-zone.js');
+require('zone.js/dist/jasmine-patch.js');
+require('angular2/testing');
 
 /*
   Ok, this is kinda crazy. We can use the the context method on

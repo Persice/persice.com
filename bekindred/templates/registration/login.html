@@ -1,46 +1,19 @@
-{% extends 'loginbase.html' %} {% block title %}persice - User Login{% endblock %} {% block content %}
-<!-- LOGIN -->
-<section class="login-wrapper">
-    <div class="row">
-        <div class="medium-5 small-centered columns">
-            <ul class="social-icon" id="intro-title">
-                <li><img id="loginLogo" src="/static/appFrontend/dist/assets/images/logo/app-logo-big.png" alt=""></li>
-            </ul>
-            <h3 id="welcomeMessage">Welcome. Please login.</h3>
-        </div>
-        <!-- /.medium-5 .small-centered .columns -->
+{% extends 'loginbase_new.html' %} {% block title %}Persice - User Login{% endblock %} {% block content %}
+<div class="signup-landing">
+  <div class="translate-50">
+    <a class="site-logo" href="/accounts/login"> <img alt="#" src="/static/persiceApp/src/public/images/logo.svg" class="site-logo__mark">
+      <h1 class="site-logo__type">Persice</h1> </a>
+    <h2 class="signup-title">Real world connections</h2>
+    <p class="signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
+    <div class="layout">
+      <div class="layout__item">
+        <form action="{% url 'facebook_connect' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" value="/" name="next" />
+          <a onclick="F.connect(this.parentNode); return false;" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+        </form>
+      </div>
     </div>
-    <!-- /.row -->
-    <!-- FACEBOOK LOGIN -->
-    <div class="row social-login">
-        <div class="medium-5 small-centered columns">
-            <!-- Link -->
-            <ul class="login-desc">
-                <form action="{% url 'facebook_connect' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" value="/" name="next" />
-                    <div id="facebook_login">
-                        <button onclick="F.connect(this.parentNode.parentNode); return false;" id="loginButton" class="small radius btn-facebook block">
-                            <span class="fa-stack fa-lg">
-                                <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <span class="social-text">Facebook</span>
-                        </button>
-                    </div>
-                </form>
-            </ul>
-            <!-- /.login-desc -->
-            <!-- Link -->
-        </div>
-    </div>
-    <div class="row social-login">
-        <div class="medium-5 small-centered columns">
-            <p class="login-message" style="text-align: center; font-size: 1em;" id="loginNotice">
-                persice will never share your personal information with anyone. And, we will never post to a social network on your behalf.
-            </p>
-        </div>
-    </div>
-</section>
-<!-- /.login-wrapper -->
+  </div>
+</div>
 {% endblock %}

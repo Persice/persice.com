@@ -1,5 +1,4 @@
-/// <reference path="../../typings/_custom.d.ts" />
-import {take, slice, forEach, merge, assign, defaults} from 'lodash';
+import {take, slice, forEach, merge, assign, defaults, sortByOrder} from 'lodash';
 
 
 declare var jstz: any;
@@ -72,6 +71,25 @@ export class ObjectUtil {
     return take(keys, n);
   }
 
+  //transform and take sorted n items from {key: value} to [{value: VALUE, match: 1|0}]
+  static firstSorted(data, n): Array<Object> {
+    let keys = [];
+    for (var key in data) {
+      if (data[key] === 1) {
+        keys.push({
+          value: key,
+          match: true
+        });
+      } else {
+        keys.push({
+          value: key,
+          match: false
+        });
+      }
+    }
+    return sortByOrder(take(keys, n), ['match'], ['desc']);
+  }
+
   //transform and take first n items from {key: value} to [{value: VALUE, match: 1|0}]
   static skip(data, n): Array<Object> {
     let keys = [];
@@ -111,6 +129,19 @@ export class ObjectUtil {
     return keys;
   }
 
+}
+
+
+export class FileUtil {
+  static isImage(filename: string) {
+    let regex = new RegExp("(.*?)\.(gif|jpg|jpeg|tiff|png)$");
+    if (!(regex.test(filename))) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
 }
 
 
@@ -218,6 +249,9 @@ export class StringUtil {
 
 export class DateUtil {
 
+  static moment<S extends string>(timestamp: S): any {
+    return moment.utc(timestamp);
+  }
 
   static convertFromUnixToDate<S extends string, N extends number>(timestamp: N): S {
     return moment.unix(timestamp).format('MM/DD/YYYY');
@@ -229,6 +263,13 @@ export class DateUtil {
     let minutes = mins % 60;
     let combined = `${hours}:${minutes}`;
     return combined;
+  }
+
+  static getTodayDate(): any {
+    let year = parseInt(moment.utc().format('YYYY'), 10);
+    let month = parseInt(moment.utc().format('MM'), 10);
+    let day = parseInt(moment.utc().format('DD'), 10);
+    return [year, month, day];
   }
 
 

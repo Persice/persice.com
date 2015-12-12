@@ -1,13 +1,15 @@
-/// <reference path="../../typings/_custom.d.ts" />
+import { provide, Injectable } from 'angular2/angular2';
+import { Http, Response } from 'angular2/http';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operator/map';
+import { mergeMap } from 'rxjs/operator/mergeMap';
 
-import {provide, Injectable, Observable} from 'angular2/angular2';
-import {Http, Response} from 'angular2/http';
-
+import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class InterestsService {
   static API_URL: string = '/api/v1/interest/';
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   public get(): Observable<any> {

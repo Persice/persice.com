@@ -69,7 +69,7 @@ facebookClass.prototype = {
       var authResponse = response.authResponse;
       if (authResponse) {
         //showloading
-        scope.connectLoading(gettext('Please wait. Logging you into icebrāk'));
+        scope.connectLoading(gettext('Please wait. Logging you into Persice.'));
         //submit the form
         formElement.submit();
       } else {

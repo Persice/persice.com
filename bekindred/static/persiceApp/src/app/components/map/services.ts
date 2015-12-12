@@ -1,6 +1,3 @@
-/// <reference path="../../../typings/_custom.d.ts" />
-
-
 export {MapsAPILoader} from './services/maps_api_loader/maps_api_loader';
 export {NoOpMapsAPILoader} from './services/maps_api_loader/noop_maps_api_loader';
 export {
