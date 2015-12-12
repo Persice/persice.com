@@ -48,6 +48,7 @@ var cssFiles = [
 './src/public/css/tokenfield-typeahead.css',
 './src/public/css/jquery.tagit.css',
 './src/public/css/tagit.ui-zendesk.css',
+'./src/public/css/screen.css',
 './src/app/components/app.css'
 ];
 
