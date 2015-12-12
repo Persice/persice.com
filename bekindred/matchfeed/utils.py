@@ -203,7 +203,7 @@ class MatchUser(object):
                     result_interests.append(keyword)
                 elif len(keyword.lower().split()) == 2 and \
                         s.stem(interest.lower()) == \
-                                s.stem(keyword.lower().split()[0]):
+                        s.stem(keyword.lower().split()[0]):
                     result_interests.append(keyword)
 
         other_keywords = list(set(keywords) - set(result_interests))

@@ -106,7 +106,7 @@ def loaddata():
 @task
 def loaddata_collocation():
     require('hosts', provided_by=[production])
-    manage_py('loaddata ./match_engine/fixtures/collocationdict.json 
+    manage_py('loaddata ./match_engine/fixtures/collocationdict.json')
 
 
 @task
