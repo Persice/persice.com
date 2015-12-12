@@ -27,5 +27,5 @@ class FindCollectionsTestCase(TestCase):
     def test_empty_collocation(self):
         keywords = []
         new_keywords = find_collocations(keywords)
-        self.assertEqual(len(new_keywords), len(keywords)-1)
+        self.assertEqual(len(new_keywords), len(keywords))
         self.assertEqual(new_keywords, [])

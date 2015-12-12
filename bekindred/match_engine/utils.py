@@ -11,7 +11,7 @@ def find_collocations(keywords):
     s = PorterStemmer()
     phrases = Counter()
 
-    new_keywords = []
+    new_keywords = keywords[:]
     for collocation in collocations:
         collocation_ = collocation.split()
         if len(collocation_) < 2:
@@ -28,8 +28,8 @@ def find_collocations(keywords):
     for phrase in match_phrases.iterkeys():
         splitted = phrase.split()
         for keyword in keywords:
-            if not (s.stem(keyword) == s.stem(splitted[0]) or
-                    s.stem(keyword) == s.stem(splitted[1])):
-                new_keywords.append(keyword)
+            if (s.stem(keyword) == s.stem(splitted[0]) or
+                        s.stem(keyword) == s.stem(splitted[1])):
+                new_keywords.remove(keyword)
     new_keywords.extend(phrases.keys())
     return new_keywords
