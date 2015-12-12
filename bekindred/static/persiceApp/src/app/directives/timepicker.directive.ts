@@ -33,7 +33,6 @@ export class TimepickerDirective {
           timeString = DateUtil.convertToHours(context.select);
         }
 
-
         if (timeString !== 'NaN:NaN') {
           this.selectedValue.next(timeString);
         }

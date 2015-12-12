@@ -4,8 +4,13 @@ import {NotificationService} from '../../services/notification.service';
 import {EventModel, EventOpenTo} from '../../models/event.model';
 import {GoogleUtil, ObjectUtil, DateUtil} from '../../core/util';
 
+const moment = require('moment');
+
+declare var jQuery: any;
+
 export abstract class BaseEventComponent {
   model;
+  action: string;
   validationErrors = {};
   showValidationError: boolean = false;
   notification = {
@@ -16,11 +21,11 @@ export abstract class BaseEventComponent {
 
   openTo: any = EventOpenTo;
 
-  START_DATE = DateUtil.todayRoundUp().unix() * 1000;
-  END_DATE = DateUtil.todayAddHourRoundUp().unix() * 1000;
+  START_DATE = null;
+  END_DATE = null;
 
-  START_TIME = DateUtil.todayRoundUp().hour() * 60 + DateUtil.todayRoundUp().minute();
-  END_TIME = DateUtil.todayAddHourRoundUp().hour() * 60 + DateUtil.todayAddHourRoundUp().minute();
+  START_TIME = null;
+  END_TIME = null;
   full = true;
 
   constructor(
@@ -29,6 +34,7 @@ export abstract class BaseEventComponent {
     action: string
   ) {
     this.model = new EventModel();
+    this.action = action;
   }
 
   changeOpenTo(event) {
@@ -101,6 +107,21 @@ export abstract class BaseEventComponent {
       if (datePartsSorted && timeParts) {
         datePartsSorted[1] -= 1;
         this.model[type] = DateUtil.formatUTC(datePartsSorted.concat(timeParts), 'YYYY-MM-DDTHH:mm:ss');
+        //ensure that end date/time on is always after start date/time
+        if (type === 'starts_on' && DateUtil.moment(this.model.starts_on) >= DateUtil.moment(this.model.ends_on)) {
+          console.log('changing start');
+          let startDate = DateUtil.convertToLocal(this.model.starts_on).add(1, 'hours');
+
+          this.END_DATE = startDate.unix() * 1000;
+          this.END_TIME = startDate.hour() * 60 + startDate.minute();
+
+          this.model.ends_on_date = startDate.format('MM/DD/YYYY');
+          this.model.ends_on_time = startDate.format('hh:mm');
+
+          jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
+          jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+        }
+
       }
     }
   }

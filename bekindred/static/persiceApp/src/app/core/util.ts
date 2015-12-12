@@ -249,6 +249,9 @@ export class StringUtil {
 
 export class DateUtil {
 
+  static moment<S extends string>(timestamp: S): any {
+    return moment.utc(timestamp);
+  }
 
   static convertFromUnixToDate<S extends string, N extends number>(timestamp: N): S {
     return moment.unix(timestamp).format('MM/DD/YYYY');
@@ -260,6 +263,13 @@ export class DateUtil {
     let minutes = mins % 60;
     let combined = `${hours}:${minutes}`;
     return combined;
+  }
+
+  static getTodayDate(): any {
+    let year = parseInt(moment.utc().format('YYYY'), 10);
+    let month = parseInt(moment.utc().format('MM'), 10);
+    let day = parseInt(moment.utc().format('DD'), 10);
+    return [year, month, day];
   }
 
 

@@ -1,7 +1,7 @@
 <header class="remodal__header">
   <div class="layout">
     <div class="layout__item 1/2">
-      <h5 class="remodal__title">Create event</h5> </div>
+      <h5 class="remodal__title">{{action}} event</h5> </div>
   </div>
   <button data-remodal-action="close" class="remodal-close">
     <svg role="img" class="icon">
@@ -38,7 +38,7 @@
         <div class="layout__item 1/2">
           <label class="c-label mb--">Date / Time</label>
           <div class="c-input-icon-holder">
-            <input [ngClass]="{'c-input--error': validationErrors.starts_on_date}" class="c-input c-input--prominent datepicker" id="starts_on_date" datepicker="{{START_DATE}}" (selectedValue)="changeStartDate($event)" type="text" placeholder="Start date">
+            <input [ngClass]="{'c-input--error': validationErrors.starts_on || validationErrors.starts_on_date}" class="c-input c-input--prominent datepicker date start" id="starts_on_date" datepicker="{{START_DATE}}" (selectedValue)="changeStartDate($event)" type="text" placeholder="Start date">
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
             </svg>
@@ -46,7 +46,7 @@
         </div>
         <div class="layout__item layout--alignbottom 1/2">
           <div class="c-input-icon-holder">
-            <input [ngClass]="{'c-input--error': validationErrors.starts_on_time}" class="c-input c-input--prominent timepicker" id="starts_on_time" timepicker="{{START_TIME}}" (selectedValue)="changeStartTime($event)" type="text" placeholder="Start time">
+            <input [ngClass]="{'c-input--error': validationErrors.starts_on || validationErrors.starts_on_time}" class="c-input c-input--prominent timepicker time start" id="starts_on_time" timepicker="{{START_TIME}}" (selectedValue)="changeStartTime($event)" type="text" placeholder="Start time">
             <svg role="img" class="icon icon--clock">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
             </svg>
@@ -59,7 +59,7 @@
       <div data-attr-to="to" class="layout layout--small js-end-time end-time">
         <div class="layout__item 1/2 mb0">
           <div class="c-input-icon-holder">
-            <input [ngClass]="{'c-input--error': validationErrors.ends_on_date}" class="c-input c-input--prominent datepicker" id="ends_on_date" datepicker="{{END_DATE}}" (selectedValue)="changeEndDate($event)" type="text" placeholder="End date">
+            <input [ngClass]="{'c-input--error': validationErrors.ends_on || validationErrors.ends_on_date}" class="c-input c-input--prominent datepicker date end" id="ends_on_date" datepicker="{{END_DATE}}" (selectedValue)="changeEndDate($event)" type="text" placeholder="End date">
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-switch-calendar"></use>
             </svg>
@@ -68,7 +68,7 @@
         <div class="layout__item 1/2 mb0 text-right">
           <!-- <a href="" class="link-blank js-remove-end-time-trigger">Remove</a> -->
           <div class="c-input-icon-holder">
-            <input [ngClass]="{'c-input--error': validationErrors.ends_on_time}" class="c-input c-input--prominent timepicker" id="ends_on_time" timepicker="{{END_TIME}}" (selectedValue)="changeEndTime($event)" type="text" placeholder="End time">
+            <input [ngClass]="{'c-input--error': validationErrors.ends_on || validationErrors.ends_on_time}" class="c-input c-input--prominent timepicker time end" id="ends_on_time" timepicker="{{END_TIME}}" (selectedValue)="changeEndTime($event)" type="text" placeholder="End time">
             <svg role="img" class="icon icon--clock">
               <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-clock"></use>
             </svg>
@@ -78,6 +78,14 @@
     </div>
     <div class="layout__item layout--alignbottom 1/2">
       <div class="layout layout--small">
+        <div class="layout__item" *ngIf="validationErrors.starts_on">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ngFor="#e of validationErrors.starts_on">{{e}}</p>
+            </div>
+          </div>
+        </div>
         <div class="layout__item 1/2">
           <label class="c-label mb--"></label>
           <div class="c-input-icon-holder">
@@ -97,6 +105,14 @@
     </div>
     <div class="layout__item layout--alignbottom 1/2">
       <div class="layout layout--small">
+        <div class="layout__item" *ngIf="validationErrors.ends_on">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- p-l">
+              <p *ngFor="#e of validationErrors.ends_on">{{e}}</p>
+            </div>
+          </div>
+        </div>
         <div class="layout__item 1/2">
           <label class="c-label mb--"></label>
           <div class="c-input-icon-holder">

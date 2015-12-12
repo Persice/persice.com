@@ -43,6 +43,12 @@ export class EventEditComponent extends BaseEventComponent {
   eventId: number = null;
   resourceUri: string = null;
 
+  START_DATE = null;
+  END_DATE = null;
+
+  START_TIME = null;
+  END_TIME = null;
+
   constructor(
     public service: EventService,
     public notificationService: NotificationService,
@@ -96,7 +102,9 @@ export class EventEditComponent extends BaseEventComponent {
 
       //assing dates
       let startDate = DateUtil.convertToLocal(this.model.starts_on);
+
       let endDate = DateUtil.convertToLocal(this.model.ends_on);
+
       this.START_DATE = startDate.unix() * 1000;
       this.END_DATE = endDate.unix() * 1000;
       this.START_TIME = startDate.hour() * 60 + startDate.minute();

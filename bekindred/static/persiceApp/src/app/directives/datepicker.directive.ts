@@ -22,9 +22,12 @@ export class DatepickerDirective {
 
   ngAfterViewInit() {
 
+    let today = DateUtil.getTodayDate();
+
     jQuery(this.el.nativeElement).pickadate({
       format: 'mm/dd/yyyy',
       formatSubmit: 'mm/dd/yyyy',
+      // min: new Date( today[0], today[1] - 1, today[2] ),
       onSet: (context) => {
 
         let dateString = '';

@@ -35,19 +35,26 @@ let view = require('./event_form.html');
 export class EventCreateComponent extends BaseEventComponent {
   @Input() type;
 
+
+  START_DATE = DateUtil.todayRoundUp().unix() * 1000;
+  END_DATE = DateUtil.todayAddHourRoundUp().unix() * 1000;
+
+  START_TIME = DateUtil.todayRoundUp().hour() * 60 + DateUtil.todayRoundUp().minute();
+  END_TIME = DateUtil.todayAddHourRoundUp().hour() * 60 + DateUtil.todayAddHourRoundUp().minute();
+
   constructor(
     public service: EventService,
     public notificationService: NotificationService,
     public router: Router
   ) {
-    super(service, notificationService, 'create-event');
+    super(service, notificationService, 'create');
     this.router = router;
     this.model = new EventModel();
 
     this.model.starts_on_date = DateUtil.todayRoundUp().format('MM/DD/YYYY');
     this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
-    this.model.starts_on_time = DateUtil.todayRoundUp().format('h:mm A');
-    this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('h:mm A');
+    this.model.starts_on_time = DateUtil.todayRoundUp().format('hh:mm');
+    this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('hh:mm');
   }
 
   saveEvent(event) {
@@ -57,6 +64,7 @@ export class EventCreateComponent extends BaseEventComponent {
       this._notifySuccess('Your event has been created.');
       this.router.parent.navigate(['/EventDetails', { 'eventId': res.id }]);
     }, (err) => {
+      console.log(err);
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }

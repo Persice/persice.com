@@ -11,7 +11,20 @@ import {pick} from 'lodash';
 
 declare var jQuery: any;
 
+
+
 let validate = require('validate.js');
+const moment = require('moment');
+
+validate.extend(validate.validators.datetime, {
+  parse: function(value, options) {
+    return +moment.utc(value);
+  },
+  format: function(value, options) {
+    let format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DDThh:mm:ss";
+    return moment.utc(value).format(format);
+  }
+});
 
 @Injectable()
 export class EventService {
@@ -51,6 +64,20 @@ export class EventService {
     ends_on_time: {
       presence: true
     },
+    starts_on: {
+      datetime: {
+        dateOnly: false,
+        earliest: moment.utc(),
+        message: "^Start date/time cannot be in the past."
+      }
+    },
+    ends_on: {
+      datetime: {
+        dateOnly: false,
+        earliest: moment.utc(),
+        message: "^End date/time should be after Start date/time."
+      }
+    },
     event_location: {
       presence: true
     },
@@ -63,7 +90,6 @@ export class EventService {
   };
 
   constructor(private http: HttpClient) {
-
   }
 
   public get(url: string, limit: number): Observable<any> {
@@ -114,6 +140,9 @@ export class EventService {
       data.location_name = data.event_location;
     }
 
+    this.constraints.starts_on.datetime.earliest = moment.utc();
+    this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
+
     let body = FormUtil.formData(event);
     let csrftoken = CookieUtil.getValue('csrftoken');
 
@@ -161,6 +190,9 @@ export class EventService {
       data.location = '0,0';
       data.location_name = data.event_location;
     }
+
+    this.constraints.starts_on.datetime.earliest = moment.utc();
+    this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
 
     let body = FormUtil.formData(event);
     let csrftoken = CookieUtil.getValue('csrftoken');
