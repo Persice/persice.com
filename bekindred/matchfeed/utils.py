@@ -16,7 +16,7 @@ from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     calculate_distance_es, get_mutual_linkedin_connections, \
     get_mutual_twitter_friends
-from interests.models import Interest, InterestSubject
+from interests.models import Interest
 from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
     StopWords, GerundWords
 from members.models import FacebookCustomUserActive

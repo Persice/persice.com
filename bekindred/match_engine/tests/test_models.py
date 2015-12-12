@@ -515,6 +515,13 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         self.assertEqual(data[1]['friends_score'], 1)
         self.assertEqual(data[2]['friends_score'], 0)
 
+    def test_simple_phrase(self):
+        s = Subject.objects.create(description='foreign language')
+        Goal.objects.get_or_create(user=self.user, goal=s)
+        Goal.objects.get_or_create(user=self.user1, goal=s)
+        update_index.Command().handle(interactive=False)
+        match_users = MatchQuerySet.all(self.user.id, is_filter=True)
+
 
 class TestMatchEvents(BaseTestCase, ResourceTestCase):
     def setUp(self):

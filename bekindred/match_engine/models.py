@@ -400,6 +400,13 @@ class GerundWords(models.Model):
         return self.word
 
 
+class CollocationDict(models.Model):
+    phrase = models.CharField(max_length=100, unique=True, db_index=True)
+
+    def __unicode__(self):
+        return self.phrase
+
+
 class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
