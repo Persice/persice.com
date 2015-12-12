@@ -29,7 +29,7 @@ def find_collocations(keywords):
         splitted = phrase.split()
         for keyword in keywords:
             if (s.stem(keyword) == s.stem(splitted[0]) or
-                        s.stem(keyword) == s.stem(splitted[1])):
+                    s.stem(keyword) == s.stem(splitted[1])):
                 new_keywords.remove(keyword)
     new_keywords.extend(phrases.keys())
     return new_keywords
