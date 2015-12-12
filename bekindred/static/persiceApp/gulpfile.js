@@ -48,7 +48,6 @@ var cssFiles = [
 './src/public/css/tokenfield-typeahead.css',
 './src/public/css/jquery.tagit.css',
 './src/public/css/tagit.ui-zendesk.css',
-'./src/public/css/screen.css',
 './src/app/components/app.css'
 ];
 
@@ -76,7 +75,7 @@ gulp.task('jscs', function() {
 gulp.task('css', function() {
   gulp.src(cssFiles)
   .pipe(minifyCSS())
-  .pipe(concat('style.min.css'))
+  .pipe(concat('vendor.min.css'))
   .pipe(gulp.dest('./src/public/css/'))
 });
 
