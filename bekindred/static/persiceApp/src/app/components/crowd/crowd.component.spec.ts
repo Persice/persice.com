@@ -14,7 +14,7 @@
 // AsyncTestCompleter
 // } from 'angular2/testing_internal';
 
-// import {Component, View, provide, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
+// import {Component, View, provide, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/core';
 // import {BaseRequestOptions, ConnectionBackend, Http, Response,
 // ResponseOptions, HTTP_BINDINGS
 // } from 'angular2/http';

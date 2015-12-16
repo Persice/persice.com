@@ -1,4 +1,4 @@
-import {Component, NgFor, EventEmitter} from 'angular2/angular2';
+import {Component, EventEmitter} from 'angular2/core';
 
 import {UserCardComponent} from '../usercard/usercard.component';
 let view = require('./userslist.html');
@@ -7,7 +7,7 @@ let view = require('./userslist.html');
   inputs: ['users'],
   outputs: ['onClicked'],
   selector: 'users-list',
-  directives: [UserCardComponent, NgFor],
+  directives: [UserCardComponent],
   template: view
 })
 export class UsersListComponent {

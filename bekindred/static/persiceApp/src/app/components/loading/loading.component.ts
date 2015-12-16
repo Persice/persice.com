@@ -1,11 +1,10 @@
-import {Component, NgIf} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 let view = require('./loading.html');
 @Component({
   inputs: ['status'],
   selector: 'loading',
-  template: view,
-  directives: [NgIf]
+  template: view
 })
 export class LoadingComponent {
   status: boolean = false;

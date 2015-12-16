@@ -1,4 +1,4 @@
-import {Component, NgIf, NgStyle} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 import {RouterLink} from 'angular2/router';
 
 import {DateUtil} from '../../core/util';
@@ -9,7 +9,7 @@ let view = require('./eventcard.html');
   inputs: ['event'],
   selector: 'event-card',
   template: view,
-  directives: [NgIf, NgStyle, RouterLink]
+  directives: [RouterLink]
 })
 export class EventCardComponent {
   event: any;

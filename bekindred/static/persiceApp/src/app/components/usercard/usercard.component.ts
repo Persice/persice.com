@@ -1,4 +1,4 @@
-import {Component, NgIf, NgFor, EventEmitter, NgStyle} from 'angular2/angular2';
+import {Component, EventEmitter} from 'angular2/core';
 
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
@@ -12,7 +12,7 @@ let view = require('./usercard.html');
   selector: 'user-card',
   pipes: [GenderPipe],
   template: view,
-  directives: [CircleProgressDirective, NgIf, NgFor, NgStyle]
+  directives: [CircleProgressDirective]
 })
 export class UserCardComponent {
   user: any;

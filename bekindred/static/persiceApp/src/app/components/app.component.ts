@@ -1,13 +1,13 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 

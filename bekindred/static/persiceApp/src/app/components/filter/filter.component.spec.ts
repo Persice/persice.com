@@ -20,7 +20,7 @@
 // import {DOM} from 'angular2/src/platform/dom/dom_adapter';
 
 
-// import {Component, View, provide} from 'angular2/angular2';
+// import {Component, View, provide} from 'angular2/core';
 // import {FilterComponent} from './filter.component';
 // import {FilterService} from '../../services/filter.service';
 

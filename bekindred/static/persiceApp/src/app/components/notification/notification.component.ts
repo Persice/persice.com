@@ -1,10 +1,9 @@
-import {Component, Input, NgClass, NgIf} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 
 let view = require('./notification.html');
 @Component({
   selector: 'notification',
-  template: view,
-  directives: [NgClass, NgIf]
+  template: view
 })
 export class NotificationComponent {
   @Input() body;

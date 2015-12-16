@@ -1,11 +1,10 @@
-import {Component, Input, NgFor, NgIf} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 
 let view = require('./profilefeatures.html');
 
 @Component({
   template: view,
-  selector: 'profile-features',
-  directives: [NgFor, NgIf]
+  selector: 'profile-features'
 })
 export class ProfileFeaturesComponent {
   @Input() interests;

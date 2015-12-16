@@ -1,4 +1,4 @@
-import {Component} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 import {SearchResultEventModel} from '../../models/searchresults.model';
 import {ImageStretchDirective} from '../../directives/imagestretch.directive';

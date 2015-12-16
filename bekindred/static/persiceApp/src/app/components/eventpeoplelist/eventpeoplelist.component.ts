@@ -1,4 +1,4 @@
-import {Component, Input, NgFor, NgStyle, NgIf} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 import {SlickDirective} from '../../directives/slick.directive';
 
 let view = require('./eventpeoplelist.html');
@@ -6,7 +6,7 @@ let view = require('./eventpeoplelist.html');
 @Component({
   template: view,
   selector: 'event-peoplelist',
-  directives: [SlickDirective, NgFor, NgStyle, NgIf]
+  directives: [SlickDirective]
 })
 export class EventPeopleListComponent {
   @Input() people;

@@ -3,10 +3,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  NgFor,
-  NgStyle,
-  NgIf
-} from 'angular2/angular2';
+} from 'angular2/core';
 
 import {GenderPipe} from '../../pipes/gender.pipe';
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
@@ -22,9 +19,6 @@ let view = require('./profileabout.html');
   pipes: [GenderPipe],
   directives: [
   CircleProgressDirective,
-  NgFor,
-  NgStyle,
-  NgIf,
   SlickDirective
   ]
 })

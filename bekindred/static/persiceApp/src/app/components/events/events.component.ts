@@ -1,4 +1,4 @@
-import {Component, NgClass} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 import {RouteConfig, RouterLink, ROUTER_DIRECTIVES, Router, Location} from 'angular2/router';
 
 import {StringUtil} from '../../core/util';
@@ -23,7 +23,6 @@ let view = require('./events.html');
     SubnavComponent,
     ROUTER_DIRECTIVES,
     RouterLink,
-    NgClass,
     FilterComponent
   ]
 })

@@ -1,4 +1,4 @@
-import {Component, NgIf} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
@@ -22,7 +22,6 @@ declare var jQuery: any;
   template: view,
   providers: [CrowdService],
   directives: [
-    NgIf,
     FilterComponent,
     UsersListComponent,
     LoadingComponent,

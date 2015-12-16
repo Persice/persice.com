@@ -1,11 +1,10 @@
-import {Component, Input, NgStyle} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 
 let view = require('./eventhost.html');
 
 @Component({
   selector: 'event-host',
-  template: view,
-  directives: [NgStyle]
+  template: view
 })
 export class EventHostComponent {
   @Input() host;

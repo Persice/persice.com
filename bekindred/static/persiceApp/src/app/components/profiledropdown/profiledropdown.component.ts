@@ -1,4 +1,4 @@
-import {Component, NgStyle} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 import {DropdownDirective} from '../../directives/dropdown.directive';
 
@@ -8,7 +8,7 @@ let view = require('./profiledropdown.html');
   selector: 'profile-dropdown',
   inputs: ['image'],
   template: view,
-  directives: [DropdownDirective, NgStyle]
+  directives: [DropdownDirective]
 })
 export class ProfileDropdownComponent {
 

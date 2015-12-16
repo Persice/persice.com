@@ -1,4 +1,4 @@
-import {Component} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 import {NavMainComponent} from '../navmain/navmain.component';
 import {LogoComponent} from '../logo/logo.component';

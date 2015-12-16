@@ -12,7 +12,7 @@
 // tick
 // } from 'angular2/testing';
 
-// import {Component, View, provide} from 'angular2/angular2';
+// import {Component, View, provide} from 'angular2/core';
 
 // import {SearchResultsUserComponent} from './searchresultsuser.component';
 

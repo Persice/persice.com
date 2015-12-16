@@ -1,4 +1,4 @@
-import {Component, NgFor, NgIf, NgClass} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 
 import {SearchResultsUserComponent} from '../searchresultsuser/searchresultsuser.component';
@@ -21,9 +21,6 @@ let view = require('./searchresults.html');
   ],
   template: view,
   directives: [
-    NgFor,
-    NgIf,
-    NgClass,
     SearchResultsUserComponent,
     SearchResultsEventComponent,
     LoadingComponent

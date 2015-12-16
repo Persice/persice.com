@@ -1,4 +1,4 @@
-import {Component, NgIf} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 
 let view = require('./loadingcard.html');
@@ -6,7 +6,7 @@ let view = require('./loadingcard.html');
   inputs: ['status'],
   selector: 'loading-card',
   template: view,
-  directives: [NgIf, CircleProgressDirective]
+  directives: [CircleProgressDirective]
 })
 export class LoadingCardComponent {
   status: boolean = false;

@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from 'angular2/angular2';
+import {Component, EventEmitter} from 'angular2/core';
 import {Http} from 'angular2/http';
 
 import {SearchService} from '../../services/search.service';

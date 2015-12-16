@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Inject} from 'angular2/angular2';
+import {Directive, ElementRef, Inject} from 'angular2/core';
 
 declare var jQuery: any;
 

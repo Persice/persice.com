@@ -1,11 +1,10 @@
-import {Component, Input, NgIf} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 
 let view = require('./eventdescription.html');
 
 @Component({
   selector: 'event-description',
-  template: view,
-  directives: [NgIf]
+  template: view
 })
 export class EventDescriptionComponent {
   @Input() description;

@@ -1,4 +1,4 @@
-import {Component, Input, Output, NgIf, NgClass, EventEmitter} from 'angular2/angular2';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {DropdownDirective} from '../../directives/dropdown.directive';
 
 let view = require('./eventinfo.html');
@@ -6,7 +6,7 @@ let view = require('./eventinfo.html');
 @Component({
   selector: 'event-info',
   template: view,
-  directives: [DropdownDirective, NgIf, NgClass]
+  directives: [DropdownDirective]
 })
 export class EventInfoComponent {
   @Input() info;

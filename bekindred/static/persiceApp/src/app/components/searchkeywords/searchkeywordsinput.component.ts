@@ -1,4 +1,4 @@
-import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
+import {Component, ElementRef, Inject} from 'angular2/core';
 import {FilterModel} from '../../models/filter.model';
 import {FilterService} from '../../services/filter.service';
 import {KeywordsService} from '../../services/keywords.service';
@@ -13,7 +13,6 @@ declare var Bloodhound: any;
 let view = require('./searchkeywordsinput.html');
 @Component({
   selector: 'search-keywordsinput',
-  directives: [CORE_DIRECTIVES],
   providers: [KeywordsService],
   template: view
 })

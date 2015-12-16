@@ -1,4 +1,4 @@
-import {Injector, provide} from 'angular2/angular2';
+import {Injector, provide} from 'angular2/core';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
 beforeEachProviders
