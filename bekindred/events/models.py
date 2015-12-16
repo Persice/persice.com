@@ -139,7 +139,7 @@ class FilterState(models.Model):
     cumulative_match_score = models.IntegerField(default=0)
     gender = models.CharField(max_length=3, default='m,f')
     keyword = models.CharField(max_length=50, default='')
-    order_criteria = models.CharField(max_length=20, default='distance')
+    order_criteria = models.CharField(max_length=20, default='match_score')
     min_age = models.CharField(max_length=3, default=25)
     max_age = models.CharField(max_length=4, default=60)
 
