@@ -44,7 +44,6 @@ var cssFiles = [
 './src/public/css/classic.css',
 './src/public/css/classic.date.css',
 './src/public/css/classic.time.css',
-'./src/public/css/tokenfield.css',
 './src/public/css/tokenfield-typeahead.css',
 './src/public/css/jquery.tagit.css',
 './src/public/css/tagit.ui-zendesk.css',
@@ -54,7 +53,7 @@ var cssFiles = [
 
 gulp.task('js', function() {
   gulp.src(jsFiles)
-  .pipe(concat('vendor.min.js'))
+  .pipe(concat('plugins.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('./src/public/lib/'))
 });
