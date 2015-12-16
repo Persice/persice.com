@@ -67,6 +67,7 @@ export class EventEditComponent extends BaseEventComponent {
       this.model.description = ev.description;
       this.model.starts_on = ev.starts_on;
       this.model.ends_on = ev.ends_on;
+      this.model.event_photo = ev.event_photo;
       this.model.location = ev.location;
       this.model.location_name = ev.location_name;
       this.model.event_location = ev.location_name;
