@@ -411,7 +411,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
     @staticmethod
     def query_builder(user, query, fields, exclude_user_ids, stop_words,
-                      is_filter=False, friends=()):
+                      is_filter=False, friends_list=(), friends=False):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         body = {}
@@ -421,11 +421,11 @@ class ElasticSearchMatchEngineManager(models.Manager):
         friends_predicate = {}
         porter_stemmer = PorterStemmer()
         s_stop_words = [porter_stemmer.stem(w) for w in stop_words]
-        if friends:
+        if friends_list or friends:
             friends_predicate = {
                 "ids": {
                     "type": "modelresult",
-                    "values": friends
+                    "values": friends_list
                 }
             }
 
@@ -776,7 +776,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 friends_list.append('members.facebookcustomuseractive.%s' % f)
         response = ElasticSearchMatchEngineManager.\
             query_builder(user, query, fields, exclude_user_ids, stop_words,
-                          is_filter=is_filter, friends=friends_list)
+                          is_filter=is_filter, friends_list=friends_list, friends=friends)
 
         return response['hits']['hits']
 
