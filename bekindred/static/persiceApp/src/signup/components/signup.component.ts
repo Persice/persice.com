@@ -59,12 +59,10 @@ export class SignupComponent {
   constructor(router: Router, location: Location) {
     this.router = router;
     this.location = location;
-
     this.router.subscribe((path) => this.onRouteChanged(path));
   }
 
   onRouteChanged(path) {
-    console.log(path);
     switch (path) {
       case 'interests':
         this.page = 1;

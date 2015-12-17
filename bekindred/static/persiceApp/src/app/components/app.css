@@ -376,3 +376,8 @@ input,
     background: url(/static/img/facebook_close.png)!important;
     cursor: pointer!important
 }
+
+
+a.link--darkgrey {
+  cursor: pointer;
+}
