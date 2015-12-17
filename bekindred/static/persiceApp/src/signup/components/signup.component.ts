@@ -215,7 +215,6 @@ export class SignupComponent {
   }
 
   skip(event) {
-    console.log('clicked skip');
     if (this.nextStep) {
       this.router.navigate([this.nextStep]);
     }
@@ -226,8 +225,6 @@ export class SignupComponent {
   }
 
   onCounterChanged(event) {
-    console.log(event);
-
     switch (event.type) {
       case 'interests':
         this.cInt = event.count;

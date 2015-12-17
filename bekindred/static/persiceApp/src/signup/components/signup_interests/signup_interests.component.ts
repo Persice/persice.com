@@ -25,6 +25,8 @@ export class SignupInterestsComponent {
 
   @Output() counter: EventEmitter<any> = new EventEmitter();
 
+  timeoutId = null;
+
   items: any[] = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
@@ -33,6 +35,7 @@ export class SignupInterestsComponent {
   next: string = '';
   total_count: number = 0;
   offset: number = 0;
+  newInterest = '';
 
   userInterest: any[] = [];
   userInterestCounter: number = 0;
@@ -47,34 +50,116 @@ export class SignupInterestsComponent {
 
   ngOnInit() {
     this.getList();
-    this.initializeTokenInput();
+    // this.initializeTokenInput();
+  }
+
+  ngOnDestroy() {
+    // jQuery('#interestsInput').typeahead('destroy');
   }
 
   initializeTokenInput() {
-    let keywordsEngine = new Bloodhound({
-      remote: {
-        url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
-        filter: (x: any) => {
-          return jQuery.map(x.objects, (item) => {
-            return item.description;
+    // let keywordsEngine = new Bloodhound({
+    //   remote: {
+    //     url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
+    //     filter: (x: any) => {
+    //       return jQuery.map(x.objects, (item) => {
+    //         return item.description;
+    //       });
+    //     },
+    //     wildcard: '%QUERY'
+    //   },
+    //   datumTokenizer: (d) => {
+    //     return Bloodhound.tokenizers.whitespace(d);
+    //   },
+    //   queryTokenizer: Bloodhound.tokenizers.whitespace
+    // });
+
+    // keywordsEngine.initialize();
+
+
+    // jQuery('#interestsInput').typeahead(null, {
+    //   name: 'keywords',
+    //   source: keywordsEngine
+    // });
+
+    // jQuery('#interestsInput').bind('typeahead:select', (ev, suggestion) => {
+    //   console.log('Selection: ' + suggestion);
+    //   this.newInterest = suggestion;
+    // });
+
+
+  }
+
+  addInterest(event) {
+    let idx = findIndex(this.items, 'description', this.newInterest);
+
+    if (this.newInterest.length > 100) {
+      this.notificationService.push({
+        type: 'warning',
+        title: '',
+        body: `New interest must have less than 100 characters.`,
+        autoclose: 4000
+      });
+      return;
+    }
+
+    if (this.items[idx]) {
+      if (!this.items[idx].active) {
+        this.interestsService.save(this.items[idx].description)
+          .subscribe((res) => {
+            this.items[idx].active = true;
+            this.items[idx].interest_resource = res.resource_uri;
+            this.userInterestCounter++;
+            this.counter.next({
+              type: 'interests',
+              count: this.userInterestCounter
+            });
           });
-        },
-        wildcard: '%QUERY'
-      },
-      datumTokenizer: (d) => {
-        return Bloodhound.tokenizers.whitespace(d);
-      },
-      queryTokenizer: Bloodhound.tokenizers.whitespace
-    });
+      }
+      else {
+        this.notificationService.push({
+          type: 'warning',
+          title: '',
+          body: `Interest '${this.newInterest}' is already selected below.`,
+          autoclose: 4000
+        });
 
-    keywordsEngine.initialize();
+      }
+    }
+    else {
+      //create new interest
+      this.interestsService.save(this.newInterest)
+        .subscribe((res) => {
+          let newItem = res;
+          newItem.active = true;
+          newItem.description = res.interest_subject;
+          newItem.interest_resource = res.resource_uri;
+          this.items.push(newItem);
 
+          this.notificationService.push({
+            type: 'success',
+            title: '',
+            body: `Interest '${this.newInterest}' has been successfully created.`,
+            autoclose: 4000
+          });
 
-    jQuery('#interestsInput').typeahead(null, {
-      name: 'keywords',
-      source: keywordsEngine
-    });
+          this.userInterestCounter++;
+          this.counter.next({
+            type: 'interests',
+            count: this.userInterestCounter
+          });
 
+        });
+    }
+  }
+
+  onSearchInputChanged() {
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = setTimeout(() => {
+      this.refreshList();
+    }, 300);
 
   }
 
@@ -95,7 +180,7 @@ export class SignupInterestsComponent {
           this.userInterest = data.objects;
         }
 
-        return this.keywordsService.get(this.next, 100);
+        return this.keywordsService.get(this.next, 100, this.newInterest);
       })
       .subscribe(data => this.assignList(data),
       (err) => {
@@ -110,9 +195,11 @@ export class SignupInterestsComponent {
 
   refreshList() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
-    this.items = [];
+    this.items.splice(0, this.items.length);
     this.isListEmpty = false;
     this.next = '';
+    this.userInterest.splice(0, this.userInterest.length);
+    this.userInterestCounter = 0;
     this.getList();
   }
 
@@ -192,8 +279,6 @@ export class SignupInterestsComponent {
           });
       }
       else {
-        this.items[idx].active = true;
-
         this.interestsService.save(this.items[idx].description)
           .subscribe((res) => {
             this.items[idx].active = true;

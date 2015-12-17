@@ -14,11 +14,12 @@ export class KeywordsService {
   constructor(private http: HttpClient) {
   }
 
-  public get(url: string, limit: number): Observable<any> {
+  public get(url: string, limit: number, query: string): Observable<any> {
 
     if (url === '') {
       let params: string = [
         `format=json`,
+        `description__icontains=${query}`,
         `limit=${limit}`,
         `offset=0`,
       ].join('&');
