@@ -31,14 +31,24 @@
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/tagit.ui-zendesk.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/screen.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/app/components/app.css" />
-  -->
+-->
   <link rel="stylesheet" href="/static/persiceApp/src/public/css/vendor.min.css" />
   <meta name="description" content="">
   <meta name="author" content="">
 </head>
 
 <body>
-  <persice-app></persice-app>
+  <persice-app>
+    <div id="loadingindicator">
+      <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
+    </div>
+  </persice-app>
   <!-- Theme scripts -->
   <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en&key=AIzaSyDFhIBwi7u03g0LpqN7JOkcYsROYwT36Lk"></script>
   <!-- development only
@@ -74,19 +84,19 @@
   <script src="/static/persiceApp/src/public/lib/plugins.min.js"></script>
   <script src="//localhost:8080/__build__/common.js"></script>
   <script src="//localhost:8080/__build__/vendor.js"></script>
-  <script src="//localhost:8080/__build__/app.js"></script>
-   -->
-  <!-- staging only  -->
+  <script src="//localhost:8080/__build__/app.js"></script>-->
+  <!-- staging only-->
   <script src="/static/persiceApp/src/public/lib/plugins.min.js"></script>
   <script src="/static/persiceApp/__build__/common.js"></script>
   <script src="/static/persiceApp/__build__/vendor.js"></script>
   <script src="/static/persiceApp/__build__/app.js"></script>
+
   <!-- production only
   <script src="/static/persiceApp/src/public/lib/plugins.min.js"></script>
   <script src="/static/persiceApp/__build__/common.min.js"></script>
   <script src="/static/persiceApp/__build__/vendor.min.js"></script>
-  <script src="/static/persiceApp/__build__/app.e944bae1c54027542291.min.js"></script>
-  -->
+  <script src="/static/persiceApp/__build__/app.ab0aa81a3af48602d1b0.min.js"></script>
+-->
   <script type="text/javascript">
   function createCookie(name, value, days) {
     if (days) {
