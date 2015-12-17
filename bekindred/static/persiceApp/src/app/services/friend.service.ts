@@ -2,12 +2,9 @@ import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
-import { mergeMap } from 'rxjs/operator/mergeMap';
 
 import {HttpClient} from '../core/http_client';
 
-Observable.prototype.map = map;
-Observable.prototype.flatMap = mergeMap;
 
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 import {CookieUtil} from '../core/util';
