@@ -91,7 +91,16 @@ export class SignupInterestsComponent {
   }
 
   addInterest(event) {
-    let idx = findIndex(this.items, 'description', this.newInterest);
+
+    if (this.newInterest.length === 0) {
+      this.notificationService.push({
+        type: 'warning',
+        title: '',
+        body: `Please enter your interest first.`,
+        autoclose: 4000
+      });
+      return;
+    }
 
     if (this.newInterest.length > 100) {
       this.notificationService.push({
@@ -102,6 +111,10 @@ export class SignupInterestsComponent {
       });
       return;
     }
+
+    let idx = findIndex(this.items, 'description', this.newInterest);
+
+
 
     if (this.items[idx]) {
       if (!this.items[idx].active) {
@@ -148,6 +161,9 @@ export class SignupInterestsComponent {
             type: 'interests',
             count: this.userInterestCounter
           });
+
+          this.newInterest = '';
+          this.refreshList();
 
         });
     }
