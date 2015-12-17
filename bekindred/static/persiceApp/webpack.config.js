@@ -74,7 +74,8 @@ console.log('Build environment: ', NODE_ENV);
   //
   entry: {
     'vendor': './src/app/vendor.ts',
-    'app': './src/app/bootstrap.ts'
+    'app': './src/app/bootstrap.ts',
+    'signup': './src/signup/bootstrap.ts'
   },
 
   // Config for our build files
@@ -229,7 +230,7 @@ console.log('Build environment: ', NODE_ENV);
       new CommonsChunkPlugin({ name: 'common', filename: env({
         'development': 'common.js',
         'all': 'common.min.js'
-      }), minChunks: 2, chunks: ['app', 'vendor'] })
+      }), minChunks: 2, chunks: ['app', 'signup', 'vendor'] })
       ]
 
     })

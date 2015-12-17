@@ -68,6 +68,7 @@ v1_api.register(ChatMessageResource())
 urlpatterns = patterns('',
                        url(r'^$', 'goals.views.main_page_angular2'),
                        url(r'^mvp/$', 'goals.views.main_page'),
+                       url(r'^signup/$', 'goals.views.signup_page'),
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^facebook/', include('django_facebook.urls')),
                        url(r'^social/', include('social_auth.urls')),
