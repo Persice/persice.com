@@ -38,7 +38,7 @@ class InterestValidation(Validation):
 class InterestSubjectResource(ModelResource):
     class Meta:
         always_return_data = True
-        queryset = InterestSubject.objects.order_by('-description')
+        queryset = InterestSubject.objects.order_by('description')
         resource_name = 'interest_subject'
         fields = ['description']
 
