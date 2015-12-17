@@ -15,7 +15,7 @@
     </svg>
     <div circle-progress="{{user.score}}" size="128" thickness="2" reverse="false" angle="140" class="match-percent"></div>
   </div>
-  <h6 class="card-subtitle">Interests</h6>
+  <h6 class="card-subtitle interest-list-title">Interests</h6>
   <ul class="interest-list" *ngIf="user.top_interests">
     <li *ngFor="#key of interests">
       <span *ngIf="key && key.match">
@@ -25,4 +25,17 @@
       </span> {{key.value}}
     </li>
   </ul>
+  <div class="pass-accept" *ngIf="showButtons">
+    <div class="layout layout--small">
+      <div class="layout__item 1/2"> <a href="#" class="btn btn-1 btn-1--red btn--full">Pass</a> </div>
+      <div class="layout__item 1/2">
+        <a href="#" class="btn btn-1 btn-1--green btn--full btn--activate">
+          <div class="btn--activate__label">Accept</div>
+          <svg role="img" class="icon ">
+            <use xlink:href="icons/icons.svg#icon-accepted"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

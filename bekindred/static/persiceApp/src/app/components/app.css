@@ -425,3 +425,14 @@ a.link--darkgrey {
 #twitterLink, #linkedinLink {
   cursor: pointer;
 }
+
+
+.crowd-page .card--user:hover .interest-list,
+.crowd-page .card--user:hover .interest-list-title {
+  opacity: 0!important;
+}
+
+.card--user:hover .interest-list,
+.card--user:hover .interest-list-title {
+  opacity: 1!important;
+}

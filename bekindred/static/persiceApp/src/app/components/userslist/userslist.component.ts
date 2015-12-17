@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from 'angular2/core';
+import {Component, EventEmitter, Input, Output} from 'angular2/core';
 
 import {UserCardComponent} from '../usercard/usercard.component';
 let view = require('./userslist.html');
@@ -11,6 +11,7 @@ let view = require('./userslist.html');
   template: view
 })
 export class UsersListComponent {
+  @Input() showButtons;
   users: Array<any>;
   onClicked: EventEmitter<any> = new EventEmitter();
 

@@ -1,4 +1,4 @@
-import {Component, EventEmitter} from 'angular2/core';
+import {Component, EventEmitter, Input} from 'angular2/core';
 
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
@@ -18,6 +18,8 @@ export class UserCardComponent {
   user: any;
   onClick: EventEmitter<any> = new EventEmitter;
   interests = [];
+
+  @Input() showButtons;
 
 
   userClicked() {
