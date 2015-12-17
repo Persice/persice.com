@@ -21,11 +21,11 @@ import {HTTP_PROVIDERS} from 'angular2/http';
  * App Services
  * our collection of injectables services
  */
-// import {APP_SERVICES_PROVIDERS} from './services/services';
+import {APP_SERVICES_PROVIDERS} from '../app/services/services';
 
 
 
-// import {HttpClient} from './core/http_client';
+import {HttpClient} from '../app/core/http_client';
 
 /*
  * App Component
@@ -42,7 +42,8 @@ const UNIVERSAL_PROVIDERS = [
   ELEMENT_PROBE_PROVIDERS,
   FORM_PROVIDERS,
   HTTP_PROVIDERS,
-  // APP_SERVICES_PROVIDERS,
+  HttpClient,
+  APP_SERVICES_PROVIDERS,
 ];
 
 /*

@@ -2,6 +2,7 @@
   <signup-header [counterInterests]="cInt" [counterOffers]="cOff" [counterGoals]="cGoa"></signup-header>
   <div class="signup__content">
     <router-outlet></router-outlet>
+    <notification [main]="1" [title]="notificationMain.title" [body]="notificationMain.body" [active]="notificationMain.active" [type]="notificationMain.type"></notification>
   </div>
   <footer class="footer-signup">
     <div class="layout layout--flush">
