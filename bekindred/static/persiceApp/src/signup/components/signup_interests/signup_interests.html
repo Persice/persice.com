@@ -6,7 +6,7 @@
       <svg role="img" class="icon ">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-search"></use>
       </svg>
-      <input [ngModel]="newInterest" (ngModelChange)="newInterest = $event; onSearchInputChanged();" type="text" class="search__input" id="interestsInput" placeholder="Enter your interests or search existing">
+      <input [ngModel]="newInterest" (keyup.enter)="addInterest($event)" (ngModelChange)="newInterest = $event; onSearchInputChanged();" type="text" class="search__input" id="interestsInput" placeholder="Enter your interests or search existing">
       <button class="btn" (click)="addInterest($event)">
         <svg role="img" class="icon ">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-plus-big"></use>
