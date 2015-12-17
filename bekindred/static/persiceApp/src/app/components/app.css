@@ -420,3 +420,8 @@ a.link--darkgrey {
   font-family: "Montserrat", sans-serif;
   font-size: 14px;
 }
+
+
+#twitterLink, #linkedinLink {
+  cursor: pointer;
+}
