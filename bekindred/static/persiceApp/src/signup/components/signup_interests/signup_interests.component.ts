@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Input, Output} from 'angular2/core';
 
 let view = require('./signup_interests.html');
 
@@ -7,5 +7,4 @@ let view = require('./signup_interests.html');
   template: view
 })
 export class SignupInterestsComponent {
-
 }

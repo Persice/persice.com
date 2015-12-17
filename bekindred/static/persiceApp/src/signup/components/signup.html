@@ -1,16 +1,16 @@
 <div class="signup">
-  <signup-header></signup-header>
+  <signup-header [counterInterests]="cInt" [counterOffers]="cOff" [counterGoals]="cGoa"></signup-header>
   <div class="signup__content">
     <router-outlet></router-outlet>
   </div>
   <footer class="footer-signup">
     <div class="layout layout--flush">
       <div class="layout__item 1/2">
-        <div class="page-number">1/4</div>
+        <div class="page-number">{{page}}/4</div>
       </div>
       <div class="layout__item 1/2 text-right">
-        <a href="" class="link--darkgrey mr-">Skip</a>
-        <a href="/#/crowd" class="btn btn-1 btn-1--green btn-1--medium">Next</a>
+        <a *ngIf="showSkip" (click)="skip($event)" class="link--darkgrey mr-">Skip</a>
+        <a (click)="next($event)" class="btn btn-1 btn-1--green btn-1--medium">Next</a>
       </div>
     </div>
   </footer>

@@ -2,7 +2,7 @@
   <div class="layout layout--auto">
     <div class="layout__item">
       <div class="header-signup__logo-place">
-        <a class="site-logo" href="Persice">
+        <a [routerLink]="['./SignupInterests']" class="site-logo" href="Persice">
           <img alt="#" src="/static/persiceApp/src/public/images/logo.svg" class="site-logo__mark">
           <h1 class="site-logo__type">Persice</h1>
         </a>
@@ -10,9 +10,9 @@
     </div>
     <div class="layout__item">
       <ul class="header-signup__steps">
-        <li><a href="signup-interests.html"><b>6</b> interests</a></li>
-        <li><a href="signup-goals.html"><b>7</b> goals</a></li>
-        <li><a href="signup-offers.html"><b>4</b> offers</a></li>
+        <li><a [routerLink]="['./SignupInterests']"><b>{{counterInterests}}</b> interests</a></li>
+        <li><a [routerLink]="['./SignupGoals']"><b>{{counterGoals}}</b> goals</a></li>
+        <li><a [routerLink]="['./SignupOffers']"><b>{{counterOffers}}</b> offers</a></li>
       </ul>
     </div>
   </div>
