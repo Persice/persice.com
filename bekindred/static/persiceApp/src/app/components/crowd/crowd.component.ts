@@ -159,16 +159,27 @@ export class CrowdComponent {
 
   passUser(event) {
     this.profileViewActive = false;
-    this.friendService.saveFriendship(-1, this.selectedUser.id)
+    this.friendService.saveFriendship(-1, event)
       .subscribe(data => {
+
+        let usr;
+        for (var i = this.items.length - 1; i >= 0; i--) {
+          if (this.items[i].id === event) {
+            usr = this.items[i];
+          }
+        }
+
         remove(this.items, (item) => {
-          return item.id === this.selectedUser.id;
+          return item.id === event;
         });
+
+
+
 
         this.notificationService.push({
           type: 'warning',
           title: '',
-          body: `${this.selectedUser.first_name} has been removed from crowd.`,
+          body: `${usr.first_name} has been removed from crowd.`,
           autoclose: 4000
         });
 
@@ -179,16 +190,24 @@ export class CrowdComponent {
 
   acceptUser(event) {
     this.profileViewActive = false;
-    this.friendService.saveFriendship(0, this.selectedUser.id)
+    this.friendService.saveFriendship(0, event)
       .subscribe(data => {
+
+        let usr;
+        for (var i = this.items.length - 1; i >= 0; i--) {
+          if (this.items[i].id === event) {
+            usr = this.items[i];
+          }
+        }
+
         remove(this.items, (item) => {
-          return item.id === this.selectedUser.id;
+          return item.id === event;
         });
 
         this.notificationService.push({
           type: 'success',
           title: 'Success',
-          body: `You sent friendship request to ${this.selectedUser.first_name}.`,
+          body: `You sent friendship request to ${usr.first_name}.`,
           autoclose: 4000
         });
 

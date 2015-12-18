@@ -154,7 +154,7 @@ export class EventService {
         });
       } else {
         jQuery.ajax({
-          url: EventService.API_URL,
+          url: `${EventService.API_URL}?format=json`,
           data: body,
           processData: false,
           type: 'POST',
@@ -205,7 +205,7 @@ export class EventService {
         });
       } else {
         jQuery.ajax({
-          url: resourceUri,
+          url: `${resourceUri}?format=json`,
           data: body,
           processData: false,
           type: 'PUT',
@@ -240,7 +240,7 @@ export class EventService {
 
     return Observable.create(observer => {
       jQuery.ajax({
-        url: resourceUri,
+        url: `${resourceUri}?format=json`,
         data: body,
         processData: false,
         type: 'PUT',
@@ -263,7 +263,7 @@ export class EventService {
 
 
   public deleteByUri(resourceUri: string): Observable<any> {
-    return this.http.delete(resourceUri, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json());
+    return this.http.delete(`${resourceUri}?format=json`, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json());
   }
 
   public validate(data): Observable<any> {

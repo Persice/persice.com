@@ -100,11 +100,11 @@ export class ProfileComponent {
   }
 
   passUser(event) {
-    this.passEvent.next(true);
+    this.passEvent.next(event);
   }
 
   acceptUser(event) {
-    this.acceptEvent.next(true);
+    this.acceptEvent.next(event);
   }
 
   closeProfile(event) {

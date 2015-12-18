@@ -1,6 +1,6 @@
 <div class="layout layout--flush content p">
   <div class="platform">
-    <profile-about [name]="user.first_name" [about]="user.about" [images]="user.photos" [avatar]="user.image" [score]="user.score" [gender]="user.gender" [age]="user.age" [distanceValue]="user.distance[0]" [distanceUnit]="user.distance[1]" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" (closeprofileEvent)="closeProfile($event)">
+    <profile-about [userId]="user.id" [name]="user.first_name" [about]="user.about" [images]="user.photos" [avatar]="user.image" [score]="user.score" [gender]="user.gender" [age]="user.age" [distanceValue]="user.distance[0]" [distanceUnit]="user.distance[1]" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" (closeprofileEvent)="closeProfile($event)">
     </profile-about>
     <profile-features [keywords]=[profileKeywords] [keywordsCount]="profileKeywordsCount" [goals]="profileGoals" [goalsMore]="profileGoalsMore" [goalsCount]="profileGoalsCount" [offers]="profileOffers" [offersMore]="profileOffersMore" [offersCount]="profileOffersCount" [interests]="profileInterests" [interestsMore]="profileInterestsMore" [interestsCount]="profileInterestsCount">
     </profile-features>

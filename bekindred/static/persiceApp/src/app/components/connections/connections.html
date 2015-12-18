@@ -1,7 +1,7 @@
 <div class="layout layout--flush content">
   <div class="layout__item 3/4 extralarge-and-up-4/5">
     <h3 *ngIf="!loading && emptyList">No results...</h3>
-    <users-list [users]="items"></users-list>
+    <users-list [showButtons]="0" [users]="items"></users-list>
     <loading [status]="loading"></loading>
   </div>
   <div class="layout__item 1/4 extralarge-and-up-1/5 filter-place">

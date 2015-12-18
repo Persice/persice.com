@@ -11,6 +11,8 @@ import {SignupHeaderComponent} from './signup_header/signup_header.component';
 import {InterestsService} from '../../app/services/interests.service';
 import {KeywordsService} from '../../app/services/keywords.service';
 import {NotificationService} from '../../app/services/notification.service';
+import {GoalsService} from '../../app/services/goals.service';
+import {OffersService} from '../../app/services/offers.service';
 
 import {NotificationComponent} from '../../app/components/notification/notification.component';
 import {InterfaceNotification} from '../../app/models/notification.model';
@@ -27,9 +29,10 @@ let view = require('./signup.html');
   ],
   providers: [
     InterestsService,
+    GoalsService,
+    OffersService,
     KeywordsService,
     NotificationService
-
   ]
 })
 @RouteConfig([
@@ -65,9 +68,9 @@ let view = require('./signup.html');
 export class SignupComponent {
 
   @ViewChild(SignupInterestsComponent) myElem1: SignupInterestsComponent;
-  @ViewChild(SignupOffersComponent) myElem3: SignupOffersComponent;
   @ViewChild(SignupGoalsComponent) myElem2: SignupGoalsComponent;
-  @ViewChild(SignupConnectComponent) myElem4: SignupConnectComponent;
+  @ViewChild(SignupOffersComponent) myElem3: SignupOffersComponent;
+
 
 
 
@@ -81,6 +84,8 @@ export class SignupComponent {
   router: Router;
   location: Location;
 
+  timeoutId = null;
+
   notificationMain = {
     body: '',
     title: '',
@@ -91,7 +96,10 @@ export class SignupComponent {
   constructor(
     router: Router,
     location: Location,
-    public notificationService: NotificationService
+    public notificationService: NotificationService,
+    private goalsService: GoalsService,
+    private offersService: OffersService,
+    private interestsService: InterestsService
   ) {
     this.router = router;
     this.location = location;
@@ -105,6 +113,14 @@ export class SignupComponent {
       }
       if (this.myElem1) {
         subs = this.myElem1.counter.subscribe(message => this.onCounterChanged(message));
+      }
+
+      if (this.myElem2) {
+        subs = this.myElem2.counter.subscribe(message => this.onCounterChanged(message));
+      }
+
+      if (this.myElem3) {
+        subs = this.myElem3.counter.subscribe(message => this.onCounterChanged(message));
       }
 
       this.onRouteChanged(path);
@@ -143,7 +159,10 @@ export class SignupComponent {
   }
 
   closeNotification(timeout) {
-    setTimeout(
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = setTimeout(
       () => {
         this.notificationMain.active = false;
       },
@@ -202,7 +221,6 @@ export class SignupComponent {
           break;
 
         default:
-          // code...
           break;
       }
 

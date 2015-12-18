@@ -59,7 +59,7 @@ const APP_PROVIDERS = [
   PLATFORM_PROVIDERS
 ];
 
-// enableProdMode();
+enableProdMode();
 
 export function main() {
 

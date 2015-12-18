@@ -15,6 +15,8 @@ import {eventConnectionsServiceInjectables} from './eventconnections.service';
 import {eventAttendeesServiceInjectables} from './eventattendees.service';
 import {eventMembersServiceInjectables} from './eventmembers.service';
 import {websocketServiceInjectables} from './websocket.service';
+import {offersServiceInjectables} from './offers.service';
+import {goalsServiceInjectables} from './goals.service';
 
 export * from './user.service';
 export * from './search.service';
@@ -33,6 +35,8 @@ export * from './eventconnections.service';
 export * from './eventattendees.service';
 export * from './eventmembers.service';
 export * from './websocket.service';
+export * from './offers.service';
+export * from './goals.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
@@ -50,5 +54,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   eventConnectionsServiceInjectables,
   eventAttendeesServiceInjectables,
   eventMembersServiceInjectables,
-  websocketServiceInjectables
+  websocketServiceInjectables,
+  offersServiceInjectables,
+  goalsServiceInjectables
 ];

@@ -120,6 +120,7 @@ export class AppComponent {
     active: false,
     type: ''
   };
+  timeoutId = null;
 
   constructor(
     public userService: UserService,
@@ -185,7 +186,10 @@ export class AppComponent {
   }
 
   closeNotification(timeout) {
-    setTimeout(
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = setTimeout(
       () => {
         this.notificationMain.active = false;
       },
