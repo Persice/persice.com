@@ -1,7 +1,7 @@
 [
-  {"pk": 1, "model": "match_engine.collocationdict", "fields": {"phrase": "3D printing" }},
-  {"pk": 2, "model": "match_engine.collocationdict", "fields": {"phrase": "Spartan Race" }},
-  {"pk": 3, "model": "match_engine.collocationdict", "fields": {"phrase": "Tough Mudder" }},
+  {"pk": 1, "model": "match_engine.collocationdict", "fields": {"phrase": "3d printing" }},
+  {"pk": 2, "model": "match_engine.collocationdict", "fields": {"phrase": "spartan race" }},
+  {"pk": 3, "model": "match_engine.collocationdict", "fields": {"phrase": "tough mudder" }},
   {"pk": 4, "model": "match_engine.collocationdict", "fields": {"phrase": "artificial intelligence" }},
   {"pk": 5, "model": "match_engine.collocationdict", "fields": {"phrase": "ballet dancing" }},
   {"pk": 6, "model": "match_engine.collocationdict", "fields": {"phrase": "ballroom dancing" }},
@@ -48,5 +48,8 @@
   {"pk": 47, "model": "match_engine.collocationdict", "fields": {"phrase": "video games" }},
   {"pk": 48, "model": "match_engine.collocationdict", "fields": {"phrase": "virtual reality" }},
   {"pk": 49, "model": "match_engine.collocationdict", "fields": {"phrase": "water skiing" }},
-  {"pk": 50, "model": "match_engine.collocationdict", "fields": {"phrase": "machine learning" }}
+  {"pk": 50, "model": "match_engine.collocationdict", "fields": {"phrase": "machine learning" }},
+  {"pk": 51, "model": "match_engine.collocationdict", "fields": {"phrase": "horse riding" }},
+  {"pk": 52, "model": "match_engine.collocationdict", "fields": {"phrase": "laser tag" }},
+  {"pk": 53, "model": "match_engine.collocationdict", "fields": {"phrase": "snow kiting" }}
 ]

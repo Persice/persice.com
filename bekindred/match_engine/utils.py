@@ -2,35 +2,33 @@ from collections import Counter
 
 from nltk.stem.porter import PorterStemmer
 
-from match_engine.models import CollocationDict
+from match_engine.models import CollocationDict, StopWords
 
 
 def find_collocations(keywords):
-    collocations = CollocationDict.objects.all(). \
-        values_list('phrase', flat=True)
+    collocations = CollocationDict.objects. \
+        all().values_list('phrase', flat=True)
     s = PorterStemmer()
-    phrases = Counter()
+    keywords_ = keywords
+    c = Counter()
+    for phrase in collocations:
+        single_phrase = phrase.split()
+        for keyword in keywords_:
+            if s.stem(single_phrase[0]) == s.stem(keyword) or \
+               s.stem(single_phrase[1]) == s.stem(keyword):
+                    c[phrase] += 1
+    d = dict(c)
+    result = []
 
-    new_keywords = keywords[:]
-    for collocation in collocations:
-        collocation_ = collocation.split()
-        if len(collocation_) < 2:
-            continue
-        for keyword in keywords:
-            if s.stem(keyword) == s.stem(collocation_[0]) or \
-                            s.stem(keyword) == s.stem(collocation_[1]):
-                phrases[collocation] += 1
+    temp = []
+    for k in d.keys():
+        for i in k.split():
+            temp.append(s.stem(i))
 
-    d = dict(phrases)
-    match_phrases = dict((key, value) for key, value in d.iteritems()
-                         if value == 2)
+    for keyword in keywords:
+        if s.stem(keyword) not in temp:
+            result.append(keyword)
 
-    for phrase in match_phrases.iterkeys():
-        splitted = phrase.split()
-        for keyword in keywords:
-            if (s.stem(keyword) == s.stem(splitted[0]) or
-                    s.stem(keyword) == s.stem(splitted[1])):
-                if keyword in new_keywords:
-                    new_keywords.remove(keyword)
-    new_keywords.extend(phrases.keys())
-    return new_keywords
+    result.extend(d.keys())
+    return result
+
