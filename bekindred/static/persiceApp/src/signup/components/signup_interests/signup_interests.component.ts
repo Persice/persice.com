@@ -50,44 +50,6 @@ export class SignupInterestsComponent {
 
   ngOnInit() {
     this.getList();
-    // this.initializeTokenInput();
-  }
-
-  ngOnDestroy() {
-    // jQuery('#interestsInput').typeahead('destroy');
-  }
-
-  initializeTokenInput() {
-    // let keywordsEngine = new Bloodhound({
-    //   remote: {
-    //     url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
-    //     filter: (x: any) => {
-    //       return jQuery.map(x.objects, (item) => {
-    //         return item.description;
-    //       });
-    //     },
-    //     wildcard: '%QUERY'
-    //   },
-    //   datumTokenizer: (d) => {
-    //     return Bloodhound.tokenizers.whitespace(d);
-    //   },
-    //   queryTokenizer: Bloodhound.tokenizers.whitespace
-    // });
-
-    // keywordsEngine.initialize();
-
-
-    // jQuery('#interestsInput').typeahead(null, {
-    //   name: 'keywords',
-    //   source: keywordsEngine
-    // });
-
-    // jQuery('#interestsInput').bind('typeahead:select', (ev, suggestion) => {
-    //   console.log('Selection: ' + suggestion);
-    //   this.newInterest = suggestion;
-    // });
-
-
   }
 
   addInterest(event) {
