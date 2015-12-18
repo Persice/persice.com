@@ -51,5 +51,6 @@
   {"pk": 50, "model": "match_engine.collocationdict", "fields": {"phrase": "machine learning" }},
   {"pk": 51, "model": "match_engine.collocationdict", "fields": {"phrase": "horse riding" }},
   {"pk": 52, "model": "match_engine.collocationdict", "fields": {"phrase": "laser tag" }},
-  {"pk": 53, "model": "match_engine.collocationdict", "fields": {"phrase": "snow kiting" }}
+  {"pk": 53, "model": "match_engine.collocationdict", "fields": {"phrase": "snow kiting" }},
+  {"pk": 54, "model": "match_engine.collocationdict", "fields": {"phrase": "play piano" }}
 ]
