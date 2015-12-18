@@ -195,7 +195,6 @@ export class SignupOffersComponent {
     this.loading = false;
 
     this.total_count = data.meta.total_count;
-    console.log('lalalal');
     this.counter.next({
       type: 'offers',
       count: this.total_count

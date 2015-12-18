@@ -1,5 +1,5 @@
 // Angular 2
-import {provide} from 'angular2/core';
+import {provide, enableProdMode} from 'angular2/core';
 import {bootstrap} from 'angular2/platform/browser';
 
 
@@ -70,6 +70,8 @@ const APP_PROVIDERS = [
   UNIVERSAL_PROVIDERS,
   PLATFORM_PROVIDERS
 ];
+
+enableProdMode();
 
 export function main() {
 
