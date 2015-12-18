@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input} from 'angular2/core';
+import {Component, EventEmitter, Input, Output} from 'angular2/core';
 
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
@@ -8,7 +8,6 @@ let view = require('./usercard.html');
 
 @Component({
   inputs: ['user'],
-  outputs: ['onClick'],
   selector: 'user-card',
   pipes: [GenderPipe],
   template: view,
@@ -16,15 +15,27 @@ let view = require('./usercard.html');
 })
 export class UserCardComponent {
   user: any;
-  onClick: EventEmitter<any> = new EventEmitter;
   interests = [];
 
   @Input() showButtons;
+  @Output() onClick: EventEmitter<any> = new EventEmitter;
+  @Output() passEvent: EventEmitter<any> = new EventEmitter;
+  @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
+
+  passUser(event) {
+    this.passEvent.next(this.user.id);
+  }
+
+  acceptUser(event) {
+    this.acceptEvent.next(this.user.id);
+  }
 
 
   userClicked() {
     this.onClick.next(this.user.id);
   }
+
+
 
 
   ngAfterContentInit() {

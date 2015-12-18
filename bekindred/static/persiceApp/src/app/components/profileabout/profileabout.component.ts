@@ -24,6 +24,7 @@ let view = require('./profileabout.html');
 })
 export class ProfileAboutComponent {
   @Input() about;
+  @Input() userId;
   @Input() images;
   @Input() avatar;
   @Input() name;
@@ -37,11 +38,11 @@ export class ProfileAboutComponent {
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
 
   passUser(event) {
-    this.passEvent.next(true);
+    this.passEvent.next(this.userId);
   }
 
   acceptUser(event) {
-    this.acceptEvent.next(true);
+    this.acceptEvent.next(this.userId);
   }
 
   closeProfile(event) {

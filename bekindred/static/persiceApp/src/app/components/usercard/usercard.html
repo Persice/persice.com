@@ -1,9 +1,9 @@
-<div class="card card--user" (click)="userClicked($event)">
-  <h4 class="card-title">{{user.first_name}}</h4>
-  <p class="card-subtitle mb">
+<div class="card card--user">
+  <h4 (click)="userClicked($event)" class="card-title">{{user.first_name}}</h4>
+  <p (click)="userClicked($event)" class="card-subtitle mb">
     {{user.gender | gender}} / age {{user.age}} / {{user.distance[0]}} {{user.distance[1]}}
   </p>
-  <div class="avatar-box mb">
+  <div class="avatar-box mb" (click)="userClicked($event)">
     <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + user.image + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
       <div class="avatar-box__match-percents">
         <span class="avatar-box__match-percents__value">{{user.score}}</span>
@@ -27,12 +27,12 @@
   </ul>
   <div class="pass-accept" *ngIf="showButtons">
     <div class="layout layout--small">
-      <div class="layout__item 1/2"> <a href="#" class="btn btn-1 btn-1--red btn--full">Pass</a> </div>
+      <div class="layout__item 1/2"> <a (click)="passUser($event)" class="btn btn-1 btn-1--red btn--full">Pass</a> </div>
       <div class="layout__item 1/2">
-        <a href="#" class="btn btn-1 btn-1--green btn--full btn--activate">
+        <a (click)="acceptUser($event)" class="btn btn-1 btn-1--green btn--full btn--activate">
           <div class="btn--activate__label">Accept</div>
           <svg role="img" class="icon ">
-            <use xlink:href="icons/icons.svg#icon-accepted"></use>
+            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-accepted"></use>
           </svg>
         </a>
       </div>
