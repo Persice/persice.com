@@ -56,12 +56,12 @@ export class InterestsService {
       user: '/api/v1/auth/user/' + userId + '/'
     };
     let body = JSON.stringify(interest);
-    return this.http.post(InterestsService.API_URL, body, OPTS_REQ_JSON_CSRF)
+    return this.http.post(`${InterestsService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
   }
 
   public delete(url: string): Observable<any> {
-    return this.http.delete(url, OPTS_REQ_JSON_CSRF)
+    return this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
   }
 

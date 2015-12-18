@@ -75,7 +75,7 @@ export class FilterService {
   public updateOne(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
     return this.http.patch(
-      resourceUri,
+      `${resourceUri}?format=json`,
       body,
       OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());

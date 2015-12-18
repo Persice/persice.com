@@ -43,8 +43,8 @@ export class FriendService {
       status: status
     };
     let body = JSON.stringify(friendship);
-    return this.http.post(FriendService.API_URL, body, OPTS_REQ_JSON_CSRF)
-    .map((res: Response) => res.json());
+    return this.http.post(`${FriendService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json());
   }
 }
 
