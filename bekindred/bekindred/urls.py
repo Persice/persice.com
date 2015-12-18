@@ -21,7 +21,8 @@ from matchfeed.api.resources import (MatchedFeedResource, MatchedFeedResource2,
 from msgs.api.resources import (ChatMessageResource, InboxLastResource,
                                 InboxResource, MessageResource,
                                 UnreadMessageCounter)
-from photos.api.resources import FacebookPhotoResource, UserResource
+from photos.api.resources import FacebookPhotoResource, UserResource, \
+    OnBoardingFlowResource
 from tastypie.api import Api
 from world.api.resources import UserLocationResource
 
@@ -64,6 +65,8 @@ v1_api.register(FilterStateResource())
 v1_api.register(EventConnections())
 v1_api.register(EventAttendees())
 v1_api.register(ChatMessageResource())
+v1_api.register(OnBoardingFlowResource())
+
 
 urlpatterns = patterns('',
                        url(r'^$', 'goals.views.main_page_angular2'),
