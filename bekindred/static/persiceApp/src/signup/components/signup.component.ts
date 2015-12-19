@@ -13,6 +13,8 @@ import {KeywordsService} from '../../app/services/keywords.service';
 import {NotificationService} from '../../app/services/notification.service';
 import {GoalsService} from '../../app/services/goals.service';
 import {OffersService} from '../../app/services/offers.service';
+import {UserService} from '../../app/services/user.service';
+import {UserAuthService} from '../../app/services/userauth.service';
 
 import {NotificationComponent} from '../../app/components/notification/notification.component';
 import {InterfaceNotification} from '../../app/models/notification.model';
@@ -32,7 +34,9 @@ let view = require('./signup.html');
     GoalsService,
     OffersService,
     KeywordsService,
-    NotificationService
+    NotificationService,
+    UserService,
+    UserAuthService
   ]
 })
 @RouteConfig([
@@ -99,7 +103,9 @@ export class SignupComponent {
     public notificationService: NotificationService,
     private goalsService: GoalsService,
     private offersService: OffersService,
-    private interestsService: InterestsService
+    private interestsService: InterestsService,
+    private userService: UserService,
+    private userAuthService: UserAuthService
   ) {
     this.router = router;
     this.location = location;
@@ -138,6 +144,13 @@ export class SignupComponent {
       },
       () => console.log('event completed')
       );
+
+    this.userService.get().subscribe((data) => {
+      let res = data.objects[0];
+      this.cGoa = res.goals_count;
+      this.cOff = res.offers_count;
+      this.cInt = res.interest_count;
+    });
   }
 
   ngOnDestroy() {
@@ -227,7 +240,7 @@ export class SignupComponent {
       this.router.navigate([this.nextStep]);
     }
     else {
-      window.location.href = '/#/crowd';
+      this.completeOnboarding();
     }
 
   }
@@ -237,9 +250,24 @@ export class SignupComponent {
       this.router.navigate([this.nextStep]);
     }
     else {
-      window.location.href = '/#/crowd';
+      this.completeOnboarding();
     }
 
+  }
+
+
+  completeOnboarding() {
+    let body = {
+      is_complete: true
+    };
+    this.userAuthService.updateOne('me', body).subscribe((data) => {
+      window.location.href = '/#/crowd';
+    }, (err) => {
+      console.log(err);
+      window.location.href = '/#/crowd';
+    }, () => {
+
+    });
   }
 
   onCounterChanged(event) {
