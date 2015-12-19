@@ -28,7 +28,7 @@ def find_collocations(keywords):
             ph = key.split()
             if s.stem(ph[0]) in st_stop_words or \
                s.stem(ph[1]) in st_stop_words:
-               d[key] = value
+                d[key] = value
 
     result = []
 
@@ -43,4 +43,3 @@ def find_collocations(keywords):
 
     result.extend(d.keys())
     return result
-

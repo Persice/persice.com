@@ -1,6 +1,6 @@
-from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 
+from django_facebook.models import FacebookCustomUser
 from members.models import OnBoardingFlow
 from photos.models import FacebookPhoto
 
@@ -62,31 +62,11 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
 
-    # TODO: Fixed
-    # def test_put_detail(self):
-    #     self.response = self.login()
-    #     # Grab the current data & modify it slightly.
-    #     original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
-    #     new_data = original_data.copy()
-    #     new_data['order'] = 1
-    #
-    #     self.assertEqual(FacebookPhoto.objects.count(), 1)
-    #     self.assertHttpAccepted(self.api_client.put(self.detail_url, format='json', data=new_data))
-    #     # Make sure the count hasn't changed & we did an update.
-    #     self.assertEqual(FacebookPhoto.objects.count(), 1)
-    #     # Check for updated data.
-    #     self.assertEqual(FacebookPhoto.objects.get(pk=self.photo.id).order, 1)
-
     def test_delete_detail(self):
         self.response = self.login()
         self.assertEqual(FacebookPhoto.objects.count(), 1)
         self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
         self.assertEqual(FacebookPhoto.objects.count(), 0)
-
-
-from django_facebook.models import FacebookCustomUser
-from tastypie.test import ResourceTestCase
-from interests.models import Interest, InterestSubject
 
 
 class TestOnBoardingFlowResource(ResourceTestCase):
@@ -110,7 +90,8 @@ class TestOnBoardingFlowResource(ResourceTestCase):
                                            })
 
     def test_get_list_unauthorzied(self):
-        self.assertHttpUnauthorized(self.api_client.get('/api/v1/onboardingflow/', format='json'))
+        self.assertHttpUnauthorized(
+                self.api_client.get('/api/v1/onboardingflow/', format='json'))
 
     def test_login(self):
         self.response = self.login()
@@ -135,41 +116,3 @@ class TestOnBoardingFlowResource(ResourceTestCase):
                 format='json', data=post_data
         )
         self.assertEqual(self.deserialize(resp)['is_complete'], True)
-
-    def test_put_detail(self):
-        self.response = self.login()
-        original_data = self.deserialize(self.api_client.get(
-                '/api/v1/onboardingflow/{}/'.format(self.flow.id),
-                format='json'
-        ))
-        new_data = original_data.copy()
-        new_data['is_complete'] = False
-
-        self.assertEqual(Interest.objects.count(), 1)
-        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
-        updated_interest = self.deserialize(resp)
-        # Make sure the count hasn't changed & we did an update.
-        self.assertEqual(Interest.objects.count(), 1)
-        # Check for updated data.
-        self.assertEqual(str(Interest.objects.get(interest__description='learn erlang')), 'learn erlang')
-
-    def test_put_to_duplicate_detail(self):
-        self.response = self.login()
-        # Grab the current data & modify it slightly.
-        original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
-        new_data = original_data.copy()
-        new_data['Interest_subject'] = 'learn django'
-
-        self.assertEqual(Interest.objects.count(), 1)
-        resp = self.api_client.put(self.detail_url, format='json', data=new_data)
-        updated_Interest = self.deserialize(resp)
-        # Make sure the count hasn't changed & we did an update.
-        self.assertEqual(Interest.objects.count(), 1)
-        # Check for updated data.
-        self.assertEqual(updated_Interest['interest']['error'][0], "Interest already exists")
-
-    def test_delete_detail(self):
-        self.response = self.login()
-        self.assertEqual(Interest.objects.count(), 1)
-        self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
-        self.assertEqual(Interest.objects.count(), 0)
