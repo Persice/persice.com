@@ -55,7 +55,8 @@ let view = require('./app.html');
   {
     path: '/',
     component: HomeComponent,
-    name: 'Home'
+    name: 'Home',
+    redirectTo: ['CrowdComponent']
   },
   {
     path: '/crowd',
