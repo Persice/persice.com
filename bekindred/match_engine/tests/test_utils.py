@@ -25,11 +25,11 @@ class FindCollectionsTestCase(TestCase):
         self.assertEqual(len(new_keywords), len(keywords)-1)
         self.assertEqual(sorted(new_keywords),
                          sorted(["coding", "badminton", "gymnastics",
-                          "antiques", "table", "python",
-                          "ballet", "basketball", "backpacking",
-                          "tennis", "tutoring", "animation",
-                          u"classical piano", "banjo", u"3d printing",
-                          "djing", u"foreign language"]))
+                                 "antiques", "table", "python",
+                                 "ballet", "basketball", "backpacking",
+                                 "tennis", "tutoring", "animation",
+                                 u"classical piano", "banjo", u"3d printing",
+                                 "djing", u"foreign language"]))
 
     def test_empty_collocation(self):
         keywords = []
