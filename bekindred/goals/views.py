@@ -77,7 +77,11 @@ def main_page_angular2(request, template_name="homepage_angular2.html"):
         except UserIPAddress.DoesNotExist:
             user = UserIPAddress.objects.create(user=fb_user, ip=get_client_ip(request))
             user.save()
-    if not request.user.onboardingflow.is_complete:
+
+    if not hasattr(request.user, 'onboardingflow'):
+        return redirect('onboardingflow')
+    elif hasattr(request.user, 'onboardingflow') and not \
+            request.user.onboardingflow.is_complete:
         return redirect('onboardingflow')
         # if fb_user.facebook_id and fb_user.access_token \
         #         and not fb_user.about_me:

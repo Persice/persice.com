@@ -24,6 +24,7 @@ class OnBoardingFlowResource(ModelResource):
         queryset = OnBoardingFlow.objects.all()
         resource_name = 'onboardingflow'
         fields = ['is_complete']
+        always_return_data = True
         authentication = SessionAuthentication()
         authorization = Authorization()
 
