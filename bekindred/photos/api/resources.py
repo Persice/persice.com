@@ -44,7 +44,7 @@ class UserResource(ModelResource):
 
     onboardingflow = fields.OneToOneField(OnBoardingFlowResource,
                                           'onboardingflow',
-                                          full=True)
+                                          full=True, null=True)
 
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
