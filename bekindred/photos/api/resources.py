@@ -18,6 +18,7 @@ from photos.models import FacebookPhoto
 
 
 class OnBoardingFlowResource(ModelResource):
+    user = fields.ForeignKey('photos.api.resources.UserResource', 'user')
 
     class Meta:
         queryset = OnBoardingFlow.objects.all()
