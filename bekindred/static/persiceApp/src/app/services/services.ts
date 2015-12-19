@@ -18,6 +18,7 @@ import {websocketServiceInjectables} from './websocket.service';
 import {offersServiceInjectables} from './offers.service';
 import {goalsServiceInjectables} from './goals.service';
 import {userAuthServiceInjectables} from './userauth.service';
+import {onboardingServiceInjectables} from './onboarding.service';
 
 export * from './user.service';
 export * from './search.service';
@@ -39,6 +40,7 @@ export * from './websocket.service';
 export * from './offers.service';
 export * from './goals.service';
 export * from './userauth.service';
+export * from './onboarding.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
@@ -59,5 +61,6 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   websocketServiceInjectables,
   offersServiceInjectables,
   goalsServiceInjectables,
-  userAuthServiceInjectables
+  userAuthServiceInjectables,
+  onboardingServiceInjectables
 ];
