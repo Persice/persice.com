@@ -28,7 +28,7 @@ class FindCollectionsTestCase(TestCase):
                                  "antiques", "table", "python",
                                  "ballet", "basketball", "backpacking",
                                  "tennis", "tutoring", "animation",
-                                 u"classical piano", "banjo", u"3d printing",
+                                 "piano", "banjo", "3d",
                                  "djing", u"foreign language"]))
 
     def test_empty_collocation(self):
@@ -45,6 +45,6 @@ class FindCollectionsTestCase(TestCase):
     def test_collocation2(self):
         keywords = ["machine", "python", "foreign", "language", "piano"]
         new_keywords = find_collocations(keywords)
-        self.assertEqual(new_keywords, ['python', u'classical piano',
+        self.assertEqual(new_keywords, ['python', u'piano',
                                         u'foreign language',
                                         u'machine learning'])
