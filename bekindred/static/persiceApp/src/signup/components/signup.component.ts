@@ -15,6 +15,7 @@ import {GoalsService} from '../../app/services/goals.service';
 import {OffersService} from '../../app/services/offers.service';
 import {UserService} from '../../app/services/user.service';
 import {UserAuthService} from '../../app/services/userauth.service';
+import {OnboardingService} from '../../app/services/onboarding.service';
 
 import {NotificationComponent} from '../../app/components/notification/notification.component';
 import {InterfaceNotification} from '../../app/models/notification.model';
@@ -36,7 +37,8 @@ let view = require('./signup.html');
     KeywordsService,
     NotificationService,
     UserService,
-    UserAuthService
+    UserAuthService,
+    OnboardingService
   ]
 })
 @RouteConfig([
@@ -84,6 +86,7 @@ export class SignupComponent {
   cInt: number = 0;
   showSkip = false;
   nextStep = 'SignupGoals';
+  is_complete = null;
 
   router: Router;
   location: Location;
@@ -105,7 +108,8 @@ export class SignupComponent {
     private offersService: OffersService,
     private interestsService: InterestsService,
     private userService: UserService,
-    private userAuthService: UserAuthService
+    private userAuthService: UserAuthService,
+    private onboardingService: OnboardingService
   ) {
     this.router = router;
     this.location = location;
@@ -150,6 +154,12 @@ export class SignupComponent {
       this.cGoa = res.goals_count;
       this.cOff = res.offers_count;
       this.cInt = res.interest_count;
+      this.is_complete = res.onboardingflow;
+    });
+
+    this.userAuthService.findOneByUri('me').subscribe((data) => {
+      let res = data;
+      this.is_complete = res.onboardingflow;
     });
   }
 
@@ -257,17 +267,19 @@ export class SignupComponent {
 
 
   completeOnboarding() {
-    let body = {
-      is_complete: true
-    };
-    this.userAuthService.updateOne('me', body).subscribe((data) => {
-      window.location.href = '/#/crowd';
-    }, (err) => {
-      console.log(err);
-      window.location.href = '/#/crowd';
-    }, () => {
+    if (this.is_complete === null) {
+      this.onboardingService.complete().subscribe((data) => {
+        window.location.href = '/#/crowd';
+      }, (err) => {
+        console.log(err);
+      }, () => {
 
-    });
+      });
+    }
+    else {
+      window.location.href = '/#/crowd';
+    }
+
   }
 
   onCounterChanged(event) {
