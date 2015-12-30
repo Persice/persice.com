@@ -1,4 +1,4 @@
-import {Pipe, Injectable} from 'angular2/angular2';
+import {Pipe, Injectable} from 'angular2/core';
 
 @Injectable()
 @Pipe({

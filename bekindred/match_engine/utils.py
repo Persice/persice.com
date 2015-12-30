@@ -2,35 +2,44 @@ from collections import Counter
 
 from nltk.stem.porter import PorterStemmer
 
-from match_engine.models import CollocationDict
+from match_engine.models import CollocationDict, StopWords
 
 
 def find_collocations(keywords):
-    collocations = CollocationDict.objects.all(). \
-        values_list('phrase', flat=True)
+    collocations = CollocationDict.objects. \
+        all().values_list('phrase', flat=True)
+    stop_words = StopWords.objects.all().values_list('word', flat=True)
     s = PorterStemmer()
-    phrases = Counter()
+    st_stop_words = [s.stem(w) for w in stop_words]
+    keywords_ = keywords
+    c = Counter()
+    for phrase in collocations:
+        single_phrase = phrase.split()
+        for keyword in keywords_:
+            if s.stem(single_phrase[0]) == s.stem(keyword) or \
+               s.stem(single_phrase[1]) == s.stem(keyword):
+                    c[phrase] += 1
+    new_d = dict(c)
+    d = dict()
+    for key, value in new_d.iteritems():
+        if value == 2:
+            d[key] = value
+        elif value == 1:
+            ph = key.split()
+            if s.stem(ph[0]) in st_stop_words or \
+               s.stem(ph[1]) in st_stop_words:
+                d[key] = value
 
-    new_keywords = keywords[:]
-    for collocation in collocations:
-        collocation_ = collocation.split()
-        if len(collocation_) < 2:
-            continue
-        for keyword in keywords:
-            if s.stem(keyword) == s.stem(collocation_[0]) or \
-                            s.stem(keyword) == s.stem(collocation_[1]):
-                phrases[collocation] += 1
+    result = []
 
-    d = dict(phrases)
-    match_phrases = dict((key, value) for key, value in d.iteritems()
-                         if value == 2)
+    temp = []
+    for k in d.keys():
+        for i in k.split():
+            temp.append(s.stem(i))
 
-    for phrase in match_phrases.iterkeys():
-        splitted = phrase.split()
-        for keyword in keywords:
-            if (s.stem(keyword) == s.stem(splitted[0]) or
-                    s.stem(keyword) == s.stem(splitted[1])):
-                if keyword in new_keywords:
-                    new_keywords.remove(keyword)
-    new_keywords.extend(phrases.keys())
-    return new_keywords
+    for keyword in keywords:
+        if s.stem(keyword) not in temp:
+            result.append(keyword)
+
+    result.extend(d.keys())
+    return result

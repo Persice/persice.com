@@ -14,7 +14,7 @@ TestComponentBuilder,
 AsyncTestCompleter
 } from 'angular2/testing_internal';
 
-import {Component} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 
 

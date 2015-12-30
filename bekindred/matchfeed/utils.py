@@ -192,19 +192,19 @@ class MatchUser(object):
                 interests.append(new_h[0])
 
         keywords = self.get_keywords(user_object)
-        # keywords = find_collocations(keywords)
+        keywords = find_collocations(keywords)
 
         result_interests = []
         other_keywords = []
         s = PorterStemmer()
-        for interest in interests:
-            for keyword in keywords:
-                if s.stem(interest.lower()) == s.stem(keyword.lower()):
-                    result_interests.append(keyword)
-                elif len(keyword.lower().split()) == 2 and \
-                        s.stem(interest.lower()) == \
-                        s.stem(keyword.lower().split()[0]):
-                    result_interests.append(keyword)
+        for i in interests:
+            for k in keywords:
+                if s.stem(i.lower()) == s.stem(k.lower()):
+                    result_interests.append(k)
+                elif len(k.lower().split()) == 2 and \
+                        (s.stem(i.lower()) == s.stem(k.lower().split()[0]) or
+                         s.stem(i.lower()) == s.stem(k.lower().split()[1])):
+                    result_interests.append(k)
 
         other_keywords = list(set(keywords) - set(result_interests))
         result_interests = list(set(result_interests))

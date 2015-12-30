@@ -3,10 +3,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  NgFor,
-  NgStyle,
-  NgIf
-} from 'angular2/angular2';
+} from 'angular2/core';
 
 import {GenderPipe} from '../../pipes/gender.pipe';
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
@@ -22,14 +19,12 @@ let view = require('./profileabout.html');
   pipes: [GenderPipe],
   directives: [
   CircleProgressDirective,
-  NgFor,
-  NgStyle,
-  NgIf,
   SlickDirective
   ]
 })
 export class ProfileAboutComponent {
   @Input() about;
+  @Input() userId;
   @Input() images;
   @Input() avatar;
   @Input() name;
@@ -43,11 +38,11 @@ export class ProfileAboutComponent {
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
 
   passUser(event) {
-    this.passEvent.next(true);
+    this.passEvent.next(this.userId);
   }
 
   acceptUser(event) {
-    this.acceptEvent.next(true);
+    this.acceptEvent.next(this.userId);
   }
 
   closeProfile(event) {

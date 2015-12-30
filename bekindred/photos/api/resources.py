@@ -13,8 +13,20 @@ from friends.models import Friend
 
 from goals.utils import calculate_age, social_extra_data, calculate_distance
 from match_engine.models import MatchEngine
-from members.models import FacebookCustomUserActive
+from members.models import FacebookCustomUserActive, OnBoardingFlow
 from photos.models import FacebookPhoto
+
+
+class OnBoardingFlowResource(ModelResource):
+    user = fields.ForeignKey('photos.api.resources.UserResource', 'user')
+
+    class Meta:
+        queryset = OnBoardingFlow.objects.all()
+        resource_name = 'onboardingflow'
+        fields = ['is_complete']
+        always_return_data = True
+        authentication = SessionAuthentication()
+        authorization = Authorization()
 
 
 class UserResource(ModelResource):
@@ -31,6 +43,10 @@ class UserResource(ModelResource):
                                       attribute=lambda bundle:
                                       bundle.obj.interest_set.all(),
                                       full=True, null=True)
+
+    onboardingflow = fields.OneToOneField(OnBoardingFlowResource,
+                                          'onboardingflow',
+                                          full=True, null=True)
 
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()

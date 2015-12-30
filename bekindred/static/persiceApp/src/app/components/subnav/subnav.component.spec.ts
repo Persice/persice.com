@@ -12,7 +12,7 @@ fakeAsync,
 tick
 } from 'angular2/testing';
 
-import {Component, View, provide, DirectiveResolver} from 'angular2/angular2';
+import {Component, View, provide, DirectiveResolver} from 'angular2/core';
 
 import {Router, RootRouter} from 'angular2/src/router/router';
 import {SpyLocation} from 'angular2/src/mock/location_mock';

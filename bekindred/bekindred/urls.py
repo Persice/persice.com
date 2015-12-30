@@ -21,7 +21,8 @@ from matchfeed.api.resources import (MatchedFeedResource, MatchedFeedResource2,
 from msgs.api.resources import (ChatMessageResource, InboxLastResource,
                                 InboxResource, MessageResource,
                                 UnreadMessageCounter)
-from photos.api.resources import FacebookPhotoResource, UserResource
+from photos.api.resources import FacebookPhotoResource, UserResource, \
+    OnBoardingFlowResource
 from tastypie.api import Api
 from world.api.resources import UserLocationResource
 
@@ -64,10 +65,14 @@ v1_api.register(FilterStateResource())
 v1_api.register(EventConnections())
 v1_api.register(EventAttendees())
 v1_api.register(ChatMessageResource())
+v1_api.register(OnBoardingFlowResource())
+
 
 urlpatterns = patterns('',
                        url(r'^$', 'goals.views.main_page_angular2'),
                        url(r'^mvp/$', 'goals.views.main_page'),
+                       url(r'^signup/$', 'goals.views.signup_page',
+                           name='onboardingflow'),
                        url(r'^api/', include(v1_api.urls)),
                        url(r'^facebook/', include('django_facebook.urls')),
                        url(r'^social/', include('social_auth.urls')),

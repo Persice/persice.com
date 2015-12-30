@@ -1,4 +1,4 @@
-import {Component, CORE_DIRECTIVES, ElementRef, Inject} from 'angular2/angular2';
+import {Component, ElementRef, Inject} from 'angular2/core';
 import {SearchKeywordsInputComponent} from '../searchkeywords/searchkeywordsinput.component';
 
 declare var jQuery: any;
@@ -6,7 +6,7 @@ declare var jQuery: any;
 let view = require('./searchkeywords.html');
 @Component({
   selector: 'search-keywords',
-  directives: [CORE_DIRECTIVES, SearchKeywordsInputComponent],
+  directives: [SearchKeywordsInputComponent],
   template: view
 })
 export class SearchKeywordsComponent {

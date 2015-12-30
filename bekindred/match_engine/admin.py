@@ -12,6 +12,7 @@ class StopWordsResource(resources.ModelResource):
 
 class StopWordsAdmin(ImportExportModelAdmin):
     resource_class = StopWordsResource
+    search_fields = ['word']
 
 
 class GerundWordResource(resources.ModelResource):
@@ -21,6 +22,7 @@ class GerundWordResource(resources.ModelResource):
 
 class GerundWordAdmin(ImportExportModelAdmin):
     resource_class = GerundWordResource
+    search_fields = ['word']
 
 
 class CollocationDictResource(resources.ModelResource):
@@ -30,6 +32,7 @@ class CollocationDictResource(resources.ModelResource):
 
 class CollocationDictAdmin(ImportExportModelAdmin):
     resource_class = CollocationDictResource
+    search_fields = ['phrase']
 
 
 admin.site.register(StopWords, StopWordsAdmin)

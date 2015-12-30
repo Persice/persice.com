@@ -68,43 +68,19 @@
       if (pos >= 0) _self._delimiters[index] = '\\' + character;
     });
 
-    //http://stackoverflow.com/questions/754607/
-    function css(a) {
-        var sheets = document.styleSheets, o = {};
-        for (var i in sheets) {
-            var rules = sheets[i].rules || sheets[i].cssRules;
-            for (var r in rules) {
-                if (a.is(rules[r].selectorText)) {
-                    o = $.extend(o, css2json(rules[r].style), css2json(a.attr('style')));
-                }
-            }
-        }
-        return o;
-    }
-    function css2json(css) {
-        var s = {};
-        if (!css) return s;
-        if (css instanceof CSSStyleDeclaration) {
-            for (var i in css) {
-                if ((css[i]).toLowerCase) {
-                    s[(css[i]).toLowerCase()] = (css[css[i]]);
-                }
-            }
-        } else if (typeof css == "string") {
-            css = css.split("; ");
-            for (var i in css) {
-                var l = css[i].split(": ");
-                s[l[0].toLowerCase()] = (l[1]);
-            }
-        }
-        return s;
-    }
-
     // Store original input width
-    var elStyleWidth = element.style.width
+    // var elRules = (window && typeof window.getMatchedCSSRules === 'function') ? window.getMatchedCSSRules( element ) : null
+      var elStyleWidth = element.style.width
       , elCSSWidth = this.$element.width()
       , elWidth = this.$element.width()
 
+    // if (elRules) {
+    //   $.each( elRules, function (i, rule) {
+    //     if (rule.style.width) {
+    //       elCSSWidth = rule.style.width;
+    //     }
+    //   });
+    // }
 
     // Move original input out of the way
     var hidingPosition = $('body').css('direction') === 'rtl' ? 'right' : 'left',
@@ -119,7 +95,7 @@
       .prop('tabindex', -1)
 
     // Create a wrapper
-    this.$wrapper = $('<div class="tokenfield search__input" />')
+    this.$wrapper = $('<div class="tokenfield form-control" />')
     if (this.$element.hasClass('input-lg')) this.$wrapper.addClass('input-lg')
     if (this.$element.hasClass('input-sm')) this.$wrapper.addClass('input-sm')
     if (this.textDirection === 'rtl') this.$wrapper.addClass('rtl')
@@ -128,7 +104,7 @@
     var id = this.$element.prop('id') || new Date().getTime() + '' + Math.floor((1 + Math.random()) * 100)
     this.$input = $('<input type="'+this.options.inputType+'" class="token-input" autocomplete="off" />')
                     .appendTo( this.$wrapper )
-                    .prop( 'placeholder',  this.$element.prop('placeholder') )
+                    .prop( 'placeholder', 'Search...' )
                     .prop( 'id', id + '-tokenfield' )
                     .prop( 'tabindex', this.$element.data('original-tabindex') )
 
@@ -216,7 +192,6 @@
       args[0] = $.extend( {}, defaults, args[0] )
 
       this.$input.typeahead.apply( this.$input, args )
-      this.$hint = this.$input.prev('.tt-hint')
       this.typeahead = true
     }
   }
@@ -257,8 +232,8 @@
       if (!createEvent.attrs || createEvent.isDefaultPrevented()) return
 
       var $token = $('<div class="token" />')
-            .append('<a href="#" class="close" tabindex="-1">&times;</a>')
             .append('<span class="token-label" />')
+            .append('<a href="#" class="close" tabindex="-1">&times;</a>')
             .data('attrs', attrs)
 
       // Insert token into HTML
@@ -905,10 +880,6 @@
         }
 
         this.$input.width( mirrorWidth )
-
-        if (this.$hint) {
-          this.$hint.width( mirrorWidth )
-        }
       }
       else {
         var w = (this.textDirection === 'rtl')
@@ -919,10 +890,6 @@
         // dimensions returned by jquery will be NaN -> we default to 100%
         // so placeholder won't be cut off.
         isNaN(w) ? this.$input.width('100%') : this.$input.width(w);
-
-        if (this.$hint) {
-          isNaN(w) ? this.$hint.width('100%') : this.$hint.width(w);
-        }
       }
     }
 

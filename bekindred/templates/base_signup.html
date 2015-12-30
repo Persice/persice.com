@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--[if IE 8]>    <html class=" no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class=" no-js ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
+  <title>Persice</title>
+  <!-- base url -->
+  <base href="/signup/">
+  <!-- Prefetch DNS for external assets (Twitter widgets etc). -->
+  <link rel="dns-prefetch" href="//ajax.googleapis.com">
+  <link rel="dns-prefetch" href="//maps.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//themes.googleusercontent.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/persiceApp/src/public/css/vendor.min.css" />
+  <meta name="description" content="">
+  <meta name="author" content="">
+</head>
+
+<body>
+  <persice-signup>
+    <div id="loadingindicator">
+      <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
+    </div>
+  </persice-signup>
+  <!-- Theme scripts -->
+  <!-- development only
+  <script src="/static/persiceApp/src/public/lib/plugins.min.js"></script>
+  <script src="//localhost:8080/__build__/common.js"></script>
+  <script src="//localhost:8080/__build__/vendor.js"></script>
+  <script src="//localhost:8080/__build__/signup.js"></script>
+-->
+
+  <!-- staging only
+  <script src="/static/persiceApp/src/public/lib/plugins.min.js"></script>
+  <script src="/static/persiceApp/__build__/common.js"></script>
+  <script src="/static/persiceApp/__build__/vendor.js"></script>
+  <script src="/static/persiceApp/__build__/signup.js"></script>
+   -->
+  <!-- production only -->
+  <script src="/static/persiceApp/src/public/lib/plugins.min.js"></script>
+  <script src="/static/persiceApp/__build__/common.min.js"></script>
+  <script src="/static/persiceApp/__build__/vendor.min.js"></script>
+  <script src="/static/persiceApp/__build__/signup.ea4ca4fad54c378f9286.min.js"></script>
+
+  <script type="text/javascript">
+  function createCookie(name, value, days) {
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      var expires = "; expires=" + date.toGMTString();
+    } else var expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+  }
+
+  createCookie('userid', '{{user.id}}', 1);
+
+
+  function refreshConnect() {
+    console.log('your social account is now connected.');
+  }
+  </script>
+</body>

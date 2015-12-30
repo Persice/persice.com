@@ -1,0 +1,19 @@
+<header class="header-signup">
+  <div class="layout layout--auto">
+    <div class="layout__item">
+      <div class="header-signup__logo-place">
+        <a [routerLink]="['./SignupInterests']" class="site-logo" href="Persice">
+          <img alt="#" src="/static/persiceApp/src/public/images/logo.svg" class="site-logo__mark">
+          <h1 class="site-logo__type">Persice</h1>
+        </a>
+      </div>
+    </div>
+    <div class="layout__item">
+      <ul class="header-signup__steps">
+        <li><a [routerLink]="['./SignupInterests']"><b>{{counterInterests}}</b> interests</a></li>
+        <li><a [routerLink]="['./SignupGoals']"><b>{{counterGoals}}</b> goals</a></li>
+        <li><a [routerLink]="['./SignupOffers']"><b>{{counterOffers}}</b> offers</a></li>
+      </ul>
+    </div>
+  </div>
+</header>

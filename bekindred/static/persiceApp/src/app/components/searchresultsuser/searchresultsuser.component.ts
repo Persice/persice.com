@@ -1,4 +1,4 @@
-import {Component, NgIf} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 import {GenderPipe} from '../../pipes/gender.pipe';
 import {SearchResultUserModel} from '../../models/searchresults.model';
@@ -11,7 +11,7 @@ let view = require('./searchresultsuser.html');
   selector: 'searchresult-user',
   pipes: [GenderPipe],
   template: view,
-  directives: [NgIf, ImageStretchDirective]
+  directives: [ImageStretchDirective]
 })
 export class SearchResultsUserComponent {
   user: SearchResultUserModel;

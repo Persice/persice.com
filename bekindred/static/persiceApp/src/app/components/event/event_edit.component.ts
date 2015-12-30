@@ -1,4 +1,4 @@
-import {Component, NgClass, NgIf, Input, Output, EventEmitter} from 'angular2/angular2';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {Router} from 'angular2/router';
 
 import {EventService} from '../../services/event.service';
@@ -26,7 +26,6 @@ let view = require('./event_form.html');
   directives: [
     SelectDirective,
     NotificationComponent,
-    NgClass,
     GeocompleteDirective,
     DatepickerDirective,
     TimepickerDirective
@@ -68,6 +67,7 @@ export class EventEditComponent extends BaseEventComponent {
       this.model.description = ev.description;
       this.model.starts_on = ev.starts_on;
       this.model.ends_on = ev.ends_on;
+      this.model.event_photo = ev.event_photo;
       this.model.location = ev.location;
       this.model.location_name = ev.location_name;
       this.model.event_location = ev.location_name;

@@ -1,6 +1,6 @@
 /// <reference path='../../../typings/_custom.d.ts' />
 
-import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES, Input} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 import {findIndex, isUndefined} from 'lodash';
 
 import {SelectDirective} from '../../directives/select.directive';
@@ -18,8 +18,6 @@ declare var jQuery: any;
 @Component({
   selector: 'filters',
   directives: [
-    FORM_DIRECTIVES,
-    CORE_DIRECTIVES,
     SelectDirective,
     RangeSliderComponent
   ],

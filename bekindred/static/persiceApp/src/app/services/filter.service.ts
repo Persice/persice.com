@@ -1,4 +1,4 @@
-import { provide, Injectable } from 'angular2/angular2';
+import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
 import {HttpClient} from '../core/http_client';
 
@@ -75,7 +75,7 @@ export class FilterService {
   public updateOne(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
     return this.http.patch(
-      resourceUri,
+      `${resourceUri}?format=json`,
       body,
       OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());

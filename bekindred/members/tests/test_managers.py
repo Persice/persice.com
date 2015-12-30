@@ -1,7 +1,7 @@
-from unittest import TestCase
+from django.test import TestCase
 from django_facebook.models import FacebookLike, FacebookCustomUser
 from interests.models import Interest
-from members.models import FacebookLikeProxy
+from members.models import FacebookLikeProxy, OnBoardingFlow
 from random import randint
 
 
@@ -45,3 +45,12 @@ class TestFacebookLikeProxyManager(TestCase):
     def test_match_interests_to_fb_likes(self):
         l = FacebookLikeProxy.objects.match_interests_to_fb_likes(self.user4.id, [self.user3.id])
         self.assertEqual(len(l), 5)
+
+
+class TestOnBoardingFlowTestCase(TestCase):
+    def create_simple_model(self):
+        user = FacebookCustomUser.objects.\
+            create_user(username='user_1a', password='test')
+        OnBoardingFlow.objects.create(user=user, is_complete=True)
+        self.assertEqual(FacebookCustomUser.objects.get(pk=user.pk).
+                         onboardingflow.is_complete, True)

@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/angular2';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {ProfileAboutComponent} from '../profileabout/profileabout.component';
 import {ProfileFeaturesComponent} from '../profilefeatures/profilefeatures.component';
 import {ProfileLikesComponent} from '../profilelikes/profilelikes.component';
@@ -100,11 +100,11 @@ export class ProfileComponent {
   }
 
   passUser(event) {
-    this.passEvent.next(true);
+    this.passEvent.next(event);
   }
 
   acceptUser(event) {
-    this.acceptEvent.next(true);
+    this.acceptEvent.next(event);
   }
 
   closeProfile(event) {

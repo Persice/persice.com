@@ -1,0 +1,21 @@
+<h2 class="signup-step__title">What interests you?</h2>
+<p class="signup-step__subtitle">You can customize this later.</p>
+<div class="search-signup-wrapper">
+  <div class="search search--signup">
+    <div class="search__top" id="interestsSearch">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-search"></use>
+      </svg>
+      <input [ngModel]="newInterest" (keyup.enter)="addInterest($event)" (ngModelChange)="newInterest = $event; onSearchInputChanged();" type="text" class="search__input" id="interestsInput" placeholder="Enter your interests or search existing">
+      <button class="btn" (click)="addInterest($event)">
+        <svg role="img" class="icon ">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-plus-big"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div class="search__tags-wrapper" id="interests">
+    <span (click)="onInterestClick(item)" [ngClass]="{'is-current': item.active}" class="search-tag" *ngFor="#item of items">{{item.description}}</span>
+    <loading [status]="loading"></loading>
+  </div>
+</div>

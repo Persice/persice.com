@@ -14,7 +14,7 @@
 // TestComponentBuilder
 // } from 'angular2/testing';
 
-// import {Component, View, provide, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
+// import {Component, View, provide, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/core';
 // import {Location} from 'angular2/router';
 // import {BaseRequestOptions, ConnectionBackend, Http, Response,
 // ResponseOptions, HTTP_BINDINGS

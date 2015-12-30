@@ -1,7 +1,7 @@
 /// <reference path="../../../../typings/_custom.d.ts" />
 
 
-import {Injectable} from 'angular2/angular2';
+import {Injectable} from 'angular2/core';
 import {GoogleMapMarker} from '../components/google_map_marker';
 import {GoogleMapsAPIWrapper} from './google_maps_api_wrapper';
 

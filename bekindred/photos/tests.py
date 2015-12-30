@@ -1,5 +1,7 @@
-from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
+
+from django_facebook.models import FacebookCustomUser
+from members.models import OnBoardingFlow
 from photos.models import FacebookPhoto
 
 ResourceTestCase.maxDiff = None
@@ -60,23 +62,57 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
 
-    # TODO: Fixed
-    # def test_put_detail(self):
-    #     self.response = self.login()
-    #     # Grab the current data & modify it slightly.
-    #     original_data = self.deserialize(self.api_client.get(self.detail_url, format='json'))
-    #     new_data = original_data.copy()
-    #     new_data['order'] = 1
-    #
-    #     self.assertEqual(FacebookPhoto.objects.count(), 1)
-    #     self.assertHttpAccepted(self.api_client.put(self.detail_url, format='json', data=new_data))
-    #     # Make sure the count hasn't changed & we did an update.
-    #     self.assertEqual(FacebookPhoto.objects.count(), 1)
-    #     # Check for updated data.
-    #     self.assertEqual(FacebookPhoto.objects.get(pk=self.photo.id).order, 1)
-
     def test_delete_detail(self):
         self.response = self.login()
         self.assertEqual(FacebookPhoto.objects.count(), 1)
         self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
         self.assertEqual(FacebookPhoto.objects.count(), 0)
+
+
+class TestOnBoardingFlowResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestOnBoardingFlowResource, self).setUp()
+        self.user = FacebookCustomUser.objects.\
+            create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects. \
+            create_user(username='user_b', password='test')
+        self.flow = OnBoardingFlow.objects.\
+            create(user=self.user, is_complete=True)
+
+    def login(self):
+        return self.api_client.client.post('/login/',
+                                           {
+                                               'username': 'user_a',
+                                               'password': 'test'
+                                           })
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(
+                self.api_client.get('/api/v1/onboardingflow/', format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_get_list_json(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/onboardingflow/', format='json')
+        self.assertValidJSONResponse(resp)
+
+        # Scope out the data for correctness.
+        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
+
+    def test_create_onboardingflow(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
+            'is_complete': True,
+        }
+        self.response = self.login()
+        resp = self.api_client.post(
+                '/api/v1/onboardingflow/',
+                format='json', data=post_data
+        )
+        self.assertEqual(self.deserialize(resp)['is_complete'], True)

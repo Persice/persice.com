@@ -1,4 +1,4 @@
-import {Component, CORE_DIRECTIVES} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 import {SearchResultsComponent} from '../searchresults/searchresults.component';
 import {SearchInputComponent} from '../searchinput/searchinput.component';
@@ -9,7 +9,7 @@ import {SearchResultEventModel} from '../../models/searchresults.model';
 let view = require('./search.html');
 @Component({
   selector: 'search',
-  directives: [CORE_DIRECTIVES, SearchInputComponent, SearchResultsComponent],
+  directives: [SearchInputComponent, SearchResultsComponent],
   template: view
 })
 export class SearchComponent {

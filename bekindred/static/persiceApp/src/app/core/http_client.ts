@@ -1,7 +1,9 @@
-import {Injectable, Observable} from 'angular2/angular2';
+import {Injectable} from 'angular2/core';
 import {Http, RequestOptionsArgs, Response} from 'angular2/http';
 
 import * as Rx from 'rxjs';
+
+import {Observable} from 'rxjs';
 
 import {Notification} from './dto';
 

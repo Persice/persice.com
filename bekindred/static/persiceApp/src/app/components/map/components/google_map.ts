@@ -15,7 +15,7 @@ NgZone,
 EventEmitter,
 QueryList,
 provide
-} from 'angular2/angular2';
+} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {GoogleMapMarker} from './google_map_marker';
 import {MarkerManager} from '../services/marker_manager';

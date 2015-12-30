@@ -1,11 +1,15 @@
 // Angular 2
-import {bootstrap, provide} from 'angular2/angular2';
+import {provide, enableProdMode} from 'angular2/core';
+import {bootstrap} from 'angular2/platform/browser';
 
 
 /*
  * Angular Modules
  */
-import {FORM_PROVIDERS, ELEMENT_PROBE_PROVIDERS} from 'angular2/angular2';
+
+import {ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/common_dom';
+
+import {FORM_PROVIDERS} from 'angular2/common';
 import {
 ROUTER_PROVIDERS,
 ROUTER_PRIMARY_COMPONENT,
@@ -44,8 +48,8 @@ import {AppComponent} from './components/app.component';
  * Universal injectables
  */
 const UNIVERSAL_PROVIDERS = [
-  ELEMENT_PROBE_PROVIDERS,
   ROUTER_PROVIDERS,
+  ELEMENT_PROBE_PROVIDERS,
   FORM_PROVIDERS,
   HTTP_PROVIDERS,
   HttpClient,
@@ -67,7 +71,16 @@ const APP_PROVIDERS = [
   PLATFORM_PROVIDERS
 ];
 
-bootstrap(
-  AppComponent,
-  APP_PROVIDERS
-);
+enableProdMode();
+
+export function main() {
+
+  return bootstrap(
+    AppComponent,
+    APP_PROVIDERS
+  ).catch(err => console.error(err));
+
+}
+
+document.addEventListener('DOMContentLoaded', main);
+

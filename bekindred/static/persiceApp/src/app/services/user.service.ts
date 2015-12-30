@@ -1,4 +1,4 @@
-import { provide, Injectable } from 'angular2/angular2';
+import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';

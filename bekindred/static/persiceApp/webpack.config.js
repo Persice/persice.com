@@ -5,14 +5,14 @@
  * env(), getBanner(), root(), and rootDir()
  * are defined at the bottom
  */
-var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
-var toString = Function.prototype.call.bind(Object.prototype.toString);
-var NODE_ENV = process.env.NODE_ENV || 'development';
-var pkg = require('./package.json');
-var publicDir = __dirname + "/src/public";
+ var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
+ var toString = Function.prototype.call.bind(Object.prototype.toString);
+ var NODE_ENV = process.env.NODE_ENV || 'development';
+ var pkg = require('./package.json');
+ var publicDir = __dirname + "/src/public";
 
-var node_dir = __dirname + '/node_modules';
-var lib_dir = __dirname + '/public/js/libs';
+ var node_dir = __dirname + '/node_modules';
+ var lib_dir = __dirname + '/public/js/libs';
 // Polyfill
 Object.assign = require('object-assign');
 
@@ -37,7 +37,7 @@ console.log('Build environment: ', NODE_ENV);
 /*
  * Config
  */
-module.exports = {
+ module.exports = {
   devtool: env({
     'development': 'eval',
     'all': 'source-map'
@@ -73,20 +73,9 @@ module.exports = {
 
   //
   entry: {
-    'angular2': [
-      // to ensure these modules are grouped together in one file
-      'rxjs',
-      'zone.js',
-      'reflect-metadata',
-      'angular2/angular2',
-      'angular2/core',
-      'angular2/router',
-      'angular2/http'
-    ],
-    'app': [
-      // App
-      './src/app/bootstrap'
-    ],
+    'vendor': './src/app/vendor.ts',
+    'app': './src/app/bootstrap.ts',
+    'signup': './src/signup/bootstrap.ts'
   },
 
   // Config for our build files
@@ -109,7 +98,7 @@ module.exports = {
   resolve: {
     root: __dirname,
     modulesDirectories: [
-      'node_modules', 'src', 'src/app', '.'
+    'node_modules', 'src', 'src/app', '.'
     ],
     extensions: ['','.ts','.js','.json', '.css', '.html'],
     alias: {
@@ -119,11 +108,11 @@ module.exports = {
       'components': 'src/app/components',
       'services': 'src/app/services'
         // 'stores': 'src/app/stores'
-    }
-  },
+      }
+    },
 
-  module: {
-    loaders: [
+    module: {
+      loaders: [
       // Support for *.json files.
       {
         test: /\.json$/,
@@ -154,29 +143,32 @@ module.exports = {
         loader: 'ts',
         query: {
           'ignoreDiagnostics': [
-            2309,
-            2403
+          2309,
+          2403, // 2403 -> Subsequent variable declarations
+          2300, // 2300 Duplicate identifier
+          2374, // 2374 -> Duplicate number index signature
+          2375  // 2375 -> Duplicate string index signature
           ]
         },
         exclude: [
-          /\.min\.js$/,
-          /\.spec\.ts$/,
-          /\.e2e\.ts$/,
-          /node_modules/
+        /\.min\.js$/,
+        /\.spec\.ts$/,
+        /\.e2e\.ts$/,
+        /node_modules/
         ]
       }
-    ],
-    noParse: [
-      /rtts_assert\/src\/rtts_assert/,
-      /reflect-metadata/
-    ],
-    preLoaders: [{
-      test: /\.ts$/,
-      loader: "tslint"
-    }],
-    tslint: {
-      emitErrors: true,
-      failOnHint: false
+      ],
+      noParse: [
+      /zone\.js\/dist\/.+/,
+      /angular2\/bundles\/.+/
+      ],
+      preLoaders: [{
+        test: /\.ts$/,
+        loader: "tslint-loader"
+      }],
+      tslint: {
+        emitErrors: true,
+        failOnHint: false
       // fileOutput: {
       //   dir: "./lint/",
       //   ext: "xml",
@@ -188,28 +180,28 @@ module.exports = {
   },
   plugins: env({
     'production': [
-      new UglifyJsPlugin({
-        compress: {
-          warnings: false,
-          drop_debugger: env({
-            'development': false,
-            'all': true
-          })
-        },
-        output: {
-          comments: false
-        },
-        beautify: false
-      }),
-      new BannerPlugin(getBanner(), {
-        entryOnly: true
-      }),
-      new BundleTracker({
-        filename: './webpack-stats-prod.json'
-      })
+    new UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        drop_debugger: env({
+          'development': false,
+          'all': true
+        })
+      },
+      output: {
+        comments: false
+      },
+      beautify: false
+    }),
+    new BannerPlugin(getBanner(), {
+      entryOnly: true
+    }),
+    new BundleTracker({
+      filename: './webpack-stats-prod.json'
+    })
     ],
     'development': [
-      /* Dev Plugin */
+    /* Dev Plugin */
       // new webpack.HotModuleReplacementPlugin(),
       new BundleTracker({
         filename: './webpack-stats-dev.json'
@@ -220,8 +212,8 @@ module.exports = {
         // contentImage: path.join(publicDir, 'images/logo.svg')
       }),
 
-    ],
-    'all': [
+      ],
+      'all': [
       new webpack.ProvidePlugin({
         _: "lodash"
       }),
@@ -231,34 +223,17 @@ module.exports = {
       }),
       new OccurenceOrderPlugin(),
       new DedupePlugin(),
+      new CommonsChunkPlugin({ name: 'vendor', filename: env({
+        'development': 'vendor.js',
+        'all': 'vendor.min.js'
+      }), minChunks: Infinity }),
+      new CommonsChunkPlugin({ name: 'common', filename: env({
+        'development': 'common.js',
+        'all': 'common.min.js'
+      }), minChunks: 2, chunks: ['app', 'signup', 'vendor'] })
+      ]
 
-      new CommonsChunkPlugin({
-        name: 'angular2',
-        minChunks: Infinity,
-        filename: env({
-          'development': 'angular2.js',
-          'all': 'angular2.min.js'
-        })
-      }),
-      new CommonsChunkPlugin({
-        name: 'common',
-        filename: env({
-          'development': 'common.js',
-          'all': 'common.min.js'
-        })
-      })
-    ]
-
-  }),
-
-  /*
-   * When using `templateUrl` and `styleUrls` please use `__filename`
-   * rather than `module.id` for `moduleId` in `@View`
-   */
-  node: {
-    crypto: false,
-    __filename: true
-  }
+    })
 };
 
 // Helper functions
@@ -269,13 +244,13 @@ function env(configEnv) {
   }
   switch (toString(configEnv[NODE_ENV])) {
     case '[object Object]':
-      return Object.assign({}, configEnv.all || {}, configEnv[NODE_ENV]);
+    return Object.assign({}, configEnv.all || {}, configEnv[NODE_ENV]);
     case '[object Array]':
-      return [].concat(configEnv.all || [], configEnv[NODE_ENV]);
+    return [].concat(configEnv.all || [], configEnv[NODE_ENV]);
     case '[object Undefined]':
-      return configEnv.all;
+    return configEnv.all;
     default:
-      return configEnv[NODE_ENV];
+    return configEnv[NODE_ENV];
   }
 }
 

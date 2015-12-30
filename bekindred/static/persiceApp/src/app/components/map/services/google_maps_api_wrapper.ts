@@ -1,6 +1,6 @@
 /// <reference path="../../../../typings/_custom.d.ts" />
 
-import {Injectable} from 'angular2/angular2';
+import {Injectable} from 'angular2/core';
 import {Observable, Subject} from 'rxjs';
 
 import {MapsAPILoader} from './maps_api_loader/maps_api_loader';

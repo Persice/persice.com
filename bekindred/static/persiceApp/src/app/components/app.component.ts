@@ -1,13 +1,13 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 
@@ -54,8 +54,7 @@ let view = require('./app.html');
 @RouteConfig([
   {
     path: '/',
-    component: HomeComponent,
-    name: 'Home'
+    redirectTo: ['Crowd']
   },
   {
     path: '/crowd',
@@ -120,6 +119,7 @@ export class AppComponent {
     active: false,
     type: ''
   };
+  timeoutId = null;
 
   constructor(
     public userService: UserService,
@@ -185,7 +185,10 @@ export class AppComponent {
   }
 
   closeNotification(timeout) {
-    setTimeout(
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
+    }
+    this.timeoutId = setTimeout(
       () => {
         this.notificationMain.active = false;
       },

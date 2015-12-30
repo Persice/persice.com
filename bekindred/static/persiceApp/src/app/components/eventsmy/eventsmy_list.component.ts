@@ -1,4 +1,4 @@
-import {Component, NgIf} from 'angular2/angular2';
+import {Component} from 'angular2/core';
 
 import {EventsBaseComponent} from '../events/events_base.component';
 import {EventsListComponent} from '../eventslist/eventslist.component';
@@ -13,7 +13,6 @@ declare var jQuery: any;
   selector: 'events-my-list',
   providers: [EventsService],
   directives: [
-    NgIf,
     NewEventCardComponent,
     EventsListComponent,
     LoadingComponent

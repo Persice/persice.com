@@ -1,7 +1,7 @@
 /// <reference path="../../../../typings/_custom.d.ts" />
 
 
-import {Directive, Input, SimpleChange} from 'angular2/angular2';
+import {Directive, Input, SimpleChange} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google_maps_api_wrapper';
 import {MarkerManager} from '../services/marker_manager';
 

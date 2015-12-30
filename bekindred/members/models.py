@@ -38,6 +38,14 @@ class FacebookCustomUserActive(FacebookCustomUser):
     objects = ActiveManager()
 
 
+class OnBoardingFlow(models.Model):
+    user = models.OneToOneField(FacebookCustomUser)
+    is_complete = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return "%s %s" % (self.user, self.is_complete)
+
+
 class MyCustomProfile(FacebookModel):
     """
     Not abstract version of the facebook profile model

@@ -1,4 +1,4 @@
-import {Component, NgClass, NgIf, Input} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 import {Router} from 'angular2/router';
 
 import {SelectDirective} from '../../directives/select.directive';
@@ -24,8 +24,6 @@ let view = require('./event_form.html');
   directives: [
     SelectDirective,
     NotificationComponent,
-    NgClass,
-    NgIf,
     GeocompleteDirective,
     DatepickerDirective,
     TimepickerDirective

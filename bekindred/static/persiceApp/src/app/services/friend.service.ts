@@ -1,13 +1,10 @@
-import { provide, Injectable } from 'angular2/angular2';
+import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operator/map';
-import { mergeMap } from 'rxjs/operator/mergeMap';
 
 import {HttpClient} from '../core/http_client';
 
-Observable.prototype.map = map;
-Observable.prototype.flatMap = mergeMap;
 
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 import {CookieUtil} from '../core/util';
@@ -46,8 +43,8 @@ export class FriendService {
       status: status
     };
     let body = JSON.stringify(friendship);
-    return this.http.post(FriendService.API_URL, body, OPTS_REQ_JSON_CSRF)
-    .map((res: Response) => res.json());
+    return this.http.post(`${FriendService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json());
   }
 }
 
