@@ -1,4 +1,4 @@
-/// <reference path="../../../../typings/_custom.d.ts" />
+/// <reference path="../../../../../typings_custom/_custom.d.ts" />
 
 
 import {Injectable} from 'angular2/core';

@@ -210,15 +210,10 @@
     "./src/signup/components/signup_offers/signup_offers.component.ts",
     "./src/signup/components/signup.component.ts",
     "./src/signup/main.ts",
-    "./src/typings/_custom.d.ts",
-    "./src/typings/es6-promise.d.ts",
-    "./src/typings/google_maps.d.ts",
-    "./src/typings/lodash.d.ts",
-    "./src/typings/socket.io-client.d.ts",
     "./src/vendor.ts",
     "./test/app/sanity_test.spec.ts"
   ],
   "atom": {
-    "rewriteTsconfig": true
+    "rewriteTsconfig": false
   }
 }

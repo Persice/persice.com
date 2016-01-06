@@ -13,25 +13,113 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     // list of files to exclude
-    exclude: [ ],
+    exclude: [],
 
     // list of files / patterns to load in the browser
     // we are building the test environment in ./spec-bundle.js
-    files: [ { pattern: 'spec-bundle.js', watched: false } ],
+    files: [{
+      pattern: './src/assets/**/*.jpg',
+      watched: false,
+      included: false,
+      served: true
+    }, {
+      pattern: './src/assets/**/*.svg',
+      watched: false,
+      included: false,
+      served: true
+    }, {
+      pattern: './src/assets/lib/jquery-2.1.4.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jstz.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/circle-progress.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/imgLiquid.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/ion.rangeSlider.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jquery.dotdotdot.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jquery.matchHeight.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jquery.minimalect.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/picker.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/picker.date.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/picker.time.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/remodal.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/slick.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/svg4everybody.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/tokenfield.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jqueryui/core.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jqueryui/widget.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jqueryui/position.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jqueryui/menu.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/jqueryui/autocomplete.js',
+      watched: false
+    }, {
+      pattern: './src/assets/lib/tag-it.js',
+      watched: false
+    }, {
+      pattern: './src/assets/js/init.js',
+      watched: false
+    }, {
+      pattern: 'spec-bundle.js',
+      watched: false
+    }],
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: { 'spec-bundle.js': ['webpack', 'sourcemap'] },
+    preprocessors: {
+      'spec-bundle.js': ['webpack', 'sourcemap']
+    },
 
     // Webpack Config at ./webpack.test.config.js
     webpack: testWebpackConfig,
 
     coverageReporter: {
-      dir : 'coverage/',
-      reporters: [
-        { type: 'text-summary' },
-        { type: 'html' }
-      ],
+      dir: 'coverage/',
+      reporters: [{
+        type: 'text-summary'
+      }, {
+        type: 'html'
+      }],
+    },
+
+    junitReporter: {
+      outputDir: 'test/results/',
+      outputFile: 'test-results.xml',
+      useBrowserName: false
     },
 
     proxies: {
@@ -42,12 +130,14 @@ module.exports = function(config) {
     },
 
     // Webpack please don't spam the console when running in karma!
-    webpackServer: { noInfo: true },
+    webpackServer: {
+      noInfo: true
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: [ 'progress', 'coverage' ],
+    reporters: ['progress', 'coverage'],
 
     // web server port
     port: 9876,
@@ -60,15 +150,15 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: [ 'PhantomJS' ],
+    browsers: ['Chrome'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: false
   });
 
 };

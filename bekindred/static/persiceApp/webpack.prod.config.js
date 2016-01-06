@@ -35,7 +35,8 @@ module.exports = {
   metadata: metadata,
   // for faster builds use 'eval'
   devtool: 'eval',
-  debug: false,
+  debug: true,
+  verbose: true,
   context: __dirname,
   entry: {
     'vendor': './src/vendor.ts',

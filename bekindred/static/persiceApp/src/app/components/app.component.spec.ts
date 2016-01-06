@@ -12,7 +12,7 @@ inject,
 beforeEachProviders,
 TestComponentBuilder,
 AsyncTestCompleter
-} from 'angular2/testing_internal';
+} from 'angular2/testing';
 
 import {Component} from 'angular2/core';
 
@@ -43,5 +43,3 @@ describe('App component', () => {
     }));
 
 });
-
-
