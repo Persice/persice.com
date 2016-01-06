@@ -14,7 +14,13 @@ export class EventAttendeesService {
 
   }
 
-  public get(url: string, limit: number, event: number, rsvp: string, firstName: string): Observable<any> {
+  public get(
+    url: string,
+    limit: number,
+    event: number,
+    rsvp: string,
+    firstName: string
+  ): Observable<any> {
 
     if (url === '') {
       let params: string = [
@@ -28,8 +34,7 @@ export class EventAttendeesService {
 
       let apiUrl = `${EventAttendeesService.API_URL}`;
       this.next = `${apiUrl}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 

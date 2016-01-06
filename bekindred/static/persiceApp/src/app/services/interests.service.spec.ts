@@ -62,7 +62,7 @@ describe('InterestsService', () => {
 
   it('should find resource', (done: Function) => {
     ensureCommunication(backend, RequestMethod.Get, interests);
-    service.get()
+    service.get('', 10)
       .subscribe(resp => {
         expect(resp).toEqual(interests);
         done();

@@ -26,8 +26,7 @@ export class EventMessagesService {
 
       let apiUrl = `${EventMessagesService.API_URL}`;
       this.next = `${apiUrl}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 

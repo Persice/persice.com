@@ -68,7 +68,7 @@
 //         let componentDOMEl = fixture.debugElement.nativeElement;
 //         let elRef = fixture.debugElement.elementRef;
 
-//         let logo = '/static/persiceApp/src/public/images/logo.svg';
+//         let logo = '/static/persiceApp/src/assets/images/logo.svg';
 
 //         let logoEl = DOM.querySelectorAll(componentDOMEl, '.site-logo__mark')[0];
 //         let image = DOM.getAttribute(logoEl, 'src');

@@ -27,8 +27,7 @@ export class GoalsService {
       ].join('&');
 
       this.next = `${GoalsService.API_URL}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 
@@ -56,4 +55,3 @@ export class GoalsService {
 export var goalsServiceInjectables: Array<any> = [
   provide(GoalsService, { useClass: GoalsService })
 ];
-

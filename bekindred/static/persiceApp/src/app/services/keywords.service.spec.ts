@@ -62,7 +62,7 @@ describe('KeywordsService', () => {
 
   it('should find resource', (done: Function) => {
     ensureCommunication(backend, RequestMethod.Get, keywords);
-    service.get()
+    service.get('', 10, '')
       .subscribe(resp => {
         expect(resp).toEqual(keywords);
         done();

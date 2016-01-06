@@ -57,8 +57,7 @@ export class NotificationService {
 
     if (obs) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

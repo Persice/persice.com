@@ -9,7 +9,7 @@ export class SearchResultUserModel {
   image: string;
   constructor(obj?: any) {
     this.firstName = obj && obj.first_name || null;
-    this.image = obj && obj.image || ('/static/persiceApp/src/public/images/avatar_user_' + obj.gender + '.jpg');
+    this.image = obj && obj.image || ('/static/persiceApp/src/assets/images/avatar_user_' + obj.gender + '.jpg');
     this.age = obj && obj.age || null;
     this.gender = obj && obj.gender || null;
     this.distanceValue = obj && obj.distance[0] || null;

@@ -13,7 +13,7 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
+/coverage/
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -35,21 +35,17 @@ Thumbs.db
 /bower_components
 
 
-# Dist
+# Dist #
 /dist
-.webpack.json
+/public/__build__/
+/src/*/__build__/
+/__build__/**
+/public/dist/
+/src/*/dist/
+/dist/**
 
+# Doc #
+/doc/
 
 # IDE #
 .idea/
-
-
-# Webpack
-
-webpack-stats-*
-
-
-# ignore typescript to js
-
-/src/app/**/*.js
-/src/app/**/*.js.map

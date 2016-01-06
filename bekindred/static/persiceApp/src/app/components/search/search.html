@@ -1,7 +1,7 @@
 <div class="search">
   <div class="search__top">
     <svg role="img" class="icon">
-      <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-search"></use>
+      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
     </svg>
     <search-input (focusedInput)="focusinput = $event" (loadingUsers)="loadingUsers = $event" (resultsUsers)="updateResultsUsers($event)" (reset)="reset($event)" (total-users)="updateResultsUsersTotalCount($event)" (loadingEvents)="loadingEvents = $event" (resultsEvents)="updateResultsEvents($event)" (totalEvents)="updateResultsEventsTotalCount($event)">
     </search-input>

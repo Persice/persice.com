@@ -134,7 +134,7 @@ export class ObjectUtil {
 
 export class FileUtil {
   static isImage(filename: string) {
-    let regex = new RegExp("(.*?)\.(gif|jpg|jpeg|tiff|png)$");
+    let regex = new RegExp('(.*?)\.(gif|jpg|jpeg|tiff|png)$');
     if (!(regex.test(filename))) {
       return false;
     }
@@ -377,4 +377,3 @@ export class UserUtil {
   }
 
 }
-
