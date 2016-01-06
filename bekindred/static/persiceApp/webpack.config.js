@@ -100,7 +100,7 @@ module.exports = {
   },
 
   plugins: [
-    // new HotModuleReplacementPlugin(),
+    new HotModuleReplacementPlugin(),
     new ProvidePlugin({
       _: 'lodash'
     }),
