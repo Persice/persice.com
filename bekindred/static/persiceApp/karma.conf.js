@@ -28,70 +28,70 @@ module.exports = function(config) {
       included: false,
       served: true
     }, {
-      pattern: './src/assets/lib/jquery-2.1.4.js',
+      pattern: './lib/js/jquery-2.1.4.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jstz.js',
+      pattern: './lib/js/jstz.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/circle-progress.js',
+      pattern: './lib/js/circle-progress.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/imgLiquid.js',
+      pattern: './lib/js/imgLiquid.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/ion.rangeSlider.js',
+      pattern: './lib/js/ion.rangeSlider.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jquery.dotdotdot.js',
+      pattern: './lib/js/jquery.dotdotdot.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jquery.matchHeight.js',
+      pattern: './lib/js/jquery.matchHeight.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jquery.minimalect.js',
+      pattern: './lib/js/jquery.minimalect.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/picker.js',
+      pattern: './lib/js/picker.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/picker.date.js',
+      pattern: './lib/js/picker.date.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/picker.time.js',
+      pattern: './lib/js/picker.time.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/remodal.js',
+      pattern: './lib/js/remodal.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/slick.js',
+      pattern: './lib/js/slick.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/svg4everybody.js',
+      pattern: './lib/js/svg4everybody.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/tokenfield.js',
+      pattern: './lib/js/tokenfield.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jqueryui/core.js',
+      pattern: './lib/js/jqueryui/core.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jqueryui/widget.js',
+      pattern: './lib/js/jqueryui/widget.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jqueryui/position.js',
+      pattern: './lib/js/jqueryui/position.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jqueryui/menu.js',
+      pattern: './lib/js/jqueryui/menu.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/jqueryui/autocomplete.js',
+      pattern: './lib/js/jqueryui/autocomplete.js',
       watched: false
     }, {
-      pattern: './src/assets/lib/tag-it.js',
+      pattern: './lib/js/tag-it.js',
       watched: false
     }, {
-      pattern: './src/assets/js/init.js',
+      pattern: './lib/js/init.js',
       watched: false
     }, {
       pattern: 'spec-bundle.js',
@@ -117,8 +117,8 @@ module.exports = function(config) {
     },
 
     junitReporter: {
-      outputDir: 'test/results/',
-      outputFile: 'test-results.xml',
+      outputDir: 'test_results/',
+      outputFile: 'test_results.xml',
       useBrowserName: false
     },
 
