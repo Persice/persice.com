@@ -3,7 +3,7 @@
     <h4 class="module-title">Mutual Friends <span>({{count}})</span></h4>
   </div>
   <div *ngIf="count > 0" class="layout slide-users js-slide-mutuals" slick show="9" breakpoint="1480" slidestoshow="6" infinite="true" scroll="1" dots="false" arrows="true" append="0">
-    <div class="layout__item" *ngFor="#item of mutuals.mutual_bk_friends">
+    <div class="layout__item" *ngFor="#item of friends.mutual_bk_friends">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
@@ -16,7 +16,7 @@
         <h5 class="user-name">{{item.first_name}}</h5>
       </a>
     </div>
-    <div class="layout__item" *ngFor="#item of mutuals.mutual_fb_friends">
+    <div class="layout__item" *ngFor="#item of friends.mutual_fb_friends">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
@@ -29,7 +29,7 @@
         <h5 class="user-name">{{item.first_name}}</h5>
       </a>
     </div>
-    <div class="layout__item" *ngFor="#item of mutuals.mutual_twitter_friends">
+    <div class="layout__item" *ngFor="#item of friends.mutual_twitter_friends">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
@@ -42,7 +42,7 @@
         <h5 class="user-name">{{item.name}}</h5>
       </a>
     </div>
-    <div class="layout__item" *ngFor="#item of mutuals.mutual_twitter_followers">
+    <div class="layout__item" *ngFor="#item of friends.mutual_twitter_followers">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">
@@ -55,7 +55,7 @@
         <h5 class="user-name">{{item.name}}</h5>
       </a>
     </div>
-    <div class="layout__item" *ngFor="#item of mutuals.mutual_linkedin_connections">
+    <div class="layout__item" *ngFor="#item of friends.mutual_linkedin_connections">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">
           <div class="avatar avatar--medium">

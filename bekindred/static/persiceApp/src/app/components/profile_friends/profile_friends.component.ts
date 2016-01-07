@@ -1,14 +1,14 @@
 import {Component, Input} from 'angular2/core';
 import {SlickDirective} from '../../directives/slick.directive';
 
-let view = require('./profilemutuals.html');
+let view = require('./profile_friends.html');
 
 @Component({
   template: view,
-  selector: 'profile-mutuals',
+  selector: 'profile-friends',
   directives: [SlickDirective]
 })
-export class ProfileMutualsComponent {
-  @Input() mutuals;
+export class ProfileFriendsComponent {
+  @Input() friends;
   @Input() count;
 }
