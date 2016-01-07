@@ -341,6 +341,11 @@ def get_current_position(user):
     position = {'job': None, 'company': None}
     if isinstance(user, int):
         user = FacebookCustomUser.objects.get(pk=user)
+    elif isinstance(user, basestring):
+        try:
+            user = FacebookCustomUser.objects.get(pk=int(user))
+        except ValueError:
+            return position
     user_id = user.id
     try:
         qs = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0]
