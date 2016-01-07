@@ -5,6 +5,7 @@ import pprint
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django_facebook.models import FacebookCustomUser
 
 from geopy.distance import distance as geopy_distance, Distance
 import oauth2 as oauth
@@ -334,3 +335,28 @@ def social_extra_data(user_id):
     except IndexError:
         pass
     return twitter_provider, linkedin_provider, twitter_name
+
+
+def get_current_position(user):
+    position = {'job': None, 'company': None}
+    if isinstance(user, int):
+        user = FacebookCustomUser.objects.get(pk=user)
+    user_id = user.id
+    try:
+        qs = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0]
+        positions = qs.extra_data.get('positions', {}).get('position')
+        if positions:
+            position['company'] = positions[0].get('company', {}).get('name')
+            position['job'] = positions[0].get('title')
+    except IndexError:
+        pass
+    if (not position['company']) or (not position['job']):
+        try:
+            raw_data = json.loads(user.raw_data)
+            works = raw_data.get('work')
+            if works:
+                position['company'] = works[0].get('employer', {}).get('name')
+                position['job'] = works[0].get('position', {}).get('name')
+        except TypeError as e:
+            pass
+    return position
