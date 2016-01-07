@@ -91,3 +91,25 @@ class InterestResource(ModelResource):
     def dehydrate(self, bundle):
         bundle.data["interest_subject"] = bundle.obj
         return bundle
+
+
+class ReligiousView(ModelResource):
+    user = fields.OneToOneField(UserResource, 'user')
+
+    class Meta:
+        queryset = Interest.objects.all()
+        fields = ['user', 'name', 'id']
+        always_return_data = True
+        resource_name = 'religious_view'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        user = request.GET.get('user_id')
+        if not isinstance(user, int):
+            try:
+                user = int(user)
+            except ValueError:
+                user = request.user.id
+        return super(ReligiousView, self).get_object_list(request).\
+            filter(user_id=user)
