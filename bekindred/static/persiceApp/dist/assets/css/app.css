@@ -447,3 +447,8 @@ a.link--darkgrey {
 .signup {
   min-height: 985px!important;
 }
+
+
+.match-profile__avatar-nav.mb {
+  height: 16px;
+}

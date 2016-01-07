@@ -443,7 +443,25 @@ a.link--darkgrey {
   opacity: 1!important;
 }
 
-
 .signup {
   min-height: 985px!important;
+}
+
+.match-profile__avatar-nav.mb {
+  height: 15.555px;
+}
+
+.is-hidden {
+  visibility: hidden!important;
+}
+
+.slick-frame {
+  visibility: hidden!important;
+  opacity: 0;
+}
+
+.slick-frame.slick-initialized {
+  visibility: visible!important;
+  opacity: 1;
+  transition: opacity .150s ease-in-out;
 }

@@ -1,4 +1,4 @@
-<div class="layout layout--flush content crowd-page" *ngIf="!profileViewActive">
+<div class="layout layout--flush content crowd-page" [ngClass]="{'is-hidden': profileViewActive}">
   <div class="layout__item 3/4 extralarge-and-up-4/5" id="crowd">
     <users-list (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" [showButtons]="1" [users]="items" (onClicked)="setSelectedUser($event)"></users-list>
     <loading-card [status]="loadingInitial"></loading-card>
@@ -8,5 +8,5 @@
     <filters></filters>
   </div>
 </div>
-<profile *ngIf="profileViewActive" [user]="selectedUser" [mutuals]="mutuals" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
+<profile *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
 </profile>

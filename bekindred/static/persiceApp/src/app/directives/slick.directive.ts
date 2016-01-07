@@ -5,15 +5,15 @@ declare var jQuery: any;
 @Directive({
   selector: '[slick]',
   properties: [
-    'show',
-    'scroll',
-    'infinite',
-    'append',
-    'arrows',
-    'dots',
-    'responsive',
-    'breakpoint',
-    'slidestoshow'
+  'show',
+  'scroll',
+  'infinite',
+  'append',
+  'arrows',
+  'dots',
+  'responsive',
+  'breakpoint',
+  'slidestoshow'
   ]
 })
 export class SlickDirective {
@@ -29,7 +29,6 @@ export class SlickDirective {
 
   constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
-
   }
 
   ngAfterViewInit() {
@@ -57,8 +56,10 @@ export class SlickDirective {
     if (!this.breakpoint) {
       delete options.responsive;
     }
+    setTimeout(() => {
+      jQuery(this.el.nativeElement).slick(options);
+    });
 
-    jQuery(this.el.nativeElement).slick(options);
 
   }
 

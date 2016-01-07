@@ -40,7 +40,7 @@ export class CrowdComponent {
   total_count: number = 0;
   offset: number = 0;
   profileViewActive = false;
-  selectedUser;
+  selectedUser = null;
 
   constructor(
     public service: CrowdService,
@@ -217,6 +217,7 @@ export class CrowdComponent {
 
   closeProfile(event) {
     this.profileViewActive = false;
+    this.selectedUser = null;
   }
 
 
