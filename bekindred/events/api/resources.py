@@ -31,7 +31,8 @@ from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
 from goals.models import MatchFilterState, Goal, Offer
 from goals.utils import (calculate_age, calculate_distance_events,
-                         get_user_location, calculate_distance_user_event)
+                         get_user_location, calculate_distance_user_event,
+                         get_current_position)
 from interests import Interest
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
@@ -411,8 +412,9 @@ class AboutMeResource(ModelResource):
     def dehydrate(self, bundle):
         raw_data = {}
         user_id = bundle.obj.id
-        if bundle.obj.raw_data:
-            raw_data = json.loads(bundle.obj.raw_data)
+        # if bundle.obj.raw_data:
+        #     raw_data = json.loads(bundle.obj.raw_data)
+        bundle.data['position'] = get_current_position(bundle.obj)
         bundle.data.update(raw_data)
         bundle.data['goals_count'] = Goal.objects.filter(user=user_id).count()
         bundle.data['offers_count'] = Offer.objects.\
