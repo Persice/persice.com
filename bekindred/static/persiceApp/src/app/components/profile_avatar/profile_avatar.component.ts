@@ -38,7 +38,7 @@ import {SlickDirective} from '../../directives/slick.directive';
     class="match-percent-large">
     </div>
     <div class="match-profile__similar">
-      <span class="match-profile__similar__value">{{score}}%</span>
+      <span class="match-profile__similar__value">{{score}}</span>
       <span class="match-profile__similar__label">Similar</span>
     </div>
   </div>
