@@ -1,9 +1,14 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {ProfileAboutComponent} from '../profileabout/profileabout.component';
+
+import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
+
+import {ProfileAboutComponent} from '../profile_about/profile_about.component';
 import {ProfileFeaturesComponent} from '../profilefeatures/profilefeatures.component';
-import {ProfileLikesComponent} from '../profilelikes/profilelikes.component';
-import {ProfileMutualsComponent} from '../profilemutuals/profilemutuals.component';
+import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
+import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
+
 import {MutualFriendsService} from '../../services/mutualfriends.service';
+import {PhotosService} from '../../services/photos.service';
 
 import {ObjectUtil} from '../../core/util';
 
@@ -13,18 +18,26 @@ let view = require('./profile.html');
   selector: 'profile',
   template: view,
   directives: [
+    ProfileAvatarComponent,
     ProfileAboutComponent,
     ProfileFeaturesComponent,
     ProfileLikesComponent,
-    ProfileMutualsComponent
+    ProfileFriendsComponent
+  ],
+  providers: [
+    PhotosService
   ]
 })
 export class ProfileComponent {
   @Input() user;
-  @Input() mutuals;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
+  profileScore = '';
+  profileAbout: string = '';
+  profileAvatar: string = '';
+  profilePhotos: any[] = [];
+  profilePhotosCount: number = 0;
   profileKeywords: any[] = [];
   profileKeywordsCount: number = 0;
   profileInterests: any[] = [];
@@ -38,7 +51,7 @@ export class ProfileComponent {
   profileOffersCount: number = 0;
   profileLikes: any[] = [];
   profileLikesCount: number = 0;
-  profileMutuals = {
+  profileFriends = {
     mutual_bk_friends: [],
     mutual_bk_friends_count: 0,
     mutual_fb_friends: [],
@@ -50,15 +63,39 @@ export class ProfileComponent {
     mutual_twitter_friends: [],
     mutual_twitter_friends_count: 0
   };
-  profileMutualsCount: number = 0;
+  profileFriendsCount: number = 0;
 
 
-  constructor(public mutualfriendsService: MutualFriendsService) {
+  constructor(
+    public mutualfriendsService: MutualFriendsService,
+    public photosService: PhotosService
+    ) {
   }
 
   ngOnInit() {
-    this.profileLikes = ObjectUtil.transform(this.user.likes[0]);
-    this.profileLikesCount = ObjectUtil.count(this.user.likes[0]);
+    this.assignUser();
+  }
+
+  ngOnChanges(values) {
+    // if (values.user.currentValue !== null) {
+    //   this.assignUser();
+    // }
+  }
+
+  assignUser() {
+    let likes = this.user.likes[0];
+    this.profileLikes = Object.keys(likes).map((key) => {
+      return {
+      value: key,
+      match: likes[key]
+      };
+    });
+
+    this.profileLikesCount = this.profileLikes.length;
+
+    this.profileAvatar = this.user.image;
+    this.profileAbout = this.user.about;
+    this.profileScore = this.user.score;
 
     this.profileOffers = ObjectUtil.first(this.user.offers[0], 6);
     this.profileInterests = ObjectUtil.first(this.user.interests[0], 6);
@@ -74,7 +111,7 @@ export class ProfileComponent {
     this.profileKeywordsCount = this.user.keywords.length;
 
     this.getMutualFriends(this.user.id);
-
+    this.getPhotos(this.user.id);
   }
 
   getMutualFriends(id) {
@@ -82,20 +119,32 @@ export class ProfileComponent {
       .subscribe(data => this.assignMutualFriends(data));
   }
 
+  getPhotos(id) {
+    this.photosService.get('', 6, id)
+      .subscribe(data => this.assignPhotos(data));
+  }
+
+  assignPhotos(data) {
+    if (data.meta.total_count > 0) {
+      this.profilePhotos = data.objects.reverse();
+      this.profilePhotosCount = this.profilePhotos.length;
+    }
+  }
+
   assignMutualFriends(data) {
     if (data.meta.total_count > 0) {
       let items = data.objects[0];
-      this.profileMutualsCount += parseInt(items.mutual_bk_friends_count, 10);
-      this.profileMutualsCount += parseInt(items.mutual_fb_friends_count, 10);
-      this.profileMutualsCount += parseInt(items.mutual_linkedin_connections_count, 10);
-      this.profileMutualsCount += parseInt(items.mutual_twitter_followers_count, 10);
-      this.profileMutualsCount += parseInt(items.mutual_twitter_friends_count, 10);
+      this.profileFriendsCount += parseInt(items.mutual_bk_friends_count, 10);
+      this.profileFriendsCount += parseInt(items.mutual_fb_friends_count, 10);
+      this.profileFriendsCount += parseInt(items.mutual_linkedin_connections_count, 10);
+      this.profileFriendsCount += parseInt(items.mutual_twitter_followers_count, 10);
+      this.profileFriendsCount += parseInt(items.mutual_twitter_friends_count, 10);
 
-      this.profileMutuals.mutual_bk_friends = items.mutual_bk_friends;
-      this.profileMutuals.mutual_fb_friends = items.mutual_fb_friends;
-      this.profileMutuals.mutual_linkedin_connections = items.mutual_linkedin_connections;
-      this.profileMutuals.mutual_twitter_friends = items.mutual_twitter_friends;
-      this.profileMutuals.mutual_twitter_followers = items.mutual_twitter_followers;
+      this.profileFriends.mutual_bk_friends = items.mutual_bk_friends;
+      this.profileFriends.mutual_fb_friends = items.mutual_fb_friends;
+      this.profileFriends.mutual_linkedin_connections = items.mutual_linkedin_connections;
+      this.profileFriends.mutual_twitter_friends = items.mutual_twitter_friends;
+      this.profileFriends.mutual_twitter_followers = items.mutual_twitter_followers;
     }
   }
 
@@ -113,4 +162,3 @@ export class ProfileComponent {
 
 
 }
-

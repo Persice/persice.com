@@ -7,55 +7,55 @@ var autoprefixer = require('gulp-autoprefixer');
 var csslint = require('gulp-csslint');
 
 var jsFiles = [
-'./src/public/lib/es6-shim.js',
-'./src/public/lib/jquery-2.1.4.min.js',
-'./src/public/lib/jstz.js',
-'./src/public/lib/jquery.minimalect.js',
-'./src/public/lib/circle-progress.js',
-'./src/public/lib/svg4everybody.js',
-'./src/public/lib/ion.rangeSlider.js',
-'./src/public/lib/imgLiquid.js',
-'./src/public/lib/jquery.dotdotdot.js',
-'./src/public/lib/slick.js',
-'./src/public/lib/remodal.js',
-'./src/public/lib/picker.js',
-'./src/public/lib/picker.date.js',
-'./src/public/lib/picker.time.js',
-'./src/public/lib/jquery.matchHeight.js',
-'./src/public/lib/typeahead.js',
-'./src/public/lib/tokenfield.js',
-'./src/public/lib/jqueryui/core.js',
-'./src/public/lib/jqueryui/widget.js',
-'./src/public/lib/jqueryui/mouse.js',
-'./src/public/lib/jqueryui/position.js',
-'./src/public/lib/jqueryui/menu.js',
-'./src/public/lib/jqueryui/autocomplete.js',
-'./src/public/lib/jqueryui/sortable.js',
-'./src/public/lib/jqueryui/draggable.js',
-'./src/public/lib/tag-it.js',
-'./src/public/js/init.js',
+'./src/assets/lib/es6-shim.js',
+'./src/assets/lib/jquery-2.1.4.min.js',
+'./src/assets/lib/jstz.js',
+'./src/assets/lib/jquery.minimalect.js',
+'./src/assets/lib/circle-progress.js',
+'./src/assets/lib/svg4everybody.js',
+'./src/assets/lib/ion.rangeSlider.js',
+'./src/assets/lib/imgLiquid.js',
+'./src/assets/lib/jquery.dotdotdot.js',
+'./src/assets/lib/slick.js',
+'./src/assets/lib/remodal.js',
+'./src/assets/lib/picker.js',
+'./src/assets/lib/picker.date.js',
+'./src/assets/lib/picker.time.js',
+'./src/assets/lib/jquery.matchHeight.js',
+'./src/assets/lib/typeahead.js',
+'./src/assets/lib/tokenfield.js',
+'./src/assets/lib/jqueryui/core.js',
+'./src/assets/lib/jqueryui/widget.js',
+'./src/assets/lib/jqueryui/mouse.js',
+'./src/assets/lib/jqueryui/position.js',
+'./src/assets/lib/jqueryui/menu.js',
+'./src/assets/lib/jqueryui/autocomplete.js',
+'./src/assets/lib/jqueryui/sortable.js',
+'./src/assets/lib/jqueryui/draggable.js',
+'./src/assets/lib/tag-it.js',
+'./src/assets/js/init.js',
 ];
 
 var cssFiles = [
-'./src/public/css/ion.rangeSlider.css',
-'./src/public/css/ion.rangeSlider.skinNice.css',
-'./src/public/css/remodal.css',
-'./src/public/css/remodal-default-theme.css',
-'./src/public/css/classic.css',
-'./src/public/css/classic.date.css',
-'./src/public/css/classic.time.css',
-'./src/public/css/tokenfield-typeahead.css',
-'./src/public/css/jquery.tagit.css',
-'./src/public/css/tagit.ui-zendesk.css',
-'./src/public/css/screen.css',
-'./src/app/components/app.css'
+'./src/assets/css/ion.rangeSlider.css',
+'./src/assets/css/ion.rangeSlider.skinNice.css',
+'./src/assets/css/remodal.css',
+'./src/assets/css/remodal-default-theme.css',
+'./src/assets/css/classic.css',
+'./src/assets/css/classic.date.css',
+'./src/assets/css/classic.time.css',
+'./src/assets/css/tokenfield-typeahead.css',
+'./src/assets/css/jquery.tagit.css',
+'./src/assets/css/tagit.ui-zendesk.css',
+'./src/assets/css/screen.css',
+'./src/assets/css/app.css'
 ];
 
 gulp.task('js', function() {
   gulp.src(jsFiles)
   .pipe(concat('plugins.min.js'))
   .pipe(uglify())
-  .pipe(gulp.dest('./src/public/lib/'))
+  .pipe(gulp.dest('./src/assets/lib/'))
 });
 
 gulp.task('jshint', function() {
@@ -76,7 +76,7 @@ gulp.task('css', function() {
   gulp.src(cssFiles)
   .pipe(minifyCSS())
   .pipe(concat('vendor.min.css'))
-  .pipe(gulp.dest('./src/public/css/'))
+  .pipe(gulp.dest('./src/assets/css/'))
 });
 
 gulp.task('css-lint', function() {
@@ -87,4 +87,3 @@ gulp.task('css-lint', function() {
 
 gulp.task('default', ['js', 'css']);
 gulp.task('js-lint', ['jshint', 'jscs']);
-

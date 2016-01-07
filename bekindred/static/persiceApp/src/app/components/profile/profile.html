@@ -1,10 +1,222 @@
-<div class="layout layout--flush content p">
-  <div class="platform">
-    <profile-about [userId]="user.id" [name]="user.first_name" [about]="user.about" [images]="user.photos" [avatar]="user.image" [score]="user.score" [gender]="user.gender" [age]="user.age" [distanceValue]="user.distance[0]" [distanceUnit]="user.distance[1]" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" (closeprofileEvent)="closeProfile($event)">
-    </profile-about>
-    <profile-features [keywords]=[profileKeywords] [keywordsCount]="profileKeywordsCount" [goals]="profileGoals" [goalsMore]="profileGoalsMore" [goalsCount]="profileGoalsCount" [offers]="profileOffers" [offersMore]="profileOffersMore" [offersCount]="profileOffersCount" [interests]="profileInterests" [interestsMore]="profileInterestsMore" [interestsCount]="profileInterestsCount">
-    </profile-features>
-    <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
-    <profile-mutuals [mutuals]="profileMutuals" [count]="profileMutualsCount"></profile-mutuals>
+<div class="platform m">
+  <a (click)="closeProfile($event)" class="platform__back">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>
+    </svg>
+  </a>
+  <div class="tableize tableize--fixed tableize--full content">
+    <div class="tableize__cell 3/12 my-profile">
+      <profile-avatar [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
+      <div class="layout layout--flush pt- ph pl+">
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">gender</h2>
+        </div>
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">age</h2>
+        </div>
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">location</h2>
+        </div>
+      </div>
+      <div class="layout layout--flush pt- ph pb pl+">
+        <div class="layout__item 1/3">
+          <div class="profile-feature">Male</div>
+        </div>
+        <div class="layout__item 1/3">
+          <div class="profile-feature">28</div>
+        </div>
+        <div class="layout__item 1/3">
+          <div class="profile-feature">New York</div>
+        </div>
+      </div>
+      <div class="hr --mh"></div>
+      <div class="pt0 ph+ pb">
+        <h4 class="module-title mb0">Job / company</h4>
+        <div class="profile-feature">Layer at Clearly Gottlieb Steen & Hamilton LLP</div>
+      </div>
+      <div class="hr --mh"></div>
+      <div class="pt0 ph+ pb">
+        <h4 class="module-title mb0">Religious views</h4>
+        <div class="profile-feature">Christianity</div>
+      </div>
+      <div class="hr --mh"></div>
+      <div class="pt0 ph+ pb">
+        <h4 class="module-title mb0">Political views</h4>
+        <div class="profile-feature">libertarianism</div>
+      </div>
+      <div class="hr --mh"></div>
+      <div class="pt0 ph+ pb">
+        <profile-about [about]="profileAbout"></profile-about>
+      </div>
+      <div class="hr --mh"></div>
+      <div class="layout layout--small pt0 pl+">
+        <div class="layout__item">
+          <h4 class="module-title mb-">Networks</h4>
+        </div>
+        <div class="layout__item">
+          <a class="mr-" href="#">
+            <svg role="img" class="icon icon--medium">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-twitter_middle"></use>
+            </svg>
+          </a>
+          <a class="mr-" href="#">
+            <svg role="img" class="icon icon--medium">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-linkedin_middle"></use>
+            </svg>
+          </a>
+          <a class="mr-" href="#">
+            <svg role="img" class="icon icon--medium">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-facebook_middle"></use>
+            </svg>
+          </a>
+          <a href="#">
+            <svg role="img" class="icon icon--medium">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-instagram_middle"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="tableize__cell 6/10">
+      <div class="border-left">
+        <div class="my-profile__header">
+          <div class="layout layout--middle layout--center">
+            <div class="layout__item 1/2">
+              <h2 class="single-title">Tyler</h2>
+              <div class="single-title-status mt-">
+                Active 2h ago &#149; 3km from you
+              </div>
+            </div>
+            <div class="layout__item text-right 1/2">
+              <div class="pass-accept">
+                <div class="layout layout--small">
+                  <div class="layout__item 1/2">
+                    <a href="#" class="btn btn-1 btn-1--red btn--full btn--activate js-pass">
+                      <div class="btn--activate__label">Pass</div>
+                      <svg role="img" class="icon ">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-pass"></use>
+                      </svg>
+                    </a>
+                  </div>
+                  <div class="layout__item 1/2">
+                    <a href="#" class="btn btn-1 btn-1--green btn--full btn--activate js-accept">
+                      <div class="btn--activate__label">Accept</div>
+                      <svg role="img" class="icon ">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-accepted"></use>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="hr"></div>
+        <div class="match-profile__features pt- pb">
+          <div class="layout">
+            <div class="layout__item">
+              <h4 class="module-title">Interests
+                <span>(11)</span>
+              </h4>
+              <div class="layout">
+                <div class="layout__item 1/2">
+                  <ul class="features-list">
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Lego building</li>
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Tablet games anbd role-playing games</li>
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Glassblowing</li>
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Glassblowing</li>
+                  </ul>
+                </div>
+                <div class="layout__item 1/2">
+                  <ul class="features-list">
+                    <li>Astronomy</li>
+                    <li>Kitsurfing / Liteboarding / Surfing</li>
+                    <li>Theoretical Phisics</li>
+                  </ul>
+                  <a href="" class="link-blank">Show all</a>
+                </div>
+              </div>
+            </div>
+            <div class="hr -mh"></div>
+            <div class="layout__item">
+              <h4 class="module-title">Goals
+                <span>(5)</span>
+              </h4>
+              <div class="layout">
+                <div class="layout__item 1/2">
+                  <ul class="features-list">
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Lego building</li>
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Ride in the hot air balloon</li>
+                    <li>Snorkel in Hawaii</li>
+                    <li>Find People to go mountian biking with</li>
+                  </ul>
+                </div>
+                <div class="layout__item 1/2">
+                  <ul class="features-list">
+                    <li>Snorkel in Hawaii</li>
+                    <li>Find People to go mountian biking with</li>
+                    <li>Learn more about artificial intelligence</li>
+                  </ul>
+                  <a href="" class="link-blank">Show all</a>
+                </div>
+              </div>
+            </div>
+            <div class="hr -mh"></div>
+            <div class="layout__item">
+              <h4 class="module-title">Offers
+                <span>(11)</span>
+              </h4>
+              <div class="layout">
+                <div class="layout__item 1/2">
+                  <ul class="features-list">
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Help people fix stuff</li>
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Ride in the hot air balloon</li>
+                    <li class="features-list__match">
+                      <svg role="img" class="icon icon--tiny">
+                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+                      </svg> Glassblowing</li>
+                    <li>Mentor people in tech</li>
+                  </ul>
+                </div>
+                <div class="layout__item 1/2">
+                  <ul class="features-list">
+                    <li>Teach people how to surf</li>
+                    <li>Teach people how to cook</li>
+                    <li>Mentor people in tech</li>
+                  </ul>
+                  <a href="" class="link-blank">Show all</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
+        <profile-friends [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
+      </div>
+    </div>
   </div>
 </div>

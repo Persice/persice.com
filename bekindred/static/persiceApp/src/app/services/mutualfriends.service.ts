@@ -27,8 +27,7 @@ export class MutualFriendsService {
       ].join('&');
 
       this.next = `${MutualFriendsService.API_URL_V1}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 

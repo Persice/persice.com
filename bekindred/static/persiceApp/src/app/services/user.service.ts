@@ -11,7 +11,7 @@ import {HttpClient} from '../core/http_client';
 @Injectable()
 export class UserService {
   static API_URL: string = '/api/v1/me/';
-  static DEFAULT_IMAGE: string = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
+  static DEFAULT_IMAGE: string = '/static/persiceApp/src/assets/images/avatar_user_m.jpg';
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
   constructor(private http: HttpClient) {

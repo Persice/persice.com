@@ -248,8 +248,7 @@ export class SignupComponent {
       }
 
       this.router.navigate([this.nextStep]);
-    }
-    else {
+    } else {
       this.completeOnboarding();
     }
 
@@ -258,8 +257,7 @@ export class SignupComponent {
   skip(event) {
     if (this.nextStep) {
       this.router.navigate([this.nextStep]);
-    }
-    else {
+    } else {
       this.completeOnboarding();
     }
 
@@ -275,8 +273,7 @@ export class SignupComponent {
       }, () => {
 
       });
-    }
-    else {
+    } else {
       window.location.href = '/#/crowd';
     }
 

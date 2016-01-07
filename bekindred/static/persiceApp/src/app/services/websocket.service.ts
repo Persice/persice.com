@@ -18,17 +18,14 @@ export class WebsocketService {
   static _socket: any;
 
   constructor() {
-    // console.log('creating socket object');
     WebsocketService._socket = io();
   }
 
   public connect() {
-    // console.log('establishing websocket connection to server... %s', WebsocketService.API_URL);
     WebsocketService._socket.connect(WebsocketService.API_URL);
   }
 
   public disconnect() {
-    // console.log('disconnecting websocket connection from server... %s', WebsocketService.API_URL);
     WebsocketService._socket.disconnect();
   }
 
@@ -54,4 +51,3 @@ export class WebsocketService {
 export let websocketServiceInjectables: Array<any> = [
   provide(WebsocketService, { useClass: WebsocketService })
 ];
-

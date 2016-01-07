@@ -40,7 +40,7 @@ export class CrowdComponent {
   total_count: number = 0;
   offset: number = 0;
   profileViewActive = false;
-  selectedUser;
+  selectedUser = null;
 
   constructor(
     public service: CrowdService,
@@ -127,8 +127,7 @@ export class CrowdComponent {
         this.items.push(more[i]);
       }
 
-    }
-    else {
+    } else {
       this.items = data.objects;
     }
 
@@ -139,8 +138,7 @@ export class CrowdComponent {
     //bind to scroll event to load more data on bottom scroll
     if (this.next !== null) {
       jQuery(window).bind('scroll', this.handleScrollEvent.bind(this));
-    }
-    else {
+    } else {
       jQuery(window).unbind('scroll');
     }
 
@@ -219,6 +217,7 @@ export class CrowdComponent {
 
   closeProfile(event) {
     this.profileViewActive = false;
+    this.selectedUser = null;
   }
 
 

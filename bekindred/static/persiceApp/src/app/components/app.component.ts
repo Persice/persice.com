@@ -125,7 +125,7 @@ export class AppComponent {
     public userService: UserService,
     public notificationService: NotificationService,
     public websocketService: WebsocketService
-  ) {
+    ) {
     //default image
     this.image = this.userService.getDefaultImage();
 
@@ -150,6 +150,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    console.log('hello App component');
     // Get AuthUser info for the app
     this.userService.get()
       .subscribe(data => this.assignAuthUser(data));
@@ -193,7 +194,7 @@ export class AppComponent {
         this.notificationMain.active = false;
       },
       timeout
-    );
+      );
   }
 
   // Assign AuthUser user from the /me Api
