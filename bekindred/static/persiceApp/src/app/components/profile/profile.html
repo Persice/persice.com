@@ -63,7 +63,7 @@
               </div>
             </div>
             <div class="layout__item text-right 1/2">
-              <profile-acceptpass></profile-acceptpass>
+              <profile-acceptpass *ngIf="profileType === 'crowd'" [user]="profileId" (acceptEvent)="acceptUser($event)" (passEvent)="passUser($event)"></profile-acceptpass>
             </div>
           </div>
         </div>

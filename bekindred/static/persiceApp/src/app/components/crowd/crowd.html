@@ -8,5 +8,5 @@
     <filters></filters>
   </div>
 </div>
-<profile *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
-</profile>
+<profile-crowd *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
+</profile-crowd>
