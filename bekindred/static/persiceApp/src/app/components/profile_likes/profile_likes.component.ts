@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 import {SlickDirective} from '../../directives/slick.directive';
 
-let view = require('./profilelikes.html');
+let view = require('./profile_likes.html');
 
 @Component({
   template: view,

@@ -2,13 +2,13 @@
   <div class="match-profile__likes__top">
     <h4 class="module-title">Likes <span>({{count}})</span></h4>
   </div>
-  <div *ngIf="count > 0" class="layout slide-users js-slide-likes" slick show="5" breakpoint="1550" slidestoshow="3" infinite="true" scroll="1" dots="false" arrows="true" append="">
+  <div class="layout slide-users slick-frame js-slide-likes" slick show="5" breakpoint="1550" slidestoshow="3" infinite="true" scroll="1" dots="false" arrows="true" append="0">
     <div class="layout__item" *ngFor="#item of likes">
       <div class="flag flag--small flag--fix">
         <div class="flag__img">
           <div class="listed-user-avatar-place">
             <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar  avatar--medium">
-            <svg role="img" class="icon avatar-icon">
+            <svg role="img" class="icon avatar-icon" *ngIf="item.match">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice"></use>
             </svg>
           </div>
