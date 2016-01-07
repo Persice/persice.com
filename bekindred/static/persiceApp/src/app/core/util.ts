@@ -1,4 +1,4 @@
-import {take, slice, forEach, merge, assign, defaults, sortByOrder} from 'lodash';
+import {take, slice, keys, keysIn, forEach, merge, assign, defaults, sortByOrder} from 'lodash';
 
 
 declare var jstz: any;
@@ -71,6 +71,10 @@ export class ObjectUtil {
     return take(keys, n);
   }
 
+  static take(arr: any[], n: number): any[] {
+    return take(arr, n);
+  }
+
   //transform and take sorted n items from {key: value} to [{value: VALUE, match: 1|0}]
   static firstSorted(data, n): Array<Object> {
     let keys = [];
@@ -127,6 +131,11 @@ export class ObjectUtil {
       }
     }
     return keys;
+  }
+
+  static transformToArray(data) {
+
+    return keysIn(data);
   }
 
 }
