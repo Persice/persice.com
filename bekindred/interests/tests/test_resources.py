@@ -130,3 +130,27 @@ class TestInterestResource(ResourceTestCase):
         self.assertEqual(Interest.objects.count(), 1)
         self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
         self.assertEqual(Interest.objects.count(), 0)
+
+
+class TestReligiousViewResource(ResourceTestCase):
+    def setUp(self):
+        super(TestReligiousViewResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
+        self.interest = Interest.objects.create(user=self.user, interest=self.subject)
+
+        self.detail_url = '/api/v1/religious_view/{0}/'.format(self.interest.pk)
+        self.post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'name': '/api/v1/religious_view/{0}/'.format('some'),
+        }
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/interest/', format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)

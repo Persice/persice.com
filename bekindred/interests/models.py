@@ -32,3 +32,25 @@ class Interest(models.Model):
 
     class Meta:
         unique_together = ("user", "interest")
+
+
+class ReligiousView(models.Model):
+    user = models.OneToOneField(FacebookCustomUser)
+    name = models.CharField(max_length=300, null=False, blank=False)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ("user", "name")
+
+
+class PoliticalView(models.Model):
+    user = models.OneToOneField(FacebookCustomUser)
+    name = models.CharField(max_length=300, null=False, blank=False)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ("user", "name")
