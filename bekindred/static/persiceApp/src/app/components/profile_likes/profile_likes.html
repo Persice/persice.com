@@ -1,8 +1,10 @@
 <div class="match-profile__likes">
   <div class="match-profile__likes__top">
-    <h4 class="module-title">Likes <span>({{count}})</span></h4>
+    <h4 class="module-title">Likes
+      <span>({{count}})</span>
+    </h4>
   </div>
-  <div class="layout slide-users slick-frame js-slide-likes" slick show="5" breakpoint="1550" slidestoshow="3" infinite="true" scroll="1" dots="false" arrows="true" append="0">
+  <div class="layout slide-users slick-frame js-slide-likes" slick show="2" breakpoint="1550" slidestoshow="2" infinite="true" scroll="1" dots="false" arrows="true" append="0">
     <div class="layout__item" *ngFor="#item of likes">
       <div class="flag flag--small flag--fix">
         <div class="flag__img">

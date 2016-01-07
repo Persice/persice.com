@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 
 @Component({
-  selector: 'profile-networks',
+  selector: '.profile-networks',
   template: `
   <div class="layout__item">
     <h4 class="module-title mb-">Networks</h4>
@@ -22,11 +22,6 @@ import {Component, Input} from 'angular2/core';
         <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-linkedin_middle"></use>
       </svg>
     </a>
-    <!-- <a href="#">
-      <svg role="img" class="icon icon--medium">
-        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-instagram_middle"></use>
-      </svg>
-    </a> -->
   </div>
   `
 })

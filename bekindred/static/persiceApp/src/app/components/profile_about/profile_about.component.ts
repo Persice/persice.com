@@ -18,10 +18,8 @@ export class ProfileAboutComponent {
 
   ngOnChanges(values) {
     if (values.about && values.about.currentValue) {
-
-
-      if (values.about.currentValue.length > 220) {
-        this.aboutMore = values.about.currentValue.substring(0, 219) + '...';
+      if (values.about.currentValue.length > 120) {
+        this.aboutMore = values.about.currentValue.substring(0, 119) + '...';
         this.hideMoreLink = false;
       }
       else {

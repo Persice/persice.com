@@ -49,8 +49,7 @@
         <profile-about [about]="profileAbout"></profile-about>
       </div>
       <div class="hr --mh"></div>
-      <div class="layout layout--small pt0 pl+">
-        <profile-networks [url]="profileNetworks"></profile-networks>
+      <div class="layout layout--small pt0 pl+ profile-networks" [url]="profileNetworks">
       </div>
     </div>
     <div class="tableize__cell 6/10">
@@ -60,7 +59,7 @@
             <div class="layout__item 1/2">
               <h2 class="single-title">{{profileName}}</h2>
               <div class="single-title-status mt-">
-                Active {{profileActiveAgo}} &#149; {{profileDistance}} from you
+                Active {{profileActiveAgo}} • {{profileDistance}} from you
               </div>
             </div>
             <div class="layout__item text-right 1/2">
