@@ -6,6 +6,7 @@ import {ProfileAboutComponent} from '../profile_about/profile_about.component';
 import {ProfileFeaturesComponent} from '../profilefeatures/profilefeatures.component';
 import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
+import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
 
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
@@ -22,7 +23,8 @@ let view = require('./profile.html');
     ProfileAboutComponent,
     ProfileFeaturesComponent,
     ProfileLikesComponent,
-    ProfileFriendsComponent
+    ProfileFriendsComponent,
+    ProfileAcceptPassComponent
   ],
   providers: [
     PhotosService
@@ -33,7 +35,16 @@ export class ProfileComponent {
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
+  profileAge = '';
+  profileGender = '';
+  profileLocation = '';
   profileScore = '';
+  profileName = '';
+  profileJob = '';
+  profileReligion = '';
+  profilePoliticalViews = '';
+  profileActiveAgo = '2h ago';
+  profileDistance = '';
   profileAbout: string = '';
   profileAvatar: string = '';
   profilePhotos: any[] = [];
@@ -83,6 +94,13 @@ export class ProfileComponent {
   }
 
   assignUser() {
+
+    this.profileName = this.user.first_name;
+
+    this.profileAge = this.user.age;
+    this.profileGender = this.user.gender === 'm' ? 'Male' : 'Female';
+    this.profileDistance = `${this.user.distance[0]} ${this.user.distance[1]}`;
+
     let likes = this.user.likes[0];
     this.profileLikes = Object.keys(likes).map((key) => {
       return {
