@@ -113,6 +113,8 @@ export class ProfileComponent {
       };
     });
 
+    this.profileJob = this.user.position.job !== null && this.user.position.company !== null ? `${this.user.position.job} at ${this.user.position.company}` : '';
+
     this.profileLikesCount = this.profileLikes.length;
 
     this.profileAvatar = this.user.image;
