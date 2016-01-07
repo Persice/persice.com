@@ -7,6 +7,7 @@ import {ProfileFeaturesComponent} from '../profilefeatures/profilefeatures.compo
 import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
 import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
+import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
@@ -24,7 +25,8 @@ let view = require('./profile.html');
     ProfileFeaturesComponent,
     ProfileLikesComponent,
     ProfileFriendsComponent,
-    ProfileAcceptPassComponent
+    ProfileAcceptPassComponent,
+    ProfileNetworksComponent
   ],
   providers: [
     PhotosService
@@ -75,6 +77,11 @@ export class ProfileComponent {
     mutual_twitter_friends_count: 0
   };
   profileFriendsCount: number = 0;
+  profileNetworks = {
+    facebook: '',
+    twitter: '',
+    linkedin: ''
+  };
 
 
   constructor(
@@ -104,8 +111,8 @@ export class ProfileComponent {
     let likes = this.user.likes[0];
     this.profileLikes = Object.keys(likes).map((key) => {
       return {
-      value: key,
-      match: likes[key]
+        value: key,
+        match: likes[key]
       };
     });
 
@@ -114,6 +121,10 @@ export class ProfileComponent {
     this.profileAvatar = this.user.image;
     this.profileAbout = this.user.about;
     this.profileScore = this.user.score;
+
+    this.profileNetworks.facebook = `https://www.facebook.com/app_scoped_user_id/${this.user.facebook_id}`;
+    this.profileNetworks.linkedin = this.user.linkedin_provider !== null ? this.user.linkedin_provider : '';
+    this.profileNetworks.twitter = this.user.twitter_provider !== null ? `https://twitter.com/${this.user.twitter_username}` : '';
 
     this.profileOffers = ObjectUtil.first(this.user.offers[0], 6);
     this.profileInterests = ObjectUtil.first(this.user.interests[0], 6);
