@@ -3,11 +3,11 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
 
 import {ProfileAboutComponent} from '../profile_about/profile_about.component';
-import {ProfileFeaturesComponent} from '../profilefeatures/profilefeatures.component';
 import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
 import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
+import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
@@ -22,11 +22,11 @@ let view = require('./profile.html');
   directives: [
     ProfileAvatarComponent,
     ProfileAboutComponent,
-    ProfileFeaturesComponent,
     ProfileLikesComponent,
     ProfileFriendsComponent,
     ProfileAcceptPassComponent,
-    ProfileNetworksComponent
+    ProfileNetworksComponent,
+    ProfileItemsComponent
   ],
   providers: [
     PhotosService
@@ -54,11 +54,8 @@ export class ProfileComponent {
   profileKeywords: any[] = [];
   profileKeywordsCount: number = 0;
   profileInterests: any[] = [];
-  profileInterestsMore: any[] = [];
   profileGoals: any[] = [];
-  profileGoalsMore: any[] = [];
   profileOffers: any[] = [];
-  profileOffersMore: any[] = [];
   profileInterestsCount: number = 0;
   profileGoalsCount: number = 0;
   profileOffersCount: number = 0;
@@ -126,12 +123,9 @@ export class ProfileComponent {
     this.profileNetworks.linkedin = this.user.linkedin_provider !== null ? this.user.linkedin_provider : '';
     this.profileNetworks.twitter = this.user.twitter_provider !== null ? `https://twitter.com/${this.user.twitter_username}` : '';
 
-    this.profileOffers = ObjectUtil.first(this.user.offers[0], 6);
-    this.profileInterests = ObjectUtil.first(this.user.interests[0], 6);
-    this.profileGoals = ObjectUtil.first(this.user.goals[0], 6);
-    this.profileOffersMore = ObjectUtil.skip(this.user.offers[0], 6);
-    this.profileInterestsMore = ObjectUtil.skip(this.user.interests[0], 6);
-    this.profileGoalsMore = ObjectUtil.skip(this.user.goals[0], 6);
+    this.profileOffers = ObjectUtil.transformSorted(this.user.offers[0]);
+    this.profileInterests = ObjectUtil.transformSorted(this.user.interests[0]);
+    this.profileGoals = ObjectUtil.transformSorted(this.user.goals[0]);
     this.profileInterestsCount = ObjectUtil.count(this.user.interests[0]);
     this.profileOffersCount = ObjectUtil.count(this.user.offers[0]);
     this.profileGoalsCount = ObjectUtil.count(this.user.goals[0]);
