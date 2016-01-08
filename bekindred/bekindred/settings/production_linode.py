@@ -30,9 +30,12 @@ FACEBOOK_FORCE_PROFILE_UPDATE_ON_LOGIN = True
 FACEBOOK_STORE_LIKES = True
 FACEBOOK_STORE_FRIENDS = True
 
-FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday', 'user_website', 'user_likes', 'user_friends',
-                          'user_status', 'read_custom_friendlists', 'user_relationships', 'user_groups', 'user_photos',
-                          'user_relationship_details', 'read_stream']
+FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday',
+                          'user_website', 'user_likes', 'user_friends',
+                          'user_status', 'read_custom_friendlists',
+                          'user_relationships', 'user_groups',
+                          'user_relationship_details', 'read_stream',
+                          'user_photos', 'user_work_history']
 
 # LinkedIn
 LINKEDIN_CONSUMER_KEY = '756g9uw1z5u8we'
@@ -42,7 +45,10 @@ LINKEDIN_CONSUMER_SECRET = 'JFdHmQgN1V1qM4VF'
 # Add email to requested authorizations.
 LINKEDIN_SCOPE = ['r_basicprofile', 'rw_company_admin', 'r_emailaddress', 'w_share']
 # Add the fields so they will be requested from linkedin.
-LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url', 'email-address', 'date-of-birth', 'picture-url']
+# Add the fields so they will be requested from linkedin.
+LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url',
+                                  'email-address', 'date-of-birth',
+                                  'picture-url', 'positions']
 # Arrange to add the fields to UserSocialAuth.extra_data
 LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('first-name', 'first_name'),
@@ -52,7 +58,10 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('email-address', 'email'),
                        ('date-of-birth', 'date_of_birth'),
                        ('picture-url', 'image'),
-                       ('relation-to-viewer ', 'relation-to-viewer')]
+                       ('relation-to-viewer', 'relation-to-viewer'),
+                       ('positions', 'positions')
+                       ]
+
 
 # twitter social auth
 
