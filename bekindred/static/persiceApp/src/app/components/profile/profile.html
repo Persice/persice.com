@@ -6,7 +6,7 @@
   </a>
   <div class="tableize tableize--fixed tableize--full content">
     <div class="tableize__cell 3/12 my-profile">
-      <profile-avatar [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
+      <profile-avatar [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
       <div class="layout layout--flush pt- ph pl+">
         <div class="layout__item 1/3">
           <h2 class="module-title mb0">gender</h2>
@@ -56,14 +56,36 @@
       <div class="border-left">
         <div class="my-profile__header">
           <div class="layout layout--middle layout--center">
-            <div class="layout__item 1/2">
+            <div class="layout__item" [ngClass]="{'1/2': profileType === 'crowd' || profileType === 'my', '6/10': profileType === 'friend' }">
               <h2 class="single-title">{{profileName}}</h2>
-              <div class="single-title-status mt-">
+              <div class="single-title-status mt-" *ngIf="profileType !== 'my'">
                 Active {{profileActiveAgo}} • {{profileDistance}} from you
               </div>
             </div>
-            <div class="layout__item text-right 1/2">
+            <div class="layout__item text-right" [ngClass]="{'1/2': profileType === 'crowd' || profileType === 'my', '4/10': profileType === 'friend' }">
               <profile-acceptpass *ngIf="profileType === 'crowd'" [user]="profileId" (acceptEvent)="acceptUser($event)" (passEvent)="passUser($event)"></profile-acceptpass>
+              <a class="user-messages mr-" (click)="openMessages($event)" *ngIf="profileType === 'friend'">
+                <svg role="img" class="icon ">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-menu-messages"></use>
+                </svg>
+              </a>
+              <div class="event-share" *ngIf="profileType === 'friend'">
+                <a class="btn btn-1 btn-1--blue btn--icon-circle js-share" dropdown="#friendDropdown">
+                  <svg role="img" class="icon icon--tiny">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-more"></use>
+                  </svg>
+                </a>
+                <!-- TODO insert dropdown component -->
+                <div class="dropdown-basic" id="friendDropdown">
+                  <ul class="list-bare">
+                    <li><a href="#">Invite to event</a></li>
+                    <li><a href="#">Report user</a></li>
+                    <li><a href="#">Disconnect</a></li>
+                  </ul>
+                </div>
+              </div>
+              <a *ngIf="profileType === 'my'" (click)="openEditProfile($event)" class="btn btn-1 btn-1--filled btn-1--blue btn-1--medium">Edit</a>
+
             </div>
           </div>
         </div>
@@ -84,7 +106,7 @@
           </div>
         </div>
         <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
-        <profile-friends [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
+        <profile-friends [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
       </div>
     </div>
   </div>
