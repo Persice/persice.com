@@ -1,9 +1,10 @@
 import {Component} from 'angular2/core';
-import {Location} from 'angular2/router';
+import {Location, Router} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {FilterComponent} from '../filter/filter.component';
+import {ProfileFriendComponent} from '../profile/profile_friend.component';
 
 import {ConnectionsService} from '../../services/connections.service';
 import {FilterService} from '../../services/filter.service';
@@ -18,7 +19,8 @@ declare var jQuery: any;
   directives: [
     FilterComponent,
     UsersListComponent,
-    LoadingComponent
+    LoadingComponent,
+    ProfileFriendComponent
   ]
 })
 export class ConnectionsComponent {
@@ -30,13 +32,17 @@ export class ConnectionsComponent {
   next: string = '';
   total_count: number = 0;
   offset: number = 0;
+  profileViewActive = false;
+  selectedUser = null;
 
   constructor(
     public service: ConnectionsService,
     public filterService: FilterService,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {
     this.location = location;
+    this.router = router;
   }
 
 
@@ -120,6 +126,21 @@ export class ConnectionsComponent {
     }
 
 
+  }
+
+  viewFriendProfile(id) {
+    for (var i = this.items.length - 1; i >= 0; i--) {
+      if (this.items[i].id === id) {
+        this.selectedUser = this.items[i];
+        this.profileViewActive = true;
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+      }
+    }
+  }
+
+  closeProfile(event) {
+    this.profileViewActive = false;
+    this.selectedUser = null;
   }
 
   handleScrollEvent(event) {

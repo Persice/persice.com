@@ -6,7 +6,7 @@
   </a>
   <div class="tableize tableize--fixed tableize--full content">
     <div class="tableize__cell 3/12 my-profile">
-      <profile-avatar [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
+      <profile-avatar [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
       <div class="layout layout--flush pt- ph pl+">
         <div class="layout__item 1/3">
           <h2 class="module-title mb0">gender</h2>
@@ -15,99 +15,77 @@
           <h2 class="module-title mb0">age</h2>
         </div>
         <div class="layout__item 1/3">
-          <h2 class="module-title mb0">location</h2>
+          <h2 class="module-title mb0">lives in</h2>
         </div>
       </div>
       <div class="layout layout--flush pt- ph pb pl+">
         <div class="layout__item 1/3">
-          <div class="profile-feature">Male</div>
+          <div class="profile-feature">{{profileGender}}</div>
         </div>
         <div class="layout__item 1/3">
-          <div class="profile-feature">28</div>
+          <div class="profile-feature">{{profileAge}}</div>
         </div>
         <div class="layout__item 1/3">
-          <div class="profile-feature">New York</div>
+          <div class="profile-feature">{{profileLocation}}</div>
         </div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
-        <h4 class="module-title mb0">Job / company</h4>
-        <div class="profile-feature">Layer at Clearly Gottlieb Steen & Hamilton LLP</div>
+        <h4 class="module-title mb0">Profession</h4>
+        <div class="profile-feature">{{profileJob}}</div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Religious views</h4>
-        <div class="profile-feature">Christianity</div>
+        <div class="profile-feature">{{profileReligion}}</div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Political views</h4>
-        <div class="profile-feature">libertarianism</div>
+        <div class="profile-feature">{{profilePoliticalViews}}</div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <profile-about [about]="profileAbout"></profile-about>
       </div>
       <div class="hr --mh"></div>
-      <div class="layout layout--small pt0 pl+">
-        <div class="layout__item">
-          <h4 class="module-title mb-">Networks</h4>
-        </div>
-        <div class="layout__item">
-          <a class="mr-" href="#">
-            <svg role="img" class="icon icon--medium">
-              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-twitter_middle"></use>
-            </svg>
-          </a>
-          <a class="mr-" href="#">
-            <svg role="img" class="icon icon--medium">
-              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-linkedin_middle"></use>
-            </svg>
-          </a>
-          <a class="mr-" href="#">
-            <svg role="img" class="icon icon--medium">
-              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-facebook_middle"></use>
-            </svg>
-          </a>
-          <a href="#">
-            <svg role="img" class="icon icon--medium">
-              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-instagram_middle"></use>
-            </svg>
-          </a>
-        </div>
+      <div class="layout layout--small pt0 pl+ profile-networks" [url]="profileNetworks">
       </div>
     </div>
     <div class="tableize__cell 6/10">
       <div class="border-left">
         <div class="my-profile__header">
           <div class="layout layout--middle layout--center">
-            <div class="layout__item 1/2">
-              <h2 class="single-title">Tyler</h2>
-              <div class="single-title-status mt-">
-                Active 2h ago &#149; 3km from you
+            <div class="layout__item" [ngClass]="{'1/2': profileType === 'crowd' || profileType === 'my', '6/10': profileType === 'friend' }">
+              <h2 class="single-title">{{profileName}}</h2>
+              <div class="single-title-status mt-" *ngIf="profileType !== 'my'">
+                Active {{profileActiveAgo}} • {{profileDistance}} from you
               </div>
             </div>
-            <div class="layout__item text-right 1/2">
-              <div class="pass-accept">
-                <div class="layout layout--small">
-                  <div class="layout__item 1/2">
-                    <a href="#" class="btn btn-1 btn-1--red btn--full btn--activate js-pass">
-                      <div class="btn--activate__label">Pass</div>
-                      <svg role="img" class="icon ">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-pass"></use>
-                      </svg>
-                    </a>
-                  </div>
-                  <div class="layout__item 1/2">
-                    <a href="#" class="btn btn-1 btn-1--green btn--full btn--activate js-accept">
-                      <div class="btn--activate__label">Accept</div>
-                      <svg role="img" class="icon ">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-accepted"></use>
-                      </svg>
-                    </a>
-                  </div>
+            <div class="layout__item text-right" [ngClass]="{'1/2': profileType === 'crowd' || profileType === 'my', '4/10': profileType === 'friend' }">
+              <profile-acceptpass *ngIf="profileType === 'crowd'" [user]="profileId" (acceptEvent)="acceptUser($event)" (passEvent)="passUser($event)"></profile-acceptpass>
+              <a class="user-messages mr-" (click)="openMessages($event)" *ngIf="profileType === 'friend'">
+                <svg role="img" class="icon ">
+                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-menu-messages"></use>
+                </svg>
+              </a>
+              <div class="event-share" *ngIf="profileType === 'friend'">
+                <a class="btn btn-1 btn-1--blue btn--icon-circle js-share" dropdown="#friendDropdown">
+                  <svg role="img" class="icon icon--tiny">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-more"></use>
+                  </svg>
+                </a>
+                <!-- TODO insert dropdown component -->
+                <div class="dropdown-basic" id="friendDropdown">
+                  <ul class="list-bare">
+                    <li><a href="#">Invite to event</a></li>
+                    <li><a href="#">Report user</a></li>
+                    <li><a href="#">Disconnect</a></li>
+                  </ul>
                 </div>
               </div>
+              <a *ngIf="profileType === 'my'" (click)="openEditProfile($event)" class="btn btn-1 btn-1--filled btn-1--blue btn-1--medium">Edit</a>
+
             </div>
           </div>
         </div>
@@ -115,107 +93,20 @@
         <div class="match-profile__features pt- pb">
           <div class="layout">
             <div class="layout__item">
-              <h4 class="module-title">Interests
-                <span>(11)</span>
-              </h4>
-              <div class="layout">
-                <div class="layout__item 1/2">
-                  <ul class="features-list">
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Lego building</li>
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Tablet games anbd role-playing games</li>
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Glassblowing</li>
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Glassblowing</li>
-                  </ul>
-                </div>
-                <div class="layout__item 1/2">
-                  <ul class="features-list">
-                    <li>Astronomy</li>
-                    <li>Kitsurfing / Liteboarding / Surfing</li>
-                    <li>Theoretical Phisics</li>
-                  </ul>
-                  <a href="" class="link-blank">Show all</a>
-                </div>
-              </div>
+              <profile-items [title]="'Interests'" [items]="profileInterests" [itemsCount]="profileInterestsCount"></profile-items>
             </div>
             <div class="hr -mh"></div>
             <div class="layout__item">
-              <h4 class="module-title">Goals
-                <span>(5)</span>
-              </h4>
-              <div class="layout">
-                <div class="layout__item 1/2">
-                  <ul class="features-list">
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Lego building</li>
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Ride in the hot air balloon</li>
-                    <li>Snorkel in Hawaii</li>
-                    <li>Find People to go mountian biking with</li>
-                  </ul>
-                </div>
-                <div class="layout__item 1/2">
-                  <ul class="features-list">
-                    <li>Snorkel in Hawaii</li>
-                    <li>Find People to go mountian biking with</li>
-                    <li>Learn more about artificial intelligence</li>
-                  </ul>
-                  <a href="" class="link-blank">Show all</a>
-                </div>
-              </div>
+              <profile-items [title]="'Goals'" [items]="profileGoals" [itemsCount]="profileGoalsCount"></profile-items>
             </div>
             <div class="hr -mh"></div>
             <div class="layout__item">
-              <h4 class="module-title">Offers
-                <span>(11)</span>
-              </h4>
-              <div class="layout">
-                <div class="layout__item 1/2">
-                  <ul class="features-list">
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Help people fix stuff</li>
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Ride in the hot air balloon</li>
-                    <li class="features-list__match">
-                      <svg role="img" class="icon icon--tiny">
-                        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
-                      </svg> Glassblowing</li>
-                    <li>Mentor people in tech</li>
-                  </ul>
-                </div>
-                <div class="layout__item 1/2">
-                  <ul class="features-list">
-                    <li>Teach people how to surf</li>
-                    <li>Teach people how to cook</li>
-                    <li>Mentor people in tech</li>
-                  </ul>
-                  <a href="" class="link-blank">Show all</a>
-                </div>
-              </div>
+              <profile-items [title]="'Offers'" [items]="profileOffers" [itemsCount]="profileOffersCount"></profile-items>
             </div>
           </div>
         </div>
         <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
-        <profile-friends [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
+        <profile-friends [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
       </div>
     </div>
   </div>

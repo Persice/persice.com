@@ -30,15 +30,22 @@ import {SlickDirective} from '../../directives/slick.directive';
       [ngStyle]="{'background-image': 'url(' + avatar + ')'}">
       </div>
     </div>
-    <div circle-progress="{{score}}"
+    <div circle-progress="{{score}}" *ngIf="type !== 'my'"
     size="246"
     thickness="4"
     reverse="true"
     angle="55"
     class="match-percent-large">
     </div>
-    <div class="match-profile__similar">
-      <span class="match-profile__similar__value">{{score}}%</span>
+    <div circle-progress="100" *ngIf="type === 'my'"
+    size="246"
+    color="#7c8990"
+    thickness="4"
+    reverse="false"
+    angle="0"
+    class="match-percent-my-profile"></div>
+    <div class="match-profile__similar" *ngIf="type !== 'my'">
+      <span class="match-profile__similar__value">{{score}}</span>
       <span class="match-profile__similar__label">Similar</span>
     </div>
   </div>
@@ -46,6 +53,7 @@ import {SlickDirective} from '../../directives/slick.directive';
   `
 })
 export class ProfileAvatarComponent {
+  @Input() type;
   @Input() avatar;
   @Input() images;
   @Input() score;

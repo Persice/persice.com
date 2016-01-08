@@ -6,6 +6,18 @@ declare var jstz: any;
 const moment = require('moment');
 const momentTz = require('moment-timezone/builds/moment-timezone-with-data.min');
 
+export class ListUtil {
+  static take(arr: any[], n: number): any[] {
+      return take(arr, n);
+  }
+
+  static skip(arr: any[], x: number, y: number): any[] {
+    return take(slice(arr, x), y);
+  }
+
+
+}
+
 export class ObjectUtil {
 
   static clone<T extends Object>(data: T): T {
@@ -132,6 +144,26 @@ export class ObjectUtil {
     }
     return keys;
   }
+
+  static transformSorted(data): Array<Object> {
+    let keys = [];
+    for (var key in data) {
+      if (data[key] === 1) {
+        keys.push({
+          value: key,
+          match: true
+        });
+      } else {
+        keys.push({
+          value: key,
+          match: false
+        });
+      }
+    }
+    return sortByOrder(keys, ['match'], ['desc']);
+  }
+
+
 
   static transformToArray(data) {
 

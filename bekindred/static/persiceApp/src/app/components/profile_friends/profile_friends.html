@@ -1,8 +1,15 @@
 <div class="match-profile__mutual">
   <div class="match-profile__likes__top">
-    <h4 class="module-title">Mutual Friends <span>({{count}})</span></h4>
+    <div class="layout mb">
+      <div class="layout__item 1/2">
+        <h4 class="module-title">{{title}}
+          <span>({{count}})</span>
+        </h4>
+      </div>
+      <div *ngIf="type === 'my'" class="layout__item text-right 1/2"> <a href="" class="btn btn-1 btn-1--filled btn-1--small btn-1--blue">Add new</a> </div>
+    </div>
   </div>
-  <div *ngIf="count > 0" class="layout slide-users js-slide-mutuals" slick show="9" breakpoint="1480" slidestoshow="6" infinite="true" scroll="1" dots="false" arrows="true" append="0">
+  <div *ngIf="count > 0" class="layout slide-users js-profile-connections" slick show="6" breakpoint="1550" slidestoshow="4" infinite="true" scroll="1" dots="false" arrows="true" append="0">
     <div class="layout__item" *ngFor="#item of friends.mutual_bk_friends">
       <a class="user-listed user-listed--1">
         <div class="listed-user-avatar-place">

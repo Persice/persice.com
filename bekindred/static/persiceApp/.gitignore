@@ -47,5 +47,7 @@ Thumbs.db
 # Doc #
 /doc/
 
+/test_results/
+
 # IDE #
 .idea/

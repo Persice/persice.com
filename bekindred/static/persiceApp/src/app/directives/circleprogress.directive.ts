@@ -4,7 +4,7 @@ declare var jQuery: any;
 
 @Directive({
   selector: '[circle-progress]',
-  properties: ['value: circle-progress', 'size', 'thickness', 'angle', 'reverse']
+  properties: ['value: circle-progress', 'size', 'thickness', 'angle', 'reverse', 'color']
 })
 export class CircleProgressDirective {
   el: ElementRef;
@@ -13,6 +13,7 @@ export class CircleProgressDirective {
   thickness: string;
   angle: string;
   reverse: string;
+  color: string;
 
   constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
@@ -26,7 +27,7 @@ export class CircleProgressDirective {
         thickness: parseInt(this.thickness, 10),
         startAngle: parseInt(this.angle, 10),
         fill: {
-          color: '#39c9f5'
+          color: this.color ? this.color : '#39c9f5'
         },
         reverse: this.reverse === 'true' ? true : false
       });
@@ -47,7 +48,7 @@ export class CircleProgressDirective {
 
   }
 
-  calculateValue (value) {
+  calculateValue(value) {
     return parseInt(value, 10) / 100;
   }
 

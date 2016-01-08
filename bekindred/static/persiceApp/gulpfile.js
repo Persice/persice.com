@@ -7,82 +7,72 @@ var autoprefixer = require('gulp-autoprefixer');
 var csslint = require('gulp-csslint');
 
 var jsFiles = [
-'./src/assets/lib/es6-shim.js',
-'./src/assets/lib/jquery-2.1.4.min.js',
-'./src/assets/lib/jstz.js',
-'./src/assets/lib/jquery.minimalect.js',
-'./src/assets/lib/circle-progress.js',
-'./src/assets/lib/svg4everybody.js',
-'./src/assets/lib/ion.rangeSlider.js',
-'./src/assets/lib/imgLiquid.js',
-'./src/assets/lib/jquery.dotdotdot.js',
-'./src/assets/lib/slick.js',
-'./src/assets/lib/remodal.js',
-'./src/assets/lib/picker.js',
-'./src/assets/lib/picker.date.js',
-'./src/assets/lib/picker.time.js',
-'./src/assets/lib/jquery.matchHeight.js',
-'./src/assets/lib/typeahead.js',
-'./src/assets/lib/tokenfield.js',
-'./src/assets/lib/jqueryui/core.js',
-'./src/assets/lib/jqueryui/widget.js',
-'./src/assets/lib/jqueryui/mouse.js',
-'./src/assets/lib/jqueryui/position.js',
-'./src/assets/lib/jqueryui/menu.js',
-'./src/assets/lib/jqueryui/autocomplete.js',
-'./src/assets/lib/jqueryui/sortable.js',
-'./src/assets/lib/jqueryui/draggable.js',
-'./src/assets/lib/tag-it.js',
-'./src/assets/js/init.js',
+  './lib/js/es6-shim.js',
+  './lib/js/jquery-2.1.4.min.js',
+  './lib/js/jstz.js',
+  './lib/js/jquery.minimalect.js',
+  './lib/js/circle-progress.js',
+  './lib/js/svg4everybody.js',
+  './lib/js/ion.rangeSlider.js',
+  './lib/js/imgLiquid.js',
+  './lib/js/jquery.dotdotdot.js',
+  './lib/js/slick.js',
+  './lib/js/remodal.js',
+  './lib/js/picker.js',
+  './lib/js/picker.date.js',
+  './lib/js/picker.time.js',
+  './lib/js/jquery.matchHeight.js',
+  './lib/js/typeahead.js',
+  './lib/js/tokenfield.js',
+  './lib/js/jqueryui/core.js',
+  './lib/js/jqueryui/widget.js',
+  './lib/js/jqueryui/mouse.js',
+  './lib/js/jqueryui/position.js',
+  './lib/js/jqueryui/menu.js',
+  './lib/js/jqueryui/autocomplete.js',
+  './lib/js/jqueryui/sortable.js',
+  './lib/js/jqueryui/draggable.js',
+  './lib/js/tag-it.js',
+  './lib/js/init.js',
 ];
 
 var cssFiles = [
-'./src/assets/css/ion.rangeSlider.css',
-'./src/assets/css/ion.rangeSlider.skinNice.css',
-'./src/assets/css/remodal.css',
-'./src/assets/css/remodal-default-theme.css',
-'./src/assets/css/classic.css',
-'./src/assets/css/classic.date.css',
-'./src/assets/css/classic.time.css',
-'./src/assets/css/tokenfield-typeahead.css',
-'./src/assets/css/jquery.tagit.css',
-'./src/assets/css/tagit.ui-zendesk.css',
-'./src/assets/css/screen.css',
-'./src/assets/css/app.css'
+  './src/assets/css/screen.css',
+  './src/assets/css/app.css'
 ];
 
 gulp.task('js', function() {
   gulp.src(jsFiles)
-  .pipe(concat('plugins.min.js'))
-  .pipe(uglify())
-  .pipe(gulp.dest('./src/assets/lib/'))
+    .pipe(concat('plugins.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./src/assets/js/'))
 });
 
 gulp.task('jshint', function() {
   return gulp.src(jsFiles)
-  .pipe(jshint())
-  .pipe(jshint.reporter('default'))
-  .pipe(jshint.reporter('fail'));
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('jscs', function() {
   return gulp.src(jsFiles)
-  .pipe(jscs({
-    configPath: '.jscs.json'
-  }));
+    .pipe(jscs({
+      configPath: '.jscs.json'
+    }));
 });
 
 gulp.task('css', function() {
   gulp.src(cssFiles)
-  .pipe(minifyCSS())
-  .pipe(concat('vendor.min.css'))
-  .pipe(gulp.dest('./src/assets/css/'))
+    .pipe(minifyCSS())
+    .pipe(concat('vendor.min.css'))
+    .pipe(gulp.dest('./src/assets/css/'))
 });
 
 gulp.task('css-lint', function() {
   gulp.src(cssFiles)
-  .pipe(csslint())
-  .pipe(csslint.reporter());
+    .pipe(csslint())
+    .pipe(csslint.reporter());
 });
 
 gulp.task('default', ['js', 'css']);
