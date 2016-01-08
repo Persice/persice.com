@@ -2,8 +2,10 @@ from datetime import date
 import json
 import pprint
 
+import re
+import requests
 from django.contrib.gis.geoip import GeoIP
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import GEOSGeometry, Point
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django_facebook.models import FacebookCustomUser
 
@@ -34,17 +36,21 @@ def get_user_location(user_id):
     """
     """
     g = GeoIP()
-
+    user_location = None
     try:
+        # import ipdb; ipdb.set_trace()
         user1_location = UserLocation.objects.filter(user_id=user_id).order_by('-timestamp')[0]
-        return user1_location.geometry
+        user_location = user1_location.geometry
     except IndexError:
         try:
             user_ip = str(UserIPAddress.objects.get(user_id=user_id).ip)
             point = g.geos(user_ip)
-            return point
+            user_location = point
         except UserIPAddress.DoesNotExist:
             pass
+    if user_location is None:
+        user_location = Point(x=0, y=0)
+    return user_location
 
 
 def miles_to_km(x):
