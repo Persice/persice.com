@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
+
 /** Base Class */
 import {BaseProfileComponent} from './base_profile.component';
 
@@ -11,7 +12,8 @@ import {ProfileFriendsComponent} from '../profile_friends/profile_friends.compon
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 
-import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
+/** Directives */
+import {DropdownDirective} from '../../directives/dropdown.directive';
 
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
@@ -24,26 +26,23 @@ import {ObjectUtil} from '../../core/util';
 let view = require('./profile.html');
 
 @Component({
-  selector: 'profile-crowd',
+  selector: 'profile-friend',
   template: view,
   directives: [
     ProfileAvatarComponent,
     ProfileAboutComponent,
     ProfileLikesComponent,
     ProfileFriendsComponent,
-    ProfileAcceptPassComponent,
     ProfileNetworksComponent,
-    ProfileItemsComponent
+    ProfileItemsComponent,
+    DropdownDirective
   ],
   providers: [
     PhotosService
   ]
 })
-export class ProfileCrowdComponent extends BaseProfileComponent {
+export class ProfileFriendComponent extends BaseProfileComponent {
   @Input() user;
-  @Input() type;
-  @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
-  @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
   friendsTitle: string = 'Mutual Connections';
 
@@ -51,19 +50,15 @@ export class ProfileCrowdComponent extends BaseProfileComponent {
     public mutualfriendsService: MutualFriendsService,
     public photosService: PhotosService
     ) {
-    super(mutualfriendsService, photosService, 'crowd');
-  }
-
-  passUser(event) {
-    this.passEvent.next(event);
-  }
-
-  acceptUser(event) {
-    this.acceptEvent.next(event);
+    super(mutualfriendsService, photosService, 'friend');
   }
 
   closeProfile(event) {
     this.closeprofileEvent.next(event);
+  }
+
+  openMessages(event) {
+    console.log('open messages');
   }
 
 

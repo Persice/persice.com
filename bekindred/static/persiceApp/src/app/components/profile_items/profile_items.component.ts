@@ -51,6 +51,10 @@ export class ProfileItemsComponent {
     this.showAllItems = true;
   }
 
+  ngOnChanges(values) {
+    this.splitItems(LEFT_COUNT, RIGHT_COUNT);
+  }
+
   ngOnInit() {
     this.splitItems(LEFT_COUNT, RIGHT_COUNT);
   }

@@ -80,7 +80,7 @@ export abstract class BaseProfileComponent {
       };
     });
 
-    this.profileJob = this.user.position.job !== null && this.user.position.company !== null ? `${this.user.position.job} at ${this.user.position.company}` : '';
+    this.profileJob = this.user.position && this.user.position.job !== null && this.user.position.company !== null ? `${this.user.position.job} at ${this.user.position.company}` : '';
 
     this.profileLikesCount = this.profileLikes.length;
 
@@ -89,8 +89,8 @@ export abstract class BaseProfileComponent {
     this.profileScore = this.user.score;
 
     this.profileNetworks.facebook = `https://www.facebook.com/app_scoped_user_id/${this.user.facebook_id}`;
-    this.profileNetworks.linkedin = this.user.linkedin_provider !== null ? this.user.linkedin_provider : '';
-    this.profileNetworks.twitter = this.user.twitter_provider !== null ? `https://twitter.com/${this.user.twitter_username}` : '';
+    this.profileNetworks.linkedin = this.user.linkedin_provider && this.user.linkedin_provider !== null ? this.user.linkedin_provider : '';
+    this.profileNetworks.twitter = this.user.twitter_provider && this.user.twitter_provider !== null ? `https://twitter.com/${this.user.twitter_username}` : '';
 
     this.profileOffers = ObjectUtil.transformSorted(this.user.offers[0]);
     this.profileInterests = ObjectUtil.transformSorted(this.user.interests[0]);
@@ -99,8 +99,8 @@ export abstract class BaseProfileComponent {
     this.profileOffersCount = ObjectUtil.count(this.user.offers[0]);
     this.profileGoalsCount = ObjectUtil.count(this.user.goals[0]);
 
-    this.profileKeywords = this.user.keywords;
-    this.profileKeywordsCount = this.user.keywords.length;
+    this.profileKeywords = this.user.keywords ? this.user.keywords : [];
+    this.profileKeywordsCount = this.user.keywords ? this.user.keywords.length : 0;
 
     this.getMutualFriends(this.user.id);
     this.getPhotos(this.user.id);
