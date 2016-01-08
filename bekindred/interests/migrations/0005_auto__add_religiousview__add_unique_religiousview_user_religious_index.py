@@ -11,38 +11,58 @@ class Migration(SchemaMigration):
         # Adding model 'ReligiousView'
         db.create_table(u'interests_religiousview', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['django_facebook.FacebookCustomUser'], unique=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=300)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['django_facebook.FacebookCustomUser'])),
+            ('religious_index', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['interests.ReligiousIndex'])),
         ))
         db.send_create_signal(u'interests', ['ReligiousView'])
 
-        # Adding unique constraint on 'ReligiousView', fields ['user', 'name']
-        db.create_unique(u'interests_religiousview', ['user_id', 'name'])
+        # Adding unique constraint on 'ReligiousView', fields ['user', 'religious_index']
+        db.create_unique(u'interests_religiousview', ['user_id', 'religious_index_id'])
 
         # Adding model 'PoliticalView'
         db.create_table(u'interests_politicalview', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['django_facebook.FacebookCustomUser'], unique=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=300)),
+            ('political_index', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['interests.PoliticalIndex'])),
         ))
         db.send_create_signal(u'interests', ['PoliticalView'])
 
-        # Adding unique constraint on 'PoliticalView', fields ['user', 'name']
-        db.create_unique(u'interests_politicalview', ['user_id', 'name'])
+        # Adding unique constraint on 'PoliticalView', fields ['user', 'political_index']
+        db.create_unique(u'interests_politicalview', ['user_id', 'political_index_id'])
+
+        # Adding model 'PoliticalIndex'
+        db.create_table(u'interests_politicalindex', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(default='other', max_length=300)),
+        ))
+        db.send_create_signal(u'interests', ['PoliticalIndex'])
+
+        # Adding model 'ReligiousIndex'
+        db.create_table(u'interests_religiousindex', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(default='other', max_length=300)),
+        ))
+        db.send_create_signal(u'interests', ['ReligiousIndex'])
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'PoliticalView', fields ['user', 'name']
-        db.delete_unique(u'interests_politicalview', ['user_id', 'name'])
+        # Removing unique constraint on 'PoliticalView', fields ['user', 'political_index']
+        db.delete_unique(u'interests_politicalview', ['user_id', 'political_index_id'])
 
-        # Removing unique constraint on 'ReligiousView', fields ['user', 'name']
-        db.delete_unique(u'interests_religiousview', ['user_id', 'name'])
+        # Removing unique constraint on 'ReligiousView', fields ['user', 'religious_index']
+        db.delete_unique(u'interests_religiousview', ['user_id', 'religious_index_id'])
 
         # Deleting model 'ReligiousView'
         db.delete_table(u'interests_religiousview')
 
         # Deleting model 'PoliticalView'
         db.delete_table(u'interests_politicalview')
+
+        # Deleting model 'PoliticalIndex'
+        db.delete_table(u'interests_politicalindex')
+
+        # Deleting model 'ReligiousIndex'
+        db.delete_table(u'interests_religiousindex')
 
 
     models = {
@@ -108,17 +128,27 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'search_index': ('djorm_pgfulltext.fields.VectorField', [], {'default': "''", 'null': 'True', 'db_index': 'True'})
         },
-        u'interests.politicalview': {
-            'Meta': {'unique_together': "(('user', 'name'),)", 'object_name': 'PoliticalView'},
+        u'interests.politicalindex': {
+            'Meta': {'object_name': 'PoliticalIndex'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
+            'name': ('django.db.models.fields.CharField', [], {'default': "'other'", 'max_length': '300'})
+        },
+        u'interests.politicalview': {
+            'Meta': {'unique_together': "(('user', 'political_index'),)", 'object_name': 'PoliticalView'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'political_index': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['interests.PoliticalIndex']"}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['django_facebook.FacebookCustomUser']", 'unique': 'True'})
         },
-        u'interests.religiousview': {
-            'Meta': {'unique_together': "(('user', 'name'),)", 'object_name': 'ReligiousView'},
+        u'interests.religiousindex': {
+            'Meta': {'object_name': 'ReligiousIndex'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['django_facebook.FacebookCustomUser']", 'unique': 'True'})
+            'name': ('django.db.models.fields.CharField', [], {'default': "'other'", 'max_length': '300'})
+        },
+        u'interests.religiousview': {
+            'Meta': {'unique_together': "(('user', 'religious_index'),)", 'object_name': 'ReligiousView'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'religious_index': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['interests.ReligiousIndex']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['django_facebook.FacebookCustomUser']"})
         }
     }
 

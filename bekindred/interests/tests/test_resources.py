@@ -133,6 +133,9 @@ class TestInterestResource(ResourceTestCase):
 
 
 class TestReligiousViewResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
     def setUp(self):
         super(TestReligiousViewResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
@@ -146,10 +149,13 @@ class TestReligiousViewResource(ResourceTestCase):
         }
 
     def login(self):
-        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+        return self.api_client.client.post('/login/',
+                                           {'username': 'user_a',
+                                            'password': 'test'})
 
     def test_get_list_unauthorzied(self):
-        self.assertHttpUnauthorized(self.api_client.get('/api/v1/interest/', format='json'))
+        self.assertHttpUnauthorized(
+                self.api_client.get('/api/v1/religious_view/', format='json'))
 
     def test_login(self):
         self.response = self.login()
