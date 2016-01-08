@@ -2,8 +2,6 @@ from datetime import date
 import json
 import pprint
 
-import re
-import requests
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import GEOSGeometry, Point
 from django.contrib.humanize.templatetags.humanize import intcomma
@@ -34,6 +32,7 @@ def calculate_date_of_birth(age):
 
 def get_user_location(user_id):
     """
+    :param user_id:
     """
     g = GeoIP()
     user_location = None

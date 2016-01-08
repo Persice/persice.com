@@ -138,15 +138,8 @@ class TestReligiousViewResource(ResourceTestCase):
 
     def setUp(self):
         super(TestReligiousViewResource, self).setUp()
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
-        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
-        self.interest = Interest.objects.create(user=self.user, interest=self.subject)
-
-        self.detail_url = '/api/v1/religious_view/{0}/'.format(self.interest.pk)
-        self.post_data = {
-            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
-            'name': '/api/v1/religious_view/{0}/'.format('some'),
-        }
+        self.user = FacebookCustomUser.objects.\
+            create_user(username='user_a', password='test')
 
     def login(self):
         return self.api_client.client.post('/login/',

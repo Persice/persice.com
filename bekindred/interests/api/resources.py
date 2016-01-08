@@ -5,7 +5,7 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
-from interests.models import Interest, InterestSubject
+from interests.models import Interest, InterestSubject, ReligiousView
 from photos.api.resources import UserResource
 
 
@@ -93,11 +93,11 @@ class InterestResource(ModelResource):
         return bundle
 
 
-class ReligiousView(ModelResource):
+class ReligiousViewResource(ModelResource):
     user = fields.OneToOneField(UserResource, 'user')
 
     class Meta:
-        queryset = Interest.objects.all()
+        queryset = ReligiousView.objects.all()
         fields = ['user', 'name', 'id']
         always_return_data = True
         resource_name = 'religious_view'
@@ -111,5 +111,5 @@ class ReligiousView(ModelResource):
                 user = int(user)
             except ValueError:
                 user = request.user.id
-        return super(ReligiousView, self).get_object_list(request).\
+        return super(ReligiousViewResource, self).get_object_list(request).\
             filter(user_id=user)

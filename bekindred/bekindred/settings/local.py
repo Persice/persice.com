@@ -96,7 +96,8 @@ TWITTER_EXTRA_DATA = ['screen_name', 'name']
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/goals/close_login_popup/'
 LOGIN_ERROR_URL = '/goals/error_window/'
-SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['username', 'email', 'first_name', 'last_name']
+SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['username', 'email',
+                                     'first_name', 'last_name', 'image']
 
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
