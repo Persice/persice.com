@@ -16,6 +16,7 @@ import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
 import {UserAuthService} from '../../services/userauth.service';
 import {ConnectionsService} from '../../services/connections.service';
+import {LikesService} from '../../services/likes.service';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -37,7 +38,8 @@ let view = require('./profile.html');
   providers: [
     ConnectionsService,
     UserAuthService,
-    PhotosService
+    PhotosService,
+    LikesService
   ]
 })
 export class ProfileMyComponent extends BaseProfileComponent {
@@ -48,7 +50,8 @@ export class ProfileMyComponent extends BaseProfileComponent {
     public mutualfriendsService: MutualFriendsService,
     public connectionsService: ConnectionsService,
     public photosService: PhotosService,
-    public userService: UserAuthService
+    public userService: UserAuthService,
+    public likesService: LikesService
     ) {
     super(mutualfriendsService, photosService, 'my');
   }
@@ -70,8 +73,8 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.profileGender = data.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${data.distance[0]} ${data.distance[1]}`;
 
-    this.profileLikes = [];
-    this.profileLikesCount = this.profileLikes.length;
+    // this.profileLikes = [];
+    // this.profileLikesCount = this.profileLikes.length;
 
     this.profileJob = data.position && data.position.job !== null && data.position.company !== null ? `${data.position.job} at ${data.position.company}` : '';
 
@@ -92,6 +95,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.profileGoalsCount = data.goals.length;
 
     this.getConnections();
+    this.getLikes();
     this.getPhotos(data.id);
   }
 
@@ -107,6 +111,19 @@ export class ProfileMyComponent extends BaseProfileComponent {
     return res;
   }
 
+  transformLikes(arr, prop) {
+    let res = [];
+
+    for (let i = 0; i < arr.length; i++) {
+      res.push({
+        value: arr[i][prop],
+        match: 0,
+        image: arr[i].picture
+      });
+    }
+    return res;
+  }
+
   getConnections() {
     this.connectionsService.get('', 100, false)
       .subscribe((data) => this.assignConnections(data));
@@ -117,6 +134,19 @@ export class ProfileMyComponent extends BaseProfileComponent {
       let items = data.objects;
       this.profileFriendsCount = items.length;
       this.profileFriends.mutual_bk_friends = items;
+    }
+  }
+
+  getLikes() {
+    this.likesService.my('', 200)
+      .subscribe((data) => this.assignLikes(data));
+  }
+
+  assignLikes(data) {
+    if (data.meta.total_count > 0) {
+      let items = data.objects;
+      this.profileLikes = this.transformLikes(items, 'name');
+      this.profileLikesCount = items.length;
     }
   }
 

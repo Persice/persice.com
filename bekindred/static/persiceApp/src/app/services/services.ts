@@ -20,6 +20,7 @@ import {goalsServiceInjectables} from './goals.service';
 import {userAuthServiceInjectables} from './userauth.service';
 import {onboardingServiceInjectables} from './onboarding.service';
 import {photosServiceInjectables} from './photos.service';
+import {likesServiceInjectables} from './likes.service';
 
 export * from './user.service';
 export * from './search.service';
@@ -43,6 +44,7 @@ export * from './goals.service';
 export * from './userauth.service';
 export * from './onboarding.service';
 export * from './photos.service';
+export * from './likes.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
@@ -65,5 +67,6 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   goalsServiceInjectables,
   userAuthServiceInjectables,
   onboardingServiceInjectables,
-  photosServiceInjectables
+  photosServiceInjectables,
+  likesServiceInjectables
 ];

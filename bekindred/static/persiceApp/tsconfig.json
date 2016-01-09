@@ -121,6 +121,7 @@
     "./src/app/services/goals.service.ts",
     "./src/app/services/interests.service.ts",
     "./src/app/services/keywords.service.ts",
+    "./src/app/services/likes.service.ts",
     "./src/app/services/mutualfriends.service.ts",
     "./src/app/services/notification.service.ts",
     "./src/app/services/offers.service.ts",
