@@ -350,7 +350,7 @@ def get_current_position(user):
     elif isinstance(user, basestring):
         try:
             user = FacebookCustomUserActive.objects.get(pk=int(user))
-        except ValueError:
+        except (ValueError, IndexError):
             return position
     user_id = user.id
     try:
@@ -363,7 +363,7 @@ def get_current_position(user):
         elif isinstance(positions, dict):
             position['company'] = positions.get('company', {}).get('name')
             position['job'] = positions.get('title')
-    except ValueError:
+    except (ValueError, IndexError):
         pass
     if (not position['company']) or (not position['job']):
         try:
