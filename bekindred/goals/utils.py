@@ -15,6 +15,7 @@ from social_auth.db.django_models import UserSocialAuth
 from events.models import Event, FilterState
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
+from members.models import FacebookCustomUserActive
 from world.models import UserLocation
 
 
@@ -348,17 +349,21 @@ def get_current_position(user):
         user = FacebookCustomUser.objects.get(pk=user)
     elif isinstance(user, basestring):
         try:
-            user = FacebookCustomUser.objects.get(pk=int(user))
+            user = FacebookCustomUserActive.objects.get(pk=int(user))
         except ValueError:
             return position
     user_id = user.id
     try:
         qs = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0]
         positions = qs.extra_data.get('positions', {}).get('position')
-        if positions:
+
+        if isinstance(positions, list):
             position['company'] = positions[0].get('company', {}).get('name')
             position['job'] = positions[0].get('title')
-    except IndexError:
+        elif isinstance(positions, dict):
+            position['company'] = positions.get('company', {}).get('name')
+            position['job'] = positions.get('title')
+    except ValueError:
         pass
     if (not position['company']) or (not position['job']):
         try:
