@@ -6,7 +6,7 @@ from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
 from interests.models import Interest, InterestSubject, ReligiousView, \
-    ReligiousIndex
+    ReligiousIndex, PoliticalIndex
 from photos.api.resources import UserResource
 
 
@@ -94,7 +94,12 @@ class InterestResource(ModelResource):
         return bundle
 
 
-class ReligiousIndexResource(ModelResource):
+class AbstractIndex(object):
+    def dehydrate_name(self, bundle):
+        return bundle.data['name'].lower()
+
+
+class ReligiousIndexResource(ModelResource, AbstractIndex):
     class Meta:
         always_return_data = True
         queryset = ReligiousIndex.objects.order_by('name')
@@ -106,9 +111,6 @@ class ReligiousIndexResource(ModelResource):
         }
         authentication = SessionAuthentication()
         authorization = Authorization()
-
-    def dehydrate_name(self, bundle):
-        return bundle.data['name'].lower()
 
 
 class ReligiousViewResource(ModelResource):
@@ -150,6 +152,71 @@ class ReligiousViewResource(ModelResource):
             subject, created = ReligiousIndex.objects.get_or_create(name=religious_index)
             bundle.data['religious_index'] = '/api/v1/religious_index/{0}/'.format(subject.id)
             return super(ReligiousViewResource, self).obj_update(
+                    bundle,
+                    religious_index='/api/v1/religious_index/{0}/'.format(subject.id)
+            )
+        except IndexError as err:
+            print err
+        return self.save(bundle, skip_errors=skip_errors)
+
+    def dehydrate(self, bundle):
+        bundle.data["religious_view"] = bundle.obj
+        return bundle
+
+
+class PoliticalIndexResource(ModelResource, AbstractIndex):
+    class Meta:
+        always_return_data = True
+        queryset = PoliticalIndex.objects.order_by('name')
+        resource_name = 'political_index'
+        fields = ['name']
+
+        filtering = {
+            'name': ALL
+        }
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+
+class PoliticalViewResource(ModelResource):
+    user = fields.OneToOneField(UserResource, 'user')
+    religious_index = fields.ForeignKey(ReligiousIndexResource,
+                                        'political_index')
+
+    class Meta:
+        queryset = ReligiousView.objects.all()
+        fields = ['user', 'political_index', 'id']
+        always_return_data = True
+        resource_name = 'political_view'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        user = request.GET.get('user_id')
+        if not isinstance(user, int):
+            try:
+                user = int(user)
+            except (TypeError, ValueError):
+                user = request.user.id
+        return super(PoliticalViewResource, self).get_object_list(request). \
+            filter(user_id=user)
+
+    def obj_create(self, bundle, **kwargs):
+        political_index = bundle.data.get('political_index').lower()
+        try:
+            subject, created = PoliticalIndex.objects.get_or_create(name=political_index)
+            bundle.data['political_index'] = '/api/v1/political_index/{0}/'.format(subject.id)
+            return super(PoliticalViewResource, self).obj_create(bundle, political_index=subject)
+        except IndexError as err:
+            print err
+        return super(PoliticalViewResource, self).obj_create(bundle, **kwargs)
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        religious_index = bundle.data['religious_index'].lower()
+        try:
+            subject, created = PoliticalIndex.objects.get_or_create(name=religious_index)
+            bundle.data['religious_index'] = '/api/v1/religious_index/{0}/'.format(subject.id)
+            return super(PoliticalViewResource, self).obj_update(
                     bundle,
                     religious_index='/api/v1/religious_index/{0}/'.format(subject.id)
             )
