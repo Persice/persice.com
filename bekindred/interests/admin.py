@@ -1,6 +1,6 @@
 from django.contrib import admin
 from interests.models import Interest, InterestSubject, ReligiousIndex, \
-    ReligiousView
+    ReligiousView, PoliticalIndex, PoliticalView
 
 
 class InterestAdmin(admin.ModelAdmin):
@@ -18,7 +18,17 @@ class ReligiousIndexAdmin(admin.ModelAdmin):
 class ReligiousViewAdmin(admin.ModelAdmin):
     pass
 
+
+class PoliticalIndexAdmin(admin.ModelAdmin):
+    pass
+
+
+class PoliticalViewAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(InterestSubject, InterestSubjectAdmin)
 admin.site.register(Interest, InterestAdmin)
 admin.site.register(ReligiousIndex, ReligiousIndexAdmin)
 admin.site.register(ReligiousView, ReligiousViewAdmin)
+admin.site.register(PoliticalIndex, PoliticalIndexAdmin)
+admin.site.register(PoliticalView, PoliticalViewAdmin)
