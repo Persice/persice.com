@@ -5,7 +5,8 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
-from interests.models import Interest, InterestSubject, ReligiousView
+from interests.models import Interest, InterestSubject, ReligiousView, \
+    ReligiousIndex
 from photos.api.resources import UserResource
 
 
@@ -93,12 +94,31 @@ class InterestResource(ModelResource):
         return bundle
 
 
+class ReligiousIndexResource(ModelResource):
+    class Meta:
+        always_return_data = True
+        queryset = ReligiousIndex.objects.order_by('name')
+        resource_name = 'religious_index'
+        fields = ['name']
+
+        filtering = {
+            'name': ALL
+        }
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def dehydrate_name(self, bundle):
+        return bundle.data['name'].lower()
+
+
 class ReligiousViewResource(ModelResource):
     user = fields.OneToOneField(UserResource, 'user')
+    religious_index = fields.ForeignKey(ReligiousIndexResource,
+                                        'religious_index')
 
     class Meta:
         queryset = ReligiousView.objects.all()
-        fields = ['user', 'name', 'id']
+        fields = ['user', 'religious_index', 'id']
         always_return_data = True
         resource_name = 'religious_view'
         authentication = SessionAuthentication()
@@ -109,7 +129,34 @@ class ReligiousViewResource(ModelResource):
         if not isinstance(user, int):
             try:
                 user = int(user)
-            except ValueError:
+            except (TypeError, ValueError):
                 user = request.user.id
         return super(ReligiousViewResource, self).get_object_list(request).\
             filter(user_id=user)
+
+    def obj_create(self, bundle, **kwargs):
+        religious_index = bundle.data.get('religious_index').lower()
+        try:
+            subject, created = ReligiousIndex.objects.get_or_create(name=religious_index)
+            bundle.data['religious_index'] = '/api/v1/religious_index/{0}/'.format(subject.id)
+            return super(ReligiousViewResource, self).obj_create(bundle, religious_index=subject)
+        except IndexError as err:
+            print err
+        return super(ReligiousViewResource, self).obj_create(bundle, **kwargs)
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        religious_index = bundle.data['religious_index'].lower()
+        try:
+            subject, created = ReligiousIndex.objects.get_or_create(name=religious_index)
+            bundle.data['religious_index'] = '/api/v1/religious_index/{0}/'.format(subject.id)
+            return super(ReligiousViewResource, self).obj_update(
+                    bundle,
+                    religious_index='/api/v1/religious_index/{0}/'.format(subject.id)
+            )
+        except IndexError as err:
+            print err
+        return self.save(bundle, skip_errors=skip_errors)
+
+    def dehydrate(self, bundle):
+        bundle.data["religious_view"] = bundle.obj
+        return bundle

@@ -1,6 +1,7 @@
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
-from interests.models import Interest, InterestSubject
+from interests.models import Interest, InterestSubject, ReligiousIndex, \
+    ReligiousView
 
 
 class TestInterestResource(ResourceTestCase):
@@ -140,6 +141,10 @@ class TestReligiousViewResource(ResourceTestCase):
         super(TestReligiousViewResource, self).setUp()
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', password='test')
+        self.ri = ReligiousIndex.objects.create(name="christianity")
+        self.ri1 = ReligiousIndex.objects.create(name="test")
+        self.rv = ReligiousView.objects.create(religious_index=self.ri, user=self.user)
+        self.detail_url = '/api/v1/religious_view/{0}/'.format(self.rv.pk)
 
     def login(self):
         return self.api_client.client.post('/login/',
@@ -153,3 +158,66 @@ class TestReligiousViewResource(ResourceTestCase):
     def test_login(self):
         self.response = self.login()
         self.assertEqual(self.response.status_code, 302)
+
+    def test_get_list_json_religious_index(self):
+        self.login()
+        resp = self.api_client.get('/api/v1/religious_index/', format='json')
+        self.assertValidJSONResponse(resp)
+
+    def test_get_list_json(self):
+        self.login()
+        resp = self.api_client.get('/api/v1/religious_view/', format='json')
+        self.assertValidJSONResponse(resp)
+        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
+        # Here, we're checking an entire structure for the expected data.
+        self.assertEqual(self.deserialize(resp)['objects'][0], {
+            u'id': self.rv.pk,
+            u'user': u'/api/v1/auth/user/{0}/'.format(self.user.pk),
+            u'resource_uri': u'/api/v1/religious_view/{0}/'.format(self.rv.pk),
+            u'religious_index': u'/api/v1/religious_index/{}/'.format(self.ri.pk),
+            u'religious_view': u'christianity',
+        })
+
+    def test_create_religious_view(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'religious_index': 'my new religious view',
+        }
+        self.response = self.login()
+        self.assertHttpCreated(self.api_client.post(
+                '/api/v1/religious_view/', format='json', data=post_data
+        ))
+
+    def test_create_religious_view_and_get(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'religious_index': 'my new religious view',
+        }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/religious_view/',
+                                    format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['religious_view'],
+                         post_data['religious_index'])
+
+    def test_put_detail(self):
+        self.response = self.login()
+        # Grab the current data & modify it slightly.
+        self.assertEqual(str(
+                ReligiousView.objects.get(religious_index__name='christianity')
+        ), 'christianity')
+        original_data = self.deserialize(
+                self.api_client.get(self.detail_url, format='json')
+        )
+        new_data = original_data.copy()
+        new_data['religious_index'] = 'erlang'
+
+        self.assertEqual(ReligiousView.objects.count(), 1)
+        resp = self.api_client.put(self.detail_url, format='json',
+                                   data=new_data)
+        updated_interest = self.deserialize(resp)
+        # Make sure the count hasn't changed & we did an update.
+        self.assertEqual(ReligiousView.objects.count(), 1)
+        # Check for updated data.
+        self.assertEqual(str(
+                ReligiousView.objects.get(religious_index__name='erlang')
+        ), 'erlang')
