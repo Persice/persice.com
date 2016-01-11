@@ -375,11 +375,11 @@ a.link--darkgrey {
 }
 .slick-frame {
   visibility: hidden!important;
-  opacity: 0;
+  opacity: 0!important;
 }
 .slick-frame.slick-initialized {
   visibility: visible!important;
-  opacity: 1;
+  opacity: 1!important;
   transition: opacity .150s ease-in-out;
 }
 a.user-messages:hover, #profileDropdown a:hover {
