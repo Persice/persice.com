@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, ChangeDetectionStrategy, Input} from 'angular2/core';
 import {RouterLink} from 'angular2/router';
 
 import {DateUtil} from '../../core/util';
@@ -6,14 +6,13 @@ import {DateUtil} from '../../core/util';
 let view = require('./eventcard.html');
 
 @Component({
-  inputs: ['event'],
   selector: 'event-card',
   template: view,
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [RouterLink]
 })
 export class EventCardComponent {
-  event: any;
+  @Input () event: any;
   photo: string = '/static/img/placeholder-image.png';
   date: string = '';
   distanceValue = '';
