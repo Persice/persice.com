@@ -22,6 +22,7 @@ import {onboardingServiceInjectables} from './onboarding.service';
 import {photosServiceInjectables} from './photos.service';
 import {likesServiceInjectables} from './likes.service';
 import {religiousViewsServiceInjectables} from './religiousviews.service';
+import {politicalViewsServiceInjectables} from './politicalviews.service';
 
 export * from './user.service';
 export * from './search.service';
@@ -47,6 +48,7 @@ export * from './onboarding.service';
 export * from './photos.service';
 export * from './likes.service';
 export * from './religiousviews.service';
+export * from './politicalviews.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
   userServiceInjectables,
@@ -71,5 +73,6 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   onboardingServiceInjectables,
   photosServiceInjectables,
   likesServiceInjectables,
-  religiousViewsServiceInjectables
+  religiousViewsServiceInjectables,
+  politicalViewsServiceInjectables
 ];

@@ -19,6 +19,7 @@ import {DropdownDirective} from '../../directives/dropdown.directive';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
+import {PoliticalViewsService} from '../../services/politicalviews.service';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -51,9 +52,10 @@ export class ProfileFriendComponent extends BaseProfileComponent {
   constructor(
     public mutualfriendsService: MutualFriendsService,
     public photosService: PhotosService,
-    public religiousviewsService: ReligiousViewsService
+    public religiousviewsService: ReligiousViewsService,
+    public politicalviewsService: PoliticalViewsService
     ) {
-    super(mutualfriendsService, photosService, religiousviewsService, 'friend');
+    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'friend');
   }
 
   closeProfile(event) {

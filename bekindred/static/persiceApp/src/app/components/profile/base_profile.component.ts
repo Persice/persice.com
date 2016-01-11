@@ -3,6 +3,7 @@ import {Input} from 'angular2/core';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
+import {PoliticalViewsService} from '../../services/politicalviews.service';
 
 import {ObjectUtil} from '../../core/util';
 
@@ -58,9 +59,10 @@ export abstract class BaseProfileComponent {
     public mutualfriendsService: MutualFriendsService,
     public photosService: PhotosService,
     public religiousviewsService: ReligiousViewsService,
+    public politicalviewsService: PoliticalViewsService,
     public type: string
     ) {
-      this.profileType = type;
+    this.profileType = type;
   }
 
   ngOnInit() {
@@ -107,6 +109,7 @@ export abstract class BaseProfileComponent {
     this.getMutualFriends(this.user.id);
     this.getPhotos(this.user.id);
     this.getReligiousViews(this.user.id);
+    this.getPoliticalViews(this.user.id);
   }
 
   getMutualFriends(id) {
@@ -117,6 +120,15 @@ export abstract class BaseProfileComponent {
   getReligiousViews(id) {
     this.religiousviewsService.getByUser('', 100, id)
       .subscribe(data => this.assignReligiousViews(data));
+  }
+
+  getPoliticalViews(id) {
+    this.politicalviewsService.getByUser('', 100, id)
+      .subscribe(
+        data => this.assignPoliticalViews(data),
+        (err) => console.log('Error fetching political views'),
+        () => {}
+        );
   }
 
   getPhotos(id) {
@@ -152,6 +164,13 @@ export abstract class BaseProfileComponent {
     if (data.meta.total_count > 0) {
       let items = data.objects;
       this.profileReligiousViews = items;
+    }
+  }
+
+  assignPoliticalViews(data) {
+    if (data.meta.total_count > 0) {
+      let items = data.objects;
+      this.profilePoliticalViews = items;
     }
   }
 

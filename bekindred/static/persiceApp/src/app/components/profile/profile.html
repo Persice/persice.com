@@ -42,7 +42,7 @@
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Political views</h4>
-        <div class="profile-feature" ></div>
+        <div class="profile-feature" *ngFor="#rel of profilePoliticalViews">{{rel.political_view}}</div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">

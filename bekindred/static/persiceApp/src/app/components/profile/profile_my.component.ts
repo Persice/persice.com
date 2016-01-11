@@ -18,6 +18,7 @@ import {UserAuthService} from '../../services/userauth.service';
 import {ConnectionsService} from '../../services/connections.service';
 import {LikesService} from '../../services/likes.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
+import {PoliticalViewsService} from '../../services/politicalviews.service';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -54,9 +55,10 @@ export class ProfileMyComponent extends BaseProfileComponent {
     public photosService: PhotosService,
     public userService: UserAuthService,
     public likesService: LikesService,
-    public religiousviewsService: ReligiousViewsService
+    public religiousviewsService: ReligiousViewsService,
+    public politicalviewsService: PoliticalViewsService
     ) {
-    super(mutualfriendsService, photosService, religiousviewsService, 'my');
+    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'my');
   }
 
   ngOnInit() {
@@ -76,11 +78,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.profileGender = data.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${data.distance[0]} ${data.distance[1]}`;
 
-    // this.profileLikes = [];
-    // this.profileLikesCount = this.profileLikes.length;
-
     this.profileJob = data.position && data.position.job !== null && data.position.company !== null ? `${data.position.job} at ${data.position.company}` : '';
-
 
     this.profileAvatar = data.image;
     this.profileAbout = data.about_me;
@@ -101,11 +99,21 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.getLikes();
     this.getPhotos(data.id);
     this.getReligiousViews();
+    this.getPoliticalViews();
   }
 
   getReligiousViews() {
     this.religiousviewsService.my('', 100)
       .subscribe(data => this.assignReligiousViews(data));
+  }
+
+  getPoliticalViews() {
+    this.politicalviewsService.my('', 100)
+      .subscribe(
+        data => this.assignPoliticalViews(data),
+        (err) => console.log('Error fetching political views'),
+        () => {}
+        );
   }
 
   transformData(arr, prop) {
