@@ -17,6 +17,7 @@ import {PhotosService} from '../../services/photos.service';
 import {UserAuthService} from '../../services/userauth.service';
 import {ConnectionsService} from '../../services/connections.service';
 import {LikesService} from '../../services/likes.service';
+import {ReligiousViewsService} from '../../services/religiousviews.service';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -39,7 +40,8 @@ let view = require('./profile.html');
     ConnectionsService,
     UserAuthService,
     PhotosService,
-    LikesService
+    LikesService,
+    ReligiousViewsService
   ]
 })
 export class ProfileMyComponent extends BaseProfileComponent {
@@ -51,9 +53,10 @@ export class ProfileMyComponent extends BaseProfileComponent {
     public connectionsService: ConnectionsService,
     public photosService: PhotosService,
     public userService: UserAuthService,
-    public likesService: LikesService
+    public likesService: LikesService,
+    public religiousviewsService: ReligiousViewsService
     ) {
-    super(mutualfriendsService, photosService, 'my');
+    super(mutualfriendsService, photosService, religiousviewsService, 'my');
   }
 
   ngOnInit() {
@@ -97,6 +100,12 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.getConnections();
     this.getLikes();
     this.getPhotos(data.id);
+    this.getReligiousViews();
+  }
+
+  getReligiousViews() {
+    this.religiousviewsService.my('', 100)
+      .subscribe(data => this.assignReligiousViews(data));
   }
 
   transformData(arr, prop) {

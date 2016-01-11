@@ -16,6 +16,7 @@ import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpa
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
+import {ReligiousViewsService} from '../../services/religiousviews.service';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -49,9 +50,10 @@ export class ProfileCrowdComponent extends BaseProfileComponent {
 
   constructor(
     public mutualfriendsService: MutualFriendsService,
-    public photosService: PhotosService
+    public photosService: PhotosService,
+    public religiousviewsService: ReligiousViewsService
     ) {
-    super(mutualfriendsService, photosService, 'crowd');
+    super(mutualfriendsService, photosService, religiousviewsService, 'crowd');
   }
 
   passUser(event) {

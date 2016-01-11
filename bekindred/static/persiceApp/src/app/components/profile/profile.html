@@ -37,12 +37,12 @@
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Religious views</h4>
-        <div class="profile-feature">{{profileReligion}}</div>
+        <div class="profile-feature" *ngFor="#rel of profileReligiousViews">{{rel.religious_view}}</div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Political views</h4>
-        <div class="profile-feature">{{profilePoliticalViews}}</div>
+        <div class="profile-feature" ></div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
