@@ -388,3 +388,7 @@ a.user-messages:hover, #profileDropdown a:hover {
 .card--user h4:hover, .card--user .avatar-box:hover, .card--user > p:hover {
   cursor: pointer!important;
 }
+
+.swiper-container {
+  height: 65px;
+}

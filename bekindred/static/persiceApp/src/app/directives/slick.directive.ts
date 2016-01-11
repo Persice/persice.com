@@ -26,6 +26,7 @@ export class SlickDirective {
   dots: string;
   breakpoint: string;
   slidestoshow: string;
+  timeout;
 
   constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
@@ -56,14 +57,18 @@ export class SlickDirective {
     if (!this.breakpoint) {
       delete options.responsive;
     }
-    setTimeout(() => {
+    this.timeout = setTimeout(() => {
       jQuery(this.el.nativeElement).slick(options);
-    });
+    }, 500);
 
 
   }
 
   ngOnDestroy() {
-    jQuery(this.el.nativeElement).slick('unslick');
+    if (this.timeout) {
+      window.clearTimeout(this.timeout);
+    } else {
+      jQuery(this.el.nativeElement).slick('unslick');
+    }
   }
 }
