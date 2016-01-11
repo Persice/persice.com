@@ -4,7 +4,7 @@ import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {LoadingCardComponent} from '../loadingcard/loadingcard.component';
 import {FilterComponent} from '../filter/filter.component';
-import {ProfileComponent} from '../profile/profile.component';
+import {ProfileCrowdComponent} from '../profile/profile_crowd.component';
 
 import {CrowdService} from '../../services/crowd.service';
 import {FriendService} from '../../services/friend.service';
@@ -25,7 +25,7 @@ declare var jQuery: any;
     FilterComponent,
     UsersListComponent,
     LoadingComponent,
-    ProfileComponent,
+    ProfileCrowdComponent,
     LoadingCardComponent
   ]
 })
@@ -40,14 +40,14 @@ export class CrowdComponent {
   total_count: number = 0;
   offset: number = 0;
   profileViewActive = false;
-  selectedUser;
+  selectedUser = null;
 
   constructor(
     public service: CrowdService,
     public friendService: FriendService,
     public filterService: FilterService,
     public notificationService: NotificationService
-  ) {
+    ) {
 
   }
 
@@ -85,12 +85,6 @@ export class CrowdComponent {
         console.log(err);
         this.loading = false;
         this.loadingInitial = false;
-        // this.notificationService.push({
-        //   type: 'error',
-        //   title: 'Error',
-        //   body: 'Data could not be loaded.',
-        //   autoclose: 4000
-        // });
       },
       () => {
 
@@ -127,8 +121,7 @@ export class CrowdComponent {
         this.items.push(more[i]);
       }
 
-    }
-    else {
+    } else {
       this.items = data.objects;
     }
 
@@ -139,8 +132,7 @@ export class CrowdComponent {
     //bind to scroll event to load more data on bottom scroll
     if (this.next !== null) {
       jQuery(window).bind('scroll', this.handleScrollEvent.bind(this));
-    }
-    else {
+    } else {
       jQuery(window).unbind('scroll');
     }
 
@@ -162,29 +154,29 @@ export class CrowdComponent {
     this.friendService.saveFriendship(-1, event)
       .subscribe(data => {
 
-        let usr;
-        for (var i = this.items.length - 1; i >= 0; i--) {
-          if (this.items[i].id === event) {
-            usr = this.items[i];
-          }
+      let usr;
+      for (var i = this.items.length - 1; i >= 0; i--) {
+        if (this.items[i].id === event) {
+          usr = this.items[i];
         }
+      }
 
-        remove(this.items, (item) => {
-          return item.id === event;
-        });
-
-
-
-
-        this.notificationService.push({
-          type: 'warning',
-          title: '',
-          body: `${usr.first_name} has been removed from crowd.`,
-          autoclose: 4000
-        });
-
-        this.selectedUser = {};
+      remove(this.items, (item) => {
+        return item.id === event;
       });
+
+
+
+
+      this.notificationService.push({
+        type: 'warning',
+        title: '',
+        body: `${usr.first_name} has been removed from crowd.`,
+        autoclose: 4000
+      });
+
+      this.selectedUser = {};
+    });
 
   }
 
@@ -193,32 +185,33 @@ export class CrowdComponent {
     this.friendService.saveFriendship(0, event)
       .subscribe(data => {
 
-        let usr;
-        for (var i = this.items.length - 1; i >= 0; i--) {
-          if (this.items[i].id === event) {
-            usr = this.items[i];
-          }
+      let usr;
+      for (var i = this.items.length - 1; i >= 0; i--) {
+        if (this.items[i].id === event) {
+          usr = this.items[i];
         }
+      }
 
-        remove(this.items, (item) => {
-          return item.id === event;
-        });
-
-        this.notificationService.push({
-          type: 'success',
-          title: 'Success',
-          body: `You sent friendship request to ${usr.first_name}.`,
-          autoclose: 4000
-        });
-
-        this.selectedUser = {};
+      remove(this.items, (item) => {
+        return item.id === event;
       });
+
+      this.notificationService.push({
+        type: 'success',
+        title: 'Success',
+        body: `You sent friendship request to ${usr.first_name}.`,
+        autoclose: 4000
+      });
+
+      this.selectedUser = {};
+    });
 
   }
 
 
   closeProfile(event) {
     this.profileViewActive = false;
+    this.selectedUser = null;
   }
 
 

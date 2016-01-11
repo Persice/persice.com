@@ -1,0 +1,8 @@
+[{"pk": 1, "model": "interests.politicalindex", "fields": {"name": "anarchism"}},
+  {"pk": 2, "model": "interests.politicalindex", "fields": {"name": "communism"}},
+  {"pk": 3, "model": "interests.politicalindex", "fields": {"name": "conservatism"}},
+  {"pk": 4, "model": "interests.politicalindex", "fields": {"name": "environmentalism"}},
+  {"pk": 5, "model": "interests.politicalindex", "fields": {"name": "liberalism"}},
+  {"pk": 6, "model": "interests.politicalindex", "fields": {"name": "nationalism"}},
+  {"pk": 7, "model": "interests.politicalindex", "fields": {"name": "socialism"}},
+  {"pk": 8, "model": "interests.politicalindex", "fields": {"name": "other"}}]

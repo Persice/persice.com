@@ -23,7 +23,7 @@ export class GeocompleteDirective {
 
     jQuery(this.el.nativeElement).geocomplete({
       types: ['establishment', 'geocode']
-    }).bind("geocode:result", (event, result) => {
+    }).bind('geocode:result', (event, result) => {
       this.selectedValue.next(result);
     });
 

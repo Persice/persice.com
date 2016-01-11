@@ -27,8 +27,7 @@ export class EventConnectionsService {
 
       let apiUrl = `${EventConnectionsService.API_URL}`;
       this.next = `${apiUrl}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 

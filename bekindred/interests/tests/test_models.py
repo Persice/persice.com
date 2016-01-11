@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django_facebook.models import FacebookCustomUser
-from interests.models import Interest, InterestSubject
+from interests.models import Interest, InterestSubject, ReligiousView, \
+    ReligiousIndex
 
 
 class InterestsTestCase(TestCase):
@@ -18,3 +19,27 @@ class InterestsTestCase(TestCase):
 
     def test_search_interest(self):
         self.assertEqual(InterestSubject.objects.search('reads')[0].description, 'reading')
+
+
+class ReligiousViewTestCase(TestCase):
+    def setUp(self):
+        self.user = FacebookCustomUser.objects.create_user(
+                username='jacob', password='top_secret'
+        )
+        self.user1 = FacebookCustomUser.objects.create_user(
+                username='jacob1', password='top_secret'
+        )
+        self.ri = ReligiousIndex.objects.create(name="christianity")
+
+    def test_create_religious_view(self):
+        ReligiousView.objects.create(religious_index=self.ri, user=self.user)
+        rv = ReligiousView.objects.filter(user=self.user)
+        self.assertEqual(rv.count(), 1)
+        self.assertEqual(rv[0].religious_index.name, "christianity")
+
+    def test_create_religious_view_two_users(self):
+        ReligiousView.objects.create(religious_index=self.ri, user=self.user)
+        ReligiousView.objects.create(religious_index=self.ri, user=self.user1)
+        rv = ReligiousView.objects.filter(user=self.user1)
+        self.assertEqual(rv.count(), 1)
+        self.assertEqual(rv[0].religious_index.name, "christianity")

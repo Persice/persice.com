@@ -42,20 +42,20 @@ export class UserCardComponent {
     this.interests = ObjectUtil.firstSorted(this.user.top_interests[0], 3);
 
     if (!this.user.image) {
-      this.user.image = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
+      this.user.image = '/static/persiceApp/src/assets/images/avatar_user_m.jpg';
     }
     else {
       //fix if no image present
       if (this.user.image && this.user.image === '' && this.user.gender === 'm') {
-        this.user.image = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
+        this.user.image = '/static/persiceApp/src/assets/images/avatar_user_m.jpg';
       }
 
       if (this.user.image && this.user.image === '' && this.user.gender === 'f') {
-        this.user.image = '/static/persiceApp/src/public/images/avatar_user_f.jpg';
+        this.user.image = '/static/persiceApp/src/assets/images/avatar_user_f.jpg';
       }
 
       if (this.user.image && this.user.image === '' && this.user.gender === '') {
-        this.user.image = '/static/persiceApp/src/public/images/avatar_user_m.jpg';
+        this.user.image = '/static/persiceApp/src/assets/images/avatar_user_m.jpg';
       }
     }
 

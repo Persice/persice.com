@@ -16,7 +16,7 @@ from matchfeed.utils import MatchedResults, order_by, MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
-    social_extra_data
+    social_extra_data, get_current_position
 
 
 class A(object):
@@ -264,6 +264,7 @@ class MatchedFeedResource2(Resource):
     def dehydrate_distance(self, bundle):
         bundle.data['distance'] = [intcomma(bundle.data['distance'][0]),
                                    bundle.data['distance'][1]]
+        bundle.data['position'] = get_current_position(bundle.data['id'])
         return bundle.data['distance']
 
 

@@ -21,7 +21,7 @@ validate.extend(validate.validators.datetime, {
     return +moment.utc(value);
   },
   format: function(value, options) {
-    let format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DDThh:mm:ss";
+    let format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DDThh:mm:ss';
     return moment.utc(value).format(format);
   }
 });
@@ -68,14 +68,14 @@ export class EventService {
       datetime: {
         dateOnly: false,
         earliest: moment.utc(),
-        message: "^Start date/time cannot be in the past."
+        message: '^Start date/time cannot be in the past.'
       }
     },
     ends_on: {
       datetime: {
         dateOnly: false,
         earliest: moment.utc(),
-        message: "^End date/time should be after Start date/time."
+        message: '^End date/time should be after Start date/time.'
       }
     },
     event_location: {
@@ -103,8 +103,7 @@ export class EventService {
 
       let apiUrl = `${EventService.API_URL}`;
       this.next = `${apiUrl}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 
@@ -159,7 +158,7 @@ export class EventService {
           processData: false,
           type: 'POST',
           beforeSend: (xhr, settings) => {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
           },
           contentType: false,
           success: (data) => {
@@ -210,7 +209,7 @@ export class EventService {
           processData: false,
           type: 'PUT',
           beforeSend: (xhr, settings) => {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
           },
           contentType: false,
           success: (data) => {
@@ -245,7 +244,7 @@ export class EventService {
         processData: false,
         type: 'PUT',
         beforeSend: (xhr, settings) => {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          xhr.setRequestHeader('X-CSRFToken', csrftoken);
         },
         contentType: false,
         success: (data) => {
@@ -263,7 +262,9 @@ export class EventService {
 
 
   public deleteByUri(resourceUri: string): Observable<any> {
-    return this.http.delete(`${resourceUri}?format=json`, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json());
+    return this.http
+    .delete(`${resourceUri}?format=json`, OPTS_REQ_JSON_CSRF)
+    .map((res: Response) => res.json());
   }
 
   public validate(data): Observable<any> {
@@ -294,8 +295,7 @@ export class EventService {
 
     if (this.validationErrors && Object.keys(this.validationErrors).length > 0) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
@@ -310,8 +310,7 @@ export class EventService {
 
     if (this.validationErrors && Object.keys(this.validationErrors).length > 0) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }

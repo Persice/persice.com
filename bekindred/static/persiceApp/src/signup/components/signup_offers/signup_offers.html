@@ -4,12 +4,12 @@
   <div class="search search--signup typeahead-search">
     <div class="search__top">
       <svg role="img" class="icon">
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-search"></use>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
       </svg>
       <input [(ngModel)]="newOffer" (keyup.enter)="addOffer($event)" type="text" id="offersInput" class="search__input typeahead" placeholder="Enter your offer or search existing offers">
       <button class="btn">
         <svg role="img" class="icon" (click)="addOffer($event)">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-plus-big"></use>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
         </svg>
       </button>
     </div>
@@ -18,7 +18,7 @@
     <span class="search-tag-secondary" *ngFor="#item of items">
       <a (click)="removeOffer(item)">
         <svg role="img" class="icon ">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-close"></use>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>
         </svg>
       </a>
       {{item.subject}}

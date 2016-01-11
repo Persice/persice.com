@@ -3,8 +3,9 @@ import json
 import pprint
 
 from django.contrib.gis.geoip import GeoIP
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import GEOSGeometry, Point
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django_facebook.models import FacebookCustomUser
 
 from geopy.distance import distance as geopy_distance, Distance
 import oauth2 as oauth
@@ -14,6 +15,7 @@ from social_auth.db.django_models import UserSocialAuth
 from events.models import Event, FilterState
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
+from members.models import FacebookCustomUserActive
 from world.models import UserLocation
 
 
@@ -31,19 +33,24 @@ def calculate_date_of_birth(age):
 
 def get_user_location(user_id):
     """
+    :param user_id:
     """
     g = GeoIP()
-
+    user_location = None
     try:
+        # import ipdb; ipdb.set_trace()
         user1_location = UserLocation.objects.filter(user_id=user_id).order_by('-timestamp')[0]
-        return user1_location.geometry
+        user_location = user1_location.geometry
     except IndexError:
         try:
             user_ip = str(UserIPAddress.objects.get(user_id=user_id).ip)
             point = g.geos(user_ip)
-            return point
+            user_location = point
         except UserIPAddress.DoesNotExist:
             pass
+    if user_location is None:
+        user_location = Point(x=0, y=0)
+    return user_location
 
 
 def miles_to_km(x):
@@ -334,3 +341,37 @@ def social_extra_data(user_id):
     except IndexError:
         pass
     return twitter_provider, linkedin_provider, twitter_name
+
+
+def get_current_position(user):
+    position = {'job': None, 'company': None}
+    if isinstance(user, int):
+        user = FacebookCustomUser.objects.get(pk=user)
+    elif isinstance(user, basestring):
+        try:
+            user = FacebookCustomUserActive.objects.get(pk=int(user))
+        except (ValueError, IndexError):
+            return position
+    user_id = user.id
+    try:
+        qs = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0]
+        positions = qs.extra_data.get('positions', {}).get('position')
+
+        if isinstance(positions, list):
+            position['company'] = positions[0].get('company', {}).get('name')
+            position['job'] = positions[0].get('title')
+        elif isinstance(positions, dict):
+            position['company'] = positions.get('company', {}).get('name')
+            position['job'] = positions.get('title')
+    except (ValueError, IndexError):
+        pass
+    if (not position['company']) or (not position['job']):
+        try:
+            raw_data = json.loads(user.raw_data)
+            works = raw_data.get('work')
+            if works:
+                position['company'] = works[0].get('employer', {}).get('name')
+                position['job'] = works[0].get('position', {}).get('name')
+        except TypeError as e:
+            pass
+    return position

@@ -27,8 +27,7 @@ export class InterestsService {
       ].join('&');
 
       this.next = `${InterestsService.API_URL}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 
@@ -70,4 +69,3 @@ export class InterestsService {
 export var interestsServiceInjectables: Array<any> = [
   provide(InterestsService, { useClass: InterestsService })
 ];
-

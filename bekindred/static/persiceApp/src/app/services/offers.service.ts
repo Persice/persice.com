@@ -27,8 +27,7 @@ export class OffersService {
       ].join('&');
 
       this.next = `${OffersService.API_URL}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 
@@ -56,4 +55,3 @@ export class OffersService {
 export var offersServiceInjectables: Array<any> = [
   provide(OffersService, { useClass: OffersService })
 ];
-

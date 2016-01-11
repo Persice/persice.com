@@ -25,7 +25,11 @@ export class HttpClient {
       () => this._notify({ type: 'complete' }));
   }
 
-  post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+  post(
+    url: string,
+    body: string,
+    options?: RequestOptionsArgs
+  ): Observable<Response> {
     this._notify({ type: 'start' });
     return this.http.post(url, body, options)
       .map(this._mapResponse)
@@ -34,7 +38,11 @@ export class HttpClient {
       () => this._notify({ type: 'complete' }));
   }
 
-  put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+  put(
+    url: string,
+    body: string,
+    options?: RequestOptionsArgs
+  ): Observable<Response> {
     this._notify({ type: 'start' });
     return this.http.put(url, body, options)
       .map(this._mapResponse)
@@ -52,7 +60,10 @@ export class HttpClient {
       () => this._notify({ type: 'complete' }));
   }
 
-  patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+  patch(url: string,
+    body: string,
+    options?: RequestOptionsArgs
+  ): Observable<Response> {
     this._notify({ type: 'start' });
     return this.http.patch(url, body, options)
       .map(this._mapResponse)
@@ -77,7 +88,8 @@ export class HttpClient {
     this.requestNotifier.next(data);
   }
 
-  // TODO remove this function once the angular2's http provider throw errors accordingly to http codes.
+  // TODO remove this function once the angular2's http provider
+  // throw errors accordingly to http codes.
   private _mapResponse(response: Response): Response {
     if (response.status >= 200 && response.status < 300) {
       //prevent empty response;

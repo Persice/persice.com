@@ -22,7 +22,8 @@ import {CrowdComponent} from './crowd/crowd.component';
 import {MessagesComponent} from './messages/messages.component';
 import {ConnectionsComponent} from './connections/connections.component';
 import {EventsComponent} from './events/events.component';
-import {ProfileComponent} from './profile/profile.component';
+import {ProfileFriendComponent} from './profile/profile_friend.component';
+import {ProfileMyComponent} from './profile/profile_my.component';
 import {EventComponent} from './event/event.component';
 
 
@@ -77,14 +78,19 @@ let view = require('./app.html');
     name: 'Connections'
   },
   {
+    path: '/connections/:friendId',
+    component: ProfileFriendComponent,
+    name: 'ProfileFriend'
+  },
+  {
     path: '/events/...',
     component: EventsComponent,
     name: 'Events'
   },
   {
-    path: '/profilepage',
-    component: ProfileComponent,
-    name: 'Profile'
+    path: '/myprofile',
+    component: ProfileMyComponent,
+    name: 'ProfileMy'
   }
 ])
 @Component({
@@ -125,7 +131,7 @@ export class AppComponent {
     public userService: UserService,
     public notificationService: NotificationService,
     public websocketService: WebsocketService
-  ) {
+    ) {
     //default image
     this.image = this.userService.getDefaultImage();
 
@@ -150,6 +156,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    console.log('hello App component');
     // Get AuthUser info for the app
     this.userService.get()
       .subscribe(data => this.assignAuthUser(data));
@@ -193,7 +200,7 @@ export class AppComponent {
         this.notificationMain.active = false;
       },
       timeout
-    );
+      );
   }
 
   // Assign AuthUser user from the /me Api

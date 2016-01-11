@@ -32,9 +32,14 @@ LINKEDIN_CONSUMER_SECRET = 'SEwvnrKt9TmifIM4'
 
 
 # Add email to requested authorizations.
-LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile', 'r_emailaddress', 'r_network']
+LINKEDIN_SCOPE = ['r_fullprofile', 'r_fullprofile',
+                  'r_emailaddress', 'r_network']
+
 # Add the fields so they will be requested from linkedin.
-LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url', 'email-address', 'date-of-birth', 'picture-url']
+LINKEDIN_EXTRA_FIELD_SELECTORS = ['headline', 'public-profile-url',
+                                  'email-address', 'date-of-birth',
+                                  'picture-url', 'positions']
+
 # Arrange to add the fields to UserSocialAuth.extra_data
 LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('first-name', 'first_name'),
@@ -44,7 +49,9 @@ LINKEDIN_EXTRA_DATA = [('id', 'id'),
                        ('email-address', 'email'),
                        ('date-of-birth', 'date_of_birth'),
                        ('picture-url', 'image'),
-                       ('relation-to-viewer ', 'relation-to-viewer')]
+                       ('relation-to-viewer', 'relation-to-viewer'),
+                       ('positions', 'positions')
+                       ]
 
 # twitter social auth
 

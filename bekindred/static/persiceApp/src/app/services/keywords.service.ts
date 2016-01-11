@@ -25,8 +25,7 @@ export class KeywordsService {
       ].join('&');
 
       this.next = `${KeywordsService.API_URL}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 
@@ -52,4 +51,3 @@ export class KeywordsService {
 export var keywordsServiceInjectables: Array<any> = [
   provide(KeywordsService, { useClass: KeywordsService })
 ];
-

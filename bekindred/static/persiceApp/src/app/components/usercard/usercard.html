@@ -11,7 +11,7 @@
       </div>
     </div>
     <svg role="img" class="icon">
-      <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-persice-match-percent"></use>
+      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice-match-percent"></use>
     </svg>
     <div circle-progress="{{user.score}}" size="128" thickness="2" reverse="false" angle="140" class="match-percent"></div>
   </div>
@@ -20,7 +20,7 @@
     <li *ngFor="#key of interests">
       <span *ngIf="key && key.match">
         <svg role="img" class="icon icon--tiny">
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-thunder"></use>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
       </svg>
       </span> {{key.value}}
     </li>
@@ -32,7 +32,7 @@
         <a (click)="acceptUser($event)" class="btn btn-1 btn-1--green btn--full btn--activate">
           <div class="btn--activate__label">Accept</div>
           <svg role="img" class="icon ">
-            <use xlink:href="/static/persiceApp/src/public/icons/icons.svg#icon-accepted"></use>
+            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-accepted"></use>
           </svg>
         </a>
       </div>

@@ -25,8 +25,7 @@ export class CrowdService {
       ].join('&');
 
       this.next = `${CrowdService.API_URL}?${params}`;
-    }
-    else {
+    } else {
       this.next = url;
     }
 

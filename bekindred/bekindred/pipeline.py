@@ -7,9 +7,11 @@ def social_auth_to_profile(backend, details, response, user=None, is_new=False, 
     if user:
         social_user = kwargs['social_user']
         if backend.name == 'linkedin':
-            user.image = social_user.extra_data.get('image', '')
+            pass
+            # user.image = social_user.extra_data.get('image', '')
         elif backend.name == 'twitter':
-            user.image = social_user.extra_data.get('profile_image_url', '')
+            pass
+            # user.image = social_user.extra_data.get('profile_image_url', '')
         try:
             d = social_user.extra_data['date_of_birth']
             user.date_of_birth = date(*map(int, (d['year'], d['month'], d['day'])))
