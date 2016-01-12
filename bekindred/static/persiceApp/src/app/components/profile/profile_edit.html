@@ -29,7 +29,7 @@
             <div class="tableize__content"> <span class="pers-data__label">First Name <i class="pers-data__label__info">(added from Facebook)</i></span> </div>
           </div>
           <div class="tableize__cell 1/2">
-            <div class="tableize__content text-right"> <span class="pers-data__value">{{user.first_name}}</span> </div>
+            <div class="tableize__content text-right"> <span class="pers-data__value">{{user ? user.first_name : ''}}</span> </div>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@
       <div class="pers-data">
         <div class="tableize tableize--middle">
           <div class="tableize__cell 3/5">
-            <div class="tableize__content"> <span class="pers-data__label">Job / Company <i class="pers-data__label__info">(added from Linkedin)</i></span> </div>
+            <div class="tableize__content"> <span class="pers-data__label">Profession <i class="pers-data__label__info">(added from Linkedin)</i></span> </div>
           </div>
           <div class="tableize__cell 2/5">
             <div class="tableize__content text-right"> <span class="pers-data__value">Layer at Clearly Gottlieb Steen& Hamilton LLP</span> </div>
