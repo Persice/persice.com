@@ -89,6 +89,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
     this.profileJob = data.position && data.position.job !== null && data.position.company !== null ? `${data.position.job} at ${data.position.company}` : '';
 
+    this.userEdit.profession = this.profileJob;
     this.profileAvatar = data.image;
     this.profileAbout = data.about_me;
     this.profileScore = '';

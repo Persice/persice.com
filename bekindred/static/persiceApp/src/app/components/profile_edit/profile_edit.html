@@ -1,0 +1,61 @@
+<header class="remodal__header">
+  <div class="layout">
+    <div class="layout__item 1/2 ">
+      <h5 class="remodal__title">Edit Profile</h5>
+    </div>
+  </div>
+  <button (click)="closeModal($event)" class="remodal-close">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>
+    </svg>
+  </button>
+</header>
+<div class="layout layout--flush">
+  <div class="layout__item 1/4">
+    <ul class="list-bare js-tabs side-nav">
+      <li data-tab="pr-edit-personal-info" (click)="activeTab = 'profile'" [ngClass]="{'is-active': activeTab === 'profile' }">
+        <span class="side-nav__link">Personal Info</span>
+      </li>
+      <li data-tab="pr-edit-photo" (click)="activeTab = 'photo'" [ngClass]="{'is-active': activeTab === 'photo' }">
+        <span class="side-nav__link">Photos</span>
+      </li>
+      <li data-tab="pr-edit-interests" (click)="activeTab = 'interests'" [ngClass]="{'is-active': activeTab === 'interests' }">
+        <span class="side-nav__link">Interests</span>
+      </li>
+      <li data-tab="pr-edit-goals" (click)="activeTab = 'goals'" [ngClass]="{'is-active': activeTab === 'goals' }">
+        <span class="side-nav__link">Goals</span>
+      </li>
+      <li data-tab="pr-edit-offers" (click)="activeTab = 'offers'" [ngClass]="{'is-active': activeTab === 'offers' }">
+        <span class="side-nav__link">Offers</span>
+      </li>
+      <!--       <li data-tab="pr-edit-likes"><span class="side-nav__link">Likes</span></li>
+      <li data-tab="pr-edit-dislikes"><span class="side-nav__link">Dislikes</span></li> -->
+    </ul>
+  </div>
+  <div class="layout__item 3/4">
+    <div class="tab-content profile-edit__overflow is-active" id="pr-edit-personal-info" *ngIf="activeTab === 'profile'">
+      <profile-edit-personal-info [aboutHasError]="aboutError" (aboutChanged)="aboutChanged($event)" [user]="user"></profile-edit-personal-info>
+    </div>
+
+    <div class="tab-content pr0" id="pr-edit-photo" *ngIf="activeTab === 'photo'">
+
+    </div>
+    <div class="tab-content tab-content--blue" id="pr-edit-interests" *ngIf="activeTab === 'interests'">
+
+    </div>
+    <div class="tab-content tab-content--blue" id="pr-edit-goals" *ngIf="activeTab === 'goals'">
+
+    </div>
+    <div class="tab-content tab-content--blue" id="pr-edit-offers" *ngIf="activeTab === 'offers'">
+
+    </div>
+  </div>
+</div>
+<footer class="remodal__footer text--right">
+  <div class="layout layout--middle">
+    <div class="layout__item">
+      <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" (click)="closeModal($event)">Cancel</button>
+      <button (click)="saveProfile($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
+    </div>
+  </div>
+</footer>
