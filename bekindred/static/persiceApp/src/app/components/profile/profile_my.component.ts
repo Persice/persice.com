@@ -10,7 +10,7 @@ import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
-import {ProfileEditComponent} from './profile_edit.component';
+import {ProfileEditComponent} from '../profile_edit/profile_edit.component';
 
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
