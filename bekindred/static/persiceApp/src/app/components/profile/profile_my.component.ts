@@ -10,6 +10,7 @@ import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
+import {ProfileEditComponent} from './profile_edit.component';
 
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
@@ -19,6 +20,9 @@ import {ConnectionsService} from '../../services/connections.service';
 import {LikesService} from '../../services/likes.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
+
+//** Directives */
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -35,7 +39,9 @@ let view = require('./profile.html');
     ProfileLikesComponent,
     ProfileFriendsComponent,
     ProfileNetworksComponent,
-    ProfileItemsComponent
+    ProfileItemsComponent,
+    ProfileEditComponent,
+    RemodalDirective
   ],
   providers: [
     ConnectionsService,
@@ -46,7 +52,10 @@ let view = require('./profile.html');
   ]
 })
 export class ProfileMyComponent extends BaseProfileComponent {
-  user;
+  user: {
+    first_name: string,
+    last_name: string
+  };
   friendsTitle: string = 'Connections';
 
   constructor(
@@ -57,7 +66,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
     public likesService: LikesService,
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService
-    ) {
+  ) {
     super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'my');
   }
 
@@ -71,6 +80,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
   }
 
   assignData(data) {
+    this.user = data;
 
     this.profileId = data.id;
     this.profileName = data.first_name;
@@ -110,10 +120,10 @@ export class ProfileMyComponent extends BaseProfileComponent {
   getPoliticalViews() {
     this.politicalviewsService.my('', 100)
       .subscribe(
-        data => this.assignPoliticalViews(data),
-        (err) => console.log('Error fetching political views'),
-        () => {}
-        );
+      data => this.assignPoliticalViews(data),
+      (err) => console.log('Error fetching political views'),
+      () => { }
+      );
   }
 
   transformData(arr, prop) {
