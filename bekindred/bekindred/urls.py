@@ -7,7 +7,8 @@ from events.api.resources import (AboutMeResource, AllEventFeedResource,
                                   FilterStateResource,
                                   FriendsEventFeedResource, MembershipResource,
                                   MyConnectionEventFeedResource,
-                                  MyEventFeedResource, EventFeedResource)
+                                  MyEventFeedResource, EventFeedResource,
+                                  UserResourceShort)
 from friends.api.resources import (ConnectionsResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
@@ -69,6 +70,7 @@ v1_api.register(ChatMessageResource())
 v1_api.register(OnBoardingFlowResource())
 v1_api.register(ReligiousViewResource())
 v1_api.register(ReligiousIndexResource())
+v1_api.register(UserResourceShort())
 
 
 urlpatterns = patterns('',
