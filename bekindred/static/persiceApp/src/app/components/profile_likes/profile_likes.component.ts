@@ -8,7 +8,7 @@ let view = require('./profile_likes.html');
   template: view,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'profile-likes',
-  directives: [SlickDirective]
+  directives: [SlickDirective, SwiperDirective]
 })
 export class ProfileLikesComponent {
   @Input() likes;
