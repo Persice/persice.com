@@ -148,5 +148,5 @@
 </div>
 <div class="pers-data">
   <span class="pers-data__label mt mb--">About</span>
-  <textarea class="c-input c-input--textarea c-input--textarea-mediumround mb-" [value]="user?.about_me"></textarea>
+  <textarea [ngClass]="{'c-input--error': aboutHasError}" (input)="emitAboutChanged(ref)" #ref class="c-input c-input--textarea c-input--textarea-mediumround mb-" [value]="user?.about_me"></textarea>
 </div>

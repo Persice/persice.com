@@ -52,10 +52,8 @@ let view = require('./profile.html');
   ]
 })
 export class ProfileMyComponent extends BaseProfileComponent {
-  user: {
-    first_name: string,
-    last_name: string
-  };
+  user;
+  userEdit;
   friendsTitle: string = 'Connections';
 
   constructor(
@@ -81,6 +79,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
   assignData(data) {
     this.user = data;
+    this.userEdit = data;
 
     this.profileId = data.id;
     this.profileName = data.first_name;
@@ -109,7 +108,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.getLikes();
     this.getPhotos(data.id);
     this.getReligiousViews();
-    this.getPoliticalViews();
+    // this.getPoliticalViews();
   }
 
   getReligiousViews() {
@@ -183,6 +182,38 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
   openEditProfile(event) {
     console.log('edit profile');
+  }
+
+  refreshUser(event) {
+    this.profileInterests = [];
+    this.profileGoals = [];
+    this.profileOffers = [];
+    this.profileInterestsCount = 0;
+    this.profileGoalsCount = 0;
+    this.profileOffersCount = 0;
+    this.getMyProfileUpdates();
+  }
+
+  getMyProfileUpdates() {
+    this.userService.findOneByUri('me')
+      .subscribe((data) => this.assignUpdates(data));
+  }
+
+  assignUpdates(data) {
+    this.user = data;
+    this.userEdit = data;
+    this.profileAbout = data.about_me;
+
+    this.profileOffers = this.transformData(data.offers, 'subject');
+    this.profileInterests = this.transformData(data.interests, 'interest_subject');
+    this.profileGoals = this.transformData(data.goals, 'subject');
+    this.profileInterestsCount = data.interests.length;
+    this.profileOffersCount = data.offers.length;
+    this.profileGoalsCount = data.goals.length;
+
+    // this.getPhotos(data.id);
+    this.getReligiousViews();
+    // this.getPoliticalViews();
   }
 
 

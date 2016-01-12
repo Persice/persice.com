@@ -105,8 +105,8 @@
             </div>
           </div>
         </div>
-        <!-- <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes> -->
-        <!-- <profile-friends [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends> -->
+        <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
+        <profile-friends [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
       </div>
     </div>
   </div>
@@ -114,5 +114,5 @@
 
 
 <div *ngIf="profileType === 'my'" class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
-  <profile-edit [user]="user"></profile-edit>
+  <profile-edit (refreshUser)="refreshUser($event)" [user]="userEdit"></profile-edit>
 </div>

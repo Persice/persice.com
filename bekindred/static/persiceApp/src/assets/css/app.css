@@ -392,3 +392,8 @@ a.user-messages:hover, #profileDropdown a:hover {
 .swiper-container {
   height: 65px;
 }
+
+
+textarea.c-input--error:hover {
+    border-color: #ec8672!important;
+}
