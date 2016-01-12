@@ -247,7 +247,7 @@ class TestMatchFeedResource(ResourceTestCase):
 
     def test_filter_match_exact_age(self):
         FilterState.objects.filter(user=self.user).\
-            update(distance=10000, min_age=26, max_age=26)
+            update(distance=10000, min_age=26, max_age=27)
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
 
@@ -277,7 +277,7 @@ class TestMatchFeedResource(ResourceTestCase):
             data={
                 'filter': 'true'},
             format='json')
-        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 6)
+        self.assertEqual(self.deserialize(resp)['meta']['total_count'], 7)
 
     def test_filter_match_gender_male(self):
         FilterState.objects.filter(user=self.user).\
@@ -356,7 +356,7 @@ class TestMatchFeedResource(ResourceTestCase):
 
     def test_matchfeed_order_by_distance(self):
         FilterState.objects.filter(user=self.user).\
-            update(distance=10000, min_age=18,
+            update(distance=10000, min_age=19,
                    max_age=99, order_criteria='distance')
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)
@@ -390,7 +390,7 @@ class TestMatchFeedResource(ResourceTestCase):
 
     def test_matchfeed_order_by_match_score(self):
         FilterState.objects.filter(user=self.user).\
-            update(distance=10000, min_age=18, max_age=99,
+            update(distance=10000, min_age=19, max_age=99,
                    order_criteria='match_score')
         Goal.objects.create(user=self.user, goal=self.subject)
         Goal.objects.create(user=self.user, goal=self.subject2)

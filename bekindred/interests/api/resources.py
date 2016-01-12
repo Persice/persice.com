@@ -6,7 +6,7 @@ from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
 from interests.models import Interest, InterestSubject, ReligiousView, \
-    ReligiousIndex, PoliticalIndex
+    ReligiousIndex, PoliticalIndex, PoliticalView
 from photos.api.resources import UserResource
 
 
@@ -180,11 +180,11 @@ class PoliticalIndexResource(ModelResource, AbstractIndex):
 
 class PoliticalViewResource(ModelResource):
     user = fields.OneToOneField(UserResource, 'user')
-    religious_index = fields.ForeignKey(ReligiousIndexResource,
+    political_index = fields.ForeignKey(PoliticalIndexResource,
                                         'political_index')
 
     class Meta:
-        queryset = ReligiousView.objects.all()
+        queryset = PoliticalView.objects.all()
         fields = ['user', 'political_index', 'id']
         always_return_data = True
         resource_name = 'political_view'
@@ -212,18 +212,18 @@ class PoliticalViewResource(ModelResource):
         return super(PoliticalViewResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        religious_index = bundle.data['religious_index'].lower()
+        political_index = bundle.data['political_index'].lower()
         try:
-            subject, created = PoliticalIndex.objects.get_or_create(name=religious_index)
-            bundle.data['religious_index'] = '/api/v1/religious_index/{0}/'.format(subject.id)
+            subject, created = PoliticalIndex.objects.get_or_create(name=political_index)
+            bundle.data['political_index'] = '/api/v1/political_index/{0}/'.format(subject.id)
             return super(PoliticalViewResource, self).obj_update(
                     bundle,
-                    religious_index='/api/v1/religious_index/{0}/'.format(subject.id)
+                    political_index='/api/v1/political_index/{0}/'.format(subject.id)
             )
         except IndexError as err:
             print err
         return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):
-        bundle.data["religious_view"] = bundle.obj
+        bundle.data["political_index"] = bundle.obj
         return bundle

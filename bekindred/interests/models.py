@@ -62,7 +62,7 @@ class PoliticalIndex(models.Model):
 
 
 class PoliticalView(models.Model):
-    user = models.OneToOneField(FacebookCustomUser)
+    user = models.ForeignKey(FacebookCustomUser)
     political_index = models.ForeignKey(PoliticalIndex)
 
     def __unicode__(self):
