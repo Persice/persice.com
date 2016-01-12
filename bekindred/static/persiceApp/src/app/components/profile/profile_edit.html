@@ -1,7 +1,8 @@
 <header class="remodal__header">
   <div class="layout">
     <div class="layout__item 1/2 ">
-      <h5 class="remodal__title">Edit Profile</h5> </div>
+      <h5 class="remodal__title">Edit Profile</h5>
+    </div>
   </div>
   <button data-remodal-action="close" class="remodal-close">
     <svg role="img" class="icon ">
@@ -12,13 +13,23 @@
 <div class="layout layout--flush">
   <div class="layout__item 1/4">
     <ul class="list-bare js-tabs side-nav">
-      <li data-tab="pr-edit-personal-info" class="is-active"><span class="side-nav__link">Personal Info</span></li>
-      <li data-tab="pr-edit-photo"><span class="side-nav__link">Photos</span></li>
-      <li data-tab="pr-edit-interests"><span class="side-nav__link">Interests</span></li>
-      <li data-tab="pr-edit-goals"><span class="side-nav__link">Goals</span></li>
-      <li data-tab="pr-edit-offers"><span class="side-nav__link">Offers</span></li>
-      <li data-tab="pr-edit-likes"><span class="side-nav__link">Likes</span></li>
-      <li data-tab="pr-edit-dislikes"><span class="side-nav__link">Dislikes</span></li>
+      <li data-tab="pr-edit-personal-info" class="is-active">
+        <span class="side-nav__link">Personal Info</span>
+      </li>
+      <li data-tab="pr-edit-photo">
+        <span class="side-nav__link">Photos</span>
+      </li>
+      <li data-tab="pr-edit-interests">
+        <span class="side-nav__link">Interests</span>
+      </li>
+      <li data-tab="pr-edit-goals">
+        <span class="side-nav__link">Goals</span>
+      </li>
+      <li data-tab="pr-edit-offers">
+        <span class="side-nav__link">Offers</span>
+      </li>
+      <!--       <li data-tab="pr-edit-likes"><span class="side-nav__link">Likes</span></li>
+      <li data-tab="pr-edit-dislikes"><span class="side-nav__link">Dislikes</span></li> -->
     </ul>
   </div>
   <div class="layout__item 3/4">
@@ -26,67 +37,93 @@
       <div class="pers-data">
         <div class="tableize tableize--middle">
           <div class="tableize__cell 1/2">
-            <div class="tableize__content"> <span class="pers-data__label">First Name <i class="pers-data__label__info">(added from Facebook)</i></span> </div>
+            <div class="tableize__content">
+              <span class="pers-data__label">First Name <i class="pers-data__label__info">(added from Facebook)</i></span>
+            </div>
           </div>
           <div class="tableize__cell 1/2">
-            <div class="tableize__content text-right"> <span class="pers-data__value">{{user ? user.first_name : ''}}</span> </div>
-          </div>
-        </div>
-      </div>
-      <div class="pers-data">
-        <div class="tableize tableize--middle">
-          <div class="tableize__cell 1/2">
-            <div class="tableize__content"> <span class="pers-data__label">Last Name <i class="pers-data__label__info">(added from Facebook)</i></span> </div>
-          </div>
-          <div class="tableize__cell 1/2">
-            <div class="tableize__content text-right"> <span class="pers-data__value"></span> </div>
+            <div class="tableize__content text-right">
+              <span class="pers-data__value">{{user ? user.first_name : ''}}</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="pers-data">
         <div class="tableize tableize--middle">
           <div class="tableize__cell 1/2">
-            <div class="tableize__content"> <span class="pers-data__label">Gender <i class="pers-data__label__info">(added from Facebook)</i></span> </div>
+            <div class="tableize__content">
+              <span class="pers-data__label">Last Name <i class="pers-data__label__info">(added from Facebook)</i></span>
+            </div>
           </div>
           <div class="tableize__cell 1/2">
-            <div class="tableize__content text-right"> <span class="pers-data__value"></span> </div>
-          </div>
-        </div>
-      </div>
-      <div class="pers-data">
-        <div class="tableize tableize--middle">
-          <div class="tableize__cell 1/2">
-            <div class="tableize__content"> <span class="pers-data__label">Age <i class="pers-data__label__info">(added from Facebook)</i></span> </div>
-          </div>
-          <div class="tableize__cell 1/2">
-            <div class="tableize__content text-right"> <span class="pers-data__value"></span> </div>
+            <div class="tableize__content text-right">
+              <span class="pers-data__value"></span>
+            </div>
           </div>
         </div>
       </div>
       <div class="pers-data">
         <div class="tableize tableize--middle">
           <div class="tableize__cell 1/2">
-            <div class="tableize__content"> <span class="pers-data__label">Lives In <i class="pers-data__label__info">(added from Facebook)</i></span> </div>
+            <div class="tableize__content">
+              <span class="pers-data__label">Gender <i class="pers-data__label__info">(added from Facebook)</i></span>
+            </div>
           </div>
           <div class="tableize__cell 1/2">
-            <div class="tableize__content text-right"> <span class="pers-data__value">New York</span> </div>
+            <div class="tableize__content text-right">
+              <span class="pers-data__value"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pers-data">
+        <div class="tableize tableize--middle">
+          <div class="tableize__cell 1/2">
+            <div class="tableize__content">
+              <span class="pers-data__label">Age <i class="pers-data__label__info">(added from Facebook)</i></span>
+            </div>
+          </div>
+          <div class="tableize__cell 1/2">
+            <div class="tableize__content text-right">
+              <span class="pers-data__value"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pers-data">
+        <div class="tableize tableize--middle">
+          <div class="tableize__cell 1/2">
+            <div class="tableize__content">
+              <span class="pers-data__label">Lives In <i class="pers-data__label__info">(added from Facebook)</i></span>
+            </div>
+          </div>
+          <div class="tableize__cell 1/2">
+            <div class="tableize__content text-right">
+              <span class="pers-data__value">New York</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="pers-data">
         <div class="tableize tableize--middle">
           <div class="tableize__cell 3/5">
-            <div class="tableize__content"> <span class="pers-data__label">Profession <i class="pers-data__label__info">(added from Linkedin)</i></span> </div>
+            <div class="tableize__content">
+              <span class="pers-data__label">Profession <i class="pers-data__label__info">(added from Linkedin)</i></span>
+            </div>
           </div>
           <div class="tableize__cell 2/5">
-            <div class="tableize__content text-right"> <span class="pers-data__value">Layer at Clearly Gottlieb Steen& Hamilton LLP</span> </div>
+            <div class="tableize__content text-right">
+              <span class="pers-data__value">Layer at Clearly Gottlieb Steen& Hamilton LLP</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="pers-data">
         <div class="tableize tableize--middle">
           <div class="tableize__cell 2/5">
-            <div class="tableize__content"> <span class="pers-data__label">Religious Views</span> </div>
+            <div class="tableize__content">
+              <span class="pers-data__label">Religious Views</span>
+            </div>
           </div>
           <div class="tableize__cell 3/5">
             <div class="tableize__content text-right">
@@ -114,7 +151,9 @@
       <div class="pers-data">
         <div class="tableize tableize--middle">
           <div class="tableize__cell 2/5">
-            <div class="tableize__content"> <span class="pers-data__label">Political Views</span> </div>
+            <div class="tableize__content">
+              <span class="pers-data__label">Political Views</span>
+            </div>
           </div>
           <div class="tableize__cell 3/5">
             <div class="tableize__content text-right">
@@ -143,7 +182,8 @@
           </div>
         </div>
       </div>
-      <div class="pers-data"> <span class="pers-data__label mt mb--">About</span>
+      <div class="pers-data">
+        <span class="pers-data__label mt mb--">About</span>
         <textarea class="c-input c-input--textarea c-input--textarea-mediumround mb-"></textarea>
       </div>
     </div>
@@ -151,7 +191,8 @@
       <div class="profile-edit__photos p-">
         <div class="layout layout--flush layout--auto">
           <div class="layout__item">
-            <div class="profile-edit__photos__main-photo js-image-liquid"> <img src="images/event-image.jpg" alt="Event title">
+            <div class="profile-edit__photos__main-photo js-image-liquid">
+              <img src="images/event-image.jpg" alt="Event title">
               <a href="">
                 <svg role="img" class="icon icon--notsotiny">
                   <use xlink:href="icons/icons.svg#icon-delete"></use>
@@ -160,21 +201,24 @@
             </div>
           </div>
           <div class="layout__item js-sortable">
-            <div class="profile-edit__photos__thumb-photo js-image-liquid"> <img src="images/event-image.jpg" alt="Event title">
+            <div class="profile-edit__photos__thumb-photo js-image-liquid">
+              <img src="images/event-image.jpg" alt="Event title">
               <a href="">
                 <svg role="img" class="icon icon--notsotiny">
                   <use xlink:href="icons/icons.svg#icon-delete"></use>
                 </svg>
               </a>
             </div>
-            <div class="profile-edit__photos__thumb-photo js-image-liquid"> <img src="images/event-image.jpg" alt="Event title">
+            <div class="profile-edit__photos__thumb-photo js-image-liquid">
+              <img src="images/event-image.jpg" alt="Event title">
               <a href="">
                 <svg role="img" class="icon icon--notsotiny">
                   <use xlink:href="icons/icons.svg#icon-delete"></use>
                 </svg>
               </a>
             </div>
-            <div class="profile-edit__photos__thumb-photo js-image-liquid"> <img src="images/event-image.jpg" alt="Event title">
+            <div class="profile-edit__photos__thumb-photo js-image-liquid">
+              <img src="images/event-image.jpg" alt="Event title">
               <a href="">
                 <svg role="img" class="icon icon--notsotiny">
                   <use xlink:href="icons/icons.svg#icon-delete"></use>
@@ -182,11 +226,12 @@
               </a>
             </div>
             <div class="profile-edit__photos__thumb-photo-upload">
-              <div class="fileUpload"> <span>
-                    <svg role="img" class="icon ">
-                      <use xlink:href="icons/icons.svg#icon-plus-big"></use>
-                    </svg>
-                  </span>
+              <div class="fileUpload">
+                <span>
+                  <svg role="img" class="icon ">
+                    <use xlink:href="icons/icons.svg#icon-plus-big"></use>
+                  </svg>
+                </span>
                 <input type="file" class="upload" /> </div>
             </div>
           </div>
@@ -218,7 +263,45 @@
           </div>
         </div>
       </div>
-      <div class="search__tags-wrapper"> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag is-current">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> </div>
+      <div class="search__tags-wrapper">
+        <span class="search-tag">3D print</span>
+        <span class="search-tag">Acting</span>
+        <span class="search-tag">Animals</span>
+        <span class="search-tag">Animation</span>
+        <span class="search-tag">Aniques</span>
+        <span class="search-tag">Archery</span>
+        <span class="search-tag">Arcitecture</span>
+        <span class="search-tag">3D print</span>
+        <span class="search-tag">Acting</span>
+        <span class="search-tag">Animals</span>
+        <span class="search-tag">Animation</span>
+        <span class="search-tag is-current">Aniques</span>
+        <span class="search-tag">Archery</span>
+        <span class="search-tag">Arcitecture</span>
+        <span class="search-tag">Art</span>
+        <span class="search-tag">3D print</span>
+        <span class="search-tag">Acting</span>
+        <span class="search-tag">Animals</span>
+        <span class="search-tag">Animation</span>
+        <span class="search-tag">Archery</span>
+        <span class="search-tag">Arcitecture</span>
+        <span class="search-tag">Art</span>
+        <span class="search-tag">3D print</span>
+        <span class="search-tag">Acting</span>
+        <span class="search-tag">Animals</span>
+        <span class="search-tag">Animation</span>
+        <span class="search-tag">Aniques</span>
+        <span class="search-tag">Archery</span>
+        <span class="search-tag">Arcitecture</span>
+        <span class="search-tag">Art</span>
+        <span class="search-tag">3D print</span>
+        <span class="search-tag">Acting</span>
+        <span class="search-tag">Animals</span>
+        <span class="search-tag">Animation</span>
+        <span class="search-tag">Aniques</span>
+        <span class="search-tag">Archery</span>
+        <span class="search-tag">Arcitecture</span>
+      </div>
     </div>
     <div class="tab-content tab-content--blue" id="pr-edit-goals">
       <div class="search search--remodal-tab">
@@ -244,49 +327,56 @@
           </div>
         </div>
       </div>
-      <div class="search__tags-wrapper text-left"> <span class="search-tag-secondary">
-            <a href="">
-              <svg role="img" class="icon icon--notsotiny">
-                <use xlink:href="icons/icons.svg#icon-delete"></use>
-              </svg>
-            </a>
-            Learn to play the banjo
-          </span> <span class="search-tag-secondary">
+      <div class="search__tags-wrapper text-left">
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Learn to play the banjo
+        </span>
+        <span class="search-tag-secondary">
           <a href="">
             <svg role="img" class="icon icon--notsotiny">
               <use xlink:href="icons/icons.svg#icon-delete"></use>
             </svg>
           </a>
           Learn to paint
-        </span> <span class="search-tag-secondary">
-        <a href="">
-          <svg role="img" class="icon icon--notsotiny">
-            <use xlink:href="icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a>
-        Teach kids ti play piano
-      </span> <span class="search-tag-secondary">
-      <a href="">
-        <svg role="img" class="icon icon--notsotiny">
-          <use xlink:href="icons/icons.svg#icon-delete"></use>
-        </svg>
-      </a>
-      Play guitar in a local band
-    </span> <span class="search-tag-secondary">
-    <a href="">
-      <svg role="img" class="icon icon--notsotiny">
-        <use xlink:href="icons/icons.svg#icon-delete"></use>
-      </svg>
-    </a>
-    Teach people how to play billiards
-  </span> <span class="search-tag-secondary">
-  <a href="">
-    <svg role="img" class="icon icon--notsotiny">
-      <use xlink:href="icons/icons.svg#icon-delete"></use>
-    </svg>
-  </a>
-  Plan trip to Bora Bora
-</span> </div>
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Teach kids ti play piano
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Play guitar in a local band
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Teach people how to play billiards
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Plan trip to Bora Bora
+        </span>
+      </div>
     </div>
     <div class="tab-content tab-content--blue" id="pr-edit-offers">
       <div class="search search--remodal-tab">
@@ -312,213 +402,47 @@
           </div>
         </div>
       </div>
-      <div class="search__tags-wrapper text-left"> <span class="search-tag-secondary">
-    <a href="">
-      <svg role="img" class="icon icon--notsotiny">
-        <use xlink:href="icons/icons.svg#icon-delete"></use>
-      </svg>
-    </a>
-    Learn to paint
-  </span> <span class="search-tag-secondary">
-  <a href="">
-    <svg role="img" class="icon icon--notsotiny">
-      <use xlink:href="icons/icons.svg#icon-delete"></use>
-    </svg>
-  </a>
-  Teach kids ti play piano
-</span> <span class="search-tag-secondary">
-<a href="">
-  <svg role="img" class="icon icon--notsotiny">
-    <use xlink:href="icons/icons.svg#icon-delete"></use>
-  </svg>
-</a>
-Play guitar in a local band
-</span> <span class="search-tag-secondary">
-<a href="">
-  <svg role="img" class="icon icon--notsotiny">
-    <use xlink:href="icons/icons.svg#icon-delete"></use>
-  </svg>
-</a>
-Teach people how to play billiards
-</span> <span class="search-tag-secondary">
-<a href="">
-  <svg role="img" class="icon icon--notsotiny">
-    <use xlink:href="icons/icons.svg#icon-delete"></use>
-  </svg>
-</a>
-Plan trip to Bora Bora
-</span> </div>
-    </div>
-    <div class="tab-content tab-content--blue" id="pr-edit-likes">
-      <div class="search search--remodal-tab">
-        <div class="search__top">
-          <svg role="img" class="icon ">
-            <use xlink:href="icons/icons.svg#icon-search"></use>
-          </svg>
-          <input type="text" class="search__input" placeholder="Search your likes from FB"> </div>
-        <div class="has-search__drop">
-          <div class="search__drop">
-            <ul class="search__drop__results">
-              <li><b>Lear</b>n to play the banjo</li>
-              <li><b>Lear</b>n to paint</li>
-              <li><b>Lear</b>n to ride a bike</li>
-              <li><b>Lear</b>n to play the piano</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="profile-edit__likes">
-        <div class="layout layout--small ml0 mt">
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"></div>
-              <div class="flag__body">
-                <h5 class="user-name">Clothing Hunter</h5>
-                <p class="user-title">Website</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tab-content tab-content--blue" id="pr-edit-dislikes">
-      <div class="search search--remodal-tab">
-        <div class="search__top">
-          <svg role="img" class="icon ">
-            <use xlink:href="icons/icons.svg#icon-search"></use>
-          </svg>
-          <input type="text" class="search__input" placeholder="Enter your dislikes or search existing">
-          <button class="btn">
-            <svg role="img" class="icon ">
-              <use xlink:href="icons/icons.svg#icon-plus-big"></use>
+      <div class="search__tags-wrapper text-left">
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
             </svg>
-          </button>
-        </div>
-        <div class="has-search__drop">
-          <div class="search__drop">
-            <ul class="search__drop__results">
-              <li><b>Lear</b>n to play the banjo</li>
-              <li><b>Lear</b>n to paint</li>
-              <li><b>Lear</b>n to ride a bike</li>
-              <li><b>Lear</b>n to play the piano</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="profile-edit__likes">
-        <div class="layout layout--small ml0 mt">
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-          <div class="layout__item 1/2 mb">
-            <div href="" class="flag flag--small">
-              <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg" alt="User Name" class="avatar avatar--medium"> </div>
-              <div class="flag__body">
-                <h5 class="user-name">Elon Musk</h5>
-                <p class="user-title">Bussines Magnate</p> <a href="" class="user-like-unlike link-blank link-blank--red">Unlike</a> </div>
-            </div>
-          </div>
-        </div>
+          </a>
+          Learn to paint
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Teach kids ti play piano
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Play guitar in a local band
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Teach people how to play billiards
+        </span>
+        <span class="search-tag-secondary">
+          <a href="">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+          Plan trip to Bora Bora
+        </span>
       </div>
     </div>
   </div>
