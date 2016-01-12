@@ -385,7 +385,7 @@ class FilterStateResource(ModelResource):
 class UserResourceShort(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
-        resource_name = 'profile'
+        resource_name = 'user_profile'
         fields = ['first_name', 'last_name', 'facebook_id', 'image', 'about_me']
         authentication = SessionAuthentication()
         authorization = Authorization()

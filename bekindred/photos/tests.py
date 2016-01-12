@@ -15,7 +15,7 @@ class TestUserResource(ResourceTestCase):
         super(TestUserResource, self).setUp()
         self.user = FacebookCustomUser.objects. \
             create_user(username='user_a', password='test', about_me='test')
-        self.detail_url = '/api/v1/profile/{}/'.format(self.user.pk)
+        self.detail_url = '/api/v1/user_profile/{}/'.format(self.user.pk)
 
     def login(self):
         # Just for post login form
