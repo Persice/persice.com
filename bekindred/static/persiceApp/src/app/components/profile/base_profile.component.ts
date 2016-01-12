@@ -109,7 +109,7 @@ export abstract class BaseProfileComponent {
     this.getMutualFriends(this.user.id);
     this.getPhotos(this.user.id);
     this.getReligiousViews(this.user.id);
-    this.getPoliticalViews(this.user.id);
+    // this.getPoliticalViews(this.user.id);
   }
 
   getMutualFriends(id) {
