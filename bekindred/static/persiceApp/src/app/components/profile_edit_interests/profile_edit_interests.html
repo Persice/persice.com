@@ -1,0 +1,17 @@
+<div class="search search--remodal-tab">
+  <div class="search__top">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
+    </svg>
+    <input [ngModel]="newInterest" (keyup.enter)="addInterest($event)" (ngModelChange)="newInterest = $event; onSearchInputChanged();" type="text" class="search__input" placeholder="Enter your interest or search existing">
+    <button class="btn" (click)="addInterest($event)">
+      <svg role="img" class="icon ">
+        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+<div class="search__tags-wrapper" id="interests">
+  <span (click)="onInterestClick(item)" [ngClass]="{'is-current': item.active}" class="search-tag" *ngFor="#item of items">{{item.description}}</span>
+  <loading [status]="loading"></loading>
+</div>

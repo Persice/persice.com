@@ -63,7 +63,7 @@
     </div>
     <div class="tableize__cell 1/2">
       <div class="tableize__content text-right">
-        <span class="pers-data__value">New York</span>
+        <span class="pers-data__value"></span>
       </div>
     </div>
   </div>
@@ -77,7 +77,7 @@
     </div>
     <div class="tableize__cell 2/5">
       <div class="tableize__content text-right">
-        <span class="pers-data__value">Layer at Clearly Gottlieb Steen& Hamilton LLP</span>
+        <span class="pers-data__value">{{user?.profession}}</span>
       </div>
     </div>
   </div>
@@ -148,5 +148,5 @@
 </div>
 <div class="pers-data">
   <span class="pers-data__label mt mb--">About</span>
-  <textarea class="c-input c-input--textarea c-input--textarea-mediumround mb-" [value]="user?.about_me"></textarea>
+  <textarea [ngClass]="{'c-input--error': aboutHasError}" (input)="emitAboutChanged(ref)" #ref class="c-input c-input--textarea c-input--textarea-mediumround mb-" [value]="user?.about_me"></textarea>
 </div>
