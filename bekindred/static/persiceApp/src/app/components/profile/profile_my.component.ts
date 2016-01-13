@@ -109,7 +109,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.getLikes();
     this.getPhotos(data.id);
     this.getReligiousViews();
-    // this.getPoliticalViews();
+    this.getPoliticalViews();
   }
 
   getReligiousViews() {
