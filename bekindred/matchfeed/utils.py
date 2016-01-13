@@ -15,7 +15,7 @@ from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     calculate_distance_es, get_mutual_linkedin_connections, \
-    get_mutual_twitter_friends
+    get_mutual_twitter_friends, get_current_position
 from interests.models import Interest
 from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
     StopWords, GerundWords
@@ -166,6 +166,7 @@ class MatchUser(object):
         self.top_interests = self.get_top_interests(user_object)
         self.last_login = self.user.last_login
         self.keywords = self.get_keywords(user_object)
+        self.position = get_current_position(self.user)
 
     def get_user_info(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
