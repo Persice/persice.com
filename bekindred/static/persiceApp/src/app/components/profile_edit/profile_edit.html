@@ -32,23 +32,23 @@
       <li data-tab="pr-edit-dislikes"><span class="side-nav__link">Dislikes</span></li> -->
     </ul>
   </div>
-  <div class="layout__item 3/4">
-    <div class="tab-content profile-edit__overflow is-active" id="pr-edit-personal-info" *ngIf="activeTab === 'profile'">
+  <div class="layout__item 3/4" id="profileEdit">
+    <div class="tab-content profile-edit__overflow" [ngClass]="{'is-active': activeTab === 'profile' }" id="pr-edit-personal-info" *ngIf="activeTab === 'profile'">
       <profile-edit-personal-info [aboutHasError]="aboutError" (aboutChanged)="aboutChanged($event)" [user]="user"></profile-edit-personal-info>
     </div>
-
-    <div class="tab-content pr0" id="pr-edit-photo" *ngIf="activeTab === 'photo'">
-
+    <div class="tab-content pr0" id="pr-edit-photo" [ngClass]="{'is-active': activeTab === 'photo' }" id="pr-edit-photo" *ngIf="activeTab === 'photo'">
+      <profile-edit-photos [photos]="profilePhotos"></profile-edit-photos>
     </div>
-    <div class="tab-content tab-content--blue" id="pr-edit-interests" *ngIf="activeTab === 'interests'">
-
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }" id="pr-edit-interests" *ngIf="activeTab === 'interests'">
+      <profile-edit-interests></profile-edit-interests>
     </div>
-    <div class="tab-content tab-content--blue" id="pr-edit-goals" *ngIf="activeTab === 'goals'">
-
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'goals' }" id="pr-edit-goals" *ngIf="activeTab === 'goals'">
+      <profile-edit-goals [goals]="profileGoals"></profile-edit-goals>
     </div>
-    <div class="tab-content tab-content--blue" id="pr-edit-offers" *ngIf="activeTab === 'offers'">
-
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'offers' }" id="pr-edit-offers" *ngIf="activeTab === 'offers'">
+      <profile-edit-offers [offers]="profileOffers"></profile-edit-offers>
     </div>
+
   </div>
 </div>
 <footer class="remodal__footer text--right">

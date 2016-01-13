@@ -2,7 +2,15 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
 
 //** Components */
 import {ProfileEditPersonalInfoComponent}
-from '../profile_edit_personalinfo//profile_edit_personalinfo.component';
+from '../profile_edit_personalinfo/profile_edit_personalinfo.component';
+import {ProfileEditPhotosComponent}
+from '../profile_edit_photos/profile_edit_photos.component';
+import {ProfileEditInterestsComponent}
+from '../profile_edit_interests/profile_edit_interests.component';
+import {ProfileEditGoalsComponent}
+from '../profile_edit_goals/profile_edit_goals.component';
+import {ProfileEditOffersComponent}
+from '../profile_edit_offers/profile_edit_offers.component';
 
 //** Services */
 import {MyProfileService} from '../../services/myprofile.service';
@@ -14,9 +22,12 @@ let view = require('./profile_edit.html');
 @Component({
   selector: 'profile-edit',
   template: view,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [
-    ProfileEditPersonalInfoComponent
+    ProfileEditPersonalInfoComponent,
+    ProfileEditPhotosComponent,
+    ProfileEditInterestsComponent,
+    ProfileEditGoalsComponent,
+    ProfileEditOffersComponent
   ],
   providers: [
     MyProfileService
@@ -24,6 +35,7 @@ let view = require('./profile_edit.html');
 })
 export class ProfileEditComponent {
   @Input() user: { first_name: string, about_me: string };
+  @Input() interests;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
   userEdit = {
     about_me: ''
@@ -31,6 +43,10 @@ export class ProfileEditComponent {
   unsubscribe;
   aboutError = false;
   activeTab = 'profile';
+  profilePhotos = [];
+  profileGoals = [];
+  profileOffers = [];
+  profileInterests = [];
 
   constructor(private service: MyProfileService) {
 
@@ -39,6 +55,9 @@ export class ProfileEditComponent {
   ngOnChanges(values) {
     if (values.user && values.user.currentValue) {
       this.userEdit.about_me = values.user.currentValue.about_me;
+    }
+    if (values.interests && values.interests.currentValue) {
+      this.profileInterests = values.interests.currentValue;
     }
   }
 
@@ -54,9 +73,9 @@ export class ProfileEditComponent {
     }
     this.unsubscribe = this.service.update(this.userEdit)
       .subscribe((res) => {
-        this.closeModal(true);
-        this.refreshUser.next(true);
-      },
+      this.closeModal(true);
+      this.refreshUser.next(true);
+    },
       (err) => {
       },
       () => {
