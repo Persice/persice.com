@@ -191,7 +191,7 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday',
                           'user_relationships', 'user_groups',
                           'user_relationship_details', 'read_stream',
                           'user_photos', 'user_work_history',
-                          'user_religion_politics']
+                          'user_religion_politics', 'user_location']
 
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'
 BROKER_URL = 'redis://localhost:6379/0'
