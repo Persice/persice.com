@@ -322,6 +322,16 @@ a.link--darkgrey {
 .typeahead-search span.twitter-typeahead {
   width: 85%;
 }
+
+.typeahead-search.search.search--remodal-tab .tt-menu {
+  left: 0px!important;
+}
+
+.typeahead-search.search.search--remodal-tab .search__input.typeahead {
+  margin-left: 60px!important;
+  padding-left: 0px!important;
+}
+
 .typeahead-search .tt-menu {
   width: 117.7%!important;
   position: absolute;
@@ -375,11 +385,11 @@ a.link--darkgrey {
 }
 .slick-frame {
   visibility: hidden!important;
-  opacity: 0;
+  opacity: 0!important;
 }
 .slick-frame.slick-initialized {
   visibility: visible!important;
-  opacity: 1;
+  opacity: 1!important;
   transition: opacity .150s ease-in-out;
 }
 a.user-messages:hover, #profileDropdown a:hover {
@@ -387,4 +397,21 @@ a.user-messages:hover, #profileDropdown a:hover {
 }
 .card--user h4:hover, .card--user .avatar-box:hover, .card--user > p:hover {
   cursor: pointer!important;
+}
+.swiper-container {
+  height: 65px;
+}
+textarea.c-input--error:hover {
+  border-color: #ec8672!important;
+}
+
+#profileEdit {
+  position: relative;
+}
+
+#notificationEdit {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  color: red;
 }
