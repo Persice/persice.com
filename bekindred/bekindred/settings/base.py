@@ -185,6 +185,14 @@ FACEBOOK_DEFAULT_FIELDS = [
      'is_shared_login'
 ]
 
+FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday',
+                          'user_website', 'user_likes', 'user_friends',
+                          'user_status', 'read_custom_friendlists',
+                          'user_relationships', 'user_groups',
+                          'user_relationship_details', 'read_stream',
+                          'user_photos', 'user_work_history',
+                          'user_religion_politics', 'user_location']
+
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'
 BROKER_URL = 'redis://localhost:6379/0'
 FACEBOOK_CELERY_STORE = False

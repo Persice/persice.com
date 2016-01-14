@@ -375,3 +375,20 @@ def get_current_position(user):
         except TypeError as e:
             pass
     return position
+
+
+def get_lives_in(user):
+    lives_in = None
+    if isinstance(user, int):
+        user = FacebookCustomUser.objects.get(pk=user)
+    elif isinstance(user, basestring):
+        try:
+            user = FacebookCustomUserActive.objects.get(pk=int(user))
+        except (ValueError, IndexError):
+            return lives_in
+    try:
+        raw_data = json.loads(user.raw_data)
+        lives_in = raw_data.get('location', {}).get('name')
+    except TypeError as e:
+        pass
+    return lives_in
