@@ -7,6 +7,7 @@
   vertical-align: middle;
   position: relative;
 }
+
 .spinner {
   margin: 10em auto;
   width: 60px;
@@ -14,6 +15,7 @@
   text-align: center;
   font-size: 10px;
 }
+
 .spinner > div {
   background-color: #39c9f5;
   height: 100%;
@@ -22,32 +24,42 @@
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
   animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
+
 .spinner .rect2 {
   -webkit-animation-delay: -1.1s;
   animation-delay: -1.1s;
 }
+
 .spinner .rect3 {
   -webkit-animation-delay: -1.0s;
   animation-delay: -1.0s;
 }
+
 .spinner .rect4 {
   -webkit-animation-delay: -0.9s;
   animation-delay: -0.9s;
 }
+
 .spinner .rect5 {
   -webkit-animation-delay: -0.8s;
   animation-delay: -0.8s;
 }
+
 @-webkit-keyframes sk-stretchdelay {
-  0%, 40%, 100% {
+  0%,
+  40%,
+  100% {
     -webkit-transform: scaleY(0.4)
   }
   20% {
     -webkit-transform: scaleY(1.0)
   }
 }
+
 @keyframes sk-stretchdelay {
-  0%, 40%, 100% {
+  0%,
+  40%,
+  100% {
     transform: scaleY(0.4);
     -webkit-transform: scaleY(0.4);
   }
@@ -56,9 +68,11 @@
     -webkit-transform: scaleY(1.0);
   }
 }
+
 .avatar-box.mb svg {
   z-index: 9999;
 }
+
 
 /*temp fix for streched images in search results */
 
@@ -71,6 +85,7 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+
 .user-profile__avatar .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
@@ -80,6 +95,7 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+
 .match-profile__avatar .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
@@ -89,6 +105,7 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+
 .listed-user-avatar-place .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
@@ -98,9 +115,11 @@
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+
 .profile-drop__avatar .avatar-holder img {
   display: none;
 }
+
 
 /* fix for keywords wrap in filter */
 
@@ -126,17 +145,21 @@
   top: 0px;
 }
 
+
 /* fix for link cursor in match profile */
 
 a.link-blank {
   cursor: pointer!important;
 }
 
+
 /* fix for rangeslider */
 
-input.range, input.range-to {
+input.range,
+input.range-to {
   display: none;
 }
+
 
 /* fix for interests capitalize */
 
@@ -144,29 +167,37 @@ input.range, input.range-to {
   text-transform: capitalize;
 }
 
+
 /* fix for outline on likes */
 
-.match-profile__likes .layout__item:focus, .match-profile__mutual .layout__item:focus {
+.match-profile__likes .layout__item:focus,
+.match-profile__mutual .layout__item:focus {
   outline: none;
 }
+
 
 /* notifications */
 
 .notification.warning {
   background: #F1BB4B;
 }
+
 .notification.error {
   background: #ec8672;
 }
+
 .notification__close:hover {
   cursor: pointer;
 }
+
 .notification.notification-main.is-removed {
   margin-top: 0px;
 }
+
 .notification.notification-full:not(.is-removed) {
   height: auto;
 }
+
 .notification.notification-main {
   margin-bottom: 0px!important;
   margin-top: 30px;
@@ -174,18 +205,22 @@ input.range, input.range-to {
   margin-right: 30px;
 }
 
+
 /* fix for subnav on events page, height changes when link is clicked  */
 
 .sub-nav__link.router-link-active {
   border-bottom: 3px solid #39c9f5;
   color: #3d474d;
 }
+
 .sub-nav__item {
   height: 43px;
 }
+
 .switch-list__link {
   cursor: pointer;
 }
+
 
 /* fix for navmain active link class */
 
@@ -194,59 +229,79 @@ input.range, input.range-to {
   background: #3d474d;
 }
 
+
 /* fix for remove outline on events feed right subnav */
 
-.switch-list__item a:focus, .icon:focus, .icon use:focus, .switch-list__item:focus, .switch-list__item a .icon:focus, .switch-list__item a .icon use:focus {
+.switch-list__item a:focus,
+.icon:focus,
+.icon use:focus,
+.switch-list__item:focus,
+.switch-list__item a .icon:focus,
+.switch-list__item a .icon use:focus {
   outline: none!important;
 }
+
 #js-map {
   height: 364px!important;
   width: 100%!important;
   position: relative!important;
 }
+
 #eventmap {
   position: absolute;
   height: 364px!important;
   width: 100%!important;
 }
+
 a.platform__back {
   cursor: pointer;
 }
+
 #single-event-peoplenav a.btn-1.btn-1--mid {
   height: 46px!important;
   min-width: 140px;
 }
+
 .hidden {
   display: none!important;
 }
+
 div.event-people {
   min-height: 304px!important;
 }
+
 .google-map-container {
   height: 364px;
   width: 100%;
 }
 
+
 /* fix for input focus outline */
 
-input, .c-radio__trigger, .c-checkbox__trigger {
+input,
+.c-radio__trigger,
+.c-checkbox__trigger {
   outline: none!important;
 }
+
 
 /* Input validation */
 
 .ng-valid[required] {
   /*border-color: #42A948;*/
 }
+
 .ng-invalid:not(.ng-untouched) {
   border-color: #ec8672;
 }
+
 
 /*fix for layout in create event form with validation */
 
 .layout__item.layout--alignbottom {
   vertical-align: bottom!important;
 }
+
 
 /*google autocomplete fix */
 
@@ -257,10 +312,13 @@ input, .c-radio__trigger, .c-checkbox__trigger {
   transition: all 0.25s!important;
   color: #2b3d51!important;
 }
+
 .pac-item {}
+
 .layout--datetimeevent {
   margin-bottom: 0px;
 }
+
 #facebook_shade {
   position: fixed!important;
   height: 100%!important;
@@ -273,6 +331,7 @@ input, .c-radio__trigger, .c-checkbox__trigger {
   -moz-opacity: .8!important;
   z-index: 1000!important
 }
+
 #facebook_lightbox {
   position: relative!important;
   width: 300px!important;
@@ -287,20 +346,24 @@ input, .c-radio__trigger, .c-checkbox__trigger {
   border-radius: 2px!important;
   z-index: 1001!important
 }
+
 #facebook_wrapper {
   position: absolute!important;
   top: 0!important;
   width: 100%!important;
   z-index: 1001!important
 }
+
 #facebook_loading {
   margin-top: 15px!important;
   width: 32px!important;
   height: 32px!important
 }
+
 #facebook_message {
   color: #777!important
 }
+
 #facebook_close {
   position: absolute!important;
   right: 10px!important;
@@ -310,15 +373,18 @@ input, .c-radio__trigger, .c-checkbox__trigger {
   background: url(/static/img/facebook_close.png)!important;
   cursor: pointer!important
 }
+
 a.link--darkgrey {
   cursor: pointer;
 }
+
 
 /* fix for typeahead */
 
 .typeahead-search .search__input.typeahead {
   padding-left: 0px;
 }
+
 .typeahead-search span.twitter-typeahead {
   width: 85%;
 }
@@ -345,18 +411,23 @@ a.link--darkgrey {
   max-height: 199px;
   overflow: auto;
 }
+
 .typeahead-search .tt-menu.tt-open {
   opacity: 1!important;
 }
+
 .tt-highlight {
   font-weight: bold!important;
 }
+
 .typeahead-search .tt-suggestion.tt-selectable:hover {
   cursor: pointer;
 }
+
 .typeahead-search .tt-dataset {
   padding: 15px 30px;
 }
+
 .typeahead-search .tt-menu .tt-suggestion {
   text-align: left;
   line-height: 3;
@@ -365,42 +436,60 @@ a.link--darkgrey {
   font-size: 14px;
   padding: 0px!important;
 }
-#twitterLink, #linkedinLink {
+
+#twitterLink,
+#linkedinLink {
   cursor: pointer;
 }
-.crowd-page .card--user:hover .interest-list, .crowd-page .card--user:hover .interest-list-title {
+
+.crowd-page .card--user:hover .interest-list,
+.crowd-page .card--user:hover .interest-list-title {
   opacity: 0!important;
 }
-.card--user:hover .interest-list, .card--user:hover .interest-list-title {
+
+.card--user:hover .interest-list,
+.card--user:hover .interest-list-title {
   opacity: 1!important;
 }
+
 .signup {
   min-height: 985px!important;
 }
+
 .match-profile__avatar-nav.mb {
   height: 15.555px;
 }
+
 .is-hidden {
   visibility: hidden!important;
 }
+
 .slick-frame {
   visibility: hidden!important;
   opacity: 0!important;
 }
+
 .slick-frame.slick-initialized {
   visibility: visible!important;
   opacity: 1!important;
   transition: opacity .150s ease-in-out;
 }
-a.user-messages:hover, #profileDropdown a:hover {
+
+a.user-messages:hover,
+#profileDropdown a:hover {
   cursor: pointer!important;
 }
-.card--user h4:hover, .card--user .avatar-box:hover, .card--user > p:hover {
+
+.card--user h4:hover,
+.card--user .avatar-box:hover,
+.card--user > p:hover {
   cursor: pointer!important;
 }
+
 .swiper-container {
   height: 65px;
 }
+
 textarea.c-input--error:hover {
   border-color: #ec8672!important;
 }
@@ -414,4 +503,30 @@ textarea.c-input--error:hover {
   bottom: 5px;
   left: 5px;
   color: red;
+}
+
+
+/* Photos section */
+
+.profile-edit__photos__thumb-photo,
+.profile-edit__photos__main-photo {
+  background-position: 50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* custom loading indicator inline*/
+
+.loader {
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+  vertical-align: middle;
+  position: absolute;
+  left: 25px;
+}
+
+.loader svg path,
+.loader svg rect {
+  fill: #39c9f5;
 }

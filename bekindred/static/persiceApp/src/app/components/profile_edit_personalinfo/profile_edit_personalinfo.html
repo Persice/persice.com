@@ -97,14 +97,7 @@
               <button class="btn reselect__done js-reselect__done">Done</button>
             </header>
             <ul class="reselect__drop__list">
-              <li class="reselect__drop__list__item">Anarchism</li>
-              <li class="reselect__drop__list__item">Communism</li>
-              <li class="reselect__drop__list__item">Conservatism</li>
-              <li class="reselect__drop__list__item">Enviromentalism</li>
-              <li class="reselect__drop__list__item">Liberalism</li>
-              <li class="reselect__drop__list__item">Nationalism</li>
-              <li class="reselect__drop__list__item">Socialism</li>
-              <li class="reselect__drop__list__item">Other</li>
+              <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'religious'})" [ngClass]="{'is-selected': item.selected}" *ngFor="#item of religiousViews;  #i = index">{{item.name}}</li>
             </ul>
           </div>
         </div>
@@ -121,24 +114,13 @@
     </div>
     <div class="tableize__cell 3/5">
       <div class="tableize__content text-right">
-        <div class="reselect"> <a href="" class="reselect__trigger js-reselect__trigger">Select Religious Views</a>
+        <div class="reselect"> <a href="" class="reselect__trigger js-reselect__trigger">Select Political Views</a>
           <div class="reselect__drop is-hidden js-reselect__drop">
             <header class="reselect__drop__head">
               <button class="btn reselect__done js-reselect__done">Done</button>
             </header>
             <ul class="reselect__drop__list">
-              <li class="reselect__drop__list__item">Anarchism</li>
-              <li class="reselect__drop__list__item">Communism</li>
-              <li class="reselect__drop__list__item">Conservatism</li>
-              <li class="reselect__drop__list__item">Enviromentalism</li>
-              <li class="reselect__drop__list__item">Liberalism</li>
-              <li class="reselect__drop__list__item">Nationalism</li>
-              <li class="reselect__drop__list__item">Socialism</li>
-              <li class="reselect__drop__list__item">Other</li>
-              <li class="reselect__drop__list__item">Other</li>
-              <li class="reselect__drop__list__item">Other</li>
-              <li class="reselect__drop__list__item">Other</li>
-              <li class="reselect__drop__list__item">Other</li>
+              <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'political'})" [ngClass]="{'is-selected': item.selected}" *ngFor="#item of politicalViews; #i = index">{{item.name}}</li>
             </ul>
           </div>
         </div>
@@ -148,5 +130,5 @@
 </div>
 <div class="pers-data">
   <span class="pers-data__label mt mb--">About</span>
-  <textarea [ngClass]="{'c-input--error': aboutHasError}" (input)="emitAboutChanged(ref)" #ref class="c-input c-input--textarea c-input--textarea-mediumround mb-" [value]="user?.about_me"></textarea>
+  <about-input [about]="user?.about_me" (loading)="loading.next($event)"></about-input>
 </div>

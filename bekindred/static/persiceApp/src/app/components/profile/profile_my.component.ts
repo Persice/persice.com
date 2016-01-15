@@ -1,5 +1,7 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
 
+import {mergeMap} from 'rxjs/operator/mergeMap';
+
 /** Base Class */
 import {BaseProfileComponent} from './base_profile.component';
 
@@ -56,6 +58,9 @@ export class ProfileMyComponent extends BaseProfileComponent {
   userEdit;
   friendsTitle: string = 'Connections';
 
+  profileReligiousIndex = [];
+  profilePoliticalIndex = [];
+
   constructor(
     public mutualfriendsService: MutualFriendsService,
     public connectionsService: ConnectionsService,
@@ -87,6 +92,8 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.profileGender = data.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${data.distance[0]} ${data.distance[1]}`;
 
+    this.profileLocation = data.lives_in ? data.lives_in : '';
+
     this.profileJob = data.position && data.position.job !== null && data.position.company !== null ? `${data.position.job} at ${data.position.company}` : '';
 
     this.userEdit.profession = this.profileJob;
@@ -114,17 +121,56 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
   getReligiousViews() {
     this.religiousviewsService.my('', 100)
-      .subscribe(data => this.assignReligiousViews(data));
+      .mergeMap((data) => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects;
+          this.profileReligiousViews = items;
+        }
+        return this.religiousviewsService.getIndex('', 100);
+      })
+      .subscribe((res) => {
+        if (res.meta.total_count > 0) {
+          let itemsIndex = res.objects;
+          for (var i = 0; i < itemsIndex.length; ++i) {
+            itemsIndex[i].selected = false;
+            for (var j = 0; j < this.profileReligiousViews.length; ++j) {
+              if (itemsIndex[i].resource_uri === this.profileReligiousViews[j].religious_index) {
+                itemsIndex[i].selected = true;
+                itemsIndex[i].view_uri = this.profileReligiousViews[j].resource_uri;
+              }
+            }
+          }
+          this.profileReligiousIndex = itemsIndex;
+        }
+      });
   }
 
   getPoliticalViews() {
     this.politicalviewsService.my('', 100)
-      .subscribe(
-      data => this.assignPoliticalViews(data),
-      (err) => console.log('Error fetching political views'),
-      () => { }
-      );
+      .mergeMap((data) => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects;
+          this.profilePoliticalViews = items;
+        }
+        return this.politicalviewsService.getIndex('', 100);
+      })
+      .subscribe((res) => {
+        if (res.meta.total_count > 0) {
+          let itemsIndex = res.objects;
+          for (var i = 0; i < itemsIndex.length; ++i) {
+            itemsIndex[i].selected = false;
+            for (var j = 0; j < this.profilePoliticalViews.length; ++j) {
+              if (itemsIndex[i].resource_uri === this.profilePoliticalViews[j].political_index) {
+                itemsIndex[i].selected = true;
+                itemsIndex[i].view_uri = this.profilePoliticalViews[j].resource_uri;
+              }
+            }
+          }
+          this.profilePoliticalIndex = itemsIndex;
+        }
+      });
   }
+
 
   transformData(arr, prop) {
     let res = [];
@@ -214,7 +260,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
     // this.getPhotos(data.id);
     this.getReligiousViews();
-    // this.getPoliticalViews();
+    this.getPoliticalViews();
   }
 
 
