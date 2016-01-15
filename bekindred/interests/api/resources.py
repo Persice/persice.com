@@ -225,5 +225,5 @@ class PoliticalViewResource(ModelResource):
         return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):
-        bundle.data["political_index"] = bundle.obj
+        bundle.data["political_view"] = bundle.obj
         return bundle
