@@ -54,14 +54,13 @@ export abstract class BaseProfileComponent {
     linkedin: ''
   };
 
-
   constructor(
     public mutualfriendsService: MutualFriendsService,
     public photosService: PhotosService,
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService,
     public type: string
-    ) {
+  ) {
     this.profileType = type;
   }
 
@@ -75,6 +74,7 @@ export abstract class BaseProfileComponent {
     this.profileAge = this.user.age;
     this.profileGender = this.user.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${this.user.distance[0]} ${this.user.distance[1]}`;
+    this.profileLocation = this.user.lives_in ? this.user.lives_in : '';
 
     let likes = this.user.likes[0];
     this.profileLikes = Object.keys(likes).map((key) => {
@@ -125,10 +125,10 @@ export abstract class BaseProfileComponent {
   getPoliticalViews(id) {
     this.politicalviewsService.getByUser('', 100, id)
       .subscribe(
-        data => this.assignPoliticalViews(data),
-        (err) => console.log('Error fetching political views'),
-        () => {}
-        );
+      data => this.assignPoliticalViews(data),
+      (err) => console.log('Error fetching political views'),
+      () => { }
+      );
   }
 
   getPhotos(id) {
