@@ -141,6 +141,8 @@
     "./src/app/services/search.service.ts",
     "./src/app/services/services.ts",
     "./src/app/services/user.service.ts",
+    "./src/app/services/location.service.ts",
+    "./src/app/services/geolocation.service.ts",
     "./src/app/services/userauth.service.ts",
     "./src/app/services/websocket.service.ts",
     "./src/main.ts",
