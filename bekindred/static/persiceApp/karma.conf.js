@@ -37,9 +37,6 @@ module.exports = function(config) {
       pattern: './lib/js/circle-progress.js',
       watched: false
     }, {
-      pattern: './lib/js/imgLiquid.js',
-      watched: false
-    }, {
       pattern: './lib/js/ion.rangeSlider.js',
       watched: false
     }, {
