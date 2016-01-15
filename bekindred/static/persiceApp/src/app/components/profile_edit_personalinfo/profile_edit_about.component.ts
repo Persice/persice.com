@@ -25,7 +25,7 @@ export class AboutEditComponent {
 	ngOnInit(): void {
 		this.observable = Observable.fromEvent(this.el.nativeElement, 'keyup')
 			.map((e: any) => e.target.value)
-			.debounceTime(250)
+			.debounceTime(500)
 			.do(() => this.loading.next(true))
 			.map((value: string) => this.service.update({ about_me: value }))
 			.switch()

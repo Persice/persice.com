@@ -1,4 +1,4 @@
-import {Component, Input, Output, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {OffersService} from '../../services/offers.service';
 import {LoadingComponent} from '../loading/loading.component';
 import {NotificationComponent} from '../notification/notification.component';
@@ -23,6 +23,7 @@ declare var Bloodhound: any;
   ]
 })
 export class ProfileEditOffersComponent {
+  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
 
   timeoutId = null;
 
@@ -45,7 +46,7 @@ export class ProfileEditOffersComponent {
 
   constructor(
     private offersService: OffersService
-    ) {
+  ) {
 
   }
 
@@ -86,7 +87,7 @@ export class ProfileEditOffersComponent {
       {
         source: keywordsEngine
       }
-      );
+    );
 
     jQuery('#offersInput').bind('typeahead:select', (ev, suggestion) => {
       console.log('Selection: ' + suggestion);
@@ -118,18 +119,18 @@ export class ProfileEditOffersComponent {
       };
       return;
     }
-
+    this.loadingEvent.next(true);
     this.offersService.save(this.newOffer)
       .subscribe((res) => {
-      this.notificationMain.active = false;
+        this.notificationMain.active = false;
 
-      let newItem = res;
-      this.items = [...this.items, newItem];
-      this.total_count++;
-      this.newOffer = '';
-      jQuery('#offersInput').typeahead('val', '');
-    }, (err) => {
-        console.log(err);
+        let newItem = res;
+        this.items = [...this.items, newItem];
+        this.total_count++;
+        this.newOffer = '';
+        jQuery('#offersInput').typeahead('val', '');
+        this.loadingEvent.next(false);
+      }, (err) => {
         let error = JSON.parse(err._body);
         if ('offer' in error) {
 
@@ -141,6 +142,7 @@ export class ProfileEditOffersComponent {
           };
 
         }
+        this.loadingEvent.next(false);
       }, () => {
 
       });
@@ -148,14 +150,16 @@ export class ProfileEditOffersComponent {
   }
 
   removeOffer(event) {
+    this.loadingEvent.next(true);
     this.notificationMain.active = false;
     let idx = findIndex(this.items, event);
     if (this.items[idx]) {
       this.offersService.delete(event.resource_uri)
         .subscribe((res) => {
-        this.items.splice(idx, 1);
-        this.total_count--;
-      });
+          this.items.splice(idx, 1);
+          this.total_count--;
+          this.loadingEvent.next(false);
+        });
     }
 
   }

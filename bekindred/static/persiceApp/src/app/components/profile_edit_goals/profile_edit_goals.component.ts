@@ -1,4 +1,4 @@
-import {Component, Input, Output, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {GoalsService} from '../../services/goals.service';
 import {LoadingComponent} from '../loading/loading.component';
 import {NotificationComponent} from '../notification/notification.component';
@@ -23,9 +23,8 @@ declare var Bloodhound: any;
   ]
 })
 export class ProfileEditGoalsComponent {
-
+  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
   timeoutId = null;
-
   items: any[] = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
@@ -45,7 +44,7 @@ export class ProfileEditGoalsComponent {
 
   constructor(
     private goalsService: GoalsService
-    ) {
+  ) {
 
   }
 
@@ -86,7 +85,7 @@ export class ProfileEditGoalsComponent {
       {
         source: keywordsEngine
       }
-      );
+    );
 
     jQuery('#goalsInput').bind('typeahead:select', (ev, suggestion) => {
       console.log('Selection: ' + suggestion);
@@ -119,17 +118,19 @@ export class ProfileEditGoalsComponent {
       return;
     }
 
+    this.loadingEvent.next(true);
+
     this.goalsService.save(this.newGoal)
       .subscribe((res) => {
-      this.notificationMain.active = false;
+        this.notificationMain.active = false;
 
-      let newItem = res;
-      this.items = [...this.items, newItem];
-      this.total_count++;
-      this.newGoal = '';
-      jQuery('#goalsInput').typeahead('val', '');
-    }, (err) => {
-        console.log(err);
+        let newItem = res;
+        this.items = [...this.items, newItem];
+        this.total_count++;
+        this.newGoal = '';
+        jQuery('#goalsInput').typeahead('val', '');
+        this.loadingEvent.next(false);
+      }, (err) => {
         let error = JSON.parse(err._body);
         if ('goal' in error) {
 
@@ -141,6 +142,7 @@ export class ProfileEditGoalsComponent {
           };
 
         }
+        this.loadingEvent.next(false);
       }, () => {
 
       });
@@ -148,14 +150,16 @@ export class ProfileEditGoalsComponent {
   }
 
   removeGoal(event) {
+    this.loadingEvent.next(true);
     this.notificationMain.active = false;
     let idx = findIndex(this.items, event);
     if (this.items[idx]) {
       this.goalsService.delete(event.resource_uri)
         .subscribe((res) => {
-        this.items.splice(idx, 1);
-        this.total_count--;
-      });
+          this.items.splice(idx, 1);
+          this.total_count--;
+          this.loadingEvent.next(false);
+        });
     }
 
   }

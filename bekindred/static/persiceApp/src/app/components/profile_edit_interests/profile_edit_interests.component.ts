@@ -1,4 +1,4 @@
-import {Component, Input, Output, NgZone, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {mergeMap} from 'rxjs/operator/mergeMap';
 
 import {findIndex, pluck} from 'lodash';
@@ -25,6 +25,7 @@ let view = require('./profile_edit_interests.html');
 
 })
 export class ProfileEditInterestsComponent {
+  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
   timeoutId = null;
 
   items: any[] = [];
@@ -43,7 +44,7 @@ export class ProfileEditInterestsComponent {
   constructor(
     private interestsService: InterestsService,
     private keywordsService: KeywordsService
-    ) {
+  ) {
 
   }
 
@@ -54,24 +55,16 @@ export class ProfileEditInterestsComponent {
   addInterest(event) {
 
     if (this.newInterest.length === 0) {
-      // this.notificationService.push({
-      //   type: 'warning',
-      //   title: '',
-      //   body: `Please enter your interest first.`,
-      //   autoclose: 4000
-      // });
+
       return;
     }
 
     if (this.newInterest.length > 100) {
-      // this.notificationService.push({
-      //   type: 'warning',
-      //   title: '',
-      //   body: `New interest must have less than 100 characters.`,
-      //   autoclose: 4000
-      // });
+
       return;
     }
+
+    this.loadingEvent.next(true);
 
     let idx = findIndex(this.items, 'description', this.newInterest);
 
@@ -79,18 +72,13 @@ export class ProfileEditInterestsComponent {
       if (!this.items[idx].active) {
         this.interestsService.save(this.items[idx].description)
           .subscribe((res) => {
-          this.items[idx].active = true;
-          this.items[idx].interest_resource = res.resource_uri;
-          this.userInterestCounter++;
-        });
+            this.items[idx].active = true;
+            this.items[idx].interest_resource = res.resource_uri;
+            this.userInterestCounter++;
+            this.loadingEvent.next(false);
+          });
       }
       else {
-        // this.notificationService.push({
-        //   type: 'warning',
-        //   title: '',
-        //   body: `Interest '${this.newInterest}' is already selected below.`,
-        //   autoclose: 4000
-        // });
 
       }
     }
@@ -98,24 +86,18 @@ export class ProfileEditInterestsComponent {
       //create new interest
       this.interestsService.save(this.newInterest)
         .subscribe((res) => {
-        let newItem = res;
-        newItem.active = true;
-        newItem.description = res.interest_subject;
-        newItem.interest_resource = res.resource_uri;
-        this.items.push(newItem);
+          let newItem = res;
+          newItem.active = true;
+          newItem.description = res.interest_subject;
+          newItem.interest_resource = res.resource_uri;
+          this.items.push(newItem);
 
-        // this.notificationService.push({
-        //   type: 'success',
-        //   title: '',
-        //   body: `Interest '${this.newInterest}' has been successfully created.`,
-        //   autoclose: 4000
-        // });
+          this.userInterestCounter++;
+          this.newInterest = '';
+          this.refreshList();
+          this.loadingEvent.next(false);
 
-        this.userInterestCounter++;
-        this.newInterest = '';
-        this.refreshList();
-
-      });
+        });
     }
   }
 
@@ -135,14 +117,14 @@ export class ProfileEditInterestsComponent {
     this.interestsService.get('', 2000)
       .mergeMap((data) => {
 
-      this.userInterestCounter = data.meta.total_count;
+        this.userInterestCounter = data.meta.total_count;
 
-      if (this.userInterestCounter > 0) {
-        this.userInterest = data.objects;
-      }
+        if (this.userInterestCounter > 0) {
+          this.userInterest = data.objects;
+        }
 
-      return this.keywordsService.get(this.next, 100, this.newInterest);
-    })
+        return this.keywordsService.get(this.next, 100, this.newInterest);
+      })
       .subscribe(data => this.assignList(data),
       (err) => {
         console.log(err);
@@ -222,26 +204,30 @@ export class ProfileEditInterestsComponent {
   onInterestClick(event) {
 
     let idx = findIndex(this.items, event);
-
+    this.loadingEvent.next(true);
     if (this.items[idx]) {
       if (this.items[idx].active) {
         //deselect interest
         let url = this.items[idx].interest_resource;
 
-        this.interestsService.delete(url)
+        this.interestsService
+          .delete(url)
           .subscribe((res) => {
-          this.items[idx].active = false;
-          this.items[idx].interest_resource = null;
-          this.userInterestCounter--;
-        });
+            this.items[idx].active = false;
+            this.items[idx].interest_resource = null;
+            this.userInterestCounter--;
+            this.loadingEvent.next(false);
+          });
       }
       else {
-        this.interestsService.save(this.items[idx].description)
+        this.interestsService
+          .save(this.items[idx].description)
           .subscribe((res) => {
-          this.items[idx].active = true;
-          this.items[idx].interest_resource = res.resource_uri;
-          this.userInterestCounter++;
-        });
+            this.items[idx].active = true;
+            this.items[idx].interest_resource = res.resource_uri;
+            this.userInterestCounter++;
+            this.loadingEvent.next(false);
+          });
 
 
       }
