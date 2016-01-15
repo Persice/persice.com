@@ -1,65 +1,27 @@
-<div class="search search--remodal-tab">
+<div class="search search--remodal-tab typeahead-search">
   <div class="search__top">
     <svg role="img" class="icon ">
-      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
     </svg>
-    <input type="text" class="search__input" placeholder="Enter your offer or search existing">
-    <button class="btn">
+    <input [(ngModel)]="newOffer" (keyup.enter)="addOffer($event)" type="text" class="search__input typeahead" id="offersInput" placeholder="Enter your offer or search existing offers">
+    <button class="btn" (click)="addOffer($event)">
       <svg role="img" class="icon ">
         <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
       </svg>
     </button>
   </div>
-  <div class="has-search__drop">
-    <div class="search__drop">
-      <ul class="search__drop__results">
-        <li><b>Lear</b>n to play the banjo</li>
-        <li><b>Lear</b>n to paint</li>
-        <li><b>Lear</b>n to ride a bike</li>
-        <li><b>Lear</b>n to play the piano</li>
-      </ul>
-    </div>
-  </div>
 </div>
-<div class="search__tags-wrapper text-left">
-  <span class="search-tag-secondary">
-    <a href="">
+
+<div class="search__tags-wrapper text-left" id="offers">
+  <span class="search-tag-secondary" *ngFor="#item of items">
+    <a (click)="removeOffer(item)">
       <svg role="img" class="icon icon--notsotiny">
         <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
       </svg>
     </a>
-    Learn to paint
+    {{item.subject}}
   </span>
-  <span class="search-tag-secondary">
-    <a href="">
-      <svg role="img" class="icon icon--notsotiny">
-        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-      </svg>
-    </a>
-    Teach kids ti play piano
-  </span>
-  <span class="search-tag-secondary">
-    <a href="">
-      <svg role="img" class="icon icon--notsotiny">
-        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-      </svg>
-    </a>
-    Play guitar in a local band
-  </span>
-  <span class="search-tag-secondary">
-    <a href="">
-      <svg role="img" class="icon icon--notsotiny">
-        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-      </svg>
-    </a>
-    Teach people how to play billiards
-  </span>
-  <span class="search-tag-secondary">
-    <a href="">
-      <svg role="img" class="icon icon--notsotiny">
-        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-      </svg>
-    </a>
-    Plan trip to Bora Bora
-  </span>
+
+
 </div>
+<div id="notificationEdit" *ngIf="notificationMain.active === true">{{notificationMain.body}}</div>
