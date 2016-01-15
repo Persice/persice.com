@@ -273,6 +273,7 @@ class ConnectionsResource2(Resource):
     last_login = fields.DateTimeField(attribute='last_login', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
     position = fields.DictField(attribute="position", null=True, blank=True)
+    lives_in = fields.CharField(attribute="lives_in", null=True, blank=True)
 
     class Meta:
         resource_name = 'connections2'
