@@ -265,7 +265,8 @@ class TestPoliticalViewResource(ResourceTestCase):
             u'id': self.pv.pk,
             u'user': u'/api/v1/auth/user/{0}/'.format(self.user.pk),
             u'resource_uri': u'/api/v1/political_view/{0}/'.format(self.pv.pk),
-            u'political_index': u'democracy',
+            u'political_index': u'/api/v1/political_index/{}/'.format(self.pi.pk),
+            u'political_view': u'democracy',
         })
 
     def test_create_political_view(self):
@@ -286,7 +287,7 @@ class TestPoliticalViewResource(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.post('/api/v1/political_view/',
                                     format='json', data=post_data)
-        self.assertEqual(self.deserialize(resp)['political_index'],
+        self.assertEqual(self.deserialize(resp)['political_view'],
                          post_data['political_index'])
 
     def test_put_detail(self):
