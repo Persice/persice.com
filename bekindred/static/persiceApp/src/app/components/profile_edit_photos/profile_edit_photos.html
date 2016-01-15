@@ -1,50 +1,85 @@
 <div class="profile-edit__photos p-">
   <div class="layout layout--flush layout--auto">
     <div class="layout__item">
-      <div class="profile-edit__photos__main-photo js-image-liquid">
-        <img src="/static/persiceApp/src/assets/images/avatar_user_m.jpg" alt="Event title">
-        <a href="">
+      <div class="profile-edit__photos__main-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[0].photo + ')'}">
+        <a>
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
     </div>
-    <div class="layout__item js-sortable">
-      <div class="profile-edit__photos__thumb-photo js-image-liquid">
-        <img src="/static/persiceApp/src/assets/images/avatar_user_m.jpg" alt="Event title">
-        <a href="">
+    <div class="layout__item js-sortable" sortable items=".profile-edit__photos__thumb-photo">
+      <div *ngIf="profilePhotos[1]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[1].photo + ')'}">
+        <a>
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
-      <div class="profile-edit__photos__thumb-photo js-image-liquid">
-        <img src="/static/persiceApp/src/assets/images/avatar_user_m.jpg" alt="Event title">
-        <a href="">
+      <div *ngIf="profilePhotos[2]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[2].photo + ')'}">
+        <a>
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
-      <div class="profile-edit__photos__thumb-photo js-image-liquid">
-        <img src="/static/persiceApp/src/assets/images/avatar_user_m.jpg" alt="Event title">
-        <a href="">
+      <div *ngIf="profilePhotos[3]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[3].photo + ')'}">
+        <a>
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
-      <div class="profile-edit__photos__thumb-photo-upload">
+      <div *ngIf="profilePhotos[4]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[4].photo + ')'}">
+        <a>
+          <svg role="img" class="icon icon--notsotiny">
+            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[1]">
         <div class="fileUpload">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
             </svg>
           </span>
-          <input type="file" class="upload" /> </div>
+          <input type="file" class="upload" />
+        </div>
       </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[2]">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+          <input type="file" class="upload" />
+        </div>
+      </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[3]">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+          <input type="file" class="upload" />
+        </div>
+      </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[4]">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+          <input type="file" class="upload" />
+        </div>
+      </div>
+
     </div>
   </div>
-  <p class="profile-edit__photos-hint text-center p-">Drag & Drop to sort the photos and change your profile photo</p>
+  <p class="profile-edit__photos-hint text-center p-">Drag &amp; Drop to sort the photos and change your profile photo</p>
 </div>
