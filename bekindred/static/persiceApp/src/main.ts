@@ -32,10 +32,10 @@ import {HttpClient} from './app/core/http_client';
  * Google maps
  */
 import {
-MapsAPILoader,
-NoOpMapsAPILoader,
-ANGULAR2_GOOGLE_MAPS_PROVIDERS
-} from './app/components/map/angular2_google_maps';
+  MapsAPILoader,
+  NoOpMapsAPILoader,
+  ANGULAR2_GOOGLE_MAPS_PROVIDERS
+} from './app/components/map/core';
 
 /*
  * App Component

@@ -6,10 +6,8 @@ import {NotificationService} from '../../services/notification.service';
 import {FileUtil} from '../../core/util';
 
 import {
-GoogleMap,
-GoogleMapMarker,
-ANGULAR2_GOOGLE_MAPS_PROVIDERS
-} from '../map/angular2_google_maps';
+  ANGULAR2_GOOGLE_MAPS_DIRECTIVES
+} from '../map/core';
 
 
 // just an interface for type safety.
@@ -27,7 +25,7 @@ declare var jQuery: any;
 @Component({
   selector: 'event-photomap',
   template: view,
-  directives: [GoogleMap, GoogleMapMarker, CORE_DIRECTIVES],
+  directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES, CORE_DIRECTIVES],
   providers: [EventService]
 })
 export class EventPhotoMapComponent {
