@@ -9,10 +9,10 @@ export class GenderPipe {
     let retValue: string = '';
     switch (value) {
       case 'm':
-        retValue = 'male';
+        retValue = 'Male';
         break;
       case 'f':
-        retValue = 'female';
+        retValue = 'Female';
         break;
       default:
         retValue = value;

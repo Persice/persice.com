@@ -42,6 +42,7 @@ export class UserService {
   public getDefaultImage() {
     return UserService.DEFAULT_IMAGE;
   }
+
 }
 
 export var userServiceInjectables: Array<any> = [

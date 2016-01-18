@@ -7,7 +7,8 @@ from events.api.resources import (AboutMeResource, AllEventFeedResource,
                                   FilterStateResource,
                                   FriendsEventFeedResource, MembershipResource,
                                   MyConnectionEventFeedResource,
-                                  MyEventFeedResource, EventFeedResource)
+                                  MyEventFeedResource, EventFeedResource,
+                                  UserProfileResource)
 from friends.api.resources import (ConnectionsResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
@@ -16,7 +17,8 @@ from goals.api.resources import (FacebookLikeResource, GoalResource,
                                  MatchFilterStateResource, OfferResource,
                                  SubjectResource)
 from interests.api.resources import InterestResource, InterestSubjectResource, \
-    ReligiousViewResource, ReligiousIndexResource
+    ReligiousViewResource, ReligiousIndexResource, PoliticalViewResource, \
+    PoliticalIndexResource
 from matchfeed.api.resources import (MatchedFeedResource, MatchedFeedResource2,
                                      MutualFriendsResource, ProfileResource)
 from msgs.api.resources import (ChatMessageResource, InboxLastResource,
@@ -69,6 +71,9 @@ v1_api.register(ChatMessageResource())
 v1_api.register(OnBoardingFlowResource())
 v1_api.register(ReligiousViewResource())
 v1_api.register(ReligiousIndexResource())
+v1_api.register(PoliticalViewResource())
+v1_api.register(PoliticalIndexResource())
+v1_api.register(UserProfileResource())
 
 
 urlpatterns = patterns('',

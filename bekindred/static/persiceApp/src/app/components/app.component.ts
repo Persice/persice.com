@@ -44,6 +44,8 @@ import {NotificationService} from '../services/notification.service';
 import {EventsService} from '../services/events.service';
 import {EventService} from '../services/event.service';
 import {WebsocketService} from '../services/websocket.service';
+import {GeolocationService} from '../services/geolocation.service';
+import {LocationService} from '../services/location.service';
 
 let view = require('./app.html');
 
@@ -112,7 +114,9 @@ let view = require('./app.html');
     FilterService,
     UserService,
     NotificationService,
-    WebsocketService
+    WebsocketService,
+    GeolocationService,
+    LocationService
   ]
 })
 export class AppComponent {
@@ -130,8 +134,10 @@ export class AppComponent {
   constructor(
     public userService: UserService,
     public notificationService: NotificationService,
-    public websocketService: WebsocketService
-    ) {
+    public websocketService: WebsocketService,
+    public locationService: LocationService,
+    public geolocationService: GeolocationService
+  ) {
     //default image
     this.image = this.userService.getDefaultImage();
 
@@ -171,6 +177,39 @@ export class AppComponent {
       },
       () => console.log('event completed')
       );
+
+    // Get geolocation from the browser
+    const GEOLOCATION_OPTS = {
+      enableHighAccuracy: true,
+      timeout: 60000,
+      maximumAge: 0
+    };
+
+    this.geolocationService.getLocation(GEOLOCATION_OPTS)
+      .subscribe((res: any) => {
+        console.log('Geolocation:', res);
+        this.updateOrCreateLocation(res);
+      },
+      (err) => {
+        console.log('Geolocation Error: ', err);
+      },
+      () => {
+        console.log('Finished obtaining geolocation');
+      });
+  }
+
+  updateOrCreateLocation(loc) {
+    this.locationService.updateOrCreate(loc)
+    .subscribe((res) => {
+      console.log('Location saved', res);
+      this.locationService.updateLocation(res);
+    },
+    (err) => {
+      console.log('Location saving error: ', err);
+    },
+    () => {
+
+    });
   }
 
   ngOnDestroy() {
@@ -200,7 +239,7 @@ export class AppComponent {
         this.notificationMain.active = false;
       },
       timeout
-      );
+    );
   }
 
   // Assign AuthUser user from the /me Api

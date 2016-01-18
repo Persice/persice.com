@@ -2,6 +2,8 @@ import {Input} from 'angular2/core';
 
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
+import {ReligiousViewsService} from '../../services/religiousviews.service';
+import {PoliticalViewsService} from '../../services/politicalviews.service';
 
 import {ObjectUtil} from '../../core/util';
 
@@ -15,8 +17,8 @@ export abstract class BaseProfileComponent {
   profileScore = '';
   profileName = '';
   profileJob = '';
-  profileReligion = '';
-  profilePoliticalViews = '';
+  profileReligiousViews = [];
+  profilePoliticalViews = [];
   profileActiveAgo = '2h ago';
   profileDistance = '';
   profileAbout: string = '';
@@ -52,13 +54,14 @@ export abstract class BaseProfileComponent {
     linkedin: ''
   };
 
-
   constructor(
     public mutualfriendsService: MutualFriendsService,
     public photosService: PhotosService,
+    public religiousviewsService: ReligiousViewsService,
+    public politicalviewsService: PoliticalViewsService,
     public type: string
-    ) {
-      this.profileType = type;
+  ) {
+    this.profileType = type;
   }
 
   ngOnInit() {
@@ -71,6 +74,7 @@ export abstract class BaseProfileComponent {
     this.profileAge = this.user.age;
     this.profileGender = this.user.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${this.user.distance[0]} ${this.user.distance[1]}`;
+    this.profileLocation = this.user.lives_in ? this.user.lives_in : '';
 
     let likes = this.user.likes[0];
     this.profileLikes = Object.keys(likes).map((key) => {
@@ -104,11 +108,27 @@ export abstract class BaseProfileComponent {
 
     this.getMutualFriends(this.user.id);
     this.getPhotos(this.user.id);
+    this.getReligiousViews(this.user.id);
+    this.getPoliticalViews(this.user.id);
   }
 
   getMutualFriends(id) {
     this.mutualfriendsService.get('', 100, id)
       .subscribe(data => this.assignMutualFriends(data));
+  }
+
+  getReligiousViews(id) {
+    this.religiousviewsService.getByUser('', 100, id)
+      .subscribe(data => this.assignReligiousViews(data));
+  }
+
+  getPoliticalViews(id) {
+    this.politicalviewsService.getByUser('', 100, id)
+      .subscribe(
+      data => this.assignPoliticalViews(data),
+      (err) => console.log('Error fetching political views'),
+      () => { }
+      );
   }
 
   getPhotos(id) {
@@ -137,6 +157,20 @@ export abstract class BaseProfileComponent {
       this.profileFriends.mutual_linkedin_connections = items.mutual_linkedin_connections;
       this.profileFriends.mutual_twitter_friends = items.mutual_twitter_friends;
       this.profileFriends.mutual_twitter_followers = items.mutual_twitter_followers;
+    }
+  }
+
+  assignReligiousViews(data) {
+    if (data.meta.total_count > 0) {
+      let items = data.objects;
+      this.profileReligiousViews = items;
+    }
+  }
+
+  assignPoliticalViews(data) {
+    if (data.meta.total_count > 0) {
+      let items = data.objects;
+      this.profilePoliticalViews = items;
     }
   }
 

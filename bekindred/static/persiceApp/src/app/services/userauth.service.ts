@@ -11,7 +11,7 @@ import {CookieUtil} from '../core/util';
 
 @Injectable()
 export class UserAuthService {
-  static API_URL: string = '/api/v1/auth/';
+  static API_URL: string = '/api/v1/auth/user/';
   constructor(private http: HttpClient) {
 
   }
@@ -57,6 +57,14 @@ export class UserAuthService {
       `${uri}?format=json`,
       body,
       OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json());
+  }
+
+  public updateMe(data): Observable<any> {
+    let userId = CookieUtil.getValue('userid');
+    let url = `${UserAuthService.API_URL}${userId}/?format=json`;
+    let body = JSON.stringify(data);
+    return this.http.patch(url, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
   }
 

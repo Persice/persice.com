@@ -7,6 +7,41 @@ from photos.models import FacebookPhoto
 ResourceTestCase.maxDiff = None
 
 
+class TestUserResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestUserResource, self).setUp()
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', password='test', about_me='test')
+        self.detail_url = '/api/v1/user_profile/{}/'.format(self.user.pk)
+
+    def login(self):
+        # Just for post login form
+        return self.api_client.client.post('/login/', {'username': 'user_a',
+                                                       'password': 'test'})
+
+    def test_put_detail(self):
+        # Grab the current data & modify it slightly.
+        self.login()
+        original_data = self.deserialize(
+                self.api_client.get(self.detail_url, format='json')
+        )
+        new_data = original_data.copy()
+        new_data['about_me'] = 'Updated: about me'
+
+        self.assertEqual(FacebookCustomUser.objects.count(), 2)
+        self.assertHttpAccepted(
+                self.api_client.put(self.detail_url, format='json',
+                                    data=new_data)
+        )
+        # Make sure the count hasn't changed & we did an update.
+        self.assertEqual(FacebookCustomUser.objects.count(), 2)
+        # Check for updated data.
+        self.assertEqual(FacebookCustomUser.objects.get(pk=self.user.pk).about_me, 'Updated: about me')
+
+
 class FacebookPhotoResourceTest(ResourceTestCase):
     def setUp(self):
         super(FacebookPhotoResourceTest, self).setUp()

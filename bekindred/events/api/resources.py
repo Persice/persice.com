@@ -32,7 +32,7 @@ from friends.models import Friend
 from goals.models import MatchFilterState, Goal, Offer
 from goals.utils import (calculate_age, calculate_distance_events,
                          get_user_location, calculate_distance_user_event,
-                         get_current_position)
+                         get_current_position, get_lives_in)
 from interests import Interest
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
@@ -386,7 +386,19 @@ class UserResourceShort(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
-        fields = ['first_name', 'last_name', 'facebook_id', 'image']
+        fields = ['first_name', 'last_name', 'facebook_id', 'image', 'about_me']
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+        filtering = {
+            'first_name': ALL
+        }
+
+
+class UserProfileResource(ModelResource):
+    class Meta:
+        queryset = FacebookCustomUserActive.objects.all()
+        resource_name = 'user_profile'
+        fields = ['first_name', 'last_name', 'facebook_id', 'image', 'about_me']
         authentication = SessionAuthentication()
         authorization = Authorization()
         filtering = {
@@ -415,6 +427,7 @@ class AboutMeResource(ModelResource):
         # if bundle.obj.raw_data:
         #     raw_data = json.loads(bundle.obj.raw_data)
         bundle.data['position'] = get_current_position(bundle.obj)
+        bundle.data['lives_in'] = get_lives_in(bundle.obj)
         bundle.data.update(raw_data)
         bundle.data['goals_count'] = Goal.objects.filter(user=user_id).count()
         bundle.data['offers_count'] = Offer.objects.\

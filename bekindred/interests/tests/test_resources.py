@@ -1,7 +1,7 @@
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from interests.models import Interest, InterestSubject, ReligiousIndex, \
-    ReligiousView
+    ReligiousView, PoliticalIndex, PoliticalView
 
 
 class TestInterestResource(ResourceTestCase):
@@ -220,4 +220,95 @@ class TestReligiousViewResource(ResourceTestCase):
         # Check for updated data.
         self.assertEqual(str(
                 ReligiousView.objects.get(religious_index__name='erlang')
+        ), 'erlang')
+
+
+class TestPoliticalViewResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestPoliticalViewResource, self).setUp()
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', password='test')
+        self.pi = PoliticalIndex.objects.create(name="democracy")
+        self.pi1 = PoliticalIndex.objects.create(name="test")
+        self.pv = PoliticalView.objects.create(political_index=self.pi,
+                                               user=self.user)
+        self.detail_url = '/api/v1/political_view/{0}/'.format(self.pv.pk)
+
+    def login(self):
+        return self.api_client.client.post('/login/',
+                                           {'username': 'user_a',
+                                            'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(
+                self.api_client.get('/api/v1/political_view/', format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_get_list_json_political_index(self):
+        self.login()
+        resp = self.api_client.get('/api/v1/political_index/', format='json')
+        self.assertValidJSONResponse(resp)
+
+    def test_get_list_json(self):
+        self.login()
+        resp = self.api_client.get('/api/v1/political_view/', format='json')
+        self.assertValidJSONResponse(resp)
+        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
+        # Here, we're checking an entire structure for the expected data.
+        self.assertEqual(self.deserialize(resp)['objects'][0], {
+            u'id': self.pv.pk,
+            u'user': u'/api/v1/auth/user/{0}/'.format(self.user.pk),
+            u'resource_uri': u'/api/v1/political_view/{0}/'.format(self.pv.pk),
+            u'political_index': u'/api/v1/political_index/{}/'.format(self.pi.pk),
+            u'political_view': u'democracy',
+        })
+
+    def test_create_political_view(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'political_index': 'my new political',
+        }
+        self.response = self.login()
+        self.assertHttpCreated(self.api_client.post(
+                '/api/v1/political_view/', format='json', data=post_data
+        ))
+
+    def test_create_religious_view_and_get(self):
+        post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'political_index': 'my new political view',
+        }
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/political_view/',
+                                    format='json', data=post_data)
+        self.assertEqual(self.deserialize(resp)['political_view'],
+                         post_data['political_index'])
+
+    def test_put_detail(self):
+        self.response = self.login()
+        # Grab the current data & modify it slightly.
+        self.assertEqual(str(
+                PoliticalView.objects.get(political_index__name='democracy')
+        ), 'democracy')
+        original_data = self.deserialize(
+                self.api_client.get(self.detail_url, format='json')
+        )
+        new_data = original_data.copy()
+        new_data['political_index'] = 'erlang'
+
+        self.assertEqual(PoliticalView.objects.count(), 1)
+        resp = self.api_client.put(self.detail_url, format='json',
+                                   data=new_data)
+        updated_interest = self.deserialize(resp)
+        # Make sure the count hasn't changed & we did an update.
+        self.assertEqual(PoliticalView.objects.count(), 1)
+        # Check for updated data.
+        self.assertEqual(str(
+                PoliticalView.objects.get(political_index__name='erlang')
         ), 'erlang')

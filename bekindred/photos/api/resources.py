@@ -12,7 +12,7 @@ from tastypie.utils import trailing_slash
 from friends.models import Friend
 
 from goals.utils import calculate_age, social_extra_data, calculate_distance, \
-    get_current_position
+    get_current_position, get_lives_in
 from match_engine.models import MatchEngine
 from members.models import FacebookCustomUserActive, OnBoardingFlow
 from photos.models import FacebookPhoto
@@ -84,6 +84,7 @@ class UserResource(ModelResource):
             bundle.data['match_score'] = 0
 
         bundle.data['position'] = get_current_position(bundle.obj)
+        bundle.data['lives_in'] = get_lives_in(bundle.obj)
 
         return bundle
 

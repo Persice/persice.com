@@ -37,12 +37,12 @@
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Religious views</h4>
-        <div class="profile-feature">{{profileReligion}}</div>
+        <div class="profile-feature" *ngFor="#rel of profileReligiousViews">{{rel.religious_view}}</div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
         <h4 class="module-title mb0">Political views</h4>
-        <div class="profile-feature">{{profilePoliticalViews}}</div>
+        <div class="profile-feature" *ngFor="#rel of profilePoliticalViews">{{rel.political_view}}</div>
       </div>
       <div class="hr --mh"></div>
       <div class="pt0 ph+ pb">
@@ -84,8 +84,7 @@
                   </ul>
                 </div>
               </div>
-              <a *ngIf="profileType === 'my'" (click)="openEditProfile($event)" class="btn btn-1 btn-1--filled btn-1--blue btn-1--medium">Edit</a>
-
+              <a *ngIf="profileType === 'my'" data-remodal-target="profile-edit" class="btn btn-1 btn-1--filled btn-1--blue btn-1--medium">Edit</a>
             </div>
           </div>
         </div>
@@ -110,4 +109,7 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="profileType === 'my'" class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
+  <profile-edit (refreshUser)="refreshUser($event)" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [photos]="profilePhotos" [user]="userEdit"></profile-edit>
 </div>

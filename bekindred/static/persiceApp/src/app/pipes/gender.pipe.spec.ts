@@ -24,13 +24,13 @@ describe('GenderPipe', () => {
     pipe = new GenderPipe();
   });
   it('transforms "m" to "male"', () => {
-    expect(pipe.transform('m', [])).toEqual('male');
+    expect(pipe.transform('m', [])).toEqual('Male');
   });
   it('transforms "f" to "female"', () => {
-    expect(pipe.transform('f', [])).toEqual('female');
+    expect(pipe.transform('f', [])).toEqual('Female');
   });
 
-  it('doesn\'t transform random string to "female" or "male"', () => {
+  it('doesn\'t transform random string to "Female" or "Male"', () => {
     let text = Math.random().toString(36).substring(7);
     expect(pipe.transform(text, [])).toEqual(text);
   });

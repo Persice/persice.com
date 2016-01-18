@@ -1,4 +1,6 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+
+import {mergeMap} from 'rxjs/operator/mergeMap';
 
 /** Base Class */
 import {BaseProfileComponent} from './base_profile.component';
@@ -10,6 +12,7 @@ import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
+import {ProfileEditComponent} from '../profile_edit/profile_edit.component';
 
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
@@ -17,6 +20,11 @@ import {PhotosService} from '../../services/photos.service';
 import {UserAuthService} from '../../services/userauth.service';
 import {ConnectionsService} from '../../services/connections.service';
 import {LikesService} from '../../services/likes.service';
+import {ReligiousViewsService} from '../../services/religiousviews.service';
+import {PoliticalViewsService} from '../../services/politicalviews.service';
+
+//** Directives */
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -33,27 +41,36 @@ let view = require('./profile.html');
     ProfileLikesComponent,
     ProfileFriendsComponent,
     ProfileNetworksComponent,
-    ProfileItemsComponent
+    ProfileItemsComponent,
+    ProfileEditComponent,
+    RemodalDirective
   ],
   providers: [
     ConnectionsService,
     UserAuthService,
     PhotosService,
-    LikesService
+    LikesService,
+    ReligiousViewsService
   ]
 })
 export class ProfileMyComponent extends BaseProfileComponent {
   user;
+  userEdit;
   friendsTitle: string = 'Connections';
+
+  profileReligiousIndex = [];
+  profilePoliticalIndex = [];
 
   constructor(
     public mutualfriendsService: MutualFriendsService,
     public connectionsService: ConnectionsService,
     public photosService: PhotosService,
     public userService: UserAuthService,
-    public likesService: LikesService
-    ) {
-    super(mutualfriendsService, photosService, 'my');
+    public likesService: LikesService,
+    public religiousviewsService: ReligiousViewsService,
+    public politicalviewsService: PoliticalViewsService
+  ) {
+    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'my');
   }
 
   ngOnInit() {
@@ -66,6 +83,8 @@ export class ProfileMyComponent extends BaseProfileComponent {
   }
 
   assignData(data) {
+    this.user = data;
+    this.userEdit = data;
 
     this.profileId = data.id;
     this.profileName = data.first_name;
@@ -73,12 +92,11 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.profileGender = data.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${data.distance[0]} ${data.distance[1]}`;
 
-    // this.profileLikes = [];
-    // this.profileLikesCount = this.profileLikes.length;
+    this.profileLocation = data.lives_in ? data.lives_in : '';
 
     this.profileJob = data.position && data.position.job !== null && data.position.company !== null ? `${data.position.job} at ${data.position.company}` : '';
 
-
+    this.userEdit.profession = this.profileJob;
     this.profileAvatar = data.image;
     this.profileAbout = data.about_me;
     this.profileScore = '';
@@ -97,7 +115,62 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.getConnections();
     this.getLikes();
     this.getPhotos(data.id);
+    this.getReligiousViews();
+    this.getPoliticalViews();
   }
+
+  getReligiousViews() {
+    this.religiousviewsService.my('', 100)
+      .mergeMap((data) => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects;
+          this.profileReligiousViews = items;
+        }
+        return this.religiousviewsService.getIndex('', 100);
+      })
+      .subscribe((res) => {
+        if (res.meta.total_count > 0) {
+          let itemsIndex = res.objects;
+          for (var i = 0; i < itemsIndex.length; ++i) {
+            itemsIndex[i].selected = false;
+            for (var j = 0; j < this.profileReligiousViews.length; ++j) {
+              if (itemsIndex[i].resource_uri === this.profileReligiousViews[j].religious_index) {
+                itemsIndex[i].selected = true;
+                itemsIndex[i].view_uri = this.profileReligiousViews[j].resource_uri;
+              }
+            }
+          }
+          this.profileReligiousIndex = itemsIndex;
+        }
+      });
+  }
+
+  getPoliticalViews() {
+    this.politicalviewsService.my('', 100)
+      .mergeMap((data) => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects;
+          this.profilePoliticalViews = items;
+        }
+        return this.politicalviewsService.getIndex('', 100);
+      })
+      .subscribe((res) => {
+        if (res.meta.total_count > 0) {
+          let itemsIndex = res.objects;
+          for (var i = 0; i < itemsIndex.length; ++i) {
+            itemsIndex[i].selected = false;
+            for (var j = 0; j < this.profilePoliticalViews.length; ++j) {
+              if (itemsIndex[i].resource_uri === this.profilePoliticalViews[j].political_index) {
+                itemsIndex[i].selected = true;
+                itemsIndex[i].view_uri = this.profilePoliticalViews[j].resource_uri;
+              }
+            }
+          }
+          this.profilePoliticalIndex = itemsIndex;
+        }
+      });
+  }
+
 
   transformData(arr, prop) {
     let res = [];
@@ -156,6 +229,38 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
   openEditProfile(event) {
     console.log('edit profile');
+  }
+
+  refreshUser(event) {
+    this.profileInterests = [];
+    this.profileGoals = [];
+    this.profileOffers = [];
+    this.profileInterestsCount = 0;
+    this.profileGoalsCount = 0;
+    this.profileOffersCount = 0;
+    this.getMyProfileUpdates();
+  }
+
+  getMyProfileUpdates() {
+    this.userService.findOneByUri('me')
+      .subscribe((data) => this.assignUpdates(data));
+  }
+
+  assignUpdates(data) {
+    this.user = data;
+    this.userEdit = data;
+    this.profileAbout = data.about_me;
+
+    this.profileOffers = this.transformData(data.offers, 'subject');
+    this.profileInterests = this.transformData(data.interests, 'interest_subject');
+    this.profileGoals = this.transformData(data.goals, 'subject');
+    this.profileInterestsCount = data.interests.length;
+    this.profileOffersCount = data.offers.length;
+    this.profileGoalsCount = data.goals.length;
+
+    // this.getPhotos(data.id);
+    this.getReligiousViews();
+    this.getPoliticalViews();
   }
 
 

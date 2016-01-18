@@ -1,0 +1,134 @@
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content">
+        <span class="pers-data__label">First Name <i class="pers-data__label__info">(added from Facebook)</i></span>
+      </div>
+    </div>
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content text-right">
+        <span class="pers-data__value">{{user?.first_name}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content">
+        <span class="pers-data__label">Last Name <i class="pers-data__label__info">(added from Facebook)</i></span>
+      </div>
+    </div>
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content text-right">
+        <span class="pers-data__value">{{user?.last_name}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content">
+        <span class="pers-data__label">Gender <i class="pers-data__label__info">(added from Facebook)</i></span>
+      </div>
+    </div>
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content text-right">
+        <span class="pers-data__value">{{user?.gender | gender}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content">
+        <span class="pers-data__label">Age <i class="pers-data__label__info">(added from Facebook)</i></span>
+      </div>
+    </div>
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content text-right">
+        <span class="pers-data__value">{{user?.age}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content">
+        <span class="pers-data__label">Lives In <i class="pers-data__label__info">(added from Facebook)</i></span>
+      </div>
+    </div>
+    <div class="tableize__cell 1/2">
+      <div class="tableize__content text-right">
+        <span class="pers-data__value"></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 3/5">
+      <div class="tableize__content">
+        <span class="pers-data__label">Profession <i class="pers-data__label__info">(added from Linkedin)</i></span>
+      </div>
+    </div>
+    <div class="tableize__cell 2/5">
+      <div class="tableize__content text-right">
+        <span class="pers-data__value">{{user?.profession}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 2/5">
+      <div class="tableize__content">
+        <span class="pers-data__label">Religious Views</span>
+      </div>
+    </div>
+    <div class="tableize__cell 3/5">
+      <div class="tableize__content text-right">
+        <div class="reselect"> <a href="" class="reselect__trigger js-reselect__trigger">Select Religious Views</a>
+          <div class="reselect__drop is-hidden js-reselect__drop">
+            <header class="reselect__drop__head">
+              <button class="btn reselect__done js-reselect__done">Done</button>
+            </header>
+            <ul class="reselect__drop__list">
+              <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'religious'})" [ngClass]="{'is-selected': item.selected}" *ngFor="#item of religiousViews;  #i = index">{{item.name}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 2/5">
+      <div class="tableize__content">
+        <span class="pers-data__label">Political Views</span>
+      </div>
+    </div>
+    <div class="tableize__cell 3/5">
+      <div class="tableize__content text-right">
+        <div class="reselect"> <a href="" class="reselect__trigger js-reselect__trigger">Select Political Views</a>
+          <div class="reselect__drop is-hidden js-reselect__drop">
+            <header class="reselect__drop__head">
+              <button class="btn reselect__done js-reselect__done">Done</button>
+            </header>
+            <ul class="reselect__drop__list">
+              <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'political'})" [ngClass]="{'is-selected': item.selected}" *ngFor="#item of politicalViews; #i = index">{{item.name}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data">
+  <span class="pers-data__label mt mb--">About</span>
+  <about-input [about]="user?.about_me" (loading)="loading.next($event)"></about-input>
+</div>

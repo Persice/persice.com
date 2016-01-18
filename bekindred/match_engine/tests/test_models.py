@@ -377,7 +377,7 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].first_name, 'Tati')
-        self.assertEqual(match_users[0].age, 66)
+        self.assertEqual(match_users[0].age, 67)
 
     def test_filter_keywords(self):
         Goal.objects.create(user=self.user, goal=self.subject)

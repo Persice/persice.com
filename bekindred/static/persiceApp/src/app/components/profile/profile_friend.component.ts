@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
 
 
 /** Base Class */
@@ -18,6 +18,8 @@ import {DropdownDirective} from '../../directives/dropdown.directive';
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
+import {ReligiousViewsService} from '../../services/religiousviews.service';
+import {PoliticalViewsService} from '../../services/politicalviews.service';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -38,7 +40,8 @@ let view = require('./profile.html');
     DropdownDirective
   ],
   providers: [
-    PhotosService
+    PhotosService,
+    ReligiousViewsService
   ]
 })
 export class ProfileFriendComponent extends BaseProfileComponent {
@@ -48,9 +51,11 @@ export class ProfileFriendComponent extends BaseProfileComponent {
 
   constructor(
     public mutualfriendsService: MutualFriendsService,
-    public photosService: PhotosService
+    public photosService: PhotosService,
+    public religiousviewsService: ReligiousViewsService,
+    public politicalviewsService: PoliticalViewsService
     ) {
-    super(mutualfriendsService, photosService, 'friend');
+    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'friend');
   }
 
   closeProfile(event) {

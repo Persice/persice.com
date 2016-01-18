@@ -1,4 +1,4 @@
-# Perscice Angular 2.0 App
+# Persice Angular 2.0 App
 
 Angular 2.0 Persice App using Typescript as a ECMAScript 6 standard.
 

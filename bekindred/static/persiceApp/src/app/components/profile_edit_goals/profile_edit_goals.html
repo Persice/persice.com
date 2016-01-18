@@ -1,0 +1,27 @@
+<div class="search search--remodal-tab typeahead-search">
+  <div class="search__top">
+    <svg role="img" class="icon ">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
+    </svg>
+    <input [(ngModel)]="newGoal" (keyup.enter)="addGoal($event)" type="text" class="search__input typeahead" id="goalsInput" placeholder="Enter your goal or search existing goals">
+    <button class="btn" (click)="addGoal($event)">
+      <svg role="img" class="icon ">
+        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="search__tags-wrapper text-left" id="goals">
+  <span class="search-tag-secondary" *ngFor="#item of items">
+    <a (click)="removeGoal(item)">
+      <svg role="img" class="icon icon--notsotiny">
+        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+      </svg>
+    </a>
+    {{item.subject}}
+  </span>
+
+
+</div>
+<div id="notificationEdit" *ngIf="notificationMain.active === true">{{notificationMain.body}}</div>
