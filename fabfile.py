@@ -108,15 +108,18 @@ def loaddata_collocation():
     require('hosts', provided_by=[production])
     manage_py('loaddata ./match_engine/fixtures/collocationdict.json')
 
+
 @task
 def loaddata_political():
     require('hosts', provided_by=[production])
     manage_py('loaddata ./interests/fixtures/default_political_vews.json')
 
+
 @task
 def loaddata_religious():
     require('hosts', provided_by=[production])
     manage_py('loaddata ./interests/fixtures/default_religious_vews.json')
+
 
 @task
 def update_index():
