@@ -88,20 +88,18 @@
             </div>
           </div>
         </div>
-        <div class="hr"></div>
+        <hr class="hr">
         <div class="match-profile__features pt- pb">
-          <div class="layout">
-            <div class="layout__item">
-              <profile-items [title]="'Interests'" [items]="profileInterests" [itemsCount]="profileInterestsCount"></profile-items>
-            </div>
-            <div class="hr -mh"></div>
-            <div class="layout__item">
-              <profile-items [title]="'Goals'" [items]="profileGoals" [itemsCount]="profileGoalsCount"></profile-items>
-            </div>
-            <div class="hr -mh"></div>
-            <div class="layout__item">
-              <profile-items [title]="'Offers'" [items]="profileOffers" [itemsCount]="profileOffersCount"></profile-items>
-            </div>
+          <div class="ph+ pb+ has-edit-link">
+            <profile-items [title]="'Interests'" [items]="profileInterests" [itemsCount]="profileInterestsCount"></profile-items>
+          </div>
+          <hr class="hr">
+          <div class="ph+ pb+ has-edit-link">
+            <profile-items [title]="'Goals'" [items]="profileGoals" [itemsCount]="profileGoalsCount"></profile-items>
+          </div>
+          <hr class="hr">
+          <div class="ph+ pb+ has-edit-link">
+            <profile-items [title]="'Offers'" [items]="profileOffers" [itemsCount]="profileOffersCount"></profile-items>
           </div>
         </div>
         <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>

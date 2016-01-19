@@ -486,10 +486,6 @@ a.user-messages:hover,
   cursor: pointer!important;
 }
 
-.swiper-container {
-  height: 65px;
-}
-
 textarea.c-input--error:hover {
   border-color: #ec8672!important;
 }
@@ -529,4 +525,19 @@ textarea.c-input--error:hover {
 .loader svg path,
 .loader svg rect {
   fill: #39c9f5;
+}
+
+
+/*add translate class for loading-card cmp*/
+.translate-40 {
+  -webkit-transform: translate(-40%, -40%);
+  transform: translate(-40%, -40%);
+  position: absolute;
+  left: 40%;
+  top: 40%
+}
+
+/*hide disabled swiper buttons*/
+.swiper-button-disabled {
+  visibility: hidden;
 }
