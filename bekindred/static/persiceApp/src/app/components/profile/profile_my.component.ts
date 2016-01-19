@@ -249,6 +249,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
   assignUpdates(data) {
     this.user = data;
     this.userEdit = data;
+    this.userEdit.profession = data.position && data.position.job !== null && data.position.company !== null ? `${data.position.job} at ${data.position.company}` : '';
     this.profileAbout = data.about_me;
 
     this.profileOffers = this.transformData(data.offers, 'subject');
