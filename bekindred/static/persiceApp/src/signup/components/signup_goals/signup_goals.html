@@ -7,6 +7,8 @@
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
       </svg>
       <input [(ngModel)]="newGoal" (keyup.enter)="addGoal($event)" type="text" id="goalsInput" class="search__input typeahead" placeholder="Enter your goal or search existing goals">
+      <signup-notification-success *ngIf="status === 'success'"></signup-notification-success>
+      <signup-notification-failure *ngIf="status === 'failure'"></signup-notification-failure>
       <button class="btn">
         <svg role="img" class="icon" (click)="addGoal($event)">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
