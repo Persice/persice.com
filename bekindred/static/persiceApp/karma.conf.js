@@ -61,7 +61,7 @@ module.exports = function(config) {
       pattern: './lib/js/remodal.js',
       watched: false
     }, {
-      pattern: './lib/js/slick.js',
+      pattern: './lib/js/swiper.js',
       watched: false
     }, {
       pattern: './lib/js/svg4everybody.js',
