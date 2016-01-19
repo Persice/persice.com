@@ -541,3 +541,8 @@ textarea.c-input--error:hover {
 .swiper-button-disabled {
   visibility: hidden;
 }
+
+/* fix for swiper slide max width in likes */
+.swiper-slide .user-name {
+  max-width: 69%!important;
+}
