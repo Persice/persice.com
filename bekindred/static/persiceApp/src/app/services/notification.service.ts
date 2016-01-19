@@ -1,7 +1,7 @@
 import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
-import * as Rx from 'rxjs';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operator/map';
 import { mergeMap } from 'rxjs/operator/mergeMap';
 
@@ -33,7 +33,7 @@ export class NotificationService {
   addObserver(name): void {
     let obs = { name: '', subject: null };
     obs.name = name;
-    obs.subject = new Rx.Subject(null);
+    obs.subject = new Subject(null);
     this.observers.push(obs);
   };
 
@@ -43,7 +43,7 @@ export class NotificationService {
     });
   }
 
-  observer(name): Rx.Subject<any> {
+  observer(name): Subject<any> {
     let obs = find(this.observers, (o) => {
       return o.name === name;
     });

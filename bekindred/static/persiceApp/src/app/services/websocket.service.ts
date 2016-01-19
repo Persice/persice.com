@@ -1,10 +1,7 @@
 import {provide, Injectable} from 'angular2/core';
 import {Http, Response} from 'angular2/http';
-
-import * as Rx from 'rxjs';
+import {Subject} from 'rxjs/Subject';
 import * as io from 'socket.io-client';
-
-
 import {CookieUtil} from '../core/util';
 
 const HOSTNAME = window.location.hostname;
@@ -30,16 +27,16 @@ export class WebsocketService {
   }
 
 
-  public on(evt: string): Rx.Subject<any> {
-    let subj = new Rx.Subject<any>();
+  public on(evt: string): Subject<any> {
+    let subj = new Subject<any>();
     WebsocketService._socket.on(evt, (res) => {
       subj.next(res);
     });
     return subj;
   }
 
-  public emit(evt: string, data): Rx.Subject<any> {
-    let subj = new Rx.Subject<any>();
+  public emit(evt: string, data): Subject<any> {
+    let subj = new Subject<any>();
     WebsocketService._socket.emit(evt, data, (res) => {
       subj.next(res);
     });
