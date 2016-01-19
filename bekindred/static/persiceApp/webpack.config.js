@@ -6,7 +6,6 @@
 var path = require('path');
 // Webpack Plugins
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var NotifierPlugin = require('webpack-notifier');
 var HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
@@ -32,13 +31,13 @@ module.exports = {
   // static data for index.html
   metadata: metadata,
   // for faster builds use 'eval'
-  devtool: 'source-map',
+  devtool: 'eval',
   debug: true,
   verbose: false,
   displayErrorDetails: true,
   entry: {
     'vendor': './src/vendor.ts',
-    'main': './src/main.ts',
+    // 'main': './src/main.ts'
     'signup': './src/signup/main.ts'
   },
   context: __dirname,
@@ -117,19 +116,15 @@ module.exports = {
       minChunks: Infinity
     }),
     // static assets
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
+    // new CopyWebpackPlugin([{
+    //   from: 'src/assets',
+    //   to: 'assets'
+    // }]),
     // generating html
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      inject: false
-    }),
-    //osx notifier
-    new NotifierPlugin({
-      title: "Persice"
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: 'src/index.html',
+    //   inject: false
+    // }),
   ],
 
   // Other module loader config
