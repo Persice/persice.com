@@ -52,6 +52,12 @@ module.exports = {
   resolve: {
     // ensure loader extensions match
     extensions: ['', '.ts', '.js', '.json', '.css', '.html']
+    // alias: {
+    //   'TweenLite': 'gsap/src/uncompressed/TweenLite.js',
+    //   'TweenMax': 'gsap/src/uncompressed/TweenMax.js',
+    //   'TimelineLite': 'gsap/src/uncompressed/TimelineLite.js',
+    //   'CSSPlugin': 'gsap/src/uncompressed/plugins/CSSPlugin.js',
+    // },
   },
 
   module: {
@@ -114,7 +120,8 @@ module.exports = {
       name: 'vendor',
       filename: 'vendor.bundle.js',
       minChunks: Infinity
-    }),
+    })
+    // new ProvidePlugin({TweenMax: "TweenMax"})
     // static assets
     // new CopyWebpackPlugin([{
     //   from: 'src/assets',
