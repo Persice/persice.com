@@ -37,7 +37,7 @@ module.exports = {
   displayErrorDetails: true,
   entry: {
     'vendor': './src/vendor.ts',
-    // 'main': './src/main.ts'
+    'main': './src/main.ts',
     'signup': './src/signup/main.ts'
   },
   context: __dirname,
