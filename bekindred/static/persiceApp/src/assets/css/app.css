@@ -574,3 +574,8 @@ textarea.c-input--error:hover {
 .connect-media__url--activated:hover {
   cursor: pointer;
 }
+
+/* fix for search notification in edit profile modal */
+.remodal-wrapper .search__notification {
+  text-align: center!important;
+}

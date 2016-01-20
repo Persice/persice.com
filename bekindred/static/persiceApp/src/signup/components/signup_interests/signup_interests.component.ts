@@ -227,7 +227,6 @@ export class SignupInterestsComponent {
     this.isListEmpty = false;
     this.next = '';
     this.saveLoading = false;
-    this.status = null;
     this.userInterest.splice(0, this.userInterest.length);
     this.userInterestCounter = 0;
     this.getList();

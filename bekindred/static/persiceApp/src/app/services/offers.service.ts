@@ -37,7 +37,7 @@ export class OffersService {
   public save(subject: string): Observable<any> {
     let userId = CookieUtil.getValue('userid');
     let interest = {
-      offer_subject: subject,
+      offer_subject: subject.trim(),
       user: '/api/v1/auth/user/' + userId + '/'
     };
     let body = JSON.stringify(interest);

@@ -1,16 +1,16 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {mergeMap} from 'rxjs/operator/mergeMap';
-
-import {findIndex, pluck} from 'lodash';
+import {findIndex} from 'lodash';
 
 import {InterestsService} from '../../services/interests.service';
 import {KeywordsService} from '../../services/keywords.service';
 
 import {LoadingComponent} from '../loading/loading.component';
+let view = require('./profile_edit_interests.html');
+
 
 declare var jQuery: any;
-
-let view = require('./profile_edit_interests.html');
+declare var Bloodhound: any;
 
 @Component({
   selector: 'profile-edit-interests',
@@ -22,11 +22,10 @@ let view = require('./profile_edit_interests.html');
     InterestsService,
     KeywordsService
   ]
-
 })
 export class ProfileEditInterestsComponent {
+
   @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
-  timeoutId = null;
 
   items: any[] = [];
   loading: boolean = false;
@@ -37,6 +36,9 @@ export class ProfileEditInterestsComponent {
   total_count: number = 0;
   offset: number = 0;
   newInterest = '';
+  status;
+  saveLoading = false;
+  showWarning = false;
 
   userInterest: any[] = [];
   userInterestCounter: number = 0;
@@ -49,66 +51,136 @@ export class ProfileEditInterestsComponent {
   }
 
   ngOnInit() {
+    this.initializeTokenInput();
     this.getList();
   }
 
-  addInterest(event) {
+  ngOnDestroy() {
 
-    if (this.newInterest.length === 0) {
+  }
 
+  initializeTokenInput() {
+    let keywordsEngine = new Bloodhound({
+      remote: {
+        url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
+        filter: (x: any) => {
+          return jQuery.map(x.objects, (item) => {
+            return item.description;
+          });
+        },
+        wildcard: '%QUERY'
+      },
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace
+    });
+
+    keywordsEngine.initialize();
+
+    jQuery('#interestsInput').typeahead(
+      {
+        hint: false,
+        highlight: true,
+        minLength: 2,
+        limit: 20
+      },
+      {
+        source: keywordsEngine
+      }
+    );
+
+    jQuery('#interestsInput').bind('typeahead:select', (ev, suggestion) => {
+      if (this.saveLoading) {
+        return;
+      }
+      this.saveLoading = true;
+      this.loadingEvent.next(true);
+      this.saveInterest(suggestion);
+    });
+
+  }
+
+  saveInterest(interest) {
+    if (interest.length === 0 || interest.length > 100) {
+      this.status = 'failure';
+      this.saveLoading = false;
+      this.loadingEvent.next(false);
       return;
     }
 
-    if (this.newInterest.length > 100) {
-
-      return;
-    }
-
-    this.loadingEvent.next(true);
-
-    let idx = findIndex(this.items, 'description', this.newInterest);
-
+    let idx = findIndex(this.items, 'description', interest);
     if (this.items[idx]) {
       if (!this.items[idx].active) {
         this.interestsService.save(this.items[idx].description)
           .subscribe((res) => {
+            this.saveLoading = false;
+            this.loadingEvent.next(false);
             this.items[idx].active = true;
             this.items[idx].interest_resource = res.resource_uri;
             this.userInterestCounter++;
+            this.status = 'success';
+            this.newInterest = '';
+            jQuery('#interestsInput').typeahead('val', '');
+          },
+          (err) => {
+            this.status = 'failure';
+            this.saveLoading = false;
             this.loadingEvent.next(false);
-          });
+          },
+          () => { });
       }
       else {
-
+        this.status = 'failure';
+        this.saveLoading = false;
+        this.loadingEvent.next(false);
       }
     }
     else {
       //create new interest
-      this.interestsService.save(this.newInterest)
+      this.interestsService.save(interest)
         .subscribe((res) => {
+          this.saveLoading = false;
+          this.loadingEvent.next(false);
           let newItem = res;
           newItem.active = true;
           newItem.description = res.interest_subject;
           newItem.interest_resource = res.resource_uri;
           this.items.push(newItem);
 
-          this.userInterestCounter++;
-          this.newInterest = '';
-          this.refreshList();
-          this.loadingEvent.next(false);
+          this.status = 'success';
 
-        });
+          this.userInterestCounter++;
+
+          this.newInterest = '';
+          jQuery('#interestsInput').typeahead('val', '');
+          this.refreshList();
+
+        },
+        (err) => {
+          this.status = 'failure';
+          this.saveLoading = false;
+          this.loadingEvent.next(false);
+        },
+        () => { });
     }
   }
 
-  onSearchInputChanged() {
-    if (this.timeoutId) {
-      window.clearTimeout(this.timeoutId);
+  inputChanged(event) {
+    //if key is not enter clear notification
+    if (event.which !== 13) {
+      this.status = null;
     }
-    this.timeoutId = setTimeout(() => {
-      this.refreshList();
-    }, 300);
+    else { //if key is entered
+      this.addInterest();
+    }
+  }
 
+  addInterest() {
+    if (this.saveLoading) {
+      return;
+    }
+    this.saveLoading = true;
+    this.loadingEvent.next(true);
+    this.saveInterest(this.newInterest);
   }
 
   getList() {
@@ -138,10 +210,12 @@ export class ProfileEditInterestsComponent {
 
   refreshList() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
-    this.items = [];
+    this.items.splice(0, this.items.length);
     this.isListEmpty = false;
     this.next = '';
-    this.userInterest = [];
+    this.saveLoading = false;
+    this.loadingEvent.next(false);
+    this.userInterest.splice(0, this.userInterest.length);
     this.userInterestCounter = 0;
     this.getList();
   }
@@ -202,6 +276,7 @@ export class ProfileEditInterestsComponent {
 
 
   onInterestClick(event) {
+    this.status = null;
 
     let idx = findIndex(this.items, event);
     this.loadingEvent.next(true);
@@ -210,8 +285,7 @@ export class ProfileEditInterestsComponent {
         //deselect interest
         let url = this.items[idx].interest_resource;
 
-        this.interestsService
-          .delete(url)
+        this.interestsService.delete(url)
           .subscribe((res) => {
             this.items[idx].active = false;
             this.items[idx].interest_resource = null;
@@ -220,19 +294,18 @@ export class ProfileEditInterestsComponent {
           });
       }
       else {
-        this.interestsService
-          .save(this.items[idx].description)
+        //select interest
+        this.interestsService.save(this.items[idx].description)
           .subscribe((res) => {
             this.items[idx].active = true;
             this.items[idx].interest_resource = res.resource_uri;
             this.userInterestCounter++;
             this.loadingEvent.next(false);
           });
-
-
       }
     }
   }
+
 
 
 }
