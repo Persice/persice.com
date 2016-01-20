@@ -1,9 +1,8 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-
-import {findIndex, pluck} from 'lodash';
+import {CanActivate, ComponentInstruction} from 'angular2/router';
+import {findIndex} from 'lodash';
 
 import {OffersService} from '../../../app/services/offers.service';
-import {NotificationService} from '../../../app/services/notification.service';
 
 import {LoadingComponent} from '../../../app/components/loading/loading.component';
 let view = require('./signup_offers.html');
@@ -19,11 +18,10 @@ declare var Bloodhound: any;
     LoadingComponent
   ]
 })
+@CanActivate(() => true)
 export class SignupOffersComponent {
 
   @Output() counter: EventEmitter<any> = new EventEmitter();
-
-  timeoutId = null;
 
   items: any[] = [];
   loading: boolean = false;
@@ -34,17 +32,22 @@ export class SignupOffersComponent {
   total_count: number = 0;
   offset: number = 0;
   newOffer = '';
+  status;
+  saveLoading = false;
 
   constructor(
-    private offersService: OffersService,
-    private notificationService: NotificationService
-  ) {
+    private offersService: OffersService
+    ) {
 
   }
 
+  routerOnActivate(next: ComponentInstruction, prev: ComponentInstruction) {
+    console.log(`Finished navigating from "${prev ? prev.urlPath : 'null'}" to "${next.urlPath}"`);
+  }
+
   ngOnInit() {
-    this.getList();
     this.initializeTokenInput();
+    this.getList();
   }
 
   ngOnDestroy() {
@@ -68,7 +71,6 @@ export class SignupOffersComponent {
 
     keywordsEngine.initialize();
 
-
     jQuery('#offersInput').typeahead(
       {
         hint: false,
@@ -79,75 +81,73 @@ export class SignupOffersComponent {
       {
         source: keywordsEngine
       }
-    );
+      );
 
     jQuery('#offersInput').bind('typeahead:select', (ev, suggestion) => {
-      console.log('Selection: ' + suggestion);
-      this.newOffer = suggestion;
-      // this.addOffer(true);
+      if (this.saveLoading) {
+        return;
+      }
+      this.saveLoading = true;
+      this.saveOffer(suggestion);
     });
-
 
   }
 
-  addOffer(event) {
+  saveOffer(offer) {
 
-    if (this.newOffer.length === 0) {
-      this.notificationService.push({
-        type: 'warning',
-        title: '',
-        body: `Please enter your offer first.`,
-        autoclose: 4000
-      });
+    if (offer.length === 0 || offer.length > 100) {
+      this.status = 'failure';
+      this.saveLoading = false;
       return;
     }
 
-    if (this.newOffer.length > 100) {
-      this.notificationService.push({
-        type: 'warning',
-        title: '',
-        body: `New offer must have less than 100 characters.`,
-        autoclose: 4000
-      });
-      return;
-    }
-
-    this.offersService.save(this.newOffer)
+    this.offersService.save(offer)
       .subscribe((res) => {
-        let newItem = res;
-        this.items.push(newItem);
-
-        this.notificationService.push({
-          type: 'success',
-          title: '',
-          body: `Offer '${this.newOffer}' has been successfully created.`,
-          autoclose: 4000
-        });
-
-        this.total_count++;
-        this.counter.next({
-          type: 'offers',
-          count: this.total_count
-        });
-
-        this.newOffer = '';
-        jQuery('#offersInput').typeahead('val', '');
-
-      }, (err) => {
-        console.log(err);
+      let newItem = res;
+      this.items.push(newItem);
+      this.status = 'success';
+      this.total_count++;
+      this.counter.next({
+        type: 'offers',
+        count: this.total_count
+      });
+      if (this.total_count === 0) {
+        this.isListEmpty = true;
+      }
+      else {
+        this.isListEmpty = false;
+      }
+      this.newOffer = '';
+      jQuery('#offersInput').typeahead('val', '');
+      this.saveLoading = false;
+    }, (err) => {
         let error = JSON.parse(err._body);
         if ('offer' in error) {
-          this.notificationService.push({
-            type: 'error',
-            title: '',
-            body: `${error.offer.error[0]}`,
-            autoclose: 4000
-          });
+          this.status = 'failure';
         }
+        this.saveLoading = false;
       }, () => {
 
       });
+  }
 
+  inputChanged(event) {
+    //if key is not enter clear notification
+    if (event.which !== 13) {
+      this.status = null;
+    }
+    else { //if key is entered
+      this.addOffer();
+    }
+
+  }
+
+  addOffer() {
+    if (this.saveLoading) {
+      return;
+    }
+    this.saveLoading = true;
+    this.saveOffer(this.newOffer);
   }
 
   removeOffer(event) {
@@ -155,13 +155,19 @@ export class SignupOffersComponent {
     if (this.items[idx]) {
       this.offersService.delete(event.resource_uri)
         .subscribe((res) => {
-          this.items.splice(idx, 1);
-          this.total_count--;
-          this.counter.next({
-            type: 'offers',
-            count: this.total_count
-          });
+        this.items.splice(idx, 1);
+        this.total_count--;
+        this.counter.next({
+          type: 'offers',
+          count: this.total_count
         });
+        if (this.total_count === 0) {
+          this.isListEmpty = true;
+        }
+        else {
+          this.isListEmpty = false;
+        }
+      });
     }
 
   }
@@ -173,7 +179,6 @@ export class SignupOffersComponent {
     this.offersService.get(this.next, 100)
       .subscribe(data => this.assignList(data),
       (err) => {
-        console.log(err);
         this.loading = false;
       },
       () => {
@@ -195,6 +200,7 @@ export class SignupOffersComponent {
     this.loading = false;
 
     this.total_count = data.meta.total_count;
+
     this.counter.next({
       type: 'offers',
       count: this.total_count
