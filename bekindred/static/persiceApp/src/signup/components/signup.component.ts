@@ -12,12 +12,9 @@ import {InterestsService} from '../../app/services/interests.service';
 import {KeywordsService} from '../../app/services/keywords.service';
 import {GoalsService} from '../../app/services/goals.service';
 import {OffersService} from '../../app/services/offers.service';
-import {UserService} from '../../app/services/user.service';
 import {UserAuthService} from '../../app/services/userauth.service';
 import {OnboardingService} from '../../app/services/onboarding.service';
-
-import {NotificationComponent} from '../../app/components/notification/notification.component';
-import {InterfaceNotification} from '../../app/models/notification.model';
+import {WarningService} from '../../app/services/warning.service';
 
 let view = require('./signup.html');
 
@@ -26,17 +23,16 @@ let view = require('./signup.html');
   selector: 'persice-signup',
   directives: [
     SignupHeaderComponent,
-    ROUTER_DIRECTIVES,
-    NotificationComponent
+    ROUTER_DIRECTIVES
   ],
   providers: [
     InterestsService,
     GoalsService,
     OffersService,
     KeywordsService,
-    UserService,
     UserAuthService,
-    OnboardingService
+    OnboardingService,
+    WarningService
   ]
 })
 @RouteConfig([
@@ -75,9 +71,6 @@ export class SignupComponent {
   @ViewChild(SignupGoalsComponent) myElem2: SignupGoalsComponent;
   @ViewChild(SignupOffersComponent) myElem3: SignupOffersComponent;
 
-
-
-
   page: number = 1;
   cGoa: number = 0;
   cOff: number = 0;
@@ -89,8 +82,6 @@ export class SignupComponent {
 
   router: Router;
   location: Location;
-
-  timeoutId = null;
 
   notificationMain = {
     body: '',
@@ -105,9 +96,9 @@ export class SignupComponent {
     private goalsService: GoalsService,
     private offersService: OffersService,
     private interestsService: InterestsService,
-    private userService: UserService,
     private userAuthService: UserAuthService,
-    private onboardingService: OnboardingService
+    private onboardingService: OnboardingService,
+    private warningService: WarningService
   ) {
     this.router = router;
     this.location = location;
@@ -120,7 +111,12 @@ export class SignupComponent {
         subs = null;
       }
       if (this.myElem1) {
-        subs = this.myElem1.counter.subscribe(message => this.onCounterChanged(message));
+        subs = this.myElem1.counter.subscribe(message => {
+          this.onCounterChanged(message);
+          if (message.count >= 3) {
+            this.warningService.push(false);
+          }
+        });
       }
 
       if (this.myElem2) {
@@ -137,16 +133,11 @@ export class SignupComponent {
 
   ngOnInit() {
 
-    this.userService.get().subscribe((data) => {
-      let res = data.objects[0];
-      this.cGoa = res.goals_count;
-      this.cOff = res.offers_count;
-      this.cInt = res.interest_count;
-      this.is_complete = res.onboardingflow;
-    });
-
     this.userAuthService.findOneByUri('me').subscribe((data) => {
       let res = data;
+      this.cGoa = res.goals.length;
+      this.cOff = res.offers.length;
+      this.cInt = res.interests.length;
       this.is_complete = res.onboardingflow;
     });
   }
@@ -193,16 +184,16 @@ export class SignupComponent {
 
 
   next(event) {
-    console.log('clicked next');
     if (this.nextStep) {
-
-
       switch (this.nextStep) {
         case 'SignupGoals':
-          //check if user selected 3 interests
+          //check if user selected less than 3 interests
           if (this.cInt < 3) {
-
+            this.warningService.push(true);
             return;
+          }
+          else {
+            this.warningService.push(false);
           }
           break;
 
@@ -232,7 +223,6 @@ export class SignupComponent {
       this.onboardingService.complete().subscribe((data) => {
         window.location.href = '/#/crowd';
       }, (err) => {
-        console.log(err);
       }, () => {
 
       });
