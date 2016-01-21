@@ -275,6 +275,13 @@ class ConnectionsResource2(Resource):
     position = fields.DictField(attribute="position", null=True, blank=True)
     lives_in = fields.CharField(attribute="lives_in", null=True, blank=True)
 
+    twitter_provider = fields.CharField(attribute="twitter_provider",
+                                        null=True, blank=True)
+    linkedin_provider = fields.CharField(attribute="linkedin_provider",
+                                         null=True, blank=True)
+    twitter_username = fields.CharField(attribute="twitter_username",
+                                        null=True, blank=True)
+
     class Meta:
         resource_name = 'connections2'
         authentication = SessionAuthentication()

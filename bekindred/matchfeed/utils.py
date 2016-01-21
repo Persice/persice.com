@@ -8,6 +8,7 @@ from nltk.stem.porter import PorterStemmer
 from nltk.corpus import wordnet as wn
 
 from django_facebook.models import FacebookLike
+from social_auth.db.django_models import UserSocialAuth
 
 from events import Event
 from events.utils import get_cum_score
@@ -156,8 +157,6 @@ class MatchUser(object):
         self.gender = self.user.gender or 'm,f'
         self.about = self.user.about_me
         self.photos = []
-        self.twitter_provider, self.linkedin_provider, self.twitter_username = \
-            social_extra_data(self.user.id)
         self.distance = calculate_distance_es(current_user_id, user_object)
         # Scores
         self.score = self.match_score()
@@ -168,6 +167,8 @@ class MatchUser(object):
         self.keywords = self.get_keywords(user_object)
         self.position = get_current_position(self.user)
         self.lives_in = get_lives_in(self.user)
+        self.linkedin_provider = self.get_linkedin_data()
+        self.twitter_username, self.twitter_provider = self.get_twitter_data()
 
     def get_user_info(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
@@ -292,6 +293,27 @@ class MatchUser(object):
         except KeyError as er:
             print er
         return [result]
+
+    def get_twitter_data(self):
+        twitter_name, twitter_provider = None, None
+        try:
+            qs = UserSocialAuth.objects.filter(
+                    user_id=self.user_id, provider='twitter')[0]
+            twitter_provider = qs.extra_data['name']
+            twitter_name = qs.extra_data['screen_name']
+        except IndexError:
+            pass
+        return twitter_name, twitter_provider
+
+    def get_linkedin_data(self):
+        linkedin_provider = None
+        try:
+            linkedin_provider = UserSocialAuth.objects.filter(
+                    user_id=self.user_id, provider='linkedin'
+            )[0].extra_data['public_profile_url']
+        except IndexError:
+            pass
+        return linkedin_provider
 
 
 class MatchEvent(object):
