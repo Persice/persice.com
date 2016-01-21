@@ -9,6 +9,9 @@ import {ProfileFriendComponent} from '../profile/profile_friend.component';
 import {ConnectionsService} from '../../services/connections.service';
 import {FilterService} from '../../services/filter.service';
 
+
+import {findIndex} from 'lodash';
+
 let view = require('./connections.html');
 
 declare var jQuery: any;
@@ -141,6 +144,25 @@ export class ConnectionsComponent {
   closeProfile(event) {
     this.profileViewActive = false;
     this.selectedUser = null;
+  }
+
+  previousProfile(event) {
+    let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
+    let newIndex = currentIndex - 1;
+
+    if (newIndex < 0) {
+      newIndex = this.items.length - 1;
+    }
+    this.selectedUser = this.items[newIndex];
+  }
+
+  nextProfile(event) {
+    let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
+    let newIndex = currentIndex + 1;
+    if (newIndex > this.items.length - 1) {
+      newIndex = 0;
+    }
+    this.selectedUser = this.items[newIndex];
   }
 
   handleScrollEvent(event) {

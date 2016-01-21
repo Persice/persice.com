@@ -9,5 +9,5 @@
   </div>
 </div>
 
-<profile-friend *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)">
+<profile-friend [count]="total_count" (previousEvent)="previousProfile($event)" (nextEvent)="nextProfile($event)" *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)">
 </profile-friend>
