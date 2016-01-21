@@ -149,20 +149,28 @@ export abstract class BaseProfileComponent {
   }
 
   assignMutualFriends(data) {
-    if (data.meta.total_count > 0) {
-      let items = data.objects[0];
-      this.profileFriendsCount += parseInt(items.mutual_bk_friends_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_fb_friends_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_linkedin_connections_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_twitter_followers_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_twitter_friends_count, 10);
+    this.profileFriendsCount = 0;
+    this.profileFriends.mutual_bk_friends = [];
+    this.profileFriends.mutual_fb_friends = [];
+    this.profileFriends.mutual_linkedin_connections = [];
+    this.profileFriends.mutual_twitter_friends = [];
+    this.profileFriends.mutual_twitter_followers = [];
+    setTimeout(() => {
+      if (data.meta.total_count > 0) {
+        let items = data.objects[0];
+        this.profileFriendsCount += parseInt(items.mutual_bk_friends_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_fb_friends_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_linkedin_connections_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_twitter_followers_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_twitter_friends_count, 10);
 
-      this.profileFriends.mutual_bk_friends = items.mutual_bk_friends;
-      this.profileFriends.mutual_fb_friends = items.mutual_fb_friends;
-      this.profileFriends.mutual_linkedin_connections = items.mutual_linkedin_connections;
-      this.profileFriends.mutual_twitter_friends = items.mutual_twitter_friends;
-      this.profileFriends.mutual_twitter_followers = items.mutual_twitter_followers;
-    }
+        this.profileFriends.mutual_bk_friends = items.mutual_bk_friends;
+        this.profileFriends.mutual_fb_friends = items.mutual_fb_friends;
+        this.profileFriends.mutual_linkedin_connections = items.mutual_linkedin_connections;
+        this.profileFriends.mutual_twitter_friends = items.mutual_twitter_friends;
+        this.profileFriends.mutual_twitter_followers = items.mutual_twitter_followers;
+      }
+    });
   }
 
   assignReligiousViews(data) {
