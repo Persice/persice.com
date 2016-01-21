@@ -107,7 +107,7 @@ export class ProfileEditInterestsComponent {
       return;
     }
 
-    let idx = findIndex(this.items, 'description', interest);
+    let idx = findIndex(this.items, { 'description': interest });
     if (this.items[idx]) {
       if (!this.items[idx].active) {
         this.interestsService.save(this.items[idx].description)
