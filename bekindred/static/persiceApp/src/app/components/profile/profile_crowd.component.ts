@@ -44,9 +44,12 @@ let view = require('./profile.html');
 export class ProfileCrowdComponent extends BaseProfileComponent {
   @Input() user;
   @Input() type;
+  @Input() count;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
+  @Output() nextEvent: EventEmitter<any> = new EventEmitter;
+  @Output() previousEvent: EventEmitter<any> = new EventEmitter;
   friendsTitle: string = 'Mutual Connections';
 
   constructor(
@@ -54,8 +57,14 @@ export class ProfileCrowdComponent extends BaseProfileComponent {
     public photosService: PhotosService,
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService
-    ) {
+  ) {
     super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'crowd');
+  }
+
+  ngOnChanges(values) {
+    if (values.user && values.user.currentValue) {
+      this.assignUser();
+    }
   }
 
   passUser(event) {
