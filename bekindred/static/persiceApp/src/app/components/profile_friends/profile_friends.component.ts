@@ -25,6 +25,7 @@ export class ProfileFriendsComponent {
         spaceBetween: 5
       }
     },
-    lazyLoading: true
+    observer: true,
+    initialSlide: 0
   });
 }
