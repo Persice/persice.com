@@ -1,4 +1,4 @@
-import {take, slice, keys, keysIn, forEach, merge, filter, assign, defaults, sortByOrder} from 'lodash';
+import {take, slice, keys, keysIn, forEach, merge, filter, assign, defaults, orderBy} from 'lodash';
 
 
 declare var jstz: any;
@@ -16,7 +16,7 @@ export class ListUtil {
   }
 
   static orderBy(arr: any[], iteratees, order): any[] {
-    return sortByOrder(arr, iteratees, order);
+    return orderBy(arr, iteratees, order);
   }
 
   static filter(arr: any[], property, value): any[] {
@@ -110,7 +110,7 @@ export class ObjectUtil {
         });
       }
     }
-    return sortByOrder(take(keys, n), ['match'], ['desc']);
+    return orderBy(take(keys, n), ['match'], ['desc']);
   }
 
   //transform and take first n items from {key: value} to [{value: VALUE, match: 1|0}]
@@ -167,7 +167,7 @@ export class ObjectUtil {
         });
       }
     }
-    return sortByOrder(keys, ['match'], ['desc']);
+    return orderBy(keys, ['match'], ['desc']);
   }
 
 
