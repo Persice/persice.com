@@ -65,7 +65,7 @@ export abstract class BaseProfileComponent {
   }
 
   ngOnInit() {
-    this.assignUser();
+    // this.assignUser();
   }
 
   assignUser() {
@@ -137,10 +137,15 @@ export abstract class BaseProfileComponent {
   }
 
   assignPhotos(data) {
-    if (data.meta.total_count > 0) {
-      this.profilePhotos = data.objects.reverse();
-      this.profilePhotosCount = this.profilePhotos.length;
-    }
+    this.profilePhotosCount = 0;
+    this.profilePhotos = [];
+    setTimeout(() => {
+      if (data.meta.total_count > 0) {
+        this.profilePhotos = data.objects.reverse();
+        this.profilePhotosCount = this.profilePhotos.length;
+      }
+    });
+
   }
 
   assignMutualFriends(data) {

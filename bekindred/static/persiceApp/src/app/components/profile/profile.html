@@ -1,4 +1,14 @@
-<div class="platform m">
+<a class="page-arrow page-arrow--prev" *ngIf="count > 1 && (profileType === 'crowd' || profileType === 'friend')" (click)="previousEvent.next($event)">
+  <svg role="img" class="icon ">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-arrow_left"></use>
+  </svg>
+</a>
+<a class="page-arrow page-arrow--next" *ngIf="count > 1 && (profileType === 'crowd' || profileType === 'friend')" (click)="nextEvent.next($event)">
+  <svg role="img" class="icon ">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-arrow_right"></use>
+  </svg>
+</a>
+<div class="platform m" id="userprofile">
   <a (click)="closeProfile($event)" class="platform__back">
     <svg role="img" class="icon ">
       <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>
@@ -7,7 +17,7 @@
   <div class="tableize tableize--fixed tableize--full content">
     <div class="tableize__cell 3/12 my-profile">
       <profile-avatar [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
-      <div class="layout layout--flush pt- ph pl+">
+      <div class="layout layout--flush pt- ph pl+ unselectable">
         <div class="layout__item 1/3">
           <h2 class="module-title mb0">gender</h2>
         </div>

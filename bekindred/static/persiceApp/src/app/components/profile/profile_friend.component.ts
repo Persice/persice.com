@@ -46,7 +46,10 @@ let view = require('./profile.html');
 })
 export class ProfileFriendComponent extends BaseProfileComponent {
   @Input() user;
+  @Input() count;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
+  @Output() nextEvent: EventEmitter<any> = new EventEmitter;
+  @Output() previousEvent: EventEmitter<any> = new EventEmitter;
   friendsTitle: string = 'Mutual Connections';
 
   constructor(
@@ -54,9 +57,16 @@ export class ProfileFriendComponent extends BaseProfileComponent {
     public photosService: PhotosService,
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService
-    ) {
+  ) {
     super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'friend');
   }
+
+  ngOnChanges(values) {
+    if (values.user && values.user.currentValue) {
+      this.assignUser();
+    }
+  }
+
 
   closeProfile(event) {
     this.closeprofileEvent.next(event);

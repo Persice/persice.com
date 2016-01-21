@@ -9,11 +9,10 @@
         <br>broaden your search criteria</p>
       <img src="/static/persiceApp/src/assets/images/polar-bear.png" alt="Polar Bear">
     </div>
-
   </div>
   <div class="layout__item 1/4 extralarge-and-up-1/5 filter-place">
     <filters></filters>
   </div>
 </div>
-<profile-crowd *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
+<profile-crowd [count]="total_count" (previousEvent)="previousProfile($event)" (nextEvent)="nextProfile($event)" *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
 </profile-crowd>

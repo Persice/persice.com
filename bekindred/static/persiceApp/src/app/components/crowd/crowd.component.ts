@@ -11,7 +11,7 @@ import {FriendService} from '../../services/friend.service';
 import {FilterService} from '../../services/filter.service';
 import {NotificationService} from '../../services/notification.service';
 
-import {remove} from 'lodash';
+import {remove, findIndex} from 'lodash';
 
 let view = require('./crowd.html');
 
@@ -47,7 +47,7 @@ export class CrowdComponent {
     public friendService: FriendService,
     public filterService: FilterService,
     public notificationService: NotificationService
-    ) {
+  ) {
 
   }
 
@@ -154,29 +154,29 @@ export class CrowdComponent {
     this.friendService.saveFriendship(-1, event)
       .subscribe(data => {
 
-      let usr;
-      for (var i = this.items.length - 1; i >= 0; i--) {
-        if (this.items[i].id === event) {
-          usr = this.items[i];
+        let usr;
+        for (var i = this.items.length - 1; i >= 0; i--) {
+          if (this.items[i].id === event) {
+            usr = this.items[i];
+          }
         }
-      }
 
-      remove(this.items, (item) => {
-        return item.id === event;
+        remove(this.items, (item) => {
+          return item.id === event;
+        });
+
+
+
+
+        this.notificationService.push({
+          type: 'warning',
+          title: '',
+          body: `${usr.first_name} has been removed from crowd.`,
+          autoclose: 4000
+        });
+
+        this.selectedUser = null;
       });
-
-
-
-
-      this.notificationService.push({
-        type: 'warning',
-        title: '',
-        body: `${usr.first_name} has been removed from crowd.`,
-        autoclose: 4000
-      });
-
-      this.selectedUser = {};
-    });
 
   }
 
@@ -185,26 +185,26 @@ export class CrowdComponent {
     this.friendService.saveFriendship(0, event)
       .subscribe(data => {
 
-      let usr;
-      for (var i = this.items.length - 1; i >= 0; i--) {
-        if (this.items[i].id === event) {
-          usr = this.items[i];
+        let usr;
+        for (var i = this.items.length - 1; i >= 0; i--) {
+          if (this.items[i].id === event) {
+            usr = this.items[i];
+          }
         }
-      }
 
-      remove(this.items, (item) => {
-        return item.id === event;
+        remove(this.items, (item) => {
+          return item.id === event;
+        });
+
+        this.notificationService.push({
+          type: 'success',
+          title: 'Success',
+          body: `You sent friendship request to ${usr.first_name}.`,
+          autoclose: 4000
+        });
+
+       this.selectedUser = null;
       });
-
-      this.notificationService.push({
-        type: 'success',
-        title: 'Success',
-        body: `You sent friendship request to ${usr.first_name}.`,
-        autoclose: 4000
-      });
-
-      this.selectedUser = {};
-    });
 
   }
 
@@ -212,6 +212,26 @@ export class CrowdComponent {
   closeProfile(event) {
     this.profileViewActive = false;
     this.selectedUser = null;
+  }
+
+
+  previousProfile(event) {
+    let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
+    let newIndex = currentIndex - 1;
+
+    if (newIndex < 0) {
+      newIndex = this.items.length - 1;
+    }
+    this.selectedUser = this.items[newIndex];
+  }
+
+  nextProfile(event) {
+    let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
+    let newIndex = currentIndex + 1;
+    if (newIndex > this.items.length - 1) {
+      newIndex = 0;
+    }
+    this.selectedUser = this.items[newIndex];
   }
 
 

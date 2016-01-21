@@ -550,7 +550,8 @@ textarea.c-input--error:hover {
 
 .search__notification.is-visible,
 .tt-menu.tt-open,
-.signup-empty-state.is-visible {
+.signup-empty-state.is-visible,
+.userprofile.is-visible {
   opacity: 1;
   visibility: visible;
   transition: ease .5s all;
@@ -558,7 +559,8 @@ textarea.c-input--error:hover {
 
 .search__notification,
 .tt-menu,
-.signup-empty-state {
+.signup-empty-state,
+.userprofile {
   opacity: 0;
   visibility: hidden;
 }
@@ -575,7 +577,43 @@ textarea.c-input--error:hover {
   cursor: pointer;
 }
 
+
 /* fix for search notification in edit profile modal */
+
 .remodal-wrapper .search__notification {
   text-align: center!important;
+}
+
+.page-arrow:hover {
+  cursor: pointer;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.avatar-place__pagination {
+  transition: ease .5s all;
+  opacity: 0;
+  visibility: hidden;
+  height: 30px;
+}
+
+.avatar-place__pagination.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.match-profile__avatar-place {
+  margin-bottom: 0px!important;
+}
+
+.match-profile__avatar {
+  transition: ease .5s all;
 }
