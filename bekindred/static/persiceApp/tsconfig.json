@@ -145,6 +145,7 @@
     "./src/app/services/services.ts",
     "./src/app/services/user.service.ts",
     "./src/app/services/userauth.service.ts",
+    "./src/app/services/userprofile.service.ts",
     "./src/app/services/warning.service.ts",
     "./src/app/services/websocket.service.ts",
     "./src/main.ts",

@@ -18,6 +18,7 @@ let view = require('./profile_avatar.html');
 })
 export class ProfileAvatarComponent {
   @Input() type;
+  @Input() loading;
   @Input() avatar;
   @Input() images;
   @Input() score;
@@ -28,7 +29,8 @@ export class ProfileAvatarComponent {
     pagination: '.js-avatar-place__pagination',
     paginationClickable: true,
     observer: true,
-    initialSlide: 0
+    initialSlide: 0,
+    lazyload: true
   });
 
 }

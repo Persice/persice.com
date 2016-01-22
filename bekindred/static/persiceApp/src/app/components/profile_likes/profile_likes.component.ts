@@ -23,8 +23,6 @@ export class ProfileLikesComponent {
         slidesPerView: 2,
         spaceBetween: 5
       }
-    },
-    observer: true,
-    initialSlide: 0
+    }
   });
 }

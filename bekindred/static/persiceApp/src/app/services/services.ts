@@ -24,6 +24,7 @@ import {politicalViewsServiceInjectables} from './politicalviews.service';
 import {religiousViewsServiceInjectables} from './religiousviews.service';
 import {searchServiceInjectables} from './search.service';
 import {userAuthServiceInjectables} from './userauth.service';
+import {userProfileServiceInjectables} from './userprofile.service';
 import {userServiceInjectables} from './user.service';
 import {warningServiceInjectables} from './warning.service';
 import {websocketServiceInjectables} from './websocket.service';
@@ -56,6 +57,7 @@ export * from './search.service';
 export * from './search.service';
 export * from './user.service';
 export * from './userauth.service';
+export * from './userprofile.service';
 export * from './warning.service';
 export * from './websocket.service';
 
@@ -85,6 +87,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   religiousViewsServiceInjectables,
   searchServiceInjectables,
   userAuthServiceInjectables,
+  userProfileServiceInjectables,
   userServiceInjectables,
   warningServiceInjectables,
   websocketServiceInjectables

@@ -14,13 +14,7 @@ import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
 
 /** Services */
-import {MutualFriendsService} from '../../services/mutualfriends.service';
-import {PhotosService} from '../../services/photos.service';
-import {ReligiousViewsService} from '../../services/religiousviews.service';
-import {PoliticalViewsService} from '../../services/politicalviews.service';
-
-/** Utils */
-import {ObjectUtil} from '../../core/util';
+import {UserProfileService} from '../../services/userprofile.service';
 
 /** View */
 let view = require('./profile.html');
@@ -38,7 +32,7 @@ let view = require('./profile.html');
     ProfileItemsComponent
   ],
   providers: [
-    PhotosService
+    UserProfileService
   ]
 })
 export class ProfileCrowdComponent extends BaseProfileComponent {
@@ -53,12 +47,9 @@ export class ProfileCrowdComponent extends BaseProfileComponent {
   friendsTitle: string = 'Mutual Connections';
 
   constructor(
-    public mutualfriendsService: MutualFriendsService,
-    public photosService: PhotosService,
-    public religiousviewsService: ReligiousViewsService,
-    public politicalviewsService: PoliticalViewsService
+    public userProfileService: UserProfileService
   ) {
-    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'crowd');
+    super(userProfileService, 'crowd');
   }
 
   ngOnChanges(values) {
@@ -68,14 +59,27 @@ export class ProfileCrowdComponent extends BaseProfileComponent {
   }
 
   passUser(event) {
+    this.unsubscribe();
     this.passEvent.next(event);
   }
 
   acceptUser(event) {
+    this.unsubscribe();
     this.acceptEvent.next(event);
   }
 
+  nextProfile(event) {
+    this.unsubscribe();
+    this.nextEvent.next(event);
+  }
+
+  previousProfile(event) {
+    this.unsubscribe();
+    this.previousEvent.next(event);
+  }
+
   closeProfile(event) {
+    this.unsubscribe();
     this.closeprofileEvent.next(event);
   }
 

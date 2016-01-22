@@ -16,10 +16,8 @@ import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {DropdownDirective} from '../../directives/dropdown.directive';
 
 /** Services */
-import {MutualFriendsService} from '../../services/mutualfriends.service';
-import {PhotosService} from '../../services/photos.service';
-import {ReligiousViewsService} from '../../services/religiousviews.service';
-import {PoliticalViewsService} from '../../services/politicalviews.service';
+import {UserProfileService} from '../../services/userprofile.service';
+
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -40,8 +38,7 @@ let view = require('./profile.html');
     DropdownDirective
   ],
   providers: [
-    PhotosService,
-    ReligiousViewsService
+    UserProfileService
   ]
 })
 export class ProfileFriendComponent extends BaseProfileComponent {
@@ -53,12 +50,9 @@ export class ProfileFriendComponent extends BaseProfileComponent {
   friendsTitle: string = 'Mutual Connections';
 
   constructor(
-    public mutualfriendsService: MutualFriendsService,
-    public photosService: PhotosService,
-    public religiousviewsService: ReligiousViewsService,
-    public politicalviewsService: PoliticalViewsService
+    public userProfileService: UserProfileService
   ) {
-    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'friend');
+    super(userProfileService, 'friend');
   }
 
   ngOnChanges(values) {
@@ -67,8 +61,18 @@ export class ProfileFriendComponent extends BaseProfileComponent {
     }
   }
 
+  nextProfile(event) {
+    this.unsubscribe();
+    this.nextEvent.next(event);
+  }
+
+  previousProfile(event) {
+    this.unsubscribe();
+    this.previousEvent.next(event);
+  }
 
   closeProfile(event) {
+    this.unsubscribe();
     this.closeprofileEvent.next(event);
   }
 

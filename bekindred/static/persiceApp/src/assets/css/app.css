@@ -554,7 +554,7 @@ textarea.c-input--error:hover {
 .userprofile.is-visible {
   opacity: 1;
   visibility: visible;
-  transition: ease .5s all;
+  transition: all 0.5s ease-in-out;
 }
 
 .search__notification,
@@ -599,7 +599,7 @@ textarea.c-input--error:hover {
 }
 
 .avatar-place__pagination {
-  transition: ease .5s all;
+  transition: all 0.5s ease-in-out;
   opacity: 0;
   visibility: hidden;
   height: 30px;
@@ -612,8 +612,16 @@ textarea.c-input--error:hover {
 
 .match-profile__avatar-place {
   margin-bottom: 0px!important;
+  height: 285px;
 }
 
 .match-profile__avatar {
-  transition: ease .5s all;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.match-profile__avatar.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.3s ease-in;
 }

@@ -16,7 +16,7 @@
   </a>
   <div class="tableize tableize--fixed tableize--full content">
     <div class="tableize__cell 3/12 my-profile">
-      <profile-avatar [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
+      <profile-avatar [loading]="loading" [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
       <div class="layout layout--flush pt- ph pl+ unselectable">
         <div class="layout__item 1/3">
           <h2 class="module-title mb0">gender</h2>
@@ -112,8 +112,8 @@
             <profile-items [title]="'Offers'" [items]="profileOffers" [itemsCount]="profileOffersCount"></profile-items>
           </div>
         </div>
-        <profile-likes [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
-        <profile-friends [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
+        <profile-likes *ngIf="!loading" [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
+        <profile-friends *ngIf="!loading" [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
       </div>
     </div>
   </div>

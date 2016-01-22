@@ -24,8 +24,6 @@ export class ProfileFriendsComponent {
         slidesPerView: 4,
         spaceBetween: 5
       }
-    },
-    observer: true,
-    initialSlide: 0
+    }
   });
 }
