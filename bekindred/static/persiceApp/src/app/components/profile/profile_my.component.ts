@@ -77,7 +77,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.instanceServiceConnections = this.connectionsService.get('', 100, false)
       .subscribe((data: any) => {
         this.assignConnections(data);
-      })
+      });
 
   }
 
