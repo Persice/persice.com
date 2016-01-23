@@ -884,7 +884,7 @@
       else {
         var w = (this.textDirection === 'rtl')
               ? this.$input.offset().left + this.$input.outerWidth() - this.$wrapper.offset().left - parseInt(this.$wrapper.css('padding-left'), 10) - inputPadding - 1
-              : this.$wrapper.offset().left + this.$wrapper.width() - 40 + parseInt(this.$wrapper.css('padding-left'), 10) - this.$input.offset().left - inputPadding;
+              : this.$wrapper.offset().left + this.$wrapper.width() - 50 + parseInt(this.$wrapper.css('padding-left'), 10) - this.$input.offset().left - inputPadding;
         //
         // some usecases pre-render widget before attaching to DOM,
         // dimensions returned by jquery will be NaN -> we default to 100%

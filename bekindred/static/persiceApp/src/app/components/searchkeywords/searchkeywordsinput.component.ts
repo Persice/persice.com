@@ -93,7 +93,7 @@ export class SearchKeywordsInputComponent {
     //prevent duplicates and total keywords string length > 50 chars
     jQuery(this.el.nativeElement).on('tokenfield:createtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-      let tokensString = map(existingTokens, 'value');
+      let tokensString = [...map(existingTokens, 'value'), event.attrs.value];
 
       let tokenInput = event.attrs.value;
 
