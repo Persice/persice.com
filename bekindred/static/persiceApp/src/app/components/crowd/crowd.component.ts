@@ -73,6 +73,7 @@ export class CrowdComponent {
   }
 
   getList() {
+    this.isListEmpty = false;
     if (this.next === null) return;
     this.loading = true;
     if (this.next === '') {
@@ -150,60 +151,69 @@ export class CrowdComponent {
   }
 
   passUser(event) {
-    this.profileViewActive = false;
-    this.friendService.saveFriendship(-1, event)
+
+    let usr;
+    for (var i = this.items.length - 1; i >= 0; i--) {
+      if (this.items[i].id === event.user) {
+        usr = this.items[i];
+      }
+    }
+
+    remove(this.items, (item) => {
+      return item.id === event.user;
+    });
+
+    if (event.next) {
+      this.nextProfile(true);
+    }
+
+    // this.notificationService.push({
+    //   type: 'warning',
+    //   title: '',
+    //   body: `${usr.first_name} has been removed from crowd.`,
+    //   autoclose: 4000
+    // });
+
+    this.friendService.saveFriendship(-1, event.user)
       .subscribe(data => {
-
-        let usr;
-        for (var i = this.items.length - 1; i >= 0; i--) {
-          if (this.items[i].id === event) {
-            usr = this.items[i];
-          }
+        if (!event.next) {
+          this.profileViewActive = false;
+          this.selectedUser = null;
         }
-
-        remove(this.items, (item) => {
-          return item.id === event;
-        });
-
-
-
-
-        this.notificationService.push({
-          type: 'warning',
-          title: '',
-          body: `${usr.first_name} has been removed from crowd.`,
-          autoclose: 4000
-        });
-
-        this.selectedUser = null;
       });
 
   }
 
   acceptUser(event) {
-    this.profileViewActive = false;
-    this.friendService.saveFriendship(0, event)
+    let usr;
+    for (var i = this.items.length - 1; i >= 0; i--) {
+      if (this.items[i].id === event.user) {
+        usr = this.items[i];
+      }
+    }
+
+    remove(this.items, (item) => {
+      return item.id === event.user;
+    });
+
+    if (event.next) {
+      this.nextProfile(true);
+    }
+
+    // this.notificationService.push({
+    //   type: 'success',
+    //   title: 'Success',
+    //   body: `You sent friendship request to ${usr.first_name}.`,
+    //   autoclose: 4000
+    // });
+
+
+    this.friendService.saveFriendship(0, event.user)
       .subscribe(data => {
-
-        let usr;
-        for (var i = this.items.length - 1; i >= 0; i--) {
-          if (this.items[i].id === event) {
-            usr = this.items[i];
-          }
+        if (!event.next) {
+          this.profileViewActive = false;
+          this.selectedUser = null;
         }
-
-        remove(this.items, (item) => {
-          return item.id === event;
-        });
-
-        this.notificationService.push({
-          type: 'success',
-          title: 'Success',
-          body: `You sent friendship request to ${usr.first_name}.`,
-          autoclose: 4000
-        });
-
-       this.selectedUser = null;
       });
 
   }
@@ -222,7 +232,15 @@ export class CrowdComponent {
     if (newIndex < 0) {
       newIndex = this.items.length - 1;
     }
-    this.selectedUser = this.items[newIndex];
+    if (this.items.length > 0) {
+      this.selectedUser = this.items[newIndex];
+    }
+    else {
+      this.closeProfile(true);
+      this.isListEmpty = true;
+
+    }
+
   }
 
   nextProfile(event) {
@@ -231,7 +249,13 @@ export class CrowdComponent {
     if (newIndex > this.items.length - 1) {
       newIndex = 0;
     }
-    this.selectedUser = this.items[newIndex];
+    if (this.items.length > 0) {
+      this.selectedUser = this.items[newIndex];
+    }
+    else {
+      this.closeProfile(true);
+      this.isListEmpty = true;
+    }
   }
 
 

@@ -541,7 +541,7 @@ textarea.c-input--error:hover {
 
 /* fix for swiper slide max width in likes */
 
-.swiper-slide .user-name {
+.likes .swiper-slide .user-name {
   max-width: 69%!important;
 }
 
@@ -551,7 +551,8 @@ textarea.c-input--error:hover {
 .search__notification.is-visible,
 .tt-menu.tt-open,
 .signup-empty-state.is-visible,
-.userprofile.is-visible {
+.userprofile.is-visible,
+.no-results.is-visible {
   opacity: 1;
   visibility: visible;
   transition: all 0.5s ease-in-out;
@@ -560,7 +561,8 @@ textarea.c-input--error:hover {
 .search__notification,
 .tt-menu,
 .signup-empty-state,
-.userprofile {
+.userprofile,
+.no-results {
   opacity: 0;
   visibility: hidden;
 }
@@ -623,5 +625,5 @@ textarea.c-input--error:hover {
 .match-profile__avatar.is-visible {
   opacity: 1;
   visibility: visible;
-  transition: all 0.3s ease-in;
+  transition: all 0.2s ease-in;
 }

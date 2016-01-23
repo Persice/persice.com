@@ -24,11 +24,11 @@ export class UserCardComponent {
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
 
   passUser(event) {
-    this.passEvent.next(this.user.id);
+    this.passEvent.next({ user: this.user.id, next: false });
   }
 
   acceptUser(event) {
-    this.acceptEvent.next(this.user.id);
+    this.acceptEvent.next({ user: this.user.id, next: false });
   }
 
 

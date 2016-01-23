@@ -11,13 +11,16 @@ import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
+import {LoadingComponent} from '../loading/loading.component';
 
 /** Directives */
 import {DropdownDirective} from '../../directives/dropdown.directive';
 
 /** Services */
-import {UserProfileService} from '../../services/userprofile.service';
-
+import {MutualFriendsService} from '../../services/mutualfriends.service';
+import {PhotosService} from '../../services/photos.service';
+import {ReligiousViewsService} from '../../services/religiousviews.service';
+import {PoliticalViewsService} from '../../services/politicalviews.service';
 
 /** Utils */
 import {ObjectUtil} from '../../core/util';
@@ -35,10 +38,12 @@ let view = require('./profile.html');
     ProfileFriendsComponent,
     ProfileNetworksComponent,
     ProfileItemsComponent,
-    DropdownDirective
+    DropdownDirective,
+    LoadingComponent
   ],
   providers: [
-    UserProfileService
+    PhotosService,
+    ReligiousViewsService
   ]
 })
 export class ProfileFriendComponent extends BaseProfileComponent {
@@ -50,9 +55,12 @@ export class ProfileFriendComponent extends BaseProfileComponent {
   friendsTitle: string = 'Mutual Connections';
 
   constructor(
-    public userProfileService: UserProfileService
+    public mutualfriendsService: MutualFriendsService,
+    public photosService: PhotosService,
+    public religiousviewsService: ReligiousViewsService,
+    public politicalviewsService: PoliticalViewsService
   ) {
-    super(userProfileService, 'friend');
+    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'friend');
   }
 
   ngOnChanges(values) {
@@ -61,18 +69,8 @@ export class ProfileFriendComponent extends BaseProfileComponent {
     }
   }
 
-  nextProfile(event) {
-    this.unsubscribe();
-    this.nextEvent.next(event);
-  }
-
-  previousProfile(event) {
-    this.unsubscribe();
-    this.previousEvent.next(event);
-  }
 
   closeProfile(event) {
-    this.unsubscribe();
     this.closeprofileEvent.next(event);
   }
 

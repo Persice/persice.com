@@ -3,7 +3,7 @@
     <users-list (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" [showButtons]="1" [users]="items" (onClicked)="setSelectedUser($event)"></users-list>
     <loading-card [status]="loadingInitial"></loading-card>
     <loading [status]="loading && !loadingInitial"></loading>
-    <div class="no-results" *ngIf="isListEmpty">
+    <div class="no-results" [ngClass]="{'is-visible': isListEmpty}">
       <h2 class="no-results__title">Whoops!</h2>
       <p class="no-results__par">No results found. Please add more info to your profile or
         <br>broaden your search criteria</p>

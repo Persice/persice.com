@@ -29,8 +29,7 @@ export class ProfileAvatarComponent {
     pagination: '.js-avatar-place__pagination',
     paginationClickable: true,
     observer: true,
-    initialSlide: 0,
-    lazyload: true
+    initialSlide: 0
   });
 
 }

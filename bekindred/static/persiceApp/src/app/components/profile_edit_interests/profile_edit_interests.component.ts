@@ -291,7 +291,10 @@ export class ProfileEditInterestsComponent {
             this.items[idx].interest_resource = null;
             this.userInterestCounter--;
             this.loadingEvent.next(false);
-          });
+          }, (err) => {
+            this.loadingEvent.next(false);
+            this.status = 'failure';
+          }, () => { });
       }
       else {
         //select interest
@@ -301,7 +304,10 @@ export class ProfileEditInterestsComponent {
             this.items[idx].interest_resource = res.resource_uri;
             this.userInterestCounter++;
             this.loadingEvent.next(false);
-          });
+          }, (err) => {
+            this.loadingEvent.next(false);
+            this.status = 'failure';
+          }, () => { });
       }
     }
   }

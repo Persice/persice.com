@@ -306,7 +306,9 @@ export class SignupInterestsComponent {
               type: 'interests',
               count: this.userInterestCounter
             });
-          });
+          }, (err) => {
+            this.status = 'failure';
+          }, () => { });
       }
       else {
         //select interest
@@ -319,7 +321,9 @@ export class SignupInterestsComponent {
               type: 'interests',
               count: this.userInterestCounter
             });
-          });
+          }, (err) => {
+            this.status = 'failure';
+          }, () => { });
 
 
       }
