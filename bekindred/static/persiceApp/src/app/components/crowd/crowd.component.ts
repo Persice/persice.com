@@ -183,6 +183,7 @@ export class CrowdComponent {
     remove(this.items, (item) => {
       return item.id === event.user;
     });
+    this.total_count--;
 
     if (event.next) {
       this.nextProfile(true);
@@ -216,6 +217,7 @@ export class CrowdComponent {
     remove(this.items, (item) => {
       return item.id === event.user;
     });
+    this.total_count--;
 
     if (event.next) {
       this.nextProfile(true);
