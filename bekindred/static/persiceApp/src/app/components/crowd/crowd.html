@@ -1,9 +1,10 @@
 <div class="layout layout--flush content crowd-page" [ngClass]="{'is-hidden': profileViewActive}">
+ {{ profileViewActive}}
   <div class="layout__item 3/4 extralarge-and-up-4/5" id="crowd">
     <users-list (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" [showButtons]="1" [users]="items" (onClicked)="setSelectedUser($event)"></users-list>
     <loading-card [status]="loadingInitial"></loading-card>
     <loading [status]="loading && !loadingInitial"></loading>
-    <div class="no-results" [ngClass]="{'is-visible': isListEmpty}">
+    <div class="no-results" *ngIf="isListEmpty" [ngClass]="{'is-visible': isListEmpty}">
       <h2 class="no-results__title">Whoops!</h2>
       <p class="no-results__par">No results found. Please add more info to your profile or
         <br>broaden your search criteria</p>
@@ -14,5 +15,5 @@
     <filters></filters>
   </div>
 </div>
-<profile-crowd [count]="total_count" (previousEvent)="previousProfile($event)" (nextEvent)="nextProfile($event)" *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
+<profile-crowd *ngIf="profileViewActive" [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousProfile($event)" (nextEvent)="nextProfile($event)"  [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">
 </profile-crowd>

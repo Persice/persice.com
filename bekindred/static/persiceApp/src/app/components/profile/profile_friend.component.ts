@@ -49,6 +49,7 @@ let view = require('./profile.html');
 export class ProfileFriendComponent extends BaseProfileComponent {
   @Input() user;
   @Input() count;
+  @Input() currentIndex;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
   @Output() nextEvent: EventEmitter<any> = new EventEmitter;
   @Output() previousEvent: EventEmitter<any> = new EventEmitter;

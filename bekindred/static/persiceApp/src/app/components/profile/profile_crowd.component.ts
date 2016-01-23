@@ -46,6 +46,7 @@ export class ProfileCrowdComponent extends BaseProfileComponent {
   @Input() user;
   @Input() type;
   @Input() count;
+  @Input() currentIndex;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;

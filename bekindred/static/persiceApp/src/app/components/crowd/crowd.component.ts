@@ -41,6 +41,8 @@ export class CrowdComponent {
   offset: number = 0;
   profileViewActive = false;
   selectedUser = null;
+  currentIndex = 0;
+  serviceInstance;
 
   constructor(
     public service: CrowdService,
@@ -53,6 +55,7 @@ export class CrowdComponent {
 
   ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
+    this.total_count = 0;
     this.getList();
 
     //create new observer and subscribe
@@ -70,16 +73,23 @@ export class CrowdComponent {
   ngOnDestroy() {
     this.filterService.observer('crowd').unsubscribe();
     this.filterService.removeObserver('crowd');
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
   }
 
   getList() {
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
+
     this.isListEmpty = false;
     if (this.next === null) return;
     this.loading = true;
     if (this.next === '') {
       this.loadingInitial = true;
     }
-    this.service.get(this.next, this.limit, this.filter)
+    this.serviceInstance = this.service.get(this.next, this.limit, this.filter)
       .subscribe(
       data => this.assignList(data),
       (err) => {
@@ -94,9 +104,13 @@ export class CrowdComponent {
 
 
   refreshList() {
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
     this.total_count = 0;
+    this.currentIndex = 0;
     this.isListEmpty = false;
     this.next = '';
     this.getList();
@@ -107,8 +121,8 @@ export class CrowdComponent {
     this.loading = false;
     this.loadingInitial = false;
 
-    this.total_count = data.meta.total_count;
-    if (this.total_count === 0) {
+
+    if (data.meta.total_count === 0) {
       this.isListEmpty = true;
       return;
     } else {
@@ -121,10 +135,13 @@ export class CrowdComponent {
       for (var i = 0; i <= more.length - 1; i++) {
         this.items.push(more[i]);
       }
-
+      this.total_count += more.length;
     } else {
       this.items = data.objects;
+      this.total_count = data.objects.length;
     }
+
+    console.log('total count increased', this.total_count);
 
     this.next = data.meta.next;
     this.offset = data.meta.offset;
@@ -141,9 +158,13 @@ export class CrowdComponent {
   }
 
   setSelectedUser(id) {
+
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
+        this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
+        console.log('current', this.currentIndex + 1);
+        console.log('total', this.total_count);
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
@@ -230,7 +251,7 @@ export class CrowdComponent {
     let newIndex = currentIndex - 1;
 
     if (newIndex < 0) {
-      newIndex = this.items.length - 1;
+      return;
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
@@ -238,16 +259,22 @@ export class CrowdComponent {
     else {
       this.closeProfile(true);
       this.isListEmpty = true;
-
     }
-
+    this.currentIndex = newIndex;
+    console.log('current', this.currentIndex + 1);
+    console.log('total', this.total_count);
   }
 
   nextProfile(event) {
     let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
     let newIndex = currentIndex + 1;
+
+    if (!this.loading && newIndex > this.items.length - 13 && this.next) {
+      this.getList();
+    }
+
     if (newIndex > this.items.length - 1) {
-      newIndex = 0;
+      return;
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
@@ -256,6 +283,9 @@ export class CrowdComponent {
       this.closeProfile(true);
       this.isListEmpty = true;
     }
+    this.currentIndex = newIndex;
+    console.log('current', this.currentIndex + 1);
+    console.log('total', this.total_count);
   }
 
 

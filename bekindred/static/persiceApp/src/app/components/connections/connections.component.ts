@@ -29,6 +29,7 @@ declare var jQuery: any;
 export class ConnectionsComponent {
   items: Array<any> = [];
   loading: boolean = false;
+  loadingInitial: boolean = false;
   isListEmpty: boolean = false;
   limit: number = 12;
   filter: boolean = true;
@@ -37,20 +38,19 @@ export class ConnectionsComponent {
   offset: number = 0;
   profileViewActive = false;
   selectedUser = null;
+  currentIndex = 0;
+  serviceInstance;
 
   constructor(
     public service: ConnectionsService,
-    public filterService: FilterService,
-    private location: Location,
-    private router: Router
+    public filterService: FilterService
   ) {
-    this.location = location;
-    this.router = router;
-  }
 
+  }
 
   ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
+    this.total_count = 0;
     this.getList();
 
     //create new observer and subscribe
@@ -64,19 +64,33 @@ export class ConnectionsComponent {
 
   }
 
+
   ngOnDestroy() {
     this.filterService.observer('connections').unsubscribe();
     this.filterService.removeObserver('connections');
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
   }
 
   getList() {
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
+
+    this.isListEmpty = false;
     if (this.next === null) return;
     this.loading = true;
-    this.service.get(this.next, this.limit, this.filter)
-      .subscribe(data => this.assignList(data),
+    if (this.next === '') {
+      this.loadingInitial = true;
+    }
+    this.serviceInstance = this.service.get(this.next, this.limit, this.filter)
+      .subscribe(
+      data => this.assignList(data),
       (err) => {
         console.log(err);
         this.loading = false;
+        this.loadingInitial = false;
       },
       () => {
 
@@ -85,8 +99,13 @@ export class ConnectionsComponent {
 
 
   refreshList() {
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
+    this.total_count = 0;
+    this.currentIndex = 0;
     this.isListEmpty = false;
     this.next = '';
     this.getList();
@@ -95,9 +114,10 @@ export class ConnectionsComponent {
   assignList(data) {
 
     this.loading = false;
+    this.loadingInitial = false;
 
-    this.total_count = data.meta.total_count;
-    if (this.total_count === 0) {
+
+    if (data.meta.total_count === 0) {
       this.isListEmpty = true;
       return;
     } else {
@@ -110,11 +130,13 @@ export class ConnectionsComponent {
       for (var i = 0; i <= more.length - 1; i++) {
         this.items.push(more[i]);
       }
-
-    }
-    else {
+      this.total_count += more.length;
+    } else {
       this.items = data.objects;
+      this.total_count = data.objects.length;
     }
+
+    console.log('total count increased', this.total_count);
 
     this.next = data.meta.next;
     this.offset = data.meta.offset;
@@ -123,8 +145,7 @@ export class ConnectionsComponent {
     //bind to scroll event to load more data on bottom scroll
     if (this.next !== null) {
       jQuery(window).bind('scroll', this.handleScrollEvent.bind(this));
-    }
-    else {
+    } else {
       jQuery(window).unbind('scroll');
     }
 
@@ -132,9 +153,13 @@ export class ConnectionsComponent {
   }
 
   viewFriendProfile(id) {
+
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
+        this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
+        console.log('current', this.currentIndex + 1);
+        console.log('total', this.total_count);
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
@@ -151,19 +176,43 @@ export class ConnectionsComponent {
     let newIndex = currentIndex - 1;
 
     if (newIndex < 0) {
-      newIndex = this.items.length - 1;
+      return;
     }
-    this.selectedUser = this.items[newIndex];
+    if (this.items.length > 0) {
+      this.selectedUser = this.items[newIndex];
+    }
+    else {
+      this.closeProfile(true);
+      this.isListEmpty = true;
+    }
+    this.currentIndex = newIndex;
+    console.log('current', this.currentIndex + 1);
+    console.log('total', this.total_count);
   }
 
   nextProfile(event) {
     let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
     let newIndex = currentIndex + 1;
-    if (newIndex > this.items.length - 1) {
-      newIndex = 0;
+
+    if (!this.loading && newIndex > this.items.length - 13 && this.next) {
+      this.getList();
     }
-    this.selectedUser = this.items[newIndex];
+
+    if (newIndex > this.items.length - 1) {
+      return;
+    }
+    if (this.items.length > 0) {
+      this.selectedUser = this.items[newIndex];
+    }
+    else {
+      this.closeProfile(true);
+      this.isListEmpty = true;
+    }
+    this.currentIndex = newIndex;
+    console.log('current', this.currentIndex + 1);
+    console.log('total', this.total_count);
   }
+
 
   handleScrollEvent(event) {
     let scrollOffset = jQuery(window).scrollTop();
