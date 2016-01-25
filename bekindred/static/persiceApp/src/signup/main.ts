@@ -1,12 +1,18 @@
 // Angular 2
 import {provide, enableProdMode} from 'angular2/core';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
 
 /*
  * Angular Modules
  */
 
-import {ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/common_dom';
+const ENV_PROVIDERS = [];
+
+if ('production' === process.env.ENV) {
+  enableProdMode();
+}
+ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+
 
 import {FORM_PROVIDERS} from 'angular2/common';
 import {
@@ -38,12 +44,12 @@ import {SignupComponent} from './components/signup.component';
  * Universal injectables
  */
 const UNIVERSAL_PROVIDERS = [
-  ROUTER_PROVIDERS,
-  ELEMENT_PROBE_PROVIDERS,
-  FORM_PROVIDERS,
-  HTTP_PROVIDERS,
+  ...ROUTER_PROVIDERS,
+  ...ENV_PROVIDERS,
+  ...FORM_PROVIDERS,
+  ...HTTP_PROVIDERS,
   HttpClient,
-  APP_SERVICES_PROVIDERS,
+  ...APP_SERVICES_PROVIDERS,
 ];
 
 /*

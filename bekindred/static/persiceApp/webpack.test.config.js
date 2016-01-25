@@ -1,12 +1,10 @@
-// @AngularClass
-
 /*
  * Helper: root(), and rootDir() are defined at the bottom
  */
 var path = require('path');
 // Webpack Plugins
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var DefinePlugin  = require('webpack/lib/DefinePlugin');
+var DefinePlugin = require('webpack/lib/DefinePlugin');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
 /*
@@ -15,36 +13,53 @@ var ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 module.exports = {
   resolve: {
     cache: false,
-    extensions: ['','.ts','.js','.json','.css','.html']
+    extensions: ['.ts', '.js', '.json', '.css', '.html'].reduce(function(memo, val) {
+      return memo.concat('.async' + val, val); // ensure .async also works
+    }, ['']),
+    // TODO(gdi2290): remove after beta.2 release
+    alias: {
+      'node_modules/angular2/src/compiler/template_compiler.js': 'src/.ng2-patch/template_compiler.js'
+    }
   },
-  context: __dirname,
   devtool: 'inline-source-map',
   module: {
-    loaders: [
-      {
-        test: /\.ts$/,
-        loader: 'ts',
-        query: {
-          // remove TypeScript helpers to be injected below by DefinePlugin
-          'compilerOptions': {
-            'removeComments': true,
-            'noEmitHelpers': true,
-          },
-          'ignoreDiagnostics': [
-            2403, // 2403 -> Subsequent variable declarations
-            2300, // 2300 Duplicate identifier
-            2374, // 2374 -> Duplicate number index signature
-            2375,  // 2375 -> Duplicate string index signature
-            2339,
-            2305
-          ]
-        },
-        exclude: [ /\.e2e\.ts$/, /node_modules/ ]
+    preLoaders: [{
+      test: /\.ts$/,
+      loader: 'tslint-loader',
+      exclude: [
+        /node_modules/
+      ]
+    }, {
+      test: /\.js$/,
+      loader: "source-map-loader",
+      exclude: [
+        /node_modules\/rxjs/
+      ]
+    }],
+    loaders: [{
+      test: /\.async\.ts$/,
+      loaders: ['es6-promise-loader', 'ts-loader'],
+      exclude: [/\.(spec|e2e)\.ts$/]
+    }, {
+      test: /\.ts$/,
+      loader: 'ts-loader',
+      query: {
+        "compilerOptions": {
+          "noEmitHelpers": true,
+          "removeComments": true,
+        }
       },
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.html$/, loader: 'raw-loader' },
-      { test: /\.css$/,  loader: 'raw-loader' }
-    ],
+      exclude: [/\.e2e\.ts$/]
+    }, {
+      test: /\.json$/,
+      loader: 'json-loader'
+    }, {
+      test: /\.html$/,
+      loader: 'raw-loader'
+    }, {
+      test: /\.css$/,
+      loader: 'raw-loader'
+    }],
     postLoaders: [
       // instrument only testing sources with Istanbul
       {
@@ -62,7 +77,10 @@ module.exports = {
       /angular2\/bundles\/.+/
     ]
   },
-  stats: { colors: true, reasons: true },
+  stats: {
+    colors: true,
+    reasons: true
+  },
   debug: false,
   plugins: [
     new DefinePlugin({
@@ -85,7 +103,7 @@ module.exports = {
       'Reflect': 'es7-reflect-metadata/dist/browser'
     })
   ],
-    // we need this due to problems with es6-shim
+  // we need this due to problems with es6-shim
   node: {
     global: 'window',
     progress: false,

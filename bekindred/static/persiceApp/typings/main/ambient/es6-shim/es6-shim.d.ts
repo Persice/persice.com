@@ -1,5 +1,5 @@
-// Compiled using typings@0.6.2
-// Source: https://raw.githubusercontent.com/angular/DefinitelyTyped/31e7317c9a0793857109236ef7c7f223305a8aa9/es6-shim/es6-shim.d.ts
+// Compiled using typings@0.5.0
+// Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/6697d6f7dadbf5773cb40ecda35a76027e0783b2/es6-shim/es6-shim.d.ts
 // Type definitions for es6-shim v0.31.2
 // Project: https://github.com/paulmillr/es6-shim
 // Definitions by: Ron Buckton <http://github.com/rbuckton>
