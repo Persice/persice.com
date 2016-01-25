@@ -5,6 +5,7 @@ var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
 var metadata = {
@@ -98,8 +99,11 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.ProvidePlugin({
+    new ProvidePlugin({
       _: 'lodash'
+      // jQuery: 'jquery',
+      // $: 'jquery',
+      // jquery: 'jquery'
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
@@ -107,16 +111,16 @@ module.exports = {
       filename: 'polyfills.bundle.js',
       minChunks: Infinity
     }),
-    // static assets
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
-    // generating html
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      inject: false
-    }),
+    // // static assets
+    // new CopyWebpackPlugin([{
+    //   from: 'src/assets',
+    //   to: 'assets'
+    // }]),
+    // // generating html
+    // new HtmlWebpackPlugin({
+    //   template: 'src/index.html',
+    //   inject: false
+    // }),
     // replace
     new webpack.DefinePlugin({
       'process.env': {
@@ -136,6 +140,7 @@ module.exports = {
   devServer: {
     port: metadata.port,
     host: metadata.host,
+    inline: true,
     contentBase: 'src/assets',
     publicPath: '/dist',
     historyApiFallback: true,

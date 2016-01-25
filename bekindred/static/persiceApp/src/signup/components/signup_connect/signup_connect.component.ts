@@ -36,7 +36,6 @@ export class SignupConnectComponent {
 
   refreshConnectInfo() {
     this.service.findOneByUri('me').subscribe((data) => {
-      let res = data;
       this.getConnectStatus();
     });
   }

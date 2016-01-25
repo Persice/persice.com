@@ -40,7 +40,7 @@ module.exports = {
   entry: {
     'polyfills': './src/polyfills.ts',
     'main': './src/main.ts',
-    'signup': './src/main.ts'
+    'signup': './src/signup/main.ts'
   },
 
   // Config for our build files
@@ -121,6 +121,12 @@ module.exports = {
   },
 
   plugins: [
+    new ProvidePlugin({
+      _: 'lodash'
+        // jQuery: 'jquery',
+        // $: 'jquery',
+        // jquery: 'jquery'
+    }),
     new WebpackMd5Hash(),
     new DedupePlugin(),
     new OccurenceOrderPlugin(true),
@@ -158,17 +164,17 @@ module.exports = {
       // to debug prod builds uncomment //debug lines and comment //prod lines
 
       // beautify: true, // debug
-      // mangle: false,  // debug
+      mangle: false, // debug
       // compress : { screw_ie8 : true, keep_fnames: true, drop_debugger: false }, // debug
 
       beautify: false, //prod
-      mangle: {
-        screw_ie8: true
-      }, //prod
+      // mangle: {
+      //   screw_ie8: true
+      // }, //prod
       compress: {
-        screw_ie8: true
+        screw_ie8: true,
+        warnings: false
       }, //prod
-
       comments: false
     }),
     // include uglify in production
