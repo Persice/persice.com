@@ -13,6 +13,7 @@ import {ProfileFriendsComponent} from '../profile_friends/profile_friends.compon
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {ProfileEditComponent} from '../profile_edit/profile_edit.component';
+import {LoadingComponent} from '../loading/loading.component';
 
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
@@ -43,7 +44,8 @@ let view = require('./profile.html');
     ProfileNetworksComponent,
     ProfileItemsComponent,
     ProfileEditComponent,
-    RemodalDirective
+    RemodalDirective,
+    LoadingComponent
   ],
   providers: [
     ConnectionsService,
@@ -78,6 +80,9 @@ export class ProfileMyComponent extends BaseProfileComponent {
   }
 
   getMyProfile() {
+    this.loadingLikes = true;
+    this.loadingPhotos = true;
+    this.loadingConnections = true;
     this.userService.findOneByUri('me')
       .subscribe((data) => this.assignData(data));
   }
@@ -117,6 +122,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
     this.getPhotos(data.id);
     this.getReligiousViews();
     this.getPoliticalViews();
+
   }
 
   getReligiousViews() {
@@ -128,7 +134,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
         }
         return this.religiousviewsService.getIndex('', 100);
       })
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         if (res.meta.total_count > 0) {
           let itemsIndex = res.objects;
           for (var i = 0; i < itemsIndex.length; ++i) {
@@ -154,7 +160,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
         }
         return this.politicalviewsService.getIndex('', 100);
       })
-      .subscribe((res) => {
+      .subscribe((res: any) => {
         if (res.meta.total_count > 0) {
           let itemsIndex = res.objects;
           for (var i = 0; i < itemsIndex.length; ++i) {
@@ -203,11 +209,12 @@ export class ProfileMyComponent extends BaseProfileComponent {
   }
 
   assignConnections(data) {
-    if (data.meta.total_count > 0) {
-      let items = data.objects;
-      this.profileFriendsCount = items.length;
-      this.profileFriends.mutual_bk_friends = items;
-    }
+      if (data.meta.total_count > 0) {
+        let items = data.objects;
+        this.profileFriendsCount = items.length;
+        this.profileFriends.mutual_bk_friends = items;
+      }
+      this.loadingConnections = false;
   }
 
   getLikes() {
@@ -221,6 +228,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
       this.profileLikes = this.transformLikes(items, 'name');
       this.profileLikesCount = items.length;
     }
+    this.loadingLikes = false;
   }
 
   closeProfile(event) {
@@ -249,6 +257,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
   assignUpdates(data) {
     this.user = data;
     this.userEdit = data;
+    this.userEdit.profession = data.position && data.position.job !== null && data.position.company !== null ? `${data.position.job} at ${data.position.company}` : '';
     this.profileAbout = data.about_me;
 
     this.profileOffers = this.transformData(data.offers, 'subject');

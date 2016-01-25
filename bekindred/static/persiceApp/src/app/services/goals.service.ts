@@ -37,7 +37,7 @@ export class GoalsService {
   public save(subject: string): Observable<any> {
     let userId = CookieUtil.getValue('userid');
     let interest = {
-      goal_subject: subject,
+      goal_subject: subject.trim(),
       user: '/api/v1/auth/user/' + userId + '/'
     };
     let body = JSON.stringify(interest);

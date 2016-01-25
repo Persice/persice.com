@@ -11,6 +11,7 @@ import {ProfileLikesComponent} from '../profile_likes/profile_likes.component';
 import {ProfileFriendsComponent} from '../profile_friends/profile_friends.component';
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
+import {LoadingComponent} from '../loading/loading.component';
 
 /** Directives */
 import {DropdownDirective} from '../../directives/dropdown.directive';
@@ -37,7 +38,8 @@ let view = require('./profile.html');
     ProfileFriendsComponent,
     ProfileNetworksComponent,
     ProfileItemsComponent,
-    DropdownDirective
+    DropdownDirective,
+    LoadingComponent
   ],
   providers: [
     PhotosService,
@@ -46,7 +48,11 @@ let view = require('./profile.html');
 })
 export class ProfileFriendComponent extends BaseProfileComponent {
   @Input() user;
+  @Input() count;
+  @Input() currentIndex;
   @Output() closeprofileEvent: EventEmitter<any> = new EventEmitter;
+  @Output() nextEvent: EventEmitter<any> = new EventEmitter;
+  @Output() previousEvent: EventEmitter<any> = new EventEmitter;
   friendsTitle: string = 'Mutual Connections';
 
   constructor(
@@ -54,9 +60,16 @@ export class ProfileFriendComponent extends BaseProfileComponent {
     public photosService: PhotosService,
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService
-    ) {
+  ) {
     super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'friend');
   }
+
+  ngOnChanges(values) {
+    if (values.user && values.user.currentValue) {
+      this.assignUser();
+    }
+  }
+
 
   closeProfile(event) {
     this.closeprofileEvent.next(event);

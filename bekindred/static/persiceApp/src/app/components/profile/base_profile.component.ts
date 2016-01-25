@@ -53,6 +53,10 @@ export abstract class BaseProfileComponent {
     twitter: '',
     linkedin: ''
   };
+  loading: boolean = false;
+  loadingLikes: boolean = false;
+  loadingConnections: boolean = false;
+  loadingPhotos: boolean = false;
 
   constructor(
     public mutualfriendsService: MutualFriendsService,
@@ -60,15 +64,15 @@ export abstract class BaseProfileComponent {
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService,
     public type: string
-  ) {
+    ) {
     this.profileType = type;
   }
 
-  ngOnInit() {
-    this.assignUser();
-  }
-
   assignUser() {
+    this.loadingLikes = true;
+    this.loadingConnections = true;
+    this.loadingPhotos = true;
+
     this.profileId = this.user.id;
     this.profileName = this.user.first_name;
     this.profileAge = this.user.age;
@@ -76,17 +80,22 @@ export abstract class BaseProfileComponent {
     this.profileDistance = `${this.user.distance[0]} ${this.user.distance[1]}`;
     this.profileLocation = this.user.lives_in ? this.user.lives_in : '';
 
-    let likes = this.user.likes[0];
-    this.profileLikes = Object.keys(likes).map((key) => {
-      return {
-        value: key,
-        match: likes[key]
-      };
+    setTimeout(() => {
+      let likes = this.user.likes[0];
+      this.profileLikes = Object.keys(likes).map((key) => {
+        return {
+          value: key,
+          match: likes[key]
+        };
+      });
+
+
+      this.profileLikesCount = this.profileLikes.length;
+      this.loadingLikes = false;
+
     });
 
     this.profileJob = this.user.position && this.user.position.job !== null && this.user.position.company !== null ? `${this.user.position.job} at ${this.user.position.company}` : '';
-
-    this.profileLikesCount = this.profileLikes.length;
 
     this.profileAvatar = this.user.image;
     this.profileAbout = this.user.about;
@@ -114,17 +123,17 @@ export abstract class BaseProfileComponent {
 
   getMutualFriends(id) {
     this.mutualfriendsService.get('', 100, id)
-      .subscribe(data => this.assignMutualFriends(data));
+    .subscribe(data => this.assignMutualFriends(data));
   }
 
   getReligiousViews(id) {
     this.religiousviewsService.getByUser('', 100, id)
-      .subscribe(data => this.assignReligiousViews(data));
+    .subscribe(data => this.assignReligiousViews(data));
   }
 
   getPoliticalViews(id) {
     this.politicalviewsService.getByUser('', 100, id)
-      .subscribe(
+    .subscribe(
       data => this.assignPoliticalViews(data),
       (err) => console.log('Error fetching political views'),
       () => { }
@@ -133,31 +142,46 @@ export abstract class BaseProfileComponent {
 
   getPhotos(id) {
     this.photosService.get('', 6, id)
-      .subscribe(data => this.assignPhotos(data));
+    .subscribe(data => this.assignPhotos(data));
   }
 
   assignPhotos(data) {
-    if (data.meta.total_count > 0) {
-      this.profilePhotos = data.objects.reverse();
-      this.profilePhotosCount = this.profilePhotos.length;
-    }
+    this.profilePhotosCount = 0;
+    this.profilePhotos = [];
+    setTimeout(() => {
+      if (data.meta.total_count > 0) {
+        this.profilePhotos = data.objects.reverse();
+        this.profilePhotosCount = this.profilePhotos.length;
+      }
+      this.loadingPhotos = false;
+    });
+
   }
 
   assignMutualFriends(data) {
-    if (data.meta.total_count > 0) {
-      let items = data.objects[0];
-      this.profileFriendsCount += parseInt(items.mutual_bk_friends_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_fb_friends_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_linkedin_connections_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_twitter_followers_count, 10);
-      this.profileFriendsCount += parseInt(items.mutual_twitter_friends_count, 10);
+    this.profileFriendsCount = 0;
+    this.profileFriends.mutual_bk_friends = [];
+    this.profileFriends.mutual_fb_friends = [];
+    this.profileFriends.mutual_linkedin_connections = [];
+    this.profileFriends.mutual_twitter_friends = [];
+    this.profileFriends.mutual_twitter_followers = [];
+    setTimeout(() => {
+      if (data.meta.total_count > 0) {
+        let items = data.objects[0];
+        this.profileFriendsCount += parseInt(items.mutual_bk_friends_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_fb_friends_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_linkedin_connections_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_twitter_followers_count, 10);
+        this.profileFriendsCount += parseInt(items.mutual_twitter_friends_count, 10);
 
-      this.profileFriends.mutual_bk_friends = items.mutual_bk_friends;
-      this.profileFriends.mutual_fb_friends = items.mutual_fb_friends;
-      this.profileFriends.mutual_linkedin_connections = items.mutual_linkedin_connections;
-      this.profileFriends.mutual_twitter_friends = items.mutual_twitter_friends;
-      this.profileFriends.mutual_twitter_followers = items.mutual_twitter_followers;
-    }
+        this.profileFriends.mutual_bk_friends = items.mutual_bk_friends;
+        this.profileFriends.mutual_fb_friends = items.mutual_fb_friends;
+        this.profileFriends.mutual_linkedin_connections = items.mutual_linkedin_connections;
+        this.profileFriends.mutual_twitter_friends = items.mutual_twitter_friends;
+        this.profileFriends.mutual_twitter_followers = items.mutual_twitter_followers;
+        this.loadingConnections = false;
+      }
+    });
   }
 
   assignReligiousViews(data) {

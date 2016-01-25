@@ -1,14 +1,27 @@
 import {Component, Input} from 'angular2/core';
-import {SlickDirective} from '../../directives/slick.directive';
+import {SwiperDirective} from '../../directives/swiper.directive';
 
 let view = require('./eventpeoplelist.html');
 
 @Component({
   template: view,
   selector: 'event-peoplelist',
-  directives: [SlickDirective]
+  directives: [SwiperDirective]
 })
 export class EventPeopleListComponent {
   @Input() people;
   @Input() count;
+  swiperOptions = JSON.stringify({
+    slidesPerView: 9,
+    spaceBetween: 5,
+    nextButton: '.js-slide-users__next-1',
+    prevButton: '.js-slide-users__prev-1',
+    breakpoints: {
+      1480: {
+        slidesPerView: 6,
+        spaceBetween: 5
+      }
+    },
+    lazyLoading: true
+  });
 }

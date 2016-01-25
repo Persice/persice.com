@@ -9,71 +9,75 @@
       <div *ngIf="type === 'my'" class="layout__item text-right 1/2"> <a href="" class="btn btn-1 btn-1--filled btn-1--small btn-1--blue">Add new</a> </div>
     </div>
   </div>
-  <div *ngIf="count > 0" class="layout slide-users slick-frame js-profile-connections" slick show="6" breakpoint="1550" slidestoshow="4" infinite="true" scroll="1" dots="false" arrows="true" append="0">
-    <div class="layout__item" *ngFor="#item of friends.mutual_bk_friends">
-      <a class="user-listed user-listed--1">
-        <div class="listed-user-avatar-place">
-          <div class="avatar avatar--medium">
-            <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.image + ')'}"></div>
+  <div class="swiper-container js-profile-swiper-3 pt" *ngIf="count > 0" swiper="{{swiperOptions}}">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="#item of friends.mutual_bk_friends">
+        <a class="user-listed user-listed--1">
+          <div class="listed-user-avatar-place">
+            <div class="avatar avatar--medium">
+              <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.image + ')'}"></div>
+            </div>
+            <svg role="img" class="icon avatar-icon">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice"></use>
+            </svg>
           </div>
-          <svg role="img" class="icon avatar-icon">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice"></use>
-          </svg>
-        </div>
-        <h5 class="user-name">{{item.first_name}}</h5>
-      </a>
-    </div>
-    <div class="layout__item" *ngFor="#item of friends.mutual_fb_friends">
-      <a class="user-listed user-listed--1">
-        <div class="listed-user-avatar-place">
-          <div class="avatar avatar--medium">
-            <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + '//graph.facebook.com/' + item.facebook_id + '/picture?type=square' + ')'}"></div>
+          <h5 class="user-name">{{item.first_name}}</h5>
+        </a>
+      </div>
+      <div class="swiper-slide" *ngFor="#item of friends.mutual_fb_friends">
+        <a class="user-listed user-listed--1">
+          <div class="listed-user-avatar-place">
+            <div class="avatar avatar--medium">
+              <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + '//graph.facebook.com/' + item.facebook_id + '/picture?type=square' + ')'}"></div>
+            </div>
+            <svg role="img" class="icon avatar-icon">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-facebook"></use>
+            </svg>
           </div>
-          <svg role="img" class="icon avatar-icon">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-facebook"></use>
-          </svg>
-        </div>
-        <h5 class="user-name">{{item.first_name}}</h5>
-      </a>
-    </div>
-    <div class="layout__item" *ngFor="#item of friends.mutual_twitter_friends">
-      <a class="user-listed user-listed--1">
-        <div class="listed-user-avatar-place">
-          <div class="avatar avatar--medium">
-            <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
+          <h5 class="user-name">{{item.first_name}}</h5>
+        </a>
+      </div>
+      <div class="swiper-slide" *ngFor="#item of friends.mutual_twitter_friends">
+        <a class="user-listed user-listed--1">
+          <div class="listed-user-avatar-place">
+            <div class="avatar avatar--medium">
+              <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
+            </div>
+            <svg role="img" class="icon avatar-icon">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-twitter"></use>
+            </svg>
           </div>
-          <svg role="img" class="icon avatar-icon">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-twitter"></use>
-          </svg>
-        </div>
-        <h5 class="user-name">{{item.name}}</h5>
-      </a>
-    </div>
-    <div class="layout__item" *ngFor="#item of friends.mutual_twitter_followers">
-      <a class="user-listed user-listed--1">
-        <div class="listed-user-avatar-place">
-          <div class="avatar avatar--medium">
-            <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
+          <h5 class="user-name">{{item.name}}</h5>
+        </a>
+      </div>
+      <div class="swiper-slide" *ngFor="#item of friends.mutual_twitter_followers">
+        <a class="user-listed user-listed--1">
+          <div class="listed-user-avatar-place">
+            <div class="avatar avatar--medium">
+              <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
+            </div>
+            <svg role="img" class="icon avatar-icon">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-twitter"></use>
+            </svg>
           </div>
-          <svg role="img" class="icon avatar-icon">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-twitter"></use>
-          </svg>
-        </div>
-        <h5 class="user-name">{{item.name}}</h5>
-      </a>
-    </div>
-    <div class="layout__item" *ngFor="#item of friends.mutual_linkedin_connections">
-      <a class="user-listed user-listed--1">
-        <div class="listed-user-avatar-place">
-          <div class="avatar avatar--medium">
-            <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.pictureUrls.values[0] + ')'}"></div>
+          <h5 class="user-name">{{item.name}}</h5>
+        </a>
+      </div>
+      <div class="swiper-slide" *ngFor="#item of friends.mutual_linkedin_connections">
+        <a class="user-listed user-listed--1">
+          <div class="listed-user-avatar-place">
+            <div class="avatar avatar--medium">
+              <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.pictureUrls.values[0] + ')'}"></div>
+            </div>
+            <svg role="img" class="icon avatar-icon">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-linkedin"></use>
+            </svg>
           </div>
-          <svg role="img" class="icon avatar-icon">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-linkedin"></use>
-          </svg>
-        </div>
-        <h5 class="user-name">{{item.firstName}}</h5>
-      </a>
+          <h5 class="user-name">{{item.firstName}}</h5>
+        </a>
+      </div>
     </div>
+    <div class="slide-users__next js-slide-users__next-3">Next</div>
+    <div class="slide-users__prev js-slide-users__prev-3">Prev</div>
   </div>
 </div>

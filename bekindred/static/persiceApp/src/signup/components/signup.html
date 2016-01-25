@@ -1,18 +1,12 @@
 <div class="signup">
-  <signup-header [counterInterests]="cInt" [counterOffers]="cOff" [counterGoals]="cGoa"></signup-header>
-  <notification [main]="1" [title]="notificationMain.title" [body]="notificationMain.body" [active]="notificationMain.active" [type]="notificationMain.type"></notification>
+  <signup-header [nextTitle]="nextTitle" [showSkip]="showSkip" (skip)="skip($event)" (next)="next($event)" [page]="page" [counterInterests]="cInt" [counterOffers]="cOff" [counterGoals]="cGoa"></signup-header>
   <div class="signup__content">
+    <ul class="signup-pager">
+      <li [ngClass]="{'signup-pager__curent': page === 1, 'signup-pager__completed': page >= 2}">1</li>
+      <li [ngClass]="{'signup-pager__curent': page === 2,'signup-pager__completed': page >= 3}">2</li>
+      <li [ngClass]="{'signup-pager__curent': page === 3, 'signup-pager__completed': page === 4}">3</li>
+      <li [ngClass]="{'signup-pager__curent': page === 4}">4</li>
+    </ul>
     <router-outlet></router-outlet>
   </div>
-  <footer class="footer-signup">
-    <div class="layout layout--flush">
-      <div class="layout__item 1/2">
-        <div class="page-number">{{page}}/4</div>
-      </div>
-      <div class="layout__item 1/2 text-right">
-        <a *ngIf="showSkip" (click)="skip($event)" class="link--darkgrey mr-">Skip</a>
-        <a (click)="next($event)" class="btn btn-1 btn-1--green btn-1--medium">Next</a>
-      </div>
-    </div>
-  </footer>
 </div>

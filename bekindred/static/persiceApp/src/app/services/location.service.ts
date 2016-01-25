@@ -1,8 +1,6 @@
 import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
 import {HttpClient} from '../core/http_client';
-
-import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
 import {mergeMap} from 'rxjs/operator/mergeMap';
 

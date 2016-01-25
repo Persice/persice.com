@@ -1,18 +1,22 @@
-<div class="layout slide-users js-slide-mutuals slick-frame" *ngIf="count > 0" slick show="9" breakpoint="1480" slidestoshow="6" infinite="true" scroll="1" dots="false" arrows="true" append="0">
-  <div class="layout__item" *ngFor="#item of people">
-    <a class=" user-listed user-listed--1 ">
-      <div class="listed-user-avatar-place ">
-        <div class="avatar avatar--medium ">
-          <div class="avatar-holder " [ngStyle]="{ 'background-image': 'url(' + item.image + ')'} "></div>
+<div class="swiper-container js-profile-swiper-1 pt" *ngIf="count > 0" swiper="{{swiperOptions}}">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="#item of people">
+      <a class=" user-listed user-listed--1 ">
+        <div class="listed-user-avatar-place ">
+          <div class="avatar avatar--medium ">
+            <div class="avatar-holder " [ngStyle]="{ 'background-image': 'url(' + item.image + ')'} "></div>
+          </div>
+          <svg role="img" class="icon avatar-icon" *ngIf="item.is_connection">
+            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice"></use>
+          </svg>
+          <div class="user-listed__match-percents ">
+            <span class="user-listed__match-percents__value ">{{item.mutual_match_score}}</span>
+          </div>
         </div>
-        <svg role="img" class="icon avatar-icon" *ngIf="item.is_connection">
-          <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice"></use>
-        </svg>
-        <div class="user-listed__match-percents ">
-          <span class="user-listed__match-percents__value ">{{item.mutual_match_score}}</span>
-        </div>
-      </div>
-      <h5 class="user-name ">{{item.first_name}}</h5>
-    </a>
+        <h5 class="user-name ">{{item.first_name}}</h5>
+      </a>
+    </div>
   </div>
+  <div class="slide-users__next js-slide-users__next-1">Next</div>
+  <div class="slide-users__prev js-slide-users__prev-1">Prev</div>
 </div>

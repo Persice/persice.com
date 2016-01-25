@@ -82,7 +82,8 @@ module.exports = {
             2300, // 2300 -> Duplicate identifier
             2374, // 2374 -> Duplicate number index signature
             2375, // 2375 -> Duplicate string index signature
-            2339
+            2339,
+            2305
           ]
         },
         exclude: [/\.(spec|e2e)\.ts$/]
@@ -146,14 +147,14 @@ module.exports = {
     }),
     new UglifyJsPlugin({
       // beautify: true,
-      // mangle: false,
+      mangle: false,
       comments: false,
       compress: {
         screw_ie8: true
-      },
-      mangle: {
-        screw_ie8: true
       }
+      // mangle: {
+      //   screw_ie8: true
+      // }
     })
     // include uglify in production
   ],

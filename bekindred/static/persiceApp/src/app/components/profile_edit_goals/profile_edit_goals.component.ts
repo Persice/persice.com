@@ -1,30 +1,26 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {GoalsService} from '../../services/goals.service';
-import {LoadingComponent} from '../loading/loading.component';
-import {NotificationComponent} from '../notification/notification.component';
+import {findIndex} from 'lodash';
 
+import {GoalsService} from '../../services/goals.service';
+
+import {LoadingComponent} from '../loading/loading.component';
 let view = require('./profile_edit_goals.html');
 
-import {findIndex, pluck} from 'lodash';
-
-
 declare var jQuery: any;
+declare var TweenMax: any;
 declare var Bloodhound: any;
 
 @Component({
   selector: 'profile-edit-goals',
   template: view,
   directives: [
-    LoadingComponent,
-    NotificationComponent
-  ],
-  providers: [
-    GoalsService
+    LoadingComponent
   ]
 })
 export class ProfileEditGoalsComponent {
+
   @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
-  timeoutId = null;
+
   items: any[] = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
@@ -34,13 +30,8 @@ export class ProfileEditGoalsComponent {
   total_count: number = 0;
   offset: number = 0;
   newGoal = '';
-
-  notificationMain = {
-    body: '',
-    title: '',
-    active: false,
-    type: ''
-  };
+  status;
+  saveLoading = false;
 
   constructor(
     private goalsService: GoalsService
@@ -49,8 +40,8 @@ export class ProfileEditGoalsComponent {
   }
 
   ngOnInit() {
-    this.getList();
     this.initializeTokenInput();
+    this.getList();
   }
 
   ngOnDestroy() {
@@ -74,7 +65,6 @@ export class ProfileEditGoalsComponent {
 
     keywordsEngine.initialize();
 
-
     jQuery('#goalsInput').typeahead(
       {
         hint: false,
@@ -88,70 +78,76 @@ export class ProfileEditGoalsComponent {
     );
 
     jQuery('#goalsInput').bind('typeahead:select', (ev, suggestion) => {
-      console.log('Selection: ' + suggestion);
-      this.newGoal = suggestion;
-      // this.addGoal(true);
+      if (this.saveLoading) {
+        return;
+      }
+      this.saveLoading = true;
+      this.loadingEvent.next(true);
+      this.saveGoal(suggestion);
     });
-
 
   }
 
-  addGoal(event) {
-    this.notificationMain.active = false;
-    if (this.newGoal.length === 0) {
-      this.notificationMain = {
-        type: 'warning',
-        title: '',
-        active: true,
-        body: 'Please enter your goal first.'
-      };
+  saveGoal(goal) {
+
+    if (goal.length === 0 || goal.length > 100) {
+      this.status = 'failure';
+      this.saveLoading = false;
+      this.loadingEvent.next(false);
       return;
     }
-
-    if (this.newGoal.length > 100) {
-      this.notificationMain = {
-        type: 'warning',
-        title: '',
-        active: true,
-        body: 'New goal must have less than 100 characters.'
-      };
-      return;
-    }
-
-    this.loadingEvent.next(true);
-
-    this.goalsService.save(this.newGoal)
+    this.goalsService.save(goal)
       .subscribe((res) => {
-        this.notificationMain.active = false;
-
         let newItem = res;
-        this.items = [...this.items, newItem];
+        this.items.push(newItem);
+        this.status = 'success';
+
         this.total_count++;
+        if (this.total_count === 0) {
+          this.isListEmpty = true;
+        }
+        else {
+          this.isListEmpty = false;
+        }
         this.newGoal = '';
         jQuery('#goalsInput').typeahead('val', '');
+        this.saveLoading = false;
         this.loadingEvent.next(false);
       }, (err) => {
         let error = JSON.parse(err._body);
         if ('goal' in error) {
-
-          this.notificationMain = {
-            type: 'error',
-            title: '',
-            active: true,
-            body: `${error.goal.error[0]}`
-          };
-
+          this.status = 'failure';
         }
+        this.saveLoading = false;
         this.loadingEvent.next(false);
       }, () => {
 
       });
+  }
 
+  inputChanged(event) {
+    //if key is not enter clear notification
+    if (event.which !== 13) {
+      this.status = null;
+    }
+    else { //if key is entered
+      this.addGoal();
+    }
+
+  }
+
+  addGoal() {
+    if (this.saveLoading) {
+      return;
+    }
+    this.saveLoading = true;
+    this.loadingEvent.next(true);
+
+    this.saveGoal(this.newGoal);
   }
 
   removeGoal(event) {
     this.loadingEvent.next(true);
-    this.notificationMain.active = false;
     let idx = findIndex(this.items, event);
     if (this.items[idx]) {
       this.goalsService.delete(event.resource_uri)
@@ -159,6 +155,13 @@ export class ProfileEditGoalsComponent {
           this.items.splice(idx, 1);
           this.total_count--;
           this.loadingEvent.next(false);
+
+          if (this.total_count === 0) {
+            this.isListEmpty = true;
+          }
+          else {
+            this.isListEmpty = false;
+          }
         });
     }
 
@@ -166,13 +169,11 @@ export class ProfileEditGoalsComponent {
 
 
   getList() {
-    this.notificationMain.active = false;
     if (this.next === null) return;
     this.loading = true;
     this.goalsService.get(this.next, 100)
       .subscribe(data => this.assignList(data),
       (err) => {
-        console.log(err);
         this.loading = false;
       },
       () => {
@@ -182,7 +183,6 @@ export class ProfileEditGoalsComponent {
 
 
   refreshList() {
-    this.notificationMain.active = false;
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items.splice(0, this.items.length);
     this.isListEmpty = false;

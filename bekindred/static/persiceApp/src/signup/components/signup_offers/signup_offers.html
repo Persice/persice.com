@@ -1,12 +1,21 @@
 <h2 class="signup-step__title">I can help people...</h2>
-<p class="signup-step__subtitle">You can customize this later.</p>
 <div class="search-signup-wrapper">
   <div class="search search--signup typeahead-search">
     <div class="search__top">
       <svg role="img" class="icon">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-search"></use>
       </svg>
-      <input [(ngModel)]="newOffer" (keyup.enter)="addOffer($event)" type="text" id="offersInput" class="search__input typeahead" placeholder="Enter your offer or search existing offers">
+      <input [(ngModel)]="newOffer" (keyup)="inputChanged($event)" type="text" id="offersInput" class="search__input typeahead" placeholder="Enter a few offers here">
+      <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
+        <svg role="img" class="icon ">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-failure"></use>
+        </svg>
+      </div>
+      <div class="search__notification search__notification--succes" [ngClass]="{'is-visible': status === 'success'}">
+        <svg role="img" class="icon ">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-success-2"></use>
+        </svg>
+      </div>
       <button class="btn">
         <svg role="img" class="icon" (click)="addOffer($event)">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
@@ -14,14 +23,23 @@
       </button>
     </div>
   </div>
-  <div class="search__tags-wrapper text-left" id="offers">
+  <div class="search__tags-wrapper text-left" id="offers" [ngClass]="{'has-signup-empty-state': isListEmpty}">
     <span class="search-tag-secondary" *ngFor="#item of items">
       <a (click)="removeOffer(item)">
-        <svg role="img" class="icon ">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>
+        <svg role="img" class="icon icon--tiny">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
         </svg>
       </a>
       {{item.subject}}
     </span>
+    <div class="signup-empty-state" [ngClass]="{'is-visible': isListEmpty}">
+      <svg role="img" class="icon signup-empty-state__icon">
+        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#no-offers"></use>
+      </svg>
+      <h3 class="signup-empty-state__title">"Offers" are things you can help other people achieve.</h3>
+      <p class="signup-empty-state__par signup-empty-state__par--prom">For example:</p>
+      <p class="signup-empty-state__par">"Practice speaking Spanish"
+        <br>or "Find a tennis partner"</p>
+    </div>
   </div>
 </div>

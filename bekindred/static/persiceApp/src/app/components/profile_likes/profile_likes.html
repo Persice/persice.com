@@ -1,34 +1,11 @@
 <div class="match-profile__likes">
   <div class="match-profile__likes__top">
-    <h4 class="module-title">Likes
-      <span>({{count}})</span>
-    </h4>
+    <a class="module-title mr+" href="#">Likes <span>({{count}})</span></a>
   </div>
 
-  <div *ngIf="count > 0" class="layout slide-users slick-frame js-slide-likes" slick show="2" breakpoint="1550" slidestoshow="2" infinite="true" scroll="1" dots="false" arrows="true" append="0">
-    <div class="layout__item" *ngFor="#item of likes">
-      <div class="flag flag--small flag--fix">
-        <div class="flag__img">
-          <div class="listed-user-avatar-place">
-            <img [src]="item.image ? item.image : 'https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg'" alt="User Name" class="avatar  avatar--medium">
-            <svg role="img" class="icon avatar-icon" *ngIf="item.match">
-              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice"></use>
-            </svg>
-          </div>
-        </div>
-        <div class="flag__body">
-          <h5 class="user-name">{{item.value}}</h5>
-          <p class="user-title"></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
- <!-- Swiper test -->
- <!--  <div class="swiper-container layout" swiper *ngIf="count > 0">
-
+  <div class="swiper-container js-profile-swiper-2 pt likes" *ngIf="count > 0" swiper="{{swiperOptions}}">
     <div class="swiper-wrapper">
-      <div class="layout__item swiper-slide" *ngFor="#item of likes">
+      <div class="swiper-slide" *ngFor="#item of likes">
         <div class="flag flag--small flag--fix">
           <div class="flag__img">
             <div class="listed-user-avatar-place">
@@ -45,10 +22,7 @@
         </div>
       </div>
     </div>
-
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-  </div> -->
-
-
+    <div class="slide-users__next js-slide-users__next-2">Next</div>
+    <div class="slide-users__prev js-slide-users__prev-2">Prev</div>
+  </div>
 </div>

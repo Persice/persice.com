@@ -1,6 +1,5 @@
 import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
-import * as Rx from 'rxjs';
 import {Observable} from 'rxjs';
 import {HttpClient} from '../core/http_client';
 

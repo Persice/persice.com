@@ -13,7 +13,7 @@ export class DropdownDirective {
   el: ElementRef;
   target: string;
 
-  constructor( @Inject(ElementRef) el: ElementRef) {
+  constructor(el: ElementRef) {
     this.el = el;
   }
 

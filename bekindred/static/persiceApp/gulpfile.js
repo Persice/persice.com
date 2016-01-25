@@ -15,7 +15,7 @@ var jsFiles = [
   './lib/js/svg4everybody.js',
   './lib/js/ion.rangeSlider.js',
   './lib/js/jquery.dotdotdot.js',
-  './lib/js/slick.js',
+  './lib/js/swiper.js',
   './lib/js/remodal.js',
   './lib/js/picker.js',
   './lib/js/picker.date.js',

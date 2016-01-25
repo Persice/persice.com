@@ -4,7 +4,7 @@ import {FilterService} from '../../services/filter.service';
 import {KeywordsService} from '../../services/keywords.service';
 import {NotificationService} from '../../services/notification.service';
 
-import {pluck} from 'lodash';
+import {map} from 'lodash';
 
 declare var jQuery: any;
 
@@ -79,21 +79,21 @@ export class SearchKeywordsInputComponent {
     //save keywords to backend after token created
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-      existingTokens = pluck(existingTokens, 'value');
+      existingTokens = map(existingTokens, 'value');
       this.save(existingTokens.join());
     });
 
     //save keywords to backend after token removed
     jQuery(this.el.nativeElement).on('tokenfield:removedtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-      existingTokens = pluck(existingTokens, 'value');
+      existingTokens = map(existingTokens, 'value');
       this.save(existingTokens.join());
     });
 
     //prevent duplicates and total keywords string length > 50 chars
     jQuery(this.el.nativeElement).on('tokenfield:createtoken', (event) => {
       let existingTokens = jQuery(this.el.nativeElement).tokenfield('getTokens');
-      let tokensString = pluck(existingTokens, 'value');
+      let tokensString = [...map(existingTokens, 'value'), event.attrs.value];
 
       let tokenInput = event.attrs.value;
 

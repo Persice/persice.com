@@ -10,15 +10,11 @@ import {SignupHeaderComponent} from './signup_header/signup_header.component';
 
 import {InterestsService} from '../../app/services/interests.service';
 import {KeywordsService} from '../../app/services/keywords.service';
-import {NotificationService} from '../../app/services/notification.service';
 import {GoalsService} from '../../app/services/goals.service';
 import {OffersService} from '../../app/services/offers.service';
-import {UserService} from '../../app/services/user.service';
 import {UserAuthService} from '../../app/services/userauth.service';
 import {OnboardingService} from '../../app/services/onboarding.service';
-
-import {NotificationComponent} from '../../app/components/notification/notification.component';
-import {InterfaceNotification} from '../../app/models/notification.model';
+import {WarningService} from '../../app/services/warning.service';
 
 let view = require('./signup.html');
 
@@ -27,18 +23,16 @@ let view = require('./signup.html');
   selector: 'persice-signup',
   directives: [
     SignupHeaderComponent,
-    ROUTER_DIRECTIVES,
-    NotificationComponent
+    ROUTER_DIRECTIVES
   ],
   providers: [
     InterestsService,
     GoalsService,
     OffersService,
     KeywordsService,
-    NotificationService,
-    UserService,
     UserAuthService,
-    OnboardingService
+    OnboardingService,
+    WarningService
   ]
 })
 @RouteConfig([
@@ -77,21 +71,17 @@ export class SignupComponent {
   @ViewChild(SignupGoalsComponent) myElem2: SignupGoalsComponent;
   @ViewChild(SignupOffersComponent) myElem3: SignupOffersComponent;
 
-
-
-
   page: number = 1;
   cGoa: number = 0;
   cOff: number = 0;
   cInt: number = 0;
   showSkip = false;
   nextStep = 'SignupGoals';
+  nextTitle = 'Next';
   is_complete = null;
 
   router: Router;
   location: Location;
-
-  timeoutId = null;
 
   notificationMain = {
     body: '',
@@ -103,13 +93,12 @@ export class SignupComponent {
   constructor(
     router: Router,
     location: Location,
-    public notificationService: NotificationService,
     private goalsService: GoalsService,
     private offersService: OffersService,
     private interestsService: InterestsService,
-    private userService: UserService,
     private userAuthService: UserAuthService,
-    private onboardingService: OnboardingService
+    private onboardingService: OnboardingService,
+    private warningService: WarningService
   ) {
     this.router = router;
     this.location = location;
@@ -122,7 +111,12 @@ export class SignupComponent {
         subs = null;
       }
       if (this.myElem1) {
-        subs = this.myElem1.counter.subscribe(message => this.onCounterChanged(message));
+        subs = this.myElem1.counter.subscribe(message => {
+          this.onCounterChanged(message);
+          if (message.count >= 3) {
+            this.warningService.push(false);
+          }
+        });
       }
 
       if (this.myElem2) {
@@ -138,60 +132,20 @@ export class SignupComponent {
   }
 
   ngOnInit() {
-    //create new observer and subscribe for notification service
-    this.notificationService.addObserver('signupapp');
-    this.notificationService.observer('signupapp')
-      .subscribe(
-      (data) => this.showNotification(data),
-      (err) => {
-        console.log('Notification error %s', err);
-      },
-      () => console.log('event completed')
-      );
-
-    this.userService.get().subscribe((data) => {
-      let res = data.objects[0];
-      this.cGoa = res.goals_count;
-      this.cOff = res.offers_count;
-      this.cInt = res.interest_count;
-      this.is_complete = res.onboardingflow;
-    });
 
     this.userAuthService.findOneByUri('me').subscribe((data) => {
       let res = data;
+      this.cGoa = res.goals.length;
+      this.cOff = res.offers.length;
+      this.cInt = res.interests.length;
       this.is_complete = res.onboardingflow;
     });
   }
 
   ngOnDestroy() {
-    this.notificationService.observer('signupapp').unsubscribe();
-    this.notificationService.removeObserver('signupapp');
-  }
-
-  showNotification(data: InterfaceNotification) {
-    this.notificationMain.body = data.body;
-    this.notificationMain.type = data.type;
-    this.notificationMain.title = data.title;
-    this.notificationMain.active = true;
-
-    //autoclose notification if autoclose option enabled
-    if (data.autoclose > 0) {
-      this.closeNotification(data.autoclose);
-    }
 
   }
 
-  closeNotification(timeout) {
-    if (this.timeoutId) {
-      window.clearTimeout(this.timeoutId);
-    }
-    this.timeoutId = setTimeout(
-      () => {
-        this.notificationMain.active = false;
-      },
-      timeout
-    );
-  }
 
   onRouteChanged(path) {
     switch (path) {
@@ -199,47 +153,47 @@ export class SignupComponent {
         this.page = 1;
         this.showSkip = false;
         this.nextStep = 'SignupGoals';
+        this.nextTitle = 'Next';
         break;
       case 'goals':
         this.page = 2;
         this.showSkip = true;
         this.nextStep = 'SignupOffers';
+        this.nextTitle = 'Next';
         break;
       case 'offers':
         this.page = 3;
         this.showSkip = true;
         this.nextStep = 'SignupConnect';
+        this.nextTitle = 'Next';
         break;
       case 'connect':
         this.page = 4;
         this.showSkip = true;
         this.nextStep = null;
+        this.nextTitle = 'Go!';
         break;
       default:
         this.page = 1;
         this.showSkip = false;
         this.nextStep = 'SignupGoals';
+        this.nextTitle = 'Next';
         break;
     }
   }
 
 
   next(event) {
-    console.log('clicked next');
     if (this.nextStep) {
-
-
       switch (this.nextStep) {
         case 'SignupGoals':
-          //check if user selected 3 interests
+          //check if user selected less than 3 interests
           if (this.cInt < 3) {
-            this.notificationService.push({
-              type: 'warning',
-              title: '',
-              body: `To continue, please select at least three interests.`,
-              autoclose: 4000
-            });
+            this.warningService.push(true);
             return;
+          }
+          else {
+            this.warningService.push(false);
           }
           break;
 
@@ -269,7 +223,6 @@ export class SignupComponent {
       this.onboardingService.complete().subscribe((data) => {
         window.location.href = '/#/crowd';
       }, (err) => {
-        console.log(err);
       }, () => {
 
       });

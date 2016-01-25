@@ -1,40 +1,35 @@
-import {Directive, ElementRef, Inject} from 'angular2/core';
+import {Directive, ElementRef, Inject, NgZone} from 'angular2/core';
 
 declare var jQuery: any;
 declare var Swiper: any;
 
 @Directive({
-  selector: '[swiper]'
+  selector: '[swiper]',
+  properties: ['options: swiper', 'id']
 })
 export class SwiperDirective {
   el: ElementRef;
+  _ngZone: NgZone;
+  options;
+  id;
+  swiperInstance;
 
-  constructor( @Inject(ElementRef) el: ElementRef) {
+  constructor(el: ElementRef, _ngZone: NgZone) {
     this.el = el;
+    this._ngZone = _ngZone;
   }
 
   ngAfterViewInit() {
-
+    let opts = JSON.parse(this.options);
 
     setTimeout(() => {
-      let mySwiper = new Swiper(jQuery(this.el.nativeElement), {
-        // Optional parameters
-        direction: 'horizontal',
-        loop: true,
-        spaceBetween: 10,
-        slidesPerView: 3,
-        // Navigation arrows
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev'
-
-      });
-    }, 500);
-
-
-
+      this.swiperInstance = new Swiper(jQuery(this.el.nativeElement), opts);
+    });
   }
 
   ngOnDestroy() {
-
+    if (this.swiperInstance) {
+      this.swiperInstance.destroy(true, true);
+    }
   }
 }

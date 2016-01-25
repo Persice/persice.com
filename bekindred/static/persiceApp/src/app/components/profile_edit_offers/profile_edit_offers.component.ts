@@ -1,31 +1,25 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {OffersService} from '../../services/offers.service';
-import {LoadingComponent} from '../loading/loading.component';
-import {NotificationComponent} from '../notification/notification.component';
+import {findIndex} from 'lodash';
 
+import {OffersService} from '../../services/offers.service';
+
+import {LoadingComponent} from '../loading/loading.component';
 let view = require('./profile_edit_offers.html');
 
-import {findIndex, pluck} from 'lodash';
-
-
 declare var jQuery: any;
+declare var TweenMax: any;
 declare var Bloodhound: any;
 
 @Component({
   selector: 'profile-edit-offers',
   template: view,
   directives: [
-    LoadingComponent,
-    NotificationComponent
-  ],
-  providers: [
-    OffersService
+    LoadingComponent
   ]
 })
 export class ProfileEditOffersComponent {
-  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
 
-  timeoutId = null;
+  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
 
   items: any[] = [];
   loading: boolean = false;
@@ -36,13 +30,8 @@ export class ProfileEditOffersComponent {
   total_count: number = 0;
   offset: number = 0;
   newOffer = '';
-
-  notificationMain = {
-    body: '',
-    title: '',
-    active: false,
-    type: ''
-  };
+  status;
+  saveLoading = false;
 
   constructor(
     private offersService: OffersService
@@ -51,8 +40,8 @@ export class ProfileEditOffersComponent {
   }
 
   ngOnInit() {
-    this.getList();
     this.initializeTokenInput();
+    this.getList();
   }
 
   ngOnDestroy() {
@@ -76,7 +65,6 @@ export class ProfileEditOffersComponent {
 
     keywordsEngine.initialize();
 
-
     jQuery('#offersInput').typeahead(
       {
         hint: false,
@@ -90,68 +78,76 @@ export class ProfileEditOffersComponent {
     );
 
     jQuery('#offersInput').bind('typeahead:select', (ev, suggestion) => {
-      console.log('Selection: ' + suggestion);
-      this.newOffer = suggestion;
-      // this.addOffer(true);
+      if (this.saveLoading) {
+        return;
+      }
+      this.saveLoading = true;
+      this.loadingEvent.next(true);
+      this.saveOffer(suggestion);
     });
-
 
   }
 
-  addOffer(event) {
-    this.notificationMain.active = false;
-    if (this.newOffer.length === 0) {
-      this.notificationMain = {
-        type: 'warning',
-        title: '',
-        active: true,
-        body: 'Please enter your offer first.'
-      };
-      return;
-    }
+  saveOffer(offer) {
 
-    if (this.newOffer.length > 100) {
-      this.notificationMain = {
-        type: 'warning',
-        title: '',
-        active: true,
-        body: 'New offer must have less than 100 characters.'
-      };
+    if (offer.length === 0 || offer.length > 100) {
+      this.status = 'failure';
+      this.saveLoading = false;
+      this.loadingEvent.next(false);
       return;
     }
-    this.loadingEvent.next(true);
-    this.offersService.save(this.newOffer)
+    this.offersService.save(offer)
       .subscribe((res) => {
-        this.notificationMain.active = false;
-
         let newItem = res;
-        this.items = [...this.items, newItem];
+        this.items.push(newItem);
+        this.status = 'success';
+
         this.total_count++;
+        if (this.total_count === 0) {
+          this.isListEmpty = true;
+        }
+        else {
+          this.isListEmpty = false;
+        }
         this.newOffer = '';
         jQuery('#offersInput').typeahead('val', '');
+        this.saveLoading = false;
         this.loadingEvent.next(false);
       }, (err) => {
         let error = JSON.parse(err._body);
         if ('offer' in error) {
-
-          this.notificationMain = {
-            type: 'error',
-            title: '',
-            active: true,
-            body: `${error.offer.error[0]}`
-          };
-
+          this.status = 'failure';
         }
+        this.saveLoading = false;
         this.loadingEvent.next(false);
       }, () => {
 
       });
+  }
 
+  inputChanged(event) {
+    //if key is not enter clear notification
+    if (event.which !== 13) {
+      this.status = null;
+    }
+    else { //if key is entered
+      this.addOffer();
+    }
+
+  }
+
+  addOffer() {
+    if (this.saveLoading) {
+      return;
+    }
+    this.saveLoading = true;
+    this.loadingEvent.next(true);
+
+    this.saveOffer(this.newOffer);
   }
 
   removeOffer(event) {
     this.loadingEvent.next(true);
-    this.notificationMain.active = false;
     let idx = findIndex(this.items, event);
     if (this.items[idx]) {
       this.offersService.delete(event.resource_uri)
@@ -159,6 +155,13 @@ export class ProfileEditOffersComponent {
           this.items.splice(idx, 1);
           this.total_count--;
           this.loadingEvent.next(false);
+
+          if (this.total_count === 0) {
+            this.isListEmpty = true;
+          }
+          else {
+            this.isListEmpty = false;
+          }
         });
     }
 
@@ -166,13 +169,11 @@ export class ProfileEditOffersComponent {
 
 
   getList() {
-    this.notificationMain.active = false;
     if (this.next === null) return;
     this.loading = true;
     this.offersService.get(this.next, 100)
       .subscribe(data => this.assignList(data),
       (err) => {
-        console.log(err);
         this.loading = false;
       },
       () => {
@@ -182,7 +183,6 @@ export class ProfileEditOffersComponent {
 
 
   refreshList() {
-    this.notificationMain.active = false;
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items.splice(0, this.items.length);
     this.isListEmpty = false;

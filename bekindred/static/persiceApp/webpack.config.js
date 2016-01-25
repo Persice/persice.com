@@ -6,7 +6,6 @@
 var path = require('path');
 // Webpack Plugins
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var NotifierPlugin = require('webpack-notifier');
 var HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
@@ -32,7 +31,7 @@ module.exports = {
   // static data for index.html
   metadata: metadata,
   // for faster builds use 'eval'
-  devtool: 'source-map',
+  devtool: 'eval',
   debug: true,
   verbose: false,
   displayErrorDetails: true,
@@ -53,6 +52,12 @@ module.exports = {
   resolve: {
     // ensure loader extensions match
     extensions: ['', '.ts', '.js', '.json', '.css', '.html']
+    // alias: {
+    //   'TweenLite': 'gsap/src/uncompressed/TweenLite.js',
+    //   'TweenMax': 'gsap/src/uncompressed/TweenMax.js',
+    //   'TimelineLite': 'gsap/src/uncompressed/TimelineLite.js',
+    //   'CSSPlugin': 'gsap/src/uncompressed/plugins/CSSPlugin.js',
+    // },
   },
 
   module: {
@@ -72,7 +77,8 @@ module.exports = {
             2300, // 2300 -> Duplicate identifier
             2374, // 2374 -> Duplicate number index signature
             2375, // 2375 -> Duplicate string index signature
-            2339
+            2339,
+            2305
           ]
         },
         exclude: [/\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
@@ -115,21 +121,18 @@ module.exports = {
       name: 'vendor',
       filename: 'vendor.bundle.js',
       minChunks: Infinity
-    }),
+    })
+    // new ProvidePlugin({TweenMax: "TweenMax"})
     // static assets
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
+    // new CopyWebpackPlugin([{
+    //   from: 'src/assets',
+    //   to: 'assets'
+    // }]),
     // generating html
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      inject: false
-    }),
-    //osx notifier
-    new NotifierPlugin({
-      title: "Persice"
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: 'src/index.html',
+    //   inject: false
+    // }),
   ],
 
   // Other module loader config

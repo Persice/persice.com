@@ -32,11 +32,11 @@ export class ProfileAcceptPassComponent {
 
 
   passUser(event) {
-    this.passEvent.next(this.user);
+    this.passEvent.next({ user: this.user, next: true });
   }
 
   acceptUser(event) {
-    this.acceptEvent.next(this.user);
+    this.acceptEvent.next({ user: this.user, next: true });
   }
 
 }
