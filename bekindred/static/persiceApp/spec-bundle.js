@@ -9,7 +9,6 @@
  * all here! Crazy huh. So we need to do some setup
 */
 Error.stackTraceLimit = Infinity;
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 100;
 require('phantomjs-polyfill');
 require('es6-promise');
 require('es6-shim');
@@ -28,16 +27,15 @@ require('zone.js/dist/jasmine-patch.js');
   any file that ends with spec.js and get its path. By passing in true
   we say do this recursively
 */
-var testContext = require.context('./test', true, /\.spec\.ts/);
-var appContext = require.context('./src', true, /\.spec\.ts/);
+var testContext = require.context('./src', true, /\.spec\.ts/);
 
 // get all the files, for each file, call the context function
 // that will require the file and load it up here. Context will
 // loop and require those spec files here
-appContext.keys().forEach(appContext);
 testContext.keys().forEach(testContext);
 
 // Select BrowserDomAdapter.
 // see https://github.com/AngularClass/angular2-webpack-starter/issues/124
 var domAdapter = require('angular2/src/platform/browser/browser_adapter');
 domAdapter.BrowserDomAdapter.makeCurrent();
+
