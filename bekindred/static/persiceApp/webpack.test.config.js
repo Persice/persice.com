@@ -15,11 +15,7 @@ module.exports = {
     cache: false,
     extensions: ['.ts', '.js', '.json', '.css', '.html'].reduce(function(memo, val) {
       return memo.concat('.async' + val, val); // ensure .async also works
-    }, ['']),
-    // TODO(gdi2290): remove after beta.2 release
-    alias: {
-      'node_modules/angular2/src/compiler/template_compiler.js': 'src/.ng2-patch/template_compiler.js'
-    }
+    }, [''])
   },
   devtool: 'inline-source-map',
   module: {
@@ -88,19 +84,16 @@ module.exports = {
       'process.env': {
         'ENV': JSON.stringify(ENV),
         'NODE_ENV': JSON.stringify(ENV)
-      },
-      'global': 'window',
-      // TypeScript helpers
-      '__metadata': 'Reflect.metadata',
-      '__decorate': 'Reflect.decorate'
+      }
     }),
     new ProvidePlugin({
-      // '__metadata': 'ts-helper/metadata',
-      // '__decorate': 'ts-helper/decorate',
+      // TypeScript helpers
+      '__metadata': 'ts-helper/metadata',
+      '__decorate': 'ts-helper/decorate',
       '__awaiter': 'ts-helper/awaiter',
       '__extends': 'ts-helper/extends',
       '__param': 'ts-helper/param',
-      'Reflect': 'es7-reflect-metadata/dist/browser'
+      'Reflect': 'es7-reflect-metadata/src/global/browser'
     })
   ],
   // we need this due to problems with es6-shim

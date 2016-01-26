@@ -2,7 +2,6 @@
   "name": "persice",
   "version": "1.0.0",
   "description": "Angular 2 app for Persice",
-  "main": "index.js",
   "scripts": {
     "clean": "rimraf node_modules doc typings coverage dist && npm cache clean",
     "clean:dist": "rimraf dist",
@@ -36,8 +35,7 @@
     "pretypings-install": "npm run clean:ng2",
     "typings-install": "typings install",
     "postinstall": "npm run typings-install",
-    "unit-tests": "karma start --reporters=dots,junit",
-    "testwatch": "karma start --auto-watch --no-single-run --reporters=mocha"
+    "jenkins": "karma start --reporters=dots,junit"
   },
   "author": "Sasa Macakanja <sasa.macakanja@toptal.com>",
   "license": "MIT",
@@ -89,6 +87,8 @@
     "karma-chrome-launcher": "^0.2.1",
     "karma-coverage": "^0.5.3",
     "karma-jasmine": "^0.3.6",
+    "karma-junit-reporter": "^0.3.8",
+    "karma-mocha-reporter": "^1.1.5",
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "1.7.0",
