@@ -69,7 +69,6 @@ export abstract class BaseProfileComponent {
   }
 
   assignUser() {
-    this.loadingLikes = true;
     this.loadingConnections = true;
     this.loadingPhotos = true;
 
@@ -81,18 +80,9 @@ export abstract class BaseProfileComponent {
     this.profileLocation = this.user.lives_in ? this.user.lives_in : '';
 
     setTimeout(() => {
-      let likes = this.user.likes[0];
-      this.profileLikes = Object.keys(likes).map((key) => {
-        return {
-          value: key,
-          match: likes[key]
-        };
-      });
-
-
+      let likes = this.user.likes;
+      this.profileLikes = likes;
       this.profileLikesCount = this.profileLikes.length;
-      this.loadingLikes = false;
-
     });
 
     this.profileJob = this.user.position && this.user.position.job !== null && this.user.position.company !== null ? `${this.user.position.job} at ${this.user.position.company}` : '';
