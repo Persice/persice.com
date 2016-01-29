@@ -103,18 +103,23 @@ export class InboxService {
 
 	private _parseData(data) {
 		for (var i = 0; i < data.objects.length; ++i) {
-			let item = {
-				name: data.objects[i].first_name,
-				threadId: data.objects[i].friend_id,
-				facebookId: data.objects[i].facebook_id,
-				image: data.objects[i].image,
-				sentAt: data.objects[i].sent_at !== null ? DateUtil.fromNow(data.objects[i].sent_at) : '',
-				readAt: data.objects[i].read_at,
-				id: data.objects[i].id,
-				unread: data.objects[i].read_at !== null || data.objects[i].sent_at !== null ? true : false,
-				body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
-			};
-			this._dataStore = [...this._dataStore, item];
+			if (data.objects[i].sent_at !== null) {
+				//add user to list if we have new messages
+				let item = {
+					name: data.objects[i].first_name,
+					threadId: data.objects[i].friend_id,
+					facebookId: data.objects[i].facebook_id,
+					image: data.objects[i].image,
+					sentAt: data.objects[i].sent_at !== null ? DateUtil.fromNow(data.objects[i].sent_at) : '',
+					readAt: data.objects[i].read_at,
+					id: data.objects[i].id,
+					unread: data.objects[i].read_at !== null || data.objects[i].sent_at !== null ? true : false,
+					body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
+				};
+				this._dataStore = [...this._dataStore, item];
+
+			}
+
 		}
 		this._loading = false;
 
