@@ -3,9 +3,9 @@
  */
 var path = require('path');
 var webpack = require('webpack');
+var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
 var metadata = {
@@ -22,8 +22,9 @@ module.exports = {
   // static data for index.html
   metadata: metadata,
   // for faster builds use 'eval'
-  devtool: 'eval', //'source-map',
+  devtool: 'eval',
   debug: true,
+  // cache: false,
 
   // our angular app
   entry: {
@@ -40,25 +41,20 @@ module.exports = {
     chunkFilename: '[id].chunk.js'
   },
 
+
   resolve: {
     // ensure loader extensions match
-    extensions: ['.ts', '.js', '.json', '.css', '.html'].reduce(function(memo, val) {
-      return memo.concat('.async' + val, val); // ensure .async also works
-    }, ['']),
-    // TODO: remove after beta.2 release
-    alias: {
-      'node_modules/angular2/src/compiler/template_compiler.js': 'src/.ng2-patch/template_compiler.js'
-    }
+    extensions: prepend(['.ts', '.js', '.json', '.css', '.html'], '.async') // ensure .async.ts etc also works
   },
 
   module: {
     preLoaders: [
-      // { test: /\.ts$/, loader: 'tslint-loader', exclude: [ /node_modules/ ] },
-      // TODO: `exclude: [ /node_modules\/rxjs/ ]` fixed with rxjs 5 beta.2 release
+      // { test: /\.ts$/, loader: 'tslint-loader', exclude: [ root('node_modules') ] },
+      // TODO(gdi2290): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
       {
         test: /\.js$/,
         loader: "source-map-loader",
-        exclude: [/node_modules\/rxjs/]
+        exclude: [root('node_modules/rxjs')]
       }
     ],
     loaders: [
@@ -101,9 +97,9 @@ module.exports = {
   plugins: [
     new ProvidePlugin({
       _: 'lodash'
-      // jQuery: 'jquery',
-      // $: 'jquery',
-      // jquery: 'jquery'
+        // jQuery: 'jquery',
+        // $: 'jquery',
+        // jquery: 'jquery'
     }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
@@ -111,16 +107,16 @@ module.exports = {
       filename: 'polyfills.bundle.js',
       minChunks: Infinity
     }),
-    // // static assets
-    // new CopyWebpackPlugin([{
-    //   from: 'src/assets',
-    //   to: 'assets'
-    // }]),
-    // // generating html
-    // new HtmlWebpackPlugin({
-    //   template: 'src/index.html',
-    //   inject: false
-    // }),
+    // static assets
+    new CopyWebpackPlugin([{
+      from: 'src/assets',
+      to: 'assets'
+    }]),
+    // generating html
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      inject: false
+    }),
     // replace
     new webpack.DefinePlugin({
       'process.env': {
@@ -165,6 +161,18 @@ module.exports = {
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);
   return path.join.apply(path, [__dirname].concat(args));
+}
+
+function prepend(extensions, args) {
+  args = args || [];
+  if (!Array.isArray(args)) {
+    args = [args]
+  }
+  return extensions.reduce(function(memo, val) {
+    return memo.concat(val, args.map(function(prefix) {
+      return prefix + val
+    }));
+  }, ['']);
 }
 
 function rootNode(args) {

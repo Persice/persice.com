@@ -13,9 +13,7 @@ var ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 module.exports = {
   resolve: {
     cache: false,
-    extensions: ['.ts', '.js', '.json', '.css', '.html'].reduce(function(memo, val) {
-      return memo.concat('.async' + val, val); // ensure .async also works
-    }, [''])
+    extensions: prepend(['.ts', '.js', '.json', '.css', '.html'], '.async') // ensure .async.ts etc also works
   },
   devtool: 'inline-source-map',
   module: {
@@ -23,13 +21,13 @@ module.exports = {
       test: /\.ts$/,
       loader: 'tslint-loader',
       exclude: [
-        /node_modules/
+        root('node_modules')
       ]
     }, {
       test: /\.js$/,
       loader: "source-map-loader",
       exclude: [
-        /node_modules\/rxjs/
+        root('node_modules/rxjs')
       ]
     }],
     loaders: [{
@@ -69,8 +67,8 @@ module.exports = {
       }
     ],
     noParse: [
-      /zone\.js\/dist\/.+/,
-      /angular2\/bundles\/.+/
+      root('zone.js/dist'),
+      root('angular2/bundles')
     ]
   },
   stats: {
@@ -117,4 +115,16 @@ function root(args) {
 function rootNode(args) {
   args = Array.prototype.slice.call(arguments, 0);
   return root.apply(path, ['node_modules'].concat(args));
+}
+
+function prepend(extensions, args) {
+  args = args || [];
+  if (!Array.isArray(args)) {
+    args = [args]
+  }
+  return extensions.reduce(function(memo, val) {
+    return memo.concat(val, args.map(function(prefix) {
+      return prefix + val
+    }));
+  }, ['']);
 }

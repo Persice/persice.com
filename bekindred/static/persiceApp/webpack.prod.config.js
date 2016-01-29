@@ -39,8 +39,8 @@ module.exports = {
 
   entry: {
     'polyfills': './src/polyfills.ts',
-    'main': './src/main.ts',
-    'signup': './src/signup/main.ts'
+    'main': './src/main.ts', // our main app
+    'signup': './src/signup/main.ts' // our signup app
   },
 
   // Config for our build files
@@ -54,13 +54,7 @@ module.exports = {
   resolve: {
     cache: false,
     // ensure loader extensions match
-    extensions: ['.ts', '.js', '.json', '.css', '.html'].reduce(function(memo, val) {
-      return memo.concat('.async' + val, val); // ensure .async also works
-    }, ['']),
-    // TODO(gdi2290): remove after beta.2 release
-    alias: {
-      'node_modules/angular2/src/compiler/template_compiler.js': 'src/.ng2-patch/template_compiler.js'
-    }
+    extensions: prepend(['.ts', '.js', '.json', '.css', '.html'], '.async') // ensure .async.ts etc also works
   },
 
   module: {
@@ -68,13 +62,13 @@ module.exports = {
       test: /\.ts$/,
       loader: 'tslint-loader',
       exclude: [
-        /node_modules/
+        root('node_modules')
       ]
     }, {
       test: /\.js$/,
       loader: "source-map-loader",
       exclude: [
-        /node_modules\/rxjs/
+        root('node_modules/rxjs')
       ]
     }],
     loaders: [
@@ -163,19 +157,26 @@ module.exports = {
     new UglifyJsPlugin({
       // to debug prod builds uncomment //debug lines and comment //prod lines
 
-      // beautify: true, // debug
-      mangle: false, // debug
-      // compress : { screw_ie8 : true, keep_fnames: true, drop_debugger: false }, // debug
+      // beautify: true,//debug
+      // mangle: false,//debug
+      // dead_code: false,//debug
+      // unused: false,//debug
+      // deadCode: false,//debug
+      // compress : { screw_ie8 : true, keep_fnames: true, drop_debugger: false, dead_code: false, unused: false, }, // debug
+      // comments: true,//debug
 
       beautify: false, //prod
+      // disable mangling because of a bug in angular2 beta.1
+      // TODO: enable mangling as soon as angular2 beta.2 is out
       // mangle: {
       //   screw_ie8: true
       // }, //prod
+      mangle: false,
       compress: {
-        screw_ie8: true,
-        warnings: false
+        screw_ie8: true
       }, //prod
-      comments: false
+      comments: false //prod
+
     }),
     // include uglify in production
     new CompressionPlugin({
@@ -203,6 +204,11 @@ module.exports = {
 };
 
 // Helper functions
+function gzipMaxLevel(buffer, callback) {
+  return zlib['gzip'](buffer, {
+    level: 9
+  }, callback)
+}
 
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);
@@ -214,8 +220,14 @@ function rootNode(args) {
   return root.apply(path, ['node_modules'].concat(args));
 }
 
-function gzipMaxLevel(buffer, callback) {
-  return zlib['gzip'](buffer, {
-    level: 9
-  }, callback)
+function prepend(extensions, args) {
+  args = args || [];
+  if (!Array.isArray(args)) {
+    args = [args]
+  }
+  return extensions.reduce(function(memo, val) {
+    return memo.concat(val, args.map(function(prefix) {
+      return prefix + val
+    }));
+  }, ['']);
 }
