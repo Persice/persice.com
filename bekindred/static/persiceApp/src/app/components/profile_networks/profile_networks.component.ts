@@ -1,14 +1,19 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 @Component({
   selector: '.profile-networks',
   template: `
-  <a href="" class="edit-link">
-    <svg role="img" class="icon icon--medium">
-      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-twitter_middle"></use>
-    </svg>
-  </a>
-  <h4 class="module-title mb-">Networks</h4>
+  <h4 class="module-title mb-" *ngIf="!editable">Networks</h4>
+  <h4 class="module-title mb-" *ngIf="editable">
+    <a (click)="openEdit.next('networks')" class="edit-link">Networks
+      <span class="edit-link__icon">
+        <svg role="img" class="icon ">
+          <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-edit_info"></use>
+        </svg>
+      </span>
+    </a>
+  </h4>
+
   <div>
     <a target="_new" class="mr-" href="{{url.facebook}}" *ngIf="url.facebook !== ''">
       <svg role="img" class="icon icon--medium">
@@ -30,4 +35,6 @@ import {Component, Input} from 'angular2/core';
 })
 export class ProfileNetworksComponent {
   @Input() url;
+  @Input() editable;
+  @Output() openEdit: EventEmitter<any> = new EventEmitter();
 }

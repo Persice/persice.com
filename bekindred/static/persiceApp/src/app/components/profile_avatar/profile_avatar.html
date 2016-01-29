@@ -1,9 +1,9 @@
 <div class="match-profile__avatar-place mt+">
-  <a class="edit-photos-link" *ngIf="type === 'my'">
+  <a (click)="openEdit.next('photos')" class="edit-photos-link" *ngIf="type === 'my'">
     <svg role="img" class="icon edit-photos-icon">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-edit_photo"></use>
     </svg>
-    <span class="edit-photos-link__label">Edit photos</span>
+    <span class="edit-photos-link__label unselectable">Edit photos</span>
   </a>
   <div [ngClass]="{'is-visible': !loading}" class="match-profile__avatar match-profile__avatar-single unselectable" *ngIf="count === 1 || count === 0">
     <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + avatar + ')'}"></div>

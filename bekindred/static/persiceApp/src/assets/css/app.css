@@ -699,6 +699,7 @@ textarea.c-input--error:hover {
 }
 
 .notification-new .flag:hover,
+.edit-photos-link:hover,
 .notification-new .notification-new__close:hover {
   cursor: pointer;
 }

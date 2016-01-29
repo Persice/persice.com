@@ -1,9 +1,9 @@
-<a class="page-arrow page-arrow--prev" *ngIf="currentIndex !== 0 && count > 1 && (profileType === 'crowd' || profileType === 'friend')" (click)="previousEvent.next($event)">
+<a class="page-arrow page-arrow--prev" *ngIf="currentIndex !== 0 && count > 1" (click)="previousEvent.next($event)">
   <svg role="img" class="icon ">
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-arrow_left"></use>
   </svg>
 </a>
-<a class="page-arrow page-arrow--next" *ngIf="currentIndex < count - 1 && count > 1 && (profileType === 'crowd' || profileType === 'friend')" (click)="nextEvent.next($event)">
+<a class="page-arrow page-arrow--next" *ngIf="currentIndex < count - 1 && count > 1" (click)="nextEvent.next($event)">
   <svg role="img" class="icon ">
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-arrow_right"></use>
   </svg>
@@ -66,13 +66,13 @@
       <div class="border-left">
         <div class="my-profile__header">
           <div class="layout layout--middle layout--center">
-            <div class="layout__item" [ngClass]="{'1/2': profileType === 'crowd' || profileType === 'my', '6/10': profileType === 'friend' }">
+            <div class="layout__item" [ngClass]="{'1/2': profileType === 'crowd', '6/10': profileType === 'friend' }">
               <h2 class="single-title">{{profileName}}</h2>
-              <div class="single-title-status mt-" *ngIf="profileType !== 'my'">
+              <div class="single-title-status mt-">
                 Active {{profileActiveAgo}} • {{profileDistance}} from you
               </div>
             </div>
-            <div class="layout__item text-right" [ngClass]="{'1/2': profileType === 'crowd' || profileType === 'my', '4/10': profileType === 'friend' }">
+            <div class="layout__item text-right" [ngClass]="{'1/2': profileType === 'crowd', '4/10': profileType === 'friend' }">
               <profile-acceptpass *ngIf="profileType === 'crowd'" [user]="profileId" (acceptEvent)="acceptUser($event)" (passEvent)="passUser($event)"></profile-acceptpass>
               <a class="user-messages mr-" (click)="openMessages($event)" *ngIf="profileType === 'friend'">
                 <svg role="img" class="icon ">
@@ -94,21 +94,20 @@
                   </ul>
                 </div>
               </div>
-              <a *ngIf="profileType === 'my'" data-remodal-target="profile-edit" class="btn btn-1 btn-1--filled btn-1--blue btn-1--medium">Edit</a>
             </div>
           </div>
         </div>
-        <hr class="hr">
-        <div class="match-profile__features pt- pb">
-          <div class="ph+ pb+">
+        <hr class="hr mb0">
+        <div class="match-profile__features">
+          <div class="ph+ pb+ pt">
             <profile-items [title]="'Interests'" [items]="profileInterests" [itemsCount]="profileInterestsCount"></profile-items>
           </div>
-          <hr class="hr">
-          <div class="ph+ pb+">
+          <hr class="hr mb0">
+          <div class="ph+ pb+ pt">
             <profile-items [title]="'Goals'" [items]="profileGoals" [itemsCount]="profileGoalsCount"></profile-items>
           </div>
-          <hr class="hr">
-          <div class="ph+ pb+">
+          <hr class="hr mb0">
+          <div class="ph+ pb+ pt">
             <profile-items [title]="'Offers'" [items]="profileOffers" [itemsCount]="profileOffersCount"></profile-items>
           </div>
         </div>
@@ -118,7 +117,4 @@
       </div>
     </div>
   </div>
-</div>
-<div *ngIf="profileType === 'my'" class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
-  <profile-edit (refreshUser)="refreshUser($event)" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [photos]="profilePhotos" [user]="userEdit"></profile-edit>
 </div>

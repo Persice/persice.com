@@ -31,7 +31,7 @@ import {RemodalDirective} from '../../directives/remodal.directive';
 import {ObjectUtil} from '../../core/util';
 
 /** View */
-let view = require('./profile.html');
+let view = require('./profile_my.html');
 
 @Component({
   selector: 'profile-friend',
@@ -233,6 +233,10 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
   closeProfile(event) {
     window.history.back();
+  }
+
+  openEdit(section) {
+    console.log(section);
   }
 
   openEditProfile(event) {
