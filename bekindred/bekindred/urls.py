@@ -94,7 +94,7 @@ urlpatterns = patterns('',
                        url(r'^accounts/', include('django_facebook.auth_urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^photo/', include('photos.urls')),
-                       url(r'^profile/(?P<username>[\w._@+-]+)/$',
+                       url(r'^profile/(?P<username>[\d\w._@+-]+)/$',
                            'goals.views.profile_view')
                        )
 
