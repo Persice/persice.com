@@ -30,6 +30,7 @@ class MessageResource(ModelResource):
         queryset = Message.objects.all()
         resource_name = 'messages'
         allowed_methods = ['get', 'post']
+        ordering = ['sent_at']
         always_return_data = True
         fields = ['sender', 'recipient', 'body', 'sent_at']
         authentication = SessionAuthentication()
