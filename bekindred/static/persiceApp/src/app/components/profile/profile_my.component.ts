@@ -195,9 +195,9 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
     for (let i = 0; i < arr.length; i++) {
       res.push({
-        value: arr[i][prop],
+        name: arr[i][prop],
         match: 0,
-        image: arr[i].picture
+        picture: arr[i].picture
       });
     }
     return res;

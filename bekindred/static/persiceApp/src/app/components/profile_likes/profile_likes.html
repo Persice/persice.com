@@ -9,14 +9,14 @@
         <div class="flag flag--small flag--fix">
           <div class="flag__img">
             <div class="listed-user-avatar-place">
-              <img [src]="item.image ? item.image : 'https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg'" alt="User Name" class="avatar  avatar--medium">
+              <img [src]="item.picture ? item.picture : 'https://s3.amazonaws.com/uifaces/faces/twitter/BillSKenney/128.jpg'" alt="User Name" class="avatar  avatar--medium">
               <svg role="img" class="icon avatar-icon" *ngIf="item.match">
                 <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-persice"></use>
               </svg>
             </div>
           </div>
           <div class="flag__body">
-            <h5 class="user-name">{{item.value}}</h5>
+            <h5 class="user-name">{{item.name}}</h5>
             <p class="user-title"></p>
           </div>
         </div>
