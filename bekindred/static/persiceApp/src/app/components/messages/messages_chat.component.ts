@@ -92,7 +92,7 @@ export class MessagesChatComponent {
         if (this.hasNew && !this.loadingMessages) {
 					let elem = jQuery('#messages')[0];
 					setTimeout(() => {
-						jQuery('#messages').animate({ scrollTop: elem.scrollHeight }, 800);
+						elem.scrollTop = elem.scrollHeight;
 					});
 					this.hasNew = false;
         }
