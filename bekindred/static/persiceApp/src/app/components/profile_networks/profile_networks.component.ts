@@ -5,7 +5,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
   template: `
   <h4 class="module-title mb-" *ngIf="!editable">Networks</h4>
   <h4 class="module-title mb-" *ngIf="editable">
-    <a (click)="openEdit.next('networks')" class="edit-link">Networks
+    <a (click)="openEdit.next('profile')" class="edit-link">Networks
       <span class="edit-link__icon">
         <svg role="img" class="icon ">
           <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-edit_info"></use>
