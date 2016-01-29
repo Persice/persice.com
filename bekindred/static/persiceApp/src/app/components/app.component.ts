@@ -1,22 +1,21 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component} from 'angular2/core';
+import {Component, NgZone} from 'angular2/core';
 import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
 
+import {StringUtil} from '../core/util';
 
 
 /*
  * Components
  */
-
-
 import {HomeComponent} from './home/home.component';
 import {CrowdComponent} from './crowd/crowd.component';
 import {MessagesComponent} from './messages/messages.component';
@@ -40,6 +39,7 @@ import {InterfaceNotification} from '../models/notification.model';
  */
 import {FilterService} from '../services/filter.service';
 import {UserService} from '../services/user.service';
+import {UserAuthService} from '../services/userauth.service';
 import {NotificationService} from '../services/notification.service';
 import {EventsService} from '../services/events.service';
 import {EventService} from '../services/event.service';
@@ -65,7 +65,7 @@ let view = require('./app.html');
     name: 'Crowd'
   },
   {
-    path: '/messages',
+    path: '/messages/...',
     component: MessagesComponent,
     name: 'Messages'
   },
@@ -107,8 +107,6 @@ let view = require('./app.html');
     LoadingComponent,
     NotificationComponent
   ],
-  styles: [`
-   `],
   template: view,
   providers: [
     FilterService,
@@ -116,10 +114,12 @@ let view = require('./app.html');
     NotificationService,
     WebsocketService,
     GeolocationService,
-    LocationService
+    LocationService,
+    UserAuthService
   ]
 })
 export class AppComponent {
+  activeRoute: string = '';
   user: AuthUserModel;
   image: string;
   loading: boolean;
@@ -129,14 +129,25 @@ export class AppComponent {
     active: false,
     type: ''
   };
+  notificationSmall = {
+    body: '',
+    title: '',
+    active: false,
+    type: '',
+    payload: null
+  };
   timeoutId = null;
+  timeoutNotification = null;
 
   constructor(
-    public userService: UserService,
-    public notificationService: NotificationService,
-    public websocketService: WebsocketService,
-    public locationService: LocationService,
-    public geolocationService: GeolocationService
+    private _router: Router,
+    private userService: UserService,
+    private userAuthService: UserAuthService,
+    private notificationService: NotificationService,
+    private websocketService: WebsocketService,
+    private locationService: LocationService,
+    private geolocationService: GeolocationService,
+    private _zone: NgZone
   ) {
     //default image
     this.image = this.userService.getDefaultImage();
@@ -153,16 +164,64 @@ export class AppComponent {
     this.initWebsocket('event:deleted');
   }
 
-
   initWebsocket(channel: string) {
     this.websocketService.on(channel).subscribe((data: any) => {
       console.log('websocket recieved data for channel %s', channel);
       console.log(data);
+
+
+      switch (channel) {
+        case 'messages:new':
+          if (this.activeRoute.indexOf('messages') === -1) {
+            this.userAuthService.findByUri(data.sender)
+              .subscribe((res) => {
+                this.notificationSmall = {
+                  body: StringUtil.words(data.body, 30),
+                  title: '1 new message from ' + res.first_name,
+                  active: true,
+                  type: 'message',
+                  payload: {
+                    id: res.id
+                  }
+                };
+
+                if (this.timeoutNotification) {
+                  window.clearTimeout(this.timeoutNotification);
+                }
+
+                this.timeoutNotification = setTimeout(() => {
+                  this.notificationSmall.active = false;
+                }, 4000);
+              });
+
+          }
+          break;
+        default:
+          break;
+      }
+
     });
+  }
+
+  closeSmallNotification(event) {
+    this.notificationSmall.active = false;
+  }
+
+  performNotificationAction(event) {
+    if (this.notificationSmall.type === 'message') {
+      this._router.navigate(['Messages', 'SingleConversation', { 'threadId': this.notificationSmall.payload.id }]);
+      this.closeSmallNotification(true);
+    }
   }
 
   ngOnInit() {
     console.log('hello App component');
+
+    this._router.subscribe((next) => {
+      this.activeRoute = next;
+    });
+
+
     // Get AuthUser info for the app
     this.userService.get()
       .subscribe(data => this.assignAuthUser(data));
@@ -187,29 +246,26 @@ export class AppComponent {
 
     this.geolocationService.getLocation(GEOLOCATION_OPTS)
       .subscribe((res: any) => {
-        console.log('Geolocation:', res);
         this.updateOrCreateLocation(res);
       },
       (err) => {
         console.log('Geolocation Error: ', err);
       },
       () => {
-        console.log('Finished obtaining geolocation');
       });
   }
 
   updateOrCreateLocation(loc) {
     this.locationService.updateOrCreate(loc)
-    .subscribe((res) => {
-      console.log('Location saved', res);
-      this.locationService.updateLocation(res);
-    },
-    (err) => {
-      console.log('Location saving error: ', err);
-    },
-    () => {
+      .subscribe((res) => {
+        this.locationService.updateLocation(res);
+      },
+      (err) => {
+        console.log('Location saving error: ', err);
+      },
+      () => {
 
-    });
+      });
   }
 
   ngOnDestroy() {

@@ -1,4 +1,4 @@
-import {take, slice, keys, keysIn, forEach, merge, filter, assign, defaults, orderBy} from 'lodash';
+import {take, slice, keys, keysIn, forEach, merge, filter, assign, defaults, orderBy, find, findIndex} from 'lodash';
 
 
 declare var jstz: any;
@@ -21,6 +21,14 @@ export class ListUtil {
 
   static filter(arr: any[], property, value): any[] {
     return filter(arr, property, value);
+  }
+
+  static findIndex(arr: any[], props): number {
+    return findIndex(arr, props);
+  }
+
+  static find(arr: any[], props): any {
+    return find(arr, props);
   }
 
 }
@@ -292,6 +300,41 @@ export class StringUtil {
     }
   }
 
+  static words(text: string, maxLength: number, options?: any): string {
+    if (text.length <= maxLength) {
+      return text;
+    }
+    if (!options) options = {};
+    let defaultOptions = {
+      suffix: true,
+      suffixString: ' ...',
+      preserveWordBoundaries: true,
+      wordSeparator: ' '
+    };
+    options = defaultOptions;
+    // Compute suffix to use (eventually add an ellipsis)
+    let suffix = '';
+    if (text.length > maxLength && options.suffix) {
+      suffix = options.suffixString;
+    }
+
+    // Compute the index at which we have to cut the text
+    let maxTextLength = maxLength - suffix.length;
+    let cutIndex;
+    if (options.preserveWordBoundaries) {
+      // We use +1 because the extra char is either a space or will be cut anyway
+      // This permits to avoid removing an extra word when there's a space at the maxTextLength index
+      let lastWordSeparatorIndex = text.lastIndexOf(options.wordSeparator, maxTextLength + 1);
+      // We include 0 because if have a 'very long first word' (size > maxLength), we still don't want to cut it
+      // But just display '...'. But in this case the user should probably use preserveWordBoundaries:false...
+      cutIndex = lastWordSeparatorIndex > 0 ? lastWordSeparatorIndex : maxTextLength;
+    } else {
+      cutIndex = maxTextLength;
+    }
+
+    let newText = text.substr(0, cutIndex);
+    return newText + suffix;
+  }
 }
 
 
@@ -378,6 +421,14 @@ export class DateUtil {
 
     let datetime = new Date();
     return moment(datetime).tz(tzName).add(2, 'hours').startOf('hour');
+  }
+
+
+  //time ago
+  static fromNow(date): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+    return moment(date).tz(tzName).fromNow();
   }
 
 
