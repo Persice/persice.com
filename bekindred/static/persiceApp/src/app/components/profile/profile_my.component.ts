@@ -62,6 +62,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
   profileReligiousIndex = [];
   profilePoliticalIndex = [];
+  section = 'profile';
 
   constructor(
     public mutualfriendsService: MutualFriendsService,
@@ -236,11 +237,9 @@ export class ProfileMyComponent extends BaseProfileComponent {
   }
 
   openEdit(section) {
-    console.log(section);
-  }
-
-  openEditProfile(event) {
-    console.log('edit profile');
+    let remodal = jQuery('[data-remodal-id=profile-edit]').remodal();
+    remodal.open();
+    this.section = section;
   }
 
   refreshUser(event) {

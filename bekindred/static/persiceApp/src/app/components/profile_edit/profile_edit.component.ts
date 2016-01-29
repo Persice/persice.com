@@ -34,7 +34,7 @@ export class ProfileEditComponent {
   @Input() politicalViews;
   @Input() religiousViews;
   @Input() photos;
-  // @Input() activateTab;
+  @Input() activeSection;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
   loadingEdit = false;
   activeTab = 'profile';
@@ -43,6 +43,7 @@ export class ProfileEditComponent {
   profileOffers = [];
   profileInterests = [];
   defaultPhoto;
+  active = '';
 
   ngOnChanges(values) {
     if (values.user && values.user.currentValue) {
@@ -55,6 +56,50 @@ export class ProfileEditComponent {
 
     if (values.photos && values.photos.currentValue) {
       this.profilePhotos = values.photos.currentValue;
+    }
+
+    if (values.activeSection && values.activeSection.currentValue) {
+      this.active = values.activeSection.currentValue;
+      switch (values.activeSection.currentValue) {
+        case 'Interests':
+          this.activeTab = 'interests';
+          break;
+        case 'Goals':
+          this.activeTab = 'goals';
+          break;
+        case 'Offers':
+          this.activeTab = 'offers';
+          break;
+        case 'profile':
+          this.activeTab = 'profile';
+          setTimeout(() => {
+            jQuery('#pr-edit-personal-info').scrollTop(0);
+          }, 300);
+          break;
+        case 'religious':
+          this.activeTab = 'profile';
+          setTimeout(() => {
+            jQuery('#pr-edit-personal-info').scrollTop(jQuery('#pr-edit-personal-info')[0].scrollHeight);
+          }, 300);
+          break;
+        case 'political':
+          this.activeTab = 'profile';
+          setTimeout(() => {
+            jQuery('#pr-edit-personal-info').scrollTop(jQuery('#pr-edit-personal-info')[0].scrollHeight);
+          }, 300);
+          break;
+        case 'about':
+          this.activeTab = 'profile';
+          setTimeout(() => {
+            jQuery('#pr-edit-personal-info').scrollTop(jQuery('#pr-edit-personal-info')[0].scrollHeight);
+          }, 300);
+          break;
+        case 'photo':
+          this.activeTab = 'photo';
+          break;
+        default:
+          break;
+      }
     }
 
   }
