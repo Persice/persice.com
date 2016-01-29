@@ -23,8 +23,11 @@ export class MessagesInputComponent {
   message = '';
 
   sendMessage(event) {
-    this.newMessage.next(this.message);
-    this.message = '';
+    if (this.message.length > 0) {
+      this.newMessage.next(this.message);
+      this.message = '';
+    }
+
   }
 
 }
