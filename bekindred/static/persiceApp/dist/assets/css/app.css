@@ -1,19 +1,16 @@
 #loadingindicator {
-  height: auto;
-  width: 100%;
-  text-align: center;
-  margin: 1em auto;
-  display: block;
-  vertical-align: middle;
-  position: relative;
+  margin: 20rem auto!important;
 }
 
 .spinner {
-  margin: 10em auto;
-  width: 60px;
+  margin: 2rem auto;
+  width: 100%;
   height: 40px;
   text-align: center;
   font-size: 10px;
+  display: block;
+  vertical-align: middle;
+  position: relative;
 }
 
 .spinner > div {
@@ -702,6 +699,7 @@ textarea.c-input--error:hover {
 }
 
 .notification-new .flag:hover,
+.edit-photos-link:hover,
 .notification-new .notification-new__close:hover {
   cursor: pointer;
 }

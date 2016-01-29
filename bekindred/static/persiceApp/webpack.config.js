@@ -23,14 +23,14 @@ module.exports = {
   metadata: metadata,
   // for faster builds use 'eval'
   devtool: 'eval',
-  debug: true,
+  debug: false,
   // cache: false,
 
   // our angular app
   entry: {
     'polyfills': './src/polyfills.ts',
-    'main': './src/main.ts',
-    'signup': './src/signup/main.ts'
+    'main': './src/main.ts'
+    // 'signup': './src/signup/main.ts'
   },
 
   // Config for our build files
@@ -108,15 +108,15 @@ module.exports = {
       minChunks: Infinity
     }),
     // static assets
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
+    // new CopyWebpackPlugin([{
+    //   from: 'src/assets',
+    //   to: 'assets'
+    // }]),
     // generating html
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      inject: false
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: 'src/index.html',
+    //   inject: false
+    // }),
     // replace
     new webpack.DefinePlugin({
       'process.env': {

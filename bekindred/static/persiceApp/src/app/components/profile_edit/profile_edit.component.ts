@@ -34,6 +34,7 @@ export class ProfileEditComponent {
   @Input() politicalViews;
   @Input() religiousViews;
   @Input() photos;
+  // @Input() activateTab;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
   loadingEdit = false;
   activeTab = 'profile';
