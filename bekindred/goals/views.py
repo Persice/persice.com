@@ -37,6 +37,16 @@ def get_client_ip(request):
 
 
 @login_required
+def profile_view(request, username):
+    fb = FacebookCustomUserActive.objects.get(username=username)
+    context = RequestContext(request, {
+        'first_name': fb.first_name,
+        'last_name': fb.last_name,
+    })
+    return render_to_response('goals/user_profile.html', context)
+
+
+@login_required
 def main_page(request, template_name="homepage.html"):
     twitter_provider, linkedin_provider, twitter_username = social_extra_data(request.user.id)
     context = RequestContext(request, {
