@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {SwiperDirective} from '../../directives/swiper.directive';
@@ -24,6 +24,7 @@ export class ProfileAvatarComponent {
   @Input() score;
   @Input() count;
   @Input() id;
+  @Output() openEdit: EventEmitter<any> = new EventEmitter();
 
   swiperOpts = JSON.stringify({
     pagination: '.js-avatar-place__pagination',

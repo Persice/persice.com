@@ -1,16 +1,9 @@
-// @Persice
-
 /*
  * Helper: root(), and rootDir() are defined at the bottom
  */
 var path = require('path');
-// Webpack Plugins
+var webpack = require('webpack');
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
-var DefinePlugin = require('webpack/lib/DefinePlugin');
-var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
-var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
-var CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
@@ -18,70 +11,65 @@ var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 var metadata = {
   title: 'Persice',
   baseUrl: '/',
-  host: '0.0.0.0',
+  host: 'localhost',
   port: 8080,
   ENV: ENV
 };
-
 /*
  * Config
  */
-
 module.exports = {
   // static data for index.html
   metadata: metadata,
   // for faster builds use 'eval'
   devtool: 'eval',
-  debug: true,
-  verbose: false,
-  displayErrorDetails: true,
+  debug: false,
+  // cache: false,
+
+  // our angular app
   entry: {
-    'vendor': './src/vendor.ts',
-    'main': './src/main.ts',
-    'signup': './src/signup/main.ts'
+    'polyfills': './src/polyfills.ts',
+    'main': './src/main.ts'
+    // 'signup': './src/signup/main.ts'
   },
-  context: __dirname,
+
   // Config for our build files
   output: {
     path: root('dist'),
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
-    chunkFilename: '[id].chunk.js',
+    chunkFilename: '[id].chunk.js'
   },
+
 
   resolve: {
     // ensure loader extensions match
-    extensions: ['', '.ts', '.js', '.json', '.css', '.html']
-    // alias: {
-    //   'TweenLite': 'gsap/src/uncompressed/TweenLite.js',
-    //   'TweenMax': 'gsap/src/uncompressed/TweenMax.js',
-    //   'TimelineLite': 'gsap/src/uncompressed/TimelineLite.js',
-    //   'CSSPlugin': 'gsap/src/uncompressed/plugins/CSSPlugin.js',
-    // },
+    extensions: prepend(['.ts', '.js', '.json', '.css', '.html'], '.async') // ensure .async.ts etc also works
   },
 
   module: {
-    preLoaders: [{
-      test: /\.ts$/,
-      loader: 'tslint-loader',
-      exclude: [/node_modules/]
-    }],
+    preLoaders: [
+      // { test: /\.ts$/, loader: 'tslint-loader', exclude: [ root('node_modules') ] },
+      // TODO(gdi2290): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
+      {
+        test: /\.js$/,
+        loader: "source-map-loader",
+        exclude: [root('node_modules/rxjs')]
+      }
+    ],
     loaders: [
+      // Support Angular 2 async routes via .async.ts
+      {
+        test: /\.async\.ts$/,
+        loaders: ['es6-promise-loader', 'ts-loader'],
+        exclude: [/\.(spec|e2e)\.ts$/]
+      },
+
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts',
-        query: {
-          'ignoreDiagnostics': [
-            2403, // 2403 -> Subsequent variable declarations
-            2300, // 2300 -> Duplicate identifier
-            2374, // 2374 -> Duplicate number index signature
-            2375, // 2375 -> Duplicate string index signature
-            2339,
-            2305
-          ]
-        },
-        exclude: [/\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
+        loader: 'ts-loader',
+        exclude: [/\.(spec|e2e|async)\.ts$/]
       },
 
       // Support for *.json files.
@@ -107,22 +95,18 @@ module.exports = {
   },
 
   plugins: [
-    new HotModuleReplacementPlugin(),
     new ProvidePlugin({
       _: 'lodash'
+        // jQuery: 'jquery',
+        // $: 'jquery',
+        // jquery: 'jquery'
     }),
-    new DefinePlugin({
-      'process.env': {
-        'ENV': JSON.stringify(metadata.ENV),
-        'NODE_ENV': JSON.stringify(metadata.ENV)
-      }
-    }),
-    new CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.bundle.js',
+    new webpack.optimize.OccurenceOrderPlugin(true),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'polyfills',
+      filename: 'polyfills.bundle.js',
       minChunks: Infinity
-    })
-    // new ProvidePlugin({TweenMax: "TweenMax"})
+    }),
     // static assets
     // new CopyWebpackPlugin([{
     //   from: 'src/assets',
@@ -133,26 +117,33 @@ module.exports = {
     //   template: 'src/index.html',
     //   inject: false
     // }),
+    // replace
+    new webpack.DefinePlugin({
+      'process.env': {
+        'ENV': JSON.stringify(metadata.ENV),
+        'NODE_ENV': JSON.stringify(metadata.ENV)
+      }
+    })
   ],
 
   // Other module loader config
   tslint: {
     emitErrors: false,
-    failOnHint: false
+    failOnHint: false,
+    resourcePath: 'src'
   },
   // our Webpack Development Server config
   devServer: {
     port: metadata.port,
-    // host: metadata.host,
-    hot: true,
+    host: metadata.host,
     inline: true,
+    contentBase: 'src/assets',
+    publicPath: '/dist',
     historyApiFallback: true,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
-    },
-    contentBase: 'src/assets',
-    publicPath: '/dist',
+    }
   },
   // we need this due to problems with es6-shim
   node: {
@@ -170,6 +161,18 @@ module.exports = {
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);
   return path.join.apply(path, [__dirname].concat(args));
+}
+
+function prepend(extensions, args) {
+  args = args || [];
+  if (!Array.isArray(args)) {
+    args = [args]
+  }
+  return extensions.reduce(function(memo, val) {
+    return memo.concat(val, args.map(function(prefix) {
+      return prefix + val
+    }));
+  }, ['']);
 }
 
 function rootNode(args) {

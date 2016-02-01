@@ -1,6 +1,3 @@
-/// <reference path="../../../typings_custom/_custom.d.ts" />
-
-
 import {
 iit,
 it,

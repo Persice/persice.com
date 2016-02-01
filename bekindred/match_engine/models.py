@@ -444,14 +444,19 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     gender_predicate = [{"term": {"gender": fs[0].gender}}]
 
                 if fs[0].keyword:
+                    s_words = []
                     keywords = fs[0].keyword.split(',')
                     for word in keywords:
-                        s_word = porter_stemmer.stem(word.lower())
-                        if s_word not in s_stop_words:
-                            gender_predicate.append({"term": {"goals": s_word}})
-                            gender_predicate.append({"term": {"offers": s_word}})
-                            gender_predicate.append({"term": {"likes": s_word}})
-                            gender_predicate.append({"term": {"interests": s_word}})
+                        for sub_word in word.split():
+                            s_word = porter_stemmer.stem(sub_word.lower())
+                            if s_word not in s_stop_words:
+                                s_words.append(s_word)
+                    if s_words:
+                        gender_predicate.append({"terms": {"goals": s_words}})
+                        gender_predicate.append({"terms": {"offers": s_words}})
+                        gender_predicate.append({"terms": {"likes": s_words}})
+                        gender_predicate.append(
+                                {"terms": {"interests": s_words}})
 
                 if fs[0].distance:
                     location = get_user_location(user.id)
@@ -622,14 +627,19 @@ class ElasticSearchMatchEngineManager(models.Manager):
             distance_predicate = {}
             keyword_predicate = []
             if fs[0].keyword:
+                s_words = []
                 keywords = fs[0].keyword.split(',')
                 porter_stemmer = PorterStemmer()
                 s_stop_words = [porter_stemmer.stem(w) for w in stop_words]
                 for word in keywords:
-                    s_word = porter_stemmer.stem(word.lower())
-                    if s_word not in s_stop_words:
-                        keyword_predicate.append({"term": {"name": s_word}})
-                        keyword_predicate.append({"term": {"description": s_word}})
+                    for sub_word in word.split():
+                        s_word = porter_stemmer.stem(sub_word.lower())
+                        if s_word not in s_stop_words:
+                            s_words.append(s_word)
+                if s_words:
+                    keyword_predicate.append({"terms": {"name": s_words}})
+                    keyword_predicate.append(
+                            {"terms": {"description": s_words}})
 
             if fs[0].distance:
                 location = get_user_location(user.id)

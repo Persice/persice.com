@@ -1,0 +1,106 @@
+<div class="platform m" id="userprofile">
+  <a (click)="closeProfile($event)" class="platform__back">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>
+    </svg>
+  </a>
+  <div class="tableize tableize--fixed tableize--full content">
+    <div class="tableize__cell 3/12 my-profile">
+      <profile-avatar (openEdit)="openEdit('photo')" [loading]="loadingPhotos" [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
+      <div class="layout layout--flush pt- ph pl+ unselectable">
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">gender</h2>
+        </div>
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">age</h2>
+        </div>
+        <div class="layout__item 1/3">
+          <h2 class="module-title mb0">lives in</h2>
+        </div>
+      </div>
+      <div class="layout layout--flush pt- ph pb pl+">
+        <div class="layout__item 1/3">
+          <div class="profile-feature">{{profileGender}}</div>
+        </div>
+        <div class="layout__item 1/3">
+          <div class="profile-feature">{{profileAge}}</div>
+        </div>
+        <div class="layout__item 1/3">
+          <div class="profile-feature">{{profileLocation}}</div>
+        </div>
+      </div>
+      <hr class="hr --mh">
+      <div class="pt0 ph+ pb">
+        <h4 class="module-title mb0">Profession</h4>
+        <div class="profile-feature">{{profileJob}}</div>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link">
+        <h4 class="module-title mb0">
+          <a (click)="openEdit('religious')" class="edit-link">Religious views
+            <span class="edit-link__icon">
+              <svg role="img" class="icon ">
+                <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-edit_info"></use>
+              </svg>
+            </span>
+          </a>
+        </h4>
+        <div class="profile-feature" *ngFor="#rel of profileReligiousViews"><a (click)="openEdit('religious')" class="edit-link">{{rel.religious_view}}</a></div>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link">
+        <h4 class="module-title mb0">
+          <a (click)="openEdit('political')" class="edit-link">Political views
+            <span class="edit-link__icon">
+              <svg role="img" class="icon ">
+                <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-edit_info"></use>
+              </svg>
+            </span>
+          </a>
+        </h4>
+        <div class="profile-feature" *ngFor="#rel of profilePoliticalViews"><a (click)="openEdit('political')" class="edit-link">{{rel.political_view}}</a></div>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link">
+        <profile-about (openEdit)="openEdit($event)" [editable]="1" [about]="profileAbout"></profile-about>
+      </div>
+      <hr class="hr --mh mb0">
+      <div class="pt ph+ pb has-edit-link profile-networks" (openEdit)="openEdit($event)" [editable]="1" [url]="profileNetworks">
+      </div>
+    </div>
+    <div class="tableize__cell 6/10">
+      <div class="border-left">
+        <div class="my-profile__header">
+          <div class="layout layout--middle layout--center">
+            <div class="layout__item 1/2">
+              <h2 class="single-title">{{profileName}}</h2>
+            </div>
+            <div class="layout__item text-right 1/2">
+              <a (click)="openEdit('profile')" class="btn btn-1 btn-1--filled btn-1--blue btn-1--medium">Edit</a>
+            </div>
+          </div>
+        </div>
+        <hr class="hr mb0">
+        <div class="match-profile__features">
+          <div class="ph+ pb+ pt has-edit-link">
+            <profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Interests'" [items]="profileInterests" [itemsCount]="profileInterestsCount"></profile-items>
+          </div>
+          <hr class="hr mb0">
+          <div class="ph+ pb+ pt has-edit-link">
+            <profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Goals'" [items]="profileGoals" [itemsCount]="profileGoalsCount"></profile-items>
+          </div>
+          <hr class="hr mb0">
+          <div class="ph+ pb+ pt has-edit-link">
+            <profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Offers'" [items]="profileOffers" [itemsCount]="profileOffersCount"></profile-items>
+          </div>
+        </div>
+        <profile-likes *ngIf="!loadingLikes" [likes]="profileLikes" [count]="profileLikesCount"></profile-likes>
+        <profile-friends *ngIf="!loadingConnections" [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></profile-friends>
+        <loading [status]="loadingLikes || loadingConnections"></loading>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
+  <profile-edit (refreshUser)="refreshUser($event)" [activeSection]="section" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [photos]="profilePhotos" [user]="userEdit"></profile-edit>
+</div>

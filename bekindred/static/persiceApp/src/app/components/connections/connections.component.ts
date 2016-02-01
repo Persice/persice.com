@@ -136,8 +136,6 @@ export class ConnectionsComponent {
       this.total_count = data.objects.length;
     }
 
-    console.log('total count increased', this.total_count);
-
     this.next = data.meta.next;
     this.offset = data.meta.offset;
 
@@ -158,8 +156,6 @@ export class ConnectionsComponent {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
         this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
-        console.log('current', this.currentIndex + 1);
-        console.log('total', this.total_count);
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
       }
@@ -186,8 +182,6 @@ export class ConnectionsComponent {
       this.isListEmpty = true;
     }
     this.currentIndex = newIndex;
-    console.log('current', this.currentIndex + 1);
-    console.log('total', this.total_count);
   }
 
   nextProfile(event) {
@@ -209,8 +203,6 @@ export class ConnectionsComponent {
       this.isListEmpty = true;
     }
     this.currentIndex = newIndex;
-    console.log('current', this.currentIndex + 1);
-    console.log('total', this.total_count);
   }
 
 

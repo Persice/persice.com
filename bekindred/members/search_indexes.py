@@ -16,6 +16,7 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
     offers = indexes.MultiValueField()
     interests = indexes.MultiValueField()
     likes = indexes.MultiValueField()
+    likes_ids = indexes.MultiValueField()
 
     def get_model(self):
         return FacebookCustomUserActive
@@ -48,4 +49,8 @@ class UserIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_likes(self, obj):
         return [unicode(like.name) for like in
+                FacebookLike.objects.filter(user_id=obj.id)]
+
+    def prepare_likes_ids(self, obj):
+        return [unicode(like.id) for like in
                 FacebookLike.objects.filter(user_id=obj.id)]

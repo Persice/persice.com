@@ -1,4 +1,3 @@
-// @AngularClass
 var path = require('path');
 
 module.exports = function(config) {
@@ -98,7 +97,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec-bundle.js': ['webpack', 'sourcemap']
+      'spec-bundle.js': ['coverage', 'webpack', 'sourcemap']
     },
 
     // Webpack Config at ./webpack.test.config.js
@@ -107,7 +106,9 @@ module.exports = function(config) {
     coverageReporter: {
       dir: 'coverage/',
       reporters: [{
-        type: 'text-summary'
+        type: 'text'
+      }, {
+        type: 'json'
       }, {
         type: 'html'
       }],
@@ -134,7 +135,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ['dots', 'coverage'],
 
     // web server port
     port: 9876,

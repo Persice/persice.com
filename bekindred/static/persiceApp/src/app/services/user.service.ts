@@ -14,6 +14,7 @@ export class UserService {
   static DEFAULT_IMAGE: string = '/static/persiceApp/src/assets/images/avatar_user_m.jpg';
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
+  name: string = '';
   constructor(private http: HttpClient) {
 
   }
@@ -31,6 +32,7 @@ export class UserService {
         let data = res.json();
         this.user = new AuthUserModel(data['objects'][0]);
         this.image = this.user.info.image;
+        this.name = this.user.info.first_name;
         return res.json();
       });
   }
@@ -41,6 +43,14 @@ export class UserService {
 
   public getDefaultImage() {
     return UserService.DEFAULT_IMAGE;
+  }
+
+  public getImage() {
+    return this.image;
+  }
+
+  public getName() {
+    return this.name;
   }
 
 }

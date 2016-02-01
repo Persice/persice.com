@@ -1,5 +1,5 @@
-// Compiled using typings@0.6.2
-// Source: https://raw.githubusercontent.com/angular/DefinitelyTyped/31e7317c9a0793857109236ef7c7f223305a8aa9/hammerjs/hammerjs.d.ts
+// Compiled using typings@0.5.0
+// Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/74a4dfc1bc2dfadec47b8aae953b28546cb9c6b7/hammerjs/hammerjs.d.ts
 // Type definitions for Hammer.js 2.0.4
 // Project: http://hammerjs.github.io/
 // Definitions by: Philip Bulley <https://github.com/milkisevil/>, Han Lin Yap <https://github.com/codler>
@@ -109,7 +109,7 @@ interface HammerManager
   emit( event:string, data:any ):void;
   get( recogniser:Recognizer ):Recognizer;
   get( recogniser:string ):Recognizer;
-  off( events:string, handler:( event:HammerInput ) => void ):void;
+  off( events:string, handler?:( event:HammerInput ) => void ):void;
   on( events:string, handler:( event:HammerInput ) => void ):void;
   recognize( inputData:any ):void;
   remove( recogniser:Recognizer ):HammerManager;

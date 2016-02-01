@@ -93,7 +93,9 @@ urlpatterns = patterns('',
                            {'template_name': 'registration/login_dev.html'}, name='auth_login_dev'),
                        url(r'^accounts/', include('django_facebook.auth_urls')),
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^photo/', include('photos.urls'))
+                       url(r'^photo/', include('photos.urls')),
+                       url(r'^profile/(?P<username>[\d\w._@+-]+)/$',
+                           'goals.views.profile_view')
                        )
 
 

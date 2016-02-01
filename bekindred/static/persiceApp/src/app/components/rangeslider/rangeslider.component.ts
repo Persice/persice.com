@@ -1,5 +1,3 @@
-/// <reference path='../../../../typings_custom/_custom.d.ts' />
-
 import {Component, ElementRef, EventEmitter, Inject} from 'angular2/core';
 
 declare var jQuery: any;

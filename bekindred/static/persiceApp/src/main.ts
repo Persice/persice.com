@@ -1,14 +1,6 @@
 // Angular 2
 import {provide, enableProdMode} from 'angular2/core';
-import {bootstrap} from 'angular2/platform/browser';
-
-
-/*
- * Angular Modules
- */
-
-import {ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/common_dom';
-
+import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
 import {FORM_PROVIDERS} from 'angular2/common';
 import {
 ROUTER_PROVIDERS,
@@ -25,6 +17,13 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 import {APP_SERVICES_PROVIDERS} from './app/services/services';
 
 
+const ENV_PROVIDERS = [];
+
+if ('production' === process.env.ENV) {
+  enableProdMode();
+}
+ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+
 
 import {HttpClient} from './app/core/http_client';
 
@@ -32,9 +31,9 @@ import {HttpClient} from './app/core/http_client';
  * Google maps
  */
 import {
-  MapsAPILoader,
-  NoOpMapsAPILoader,
-  ANGULAR2_GOOGLE_MAPS_PROVIDERS
+MapsAPILoader,
+NoOpMapsAPILoader,
+ANGULAR2_GOOGLE_MAPS_PROVIDERS
 } from './app/components/map/core';
 
 /*
@@ -48,8 +47,8 @@ import {AppComponent} from './app/components/app.component';
  * Universal injectables
  */
 const UNIVERSAL_PROVIDERS = [
+  ...ENV_PROVIDERS,
   ...ROUTER_PROVIDERS,
-  ...('production' === process.env.ENV ? [] : ELEMENT_PROBE_PROVIDERS),
   ...FORM_PROVIDERS,
   ...HTTP_PROVIDERS,
   HttpClient,
@@ -70,8 +69,6 @@ const APP_PROVIDERS = [
   UNIVERSAL_PROVIDERS,
   PLATFORM_PROVIDERS
 ];
-
-// enableProdMode();
 
 export function main() {
 

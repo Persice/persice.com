@@ -64,14 +64,14 @@ export abstract class BaseProfileComponent {
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService,
     public type: string
-    ) {
+  ) {
     this.profileType = type;
   }
 
   assignUser() {
-    this.loadingLikes = true;
     this.loadingConnections = true;
     this.loadingPhotos = true;
+    this.loadingLikes = true;
 
     this.profileId = this.user.id;
     this.profileName = this.user.first_name;
@@ -80,16 +80,12 @@ export abstract class BaseProfileComponent {
     this.profileDistance = `${this.user.distance[0]} ${this.user.distance[1]}`;
     this.profileLocation = this.user.lives_in ? this.user.lives_in : '';
 
+
     setTimeout(() => {
-      let likes = this.user.likes[0];
-      this.profileLikes = Object.keys(likes).map((key) => {
-        return {
-          value: key,
-          match: likes[key]
-        };
-      });
-
-
+      this.profileLikesCount = 0;
+      this.profileLikes = [];
+      let likes = this.user.likes;
+      this.profileLikes = likes;
       this.profileLikesCount = this.profileLikes.length;
       this.loadingLikes = false;
 
@@ -123,17 +119,17 @@ export abstract class BaseProfileComponent {
 
   getMutualFriends(id) {
     this.mutualfriendsService.get('', 100, id)
-    .subscribe(data => this.assignMutualFriends(data));
+      .subscribe(data => this.assignMutualFriends(data));
   }
 
   getReligiousViews(id) {
     this.religiousviewsService.getByUser('', 100, id)
-    .subscribe(data => this.assignReligiousViews(data));
+      .subscribe(data => this.assignReligiousViews(data));
   }
 
   getPoliticalViews(id) {
     this.politicalviewsService.getByUser('', 100, id)
-    .subscribe(
+      .subscribe(
       data => this.assignPoliticalViews(data),
       (err) => console.log('Error fetching political views'),
       () => { }
@@ -142,7 +138,7 @@ export abstract class BaseProfileComponent {
 
   getPhotos(id) {
     this.photosService.get('', 6, id)
-    .subscribe(data => this.assignPhotos(data));
+      .subscribe(data => this.assignPhotos(data));
   }
 
   assignPhotos(data) {

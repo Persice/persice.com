@@ -1,18 +1,33 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 
 @Component({
   selector: 'profile-about',
   template: `
-  <h4 class="module-title mb0">About</h4>
-  <div class="profile-feature">
+  <h4 class="module-title mb0" *ngIf="!editable">About</h4>
+  <h4 class="module-title mb0" *ngIf="editable">
+  <a (click)="openEdit.next('about')" class="edit-link">About <span class="edit-link__icon">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-edit_info"></use>
+    </svg>
+    </span></a>
+  </h4>
+
+  <div class="profile-feature" *ngIf="!editable">
     {{aboutMore}}
+    <a (click)="showMore($event)" *ngIf="!hideMoreLink" class="link-blank">View all</a>
+  </div>
+
+  <div class="profile-feature" *ngIf="editable">
+    <a (click)="openEdit.next('about')" class="edit-link">{{aboutMore}}</a>
     <a (click)="showMore($event)" *ngIf="!hideMoreLink" class="link-blank">View all</a>
   </div>
   `
 })
 export class ProfileAboutComponent {
   @Input() about;
+  @Input() editable;
+  @Output() openEdit: EventEmitter<any> = new EventEmitter;
   aboutMore: string = '';
   hideMoreLink: boolean = true;
 

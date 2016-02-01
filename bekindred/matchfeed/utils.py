@@ -146,7 +146,7 @@ class MatchUser(object):
         self.goals = self.highlight(user_object, 'goals')
         self.offers = self.highlight(user_object, 'offers')
         self.interests = self.highlight(user_object, 'interests')
-        self.likes = self.highlight(user_object, 'likes')
+        self.likes = self.likes_images(user_object)
         self.id = self.user.id
         self.user_id = self.user.id
         self.first_name = self.user.first_name
@@ -176,7 +176,8 @@ class MatchUser(object):
 
     def match_score(self):
         score = sum(self.goals[0].values()) + sum(self.offers[0].values()) + \
-            sum(self.likes[0].values()) + sum(self.interests[0].values())
+                sum(v['match'] for v in self.likes) + \
+                sum(self.interests[0].values())
         return score
 
     def get_top_interests(self, user_object):
@@ -293,6 +294,19 @@ class MatchUser(object):
         except KeyError as er:
             print er
         return [result]
+
+    def likes_images(self, user_object):
+        likes = self.highlight(user_object, 'likes')
+        user_id = int(user_object['_id'].split('.')[-1])
+        raw_likes = FacebookLike.objects.filter(user_id=user_id)
+        result = []
+        for raw_like in raw_likes:
+            for like_name, value in likes[0].items():
+                if like_name == raw_like.name.lower():
+                    result.append({'match': value,
+                                   'name': like_name,
+                                   'picture': raw_like.picture})
+        return result
 
     def get_twitter_data(self):
         twitter_name, twitter_provider = None, None

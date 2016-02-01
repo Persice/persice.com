@@ -1,19 +1,16 @@
 #loadingindicator {
-  height: auto;
-  width: 100%;
-  text-align: center;
-  margin: 1em auto;
-  display: block;
-  vertical-align: middle;
-  position: relative;
+  margin: 20rem auto!important;
 }
 
 .spinner {
-  margin: 10em auto;
-  width: 60px;
+  margin: 2rem auto;
+  width: 100%;
   height: 40px;
   text-align: center;
   font-size: 10px;
+  display: block;
+  vertical-align: middle;
+  position: relative;
 }
 
 .spinner > div {
@@ -626,4 +623,83 @@ textarea.c-input--error:hover {
   opacity: 1;
   visibility: visible;
   transition: all 0.2s ease-in;
+}
+
+.message__inread-indicator {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.message__inread-indicator.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease-in;
+}
+
+.message .flag__img .avatar-holder {
+  width: 56px;
+  height: 56px;
+}
+
+.no-results.chat__empty {
+  text-align: center;
+  padding: 20px !important;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: calc(100vh - 80px)
+}
+
+.no-results__title.chat__empty {
+  margin-bottom: 20px;
+  color: #3d474d
+}
+
+.no-results__par.chat__empty {
+  margin-bottom: 70px;
+  font-size: 16px;
+  color: #63727a;
+  line-height: 1.5
+}
+
+.chat__messages-wrapper {
+  width: 100%;
+}
+
+.chat-wrapper {
+  height: calc(100vh - 200px)!important;
+}
+
+.chat__messages-wrapper #loadingindicator {}
+
+.chat__time {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.notification-new {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
+}
+
+.notification-new.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease-in-out;
+}
+
+.notification-new .flag:hover,
+.edit-photos-link:hover,
+.notification-new .notification-new__close:hover {
+  cursor: pointer;
 }

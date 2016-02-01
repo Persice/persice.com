@@ -68,6 +68,14 @@ export class UserAuthService {
       });
   }
 
+  public findByUri(resourceUri: string): Observable<any> {
+    return this.http.get(`${resourceUri}?format=json`)
+      .map((res: Response) => {
+        let data = res.json();
+        return data;
+      });
+  }
+
   public updateOne(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
     let uri = '';

@@ -1,5 +1,3 @@
-/// <reference path='../../../../typings_custom/_custom.d.ts' />
-
 import {Component, Input} from 'angular2/core';
 import {findIndex, isUndefined} from 'lodash';
 

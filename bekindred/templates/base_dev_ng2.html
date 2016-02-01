@@ -18,12 +18,13 @@
   <link rel="dns-prefetch" href="//themes.googleusercontent.com">
   <link rel="dns-prefetch" href="//www.google-analytics.com">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
-  <!-- dev mode
-  <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" />
-  <link rel="stylesheet" href="/static/persiceApp/src/assets/css/app.css" />
-   -->
+  <!-- dev mode-->
+  <!-- <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" /> -->
+  <!-- <link rel="stylesheet" href="/static/persiceApp/src/assets/css/app.css" /> -->
+
   <!-- prod mode -->
   <link rel="stylesheet" href="/static/persiceApp/dist/assets/css/vendor.min.css" />
+
   <meta name="description" content="">
   <meta name="author" content="">
 </head>
@@ -44,19 +45,19 @@
   <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en&key=AIzaSyDFhIBwi7u03g0LpqN7JOkcYsROYwT36Lk"></script>
   <!--
   <script src="/static/persiceApp/src/assets/js/plugins.min.js"></script>
-  <script src="http://localhost:8080/dist/vendor.bundle.js"></script>
+  <script src="http://localhost:8080/dist/polyfills.bundle.js"></script>
   <script src="http://localhost:8080/dist/main.bundle.js"></script>
--->
+  -->
 
   <!-- staging only
   <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/vendor.bundle.js"></script>
+  <script src="/static/persiceApp/dist/polyfills.bundle.js"></script>
   <script src="/static/persiceApp/dist/main.bundle.js"></script>
   -->
-  <!-- production only-->
+  <!-- production only -->
   <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/vendor.eeac1948d74abdc0656a.bundle.js"></script>
-  <script src="/static/persiceApp/dist/main.f16202e924d723735bf0.bundle.js"></script>
+  <script src="/static/persiceApp/dist/polyfills.fa6ddeee4310bf5946ce.bundle.js"></script>
+  <script src="/static/persiceApp/dist/main.e48e982eefe2d84a8ef2.bundle.js"></script>
 
   <script type="text/javascript">
   function createCookie(name, value, days) {
@@ -69,6 +70,8 @@
   }
 
   createCookie('userid', '{{user.id}}', 1);
+  createCookie('user_name', '{{user.first_name}}', 1);
+  createCookie('user_image', '{{user.image}}', 1);
 
   function refreshConnect() {
     $('.connect-media').trigger('persice:refreshConnect');

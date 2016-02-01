@@ -31,7 +31,7 @@ import {RemodalDirective} from '../../directives/remodal.directive';
 import {ObjectUtil} from '../../core/util';
 
 /** View */
-let view = require('./profile.html');
+let view = require('./profile_my.html');
 
 @Component({
   selector: 'profile-friend',
@@ -62,6 +62,7 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
   profileReligiousIndex = [];
   profilePoliticalIndex = [];
+  section = 'profile';
 
   constructor(
     public mutualfriendsService: MutualFriendsService,
@@ -195,9 +196,9 @@ export class ProfileMyComponent extends BaseProfileComponent {
 
     for (let i = 0; i < arr.length; i++) {
       res.push({
-        value: arr[i][prop],
+        name: arr[i][prop],
         match: 0,
-        image: arr[i].picture
+        picture: arr[i].picture
       });
     }
     return res;
@@ -235,8 +236,10 @@ export class ProfileMyComponent extends BaseProfileComponent {
     window.history.back();
   }
 
-  openEditProfile(event) {
-    console.log('edit profile');
+  openEdit(section) {
+    let remodal = jQuery('[data-remodal-id=profile-edit]').remodal();
+    remodal.open();
+    this.section = section;
   }
 
   refreshUser(event) {

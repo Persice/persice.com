@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {ListUtil} from '../../core/util';
 
 const LEFT_COUNT = 4;
@@ -7,10 +7,22 @@ const RIGHT_COUNT = 3;
 @Component({
   selector: 'profile-items',
   template: `
-  <h4 class="module-title">{{title}}
+  <h4 class="module-title" *ngIf="!editable">{{title}}
     <span>({{itemsCount}})</span>
   </h4>
-  <div class="layout">
+
+  <h4 class="module-title" *ngIf="editable">
+    <a (click)="openEdit.next(title)" class="edit-link">{{title}} <span>({{itemsCount}})</span>
+     <span class="edit-link__icon">
+      <svg role="img" class="icon ">
+        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-edit_info"></use>
+      </svg>
+      </span>
+    </a>
+  </h4>
+
+
+  <div class="layout" *ngIf="!editable">
     <div class="layout__item 1/2">
       <ul class="features-list">
         <li class="features-list__match" *ngFor="#item of itemsLeft">
@@ -31,12 +43,41 @@ const RIGHT_COUNT = 3;
       <a *ngIf="!showAllItems && itemsCount > 7" (click)="toggleAll()" class="link-blank">Show all</a>
     </div>
   </div>
+
+
+  <div class="layout" *ngIf="editable">
+    <div class="layout__item 1/2">
+      <ul class="features-list">
+        <a (click)="openEdit.next(title)" class="edit-link">
+          <li class="features-list__match" *ngFor="#item of itemsLeft">
+            <svg role="img" class="icon icon--tiny" *ngIf="item.match">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+            </svg> {{item.value}}
+          </li>
+        </a>
+      </ul>
+    </div>
+    <div class="layout__item 1/2">
+      <ul class="features-list">
+        <a (click)="openEdit.next(title)" class="edit-link">
+          <li *ngFor="#item of itemsRight">
+            <svg role="img" class="icon icon--tiny" *ngIf="item.match">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-thunder"></use>
+            </svg> {{item.value}}
+          </li>
+        </a>
+      </ul>
+      <a *ngIf="!showAllItems && itemsCount > 7" (click)="toggleAll()" class="link-blank">Show all</a>
+    </div>
+  </div>
   `
 })
 export class ProfileItemsComponent {
   @Input() title;
   @Input() items;
   @Input() itemsCount;
+  @Input() editable;
+  @Output() openEdit: EventEmitter<any> = new EventEmitter();
   showAllItems: boolean = false;
   itemsLeft: any[] = [];
   itemsRight: any[] = [];

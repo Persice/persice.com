@@ -173,7 +173,6 @@ export class SignupInterestsComponent {
   }
 
   inputChanged(event) {
-    console.log(event);
     //if key is not enter clear notification
     if (event.which !== 13) {
       this.status = null;
