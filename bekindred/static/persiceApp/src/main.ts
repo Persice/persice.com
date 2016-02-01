@@ -22,7 +22,9 @@ const ENV_PROVIDERS = [];
 if ('production' === process.env.ENV) {
   enableProdMode();
 }
-ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+else {
+  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+}
 
 
 import {HttpClient} from './app/core/http_client';

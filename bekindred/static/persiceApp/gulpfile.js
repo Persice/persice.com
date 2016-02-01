@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
-var minifyCSS = require('gulp-minify-css');
+var cssnano = require('gulp-cssnano');
 var autoprefixer = require('gulp-autoprefixer');
 var csslint = require('gulp-csslint');
 
@@ -63,7 +63,7 @@ gulp.task('jscs', function() {
 
 gulp.task('css', function() {
   gulp.src(cssFiles)
-    .pipe(minifyCSS())
+    .pipe(cssnano())
     .pipe(concat('vendor.min.css'))
     .pipe(gulp.dest('./src/assets/css/'))
 });

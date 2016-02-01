@@ -11,7 +11,9 @@ const ENV_PROVIDERS = [];
 if ('production' === process.env.ENV) {
   enableProdMode();
 }
-ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+else {
+  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+}
 
 
 import {FORM_PROVIDERS} from 'angular2/common';
