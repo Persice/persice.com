@@ -5,6 +5,7 @@ var jshint = require('gulp-jshint');
 var cssnano = require('gulp-cssnano');
 var autoprefixer = require('gulp-autoprefixer');
 var csslint = require('gulp-csslint');
+var sourcemaps = require('gulp-sourcemaps');
 
 var jsFiles = [
   './lib/js/es6-shim.js',
@@ -63,8 +64,10 @@ gulp.task('jscs', function() {
 
 gulp.task('css', function() {
   gulp.src(cssFiles)
+    .pipe(sourcemaps.init())
     .pipe(cssnano())
     .pipe(concat('vendor.min.css'))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./src/assets/css/'))
 });
 
