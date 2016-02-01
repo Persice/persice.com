@@ -51,3 +51,8 @@ Thumbs.db
 
 # IDE #
 .idea/
+
+
+# JSON SERVER #
+
+jsonapi/db.json
