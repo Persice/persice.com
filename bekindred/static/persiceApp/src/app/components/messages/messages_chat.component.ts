@@ -131,7 +131,7 @@ export class MessagesChatComponent {
   handleScrollEvent(event) {
 		//reverse scroll
 		let elem = jQuery('#messages')[0];
-		if (this.messagesNext && elem.scrollTop <= 100) {
+		if (this.messagesNext && elem.scrollTop <= 50) {
 			if (!this.loadingMessages && !this.hasNew) {
 				this.scrollOffset = elem.scrollHeight;
 				console.log('loading more');
