@@ -64,9 +64,9 @@ var fs = require('fs'),
 };
 
 fs.exists(dbFilePath, function(exists) {
-  // if (!exists) {
+  if (!exists) {
     fs.writeFile(dbFilePath, JSON.stringify(dbContent), {
       encoding: 'utf-8'
     });
-  // }
+  }
 });

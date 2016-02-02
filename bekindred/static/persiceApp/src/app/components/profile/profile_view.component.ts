@@ -28,7 +28,7 @@ import {DropdownDirective} from '../../directives/dropdown.directive';
 
 
 /** Utils */
-import {ObjectUtil} from '../../core/util';
+import {ObjectUtil, ListUtil} from '../../core/util';
 
 /** View */
 let view = require('./profile.html');
@@ -95,10 +95,9 @@ export class ProfileViewComponent extends BaseProfileComponent {
   assignData(data) {
     this.loadingConnections = true;
     this.loadingLikes = true;
+    this.loadingPhotos = true;
 
-    if (data.connection) {
-      this.profileType = data.connection ? 'friend' : 'crowd';
-    }
+    this.profileType = data.connection ? 'friend' : 'crowd';
 
     this.profileId = data.id;
     this.profileName = data.first_name;
@@ -134,6 +133,19 @@ export class ProfileViewComponent extends BaseProfileComponent {
     this.profileInterestsCount = ObjectUtil.count(data.interests[0]);
     this.profileOffersCount = ObjectUtil.count(data.offers[0]);
     this.profileGoalsCount = ObjectUtil.count(data.goals[0]);
+
+
+    this.profileReligiousViews = data.religious_views;
+    this.profilePoliticalViews = data.political_views;
+
+
+    this.profilePhotosCount = 0;
+    this.profilePhotos = [];
+    setTimeout(() => {
+      this.profilePhotos = ListUtil.orderBy(data.photos, ['order'], ['asc']);
+      this.profilePhotosCount = this.profilePhotos.length;
+      this.loadingPhotos = false;
+    });
 
     this.getMutualFriends(data.id);
   }

@@ -5,7 +5,7 @@ import {PhotosService} from '../../services/photos.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
 
-import {ObjectUtil} from '../../core/util';
+import {ObjectUtil, ListUtil} from '../../core/util';
 
 export abstract class BaseProfileComponent {
   @Input() user;
