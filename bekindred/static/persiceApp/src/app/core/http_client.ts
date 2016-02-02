@@ -101,6 +101,10 @@ export class HttpClient {
     error['response'] = response;
     console.log('HTTP error');
     console.log(error);
+    if (response.status === 401) {
+      window.location.href = '/accounts/logout';
+    };
+
     throw error;
   }
 
