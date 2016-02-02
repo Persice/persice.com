@@ -1,9 +1,6 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
-/** Base Class */
-import {BaseProfileComponent} from './base_profile.component';
-
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
 import {ProfileAboutComponent} from '../profile_about/profile_about.component';
@@ -52,24 +49,69 @@ let view = require('./profile.html');
     ProfileService
   ]
 })
-export class ProfileViewComponent extends BaseProfileComponent {
+export class ProfileViewComponent {
   user;
   username;
   count = 0;
-  loading: boolean = false;
   friendsTitle: string = 'Mutual Connections';
   profileServiceInstance;
   notFound: boolean = false;
 
+  profileId;
+  profileType: string = 'friend';
+  profileAge = '';
+  profileGender = '';
+  profileLocation = '';
+  profileScore = '';
+  profileName = '';
+  profileJob = '';
+  profileReligiousViews = [];
+  profilePoliticalViews = [];
+  profileActiveAgo = '2h ago';
+  profileDistance = '';
+  profileAbout: string = '';
+  profileAvatar: string = '';
+  profilePhotos: any[] = [];
+  profilePhotosCount: number = 0;
+  profileKeywords: any[] = [];
+  profileKeywordsCount: number = 0;
+  profileInterests: any[] = [];
+  profileGoals: any[] = [];
+  profileOffers: any[] = [];
+  profileInterestsCount: number = 0;
+  profileGoalsCount: number = 0;
+  profileOffersCount: number = 0;
+  profileLikes: any[] = [];
+  profileLikesCount: number = 0;
+  profileFriends = {
+    mutual_bk_friends: [],
+    mutual_bk_friends_count: 0,
+    mutual_fb_friends: [],
+    mutual_fb_friends_count: 0,
+    mutual_linkedin_connections: [],
+    mutual_linkedin_connections_count: 0,
+    mutual_twitter_followers: [],
+    mutual_twitter_followers_count: 0,
+    mutual_twitter_friends: [],
+    mutual_twitter_friends_count: 0
+  };
+  profileFriendsCount: number = 0;
+  profileNetworks = {
+    facebook: '',
+    twitter: '',
+    linkedin: ''
+  };
+  loading: boolean = false;
+  loadingLikes: boolean = false;
+  loadingConnections: boolean = false;
+  loadingPhotos: boolean = false;
+
+
   constructor(
     public mutualfriendsService: MutualFriendsService,
-    public photosService: PhotosService,
-    public religiousviewsService: ReligiousViewsService,
-    public politicalviewsService: PoliticalViewsService,
     private profileService: ProfileService,
     private _params: RouteParams
   ) {
-    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'friend');
     this.username = this._params.get('username');
     console.log('Viewing profile for user', this.username);
   }
@@ -79,7 +121,6 @@ export class ProfileViewComponent extends BaseProfileComponent {
 
     this.profileServiceInstance = this.profileService.serviceObserver()
       .subscribe((res) => {
-        console.log('notify fired', res);
         this.user = res.data;
         this.notFound = res.notFound;
         this.loading = res.loading;
@@ -141,6 +182,7 @@ export class ProfileViewComponent extends BaseProfileComponent {
 
     this.profilePhotosCount = 0;
     this.profilePhotos = [];
+
     setTimeout(() => {
       this.profilePhotos = ListUtil.orderBy(data.photos, ['order'], ['asc']);
       this.profilePhotosCount = this.profilePhotos.length;
@@ -184,6 +226,14 @@ export class ProfileViewComponent extends BaseProfileComponent {
 
   closeProfile(event) {
     window.history.back();
+  }
+
+  acceptUser(event) {
+    console.log('accept user');
+  }
+
+  passUser(event) {
+    console.log('pass user');
   }
 
   ngOnDestroy() {
