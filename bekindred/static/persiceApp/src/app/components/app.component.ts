@@ -24,7 +24,7 @@ import {EventsComponent} from './events/events.component';
 import {ProfileFriendComponent} from './profile/profile_friend.component';
 import {ProfileMyComponent} from './profile/profile_my.component';
 import {EventComponent} from './event/event.component';
-
+import {ProfileViewComponent} from './profile/profile_view.component';
 
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
@@ -93,6 +93,11 @@ let view = require('./app.html');
     path: '/myprofile',
     component: ProfileMyComponent,
     name: 'ProfileMy'
+  },
+  {
+    path: '/profile/:username',
+    component: ProfileViewComponent,
+    name: 'ProfileView'
   }
 ])
 @Component({

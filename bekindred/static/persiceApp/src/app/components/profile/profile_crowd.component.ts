@@ -44,7 +44,6 @@ let view = require('./profile.html');
 })
 export class ProfileCrowdComponent extends BaseProfileComponent {
   @Input() user;
-  @Input() type;
   @Input() count;
   @Input() currentIndex;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;

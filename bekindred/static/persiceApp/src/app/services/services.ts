@@ -23,6 +23,7 @@ import {offersServiceInjectables} from './offers.service';
 import {onboardingServiceInjectables} from './onboarding.service';
 import {photosServiceInjectables} from './photos.service';
 import {politicalViewsServiceInjectables} from './politicalviews.service';
+import {profileServiceInjectables} from './profile.service';
 import {religiousViewsServiceInjectables} from './religiousviews.service';
 import {searchServiceInjectables} from './search.service';
 import {userAuthServiceInjectables} from './userauth.service';
@@ -55,6 +56,7 @@ export * from './offers.service';
 export * from './onboarding.service';
 export * from './photos.service';
 export * from './politicalviews.service';
+export * from './profile.service';
 export * from './religiousviews.service';
 export * from './search.service';
 export * from './search.service';
@@ -88,6 +90,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   onboardingServiceInjectables,
   photosServiceInjectables,
   politicalViewsServiceInjectables,
+  profileServiceInjectables,
   religiousViewsServiceInjectables,
   searchServiceInjectables,
   userAuthServiceInjectables,
