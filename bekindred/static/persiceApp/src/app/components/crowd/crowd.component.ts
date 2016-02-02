@@ -186,13 +186,6 @@ export class CrowdComponent {
       this.nextProfile(true);
     }
 
-    // this.notificationService.push({
-    //   type: 'warning',
-    //   title: '',
-    //   body: `${usr.first_name} has been removed from crowd.`,
-    //   autoclose: 4000
-    // });
-
     this.friendService.saveFriendship(-1, event.user)
       .subscribe(data => {
         if (!event.next) {
@@ -219,14 +212,6 @@ export class CrowdComponent {
     if (event.next) {
       this.nextProfile(true);
     }
-
-    // this.notificationService.push({
-    //   type: 'success',
-    //   title: 'Success',
-    //   body: `You sent friendship request to ${usr.first_name}.`,
-    //   autoclose: 4000
-    // });
-
 
     this.friendService.saveFriendship(0, event.user)
       .subscribe(data => {

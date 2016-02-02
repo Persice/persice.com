@@ -14,9 +14,7 @@ import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpa
 /** Services */
 import {ProfileService} from '../../services/profile.service';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
-import {PhotosService} from '../../services/photos.service';
-import {ReligiousViewsService} from '../../services/religiousviews.service';
-import {PoliticalViewsService} from '../../services/politicalviews.service';
+import {FriendService} from '../../services/friend.service';
 
 /**
  * Directives
@@ -45,8 +43,9 @@ let view = require('./profile.html');
     DropdownDirective
   ],
   providers: [
-    PhotosService,
-    ProfileService
+    ProfileService,
+    MutualFriendsService,
+    FriendService
   ]
 })
 export class ProfileViewComponent {
@@ -108,8 +107,9 @@ export class ProfileViewComponent {
 
 
   constructor(
-    public mutualfriendsService: MutualFriendsService,
+    private mutualfriendsService: MutualFriendsService,
     private profileService: ProfileService,
+    private friendService: FriendService,
     private _params: RouteParams
   ) {
     this.username = this._params.get('username');
@@ -230,10 +230,24 @@ export class ProfileViewComponent {
 
   acceptUser(event) {
     console.log('accept user');
+    this.friendService.saveFriendship(0, event.user)
+      .subscribe(data => {
+
+      });
+
   }
 
   passUser(event) {
     console.log('pass user');
+    this.friendService.saveFriendship(-1, event.user)
+      .subscribe(data => {
+
+      });
+
+  }
+
+  openMessages(event) {
+    console.log('opening messages');
   }
 
   ngOnDestroy() {
