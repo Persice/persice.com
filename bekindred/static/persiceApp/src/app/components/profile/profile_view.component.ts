@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output} from 'angular2/core';
 import {RouteParams} from 'angular2/router';
 
 /** Components */
@@ -138,7 +138,7 @@ export class ProfileViewComponent {
     this.loadingLikes = true;
     this.loadingPhotos = true;
 
-    this.profileType = data.connection ? 'friend' : 'crowd';
+    this.profileType = data.connected ? 'friend' : 'crowd';
 
     this.profileId = data.id;
     this.profileName = data.first_name;
