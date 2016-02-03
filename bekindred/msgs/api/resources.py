@@ -81,6 +81,8 @@ class InboxLastResource(Resource):
     read_at = fields.CharField(attribute='read_at', null=True)
     friend_id = fields.CharField(attribute='friend_id', null=True)
     sent_at = fields.CharField(attribute='sent_at', null=True)
+    # TODO:
+    # Add counter of unread messages on conversation level
 
     class Meta:
         resource_name = 'inbox/last'

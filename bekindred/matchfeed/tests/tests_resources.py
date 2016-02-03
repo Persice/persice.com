@@ -616,12 +616,3 @@ class TestProfileResource2(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.get('/api/v1/profile2/', format='json')
         self.assertValidJSONResponse(resp)
-        data = self.deserialize(resp)
-        d2 = {u'meta':
-                  {u'limit': 20,
-                   u'next': None,
-                   u'offset': 0,
-                   u'previous': None,
-                   u'total_count': 0},
-              'objects': []}
-        self.assertDictEqual(data, d2)
