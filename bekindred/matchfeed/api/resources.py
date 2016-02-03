@@ -431,3 +431,74 @@ class ProfileResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+class ProfileResource2(Resource):
+    id = fields.CharField(attribute='id')
+    facebook_id = fields.CharField(attribute='facebook_id', null=True)
+    first_name = fields.CharField(attribute='first_name')
+    last_name = fields.CharField(attribute='last_name')
+    user_id = fields.CharField(attribute='user_id')
+
+    age = fields.IntegerField(attribute='age')
+    distance = fields.ListField(attribute='distance')
+    about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
+
+    photos = fields.ListField(attribute='photos')
+    goals = fields.ListField(attribute='goals')
+    offers = fields.ListField(attribute='offers')
+    likes = fields.ListField(attribute='likes')
+    interests = fields.ListField(attribute='interests')
+    top_interests = fields.ListField(attribute='top_interests')
+
+    score = fields.IntegerField(attribute='score', null=True)
+    es_score = fields.FloatField(attribute='es_score', null=True)
+    friends_score = fields.IntegerField(attribute='friends_score', null=True)
+
+    friend_id = fields.CharField(attribute='friend_id', null=True)
+
+    updated_at = fields.DateTimeField(attribute='updated_at', null=True)
+    last_login = fields.DateTimeField(attribute='last_login', null=True)
+    image = fields.FileField(attribute="image", null=True, blank=True)
+    position = fields.DictField(attribute="position", null=True, blank=True)
+    lives_in = fields.CharField(attribute="lives_in", null=True, blank=True)
+
+    twitter_provider = fields.CharField(attribute="twitter_provider",
+                                        null=True, blank=True)
+    linkedin_provider = fields.CharField(attribute="linkedin_provider",
+                                         null=True, blank=True)
+    twitter_username = fields.CharField(attribute="twitter_username",
+                                        null=True, blank=True)
+
+    class Meta:
+        resource_name = 'profile2'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        username = request.GET.get('username')
+        user = FacebookCustomUserActive.objects.filter(username=username)
+        match_users = []
+        if user:
+            match_users = MatchQuerySet.between(request.user.id, user[0].id)
+        return match_users
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass

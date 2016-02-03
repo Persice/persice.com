@@ -20,7 +20,8 @@ from interests.api.resources import InterestResource, InterestSubjectResource, \
     ReligiousViewResource, ReligiousIndexResource, PoliticalViewResource, \
     PoliticalIndexResource
 from matchfeed.api.resources import (MatchedFeedResource, MatchedFeedResource2,
-                                     MutualFriendsResource, ProfileResource)
+                                     MutualFriendsResource, ProfileResource,
+                                     ProfileResource2)
 from msgs.api.resources import (ChatMessageResource, InboxLastResource,
                                 InboxResource, MessageResource,
                                 UnreadMessageCounter)
@@ -43,6 +44,7 @@ v1_api.register(MatchedFeedResource())
 v1_api.register(MatchedFeedResource2())
 v1_api.register(MutualFriendsResource())
 v1_api.register(ProfileResource())
+v1_api.register(ProfileResource2())
 v1_api.register(MessageResource())
 v1_api.register(InterestResource())
 v1_api.register(InterestSubjectResource())

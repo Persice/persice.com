@@ -27,20 +27,26 @@ class MatchEngineManager(models.Manager):
         """
         Return the list of matched user goals to goals
         """
-        u_goals_id = Goal.objects.filter(user_id=user_id).values_list('goal_id', flat=True)
+        u_goals_id = Goal.objects.filter(user_id=user_id).values_list(
+            'goal_id', flat=True)
         u_goals = Subject.objects.filter(id__in=u_goals_id)
-        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('goal_id', flat=True)
+        target_goals_id = Goal.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('goal_id',
+                                                                 flat=True)
         target_goals = Subject.objects.filter(id__in=target_goals_id)
 
         match_goals = []
         for goal in u_goals:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(goal.description).translate(
+                remove_punctuation_map).split())
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]
-        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal_id__in=subject_ids)
+        result = Goal.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            goal_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -49,20 +55,26 @@ class MatchEngineManager(models.Manager):
         Return the list of matched user goals to goals
         :return Goal
         """
-        u_offers_id = Offer.objects.filter(user_id=user_id).values_list('offer_id', flat=True)
+        u_offers_id = Offer.objects.filter(user_id=user_id).values_list(
+            'offer_id', flat=True)
         u_offers = Subject.objects.filter(id__in=u_offers_id)
-        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('goal_id', flat=True)
+        target_goals_id = Goal.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('goal_id',
+                                                                 flat=True)
         target_goals = Subject.objects.filter(id__in=target_goals_id)
 
         match_goals = []
         for offer in u_offers:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(offer.description).translate(
+                remove_punctuation_map).split())
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]
-        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal_id__in=subject_ids)
+        result = Goal.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            goal_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -71,20 +83,26 @@ class MatchEngineManager(models.Manager):
         Return the list of matched user interests to goals
         :return Goal
         """
-        u_interests_id = Interest.objects.filter(user_id=user_id).values_list('interest_id', flat=True)
+        u_interests_id = Interest.objects.filter(user_id=user_id).values_list(
+            'interest_id', flat=True)
         u_interest_sbjs = InterestSubject.objects.filter(id__in=u_interests_id)
-        target_goals_id = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('goal_id', flat=True)
+        target_goals_id = Goal.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('goal_id',
+                                                                 flat=True)
         target_goals = Subject.objects.filter(id__in=target_goals_id)
 
         match_goals = []
         for interest in u_interest_sbjs:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(
+                remove_punctuation_map).split())
             match_goals.extend(target_goals.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_goals]
-        result = Goal.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(goal_id__in=subject_ids)
+        result = Goal.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            goal_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -92,25 +110,32 @@ class MatchEngineManager(models.Manager):
         """
         Calculate number of common goals between two users
         """
-        u_goals_id = Goal.objects.filter(user_id=user_id1).values_list('goal_id', flat=True)
+        u_goals_id = Goal.objects.filter(user_id=user_id1).values_list(
+            'goal_id', flat=True)
         u_goals = Subject.objects.filter(id__in=u_goals_id)
 
-        u_offers_id = Offer.objects.filter(user_id=user_id1).values_list('offer_id', flat=True)
+        u_offers_id = Offer.objects.filter(user_id=user_id1).values_list(
+            'offer_id', flat=True)
         u_offers = Subject.objects.filter(id__in=u_offers_id)
 
-        u_interests_id = Interest.objects.filter(user_id=user_id1).values_list('interest_id', flat=True)
+        u_interests_id = Interest.objects.filter(user_id=user_id1).values_list(
+            'interest_id', flat=True)
         u_interests = InterestSubject.objects.filter(id__in=u_interests_id)
 
         u_likes = FacebookLike.objects.filter(user_id=user_id1)
 
-        target_goals_id = Goal.objects.filter(user_id=user_id2).values_list('goal_id', flat=True)
+        target_goals_id = Goal.objects.filter(user_id=user_id2).values_list(
+            'goal_id', flat=True)
         target_goals = Subject.objects.filter(id__in=target_goals_id)
 
-        target_offers_id = Offer.objects.filter(user_id=user_id2).values_list('offer_id', flat=True)
+        target_offers_id = Offer.objects.filter(user_id=user_id2).values_list(
+            'offer_id', flat=True)
         target_offers = Subject.objects.filter(id__in=target_offers_id)
 
-        target_interest_id = Interest.objects.filter(user_id=user_id2).values_list('interest_id', flat=True)
-        target_interests = InterestSubject.objects.filter(id__in=target_interest_id)
+        target_interest_id = Interest.objects.filter(
+            user_id=user_id2).values_list('interest_id', flat=True)
+        target_interests = InterestSubject.objects.filter(
+            id__in=target_interest_id)
 
         target_likes = FacebookLike.objects.filter(user_id=user_id2)
 
@@ -118,84 +143,96 @@ class MatchEngineManager(models.Manager):
         for goal in u_goals:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(goal.description).translate(
+                remove_punctuation_map).split())
             match_goals1.extend(target_goals.search(tsquery, raw=True))
 
         match_goals2 = []
         for offer in u_offers:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(offer.description).translate(
+                remove_punctuation_map).split())
             match_goals2.extend(target_goals.search(tsquery, raw=True))
 
         match_goals3 = []
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(
+                remove_punctuation_map).split())
             match_goals3.extend(target_goals.search(tsquery, raw=True))
 
         match_offers1 = []
         for offer in u_offers:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(offer.description).translate(
+                remove_punctuation_map).split())
             match_offers1.extend(target_offers.search(tsquery, raw=True))
 
         match_offers2 = []
         for goal in u_goals:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(goal.description).translate(
+                remove_punctuation_map).split())
             match_offers2.extend(target_offers.search(tsquery, raw=True))
 
         match_offers3 = []
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(
+                remove_punctuation_map).split())
             match_offers3.extend(target_offers.search(tsquery, raw=True))
 
         match_interests1 = []
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(
+                remove_punctuation_map).split())
             match_interests1.extend(target_interests.search(tsquery, raw=True))
 
         match_interests2 = []
         for goal in u_goals:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(goal.description).translate(
+                remove_punctuation_map).split())
             match_interests2.extend(target_interests.search(tsquery, raw=True))
 
         match_interests3 = []
         for offer in u_offers:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(offer.description).translate(
+                remove_punctuation_map).split())
             match_interests3.extend(target_interests.search(tsquery, raw=True))
 
         match_interests4 = []
         for like in u_likes:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(like.name).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(
+                unicode(like.name).translate(remove_punctuation_map).split())
             match_interests4.extend(target_interests.search(tsquery, raw=True))
 
         match_likes1 = []
         for like in u_likes:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(like.name).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(
+                unicode(like.name).translate(remove_punctuation_map).split())
             match_likes1.extend(target_likes.search(tsquery, raw=True))
 
         match_likes2 = []
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(
+                remove_punctuation_map).split())
             match_likes2.extend(target_likes.search(tsquery, raw=True))
 
         goals_total = match_goals1 + match_goals2 + match_goals3
@@ -230,7 +267,8 @@ class MatchEngineManager(models.Manager):
     def most_common_match_elements(user, attendees):
         common_total = {}
         for attendee in attendees:
-            goals, offers, interests, likes = MatchEngineManager.common_goals_and_offers(user, attendee)
+            goals, offers, interests, likes = MatchEngineManager.common_goals_and_offers(
+                user, attendee)
 
             for item in itertools.chain(goals, offers, interests):
                 if common_total.get(item.description.lower()):
@@ -244,7 +282,9 @@ class MatchEngineManager(models.Manager):
                 else:
                     common_total[item.name.lower()] = 1
 
-        items = [x[0] for x in sorted(common_total.iteritems(), key=lambda x: x[1], reverse=True)]
+        items = [x[0] for x in
+                 sorted(common_total.iteritems(), key=lambda x: x[1],
+                        reverse=True)]
         return items[:10]
 
     @staticmethod
@@ -252,20 +292,26 @@ class MatchEngineManager(models.Manager):
         """
         Return the list of matched user offers to offers
         """
-        u_offers_id = Offer.objects.filter(user_id=user_id).values_list('offer_id', flat=True)
+        u_offers_id = Offer.objects.filter(user_id=user_id).values_list(
+            'offer_id', flat=True)
         u_offers = Subject.objects.filter(id__in=u_offers_id)
-        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('offer_id', flat=True)
+        target_offers_id = Offer.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('offer_id',
+                                                                 flat=True)
         target_offers = Subject.objects.filter(id__in=target_offers_id)
 
         match_offers = []
         for offer in u_offers:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(offer.description).translate(
+                remove_punctuation_map).split())
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_offers]
-        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer_id__in=subject_ids)
+        result = Offer.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            offer_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -273,20 +319,26 @@ class MatchEngineManager(models.Manager):
         """
         Return the list of matched user goals to goals
         """
-        u_goals_id = Goal.objects.filter(user_id=user_id).values_list('goal_id', flat=True)
+        u_goals_id = Goal.objects.filter(user_id=user_id).values_list(
+            'goal_id', flat=True)
         u_goals = Subject.objects.filter(id__in=u_goals_id)
-        target_offers_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('offer_id', flat=True)
+        target_offers_id = Offer.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('offer_id',
+                                                                 flat=True)
         target_offers = Subject.objects.filter(id__in=target_offers_id)
 
         match_offers = []
         for goal in u_goals:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(goal).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(
+                unicode(goal).translate(remove_punctuation_map).split())
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_offers]
-        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer_id__in=subject_ids)
+        result = Offer.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            offer_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -295,38 +347,51 @@ class MatchEngineManager(models.Manager):
         Return the list of matched user interests to offers
         :return Offer
         """
-        u_interests_id = Interest.objects.filter(user_id=user_id).values_list('interest_id', flat=True)
+        u_interests_id = Interest.objects.filter(user_id=user_id).values_list(
+            'interest_id', flat=True)
         u_interest_sbjs = InterestSubject.objects.filter(id__in=u_interests_id)
-        target_offer_id = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('offer_id', flat=True)
+        target_offer_id = Offer.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('offer_id',
+                                                                 flat=True)
         target_offers = Subject.objects.filter(id__in=target_offer_id)
 
         match_offers = []
         for interest in u_interest_sbjs:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(
+                remove_punctuation_map).split())
             match_offers.extend(target_offers.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_offers]
-        result = Offer.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(offer_id__in=subject_ids)
+        result = Offer.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            offer_id__in=subject_ids)
         return result
 
     @staticmethod
     def match_interests_to_interests(user_id, exclude_friends):
-        u_interest_id = Interest.objects.filter(user_id=user_id).values_list('interest_id', flat=True)
+        u_interest_id = Interest.objects.filter(user_id=user_id).values_list(
+            'interest_id', flat=True)
         u_interests = InterestSubject.objects.filter(id__in=u_interest_id)
-        target_interest_id = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('interest_id', flat=True)
-        target_interests = InterestSubject.objects.filter(id__in=target_interest_id)
+        target_interest_id = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('interest_id',
+                                                                 flat=True)
+        target_interests = InterestSubject.objects.filter(
+            id__in=target_interest_id)
 
         match_interests = []
         for interest in u_interests:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(interest.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(interest.description).translate(
+                remove_punctuation_map).split())
             match_interests.extend(target_interests.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_interests]
-        result = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(interest_id__in=subject_ids)
+        result = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            interest_id__in=subject_ids)
         return result
 
     @staticmethod
@@ -335,54 +400,74 @@ class MatchEngineManager(models.Manager):
         Return the list of matched user Facebook likes to interests
         """
         fb_likes = FacebookLike.objects.filter(user_id=user_id)
-        target_interest_id = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('interest_id', flat=True)
-        target_interests = InterestSubject.objects.filter(id__in=target_interest_id)
+        target_interest_id = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('interest_id',
+                                                                 flat=True)
+        target_interests = InterestSubject.objects.filter(
+            id__in=target_interest_id)
 
         match_interests = []
         for fb_like in fb_likes:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(fb_like.name).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(fb_like.name).translate(
+                remove_punctuation_map).split())
             match_interests.extend(target_interests.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_interests]
-        result = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(interest_id__in=subject_ids)
+        result = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            interest_id__in=subject_ids)
         return result
 
     @staticmethod
     def match_goal_to_interests(user_id, exclude_friends):
-        u_goals_id = Goal.objects.filter(user_id=user_id).values_list('goal_id', flat=True)
+        u_goals_id = Goal.objects.filter(user_id=user_id).values_list(
+            'goal_id', flat=True)
         u_goals = Subject.objects.filter(id__in=u_goals_id)
-        target_interest_id = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('interest_id', flat=True)
-        target_interests = InterestSubject.objects.filter(id__in=target_interest_id)
+        target_interest_id = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('interest_id',
+                                                                 flat=True)
+        target_interests = InterestSubject.objects.filter(
+            id__in=target_interest_id)
 
         match_interests = []
         for goal in u_goals:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(goal.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(goal.description).translate(
+                remove_punctuation_map).split())
             match_interests.extend(target_interests.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_interests]
-        result = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(interest_id__in=subject_ids)
+        result = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            interest_id__in=subject_ids)
         return result
 
     @staticmethod
     def match_offer_to_interests(user_id, exclude_friends):
-        u_offers_id = Offer.objects.filter(user_id=user_id).values_list('offer_id', flat=True)
+        u_offers_id = Offer.objects.filter(user_id=user_id).values_list(
+            'offer_id', flat=True)
         u_offers = Subject.objects.filter(id__in=u_offers_id)
-        target_interest_id = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).values_list('interest_id', flat=True)
-        target_interests = InterestSubject.objects.filter(id__in=target_interest_id)
+        target_interest_id = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).values_list('interest_id',
+                                                                 flat=True)
+        target_interests = InterestSubject.objects.filter(
+            id__in=target_interest_id)
 
         match_interests = []
         for offer in u_offers:
             # FTS extension by default uses plainto_tsquery instead of to_tosquery,
             #  for this reason the use of raw parameter.
-            tsquery = ' | '.join(unicode(offer.description).translate(remove_punctuation_map).split())
+            tsquery = ' | '.join(unicode(offer.description).translate(
+                remove_punctuation_map).split())
             match_interests.extend(target_interests.search(tsquery, raw=True))
 
         subject_ids = [m.id for m in match_interests]
-        result = Interest.objects.exclude(user_id__in=[user_id] + exclude_friends).filter(interest_id__in=subject_ids)
+        result = Interest.objects.exclude(
+            user_id__in=[user_id] + exclude_friends).filter(
+            interest_id__in=subject_ids)
         return result
 
 
@@ -408,7 +493,6 @@ class CollocationDict(models.Model):
 
 
 class ElasticSearchMatchEngineManager(models.Manager):
-
     @staticmethod
     def query_builder(user, query, fields, exclude_user_ids, stop_words,
                       is_filter=False, friends_list=(), friends=False):
@@ -456,7 +540,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                         gender_predicate.append({"terms": {"offers": s_words}})
                         gender_predicate.append({"terms": {"likes": s_words}})
                         gender_predicate.append(
-                                {"terms": {"interests": s_words}})
+                            {"terms": {"interests": s_words}})
 
                 if fs[0].distance:
                     location = get_user_location(user.id)
@@ -639,7 +723,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 if s_words:
                     keyword_predicate.append({"terms": {"name": s_words}})
                     keyword_predicate.append(
-                            {"terms": {"description": s_words}})
+                        {"terms": {"description": s_words}})
 
             if fs[0].distance:
                 location = get_user_location(user.id)
@@ -766,27 +850,29 @@ class ElasticSearchMatchEngineManager(models.Manager):
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
 
         fids = Friend.objects.all_my_friends(user_id) + \
-            Friend.objects.thumbed_up_i(user_id) + \
-            Friend.objects.deleted_friends(user_id) + \
-            list(FacebookCustomUser.objects.filter(is_superuser=True).
-                 values_list('id', flat=True)) + \
-            list(FacebookCustomUser.objects.
-                 filter(is_active=False, facebook_id__isnull=True).
-                 values_list('id', flat=True))
+               Friend.objects.thumbed_up_i(user_id) + \
+               Friend.objects.deleted_friends(user_id) + \
+               list(FacebookCustomUser.objects.filter(is_superuser=True).
+                    values_list('id', flat=True)) + \
+               list(FacebookCustomUser.objects.
+                    filter(is_active=False, facebook_id__isnull=True).
+                    values_list('id', flat=True))
 
         friends_list = []
         if not friends:
             for f in fids:
-                exclude_user_ids.append('members.facebookcustomuseractive.%s' % f)
+                exclude_user_ids.append(
+                    'members.facebookcustomuseractive.%s' % f)
         else:
             # All my friends
             #
             fids = Friend.objects.all_my_friends(user_id)
             for f in fids:
                 friends_list.append('members.facebookcustomuseractive.%s' % f)
-        response = ElasticSearchMatchEngineManager.\
+        response = ElasticSearchMatchEngineManager. \
             query_builder(user, query, fields, exclude_user_ids, stop_words,
-                          is_filter=is_filter, friends_list=friends_list, friends=friends)
+                          is_filter=is_filter, friends_list=friends_list,
+                          friends=friends)
 
         return response['hits']['hits']
 
@@ -822,20 +908,44 @@ class ElasticSearchMatchEngineManager(models.Manager):
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id1]
 
+        location = get_user_location(user.id)
+        sorting = {
+            "_geo_distance": {
+                "location": {
+                    "lat": location.y,
+                    "lon": location.x
+                },
+                "order": "asc",
+                "unit": "mi"
+            }
+        }
         client = Elasticsearch()
 
         s = Search(using=client,
-                   index=settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']) \
+                   index=settings.HAYSTACK_CONNECTIONS['default'][
+                       'INDEX_NAME']) \
             .query(Q("multi_match", query=query, fields=fields)) \
             .filter(F("ids", type="modelresult",
-                      values=['members.facebookcustomuseractive.%s' % user_id2])) \
+                      values=[
+                          'members.facebookcustomuseractive.%s' % user_id2])) \
             .filter(~F("ids", type="modelresult",
                        values=exclude_user_ids)) \
-            .highlight(*fields)
+            .highlight(*fields) \
+            .sort(sorting)
         print s.to_dict()
         response = s.execute()
 
-        return response.hits.hits
+        s1 = Search(using=client,
+                    index=settings.HAYSTACK_CONNECTIONS['default'][
+                        'INDEX_NAME']) \
+            .filter(F("ids", type="modelresult",
+                      values=[
+                          'members.facebookcustomuseractive.%s' % user_id2])). \
+            sort(sorting)
+        print s1.to_dict()
+        response1 = s1.execute()
+
+        return response.hits.hits or response1.hits.hits
 
     @staticmethod
     def match_events(user_id, is_filter=False, feed='my'):
@@ -855,7 +965,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 Q_(membership__user_id__in=friends,
                    membership__rsvp__in=['yes', 'maybe'], ends_on__gt=now()) |
                 Q_(membership__user_id__in=friends,
-                   membership__is_organizer=True, ends_on__gt=now())).\
+                   membership__is_organizer=True, ends_on__gt=now())). \
                 distinct()
         event_ids_types = []
         for event in events:

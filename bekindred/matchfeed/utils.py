@@ -190,7 +190,7 @@ class MatchUser(object):
         interests = []
 
         for target in targets:
-            h_objects = user_object['highlight'].get(target, [])
+            h_objects = user_object.get('highlight', {}).get(target, [])
             for h in h_objects:
                 new_h = re.findall(r'<em>(.*?)</em>', h)
                 interests.append(new_h[0])
