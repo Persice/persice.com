@@ -86,10 +86,10 @@ class UserResource(ModelResource):
 
         bundle.data['position'] = get_current_position(bundle.obj)
         bundle.data['lives_in'] = get_lives_in(bundle.obj)
-        bundle.data['religious_view'] = get_religious_views(
+        bundle.data['religious_views'] = get_religious_views(
             bundle.request.user.id
         )
-        bundle.data['political_view'] = get_political_views(
+        bundle.data['political_views'] = get_political_views(
             bundle.request.user.id
         )
         return bundle
