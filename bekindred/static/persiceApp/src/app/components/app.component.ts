@@ -46,6 +46,7 @@ import {EventService} from '../services/event.service';
 import {WebsocketService} from '../services/websocket.service';
 import {GeolocationService} from '../services/geolocation.service';
 import {LocationService} from '../services/location.service';
+import {MessagesCounterService} from '../services/messages_counter.service';
 
 let view = require('./app.html');
 
@@ -120,7 +121,8 @@ let view = require('./app.html');
     WebsocketService,
     GeolocationService,
     LocationService,
-    UserAuthService
+    UserAuthService,
+    MessagesCounterService
   ]
 })
 export class AppComponent {
@@ -152,6 +154,7 @@ export class AppComponent {
     private websocketService: WebsocketService,
     private locationService: LocationService,
     private geolocationService: GeolocationService,
+    private messagesCounterService: MessagesCounterService,
     private _zone: NgZone
   ) {
     //default image
@@ -200,6 +203,8 @@ export class AppComponent {
               });
 
           }
+
+          this.messagesCounterService.refreshCounter();
           break;
         default:
           break;

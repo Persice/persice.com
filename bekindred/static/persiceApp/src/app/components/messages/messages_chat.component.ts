@@ -6,6 +6,7 @@ import {RouteParams} from 'angular2/router';
  */
 import {InboxService} from '../../services/inbox.service';
 import {MessagesService} from '../../services/messages.service';
+import {MessagesCounterService} from '../../services/messages_counter.service';
 import {WebsocketService} from '../../services/websocket.service';
 
 /**
@@ -24,7 +25,7 @@ import {LoadingComponent} from '../loading/loading.component';
     LoadingComponent
   ],
   providers: [
-		MessagesService
+    MessagesService
   ],
   template: `
   <div class="chat">
@@ -53,18 +54,25 @@ export class MessagesChatComponent {
   scrollOffset = null;
 
   constructor(
-		private _params: RouteParams,
-		private inboxService: InboxService,
-		private messagesService: MessagesService,
-		private websocketService: WebsocketService
-	) {
-		this.threadId = this._params.get('threadId');
+    private _params: RouteParams,
+    private inboxService: InboxService,
+    private messagesService: MessagesService,
+    private messagesCounterService: MessagesCounterService,
+    private websocketService: WebsocketService
+  ) {
+    this.threadId = this._params.get('threadId');
 
   }
 
 
   ngOnInit() {
-		this.inboxService.select(this.threadId);
+
+
+    this.inboxService.select(this.threadId);
+
+    setTimeout(() => {
+      this.messagesCounterService.refreshCounter();
+    }, 500);
 
     //subscribe to messages service updates
     this.messagesServiceInstance = this.messagesService.serviceObserver()
@@ -78,36 +86,36 @@ export class MessagesChatComponent {
 
 
         //when first loading messages, scroll to bottom
-				// after initial messages have been rendered
+        // after initial messages have been rendered
         if (prevCount === 0 && !this.loadingMessages) {
-					let elem = jQuery('#messages')[0];
-					setTimeout(() => {
-						elem.scrollTop = elem.scrollHeight;
-					});
+          let elem = jQuery('#messages')[0];
+          setTimeout(() => {
+            elem.scrollTop = elem.scrollHeight;
+          });
         }
 
 
 
         //if recieved new message scroll to bottom
         if (this.hasNew && !this.loadingMessages) {
-					let elem = jQuery('#messages')[0];
-					setTimeout(() => {
-						elem.scrollTop = elem.scrollHeight;
-					});
-					this.hasNew = false;
+          let elem = jQuery('#messages')[0];
+          setTimeout(() => {
+            elem.scrollTop = elem.scrollHeight;
+          });
+          this.hasNew = false;
         }
 
-				this.messages = res.data;
+        this.messages = res.data;
 
-				//when loading more messages finishes, scroll to bottom
-				// after new messages have been rendered
-				if (prevCount > 0 && !this.loadingMessages && this.scrollOffset !== null) {
-					let elem = jQuery('#messages')[0];
-					setTimeout(() => {
-						elem.scrollTop = elem.scrollHeight - this.scrollOffset;
-						this.scrollOffset = null;
-					});
-				}
+        //when loading more messages finishes, scroll to bottom
+        // after new messages have been rendered
+        if (prevCount > 0 && !this.loadingMessages && this.scrollOffset !== null) {
+          let elem = jQuery('#messages')[0];
+          setTimeout(() => {
+            elem.scrollTop = elem.scrollHeight - this.scrollOffset;
+            this.scrollOffset = null;
+          });
+        }
 
         if (this.loadingMessagesFinished === false) {
           jQuery('#messages').bind('scroll', this.handleScrollEvent.bind(this));
@@ -121,28 +129,28 @@ export class MessagesChatComponent {
     this.messagesService.startLoadingMessages(this.threadId);
 
     //subscribe to webscoket service updates
-		this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
-			if (data.sender === `/api/v1/auth/user/${this.threadId}/`) {
-				this.messagesService.recievedMessage(data);
-			}
+    this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
+      if (data.sender === `/api/v1/auth/user/${this.threadId}/`) {
+        this.messagesService.recievedMessage(data);
+      }
     });
   }
 
   handleScrollEvent(event) {
-		//reverse scroll
-		let elem = jQuery('#messages')[0];
-		if (this.messagesNext && elem.scrollTop <= 50) {
-			if (!this.loadingMessages && !this.hasNew) {
-				this.scrollOffset = elem.scrollHeight;
-				console.log('loading more');
-				this.messagesService.loadMore(this.threadId);
+    //reverse scroll
+    let elem = jQuery('#messages')[0];
+    if (this.messagesNext && elem.scrollTop <= 50) {
+      if (!this.loadingMessages && !this.hasNew) {
+        this.scrollOffset = elem.scrollHeight;
+        console.log('loading more');
+        this.messagesService.loadMore(this.threadId);
       }
-		}
+    }
 
   }
 
   sendMessage(message) {
-		this.messagesService.send(this.threadId, message);
+    this.messagesService.send(this.threadId, message);
   }
 
   ngOnDestroy() {
@@ -150,7 +158,7 @@ export class MessagesChatComponent {
       this.messagesServiceInstance.unsubscribe();
     }
 
-		if (this.websocketServiceInstance) {
+    if (this.websocketServiceInstance) {
       this.websocketServiceInstance.unsubscribe();
     }
 

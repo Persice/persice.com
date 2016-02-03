@@ -7,6 +7,7 @@ import {Observable, Subject} from 'rxjs';
 @Injectable()
 export class InboxService {
 	static API_URL = '/api/v1/inbox/last/';
+	static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
 
 
 	_dataStore = [];
@@ -37,7 +38,7 @@ export class InboxService {
 
 	public select(id) {
 		this._selectedThread = id;
-		this._notify();
+		this.markRead(id);
 	}
 
 
@@ -52,6 +53,43 @@ export class InboxService {
 
 	public getInbox() {
 		return this._dataStore;
+	}
+
+	public recievedMessage(message) {
+		console.log('rec', this._dataStore);
+		for (var i = 0; i < this._dataStore.length; ++i) {
+
+			if (this._dataStore[i].senderId === message.sender) {
+				console.log('match');
+				this._dataStore[i].body = StringUtil.words(message.body, 50);
+				this._dataStore[i].sent_at = DateUtil.fromNow(message.sent_at);
+			}
+		}
+		this._notify();
+	}
+
+	public markRead(sender) {
+		let url = `${InboxService.API_URL_MARK_READ}?format=json&sender_id=${sender}`;
+
+		let channel = this.http.get(url)
+			.map((res: any) => res.json())
+			.subscribe((data: any) => {
+
+				for (var i = 0; i < this._dataStore.length; ++i) {
+					if (this._dataStore[i].threadId === sender) {
+						this._dataStore[i].unread = false;
+					}
+				}
+
+				this._notify();
+				channel.unsubscribe();
+			},
+			(error) => {
+				console.log(`Could mark message read ${error}`);
+			},
+			() => {
+
+			});
 	}
 
 	private _loadInbox(limit: number) {
@@ -110,6 +148,7 @@ export class InboxService {
 					threadId: data.objects[i].friend_id,
 					facebookId: data.objects[i].facebook_id,
 					image: data.objects[i].image,
+					senderId: data.objects[i].sender_id,
 					sentAt: data.objects[i].sent_at !== null ? DateUtil.fromNow(data.objects[i].sent_at) : '',
 					readAt: data.objects[i].read_at,
 					id: data.objects[i].id,

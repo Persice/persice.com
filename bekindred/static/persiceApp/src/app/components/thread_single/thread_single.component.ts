@@ -21,8 +21,7 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
       </div>
     </div>
   </div>
-	`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+	`
 })
 export class ThreadSingleComponent {
   @Input() thread;

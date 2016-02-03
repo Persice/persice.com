@@ -705,3 +705,15 @@ textarea.c-input--error:hover {
 .notification-new .notification-new__close:hover {
   cursor: pointer;
 }
+
+.nav-main__value {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
+}
+
+.nav-main__value.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease-in-out;
+}
