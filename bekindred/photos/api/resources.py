@@ -92,9 +92,6 @@ class UserResource(ModelResource):
         bundle.data['political_view'] = get_political_views(
             bundle.request.user.id
         )
-        bundle.data['profile_photo'] = FacebookPhoto.objects.get(
-            user=bundle.request.user.id
-        ).photo
         return bundle
 
     def prepend_urls(self):
