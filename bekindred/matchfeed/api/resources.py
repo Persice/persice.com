@@ -16,7 +16,8 @@ from matchfeed.utils import MatchedResults, order_by, MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
-    social_extra_data, get_current_position
+    social_extra_data, get_current_position, get_religious_views, \
+    get_political_views
 
 
 class A(object):
@@ -494,6 +495,12 @@ class ProfileResource2(Resource):
         return match_users
 
     def dehydrate(self, bundle):
+        bundle.data['religious_views'] = get_religious_views(
+            bundle.obj.id
+        )
+        bundle.data['political_views'] = get_political_views(
+            bundle.obj.id
+        )
         bundle.data['connected'] = Friend.objects.checking_friendship(
             bundle.request.user.id,
             bundle.obj.id
