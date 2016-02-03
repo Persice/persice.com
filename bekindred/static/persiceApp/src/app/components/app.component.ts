@@ -95,7 +95,7 @@ let view = require('./app.html');
     name: 'ProfileMy'
   },
   {
-    path: '/profile/:username',
+    path: '/:username',
     component: ProfileViewComponent,
     name: 'ProfileView'
   }

@@ -9,7 +9,6 @@ import {ProfileFriendsComponent} from '../profile_friends/profile_friends.compon
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {LoadingComponent} from '../loading/loading.component';
-import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
 
 /** Services */
 import {ProfileService} from '../../services/profile.service';
@@ -37,7 +36,6 @@ let view = require('./profile.html');
     ProfileAboutComponent,
     ProfileLikesComponent,
     ProfileFriendsComponent,
-    ProfileAcceptPassComponent,
     ProfileNetworksComponent,
     ProfileItemsComponent,
     LoadingComponent,
@@ -141,7 +139,7 @@ export class ProfileViewComponent {
     this.loadingLikes = true;
     this.loadingPhotos = true;
 
-    this.profileType = data.connected ? 'friend' : 'crowd';
+    this.profileType = data.connected === true ? 'friend' : 'crowd';
 
     this.profileId = data.id;
     this.profileName = data.first_name;
@@ -178,8 +176,25 @@ export class ProfileViewComponent {
     this.profileOffersCount = ObjectUtil.count(data.offers[0]);
     this.profileGoalsCount = ObjectUtil.count(data.goals[0]);
 
-    this.profileReligiousViews = data.religious_views;
-    this.profilePoliticalViews = data.political_views;
+
+    let religious_views = [];
+    for (var i = 0; i < data.religious_views.length; ++i) {
+      religious_views = [...religious_views, {
+        religious_view: data.religious_views[i]
+      }]
+    }
+    this.profileReligiousViews = religious_views;
+
+
+    let political_views = [];
+    for (var i = 0; i < data.political_views.length; ++i) {
+      political_views = [...political_views, {
+        political_view: data.political_views[i]
+      }]
+    }
+    this.profilePoliticalViews = political_views;
+
+
 
     this.getMutualFriends(data.id);
     this.getPhotos(data.id);
@@ -238,24 +253,6 @@ export class ProfileViewComponent {
 
   closeProfile(event) {
     window.history.back();
-  }
-
-  acceptUser(event) {
-    console.log('accept user');
-    this.friendService.saveFriendship(0, event.user)
-      .subscribe(data => {
-
-      });
-
-  }
-
-  passUser(event) {
-    console.log('pass user');
-    this.friendService.saveFriendship(-1, event.user)
-      .subscribe(data => {
-
-      });
-
   }
 
   openMessages(event) {
