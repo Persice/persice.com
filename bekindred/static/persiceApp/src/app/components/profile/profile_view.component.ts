@@ -15,6 +15,7 @@ import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpa
 import {ProfileService} from '../../services/profile.service';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {FriendService} from '../../services/friend.service';
+import {PhotosService} from '../../services/photos.service';
 
 /**
  * Directives
@@ -45,7 +46,8 @@ let view = require('./profile.html');
   providers: [
     ProfileService,
     MutualFriendsService,
-    FriendService
+    FriendService,
+    PhotosService
   ]
 })
 export class ProfileViewComponent {
@@ -110,6 +112,7 @@ export class ProfileViewComponent {
     private mutualfriendsService: MutualFriendsService,
     private profileService: ProfileService,
     private friendService: FriendService,
+    private photosService: PhotosService,
     private _params: RouteParams
   ) {
     this.username = this._params.get('username');
@@ -130,7 +133,7 @@ export class ProfileViewComponent {
 
       });
 
-    this.profileService.loadProfile('http://localhost:1337/people/58');
+    this.profileService.loadProfile(this.username);
   }
 
   assignData(data) {
@@ -175,21 +178,30 @@ export class ProfileViewComponent {
     this.profileOffersCount = ObjectUtil.count(data.offers[0]);
     this.profileGoalsCount = ObjectUtil.count(data.goals[0]);
 
-
     this.profileReligiousViews = data.religious_views;
     this.profilePoliticalViews = data.political_views;
 
+    this.getMutualFriends(data.id);
+    this.getPhotos(data.id);
+  }
 
+
+  getPhotos(id) {
+    this.photosService.get('', 6, id)
+      .subscribe(data => this.assignPhotos(data));
+  }
+
+  assignPhotos(data) {
     this.profilePhotosCount = 0;
     this.profilePhotos = [];
-
     setTimeout(() => {
-      this.profilePhotos = ListUtil.orderBy(data.photos, ['order'], ['asc']);
-      this.profilePhotosCount = this.profilePhotos.length;
+      if (data.meta.total_count > 0) {
+        this.profilePhotos = ListUtil.orderBy(data.objects, ['order'], ['asc']);
+        this.profilePhotosCount = this.profilePhotos.length;
+      }
       this.loadingPhotos = false;
     });
 
-    this.getMutualFriends(data.id);
   }
 
   getMutualFriends(id) {

@@ -7,7 +7,7 @@ import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class ProfileService {
-  static API_URL: string = '';
+  static API_URL: string = '/api/v1/profile2';
   static DEFAULT_IMAGE: string = '/static/persiceApp/src/assets/images/avatar_user_m.jpg';
 
   _observer: Subject<any> = new Subject(null);
@@ -28,19 +28,26 @@ export class ProfileService {
     return this._observer;
   }
 
-  private _findByUri(resourceUri: string) {
+  private _findByUri(username: string) {
     if (this._loading) {
       return;
     }
 
+    let url = `${ProfileService.API_URL}/?format=json&username=${username}`;
+
     this._loading = true;
     this._notFound = false;
     this._notify();
-    let channel = this.http.get(resourceUri)
+    let channel = this.http.get(url)
       .map((res: Response) => res.json())
       .subscribe((res: any) => {
         this._loading = false;
-        this._dataStore = res;
+        if (res.meta.total_count === 1) {
+          this._dataStore = res.objects[0];
+        }
+        else {
+          this._notFound = true;
+        }
         this._notify();
         channel.unsubscribe();
       }, (err) => {
