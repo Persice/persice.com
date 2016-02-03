@@ -493,6 +493,13 @@ class ProfileResource2(Resource):
             match_users = MatchQuerySet.between(request.user.id, user[0].id)
         return match_users
 
+    def dehydrate(self, bundle):
+        bundle.data['connected'] = Friend.objects.checking_friendship(
+            bundle.request.user.id,
+            bundle.obj.id
+        )
+        return bundle
+
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
         return self.get_object_list(bundle.request)
