@@ -50,7 +50,8 @@ let view = require('./profile_my.html');
     UserAuthService,
     PhotosService,
     LikesService,
-    ReligiousViewsService
+    ReligiousViewsService,
+    PoliticalViewsService
   ]
 })
 export class ProfileMyComponent {

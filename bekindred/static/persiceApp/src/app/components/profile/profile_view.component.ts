@@ -9,6 +9,7 @@ import {ProfileFriendsComponent} from '../profile_friends/profile_friends.compon
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {LoadingComponent} from '../loading/loading.component';
+import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
 
 /** Services */
 import {ProfileService} from '../../services/profile.service';
@@ -38,6 +39,7 @@ let view = require('./profile.html');
     ProfileFriendsComponent,
     ProfileNetworksComponent,
     ProfileItemsComponent,
+    ProfileAcceptPassComponent,
     LoadingComponent,
     DropdownDirective
   ],
@@ -258,6 +260,25 @@ export class ProfileViewComponent {
   openMessages(event) {
     console.log('opening messages');
   }
+
+  acceptUser(event) {
+    console.log('accept user');
+    this.friendService.saveFriendship(0, event.user)
+      .subscribe(data => {
+
+      });
+
+  }
+
+  passUser(event) {
+    console.log('pass user');
+    this.friendService.saveFriendship(-1, event.user)
+      .subscribe(data => {
+
+      });
+
+  }
+
 
   ngOnDestroy() {
     if (this.profileServiceInstance) {
