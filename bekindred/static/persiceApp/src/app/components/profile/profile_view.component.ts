@@ -183,7 +183,7 @@ export class ProfileViewComponent {
     for (var i = 0; i < data.religious_views.length; ++i) {
       religious_views = [...religious_views, {
         religious_view: data.religious_views[i]
-      }]
+      }];
     }
     this.profileReligiousViews = religious_views;
 
@@ -192,7 +192,7 @@ export class ProfileViewComponent {
     for (var i = 0; i < data.political_views.length; ++i) {
       political_views = [...political_views, {
         political_view: data.political_views[i]
-      }]
+      }];
     }
     this.profilePoliticalViews = political_views;
 

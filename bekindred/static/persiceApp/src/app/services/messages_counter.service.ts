@@ -4,7 +4,7 @@ import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class MessagesCounterService {
-	static API_URL = '/api/v1/inbox/unread_counter/'
+	static API_URL = '/api/v1/inbox/unread_counter/';
 	_state: number = 0;
 	_observer: Subject<any> = new Subject();
 
@@ -47,4 +47,4 @@ export class MessagesCounterService {
 
 export var messagesCounterService: any[] = [
 	provide(MessagesCounterService, { useClass: MessagesCounterService })
-]
+];
