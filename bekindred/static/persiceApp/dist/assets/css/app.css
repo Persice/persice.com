@@ -1,13 +1,15 @@
 #loadingindicator {
   margin: 20rem auto!important;
+  font-size: 10px;
+  height: 40px;
 }
 
 .spinner {
   margin: 2rem auto;
   width: 100%;
-  height: 40px;
+  height: 30px;
   text-align: center;
-  font-size: 10px;
+  font-size: 8px;
   display: block;
   vertical-align: middle;
   position: relative;
@@ -702,4 +704,16 @@ textarea.c-input--error:hover {
 .edit-photos-link:hover,
 .notification-new .notification-new__close:hover {
   cursor: pointer;
+}
+
+.nav-main__value {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
+}
+
+.nav-main__value.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease-in-out;
 }
