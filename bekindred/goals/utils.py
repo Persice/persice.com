@@ -15,6 +15,7 @@ from social_auth.db.django_models import UserSocialAuth
 from events.models import Event, FilterState
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
+from interests.models import ReligiousView, PoliticalView
 from members.models import FacebookCustomUserActive
 from world.models import UserLocation
 
@@ -392,3 +393,13 @@ def get_lives_in(user):
     except TypeError as e:
         pass
     return lives_in
+
+
+def get_religious_views(user_id):
+    return [rv.religious_index.name for rv in
+            ReligiousView.objects.filter(user_id=user_id)]
+
+
+def get_political_views(user_id):
+    return [pv.political_index.name for pv in
+            PoliticalView.objects.filter(user_id=user_id)]
