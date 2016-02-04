@@ -6,9 +6,6 @@ import {Observable, Subject} from 'rxjs';
 import {CookieUtil} from '../core/util';
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 
-
-import {UserAuthService} from './userauth.service';
-
 @Injectable()
 export class MessagesService {
 	static API_URL = '/api/v1/messages/';
@@ -21,35 +18,21 @@ export class MessagesService {
 	_loading: boolean = false;
 	_isListEmpty: boolean = false;
 	_observer: Subject<any> = new Subject(null);
-	_senderImage = '';
-	_senderName = '';
 	_senderUri = '';
 	_myImage = '';
 	_myUri = '';
-	_myName = '';
 	_newMessage = false;
 
 	constructor(
-		private http: HttpClient,
-		private userService: UserAuthService
+		private http: HttpClient
 		) {
 		let userId = CookieUtil.getValue('userid');
-		this._myName = CookieUtil.getValue('user_name');
-		this._myImage = CookieUtil.getValue('user_image');
-		if (this._myImage.indexOf('media') === -1) {
-			this._myImage = '/media/' + this._myImage;
-		}
 		this._myUri = `/api/v1/auth/user/${userId}/`;
 	}
 
 	public startLoadingMessages(id) {
 		this._senderUri = `/api/v1/auth/user/${id}/`;
-		this.userService.findByUri(this._senderUri).subscribe((data) => {
-			this._senderImage = data.image;
-			this._senderName = data.first_name;
-			this._loadMessages(this._limit, id, false);
-		});
-
+		this._loadMessages(this._limit, id, false);
 	}
 
 	public send(id, message) {
@@ -87,8 +70,9 @@ export class MessagesService {
 
 	private _appendMessage(data) {
 		this._dataStore[this._dataStore.length - 1].data = [...this._dataStore[this._dataStore.length - 1].data, {
-			image: data.sender === this._myUri ? this._myImage : this._senderImage,
-			name: data.sender === this._myUri ? this._myName : this._senderName,
+			image: data.sender_image.indexOf('media') === -1 ? '/media/' + data.sender_image : data.sender_image,
+			name: data.sender_name,
+			username: data.sender_sender,
 			body: data.body,
 			sent_at: data.sent_at,
 			time: DateUtil.format(data.sent_at, 'LT')
@@ -172,8 +156,9 @@ export class MessagesService {
 			}
 
 			this._dataStore[idx].data = [...this._dataStore[idx].data, {
-				image: m[i].sender === this._myUri ? this._myImage : this._senderImage,
-				name: m[i].sender === this._myUri ? this._myName : this._senderName,
+				image: m[i].sender_image.indexOf('media') === -1 ? '/media/' + m[i].sender_image : m[i].sender_image,
+				name: m[i].sender_name,
+				username: m[i].sender_sender,
 				body: m[i].body,
 				sent_at: m[i].sent_at,
 				time: time
