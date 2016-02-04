@@ -1132,6 +1132,7 @@ class EventAttendees(ModelResource):
         return super(EventAttendees, self).get_object_list(request)
 
     def dehydrate(self, bundle):
+        bundle.data['username'] = bundle.obj.user.username
         bundle.data['first_name'] = bundle.obj.user.first_name
         bundle.data['facebook_id'] = bundle.obj.user.facebook_id
         bundle.data['image'] = bundle.obj.user.image
