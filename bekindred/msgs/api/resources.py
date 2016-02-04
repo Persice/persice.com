@@ -56,6 +56,11 @@ class MessageResource(ModelResource):
                                                                                   recipient__is_active=True,
                                                                                   recipient=user))
 
+    def dehydrate(self, bundle):
+        bundle.data['sender_image'] = bundle.obj.sender.image
+        bundle.data['sender_name'] = bundle.obj.sender.first_name
+        return bundle
+
     def obj_create(self, bundle, **kwargs):
         bundle = super(MessageResource, self).obj_create(bundle, **kwargs)
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
