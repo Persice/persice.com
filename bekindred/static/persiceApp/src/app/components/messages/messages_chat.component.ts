@@ -70,10 +70,6 @@ export class MessagesChatComponent {
 
     this.inboxService.select(this.threadId);
 
-    setTimeout(() => {
-      this.messagesCounterService.refreshCounter();
-    }, 500);
-
     //subscribe to messages service updates
     this.messagesServiceInstance = this.messagesService.serviceObserver()
       .subscribe((res) => {

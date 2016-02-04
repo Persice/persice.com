@@ -56,13 +56,11 @@ export class InboxService {
 	}
 
 	public recievedMessage(message) {
-		console.log('rec', this._dataStore);
 		for (var i = 0; i < this._dataStore.length; ++i) {
 
 			if (this._dataStore[i].senderId === message.sender) {
-				console.log('match');
 				this._dataStore[i].body = StringUtil.words(message.body, 50);
-				this._dataStore[i].sent_at = DateUtil.fromNow(message.sent_at);
+				this._dataStore[i].sentAt = DateUtil.fromNow(message.sent_at);
 			}
 		}
 		this._notify();
@@ -152,7 +150,7 @@ export class InboxService {
 					sentAt: data.objects[i].sent_at !== null ? DateUtil.fromNow(data.objects[i].sent_at) : '',
 					readAt: data.objects[i].read_at,
 					id: data.objects[i].id,
-					unread: data.objects[i].read_at !== null || data.objects[i].sent_at !== null ? true : false,
+					unread: data.objects[i].read_at !== null ? false : true,
 					body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
 				};
 				this._dataStore = [...this._dataStore, item];

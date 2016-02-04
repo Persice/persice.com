@@ -1,4 +1,4 @@
-// Compiled using typings@0.6.4
+// Compiled using typings@0.6.6
 // Source: https://raw.githubusercontent.com/angular/DefinitelyTyped/31e7317c9a0793857109236ef7c7f223305a8aa9/zone/zone.d.ts
 declare class Zone {
     constructor(parentZone: Zone, data: any);

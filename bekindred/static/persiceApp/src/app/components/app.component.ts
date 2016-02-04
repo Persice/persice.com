@@ -203,8 +203,10 @@ export class AppComponent {
               });
 
           }
+          else {
+            this.messagesCounterService.refreshCounter();
+          }
 
-          this.messagesCounterService.refreshCounter();
           break;
         default:
           break;
