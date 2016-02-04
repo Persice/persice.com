@@ -71,6 +71,9 @@ class MessageResource(ModelResource):
         user_sessions = UserSession.objects.filter(user_id=user)
 
         data['sent_at'] = str(bundle.obj.sent_at.isoformat())
+        data['sender_image'] = str(bundle.obj.sender.image)
+        data['sender_name'] = str(bundle.obj.sender.first_name.encode('utf8'))
+        data['sender_sender'] = str(bundle.obj.sender.username)
         r.publish('message.%s' % user.id, json.dumps(data))
         return bundle
 
