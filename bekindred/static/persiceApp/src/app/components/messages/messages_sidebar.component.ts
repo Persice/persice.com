@@ -67,9 +67,12 @@ export class MessagesSidebarComponent {
     //start loading inbox
     this.inboxService.startLoadingInbox();
 
-
     this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
       this.inboxService.recievedMessage(data);
+      this.inboxService.markRead(this.activeThread);
+      setTimeout(() => {
+        this.messagesCounterService.refreshCounter();
+      }, 500);
     });
 
   }

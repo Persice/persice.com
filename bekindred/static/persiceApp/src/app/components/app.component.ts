@@ -201,10 +201,9 @@ export class AppComponent {
                   this.notificationSmall.active = false;
                 }, 4000);
               });
-
+              this.messagesCounterService.refreshCounter();
           }
 
-          this.messagesCounterService.refreshCounter();
           break;
         default:
           break;

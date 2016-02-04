@@ -107,6 +107,8 @@ export class MessagesChatComponent {
 
         this.messages = res.data;
 
+
+
         //when loading more messages finishes, scroll to bottom
         // after new messages have been rendered
         if (prevCount > 0 && !this.loadingMessages && this.scrollOffset !== null) {

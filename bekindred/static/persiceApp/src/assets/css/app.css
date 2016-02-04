@@ -717,3 +717,9 @@ textarea.c-input--error:hover {
   visibility: visible;
   transition: all 0.5s ease-in-out;
 }
+
+
+.message.is-unread .message__text {
+  font-weight: bold!important;
+  transition: all 0.5s ease-in-out;
+}

@@ -166,8 +166,8 @@ module.exports = {
       // comments: true,//debug
 
       beautify: false, //prod
-      // disable mangling because of a bug in angular2 beta.2
-      // TODO: enable mangling as soon as angular2 beta.3 is out
+      // disable mangling because of a bug in angular2 beta.2 abd beta.3
+      // TODO: enable mangling as soon as angular2 beta.4 is out
       // mangle: {
       //   screw_ie8: true
       // }, //prod
