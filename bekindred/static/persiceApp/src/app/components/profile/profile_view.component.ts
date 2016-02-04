@@ -119,9 +119,11 @@ export class ProfileViewComponent {
     console.log('Viewing profile for user', this.username);
   }
 
+  ngAfterViewInit() {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  }
 
   ngOnInit() {
-
     this.profileServiceInstance = this.profileService.serviceObserver()
       .subscribe((res) => {
         this.user = res.data;

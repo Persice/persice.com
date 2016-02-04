@@ -1,4 +1,6 @@
 import {Component, Input} from 'angular2/core';
+import {Router} from 'angular2/router';
+
 import {SwiperDirective} from '../../directives/swiper.directive';
 
 let view = require('./eventpeoplelist.html');
@@ -24,4 +26,13 @@ export class EventPeopleListComponent {
     },
     lazyLoading: true
   });
+
+  constructor(private _router: Router) {
+
+  }
+
+  openProfile(username) {
+    this._router.parent.navigate(['./ProfileView', { username: username }]);
+  }
+
 }

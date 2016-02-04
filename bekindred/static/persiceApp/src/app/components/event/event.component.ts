@@ -55,7 +55,8 @@ export class EventComponent {
     distance: '',
     gender: '',
     age: '',
-    image: ''
+    image: '',
+    username: ''
   };
   info = {
     name: '',
@@ -228,7 +229,8 @@ export class EventComponent {
           distance: data.distance && this.host.user === this.authUserUri ? '' : `/ ${data.distance[0]} ${data.distance[1]}`,
           gender: UserUtil.gender(data.gender),
           age: data.age,
-          image: data.image
+          image: data.image,
+          username: data.username
         };
       });
 
