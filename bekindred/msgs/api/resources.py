@@ -59,6 +59,7 @@ class MessageResource(ModelResource):
     def dehydrate(self, bundle):
         bundle.data['sender_image'] = bundle.obj.sender.image
         bundle.data['sender_name'] = bundle.obj.sender.first_name
+        bundle.data['sender_sender'] = bundle.obj.sender.username
         return bundle
 
     def obj_create(self, bundle, **kwargs):
