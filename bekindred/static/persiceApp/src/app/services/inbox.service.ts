@@ -61,6 +61,9 @@ export class InboxService {
 			if (this._dataStore[i].senderId === message.sender) {
 				this._dataStore[i].body = StringUtil.words(message.body, 50);
 				this._dataStore[i].sentAt = DateUtil.fromNow(message.sent_at);
+				if (this._dataStore[i].senderId !== this._selectedThread) {
+					this._dataStore[i].unread = true;
+				}
 			}
 		}
 		this._notify();

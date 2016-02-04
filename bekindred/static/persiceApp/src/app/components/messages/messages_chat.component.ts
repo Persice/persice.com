@@ -70,6 +70,10 @@ export class MessagesChatComponent {
 
     this.inboxService.select(this.threadId);
 
+    setTimeout(() => {
+      this.messagesCounterService.refreshCounter();
+    }, 500);
+
     //subscribe to messages service updates
     this.messagesServiceInstance = this.messagesService.serviceObserver()
       .subscribe((res) => {
@@ -102,6 +106,8 @@ export class MessagesChatComponent {
         }
 
         this.messages = res.data;
+
+
 
         //when loading more messages finishes, scroll to bottom
         // after new messages have been rendered
