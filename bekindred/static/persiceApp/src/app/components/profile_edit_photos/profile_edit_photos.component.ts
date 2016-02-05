@@ -1,9 +1,8 @@
 import {Component, Input, Output, ChangeDetectionStrategy} from 'angular2/core';
-
-
 import {SortableDirective} from '../../directives/sortable.directive';
+import {Http} from 'angular2/http';
 
-import {ListUtil} from '../../core/util';
+import {ListUtil, CookieUtil} from '../../core/util';
 
 let view = require('./profile_edit_photos.html');
 
@@ -18,6 +17,19 @@ export class ProfileEditPhotosComponent {
   @Input() photos;
   @Input() default;
   profilePhotos = [];
+
+  constructor(private _http: Http) {
+
+  }
+
+  ngOnInit() {
+    let token = CookieUtil.getValue('user_token');
+    let url = `https://graph.facebook.com/me/?fields=albums.limit(30){picture, name, photos.limit(6)}&access_token=${token}`;
+    this._http.get(url).map(res => res.json())
+    .subscribe((data) => {
+      console.log('FB albums', data);
+    });
+  }
 
   ngOnChanges(values) {
     if (values.photos && values.photos.currentValue) {

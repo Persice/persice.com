@@ -2,7 +2,12 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
 import {ListUtil} from '../../core/util';
 import {GenderPipe} from '../../pipes/gender.pipe';
 
+/**
+ * Components
+ */
 import {AboutEditComponent} from './profile_edit_about.component';
+import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
+
 //** Services */
 import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
@@ -15,7 +20,8 @@ let view = require('./profile_edit_personalinfo.html');
   selector: 'profile-edit-personal-info',
   template: view,
   directives: [
-    AboutEditComponent
+    AboutEditComponent,
+    ProfileEditFooterComponent
   ],
   pipes: [
     GenderPipe
@@ -29,8 +35,9 @@ export class ProfileEditPersonalInfoComponent {
   @Input() user;
   @Input() politicalViews;
   @Input() religiousViews;
-  @Output() loading: EventEmitter<any> = new EventEmitter;
+  @Output() close: EventEmitter<any> = new EventEmitter;
 
+  loading: boolean = false;
 
   politicalList = [];
   religiousList = [];
@@ -79,12 +86,12 @@ export class ProfileEditPersonalInfoComponent {
     let itemListSelected = `${item.list}ListSelected`;
     let itemService = `${item.list}Service`;
     let idx = item.idx;
-    this.loading.next(true);
+    this.loading = true;
     if (this[itemList][idx].selected) {
       this[itemService].delete(this[itemList][idx].view_uri)
         .subscribe((data) => {
           this[itemList][idx].selected = false;
-          this.loading.next(false);
+          this.loading = false;
           this[itemListSelected] = ListUtil.filter(this[itemList], 'selected', true);
         });
     }
@@ -93,7 +100,7 @@ export class ProfileEditPersonalInfoComponent {
         .subscribe((data) => {
           this[itemList][idx].selected = true;
           this[itemList][idx].view_uri = data.resource_uri;
-          this.loading.next(false);
+          this.loading = false;
           this[itemListSelected] = ListUtil.filter(this[itemList], 'selected', true);
         });
     }

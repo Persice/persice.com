@@ -73,25 +73,25 @@ export class ProfileEditComponent {
         case 'profile':
           this.activeTab = 'profile';
           setTimeout(() => {
-            jQuery('#pr-edit-personal-info').scrollTop(0);
+            jQuery('.profile-edit__overflow').scrollTop(0);
           }, 300);
           break;
         case 'religious':
           this.activeTab = 'profile';
           setTimeout(() => {
-            jQuery('#pr-edit-personal-info').scrollTop(jQuery('#pr-edit-personal-info')[0].scrollHeight);
+            jQuery('.profile-edit__overflow').scrollTop(jQuery('.profile-edit__overflow')[0].scrollHeight);
           }, 300);
           break;
         case 'political':
           this.activeTab = 'profile';
           setTimeout(() => {
-            jQuery('#pr-edit-personal-info').scrollTop(jQuery('#pr-edit-personal-info')[0].scrollHeight);
+            jQuery('.profile-edit__overflow').scrollTop(jQuery('.profile-edit__overflow')[0].scrollHeight);
           }, 300);
           break;
         case 'about':
           this.activeTab = 'profile';
           setTimeout(() => {
-            jQuery('#pr-edit-personal-info').scrollTop(jQuery('#pr-edit-personal-info')[0].scrollHeight);
+            jQuery('.profile-edit__overflow').scrollTop(jQuery('.profile-edit__overflow')[0].scrollHeight);
           }, 300);
           break;
         case 'photo':
