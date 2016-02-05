@@ -726,6 +726,8 @@ textarea.c-input--error:hover {
 .message .flag__img:hover,
 .message .message__name:hover,
 a.user-listed,
+.remodal__title a:hover,
 #eventHost:hover {
   cursor: pointer;
 }
+

@@ -11,6 +11,7 @@ var jsFiles = [
   './lib/js/es6-shim.js',
   './lib/js/jquery-2.1.4.min.js',
   './lib/js/jstz.js',
+  './lib/js/croppie.js',
   './lib/js/jquery.minimalect.js',
   './lib/js/circle-progress.js',
   './lib/js/svg4everybody.js',
