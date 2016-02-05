@@ -1,8 +1,17 @@
-import {Component, Input, Output, ChangeDetectionStrategy} from 'angular2/core';
-import {SortableDirective} from '../../directives/sortable.directive';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {Http} from 'angular2/http';
-
 import {ListUtil, CookieUtil} from '../../core/util';
+
+/**
+ * Directives
+ */
+import {SortableDirective} from '../../directives/sortable.directive';
+
+/**
+ * Components
+ */
+import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
+
 
 let view = require('./profile_edit_photos.html');
 
@@ -10,13 +19,17 @@ let view = require('./profile_edit_photos.html');
   selector: 'profile-edit-photos',
   template: view,
   directives: [
-    SortableDirective
+    SortableDirective,
+    ProfileEditFooterComponent
   ]
 })
 export class ProfileEditPhotosComponent {
   @Input() photos;
   @Input() default;
+  @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() openAlbums: EventEmitter<any> = new EventEmitter();
   profilePhotos = [];
+  loading: boolean = false;
 
   constructor(private _http: Http) {
 

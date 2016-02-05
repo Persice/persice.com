@@ -3,7 +3,7 @@ import {findIndex} from 'lodash';
 
 
 /**
- *
+ * Components
  */
 import {LoadingComponent} from '../loading/loading.component';
 import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';

@@ -1,4 +1,4 @@
-import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {mergeMap} from 'rxjs/operator/mergeMap';
 
 //** Components */
@@ -12,7 +12,10 @@ import {ProfileEditGoalsComponent}
 from '../profile_edit_goals/profile_edit_goals.component';
 import {ProfileEditOffersComponent}
 from '../profile_edit_offers/profile_edit_offers.component';
-
+import {ProfileEditPhotosAlbumsComponent}
+from '../profile_edit_photos_albums/profile_edit_photos_albums.component';
+import {ProfileEditPhotosCropComponent}
+from '../profile_edit_photos_crop/profile_edit_photos_crop.component';
 
 declare var jQuery: any;
 
@@ -26,7 +29,9 @@ let view = require('./profile_edit.html');
     ProfileEditPhotosComponent,
     ProfileEditInterestsComponent,
     ProfileEditGoalsComponent,
-    ProfileEditOffersComponent
+    ProfileEditOffersComponent,
+    ProfileEditPhotosAlbumsComponent,
+    ProfileEditPhotosCropComponent
   ]
 })
 export class ProfileEditComponent {
@@ -45,6 +50,51 @@ export class ProfileEditComponent {
   defaultPhoto;
   active = '';
 
+  photosAlbumsActive = false;
+  photosAlbumsCrumbActive = false;
+  photosCropActive = false;
+  photosCropCrumbActive = false;
+
+  openAlbums(event) {
+    this.photosAlbumsActive = true;
+    this.photosAlbumsCrumbActive = true;
+    this.photosCropActive = false;
+    this.photosCropCrumbActive = false;
+  }
+
+  closeAlbums(event) {
+    this.photosAlbumsActive = false;
+    this.photosCropActive = false;
+    this.photosAlbumsCrumbActive = false;
+    this.photosCropCrumbActive = false;
+  }
+
+  openCrop(event) {
+    this.photosAlbumsActive = false;
+    this.photosAlbumsCrumbActive = true;
+    this.photosCropCrumbActive = true;
+    this.photosCropActive = true;
+  }
+
+  closeCrop(event) {
+    this.photosCropActive = false;
+    this.photosCropCrumbActive = false;
+    this.photosAlbumsCrumbActive = true;
+    this.photosAlbumsActive = true;
+  }
+
+  closePhotos(event) {
+    this.photosAlbumsActive = false;
+    this.photosCropActive = false;
+    this.photosCropCrumbActive = false;
+    this.photosAlbumsCrumbActive = false;
+  }
+
+  cropAndSave(event) {
+    console.log('cropping and saving');
+    this.closePhotos(true);
+  }
+
   ngOnChanges(values) {
     if (values.user && values.user.currentValue) {
       this.defaultPhoto = values.user.currentValue.image;
@@ -59,6 +109,7 @@ export class ProfileEditComponent {
     }
 
     if (values.activeSection && values.activeSection.currentValue) {
+      console.log('section changed edit', values.activeSection.currentValue);
       this.active = values.activeSection.currentValue;
       switch (values.activeSection.currentValue) {
         case 'Interests':
@@ -94,8 +145,8 @@ export class ProfileEditComponent {
             jQuery('.profile-edit__overflow').scrollTop(jQuery('.profile-edit__overflow')[0].scrollHeight);
           }, 300);
           break;
-        case 'photo':
-          this.activeTab = 'photo';
+        case 'photos':
+          this.activeTab = 'photos';
           break;
         default:
           break;
@@ -105,10 +156,10 @@ export class ProfileEditComponent {
   }
 
   closeModal(event) {
+    this.closePhotos(true);
     this.refreshUser.next(true);
     let remodal = jQuery('[data-remodal-id=profile-edit]').remodal();
     remodal.close();
-    this.activeTab = 'profile';
   }
 
 }

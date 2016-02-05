@@ -39,43 +39,39 @@
         </a>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[1]">
-        <div class="fileUpload">
+        <div class="fileUpload" (click)="openAlbums.next($event)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
             </svg>
           </span>
-          <input type="file" class="upload" />
         </div>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[2]">
-        <div class="fileUpload">
+        <div class="fileUpload" (click)="openAlbums.next($event)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
             </svg>
           </span>
-          <input type="file" class="upload" />
         </div>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[3]">
-        <div class="fileUpload">
+        <div class="fileUpload" (click)="openAlbums.next($event)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
             </svg>
           </span>
-          <input type="file" class="upload" />
         </div>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[4]">
-        <div class="fileUpload">
+        <div class="fileUpload" (click)="openAlbums.next($event)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
             </svg>
           </span>
-          <input type="file" class="upload" />
         </div>
       </div>
 
@@ -83,3 +79,5 @@
   </div>
   <p class="profile-edit__photos-hint text-center p-">Drag to sort the photos</p>
 </div>
+<profile-footer [loadingEdit]="loading" (close)="close.next($event)"></profile-footer>
+
