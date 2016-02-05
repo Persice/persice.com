@@ -10,6 +10,7 @@ import {filterServiceInjectables} from './filter.service';
 import {friendServiceInjectables} from './friend.service';
 import {geolocationServiceInjectables} from './geolocation.service';
 import {goalsServiceInjectables} from './goals.service';
+import {historyServiceInjectables} from './history.service';
 import {inboxServiceInjectables} from './inbox.service';
 import {interestsServiceInjectables} from './interests.service';
 import {keywordsServiceInjectables} from './keywords.service';
@@ -42,6 +43,7 @@ export * from './events.service';
 export * from './filter.service';
 export * from './geolocation.service';
 export * from './goals.service';
+export * from './history.service';
 export * from './inbox.service';
 export * from './interests.service';
 export * from './keywords.service';
@@ -77,6 +79,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   friendServiceInjectables,
   geolocationServiceInjectables,
   goalsServiceInjectables,
+  historyServiceInjectables,
   inboxServiceInjectables,
   interestsServiceInjectables,
   keywordsServiceInjectables,

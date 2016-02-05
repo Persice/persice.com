@@ -47,6 +47,7 @@ import {WebsocketService} from '../services/websocket.service';
 import {GeolocationService} from '../services/geolocation.service';
 import {LocationService} from '../services/location.service';
 import {MessagesCounterService} from '../services/messages_counter.service';
+import {HistoryService} from '../services/history.service';
 
 let view = require('./app.html');
 
@@ -122,7 +123,8 @@ let view = require('./app.html');
     GeolocationService,
     LocationService,
     UserAuthService,
-    MessagesCounterService
+    MessagesCounterService,
+    HistoryService
   ]
 })
 export class AppComponent {
@@ -155,6 +157,7 @@ export class AppComponent {
     private locationService: LocationService,
     private geolocationService: GeolocationService,
     private messagesCounterService: MessagesCounterService,
+    private historyService: HistoryService,
     private _zone: NgZone
   ) {
     //default image
@@ -176,8 +179,6 @@ export class AppComponent {
     this.websocketService.on(channel).subscribe((data: any) => {
       console.log('websocket recieved data for channel %s', channel);
       console.log(data);
-
-
       switch (channel) {
         case 'messages:new':
           if (this.activeRoute.indexOf('messages') === -1) {
@@ -228,6 +229,8 @@ export class AppComponent {
 
     this._router.subscribe((next) => {
       this.activeRoute = next;
+      this.historyService.setRoute(next);
+      // console.log(this.historyService.getAll());
     });
 
 

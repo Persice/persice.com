@@ -1,5 +1,5 @@
 import {Component, Input, Output} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {RouteParams, Router} from 'angular2/router';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -16,6 +16,7 @@ import {ProfileService} from '../../services/profile.service';
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {FriendService} from '../../services/friend.service';
 import {PhotosService} from '../../services/photos.service';
+import {HistoryService} from '../../services/history.service';
 
 /**
  * Directives
@@ -113,17 +114,15 @@ export class ProfileViewComponent {
     private profileService: ProfileService,
     private friendService: FriendService,
     private photosService: PhotosService,
-    private _params: RouteParams
+    private historyService: HistoryService,
+    private _params: RouteParams,
+    private _router: Router
   ) {
     this.username = this._params.get('username');
-    console.log('Viewing profile for user', this.username);
-  }
-
-  ngAfterViewInit() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.profileServiceInstance = this.profileService.serviceObserver()
       .subscribe((res) => {
         this.user = res.data;
@@ -256,7 +255,14 @@ export class ProfileViewComponent {
 
 
   closeProfile(event) {
-    window.history.back();
+    let uri = this.historyService.getPrev();
+    if (uri !== '') {
+      this._router.parent.navigateByUrl(uri);
+    }
+    else {
+      this._router.parent.navigateByUrl('/');
+    }
+
   }
 
   openMessages(event) {

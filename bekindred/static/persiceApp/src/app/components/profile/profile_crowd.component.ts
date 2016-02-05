@@ -109,6 +109,10 @@ export class ProfileCrowdComponent {
 
   }
 
+  ngOnInit() {
+    window.scrollTo(0, 0);
+  }
+
   ngOnChanges(values) {
     if (values.user && values.user.currentValue) {
       this.assignUser();

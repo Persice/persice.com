@@ -1,4 +1,5 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+import {Router} from 'angular2/router';
 
 import {mergeMap} from 'rxjs/operator/mergeMap';
 
@@ -21,6 +22,7 @@ import {ConnectionsService} from '../../services/connections.service';
 import {LikesService} from '../../services/likes.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
+import {HistoryService} from '../../services/history.service';
 
 //** Directives */
 import {RemodalDirective} from '../../directives/remodal.directive';
@@ -119,12 +121,15 @@ export class ProfileMyComponent {
     public userService: UserAuthService,
     public likesService: LikesService,
     public religiousviewsService: ReligiousViewsService,
-    public politicalviewsService: PoliticalViewsService
+    public politicalviewsService: PoliticalViewsService,
+    private historyService: HistoryService,
+    private _router: Router
   ) {
 
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.getMyProfile();
   }
 
@@ -281,7 +286,14 @@ export class ProfileMyComponent {
   }
 
   closeProfile(event) {
-    window.history.back();
+    let uri = this.historyService.getPrev();
+    if (uri !== '') {
+      this._router.parent.navigateByUrl(uri);
+    }
+    else {
+      this._router.parent.navigateByUrl('/');
+    }
+
   }
 
   openEdit(section) {

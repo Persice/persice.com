@@ -48,8 +48,13 @@ export class ConnectionsComponent {
 
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    });
+  }
+
   ngOnInit() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.total_count = 0;
     this.getList();
 
