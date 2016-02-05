@@ -90,8 +90,8 @@ class InboxLastResource(Resource):
     read_at = fields.CharField(attribute='read_at', null=True)
     friend_id = fields.CharField(attribute='friend_id', null=True)
     sent_at = fields.CharField(attribute='sent_at', null=True)
-    # TODO:
-    # Add counter of unread messages on conversation level
+    # Counter of unread messages on conversation level
+    unread_counter = fields.IntegerField(attribute='unread_counter', null=True)
 
     class Meta:
         resource_name = 'inbox/last'
@@ -124,6 +124,17 @@ class InboxLastResource(Resource):
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
+
+            # counter of unread messages on conversation level
+            cnt = Message.objects.\
+                filter(read_at__isnull=True, recipient=current_user,
+                       sender=new_obj.friend_id). \
+                order_by('sender', 'recipient'). \
+                values('sender').annotate(cnt=Count('sender'))
+            try:
+                new_obj.unread_counter = cnt[0]['cnt']
+            except (ValueError, KeyError, IndexError):
+                new_obj.unread_counter = 0
             try:
                 message = Message.objects.filter(sender=new_obj.friend_id,
                                                  recipient=current_user
@@ -191,9 +202,10 @@ class UnreadMessageCounter(Resource):
         new_object = A()
         results = []
         user = FacebookCustomUserActive.objects.get(id=request.user.id)
-        cnt = Message.objects.filter(read_at__isnull=True, recipient=user).order_by('sender', 'recipient').\
+        cnt = Message.objects.filter(read_at__isnull=True, recipient=user).\
+            order_by('sender', 'recipient').\
             values('sender').annotate(cnt=Count('sender'))
-        new_object.unread_counter = len(cnt)
+        new_object.unread_counter = sum(s['cnt'] for s in cnt)
         results.append(new_object)
         return results
 
