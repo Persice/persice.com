@@ -61,8 +61,10 @@ export class InboxService {
 			if (this._dataStore[i].senderId === message.sender) {
 				this._dataStore[i].body = StringUtil.words(message.body, 50);
 				this._dataStore[i].sentAt = DateUtil.fromNow(message.sent_at);
+
 				if (this._dataStore[i].senderId !== this._selectedThread) {
 					this._dataStore[i].unread = true;
+					this._dataStore[i].unreadCounter++;
 				}
 			}
 		}
@@ -79,6 +81,7 @@ export class InboxService {
 				for (var i = 0; i < this._dataStore.length; ++i) {
 					if (this._dataStore[i].threadId === sender) {
 						this._dataStore[i].unread = false;
+						this._dataStore[i].unreadCounter = 0;
 					}
 				}
 
@@ -154,6 +157,7 @@ export class InboxService {
 					readAt: data.objects[i].read_at,
 					id: data.objects[i].id,
 					unread: data.objects[i].read_at !== null ? false : true,
+					unreadCounter: data.objects[i].unread_counter,
 					body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
 				};
 				this._dataStore = [...this._dataStore, item];
