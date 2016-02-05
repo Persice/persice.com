@@ -6,7 +6,9 @@ import {
 ROUTER_PROVIDERS,
 ROUTER_PRIMARY_COMPONENT,
 HashLocationStrategy,
-LocationStrategy
+PathLocationStrategy,
+LocationStrategy,
+APP_BASE_HREF
 } from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
 
@@ -62,8 +64,9 @@ const UNIVERSAL_PROVIDERS = [
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  provide(LocationStrategy, { useClass: HashLocationStrategy }),
+  provide(LocationStrategy, { useClass: PathLocationStrategy }),
   provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
+  provide(APP_BASE_HREF, {useValue: '/'}),
   provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 

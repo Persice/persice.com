@@ -21,6 +21,8 @@ import {
 ROUTER_PROVIDERS,
 ROUTER_PRIMARY_COMPONENT,
 HashLocationStrategy,
+PathLocationStrategy,
+APP_BASE_HREF,
 LocationStrategy
 } from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
@@ -58,7 +60,8 @@ const UNIVERSAL_PROVIDERS = [
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  provide(LocationStrategy, { useClass: HashLocationStrategy }),
+  provide(LocationStrategy, { useClass: PathLocationStrategy }),
+  provide(APP_BASE_HREF, { useValue: '/signup' }),
   provide(ROUTER_PRIMARY_COMPONENT, { useValue: SignupComponent }),
 ];
 

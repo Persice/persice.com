@@ -79,8 +79,15 @@ v1_api.register(UserProfileResource())
 
 
 urlpatterns = patterns('',
-                       url(r'^$', 'goals.views.main_page_angular2'),
                        url(r'^mvp/$', 'goals.views.main_page'),
+                       url(r'^signup/interests', 'goals.views.signup_page',
+                           name='onboardingflow'),
+                       url(r'^signup/goals', 'goals.views.signup_page',
+                           name='onboardingflow'),
+                       url(r'^signup/offers', 'goals.views.signup_page',
+                           name='onboardingflow'),
+                       url(r'^signup/connect', 'goals.views.signup_page',
+                           name='onboardingflow'),
                        url(r'^signup/$', 'goals.views.signup_page',
                            name='onboardingflow'),
                        url(r'^api/', include(v1_api.urls)),
@@ -116,3 +123,8 @@ if settings.DEBUG:
                             url(r'^__debug__/', include(debug_toolbar.urls)),
                             url(r'api/doc/', include('tastypie_swagger.urls', namespace='tastypie_swagger'))
                             )
+
+
+urlpatterns += patterns('',
+                        url(r'^.*$', 'goals.views.main_page_angular2')
+                        )
