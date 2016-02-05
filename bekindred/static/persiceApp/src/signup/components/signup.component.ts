@@ -221,13 +221,13 @@ export class SignupComponent {
   completeOnboarding() {
     if (this.is_complete === null) {
       this.onboardingService.complete().subscribe((data) => {
-        window.location.href = '/#/crowd';
+        window.location.href = '/crowd/';
       }, (err) => {
       }, () => {
 
       });
     } else {
-      window.location.href = '/#/crowd';
+      window.location.href = '/crowd/';
     }
 
   }
