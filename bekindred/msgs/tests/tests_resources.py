@@ -3,6 +3,7 @@ from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from events.models import Event, Membership
+from friends.models import Friend
 from msgs.models import ChatMessage
 from postman.api import pm_write
 from postman.models import Message
@@ -80,6 +81,90 @@ class TestInboxResource(ResourceTestCase):
         self.response = self.login()
         self.api_client.get('/api/v1/inbox/?sender_id=1', format='json')
         self.assertEqual(Message.objects.inbox_unread_count(self.user), 0)
+
+
+class TestInboxLastResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestInboxLastResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a', password='test', facebook_id=12345)
+        self.user1 = FacebookCustomUser.objects.create_user(
+            username='user_b', password='test', facebook_id=12346)
+        self.user2 = FacebookCustomUser.objects.create_user(
+            username='user_c', password='test', facebook_id=12347)
+        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        for x in range(10):
+            pm_write(self.user1, self.user, 'test %s' % x)
+        for x in range(10):
+            pm_write(self.user2, self.user, 'test %s' % x)
+
+        self.resource_url = '/api/v1/inbox/last/'
+
+    def login(self):
+        return self.api_client.client.post(
+            '/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get(self.resource_url, format='json'))
+
+    def test_get_list(self):
+        self.response = self.login()
+        resp = self.api_client.get(self.resource_url, format='json')
+        expected_last_message = {
+            'facebook_id': u'12346',
+            'first_name': u'',
+            'friend_id': u'2',
+            'id': u'1',
+            'image': None,
+            'last_message_body': u'',
+            'last_name': u'',
+            'read_at': None,
+            'recipient_id': u'/api/v1/auth/user/1/',
+            'resource_uri': u'/api/v1/inbox/last/1/',
+            'sender_id': u'/api/v1/auth/user/2/',
+            'unread_counter': 10
+        }
+        actual_response = self.deserialize(resp)['objects'][0]
+        # Remove sent_at
+        del actual_response['sent_at']
+        self.assertEqual(actual_response, expected_last_message)
+
+
+class TestUnreadMessageCounter(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestUnreadMessageCounter, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a', password='test', facebook_id=12345)
+        self.user1 = FacebookCustomUser.objects.create_user(
+            username='user_b', password='test', facebook_id=12346)
+        self.user2 = FacebookCustomUser.objects.create_user(
+            username='user_c', password='test', facebook_id=12347)
+        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        for x in range(10):
+            pm_write(self.user1, self.user, 'test %s' % x)
+        for x in range(10):
+            pm_write(self.user2, self.user, 'test %s' % x)
+
+        self.resource_url = '/api/v1/inbox/unread_counter/'
+
+    def login(self):
+        return self.api_client.client.post(
+            '/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get(self.resource_url, format='json'))
+
+    def test_get_list(self):
+        self.response = self.login()
+        resp = self.api_client.get(self.resource_url, format='json')
+        actual_response = self.deserialize(resp)
+        self.assertEqual(actual_response['objects'][0]['unread_counter'], 20)
 
 
 class TestChatMessageResource(ResourceTestCase):
