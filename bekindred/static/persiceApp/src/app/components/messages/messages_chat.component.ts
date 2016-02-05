@@ -144,7 +144,6 @@ export class MessagesChatComponent {
     if (this.messagesNext && elem.scrollTop <= 50) {
       if (!this.loadingMessages && !this.hasNew) {
         this.scrollOffset = elem.scrollHeight;
-        console.log('loading more');
         this.messagesService.loadMore(this.threadId);
       }
     }
