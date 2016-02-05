@@ -717,3 +717,17 @@ textarea.c-input--error:hover {
   visibility: visible;
   transition: all 0.5s ease-in-out;
 }
+
+.message.is-unread .message__text {
+  font-weight: bold!important;
+  transition: all 0.5s ease-in-out;
+}
+
+.message .flag__img:hover,
+.message .message__name:hover,
+a.user-listed,
+.remodal__title a:hover,
+#eventHost:hover {
+  cursor: pointer;
+}
+

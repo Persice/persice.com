@@ -66,9 +66,7 @@ gulp.task('jscs', function() {
 gulp.task('css', function() {
   gulp.src(cssFiles)
     .pipe(sourcemaps.init())
-    .pipe(cssnano())
     .pipe(concat('vendor.min.css'))
-    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./src/assets/css/'))
 });
 

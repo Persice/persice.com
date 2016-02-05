@@ -285,9 +285,9 @@ export class ProfileMyComponent {
   }
 
   openEdit(section) {
-    this.section = section;
     let remodal = jQuery('[data-remodal-id=profile-edit]').remodal();
     remodal.open();
+    this.section = section;
   }
 
   refreshUser(event) {

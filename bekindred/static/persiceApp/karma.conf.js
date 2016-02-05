@@ -33,6 +33,9 @@ module.exports = function(config) {
       pattern: './lib/js/jstz.js',
       watched: false
     }, {
+      pattern: './lib/js/croppie.js',
+      watched: false
+    }, {
       pattern: './lib/js/circle-progress.js',
       watched: false
     }, {
