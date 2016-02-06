@@ -12934,13 +12934,15 @@ textarea.c-input--error:hover {
   cursor: pointer;
 }
 
-.nav-main__value {
+.nav-main__value,
+.message__total {
   opacity: 0;
   visibility: hidden;
   transition: all 0.5s ease-in-out;
 }
 
-.nav-main__value.is-visible {
+.nav-main__value.is-visible,
+.message__total.is-visible {
   opacity: 1;
   visibility: visible;
   transition: all 0.5s ease-in-out;
