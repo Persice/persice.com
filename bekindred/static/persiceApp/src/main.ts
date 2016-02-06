@@ -66,7 +66,7 @@ const UNIVERSAL_PROVIDERS = [
 const PLATFORM_PROVIDERS = [
   provide(LocationStrategy, { useClass: PathLocationStrategy }),
   provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
-  provide(APP_BASE_HREF, {useValue: '/'}),
+  provide(APP_BASE_HREF, { useValue: '/' }),
   provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 
