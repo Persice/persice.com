@@ -62,7 +62,7 @@ export class InboxService {
 				this._dataStore[i].body = StringUtil.words(message.body, 50);
 				this._dataStore[i].sentAt = DateUtil.fromNow(message.sent_at);
 
-				if (this._dataStore[i].senderId !== this._selectedThread) {
+				if (this._dataStore[i].threadId !== this._selectedThread) {
 					this._dataStore[i].unread = true;
 					this._dataStore[i].unreadCounter++;
 				}
@@ -89,7 +89,7 @@ export class InboxService {
 				channel.unsubscribe();
 			},
 			(error) => {
-				console.log(`Could mark message read ${error}`);
+				console.log(`Could not mark message read ${error}`);
 			},
 			() => {
 
@@ -145,14 +145,13 @@ export class InboxService {
 
 	private _parseData(data) {
 		for (var i = 0; i < data.objects.length; ++i) {
-			if (data.objects[i].sent_at !== null) {
 				//add user to list if we have new messages
 				let item = {
 					name: data.objects[i].first_name,
 					threadId: data.objects[i].friend_id,
 					facebookId: data.objects[i].facebook_id,
 					image: data.objects[i].image,
-					senderId: data.objects[i].sender_id,
+					senderId: data.objects[i].sender_id !== null ? data.objects[i].sender_id : '/api/v1/auth/user/' + data.objects[i].friend_id + '/',
 					sentAt: data.objects[i].sent_at !== null ? DateUtil.fromNow(data.objects[i].sent_at) : '',
 					readAt: data.objects[i].read_at,
 					id: data.objects[i].id,
@@ -161,8 +160,6 @@ export class InboxService {
 					body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
 				};
 				this._dataStore = [...this._dataStore, item];
-
-			}
 
 		}
 		this._loading = false;
