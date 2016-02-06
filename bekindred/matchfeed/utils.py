@@ -149,6 +149,7 @@ class MatchUser(object):
         self.likes = self.likes_images(user_object)
         self.id = self.user.id
         self.user_id = self.user.id
+        self.username = self.user.username
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.facebook_id = self.user.facebook_id

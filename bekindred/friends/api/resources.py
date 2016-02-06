@@ -247,6 +247,7 @@ class ConnectionsResource(Resource):
 class ConnectionsResource2(Resource):
     id = fields.CharField(attribute='id')
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
+    username = fields.CharField(attribute='username', null=True)
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     user_id = fields.CharField(attribute='user_id')
