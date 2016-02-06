@@ -177,7 +177,7 @@ export class CrowdComponent {
   }
 
   setLocation(loc) {
-    window.history.pushState("", "", "/" + loc);
+    window.history.pushState('', '', '/' + loc);
   }
 
   passUser(event) {

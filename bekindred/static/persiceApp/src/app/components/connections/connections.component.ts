@@ -49,7 +49,7 @@ export class ConnectionsComponent {
   }
 
   setLocation(loc) {
-    window.history.pushState("", "", "/" + loc);
+    window.history.pushState('', '', '/' + loc);
   }
 
   ngAfterViewInit() {
