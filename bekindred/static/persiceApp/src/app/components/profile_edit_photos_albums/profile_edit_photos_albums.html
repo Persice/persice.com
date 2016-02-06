@@ -1,146 +1,19 @@
 <div class="photo-upload-window" [ngClass]="{'is-hidden': isHidden}">
   <div class="photo-upload-window__rows">
-    <div class="photo-upload-window__row">
-      <h3 class="photo-upload-window__row__title">Your Photos</h3>
+    <div class="photo-upload-window__row" *ngFor="#album of albums">
+      <h3 class="photo-upload-window__row__title">{{album.name}}</h3>
       <div class="layout layout--small">
-        <div class="layout__item 1/6" (click)="openCrop.next($event)">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item has-js-image-crop is-hidden 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
+        <div class="layout__item 1/6" (click)="openCrop.next($event)" *ngFor="#photo of album.photos.data">
+          <img [src]="photo.picture" alt="alt text" class="js-image-crop">
         </div>
       </div>
       <div class="text-right">
-        <a class="link-blank js-photo-upload-window__row__to-select-reveal" href="">See more</a>
-      </div>
-    </div>
-    <div class="photo-upload-window__row">
-      <h3 class="photo-upload-window__row__title">Your Photos</h3>
-      <div class="layout layout--small">
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-      </div>
-      <div class="text-right">
-        <a class="link-blank" href="">See more</a>
-      </div>
-    </div>
-    <div class="photo-upload-window__row">
-      <h3 class="photo-upload-window__row__title">Your Photos</h3>
-      <div class="layout layout--small">
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-      </div>
-      <div class="text-right">
-        <a class="link-blank" href="">See more</a>
-      </div>
-    </div>
-    <div class="photo-upload-window__row">
-      <h3 class="photo-upload-window__row__title">Your Photos</h3>
-      <div class="layout layout--small">
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-        <div class="layout__item 1/6">
-          <img src="/static/persiceApp/src/assets/images/avatar.jpg" alt="alt text" class="js-image-crop">
-        </div>
-      </div>
-      <div class="text-right">
-        <a class="link-blank" href="">See more</a>
+        <a class="link-blank js-photo-upload-window__row__to-select-reveal">See more</a>
       </div>
     </div>
   </div>
+  <loading [status]="loading"></loading>
+
   <footer class="remodal__footer text--right">
     <div class="layout layout--middle">
       <div class="layout__item">

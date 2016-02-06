@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {Http} from 'angular2/http';
-import {ListUtil, CookieUtil} from '../../core/util';
+import {ListUtil} from '../../core/util';
 
 /**
  * Directives
@@ -31,17 +31,12 @@ export class ProfileEditPhotosComponent {
   profilePhotos = [];
   loading: boolean = false;
 
-  constructor(private _http: Http) {
+  constructor() {
 
   }
 
   ngOnInit() {
-    let token = CookieUtil.getValue('user_token');
-    let url = `https://graph.facebook.com/me/?fields=albums.limit(30){picture, name, photos.limit(6)}&access_token=${token}`;
-    this._http.get(url).map(res => res.json())
-    .subscribe((data) => {
-      console.log('FB albums', data);
-    });
+
   }
 
   ngOnChanges(values) {
