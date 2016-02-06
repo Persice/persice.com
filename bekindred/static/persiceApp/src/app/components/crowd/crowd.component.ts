@@ -1,4 +1,5 @@
 import {Component} from 'angular2/core';
+import {Location} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
@@ -45,10 +46,11 @@ export class CrowdComponent {
   serviceInstance;
 
   constructor(
-    public service: CrowdService,
-    public friendService: FriendService,
-    public filterService: FilterService,
-    public notificationService: NotificationService
+    private service: CrowdService,
+    private friendService: FriendService,
+    private filterService: FilterService,
+    private notificationService: NotificationService,
+    private _location: Location
   ) {
 
   }
@@ -169,8 +171,13 @@ export class CrowdComponent {
         this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
+        this.setLocation(this.selectedUser.first_name);
       }
     }
+  }
+
+  setLocation(loc) {
+    window.history.pushState("", "", "/" + loc);
   }
 
   passUser(event) {
@@ -232,6 +239,7 @@ export class CrowdComponent {
   closeProfile(event) {
     this.profileViewActive = false;
     this.selectedUser = null;
+    this.setLocation('crowd');
   }
 
 
@@ -244,6 +252,7 @@ export class CrowdComponent {
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
+      this.setLocation(this.selectedUser.first_name);
     }
     else {
       this.closeProfile(true);
@@ -265,6 +274,7 @@ export class CrowdComponent {
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
+      this.setLocation(this.selectedUser.first_name);
     }
     else {
       this.closeProfile(true);
