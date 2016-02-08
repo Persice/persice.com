@@ -92,6 +92,7 @@ class FriendsManager(models.Manager):
         for user in users:
             d = dict()
             d['user_id'] = user.id
+            d['username'] = user.username
             d['facebook_id'] = user.facebook_id
             d['first_name'] = user.first_name
             d['last_name'] = user.last_name
@@ -161,6 +162,7 @@ class TwitterListFriends(models.Model):
     twitter_id2 = models.BigIntegerField(null=False, blank=False)
     name1 = models.CharField(max_length=50)
     name2 = models.CharField(max_length=50)
+    screen_name2 = models.CharField(max_length=50, null=True, blank=True)
     profile_image_url1 = models.CharField(max_length=200)
     profile_image_url2 = models.CharField(max_length=200)
 
@@ -168,6 +170,7 @@ class TwitterListFriends(models.Model):
 class TwitterListFollowers(models.Model):
     twitter_id1 = models.BigIntegerField(null=False, blank=False)
     twitter_id2 = models.BigIntegerField(null=False, blank=False)
+    screen_name2 = models.CharField(max_length=50, null=True, blank=True)
     name1 = models.CharField(max_length=50)
     name2 = models.CharField(max_length=50)
     profile_image_url1 = models.CharField(max_length=200)
