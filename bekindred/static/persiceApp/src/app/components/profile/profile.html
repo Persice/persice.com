@@ -8,7 +8,7 @@
     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-arrow_right"></use>
   </svg>
 </a>
-<div class="platform m" id="userprofile" *ngIf="!loading && !notFound">
+<div class="platform m" id="userprofile" *ngIf="!loading && !notFound" (keyup)="eventHandler($event.keyCode)" tabindex="1">
   <a (click)="closeProfile($event)" class="platform__back">
     <svg role="img" class="icon ">
       <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>

@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {Location, Router} from 'angular2/router';
+import {Router} from 'angular2/router';
 
 import {UsersListComponent} from '../userslist/userslist.component';
 import {LoadingComponent} from '../loading/loading.component';
@@ -40,12 +40,17 @@ export class ConnectionsComponent {
   selectedUser = null;
   currentIndex = 0;
   serviceInstance;
+  routerInstance;
 
   constructor(
     private service: ConnectionsService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private _router: Router
   ) {
-
+    this.routerInstance = this._router.parent.subscribe(next => {
+      this.closeProfile(true);
+      window.scrollTo(0, 0);
+    });
   }
 
   setLocation(loc) {
@@ -80,6 +85,7 @@ export class ConnectionsComponent {
     if (this.serviceInstance) {
       this.serviceInstance.unsubscribe();
     }
+    this.routerInstance.unsubscribe();
   }
 
   getList() {
@@ -167,7 +173,7 @@ export class ConnectionsComponent {
         this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
-        this.setLocation(this.selectedUser.first_name);
+        this.setLocation(this.selectedUser.username);
       }
     }
   }
@@ -187,7 +193,7 @@ export class ConnectionsComponent {
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
-      this.setLocation(this.selectedUser.first_name);
+      this.setLocation(this.selectedUser.username);
     }
     else {
       this.closeProfile(true);
@@ -209,7 +215,7 @@ export class ConnectionsComponent {
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
-      this.setLocation(this.selectedUser.first_name);
+      this.setLocation(this.selectedUser.username);
     }
     else {
       this.closeProfile(true);

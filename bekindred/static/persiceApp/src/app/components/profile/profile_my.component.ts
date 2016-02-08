@@ -129,7 +129,10 @@ export class ProfileMyComponent {
   }
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      jQuery('#userprofile').focus();
+      window.scrollTo(0, 0);
+    });
     this.getMyProfile();
   }
 
@@ -351,6 +354,16 @@ export class ProfileMyComponent {
       this.loadingPhotos = false;
     });
 
+  }
+
+  eventHandler(key) {
+    switch (key) {
+      case 27: //escape
+        this.closeProfile(true);
+        break;
+      default:
+        break;
+    }
   }
 
 
