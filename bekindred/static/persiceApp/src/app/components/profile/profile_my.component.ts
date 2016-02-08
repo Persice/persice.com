@@ -34,7 +34,7 @@ import {ObjectUtil} from '../../core/util';
 let view = require('./profile_my.html');
 
 @Component({
-  selector: 'profile-friend',
+  selector: 'profile-my',
   template: view,
   directives: [
     ProfileAvatarComponent,
