@@ -102,5 +102,5 @@
   </div>
 </div>
 <div class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
-  <profile-edit (refreshUser)="refreshUser($event)" [activeSection]="section" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [photos]="profilePhotos" [user]="userEdit"></profile-edit>
+  <profile-edit *ngIf="active" (refreshUser)="refreshUser($event)" [activeSection]="section" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [photos]="profilePhotos" [user]="userEdit"></profile-edit>
 </div>

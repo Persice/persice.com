@@ -91,7 +91,6 @@ export class ProfileEditComponent {
   }
 
   cropAndSave(event) {
-    console.log('cropping and saving');
     this.closePhotos(true);
   }
 
@@ -109,7 +108,6 @@ export class ProfileEditComponent {
     }
 
     if (values.activeSection && values.activeSection.currentValue) {
-      console.log('section changed edit', values.activeSection.currentValue);
       this.active = values.activeSection.currentValue;
       switch (values.activeSection.currentValue) {
         case 'Interests':

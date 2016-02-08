@@ -113,6 +113,7 @@ export class ProfileMyComponent {
   loadingLikes: boolean = false;
   loadingConnections: boolean = false;
   loadingPhotos: boolean = false;
+  active = false;
 
 
   constructor(
@@ -302,17 +303,19 @@ export class ProfileMyComponent {
   openEdit(section) {
     let remodal = jQuery('[data-remodal-id=profile-edit]').remodal();
     remodal.open();
+    this.active = true;
     this.section = section;
   }
 
   refreshUser(event) {
-    this.profileInterests = [];
-    this.profileGoals = [];
-    this.profileOffers = [];
-    this.profileInterestsCount = 0;
-    this.profileGoalsCount = 0;
-    this.profileOffersCount = 0;
-    this.getMyProfileUpdates();
+    // this.profileInterests = [];
+    // this.profileGoals = [];
+    // this.profileOffers = [];
+    // this.profileInterestsCount = 0;
+    // this.profileGoalsCount = 0;
+    // this.profileOffersCount = 0;
+    this.active = false;
+    // this.getMyProfileUpdates();
   }
 
   getMyProfileUpdates() {
