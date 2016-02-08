@@ -29,8 +29,8 @@ module.exports = {
   // our angular app
   entry: {
     'polyfills': './src/polyfills.ts',
-    'main': './src/main.ts',
-    'signup': './src/signup/main.ts'
+    'main': './src/main.ts'
+    // 'signup': './src/signup/main.ts'
   },
 
   // Config for our build files
@@ -51,11 +51,11 @@ module.exports = {
     preLoaders: [
       // { test: /\.ts$/, loader: 'tslint-loader', exclude: [ root('node_modules') ] },
       // TODO(): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
-      {
-        test: /\.js$/,
-        loader: "source-map-loader",
-        exclude: [root('node_modules/rxjs')]
-      }
+      // {
+      //   test: /\.js$/,
+      //   loader: "source-map-loader",
+      //   exclude: [root('node_modules/rxjs')]
+      // }
     ],
     loaders: [
       // Support Angular 2 async routes via .async.ts
