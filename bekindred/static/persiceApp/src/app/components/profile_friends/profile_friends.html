@@ -11,7 +11,7 @@
   <div class="swiper-container js-profile-swiper-3 pt" *ngIf="count > 0" swiper="{{swiperOptions}}">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="#item of friends.mutual_bk_friends">
-        <a class="user-listed user-listed--1">
+        <a class="user-listed user-listed--1" [routerLink]="['/ProfileView', {username: item.username}]">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">
               <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.image + ')'}"></div>
@@ -24,7 +24,7 @@
         </a>
       </div>
       <div class="swiper-slide" *ngFor="#item of friends.mutual_fb_friends">
-        <a class="user-listed user-listed--1">
+        <a class="user-listed user-listed--1" href="https://facebook.com/app_scoped_user_id/{{item.facebook_id}}" target="_new">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">
               <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + '//graph.facebook.com/' + item.facebook_id + '/picture?type=square' + ')'}"></div>
@@ -37,7 +37,7 @@
         </a>
       </div>
       <div class="swiper-slide" *ngFor="#item of friends.mutual_twitter_friends">
-        <a class="user-listed user-listed--1">
+        <a class="user-listed user-listed--1" href="https://twitter.com/{{item.screen_name}}" target="_new">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">
               <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
@@ -50,7 +50,7 @@
         </a>
       </div>
       <div class="swiper-slide" *ngFor="#item of friends.mutual_twitter_followers">
-        <a class="user-listed user-listed--1">
+        <a class="user-listed user-listed--1" href="https://twitter.com/{{item.screen_name}}" target="_new">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">
               <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
