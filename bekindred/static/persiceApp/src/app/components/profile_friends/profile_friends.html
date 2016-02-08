@@ -63,7 +63,7 @@
         </a>
       </div>
       <div class="swiper-slide" *ngFor="#item of friends.mutual_linkedin_connections">
-        <a class="user-listed user-listed--1">
+        <a class="user-listed user-listed--1" href="{{item.public_profile_url}}" target="_new">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">
               <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.pictureUrls.values[0] + ')'}"></div>

@@ -115,10 +115,13 @@ export class ProfileViewComponent {
     private friendService: FriendService,
     private photosService: PhotosService,
     private historyService: HistoryService,
-    private _params: RouteParams,
     private _router: Router
   ) {
-    this.username = this._params.get('username');
+
+  }
+
+  setUsername (username) {
+    this.username = username;
   }
 
   ngOnInit() {
