@@ -6,10 +6,12 @@ import {eventMembersServiceInjectables} from './eventmembers.service';
 import {eventMessagesServiceInjectables} from './eventmessages.service';
 import {eventServiceInjectables} from './event.service';
 import {eventsServiceInjectables} from './events.service';
+import {facebookAlbumsServiceInjectables} from './facebook_albums.service';
 import {filterServiceInjectables} from './filter.service';
 import {friendServiceInjectables} from './friend.service';
 import {geolocationServiceInjectables} from './geolocation.service';
 import {goalsServiceInjectables} from './goals.service';
+import {historyServiceInjectables} from './history.service';
 import {inboxServiceInjectables} from './inbox.service';
 import {interestsServiceInjectables} from './interests.service';
 import {keywordsServiceInjectables} from './keywords.service';
@@ -23,6 +25,7 @@ import {offersServiceInjectables} from './offers.service';
 import {onboardingServiceInjectables} from './onboarding.service';
 import {photosServiceInjectables} from './photos.service';
 import {politicalViewsServiceInjectables} from './politicalviews.service';
+import {profileServiceInjectables} from './profile.service';
 import {religiousViewsServiceInjectables} from './religiousviews.service';
 import {searchServiceInjectables} from './search.service';
 import {userAuthServiceInjectables} from './userauth.service';
@@ -38,9 +41,11 @@ export * from './eventconnections.service';
 export * from './eventmembers.service';
 export * from './eventmessages.service';
 export * from './events.service';
+export * from './facebook_albums.service';
 export * from './filter.service';
 export * from './geolocation.service';
 export * from './goals.service';
+export * from './history.service';
 export * from './inbox.service';
 export * from './interests.service';
 export * from './keywords.service';
@@ -55,6 +60,7 @@ export * from './offers.service';
 export * from './onboarding.service';
 export * from './photos.service';
 export * from './politicalviews.service';
+export * from './profile.service';
 export * from './religiousviews.service';
 export * from './search.service';
 export * from './search.service';
@@ -71,10 +77,12 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   eventMembersServiceInjectables,
   eventMessagesServiceInjectables,
   eventsServiceInjectables,
+  facebookAlbumsServiceInjectables,
   filterServiceInjectables,
   friendServiceInjectables,
   geolocationServiceInjectables,
   goalsServiceInjectables,
+  historyServiceInjectables,
   inboxServiceInjectables,
   interestsServiceInjectables,
   keywordsServiceInjectables,
@@ -88,6 +96,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   onboardingServiceInjectables,
   photosServiceInjectables,
   politicalViewsServiceInjectables,
+  profileServiceInjectables,
   religiousViewsServiceInjectables,
   searchServiceInjectables,
   userAuthServiceInjectables,

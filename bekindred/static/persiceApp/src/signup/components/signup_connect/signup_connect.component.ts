@@ -72,7 +72,7 @@ export class SignupConnectComponent {
 
 
     let settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
-    let url = '/social/associate/' + provider + '/?next=/goals/close_login_popup';
+    let url = '/social/associate/' + provider + '/?next=/goals/close_login_popup/';
     let newWindow = window.open(url, `Connecting your ${provider} account...`, settings);
 
     if (window.focus) {
@@ -96,7 +96,7 @@ export class SignupConnectComponent {
 
 
     let settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
-    let url = '/social/disconnect/' + provider + '/?next=/goals/close_login_popup';
+    let url = '/social/disconnect/' + provider + '/?next=/goals/close_login_popup/';
     let newWindow = window.open(url, `Disconnecting your ${provider} account...`, settings);
 
     if (window.focus) {

@@ -33,6 +33,7 @@ def twitter_friends(user, oauth_token, oauth_secret):
         TwitterListFriends.objects.get_or_create(
             twitter_id1=twitter_id1,
             twitter_id2=user.id,
+            screen_name2=user.screen_name,
             name1=name1,
             name2=user.name,
             profile_image_url1='',
@@ -63,6 +64,7 @@ def twitter_followers(user, oauth_token, oauth_secret):
         TwitterListFollowers.objects.get_or_create(
             twitter_id1=twitter_id1,
             twitter_id2=follower.id,
+            screen_name2=follower.screen_name,
             name1=name1,
             name2=follower.name,
             profile_image_url1='',

@@ -2,11 +2,20 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {mergeMap} from 'rxjs/operator/mergeMap';
 import {findIndex} from 'lodash';
 
-import {InterestsService} from '../../services/interests.service';
-import {KeywordsService} from '../../services/keywords.service';
 
+/**
+ * Components
+ */
 import {LoadingComponent} from '../loading/loading.component';
 let view = require('./profile_edit_interests.html');
+import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
+
+
+/**
+ * Services
+ */
+import {InterestsService} from '../../services/interests.service';
+import {KeywordsService} from '../../services/keywords.service';
 
 
 declare var jQuery: any;
@@ -16,7 +25,8 @@ declare var Bloodhound: any;
   selector: 'profile-edit-interests',
   template: view,
   directives: [
-    LoadingComponent
+    LoadingComponent,
+    ProfileEditFooterComponent
   ],
   providers: [
     InterestsService,
@@ -25,7 +35,7 @@ declare var Bloodhound: any;
 })
 export class ProfileEditInterestsComponent {
 
-  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
+  @Output() close: EventEmitter<boolean> = new EventEmitter;
 
   items: any[] = [];
   loading: boolean = false;
@@ -93,7 +103,6 @@ export class ProfileEditInterestsComponent {
         return;
       }
       this.saveLoading = true;
-      this.loadingEvent.next(true);
       this.saveInterest(suggestion);
     });
 
@@ -103,7 +112,6 @@ export class ProfileEditInterestsComponent {
     if (interest.length === 0 || interest.length > 100) {
       this.status = 'failure';
       this.saveLoading = false;
-      this.loadingEvent.next(false);
       return;
     }
 
@@ -113,7 +121,6 @@ export class ProfileEditInterestsComponent {
         this.interestsService.save(this.items[idx].description)
           .subscribe((res) => {
             this.saveLoading = false;
-            this.loadingEvent.next(false);
             this.items[idx].active = true;
             this.items[idx].interest_resource = res.resource_uri;
             this.userInterestCounter++;
@@ -124,14 +131,12 @@ export class ProfileEditInterestsComponent {
           (err) => {
             this.status = 'failure';
             this.saveLoading = false;
-            this.loadingEvent.next(false);
           },
           () => { });
       }
       else {
         this.status = 'failure';
         this.saveLoading = false;
-        this.loadingEvent.next(false);
       }
     }
     else {
@@ -139,7 +144,6 @@ export class ProfileEditInterestsComponent {
       this.interestsService.save(interest)
         .subscribe((res) => {
           this.saveLoading = false;
-          this.loadingEvent.next(false);
           let newItem = res;
           newItem.active = true;
           newItem.description = res.interest_subject;
@@ -158,7 +162,6 @@ export class ProfileEditInterestsComponent {
         (err) => {
           this.status = 'failure';
           this.saveLoading = false;
-          this.loadingEvent.next(false);
         },
         () => { });
     }
@@ -179,7 +182,6 @@ export class ProfileEditInterestsComponent {
       return;
     }
     this.saveLoading = true;
-    this.loadingEvent.next(true);
     this.saveInterest(this.newInterest);
   }
 
@@ -214,7 +216,6 @@ export class ProfileEditInterestsComponent {
     this.isListEmpty = false;
     this.next = '';
     this.saveLoading = false;
-    this.loadingEvent.next(false);
     this.userInterest.splice(0, this.userInterest.length);
     this.userInterestCounter = 0;
     this.getList();
@@ -279,7 +280,7 @@ export class ProfileEditInterestsComponent {
     this.status = null;
 
     let idx = findIndex(this.items, event);
-    this.loadingEvent.next(true);
+    this.saveLoading = true;
     if (this.items[idx]) {
       if (this.items[idx].active) {
         //deselect interest
@@ -290,9 +291,9 @@ export class ProfileEditInterestsComponent {
             this.items[idx].active = false;
             this.items[idx].interest_resource = null;
             this.userInterestCounter--;
-            this.loadingEvent.next(false);
+            this.saveLoading = false;
           }, (err) => {
-            this.loadingEvent.next(false);
+            this.saveLoading = false;
             this.status = 'failure';
           }, () => { });
       }
@@ -303,9 +304,9 @@ export class ProfileEditInterestsComponent {
             this.items[idx].active = true;
             this.items[idx].interest_resource = res.resource_uri;
             this.userInterestCounter++;
-            this.loadingEvent.next(false);
+            this.saveLoading = false;
           }, (err) => {
-            this.loadingEvent.next(false);
+            this.saveLoading = false;
             this.status = 'failure';
           }, () => { });
       }

@@ -1,8 +1,11 @@
 import {Component, Input, Output, ElementRef, EventEmitter} from 'angular2/core';
+
 /**
  * Services
  */
 import {InboxService} from '../../services/inbox.service';
+import {MessagesCounterService} from '../../services/messages_counter.service';
+import {WebsocketService} from '../../services/websocket.service';
 
 /**
  * Components
@@ -29,10 +32,13 @@ export class MessagesSidebarComponent {
   isInboxEmpty: boolean = false;
   inboxNext: string = '';
   inboxServiceInstance;
+  websocketServiceInstance;
   activeThread = null;
 
   constructor(
     private inboxService: InboxService,
+    private messagesCounterService: MessagesCounterService,
+    private websocketService: WebsocketService,
     private element: ElementRef
   ) {
 
@@ -60,6 +66,15 @@ export class MessagesSidebarComponent {
 
     //start loading inbox
     this.inboxService.startLoadingInbox();
+
+    this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
+      this.inboxService.recievedMessage(data);
+      this.inboxService.markRead(this.activeThread);
+      setTimeout(() => {
+        this.messagesCounterService.refreshCounter();
+      }, 500);
+    });
+
   }
 
   onSelect(thread) {
@@ -83,6 +98,9 @@ export class MessagesSidebarComponent {
   ngOnDestroy() {
     if (this.inboxServiceInstance) {
       this.inboxServiceInstance.unsubscribe();
+    }
+    if (this.websocketServiceInstance) {
+      this.websocketServiceInstance.unsubscribe();
     }
 
   }

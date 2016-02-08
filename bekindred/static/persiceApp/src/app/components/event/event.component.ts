@@ -16,6 +16,7 @@ import {EventAttendeesService} from '../../services/eventattendees.service';
 import {EventPeopleListComponent} from '../eventpeoplelist/eventpeoplelist.component';
 import {DateUtil, EventUtil, CookieUtil, UserUtil, StringUtil} from '../../core/util';
 import {NotificationService} from '../../services/notification.service';
+import {HistoryService} from '../../services/history.service';
 
 import {RemodalDirective} from '../../directives/remodal.directive';
 
@@ -55,7 +56,8 @@ export class EventComponent {
     distance: '',
     gender: '',
     age: '',
-    image: ''
+    image: '',
+    username: ''
   };
   info = {
     name: '',
@@ -98,15 +100,21 @@ export class EventComponent {
     private serviceUser: UserService,
     private serviceAttendees: EventAttendeesService,
     private notificationService: NotificationService,
+    private historyService: HistoryService,
     private router: Router
   ) {
     this.eventId = params.get('eventId');
   }
 
   ngOnInit() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getEventDetails(this.eventId);
     this.getAttendees(this.eventId);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    });
   }
 
   ngOnDestroy() {
@@ -228,7 +236,8 @@ export class EventComponent {
           distance: data.distance && this.host.user === this.authUserUri ? '' : `/ ${data.distance[0]} ${data.distance[1]}`,
           gender: UserUtil.gender(data.gender),
           age: data.age,
-          image: data.image
+          image: data.image,
+          username: data.username
         };
       });
 
@@ -272,7 +281,13 @@ export class EventComponent {
   }
 
   goBack(event) {
-    window.history.back();
+     let uri = this.historyService.getPrev();
+    if (uri !== '') {
+      this.router.parent.navigateByUrl(uri);
+    }
+    else {
+      this.router.parent.navigateByUrl('/');
+    }
   }
 
   changeRsvpStatus(event) {

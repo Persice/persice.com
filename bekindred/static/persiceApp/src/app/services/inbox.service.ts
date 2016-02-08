@@ -7,6 +7,7 @@ import {Observable, Subject} from 'rxjs';
 @Injectable()
 export class InboxService {
 	static API_URL = '/api/v1/inbox/last/';
+	static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
 
 
 	_dataStore = [];
@@ -37,7 +38,7 @@ export class InboxService {
 
 	public select(id) {
 		this._selectedThread = id;
-		this._notify();
+		this.markRead(id);
 	}
 
 
@@ -52,6 +53,47 @@ export class InboxService {
 
 	public getInbox() {
 		return this._dataStore;
+	}
+
+	public recievedMessage(message) {
+		for (var i = 0; i < this._dataStore.length; ++i) {
+
+			if (this._dataStore[i].senderId === message.sender) {
+				this._dataStore[i].body = StringUtil.words(message.body, 50);
+				this._dataStore[i].sentAt = DateUtil.fromNow(message.sent_at);
+
+				if (this._dataStore[i].threadId !== this._selectedThread) {
+					this._dataStore[i].unread = true;
+					this._dataStore[i].unreadCounter++;
+				}
+			}
+		}
+		this._notify();
+	}
+
+	public markRead(sender) {
+		let url = `${InboxService.API_URL_MARK_READ}?format=json&sender_id=${sender}`;
+
+		let channel = this.http.get(url)
+			.map((res: any) => res.json())
+			.subscribe((data: any) => {
+
+				for (var i = 0; i < this._dataStore.length; ++i) {
+					if (this._dataStore[i].threadId === sender) {
+						this._dataStore[i].unread = false;
+						this._dataStore[i].unreadCounter = 0;
+					}
+				}
+
+				this._notify();
+				channel.unsubscribe();
+			},
+			(error) => {
+				console.log(`Could not mark message read ${error}`);
+			},
+			() => {
+
+			});
 	}
 
 	private _loadInbox(limit: number) {
@@ -103,22 +145,21 @@ export class InboxService {
 
 	private _parseData(data) {
 		for (var i = 0; i < data.objects.length; ++i) {
-			if (data.objects[i].sent_at !== null) {
 				//add user to list if we have new messages
 				let item = {
 					name: data.objects[i].first_name,
 					threadId: data.objects[i].friend_id,
 					facebookId: data.objects[i].facebook_id,
 					image: data.objects[i].image,
+					senderId: data.objects[i].sender_id !== null ? data.objects[i].sender_id : '/api/v1/auth/user/' + data.objects[i].friend_id + '/',
 					sentAt: data.objects[i].sent_at !== null ? DateUtil.fromNow(data.objects[i].sent_at) : '',
 					readAt: data.objects[i].read_at,
 					id: data.objects[i].id,
-					unread: data.objects[i].read_at !== null || data.objects[i].sent_at !== null ? true : false,
+					unread: data.objects[i].read_at !== null ? false : true,
+					unreadCounter: data.objects[i].unread_counter,
 					body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
 				};
 				this._dataStore = [...this._dataStore, item];
-
-			}
 
 		}
 		this._loading = false;

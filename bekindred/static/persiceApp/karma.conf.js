@@ -33,6 +33,9 @@ module.exports = function(config) {
       pattern: './lib/js/jstz.js',
       watched: false
     }, {
+      pattern: './lib/js/croppie.js',
+      watched: false
+    }, {
       pattern: './lib/js/circle-progress.js',
       watched: false
     }, {
@@ -135,7 +138,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots', 'coverage'],
+    reporters: ['mocha', 'coverage'],
 
     // web server port
     port: 9876,

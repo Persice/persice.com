@@ -18,9 +18,9 @@
   <link rel="dns-prefetch" href="//themes.googleusercontent.com">
   <link rel="dns-prefetch" href="//www.google-analytics.com">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
-  <!-- dev mode-->
-  <!-- <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" /> -->
-  <!-- <link rel="stylesheet" href="/static/persiceApp/src/assets/css/app.css" /> -->
+  <!-- dev mode -->
+<!--   <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" />
+  <link rel="stylesheet" href="/static/persiceApp/src/assets/css/app.css" /> -->
 
   <!-- prod mode -->
   <link rel="stylesheet" href="/static/persiceApp/dist/assets/css/vendor.min.css" />
@@ -53,11 +53,11 @@
   <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
   <script src="/static/persiceApp/dist/polyfills.bundle.js"></script>
   <script src="/static/persiceApp/dist/main.bundle.js"></script>
-  -->
+ -->
   <!-- production only -->
   <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/polyfills.fa6ddeee4310bf5946ce.bundle.js"></script>
-  <script src="/static/persiceApp/dist/main.e48e982eefe2d84a8ef2.bundle.js"></script>
+  <script src="/static/persiceApp/dist/polyfills.ce3b338d43e8192386a2.bundle.js"></script>
+  <script src="/static/persiceApp/dist/main.431dd5c4eb4ed8a0d0fe.bundle.js"></script>
 
   <script type="text/javascript">
   function createCookie(name, value, days) {
@@ -72,6 +72,7 @@
   createCookie('userid', '{{user.id}}', 1);
   createCookie('user_name', '{{user.first_name}}', 1);
   createCookie('user_image', '{{user.image}}', 1);
+  createCookie('user_token', '{{user.access_token}}', 1);
 
   function refreshConnect() {
     $('.connect-media').trigger('persice:refreshConnect');

@@ -5,9 +5,9 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
+from photos.api.resources import UserResource
 from interests.models import Interest, InterestSubject, ReligiousView, \
     ReligiousIndex, PoliticalIndex, PoliticalView
-from photos.api.resources import UserResource
 
 
 class InterestValidation(Validation):

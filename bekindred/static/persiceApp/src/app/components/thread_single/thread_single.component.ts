@@ -3,10 +3,10 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
 @Component({
   selector: 'thread-single',
   template: `
-  <div class="message" [ngClass]="{'is-active': isActive === thread.threadId}" (click)="onSelect(thread)">
+  <div class="message" *ngIf="thread.sentAt !== ''" [ngClass]="{'is-active': isActive === thread.threadId, 'is-unread': thread.unread === true}" (click)="onSelect(thread)">
     <div class="flag flag--responsive flag--small">
       <div class="flag__img">
-        <span class="message__inread-indicator" [ngClass]="{'is-visible': thread.unread}"></span>
+        <span class="message__inread-indicator"></span>
         <div class="avatar avatar--medium">
           <div class="avatar-holder"
           [ngStyle]="{'background-image': 'url(' + thread.image + ')'}">
@@ -17,12 +17,11 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
         <div class="message__name">{{thread.name}}</div>
         <div class="message__text truncate">{{thread.body}}</div>
         <div class="message__time">{{thread.sentAt}}</div>
-        <div class="message__total"></div>
+        <div class="message__total" [ngClass]="{'is-visible': thread.unreadCounter > 0}">{{thread.unreadCounter}}</div>
       </div>
     </div>
   </div>
-	`,
-  changeDetection: ChangeDetectionStrategy.OnPush
+	`
 })
 export class ThreadSingleComponent {
   @Input() thread;

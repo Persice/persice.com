@@ -1,7 +1,11 @@
 <header class="remodal__header">
   <div class="layout">
-    <div class="layout__item 1/2 ">
-      <h5 class="remodal__title">Edit Profile</h5>
+    <div class="layout__item">
+      <span class="remodal__title">
+        <a class="js-remodal__title__bread-edit-profile js-close-crop-photo-window js-close-upload-photo-window" (click)="closePhotos($event)">Edit Profile</a>
+        <a class="js-remodal__title__bread-upload js-close-crop-photo-window" (click)="openAlbums($event)" [ngClass]="{'is-hidden': !photosAlbumsCrumbActive}">Upload profile photo</a>
+        <a class="js-remodal__title__bread-crop" [ngClass]="{'is-hidden': !photosCropCrumbActive}">Crop Photo</a>
+      </span>
     </div>
   </div>
   <button (click)="closeModal($event)" class="remodal-close">
@@ -16,7 +20,7 @@
       <li data-tab="pr-edit-personal-info" (click)="activeTab = 'profile'" [ngClass]="{'is-active': activeTab === 'profile' }">
         <span class="side-nav__link">Personal Info</span>
       </li>
-      <li data-tab="pr-edit-photo" (click)="activeTab = 'photo'" [ngClass]="{'is-active': activeTab === 'photo' }">
+      <li data-tab="pr-edit-photo" (click)="activeTab = 'photos'" [ngClass]="{'is-active': activeTab === 'photos' }">
         <span class="side-nav__link">Photos</span>
       </li>
       <li data-tab="pr-edit-interests" (click)="activeTab = 'interests'" [ngClass]="{'is-active': activeTab === 'interests' }">
@@ -33,38 +37,22 @@
     </ul>
   </div>
   <div class="layout__item 3/4" id="profileEdit">
-    <div class="tab-content profile-edit__overflow" [ngClass]="{'is-active': activeTab === 'profile' }" id="pr-edit-personal-info" *ngIf="activeTab === 'profile'">
-      <profile-edit-personal-info (loading)="loadingEdit = $event" [user]="user" [politicalViews]="politicalViews" [religiousViews]="religiousViews"></profile-edit-personal-info>
+    <div class="tab-content" [ngClass]="{'is-active': activeTab === 'profile' }" id="pr-edit-personal-info" *ngIf="activeTab === 'profile'">
+      <profile-edit-personal-info (close)="closeModal($event)" [user]="user" [politicalViews]="politicalViews" [religiousViews]="religiousViews"></profile-edit-personal-info>
     </div>
-    <div class="tab-content pr0" id="pr-edit-photo" [ngClass]="{'is-active': activeTab === 'photo' }" id="pr-edit-photo" *ngIf="activeTab === 'photo'">
-      <profile-edit-photos [default]="defaultPhoto" [photos]="profilePhotos"></profile-edit-photos>
+    <div class="tab-content pr0" id="pr-edit-photo" [ngClass]="{'is-active': activeTab === 'photos' }" id="pr-edit-photo" *ngIf="activeTab === 'photos'">
+      <profile-edit-photos (openAlbums)="openAlbums($event)" (close)="closeModal($event)" [default]="defaultPhoto" [photos]="profilePhotos"></profile-edit-photos>
     </div>
     <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }" id="pr-edit-interests" *ngIf="activeTab === 'interests'">
-      <profile-edit-interests (loadingEvent)="loadingEdit = $event"></profile-edit-interests>
+      <profile-edit-interests (close)="closeModal($event)"></profile-edit-interests>
     </div>
     <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'goals' }" id="pr-edit-goals" *ngIf="activeTab === 'goals'">
-      <profile-edit-goals (loadingEvent)="loadingEdit = $event"></profile-edit-goals>
+      <profile-edit-goals (close)="closeModal($event)"></profile-edit-goals>
     </div>
     <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'offers' }" id="pr-edit-offers" *ngIf="activeTab === 'offers'">
-      <profile-edit-offers (loadingEvent)="loadingEdit = $event"></profile-edit-offers>
+      <profile-edit-offers (close)="closeModal($event)"></profile-edit-offers>
     </div>
   </div>
 </div>
-<footer class="remodal__footer text--right">
-  <div class="layout layout--middle">
-    <div class="layout__item">
-      <div class="loader" *ngIf="loadingEdit">
-        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
-          <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
-    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
-    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
-          <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
-    C22.32,8.481,24.301,9.057,26.013,10.047z">
-            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
-          </path>
-        </svg>
-      </div>
-      <button (click)="closeModal($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Close</button>
-    </div>
-  </div>
-</footer>
+<profile-edit-photos-albums *ngIf="photosAlbumsActive" [isHidden]="!photosAlbumsActive" (openCrop)="openCrop($event)" (close)="closeAlbums($event)"></profile-edit-photos-albums>
+<profile-edit-photos-crop *ngIf="photosCropActive" [isHidden]="!photosCropActive" (close)="closeCrop($event)" (cropAndSave)="cropAndSave($event)"></profile-edit-photos-crop>

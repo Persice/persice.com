@@ -578,3 +578,41 @@ class TestMatchFeedResource2(ResourceTestCase):
 
         # Scope out the data for correctness.
         self.assertEqual(len(self.deserialize(resp)), 2)
+
+
+class TestProfileResource2(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestProfileResource2, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a',
+            facebook_id=999234567,
+            password='test',
+            date_of_birth=date(1989, 5, 20)
+        )
+        self.user1 = FacebookCustomUser.objects.create_user(
+            username='user_b',
+            facebook_id=99923456709,
+            password='test',
+            date_of_birth=date(1979, 6, 21)
+        )
+        self.resource_url = '/api/v1/profile2/'
+
+    def login(self):
+        return self.api_client.client.post(
+            '/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_profile_list(self):
+        self.assertHttpUnauthorized(
+            self.api_client.get(self.resource_url, format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_get_empty_list_json(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/profile2/', format='json')
+        self.assertValidJSONResponse(resp)

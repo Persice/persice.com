@@ -42,14 +42,23 @@ export class ConnectionsComponent {
   serviceInstance;
 
   constructor(
-    public service: ConnectionsService,
-    public filterService: FilterService
+    private service: ConnectionsService,
+    private filterService: FilterService
   ) {
 
   }
 
+  setLocation(loc) {
+    window.history.pushState('', '', '/' + loc);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    });
+  }
+
   ngOnInit() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.total_count = 0;
     this.getList();
 
@@ -158,6 +167,7 @@ export class ConnectionsComponent {
         this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
         this.profileViewActive = true;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
+        this.setLocation(this.selectedUser.first_name);
       }
     }
   }
@@ -165,6 +175,7 @@ export class ConnectionsComponent {
   closeProfile(event) {
     this.profileViewActive = false;
     this.selectedUser = null;
+    this.setLocation('connections');
   }
 
   previousProfile(event) {
@@ -176,6 +187,7 @@ export class ConnectionsComponent {
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
+      this.setLocation(this.selectedUser.first_name);
     }
     else {
       this.closeProfile(true);
@@ -197,6 +209,7 @@ export class ConnectionsComponent {
     }
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
+      this.setLocation(this.selectedUser.first_name);
     }
     else {
       this.closeProfile(true);

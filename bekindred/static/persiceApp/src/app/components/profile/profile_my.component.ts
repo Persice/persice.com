@@ -1,9 +1,8 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+import {Router} from 'angular2/router';
 
 import {mergeMap} from 'rxjs/operator/mergeMap';
 
-/** Base Class */
-import {BaseProfileComponent} from './base_profile.component';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -23,6 +22,7 @@ import {ConnectionsService} from '../../services/connections.service';
 import {LikesService} from '../../services/likes.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
+import {HistoryService} from '../../services/history.service';
 
 //** Directives */
 import {RemodalDirective} from '../../directives/remodal.directive';
@@ -52,10 +52,11 @@ let view = require('./profile_my.html');
     UserAuthService,
     PhotosService,
     LikesService,
-    ReligiousViewsService
+    ReligiousViewsService,
+    PoliticalViewsService
   ]
 })
-export class ProfileMyComponent extends BaseProfileComponent {
+export class ProfileMyComponent {
   user;
   userEdit;
   friendsTitle: string = 'Connections';
@@ -64,19 +65,71 @@ export class ProfileMyComponent extends BaseProfileComponent {
   profilePoliticalIndex = [];
   section = 'profile';
 
+  profileId;
+  profileType: string = 'my';
+  profileAge = '';
+  profileGender = '';
+  profileLocation = '';
+  profileScore = '';
+  profileName = '';
+  profileJob = '';
+  profileReligiousViews = [];
+  profilePoliticalViews = [];
+  profileActiveAgo = '2h ago';
+  profileDistance = '';
+  profileAbout: string = '';
+  profileAvatar: string = '';
+  profilePhotos: any[] = [];
+  profilePhotosCount: number = 0;
+  profileKeywords: any[] = [];
+  profileKeywordsCount: number = 0;
+  profileInterests: any[] = [];
+  profileGoals: any[] = [];
+  profileOffers: any[] = [];
+  profileInterestsCount: number = 0;
+  profileGoalsCount: number = 0;
+  profileOffersCount: number = 0;
+  profileLikes: any[] = [];
+  profileLikesCount: number = 0;
+  profileFriends = {
+    mutual_bk_friends: [],
+    mutual_bk_friends_count: 0,
+    mutual_fb_friends: [],
+    mutual_fb_friends_count: 0,
+    mutual_linkedin_connections: [],
+    mutual_linkedin_connections_count: 0,
+    mutual_twitter_followers: [],
+    mutual_twitter_followers_count: 0,
+    mutual_twitter_friends: [],
+    mutual_twitter_friends_count: 0
+  };
+  profileFriendsCount: number = 0;
+  profileNetworks = {
+    facebook: '',
+    twitter: '',
+    linkedin: ''
+  };
+  loading: boolean = false;
+  loadingLikes: boolean = false;
+  loadingConnections: boolean = false;
+  loadingPhotos: boolean = false;
+
+
   constructor(
-    public mutualfriendsService: MutualFriendsService,
     public connectionsService: ConnectionsService,
     public photosService: PhotosService,
     public userService: UserAuthService,
     public likesService: LikesService,
     public religiousviewsService: ReligiousViewsService,
-    public politicalviewsService: PoliticalViewsService
+    public politicalviewsService: PoliticalViewsService,
+    private historyService: HistoryService,
+    private _router: Router
   ) {
-    super(mutualfriendsService, photosService, religiousviewsService, politicalviewsService, 'my');
+
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.getMyProfile();
   }
 
@@ -210,12 +263,12 @@ export class ProfileMyComponent extends BaseProfileComponent {
   }
 
   assignConnections(data) {
-      if (data.meta.total_count > 0) {
-        let items = data.objects;
-        this.profileFriendsCount = items.length;
-        this.profileFriends.mutual_bk_friends = items;
-      }
-      this.loadingConnections = false;
+    if (data.meta.total_count > 0) {
+      let items = data.objects;
+      this.profileFriendsCount = items.length;
+      this.profileFriends.mutual_bk_friends = items;
+    }
+    this.loadingConnections = false;
   }
 
   getLikes() {
@@ -233,7 +286,14 @@ export class ProfileMyComponent extends BaseProfileComponent {
   }
 
   closeProfile(event) {
-    window.history.back();
+    let uri = this.historyService.getPrev();
+    if (uri !== '') {
+      this._router.parent.navigateByUrl(uri);
+    }
+    else {
+      this._router.parent.navigateByUrl('/');
+    }
+
   }
 
   openEdit(section) {
@@ -273,6 +333,24 @@ export class ProfileMyComponent extends BaseProfileComponent {
     // this.getPhotos(data.id);
     this.getReligiousViews();
     this.getPoliticalViews();
+  }
+
+  getPhotos(id) {
+    this.photosService.get('', 6, id)
+      .subscribe(data => this.assignPhotos(data));
+  }
+
+  assignPhotos(data) {
+    this.profilePhotosCount = 0;
+    this.profilePhotos = [];
+    setTimeout(() => {
+      if (data.meta.total_count > 0) {
+        this.profilePhotos = data.objects.reverse();
+        this.profilePhotosCount = this.profilePhotos.length;
+      }
+      this.loadingPhotos = false;
+    });
+
   }
 
 

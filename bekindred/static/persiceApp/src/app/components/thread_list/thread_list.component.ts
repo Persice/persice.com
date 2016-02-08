@@ -12,8 +12,7 @@ import {ThreadSingleComponent} from '../thread_single/thread_single.component';
 	`,
   directives: [
     ThreadSingleComponent
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
 export class ThreadListComponent {
   @Input() threads;

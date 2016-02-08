@@ -1,0 +1,14 @@
+<div class="crop-photo-window" [ngClass]="{'is-hidden': isHidden}">
+  <div class="crop-holder">
+    <div id="croppie" croppie="{{croppieOptions}}" image="{{imageUri}}"></div>
+    <span class="crop-holder__drag-info">Drag to reposition</span>
+  </div>
+  <footer class="remodal__footer text--right">
+    <div class="layout layout--middle">
+      <div class="layout__item">
+        <button class="btn btn-1 btn-1--small btn-1--darkblue mr-- js-close-crop-photo-window" (click)="close.next($close)">Cancel</button>
+        <button class="btn btn-1 btn-1--small btn-1--filled btn-1--blue" (click)="cropAndSave.next($close)">Crop &amp; Save</button>
+      </div>
+    </div>
+  </footer>
+</div>

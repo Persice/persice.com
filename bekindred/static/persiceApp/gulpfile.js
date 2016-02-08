@@ -2,14 +2,16 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
-var minifyCSS = require('gulp-minify-css');
+var cssnano = require('gulp-cssnano');
 var autoprefixer = require('gulp-autoprefixer');
 var csslint = require('gulp-csslint');
+var sourcemaps = require('gulp-sourcemaps');
 
 var jsFiles = [
   './lib/js/es6-shim.js',
   './lib/js/jquery-2.1.4.min.js',
   './lib/js/jstz.js',
+  './lib/js/croppie.js',
   './lib/js/jquery.minimalect.js',
   './lib/js/circle-progress.js',
   './lib/js/svg4everybody.js',
@@ -63,7 +65,7 @@ gulp.task('jscs', function() {
 
 gulp.task('css', function() {
   gulp.src(cssFiles)
-    .pipe(minifyCSS())
+    .pipe(sourcemaps.init())
     .pipe(concat('vendor.min.css'))
     .pipe(gulp.dest('./src/assets/css/'))
 });

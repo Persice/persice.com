@@ -15,6 +15,7 @@ from social_auth.db.django_models import UserSocialAuth
 from events.models import Event, FilterState
 from friends.models import TwitterListFriends, TwitterListFollowers
 from goals.models import UserIPAddress, MatchFilterState
+from interests.models import ReligiousView, PoliticalView
 from members.models import FacebookCustomUserActive
 from world.models import UserLocation
 
@@ -280,13 +281,16 @@ def get_twitter_followers(uid, oauth_token, oauth_token_secret):
 def get_mutual_linkedin_connections(user_id1, user_id2):
     result = {'mutual_linkedin': [], 'mutual_linkedin_count': 0}
     try:
-        current_auth_user = UserSocialAuth.objects.filter(user_id=user_id1, provider='linkedin')[0]
-        requested_auth_user = UserSocialAuth.objects.filter(user_id=user_id2, provider='linkedin')[0]
+        current_auth_user = UserSocialAuth.objects.filter(
+            user_id=user_id1, provider='linkedin')[0]
+        requested_auth_user = UserSocialAuth.objects.filter(
+            user_id=user_id2, provider='linkedin')[0]
         oauth_token = current_auth_user.tokens['oauth_token']
         oauth_token_secret = current_auth_user.tokens['oauth_token_secret']
-        # result['mutual_linkedin'], result['mutual_linkedin_count'] = linkedin_connections(requested_auth_user.uid,
-        #                                                                                   oauth_token,
-        #                                                                                   oauth_token_secret)
+        # TODO:
+        # result['mutual_linkedin'], result['mutual_linkedin_count'] = \
+        #     linkedin_connections(requested_auth_user.uid,
+        #                          oauth_token, oauth_token_secret)
         return result
     except IndexError:
         return result
@@ -311,12 +315,16 @@ def get_mutual_twitter_friends(user_id1, user_id2):
                                                    twitter_id2__in=tfo2)
         for tf in tf1:
             result['mutual_twitter_friends'].append(
-                dict(name=tf.name2, profile_image_url=tf.profile_image_url2)
+                dict(name=tf.name2,
+                     screen_name=tf.screen_name2,
+                     profile_image_url=tf.profile_image_url2)
             )
 
         for tfo in tfo1:
             result['mutual_twitter_followers'].append(
-                dict(name=tfo.name2, profile_image_url=tfo.profile_image_url2)
+                dict(name=tfo.name2,
+                     screen_name=tfo.screen_name2,
+                     profile_image_url=tfo.profile_image_url2)
             )
 
         result['count_mutual_twitter_friends'] = tf1.count()
@@ -392,3 +400,13 @@ def get_lives_in(user):
     except TypeError as e:
         pass
     return lives_in
+
+
+def get_religious_views(user_id):
+    return [rv.religious_index.name for rv in
+            ReligiousView.objects.filter(user_id=user_id)]
+
+
+def get_political_views(user_id):
+    return [pv.political_index.name for pv in
+            PoliticalView.objects.filter(user_id=user_id)]

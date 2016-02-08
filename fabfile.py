@@ -181,6 +181,11 @@ def restart_redis():
 
 
 @task
+def restart_elasticsearch():
+    sudo('service elasticsearch restart')
+
+
+@task
 def restart_node():
     with cd(env.socketio):
         sudo('npm install')
@@ -191,6 +196,8 @@ def restart_node():
 @task
 def reload():
     restart_celery()
+    restart_redis()
+    restart_elasticsearch()
     restart_app()
     restart_node()
     restart_nginx()

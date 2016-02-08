@@ -1,13 +1,15 @@
 #loadingindicator {
   margin: 20rem auto!important;
+  font-size: 10px;
+  height: 40px;
 }
 
 .spinner {
   margin: 2rem auto;
   width: 100%;
-  height: 40px;
+  height: 30px;
   text-align: center;
-  font-size: 10px;
+  font-size: 8px;
   display: block;
   vertical-align: middle;
   position: relative;
@@ -703,3 +705,31 @@ textarea.c-input--error:hover {
 .notification-new .notification-new__close:hover {
   cursor: pointer;
 }
+
+.nav-main__value,
+.message__total {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-in-out;
+}
+
+.nav-main__value.is-visible,
+.message__total.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease-in-out;
+}
+
+.message.is-unread .message__text {
+  font-weight: bold!important;
+  transition: all 0.5s ease-in-out;
+}
+
+.message .flag__img:hover,
+.message .message__name:hover,
+a.user-listed,
+.remodal__title a:hover,
+#eventHost:hover {
+  cursor: pointer;
+}
+

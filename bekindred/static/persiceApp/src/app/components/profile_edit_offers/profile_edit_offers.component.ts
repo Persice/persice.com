@@ -1,10 +1,19 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {findIndex} from 'lodash';
 
-import {OffersService} from '../../services/offers.service';
-
+/**
+ * Components
+ */
 import {LoadingComponent} from '../loading/loading.component';
 let view = require('./profile_edit_offers.html');
+import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
+
+/**
+ * Services
+ */
+import {OffersService} from '../../services/offers.service';
+
+
 
 declare var jQuery: any;
 declare var TweenMax: any;
@@ -14,12 +23,13 @@ declare var Bloodhound: any;
   selector: 'profile-edit-offers',
   template: view,
   directives: [
-    LoadingComponent
+    LoadingComponent,
+    ProfileEditFooterComponent
   ]
 })
 export class ProfileEditOffersComponent {
 
-  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
+  @Output() close: EventEmitter<boolean> = new EventEmitter;
 
   items: any[] = [];
   loading: boolean = false;
@@ -82,7 +92,6 @@ export class ProfileEditOffersComponent {
         return;
       }
       this.saveLoading = true;
-      this.loadingEvent.next(true);
       this.saveOffer(suggestion);
     });
 
@@ -93,7 +102,6 @@ export class ProfileEditOffersComponent {
     if (offer.length === 0 || offer.length > 100) {
       this.status = 'failure';
       this.saveLoading = false;
-      this.loadingEvent.next(false);
       return;
     }
     this.offersService.save(offer)
@@ -112,14 +120,12 @@ export class ProfileEditOffersComponent {
         this.newOffer = '';
         jQuery('#offersInput').typeahead('val', '');
         this.saveLoading = false;
-        this.loadingEvent.next(false);
       }, (err) => {
         let error = JSON.parse(err._body);
         if ('offer' in error) {
           this.status = 'failure';
         }
         this.saveLoading = false;
-        this.loadingEvent.next(false);
       }, () => {
 
       });
@@ -141,21 +147,19 @@ export class ProfileEditOffersComponent {
       return;
     }
     this.saveLoading = true;
-    this.loadingEvent.next(true);
 
     this.saveOffer(this.newOffer);
   }
 
   removeOffer(event) {
-    this.loadingEvent.next(true);
+    this.saveLoading = true;
     let idx = findIndex(this.items, event);
     if (this.items[idx]) {
       this.offersService.delete(event.resource_uri)
         .subscribe((res) => {
           this.items.splice(idx, 1);
           this.total_count--;
-          this.loadingEvent.next(false);
-
+          this.saveLoading = false;
           if (this.total_count === 0) {
             this.isListEmpty = true;
           }

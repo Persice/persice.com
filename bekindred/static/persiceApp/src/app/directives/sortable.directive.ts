@@ -12,6 +12,7 @@ export class SortableDirective {
   el: ElementRef;
   items;
   timeout;
+  instance;
 
   constructor( @Inject(ElementRef) el: ElementRef) {
     this.el = el;
@@ -22,11 +23,12 @@ export class SortableDirective {
       items: this.items
     };
 
-    jQuery(this.el.nativeElement).sortable(options);
+    this.instance = jQuery(this.el.nativeElement).sortable(options);
 
   }
 
   ngOnDestroy() {
-    jQuery(this.el.nativeElement).sortable('destroy');
+
+
   }
 }

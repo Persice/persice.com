@@ -6,7 +6,9 @@ import {
 ROUTER_PROVIDERS,
 ROUTER_PRIMARY_COMPONENT,
 HashLocationStrategy,
-LocationStrategy
+PathLocationStrategy,
+LocationStrategy,
+APP_BASE_HREF
 } from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
 
@@ -22,7 +24,9 @@ const ENV_PROVIDERS = [];
 if ('production' === process.env.ENV) {
   enableProdMode();
 }
-ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+else {
+  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+}
 
 
 import {HttpClient} from './app/core/http_client';
@@ -60,8 +64,9 @@ const UNIVERSAL_PROVIDERS = [
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  provide(LocationStrategy, { useClass: HashLocationStrategy }),
+  provide(LocationStrategy, { useClass: PathLocationStrategy }),
   provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
+  provide(APP_BASE_HREF, { useValue: '/' }),
   provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 

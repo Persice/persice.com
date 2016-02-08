@@ -24,7 +24,7 @@ import {EventsComponent} from './events/events.component';
 import {ProfileFriendComponent} from './profile/profile_friend.component';
 import {ProfileMyComponent} from './profile/profile_my.component';
 import {EventComponent} from './event/event.component';
-
+import {ProfileViewComponent} from './profile/profile_view.component';
 
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
@@ -46,6 +46,8 @@ import {EventService} from '../services/event.service';
 import {WebsocketService} from '../services/websocket.service';
 import {GeolocationService} from '../services/geolocation.service';
 import {LocationService} from '../services/location.service';
+import {MessagesCounterService} from '../services/messages_counter.service';
+import {HistoryService} from '../services/history.service';
 
 let view = require('./app.html');
 
@@ -93,6 +95,11 @@ let view = require('./app.html');
     path: '/myprofile',
     component: ProfileMyComponent,
     name: 'ProfileMy'
+  },
+  {
+    path: '/:username',
+    component: ProfileViewComponent,
+    name: 'ProfileView'
   }
 ])
 @Component({
@@ -115,7 +122,9 @@ let view = require('./app.html');
     WebsocketService,
     GeolocationService,
     LocationService,
-    UserAuthService
+    UserAuthService,
+    MessagesCounterService,
+    HistoryService
   ]
 })
 export class AppComponent {
@@ -147,6 +156,8 @@ export class AppComponent {
     private websocketService: WebsocketService,
     private locationService: LocationService,
     private geolocationService: GeolocationService,
+    private messagesCounterService: MessagesCounterService,
+    private historyService: HistoryService,
     private _zone: NgZone
   ) {
     //default image
@@ -168,8 +179,6 @@ export class AppComponent {
     this.websocketService.on(channel).subscribe((data: any) => {
       console.log('websocket recieved data for channel %s', channel);
       console.log(data);
-
-
       switch (channel) {
         case 'messages:new':
           if (this.activeRoute.indexOf('messages') === -1) {
@@ -193,8 +202,9 @@ export class AppComponent {
                   this.notificationSmall.active = false;
                 }, 4000);
               });
-
+              this.messagesCounterService.refreshCounter();
           }
+
           break;
         default:
           break;
@@ -219,6 +229,8 @@ export class AppComponent {
 
     this._router.subscribe((next) => {
       this.activeRoute = next;
+      this.historyService.setRoute(next);
+      // console.log(this.historyService.getAll());
     });
 
 

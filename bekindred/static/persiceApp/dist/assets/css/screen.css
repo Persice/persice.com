@@ -321,7 +321,7 @@
 
 
 /*
- *  Remodal - v1.0.5
+ *  Remodal - v1.0.6
  *  Responsive, lightweight, fast, synchronized with CSS animations, fully customizable modal window plugin with declarative configuration and hash tracking.
  *  http://vodkabears.github.io/remodal/
  *
@@ -339,6 +339,8 @@
 
 html.remodal-is-locked {
   overflow: hidden;
+  -ms-touch-action: none;
+  touch-action: none;
 }
 
 
@@ -413,7 +415,7 @@ html.remodal-is-locked {
 
 
 /*
- *  Remodal - v1.0.5
+ *  Remodal - v1.0.6
  *  Responsive, lightweight, fast, synchronized with CSS animations, fully customizable modal window plugin with declarative configuration and hash tracking.
  *  http://vodkabears.github.io/remodal/
  *
@@ -444,18 +446,20 @@ html.remodal-is-locked {
 
 .remodal-overlay.remodal-is-opening,
 .remodal-overlay.remodal-is-closing {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
 }
 
 .remodal-overlay.remodal-is-opening {
-  -webkit-animation: remodal-overlay-opening-keyframes 0.3s;
-  animation: remodal-overlay-opening-keyframes 0.3s;
+  -webkit-animation-name: remodal-overlay-opening-keyframes;
+  animation-name: remodal-overlay-opening-keyframes;
 }
 
 .remodal-overlay.remodal-is-closing {
-  -webkit-animation: remodal-overlay-closing-keyframes 0.3s;
-  animation: remodal-overlay-closing-keyframes 0.3s;
+  -webkit-animation-name: remodal-overlay-closing-keyframes;
+  animation-name: remodal-overlay-closing-keyframes;
 }
 
 
@@ -482,18 +486,20 @@ html.remodal-is-locked {
 
 .remodal.remodal-is-opening,
 .remodal.remodal-is-closing {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
 }
 
 .remodal.remodal-is-opening {
-  -webkit-animation: remodal-opening-keyframes 0.3s;
-  animation: remodal-opening-keyframes 0.3s;
+  -webkit-animation-name: remodal-opening-keyframes;
+  animation-name: remodal-opening-keyframes;
 }
 
 .remodal.remodal-is-closing {
-  -webkit-animation: remodal-closing-keyframes 0.3s;
-  animation: remodal-closing-keyframes 0.3s;
+  -webkit-animation-name: remodal-closing-keyframes;
+  animation-name: remodal-closing-keyframes;
 }
 
 
@@ -3756,6 +3762,207 @@ button.swiper-pagination-bullet {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.croppie-container {
+  padding: 30px;
+}
+
+.croppie-container .cr-image {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+}
+
+.croppie-container .cr-boundary {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.croppie-container .cr-viewport {
+  position: absolute;
+  border: 2px solid #fff;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  box-shadow: 0 0 0 899px rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.croppie-container .cr-vp-circle {
+  border-radius: 50%;
+}
+
+.croppie-container .cr-overlay {
+  z-index: 1;
+  position: absolute;
+  cursor: move;
+}
+
+.croppie-container .cr-slider-wrap {
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 25px;
+  text-align: center;
+}
+
+.croppie-result {
+  position: relative;
+  overflow: hidden;
+}
+
+.croppie-result img {
+  position: absolute;
+}
+
+
+/*************************************/
+
+
+/***** STYLING RANGE INPUT ***********/
+
+
+/*************************************/
+
+
+/*http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
+
+
+/*************************************/
+
+.cr-slider {
+  -webkit-appearance: none;
+  /*removes default webkit styles*/
+  /*border: 1px solid white; */
+  /*fix for FF unable to apply focus style bug */
+  width: 300px;
+  /*required for proper track sizing in FF*/
+  max-width: 100%;
+}
+
+.cr-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 0;
+  border-radius: 3px;
+}
+
+.cr-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ddd;
+  margin-top: -6px;
+}
+
+.cr-slider:focus {
+  outline: none;
+}
+
+
+/*
+.cr-slider:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+*/
+
+.cr-slider::-moz-range-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 0;
+  border-radius: 3px;
+}
+
+.cr-slider::-moz-range-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ddd;
+  margin-top: -6px;
+}
+
+
+/*hide the outline behind the border*/
+
+.cr-slider:-moz-focusring {
+  outline: 1px solid white;
+  outline-offset: -1px;
+}
+
+.cr-slider::-ms-track {
+  width: 300px;
+  height: 5px;
+  background: transparent;
+  /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+  border-color: transparent;
+  /*leave room for the larger thumb to overflow with a transparent border */
+  border-width: 6px 0;
+  color: transparent;
+  /*remove default tick marks*/
+}
+
+.cr-slider::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.cr-slider::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.cr-slider::-ms-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.cr-slider:focus::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cr-slider:focus::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
+/*******************************************/
+
+
+/* Just cross hairs for debugging - can be removed upon release */
+
+.croppie-container .cr-viewport.debug:before,
+.croppie-container .cr-viewport.debug:after {
+  background: white;
+  width: 1px;
+  height: 1px;
+  content: '';
+  position: absolute;
+}
+
+.croppie-container .cr-viewport.debug:before {
+  top: 0;
+  height: 100%;
+  left: 50%;
+}
+
+.croppie-container .cr-viewport.debug:after {
+  top: 50%;
+  left: 0;
+  width: 100%;
 }
 
 
@@ -8032,7 +8239,8 @@ li>ol {
   border-left: 1px solid #d9dfe2;
   padding-left: 23px;
   padding-right: 23px;
-  margin-top: 30px
+  margin-top: 30px;
+  min-height: 85vh
 }
 
 .filter__item {
@@ -8890,6 +9098,14 @@ li>ol {
   opacity: 1
 }
 
+.remodal-overlay {
+  background: rgba(67, 79, 84, 0.7)
+}
+
+.remodal {
+  border-radius: 3px
+}
+
 .remodal .search {
   box-shadow: 0px 1px 3px 0px rgba(1, 2, 2, 0.051)
 }
@@ -8985,7 +9201,8 @@ li>ol {
   border-bottom: 1px solid #dde2e4;
   background: #f8fcfd;
   padding: 18px 30px;
-  height: 80px
+  height: 80px;
+  border-radius: 3px 3px 0
 }
 
 .remodal__footer {
@@ -9002,6 +9219,28 @@ li>ol {
   font-weight: 700;
   letter-spacing: 1px;
   color: #434f54
+}
+
+.remodal__title a {
+  color: inherit;
+  position: relative;
+  margin-right: 60px
+}
+
+.remodal__title a:first-child:after {
+  display: none
+}
+
+.remodal__title a:after {
+  display: block;
+  position: absolute;
+  content: "";
+  top: -11px;
+  right: 100%;
+  margin-right: 13px;
+  width: 40px;
+  height: 40px;
+  background: url("../images/icon-arrow_right.svg") center center no-repeat
 }
 
 .remodal__paragraph {
@@ -9848,22 +10087,30 @@ ul.tagit li.tagit-choice .tagit-close {
   font-weight: 700
 }
 
-.has-event-summary-tooltip {
-  position: relative
-}
-
-.has-event-summary-tooltip:hover .event-summary-tooltip {
-  visibility: visible;
-  z-index: 100
-}
-
 .event-summary-tooltip {
   width: 345px;
   position: absolute;
   top: 100%;
   left: 0;
   margin-top: 5px;
-  visibility: hidden
+  visibility: hidden;
+  z-index: 100;
+  box-shadow: 0.5px 0.7px 10px 0px rgba(1, 2, 2, 0.15)
+}
+
+.event-summary-tooltip.is-visible {
+  visibility: visible
+}
+
+.event-summary-tooltip:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -15px;
+  height: 15px;
+  left: 0;
+  width: 30%;
+  background: transparent
 }
 
 .event-summary-tooltip:after {
@@ -9912,7 +10159,7 @@ ul.tagit li.tagit-choice .tagit-close {
 .profile-edit .side-nav {
   padding: 20px 0;
   border-right: 1px solid #d4d7d8;
-  min-height: 480px
+  min-height: 565px
 }
 
 .profile-edit .pers-data {
@@ -9934,8 +10181,9 @@ ul.tagit li.tagit-choice .tagit-close {
   height: 399px
 }
 
-.profile-edit .profile-edit__overflow {
-  overflow: auto
+.profile-edit__overflow {
+  overflow: auto;
+  height: 479px
 }
 
 .profile-edit__photos__main-photo {
@@ -9998,45 +10246,68 @@ ul.tagit li.tagit-choice .tagit-close {
   fill: #39c9f5
 }
 
-.profile-edit__photos__thumb-photo-upload .fileUpload,
-.profile-edit__photos__main-photo-upload .fileUpload {
-  padding-top: 25px;
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 87px
-}
-
-.profile-edit__photos__thumb-photo-upload .fileUpload input.upload,
-.profile-edit__photos__main-photo-upload .fileUpload input.upload {
-  height: 87px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0;
-  filter: alpha(opacity=0)
-}
-
 .profile-edit__photos__main-photo-upload {
   width: 387px;
   height: 387px;
-  margin-right: 10px
+  margin-right: 10px;
+  padding-top: 170px
 }
 
-.profile-edit__photos__main-photo-upload .fileUpload {
-  padding-top: 170px;
-  height: 387px
+.profile-edit__photos__thumb-photo-upload {
+  padding-top: 25px
 }
 
-.profile-edit__photos__main-photo-upload input.upload {
+.photo-upload-window {
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  top: 80px;
   left: 0;
-  right: 0;
-  height: 387px !important
+  z-index: 10
+}
+
+.photo-upload-window__rows {
+  padding: 30px;
+  overflow: auto;
+  height: 480px
+}
+
+.photo-upload-window__row {
+  border-bottom: 1px solid #f1f2f3;
+  padding-bottom: 10;
+  margin-bottom: 17px
+}
+
+.photo-upload-window__row .link-blank {
+  display: inline-block;
+  margin: 8px 0
+}
+
+.photo-upload-window__row:last-child {
+  border-bottom: none
+}
+
+.photo-upload-window__row__title {
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  margin-bottom: 15px;
+  color: #63727a;
+  letter-spacing: 1px
+}
+
+.crop-photo-window {
+  position: absolute;
+  width: 100%;
+  background: #fff;
+  top: 80px;
+  left: 0;
+  z-index: 20
+}
+
+.crop-holder {
+  overflow: auto;
+  height: 480px
 }
 
 .no-results {
@@ -10253,6 +10524,16 @@ ul.tagit li.tagit-choice .tagit-close {
   background: #fff
 }
 
+.fc-head-container.fc-widget-header {
+  border-left: none !important;
+  border-right: none !important
+}
+
+.fc-body>tr>.fc-widget-content {
+  border-left: none !important;
+  border-right: none !important
+}
+
 .fc-unthemed th,
 .fc-unthemed td,
 .fc-unthemed thead,
@@ -10268,17 +10549,22 @@ ul.tagit li.tagit-choice .tagit-close {
   border-top: 3px solid #39c9f5 !important
 }
 
+.fc-unthemed .fc-day-number.fc-today {
+  color: #171b1d
+}
+
 .fc-toolbar {
   margin-bottom: 0;
-  height: 60px
+  height: 70px
 }
 
 .fc-toolbar h2 {
   text-transform: uppercase;
-  line-height: 60px;
+  line-height: 70px;
   font-family: "Montserrat", sans-serif;
   color: #63727a;
   font-size: 13px;
+  letter-spacing: 1px;
   margin-left: 20px !important
 }
 
@@ -10286,7 +10572,8 @@ ul.tagit li.tagit-choice .tagit-close {
   transition: ease .25s background
 }
 
-.fc-day:hover {
+.fc-day:hover,
+.fc-day.is-hovered {
   background: #f0f5f7;
   border-top: 1px solid #bcc7cd !important
 }
@@ -10313,11 +10600,13 @@ ul.tagit li.tagit-choice .tagit-close {
   color: #4b595e;
   border: none;
   padding-left: 20px;
-  font-size: 12px
+  font-size: 12px;
+  cursor: pointer
 }
 
 .fc-event:hover {
-  color: inherit
+  color: inherit;
+  text-decoration: underline
 }
 
 .fc-event:before {
@@ -10341,6 +10630,141 @@ ul.tagit li.tagit-choice .tagit-close {
 }
 
 .fc-event.fc-event--blue:before {
+  background: #39c9f5
+}
+
+.fc-more {
+  color: #39c9f5;
+  text-decoration: underline !important;
+  position: relative;
+  margin-left: 10px !important;
+  top: -5px;
+  font-size: 12px;
+  border-bottom: 1px solid #39c9f5;
+  text-decoration: none !important
+}
+
+.fc-add-event {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  color: white;
+  background: #39c9f5;
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  font-weight: bold;
+  visibility: hidden;
+  z-index: 110;
+  line-height: 1.3;
+  display: inline-block
+}
+
+.fc-add-event:hover {
+  text-decoration: none
+}
+
+.fc-add-event:after {
+  content: '+'
+}
+
+.fc-add-event.is-visible {
+  visibility: visible
+}
+
+.fc-right {
+  padding-right: 20px
+}
+
+.fc-prev-button,
+.fc-next-button {
+  text-indent: -9999px;
+  border: 0;
+  width: 40px;
+  height: 70px !important;
+  display: block;
+  padding: 0;
+  opacity: .7;
+  cursor: pointer;
+  transition: ease .25s all;
+  box-shadow: none
+}
+
+.fc-prev-button:hover,
+.fc-next-button:hover {
+  opacity: 1
+}
+
+.fc-prev-button {
+  background: url("../images/icon-arrow_left.svg") center center no-repeat
+}
+
+.fc-next-button {
+  background: url("../images/icon-arrow_right.svg") center center no-repeat;
+  right: 0
+}
+
+.fc-today-button {
+  margin-top: 23px !important;
+  text-transform: uppercase;
+  font-size: 12px !important;
+  letter-spacing: 1px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  font-weight: 700;
+  opacity: 1;
+  font-family: "Montserrat", sans-serif;
+  color: #434f54
+}
+
+.fc-today-button.fc-state-disabled {
+  color: #63727a
+}
+
+.croppie-container {
+  padding-top: 29px;
+  padding-bottom: 0
+}
+
+.croppie-container .cr-viewport {
+  box-shadow: 0 0 0 899px rgba(255, 255, 255, 0.75);
+  border: 1px solid #828282
+}
+
+.croppie-container .cr-boundary {
+  border: 1px solid #dde2e4;
+  background: #f1f9fb
+}
+
+.crop-holder__drag-info {
+  font-family: "Montserrat", sans-serif;
+  bottom: 218px;
+  font-size: 12px;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+  z-index: 10;
+  letter-spacing: .5px;
+  opacity: .7
+}
+
+.croppie-container .cr-slider-wrap {
+  margin-top: 45px
+}
+
+.cr-slider::-ms-thumb {
+  background: #39c9f5
+}
+
+.cr-slider::-webkit-slider-thumb {
+  background: #39c9f5
+}
+
+.cr-slider::-moz-range-thumb {
   background: #39c9f5
 }
 

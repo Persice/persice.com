@@ -29,8 +29,8 @@ module.exports = {
   // our angular app
   entry: {
     'polyfills': './src/polyfills.ts',
-    'main': './src/main.ts'
-    // 'signup': './src/signup/main.ts'
+    'main': './src/main.ts',
+    'signup': './src/signup/main.ts'
   },
 
   // Config for our build files

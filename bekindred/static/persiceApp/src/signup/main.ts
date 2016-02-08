@@ -11,7 +11,9 @@ const ENV_PROVIDERS = [];
 if ('production' === process.env.ENV) {
   enableProdMode();
 }
-ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+else {
+  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+}
 
 
 import {FORM_PROVIDERS} from 'angular2/common';
@@ -19,6 +21,8 @@ import {
 ROUTER_PROVIDERS,
 ROUTER_PRIMARY_COMPONENT,
 HashLocationStrategy,
+PathLocationStrategy,
+APP_BASE_HREF,
 LocationStrategy
 } from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
@@ -56,7 +60,8 @@ const UNIVERSAL_PROVIDERS = [
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  provide(LocationStrategy, { useClass: HashLocationStrategy }),
+  provide(LocationStrategy, { useClass: PathLocationStrategy }),
+  provide(APP_BASE_HREF, { useValue: '/signup' }),
   provide(ROUTER_PRIMARY_COMPONENT, { useValue: SignupComponent }),
 ];
 

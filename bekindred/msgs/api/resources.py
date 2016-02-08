@@ -56,6 +56,12 @@ class MessageResource(ModelResource):
                                                                                   recipient__is_active=True,
                                                                                   recipient=user))
 
+    def dehydrate(self, bundle):
+        bundle.data['sender_image'] = bundle.obj.sender.image
+        bundle.data['sender_name'] = bundle.obj.sender.first_name
+        bundle.data['sender_sender'] = bundle.obj.sender.username
+        return bundle
+
     def obj_create(self, bundle, **kwargs):
         bundle = super(MessageResource, self).obj_create(bundle, **kwargs)
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
@@ -65,6 +71,9 @@ class MessageResource(ModelResource):
         user_sessions = UserSession.objects.filter(user_id=user)
 
         data['sent_at'] = str(bundle.obj.sent_at.isoformat())
+        data['sender_image'] = str(bundle.obj.sender.image)
+        data['sender_name'] = str(bundle.obj.sender.first_name.encode('utf8'))
+        data['sender_sender'] = str(bundle.obj.sender.username)
         r.publish('message.%s' % user.id, json.dumps(data))
         return bundle
 
@@ -81,6 +90,8 @@ class InboxLastResource(Resource):
     read_at = fields.CharField(attribute='read_at', null=True)
     friend_id = fields.CharField(attribute='friend_id', null=True)
     sent_at = fields.CharField(attribute='sent_at', null=True)
+    # Counter of unread messages on conversation level
+    unread_counter = fields.IntegerField(attribute='unread_counter', null=True)
 
     class Meta:
         resource_name = 'inbox/last'
@@ -113,6 +124,17 @@ class InboxLastResource(Resource):
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
             new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
+
+            # counter of unread messages on conversation level
+            cnt = Message.objects.\
+                filter(read_at__isnull=True, recipient=current_user,
+                       sender=new_obj.friend_id). \
+                order_by('sender', 'recipient'). \
+                values('sender').annotate(cnt=Count('sender'))
+            try:
+                new_obj.unread_counter = cnt[0]['cnt']
+            except (ValueError, KeyError, IndexError):
+                new_obj.unread_counter = 0
             try:
                 message = Message.objects.filter(sender=new_obj.friend_id,
                                                  recipient=current_user
@@ -180,9 +202,10 @@ class UnreadMessageCounter(Resource):
         new_object = A()
         results = []
         user = FacebookCustomUserActive.objects.get(id=request.user.id)
-        cnt = Message.objects.filter(read_at__isnull=True, recipient=user).order_by('sender', 'recipient').\
+        cnt = Message.objects.filter(read_at__isnull=True, recipient=user).\
+            order_by('sender', 'recipient').\
             values('sender').annotate(cnt=Count('sender'))
-        new_object.unread_counter = len(cnt)
+        new_object.unread_counter = sum(s['cnt'] for s in cnt)
         results.append(new_object)
         return results
 

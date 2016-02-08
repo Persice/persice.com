@@ -1,9 +1,15 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {findIndex} from 'lodash';
 
+
+/**
+ * Components
+ */
+import {LoadingComponent} from '../loading/loading.component';
+import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
+
 import {GoalsService} from '../../services/goals.service';
 
-import {LoadingComponent} from '../loading/loading.component';
 let view = require('./profile_edit_goals.html');
 
 declare var jQuery: any;
@@ -14,13 +20,12 @@ declare var Bloodhound: any;
   selector: 'profile-edit-goals',
   template: view,
   directives: [
-    LoadingComponent
+    LoadingComponent,
+    ProfileEditFooterComponent
   ]
 })
 export class ProfileEditGoalsComponent {
-
-  @Output() loadingEvent: EventEmitter<boolean> = new EventEmitter;
-
+  @Output() close: EventEmitter<any> = new EventEmitter();
   items: any[] = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
@@ -82,7 +87,6 @@ export class ProfileEditGoalsComponent {
         return;
       }
       this.saveLoading = true;
-      this.loadingEvent.next(true);
       this.saveGoal(suggestion);
     });
 
@@ -93,7 +97,6 @@ export class ProfileEditGoalsComponent {
     if (goal.length === 0 || goal.length > 100) {
       this.status = 'failure';
       this.saveLoading = false;
-      this.loadingEvent.next(false);
       return;
     }
     this.goalsService.save(goal)
@@ -112,14 +115,12 @@ export class ProfileEditGoalsComponent {
         this.newGoal = '';
         jQuery('#goalsInput').typeahead('val', '');
         this.saveLoading = false;
-        this.loadingEvent.next(false);
       }, (err) => {
         let error = JSON.parse(err._body);
         if ('goal' in error) {
           this.status = 'failure';
         }
         this.saveLoading = false;
-        this.loadingEvent.next(false);
       }, () => {
 
       });
@@ -141,20 +142,19 @@ export class ProfileEditGoalsComponent {
       return;
     }
     this.saveLoading = true;
-    this.loadingEvent.next(true);
 
     this.saveGoal(this.newGoal);
   }
 
   removeGoal(event) {
-    this.loadingEvent.next(true);
+    this.saveLoading = true;
     let idx = findIndex(this.items, event);
     if (this.items[idx]) {
       this.goalsService.delete(event.resource_uri)
         .subscribe((res) => {
           this.items.splice(idx, 1);
           this.total_count--;
-          this.loadingEvent.next(false);
+          this.saveLoading = false;
 
           if (this.total_count === 0) {
             this.isListEmpty = true;
