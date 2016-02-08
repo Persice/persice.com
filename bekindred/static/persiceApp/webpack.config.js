@@ -50,7 +50,7 @@ module.exports = {
   module: {
     preLoaders: [
       // { test: /\.ts$/, loader: 'tslint-loader', exclude: [ root('node_modules') ] },
-      // TODO(gdi2290): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
+      // TODO(): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
       {
         test: /\.js$/,
         loader: "source-map-loader",
@@ -87,7 +87,8 @@ module.exports = {
       // support for .html as raw text
       {
         test: /\.html$/,
-        loader: 'raw-loader'
+        loader: 'raw-loader',
+        exclude: [root('src/index.html')]
       }
 
       // if you add a loader include the resolve file extension above
