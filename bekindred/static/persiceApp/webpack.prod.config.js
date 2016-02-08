@@ -174,7 +174,8 @@ module.exports = {
       // }, //prod
       mangle: false,
       compress: {
-        screw_ie8: true
+        screw_ie8: true,
+        warnings: false
       }, //prod
       comments: false //prod
 

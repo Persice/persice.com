@@ -733,3 +733,8 @@ a.user-listed,
   cursor: pointer;
 }
 
+
+
+#userprofile:focus {
+  outline: none!important;
+}
