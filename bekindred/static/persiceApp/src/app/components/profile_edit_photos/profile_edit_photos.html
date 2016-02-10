@@ -2,7 +2,7 @@
   <div class="layout layout--flush layout--auto">
     <div class="layout__item">
       <div class="profile-edit__photos__main-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[0].photo + ')'}">
-        <a>
+        <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])">
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
@@ -11,35 +11,35 @@
     </div>
     <div class="layout__item js-sortable" sortable items=".profile-edit__photos__thumb-photo">
       <div *ngIf="profilePhotos[1]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[1].photo + ')'}">
-        <a>
+        <a class="profile-edit__photos__remove-photo"  (click)="deletePhoto(profilePhotos[1])">
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
       <div *ngIf="profilePhotos[2]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[2].photo + ')'}">
-        <a>
+        <a class="profile-edit__photos__remove-photo"  (click)="deletePhoto(profilePhotos[2])">
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
       <div *ngIf="profilePhotos[3]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[3].photo + ')'}">
-        <a>
+        <a class="profile-edit__photos__remove-photo"  (click)="deletePhoto(profilePhotos[3])">
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
       <div *ngIf="profilePhotos[4]" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[4].photo + ')'}">
-        <a>
+        <a class="profile-edit__photos__remove-photo"  (click)="deletePhoto(profilePhotos[4])">
           <svg role="img" class="icon icon--notsotiny">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </a>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[1]">
-        <div class="fileUpload" (click)="openAlbums.next($event)">
+        <div class="fileUpload" (click)="openAlbums.next(1)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[2]">
-        <div class="fileUpload" (click)="openAlbums.next($event)">
+        <div class="fileUpload" (click)="openAlbums.next(2)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[3]">
-        <div class="fileUpload" (click)="openAlbums.next($event)">
+        <div class="fileUpload" (click)="openAlbums.next(3)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
@@ -66,7 +66,7 @@
         </div>
       </div>
       <div class="profile-edit__photos__thumb-photo-upload" *ngIf="!profilePhotos[4]">
-        <div class="fileUpload" (click)="openAlbums.next($event)">
+        <div class="fileUpload" (click)="openAlbums.next(4)">
           <span>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-plus-big"></use>
@@ -74,10 +74,8 @@
           </span>
         </div>
       </div>
-
     </div>
   </div>
   <p class="profile-edit__photos-hint text-center p-">Drag to sort the photos</p>
 </div>
 <profile-footer [loadingEdit]="loading" (close)="close.next($event)"></profile-footer>
-

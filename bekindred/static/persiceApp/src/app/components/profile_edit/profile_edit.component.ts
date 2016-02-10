@@ -49,6 +49,8 @@ export class ProfileEditComponent {
   profileInterests = [];
   defaultPhoto;
   active = '';
+  cropImage;
+  order: number = 0;
 
   photosAlbumsActive = false;
   photosAlbumsCrumbActive = false;
@@ -56,6 +58,7 @@ export class ProfileEditComponent {
   photosCropCrumbActive = false;
 
   openAlbums(event) {
+    this.order = event;
     this.photosAlbumsActive = true;
     this.photosAlbumsCrumbActive = true;
     this.photosCropActive = false;
@@ -70,6 +73,7 @@ export class ProfileEditComponent {
   }
 
   openCrop(event) {
+    this.cropImage = event;
     this.photosAlbumsActive = false;
     this.photosAlbumsCrumbActive = true;
     this.photosCropCrumbActive = true;

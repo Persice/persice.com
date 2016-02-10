@@ -3,6 +3,8 @@ import {Http, Response} from 'angular2/http';
 import {Observable} from 'rxjs';
 
 import {HttpClient} from '../core/http_client';
+import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
+import {CookieUtil} from '../core/util';
 
 @Injectable()
 export class PhotosService {
@@ -29,6 +31,18 @@ export class PhotosService {
     }
 
     return this.http.get(this.next).map((res: Response) => res.json());
+  }
+
+
+  public delete(url: string, cb:(status:number)=>void) {
+    let channel = this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json())
+      .subscribe((data) => {
+        cb(1);
+        channel.unsubscribe();
+      }, error => {
+        console.log('Could not delete photo.');
+        cb(-1);
+      })
   }
 
 

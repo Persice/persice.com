@@ -55,4 +55,4 @@
   </div>
 </div>
 <profile-edit-photos-albums *ngIf="photosAlbumsActive" [isHidden]="!photosAlbumsActive" (openCrop)="openCrop($event)" (close)="closeAlbums($event)"></profile-edit-photos-albums>
-<profile-edit-photos-crop *ngIf="photosCropActive" [isHidden]="!photosCropActive" (close)="closeCrop($event)" (cropAndSave)="cropAndSave($event)"></profile-edit-photos-crop>
+<profile-edit-photos-crop *ngIf="photosCropActive" [image]="cropImage" [isHidden]="!photosCropActive" (close)="closeCrop($event)" (cropAndSave)="cropAndSave($event)"></profile-edit-photos-crop>
