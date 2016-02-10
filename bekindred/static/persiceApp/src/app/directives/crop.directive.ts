@@ -16,6 +16,20 @@ export class CropDirective {
   constructor(private el: ElementRef) {
   }
 
+  ngOnChanges(values) {
+    if (this.croppieInstance && values.image && values.image.currentValue) {
+
+      setTimeout(() => {
+        this.croppieInstance.croppie('setZoom', 1.5);
+        this.croppieInstance.croppie('bind', {
+          url: values.image.currentValue
+        });
+
+      });
+
+    }
+  }
+
   ngAfterViewInit() {
     let opts = JSON.parse(this.options);
     setTimeout(() => {
@@ -25,23 +39,27 @@ export class CropDirective {
       };
 
       this.croppieInstance = jQuery(this.el.nativeElement).croppie(opts);
-      this.croppieInstance.croppie('bind', {
-        url: this.image
-      });
+      if (this.image !== '') {
+        this.croppieInstance.croppie('bind', {
+          url: this.image
+        });
+        this.croppieInstance.croppie('setZoom', 1.5);
+      }
+
     });
 
   }
 
   ngOnDestroy() {
+    if (this.croppieInstance) {
+      this.croppieInstance.croppie('destroy');
+    }
   }
 
   cropImage() {
-    this.croppieInstance.croppie('result', 'canvas').then((img) => {
-      //img is html positioning & sizing the image correctly if resultType is 'html'
-      //img is base64 url of cropped image if resultType is 'canvas'
-      console.log('crop updated');
+    this.croppieInstance.croppie('result', 'canvas', 'viewport').then((img) => {
       this.croppedImage = img;
-      this.cropResult.emit(img);
+      this.cropResult.next(img);
     });
   }
 }
