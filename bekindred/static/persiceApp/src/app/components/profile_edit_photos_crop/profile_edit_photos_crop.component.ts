@@ -22,6 +22,10 @@ export class ProfileEditPhotosCropComponent {
 	@Output() close: EventEmitter<any> = new EventEmitter();
 	@Output() cropAndSave: EventEmitter<any> = new EventEmitter();
 	@Input() isHidden;
+	@Input() image;
+
+	croppedImage;
+
 	loading: boolean = false;
 	croppieOptions = JSON.stringify({
 		viewport: {
@@ -34,4 +38,8 @@ export class ProfileEditPhotosCropComponent {
     }
   });
   imageUri = '/static/persiceApp/src/assets/images/450-4.jpg';
+
+  ngOnInit() {
+		this.imageUri = this.image.images[0].source;
+  }
 }
