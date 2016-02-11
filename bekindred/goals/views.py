@@ -9,6 +9,9 @@ from .forms import BiographyForm
 from goals.utils import social_extra_data
 from members.models import FacebookCustomUserActive
 from .models import UserIPAddress
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def register(request):
@@ -68,6 +71,8 @@ def main_page(request, template_name="homepage.html"):
         #     facebook = OpenFacebook(fb_user.access_token)
         #     fb_user.about_me = facebook.get('me').get('bio', None)
         #     fb_user.save()
+    logger.info('User open mvp page', exc_info=True, extra={
+        'request': request})
     return render_to_response(template_name, context)
 
 
@@ -98,6 +103,8 @@ def main_page_angular2(request, template_name="homepage_angular2.html"):
         #     facebook = OpenFacebook(fb_user.access_token)
         #     fb_user.about_me = facebook.get('me').get('bio', None)
         #     fb_user.save()
+    logger.info('User open main page', exc_info=True, extra={
+        'request': request})
     return render_to_response(template_name, context)
 
 
