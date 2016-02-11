@@ -114,35 +114,51 @@ RAVEN_CONFIG = {
     'release': raven.fetch_git_sha(ROOT_DIR),
 }
 
+MIDDLEWARE_CLASSES = (
+                         'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+                     ) + MIDDLEWARE_CLASSES
+
+
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'INFO',
+        'handlers': ['sentry'],
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        },
+    },
     'handlers': {
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-        },
-        'sentry': {
-            'level': 'INFO',
-            'class': 'raven.handlers.logging.SentryHandler',
-            'dsn': RAVEN_CONFIG['dsn']
-        },
+            'formatter': 'verbose'
+        }
     },
     'loggers': {
-        'django': {
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'raven': {
+            'level': 'DEBUG',
             'handlers': ['console'],
             'propagate': True,
-            'level': 'INFO',
         },
-        'django.request': {
-            'handlers': ['console'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        'bekindred.bekindred': {
-            'handlers': ['console'],
+        'sentry.errors': {
             'level': 'DEBUG',
+            'handlers': ['console'],
             'propagate': False,
         },
-    }
+    },
 }
