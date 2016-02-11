@@ -337,7 +337,6 @@ export class ProfileMyComponent {
     this.profileOffersCount = data.offers.length;
     this.profileGoalsCount = data.goals.length;
 
-    this.refreshPhotos();
     this.getReligiousViews();
     this.getPoliticalViews();
   }
@@ -372,6 +371,12 @@ export class ProfileMyComponent {
 
   cropAndSavePhoto(photo) {
     this.photosService.save(photo, (res) => {
+      this.refreshPhotos();
+    });
+  }
+
+  deletePhoto(photo) {
+    this.photosService.delete(photo.resource_uri, (res) => {
       this.refreshPhotos();
     });
   }

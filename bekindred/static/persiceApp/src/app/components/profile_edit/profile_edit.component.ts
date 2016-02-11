@@ -49,6 +49,7 @@ export class ProfileEditComponent {
   @Input() photos;
   @Input() activeSection;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
+  @Output() deletePhoto: EventEmitter<any> = new EventEmitter;
   @Output() cropAndSavePhoto: EventEmitter<any> = new EventEmitter;
   loadingEdit = false;
   activeTab = 'profile';

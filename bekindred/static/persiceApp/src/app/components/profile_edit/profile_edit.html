@@ -41,7 +41,7 @@
       <profile-edit-personal-info (close)="closeModal($event)" [user]="user" [politicalViews]="politicalViews" [religiousViews]="religiousViews"></profile-edit-personal-info>
     </div>
     <div class="tab-content pr0" id="pr-edit-photo" [ngClass]="{'is-active': activeTab === 'photos' }" id="pr-edit-photo" *ngIf="activeTab === 'photos'">
-      <profile-edit-photos (openAlbums)="openAlbums($event)" (close)="closeModal($event)" [default]="defaultPhoto" [photos]="profilePhotos"></profile-edit-photos>
+      <profile-edit-photos (delete)="deletePhoto.next($event)" (openAlbums)="openAlbums($event)" (close)="closeModal($event)" [default]="defaultPhoto" [photos]="profilePhotos"></profile-edit-photos>
     </div>
     <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }" id="pr-edit-interests" *ngIf="activeTab === 'interests'">
       <profile-edit-interests (close)="closeModal($event)"></profile-edit-interests>

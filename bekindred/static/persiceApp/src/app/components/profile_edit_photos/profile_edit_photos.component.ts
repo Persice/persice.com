@@ -13,7 +13,6 @@ import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_fo
 /**
  * Services
  */
-import {PhotosService} from '../../services/photos.service';
 
 let view = require('./profile_edit_photos.html');
 
@@ -23,36 +22,16 @@ let view = require('./profile_edit_photos.html');
   directives: [
     SortableDirective,
     ProfileEditFooterComponent
-  ],
-  providers: [
-    PhotosService
   ]
 })
 export class ProfileEditPhotosComponent {
   @Input() photos;
   @Input() default;
   @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() openAlbums: EventEmitter<any> = new EventEmitter();
-  profilePhotos = [];
   loading: boolean = false;
-
-  constructor(private photosService: PhotosService) {
-
-  }
-
-  ngOnInit() {
-
-  }
-
-  deletePhoto(photo) {
-    this.photosService.delete(photo.resource_uri, (res) => {
-      for (var i = 0; i < this.profilePhotos.length; ++i) {
-        if (this.profilePhotos[i].id === photo.id) {
-          this.profilePhotos.splice(i, 1);
-        }
-      }
-    });
-  }
+  profilePhotos = [];
 
   ngOnChanges(values) {
     if (values.photos && values.photos.currentValue) {
@@ -60,7 +39,60 @@ export class ProfileEditPhotosComponent {
     }
   }
 
+  deletePhoto(photo) {
+    this.delete.next(photo);
+  }
+
   assignPhotos(photos) {
-    this.profilePhotos = photos;
+    this.profilePhotos = [
+      {
+        cropped_photo: '',
+        id: null,
+        order: 0,
+        photo: '',
+        resource_uri: '',
+        user: ''
+      },
+      {
+        cropped_photo: '',
+        id: null,
+        order: 1,
+        photo: '',
+        resource_uri: '',
+        user: ''
+      },
+      {
+        cropped_photo: '',
+        id: null,
+        order: 2,
+        photo: '',
+        resource_uri: '',
+        user: ''
+      },
+      {
+        cropped_photo: '',
+        id: null,
+        order: 3,
+        photo: '',
+        resource_uri: '',
+        user: ''
+      },
+      {
+        cropped_photo: '',
+        id: null,
+        order: 4,
+        photo: '',
+        resource_uri: '',
+        user: ''
+      },
+    ];
+    for (var i = 0; i < photos.length; ++i) {
+      for (var j = 0; j < this.profilePhotos.length; ++j) {
+        if (photos[i].order === this.profilePhotos[j].order) {
+          this.profilePhotos[j] = photos[i];
+        }
+      }
+
+    }
   }
 }
