@@ -34,7 +34,7 @@ export class PhotosService {
   }
 
 
-  public delete(url: string, cb:(status:number)=>void) {
+  public delete(url: string, cb: (status: number) => void) {
     let channel = this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json())
       .subscribe((data) => {
         cb(1);
@@ -43,6 +43,26 @@ export class PhotosService {
         console.log('Could not delete photo.');
         cb(-1);
       })
+  }
+
+  public save(image, cb: (status: number) => void) {
+    let userId = CookieUtil.getValue('userid');
+    let photo = {
+      cropped_photo: image.cropped,
+      order: image.order,
+      photo: image.original,
+      user: '/api/v1/auth/user/' + userId + '/'
+    };
+    let body = JSON.stringify(photo);
+    let channel = this.http.post(`${PhotosService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json())
+      .subscribe((data) => {
+        cb(1);
+        channel.unsubscribe();
+      }, error => {
+        console.log('Could not save new photo.');
+        cb(-1);
+      });
   }
 
 
