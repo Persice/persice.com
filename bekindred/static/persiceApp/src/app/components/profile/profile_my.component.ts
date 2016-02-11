@@ -336,7 +336,7 @@ export class ProfileMyComponent {
     this.profileInterestsCount = data.interests.length;
     this.profileOffersCount = data.offers.length;
     this.profileGoalsCount = data.goals.length;
-
+    this.refreshPhotos();
     this.getReligiousViews();
     this.getPoliticalViews();
   }

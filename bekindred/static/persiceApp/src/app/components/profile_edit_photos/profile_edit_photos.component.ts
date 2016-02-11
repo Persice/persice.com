@@ -1,11 +1,6 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 /**
- * Directives
- */
-import {SortableDirective} from '../../directives/sortable.directive';
-
-/**
  * Components
  */
 import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
@@ -20,7 +15,6 @@ let view = require('./profile_edit_photos.html');
   selector: 'profile-edit-photos',
   template: view,
   directives: [
-    SortableDirective,
     ProfileEditFooterComponent
   ]
 })

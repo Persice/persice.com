@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="layout__item js-sortable" sortable items=".profile-edit__photos__thumb-photo">
+    <div class="layout__item js-sortable">
       <div *ngIf="profilePhotos[1].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[1].cropped_photo + ')'}">
         <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[1])">
           <svg role="img" class="icon icon--notsotiny">

@@ -18,36 +18,23 @@ export class CropDirective {
 
   ngOnChanges(values) {
     if (this.croppieInstance && values.image && values.image.currentValue) {
-
-      setTimeout(() => {
-        this.croppieInstance.croppie('setZoom', 1.5);
-        this.croppieInstance.croppie('bind', {
-          url: values.image.currentValue
-        });
-
+      this.croppieInstance.croppie('bind', {
+        url: values.image.currentValue
       });
-
     }
   }
 
   ngAfterViewInit() {
     let opts = JSON.parse(this.options);
-    setTimeout(() => {
-
-      opts.update = (cropper) => {
-        this.cropImage();
-      };
-
-      this.croppieInstance = jQuery(this.el.nativeElement).croppie(opts);
-      if (this.image !== '') {
-        this.croppieInstance.croppie('bind', {
-          url: this.image
-        });
-        this.croppieInstance.croppie('setZoom', 1.5);
-      }
-
-    });
-
+    opts.update = (cropper) => {
+      this.cropImage();
+    };
+    this.croppieInstance = jQuery(this.el.nativeElement).croppie(opts);
+    if (this.image !== '') {
+      this.croppieInstance.croppie('bind', {
+        url: this.image
+      });
+    }
   }
 
   ngOnDestroy() {
