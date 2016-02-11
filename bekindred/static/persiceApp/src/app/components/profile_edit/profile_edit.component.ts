@@ -40,9 +40,6 @@ let view = require('./profile_edit.html');
     ProfileEditOffersComponent,
     ProfileEditPhotosAlbumsComponent,
     ProfileEditPhotosCropComponent
-  ],
-  providers: [
-    PhotosService
   ]
 })
 export class ProfileEditComponent {
