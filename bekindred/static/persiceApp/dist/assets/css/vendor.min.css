@@ -493,13 +493,11 @@ html.remodal-is-locked {
 }
 
 .remodal.remodal-is-opening {
-  -webkit-animation-name: remodal-opening-keyframes;
-  animation-name: remodal-opening-keyframes;
+  opacity: 1;
 }
 
 .remodal.remodal-is-closing {
-  -webkit-animation-name: remodal-closing-keyframes;
-  animation-name: remodal-closing-keyframes;
+  opacity: 0;
 }
 
 
@@ -3774,6 +3772,7 @@ button.swiper-pagination-bullet {
   top: 0;
   left: 0;
   transform-origin: 0 0;
+  max-width: none;
 }
 
 .croppie-container .cr-boundary {
@@ -3819,6 +3818,150 @@ button.swiper-pagination-bullet {
 
 .croppie-result img {
   position: absolute;
+}
+
+
+/*************************************/
+
+
+/***** STYLING RANGE INPUT ***********/
+
+
+/*************************************/
+
+
+/*http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
+
+
+/*************************************/
+
+.cr-slider {
+  -webkit-appearance: none;
+  /*removes default webkit styles*/
+  /*border: 1px solid white; */
+  /*fix for FF unable to apply focus style bug */
+  width: 300px;
+  /*required for proper track sizing in FF*/
+  max-width: 100%;
+}
+
+.cr-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 0;
+  border-radius: 3px;
+}
+
+.cr-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ddd;
+  margin-top: -6px;
+}
+
+.cr-slider:focus {
+  outline: none;
+}
+
+
+/*
+.cr-slider:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+*/
+
+.cr-slider::-moz-range-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 0;
+  border-radius: 3px;
+}
+
+.cr-slider::-moz-range-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ddd;
+  margin-top: -6px;
+}
+
+
+/*hide the outline behind the border*/
+
+.cr-slider:-moz-focusring {
+  outline: 1px solid white;
+  outline-offset: -1px;
+}
+
+.cr-slider::-ms-track {
+  width: 300px;
+  height: 5px;
+  background: transparent;
+  /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+  border-color: transparent;
+  /*leave room for the larger thumb to overflow with a transparent border */
+  border-width: 6px 0;
+  color: transparent;
+  /*remove default tick marks*/
+}
+
+.cr-slider::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.cr-slider::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+}
+
+.cr-slider::-ms-thumb {
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.cr-slider:focus::-ms-fill-lower {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cr-slider:focus::-ms-fill-upper {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+
+/*******************************************/
+
+
+/* Just cross hairs for debugging - can be removed upon release */
+
+.croppie-container .cr-viewport.debug:before,
+.croppie-container .cr-viewport.debug:after {
+  background: white;
+  width: 1px;
+  height: 1px;
+  content: '';
+  position: absolute;
+}
+
+.croppie-container .cr-viewport.debug:before {
+  top: 0;
+  height: 100%;
+  left: 50%;
+}
+
+.croppie-container .cr-viewport.debug:after {
+  top: 50%;
+  left: 0;
+  width: 100%;
 }
 
 
@@ -12323,6 +12466,22 @@ ul.tagit li.tagit-choice .tagit-close {
   background-repeat: no-repeat;
 }
 
+
+/* fix for facebook album photo */
+
+.photo-upload-holder {
+  margin: 0 auto;
+  width: 92.5px;
+  height: 92.5px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.photo-upload-holder:hover {
+  cursor: pointer;
+}
+
 .match-profile__avatar .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
@@ -12916,13 +13075,15 @@ textarea.c-input--error:hover {
   margin-bottom: 10px;
 }
 
-.notification-new {
+.notification-new,
+.js-photo-upload-window__row__to-select-reveal {
   opacity: 0;
   visibility: hidden;
   transition: all 0.5s ease-in-out;
 }
 
-.notification-new.is-visible {
+.notification-new.is-visible,
+.js-photo-upload-window__row__to-select-reveal.is-visible {
   opacity: 1;
   visibility: visible;
   transition: all 0.5s ease-in-out;
@@ -12961,8 +13122,40 @@ a.user-listed,
   cursor: pointer;
 }
 
-
-
 #userprofile:focus {
   outline: none!important;
+}
+
+.profile-edit__photos__thumb-photo-upload:hover,
+.profile-edit__photos__remove-photo:hover {
+  cursor: pointer;
+}
+
+.profile-edit__photos__main-photo.profile-edit__photos__thumb-photo-upload {
+  width: 387px;
+  height: 387px;
+  margin-right: 10px;
+  padding-top: 0px;
+}
+
+.profile-edit__photos__main-photo.profile-edit__photos__thumb-photo-upload .fileUpload {
+  padding-top: 175px;
+  margin-bottom: 0px;
+  width: 387px;
+  height: 387px;
+}
+
+.crop-photo-window,
+.photo-upload-window {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.1s ease-out;
+  z-index: -1!important;
+}
+
+.crop-photo-window.is-visible,
+.photo-upload-window.is-visible {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10!important;
 }

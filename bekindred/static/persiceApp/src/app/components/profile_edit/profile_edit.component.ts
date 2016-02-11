@@ -114,7 +114,7 @@ export class ProfileEditComponent {
       cropped: event.cropped,
       original: event.original,
       order: this.order
-    }
+    };
     this.cropAndSavePhoto.next(photo);
 
   }

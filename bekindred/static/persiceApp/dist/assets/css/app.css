@@ -95,6 +95,22 @@
   background-repeat: no-repeat;
 }
 
+
+/* fix for facebook album photo */
+
+.photo-upload-holder {
+  margin: 0 auto;
+  width: 92.5px;
+  height: 92.5px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.photo-upload-holder:hover {
+  cursor: pointer;
+}
+
 .match-profile__avatar .avatar-holder {
   margin: 0 auto;
   border-radius: 50%;
@@ -688,13 +704,15 @@ textarea.c-input--error:hover {
   margin-bottom: 10px;
 }
 
-.notification-new {
+.notification-new,
+.js-photo-upload-window__row__to-select-reveal {
   opacity: 0;
   visibility: hidden;
   transition: all 0.5s ease-in-out;
 }
 
-.notification-new.is-visible {
+.notification-new.is-visible,
+.js-photo-upload-window__row__to-select-reveal.is-visible {
   opacity: 1;
   visibility: visible;
   transition: all 0.5s ease-in-out;
@@ -733,8 +751,40 @@ a.user-listed,
   cursor: pointer;
 }
 
-
-
 #userprofile:focus {
   outline: none!important;
+}
+
+.profile-edit__photos__thumb-photo-upload:hover,
+.profile-edit__photos__remove-photo:hover {
+  cursor: pointer;
+}
+
+.profile-edit__photos__main-photo.profile-edit__photos__thumb-photo-upload {
+  width: 387px;
+  height: 387px;
+  margin-right: 10px;
+  padding-top: 0px;
+}
+
+.profile-edit__photos__main-photo.profile-edit__photos__thumb-photo-upload .fileUpload {
+  padding-top: 175px;
+  margin-bottom: 0px;
+  width: 387px;
+  height: 387px;
+}
+
+.crop-photo-window,
+.photo-upload-window {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.1s ease-out;
+  z-index: -1!important;
+}
+
+.crop-photo-window.is-visible,
+.photo-upload-window.is-visible {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10!important;
 }
