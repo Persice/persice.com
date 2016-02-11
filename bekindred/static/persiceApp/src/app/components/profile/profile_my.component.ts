@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'a
 import {Router} from 'angular2/router';
 
 import {mergeMap} from 'rxjs/operator/mergeMap';
+import {ListUtil} from '../../core/util';
 
 
 /** Components */
@@ -308,14 +309,14 @@ export class ProfileMyComponent {
   }
 
   refreshUser(event) {
-    // this.profileInterests = [];
-    // this.profileGoals = [];
-    // this.profileOffers = [];
-    // this.profileInterestsCount = 0;
-    // this.profileGoalsCount = 0;
-    // this.profileOffersCount = 0;
+    this.profileInterests = [];
+    this.profileGoals = [];
+    this.profileOffers = [];
+    this.profileInterestsCount = 0;
+    this.profileGoalsCount = 0;
+    this.profileOffersCount = 0;
     this.active = false;
-    // this.getMyProfileUpdates();
+    this.getMyProfileUpdates();
   }
 
   getMyProfileUpdates() {
@@ -336,7 +337,7 @@ export class ProfileMyComponent {
     this.profileOffersCount = data.offers.length;
     this.profileGoalsCount = data.goals.length;
 
-    // this.getPhotos(data.id);
+    this.refreshPhotos();
     this.getReligiousViews();
     this.getPoliticalViews();
   }
@@ -351,7 +352,7 @@ export class ProfileMyComponent {
     this.profilePhotos = [];
     setTimeout(() => {
       if (data.meta.total_count > 0) {
-        this.profilePhotos = data.objects.reverse();
+        this.profilePhotos = ListUtil.orderBy(data.objects, ['order'], ['asc']);
         this.profilePhotosCount = this.profilePhotos.length;
       }
       this.loadingPhotos = false;
@@ -367,6 +368,17 @@ export class ProfileMyComponent {
       default:
         break;
     }
+  }
+
+  cropAndSavePhoto(photo) {
+    this.photosService.save(photo, (res) => {
+      this.refreshPhotos();
+    });
+  }
+
+  refreshPhotos() {
+    this.loadingPhotos = true;
+    this.getPhotos(this.user.id);
   }
 
 

@@ -12,34 +12,44 @@ import {CropDirective} from '../../directives/crop.directive';
 
 
 @Component({
-	selector: 'profile-edit-photos-crop',
-	template: require('./profile_edit_photos_crop.html'),
-	directives: [
+ 	selector: 'profile-edit-photos-crop',
+ 	template: require('./profile_edit_photos_crop.html'),
+ 	directives: [
 		CropDirective
-	]
+ 	]
 })
 export class ProfileEditPhotosCropComponent {
-	@Output() close: EventEmitter<any> = new EventEmitter();
-	@Output() cropAndSave: EventEmitter<any> = new EventEmitter();
-	@Input() isHidden;
-	@Input() image;
+ 	@Output() close: EventEmitter<any> = new EventEmitter();
+ 	@Output() cropAndSave: EventEmitter<any> = new EventEmitter();
+ 	@Input() isHidden;
+ 	@Input() image;
 
-	croppedImage;
+ 	croppedImage;
 
-	loading: boolean = false;
-	croppieOptions = JSON.stringify({
+ 	loading: boolean = false;
+ 	croppieOptions = JSON.stringify({
 		viewport: {
-      width: 200,
-      height: 200
-    },
-    boundary: {
-      width: 630,
-      height: 340
-    }
-  });
-  imageUri = '/static/persiceApp/src/assets/images/450-4.jpg';
+			width: 200,
+			height: 200
+		},
+		boundary: {
+			width: 630,
+			height: 340
+		}
+ 	});
+ 	imageUri = '';
 
-  ngOnInit() {
-		this.imageUri = this.image.images[0].source;
-  }
+ 	ngOnChanges(values) {
+		if (values.image && values.image.currentValue) {
+			this.imageUri = values.image.currentValue.images[0].source;
+		}
+ 	}
+
+ 	savePhoto(event) {
+
+		this.cropAndSave.next({
+			cropped: this.croppedImage,
+			original: this.imageUri
+		});
+ 	}
 }

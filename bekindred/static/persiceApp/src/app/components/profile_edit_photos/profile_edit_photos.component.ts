@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {ListUtil} from '../../core/util';
 
 /**
  * Directives
@@ -46,7 +45,6 @@ export class ProfileEditPhotosComponent {
   }
 
   deletePhoto(photo) {
-    console.log(photo);
     this.photosService.delete(photo.resource_uri, (res) => {
       for (var i = 0; i < this.profilePhotos.length; ++i) {
         if (this.profilePhotos[i].id === photo.id) {
@@ -63,12 +61,6 @@ export class ProfileEditPhotosComponent {
   }
 
   assignPhotos(photos) {
-    this.profilePhotos = ListUtil.orderBy(photos, ['order'], ['asc']);
-    // if (this.profilePhotos.length === 1 || this.profilePhotos.length === 0) {
-    //   this.profilePhotos = [{
-    //     photo: this.default,
-    //     order: 0
-    //   }];
-    // }
+    this.profilePhotos = photos;
   }
 }
