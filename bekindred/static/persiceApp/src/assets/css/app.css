@@ -759,3 +759,30 @@ a.user-listed,
 .profile-edit__photos__remove-photo:hover {
   cursor: pointer;
 }
+
+.profile-edit__photos__main-photo.profile-edit__photos__thumb-photo-upload {
+  width: 387px;
+  height: 387px;
+  margin-right: 10px;
+  padding-top: 0px;
+}
+
+.profile-edit__photos__main-photo.profile-edit__photos__thumb-photo-upload .fileUpload {
+  padding-top: 175px;
+  margin-bottom: 0px;
+  width: 387px;
+  height: 387px;
+}
+
+.crop-photo-window,
+.photo-upload-window {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.1s ease-out;
+}
+
+.crop-photo-window.is-visible,
+.photo-upload-window.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
