@@ -1,6 +1,4 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {Http} from 'angular2/http';
-import {ListUtil} from '../../core/util';
 
 /**
  * Directives
@@ -12,6 +10,10 @@ import {SortableDirective} from '../../directives/sortable.directive';
  */
 import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
 
+/**
+ * Services
+ */
+import {PhotosService} from '../../services/photos.service';
 
 let view = require('./profile_edit_photos.html');
 
@@ -21,6 +23,9 @@ let view = require('./profile_edit_photos.html');
   directives: [
     SortableDirective,
     ProfileEditFooterComponent
+  ],
+  providers: [
+    PhotosService
   ]
 })
 export class ProfileEditPhotosComponent {
@@ -31,12 +36,22 @@ export class ProfileEditPhotosComponent {
   profilePhotos = [];
   loading: boolean = false;
 
-  constructor() {
+  constructor(private photosService: PhotosService) {
 
   }
 
   ngOnInit() {
 
+  }
+
+  deletePhoto(photo) {
+    this.photosService.delete(photo.resource_uri, (res) => {
+      for (var i = 0; i < this.profilePhotos.length; ++i) {
+        if (this.profilePhotos[i].id === photo.id) {
+          this.profilePhotos.splice(i, 1);
+        }
+      }
+    });
   }
 
   ngOnChanges(values) {
@@ -46,12 +61,6 @@ export class ProfileEditPhotosComponent {
   }
 
   assignPhotos(photos) {
-    this.profilePhotos = ListUtil.orderBy(photos, ['order'], ['asc']);
-    if (this.profilePhotos.length === 1 || this.profilePhotos.length === 0) {
-      this.profilePhotos = [{
-        photo: this.default,
-        order: 0
-      }];
-    }
+    this.profilePhotos = photos;
   }
 }

@@ -1,7 +1,9 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {mergeMap} from 'rxjs/operator/mergeMap';
 
-//** Components */
+/**
+ * Components
+ */
 import {ProfileEditPersonalInfoComponent}
 from '../profile_edit_personalinfo/profile_edit_personalinfo.component';
 import {ProfileEditPhotosComponent}
@@ -16,6 +18,12 @@ import {ProfileEditPhotosAlbumsComponent}
 from '../profile_edit_photos_albums/profile_edit_photos_albums.component';
 import {ProfileEditPhotosCropComponent}
 from '../profile_edit_photos_crop/profile_edit_photos_crop.component';
+
+
+/**
+ * Services
+ */
+
 
 declare var jQuery: any;
 
@@ -32,6 +40,9 @@ let view = require('./profile_edit.html');
     ProfileEditOffersComponent,
     ProfileEditPhotosAlbumsComponent,
     ProfileEditPhotosCropComponent
+  ],
+  providers: [
+    PhotosService
   ]
 })
 export class ProfileEditComponent {
@@ -41,6 +52,7 @@ export class ProfileEditComponent {
   @Input() photos;
   @Input() activeSection;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
+  @Output() cropAndSavePhoto: EventEmitter<any> = new EventEmitter;
   loadingEdit = false;
   activeTab = 'profile';
   profilePhotos = [];
@@ -49,13 +61,20 @@ export class ProfileEditComponent {
   profileInterests = [];
   defaultPhoto;
   active = '';
+  cropImage;
+  order: number = 0;
 
   photosAlbumsActive = false;
   photosAlbumsCrumbActive = false;
   photosCropActive = false;
   photosCropCrumbActive = false;
 
+  constructor() {
+
+  }
+
   openAlbums(event) {
+    this.order = event;
     this.photosAlbumsActive = true;
     this.photosAlbumsCrumbActive = true;
     this.photosCropActive = false;
@@ -70,6 +89,7 @@ export class ProfileEditComponent {
   }
 
   openCrop(event) {
+    this.cropImage = event;
     this.photosAlbumsActive = false;
     this.photosAlbumsCrumbActive = true;
     this.photosCropCrumbActive = true;
@@ -92,6 +112,13 @@ export class ProfileEditComponent {
 
   cropAndSave(event) {
     this.closePhotos(true);
+    let photo = {
+      cropped: event.cropped,
+      original: event.original,
+      order: this.order
+    }
+    this.cropAndSavePhoto.next(photo);
+
   }
 
   ngOnChanges(values) {
