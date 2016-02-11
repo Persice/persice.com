@@ -42,7 +42,7 @@ export class PhotosService {
       }, error => {
         console.log('Could not delete photo.');
         cb(-1);
-      })
+      });
   }
 
   public save(image, cb: (status: number) => void) {
