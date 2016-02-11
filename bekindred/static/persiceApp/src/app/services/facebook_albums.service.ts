@@ -116,15 +116,13 @@ export class FacebookAlbumsService {
 					this._isListEmpty = false;
 					if (this._dataStore.length === 0) {
 						this._dataStore = data.albums.data;
-						this._next = data.albums.paging.next ? data.albums.paging.next : null;
+						this._next = data.albums.paging.hasOwnProperty('next') ? data.albums.paging.next : null;
 
 					}
 					else {
 						this._dataStore = [...this._dataStore, ...data.data];
-						this._next = data.paging.next ? data.paging.next : null;
+						this._next = data.paging.hasOwnProperty('next') ? data.paging.next : null;
 					}
-
-					this._next = data.albums.paging.next ? data.albums.paging.next : null;
 					this._notify();
 				} catch (e) {
 					console.log('error', e);
