@@ -209,7 +209,7 @@ POSTMAN_AUTOCOMPLETER_APP = {
     'field': '',  # default is 'AutoCompleteField'
     'arg_name': '',  # default is 'channel'
     'arg_default': 'postman_friends',
-# no default, mandatory to enable the feature
+    # no default, mandatory to enable the feature
 }  # default is {}
 
 REDIS_HOST = '127.0.0.1'
