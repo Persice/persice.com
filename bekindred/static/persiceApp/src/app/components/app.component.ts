@@ -182,6 +182,7 @@ export class AppComponent {
   timeoutId = null;
   timeoutNotification = null;
   appRoutes: string[][];
+  userServiceObserver;
 
   constructor(
     private _router: Router,
@@ -207,11 +208,15 @@ export class AppComponent {
       this.appRoutes = this.getAppRoutes();
     }, 500);
 
-
+    this.userServiceObserver = this.userService.serviceObserver()
+      .subscribe((data) => {
+        console.log(data);
+        this.image = data.user.info.image;
+      });
 
   }
 
-  private getAppRoutes(): string[][] {
+  public getAppRoutes(): string[][] {
     return this.dynamicRouteConfiguratorService
       .getRoutes(this.constructor).configs.map(route => {
         return { path: [`/${route.as}`], name: route.as };
@@ -336,6 +341,7 @@ export class AppComponent {
   ngOnDestroy() {
     this.notificationService.observer('app').unsubscribe();
     this.notificationService.removeObserver('app');
+    this.userServiceObserver.unsubscribe();
   }
 
   showNotification(data: InterfaceNotification) {
