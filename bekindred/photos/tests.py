@@ -56,7 +56,7 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         self.post_data = {
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'photo': self.PHOTO_URL1,
-            'order': 1,
+            'order': 0,
             'cropped_photo': ''
         }
 
@@ -96,6 +96,20 @@ class FacebookPhotoResourceTest(ResourceTestCase):
                                                     data=self.post_data))
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
+
+    def test_create_profile_photo(self):
+        self.response = self.login()
+        # Check how many are there first.
+        original_image = FacebookCustomUser.objects.get(pk=self.user.id).image
+        self.assertFalse(bool(original_image))
+        self.assertEqual(FacebookPhoto.objects.count(), 1)
+        self.assertHttpCreated(self.api_client.post('/api/v1/photo/',
+                                                    format='json',
+                                                    data=self.post_data))
+        # Verify a new one has been added.
+        self.assertEqual(FacebookPhoto.objects.count(), 2)
+        image = FacebookCustomUser.objects.get(pk=self.user.id).image
+        self.assertEqual(image, self.PHOTO_URL1)
 
     def test_delete_detail(self):
         self.response = self.login()
