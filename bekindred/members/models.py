@@ -16,6 +16,7 @@ from open_facebook import OpenFacebook
 
 from goals.models import MatchFilterState
 from interests.models import Interest
+from photos.models import FacebookPhoto
 
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
@@ -133,4 +134,14 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         MatchFilterState.objects.get_or_create(user=instance)
 
+
+def create_default_photo(sender, instance, created, **kwargs):
+    if created:
+        FacebookPhoto.objects.get_or_create(
+            photo=instance.user.image.url,
+            order=0,
+            user=instance.user
+        )
+
 post_save.connect(create_user_profile, sender=FacebookCustomUser)
+post_save.connect(create_default_photo, sender=OnBoardingFlow)
