@@ -693,10 +693,6 @@ textarea.c-input--error:hover {
   width: 100%;
 }
 
-.chat-wrapper {
-  height: calc(100vh - 200px)!important;
-}
-
 .chat__messages-wrapper #loadingindicator {}
 
 .chat__time {
