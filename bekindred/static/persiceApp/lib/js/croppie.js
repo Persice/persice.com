@@ -728,7 +728,7 @@
 
     ctx.drawImage(img, left, top, width, height, 0, 0, outWidth, outHeight);
 
-    return canvas.toDataURL();
+    return canvas.toDataURL('image/png', 1.0);
   }
 
   /* Utilities */

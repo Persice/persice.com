@@ -338,7 +338,7 @@ export class ProfileMyComponent {
     this.profileInterestsCount = data.interests.length;
     this.profileOffersCount = data.offers.length;
     this.profileGoalsCount = data.goals.length;
-    this.refreshPhotos();
+    // this.refreshPhotos();
     this.getReligiousViews();
     this.getPoliticalViews();
   }
@@ -386,14 +386,18 @@ export class ProfileMyComponent {
 
     if (mainPhotoExists) {
       this.photosService.update(photo, mainUrl, (res) => {
-        this.userMeService.getProfileUpdates();
         this.refreshPhotos();
+        if (photo.order === 0) {
+          this.userMeService.getProfileUpdates();
+        }
       });
     }
     else {
       this.photosService.save(photo, (res) => {
-        this.userMeService.getProfileUpdates();
         this.refreshPhotos();
+        if (photo.order === 0) {
+          this.userMeService.getProfileUpdates();
+        }
       });
     }
 
@@ -413,7 +417,6 @@ export class ProfileMyComponent {
     }
     else {
       this.photosService.delete(photo.resource_uri, (res) => {
-        this.userMeService.getProfileUpdates();
         this.refreshPhotos();
       });
     }
