@@ -9,7 +9,8 @@ export class InboxService {
 	static API_URL = '/api/v1/inbox/last/';
 	static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
 
-
+	_name: string = '';
+	_counter: string = '';
 	_dataStore = [];
 	_limit: number = 12;
 	_next: string = '';
@@ -18,6 +19,7 @@ export class InboxService {
 	_loading: boolean = false;
 	_isListEmpty: boolean = false;
 	_observer: Subject<any> = new Subject(null);
+	_observerCounter: Subject<any> = new Subject(null);
 	_selectedThread;
 
 	constructor(private http: HttpClient) {
@@ -26,6 +28,10 @@ export class InboxService {
 
 	public startLoadingInbox() {
 		this._loadInbox(this._limit);
+	}
+
+	public serviceCounterObserver(): Subject<any> {
+		return this._observerCounter;
 	}
 
 	public serviceObserver(): Subject<any> {
@@ -163,6 +169,8 @@ export class InboxService {
 
 		}
 		this._loading = false;
+		this._counter = data.meta.total_count;
+		this._updateCounter();
 
 		if (data.meta.total_count === 0) {
 			this._isListEmpty = true;
@@ -183,6 +191,10 @@ export class InboxService {
 			next: this._next,
 			selected: this._selectedThread
 		});
+	}
+
+	private _updateCounter() {
+		this._observerCounter.next(this._counter);
 	}
 
 }
