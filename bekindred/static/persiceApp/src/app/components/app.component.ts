@@ -210,7 +210,6 @@ export class AppComponent {
 
     this.userServiceObserver = this.userService.serviceObserver()
       .subscribe((data) => {
-        console.log(data);
         this.image = data.user.info.image;
       });
 
