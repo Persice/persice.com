@@ -1,17 +1,16 @@
 /*
  * Angular 2 decorators and services
  */
-import {Component, NgZone} from 'angular2/core';
+import {Component, NgZone, ViewEncapsulation, Injectable, Type} from 'angular2/core';
 import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, Router, RouteRegistry} from 'angular2/router';
 
-import {StringUtil} from '../core/util';
-
+import {StringUtil, CookieUtil} from '../core/util';
 
 /*
  * Components
@@ -25,6 +24,7 @@ import {ProfileFriendComponent} from './profile/profile_friend.component';
 import {ProfileMyComponent} from './profile/profile_my.component';
 import {EventComponent} from './event/event.component';
 import {ProfileViewComponent} from './profile/profile_view.component';
+import {ProfileLoader} from './profile/profile_loader';
 
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
@@ -50,6 +50,44 @@ import {MessagesCounterService} from '../services/messages_counter.service';
 import {HistoryService} from '../services/history.service';
 
 let view = require('./app.html');
+
+
+declare var Reflect: any;
+
+@Injectable()
+class DynamicRouteConfiguratorService {
+  constructor(private registry: RouteRegistry) { }
+  addRoute(component: Type, route) {
+    let routeConfig = this.getRoutes(component);
+    routeConfig.configs.push(route);
+    this.updateRouteConfig(component, routeConfig);
+    this.registry.config(component, route);
+  }
+  removeRoute() {
+    // need to touch private APIs - bad
+  }
+  getRoutes(component: Type) {
+    return Reflect.getMetadata('annotations', component)
+      .filter(a => {
+        return a.constructor.name === 'RouteConfig';
+      }).pop();
+  }
+  updateRouteConfig(component: Type, routeConfig) {
+    let annotations = Reflect.getMetadata('annotations', component);
+    let routeConfigIndex = -1;
+    for (let i = 0; i < annotations.length; i += 1) {
+      if (annotations[i].constructor.name === 'RouteConfig') {
+        routeConfigIndex = i;
+        break;
+      }
+    }
+    if (routeConfigIndex < 0) {
+      throw new Error('No route metadata attached to the component');
+    }
+    annotations[routeConfigIndex] = routeConfig;
+    Reflect.defineMetadata('annotations', annotations, { AppComponent });
+  }
+}
 
 
 /*
@@ -92,19 +130,14 @@ let view = require('./app.html');
     name: 'Events'
   },
   {
-    path: '/myprofile',
-    component: ProfileMyComponent,
-    name: 'ProfileMy'
-  },
-  {
     path: '/:username',
-    component: ProfileViewComponent,
+    component: ProfileLoader,
     name: 'ProfileView'
   }
 ])
 @Component({
   selector: 'persice-app',
-  viewBindings: [HTTP_BINDINGS],
+  encapsulation: ViewEncapsulation.None,
   directives: [
     CORE_DIRECTIVES,
     FORM_DIRECTIVES,
@@ -124,7 +157,8 @@ let view = require('./app.html');
     LocationService,
     UserAuthService,
     MessagesCounterService,
-    HistoryService
+    HistoryService,
+    DynamicRouteConfiguratorService
   ]
 })
 export class AppComponent {
@@ -147,6 +181,8 @@ export class AppComponent {
   };
   timeoutId = null;
   timeoutNotification = null;
+  appRoutes: string[][];
+  userServiceObserver;
 
   constructor(
     private _router: Router,
@@ -158,11 +194,32 @@ export class AppComponent {
     private geolocationService: GeolocationService,
     private messagesCounterService: MessagesCounterService,
     private historyService: HistoryService,
+    private dynamicRouteConfiguratorService: DynamicRouteConfiguratorService,
     private _zone: NgZone
   ) {
     //default image
     this.image = this.userService.getDefaultImage();
+    let username = CookieUtil.getValue('user_username');
+    //dynamically set myprofile route
+    this.appRoutes = this.getAppRoutes();
+    setTimeout(_ => {
+      let route = { path: '/' + username, component: ProfileMyComponent, as: 'ProfileMy' };
+      this.dynamicRouteConfiguratorService.addRoute(this.constructor, route);
+      this.appRoutes = this.getAppRoutes();
+    }, 500);
 
+    this.userServiceObserver = this.userService.serviceObserver()
+      .subscribe((data) => {
+        this.image = data.user.info.image;
+      });
+
+  }
+
+  public getAppRoutes(): string[][] {
+    return this.dynamicRouteConfiguratorService
+      .getRoutes(this.constructor).configs.map(route => {
+        return { path: [`/${route.as}`], name: route.as };
+      });
   }
 
   ngAfterViewInit() {
@@ -202,7 +259,7 @@ export class AppComponent {
                   this.notificationSmall.active = false;
                 }, 4000);
               });
-              this.messagesCounterService.refreshCounter();
+            this.messagesCounterService.refreshCounter();
           }
 
           break;
@@ -283,6 +340,7 @@ export class AppComponent {
   ngOnDestroy() {
     this.notificationService.observer('app').unsubscribe();
     this.notificationService.removeObserver('app');
+    this.userServiceObserver.unsubscribe();
   }
 
   showNotification(data: InterfaceNotification) {

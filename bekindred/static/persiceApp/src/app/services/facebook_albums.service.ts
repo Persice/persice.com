@@ -6,11 +6,11 @@ import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class FacebookAlbumsService {
-	static API_URL = 'https://graph.facebook.com/me/?fields=albums.limit(30){picture, name, photos.limit(6)}';
+	static API_URL = 'https://graph.facebook.com/me/?fields=albums.limit(4){picture, name, photos.limit(6)}';
 
 
-	_dataStore = [];
-	_limit: number = 12;
+	_dataStore: any = [];
+	_limit: number = 4;
 	_next: string = '';
 	_total_count: number = 0;
 	_offset: number = 0;
@@ -18,6 +18,7 @@ export class FacebookAlbumsService {
 	_isListEmpty: boolean = false;
 	_observer: Subject<any> = new Subject(null);
 	_token: string;
+	_loadingMorePhotos = false;
 
 	constructor(private http: HttpClient) {
 		this._token = CookieUtil.getValue('user_token');
@@ -35,16 +36,61 @@ export class FacebookAlbumsService {
 		this._loadAlbums();
 	}
 
+	public loadMorePhotos(albumId) {
+		if (this._loadingMorePhotos) {
+			return;
+		}
+		this._loadingMorePhotos = true;
+		for (var i = 0; i < this._dataStore.length; ++i) {
+			if (this._dataStore[i].id === albumId) {
+				if (this._dataStore[i].photos.paging.next) {
+					this._loadPhotos(i);
+				}
+			}
+		}
+	}
 
 	public getData() {
 		return this._dataStore;
 	}
 
+	private _loadPhotos(index) {
+		let url = this._dataStore[index].photos.paging.next;
+		url = url.replace(/limit\=6/, 'limit=12');
+		let channel = this.http.get(url)
+			.map((res: any) => res.json())
+			.subscribe((data: any) => {
+				try {
+					this._dataStore[index].photos.data = [...this._dataStore[index].photos.data, ...data.data];
+					this._dataStore[index].photos.paging = data.paging;
+					this._loadingMorePhotos = false;
+					this._notify();
+				} catch (e) {
+					console.log('error', e);
+					this._notify();
+					channel.unsubscribe();
+					return;
+				}
+				channel.unsubscribe();
+			},
+			(error) => {
+				console.log(`Could not load facebook album photos ${error}`);
+			},
+			() => {
+
+			});
+	}
+
 	private _loadAlbums() {
 
-		if (this._loading || this._next === null) {
+		if (this._loading) {
 			return;
 		}
+
+		if (this._next === null) {
+			return;
+		}
+
 
 		let url = '';
 
@@ -66,9 +112,17 @@ export class FacebookAlbumsService {
 			.map((res: any) => res.json())
 			.subscribe((data: any) => {
 				try {
-					this._dataStore = data.albums.data;
 					this._loading = false;
 					this._isListEmpty = false;
+					if (this._dataStore.length === 0) {
+						this._dataStore = data.albums.data;
+						this._next = data.albums.paging.hasOwnProperty('next') ? data.albums.paging.next : null;
+
+					}
+					else {
+						this._dataStore = [...this._dataStore, ...data.data];
+						this._next = data.paging.hasOwnProperty('next') ? data.paging.next : null;
+					}
 					this._notify();
 				} catch (e) {
 					console.log('error', e);
@@ -114,6 +168,7 @@ export class FacebookAlbumsService {
 			data: this._dataStore,
 			finished: this._next === null ? true : false,
 			isEmpty: this._isListEmpty,
+			loadingPhotos: this._loadingMorePhotos,
 			next: this._next
 		});
 	}

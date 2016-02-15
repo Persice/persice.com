@@ -1,4 +1,8 @@
+import raven
+
 from .base import *
+
+ROOT_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..'))
 
 DATABASES = {
     'default': {
@@ -99,3 +103,62 @@ POSTMAN_AUTOCOMPLETER_APP = {
     'arg_name': '',  # default is 'channel'
     'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
 }  # default is {}
+
+INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
+
+
+RAVEN_CONFIG = {
+    'dsn': 'https://4626cd002fbb4ea9be20e8042a7226a6:75fbcaf7711f4183b6842424c64d3ee5@app.getsentry.com/66639',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(ROOT_DIR),
+}
+
+MIDDLEWARE_CLASSES = (
+                         'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
+                     ) + MIDDLEWARE_CLASSES
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'INFO',
+        'handlers': ['sentry'],
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        },
+    },
+    'handlers': {
+        'sentry': {
+            'level': 'INFO',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+    },
+}

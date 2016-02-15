@@ -116,20 +116,20 @@ class TestInboxLastResource(ResourceTestCase):
         expected_last_message = {
             'facebook_id': u'12346',
             'first_name': u'',
-            'friend_id': u'2',
-            'id': u'1',
+            'friend_id': u'{}'.format(self.user1.id),
             'image': None,
             'last_message_body': u'',
             'last_name': u'',
             'read_at': None,
-            'recipient_id': u'/api/v1/auth/user/1/',
-            'resource_uri': u'/api/v1/inbox/last/1/',
-            'sender_id': u'/api/v1/auth/user/2/',
+            'recipient_id': u'/api/v1/auth/user/{}/'.format(self.user.id),
+            'sender_id': u'/api/v1/auth/user/{}/'.format(self.user1.id),
             'unread_counter': 10
         }
         actual_response = self.deserialize(resp)['objects'][0]
         # Remove sent_at
         del actual_response['sent_at']
+        del actual_response['resource_uri']
+        del actual_response['id']
         self.assertEqual(actual_response, expected_last_message)
 
 

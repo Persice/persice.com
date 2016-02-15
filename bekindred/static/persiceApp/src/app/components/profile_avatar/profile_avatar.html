@@ -5,13 +5,14 @@
     </svg>
     <span class="edit-photos-link__label unselectable">Edit photos</span>
   </a>
-  <div [ngClass]="{'is-visible': !loading}" class="match-profile__avatar match-profile__avatar-single unselectable" *ngIf="count === 1 || count === 0">
+  <div [ngClass]="{'is-visible': !loading}" class="match-profile__avatar match-profile__avatar-single unselectable" *ngIf="count === 0">
     <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + avatar + ')'}"></div>
   </div>
-  <div [ngClass]="{'is-visible': !loading}" id="avatarslider" class="match-profile__avatar js-profile-swiper-4 swiper-container unselectable" swiper="{{swiperOpts}}" *ngIf="count > 1">
+  <div [ngClass]="{'is-visible': !loading}" id="avatarslider" class="match-profile__avatar js-profile-swiper-4 swiper-container unselectable" swiper="{{swiperOpts}}" *ngIf="count > 0">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="#image of images">
-        <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.cropped_photo + ')'}"></div>
+        <div *ngIf="image.cropped_photo !== ''" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.cropped_photo + ')'}"></div>
+        <div *ngIf="image.cropped_photo === ''" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.photo + ')'}"></div>
       </div>
     </div>
   </div>

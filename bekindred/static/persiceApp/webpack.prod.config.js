@@ -107,7 +107,8 @@ module.exports = {
       // support for .html as raw text
       {
         test: /\.html$/,
-        loader: 'raw-loader'
+        loader: 'raw-loader',
+        exclude: [root('src/index.html')]
       }
 
       // if you add a loader include the file extension
@@ -173,7 +174,8 @@ module.exports = {
       // }, //prod
       mangle: false,
       compress: {
-        screw_ie8: true
+        screw_ie8: true,
+        warnings: false
       }, //prod
       comments: false //prod
 

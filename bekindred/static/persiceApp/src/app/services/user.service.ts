@@ -1,8 +1,6 @@
 import { provide, Injectable } from 'angular2/core';
 import { Http, Response } from 'angular2/http';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operator/map';
-import { mergeMap } from 'rxjs/operator/mergeMap';
+import { Observable, Subject } from 'rxjs';
 
 import {AuthUserModel} from '../models/user.model';
 import {HttpClient} from '../core/http_client';
@@ -15,8 +13,38 @@ export class UserService {
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
   name: string = '';
+  _observer: Subject<any> = new Subject(null);
   constructor(private http: HttpClient) {
 
+  }
+
+  public serviceObserver() {
+    return this._observer;
+  }
+
+  public getProfileUpdates() {
+
+     let params = [
+      `format=json`
+    ].join('&');
+
+    let url = `${UserService.API_URL}?${params}`;
+
+    let channel = this.http.get(url)
+      .map((res: Response) => res.json())
+      .subscribe((data) => {
+        this.user = new AuthUserModel(data['objects'][0]);
+        this.image = this.user.info.image;
+        this.name = this.user.info.first_name;
+        this._observer.next({
+          user: this.user
+        });
+        channel.unsubscribe();
+      },
+      (err) => {
+        console.log('could not fetch user profile', err);
+        channel.unsubscribe();
+      });
   }
 
   public get(): Observable<any> {

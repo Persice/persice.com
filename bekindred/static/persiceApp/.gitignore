@@ -35,14 +35,6 @@ Thumbs.db
 /bower_components
 
 
-# Dist #
-
-/public/__build__/
-/src/*/__build__/
-/__build__/**
-/public/dist/
-/src/*/dist/
-
 
 # Doc #
 /doc/

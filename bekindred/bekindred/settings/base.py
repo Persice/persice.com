@@ -98,7 +98,6 @@ ROOT_URLCONF = 'bekindred.urls'
 
 WSGI_APPLICATION = 'bekindred.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -122,7 +121,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -144,7 +142,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 MEDIA_URL = '/media/'
-
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -178,11 +175,11 @@ AUTH_PROFILE_MODULE = 'members.MyCustomProfile'
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 FACEBOOK_DEFAULT_FIELDS = [
-     'id', 'name', 'gender', 'first_name', 'last_name', 'birthday',
-     'email', 'relationship_status', 'religion', 'political',
-     'meeting_for', 'sports', 'favorite_teams', 'languages', 'hometown',
-     'location', 'quotes', 'work', 'is_verified', 'verified',
-     'is_shared_login'
+    'id', 'name', 'gender', 'first_name', 'last_name', 'birthday',
+    'email', 'relationship_status', 'religion', 'political',
+    'meeting_for', 'sports', 'favorite_teams', 'languages', 'hometown',
+    'location', 'quotes', 'work', 'is_verified', 'verified',
+    'is_shared_login'
 ]
 
 FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday',
@@ -198,7 +195,6 @@ BROKER_URL = 'redis://localhost:6379/0'
 FACEBOOK_CELERY_STORE = False
 FACEBOOK_CELERY_TOKEN_EXTEND = False
 
-
 # Django-postman settings
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
@@ -212,12 +208,12 @@ POSTMAN_AUTOCOMPLETER_APP = {
     'name': '',  # default is 'ajax_select'
     'field': '',  # default is 'AutoCompleteField'
     'arg_name': '',  # default is 'channel'
-    'arg_default': 'postman_friends',  # no default, mandatory to enable the feature
+    'arg_default': 'postman_friends',
+    # no default, mandatory to enable the feature
 }  # default is {}
 
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
-
 
 # GeoIP
 GEOIP_PATH = os.path.join(BASE_DIR, '..', 'data')
@@ -234,7 +230,6 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'haystack',
     },
 }
-
 
 # ELASTICSEARCH_DEFAULT_ANALYZER = 'english_analyzer'
 
@@ -314,7 +309,6 @@ ELASTICSEARCH_INDEX_SETTINGS = {
         }
     }
 }
-
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 

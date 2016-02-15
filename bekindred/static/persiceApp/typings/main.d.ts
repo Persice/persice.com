@@ -7,5 +7,5 @@
 /// <reference path="main/ambient/selenium-webdriver/selenium-webdriver.d.ts" />
 /// <reference path="main/ambient/socket.io-client/socket.io-client.d.ts" />
 /// <reference path="main/ambient/webpack/webpack.d.ts" />
-/// <reference path="main/ambient/zone/zone.d.ts" />
+/// <reference path="main/ambient/zone.js/zone.js.d.ts" />
 /// <reference path="main/definitions/es6-promise/es6-promise.d.ts" />

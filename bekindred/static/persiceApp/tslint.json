@@ -4,10 +4,7 @@
     "curly": false,
     "eofline": true,
     "indent": "spaces",
-    "max-line-length": [
-      true,
-      200
-    ],
+    "max-line-length": false,
     "no-arg": true,
     "no-construct": true,
     "no-duplicate-key": true,

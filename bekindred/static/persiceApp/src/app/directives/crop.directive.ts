@@ -1,30 +1,52 @@
-import {Directive, ElementRef} from 'angular2/core';
+import {Directive, ElementRef, Output, EventEmitter} from 'angular2/core';
 
 declare var jQuery: any;
 
 @Directive({
   selector: '[croppie]',
-  properties: ['options: croppie', 'image']
+  properties: ['options: croppie', 'image', 'crop']
 })
 export class CropDirective {
+  @Output() cropResult: EventEmitter<any> = new EventEmitter();
   options;
   image;
   croppieInstance;
+  croppedImage;
 
   constructor(private el: ElementRef) {
   }
 
+  ngOnChanges(values) {
+    if (this.croppieInstance && values.image && values.image.currentValue) {
+      this.croppieInstance.croppie('bind', {
+        url: values.image.currentValue
+      });
+    }
+  }
+
   ngAfterViewInit() {
     let opts = JSON.parse(this.options);
-    setTimeout(() => {
-      this.croppieInstance = jQuery(this.el.nativeElement).croppie(opts);
+    opts.update = (cropper) => {
+      this.cropImage();
+    };
+    this.croppieInstance = jQuery(this.el.nativeElement).croppie(opts);
+    if (this.image !== '') {
       this.croppieInstance.croppie('bind', {
         url: this.image
       });
-    });
-
+    }
   }
 
   ngOnDestroy() {
+    if (this.croppieInstance) {
+      this.croppieInstance.croppie('destroy');
+    }
+  }
+
+  cropImage() {
+    this.croppieInstance.croppie('result', 'canvas', 'viewport').then((img) => {
+      this.croppedImage = img;
+      this.cropResult.next(img);
+    });
   }
 }

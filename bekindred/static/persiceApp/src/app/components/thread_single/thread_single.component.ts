@@ -3,7 +3,7 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
 @Component({
   selector: 'thread-single',
   template: `
-  <div class="message" *ngIf="thread.sentAt !== ''" [ngClass]="{'is-active': isActive === thread.threadId, 'is-unread': thread.unread === true}" (click)="onSelect(thread)">
+  <div class="message" [ngClass]="{'is-active': isActive === thread.threadId, 'is-unread': thread.unread === true}" (click)="onSelect(thread)">
     <div class="flag flag--responsive flag--small">
       <div class="flag__img">
         <span class="message__inread-indicator"></span>

@@ -1,4 +1,4 @@
-<div class="platform m" id="userprofile">
+<div class="platform m" id="userprofile" (keyup)="eventHandler($event.keyCode)" tabindex="0">
   <a (click)="closeProfile($event)" class="platform__back">
     <svg role="img" class="icon ">
       <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close"></use>
@@ -102,5 +102,5 @@
   </div>
 </div>
 <div class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
-  <profile-edit (refreshUser)="refreshUser($event)" [activeSection]="section" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [photos]="profilePhotos" [user]="userEdit"></profile-edit>
+  <profile-edit *ngIf="active" (deletePhoto)="deletePhoto($event)" (cropAndSavePhoto)="cropAndSavePhoto($event)" (refreshUser)="refreshUser($event)" [activeSection]="section" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [photos]="profilePhotos" [user]="userEdit"></profile-edit>
 </div>

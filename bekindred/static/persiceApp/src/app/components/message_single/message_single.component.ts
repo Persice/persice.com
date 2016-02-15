@@ -14,9 +14,11 @@ import {Router} from 'angular2/router';
         </div>
 	    </div>
 	    <div class="flag__body">
-	      <div class="message__name" (click)="openProfile(message.username)">{{message?.name}}</div>
+	      <div class="message__name" (click)="openProfile(message.username)">
+          {{message?.name}}
+          <span class="message__timestamp">{{message?.time}}</span>
+        </div>
 	      <div class="message__text">{{message?.body}}</div>
-	      <div class="message__time">{{message?.time}}</div>
 	    </div>
 	  </div>
 	</div>

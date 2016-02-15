@@ -15,11 +15,12 @@ import {WebsocketService} from '../../services/websocket.service';
 import {MessageListComponent} from '../message_list/message_list.component';
 import {MessagesInputComponent} from './messages_input.component';
 import {LoadingComponent} from '../loading/loading.component';
-
+import {MessagesHeaderComponent} from '../messages_header/messages_header.component';
 
 @Component({
-  selector: '.chat',
+  selector: 'messages-chat',
   directives: [
+    MessagesHeaderComponent,
     MessageListComponent,
     MessagesInputComponent,
     LoadingComponent
@@ -28,6 +29,7 @@ import {LoadingComponent} from '../loading/loading.component';
     MessagesService
   ],
   template: `
+  <messages-header [name]="name"></messages-header>
   <div class="chat">
 	  <div class="chat-wrapper" id="messages">
 	  	<div class="chat__messages-wrapper">
@@ -42,6 +44,7 @@ import {LoadingComponent} from '../loading/loading.component';
   `
 })
 export class MessagesChatComponent {
+  name: string = 'Pero';
   messages: Array<any> = [];
   loadingMessages: boolean = false;
   loadingMessagesFinished: boolean = false;
@@ -59,9 +62,8 @@ export class MessagesChatComponent {
     private messagesService: MessagesService,
     private messagesCounterService: MessagesCounterService,
     private websocketService: WebsocketService
-  ) {
+    ) {
     this.threadId = this._params.get('threadId');
-
   }
 
 
@@ -77,55 +79,55 @@ export class MessagesChatComponent {
     //subscribe to messages service updates
     this.messagesServiceInstance = this.messagesService.serviceObserver()
       .subscribe((res) => {
-        this.loadingMessages = res.loading;
-        this.loadingMessagesFinished = res.finished;
-        this.isMessagesEmpty = res.isEmpty;
-        this.messagesNext = res.next;
-        this.hasNew = res.hasNew;
-        let prevCount = this.messages.length;
+      this.loadingMessages = res.loading;
+      this.loadingMessagesFinished = res.finished;
+      this.isMessagesEmpty = res.isEmpty;
+      this.messagesNext = res.next;
+      this.hasNew = res.hasNew;
+      let prevCount = this.messages.length;
 
 
-        //when first loading messages, scroll to bottom
-        // after initial messages have been rendered
-        if (prevCount === 0 && !this.loadingMessages) {
-          let elem = jQuery('#messages')[0];
-          setTimeout(() => {
-            elem.scrollTop = elem.scrollHeight;
-          });
-        }
-
-
-
-        //if recieved new message scroll to bottom
-        if (this.hasNew && !this.loadingMessages) {
-          let elem = jQuery('#messages')[0];
-          setTimeout(() => {
-            elem.scrollTop = elem.scrollHeight;
-          });
-          this.hasNew = false;
-        }
-
-        this.messages = res.data;
+      //when first loading messages, scroll to bottom
+      // after initial messages have been rendered
+      if (prevCount === 0 && !this.loadingMessages) {
+        let elem = jQuery('#messages')[0];
+        setTimeout(() => {
+          elem.scrollTop = elem.scrollHeight;
+        });
+      }
 
 
 
-        //when loading more messages finishes, scroll to bottom
-        // after new messages have been rendered
-        if (prevCount > 0 && !this.loadingMessages && this.scrollOffset !== null) {
-          let elem = jQuery('#messages')[0];
-          setTimeout(() => {
-            elem.scrollTop = elem.scrollHeight - this.scrollOffset;
-            this.scrollOffset = null;
-          });
-        }
+      //if recieved new message scroll to bottom
+      if (this.hasNew && !this.loadingMessages) {
+        let elem = jQuery('#messages')[0];
+        setTimeout(() => {
+          elem.scrollTop = elem.scrollHeight;
+        });
+        this.hasNew = false;
+      }
 
-        if (this.loadingMessagesFinished === false) {
-          jQuery('#messages').bind('scroll', this.handleScrollEvent.bind(this));
-        } else {
-          jQuery('#messages').unbind('scroll');
-        }
+      this.messages = res.data;
 
-      });
+
+
+      //when loading more messages finishes, scroll to bottom
+      // after new messages have been rendered
+      if (prevCount > 0 && !this.loadingMessages && this.scrollOffset !== null) {
+        let elem = jQuery('#messages')[0];
+        setTimeout(() => {
+          elem.scrollTop = elem.scrollHeight - this.scrollOffset;
+          this.scrollOffset = null;
+        });
+      }
+
+      if (this.loadingMessagesFinished === false) {
+        jQuery('#messages').bind('scroll', this.handleScrollEvent.bind(this));
+      } else {
+        jQuery('#messages').unbind('scroll');
+      }
+
+    });
 
     //start loading messages
     this.messagesService.startLoadingMessages(this.threadId);

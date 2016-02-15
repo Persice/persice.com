@@ -1,19 +1,19 @@
-<div class="photo-upload-window" [ngClass]="{'is-hidden': isHidden}">
-  <div class="photo-upload-window__rows">
+<div class="photo-upload-window" [ngClass]="{'is-visible': !isHidden}">
+  <div class="photo-upload-window__rows" id="photoAlbums">
     <div class="photo-upload-window__row" *ngFor="#album of albums">
       <h3 class="photo-upload-window__row__title">{{album.name}}</h3>
       <div class="layout layout--small">
-        <div class="layout__item 1/6" (click)="openCrop.next($event)" *ngFor="#photo of album.photos.data">
-          <img [src]="photo.picture" alt="alt text" class="js-image-crop">
+        <div class="layout__item 1/6" *ngFor="#photo of album.photos?.data">
+          <div class="photo-upload-holder" (click)="openCrop.next(photo)" [ngStyle]="{'background-image': 'url(' + photo.picture + ')'}">
+          </div>
         </div>
       </div>
       <div class="text-right">
-        <a class="link-blank js-photo-upload-window__row__to-select-reveal">See more</a>
+        <a (click)="loadMorePhotos(album.id)" class="link-blank js-photo-upload-window__row__to-select-reveal" [ngClass]="{'is-visible': album.photos?.paging?.next}">See more</a>
       </div>
     </div>
+    <loading *ngIf="loading" [status]="loading"></loading>
   </div>
-  <loading [status]="loading"></loading>
-
   <footer class="remodal__footer text--right">
     <div class="layout layout--middle">
       <div class="layout__item">

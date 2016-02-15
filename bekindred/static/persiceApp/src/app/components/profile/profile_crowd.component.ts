@@ -110,7 +110,12 @@ export class ProfileCrowdComponent {
   }
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+
+    setTimeout(() => {
+      jQuery('#userprofile').focus();
+      window.scrollTo(0, 0);
+    });
+
   }
 
   ngOnChanges(values) {
@@ -120,6 +125,7 @@ export class ProfileCrowdComponent {
   }
 
   assignUser() {
+
     this.loadingConnections = true;
     this.loadingPhotos = true;
     this.loadingLikes = true;
@@ -256,6 +262,21 @@ export class ProfileCrowdComponent {
 
   closeProfile(event) {
     this.closeprofileEvent.next(event);
+  }
+
+  eventHandler(key) {
+    switch (key) {
+      case 27: //escape
+        this.closeProfile(true);
+        break;
+      case 37: //left
+        this.previousEvent.next(true);
+        break;
+      case 39: //right
+        this.nextEvent.next(true);
+      default:
+        break;
+    }
   }
 
 

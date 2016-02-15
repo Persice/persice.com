@@ -1,6 +1,8 @@
 from django.conf.urls import url
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import InvalidPage, Paginator
 from django.http import Http404
+from django_facebook.models import FacebookCustomUser
 from haystack.backends import SQ
 from haystack.query import SearchQuerySet
 from tastypie import fields
@@ -17,6 +19,12 @@ from goals.utils import calculate_age, social_extra_data, calculate_distance, \
 from match_engine.models import MatchEngine
 from members.models import FacebookCustomUserActive, OnBoardingFlow
 from photos.models import FacebookPhoto
+
+import logging
+
+from photos.utils import update_image_base64
+
+logger = logging.getLogger(__name__)
 
 
 class OnBoardingFlowResource(ModelResource):
@@ -152,3 +160,22 @@ class FacebookPhotoResource(ModelResource):
         user = request.GET.get('user_id', request.user.id)
         return super(FacebookPhotoResource, self).get_object_list(request).\
             filter(user_id=user)
+
+    @staticmethod
+    def update_profile_photo(bundle):
+        if bundle.data.get('cropped_photo') and bundle.data.get('order') == 0:
+            current_user_id = bundle.request.user.id
+            user = FacebookCustomUser.objects.get(pk=current_user_id)
+            image_name, image_file = update_image_base64(
+                user.facebook_id,
+                bundle.data.get('cropped_photo')
+            )
+            user.image.save(image_name, image_file)
+
+    def obj_create(self, bundle, **kwargs):
+        FacebookPhotoResource.update_profile_photo(bundle)
+        return super(FacebookPhotoResource, self).obj_create(bundle, **kwargs)
+
+    def obj_update(self, bundle, skip_errors=False, **kwargs):
+        FacebookPhotoResource.update_profile_photo(bundle)
+        return super(FacebookPhotoResource, self).obj_update(bundle, **kwargs)

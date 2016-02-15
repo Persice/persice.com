@@ -2,20 +2,20 @@
  * Croppie
  * Copyright 2015
  * Foliotek
- * Version: 1.0.3
+ * Version: 1.0.5
  *************************/
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['exports', 'b'], factory);
+    define(['exports'], factory);
   } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
     // CommonJS
-    factory(exports, require('b'));
+    factory(exports);
   } else {
     // Browser globals
-    factory((root.commonJsStrict = {}), root.b);
+    factory((root.commonJsStrict = {}));
   }
-}(this, function(exports, b) {
+}(this, function(exports) {
 
   if (typeof Promise !== 'function') {
     /*!
@@ -688,7 +688,7 @@
       left: (-1 * points[0]) + 'px',
       top: (-1 * points[1]) + 'px'
         // transform: 'scale(' + scale + ')'
-    })
+    });
     img.src = data.url;
     css(div, {
       width: width + 'px',
@@ -728,7 +728,7 @@
 
     ctx.drawImage(img, left, top, width, height, 0, 0, outWidth, outHeight);
 
-    return canvas.toDataURL();
+    return canvas.toDataURL('image/png', 1.0);
   }
 
   /* Utilities */
@@ -787,7 +787,7 @@
       y = translate.length > 1 ? translate[1] : 0;
 
     return new Transform(x, y, scale);
-  }
+  };
 
   Transform.prototype.toString = function() {
     return _TRANSLATE + '(' + this.x + 'px, ' + this.y + 'px' + _TRANSLATE_SUFFIX + ') scale(' + this.scale + ')';
@@ -1212,7 +1212,7 @@
         maxZoom = minZoom + 1;
       }
 
-      zoomer.min = fix(minZoom, 2)
+      zoomer.min = fix(minZoom, 2);
       zoomer.max = fix(maxZoom, 2);
       initialZoom = Math.max((boundaryData.width / imgData.width), (boundaryData.height / imgData.height));
       _setZoomerVal.call(self, initialZoom);

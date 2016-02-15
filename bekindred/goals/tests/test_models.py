@@ -23,9 +23,6 @@ class SubjectTestCase(TestCase):
     def test_search_text(self):
         self.assertEqual(Subject.objects.search('piano').count(), 3)
 
-    def test_stop_words_learn(self):
-        self.assertEqual(Subject.objects.search('learn').count(), 0)
-
     def test_stop_words_study(self):
         self.assertEqual(Subject.objects.search('study').count(), 1)
 

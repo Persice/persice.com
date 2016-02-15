@@ -13,7 +13,8 @@ import {InboxService} from '../../services/inbox.service';
  */
 import {MessagesSidebarComponent} from './messages_sidebar.component';
 import {MessagesChatComponent} from './messages_chat.component';
-import {MessagesEmptyComponent} from './messages_empty.component';
+import {MessagesNewComponent} from './messages_new.component';
+import {MessagesSidebarHeaderComponent} from './messages_sidebar_header.component';
 
 let view = require('./messages.html');
 @Component({
@@ -21,6 +22,7 @@ let view = require('./messages.html');
   template: view,
   directives: [
     MessagesSidebarComponent,
+    MessagesSidebarHeaderComponent,
     ROUTER_DIRECTIVES
   ],
   providers: [
@@ -34,16 +36,14 @@ let view = require('./messages.html');
 		name: 'SingleConversation'
 	},
 	{
-		path: '/',
-		component: MessagesEmptyComponent,
-		name: 'ConversationEmpty',
+		path: '/new',
+		component: MessagesNewComponent,
+		name: 'ConversationNew',
 		useAsDefault: true
-	},
-
-
+	}
 ])
 export class MessagesComponent {
-
+	counter: number = 0;
 	constructor(
 		private inboxService: InboxService,
 		private _router: Router

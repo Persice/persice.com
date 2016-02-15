@@ -115,14 +115,20 @@ export class ProfileViewComponent {
     private friendService: FriendService,
     private photosService: PhotosService,
     private historyService: HistoryService,
-    private _params: RouteParams,
     private _router: Router
   ) {
-    this.username = this._params.get('username');
+
+  }
+
+  setUsername (username) {
+    this.username = username;
   }
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    });
+
     this.profileServiceInstance = this.profileService.serviceObserver()
       .subscribe((res) => {
         this.user = res.data;
@@ -130,6 +136,10 @@ export class ProfileViewComponent {
         this.loading = res.loading;
         if (Object.keys(res.data).length > 0) {
           this.assignData(this.user);
+          setTimeout(() => {
+            jQuery('#userprofile').focus();
+            window.scrollTo(0, 0);
+          });
         }
 
       });
@@ -291,6 +301,16 @@ export class ProfileViewComponent {
   ngOnDestroy() {
     if (this.profileServiceInstance) {
       this.profileServiceInstance.unsubscribe();
+    }
+  }
+
+  eventHandler(key) {
+    switch (key) {
+      case 27: //escape
+        this.closeProfile(true);
+        break;
+      default:
+        break;
     }
   }
 
