@@ -20,10 +20,11 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 })
 export class MessagesInputComponent {
   @Output() newMessage: EventEmitter<any> = new EventEmitter();
+  @Input() disabled;
   message = '';
 
   sendMessage(event) {
-    if (this.message.length > 0) {
+    if (this.message.length > 0 && !this.disabled) {
       this.newMessage.next(this.message);
       this.message = '';
     }
