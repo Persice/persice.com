@@ -1,54 +1,52 @@
 import {Component, Output, EventEmitter} from 'angular2/core';
+import {Router} from 'angular2/router';
 
+/**
+ * Components
+ */
+import {MessagesInputComponent} from './messages_input.component';
 import {MessagesHeaderNewComponent} from '../messages_header_new/messages_header_new.component';
 /**
  * Services
  */
 import {InboxService} from '../../services/inbox.service';
+import {MessagesService} from '../../services/messages.service';
 
 @Component({
 	selector: 'messages-new',
-	template: `
-	<messages-header-new></messages-header-new>
-  <div class="chat">
-	  <div class="chat-wrapper">
-	  	<div class="chat__messages-wrapper">
-	    	<div class="chat__messages">
-	    		<div class="chat__messages__blank-slate">
-				    <svg role="img" class="icon chat-empty-state__icon">
-				        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#start_conversation"></use>
-				    </svg>
-				    <h3 class="chat-empty-state__title">Start conversation</h3>
-				    <p class="chat-empty-state__par">Type your message below to start Conversation</p>
-					</div>
-	    	</div>
-	  	</div>
-		</div>
-		<div class="chat__send-message">
-		  <div class="tableize">
-		    <div class="tableize__cell tableize__cell--fill">
-		      <div class="tableize__content">
-		        <textarea class="c-input c-input--large" placeholder="Write a message"></textarea>
-		      </div>
-		    </div>
-		    <div class="tableize__cell">
-		      <div class="tableize__content chat__send-message__has-btn"> <a href="#" class="btn btn-1 btn-1--full btn-1--filled btn-1--blue ">Send</a> </div>
-		    </div>
-		  </div>
-		</div>
-	</div>
-	`,
+	template: require('./messages_new.html'),
 	directives: [
-		MessagesHeaderNewComponent
+		MessagesHeaderNewComponent,
+		MessagesInputComponent
+	],
+	providers: [
+		MessagesService
 	]
 })
 export class MessagesNewComponent {
-	constructor(private inboxService: InboxService) {
+	tokens: any[] = [];
+	message: string = '';
+
+	constructor(
+		private inboxService: InboxService,
+		private messagesService: MessagesService,
+		private _router: Router
+		) {
+
+	}
+
+	sendMessage(message) {
+		if (this.tokens.length === 1) {
+			let channel = this.messagesService.sendNew(this.tokens[0].friend_id, message)
+				.subscribe(data => {
+					channel.unsubscribe();
+					this._router.parent.navigate(['/Messages', 'SingleConversation', { threadId: this.tokens[0].friend_id }]);
+				}, error => console.log('Could not create new message.'));
+		}
 
 	}
 
 	routerOnActivate(nextInstruction, prevInstruction) {
 		this.inboxService.deselectThreads();
-
 	}
 }
