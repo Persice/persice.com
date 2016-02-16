@@ -5,6 +5,7 @@ import {RouteParams} from 'angular2/router';
  * Services
  */
 import {InboxService} from '../../services/inbox.service';
+import {UserAuthService} from '../../services/userauth.service';
 import {MessagesService} from '../../services/messages.service';
 import {MessagesCounterService} from '../../services/messages_counter.service';
 import {WebsocketService} from '../../services/websocket.service';
@@ -26,7 +27,8 @@ import {MessagesHeaderComponent} from '../messages_header/messages_header.compon
     LoadingComponent
   ],
   providers: [
-    MessagesService
+    MessagesService,
+    UserAuthService
   ],
   template: `
   <messages-header [name]="name"></messages-header>
@@ -39,12 +41,12 @@ import {MessagesHeaderComponent} from '../messages_header/messages_header.compon
 	    	</div>
 	  	</div>
 		</div>
-		<div class="chat__send-message" (newMessage)="sendMessage($event)"></div>
+		<div class="chat__send-message" [disabled]="0" (newMessage)="sendMessage($event)"></div>
 	</div>
   `
 })
 export class MessagesChatComponent {
-  name: string = 'Pero';
+  name: string = '';
   messages: Array<any> = [];
   loadingMessages: boolean = false;
   loadingMessagesFinished: boolean = false;
@@ -60,6 +62,7 @@ export class MessagesChatComponent {
     private _params: RouteParams,
     private inboxService: InboxService,
     private messagesService: MessagesService,
+    private userService: UserAuthService,
     private messagesCounterService: MessagesCounterService,
     private websocketService: WebsocketService
     ) {
@@ -68,7 +71,12 @@ export class MessagesChatComponent {
 
 
   ngOnInit() {
-
+    let url = `/api/v1/auth/user/${this.threadId}/`;
+    let channel = this.userService.findByUri(url)
+      .subscribe((data) => {
+        this.name = data.first_name;
+        channel.unsubscribe();
+      }, (err) => console.log('User could not be loaded'));
 
     this.inboxService.select(this.threadId);
 
@@ -84,8 +92,8 @@ export class MessagesChatComponent {
       this.isMessagesEmpty = res.isEmpty;
       this.messagesNext = res.next;
       this.hasNew = res.hasNew;
+      // this.name = res.name;
       let prevCount = this.messages.length;
-
 
       //when first loading messages, scroll to bottom
       // after initial messages have been rendered

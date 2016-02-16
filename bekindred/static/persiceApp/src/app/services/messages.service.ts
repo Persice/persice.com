@@ -36,6 +36,9 @@ export class MessagesService {
 	}
 
 	public send(id, message) {
+		if (this._senderUri === '') {
+			this._senderUri = `/api/v1/auth/user/${id}/`;
+		}
 		let url = `${MessagesService.API_URL}?format=json`;
 		let sendData = {
 			body: message,
@@ -48,6 +51,20 @@ export class MessagesService {
 				this._appendMessage(data);
 				channel.unsubscribe();
 			}, error => console.log('Could not create message.'));
+	}
+
+	public sendNew(id, message): Observable<any> {
+		if (this._senderUri === '') {
+			this._senderUri = `/api/v1/auth/user/${id}/`;
+		}
+		let url = `${MessagesService.API_URL}?format=json`;
+		let sendData = {
+			body: message,
+			recipient: this._senderUri,
+			sender: this._myUri
+		};
+		return this.http.post(url, JSON.stringify(sendData), OPTS_REQ_JSON_CSRF)
+			.map(response => response.json());
 	}
 
 	public serviceObserver(): Subject<any> {
