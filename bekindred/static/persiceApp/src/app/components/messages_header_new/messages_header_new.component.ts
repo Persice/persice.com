@@ -1,34 +1,50 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
+import {findIndex} from 'lodash';
+/**
+ * Components
+ */
+import {MessagesSearchConnections} from '../messages_search_connections/messages_search_connections.component';
+
+
+const TOKEN_LIMIT: number = 1;
 
 @Component({
   selector: 'messages-header-new',
-  template: `
-  <header class="chat-header has-message-drop">
-  <div class="layout layout--middle">
-    <div class="layout__item 3/4">
-      <div class="has-input-left-labeled has-input-left-labeled--big">
-        <label class="left-labeled-label" for="">To:</label>
-        <div class="left-labeled-input">
-          <input type="text" class="left-labeled-input__element js-message-to" placeholder="NAME">
-          <div class="message-drop is-invisible">
-            <div class="message-drop__results">
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="layout__item 1/4 text-right"> </div>
-  </div>
-  </header>
-  `
+  directives: [
+    MessagesSearchConnections
+  ],
+  template: require('./messages_header_new.html')
 })
 export class MessagesHeaderNewComponent {
-  constructor() {
+  @Output() selected: EventEmitter<any> = new EventEmitter;
+  tokens: any[] = [];
+  searchInputVisible: boolean = true;
+  activeToken: number = -1;
 
+  addToken(token) {
+    //check if limit is reached
+    if (this.tokens.length < TOKEN_LIMIT) {
+      //check if token already exists
+      let i = findIndex(this.tokens, { id: token.id });
+      if (i === -1) {
+        this.tokens = [...this.tokens, token];
+        this.activeToken = -1;
+        this.selected.emit(this.tokens);
+      }
+      else { //make token active
+        this.activeToken = i;
+      }
+      //if token limit reached, hide search input
+      if (this.tokens.length === TOKEN_LIMIT) {
+        this.searchInputVisible = false;
+      }
+    }
   }
 
-
-  ngOnInit() {
+  removeToken(index) {
+    this.activeToken = -1;
+    this.tokens.splice(index, 1);
+    this.selected.emit(this.tokens);
+    this.searchInputVisible = true;
   }
 }
