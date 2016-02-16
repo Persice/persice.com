@@ -10,7 +10,7 @@ PathLocationStrategy,
 LocationStrategy,
 APP_BASE_HREF
 } from 'angular2/router';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS, JSONP_PROVIDERS} from 'angular2/http';
 
 /*
  * App Services
@@ -55,6 +55,7 @@ const UNIVERSAL_PROVIDERS = [
   ...ROUTER_PROVIDERS,
   ...FORM_PROVIDERS,
   ...HTTP_PROVIDERS,
+  ...JSONP_PROVIDERS,
   HttpClient,
   ...APP_SERVICES_PROVIDERS,
   ANGULAR2_GOOGLE_MAPS_PROVIDERS
