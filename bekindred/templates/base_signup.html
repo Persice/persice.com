@@ -32,7 +32,7 @@
             app_id: "d1rhvojk",
             name: "{{user.first_name}} {{user.last_name}}", // Full name
             email: "{{user.email}}", // Email address
-            created_at: Math.floor({user.date_joined | date:"U"}})) // Signup date as a Unix timestamp
+            created_at: Math.floor({user.date_joined | date:"U"}}) // Signup date as a Unix timestamp
         };
     </script>
     <script>
