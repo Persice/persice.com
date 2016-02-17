@@ -26,7 +26,7 @@ export class MessagesSearchConnections {
 
 		switch (event.keyCode) {
 			case 13://enter
-				if(this.selectedIndex !== -1) {
+				if (this.selectedIndex !== -1) {
 					this.select(this.resultsCache[this.selectedIndex]);
 				}
 				break;
