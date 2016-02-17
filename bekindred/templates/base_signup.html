@@ -27,11 +27,12 @@
   <meta name="description" content="">
   <meta name="author" content="">
     <script>
+
         window.intercomSettings = {
             app_id: "d1rhvojk",
-            name: "admin", // Full name
-            email: "admin@persice.com", // Email address
-            created_at: Math.floor(Date.now() / 1000) // Signup date as a Unix timestamp
+            name: "{{user.first_name}} {{user.last_name}}", // Full name
+            email: "{{user.email}}", // Email address
+            created_at: Math.floor({user.date_joined | date:"U"}})) // Signup date as a Unix timestamp
         };
     </script>
     <script>
