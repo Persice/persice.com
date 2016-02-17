@@ -40,21 +40,17 @@ class MessageResource(ModelResource):
         user = request.user.id
         user_id = request.GET.get('user_id', None)
         if user_id is None:
-            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user,
-                                                                                  recipient__is_active=True,
-                                                                                  sender__is_active=True) |
-                                                                                Q(recipient=user,
-                                                                                  sender__is_active=True,
-                                                                                  recipient__is_active=True))
+            return super(MessageResource, self).get_object_list(request).\
+                filter(Q(sender=user, recipient__is_active=True,
+                         sender__is_active=True) |
+                       Q(recipient=user, sender__is_active=True,
+                         recipient__is_active=True))
         else:
-            return super(MessageResource, self).get_object_list(request).filter(Q(sender=user,
-                                                                                  sender__is_active=True,
-                                                                                  recipient__is_active=True,
-                                                                                  recipient=user_id) |
-                                                                                Q(sender=user_id,
-                                                                                  sender__is_active=True,
-                                                                                  recipient__is_active=True,
-                                                                                  recipient=user))
+            return super(MessageResource, self).get_object_list(request).\
+                filter(Q(sender=user, sender__is_active=True,
+                         recipient__is_active=True, recipient=user_id) |
+                       Q(sender=user_id, sender__is_active=True,
+                         recipient__is_active=True, recipient=user))
 
     def dehydrate(self, bundle):
         bundle.data['sender_image'] = bundle.obj.sender.image
@@ -84,7 +80,8 @@ class InboxLastResource(Resource):
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
     image = fields.FileField(attribute="image", null=True, blank=True)
-    last_message_body = fields.CharField(attribute='last_message_body', null=True)
+    last_message_body = fields.CharField(attribute='last_message_body',
+                                         null=True)
     recipient_id = fields.CharField(attribute='recipient_id', null=True)
     sender_id = fields.CharField(attribute='sender_id', null=True)
     read_at = fields.CharField(attribute='read_at', null=True)
@@ -142,16 +139,30 @@ class InboxLastResource(Resource):
                 new_obj.last_message_body = message.body
                 new_obj.read_at = message.read_at
                 new_obj.sent_at = message.sent_at.isoformat()
-                new_obj.recipient_id = '/api/v1/auth/user/{}/'.format(message.recipient_id)
-                new_obj.sender_id = '/api/v1/auth/user/{}/'.format(message.sender_id)
-            except IndexError as err:
-                new_obj.last_message_body = None
-                new_obj.recipient_id = None
-                new_obj.sender_id = None
-                new_obj.sent_at = None
-                new_obj.read_at = None
+                new_obj.recipient_id = '/api/v1/auth/user/{}/'.format(
+                    message.recipient_id
+                )
+                new_obj.sender_id = '/api/v1/auth/user/{}/'.format(
+                    message.sender_id
+                )
+            except IndexError:
+                try:
+                    message = Message.objects.filter(recipient=new_obj.friend_id,
+                                                     sender=current_user
+                                                     ).order_by('-sent_at')[0]
+                    new_obj.last_message_body = None
+                    new_obj.read_at = None
+                    new_obj.sent_at = None
+                    new_obj.recipient_id = '/api/v1/auth/user/{}/'.format(
+                        message.recipient_id
+                    )
+                    new_obj.sender_id = '/api/v1/auth/user/{}/'.format(
+                        message.sender_id
+                    )
+                except IndexError:
+                    continue
             results.append(new_obj)
-        return results
+        return sorted(results, key=lambda x: x.sent_at, reverse=True)
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
