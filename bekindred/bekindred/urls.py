@@ -10,6 +10,7 @@ from events.api.resources import (AboutMeResource, AllEventFeedResource,
                                   MyEventFeedResource, EventFeedResource,
                                   UserProfileResource)
 from friends.api.resources import (ConnectionsResource,
+                                   ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
                                    ConnectionsResource2)
@@ -50,6 +51,7 @@ v1_api.register(InterestResource())
 v1_api.register(InterestSubjectResource())
 v1_api.register(FriendsResource())
 v1_api.register(ConnectionsResource())
+v1_api.register(ConnectionsSearchResource())
 v1_api.register(ConnectionsResource2())
 v1_api.register(FacebookLikeResource())
 v1_api.register(InboxResource())

@@ -74,6 +74,60 @@ class FriendsResource(ModelResource):
             bundle = super(FriendsResource, self).obj_create(bundle, **kwargs)
         return bundle
 
+class ConnectionsSearchResource(Resource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name')
+    friend_id = fields.CharField(attribute='friend_id')
+    image = fields.FileField(attribute="image", null=True, blank=True)
+
+    class Meta:
+        resource_name = 'connectionssearch'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        results = []
+        _first_name = request.GET.get('first_name', '')
+        current_user = request.user.id
+        friends = Friend.objects.friends(current_user)
+        for friend in friends:
+
+            new_obj = A()
+            new_obj.id = friend.id
+            if friend.friend1.id == current_user:
+                position_friend = 'friend2'
+            else:
+                position_friend = 'friend1'
+
+            new_obj.first_name = getattr(friend, position_friend).first_name
+            new_obj.image = getattr(friend, position_friend).image
+            new_obj.friend_id = getattr(friend, position_friend).id
+
+            if _first_name.lower() <> '' and _first_name.lower() in new_obj.first_name.lower():
+                results.append(new_obj)
+
+
+
+        return sorted(results, key=lambda x: x.first_name, reverse=False)
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
 
 class ConnectionsResource(Resource):
     id = fields.CharField(attribute='id')
