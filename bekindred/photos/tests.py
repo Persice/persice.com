@@ -1,3 +1,4 @@
+from django.utils.encoding import filepath_to_uri
 from tastypie.test import ResourceTestCase
 
 from django_facebook.models import FacebookCustomUser
@@ -45,11 +46,13 @@ class TestUserResource(ResourceTestCase):
 class FacebookPhotoResourceTest(ResourceTestCase):
     def setUp(self):
         super(FacebookPhotoResourceTest, self).setUp()
-        self.PHOTO_URL = 'https://scontent-a.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/s130x130/' \
+        self.PHOTO_URL = 'scontent-a.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/s130x130/' \
                          '10325735_766522586720922_6094805479414606575_n.jpg?oh=23b6bf251efe0021187fde75aafbd003&oe=54EBDC1C'
-        self.PHOTO_URL1 = 'https://scontent-b.xx.fbcdn.net/hphotos-ash2/v/t1.0-9/s130x130/' \
+        self.PHOTO_URL1 = 'scontent-b.xx.fbcdn.net/hphotos-ash2/v/t1.0-9/s130x130/' \
                           '532133_439316379441546_842271884_n.jpg?oh=67a1455aafe942630ba68e142d3633e3&oe=54E653FB'
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user = FacebookCustomUser.objects.create_user(username='user_a',
+                                                           password='test',
+                                                           image=self.PHOTO_URL1)
         self.photo = FacebookPhoto.objects.create(user=self.user, photo=self.PHOTO_URL, order=0)
 
         self.detail_url = '/api/v1/photo/{0}/'.format(self.photo.pk)
@@ -101,7 +104,7 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         self.response = self.login()
         # Check how many are there first.
         original_image = FacebookCustomUser.objects.get(pk=self.user.id).image
-        self.assertFalse(bool(original_image))
+        self.assertTrue(bool(original_image))
         self.assertEqual(FacebookPhoto.objects.count(), 1)
         self.assertHttpCreated(self.api_client.post('/api/v1/photo/',
                                                     format='json',
@@ -109,7 +112,8 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
         image = FacebookCustomUser.objects.get(pk=self.user.id).image
-        self.assertEqual(image, self.PHOTO_URL1)
+        self.assertEqual(image.url,
+                         '/media/{}'.format(filepath_to_uri(self.PHOTO_URL1)))
 
     def test_delete_detail(self):
         self.response = self.login()
@@ -124,10 +128,16 @@ class TestOnBoardingFlowResource(ResourceTestCase):
 
     def setUp(self):
         super(TestOnBoardingFlowResource, self).setUp()
+        self.PHOTO_URL1 = 'https://scontent-b.xx.fbcdn.net/hphotos-ash2/v/' \
+                          't1.0-9/s130x130/532133_439316379441546_842271884' \
+                          '_n.jpg?oh=67a1455aafe942630ba68e142d3633e3&' \
+                          'oe=54E653FB'
         self.user = FacebookCustomUser.objects.\
-            create_user(username='user_a', password='test')
+            create_user(username='user_a', password='test',
+                        image=self.PHOTO_URL1)
         self.user1 = FacebookCustomUser.objects. \
-            create_user(username='user_b', password='test')
+            create_user(username='user_b', password='test',
+                        image=self.PHOTO_URL1)
         self.flow = OnBoardingFlow.objects.\
             create(user=self.user, is_complete=True)
 

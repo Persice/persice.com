@@ -74,6 +74,7 @@ class FriendsResource(ModelResource):
             bundle = super(FriendsResource, self).obj_create(bundle, **kwargs)
         return bundle
 
+
 class ConnectionsSearchResource(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
@@ -112,10 +113,9 @@ class ConnectionsSearchResource(Resource):
             new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
 
-            if _first_name.lower() <> '' and _first_name.lower() in new_obj.first_name.lower():
+            if _first_name.lower() != '' and \
+                    _first_name.lower() in new_obj.first_name.lower():
                 results.append(new_obj)
-
-
 
         return sorted(results, key=lambda x: x.first_name, reverse=False)
 
@@ -128,6 +128,7 @@ class ConnectionsSearchResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
 
 class ConnectionsResource(Resource):
     id = fields.CharField(attribute='id')
