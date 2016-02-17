@@ -25,18 +25,21 @@ export class MessagesSearchConnections {
 	keyEvent(event) {
 
 		switch (event.keyCode) {
-			case 13://enter
+			case 13:
+				//enter
 				if (this.selectedIndex !== -1) {
 					this.select(this.resultsCache[this.selectedIndex]);
 				}
 				break;
-			case 40://down
+			case 40:
+				//down
 				this.selectedIndex++;
 				if (this.selectedIndex > this.resultsCount - 1) {
 					this.selectedIndex = 0;
 				}
 				break;
-			case 38://up
+			case 38:
+				//up
 				this.selectedIndex--;
 				if (this.selectedIndex < 0) {
 					this.selectedIndex = this.resultsCount - 1;
@@ -44,7 +47,8 @@ export class MessagesSearchConnections {
 				//prevent moving cursor to begining of input
 				event.preventDefault();
 				break;
-			case 27://escape
+			case 27:
+				//escape
 				this.resultsVisible = false;
 				break;
 			default:

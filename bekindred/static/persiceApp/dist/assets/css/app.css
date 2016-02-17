@@ -784,3 +784,23 @@ a.user-listed,
   visibility: visible;
   z-index: 10!important;
 }
+
+.chat-header .tokenfield {
+  padding-top: 16px;
+  display: inline-block;
+  vertical-align: top;
+  width: auto;
+}
+
+.chat-header .tokenfield .token {
+  text-transform: uppercase;
+}
+
+.message-drop__results__result.is-active {
+  text-decoration: none;
+  background-color: #f8fcfd;
+}
+
+.tokenfield .token .close:hover {
+  cursor: pointer!important;
+}
