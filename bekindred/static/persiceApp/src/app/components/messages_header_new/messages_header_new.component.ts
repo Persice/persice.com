@@ -23,9 +23,8 @@ export class MessagesHeaderNewComponent {
   activeToken: number = -1;
 
   ngOnChanges(values) {
-    if(values.initialTokens && values.initialTokens.currentValue[0]) {
+    if (values.initialTokens && values.initialTokens.currentValue[0]) {
       //add initial token;
-      console.log(values.initialTokens);
       this.addToken(values.initialTokens.currentValue[0]);
     }
   }
