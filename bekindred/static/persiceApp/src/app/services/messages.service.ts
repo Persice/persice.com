@@ -22,6 +22,7 @@ export class MessagesService {
 	_myImage = '';
 	_myUri = '';
 	_newMessage = false;
+	_initialLoadingFinished = false;
 
 	constructor(
 		private http: HttpClient
@@ -186,7 +187,8 @@ export class MessagesService {
 		}
 
 		this._loading = false;
-
+		this._total_count = data.meta.total_count;
+		this._initialLoadingFinished = true;
 		if (data.meta.total_count === 0) {
 			this._isListEmpty = true;
 			this._dataStore = [];
@@ -202,7 +204,9 @@ export class MessagesService {
 	private _notify() {
 		this._observer.next({
 			loading: this._loading,
+			initialLoadingFinished: this._initialLoadingFinished,
 			data: this._dataStore,
+			total: this._total_count,
 			finished: this._next === null ? true : false,
 			isEmpty: this._isListEmpty,
 			next: this._next,

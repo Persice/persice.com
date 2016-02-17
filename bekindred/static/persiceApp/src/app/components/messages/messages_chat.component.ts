@@ -1,5 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import {RouteParams, Router} from 'angular2/router';
 
 /**
  * Services
@@ -48,6 +48,7 @@ import {MessagesHeaderComponent} from '../messages_header/messages_header.compon
 export class MessagesChatComponent {
   name: string = '';
   messages: Array<any> = [];
+  totalCount;
   loadingMessages: boolean = false;
   loadingMessagesFinished: boolean = false;
   isMessagesEmpty: boolean = false;
@@ -64,7 +65,8 @@ export class MessagesChatComponent {
     private messagesService: MessagesService,
     private userService: UserAuthService,
     private messagesCounterService: MessagesCounterService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private _router: Router
     ) {
     this.threadId = this._params.get('threadId');
   }
@@ -94,6 +96,10 @@ export class MessagesChatComponent {
       this.hasNew = res.hasNew;
       // this.name = res.name;
       let prevCount = this.messages.length;
+
+      if (res.total === 0 && res.initialLoadingFinished) {
+        this._router.parent.navigate(['/Messages', 'ConversationNewSelected', { friendId: this.threadId }]);
+      }
 
       //when first loading messages, scroll to bottom
       // after initial messages have been rendered

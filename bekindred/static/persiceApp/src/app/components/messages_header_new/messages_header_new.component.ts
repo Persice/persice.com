@@ -17,15 +17,24 @@ const TOKEN_LIMIT: number = 1;
 })
 export class MessagesHeaderNewComponent {
   @Output() selected: EventEmitter<any> = new EventEmitter;
+  @Input() initialTokens;
   tokens: any[] = [];
   searchInputVisible: boolean = true;
   activeToken: number = -1;
+
+  ngOnChanges(values) {
+    if(values.initialTokens && values.initialTokens.currentValue[0]) {
+      //add initial token;
+      console.log(values.initialTokens);
+      this.addToken(values.initialTokens.currentValue[0]);
+    }
+  }
 
   addToken(token) {
     //check if limit is reached
     if (this.tokens.length < TOKEN_LIMIT) {
       //check if token already exists
-      let i = findIndex(this.tokens, { id: token.id });
+      let i = findIndex(this.tokens, { friend_id: token.friend_id });
       if (i === -1) {
         this.tokens = [...this.tokens, token];
         this.activeToken = -1;

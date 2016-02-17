@@ -14,7 +14,7 @@ export class MessagesSearchConnections {
 	searchTerm = new Control();
 	results: Observable<any[]>;
 	resultsVisible: boolean = false;
-	selectedIndex: number = 0;
+	selectedIndex: number = -1;
 	resultsCount: number = 0;
 	resultsCache: any[] = [];
 
@@ -26,7 +26,9 @@ export class MessagesSearchConnections {
 
 		switch (event.keyCode) {
 			case 13://enter
-				this.select(this.resultsCache[this.selectedIndex]);
+				if(this.selectedIndex !== -1) {
+					this.select(this.resultsCache[this.selectedIndex]);
+				}
 				break;
 			case 40://down
 				this.selectedIndex++;
@@ -76,6 +78,7 @@ export class MessagesSearchConnections {
 		return this.http
 			.get(url)
 			.map(request => {
+				this.selectedIndex = -1;
 				let res = request.json();
 				this.resultsCache = res.objects;
 				this.resultsCount = res.meta.total_count;

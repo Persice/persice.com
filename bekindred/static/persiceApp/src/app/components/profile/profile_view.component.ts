@@ -1,5 +1,5 @@
 import {Component, Input, Output} from 'angular2/core';
-import {RouteParams, Router} from 'angular2/router';
+import {RouteParams, Router, ROUTER_DIRECTIVES} from 'angular2/router';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -42,7 +42,8 @@ let view = require('./profile.html');
     ProfileItemsComponent,
     ProfileAcceptPassComponent,
     LoadingComponent,
-    DropdownDirective
+    DropdownDirective,
+    ROUTER_DIRECTIVES
   ],
   providers: [
     ProfileService,
@@ -273,10 +274,6 @@ export class ProfileViewComponent {
       this._router.parent.navigateByUrl('/');
     }
 
-  }
-
-  openMessages(event) {
-    console.log('opening messages');
   }
 
   acceptUser(event) {
