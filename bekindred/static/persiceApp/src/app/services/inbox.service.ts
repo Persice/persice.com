@@ -12,7 +12,7 @@ export class InboxService {
 	_name: string = '';
 	_counter: string = '';
 	_dataStore = [];
-	_limit: number = 12;
+	_limit: number = 100;
 	_next: string = '';
 	_total_count: number = 0;
 	_offset: number = 0;
@@ -59,6 +59,13 @@ export class InboxService {
 
 	public getInbox() {
 		return this._dataStore;
+	}
+
+	public refreshInbox() {
+		this._next = '';
+		this._dataStore = [];
+		this._isListEmpty = false;
+		this._loadInbox(this._limit);
 	}
 
 	public recievedMessage(message) {
