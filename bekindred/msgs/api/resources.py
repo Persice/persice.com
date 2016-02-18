@@ -162,7 +162,13 @@ class InboxLastResource(Resource):
                 except IndexError:
                     continue
             results.append(new_obj)
-        return sorted(results, key=lambda x: x.sent_at, reverse=True)
+
+        try:
+            sender_id = int(request.GET.get('sender_id'))
+            sender_id = '/api/v1/auth/user/{}/'.format(str(sender_id))
+            return filter(lambda x: x.sender_id == sender_id, results)
+        except (TypeError, ValueError):
+            return sorted(results, key=lambda x: x.sent_at, reverse=True)
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
