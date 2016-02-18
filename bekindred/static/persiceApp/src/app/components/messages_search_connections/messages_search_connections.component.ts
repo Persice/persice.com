@@ -34,15 +34,42 @@ export class MessagesSearchConnections {
 			case 40:
 				//down
 				this.selectedIndex++;
+
 				if (this.selectedIndex > this.resultsCount - 1) {
-					this.selectedIndex = 0;
+					this.selectedIndex = this.resultsCount - 1;
 				}
+
+				if (this.selectedIndex !== -1) {
+					setTimeout(() => {
+						let container = jQuery('.message-drop');
+						let scrollTo = jQuery('.message-drop__results__result.is-active');
+						jQuery('.message-drop').scrollTop(
+							scrollTo.offset().top - container.offset().top + container.scrollTop()
+						);
+					});
+
+				}
+
+
+
+
+
 				break;
 			case 38:
 				//up
 				this.selectedIndex--;
 				if (this.selectedIndex < 0) {
-					this.selectedIndex = this.resultsCount - 1;
+					this.selectedIndex = 0;
+				}
+				if (this.selectedIndex !== -1) {
+					setTimeout(() => {
+						let container = jQuery('.message-drop');
+						let scrollTo = jQuery('.message-drop__results__result.is-active');
+						jQuery('.message-drop').scrollTop(
+							scrollTo.offset().top - container.offset().top + container.scrollTop()
+						);
+					});
+
 				}
 				//prevent moving cursor to begining of input
 				event.preventDefault();
