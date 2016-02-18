@@ -58,6 +58,7 @@ export class MessagesNewComponent {
 			let channel = this.messagesService.sendNew(this.tokens[0].friend_id, message)
 				.subscribe(data => {
 					channel.unsubscribe();
+					this.inboxService.refreshInbox();
 					this._router.parent.navigate(['/Messages', 'SingleConversation', { threadId: this.tokens[0].friend_id }]);
 				}, error => console.log('Could not create new message.'));
 		}

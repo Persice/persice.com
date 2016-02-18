@@ -19,7 +19,7 @@
   <link rel="dns-prefetch" href="//www.google-analytics.com">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
   <!-- dev mode -->
-  <!--   <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" />
+<!--   <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/assets/css/app.css" /> -->
   <!-- prod mode -->
   <link rel="stylesheet" href="/static/persiceApp/dist/assets/css/vendor.min.css" />
@@ -67,22 +67,22 @@
     }
   })()
   </script>
-    <script type="text/javascript">
-        window.heap = window.heap || [], heap.load = function(e, t) {
-            window.heap.appid = e, window.heap.config = t = t || {};
-            var n = t.forceSSL || "https:" === document.location.protocol,
-                    a = document.createElement("script");
-            a.type = "text/javascript", a.async = !0, a.src = (n ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + e + ".js";
-            var o = document.getElementsByTagName("script")[0];
-            o.parentNode.insertBefore(a, o);
-            for (var r = function(e) {
-                return function() {
-                    heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
-                }
-            }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = r(p[c])
-        };
-        heap.load("2088770194");
-    </script>
+  <script type="text/javascript">
+  window.heap = window.heap || [], heap.load = function(e, t) {
+    window.heap.appid = e, window.heap.config = t = t || {};
+    var n = t.forceSSL || "https:" === document.location.protocol,
+      a = document.createElement("script");
+    a.type = "text/javascript", a.async = !0, a.src = (n ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + e + ".js";
+    var o = document.getElementsByTagName("script")[0];
+    o.parentNode.insertBefore(a, o);
+    for (var r = function(e) {
+        return function() {
+          heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+        }
+      }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = r(p[c])
+  };
+  heap.load("2088770194");
+  </script>
 </head>
 
 <body>
@@ -99,21 +99,15 @@
   </persice-app>
   <!-- Theme scripts -->
   <script src="https://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places&language=en&key=AIzaSyDFhIBwi7u03g0LpqN7JOkcYsROYwT36Lk"></script>
-  <!--
+  <!--  development only
   <script src="/static/persiceApp/src/assets/js/plugins.min.js"></script>
   <script src="http://localhost:8080/dist/polyfills.bundle.js"></script>
   <script src="http://localhost:8080/dist/main.bundle.js"></script>
-   -->
-  <!-- staging only
+  -->
+  <!-- production only -->
   <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/polyfills.bundle.js"></script>
-  <script src="/static/persiceApp/dist/main.bundle.js"></script>
- -->
-  <!-- production only-->
-  <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/polyfills.4d95ffc958e67619736e.bundle.js"></script>
-  <script src="/static/persiceApp/dist/main.9bbb30e739d24786b7f2.bundle.js"></script>
-
+  <script src="/static/persiceApp/dist/polyfills.bf82796087c29969d582.bundle.js"></script>
+  <script src="/static/persiceApp/dist/main.f64a5fa17a5c2fc8d9a4.bundle.js"></script>
   <script type="text/javascript">
   function createCookie(name, value, days) {
     if (days) {

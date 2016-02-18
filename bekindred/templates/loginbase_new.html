@@ -18,48 +18,6 @@
   <link rel="stylesheet" href="/static/persiceApp/dist/assets/css/vendor.min.css">
   <meta name="description" content="">
   <meta name="author" content="">
-    <script>
-        window.intercomSettings = {
-            app_id: "d1rhvojk",
-            name: "admin", // Full name
-            email: "admin@persice.com", // Email address
-            created_at: Math.floor(Date.now() / 1000) // Signup date as a Unix timestamp
-        };
-    </script>
-    <script>
-        (function() {
-            var w = window;
-            var ic = w.Intercom;
-            if (typeof ic === "function") {
-                ic('reattach_activator');
-                ic('update', intercomSettings);
-            } else {
-                var d = document;
-                var i = function() {
-                    i.c(arguments)
-                };
-                i.q = [];
-                i.c = function(args) {
-                    i.q.push(args)
-                };
-                w.Intercom = i;
-
-                function l() {
-                    var s = d.createElement('script');
-                    s.type = 'text/javascript';
-                    s.async = true;
-                    s.src = 'https://widget.intercom.io/widget/d1rhvojk';
-                    var x = d.getElementsByTagName('script')[0];
-                    x.parentNode.insertBefore(s, x);
-                }
-                if (w.attachEvent) {
-                    w.attachEvent('onload', l);
-                } else {
-                    w.addEventListener('load', l, false);
-                }
-            }
-        })()
-    </script>
     <script type="text/javascript">
         window.heap = window.heap || [], heap.load = function(e, t) {
             window.heap.appid = e, window.heap.config = t = t || {};
