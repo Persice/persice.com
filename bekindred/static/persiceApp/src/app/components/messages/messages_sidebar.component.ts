@@ -45,7 +45,7 @@ export class MessagesSidebarComponent {
   }
 
   ngOnInit() {
-
+    this.messagesCounterService.refreshCounter();
     //subscribe to inbox service updates
     this.inboxServiceInstance = this.inboxService.serviceObserver()
       .subscribe((res) => {
@@ -55,6 +55,8 @@ export class MessagesSidebarComponent {
         this.isInboxEmpty = res.isEmpty;
         this.inboxNext = res.next;
         this.activeThread = res.selected;
+
+        console.log(res);
 
         if (this.loadingInboxFinished === false) {
           jQuery(this.element.nativeElement).bind('scroll', this.handleScrollEvent.bind(this));
@@ -68,11 +70,17 @@ export class MessagesSidebarComponent {
     this.inboxService.startLoadingInbox();
 
     this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
-      this.inboxService.recievedMessage(data);
-      this.inboxService.markRead(this.activeThread);
+
+      if (this.activeThread !== null) {
+        this.inboxService.markRead(this.activeThread);
+      }
+
+
       setTimeout(() => {
+        this.inboxService.addSender(data.friend_id);
         this.messagesCounterService.refreshCounter();
       }, 500);
+
     });
 
   }

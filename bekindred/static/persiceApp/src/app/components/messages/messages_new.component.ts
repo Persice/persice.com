@@ -14,29 +14,29 @@ import {MessagesService} from '../../services/messages.service';
 import {UserAuthService} from '../../services/userauth.service';
 
 @Component({
-	selector: 'messages-new',
-	template: require('./messages_new.html'),
-	directives: [
+ 	selector: 'messages-new',
+ 	template: require('./messages_new.html'),
+ 	directives: [
 		MessagesHeaderNewComponent,
 		MessagesInputComponent
-	],
-	providers: [
+ 	],
+ 	providers: [
 		MessagesService
-	]
+ 	]
 })
 export class MessagesNewComponent {
-	tokens: any[] = [];
-	initialTokens: any[] = [];
-	message: string = '';
-	friendId;
+ 	tokens: any[] = [];
+ 	initialTokens: any[] = [];
+ 	message: string = '';
+ 	friendId;
 
-	constructor(
+ 	constructor(
 		private inboxService: InboxService,
 		private messagesService: MessagesService,
 		private userService: UserAuthService,
 		private _router: Router,
 		private _params: RouteParams
-		) {
+	) {
 		this.friendId = this._params.get('friendId');
 		//preselect a connection
 		if (this.friendId !== null) {
@@ -51,21 +51,21 @@ export class MessagesNewComponent {
 					channel.unsubscribe();
 				}, (err) => console.log('user could not be found'));
 		}
-	}
+ 	}
 
-	sendMessage(message) {
+ 	sendMessage(message) {
 		if (this.tokens.length === 1) {
 			let channel = this.messagesService.sendNew(this.tokens[0].friend_id, message)
 				.subscribe(data => {
 					channel.unsubscribe();
-					this.inboxService.refreshInbox();
+					this.inboxService.addSender(this.tokens[0].friend_id);
 					this._router.parent.navigate(['/Messages', 'SingleConversation', { threadId: this.tokens[0].friend_id }]);
 				}, error => console.log('Could not create new message.'));
 		}
 
-	}
+ 	}
 
-	routerOnActivate(nextInstruction, prevInstruction) {
+ 	routerOnActivate(nextInstruction, prevInstruction) {
 		this.inboxService.deselectThreads();
-	}
+ 	}
 }
