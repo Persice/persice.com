@@ -39,7 +39,7 @@ export class MessagesSearchConnections {
 					this.selectedIndex = this.resultsCount - 1;
 				}
 
-				if (this.selectedIndex !== -1) {
+				if (this.selectedIndex > 3) {
 					setTimeout(() => {
 						let container = jQuery('.message-drop');
 						let scrollTo = jQuery('.message-drop__results__result.is-active');

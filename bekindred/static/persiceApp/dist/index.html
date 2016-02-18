@@ -5,11 +5,11 @@
 <html class="no-js" lang="en">
 <!--<![endif]-->
 <head>
-  <title>Persice</title>
+  <title>{%= o.webpackConfig.metadata.title %}</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Persice">
+  <meta name="description" content="{%= o.webpackConfig.metadata.title %}">
   <link rel="dns-prefetch" href="//ajax.googleapis.com">
   <link rel="dns-prefetch" href="//fonts.googleapis.com">
   <link rel="dns-prefetch" href="//themes.googleusercontent.com">
@@ -17,11 +17,13 @@
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
 
   <!-- base url -->
-  <base href="/">
+  <base href="{%= o.webpackConfig.metadata.baseUrl %}">
 
   <link rel="stylesheet" href="/assets/css/screen.css" />
   <link rel="stylesheet" href="/assets/css/app.css" />
-  
+  {% for (var css in o.htmlWebpackPlugin.files.css) { %}
+  <link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
+  {% } %}
 </head>
 
 <body>
@@ -44,16 +46,15 @@
   <script src="/assets/js/plugins.min.js"></script>
 
 
-  
+  {% if (o.webpackConfig.metadata.ENV === 'development') { %}
+  <!-- Webpack Dev Server reload -->
+  <script src="http://{%= o.webpackConfig.metadata.host %}:{%= o.webpackConfig.metadata.port %}/webpack-dev-server.js"></script>
+  {% } %}
 
   <!-- Webpack HtmlWebpackPlugin manually inject scripts -->
-  
-  <script src="polyfills.bf82796087c29969d582.bundle.js"></script>
-  
-  <script src="signup.0470787f4e4eefc9a7c3.bundle.js"></script>
-  
-  <script src="main.f64a5fa17a5c2fc8d9a4.bundle.js"></script>
-  
+  {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+  <script src="{%= o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+  {% } %}
 
 
   <script type="text/javascript">
@@ -73,6 +74,6 @@
     }
   </script>
 
-</body>
+<script src="polyfills.57002298edcf6ca29041.bundle.js"></script><script src="signup.0470787f4e4eefc9a7c3.bundle.js"></script><script src="main.160f05c4ae6aad9b3ddd.bundle.js"></script></body>
 
 </html>

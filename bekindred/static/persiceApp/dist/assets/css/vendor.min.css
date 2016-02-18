@@ -13371,6 +13371,11 @@ a.user-listed,
   text-transform: uppercase;
 }
 
+.message-drop {
+  overflow-y: scroll;
+  max-height: 388px;
+}
+
 .message-drop__results__result.is-active {
   text-decoration: none;
   background-color: #f8fcfd;
