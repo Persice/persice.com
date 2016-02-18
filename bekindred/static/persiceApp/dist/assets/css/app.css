@@ -804,3 +804,26 @@ a.user-listed,
 .tokenfield .token .close:hover {
   cursor: pointer!important;
 }
+
+.interest-list {
+  list-style-type: none!important;
+}
+
+.interest-list li.interest-list-match {
+  list-style-type: circle!important;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  color: #63727a;
+}
+
+.interest-list li {
+  list-style-type: none!important;
+}
+
+.features-list li {
+  list-style-position: inside;
+}
+
+.features-list__match {
+  list-style-type: circle!important;
+}
