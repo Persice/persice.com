@@ -60,6 +60,7 @@ export class EventComponent {
     username: ''
   };
   info = {
+    spots_remaining: 0,
     name: '',
     city: '',
     location_name: '',
@@ -174,6 +175,7 @@ export class EventComponent {
     let resp = res;
     this.event = resp;
     this.info = {
+      spots_remaining: resp.spots_remaining,
       name: resp.name,
       city: resp.city,
       location_name: resp.location_name,

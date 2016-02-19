@@ -38,7 +38,7 @@
           <h2 class="single-title mb-">{{info.name}}</h2>
           <p class="single-title-subinfo">{{info.location_name}} <span *ngIf="info.city !== ''">/</span> {{info.city}} {{info.state}}</p>
           <p class="single-title-subinfo">{{info.distance[0]}} {{info.distance[1]}} from you</p>
-          <div class="event-status-cropper"> <span class="event-status">Sold out</span> </div>
+          <div class="event-status-cropper" *ngIf="info.spots_remaining !== null && info.spots_remaining <= 0"> <span class="event-status">Sold out</span> </div>
         </div>
         <div class="layout__item" [ngClass]="{'2/5': !host, '7/9': host}">
           <p class="opento-label">Open to</p>
