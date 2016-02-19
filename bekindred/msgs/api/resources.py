@@ -68,6 +68,7 @@ class MessageResource(ModelResource):
 
         data['sent_at'] = str(bundle.obj.sent_at.isoformat())
         data['sender_image'] = str(bundle.obj.sender.image)
+        data['friend_id'] = str(bundle.obj.sender.id)
         data['sender_name'] = str(bundle.obj.sender.first_name.encode('utf8'))
         data['sender_sender'] = str(bundle.obj.sender.username)
         r.publish('message.%s' % user.id, json.dumps(data))
