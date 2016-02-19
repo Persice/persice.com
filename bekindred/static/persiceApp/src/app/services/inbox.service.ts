@@ -92,6 +92,8 @@ export class InboxService {
 				let idx = ListUtil.findIndex(this._dataStore, { 'threadId': item.threadId });
 				if (idx === -1) {
 					this._dataStore = [item, ...this._dataStore];
+					this._counter = this._counter + 1;
+					this._updateCounter();
 				}
 				else {
 					this._dataStore[idx] = item;
@@ -99,8 +101,7 @@ export class InboxService {
 
 				this._dataStore = ListUtil.orderBy(this._dataStore, ['date'], ['desc']);
 
-				this._counter = this._counter + 1;
-				this._updateCounter();
+
 
 				this._notify();
 
