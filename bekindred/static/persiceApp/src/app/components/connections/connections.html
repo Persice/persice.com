@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="layout__item 1/4 extralarge-and-up-1/5 filter-place">
-    <filters></filters>
+    <filters [type]="'connections'"></filters>
   </div>
 </div>
 <profile-friend [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousProfile($event)" (nextEvent)="nextProfile($event)" *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)">

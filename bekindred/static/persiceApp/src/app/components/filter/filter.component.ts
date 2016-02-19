@@ -24,6 +24,7 @@ declare var jQuery: any;
 })
 export class FilterComponent {
   @Input() showGender = true;
+  @Input() type;
   filters: FilterModel;
   defaultState: InterfaceFilter;
   gender: string = 'm,f';
@@ -35,7 +36,7 @@ export class FilterComponent {
   renderSlider: boolean = false;
   orderBy: Array<Object> = [
     {
-      'label': 'Match Score',
+      'label': 'Similarity',
       'value': 'match_score',
       'selected': false
     },
@@ -92,6 +93,13 @@ export class FilterComponent {
       });
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
+  }
+
+  ngOnInit() {
+    //change date label if page is crowd or connections
+    if (this.type === 'crowd' || this.type === 'connections') {
+      this.orderBy[2]['label'] = 'Recently Active';
+    }
   }
 
   changeGender(value) {
