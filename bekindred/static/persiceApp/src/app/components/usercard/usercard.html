@@ -6,7 +6,7 @@
   <div class="avatar-box mb" (click)="userClicked($event)">
     <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + user.image + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
       <div class="avatar-box__match-percents">
-        <span class="avatar-box__match-percents__value">{{user.score}}</span>
+        <span class="avatar-box__match-percents__value">{{user.score}}&deg;</span>
         <span class="avatar-box__match-percents__label">Similar</span>
       </div>
     </div>
