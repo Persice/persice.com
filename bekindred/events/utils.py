@@ -1,4 +1,6 @@
-from events.models import Membership, CumulativeMatchScore
+from guardian.shortcuts import assign_perm
+
+from events.models import Membership, CumulativeMatchScore, Event
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 
@@ -53,3 +55,11 @@ class ResourseObject(object):
 class Struct(object):
     def __init__(self, **entries):
         self.__dict__.update(entries)
+
+
+def update_event_permission():
+    public_events = Event.objects.filter(access_level='public')
+    users = FacebookCustomUserActive.objects.all()
+    for user in users:
+        for event in public_events:
+            assign_perm('view_event', user, event)

@@ -299,17 +299,17 @@ class EventResource(MultiPartResource, ModelResource):
         organizer = event.membership_set.filter(is_organizer=True)[0]
         recipients = FacebookCustomUserActive.objects. \
             filter(id__in=members.values_list('user_id', flat=True))
-        data = {'event_name': event.name,
-                'event_start_date': str(event.starts_on),
-                'event_organizer_name': organizer.user.first_name}
+        data = {u'event_name': unicode(event.name),
+                u'event_start_date': unicode(event.starts_on),
+                u'event_organizer_name': unicode(organizer.user.first_name)}
 
         for recipient in recipients:
-            message_data = {'sent_at': now().isoformat(),
-                            'sender': '/api/auth/user/{}/'.format(
+            message_data = {u'sent_at': now().isoformat(),
+                            u'sender': '/api/auth/user/{}/'.format(
                                 organizer.user.id),
-                            'recipient': '/api/auth/user/{}/'.format(
+                            u'recipient': '/api/auth/user/{}/'.format(
                                 recipient.id),
-                            'body': """
+                            u'body': u"""
                                     The event {event_name} on {event_start_date} has been
                                     cancelled by {event_organizer_name},
                                     the event host. We apologize for any inconvenience.
