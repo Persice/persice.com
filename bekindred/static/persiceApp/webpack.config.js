@@ -36,6 +36,7 @@ module.exports = {
   // Config for our build files
   output: {
     path: root('dist'),
+    publicPath: 'http://localhost:8080/',
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
     chunkFilename: '[id].chunk.js'
@@ -53,8 +54,7 @@ module.exports = {
       // TODO(): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
       // {
       //   test: /\.js$/,
-      //   loader: "source-map-loader",
-      //   exclude: [root('node_modules/rxjs')]
+      //   loader: "source-map-loader"
       // }
     ],
     loaders: [
@@ -137,9 +137,6 @@ module.exports = {
   devServer: {
     port: metadata.port,
     host: metadata.host,
-    inline: true,
-    contentBase: 'src/assets',
-    publicPath: '/dist',
     historyApiFallback: true,
     watchOptions: {
       aggregateTimeout: 300,
