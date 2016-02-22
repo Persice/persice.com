@@ -36,10 +36,15 @@ let view = require('./messages.html');
 		name: 'SingleConversation'
 	},
 	{
-		path: '/new',
+		path: '/new/',
 		component: MessagesNewComponent,
 		name: 'ConversationNew',
 		useAsDefault: true
+	},
+	{
+		path: '/new/:friendId',
+		component: MessagesNewComponent,
+		name: 'ConversationNewSelected',
 	}
 ])
 export class MessagesComponent {

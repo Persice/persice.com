@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="layout__item 1/4 extralarge-and-up-1/5 filter-place">
-    <filters></filters>
+    <filters [type]="'crowd'"></filters>
   </div>
 </div>
 <profile-crowd *ngIf="profileViewActive" [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousProfile($event)" (nextEvent)="nextProfile($event)"  [user]="selectedUser" (closeprofileEvent)="closeProfile($event)" (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)">

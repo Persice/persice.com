@@ -74,7 +74,7 @@
             </div>
             <div class="layout__item text-right" [ngClass]="{'1/2': profileType === 'crowd', '4/10': profileType === 'friend' }">
               <profile-acceptpass *ngIf="profileType === 'crowd'" [user]="profileId" (acceptEvent)="acceptUser($event)" (passEvent)="passUser($event)"></profile-acceptpass>
-              <a class="user-messages mr-" (click)="openMessages($event)" *ngIf="profileType === 'friend'">
+              <a class="user-messages mr-" [routerLink]="['/Messages', 'SingleConversation', {threadId: profileId} ]" *ngIf="profileType === 'friend'">
                 <svg role="img" class="icon ">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-menu-messages"></use>
                 </svg>

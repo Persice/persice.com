@@ -22,6 +22,7 @@ export class MessagesService {
 	_myImage = '';
 	_myUri = '';
 	_newMessage = false;
+	_initialLoadingFinished = false;
 
 	constructor(
 		private http: HttpClient
@@ -36,6 +37,9 @@ export class MessagesService {
 	}
 
 	public send(id, message) {
+		if (this._senderUri === '') {
+			this._senderUri = `/api/v1/auth/user/${id}/`;
+		}
 		let url = `${MessagesService.API_URL}?format=json`;
 		let sendData = {
 			body: message,
@@ -48,6 +52,20 @@ export class MessagesService {
 				this._appendMessage(data);
 				channel.unsubscribe();
 			}, error => console.log('Could not create message.'));
+	}
+
+	public sendNew(id, message): Observable<any> {
+		if (this._senderUri === '') {
+			this._senderUri = `/api/v1/auth/user/${id}/`;
+		}
+		let url = `${MessagesService.API_URL}?format=json`;
+		let sendData = {
+			body: message,
+			recipient: this._senderUri,
+			sender: this._myUri
+		};
+		return this.http.post(url, JSON.stringify(sendData), OPTS_REQ_JSON_CSRF)
+			.map(response => response.json());
 	}
 
 	public serviceObserver(): Subject<any> {
@@ -169,7 +187,8 @@ export class MessagesService {
 		}
 
 		this._loading = false;
-
+		this._total_count = data.meta.total_count;
+		this._initialLoadingFinished = true;
 		if (data.meta.total_count === 0) {
 			this._isListEmpty = true;
 			this._dataStore = [];
@@ -185,7 +204,9 @@ export class MessagesService {
 	private _notify() {
 		this._observer.next({
 			loading: this._loading,
+			initialLoadingFinished: this._initialLoadingFinished,
 			data: this._dataStore,
+			total: this._total_count,
 			finished: this._next === null ? true : false,
 			isEmpty: this._isListEmpty,
 			next: this._next,

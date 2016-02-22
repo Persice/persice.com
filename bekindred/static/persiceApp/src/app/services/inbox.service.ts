@@ -3,6 +3,7 @@ import {Http} from 'angular2/http';
 import {HttpClient} from '../core/http_client';
 import {StringUtil, DateUtil, ListUtil} from '../core/util';
 import {Observable, Subject} from 'rxjs';
+import {find} from 'lodash';
 
 @Injectable()
 export class InboxService {
@@ -43,8 +44,8 @@ export class InboxService {
 	}
 
 	public select(id) {
-		this._selectedThread = id;
-		this.markRead(id);
+		this._selectedThread = parseInt(id, 10);
+		this.markRead(parseInt(id, 10));
 	}
 
 
@@ -61,20 +62,58 @@ export class InboxService {
 		return this._dataStore;
 	}
 
-	public recievedMessage(message) {
-		for (var i = 0; i < this._dataStore.length; ++i) {
+	public refreshInbox() {
+		this._next = '';
+		this._dataStore = [];
+		this._isListEmpty = false;
+		this._loadInbox(this._limit);
+	}
 
-			if (this._dataStore[i].senderId === message.sender) {
-				this._dataStore[i].body = StringUtil.words(message.body, 50);
-				this._dataStore[i].sentAt = DateUtil.fromNow(message.sent_at);
+	public addSender(id) {
+		let url = `${InboxService.API_URL}?format=json&sender_id=${id}`;
+		let channel = this.http.get(url)
+			.map((res: any) => res.json())
+			.subscribe((data: any) => {
+				let item = {
+					name: data.objects[0].first_name,
+					threadId: parseInt(data.objects[0].friend_id, 10),
+					facebookId: data.objects[0].facebook_id,
+					image: data.objects[0].image,
+					senderId: data.objects[0].sender_id !== null ? data.objects[0].sender_id : '/api/v1/auth/user/' + data.objects[0].friend_id + '/',
+					sentAt: data.objects[0].sent_at !== null ? (DateUtil.isBeforeToday(data.objects[0].sent_at) ? DateUtil.format(data.objects[0].sent_at, 'll') : DateUtil.fromNow(data.objects[0].sent_at)) : '',
+					date: data.objects[0].sent_at !== null ? data.objects[0].sent_at : '',
+					readAt: data.objects[0].read_at,
+					id: data.objects[0].id,
+					unread: data.objects[0].unread_counter !== null && data.objects[0].unread_counter > 0 ? true : false,
+					unreadCounter: data.objects[0].unread_counter,
+					body: data.objects[0].last_message_body !== null ? StringUtil.words(data.objects[0].last_message_body, 50) : ''
+				};
 
-				if (this._dataStore[i].threadId !== this._selectedThread) {
-					this._dataStore[i].unread = true;
-					this._dataStore[i].unreadCounter++;
+				let idx = ListUtil.findIndex(this._dataStore, { 'threadId': item.threadId });
+				if (idx === -1) {
+					this._dataStore = [item, ...this._dataStore];
+					this._counter = this._counter + 1;
+					this._updateCounter();
 				}
-			}
-		}
-		this._notify();
+				else {
+					this._dataStore[idx] = item;
+				}
+
+				this._dataStore = ListUtil.orderBy(this._dataStore, ['date'], ['desc']);
+
+
+
+				this._notify();
+
+				channel.unsubscribe();
+			},
+			(error) => {
+				console.log(`Could not load last message for one sender ${error}`);
+			},
+			() => {
+
+			});
+
 	}
 
 	public markRead(sender) {
@@ -85,7 +124,7 @@ export class InboxService {
 			.subscribe((data: any) => {
 
 				for (var i = 0; i < this._dataStore.length; ++i) {
-					if (this._dataStore[i].threadId === sender) {
+					if (this._dataStore[i].threadId === parseInt(sender, 10)) {
 						this._dataStore[i].unread = false;
 						this._dataStore[i].unreadCounter = 0;
 					}
@@ -151,23 +190,30 @@ export class InboxService {
 
 	private _parseData(data) {
 		for (var i = 0; i < data.objects.length; ++i) {
-				//add user to list if we have new messages
-				let item = {
-					name: data.objects[i].first_name,
-					threadId: data.objects[i].friend_id,
-					facebookId: data.objects[i].facebook_id,
-					image: data.objects[i].image,
-					senderId: data.objects[i].sender_id !== null ? data.objects[i].sender_id : '/api/v1/auth/user/' + data.objects[i].friend_id + '/',
-					sentAt: data.objects[i].sent_at !== null ? DateUtil.fromNow(data.objects[i].sent_at) : '',
-					readAt: data.objects[i].read_at,
-					id: data.objects[i].id,
-					unread: data.objects[i].read_at !== null ? false : true,
-					unreadCounter: data.objects[i].unread_counter,
-					body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
-				};
-				this._dataStore = [...this._dataStore, item];
+			let item = {
+				name: data.objects[i].first_name,
+				threadId: parseInt(data.objects[i].friend_id, 10),
+				facebookId: data.objects[i].facebook_id,
+				image: data.objects[i].image,
+				senderId: data.objects[i].sender_id !== null ? data.objects[i].sender_id : '/api/v1/auth/user/' + data.objects[i].friend_id + '/',
+				sentAt: data.objects[i].sent_at !== null ? (DateUtil.isBeforeToday(data.objects[i].sent_at) ? DateUtil.format(data.objects[i].sent_at, 'll') : DateUtil.fromNow(data.objects[i].sent_at)) : '',
+				readAt: data.objects[i].read_at,
+				date: data.objects[i].sent_at !== null ? data.objects[0].sent_at : '',
+				id: data.objects[i].id,
+				unread: data.objects[i].unread_counter !== null && data.objects[i].unread_counter > 0 ? true : false,
+				unreadCounter: data.objects[i].unread_counter,
+				body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
+			};
 
+			let idx = ListUtil.findIndex(this._dataStore, { 'threadId': item.threadId });
+			if (idx === -1) {
+				this._dataStore = [...this._dataStore, item];
+			}
+			else {
+				this._dataStore[idx] = item;
+			}
 		}
+		this._dataStore = ListUtil.orderBy(this._dataStore, ['date'], ['desc']);
 		this._loading = false;
 		this._counter = data.meta.total_count;
 		this._updateCounter();

@@ -60,6 +60,7 @@ export class EventComponent {
     username: ''
   };
   info = {
+    spots_remaining: 0,
     name: '',
     city: '',
     location_name: '',
@@ -70,7 +71,15 @@ export class EventComponent {
       hour: '',
       day: '',
       month: '',
-      year: ''
+      year: '',
+      dayName: ''
+    },
+    endDate: {
+      hour: '',
+      day: '',
+      month: '',
+      year: '',
+      dayName: ''
     },
     repeat: 'Repeats Weekly',
     timezone: DateUtil.localTimezone()
@@ -166,6 +175,7 @@ export class EventComponent {
     let resp = res;
     this.event = resp;
     this.info = {
+      spots_remaining: resp.spots_remaining,
       name: resp.name,
       city: resp.city,
       location_name: resp.location_name,
@@ -173,10 +183,18 @@ export class EventComponent {
       distance: resp.distance,
       openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
-        hour: DateUtil.format(resp.starts_on, 'h:mm A'),
+        hour: DateUtil.format(resp.starts_on, 'hA'),
         day: DateUtil.format(resp.starts_on, 'D'),
+        dayName: DateUtil.format(resp.starts_on, 'dddd'),
         month: DateUtil.format(resp.starts_on, 'MMM'),
         year: DateUtil.format(resp.starts_on, 'YYYY')
+      },
+      endDate: {
+        hour: DateUtil.format(resp.ends_on, 'hA'),
+        day: DateUtil.format(resp.ends_on, 'D'),
+        dayName: DateUtil.format(resp.ends_on, 'dddd'),
+        month: DateUtil.format(resp.ends_on, 'MMM'),
+        year: DateUtil.format(resp.ends_on, 'YYYY')
       },
       repeat: 'Repeats Weekly',
       timezone: DateUtil.localTimezone()
@@ -281,7 +299,7 @@ export class EventComponent {
   }
 
   goBack(event) {
-     let uri = this.historyService.getPrev();
+    let uri = this.historyService.getPrev();
     if (uri !== '') {
       this.router.parent.navigateByUrl(uri);
     }

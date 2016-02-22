@@ -21,11 +21,68 @@
   <!-- dev mode-->
   <!-- <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" /> -->
   <!-- <link rel="stylesheet" href="/static/persiceApp/src/assets/css/app.css" /> -->
-
   <!-- prod mode  -->
   <link rel="stylesheet" href="/static/persiceApp/dist/assets/css/vendor.min.css" />
   <meta name="description" content="">
   <meta name="author" content="">
+  <script>
+  window.intercomSettings = {
+      app_id: "d1rhvojk",
+      name: "{{user.first_name}} {{user.last_name}}", // Full name
+      email: "{{user.email}}", // Email address
+      created_at: Math.floor({{user.date_joined | date:"U"}}) // Signup date as a Unix timestamp
+  };
+  </script>
+  <script>
+  (function() {
+    var w = window;
+    var ic = w.Intercom;
+    if (typeof ic === "function") {
+      ic('reattach_activator');
+      ic('update', intercomSettings);
+    } else {
+      var d = document;
+      var i = function() {
+        i.c(arguments)
+      };
+      i.q = [];
+      i.c = function(args) {
+        i.q.push(args)
+      };
+      w.Intercom = i;
+
+      function l() {
+        var s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://widget.intercom.io/widget/d1rhvojk';
+        var x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      }
+      if (w.attachEvent) {
+        w.attachEvent('onload', l);
+      } else {
+        w.addEventListener('load', l, false);
+      }
+    }
+  })()
+  </script>
+  <script type="text/javascript">
+  window.heap = window.heap || [], heap.load = function(e, t) {
+    window.heap.appid = e, window.heap.config = t = t || {};
+    var n = t.forceSSL || "https:" === document.location.protocol,
+      a = document.createElement("script");
+    a.type = "text/javascript", a.async = !0, a.src = (n ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + e + ".js";
+    var o = document.getElementsByTagName("script")[0];
+    o.parentNode.insertBefore(a, o);
+    for (var r = function(e) {
+        return function() {
+          heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+        }
+      }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = r(p[c])
+  };
+  heap.load("2088770194");
+  </script>
 </head>
 
 <body>
@@ -45,17 +102,11 @@
   <script src="/static/persiceApp/src/assets/js/plugins.min.js"></script>
   <script src="http://localhost:8080/dist/polyfills.bundle.js"></script>
   <script src="http://localhost:8080/dist/signup.bundle.js"></script>
--->
-  <!-- staging only
-  <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/polyfills.bundle.js"></script>
-  <script src="/static/persiceApp/dist/signup.bundle.js"></script>
--->
+  -->
   <!-- production only-->
   <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/polyfills.3f60b5f4264a238c7782.bundle.js"></script>
+  <script src="/static/persiceApp/dist/polyfills.3502fef4dd583ec87233.bundle.js"></script>
   <script src="/static/persiceApp/dist/signup.0470787f4e4eefc9a7c3.bundle.js"></script>
-
   <script type="text/javascript">
   function createCookie(name, value, days) {
     if (days) {

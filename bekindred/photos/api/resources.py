@@ -171,11 +171,15 @@ class FacebookPhotoResource(ModelResource):
                 bundle.data.get('cropped_photo')
             )
             user.image.save(image_name, image_file)
+            image_url = user.image.url
+            return image_url
 
     def obj_create(self, bundle, **kwargs):
-        FacebookPhotoResource.update_profile_photo(bundle)
+        image_url = FacebookPhotoResource.update_profile_photo(bundle)
+        bundle.data['cropped_photo'] = image_url if image_url else bundle.data['photo']
         return super(FacebookPhotoResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        FacebookPhotoResource.update_profile_photo(bundle)
+        image_url = FacebookPhotoResource.update_profile_photo(bundle)
+        bundle.data['cropped_photo'] = image_url if image_url else bundle.data['photo']
         return super(FacebookPhotoResource, self).obj_update(bundle, **kwargs)

@@ -15,7 +15,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
         </div>
         <div class="layout__item 1/2">
           <a (click)="acceptUser($event)" class="btn btn-1 btn-1--green btn--full btn--activate js-accept">
-            <div class="btn--activate__label">Accept</div>
+            <div class="btn--activate__label">Connect</div>
             <svg role="img" class="icon ">
               <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-accepted"></use>
             </svg>

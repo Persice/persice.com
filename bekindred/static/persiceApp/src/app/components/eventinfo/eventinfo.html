@@ -4,13 +4,16 @@
       <div class="date-and-price">
         <div class="event-date-place">
           <time class="event-date">
-            <span class="event-date__predate">{{info.startDate.month}}, {{info.startDate.year}}</span>
-            <span class="event-date__date">{{info.startDate.day}}</span>
+            <span class="event-date__date">{{info.startDate.month}} {{info.startDate.day}}</span>
+            <span class="event-date__year">{{info.startDate.year}}</span>
           </time>
-          <p class="event-date-from-to">{{info.startDate.hour}} / {{info.timezone}}</p>
-          <p class="event-date-repeats">(Repeats weekly)</p>
+          <!-- <p class="event-date-repeats">(Repeats weekly)</p> -->
         </div>
         <div class="event-price">
+          <span class="event-day">{{info.startDate.dayName}}</span>
+          <span class="event-time">{{info.startDate.hour}} &ndash; {{info.endDate.hour}} / {{info.timezone}}</span>
+        </div>
+        <!--  <div class="event-price">
           <div class="layout layout--middle">
             <div class="layout__item 1/1 mb0">
               <p class="event-price__title">Cost <span class="event-price__title-fade">/ in advance</span></p>
@@ -26,7 +29,7 @@
              </span>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="layout__item 3/4 p">
@@ -35,6 +38,7 @@
           <h2 class="single-title mb-">{{info.name}}</h2>
           <p class="single-title-subinfo">{{info.location_name}} <span *ngIf="info.city !== ''">/</span> {{info.city}} {{info.state}}</p>
           <p class="single-title-subinfo">{{info.distance[0]}} {{info.distance[1]}} from you</p>
+          <div class="event-status-cropper" *ngIf="info.spots_remaining !== null && info.spots_remaining <= 0"> <span class="event-status">Sold out</span> </div>
         </div>
         <div class="layout__item" [ngClass]="{'2/5': !host, '7/9': host}">
           <p class="opento-label">Open to</p>

@@ -1,0 +1,18 @@
+<header class="chat-header has-message-drop">
+  <div class="layout layout--middle">
+    <div class="layout__item">
+      <div class="has-input-left-labeled has-input-left-labeled--big">
+        <label class="left-labeled-label" for="">To:&nbsp;</label>
+        <div class="tokenfield" *ngIf="tokens.length > 0">
+          <div class="token" *ngFor="#token of tokens; #i = index;" (click)="activeToken = i" [ngClass]="{'active': activeToken === i}">
+            <span class="token-label">{{token.first_name}}</span>
+            <a (click)="removeToken(i)" class="close">×</a>
+          </div>
+        </div>
+        <div class="left-labeled-input" [ngClass]="{'is-hidden': !searchInputVisible}">
+          <messages-search-connections (selected)="addToken($event)"></messages-search-connections>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

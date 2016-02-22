@@ -1,4 +1,5 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -35,7 +36,8 @@ let view = require('./profile.html');
     ProfileNetworksComponent,
     ProfileItemsComponent,
     DropdownDirective,
-    LoadingComponent
+    LoadingComponent,
+    ROUTER_DIRECTIVES
   ],
   providers: [
     PhotosService,

@@ -2,7 +2,6 @@
  * Angular 2 decorators and services
  */
 import {Component, NgZone, ViewEncapsulation, Injectable, Type} from 'angular2/core';
-import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * Angular Directives

@@ -89,29 +89,38 @@ class TestInboxLastResource(ResourceTestCase):
 
     def setUp(self):
         super(TestInboxLastResource, self).setUp()
+        self.maxDiff = None
         self.user = FacebookCustomUser.objects.create_user(
             username='user_a', password='test', facebook_id=12345)
         self.user1 = FacebookCustomUser.objects.create_user(
             username='user_b', password='test', facebook_id=12346)
         self.user2 = FacebookCustomUser.objects.create_user(
             username='user_c', password='test', facebook_id=12347)
+        self.user3 = FacebookCustomUser.objects.create_user(
+            username='user_d', password='test', facebook_id=12348)
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
+        Friend.objects.create(friend1=self.user1, friend2=self.user2, status=1)
         for x in range(10):
             pm_write(self.user1, self.user, 'test %s' % x)
         for x in range(10):
             pm_write(self.user2, self.user, 'test %s' % x)
+        for x in range(10):
+            pm_write(self.user3, self.user, 'test %s' % x)
 
         self.resource_url = '/api/v1/inbox/last/'
 
-    def login(self):
+    def login(self, user):
+        data = {'username': user.username,
+                'password': 'test'}
         return self.api_client.client.post(
-            '/login/', {'username': 'user_a', 'password': 'test'})
+            '/login/', data)
 
     def test_get_list_unauthorzied(self):
         self.assertHttpUnauthorized(self.api_client.get(self.resource_url, format='json'))
 
-    def test_get_list(self):
-        self.response = self.login()
+    def test_get_list_message_user(self):
+        self.response = self.login(self.user)
         resp = self.api_client.get(self.resource_url, format='json')
         expected_last_message = {
             'facebook_id': u'12346',
@@ -125,12 +134,48 @@ class TestInboxLastResource(ResourceTestCase):
             'sender_id': u'/api/v1/auth/user/{}/'.format(self.user1.id),
             'unread_counter': 10
         }
-        actual_response = self.deserialize(resp)['objects'][0]
+        actual_response = self.deserialize(resp)['objects'][1]
         # Remove sent_at
         del actual_response['sent_at']
         del actual_response['resource_uri']
         del actual_response['id']
         self.assertEqual(actual_response, expected_last_message)
+
+    def test_get_list_message_user1(self):
+        self.response = self.login(self.user1)
+        resp = self.api_client.get(self.resource_url, format='json')
+        expected_last_message = {
+            u'facebook_id': u'12345',
+            u'first_name': u'',
+            u'friend_id': u'{}'.format(self.user.id),
+            u'image': None,
+            u'last_message_body': None,
+            u'last_name': u'',
+            u'read_at': None,
+            u'recipient_id': u'/api/v1/auth/user/{}/'.format(self.user.id),
+            u'sender_id': u'/api/v1/auth/user/{}/'.format(self.user1.id),
+            u'unread_counter': 0
+        }
+        actual_response = self.deserialize(resp)['objects'][0]
+        del actual_response['resource_uri']
+        del actual_response['id']
+        del actual_response['sent_at']
+        self.assertEqual(actual_response, expected_last_message)
+
+    def test_get_list_no_messages(self):
+        self.response = self.login(self.user2)
+        resp = self.api_client.get(self.resource_url, format='json')
+        actual_response = self.deserialize(resp)['objects']
+        self.assertEqual(len(actual_response), 0)
+
+    def test_sorted(self):
+        self.response = self.login(self.user)
+        resp = self.api_client.get(self.resource_url, format='json')
+        actual_response = self.deserialize(resp)['objects']
+        self.assertEqual(actual_response[0]['sender_id'],
+                         u'/api/v1/auth/user/{}/'.format(self.user3.id))
+        self.assertEqual(actual_response[1]['sender_id'],
+                         u'/api/v1/auth/user/{}/'.format(self.user1.id))
 
 
 class TestUnreadMessageCounter(ResourceTestCase):

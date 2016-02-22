@@ -784,3 +784,51 @@ a.user-listed,
   visibility: visible;
   z-index: 10!important;
 }
+
+.chat-header .tokenfield {
+  padding-top: 16px;
+  display: inline-block;
+  vertical-align: top;
+  width: auto;
+}
+
+.chat-header .tokenfield .token {
+  text-transform: uppercase;
+}
+
+.message-drop {
+  overflow-y: scroll;
+  max-height: 388px;
+}
+
+.message-drop__results__result.is-active {
+  text-decoration: none;
+  background-color: #f8fcfd;
+}
+
+.tokenfield .token .close:hover {
+  cursor: pointer!important;
+}
+
+.interest-list,
+.features-list {
+  list-style-type: none!important;
+  list-style-position: inside!important;
+}
+
+.interest-list li.interest-list-match {
+  list-style-type: circle!important;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  color: #63727a;
+}
+
+.interest-list li,
+.features-list li {
+  list-style-type: none!important;
+}
+
+li.features-list__match {
+  list-style-type: circle!important;
+  padding-left: 5px!important;
+}

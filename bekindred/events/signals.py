@@ -7,7 +7,6 @@ from django.db.models import signals
 from django.db.models.signals import post_save
 from django_facebook.models import FacebookCustomUser
 from guardian.shortcuts import assign_perm
-from django_facebook.signals import facebook_post_update
 
 from events.models import Membership, Event
 from events.tasks import update_index_delay
