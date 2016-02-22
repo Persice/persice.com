@@ -20,7 +20,7 @@
     "build:prod": "webpack --config webpack.prod.config.js --progress --profile --colors --display-error-details --display-cached",
     "server": "npm run server:dev",
     "server:json": "./node_modules/.bin/json-server --watch ./jsonapi/db.json --port 1337 -d 1000",
-    "server:dev": "webpack-dev-server --inline --progress --profile --colors --display-error-details --display-cached  --content-base src/",
+    "server:dev": "webpack-dev-server --hot --inline --progress --profile --colors --watch --display-error-details --display-cached  --content-base src/",
     "server:prod": "http-server dist --cors",
     "webdriver:update": "webdriver-manager update",
     "webdriver:start": "webdriver-manager start",
@@ -45,7 +45,7 @@
   },
   "homepage": "https://persice.com",
   "dependencies": {
-    "angular2": "2.0.0-beta.6",
+    "angular2": "2.0.0-beta.7",
     "es6-promise": "^3.1.2",
     "es6-shim": "^0.33.3",
     "es7-reflect-metadata": "^1.5.5",
@@ -56,10 +56,10 @@
     "moment": "^2.10.6",
     "moment-timezone": "^0.4.1",
     "redux": "^3.0.5",
-    "rxjs": "5.0.0-beta.0",
+    "rxjs": "5.0.0-beta.2",
     "socket.io-client": "^1.4.5",
     "validate.js": "^0.9.0",
-    "zone.js": "0.5.14"
+    "zone.js": "0.5.15"
   },
   "devDependencies": {
     "compression-webpack-plugin": "^0.3.0",
