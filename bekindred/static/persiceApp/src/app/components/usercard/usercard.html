@@ -21,9 +21,16 @@
   </ul>
   <div class="pass-accept" *ngIf="showButtons">
     <div class="layout layout--small">
-      <div class="layout__item 1/2"> <a (click)="passUser($event)" class="btn btn-1 btn-1--red btn--full">Pass</a> </div>
       <div class="layout__item 1/2">
-        <a (click)="acceptUser($event)" class="btn btn-1 btn-1--green btn--full btn--activate">
+        <a (click)="passUser($event)" class="btn btn-1 btn-1--red btn--full btn--activate js-pass" [ngClass]="{'is-active': passIsActive}">
+          <div class="btn--activate__label">Pass</div>
+          <svg role="img" class="icon ">
+            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-pass"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 1/2">
+        <a (click)="acceptUser($event)" class="btn btn-1 btn-1--green btn--full btn--activate js-accept" [ngClass]="{'is-active': acceptIsActive}">
           <div class="btn--activate__label">Connect</div>
           <svg role="img" class="icon ">
             <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-accepted"></use>
