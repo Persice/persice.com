@@ -24,7 +24,7 @@ module.exports = {
   // for faster builds use 'eval'
   devtool: 'eval',
   debug: false,
-  // cache: false,
+  cache: true,
 
   // our angular app
   entry: {
@@ -59,11 +59,11 @@ module.exports = {
     ],
     loaders: [
       // Support Angular 2 async routes via .async.ts
-      {
-        test: /\.async\.ts$/,
-        loaders: ['es6-promise-loader', 'ts-loader'],
-        exclude: [/\.(spec|e2e)\.ts$/]
-      },
+      // {
+      //   test: /\.async\.ts$/,
+      //   loaders: ['es6-promise-loader', 'ts-loader'],
+      //   exclude: [/\.(spec|e2e)\.ts$/]
+      // },
 
       // Support for .ts files.
       {
@@ -73,16 +73,16 @@ module.exports = {
       },
 
       // Support for *.json files.
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
+      // {
+      //   test: /\.json$/,
+      //   loader: 'json-loader'
+      // },
 
       // Support for CSS as raw text
-      {
-        test: /\.css$/,
-        loader: 'raw-loader'
-      },
+      // {
+      //   test: /\.css$/,
+      //   loader: 'raw-loader'
+      // },
 
       // support for .html as raw text
       {
@@ -93,6 +93,10 @@ module.exports = {
 
       // if you add a loader include the resolve file extension above
     ]
+  },
+
+  ts: {
+   transpileOnly: true
   },
 
   plugins: [
