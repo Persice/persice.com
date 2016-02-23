@@ -149,16 +149,16 @@ LOGGING = {
             'level': 'INFO',
             'handlers': ['console'],
             },
-        'open_facebook': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
-            },
-        'django_facebook': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
-            },
+        # 'open_facebook': {
+        #     'handlers': ['console'],
+        #     'level': 'INFO',
+        #     'propagate': True,
+        #     },
+        # 'django_facebook': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        #     },
         'django.request': {
             'handlers': ['console'],
             'level': 'ERROR',
