@@ -227,3 +227,14 @@ class TestConnectionsResource(ResourceTestCase):
         data = self.deserialize(resp)
         ar = [item['score'] for item in data['objects']]
         self.assertEqual(ar, [1, 2, 3, 0, 0, 0])
+
+
+class TestFriendsNewResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestFriendsNewResource, self).setUp()
+
+    def test_counter(self):
+        self.assertTrue(False)
