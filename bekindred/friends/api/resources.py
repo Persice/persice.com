@@ -58,10 +58,15 @@ class FriendsResource(ModelResource):
                 bundle.data['status'] = 1
                 # redis
                 r = redis.StrictRedis(host='localhost', port=6379, db=0)
+                user_1 = {'friend_name': bundle.obj.friend2.first_name,
+                          'friend_id': result[0].friend2_id}
                 r.publish('connection.%s' % result[0].friend1_id,
-                          json.dumps(bundle.data))
+                          json.dumps(user_1))
+
+                user_2 = {'friend_name': bundle.obj.friend1.first_name,
+                          'friend_id': result[0].friend1_id}
                 r.publish('connection.%s' % result[0].friend2_id,
-                          json.dumps(bundle.data))
+                          json.dumps(user_2))
                 return super(FriendsResource, self).obj_update(bundle,
                                                                **kwargs)
             elif result[0].status == -1 or status == -1:
