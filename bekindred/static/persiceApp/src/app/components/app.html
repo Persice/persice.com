@@ -1,26 +1,6 @@
 <header-main></header-main>
 <div class="page-content" [ngClass]="{'page-content--white': activeRoute.indexOf('messages') > -1}">
-  <div class="notification-new" [ngClass]="{'is-visible': notificationSmall.active, 'is-removed': !notificationSmall.active}">
-    <div class="flag flag--small" (click)="performNotificationAction($event)">
-      <div class="flag__img">
-        <div class="icon-round-holder">
-          <svg role="img" class="icon icon--message">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-menu-messages"></use>
-          </svg>
-        </div>
-      </div>
-      <div class="flag__body">
-        <span class="notification-new__label">{{notificationSmall.title}}</span>
-        <span class="notification-new__value">{{notificationSmall.body}}</span>
-      </div>
-    </div>
-    <a (click)="closeSmallNotification($event)" class="notification-new__close">
-      <svg role="img" class="icon ">
-        <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-close-small"></use>
-      </svg>
-    </a>
-  </div>
-
+  <notifications-container></notifications-container>
   <header-sub [image]="image"></header-sub>
   <notification [main]="1" [title]="notificationMain.title" [body]="notificationMain.body" [active]="notificationMain.active" [type]="notificationMain.type"></notification>
   <router-outlet></router-outlet>

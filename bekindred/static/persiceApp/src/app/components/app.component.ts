@@ -24,6 +24,7 @@ import {ProfileMyComponent} from './profile/profile_my.component';
 import {EventComponent} from './event/event.component';
 import {ProfileViewComponent} from './profile/profile_view.component';
 import {ProfileLoader} from './profile/profile_loader';
+import {NotificationsContainerComponent} from './notifications/notifications_container.component';
 
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
@@ -46,6 +47,7 @@ import {WebsocketService} from '../services/websocket.service';
 import {GeolocationService} from '../services/geolocation.service';
 import {LocationService} from '../services/location.service';
 import {MessagesCounterService} from '../services/messages_counter.service';
+import {ConnectionsCounterService} from '../services/connections_counter.service';
 import {HistoryService} from '../services/history.service';
 
 let view = require('./app.html');
@@ -144,7 +146,8 @@ class DynamicRouteConfiguratorService {
     HeaderMainComponent,
     HeaderSubComponent,
     LoadingComponent,
-    NotificationComponent
+    NotificationComponent,
+    NotificationsContainerComponent
   ],
   template: view,
   providers: [
@@ -157,7 +160,8 @@ class DynamicRouteConfiguratorService {
     UserAuthService,
     MessagesCounterService,
     HistoryService,
-    DynamicRouteConfiguratorService
+    DynamicRouteConfiguratorService,
+    ConnectionsCounterService
   ]
 })
 export class AppComponent {
@@ -192,6 +196,7 @@ export class AppComponent {
     private locationService: LocationService,
     private geolocationService: GeolocationService,
     private messagesCounterService: MessagesCounterService,
+    private connectionsCounterService: ConnectionsCounterService,
     private historyService: HistoryService,
     private dynamicRouteConfiguratorService: DynamicRouteConfiguratorService,
     private _zone: NgZone
@@ -234,7 +239,6 @@ export class AppComponent {
   initWebsocket(channel: string) {
     this.websocketService.on(channel).subscribe((data: any) => {
       console.log('websocket recieved data for channel %s', channel);
-      console.log(data);
       switch (channel) {
         case 'messages:new':
           if (this.activeRoute.indexOf('messages') === -1) {
@@ -261,6 +265,9 @@ export class AppComponent {
             this.messagesCounterService.refreshCounter();
           }
 
+          break;
+        case 'connections:new':
+          this.connectionsCounterService.refreshCounter();
           break;
         default:
           break;
