@@ -59,12 +59,14 @@ class FriendsResource(ModelResource):
                 # redis
                 r = redis.StrictRedis(host='localhost', port=6379, db=0)
                 user_1 = {'friend_name': bundle.obj.friend2.first_name,
-                          'friend_id': result[0].friend2_id}
+                          'friend_id': result[0].friend2_id,
+                          'friend_username': result[0].friend2.username}
                 r.publish('connection.%s' % result[0].friend1_id,
                           json.dumps(user_1))
 
                 user_2 = {'friend_name': bundle.obj.friend1.first_name,
-                          'friend_id': result[0].friend1_id}
+                          'friend_id': result[0].friend1_id,
+                          'friend_username': result[0].friend1.username}
                 r.publish('connection.%s' % result[0].friend2_id,
                           json.dumps(user_2))
                 return super(FriendsResource, self).obj_update(bundle,
