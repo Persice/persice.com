@@ -186,6 +186,11 @@ def restart_elasticsearch():
 
 
 @task
+def restart_memcached():
+    sudo('service memcached restart')
+
+
+@task
 def restart_node():
     with cd(env.socketio):
         sudo('npm install')
@@ -197,6 +202,7 @@ def restart_node():
 def reload():
     restart_celery()
     restart_redis()
+    restart_memcached()
     restart_elasticsearch()
     restart_app()
     restart_node()
