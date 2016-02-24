@@ -853,3 +853,22 @@ li.features-list__match {
   text-decoration: none;
   cursor: pointer;
 }
+
+.notifications-container {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 314px;
+}
+
+
+
+.notification-new {
+  position: relative!important;
+  width: 295px;
+}
+
+
+.notification-new__label {
+  line-height: 1.4!important;
+}
