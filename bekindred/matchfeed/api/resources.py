@@ -1,5 +1,8 @@
 import itertools
+
+import time
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django.core.cache import cache
 
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -223,8 +226,23 @@ class MatchedFeedResource2(Resource):
 
     def get_object_list(self, request):
         if request.GET.get('filter') == 'true':
-            match_users = MatchQuerySet.all(request.user.id, is_filter=True)
             fs = FilterState.objects.filter(user=request.user.id)
+
+            cache_match_users = None
+            filter_updated = None
+            if fs:
+                try:
+                    filter_updated = time.mktime(fs[0].updated.timetuple())
+                    cache_match_users = cache.get('%s_%s' % (request.user.id,
+                                                             filter_updated))
+                except AttributeError:
+                    pass
+            if cache_match_users:
+                match_users = cache_match_users
+            else:
+                match_users = MatchQuerySet.all(request.user.id, is_filter=True)
+                cache.set('%s_%s' % (request.user.id,
+                                     filter_updated), match_users)
             if fs:
                 if fs[0].order_criteria == 'match_score':
                     return sorted(match_users, key=lambda x: -x.score)

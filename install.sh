@@ -34,7 +34,7 @@ apt-get install -y libjpeg-dev libtiff-dev zlib1g-dev libfreetype6-dev liblcms2-
 apt-get install -y git
 # GeoIP
 apt-get install -y libgeoip-dev
-# 
+#
 apt-get install -y libgeos-dev
 # gnureadline python module
 apt-get install -y libncurses5-dev
@@ -89,16 +89,7 @@ echo "workon $VIRTUALENV_NAME" >> /home/vagrant/.bashrc
 # Django project setup
 # su - vagrant -c "source $VIRTUALENV_DIR/bin/activate && cd $PROJECT_DIR && ./manage.py syncdb --noinput && ./manage.py migrate"
 
-
-# How to install Jenkins
-# Only root
-
-wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add -
-echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list
-apt-get update
-apt-get install -y jenkins
-
-/etc/init.d/jenkins start
+apt-get install -y memcached
 
 # Install Redis
 if ! command -v redis-server; then
