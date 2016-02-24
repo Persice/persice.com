@@ -9,7 +9,7 @@ import {Component, NgZone, ViewEncapsulation, Injectable, Type} from 'angular2/c
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {RouteConfig, ROUTER_DIRECTIVES, Router, RouteRegistry} from 'angular2/router';
 
-import {StringUtil, CookieUtil} from '../core/util';
+import {CookieUtil} from '../core/util';
 
 /*
  * Components
@@ -49,6 +49,7 @@ import {LocationService} from '../services/location.service';
 import {MessagesCounterService} from '../services/messages_counter.service';
 import {ConnectionsCounterService} from '../services/connections_counter.service';
 import {HistoryService} from '../services/history.service';
+import {NotificationsService} from '../services/notifications.service';
 
 let view = require('./app.html');
 
@@ -161,7 +162,8 @@ class DynamicRouteConfiguratorService {
     MessagesCounterService,
     HistoryService,
     DynamicRouteConfiguratorService,
-    ConnectionsCounterService
+    ConnectionsCounterService,
+    NotificationsService
   ]
 })
 export class AppComponent {
@@ -175,15 +177,8 @@ export class AppComponent {
     active: false,
     type: ''
   };
-  notificationSmall = {
-    body: '',
-    title: '',
-    active: false,
-    type: '',
-    payload: null
-  };
+
   timeoutId = null;
-  timeoutNotification = null;
   appRoutes: string[][];
   userServiceObserver;
 
@@ -199,6 +194,7 @@ export class AppComponent {
     private connectionsCounterService: ConnectionsCounterService,
     private historyService: HistoryService,
     private dynamicRouteConfiguratorService: DynamicRouteConfiguratorService,
+    private notificationsService: NotificationsService,
     private _zone: NgZone
   ) {
     //default image
@@ -239,35 +235,35 @@ export class AppComponent {
   initWebsocket(channel: string) {
     this.websocketService.on(channel).subscribe((data: any) => {
       console.log('websocket recieved data for channel %s', channel);
+      console.log(data);
       switch (channel) {
         case 'messages:new':
           if (this.activeRoute.indexOf('messages') === -1) {
-            this.userAuthService.findByUri(data.sender)
-              .subscribe((res) => {
-                this.notificationSmall = {
-                  body: StringUtil.words(data.body, 30),
-                  title: '1 new message from ' + res.first_name,
-                  active: true,
-                  type: 'message',
-                  payload: {
-                    id: res.id
-                  }
-                };
-
-                if (this.timeoutNotification) {
-                  window.clearTimeout(this.timeoutNotification);
-                }
-
-                this.timeoutNotification = setTimeout(() => {
-                  this.notificationSmall.active = false;
-                }, 4000);
-              });
             this.messagesCounterService.refreshCounter();
+            this.notificationsService.set({
+              title: `1 new message from ${data.sender_name}`,
+              body: data.body,
+              data: {
+                sender_id: data.friend_id
+              },
+              type: 'message'
+            }, true);
           }
 
           break;
         case 'connections:new':
-          this.connectionsCounterService.refreshCounter();
+          setTimeout(() => {
+            this.connectionsCounterService.refreshCounter();
+          }, 500);
+
+          this.notificationsService.set({
+              title: `You and <strong>${data.friend_name}</strong> are now connected!`,
+              body: '',
+              data: {
+                username: data.friend_username
+              },
+              type: 'connection'
+            }, true);
           break;
         default:
           break;
@@ -276,24 +272,12 @@ export class AppComponent {
     });
   }
 
-  closeSmallNotification(event) {
-    this.notificationSmall.active = false;
-  }
-
-  performNotificationAction(event) {
-    if (this.notificationSmall.type === 'message') {
-      this._router.navigate(['Messages', 'SingleConversation', { 'threadId': this.notificationSmall.payload.id }]);
-      this.closeSmallNotification(true);
-    }
-  }
-
   ngOnInit() {
     console.log('hello App component');
 
     this._router.subscribe((next) => {
       this.activeRoute = next;
       this.historyService.setRoute(next);
-      // console.log(this.historyService.getAll());
     });
 
 

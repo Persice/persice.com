@@ -23,6 +23,7 @@ import {connectionsCounterServiceInjectables} from './connections_counter.servic
 import {mutualfriendsServiceInjectables} from './mutualfriends.service';
 import {myProfileServiceInjectables} from './myprofile.service';
 import {notificationServiceInjectables} from './notification.service';
+import {notificationsServiceInjectables} from './notifications.service';
 import {offersServiceInjectables} from './offers.service';
 import {onboardingServiceInjectables} from './onboarding.service';
 import {photosServiceInjectables} from './photos.service';
@@ -59,7 +60,7 @@ export * from './connections_counter.service';
 export * from './mutualfriends.service';
 export * from './myprofile.service';
 export * from './notification.service';
-export * from './notification.service';
+export * from './notifications.service';
 export * from './offers.service';
 export * from './onboarding.service';
 export * from './photos.service';
@@ -96,6 +97,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   mutualfriendsServiceInjectables,
   myProfileServiceInjectables,
   notificationServiceInjectables,
+  notificationsServiceInjectables,
   offersServiceInjectables,
   onboardingServiceInjectables,
   photosServiceInjectables,
