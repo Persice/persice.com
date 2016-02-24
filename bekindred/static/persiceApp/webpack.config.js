@@ -24,7 +24,7 @@ module.exports = {
   // for faster builds use 'eval'
   devtool: 'eval',
   debug: false,
-  // cache: false,
+  cache: true,
 
   // our angular app
   entry: {
@@ -36,6 +36,7 @@ module.exports = {
   // Config for our build files
   output: {
     path: root('dist'),
+    publicPath: 'http://localhost:8080/',
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
     chunkFilename: '[id].chunk.js'
@@ -53,17 +54,16 @@ module.exports = {
       // TODO(): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
       // {
       //   test: /\.js$/,
-      //   loader: "source-map-loader",
-      //   exclude: [root('node_modules/rxjs')]
+      //   loader: "source-map-loader"
       // }
     ],
     loaders: [
       // Support Angular 2 async routes via .async.ts
-      {
-        test: /\.async\.ts$/,
-        loaders: ['es6-promise-loader', 'ts-loader'],
-        exclude: [/\.(spec|e2e)\.ts$/]
-      },
+      // {
+      //   test: /\.async\.ts$/,
+      //   loaders: ['es6-promise-loader', 'ts-loader'],
+      //   exclude: [/\.(spec|e2e)\.ts$/]
+      // },
 
       // Support for .ts files.
       {
@@ -73,16 +73,16 @@ module.exports = {
       },
 
       // Support for *.json files.
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
+      // {
+      //   test: /\.json$/,
+      //   loader: 'json-loader'
+      // },
 
       // Support for CSS as raw text
-      {
-        test: /\.css$/,
-        loader: 'raw-loader'
-      },
+      // {
+      //   test: /\.css$/,
+      //   loader: 'raw-loader'
+      // },
 
       // support for .html as raw text
       {
@@ -93,6 +93,10 @@ module.exports = {
 
       // if you add a loader include the resolve file extension above
     ]
+  },
+
+  ts: {
+   transpileOnly: true
   },
 
   plugins: [
@@ -137,9 +141,6 @@ module.exports = {
   devServer: {
     port: metadata.port,
     host: metadata.host,
-    inline: true,
-    contentBase: 'src/assets',
-    publicPath: '/dist',
     historyApiFallback: true,
     watchOptions: {
       aggregateTimeout: 300,

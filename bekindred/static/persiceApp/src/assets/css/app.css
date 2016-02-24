@@ -832,3 +832,43 @@ li.features-list__match {
   list-style-type: circle!important;
   padding-left: 5px!important;
 }
+
+.open-photos-link {
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 230px;
+  width: 230px;
+  border-radius: 50%;
+  left: 0;
+  text-align: center;
+  z-index: 9;
+  left: 50%;
+  margin-left: -115px;
+  padding-top: 73px;
+  transition: ease .25s all
+}
+
+.open-photos-link:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.notifications-container {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 314px;
+}
+
+
+
+.notification-new {
+  position: relative!important;
+  width: 295px;
+}
+
+
+.notification-new__label {
+  line-height: 1.4!important;
+}

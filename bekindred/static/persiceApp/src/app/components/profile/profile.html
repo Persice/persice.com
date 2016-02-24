@@ -16,7 +16,7 @@
   </a>
   <div class="tableize tableize--fixed tableize--full content">
     <div class="tableize__cell 3/12 my-profile">
-      <profile-avatar [loading]="loadingPhotos" [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
+      <profile-avatar (openGallery)="openGallery($event)" [loading]="loadingPhotos" [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></profile-avatar>
       <div class="layout layout--flush pt- ph pl+ unselectable">
         <div class="layout__item 1/3">
           <h2 class="module-title mb0">gender</h2>
@@ -126,3 +126,7 @@
   <img src="/static/persiceApp/src/assets/images/polar-bear.png" alt="Polar Bear">
 </div>
 <loading [status]="loading"></loading>
+
+<div class="remodal modal-gallery" data-remodal-id="modal-gallery" remodal="{{galleryOptions}}">
+  <profile-gallery *ngIf="galleryActive" [photos]="profilePhotos"></profile-gallery>
+</div>

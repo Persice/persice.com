@@ -25,6 +25,7 @@ export class ProfileAvatarComponent {
   @Input() count;
   @Input() id;
   @Output() openPhotos: EventEmitter<any> = new EventEmitter();
+  @Output() openGallery: EventEmitter<any> = new EventEmitter();
 
   swiperOpts = JSON.stringify({
     pagination: '.js-avatar-place__pagination',

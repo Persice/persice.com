@@ -18,6 +18,8 @@ import {keywordsServiceInjectables} from './keywords.service';
 import {likesServiceInjectables} from './likes.service';
 import {locationServiceInjectables} from './location.service';
 import {messagesServiceInjectables} from './messages.service';
+import {messagesCounterServiceInjectables} from './messages_counter.service';
+import {connectionsCounterServiceInjectables} from './connections_counter.service';
 import {mutualfriendsServiceInjectables} from './mutualfriends.service';
 import {myProfileServiceInjectables} from './myprofile.service';
 import {notificationServiceInjectables} from './notification.service';
@@ -52,6 +54,8 @@ export * from './keywords.service';
 export * from './likes.service';
 export * from './location.service';
 export * from './messages.service';
+export * from './messages_counter.service';
+export * from './connections_counter.service';
 export * from './mutualfriends.service';
 export * from './myprofile.service';
 export * from './notification.service';
@@ -102,5 +106,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   userAuthServiceInjectables,
   userServiceInjectables,
   warningServiceInjectables,
-  websocketServiceInjectables
+  websocketServiceInjectables,
+  messagesCounterServiceInjectables,
+  connectionsCounterServiceInjectables
 ];

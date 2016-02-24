@@ -76,13 +76,30 @@ const APP_PROVIDERS = [
   PLATFORM_PROVIDERS
 ];
 
-export function main() {
 
-  return bootstrap(
-    AppComponent,
-    APP_PROVIDERS
-  ).catch(err => console.error(err));
+/*
+ * Bootstrap our Angular app with a top level component `App` and inject
+ * our Services and Providers into Angular's dependency injection
+ */
 
+document.addEventListener('DOMContentLoaded', function main() {
+  bootstrap(AppComponent, APP_PROVIDERS)
+    .catch(err => console.error(err));
+});
+
+
+
+/*
+ * Modified for using hot module reload
+ */
+
+// typescript lint error 'Cannot find name "module"' fix
+declare let module: any;
+
+// activate hot module reload
+if (module.hot) {
+  bootstrap(AppComponent, APP_PROVIDERS)
+    .catch(err => console.error(err));
+
+  module.hot.accept();
 }
-
-document.addEventListener('DOMContentLoaded', main);

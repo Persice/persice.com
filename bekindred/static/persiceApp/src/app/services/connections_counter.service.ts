@@ -3,8 +3,8 @@ import {HttpClient} from '../core/http_client';
 import {Observable, Subject} from 'rxjs';
 
 @Injectable()
-export class MessagesCounterService {
-	static API_URL = '/api/v1/inbox/unread_counter/';
+export class ConnectionsCounterService {
+	static API_URL = '/api/v1/new_connections/counter/';
 	_state: number = 0;
 	_observer: Subject<any> = new Subject();
 
@@ -21,18 +21,18 @@ export class MessagesCounterService {
 	}
 
 	private _loadCounter() {
-		let url = `${MessagesCounterService.API_URL}?format=json`;
+		let url = `${ConnectionsCounterService.API_URL}?format=json`;
 
 		let channel = this.http.get(url)
 			.map((res) => res.json())
 			.subscribe((res) => {
 				if (res.meta.total_count === 1) {
-					this._state = res.objects[0].unread_counter;
+					this._state = res.objects[0].new_connection_counter;
 				}
 				this._notify();
 				channel.unsubscribe();
 			}, (error) => {
-				console.log(`Could not load messages counter ${error}`);
+				console.log(`Could not load connections counter ${error}`);
 				channel.unsubscribe();
 			});
 	}
@@ -45,6 +45,6 @@ export class MessagesCounterService {
 
 }
 
-export var messagesCounterServiceInjectables: any[] = [
-	provide(MessagesCounterService, { useClass: MessagesCounterService })
+export var connectionsCounterServiceInjectables: any[] = [
+	provide(ConnectionsCounterService, { useClass: ConnectionsCounterService })
 ];

@@ -5,6 +5,8 @@
     </svg>
     <span class="edit-photos-link__label unselectable">Edit photos</span>
   </a>
+  <a (click)="openGallery.next($event); $event.stopPropagation()" class="open-photos-link unselectable" *ngIf="type !== 'my'">
+  </a>
   <div [ngClass]="{'is-visible': !loading}" class="match-profile__avatar match-profile__avatar-single unselectable" *ngIf="count === 0">
     <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + avatar + ')'}"></div>
   </div>

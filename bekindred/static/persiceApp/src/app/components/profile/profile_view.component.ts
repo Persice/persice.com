@@ -10,6 +10,7 @@ import {ProfileNetworksComponent} from '../profile_networks/profile_networks.com
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
+import {ProfileGalleryComponent} from '../profile_gallery/profile_gallery.component';
 
 /** Services */
 import {ProfileService} from '../../services/profile.service';
@@ -22,6 +23,7 @@ import {HistoryService} from '../../services/history.service';
  * Directives
  */
 import {DropdownDirective} from '../../directives/dropdown.directive';
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 
 /** Utils */
@@ -43,6 +45,8 @@ let view = require('./profile.html');
     ProfileAcceptPassComponent,
     LoadingComponent,
     DropdownDirective,
+    ProfileGalleryComponent,
+    RemodalDirective,
     ROUTER_DIRECTIVES
   ],
   providers: [
@@ -109,6 +113,11 @@ export class ProfileViewComponent {
   loadingConnections: boolean = false;
   loadingPhotos: boolean = false;
 
+  galleryActive = false;
+  galleryOptions = JSON.stringify({
+    hashTracking: false,
+    closeOnOutsideClick: true
+  });
 
   constructor(
     private mutualfriendsService: MutualFriendsService,
@@ -121,11 +130,20 @@ export class ProfileViewComponent {
 
   }
 
-  setUsername (username) {
+  setUsername(username) {
     this.username = username;
   }
 
+
+
   ngOnInit() {
+
+    //listen for event when gallery modal is closed
+    jQuery(document).on('closed', '.remodal', (e) => {
+      this.galleryActive = false;
+    });
+
+
     setTimeout(() => {
       window.scrollTo(0, 0);
     });
@@ -277,19 +295,17 @@ export class ProfileViewComponent {
   }
 
   acceptUser(event) {
-    console.log('accept user');
     this.friendService.saveFriendship(0, event.user)
       .subscribe(data => {
-
+        this.closeProfile(true);
       });
 
   }
 
   passUser(event) {
-    console.log('pass user');
     this.friendService.saveFriendship(-1, event.user)
       .subscribe(data => {
-
+        this.closeProfile(true);
       });
 
   }
@@ -299,6 +315,9 @@ export class ProfileViewComponent {
     if (this.profileServiceInstance) {
       this.profileServiceInstance.unsubscribe();
     }
+
+    jQuery(document).off('closed', '.remodal');
+
   }
 
   eventHandler(key) {
@@ -309,6 +328,12 @@ export class ProfileViewComponent {
       default:
         break;
     }
+  }
+
+  openGallery(event) {
+    let remodal = jQuery('[data-remodal-id=modal-gallery]').remodal();
+    remodal.open();
+    this.galleryActive = true;
   }
 
 }
