@@ -82,17 +82,17 @@ document.addEventListener('DOMContentLoaded', function main() {
 
 
 
-/*
- * Modified for using hot module reload
- */
+// /*
+//  * Modified for using hot module reload
+//  */
 
-// typescript lint error 'Cannot find name "module"' fix
-declare let module: any;
+// // typescript lint error 'Cannot find name "module"' fix
+// declare let module: any;
 
-// activate hot module reload
-if (module.hot) {
-  bootstrap(SignupComponent, APP_PROVIDERS)
-    .catch(err => console.error(err));
+// // activate hot module reload
+// if (module.hot) {
+//   bootstrap(SignupComponent, APP_PROVIDERS)
+//     .catch(err => console.error(err));
 
-  module.hot.accept();
-}
+//   module.hot.accept();
+// }

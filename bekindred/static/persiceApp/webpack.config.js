@@ -24,7 +24,7 @@ module.exports = {
   // for faster builds use 'eval'
   devtool: 'eval',
   debug: false,
-  cache: true,
+  cache: false,
 
   // our angular app
   entry: {
