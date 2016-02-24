@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Http} from 'angular2/http';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -20,7 +21,7 @@ import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
-
+import {ConnectionsCounterService} from '../../services/connections_counter.service';
 /** Utils */
 import {ObjectUtil} from '../../core/util';
 
@@ -112,10 +113,12 @@ export class ProfileFriendComponent {
   });
 
   constructor(
-    public mutualfriendsService: MutualFriendsService,
-    public photosService: PhotosService,
-    public religiousviewsService: ReligiousViewsService,
-    public politicalviewsService: PoliticalViewsService
+    private mutualfriendsService: MutualFriendsService,
+    private photosService: PhotosService,
+    private religiousviewsService: ReligiousViewsService,
+    private politicalviewsService: PoliticalViewsService,
+    private counterService: ConnectionsCounterService,
+    private http: Http
   ) {
 
   }
@@ -150,6 +153,14 @@ export class ProfileFriendComponent {
     this.loadingConnections = true;
     this.loadingPhotos = true;
     this.loadingLikes = true;
+
+    if (this.user.updated_at === null) {
+      let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${this.user.id}`;
+      this.http.get(url).map(res => res.json()).subscribe(data => {
+        this.counterService.refreshCounter();
+      });
+    }
+
 
     this.profileId = this.user.id;
     this.profileName = this.user.first_name;

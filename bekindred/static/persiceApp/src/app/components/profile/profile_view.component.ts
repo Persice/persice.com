@@ -1,5 +1,6 @@
 import {Component, Input, Output} from 'angular2/core';
 import {RouteParams, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Http} from 'angular2/http';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -18,7 +19,7 @@ import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {FriendService} from '../../services/friend.service';
 import {PhotosService} from '../../services/photos.service';
 import {HistoryService} from '../../services/history.service';
-
+import {ConnectionsCounterService} from '../../services/connections_counter.service';
 /**
  * Directives
  */
@@ -125,6 +126,8 @@ export class ProfileViewComponent {
     private friendService: FriendService,
     private photosService: PhotosService,
     private historyService: HistoryService,
+    private http: Http,
+    private counterService: ConnectionsCounterService,
     private _router: Router
   ) {
 
@@ -172,6 +175,15 @@ export class ProfileViewComponent {
     this.loadingPhotos = true;
 
     this.profileType = data.connected === true ? 'friend' : 'crowd';
+
+    if (this.profileType === 'friend') {
+      if (data.updated_at === null) {
+        let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${data.id}`;
+        this.http.get(url).map(res => res.json()).subscribe(data => {
+          this.counterService.refreshCounter();
+        });
+      }
+    }
 
     this.profileId = data.id;
     this.profileName = data.first_name;

@@ -249,14 +249,10 @@ export class AppComponent {
               type: 'message'
             }, true);
           }
-
           break;
         case 'connections:new':
           setTimeout(() => {
-            this.connectionsCounterService.refreshCounter();
-          }, 500);
-
-          this.notificationsService.set({
+            this.notificationsService.set({
               title: `You and <strong>${data.friend_name}</strong> are now connected!`,
               body: '',
               data: {
@@ -264,6 +260,8 @@ export class AppComponent {
               },
               type: 'connection'
             }, true);
+            this.connectionsCounterService.refreshCounter();
+          }, 2000);
           break;
         default:
           break;
@@ -350,12 +348,9 @@ export class AppComponent {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);
     }
-    this.timeoutId = setTimeout(
-      () => {
-        this.notificationMain.active = false;
-      },
-      timeout
-    );
+    this.timeoutId = setTimeout(() => {
+      this.notificationMain.active = false;
+    }, timeout);
   }
 
   // Assign AuthUser user from the /me Api
