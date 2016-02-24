@@ -10,6 +10,12 @@ import {ProfileNetworksComponent} from '../profile_networks/profile_networks.com
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
+import {ProfileGalleryComponent} from '../profile_gallery/profile_gallery.component';
+
+/**
+ * Directives
+ */
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
@@ -35,6 +41,8 @@ let view = require('./profile.html');
     ProfileNetworksComponent,
     ProfileItemsComponent,
     LoadingComponent,
+    ProfileGalleryComponent,
+    RemodalDirective,
     ROUTER_DIRECTIVES
   ],
   providers: [
@@ -100,7 +108,11 @@ export class ProfileCrowdComponent {
   loadingLikes: boolean = false;
   loadingConnections: boolean = false;
   loadingPhotos: boolean = false;
-
+  galleryActive = false;
+  galleryOptions = JSON.stringify({
+    hashTracking: false,
+    closeOnOutsideClick: true
+  });
 
   constructor(
     public mutualfriendsService: MutualFriendsService,
@@ -113,11 +125,21 @@ export class ProfileCrowdComponent {
 
   ngOnInit() {
 
+    //listen for event when gallery modal is closed
+    jQuery(document).on('closed', '.remodal', (e) => {
+      this.galleryActive = false;
+    });
+
     setTimeout(() => {
       jQuery('#userprofile').focus();
       window.scrollTo(0, 0);
     });
 
+  }
+
+
+  ngOnDestroy() {
+    jQuery(document).off('closed', '.remodal');
   }
 
   ngOnChanges(values) {
@@ -127,7 +149,7 @@ export class ProfileCrowdComponent {
   }
 
   assignUser() {
-
+    this.galleryActive = false;
     this.loadingConnections = true;
     this.loadingPhotos = true;
     this.loadingLikes = true;
@@ -279,6 +301,12 @@ export class ProfileCrowdComponent {
       default:
         break;
     }
+  }
+
+  openGallery(event) {
+    let remodal = jQuery('[data-remodal-id=modal-gallery]').remodal();
+    remodal.open();
+    this.galleryActive = true;
   }
 
 
