@@ -4,6 +4,7 @@ from operator import attrgetter
 
 import re
 import nltk
+from django.core.cache import cache
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import wordnet as wn
 

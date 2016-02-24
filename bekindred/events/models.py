@@ -142,6 +142,7 @@ class FilterState(models.Model):
     order_criteria = models.CharField(max_length=20, default='match_score')
     min_age = models.CharField(max_length=3, default=25)
     max_age = models.CharField(max_length=4, default=60)
+    updated = models.DateTimeField(auto_now=True, null=True)
 
 
 def create_user_profile(sender, instance, created, **kwargs):
