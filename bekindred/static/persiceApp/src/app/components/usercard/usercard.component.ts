@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, EventEmitter, Input, Output} from 'angular2/core';
 
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
@@ -8,7 +8,6 @@ let view = require('./usercard.html');
 
 @Component({
   inputs: ['user'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'user-card',
   pipes: [GenderPipe],
   template: view,

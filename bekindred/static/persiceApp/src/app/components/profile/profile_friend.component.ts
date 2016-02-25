@@ -154,12 +154,12 @@ export class ProfileFriendComponent {
     this.loadingPhotos = true;
     this.loadingLikes = true;
 
-    if (this.user.updated_at === null) {
-      let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${this.user.id}`;
-      this.http.get(url).map(res => res.json()).subscribe(data => {
-        this.counterService.refreshCounter();
-      });
-    }
+    // if (this.user.updated_at === 'seen') {
+    let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${this.user.id}`;
+    this.http.get(url).map(res => res.json()).subscribe(data => {
+      this.counterService.refreshCounter();
+    });
+    // }
 
 
     this.profileId = this.user.id;
