@@ -63,6 +63,17 @@ class FriendsManager(models.Manager):
         else:
             return False
 
+    def friendship_row(self, friend1, friend2):
+        try:
+            result = Friend.objects.filter(Q(friend1=friend1,
+                                             friend2=friend2, status=1) |
+                                           Q(friend1=friend2,
+                                             friend2=friend1, status=1))[0]
+            return result
+        except IndexError:
+            return None
+
+
     @staticmethod
     def all_my_friends(user_id):
         result = Friend.objects.filter(Q(friend1=user_id, status=1,
