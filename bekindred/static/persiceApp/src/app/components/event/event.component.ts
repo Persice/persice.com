@@ -60,7 +60,7 @@ export class EventComponent {
     username: ''
   };
   info = {
-    spots_remaining: 0,
+    spots_remaining: null,
     name: '',
     city: '',
     location_name: '',
