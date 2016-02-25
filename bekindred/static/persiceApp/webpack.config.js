@@ -50,8 +50,7 @@ module.exports = {
 
   module: {
     preLoaders: [
-      // { test: /\.ts$/, loader: 'tslint-loader', exclude: [ root('node_modules') ] },
-      // TODO(): `exclude: [ root('node_modules/rxjs') ]` fixed with rxjs 5 beta.2 release
+      { test: /\.ts$/, loader: 'tslint-loader', exclude: [root('node_modules')] },
       // {
       //   test: /\.js$/,
       //   loader: "source-map-loader"
@@ -59,11 +58,11 @@ module.exports = {
     ],
     loaders: [
       // Support Angular 2 async routes via .async.ts
-      // {
-      //   test: /\.async\.ts$/,
-      //   loaders: ['es6-promise-loader', 'ts-loader'],
-      //   exclude: [/\.(spec|e2e)\.ts$/]
-      // },
+      {
+        test: /\.async\.ts$/,
+        loaders: ['es6-promise-loader', 'ts-loader'],
+        exclude: [/\.(spec|e2e)\.ts$/]
+      },
 
       // Support for .ts files.
       {
@@ -96,7 +95,7 @@ module.exports = {
   },
 
   ts: {
-   transpileOnly: true
+    transpileOnly: true
   },
 
   plugins: [
