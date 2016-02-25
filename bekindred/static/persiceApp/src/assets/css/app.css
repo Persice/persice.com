@@ -861,14 +861,15 @@ li.features-list__match {
   width: 314px;
 }
 
-
-
 .notification-new {
   position: relative!important;
   width: 295px;
 }
 
-
 .notification-new__label {
   line-height: 1.4!important;
+}
+
+.card.card--user.is-new {
+  background-color: #f8fcfd!important;
 }
