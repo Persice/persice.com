@@ -9,7 +9,7 @@ import {ThreadSingleComponent} from '../thread_single/thread_single.component';
   selector: 'thread-list',
   template: `
   <thread-single [isActive]="active" (selected)="selected.next($event)" *ngFor="#item of threads" [thread]="item"></thread-single>
-	`,
+  `,
   directives: [
     ThreadSingleComponent
   ]

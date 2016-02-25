@@ -9,7 +9,7 @@ import {InboxService} from '../../services/inbox.service';
     ROUTER_DIRECTIVES
   ],
   template: `
-	<header class="chat-sidebar-header">
+  <header class="chat-sidebar-header">
     <div class="layout layout--middle">
       <div class="layout__item 3/4">
         <h3 class="chat-sidebar-header__title">Conversation <span class="chat-sidebar-header__title__value">({{counter}})</span></h3>
@@ -23,7 +23,7 @@ import {InboxService} from '../../services/inbox.service';
       </div>
     </div>
   </header>
-	`
+  `
 })
 export class MessagesSidebarHeaderComponent {
   @Input() counter;

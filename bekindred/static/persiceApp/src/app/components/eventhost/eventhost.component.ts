@@ -14,8 +14,8 @@ export class EventHostComponent {
 
   }
 
-	openProfile(username) {
-		this._router.parent.navigate(['./ProfileView', { username: username }]);
+  openProfile(username) {
+    this._router.parent.navigate(['./ProfileView', { username: username }]);
   }
 
 }

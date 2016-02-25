@@ -33,16 +33,16 @@ import {MessagesHeaderComponent} from '../messages_header/messages_header.compon
   template: `
   <messages-header [name]="name"></messages-header>
   <div class="chat">
-	  <div class="chat-wrapper" id="messages">
-	  	<div class="chat__messages-wrapper">
-	    	<div class="chat__messages">
-	    		<loading [status]="loadingMessages"></loading>
-	        <message-list [messages]="messages"></message-list>
-	    	</div>
-	  	</div>
-		</div>
-		<div class="chat__send-message" [disabled]="0" (newMessage)="sendMessage($event)"></div>
-	</div>
+    <div class="chat-wrapper" id="messages">
+      <div class="chat__messages-wrapper">
+        <div class="chat__messages">
+          <loading [status]="loadingMessages"></loading>
+          <message-list [messages]="messages"></message-list>
+        </div>
+      </div>
+    </div>
+    <div class="chat__send-message" [disabled]="0" (newMessage)="sendMessage($event)"></div>
+  </div>
   `
 })
 export class MessagesChatComponent {

@@ -16,7 +16,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
       </div>
     </div>
   </div>
-	`
+  `
 })
 export class MessagesInputComponent {
   @Output() newMessage: EventEmitter<any> = new EventEmitter();

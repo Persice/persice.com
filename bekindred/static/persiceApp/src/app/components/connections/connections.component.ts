@@ -172,6 +172,9 @@ export class ConnectionsComponent {
         this.selectedUser = this.items[i];
         this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
         this.profileViewActive = true;
+        if (this.items[i].updated_at === null) {
+          this.items[i].updated_at = 'seen';
+        }
         document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.setLocation(this.selectedUser.username);
       }

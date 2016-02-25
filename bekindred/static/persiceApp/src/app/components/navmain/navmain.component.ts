@@ -13,9 +13,9 @@ let view = require('./navmain.html');
   selector: 'nav-main',
   template: view,
   directives: [
-		ROUTER_DIRECTIVES,
-		MessagesCounterComponent,
-		ConnectionsCounterComponent
+    ROUTER_DIRECTIVES,
+    MessagesCounterComponent,
+    ConnectionsCounterComponent
   ]
 })
 export class NavMainComponent {

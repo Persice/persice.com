@@ -7,33 +7,33 @@ import {Component} from 'angular2/core';
 import {ConnectionsCounterService} from '../../services/connections_counter.service';
 
 @Component({
-	selector: 'connections-counter',
-	template: `
-	<i class="nav-main__value" [ngClass]="{'is-visible': counter > 0}">{{counter}}</i>
-	`
+  selector: 'connections-counter',
+  template: `
+  <i class="nav-main__value" [ngClass]="{'is-visible': counter > 0}">{{counter}}</i>
+  `
 })
 export class ConnectionsCounterComponent {
-	counter = 0;
-	connectionsCounterServiceInstance;
+  counter = 0;
+  connectionsCounterServiceInstance;
 
-	constructor(
-		private connectionsCounterService: ConnectionsCounterService
-		) {
+  constructor(
+    private connectionsCounterService: ConnectionsCounterService
+    ) {
 
-	}
+  }
 
-	ngOnInit() {
-		this.connectionsCounterServiceInstance = this.connectionsCounterService.serviceObserver()
-			.subscribe((data) => {
-				this.counter = data.counter;
-			});
-	}
+  ngOnInit() {
+    this.connectionsCounterServiceInstance = this.connectionsCounterService.serviceObserver()
+      .subscribe((data) => {
+        this.counter = data.counter;
+      });
+  }
 
-	ngOnDestroy() {
-		if (this.connectionsCounterServiceInstance) {
-			this.connectionsCounterServiceInstance.unsubscribe();
-		}
-	}
+  ngOnDestroy() {
+    if (this.connectionsCounterServiceInstance) {
+      this.connectionsCounterServiceInstance.unsubscribe();
+    }
+  }
 
 
 }

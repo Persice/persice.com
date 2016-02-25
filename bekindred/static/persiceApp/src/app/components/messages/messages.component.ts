@@ -30,38 +30,38 @@ let view = require('./messages.html');
   ]
 })
 @RouteConfig([
-	{
-		path: '/:threadId',
-		component: MessagesChatComponent,
-		name: 'SingleConversation'
-	},
-	{
-		path: '/new/',
-		component: MessagesNewComponent,
-		name: 'ConversationNew',
-		useAsDefault: true
-	},
-	{
-		path: '/new/:friendId',
-		component: MessagesNewComponent,
-		name: 'ConversationNewSelected',
-	}
+  {
+    path: '/:threadId',
+    component: MessagesChatComponent,
+    name: 'SingleConversation'
+  },
+  {
+    path: '/new/',
+    component: MessagesNewComponent,
+    name: 'ConversationNew',
+    useAsDefault: true
+  },
+  {
+    path: '/new/:friendId',
+    component: MessagesNewComponent,
+    name: 'ConversationNewSelected',
+  }
 ])
 export class MessagesComponent {
-	counter: number = 0;
-	constructor(
-		private inboxService: InboxService,
-		private _router: Router
-		) {
+  counter: number = 0;
+  constructor(
+    private inboxService: InboxService,
+    private _router: Router
+    ) {
 
-	}
+  }
 
   ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 
   navigateToConversation(id) {
-		this._router.navigate(['SingleConversation', { threadId: id }]);
+    this._router.navigate(['SingleConversation', { threadId: id }]);
   }
 
 }

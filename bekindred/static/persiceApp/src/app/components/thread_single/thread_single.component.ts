@@ -21,7 +21,7 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
       </div>
     </div>
   </div>
-	`
+  `
 })
 export class ThreadSingleComponent {
   @Input() thread;
