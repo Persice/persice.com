@@ -1,6 +1,8 @@
 // Angular 2
-import {provide, enableProdMode} from 'angular2/core';
-import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
+
+import * as ng from 'angular2/core';
+import * as browser from 'angular2/platform/browser';
+
 import {FORM_PROVIDERS} from 'angular2/common';
 import {
 ROUTER_PROVIDERS,
@@ -22,10 +24,11 @@ import {APP_SERVICES_PROVIDERS} from './app/services/services';
 const ENV_PROVIDERS = [];
 
 if ('production' === process.env.ENV) {
-  enableProdMode();
+  ng.enableProdMode();
+  ENV_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS_PROD_MODE);
 }
 else {
-  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+  ENV_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS);
 }
 
 
@@ -65,10 +68,10 @@ const UNIVERSAL_PROVIDERS = [
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  provide(LocationStrategy, { useClass: PathLocationStrategy }),
-  provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
-  provide(APP_BASE_HREF, { useValue: '/' }),
-  provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
+  ng.provide(LocationStrategy, { useClass: PathLocationStrategy }),
+  ng.provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
+  ng.provide(APP_BASE_HREF, { useValue: '/' }),
+  ng.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 
 const APP_PROVIDERS = [
@@ -76,30 +79,39 @@ const APP_PROVIDERS = [
   PLATFORM_PROVIDERS
 ];
 
-
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection
  */
-
-document.addEventListener('DOMContentLoaded', function main() {
-  bootstrap(AppComponent, APP_PROVIDERS)
+export function main() {
+  return browser.bootstrap(AppComponent, APP_PROVIDERS)
     .catch(err => console.error(err));
-});
+}
+
+/*
+ * Vendors
+ * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
+ * Also see custom_typings.d.ts as you also need to do `typings install x` where `x` is your module
+ */
 
 
 
-// /*
-//  * Modified for using hot module reload
-//  */
+/*
+ * Hot Module Reload
+ */
+if ('development' === process.env.ENV) {
+  // activate hot module reload
+  if ('hot' in module) {
+    if (document.readyState === 'complete') {
+      main();
+    } else {
+      document.addEventListener('DOMContentLoaded', main);
+    }
+    module.hot.accept();
+  }
 
-// // typescript lint error 'Cannot find name "module"' fix
-// declare let module: any;
+} else {
+  // bootstrap after document is ready
+  document.addEventListener('DOMContentLoaded', main);
+}
 
-// // activate hot module reload
-// if (module.hot) {
-//   bootstrap(AppComponent, APP_PROVIDERS)
-//     .catch(err => console.error(err));
-
-//   module.hot.accept();
-// }

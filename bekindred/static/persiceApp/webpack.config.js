@@ -23,8 +23,8 @@ module.exports = {
   metadata: metadata,
   // for faster builds use 'eval'
   devtool: 'eval',
-  debug: false,
-  cache: false,
+  debug: true,
+  cache: true,
 
   // our angular app
   entry: {

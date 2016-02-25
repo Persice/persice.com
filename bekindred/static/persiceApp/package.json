@@ -20,7 +20,7 @@
     "build:prod": "webpack --config webpack.prod.config.js --progress --profile --colors --display-error-details --display-cached",
     "server": "npm run server:dev",
     "server:json": "./node_modules/.bin/json-server --watch ./jsonapi/db.json --port 1337 -d 1000",
-    "server:dev": "webpack-dev-server --inline --progress --profile --colors --display-error-details --display-cached  --content-base src/",
+    "server:dev": "webpack-dev-server --inline --hot --watch --progress --profile --colors --display-error-details --display-cached  --content-base src/",
     "server:prod": "http-server dist --cors",
     "webdriver:update": "webdriver-manager update",
     "webdriver:start": "webdriver-manager start",
