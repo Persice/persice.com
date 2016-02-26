@@ -1,6 +1,6 @@
 // Angular 2
 
-import * as ng from 'angular2/core';
+import * as ngCore from 'angular2/core';
 import * as browser from 'angular2/platform/browser';
 
 import {FORM_PROVIDERS} from 'angular2/common';
@@ -24,7 +24,7 @@ import {APP_SERVICES_PROVIDERS} from './app/services/services';
 const ENV_PROVIDERS = [];
 
 if ('production' === process.env.ENV) {
-  ng.enableProdMode();
+  ngCore.enableProdMode();
   ENV_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS_PROD_MODE);
 }
 else {
@@ -37,11 +37,14 @@ import {HttpClient} from './app/core/http_client';
 /*
  * Google maps
  */
+
 import {
-MapsAPILoader,
-NoOpMapsAPILoader,
-ANGULAR2_GOOGLE_MAPS_PROVIDERS
+  MapsAPILoader,
+  NoOpMapsAPILoader,
+  // MouseEvent,
+  ANGULAR2_GOOGLE_MAPS_PROVIDERS
 } from './app/components/map/core';
+
 
 /*
  * App Component
@@ -68,10 +71,10 @@ const UNIVERSAL_PROVIDERS = [
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  ng.provide(LocationStrategy, { useClass: PathLocationStrategy }),
-  ng.provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
-  ng.provide(APP_BASE_HREF, { useValue: '/' }),
-  ng.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
+  ngCore.provide(LocationStrategy, { useClass: PathLocationStrategy }),
+  ngCore.provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
+  ngCore.provide(APP_BASE_HREF, { useValue: '/' }),
+  ngCore.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 
 const APP_PROVIDERS = [

@@ -169,6 +169,7 @@ export class FilterComponent {
 
   save() {
 
+
     let data = this.filters.state;
     //prevent saving keywords
     delete data.keyword;
@@ -179,12 +180,11 @@ export class FilterComponent {
       window.clearTimeout(this.timeoutIdFiltersSave);
     }
     this.timeoutIdFiltersSave = window.setTimeout(() => {
-
       this.filterService.updateOne(resourceUri, data)
         .subscribe(res => {
           this.filterService.publishObservers();
         });
-    }, 250);
+    }, 1000);
 
   }
 

@@ -2,7 +2,7 @@
  {{ profileViewActive}}
   <div class="layout__item 3/4 extralarge-and-up-4/5" id="crowd">
     <users-list (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" [showButtons]="1" [users]="items" (onClicked)="setSelectedUser($event)"></users-list>
-    <loading-card [status]="loadingInitial"></loading-card>
+    <loading-card *ngIf="loadingInitial"></loading-card>
     <loading [status]="loading && !loadingInitial"></loading>
     <div class="no-results" *ngIf="isListEmpty" [ngClass]="{'is-visible': isListEmpty}">
       <h2 class="no-results__title">Whoops!</h2>

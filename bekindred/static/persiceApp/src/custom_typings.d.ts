@@ -4,6 +4,7 @@
 /// <reference path="./custom_typings/lodash.d.ts" />
 
 declare var jQuery: any;
+declare var dragula: any;
 
 /*
  * Custom Type Definitions
