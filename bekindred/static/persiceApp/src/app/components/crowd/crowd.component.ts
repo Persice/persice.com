@@ -122,12 +122,6 @@ export class CrowdComponent {
 
   refreshList() {
     console.log('refreshing list');
-
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-       this.loadingInitial = false;
-        this.loadingInitial = true;
-    }
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
     this.total_count = 0;
