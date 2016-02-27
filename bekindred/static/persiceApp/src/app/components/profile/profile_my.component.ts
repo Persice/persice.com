@@ -115,6 +115,7 @@ export class ProfileMyComponent {
   loadingPhotos: boolean = false;
   active = false;
   photosServiceSubscriberUpdate;
+  loadingPhotosAction: boolean = false;
 
 
   constructor(
@@ -429,7 +430,7 @@ export class ProfileMyComponent {
   }
 
   replacePhoto(event) {
-
+    this.loadingPhotosAction = true;
     if (this.photosServiceSubscriberUpdate) {
       this.photosServiceSubscriberUpdate.unsubscribe();
     }
@@ -446,8 +447,11 @@ export class ProfileMyComponent {
 
     this.photosServiceSubscriberUpdate = this.photosService.batchUpdate(data)
       .subscribe(data => {
-
-      }, err => console.log('could not update order of photos ', err));
+        this.loadingPhotosAction = false;
+      }, err => {
+        console.log('could not update order of photos ', err),
+          this.loadingPhotosAction = false;
+      });
   }
 
   changeProfilePhoto(event) {

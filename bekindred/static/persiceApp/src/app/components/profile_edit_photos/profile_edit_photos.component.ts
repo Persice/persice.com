@@ -22,13 +22,13 @@ let view = require('./profile_edit_photos.html');
 })
 export class ProfileEditPhotosComponent {
   @Input() photos;
+  @Input() loading;
   @Input() default;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() replace: EventEmitter<any> = new EventEmitter();
   @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter();
   @Output() openAlbums: EventEmitter<any> = new EventEmitter();
-  loading: boolean = false;
   profilePhotos = [];
   drakeInstance;
 

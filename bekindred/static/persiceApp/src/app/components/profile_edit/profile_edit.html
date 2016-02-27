@@ -46,7 +46,7 @@
           <loading [status]="loadingPhotos"></loading>
         </div>
       </div>
-      <profile-edit-photos *ngIf="!loadingPhotos" (changeProfilePhoto)="changeProfilePhoto.next($event)" (replace)="replacePhoto.next($event)" (delete)="deletePhoto.next($event)" (openAlbums)="openAlbums($event)" (close)="closeModal($event)" [default]="defaultPhoto" [photos]="profilePhotos"></profile-edit-photos>
+      <profile-edit-photos [loading]="loadingPhotosAction" *ngIf="!loadingPhotos" (changeProfilePhoto)="changeProfilePhoto.next($event)" (replace)="replacePhoto.next($event)" (delete)="deletePhoto.next($event)" (openAlbums)="openAlbums($event)" (close)="closeModal($event)" [default]="defaultPhoto" [photos]="profilePhotos"></profile-edit-photos>
     </div>
     <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }" id="pr-edit-interests" *ngIf="activeTab === 'interests'">
       <profile-edit-interests (close)="closeModal($event)"></profile-edit-interests>

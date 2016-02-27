@@ -50,6 +50,7 @@ export class ProfileEditComponent {
   @Input() religiousViews;
   @Input() photos;
   @Input() loadingPhotos;
+  @Input() loadingPhotosAction;
   @Input() activeSection;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
   @Output() deletePhoto: EventEmitter<any> = new EventEmitter;

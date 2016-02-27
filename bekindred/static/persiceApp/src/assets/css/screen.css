@@ -453,15 +453,13 @@ html.remodal-is-locked {
 }
 
 .remodal-overlay.remodal-is-opening {
-  /* -webkit-animation-name: remodal-overlay-opening-keyframes;
-  animation-name: remodal-overlay-opening-keyframes;*/
-  opacity: 1;
+   -webkit-animation-name: remodal-overlay-opening-keyframes;
+  animation-name: remodal-overlay-opening-keyframes;
 }
 
 .remodal-overlay.remodal-is-closing {
-  /*-webkit-animation-name: remodal-overlay-closing-keyframes;
-  animation-name: remodal-overlay-closing-keyframes;*/
-  opacity: 0;
+  -webkit-animation-name: remodal-overlay-closing-keyframes;
+  animation-name: remodal-overlay-closing-keyframes;
 }
 
 
@@ -480,7 +478,7 @@ html.remodal-is-locked {
   width: 100%;
   margin-bottom: 10px;
   padding: 35px;
-  /*-webkit-transform: translate3d(0, 0, 0);*/
+  -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   color: #2b2e38;
   background: #fff;
@@ -495,13 +493,15 @@ html.remodal-is-locked {
 }
 
 .remodal.remodal-is-opening {
-  -webkit-animation-name: remodal-opening-keyframes;
-  animation-name: remodal-opening-keyframes;
+  /*-webkit-animation-name: remodal-opening-keyframes;
+  animation-name: remodal-opening-keyframes;*/
+  opacity: 1;
 }
 
 .remodal.remodal-is-closing {
-  -webkit-animation-name: remodal-closing-keyframes;
-  animation-name: remodal-closing-keyframes;
+/*  -webkit-animation-name: remodal-closing-keyframes;
+  animation-name: remodal-closing-keyframes;*/
+  opacity: 0;
 }
 
 
