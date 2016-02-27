@@ -453,7 +453,7 @@ html.remodal-is-locked {
 }
 
 .remodal-overlay.remodal-is-opening {
- /* -webkit-animation-name: remodal-overlay-opening-keyframes;
+  /* -webkit-animation-name: remodal-overlay-opening-keyframes;
   animation-name: remodal-overlay-opening-keyframes;*/
   opacity: 1;
 }
@@ -3776,6 +3776,7 @@ button.swiper-pagination-bullet {
   top: 0;
   left: 0;
   transform-origin: 0 0;
+  max-width: none;
 }
 
 .croppie-container .cr-boundary {

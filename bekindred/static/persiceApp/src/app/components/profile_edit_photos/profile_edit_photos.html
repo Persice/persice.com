@@ -1,23 +1,23 @@
 <div class="profile-edit__photos p-">
   <div class="layout layout--flush layout--auto">
     <div class="layout__item">
-      <div *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/persiceApp/src/assets/empty_avatar.png' && profilePhotos[0].cropped_photo !== ''" class="profile-edit__photos__main-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[0]?.cropped_photo + ')'}">
-        <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])">
-          <svg role="img" class="icon icon--notsotiny">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a>
+      <div *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/persiceApp/src/assets/empty_avatar.png'" id="profile-photo-big" class="profile-edit__photos__main-photo-container">
+        <div id="photo_{{profilePhotos[0].id}}" *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/persiceApp/src/assets/empty_avatar.png' && profilePhotos[0].cropped_photo !== ''" class="profile-edit__photos__main-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[0]?.cropped_photo + ')'}">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[0].id}}" *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/persiceApp/src/assets/empty_avatar.png' && profilePhotos[0].cropped_photo === ''" class="profile-edit__photos__main-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[0]?.photo + ')'}">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
       </div>
-
-      <div *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/persiceApp/src/assets/empty_avatar.png' && profilePhotos[0].cropped_photo === ''" class="profile-edit__photos__main-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[0]?.photo + ')'}">
-        <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])">
-          <svg role="img" class="icon icon--notsotiny">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a>
-      </div>
-
-      <div class="profile-edit__photos__main-photo profile-edit__photos__thumb-photo-upload"  *ngIf="profilePhotos[0].id === null || profilePhotos[0].photo === '/static/persiceApp/src/assets/empty_avatar.png'" (click)="openAlbums.next(0)">
+      <div class="profile-edit__photos__main-photo profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[0].id === null || profilePhotos[0].photo === '/static/persiceApp/src/assets/empty_avatar.png'" (click)="openAlbums.next(0)">
         <div class="fileUpload">
           <span>
             <svg role="img" class="icon ">
@@ -27,36 +27,38 @@
         </div>
       </div>
     </div>
-    <div class="layout__item js-sortable">
-      <div *ngIf="profilePhotos[1].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[1].cropped_photo + ')'}">
-        <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[1])">
-          <svg role="img" class="icon icon--notsotiny">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a>
+    <div class="layout__item">
+      <div id="profile-photos" class="profile-edit__photos__thumb-photo-container">
+        <div id="photo_{{profilePhotos[1].id}}" *ngIf="profilePhotos[1].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[1].cropped_photo + ')'}">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[1])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[2].id}}" *ngIf="profilePhotos[2].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[2].cropped_photo + ')'}">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[2])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[3].id}}" *ngIf="profilePhotos[3].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[3].cropped_photo + ')'}">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[3])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[4].id}}" *ngIf="profilePhotos[4].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[4].cropped_photo + ')'}">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[4])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
       </div>
-      <div *ngIf="profilePhotos[2].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[2].cropped_photo + ')'}">
-        <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[2])">
-          <svg role="img" class="icon icon--notsotiny">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a>
-      </div>
-      <div *ngIf="profilePhotos[3].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[3].cropped_photo + ')'}">
-        <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[3])">
-          <svg role="img" class="icon icon--notsotiny">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a>
-      </div>
-      <div *ngIf="profilePhotos[4].id !== null" class="profile-edit__photos__thumb-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[4].cropped_photo + ')'}">
-        <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[4])">
-          <svg role="img" class="icon icon--notsotiny">
-            <use xlink:href="/static/persiceApp/src/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a>
-      </div>
-      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[1].id === null" (click)="openAlbums.next(1)">
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[1].id === null" (click)="checkOrderAndOpenAlbums($event)">
         <div class="fileUpload">
           <span>
             <svg role="img" class="icon ">
@@ -65,7 +67,7 @@
           </span>
         </div>
       </div>
-      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[2].id === null" (click)="openAlbums.next(2)">
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[2].id === null" (click)="checkOrderAndOpenAlbums($event)">
         <div class="fileUpload">
           <span>
             <svg role="img" class="icon">
@@ -74,7 +76,7 @@
           </span>
         </div>
       </div>
-      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[3].id === null" (click)="openAlbums.next(3)">
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[3].id === null" (click)="checkOrderAndOpenAlbums($event)">
         <div class="fileUpload">
           <span>
             <svg role="img" class="icon ">
@@ -83,7 +85,7 @@
           </span>
         </div>
       </div>
-      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[4].id === null" (click)="openAlbums.next(4)">
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[4].id === null" (click)="checkOrderAndOpenAlbums($event)">
         <div class="fileUpload">
           <span>
             <svg role="img" class="icon ">

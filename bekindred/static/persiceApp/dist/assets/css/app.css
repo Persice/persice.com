@@ -873,3 +873,14 @@ li.features-list__match {
 .card.card--user.is-new {
   background-color: #f8fcfd!important;
 }
+
+
+.event-status-cropper {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-out;
+}
+.event-status-cropper.is-visible {
+  opacity: 1;
+  visibility: visible;
+}

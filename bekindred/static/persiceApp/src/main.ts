@@ -110,6 +110,9 @@ if ('development' === process.env.ENV) {
     } else {
       document.addEventListener('DOMContentLoaded', main);
     }
+
+    // temp fix issue with open remodal
+    jQuery('.remodal-is-opened').remove();
     module.hot.accept();
   }
 
