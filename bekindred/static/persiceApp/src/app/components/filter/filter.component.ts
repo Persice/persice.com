@@ -184,7 +184,7 @@ export class FilterComponent {
         .subscribe(res => {
           this.filterService.publishObservers();
         });
-    }, 1000);
+    }, 500);
 
   }
 

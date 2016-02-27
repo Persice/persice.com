@@ -449,15 +449,13 @@ export class ProfileMyComponent {
       .subscribe(data => {
         this.loadingPhotosAction = false;
       }, err => {
-        console.log('could not update order of photos ', err),
-          this.loadingPhotosAction = false;
+        console.log('could not update order of photos ', err);
+        this.loadingPhotosAction = false;
       });
   }
 
   changeProfilePhoto(event) {
     this.loadingPhotos = true;
-    console.log('changing profile photo', event);
-
     let srcIdx = ListUtil.findIndex(this.profilePhotos, { id: event.src });
     let dstIdx = ListUtil.findIndex(this.profilePhotos, { id: event.dst });
 
@@ -500,7 +498,7 @@ export class ProfileMyComponent {
 
   }
 
-  convertToDataURLviaCanvas(url, outputFormat, callback, ) {
+  convertToDataURLviaCanvas(url, outputFormat, callback) {
     let img = new Image();
     img.crossOrigin = 'Anonymous';
     img.onload = function() {
