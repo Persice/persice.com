@@ -232,6 +232,8 @@ class MatchedFeedResource2(Resource):
             filter_updated = None
             if fs:
                 try:
+                    # Concatenate all filters value instead!!!
+                    # m.1312.10000mi.sim
                     filter_updated = time.mktime(fs[0].updated.timetuple())
                     cache_match_users = cache.get('%s_%s' % (request.user.id,
                                                              filter_updated))
