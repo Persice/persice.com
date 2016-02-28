@@ -85,22 +85,11 @@ export class PhotosService {
       });
   }
 
-  public updatePosition(uri, position, cb: (status: number) => void) {
-    let userId = CookieUtil.getValue('userid');
-    let photo = {
-      order: position,
-      user: '/api/v1/auth/user/' + userId + '/'
-    };
-    let body = JSON.stringify(photo);
-    let channel = this.http.patch(`${uri}?format=json`, body, OPTS_REQ_JSON_CSRF)
-      .map((res: Response) => res.json())
-      .subscribe((data) => {
-        cb(1);
-        channel.unsubscribe();
-      }, error => {
-        console.log('Could not save update order of photo.');
-        cb(-1);
-      });
+  public batchUpdate(data): Observable<any> {
+    let body = JSON.stringify(data);
+    return this.http.patch(`${PhotosService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json());
+
   }
 
 

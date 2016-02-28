@@ -15,6 +15,11 @@ export class RemodalDirective {
   }
 
   ngAfterViewInit() {
+
+    this.initializeModal();
+  }
+
+  initializeModal() {
     let options = {
       hashTracking: false,
       closeOnOutsideClick: false
@@ -24,7 +29,6 @@ export class RemodalDirective {
       options = JSON.parse(this.options);
     }
     jQuery(this.el.nativeElement).remodal(options);
-
   }
 
   ngOnDestroy() {

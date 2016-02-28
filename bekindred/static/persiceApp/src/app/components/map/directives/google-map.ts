@@ -1,15 +1,8 @@
-import {
-Component,
-Renderer,
-ElementRef,
-EventEmitter,
-OnChanges,
-OnInit,
-SimpleChange
-} from 'angular2/core';
+import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
-import {LatLng, LatLngLiteral} from '../services/google-maps-types';
+import {LatLng} from '../services/google-maps-types';
+import {MouseEvent} from '../events';
 
 /**
  * GoogleMap renders a Google Map.
@@ -19,7 +12,7 @@ import {LatLng, LatLngLiteral} from '../services/google-maps-types';
  * ### Example
  * ```typescript
  * import {Component} from 'angular2/core';
- * import {GoogleMap} from 'angular2-google-maps/core';
+ * import {GoogleMap} from 'angular2google-maps/core';
  *
  * @Component({
  *  selector: 'my-map-cmp',
@@ -39,23 +32,15 @@ import {LatLng, LatLngLiteral} from '../services/google-maps-types';
 @Component({
   selector: 'google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
-  styles: [
-    `
-    .google-map-container-inner {
-      width: inherit;
-      height: inherit;
-    }
-  `
-  ],
-  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom'],
+  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
   outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
   template: `
-    <div class="google-map-container-inner"></div>
+    <div class="google-map-container"></div>
     <ng-content></ng-content>
   `
 })
 export class GoogleMap implements OnChanges,
-  OnInit {
+    OnInit {
   private _longitude: number = 0;
   private _latitude: number = 0;
   private _zoom: number = 8;
@@ -64,40 +49,49 @@ export class GoogleMap implements OnChanges,
    */
   disableDoubleClickZoom: boolean = false;
 
+  /**
+   * Enables/disables all default UI of the Google map. Please note: When the map is created, this
+   * value cannot get updated.
+   */
+  disableDefaultUI: boolean = false;
+
+  /**
+   * Map option attributes that can change over time
+   */
   private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
    */
-  mapClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user right-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapRightClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user double-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapDblClick: EventEmitter<MapMouseEvent> = new EventEmitter<MapMouseEvent>();
+  mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  constructor(
-    private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper,
-    private _renderer: Renderer) { }
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
   /** @internal */
   ngOnInit() {
-    this._renderer.setElementClass(this._elem.nativeElement, 'google-map-container', true);
-    const container = this._elem.nativeElement.querySelector('.google-map-container-inner');
+    const container = this._elem.nativeElement.querySelector('.google-map-container');
     this._initMapInstance(container);
   }
 
   private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.createMap(
-      el, { center: { lat: this._latitude, lng: this._longitude }, zoom: this._zoom });
+    this._mapsWrapper.createMap(el, {
+      center: {lat: this._latitude, lng: this._longitude},
+      zoom: this._zoom,
+      disableDefaultUI: this.disableDefaultUI
+    });
     this._handleMapCenterChange();
     this._handleMapZoomChange();
     this._handleMapMouseEvents();
@@ -105,13 +99,13 @@ export class GoogleMap implements OnChanges,
 
   private static _containsMapOptionsChange(changesKeys: string[]): boolean {
     return changesKeys.every(
-      (key: string) => { return GoogleMap._mapOptionsAttributes.indexOf(key) !== 1; });
+        (key: string) => { return GoogleMap._mapOptionsAttributes.indexOf(key) !== 1; });
   }
 
   /** @internal */
-  ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
     if (GoogleMap._containsMapOptionsChange(Object.keys(changes))) {
-      this._mapsWrapper.setMapOptions({ disableDoubleClickZoom: this.disableDoubleClickZoom });
+      this._mapsWrapper.setMapOptions({disableDoubleClickZoom: this.disableDoubleClickZoom});
     }
   }
 
@@ -156,7 +150,7 @@ export class GoogleMap implements OnChanges,
     }
     this._mapsWrapper.setCenter({
       lat: this._latitude,
-      lng: this._longitude
+      lng: this._longitude,
     });
   }
 
@@ -170,34 +164,28 @@ export class GoogleMap implements OnChanges,
   }
 
   private _handleMapZoomChange() {
-    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed')
-      .subscribe(() => { this._mapsWrapper.getZoom().then((z: number) => this._zoom = z); });
+    this._mapsWrapper.subscribeToMapEvent<void>('zoom_changed').subscribe(() => {
+      this._mapsWrapper.getZoom().then((z: number) => this._zoom = z);
+    });
   }
 
   private _handleMapMouseEvents() {
     interface Emitter {
       emit(value: any): void;
     }
-    type Event = { name: string, emitter: Emitter };
+    type Event = {name: string, emitter: Emitter};
 
     const events: Event[] = [
-      { name: 'click', emitter: this.mapClick },
-      { name: 'rightclick', emitter: this.mapRightClick },
-      { name: 'dblclick', emitter: this.mapDblClick }
+      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'dblclick', emitter: this.mapDblClick}
     ];
 
     events.forEach((e: Event) => {
-      this._mapsWrapper.subscribeToMapEvent<{ latLng: LatLng }>(e.name)
-        .subscribe((event: { latLng: LatLng }) => {
-          const value =
-            <MapMouseEvent>{ coords: { lat: event.latLng.lat(), lng: event.latLng.lng() } };
-          e.emitter.emit(value);
-        });
+      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
+          (event: {latLng: LatLng}) => {
+            const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
+            e.emitter.emit(value);
+          });
     });
   }
 }
-
-/**
- * MapMouseEvent gets emitted when the user triggers mouse events on the map.
- */
-export interface MapMouseEvent { coords: LatLngLiteral; }

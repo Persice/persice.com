@@ -75,7 +75,9 @@ export class CrowdComponent {
     this.filterService.addObserver('crowd');
     this.filterService.observer('crowd')
       .subscribe(
-      (data) => this.refreshList(),
+      (data) => {
+        this.refreshList();
+      },
       (err) => console.log(err),
       () => console.log('event completed')
       );
@@ -119,12 +121,11 @@ export class CrowdComponent {
 
 
   refreshList() {
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-    }
+    console.log('refreshing list');
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
     this.total_count = 0;
+
     this.currentIndex = 0;
     this.isListEmpty = false;
     this.next = '';

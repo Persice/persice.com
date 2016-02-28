@@ -290,9 +290,7 @@ export class AppComponent {
       (data) => this.showNotification(data),
       (err) => {
         console.log('Notification error %s', err);
-      },
-      () => console.log('event completed')
-      );
+      });
 
     // Get geolocation from the browser
     const GEOLOCATION_OPTS = {

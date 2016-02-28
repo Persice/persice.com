@@ -1,20 +1,6 @@
 // Angular 2
-import {provide, enableProdMode} from 'angular2/core';
-import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
-
-/*
- * Angular Modules
- */
-
-const ENV_PROVIDERS = [];
-
-if ('production' === process.env.ENV) {
-  enableProdMode();
-}
-else {
-  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
-}
-
+import * as ngCore from 'angular2/core';
+import * as browser from 'angular2/platform/browser';
 
 import {FORM_PROVIDERS} from 'angular2/common';
 import {
@@ -22,10 +8,10 @@ ROUTER_PROVIDERS,
 ROUTER_PRIMARY_COMPONENT,
 HashLocationStrategy,
 PathLocationStrategy,
-APP_BASE_HREF,
-LocationStrategy
+LocationStrategy,
+APP_BASE_HREF
 } from 'angular2/router';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS, JSONP_PROVIDERS} from 'angular2/http';
 
 /*
  * App Services
@@ -34,8 +20,19 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 import {APP_SERVICES_PROVIDERS} from '../app/services/services';
 
 
+const ENV_PROVIDERS = [];
+
+if ('production' === process.env.ENV) {
+  ngCore.enableProdMode();
+  ENV_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS_PROD_MODE);
+}
+else {
+  ENV_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS);
+}
+
 
 import {HttpClient} from '../app/core/http_client';
+
 
 /*
  * App Component
@@ -48,21 +45,22 @@ import {SignupComponent} from './components/signup.component';
  * Universal injectables
  */
 const UNIVERSAL_PROVIDERS = [
-  ...ROUTER_PROVIDERS,
   ...ENV_PROVIDERS,
+  ...ROUTER_PROVIDERS,
   ...FORM_PROVIDERS,
   ...HTTP_PROVIDERS,
+  ...JSONP_PROVIDERS,
   HttpClient,
-  ...APP_SERVICES_PROVIDERS,
+  ...APP_SERVICES_PROVIDERS
 ];
 
 /*
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  provide(LocationStrategy, { useClass: PathLocationStrategy }),
-  provide(APP_BASE_HREF, { useValue: '/signup' }),
-  provide(ROUTER_PRIMARY_COMPONENT, { useValue: SignupComponent }),
+  ngCore.provide(LocationStrategy, { useClass: PathLocationStrategy }),
+  ngCore.provide(ROUTER_PRIMARY_COMPONENT, { useValue: SignupComponent }),
+  ngCore.provide(APP_BASE_HREF, { useValue: '/signup' }),
 ];
 
 const APP_PROVIDERS = [
@@ -74,25 +72,35 @@ const APP_PROVIDERS = [
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection
  */
-
-document.addEventListener('DOMContentLoaded', function main() {
-  bootstrap(SignupComponent, APP_PROVIDERS)
+export function main() {
+  return browser.bootstrap(SignupComponent, APP_PROVIDERS)
     .catch(err => console.error(err));
-});
+}
+
+/*
+ * Vendors
+ * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
+ * Also see custom_typings.d.ts as you also need to do `typings install x` where `x` is your module
+ */
 
 
 
-// /*
-//  * Modified for using hot module reload
-//  */
+/*
+ * Hot Module Reload
+ */
+if ('development' === process.env.ENV) {
+  // activate hot module reload
+  if ('hot' in module) {
+    if (document.readyState === 'complete') {
+      main();
+    } else {
+      document.addEventListener('DOMContentLoaded', main);
+    }
+    module.hot.accept();
+  }
 
-// // typescript lint error 'Cannot find name "module"' fix
-// declare let module: any;
+} else {
+  // bootstrap after document is ready
+  document.addEventListener('DOMContentLoaded', main);
+}
 
-// // activate hot module reload
-// if (module.hot) {
-//   bootstrap(SignupComponent, APP_PROVIDERS)
-//     .catch(err => console.error(err));
-
-//   module.hot.accept();
-// }

@@ -18,6 +18,7 @@ import {ProfileEditPhotosAlbumsComponent}
 from '../profile_edit_photos_albums/profile_edit_photos_albums.component';
 import {ProfileEditPhotosCropComponent}
 from '../profile_edit_photos_crop/profile_edit_photos_crop.component';
+import {LoadingComponent} from '../loading/loading.component';
 
 
 /**
@@ -39,7 +40,8 @@ let view = require('./profile_edit.html');
     ProfileEditGoalsComponent,
     ProfileEditOffersComponent,
     ProfileEditPhotosAlbumsComponent,
-    ProfileEditPhotosCropComponent
+    ProfileEditPhotosCropComponent,
+    LoadingComponent
   ]
 })
 export class ProfileEditComponent {
@@ -47,9 +49,13 @@ export class ProfileEditComponent {
   @Input() politicalViews;
   @Input() religiousViews;
   @Input() photos;
+  @Input() loadingPhotos;
+  @Input() loadingPhotosAction;
   @Input() activeSection;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
   @Output() deletePhoto: EventEmitter<any> = new EventEmitter;
+  @Output() replacePhoto: EventEmitter<any> = new EventEmitter;
+  @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter;
   @Output() cropAndSavePhoto: EventEmitter<any> = new EventEmitter;
   loadingEdit = false;
   activeTab = 'profile';
