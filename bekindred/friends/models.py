@@ -73,7 +73,6 @@ class FriendsManager(models.Manager):
         except IndexError:
             return None
 
-
     @staticmethod
     def all_my_friends(user_id):
         result = Friend.objects.filter(Q(friend1=user_id, status=1,

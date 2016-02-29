@@ -385,6 +385,7 @@ class FilterStateResource(ModelResource):
         bundle.data['updated'] = str(datetime.now())
         return super(FilterStateResource, self).obj_update(bundle, **kwargs)
 
+
 class UserResourceShort(ModelResource):
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
