@@ -89,6 +89,14 @@ export class FilterService {
     }
   }
 
+  //  public publishObserversWithNext(next) {
+  //   for (var i = this.observers.length - 1; i >= 0; i--) {
+  //     let name = this.observers[i].name;
+  //     let subject = this.observers[i].subject;
+  //     subject.next(next);
+  //   }
+  // }
+
 
 }
 export var filterServiceInjectables: Array<any> = [

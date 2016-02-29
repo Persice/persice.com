@@ -227,3 +227,51 @@ class TestConnectionsResource(ResourceTestCase):
         data = self.deserialize(resp)
         ar = [item['score'] for item in data['objects']]
         self.assertEqual(ar, [1, 2, 3, 0, 0, 0])
+
+
+class TestFriendsNewResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def setUp(self):
+        super(TestFriendsNewResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a',
+                                                           password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b',
+                                                            password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(username='user_c',
+                                                            password='test')
+
+    def login(self):
+        return self.api_client.client.post(
+            '/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(
+            self.api_client.get('/api/v1/new_connections/counter/',
+                                format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_request_friend_request(self):
+        Friend.objects.create(friend1=self.user,
+                              friend2=self.user2, status=1)
+        post_data = {
+            'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
+            'status': 1,
+        }
+
+        self.response = self.login()
+        resp = self.api_client.post('/api/v1/friends/', format='json',
+                                    data=post_data)
+        self.assertHttpCreated(resp)
+        self.assertTrue(Friend.objects.checking_friendship(self.user.pk,
+                                                           self.user1.pk))
+        resp = self.api_client.get('/api/v1/new_connections/counter/',
+                                   format='json')
+        self.assertEqual(self.deserialize(resp)['objects'],
+                         [{u'new_connection_counter': 2,
+                           u'resource_uri': u''}])

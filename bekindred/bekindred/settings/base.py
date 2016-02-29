@@ -311,31 +311,3 @@ ELASTICSEARCH_INDEX_SETTINGS = {
 }
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            },
-        },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'INFO',
-            },
-        'django.request': {
-            'handlers': ['console'],
-            'level': 'ERROR',
-            'propagate': False,
-            },
-        'bekindred.bekindred': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': False,
-            },
-        }
-}

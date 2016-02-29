@@ -9,7 +9,7 @@ import {Component, NgZone, ViewEncapsulation, Injectable, Type} from 'angular2/c
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {RouteConfig, ROUTER_DIRECTIVES, Router, RouteRegistry} from 'angular2/router';
 
-import {StringUtil, CookieUtil} from '../core/util';
+import {CookieUtil} from '../core/util';
 
 /*
  * Components
@@ -24,6 +24,7 @@ import {ProfileMyComponent} from './profile/profile_my.component';
 import {EventComponent} from './event/event.component';
 import {ProfileViewComponent} from './profile/profile_view.component';
 import {ProfileLoader} from './profile/profile_loader';
+import {NotificationsContainerComponent} from './notifications/notifications_container.component';
 
 import {HeaderMainComponent} from './headermain/headermain.component';
 import {HeaderSubComponent} from './headersub/headersub.component';
@@ -46,7 +47,9 @@ import {WebsocketService} from '../services/websocket.service';
 import {GeolocationService} from '../services/geolocation.service';
 import {LocationService} from '../services/location.service';
 import {MessagesCounterService} from '../services/messages_counter.service';
+import {ConnectionsCounterService} from '../services/connections_counter.service';
 import {HistoryService} from '../services/history.service';
+import {NotificationsService} from '../services/notifications.service';
 
 let view = require('./app.html');
 
@@ -144,7 +147,8 @@ class DynamicRouteConfiguratorService {
     HeaderMainComponent,
     HeaderSubComponent,
     LoadingComponent,
-    NotificationComponent
+    NotificationComponent,
+    NotificationsContainerComponent
   ],
   template: view,
   providers: [
@@ -157,7 +161,9 @@ class DynamicRouteConfiguratorService {
     UserAuthService,
     MessagesCounterService,
     HistoryService,
-    DynamicRouteConfiguratorService
+    DynamicRouteConfiguratorService,
+    ConnectionsCounterService,
+    NotificationsService
   ]
 })
 export class AppComponent {
@@ -171,15 +177,8 @@ export class AppComponent {
     active: false,
     type: ''
   };
-  notificationSmall = {
-    body: '',
-    title: '',
-    active: false,
-    type: '',
-    payload: null
-  };
+
   timeoutId = null;
-  timeoutNotification = null;
   appRoutes: string[][];
   userServiceObserver;
 
@@ -192,8 +191,10 @@ export class AppComponent {
     private locationService: LocationService,
     private geolocationService: GeolocationService,
     private messagesCounterService: MessagesCounterService,
+    private connectionsCounterService: ConnectionsCounterService,
     private historyService: HistoryService,
     private dynamicRouteConfiguratorService: DynamicRouteConfiguratorService,
+    private notificationsService: NotificationsService,
     private _zone: NgZone
   ) {
     //default image
@@ -238,29 +239,29 @@ export class AppComponent {
       switch (channel) {
         case 'messages:new':
           if (this.activeRoute.indexOf('messages') === -1) {
-            this.userAuthService.findByUri(data.sender)
-              .subscribe((res) => {
-                this.notificationSmall = {
-                  body: StringUtil.words(data.body, 30),
-                  title: '1 new message from ' + res.first_name,
-                  active: true,
-                  type: 'message',
-                  payload: {
-                    id: res.id
-                  }
-                };
-
-                if (this.timeoutNotification) {
-                  window.clearTimeout(this.timeoutNotification);
-                }
-
-                this.timeoutNotification = setTimeout(() => {
-                  this.notificationSmall.active = false;
-                }, 4000);
-              });
             this.messagesCounterService.refreshCounter();
+            this.notificationsService.set({
+              title: `1 new message from ${data.sender_name}`,
+              body: data.body,
+              data: {
+                sender_id: data.friend_id
+              },
+              type: 'message'
+            }, true);
           }
-
+          break;
+        case 'connections:new':
+          setTimeout(() => {
+            this.notificationsService.set({
+              title: `You and <strong>${data.friend_name}</strong> are now connected!`,
+              body: '',
+              data: {
+                username: data.friend_username
+              },
+              type: 'connection'
+            }, true);
+            this.connectionsCounterService.refreshCounter();
+          }, 2000);
           break;
         default:
           break;
@@ -269,24 +270,12 @@ export class AppComponent {
     });
   }
 
-  closeSmallNotification(event) {
-    this.notificationSmall.active = false;
-  }
-
-  performNotificationAction(event) {
-    if (this.notificationSmall.type === 'message') {
-      this._router.navigate(['Messages', 'SingleConversation', { 'threadId': this.notificationSmall.payload.id }]);
-      this.closeSmallNotification(true);
-    }
-  }
-
   ngOnInit() {
     console.log('hello App component');
 
     this._router.subscribe((next) => {
       this.activeRoute = next;
       this.historyService.setRoute(next);
-      // console.log(this.historyService.getAll());
     });
 
 
@@ -301,9 +290,7 @@ export class AppComponent {
       (data) => this.showNotification(data),
       (err) => {
         console.log('Notification error %s', err);
-      },
-      () => console.log('event completed')
-      );
+      });
 
     // Get geolocation from the browser
     const GEOLOCATION_OPTS = {
@@ -359,12 +346,9 @@ export class AppComponent {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);
     }
-    this.timeoutId = setTimeout(
-      () => {
-        this.notificationMain.active = false;
-      },
-      timeout
-    );
+    this.timeoutId = setTimeout(() => {
+      this.notificationMain.active = false;
+    }, timeout);
   }
 
   // Assign AuthUser user from the /me Api

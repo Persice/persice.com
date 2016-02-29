@@ -19,6 +19,11 @@ echo 'marvel.agent.enabled: false' >> ./config/elasticsearch.yml
 # https://github.com/jprante/elasticsearch-jdbc
 ```
 
+#### Flush Contents Of a Memcached Server Using Command Line 
+```
+echo 'flush_all' | nc localhost 11211
+```
+
 ##### Update south_migrationhistory for Django-facebook
 ```sql
 INSERT INTO south_migrationhistory VALUES (nextval('south_migrationhistory_id_seq'::regclass),'django_facebook', '0001_initial', CURRENT_TIMESTAMP);

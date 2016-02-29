@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Http} from 'angular2/http';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -9,16 +10,18 @@ import {ProfileFriendsComponent} from '../profile_friends/profile_friends.compon
 import {ProfileNetworksComponent} from '../profile_networks/profile_networks.component';
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {LoadingComponent} from '../loading/loading.component';
+import {ProfileGalleryComponent} from '../profile_gallery/profile_gallery.component';
 
 /** Directives */
 import {DropdownDirective} from '../../directives/dropdown.directive';
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 /** Services */
 import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {PhotosService} from '../../services/photos.service';
 import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
-
+import {ConnectionsCounterService} from '../../services/connections_counter.service';
 /** Utils */
 import {ObjectUtil} from '../../core/util';
 
@@ -37,6 +40,8 @@ let view = require('./profile.html');
     ProfileItemsComponent,
     DropdownDirective,
     LoadingComponent,
+    ProfileGalleryComponent,
+    RemodalDirective,
     ROUTER_DIRECTIVES
   ],
   providers: [
@@ -101,18 +106,36 @@ export class ProfileFriendComponent {
   loadingLikes: boolean = false;
   loadingConnections: boolean = false;
   loadingPhotos: boolean = false;
-
+  galleryActive = false;
+  galleryOptions = JSON.stringify({
+    hashTracking: false,
+    closeOnOutsideClick: true
+  });
 
   constructor(
-    public mutualfriendsService: MutualFriendsService,
-    public photosService: PhotosService,
-    public religiousviewsService: ReligiousViewsService,
-    public politicalviewsService: PoliticalViewsService
+    private mutualfriendsService: MutualFriendsService,
+    private photosService: PhotosService,
+    private religiousviewsService: ReligiousViewsService,
+    private politicalviewsService: PoliticalViewsService,
+    private counterService: ConnectionsCounterService,
+    private http: Http
   ) {
 
   }
 
+  ngOnDestroy() {
+    jQuery(document).off('closed', '.remodal');
+  }
+
   ngOnInit() {
+
+    //listen for event when gallery modal is closed
+    jQuery(document).on('closed', '.remodal', (e) => {
+      this.galleryActive = false;
+    });
+
+
+
     setTimeout(() => {
       jQuery('#userprofile').focus();
       window.scrollTo(0, 0);
@@ -126,9 +149,18 @@ export class ProfileFriendComponent {
   }
 
   assignUser() {
+    this.galleryActive = false;
     this.loadingConnections = true;
     this.loadingPhotos = true;
     this.loadingLikes = true;
+
+    // if (this.user.updated_at === 'seen') {
+    let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${this.user.id}`;
+    this.http.get(url).map(res => res.json()).subscribe(data => {
+      this.counterService.refreshCounter();
+    });
+    // }
+
 
     this.profileId = this.user.id;
     this.profileName = this.user.first_name;
@@ -273,6 +305,12 @@ export class ProfileFriendComponent {
       default:
         break;
     }
+  }
+
+  openGallery(event) {
+    let remodal = jQuery('[data-remodal-id=modal-gallery]').remodal();
+    remodal.open();
+    this.galleryActive = true;
   }
 
 

@@ -7,39 +7,39 @@ import {ProfileMyComponent} from './profile_my.component';
 import {CookieUtil} from '../../core/util';
 
 @Component({
-	selector: 'profile-loader',
-	template: `<div #child></div>`,
-	directives: [
-		ProfileMyComponent,
-		ProfileViewComponent
-	]
+  selector: 'profile-loader',
+  template: `<div #child></div>`,
+  directives: [
+    ProfileMyComponent,
+    ProfileViewComponent
+  ]
 })
 export class ProfileLoader {
-	username;
-	usernameParam;
+  username;
+  usernameParam;
 
-	constructor(
-		private _loader: DynamicComponentLoader,
-		private _el: ElementRef,
-		private _params: RouteParams
-		) {
-		this.username = CookieUtil.getValue('user_username');
-		this.usernameParam = this._params.get('username');
-	}
+  constructor(
+    private _loader: DynamicComponentLoader,
+    private _el: ElementRef,
+    private _params: RouteParams
+    ) {
+    this.username = CookieUtil.getValue('user_username');
+    this.usernameParam = this._params.get('username');
+  }
 
-	ngOnInit() {
+  ngOnInit() {
 
-		if (this.username === this.usernameParam) {
-			this._loader.loadIntoLocation(ProfileMyComponent, this._el, 'child')
-			.then((res) => {
+    if (this.username === this.usernameParam) {
+      this._loader.loadIntoLocation(ProfileMyComponent, this._el, 'child')
+      .then((res) => {
 
-			});
-		}
-		else {
-			this._loader.loadIntoLocation(ProfileViewComponent, this._el, 'child')
-			.then((res) => {
-				res.instance.setUsername(this.usernameParam);
-			});
-		}
-	}
+      });
+    }
+    else {
+      this._loader.loadIntoLocation(ProfileViewComponent, this._el, 'child')
+      .then((res) => {
+        res.instance.setUsername(this.usernameParam);
+      });
+    }
+  }
 }

@@ -4,7 +4,6 @@ from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.utils.timezone import now
 
 from django_facebook.models import FacebookCustomUser, FacebookUser
 from members.models import FacebookCustomUserActive
@@ -64,6 +63,16 @@ class FriendsManager(models.Manager):
         else:
             return False
 
+    def friendship_row(self, friend1, friend2):
+        try:
+            result = Friend.objects.filter(Q(friend1=friend1,
+                                             friend2=friend2, status=1) |
+                                           Q(friend1=friend2,
+                                             friend2=friend1, status=1))[0]
+            return result
+        except IndexError:
+            return None
+
     @staticmethod
     def all_my_friends(user_id):
         result = Friend.objects.filter(Q(friend1=user_id, status=1,
@@ -120,7 +129,7 @@ class Friend(models.Model):
     friend2 = models.ForeignKey(FacebookCustomUser, related_name='friend2')
     status = models.IntegerField(max_length=1, choices=FRIENDSHIP_STATUS,
                                  default=0)
-    updated_at = models.DateTimeField(default=now())
+    updated_at = models.DateTimeField(null=True, blank=True)
 
     def __unicode__(self):
         return '%s %s %s' % (self.friend1.username, self.friend2.username,

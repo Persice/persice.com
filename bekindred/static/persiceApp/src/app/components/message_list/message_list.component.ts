@@ -11,7 +11,7 @@ import {MessageSingleComponent} from '../message_single/message_single.component
     </div>
     <message *ngFor="#m of item.data" [message]="m"></message>
   </template>
-	`,
+  `,
   directives: [
     MessageSingleComponent
   ]

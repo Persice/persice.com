@@ -1,5 +1,6 @@
 import {Component, Input, Output} from 'angular2/core';
 import {RouteParams, Router, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Http} from 'angular2/http';
 
 /** Components */
 import {ProfileAvatarComponent} from '../profile_avatar/profile_avatar.component';
@@ -10,6 +11,7 @@ import {ProfileNetworksComponent} from '../profile_networks/profile_networks.com
 import {ProfileItemsComponent} from '../profile_items/profile_items.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {ProfileAcceptPassComponent} from '../profile_acceptpass/profile_acceptpass.component';
+import {ProfileGalleryComponent} from '../profile_gallery/profile_gallery.component';
 
 /** Services */
 import {ProfileService} from '../../services/profile.service';
@@ -17,11 +19,12 @@ import {MutualFriendsService} from '../../services/mutualfriends.service';
 import {FriendService} from '../../services/friend.service';
 import {PhotosService} from '../../services/photos.service';
 import {HistoryService} from '../../services/history.service';
-
+import {ConnectionsCounterService} from '../../services/connections_counter.service';
 /**
  * Directives
  */
 import {DropdownDirective} from '../../directives/dropdown.directive';
+import {RemodalDirective} from '../../directives/remodal.directive';
 
 
 /** Utils */
@@ -43,6 +46,8 @@ let view = require('./profile.html');
     ProfileAcceptPassComponent,
     LoadingComponent,
     DropdownDirective,
+    ProfileGalleryComponent,
+    RemodalDirective,
     ROUTER_DIRECTIVES
   ],
   providers: [
@@ -109,6 +114,11 @@ export class ProfileViewComponent {
   loadingConnections: boolean = false;
   loadingPhotos: boolean = false;
 
+  galleryActive = false;
+  galleryOptions = JSON.stringify({
+    hashTracking: false,
+    closeOnOutsideClick: true
+  });
 
   constructor(
     private mutualfriendsService: MutualFriendsService,
@@ -116,16 +126,27 @@ export class ProfileViewComponent {
     private friendService: FriendService,
     private photosService: PhotosService,
     private historyService: HistoryService,
+    private http: Http,
+    private counterService: ConnectionsCounterService,
     private _router: Router
   ) {
 
   }
 
-  setUsername (username) {
+  setUsername(username) {
     this.username = username;
   }
 
+
+
   ngOnInit() {
+
+    //listen for event when gallery modal is closed
+    jQuery(document).on('closed', '.remodal', (e) => {
+      this.galleryActive = false;
+    });
+
+
     setTimeout(() => {
       window.scrollTo(0, 0);
     });
@@ -154,6 +175,15 @@ export class ProfileViewComponent {
     this.loadingPhotos = true;
 
     this.profileType = data.connected === true ? 'friend' : 'crowd';
+
+    if (this.profileType === 'friend') {
+      if (data.updated_at === null) {
+        let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${data.id}`;
+        this.http.get(url).map(res => res.json()).subscribe(data => {
+          this.counterService.refreshCounter();
+        });
+      }
+    }
 
     this.profileId = data.id;
     this.profileName = data.first_name;
@@ -277,19 +307,17 @@ export class ProfileViewComponent {
   }
 
   acceptUser(event) {
-    console.log('accept user');
     this.friendService.saveFriendship(0, event.user)
       .subscribe(data => {
-
+        this.closeProfile(true);
       });
 
   }
 
   passUser(event) {
-    console.log('pass user');
     this.friendService.saveFriendship(-1, event.user)
       .subscribe(data => {
-
+        this.closeProfile(true);
       });
 
   }
@@ -299,6 +327,9 @@ export class ProfileViewComponent {
     if (this.profileServiceInstance) {
       this.profileServiceInstance.unsubscribe();
     }
+
+    jQuery(document).off('closed', '.remodal');
+
   }
 
   eventHandler(key) {
@@ -309,6 +340,12 @@ export class ProfileViewComponent {
       default:
         break;
     }
+  }
+
+  openGallery(event) {
+    let remodal = jQuery('[data-remodal-id=modal-gallery]').remodal();
+    remodal.open();
+    this.galleryActive = true;
   }
 
 }

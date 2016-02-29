@@ -22,7 +22,4 @@ export class EventInfoComponent {
     }
   }
 
-  openEditEvent(event) {
-    console.log('open edit');
-  }
 }

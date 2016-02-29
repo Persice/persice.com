@@ -1,7 +1,7 @@
 import json
 import re
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
-
+from datetime import datetime
 import redis
 from django.conf.urls import url
 from django.contrib.gis.measure import D
@@ -380,6 +380,10 @@ class FilterStateResource(ModelResource):
     def get_object_list(self, request):
         return super(FilterStateResource, self).get_object_list(request). \
             filter(user_id=request.user.id)
+
+    def obj_update(self, bundle, **kwargs):
+        bundle.data['updated'] = str(datetime.now())
+        return super(FilterStateResource, self).obj_update(bundle, **kwargs)
 
 
 class UserResourceShort(ModelResource):

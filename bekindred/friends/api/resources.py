@@ -2,6 +2,8 @@ import json
 import re
 
 import redis
+import time
+from django.core.cache import cache
 from django.db.models import Q
 from django.utils.timezone import now
 from tastypie import fields
@@ -58,10 +60,17 @@ class FriendsResource(ModelResource):
                 bundle.data['status'] = 1
                 # redis
                 r = redis.StrictRedis(host='localhost', port=6379, db=0)
+                user_1 = {'friend_name': bundle.obj.friend2.first_name,
+                          'friend_id': result[0].friend2_id,
+                          'friend_username': result[0].friend2.username}
                 r.publish('connection.%s' % result[0].friend1_id,
-                          json.dumps(bundle.data))
+                          json.dumps(user_1))
+
+                user_2 = {'friend_name': bundle.obj.friend1.first_name,
+                          'friend_id': result[0].friend1_id,
+                          'friend_username': result[0].friend1.username}
                 r.publish('connection.%s' % result[0].friend2_id,
-                          json.dumps(bundle.data))
+                          json.dumps(user_2))
                 return super(FriendsResource, self).obj_update(bundle,
                                                                **kwargs)
             elif result[0].status == -1 or status == -1:
@@ -354,17 +363,25 @@ class ConnectionsResource2(Resource):
 
     def get_object_list(self, request):
         if request.GET.get('filter') == 'true':
-            match_users = MatchQuerySet. \
-                all(request.user.id, is_filter=True, friends=True)
             fs = FilterState.objects.filter(user=request.user.id)
+
+            cache_match_users = None
+            filter_updated = None
             if fs:
-                if fs[0].order_criteria == 'match_score':
-                    return sorted(match_users, key=lambda x: -x.score)
-                elif fs[0].order_criteria == 'mutual_friends':
-                    return sorted(match_users, key=lambda x: -x.friends_score)
-                elif fs[0].order_criteria == 'date':
-                    return sorted(match_users, key=lambda x: x.last_login,
-                                  reverse=True)
+                try:
+                    filter_updated = time.mktime(fs[0].updated.timetuple())
+                    cache_match_users = cache.get('conn_%s_%s' %
+                                                  (request.user.id,
+                                                   filter_updated))
+                except AttributeError:
+                    pass
+            if cache_match_users:
+                match_users = cache_match_users
+            else:
+                match_users = MatchQuerySet. \
+                    all(request.user.id, is_filter=True, friends=True)
+                cache.set('conn_%s_%s' % (request.user.id,
+                                          filter_updated), match_users)
         else:
             match_users = MatchQuerySet.all(request.user.id, friends=True)
         return match_users

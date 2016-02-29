@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, EventEmitter, Input, Output} from 'angular2/core';
 
 import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {GenderPipe} from '../../pipes/gender.pipe';
@@ -8,7 +8,6 @@ let view = require('./usercard.html');
 
 @Component({
   inputs: ['user'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'user-card',
   pipes: [GenderPipe],
   template: view,
@@ -22,13 +21,45 @@ export class UserCardComponent {
   @Output() onClick: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
+  passIsActive = false;
+  acceptIsActive = false;
+  timeoutPass;
+  timeoutAccept;
 
   passUser(event) {
-    this.passEvent.next({ user: this.user.id, next: false });
+    this.acceptIsActive = false;
+    if (this.timeoutAccept) {
+      window.clearTimeout(this.timeoutAccept);
+    }
+
+    if (this.passIsActive) {
+      return;
+    }
+    this.passIsActive = true;
+    if (this.timeoutPass) {
+      window.clearTimeout(this.timeoutPass);
+    }
+    this.timeoutPass = setTimeout(() => {
+      this.passEvent.next({ user: this.user.id, next: false });
+    }, 1500);
+
   }
 
   acceptUser(event) {
-    this.acceptEvent.next({ user: this.user.id, next: false });
+    this.passIsActive = false;
+    if (this.timeoutPass) {
+      window.clearTimeout(this.timeoutPass);
+    }
+    if (this.acceptIsActive) {
+      return;
+    }
+    this.acceptIsActive = true;
+    if (this.timeoutAccept) {
+      window.clearTimeout(this.timeoutAccept);
+    }
+    this.timeoutAccept = setTimeout(() => {
+      this.acceptEvent.next({ user: this.user.id, next: false });
+    }, 1500);
   }
 
 

@@ -1,6 +1,8 @@
 // Angular 2
-import {provide, enableProdMode} from 'angular2/core';
-import {bootstrap, ELEMENT_PROBE_PROVIDERS} from 'angular2/platform/browser';
+
+import * as ngCore from 'angular2/core';
+import * as browser from 'angular2/platform/browser';
+
 import {FORM_PROVIDERS} from 'angular2/common';
 import {
 ROUTER_PROVIDERS,
@@ -22,10 +24,11 @@ import {APP_SERVICES_PROVIDERS} from './app/services/services';
 const ENV_PROVIDERS = [];
 
 if ('production' === process.env.ENV) {
-  enableProdMode();
+  ngCore.enableProdMode();
+  ENV_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS_PROD_MODE);
 }
 else {
-  ENV_PROVIDERS.push(ELEMENT_PROBE_PROVIDERS);
+  ENV_PROVIDERS.push(browser.ELEMENT_PROBE_PROVIDERS);
 }
 
 
@@ -34,11 +37,14 @@ import {HttpClient} from './app/core/http_client';
 /*
  * Google maps
  */
+
 import {
-MapsAPILoader,
-NoOpMapsAPILoader,
-ANGULAR2_GOOGLE_MAPS_PROVIDERS
+  MapsAPILoader,
+  NoOpMapsAPILoader,
+  // MouseEvent,
+  ANGULAR2_GOOGLE_MAPS_PROVIDERS
 } from './app/components/map/core';
+
 
 /*
  * App Component
@@ -65,10 +71,10 @@ const UNIVERSAL_PROVIDERS = [
  * Platform injectables
  */
 const PLATFORM_PROVIDERS = [
-  provide(LocationStrategy, { useClass: PathLocationStrategy }),
-  provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
-  provide(APP_BASE_HREF, { useValue: '/' }),
-  provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
+  ngCore.provide(LocationStrategy, { useClass: PathLocationStrategy }),
+  ngCore.provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
+  ngCore.provide(APP_BASE_HREF, { useValue: '/' }),
+  ngCore.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 
 const APP_PROVIDERS = [
@@ -76,13 +82,42 @@ const APP_PROVIDERS = [
   PLATFORM_PROVIDERS
 ];
 
+/*
+ * Bootstrap our Angular app with a top level component `App` and inject
+ * our Services and Providers into Angular's dependency injection
+ */
 export function main() {
-
-  return bootstrap(
-    AppComponent,
-    APP_PROVIDERS
-  ).catch(err => console.error(err));
-
+  return browser.bootstrap(AppComponent, APP_PROVIDERS)
+    .catch(err => console.error(err));
 }
 
-document.addEventListener('DOMContentLoaded', main);
+/*
+ * Vendors
+ * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
+ * Also see custom_typings.d.ts as you also need to do `typings install x` where `x` is your module
+ */
+
+
+
+/*
+ * Hot Module Reload
+ */
+if ('development' === process.env.ENV) {
+  // activate hot module reload
+  if ('hot' in module) {
+    if (document.readyState === 'complete') {
+      main();
+    } else {
+      document.addEventListener('DOMContentLoaded', main);
+    }
+
+    // temp fix issue with open remodal
+    jQuery('.remodal-is-opened').remove();
+    module.hot.accept();
+  }
+
+} else {
+  // bootstrap after document is ready
+  document.addEventListener('DOMContentLoaded', main);
+}
+

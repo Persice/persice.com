@@ -33,6 +33,8 @@ var jsFiles = [
   './lib/js/jqueryui/autocomplete.js',
   './lib/js/jqueryui/sortable.js',
   './lib/js/jqueryui/draggable.js',
+  './lib/js/jqueryui/droppable.js',
+  './lib/js/dragula.js',
   './lib/js/tag-it.js',
   './lib/js/init.js',
 ];

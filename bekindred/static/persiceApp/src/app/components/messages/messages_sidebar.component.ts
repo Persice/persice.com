@@ -56,8 +56,6 @@ export class MessagesSidebarComponent {
         this.inboxNext = res.next;
         this.activeThread = res.selected;
 
-        console.log(res);
-
         if (this.loadingInboxFinished === false) {
           jQuery(this.element.nativeElement).bind('scroll', this.handleScrollEvent.bind(this));
         } else {
