@@ -83,24 +83,28 @@ export function main() {
  * Also see custom_typings.d.ts as you also need to do `typings install x` where `x` is your module
  */
 
-
-
 /*
  * Hot Module Reload
+ * experimental version
  */
+
+function bootstrapDomReady() {
+  // bootstrap after document is ready
+  return document.addEventListener('DOMContentLoaded', main);
+}
+
 if ('development' === process.env.ENV) {
   // activate hot module reload
-  if ('hot' in module) {
+  if (process.env.HMR) {
     if (document.readyState === 'complete') {
       main();
     } else {
-      document.addEventListener('DOMContentLoaded', main);
+      bootstrapDomReady();
     }
     module.hot.accept();
+  } else {
+    bootstrapDomReady();
   }
-
 } else {
-  // bootstrap after document is ready
-  document.addEventListener('DOMContentLoaded', main);
+  bootstrapDomReady();
 }
-

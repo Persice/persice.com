@@ -116,12 +116,6 @@ module.exports = helpers.validate({
   },
 
   plugins: [
-    // new ProvidePlugin({
-    //   _: 'lodash'
-    //     // jQuery: 'jquery',
-    //     // $: 'jquery',
-    //     // jquery: 'jquery'
-    // }),
     new WebpackMd5Hash(),
     new DedupePlugin(),
     new OccurenceOrderPlugin(true),
