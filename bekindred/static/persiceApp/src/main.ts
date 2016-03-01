@@ -73,8 +73,8 @@ const UNIVERSAL_PROVIDERS = [
 const PLATFORM_PROVIDERS = [
   ngCore.provide(LocationStrategy, { useClass: PathLocationStrategy }),
   ngCore.provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
-  ngCore.provide(APP_BASE_HREF, { useValue: '/' }),
-  ngCore.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
+  ngCore.provide(APP_BASE_HREF, { useValue: '/' })
+  // ngCore.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 
 const APP_PROVIDERS = [
