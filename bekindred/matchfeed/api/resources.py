@@ -232,9 +232,13 @@ class MatchedFeedResource2(Resource):
             filter_updated = None
             if fs:
                 try:
+                    attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
+                             fs[0].distance, fs[0].distance_unit,
+                             fs[0].order_criteria, fs[0].keyword]
+                    filter_updated = '.'.join(map(str, attrs))
                     # Concatenate all filters value instead!!!
                     # m.1312.10000mi.sim
-                    filter_updated = time.mktime(fs[0].updated.timetuple())
+                    # filter_updated = time.mktime(fs[0].updated.timetuple())
                     cache_match_users = cache.get('%s_%s' % (request.user.id,
                                                              filter_updated))
                 except AttributeError:
