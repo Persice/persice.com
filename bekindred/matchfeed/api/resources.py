@@ -227,7 +227,6 @@ class MatchedFeedResource2(Resource):
     def get_object_list(self, request):
         if request.GET.get('filter') == 'true':
             fs = FilterState.objects.filter(user=request.user.id)
-
             cache_match_users = None
             filter_updated = None
             if fs:
