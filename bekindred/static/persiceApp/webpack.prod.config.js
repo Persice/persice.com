@@ -48,6 +48,7 @@ module.exports = helpers.validate({
   // Config for our build files
   output: {
     path: helpers.root('dist'),
+    publicPath: '/static/persiceApp/dist/',
     filename: '[name].[chunkhash].bundle.js',
     sourceMapFilename: '[name].[chunkhash].bundle.map',
     chunkFilename: '[id].[chunkhash].chunk.js'
@@ -116,12 +117,6 @@ module.exports = helpers.validate({
   },
 
   plugins: [
-    // new ProvidePlugin({
-    //   _: 'lodash'
-    //     // jQuery: 'jquery',
-    //     // $: 'jquery',
-    //     // jquery: 'jquery'
-    // }),
     new WebpackMd5Hash(),
     new DedupePlugin(),
     new OccurenceOrderPlugin(true),

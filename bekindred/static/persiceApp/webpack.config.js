@@ -5,13 +5,15 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
+var HMR = process.argv.join('').indexOf('hot') > -1;
 
 var metadata = {
   title: 'Persice',
   baseUrl: '/',
   host: 'localhost',
   port: 8080,
-  ENV: ENV
+  ENV: ENV,
+  HMR: HMR
 };
 /*
  * Config
@@ -75,12 +77,6 @@ module.exports = helpers.validate({
     resourcePath: 'src'
   },
   plugins: [
-    // new webpack.ProvidePlugin({
-    //   _: 'lodash'
-    //     // jQuery: 'jquery',
-    //     // $: 'jquery',
-    //     // jquery: 'jquery'
-    // }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
     // // static assets
@@ -91,7 +87,8 @@ module.exports = helpers.validate({
     new webpack.DefinePlugin({
       'process.env': {
         'ENV': JSON.stringify(metadata.ENV),
-        'NODE_ENV': JSON.stringify(metadata.ENV)
+        'NODE_ENV': JSON.stringify(metadata.ENV),
+        'HMR': HMR
       }
     })
   ],
