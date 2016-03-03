@@ -17,14 +17,67 @@
   <link rel="dns-prefetch" href="//fonts.googleapis.com">
   <link rel="dns-prefetch" href="//themes.googleusercontent.com">
   <link rel="dns-prefetch" href="//www.google-analytics.com">
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
+  <link rel="dns-prefetch" href="//widget.intercom.io">
+  <link rel="dns-prefetch" href="//cdn.heapanalytics.com">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
   <!-- dev mode -->
  <!--  <link rel="stylesheet" href="/static/persiceApp/src/assets/css/screen.css" />
   <link rel="stylesheet" href="/static/persiceApp/src/assets/css/app.css" /> -->
   <!-- prod mode -->
   <link rel="stylesheet" href="/static/persiceApp/dist/assets/css/vendor.min.css" />
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
+
+
+</head>
+
+<body>
+  <persice-app>
+    <div id="loadingindicator">
+        <div class="spinner">
+          <div class="rect1"></div>
+          <div class="rect2"></div>
+          <div class="rect3"></div>
+          <div class="rect4"></div>
+          <div class="rect5"></div>
+        </div>
+    </div>
+  </persice-app>
+  <!-- Theme scripts -->
+  <!--  development only  -->
+<!--   <script src="/static/persiceApp/src/assets/js/plugins.min.js"></script>
+  <script src="http://localhost:8080/polyfills.bundle.js"></script>
+  <script src="http://localhost:8080/main.bundle.js"></script> -->
+
+
+  <!-- production only -->
+  <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
+  <script src="/static/persiceApp/dist/polyfills.7d4b756b744b7c9aeaae.bundle.js"></script>
+  <script src="/static/persiceApp/dist/main.5e67f1012d0aad19f51b.bundle.js"></script>
+
+  <script type="text/javascript">
+  function createCookie(name, value, days) {
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      var expires = "; expires=" + date.toGMTString();
+    } else var expires = "";
+    document.cookie = name + "=" + value + expires + "; path=/";
+  }
+
+  createCookie('userid', '{{user.id}}', 1);
+  createCookie('user_name', '{{user.first_name}}', 1);
+  createCookie('user_image', '{{user.image}}', 1);
+  createCookie('user_token', '{{user.access_token}}', 1);
+  createCookie('user_username', '{{user.username}}', 1);
+
+  function refreshConnect() {
+    $('.connect-media').trigger('persice:refreshConnect');
+  }
+  </script>
+
+
   <script>
   window.intercomSettings = {
     app_id: "d1rhvojk",
@@ -82,51 +135,5 @@
       }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = r(p[c])
   };
   heap.load("2088770194");
-  </script>
-</head>
-
-<body>
-  <persice-app>
-    <div id="loadingindicator">
-      <div class="spinner">
-        <div class="rect1"></div>
-        <div class="rect2"></div>
-        <div class="rect3"></div>
-        <div class="rect4"></div>
-        <div class="rect5"></div>
-      </div>
-    </div>
-  </persice-app>
-  <!-- Theme scripts -->
-  <!--  development only  -->
-  <!-- <script src="/static/persiceApp/src/assets/js/plugins.min.js"></script>
-  <script src="http://localhost:8080/polyfills.bundle.js"></script>
-  <script src="http://localhost:8080/main.bundle.js"></script> -->
-
-
-  <!-- production only -->
-  <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/polyfills.288b880fbf923f6ac0c8.bundle.js"></script>
-  <script src="/static/persiceApp/dist/main.52706f50c0d07c002d71.bundle.js"></script>
-
-  <script type="text/javascript">
-  function createCookie(name, value, days) {
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      var expires = "; expires=" + date.toGMTString();
-    } else var expires = "";
-    document.cookie = name + "=" + value + expires + "; path=/";
-  }
-
-  createCookie('userid', '{{user.id}}', 1);
-  createCookie('user_name', '{{user.first_name}}', 1);
-  createCookie('user_image', '{{user.image}}', 1);
-  createCookie('user_token', '{{user.access_token}}', 1);
-  createCookie('user_username', '{{user.username}}', 1);
-
-  function refreshConnect() {
-    $('.connect-media').trigger('persice:refreshConnect');
-  }
   </script>
 </body>

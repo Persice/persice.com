@@ -901,3 +901,8 @@ li.features-list__match {
   vertical-align: middle;
   padding-top: 160px;
 }
+
+
+.site-logo__mark {
+  height: 39px;
+}
