@@ -1,4 +1,5 @@
 import json
+from django.test import TestCase
 
 from django.utils.encoding import filepath_to_uri
 from tastypie.test import ResourceTestCase
@@ -8,6 +9,24 @@ from members.models import OnBoardingFlow
 from photos.models import FacebookPhoto
 
 ResourceTestCase.maxDiff = None
+
+
+class TestFacebookPhoto(TestCase):
+    def setUp(self):
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', password='test', about_me='test')
+
+    def test_save_cropped_photo(self):
+        FacebookPhoto.objects.create(
+            user=self.user,
+            bounds='{"left": 170, "upper": 170, "right": 468, "lower": 468}',
+            order=0,
+            photo='https://scontent.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/'
+                  '11073058_639702779498180_1466183275475347856_n.jpg?'
+                  'oh=87bf52793774bc854bfacb32c82c66d1&oe=5764DDDF'
+        )
+        self.assertEqual(FacebookPhoto.objects.all().count(), 1)
+        self.assertEqual(FacebookPhoto.objects.get(pk=1).cropped_photo, 1)
 
 
 class TestUserResource(ResourceTestCase):

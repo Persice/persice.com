@@ -3,9 +3,7 @@ from PIL import Image
 im = Image.open("../IMAG0320.jpg")
 print im.format, im.size, im.mode
 
-size = (128, 128)
+box = (100, 100, 400, 400)
 
-outfile = "imag0320.thumbnail"
-im.thumbnail(size)
-im.save(outfile, "JPEG")
-im.save(outfile, "JPEG")
+outfile = im.crop(box)
+outfile.save("imag0320.jpeg", "JPEG")

@@ -1,5 +1,8 @@
+import urllib
+
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files import File
 from django.core.paginator import InvalidPage, Paginator
 from django.http import Http404
 from django_facebook.models import FacebookCustomUser
@@ -22,7 +25,7 @@ from photos.models import FacebookPhoto
 
 import logging
 
-from photos.utils import update_image_base64
+from photos.utils import update_image_base64, _update_image
 
 logger = logging.getLogger(__name__)
 
@@ -148,6 +151,7 @@ class UserResource(ModelResource):
 
 class FacebookPhotoResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
+    cropped_photo = fields.FileField(attribute="cropped_photo", null=True, blank=True)
 
     class Meta:
         queryset = FacebookPhoto.objects.all()
@@ -163,23 +167,18 @@ class FacebookPhotoResource(ModelResource):
 
     @staticmethod
     def update_profile_photo(bundle):
-        if bundle.data.get('cropped_photo') and bundle.data.get('order') == 0:
+        if bundle.data.get('photo') and bundle.data.get('order') == 0:
             current_user_id = bundle.request.user.id
             user = FacebookCustomUser.objects.get(pk=current_user_id)
-            image_name, image_file = update_image_base64(
-                user.facebook_id,
-                bundle.data.get('cropped_photo')
-            )
+            image_name, image_file = _update_image(
+                user.facebook_id, bundle.data.get('photo'))
             user.image.save(image_name, image_file)
-            image_url = user.image.url
-            return image_url
+            return user.image.url
 
     def obj_create(self, bundle, **kwargs):
-        image_url = FacebookPhotoResource.update_profile_photo(bundle)
-        bundle.data['cropped_photo'] = image_url if image_url else bundle.data['photo']
+        FacebookPhotoResource.update_profile_photo(bundle)
         return super(FacebookPhotoResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        image_url = FacebookPhotoResource.update_profile_photo(bundle)
-        bundle.data['cropped_photo'] = image_url if image_url else bundle.data['photo']
+        FacebookPhotoResource.update_profile_photo(bundle)
         return super(FacebookPhotoResource, self).obj_update(bundle, **kwargs)
