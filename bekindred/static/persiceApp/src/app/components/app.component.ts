@@ -105,8 +105,8 @@ class DynamicRouteConfiguratorService {
   {
     path: '/crowd',
     component: CrowdComponent,
-    // loader: () => require('es6-promise!./crowd/crowd.component')('CrowdComponent'),
-    name: 'Crowd'
+    name: 'Crowd',
+    useAsDefault: true
   },
   new AsyncRoute({
     path: '/messages/...',
