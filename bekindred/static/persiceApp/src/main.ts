@@ -120,6 +120,11 @@ if ('development' === process.env.ENV) {
   } else {
     bootstrapDomReady();
   }
+  setTimeout(() => {
+     jQuery('.remodal-overlay').remove();
+  jQuery('.remodal-wrapper').remove();
+});
+
 } else {
   bootstrapDomReady();
 }
