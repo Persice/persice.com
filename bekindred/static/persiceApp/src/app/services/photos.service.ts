@@ -48,7 +48,7 @@ export class PhotosService {
   public save(image, cb: (status: number) => void) {
     let userId = CookieUtil.getValue('userid');
     let photo = {
-      cropped_photo: image.cropped,
+      bounds: image.cropped,
       order: image.order,
       photo: image.original,
       user: '/api/v1/auth/user/' + userId + '/'
