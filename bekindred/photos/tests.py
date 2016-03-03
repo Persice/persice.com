@@ -1,3 +1,5 @@
+import json
+
 from django.utils.encoding import filepath_to_uri
 from tastypie.test import ResourceTestCase
 
@@ -60,7 +62,8 @@ class FacebookPhotoResourceTest(ResourceTestCase):
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'photo': self.PHOTO_URL1,
             'order': 0,
-            'cropped_photo': ''
+            'cropped_photo': '',
+            'bounds': json.dumps({'left': 170, 'upper': 170, 'right': 468, 'lower': 468})
         }
 
     def login(self):
@@ -88,7 +91,8 @@ class FacebookPhotoResourceTest(ResourceTestCase):
             'photo': self.PHOTO_URL,
             'order': 0,
             'resource_uri': '/api/v1/photo/{0}/'.format(self.photo.pk),
-            'cropped_photo': ''
+            'cropped_photo': '',
+            'bounds': ''
         })
 
     def test_post_list(self):
@@ -99,6 +103,8 @@ class FacebookPhotoResourceTest(ResourceTestCase):
                                                     data=self.post_data))
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
+        bounds = FacebookPhoto.objects.filter(user=self.user, order=0)[0].bounds
+        self.assertEqual(bounds, self.post_data['bounds'])
 
     def test_create_profile_photo(self):
         self.response = self.login()
