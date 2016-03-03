@@ -1,5 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {findIndex, isUndefined} from 'lodash';
+import {findIndex, isUndefined, debounce} from 'lodash';
 
 import {SelectDirective} from '../../directives/select.directive';
 import {RangeSliderComponent} from '../rangeslider/rangeslider.component';
@@ -16,8 +16,8 @@ declare var jQuery: any;
 @Component({
   selector: 'filters',
   directives: [
-    SelectDirective,
-    RangeSliderComponent
+  SelectDirective,
+  RangeSliderComponent
   ],
   pipes: [NumeralPipe],
   template: view
@@ -35,26 +35,26 @@ export class FilterComponent {
   maxAge: any = 60;
   renderSlider: boolean = false;
   orderBy: Array<Object> = [
-    {
-      'label': 'Similarity',
-      'value': 'match_score',
-      'selected': false
-    },
-    {
-      'label': 'Distance',
-      'value': 'distance',
-      'selected': false
-    },
-    {
-      'label': 'Date',
-      'value': 'date',
-      'selected': false
-    },
-    {
-      'label': 'Mutual Friends',
-      'value': 'mutual_friends',
-      'selected': false
-    }
+  {
+    'label': 'Similarity',
+    'value': 'match_score',
+    'selected': false
+  },
+  {
+    'label': 'Distance',
+    'value': 'distance',
+    'selected': false
+  },
+  {
+    'label': 'Date',
+    'value': 'date',
+    'selected': false
+  },
+  {
+    'label': 'Mutual Friends',
+    'value': 'mutual_friends',
+    'selected': false
+  }
   ];
   rangeSliderOptionsAge = {
     hide_min_max: true,
@@ -77,14 +77,17 @@ export class FilterComponent {
     from: 0,
     type: 'single'
   };
+  saveDebounced: Function;
+  publishObservers: Function;
 
   timeoutIdFiltersSave = null;
 
   constructor(
     public filterService: FilterService
-  ) {
+    ) {
+    this.saveDebounced = debounce(this.save, 1500);
     this.filterService.find()
-      .subscribe(data => this.setFilters(data),
+    .subscribe(data => this.setFilters(data),
       (err) => {
         console.log(err);
       },
@@ -106,7 +109,7 @@ export class FilterComponent {
     if (this.gender !== value) {
       this.gender = value;
       this.filters.state.gender = value;
-      this.save();
+      this.saveDebounced();
     }
 
   }
@@ -115,7 +118,7 @@ export class FilterComponent {
     if (this.order !== value) {
       this.order = value;
       this.filters.state.order_criteria = value;
-      this.save();
+      this.saveDebounced();
     }
   }
 
@@ -127,7 +130,7 @@ export class FilterComponent {
   saveAge(value) {
     this.filters.state.min_age = value.from;
     this.filters.state.max_age = value.to;
-    this.save();
+    this.saveDebounced();
   }
 
   distanceChanged(value) {
@@ -136,7 +139,7 @@ export class FilterComponent {
 
   saveDistance(value) {
     this.filters.state.distance = value.from;
-    this.save();
+    this.saveDebounced();
   }
 
   setFilters(data) {
@@ -176,15 +179,11 @@ export class FilterComponent {
 
     let resourceUri = this.filters.state.resource_uri;
 
-    if (this.timeoutIdFiltersSave) {
-      window.clearTimeout(this.timeoutIdFiltersSave);
-    }
-    this.timeoutIdFiltersSave = window.setTimeout(() => {
-      this.filterService.updateOne(resourceUri, data)
-        .subscribe(res => {
-          this.filterService.publishObservers();
-        });
-    }, 500);
+    this.filterService.updateOne(resourceUri, data)
+    .subscribe(res => {
+       this.filterService.publishObservers();
+    });
+
 
   }
 
