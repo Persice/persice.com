@@ -1,4 +1,4 @@
-// Compiled using typings@0.6.8
+// Compiled using typings@0.6.9
 // Source: https://raw.githubusercontent.com/gdi2290/typings-ng2/32998ff5584c0eab0cd9dc7704abb1c5c450701c/ng2.d.ts
 declare var assert: any;
 
