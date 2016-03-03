@@ -1,6 +1,5 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
-import {CircleProgressDirective} from '../../directives/circleprogress.directive';
 import {SwiperDirective} from '../../directives/swiper.directive';
 
 declare var jQuery: any;
@@ -11,7 +10,6 @@ let view = require('./profile_avatar.html');
 @Component({
   selector: 'profile-avatar',
   directives: [
-    CircleProgressDirective,
     SwiperDirective
   ],
   template: view

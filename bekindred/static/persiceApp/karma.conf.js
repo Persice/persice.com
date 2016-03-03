@@ -34,16 +34,7 @@ module.exports = function(config) {
       pattern: './lib/js/croppie.js',
       watched: false
     }, {
-      pattern: './lib/js/circle-progress.js',
-      watched: false
-    }, {
       pattern: './lib/js/ion.rangeSlider.js',
-      watched: false
-    }, {
-      pattern: './lib/js/jquery.dotdotdot.js',
-      watched: false
-    }, {
-      pattern: './lib/js/jquery.matchHeight.js',
       watched: false
     }, {
       pattern: './lib/js/jquery.minimalect.js',
@@ -64,28 +55,7 @@ module.exports = function(config) {
       pattern: './lib/js/swiper.js',
       watched: false
     }, {
-      pattern: './lib/js/svg4everybody.js',
-      watched: false
-    }, {
       pattern: './lib/js/tokenfield.js',
-      watched: false
-    }, {
-      pattern: './lib/js/jqueryui/core.js',
-      watched: false
-    }, {
-      pattern: './lib/js/jqueryui/widget.js',
-      watched: false
-    }, {
-      pattern: './lib/js/jqueryui/position.js',
-      watched: false
-    }, {
-      pattern: './lib/js/jqueryui/menu.js',
-      watched: false
-    }, {
-      pattern: './lib/js/jqueryui/autocomplete.js',
-      watched: false
-    }, {
-      pattern: './lib/js/tag-it.js',
       watched: false
     }, {
       pattern: './lib/js/init.js',
