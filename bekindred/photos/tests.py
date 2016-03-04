@@ -26,7 +26,19 @@ class TestFacebookPhoto(TestCase):
                   'oh=87bf52793774bc854bfacb32c82c66d1&oe=5764DDDF'
         )
         self.assertEqual(FacebookPhoto.objects.all().count(), 1)
-        self.assertEqual(FacebookPhoto.objects.get(pk=1).cropped_photo, 1)
+        self.assertIsNotNone(FacebookPhoto.objects.get(pk=1).cropped_photo.url)
+
+    def test_update_order_photo(self):
+        FacebookPhoto.objects.create(
+            user=self.user,
+            bounds='{"left": 170, "upper": 170, "right": 468, "lower": 468}',
+            order=0,
+            photo='https://scontent.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/'
+                  '11073058_639702779498180_1466183275475347856_n.jpg?'
+                  'oh=87bf52793774bc854bfacb32c82c66d1&oe=5764DDDF'
+        )
+        self.assertEqual(FacebookPhoto.objects.all().count(), 1)
+        self.assertIsNotNone(FacebookPhoto.objects.get(pk=1).cropped_photo.url)
 
 
 class TestUserResource(ResourceTestCase):
@@ -67,14 +79,22 @@ class TestUserResource(ResourceTestCase):
 class FacebookPhotoResourceTest(ResourceTestCase):
     def setUp(self):
         super(FacebookPhotoResourceTest, self).setUp()
-        self.PHOTO_URL = 'scontent-a.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/s130x130/' \
-                         '10325735_766522586720922_6094805479414606575_n.jpg?oh=23b6bf251efe0021187fde75aafbd003&oe=54EBDC1C'
-        self.PHOTO_URL1 = 'scontent-b.xx.fbcdn.net/hphotos-ash2/v/t1.0-9/s130x130/' \
-                          '532133_439316379441546_842271884_n.jpg?oh=67a1455aafe942630ba68e142d3633e3&oe=54E653FB'
+        self.PHOTO_URL = \
+            'https://scontent-fra3-1.xx.fbcdn.net/hphotos-xft1' \
+            '/v/t1.0-9/11046342_962374947135684_624952069961722' \
+            '2869_n.jpg?oh=1e7c381e7c15d070552869a1d6174e99&oe=57616753'
+
+        self.PHOTO_URL1 = \
+            'https://scontent-fra3-1.xx.fbcdn.net/hphotos-xft1' \
+            '/v/t1.0-9/11046342_962374947135684_624952069961722' \
+            '2869_n.jpg?oh=1e7c381e7c15d070552869a1d6174e99&oe=57616753'
+
         self.user = FacebookCustomUser.objects.create_user(username='user_a',
                                                            password='test',
-                                                           image=self.PHOTO_URL1)
-        self.photo = FacebookPhoto.objects.create(user=self.user, photo=self.PHOTO_URL, order=0)
+                                                           image=self.PHOTO_URL)
+        self.photo = FacebookPhoto.objects.create(user=self.user,
+                                                  photo=self.PHOTO_URL,
+                                                  order=0)
 
         self.detail_url = '/api/v1/photo/{0}/'.format(self.photo.pk)
         self.post_data = {
@@ -82,15 +102,18 @@ class FacebookPhotoResourceTest(ResourceTestCase):
             'photo': self.PHOTO_URL1,
             'order': 0,
             'cropped_photo': '',
-            'bounds': json.dumps({'left': 170, 'upper': 170, 'right': 468, 'lower': 468})
+            'bounds': json.dumps({'left': 170, 'upper': 170,
+                                  'right': 468, 'lower': 468})
         }
 
     def login(self):
         # Just for post login form
-        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
+        return self.api_client.client.post(
+            '/login/', {'username': 'user_a', 'password': 'test'})
 
     def test_get_list_unauthorzied(self):
-        self.assertHttpUnauthorized(self.api_client.get('/api/v1/photo/', format='json'))
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/photo/',
+                                                        format='json'))
 
     def test_login(self):
         self.response = self.login()
@@ -104,13 +127,14 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         # Scope out the data for correctness.
         self.assertEqual(len(self.deserialize(resp)['objects']), 1)
         # Here, we're checking an entire structure for the expected data.
-        self.assertEqual(self.deserialize(resp)['objects'][0], {
+        ar = self.deserialize(resp)['objects'][0]
+        del ar['cropped_photo']
+        self.assertEqual(ar, {
             'id': self.photo.pk,
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'photo': self.PHOTO_URL,
             'order': 0,
             'resource_uri': '/api/v1/photo/{0}/'.format(self.photo.pk),
-            'cropped_photo': '',
             'bounds': ''
         })
 
@@ -137,8 +161,7 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
         image = FacebookCustomUser.objects.get(pk=self.user.id).image
-        self.assertEqual(image.url,
-                         '/media/{}'.format(filepath_to_uri(self.PHOTO_URL1)))
+        self.assertIsNotNone(image.url)
 
     def test_delete_detail(self):
         self.response = self.login()

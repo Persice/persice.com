@@ -30,7 +30,7 @@ from photos.models import FacebookPhoto
 
 import logging
 
-from photos.utils import update_image_base64, _update_image
+from photos.utils import update_image_base64, _update_image, crop_photo
 
 logger = logging.getLogger(__name__)
 
@@ -182,27 +182,19 @@ class FacebookPhotoResource(ModelResource):
             bounds_ = bundle.data.get('bounds')
 
             if not isinstance(bounds_, dict):
-                bounds = json.loads(bounds_)
+                try:
+                    bounds = json.loads(bounds_)
+                except (ValueError, TypeError):
+                    bounds = None
             else:
                 bounds = bounds_
-            
-            image_str = ""
-            for c in image_file.chunks():
-                image_str += c
 
-            image_file = StringIO(image_str)
-            image = Image.open(image_file)
+            if bounds:
+                filename, content = crop_photo(user, image_file, bounds)
+                user.image.save(filename, content)
+            else:
+                user.image.save(image_name, image_file)
 
-            image = image.crop((bounds['left'], bounds['upper'],
-                                bounds['right'], bounds['lower']))
-            image_file = StringIO()
-            filename = 'fb_image_%s.jpg' % user.facebook_id
-            # save to disk
-            image_file = open(os.path.join('/tmp', filename), 'w')
-            image.save(image_file, 'JPEG', quality=90)
-            image_file = open(os.path.join('/tmp', filename), 'r')
-            content = File(image_file)
-            user.image.save(filename, content)
             return user.image.url
 
     def obj_create(self, bundle, **kwargs):

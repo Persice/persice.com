@@ -3,8 +3,13 @@ import logging
 import urllib
 from io import BytesIO
 
+from cStringIO import StringIO
+
+import os
+from PIL import Image
 from django.core.files.temp import NamedTemporaryFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files import File
 try:
     import urllib2
 except ImportError:
@@ -55,3 +60,23 @@ def _update_image(facebook_id, image_url):
     image_file.seek(0)
     image_temp.flush()
     return image_name, image_file
+
+
+def crop_photo(user, image_file, bounds):
+    image_str = ""
+    for c in image_file.chunks():
+        image_str += c
+
+    image_file = StringIO(image_str)
+    image = Image.open(image_file)
+
+    image = image.crop((bounds['left'], bounds['upper'],
+                        bounds['right'], bounds['lower']))
+    image_file = StringIO()
+    filename = 'fb_image_%s.jpg' % user.facebook_id
+    # save to disk
+    image_file = open(os.path.join('/tmp', filename), 'w')
+    image.save(image_file, 'JPEG', quality=90)
+    image_file = open(os.path.join('/tmp', filename), 'r')
+    content = File(image_file)
+    return filename, content
