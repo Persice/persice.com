@@ -56,7 +56,7 @@ export class CrowdComponent {
     private notificationService: NotificationService,
     private _router: Router
   ) {
-    this.onRefreshList = throttle(this.refreshList, 500);
+    this.onRefreshList = debounce(this.refreshList, 300, {'leading': false, 'trailing': true });
 
     this.routerInstance = this._router.parent.subscribe(next => {
       this.closeProfile(true);
@@ -100,8 +100,8 @@ export class CrowdComponent {
   }
 
   getList() {
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
+    if (this.loading) {
+      return;
     }
 
     this.isListEmpty = false;
@@ -117,6 +117,7 @@ export class CrowdComponent {
         console.log(err);
         this.loading = false;
         this.loadingInitial = false;
+        this.serviceInstance.unsubscribe();
       },
       () => {
 

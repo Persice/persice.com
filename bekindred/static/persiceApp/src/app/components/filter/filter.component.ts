@@ -1,5 +1,5 @@
 import {Component, Input} from 'angular2/core';
-import {findIndex, isUndefined, debounce} from 'lodash';
+import {findIndex, isUndefined, debounce, throttle} from 'lodash';
 
 import {SelectDirective} from '../../directives/select.directive';
 import {RangeSliderComponent} from '../rangeslider/rangeslider.component';
@@ -78,14 +78,13 @@ export class FilterComponent {
     type: 'single'
   };
   saveDebounced: Function;
-  publishObservers: Function;
 
   timeoutIdFiltersSave = null;
 
   constructor(
     public filterService: FilterService
     ) {
-    this.saveDebounced = debounce(this.save, 1500);
+    this.saveDebounced = debounce(this.save, 1500, {'leading': true, 'trailing': true });
     this.filterService.find()
     .subscribe(data => this.setFilters(data),
       (err) => {

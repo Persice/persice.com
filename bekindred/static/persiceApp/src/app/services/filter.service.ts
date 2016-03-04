@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 import {InterfaceFilter} from '../models/filter.model';
 import {OPTS_REQ_JSON_CSRF} from '../core/http_constants';
 
-import {remove, find} from 'lodash';
+import {remove, find, debounce} from 'lodash';
 
 @Injectable()
 export class FilterService {
@@ -27,8 +27,10 @@ export class FilterService {
 
   observers: any[] = [];
 
-  constructor(private http: HttpClient) {
+  publishObservers: Function;
 
+  constructor(private http: HttpClient) {
+    this.publishObservers = this.publishObserversPrivate;
   }
 
   addObserver(name: string) {
@@ -81,13 +83,15 @@ export class FilterService {
       .map((res: Response) => res.json());
   }
 
-  public publishObservers() {
+  public publishObserversPrivate() {
     for (var i = this.observers.length - 1; i >= 0; i--) {
       let name = this.observers[i].name;
       let subject = this.observers[i].subject;
       subject.next(name + ' filters:modified');
     }
   }
+
+
 
   //  public publishObserversWithNext(next) {
   //   for (var i = this.observers.length - 1; i >= 0; i--) {
