@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": false,
+    "removeComments": true,
+    "noEmitHelpers": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "files": [
+    "typings.d.ts",
+    "src/boot_browser.ts",
+    "src/boot_worker.ts",
+    "src/boot_worker_app.ts",
+    "src/server/app.ts",
+    "test/unit.spec.ts"
+  ]
+}
