@@ -27,19 +27,18 @@
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
   <meta name="description" content="">
   <meta name="author" content="">
-
 </head>
 
 <body>
   <persice-signup>
     <div id="loadingindicator">
-        <div class="spinner">
-          <div class="rect1"></div>
-          <div class="rect2"></div>
-          <div class="rect3"></div>
-          <div class="rect4"></div>
-          <div class="rect5"></div>
-        </div>
+      <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
     </div>
   </persice-signup>
   <!-- Theme scripts -->
@@ -50,9 +49,8 @@
   -->
   <!-- production only  -->
   <script src="/static/persiceApp/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/persiceApp/dist/polyfills.7d4b756b744b7c9aeaae.bundle.js"></script>
+  <script src="/static/persiceApp/dist/polyfills.e7afb37a563cd9e53a80.bundle.js"></script>
   <script src="/static/persiceApp/dist/signup.a9cc0d033e04159b4ba9.bundle.js"></script>
-
   <script type="text/javascript">
   function createCookie(name, value, days) {
     if (days) {
@@ -70,14 +68,12 @@
     $('.connect-media').trigger('persice:refreshConnect');
   }
   </script>
-
-
-   <script>
+  <script>
   window.intercomSettings = {
-      app_id: "d1rhvojk",
-      name: "{{user.first_name}} {{user.last_name}}", // Full name
-      email: "{{user.email}}", // Email address
-      created_at: Math.floor({{user.date_joined | date:"U"}}) // Signup date as a Unix timestamp
+    app_id: "d1rhvojk",
+    name: "{{user.first_name}} {{user.last_name}}", // Full name
+    email: "{{user.email}}", // Email address
+    created_at: Math.floor({{user.date_joined | date:"U"}}) // Signup date as a Unix timestamp
   };
   </script>
   <script>
