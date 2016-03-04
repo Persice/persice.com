@@ -183,7 +183,7 @@ class FacebookPhotoResource(ModelResource):
 
             if not isinstance(bounds_, dict):
                 try:
-                    bounds = json.loads(bounds_)
+                    bounds = json.loads(bounds_.replace("\'", '"'))
                 except (ValueError, TypeError):
                     bounds = None
             else:

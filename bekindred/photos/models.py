@@ -43,7 +43,7 @@ class FacebookPhoto(models.Model):
                                                    self.photo)
             if not isinstance(self.bounds, dict):
                 try:
-                    bounds = json.loads(self.bounds)
+                    bounds = json.loads(self.bounds.replace("\'", '"'))
                 except (ValueError, TypeError):
                     bounds = None
             else:
