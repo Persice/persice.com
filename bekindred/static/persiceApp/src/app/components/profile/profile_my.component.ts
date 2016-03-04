@@ -466,22 +466,22 @@ export class ProfileMyComponent {
       otherPhoto = srcImg;
     }
 
-    let data = { objects: [otherPhoto] };
 
-    this.photosServiceSubscriberUpdate = this.photosService.batchUpdate(data)
-      .subscribe(data => {
-        let image = {
-          original: profilePhoto.photo,
-          order: 0,
-          cropped: null
-        };
 
-        this.photosService.update(image, profilePhoto.resource_uri, (res) => {
-          this.userMeService.getProfileUpdates();
-          this.refreshPhotos();
-        });
+    let image = {
+      original: profilePhoto.photo,
+      order: 0,
+      cropped: JSON.parse(JSON.stringify(profilePhoto.bounds.replace(/u'(?=[^:]+')/g, '\'')))
+    };
 
-      }, err => console.log('could not change profile photo', err));
+    this.photosService.update(otherPhoto, otherPhoto.resource_uri, (res) => {
+    });
+
+    this.photosService.update(image, profilePhoto.resource_uri, (res) => {
+      this.userMeService.getProfileUpdates();
+      this.refreshPhotos();
+    });
+
 
   }
 
