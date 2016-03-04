@@ -1,18 +1,10 @@
-# Persice Universal
-
-[![Build Status](https://travis-ci.org/alexpods/angular2-universal-starter.svg?branch=master)](https://travis-ci.org/alexpods/angular2-universal-starter)
-[![Dependency Status](https://david-dm.org/alexpods/angular2-universal-starter.svg)](https://david-dm.org/alexpods/angular2-universal-starter)
-[![devDependency Status](https://david-dm.org/alexpods/angular2-universal-starter/dev-status.svg)](https://david-dm.org/alexpods/angular2-universal-starter#info=devDependencies)
-[![Issue Stats](http://issuestats.com/github/alexpods/angular2-universal-starter/badge/pr?style=flat-square)](http://issuestats.com/github/alexpods/angular2-universal-starter)
-[![Issue Stats](http://issuestats.com/github/alexpods/angular2-universal-starter/badge/issue?style=flat-square)](http://issuestats.com/github/alexpods/angular2-universal-starter)
-[![Join the chat at https://gitter.im/alexpods/angular2-universal-starter](https://badges.gitter.im/alexpods/angular2-universal-starter.svg)](https://gitter.im/alexpods/angular2-universal-starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+# Persice Universal with webworkers
 
 #Description
 
 - [Server Side rendering](https://angularu.com/VideoSession/2015sf/angular-2-server-rendering) for instant page loading
 - Entire Angular2 application is running in a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) (UI always will be smooth)
-- [Preboot](https://www.npmjs.com/package/preboot) to catch browser events before Angular2 is ready to work (you can experiment with its options [here](https://github.com/alexpods/angular2-universal-starter/blob/master/constants.js#L25))
+- [Preboot](https://www.npmjs.com/package/preboot) to catch browser events before Angular2 is ready to work (you can experiment with its options in constants.js
 - [Webpack](https://webpack.github.io/) and its awesome [Code Splitting](https://webpack.github.io/docs/code-splitting.html) feature which allows us to lazy load parts of an application.
 - Live Reloading, a browser will be reloaded on any change in server or browser code. It works well for both a main thread and web workers.
 - [Typescript](http://www.typescriptlang.org/) with [Typings](https://github.com/typings/typings)
