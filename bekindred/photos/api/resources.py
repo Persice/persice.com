@@ -1,5 +1,10 @@
+import json
 import urllib
 
+import os
+from cStringIO import StringIO
+
+from PIL import Image
 from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
@@ -151,7 +156,8 @@ class UserResource(ModelResource):
 
 class FacebookPhotoResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
-    cropped_photo = fields.FileField(attribute="cropped_photo", null=True, blank=True)
+    cropped_photo = fields.FileField(attribute="cropped_photo", null=True,
+                                     blank=True)
 
     class Meta:
         queryset = FacebookPhoto.objects.all()
@@ -172,7 +178,31 @@ class FacebookPhotoResource(ModelResource):
             user = FacebookCustomUser.objects.get(pk=current_user_id)
             image_name, image_file = _update_image(
                 user.facebook_id, bundle.data.get('photo'))
-            user.image.save(image_name, image_file)
+
+            bounds_ = bundle.data.get('bounds')
+
+            if not isinstance(bounds_, dict):
+                bounds = json.loads(bounds_)
+            else:
+                bounds = bounds_
+            
+            image_str = ""
+            for c in image_file.chunks():
+                image_str += c
+
+            image_file = StringIO(image_str)
+            image = Image.open(image_file)
+
+            image = image.crop((bounds['left'], bounds['upper'],
+                                bounds['right'], bounds['lower']))
+            image_file = StringIO()
+            filename = 'fb_image_%s.jpg' % user.facebook_id
+            # save to disk
+            image_file = open(os.path.join('/tmp', filename), 'w')
+            image.save(image_file, 'JPEG', quality=90)
+            image_file = open(os.path.join('/tmp', filename), 'r')
+            content = File(image_file)
+            user.image.save(filename, content)
             return user.image.url
 
     def obj_create(self, bundle, **kwargs):
