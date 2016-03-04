@@ -406,21 +406,11 @@ export class ProfileMyComponent {
 
   deletePhoto(photo) {
     this.loadingPhotos = true;
-    if (photo.order === 0) {
-      let defaultPhoto = {
-        cropped: null,
-        order: 0,
-        original: '/static/persiceApp/src/assets/images/empty_avatar.png'
-      };
 
-      this.cropAndSavePhoto(defaultPhoto);
+    this.photosService.delete(photo.resource_uri, (res) => {
+      this.refreshPhotos();
+    });
 
-    }
-    else {
-      this.photosService.delete(photo.resource_uri, (res) => {
-        this.refreshPhotos();
-      });
-    }
 
   }
 

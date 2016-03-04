@@ -74,7 +74,7 @@ export class PhotosService {
       user: '/api/v1/auth/user/' + userId + '/'
     };
     let body = JSON.stringify(photo);
-    let channel = this.http.put(`${url}?format=json`, body, OPTS_REQ_JSON_CSRF)
+    let channel = this.http.patch(`${url}?format=json`, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json())
       .subscribe((data) => {
         cb(1);
