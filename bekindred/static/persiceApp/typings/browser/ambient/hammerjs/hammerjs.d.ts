@@ -1,4 +1,4 @@
-// Compiled using typings@0.6.3
+// Compiled using typings@0.6.9
 // Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/74a4dfc1bc2dfadec47b8aae953b28546cb9c6b7/hammerjs/hammerjs.d.ts
 // Type definitions for Hammer.js 2.0.4
 // Project: http://hammerjs.github.io/

@@ -102,8 +102,6 @@ export abstract class EventsBaseComponent {
       this.items = data.objects;
     }
 
-    this.matchHeight();
-
     this.next = data.meta.next;
     this.offset = data.meta.offset;
 
@@ -117,13 +115,6 @@ export abstract class EventsBaseComponent {
     }
   }
 
-  matchHeight() {
-    setTimeout(() => {
-      jQuery('.js-match-height-1').matchHeight({
-        byRow: false
-      });
-    });
-  }
 
   closeNotification() {
     this.notification.active = false;

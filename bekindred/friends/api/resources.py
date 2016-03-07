@@ -369,8 +369,11 @@ class ConnectionsResource2(Resource):
             filter_updated = None
             if fs:
                 try:
-                    filter_updated = time.mktime(fs[0].updated.timetuple())
-                    cache_match_users = cache.get('conn_%s_%s' %
+                    attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
+                             fs[0].distance, fs[0].distance_unit,
+                             fs[0].order_criteria, fs[0].keyword]
+                    filter_updated = '.'.join(map(str, attrs))
+                    cache_match_users = cache.get('c_%s_%s' %
                                                   (request.user.id,
                                                    filter_updated))
                 except AttributeError:
@@ -380,8 +383,8 @@ class ConnectionsResource2(Resource):
             else:
                 match_users = MatchQuerySet. \
                     all(request.user.id, is_filter=True, friends=True)
-                cache.set('conn_%s_%s' % (request.user.id,
-                                          filter_updated), match_users)
+                cache.set('c_%s_%s' % (request.user.id,
+                                       filter_updated), match_users)
         else:
             match_users = MatchQuerySet.all(request.user.id, friends=True)
         return match_users

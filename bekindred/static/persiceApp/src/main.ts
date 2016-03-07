@@ -5,12 +5,12 @@ import * as browser from 'angular2/platform/browser';
 
 import {FORM_PROVIDERS} from 'angular2/common';
 import {
-ROUTER_PROVIDERS,
-ROUTER_PRIMARY_COMPONENT,
-HashLocationStrategy,
-PathLocationStrategy,
-LocationStrategy,
-APP_BASE_HREF
+  ROUTER_PROVIDERS,
+  ROUTER_PRIMARY_COMPONENT,
+  HashLocationStrategy,
+  PathLocationStrategy,
+  LocationStrategy,
+  APP_BASE_HREF
 } from 'angular2/router';
 import {HTTP_PROVIDERS, JSONP_PROVIDERS} from 'angular2/http';
 
@@ -73,8 +73,8 @@ const UNIVERSAL_PROVIDERS = [
 const PLATFORM_PROVIDERS = [
   ngCore.provide(LocationStrategy, { useClass: PathLocationStrategy }),
   ngCore.provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent }),
-  ngCore.provide(APP_BASE_HREF, { useValue: '/' }),
-  ngCore.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
+  ngCore.provide(APP_BASE_HREF, { useValue: '/' })
+  // ngCore.provide(MapsAPILoader, { useClass: NoOpMapsAPILoader })
 ];
 
 const APP_PROVIDERS = [
@@ -98,26 +98,33 @@ export function main() {
  */
 
 
-
 /*
  * Hot Module Reload
+ * experimental version
  */
+
+function bootstrapDomReady() {
+  // bootstrap after document is ready
+  return document.addEventListener('DOMContentLoaded', main);
+}
+
 if ('development' === process.env.ENV) {
   // activate hot module reload
-  if ('hot' in module) {
+  if (process.env.HMR) {
     if (document.readyState === 'complete') {
       main();
     } else {
-      document.addEventListener('DOMContentLoaded', main);
+      bootstrapDomReady();
     }
-
-    // temp fix issue with open remodal
-    jQuery('.remodal-is-opened').remove();
     module.hot.accept();
+  } else {
+    bootstrapDomReady();
   }
 
-} else {
-  // bootstrap after document is ready
-  document.addEventListener('DOMContentLoaded', main);
-}
+  jQuery('.remodal-overlay').remove();
+  jQuery('.remodal-wrapper').remove();
 
+
+} else {
+  bootstrapDomReady();
+}

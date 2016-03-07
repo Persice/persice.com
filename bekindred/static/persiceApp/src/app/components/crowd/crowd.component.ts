@@ -12,7 +12,7 @@ import {FriendService} from '../../services/friend.service';
 import {FilterService} from '../../services/filter.service';
 import {NotificationService} from '../../services/notification.service';
 
-import {remove, findIndex} from 'lodash';
+import {remove, findIndex, debounce, throttle} from 'lodash';
 
 let view = require('./crowd.html');
 
@@ -46,6 +46,9 @@ export class CrowdComponent {
   serviceInstance;
   routerInstance;
 
+  onRefreshList: Function;
+  timeoutRefresh = null;
+
   constructor(
     private service: CrowdService,
     private friendService: FriendService,
@@ -53,6 +56,7 @@ export class CrowdComponent {
     private notificationService: NotificationService,
     private _router: Router
   ) {
+    this.onRefreshList = debounce(this.refreshList, 300, {'leading': false, 'trailing': true });
 
     this.routerInstance = this._router.parent.subscribe(next => {
       this.closeProfile(true);
@@ -76,7 +80,7 @@ export class CrowdComponent {
     this.filterService.observer('crowd')
       .subscribe(
       (data) => {
-        this.refreshList();
+        this.onRefreshList();
       },
       (err) => console.log(err),
       () => console.log('event completed')
@@ -96,8 +100,8 @@ export class CrowdComponent {
   }
 
   getList() {
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
+    if (this.loading) {
+      return;
     }
 
     this.isListEmpty = false;
@@ -113,6 +117,7 @@ export class CrowdComponent {
         console.log(err);
         this.loading = false;
         this.loadingInitial = false;
+        this.serviceInstance.unsubscribe();
       },
       () => {
 

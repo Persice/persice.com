@@ -32,7 +32,7 @@ export class LazyMapsAPILoaderConfig {
   /**
    * Defines which Google Maps libraries should get loaded.
    */
-  libraries: string[] = [];
+  libraries: string[] = ['places'];
 
   /**
    * The default bias for the map behavior is US.

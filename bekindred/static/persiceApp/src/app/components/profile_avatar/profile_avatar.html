@@ -19,9 +19,7 @@
     </div>
   </div>
   <div class="avatar-place__pagination js-avatar-place__pagination" [ngClass]="{'is-visible': count > 1}"></div>
-  <div circle-progress="{{score}}" *ngIf="type !== 'my'" size="246" thickness="4" reverse="true" angle="55" class="match-percent-large"></div>
-  <div circle-progress="100" *ngIf="type === 'my'" size="246" color="#7c8990" thickness="4" reverse="false" angle="0" class="match-percent-my-profile"></div>
-  <div class="match-profile__similar" *ngIf="type !== 'my'">
+   <div class="match-profile__similar" *ngIf="type !== 'my'">
     <span class="match-profile__similar__value">{{score}}&deg;</span>
     <span class="match-profile__similar__label">Similar</span>
   </div>

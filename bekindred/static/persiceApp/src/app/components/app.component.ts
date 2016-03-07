@@ -7,7 +7,8 @@ import {Component, NgZone, ViewEncapsulation, Injectable, Type} from 'angular2/c
  * Angular Directives
  */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {RouteConfig, ROUTER_DIRECTIVES, Router, RouteRegistry} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, Router, RouteRegistry, AsyncRoute}
+from 'angular2/router';
 
 import {CookieUtil} from '../core/util';
 
@@ -20,10 +21,10 @@ import {MessagesComponent} from './messages/messages.component';
 import {ConnectionsComponent} from './connections/connections.component';
 import {EventsComponent} from './events/events.component';
 import {ProfileFriendComponent} from './profile/profile_friend.component';
-import {ProfileMyComponent} from './profile/profile_my.component';
 import {EventComponent} from './event/event.component';
 import {ProfileViewComponent} from './profile/profile_view.component';
 import {ProfileLoader} from './profile/profile_loader';
+import {ProfileMyComponent} from './profile/profile_my.component';
 import {NotificationsContainerComponent} from './notifications/notifications_container.component';
 
 import {HeaderMainComponent} from './headermain/headermain.component';
@@ -104,38 +105,39 @@ class DynamicRouteConfiguratorService {
   {
     path: '/crowd',
     component: CrowdComponent,
-    name: 'Crowd'
+    name: 'Crowd',
+    useAsDefault: true
   },
-  {
+  new AsyncRoute({
     path: '/messages/...',
-    component: MessagesComponent,
+    loader: () => require('es6-promise!./messages/messages.component')('MessagesComponent'),
     name: 'Messages'
-  },
-  {
+  }),
+  new AsyncRoute({
     path: '/event/:eventId',
-    component: EventComponent,
+    loader: () => require('es6-promise!./event/event.component')('EventComponent'),
     name: 'EventDetails'
-  },
-  {
+  }),
+  new AsyncRoute({
     path: '/connections',
-    component: ConnectionsComponent,
+    loader: () => require('es6-promise!./connections/connections.component')('ConnectionsComponent'),
     name: 'Connections'
-  },
-  {
+  }),
+  new AsyncRoute({
     path: '/connections/:friendId',
-    component: ProfileFriendComponent,
+    loader: () => require('es6-promise!./profile/profile_friend.component')('ProfileFriendComponent'),
     name: 'ProfileFriend'
-  },
-  {
+  }),
+  new AsyncRoute({
     path: '/events/...',
-    component: EventsComponent,
+    loader: () => require('es6-promise!./events/events.component')('EventsComponent'),
     name: 'Events'
-  },
-  {
+  }),
+  new AsyncRoute({
     path: '/:username',
-    component: ProfileLoader,
+    loader: () => require('es6-promise!./profile/profile_loader')('ProfileLoader'),
     name: 'ProfileView'
-  }
+  })
 ])
 @Component({
   selector: 'persice-app',

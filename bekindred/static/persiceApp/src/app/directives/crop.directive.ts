@@ -11,7 +11,6 @@ export class CropDirective {
   options;
   image;
   croppieInstance;
-  croppedImage;
 
   constructor(private el: ElementRef) {
   }
@@ -44,9 +43,22 @@ export class CropDirective {
   }
 
   cropImage() {
-    this.croppieInstance.croppie('result', 'canvas', 'viewport').then((img) => {
-      this.croppedImage = img;
-      this.cropResult.next(img);
+    this.croppieInstance.croppie('result', 'html').then((img) => {
+
+      // prepare box subrectangle from cropped image
+      let leftOffset = Math.abs(parseInt(img.getElementsByTagName('img')[0].style.left, 10));
+      let topOffset = Math.abs(parseInt(img.getElementsByTagName('img')[0].style.top, 10));
+      let width = parseInt(img.style.width, 10);
+      let height = parseInt(img.style.height, 10);
+
+      let bounds = {
+        left: leftOffset,
+        upper: topOffset,
+        right: leftOffset + width,
+        lower: topOffset + height
+      };
+
+      this.cropResult.next(bounds);
     });
   }
 }

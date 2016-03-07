@@ -8,35 +8,19 @@ var csslint = require('gulp-csslint');
 var sourcemaps = require('gulp-sourcemaps');
 
 var jsFiles = [
-  './lib/js/es6-shim.js',
   './lib/js/jquery-2.1.4.min.js',
   './lib/js/jstz.js',
   './lib/js/croppie.js',
   './lib/js/jquery.minimalect.js',
-  './lib/js/circle-progress.js',
-  './lib/js/svg4everybody.js',
   './lib/js/ion.rangeSlider.js',
-  './lib/js/jquery.dotdotdot.js',
   './lib/js/swiper.js',
   './lib/js/remodal.js',
   './lib/js/picker.js',
   './lib/js/picker.date.js',
   './lib/js/picker.time.js',
-  './lib/js/jquery.matchHeight.js',
   './lib/js/typeahead.js',
   './lib/js/tokenfield.js',
-  './lib/js/jqueryui/core.js',
-  './lib/js/jqueryui/widget.js',
-  './lib/js/jqueryui/mouse.js',
-  './lib/js/jqueryui/position.js',
-  './lib/js/jqueryui/menu.js',
-  './lib/js/jqueryui/autocomplete.js',
-  './lib/js/jqueryui/sortable.js',
-  './lib/js/jqueryui/draggable.js',
-  './lib/js/jqueryui/droppable.js',
-  './lib/js/dragula.js',
-  './lib/js/tag-it.js',
-  './lib/js/init.js',
+  './lib/js/dragula.js'
 ];
 
 var cssFiles = [
@@ -69,6 +53,7 @@ gulp.task('css', function() {
   gulp.src(cssFiles)
     .pipe(sourcemaps.init())
     .pipe(concat('vendor.min.css'))
+    .pipe(cssnano())
     .pipe(gulp.dest('./src/assets/css/'))
 });
 

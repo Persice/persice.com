@@ -4,6 +4,7 @@ from operator import attrgetter
 
 import re
 import nltk
+import time
 from django.core.cache import cache
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import wordnet as wn
@@ -383,7 +384,15 @@ class MatchQuerySet(object):
         users = []
         for hit in hits:
             try:
-                user = MatchUser(current_user_id, hit)
+                matched_user_id = int(hit['_id'].split('.')[-1])
+                cached_user = cache.get('%s_%s' % (current_user_id,
+                                                   matched_user_id))
+                if cached_user:
+                    user = cached_user
+                else:
+                    user = MatchUser(current_user_id, hit)
+                    cache.set('%s_%s' % (current_user_id,
+                                         matched_user_id), user, 600)
                 users.append(user)
             except FacebookCustomUserActive.DoesNotExist as e:
                 print e
