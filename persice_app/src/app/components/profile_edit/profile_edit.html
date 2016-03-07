@@ -1,0 +1,63 @@
+<header class="remodal__header">
+  <div class="layout">
+    <div class="layout__item">
+      <span class="remodal__title">
+        <a class="js-remodal__title__bread-edit-profile js-close-crop-photo-window js-close-upload-photo-window" (click)="closePhotos($event)">Edit Profile</a>
+        <a class="js-remodal__title__bread-upload js-close-crop-photo-window" (click)="openAlbums($event)" [ngClass]="{'is-hidden': !photosAlbumsCrumbActive}">Upload profile photo</a>
+        <a class="js-remodal__title__bread-crop" [ngClass]="{'is-hidden': !photosCropCrumbActive}">Crop Photo</a>
+      </span>
+    </div>
+  </div>
+  <button (click)="closeModal($event)" class="remodal-close">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/assets/icons/icons.svg#icon-close"></use>
+    </svg>
+  </button>
+</header>
+<div class="layout layout--flush">
+  <div class="layout__item 1/4">
+    <ul class="list-bare js-tabs side-nav">
+      <li data-tab="pr-edit-personal-info" (click)="activeTab = 'profile'" [ngClass]="{'is-active': activeTab === 'profile' }">
+        <span class="side-nav__link">Personal Info</span>
+      </li>
+      <li data-tab="pr-edit-photo" (click)="activeTab = 'photos'" [ngClass]="{'is-active': activeTab === 'photos' }">
+        <span class="side-nav__link">Photos</span>
+      </li>
+      <li data-tab="pr-edit-interests" (click)="activeTab = 'interests'" [ngClass]="{'is-active': activeTab === 'interests' }">
+        <span class="side-nav__link">Interests</span>
+      </li>
+      <li data-tab="pr-edit-goals" (click)="activeTab = 'goals'" [ngClass]="{'is-active': activeTab === 'goals' }">
+        <span class="side-nav__link">Goals</span>
+      </li>
+      <li data-tab="pr-edit-offers" (click)="activeTab = 'offers'" [ngClass]="{'is-active': activeTab === 'offers' }">
+        <span class="side-nav__link">Offers</span>
+      </li>
+      <!--       <li data-tab="pr-edit-likes"><span class="side-nav__link">Likes</span></li>
+      <li data-tab="pr-edit-dislikes"><span class="side-nav__link">Dislikes</span></li> -->
+    </ul>
+  </div>
+  <div class="layout__item 3/4" id="profileEdit">
+    <div class="tab-content" [ngClass]="{'is-active': activeTab === 'profile' }" id="pr-edit-personal-info" *ngIf="activeTab === 'profile'">
+      <profile-edit-personal-info (close)="closeModal($event)" [user]="user" [politicalViews]="politicalViews" [religiousViews]="religiousViews"></profile-edit-personal-info>
+    </div>
+    <div class="tab-content pr0" id="pr-edit-photo" [ngClass]="{'is-active': activeTab === 'photos' }" id="pr-edit-photo" *ngIf="activeTab === 'photos'">
+      <div class="profile-edit__photos p-" *ngIf="loadingPhotos">
+        <div class="layout layout--flush layout--auto">
+          <loading [status]="loadingPhotos"></loading>
+        </div>
+      </div>
+      <profile-edit-photos [loading]="loadingPhotosAction" *ngIf="!loadingPhotos" (changeProfilePhoto)="changeProfilePhoto.next($event)" (replace)="replacePhoto.next($event)" (delete)="deletePhoto.next($event)" (openAlbums)="openAlbums($event)" (close)="closeModal($event)" [default]="defaultPhoto" [photos]="profilePhotos"></profile-edit-photos>
+    </div>
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'interests' }" id="pr-edit-interests" *ngIf="activeTab === 'interests'">
+      <profile-edit-interests (close)="closeModal($event)"></profile-edit-interests>
+    </div>
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'goals' }" id="pr-edit-goals" *ngIf="activeTab === 'goals'">
+      <profile-edit-goals (close)="closeModal($event)"></profile-edit-goals>
+    </div>
+    <div class="tab-content tab-content--blue" [ngClass]="{'is-active': activeTab === 'offers' }" id="pr-edit-offers" *ngIf="activeTab === 'offers'">
+      <profile-edit-offers (close)="closeModal($event)"></profile-edit-offers>
+    </div>
+  </div>
+</div>
+<profile-edit-photos-albums [isHidden]="!photosAlbumsActive" (openCrop)="openCrop($event)" (close)="closeAlbums($event)"></profile-edit-photos-albums>
+<profile-edit-photos-crop [image]="cropImage" [isHidden]="!photosCropActive" (close)="closeCrop($event)" (cropAndSave)="cropAndSave($event)"></profile-edit-photos-crop>

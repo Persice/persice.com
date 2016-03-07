@@ -1,7 +1,0 @@
-<header-main></header-main>
-<div class="page-content" [ngClass]="{'page-content--white': activeRoute.indexOf('messages') > -1}">
-  <notifications-container></notifications-container>
-  <header-sub [image]="image"></header-sub>
-  <notification [main]="1" [title]="notificationMain.title" [body]="notificationMain.body" [active]="notificationMain.active" [type]="notificationMain.type"></notification>
-  <router-outlet></router-outlet>
-</div>
