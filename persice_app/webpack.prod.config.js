@@ -128,6 +128,13 @@ module.exports = {
       filename: 'polyfills.[chunkhash].bundle.js',
       chunks: Infinity
     }),
+    // static assets
+    new CopyWebpackPlugin([{
+      from: 'src/assets',
+      to: 'assets'
+    }]),
+    // generating html
+    new HtmlWebpackPlugin({ template: 'src/index.html' }),
     new DefinePlugin({
       // Environment helpers
       'process.env': {
@@ -139,7 +146,7 @@ module.exports = {
       // to debug prod builds uncomment //debug lines and comment //prod lines
 
       // beautify: true,//debug
-      mangle: false,
+      mangle: false,//debug
       // dead_code: false,//debug
       // unused: false,//debug
       // deadCode: false,//debug

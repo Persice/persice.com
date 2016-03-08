@@ -5,6 +5,7 @@ var helpers = require('./helpers');
 
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 var HMR = helpers.hasProcessFlag('hot');
@@ -27,7 +28,7 @@ module.exports = {
   devtool: 'eval',
   debug: true,
   cache: true,
-  // devtool: 'eval' // for faster builds use 'eval'
+  // devtool: 'map' // for faster builds use 'eval'
 
   // our angular app
   entry: {
@@ -51,7 +52,7 @@ module.exports = {
 
   module: {
     preLoaders: [
-      { test: /\.js$/, loader: "source-map-loader", exclude: [helpers.root('node_modules/rxjs')] },
+      // { test: /\.js$/, loader: "source-map-loader", exclude: [helpers.root('node_modules/rxjs')] },
       { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] }
     ],
     loaders: [

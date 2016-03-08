@@ -120,7 +120,7 @@ if ('development' === process.env.ENV) {
   } else {
     bootstrapDomReady();
   }
-
+  // fix for closing remodal after hot reload
   jQuery('.remodal-overlay').remove();
   jQuery('.remodal-wrapper').remove();
 

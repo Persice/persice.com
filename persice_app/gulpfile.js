@@ -6,6 +6,8 @@ var cssnano = require('gulp-cssnano');
 var autoprefixer = require('gulp-autoprefixer');
 var csslint = require('gulp-csslint');
 var sourcemaps = require('gulp-sourcemaps');
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
 
 var jsFiles = [
   './lib/js/jquery-2.1.4.min.js',
@@ -53,7 +55,7 @@ gulp.task('css', function() {
   gulp.src(cssFiles)
     .pipe(sourcemaps.init())
     .pipe(concat('vendor.min.css'))
-    .pipe(cssnano())
+    // .pipe(cssnano())
     .pipe(gulp.dest('./src/assets/css/'))
 });
 
@@ -62,6 +64,32 @@ gulp.task('css-lint', function() {
     .pipe(csslint())
     .pipe(csslint.reporter());
 });
+
+
+gulp.task('watch', function(gulpCallback) {
+  browserSync.init({
+    port: 3001,
+    socket: {
+      domain: 'localhost:3001'
+    },
+    // serve out of app/
+    server: './src/assets',
+    // launch default browser as soon as server is up
+    open: false
+  }, function callback() {
+    // (server is now up)
+
+    // watch css and stream to BrowserSync when it changes
+    gulp.watch(cssFiles, function() {
+      gulp.src(cssFiles)
+        .pipe(browserSync.stream());
+    });
+
+    // notify gulp that this task is done
+    gulpCallback();
+  });
+});
+
 
 gulp.task('default', ['js', 'css']);
 gulp.task('js-lint', ['jshint', 'jscs']);

@@ -22,9 +22,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <!-- dev mode -->
-  <!-- <link rel="stylesheet" href="http://localhost:8080/assets/css/vendor.min.css" /> -->
+  <link rel="stylesheet" href="http://localhost:3001/css/screen.css" />
+  <link rel="stylesheet" href="http://localhost:3001/css/app.css" />
   <!-- prod mode -->
-  <link rel="stylesheet" href="/static/assets/css/vendor.min.css" />
+  <!-- <link rel="stylesheet" href="/static/dist/assets/css/vendor.min.css" /> -->
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
 </head>
 
@@ -42,13 +43,13 @@
   </persice-app>
   <!-- Theme scripts -->
   <!--  development only  -->
-  <!-- <script src="http://localhost:8080/assets/js/plugins.min.js"></script>
+  <script src="http://localhost:8080/assets/js/plugins.min.js"></script>
   <script src="http://localhost:8080/polyfills.bundle.js"></script>
-  <script src="http://localhost:8080/main.bundle.js"></script> -->
+  <script src="http://localhost:8080/main.bundle.js"></script>
   <!-- production only -->
-  <script src="/static/assets/js/plugins.min.js"></script>
+  <!-- <script src="/static/dist/assets/js/plugins.min.js"></script>
   <script src="/static/dist/polyfills.7b36a0a3d277e5e2d030.bundle.js"></script>
-  <script src="/static/dist/main.97dbdbaf1400c6fbb201.bundle.js"></script>
+  <script src="/static/dist/main.97dbdbaf1400c6fbb201.bundle.js"></script> -->
   <script type="text/javascript">
   function createCookie(name, value, days) {
     if (days) {
@@ -69,7 +70,7 @@
     $('.connect-media').trigger('persice:refreshConnect');
   }
   </script>
-  <script>
+ <!--  <script>
   window.intercomSettings = {
     app_id: "d1rhvojk",
     name: "{{user.first_name}} {{user.last_name}}", // Full name
@@ -126,5 +127,8 @@
       }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = r(p[c])
   };
   heap.load("2088770194");
-  </script>
+  </script> -->
+
+
+ <script async src="http://localhost:3001/browser-sync/browser-sync-client.js"></script>
 </body>
