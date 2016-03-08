@@ -4,6 +4,7 @@ from celery import task
 from social_auth.db.django_models import UserSocialAuth
 import twitter
 from django.conf import settings
+from django.core.cache import cache
 from haystack.management.commands import update_index
 
 from friends.models import TwitterListFriends, TwitterListFollowers
@@ -75,6 +76,7 @@ def twitter_followers(user, oauth_token, oauth_secret):
 @task
 def update_index_elastic():
     update_index.Command().handle(interactive=False)
+    cache.clear()
 
 
 def update_index_delay(*args, **kwargs):

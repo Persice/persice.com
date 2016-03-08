@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from celery import task
 from django.dispatch import receiver
+from django.core.cache import cache
 from easy_thumbnails.files import generate_all_aliases
 from easy_thumbnails.signals import saved_file
 from haystack.management.commands import update_index
@@ -61,6 +62,7 @@ def generate_thumbnails_async(sender, fieldfile, **kwargs):
 @task
 def update_index_elastic():
     update_index.Command().handle(interactive=False)
+    cache.clear()
 
 
 def update_index_delay(*args, **kwargs):
