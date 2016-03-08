@@ -134,7 +134,7 @@ class ConnectionsSearchResource(Resource):
         pass
 
 
-class ConnectionsResource2(Resource):
+class ConnectionsResource(Resource):
     id = fields.CharField(attribute='id')
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
     username = fields.CharField(attribute='username', null=True)

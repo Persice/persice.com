@@ -511,7 +511,7 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 3)
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/matchfeed2/',
+        resp = self.api_client.get('/api/v1/matchfeed/',
                                    data={'filter': 'true'}, format='json')
         self.assertValidJSONResponse(resp)
         data = self.deserialize(resp)['objects']

@@ -21,7 +21,7 @@ class A(object):
     pass
 
 
-class MatchedFeedResource2(Resource):
+class MatchedFeedResource(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
@@ -57,7 +57,7 @@ class MatchedFeedResource2(Resource):
 
     class Meta:
         # max_limit = 10
-        resource_name = 'matchfeed2'
+        resource_name = 'matchfeed'
         authentication = SessionAuthentication()
         authorization = Authorization()
 

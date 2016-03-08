@@ -83,7 +83,7 @@ class TestMatchFeedResource2(ResourceTestCase):
         user_location7 = UserLocation.objects.\
             create(user=self.user7, position=[-87.62749695, 41.88316957])
 
-        self.resource_url = '/api/v1/matchfeed2/'
+        self.resource_url = '/api/v1/matchfeed/'
 
     def login(self):
         return self.api_client.client.post('/login/',
@@ -101,7 +101,7 @@ class TestMatchFeedResource2(ResourceTestCase):
     @unittest.skip("elastic")
     def test_get_list_json(self):
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/matchfeed2/', format='json')
+        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
         self.assertValidJSONResponse(resp)
 
         # Scope out the data for correctness.
