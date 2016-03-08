@@ -1,4 +1,6 @@
 import json
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
 from django.utils.encoding import filepath_to_uri
@@ -17,7 +19,7 @@ class TestFacebookPhoto(TestCase):
             create_user(username='user_a', password='test', about_me='test')
 
     def test_save_cropped_photo(self):
-        FacebookPhoto.objects.create(
+        pk = FacebookPhoto.objects.create(
             user=self.user,
             bounds='{"left": 170, "upper": 170, "right": 468, "lower": 468}',
             order=0,
@@ -26,10 +28,10 @@ class TestFacebookPhoto(TestCase):
                   'oh=87bf52793774bc854bfacb32c82c66d1&oe=5764DDDF'
         )
         self.assertEqual(FacebookPhoto.objects.all().count(), 1)
-        self.assertIsNotNone(FacebookPhoto.objects.get(pk=1).cropped_photo.url)
+        self.assertIsNotNone(FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
 
     def test_update_order_photo(self):
-        FacebookPhoto.objects.create(
+        pk = FacebookPhoto.objects.create(
             user=self.user,
             bounds='{"left": 170, "upper": 170, "right": 468, "lower": 468}',
             order=0,
@@ -38,7 +40,7 @@ class TestFacebookPhoto(TestCase):
                   'oh=87bf52793774bc854bfacb32c82c66d1&oe=5764DDDF'
         )
         self.assertEqual(FacebookPhoto.objects.all().count(), 1)
-        self.assertIsNotNone(FacebookPhoto.objects.get(pk=1).cropped_photo.url)
+        self.assertIsNotNone(FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
 
 
 class TestUserResource(ResourceTestCase):
@@ -176,10 +178,9 @@ class TestOnBoardingFlowResource(ResourceTestCase):
 
     def setUp(self):
         super(TestOnBoardingFlowResource, self).setUp()
-        self.PHOTO_URL1 = 'https://scontent-b.xx.fbcdn.net/hphotos-ash2/v/' \
-                          't1.0-9/s130x130/532133_439316379441546_842271884' \
-                          '_n.jpg?oh=67a1455aafe942630ba68e142d3633e3&' \
-                          'oe=54E653FB'
+        self.PHOTO_URL1 = 'https://persice.com/media/images/' \
+                          'facebook_profiles/2016/03/04/' \
+                          'fb_image_784349768271537_3.jpg'
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', password='test',
                         image=self.PHOTO_URL1)

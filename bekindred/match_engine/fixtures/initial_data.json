@@ -7287,13 +7287,6 @@
     }
   },
   {
-    "pk": 1098,
-    "model": "match_engine.stopwords",
-    "fields": {
-      "word": "fox"
-    }
-  },
-  {
     "pk": 1099,
     "model": "match_engine.stopwords",
     "fields": {
