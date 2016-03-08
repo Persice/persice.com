@@ -55,7 +55,7 @@ gulp.task('css', function() {
   gulp.src(cssFiles)
     .pipe(sourcemaps.init())
     .pipe(concat('vendor.min.css'))
-    // .pipe(cssnano())
+    .pipe(cssnano())
     .pipe(gulp.dest('./src/assets/css/'))
 });
 
