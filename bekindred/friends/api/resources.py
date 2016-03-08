@@ -362,31 +362,28 @@ class ConnectionsResource2(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        if request.GET.get('filter') == 'true':
-            fs = FilterState.objects.filter(user=request.user.id)
+        fs = FilterState.objects.filter(user=request.user.id)
 
-            cache_match_users = None
-            filter_updated = None
-            if fs:
-                try:
-                    attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
-                             fs[0].distance, fs[0].distance_unit,
-                             fs[0].order_criteria, fs[0].keyword]
-                    filter_updated = '.'.join(map(str, attrs))
-                    cache_match_users = cache.get('c_%s_%s' %
-                                                  (request.user.id,
-                                                   filter_updated))
-                except AttributeError:
-                    pass
-            if cache_match_users:
-                match_users = cache_match_users
-            else:
-                match_users = MatchQuerySet. \
-                    all(request.user.id, is_filter=True, friends=True)
-                cache.set('c_%s_%s' % (request.user.id,
-                                       filter_updated), match_users)
+        cache_match_users = None
+        filter_updated = None
+        if fs:
+            try:
+                attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
+                         fs[0].distance, fs[0].distance_unit,
+                         fs[0].order_criteria, fs[0].keyword]
+                filter_updated = '.'.join(map(str, attrs))
+                cache_match_users = cache.get('c_%s_%s' %
+                                              (request.user.id,
+                                               filter_updated))
+            except AttributeError:
+                pass
+        if cache_match_users:
+            match_users = cache_match_users
         else:
-            match_users = MatchQuerySet.all(request.user.id, friends=True)
+            match_users = MatchQuerySet. \
+                all(request.user.id, is_filter=True, friends=True)
+            cache.set('c_%s_%s' % (request.user.id,
+                                   filter_updated), match_users)
         return match_users
 
     def obj_get_list(self, bundle, **kwargs):
