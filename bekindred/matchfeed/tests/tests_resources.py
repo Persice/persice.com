@@ -126,7 +126,7 @@ class TestProfileResource2(ResourceTestCase):
             password='test',
             date_of_birth=date(1979, 6, 21)
         )
-        self.resource_url = '/api/v1/profile2/'
+        self.resource_url = '/api/v1/profile/'
 
     def login(self):
         return self.api_client.client.post(
@@ -142,5 +142,5 @@ class TestProfileResource2(ResourceTestCase):
 
     def test_get_empty_list_json(self):
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/profile2/', format='json')
+        resp = self.api_client.get('/api/v1/profile/', format='json')
         self.assertValidJSONResponse(resp)
