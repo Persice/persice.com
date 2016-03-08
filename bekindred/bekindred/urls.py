@@ -9,8 +9,7 @@ from events.api.resources import (AboutMeResource, AllEventFeedResource,
                                   MyConnectionEventFeedResource,
                                   MyEventFeedResource, EventFeedResource,
                                   UserProfileResource)
-from friends.api.resources import (ConnectionsResource,
-                                   ConnectionsSearchResource,
+from friends.api.resources import (ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
                                    ConnectionsResource2)
@@ -20,7 +19,7 @@ from goals.api.resources import (FacebookLikeResource, GoalResource,
 from interests.api.resources import InterestResource, InterestSubjectResource, \
     ReligiousViewResource, ReligiousIndexResource, PoliticalViewResource, \
     PoliticalIndexResource
-from matchfeed.api.resources import (MatchedFeedResource, MatchedFeedResource2,
+from matchfeed.api.resources import (MatchedFeedResource2,
                                      MutualFriendsResource, ProfileResource,
                                      ProfileResource2)
 from msgs.api.resources import (ChatMessageResource, InboxLastResource,
@@ -41,7 +40,6 @@ v1_api.register(MatchFilterStateResource())
 v1_api.register(FacebookPhotoResource())
 v1_api.register(GoalResource())
 v1_api.register(OfferResource())
-v1_api.register(MatchedFeedResource())
 v1_api.register(MatchedFeedResource2())
 v1_api.register(MutualFriendsResource())
 v1_api.register(ProfileResource())
@@ -50,7 +48,6 @@ v1_api.register(MessageResource())
 v1_api.register(InterestResource())
 v1_api.register(InterestSubjectResource())
 v1_api.register(FriendsResource())
-v1_api.register(ConnectionsResource())
 v1_api.register(ConnectionsSearchResource())
 v1_api.register(ConnectionsResource2())
 v1_api.register(FacebookLikeResource())
