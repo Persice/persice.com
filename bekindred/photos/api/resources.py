@@ -172,7 +172,9 @@ class FacebookPhotoResource(ModelResource):
             filter(user_id=user)
 
     def dehydrate(self, bundle):
-        if not bundle.data.get('photo', '').startswith('/media/'):
+        photo_url = bundle.data.get('photo', '')
+        if not photo_url.startswith('/media/') and \
+                not photo_url.startswith('http'):
             bundle.data['photo'] = u'/media/{}'.format(bundle.data['photo'])
         return bundle
 
