@@ -38,7 +38,7 @@ class FacebookPhoto(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        if self.pk is None and self.photo:
+        if self.pk is None and self.photo and self.photo.startswith('http'):
             image_name, image_file = _update_image(self.user.facebook_id,
                                                    self.photo)
             if not isinstance(self.bounds, dict):
