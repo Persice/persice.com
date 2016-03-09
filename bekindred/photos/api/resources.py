@@ -171,6 +171,11 @@ class FacebookPhotoResource(ModelResource):
         return super(FacebookPhotoResource, self).get_object_list(request).\
             filter(user_id=user)
 
+    def dehydrate(self, bundle):
+        if not bundle.data.get('photo', '').startswith('/media/'):
+            bundle.data['photo'] = u'/media/{}'.format(bundle.data['photo'])
+        return bundle
+
     @staticmethod
     def update_profile_photo(bundle):
         if bundle.data.get('photo') and bundle.data.get('order') == 0:
