@@ -102,6 +102,8 @@ export abstract class EventsBaseComponent {
       this.items = data.objects;
     }
 
+    this.matchHeight();
+
     this.next = data.meta.next;
     this.offset = data.meta.offset;
 
@@ -113,6 +115,14 @@ export abstract class EventsBaseComponent {
     else {
       jQuery(window).unbind('scroll');
     }
+  }
+
+  matchHeight() {
+    setTimeout(() => {
+      jQuery('.js-match-height-1').matchHeight({
+        byRow: false
+      });
+    });
   }
 
 
