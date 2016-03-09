@@ -6,6 +6,7 @@ var helpers = require('./helpers');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 var HMR = helpers.hasProcessFlag('hot');
@@ -25,16 +26,16 @@ var metadata = {
 module.exports = {
   // static data for index.html
   metadata: metadata,
-  devtool: 'eval',
+  devtool: 'source-map',
   debug: true,
   cache: true,
-  // devtool: 'map' // for faster builds use 'eval'
+  // devtool: 'eval' // for faster builds use 'eval'
 
   // our angular app
   entry: {
     'polyfills': './src/polyfills.ts',
     'main': './src/main.ts', // our main app
-    // 'signup': './src/signup/main.ts' // our signup app
+    'signup': './src/signup/main.ts' // our signup app
   },
 
   resolve: {
@@ -53,27 +54,52 @@ module.exports = {
   module: {
     preLoaders: [
       // { test: /\.js$/, loader: "source-map-loader", exclude: [helpers.root('node_modules/rxjs')] },
-      { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] }
+      {
+        test: /\.ts$/,
+        loader: 'tslint-loader',
+        exclude: [helpers.root('node_modules')]
+      }
     ],
     loaders: [
       // Support for .ts files.
-      { test: /\.ts$/, loader: 'ts-loader', exclude: [/\.(spec|e2e)\.ts$/, helpers.root('node_modules')] },
+      {
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader',
+        exclude: [/\.(spec|e2e)\.ts$/, helpers.root('node_modules')]
+      },
 
       // Support for *.json files.
-      { test: /\.json$/, loader: 'json-loader', exclude: [helpers.root('node_modules')] },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+        exclude: [helpers.root('node_modules')]
+      },
 
       // Support for CSS as raw text
-      { test: /\.css$/, loader: 'raw-loader', exclude: [helpers.root('node_modules')] },
+      {
+        test: /\.css$/,
+        loader: 'raw-loader',
+        exclude: [helpers.root('node_modules')]
+      },
 
       // support for .html as raw text
-      { test: /\.html$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html'), helpers.root('node_modules')] }
+      {
+        test: /\.html$/,
+        loader: 'raw-loader',
+        exclude: [helpers.root('src/index.html'), helpers.root('node_modules')]
+      }
 
     ]
   },
 
   plugins: [
+    new ForkCheckerPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(true),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'polyfills', filename: 'polyfills.bundle.js', minChunks: Infinity }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'polyfills',
+      filename: 'polyfills.bundle.js',
+      minChunks: Infinity
+    }),
     // static assets
     // new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
     // generating html
@@ -95,9 +121,6 @@ module.exports = {
     emitErrors: false,
     failOnHint: false,
     resourcePath: 'src',
-  },
-  ts: {
-    transpileOnly: true // Disable type checking for faster incremental builds
   },
   devServer: {
     port: metadata.port,
