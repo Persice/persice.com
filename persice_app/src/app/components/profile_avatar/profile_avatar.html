@@ -13,8 +13,8 @@
   <div [ngClass]="{'is-visible': !loading}" id="avatarslider" class="match-profile__avatar js-profile-swiper-4 swiper-container unselectable" swiper="{{swiperOpts}}" *ngIf="count > 0">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="#image of images">
-        <div *ngIf="image.cropped_photo !== ''" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.cropped_photo + ')'}"></div>
-        <div *ngIf="image.cropped_photo === ''" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.photo + ')'}"></div>
+        <div *ngIf="image.cropped_photo !== '' && image.cropped_photo !== null" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.cropped_photo + ')'}"></div>
+        <div *ngIf="image.cropped_photo === '' || image.cropped_photo === null" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.photo + ')'}"></div>
       </div>
     </div>
   </div>

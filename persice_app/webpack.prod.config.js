@@ -16,6 +16,7 @@ var CompressionPlugin = require('compression-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
+var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 var HOST = process.env.HOST || 'localhost';
 var PORT = process.env.PORT || 8080;
@@ -75,7 +76,7 @@ module.exports = {
       // Support for .ts files.
       {
         test: /\.ts$/,
-        loader: 'ts-loader',
+        loader: 'awesome-typescript-loader',
         query: {
           // remove TypeScript helpers to be injected below by DefinePlugin
           'compilerOptions': {
@@ -120,6 +121,7 @@ module.exports = {
   },
 
   plugins: [
+    new ForkCheckerPlugin(),
     new WebpackMd5Hash(),
     new DedupePlugin(),
     new OccurenceOrderPlugin(true),
@@ -134,7 +136,9 @@ module.exports = {
       to: 'assets'
     }]),
     // generating html
-    new HtmlWebpackPlugin({ template: 'src/index.html' }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    }),
     new DefinePlugin({
       // Environment helpers
       'process.env': {
@@ -146,7 +150,7 @@ module.exports = {
       // to debug prod builds uncomment //debug lines and comment //prod lines
 
       // beautify: true,//debug
-      mangle: false,//debug
+      mangle: false, //debug
       // dead_code: false,//debug
       // unused: false,//debug
       // deadCode: false,//debug
@@ -156,9 +160,39 @@ module.exports = {
       beautify: false, //prod
       // mangle: {
       //   screw_ie8: true,
-      //   except: ['RouterLink', 'NgFor', 'NgModel'] // needed for uglify RouterLink problem
+      //   except: [
+      //       'RouterActive',
+      //       'RouterLink',
+      //       'RouterOutlet',
+      //       'NgFor',
+      //       'NgIf',
+      //       'NgClass',
+      //       'NgSwitch',
+      //       'NgStyle',
+      //       'NgSwitchDefault',
+      //       'NgModel',
+      //       'NgControl',
+      //       'NgFormControl',
+      //       'NgForm',
+      //       'AsyncPipe',
+      //       'DatePipe',
+      //       'JsonPipe',
+      //       'NumberPipe',
+      //       'DecimalPipe',
+      //       'PercentPipe',
+      //       'CurrencyPipe',
+      //       'LowerCasePipe',
+      //       'UpperCasePipe',
+      //       'SlicePipe',
+      //       'ReplacePipe',
+      //       'I18nPluralPipe',
+      //       'I18nSelectPipe'
+      //     ] // needed for uglify RouterLink problem
       // }, // prod
-      compress: { screw_ie8: true, warnings: false }, //prod
+      compress: {
+        screw_ie8: true,
+        warnings: false
+      }, //prod
       comments: false //prod
 
     }),

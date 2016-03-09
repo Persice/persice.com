@@ -14,6 +14,7 @@ var jsFiles = [
   './lib/js/jstz.js',
   './lib/js/croppie.js',
   './lib/js/jquery.minimalect.js',
+  './lib/js/jquery.matcheight.js',
   './lib/js/ion.rangeSlider.js',
   './lib/js/swiper.js',
   './lib/js/remodal.js',

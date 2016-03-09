@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bekindred/static/persiceApp/npm run unit-tests
+bekindred/persice_app/npm run jenkins

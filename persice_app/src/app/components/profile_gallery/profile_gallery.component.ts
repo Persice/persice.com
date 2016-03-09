@@ -7,6 +7,7 @@ declare var Swiper: any;
 })
 export class ProfileGalleryComponent {
   @Input() photos;
+  @Input() defaultPhoto;
   galleryTop;
   galleryThumbs;
 

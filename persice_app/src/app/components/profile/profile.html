@@ -128,5 +128,5 @@
 <loading [status]="loading"></loading>
 
 <div class="remodal modal-gallery" data-remodal-id="modal-gallery" remodal="{{galleryOptions}}">
-  <profile-gallery *ngIf="galleryActive" [photos]="profilePhotos"></profile-gallery>
+  <profile-gallery *ngIf="galleryActive" [defaultPhoto]="profileAvatar" [photos]="profilePhotos"></profile-gallery>
 </div>
