@@ -11,7 +11,8 @@ const USER_ID = CookieUtil.getValue('userid');
 @Injectable()
 export class WebsocketService {
 
-  static API_URL: string = '//' + HOSTNAME + ':3000';
+  static API_URL: string = '//' + HOSTNAME;
+
   static _socket: any;
 
   constructor() {
@@ -19,6 +20,7 @@ export class WebsocketService {
   }
 
   public connect() {
+    console.log('websocket url', WebsocketService.API_URL);
     WebsocketService._socket.connect(WebsocketService.API_URL);
   }
 
