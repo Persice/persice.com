@@ -36,7 +36,6 @@ export class CrowdComponent {
   loadingInitial: boolean = false;
   isListEmpty: boolean = false;
   limit: number = 12;
-  filter: boolean = true;
   next: string = '';
   total_count: number = 0;
   offset: number = 0;
@@ -110,7 +109,7 @@ export class CrowdComponent {
     if (this.next === '') {
       this.loadingInitial = true;
     }
-    this.serviceInstance = this.service.get(this.next, this.limit, this.filter)
+    this.serviceInstance = this.service.get(this.next, this.limit)
       .subscribe(
       data => this.assignList(data),
       (err) => {

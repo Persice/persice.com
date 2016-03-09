@@ -7,8 +7,8 @@ import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class ProfileService {
-  static API_URL: string = '/api/v1/profile2';
-  static DEFAULT_IMAGE: string = '/static/assets/images/avatar_user_m.jpg';
+  static API_URL: string = '/api/v1/profile';
+  static DEFAULT_IMAGE: string = '/static/assets/images/empty_avatar.png';
 
   _observer: Subject<any> = new Subject(null);
 
@@ -71,4 +71,3 @@ export class ProfileService {
 export var profileServiceInjectables: Array<any> = [
   provide(ProfileService, { useClass: ProfileService })
 ];
-

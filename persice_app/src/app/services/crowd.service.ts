@@ -6,20 +6,19 @@ import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class CrowdService {
-  static API_URL: string = '/api/v1/matchfeed2/';
+  static API_URL: string = '/api/v1/matchfeed/';
   next: string = '';
 
   constructor(private http: HttpClient) {
 
   }
 
-  public get(url: string, limit: number, filter: boolean): Observable<any> {
+  public get(url: string, limit: number): Observable<any> {
 
     if (url === '') {
       let params: string = [
         `format=json`,
         `limit=${limit}`,
-        `filter=${filter}`,
         `offset=0`,
       ].join('&');
 
