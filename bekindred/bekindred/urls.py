@@ -77,7 +77,6 @@ v1_api.register(UserProfileResource())
 
 
 urlpatterns = patterns('',
-                       url(r'^mvp/$', 'goals.views.main_page'),
                        url(r'^signup/interests', 'goals.views.signup_page',
                            name='onboardingflow'),
                        url(r'^signup/goals', 'goals.views.signup_page',
@@ -94,15 +93,10 @@ urlpatterns = patterns('',
                        url(r'^goals/close_login_popup/$', 'goals.views.close_login_popup', name='close_login_popup'),
                        url(r'^goals/error_window/$', 'goals.views.error_window', name='error_window'),
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-                       url(r'^accounts/register/', 'goals.views.register'),
-                       url(r'^accounts/deactivate/', 'members.views.deactivate_user', name='deactivate_user'),
                        url(r'^login/$', 'django.contrib.auth.views.login',
                            {'template_name': 'registration/login_dev.html'}, name='auth_login_dev'),
                        url(r'^accounts/', include('django_facebook.auth_urls')),
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^photo/', include('photos.urls')),
-                       url(r'^profile/(?P<username>[\d\w._@+-]+)/$',
-                           'goals.views.profile_view')
                        )
 
 
@@ -124,5 +118,5 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-                        url(r'^.*$', 'goals.views.main_page_angular2')
+                        url(r'^.*$', 'goals.views.main_app')
                         )

@@ -4,57 +4,20 @@
 <html class="no-js">
 
 <head>
-    <meta charset="utf-8">
-    <title>{% block title %}{% endblock %}</title>
-    <meta name="description" content="persice">
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock %}</title>
+  <meta name="description" content="persice">
 
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
-    <meta name="application-name" content="persice" />
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-16x16.png" sizes="16x16" />
-    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/static/appFrontend/dist/assets/images/favicon/app-favicon-32x32.png" sizes="32x32" />
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Raleway:400,700">
+  <meta name="application-name" content="persice" />
+  <link href="{{ STATIC_URL }}css/login.min.css" rel="stylesheet" media="screen">
+  <script src="{{ STATIC_URL }}js/login.min.js"></script>
+</head>
 
-    <link href="{{ STATIC_URL }}css/login.min.css" rel="stylesheet" media="screen">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-        <![endif]-->
-        <script src="{{ STATIC_URL }}js/login.min.js"></script>
-    </head>
+<body class="login">
 
-    <body class="login" ng-app="persice">
-    <!--[if lt IE 10]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="//browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        {% load url from future %} {% block content %}{% endblock content %}
-        <script>
-            'use strict';
+  {% load url from future %} {% block content %}{% endblock content %}
+</body>
 
-            angular.module('persice', []);
-        </script>
-        <div id="fb-root"></div>
-        <script>
-            facebookAppId = '{{ FACEBOOK_APP_ID }}';
-            facebookDefaultScope = {{FACEBOOK_DEFAULT_SCOPE_JS}};
-            staticUrl = '{{ STATIC_URL }}';
-
-            function facebookJSLoaded() {
-                FB.init({
-                    appId: facebookAppId,
-                    status: false,
-                    cookie: true,
-                    xfbml: true,
-                    oauth: true,
-                    version: 'v2.3'
-                });
-            }
-            window.fbAsyncInit = facebookJSLoaded;
-            F = new facebookClass(facebookAppId);
-            F.load();
-        </script>
-    </body>
-
-    </html>
+</html>
