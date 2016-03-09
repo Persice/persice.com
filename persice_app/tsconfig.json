@@ -24,6 +24,7 @@
     "useCache": true,
     "resolveGlobs": true,
     "forkChecker": true,
+    "doTypeCheck": false,
     "cacheDirectory": "node_modules/.awesome-typescript-loader-cache"
   },
   "atom": {
