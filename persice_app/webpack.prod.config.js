@@ -136,9 +136,9 @@ module.exports = {
       to: 'assets'
     }]),
     // generating html
-    new HtmlWebpackPlugin({
-      template: 'src/index.html'
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: 'src/index.html'
+    // }),
     new DefinePlugin({
       // Environment helpers
       'process.env': {

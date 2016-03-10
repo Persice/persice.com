@@ -40,6 +40,9 @@ module.exports = function(config) {
       pattern: './lib/js/jquery.minimalect.js',
       watched: false
     }, {
+      pattern: './lib/js/jquery.matcheight.js',
+      watched: false
+    }, {
       pattern: './lib/js/picker.js',
       watched: false
     }, {
@@ -56,9 +59,6 @@ module.exports = function(config) {
       watched: false
     }, {
       pattern: './lib/js/tokenfield.js',
-      watched: false
-    }, {
-      pattern: './lib/js/init.js',
       watched: false
     }, {
       pattern: 'spec-bundle.js',

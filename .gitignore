@@ -7,8 +7,6 @@ venv
 staticfiles
 socketio/node_modules/
 .swp
-# images
-*.jpg
 # ignore idea files
 *.idea
 # Redis
@@ -50,4 +48,3 @@ coverage.xml
 docs/_build/
 .vagrant
 *.box
-bekindred/static/persiceApp/typescriptlint.json
