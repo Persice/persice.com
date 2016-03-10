@@ -24,6 +24,7 @@ from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
     StopWords, GerundWords
 from match_engine.utils import find_collocations
 from members.models import FacebookCustomUserActive
+from photos.models import FacebookPhoto
 
 
 def order_by(target, **kwargs):
@@ -155,7 +156,7 @@ class MatchUser(object):
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.facebook_id = self.user.facebook_id
-        self.image = self.user.image.url
+        self.image = self.get_profile_image(user_object)
         self.age = calculate_age(self.user.date_of_birth)
         self.gender = self.user.gender or 'm,f'
         self.about = self.user.about_me
@@ -173,6 +174,15 @@ class MatchUser(object):
         self.lives_in = get_lives_in(self.user)
         self.linkedin_provider = self.get_linkedin_data()
         self.twitter_username, self.twitter_provider = self.get_twitter_data()
+
+    def get_profile_image(self, user_object):
+        user_id = int(user_object['_id'].split('.')[-1])
+        try:
+            image = FacebookPhoto.objects.filter(
+                user=user_id, order=0)[0].cropped_photo.url
+        except IndexError:
+            image = None
+        return image
 
     def get_user_info(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
