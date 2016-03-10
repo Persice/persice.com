@@ -11,10 +11,10 @@ import {InboxService} from '../../services/inbox.service';
 /**
  * Components
  */
-import {MessagesSidebarComponent} from './messages_sidebar.component';
-import {MessagesChatComponent} from './messages_chat.component';
-import {MessagesNewComponent} from './messages_new.component';
-import {MessagesSidebarHeaderComponent} from './messages_sidebar_header.component';
+import {MessagesSidebarComponent} from '../../components/messages/messages_sidebar.component';
+import {MessagesChatComponent} from '../../components/messages/messages_chat.component';
+import {MessagesNewComponent} from '../../components/messages/messages_new.component';
+import {MessagesSidebarHeaderComponent} from '../../components/messages/messages_sidebar_header.component';
 
 let view = require('./messages.html');
 @Component({

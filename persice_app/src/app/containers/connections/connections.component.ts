@@ -1,41 +1,38 @@
 import {Component} from 'angular2/core';
 import {Router} from 'angular2/router';
 
-import {UsersListComponent} from '../userslist/userslist.component';
-import {LoadingComponent} from '../loading/loading.component';
-import {LoadingCardComponent} from '../loadingcard/loadingcard.component';
-import {FilterComponent} from '../filter/filter.component';
-import {ProfileCrowdComponent} from '../profile/profile_crowd.component';
+import {UsersListComponent} from '../../components/userslist/userslist.component';
+import {LoadingComponent} from '../../components/loading/loading.component';
+import {FilterComponent} from '../../components/filter/filter.component';
+import {ProfileFriendComponent} from '../../components/profile/profile_friend.component';
 
-import {CrowdService} from '../../services/crowd.service';
-import {FriendService} from '../../services/friend.service';
+import {ConnectionsService} from '../../services/connections.service';
 import {FilterService} from '../../services/filter.service';
-import {NotificationService} from '../../services/notification.service';
 
-import {remove, findIndex, debounce, throttle} from 'lodash';
 
-let view = require('./crowd.html');
+import {findIndex, debounce} from 'lodash';
+
+let view = require('./connections.html');
 
 declare var jQuery: any;
 
 @Component({
-  selector: 'crowd',
+  selector: 'connections-page',
   template: view,
-  providers: [CrowdService],
   directives: [
     FilterComponent,
     UsersListComponent,
     LoadingComponent,
-    ProfileCrowdComponent,
-    LoadingCardComponent
+    ProfileFriendComponent
   ]
 })
-export class CrowdComponent {
+export class ConnectionsComponent {
   items: Array<any> = [];
   loading: boolean = false;
   loadingInitial: boolean = false;
   isListEmpty: boolean = false;
   limit: number = 12;
+  filter: boolean = true;
   next: string = '';
   total_count: number = 0;
   offset: number = 0;
@@ -44,24 +41,21 @@ export class CrowdComponent {
   currentIndex = 0;
   serviceInstance;
   routerInstance;
-
   onRefreshList: Function;
-  timeoutRefresh = null;
 
   constructor(
-    private service: CrowdService,
-    private friendService: FriendService,
+    private service: ConnectionsService,
     private filterService: FilterService,
-    private notificationService: NotificationService,
     private _router: Router
-  ) {
-    this.onRefreshList = debounce(this.refreshList, 300, {'leading': false, 'trailing': true });
-
+    ) {
+    this.onRefreshList = debounce(this.refreshList, 300, { 'leading': false, 'trailing': true });
     this.routerInstance = this._router.parent.subscribe(next => {
       this.closeProfile(true);
-      window.scrollTo(0, 0);
     });
+  }
 
+  setLocation(loc) {
+    window.history.pushState('', '', '/' + loc);
   }
 
   ngAfterViewInit() {
@@ -75,26 +69,21 @@ export class CrowdComponent {
     this.getList();
 
     //create new observer and subscribe
-    this.filterService.addObserver('crowd');
-    this.filterService.observer('crowd')
+    this.filterService.addObserver('connections');
+    this.filterService.observer('connections')
       .subscribe(
-      (data) => {
-        this.onRefreshList();
-      },
-      (err) => console.log(err),
-      () => console.log('event completed')
+      (data) => this.onRefreshList(),
+      (err) => console.log(err)
       );
-
   }
 
 
   ngOnDestroy() {
-    this.filterService.observer('crowd').unsubscribe();
-    this.filterService.removeObserver('crowd');
+    this.filterService.observer('connections').unsubscribe();
+    this.filterService.removeObserver('connections');
     if (this.serviceInstance) {
       this.serviceInstance.unsubscribe();
     }
-
     this.routerInstance.unsubscribe();
   }
 
@@ -109,9 +98,12 @@ export class CrowdComponent {
     if (this.next === '') {
       this.loadingInitial = true;
     }
-    this.serviceInstance = this.service.get(this.next, this.limit)
+    this.serviceInstance = this.service.get(this.next, this.limit, this.filter)
       .subscribe(
-      data => this.assignList(data),
+      data => {
+        this.serviceInstance.unsubscribe();
+        this.assignList(data);
+      },
       (err) => {
         console.log(err);
         this.loading = false;
@@ -125,11 +117,12 @@ export class CrowdComponent {
 
 
   refreshList() {
-    console.log('refreshing list');
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
     this.total_count = 0;
-
     this.currentIndex = 0;
     this.isListEmpty = false;
     this.next = '';
@@ -161,7 +154,6 @@ export class CrowdComponent {
       this.total_count = data.objects.length;
     }
 
-
     this.next = data.meta.next;
     this.offset = data.meta.offset;
 
@@ -176,85 +168,27 @@ export class CrowdComponent {
 
   }
 
-  setSelectedUser(id) {
+  viewFriendProfile(id) {
 
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
         this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
         this.profileViewActive = true;
+        if (this.items[i].updated_at === null) {
+          this.items[i].updated_at = 'seen';
+        }
         document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.setLocation(this.selectedUser.username);
       }
     }
   }
 
-  setLocation(loc) {
-    window.history.pushState('', '', '/' + loc);
-  }
-
-  passUser(event) {
-
-    let usr;
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === event.user) {
-        usr = this.items[i];
-      }
-    }
-
-    remove(this.items, (item) => {
-      return item.id === event.user;
-    });
-    this.total_count--;
-
-    if (event.next) {
-      this.nextProfile(true);
-    }
-
-    this.friendService.saveFriendship(-1, event.user)
-      .subscribe(data => {
-        if (!event.next) {
-          this.profileViewActive = false;
-          this.selectedUser = null;
-        }
-      });
-
-  }
-
-  acceptUser(event) {
-    let usr;
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === event.user) {
-        usr = this.items[i];
-      }
-    }
-
-    remove(this.items, (item) => {
-      return item.id === event.user;
-    });
-    this.total_count--;
-
-    if (event.next) {
-      this.nextProfile(true);
-    }
-
-    this.friendService.saveFriendship(0, event.user)
-      .subscribe(data => {
-        if (!event.next) {
-          this.profileViewActive = false;
-          this.selectedUser = null;
-        }
-      });
-
-  }
-
-
   closeProfile(event) {
     this.profileViewActive = false;
     this.selectedUser = null;
-    this.setLocation('crowd');
+    this.setLocation('connections');
   }
-
 
   previousProfile(event) {
     let currentIndex = findIndex(this.items, { id: this.selectedUser.id });

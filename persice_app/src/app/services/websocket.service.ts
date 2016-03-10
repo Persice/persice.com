@@ -20,7 +20,6 @@ export class WebsocketService {
   }
 
   public connect() {
-    console.log('websocket url', WebsocketService.API_URL);
     WebsocketService._socket.connect(WebsocketService.API_URL);
   }
 

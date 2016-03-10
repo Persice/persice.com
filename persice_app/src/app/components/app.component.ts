@@ -16,9 +16,9 @@ import {CookieUtil} from '../core/util';
  * Components
  */
 import {HomeComponent} from './home/home.component';
-import {CrowdComponent} from './crowd/crowd.component';
-import {MessagesComponent} from './messages/messages.component';
-import {ConnectionsComponent} from './connections/connections.component';
+import {CrowdComponent} from '../containers/crowd/crowd.component';
+import {MessagesComponent} from '../containers/messages/messages.component';
+import {ConnectionsComponent} from '../containers/connections/connections.component';
 import {EventsComponent} from './events/events.component';
 import {ProfileFriendComponent} from './profile/profile_friend.component';
 import {EventComponent} from './event/event.component';
@@ -110,7 +110,7 @@ class DynamicRouteConfiguratorService {
   },
   new AsyncRoute({
     path: '/messages/...',
-    loader: () => require('es6-promise!./messages/messages.component')('MessagesComponent'),
+    loader: () => require('es6-promise!../containers/messages/messages.component')('MessagesComponent'),
     name: 'Messages'
   }),
   new AsyncRoute({
@@ -120,7 +120,7 @@ class DynamicRouteConfiguratorService {
   }),
   new AsyncRoute({
     path: '/connections',
-    loader: () => require('es6-promise!./connections/connections.component')('ConnectionsComponent'),
+    loader: () => require('es6-promise!../containers/connections/connections.component')('ConnectionsComponent'),
     name: 'Connections'
   }),
   new AsyncRoute({
