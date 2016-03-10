@@ -45,18 +45,7 @@ def update_match_score(instance, **kwargs):
     cum_score.delay(instance.event_id)
 
 
-@task
-def generate_thumbnails(model, pk, field):
-    instance = model._default_manager.get(pk=pk)
-    fieldfile = getattr(instance, field)
-    generate_all_aliases(fieldfile, include_global=True)
 
-
-@receiver(saved_file)
-def generate_thumbnails_async(sender, fieldfile, **kwargs):
-    generate_thumbnails.delay(
-        model=sender, pk=fieldfile.instance.pk,
-        field=fieldfile.field.name)
 
 
 @task
