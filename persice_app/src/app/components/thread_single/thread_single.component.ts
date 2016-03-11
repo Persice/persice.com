@@ -1,7 +1,8 @@
 import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'angular2/core';
-
+import {CheckImageDirective} from '../../directives/checkimage.directive';
 @Component({
   selector: 'thread-single',
+  directives: [CheckImageDirective],
   template: `
   <div class="message" [ngClass]="{'is-active': isActive === thread.threadId, 'is-unread': thread.unread === true}" (click)="onSelect(thread)">
     <div class="flag flag--responsive flag--small">
@@ -9,7 +10,7 @@ import {Component, Input, Output, ChangeDetectionStrategy, EventEmitter} from 'a
         <span class="message__inread-indicator"></span>
         <div class="avatar avatar--medium">
           <div class="avatar-holder"
-          [ngStyle]="{'background-image': 'url(' + thread.image + ')'}">
+          checkimage="{{thread.image}}" [suffix]="'.56x56_q100_crop.jpg'">
           </div>
         </div>
       </div>

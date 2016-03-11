@@ -1,6 +1,7 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 import {SwiperDirective} from '../../directives/swiper.directive';
+import {CheckImageDirective} from '../../directives/checkimage.directive';
 
 declare var jQuery: any;
 declare var Swiper: any;
@@ -10,7 +11,8 @@ let view = require('./profile_avatar.html');
 @Component({
   selector: 'profile-avatar',
   directives: [
-    SwiperDirective
+    SwiperDirective,
+    CheckImageDirective
   ],
   template: view
 })

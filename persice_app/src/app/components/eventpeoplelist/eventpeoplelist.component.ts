@@ -2,13 +2,14 @@ import {Component, Input} from 'angular2/core';
 import {Router} from 'angular2/router';
 
 import {SwiperDirective} from '../../directives/swiper.directive';
+import {CheckImageDirective} from '../../directives/checkimage.directive';
 
 let view = require('./eventpeoplelist.html');
 
 @Component({
   template: view,
   selector: 'event-peoplelist',
-  directives: [SwiperDirective]
+  directives: [SwiperDirective, CheckImageDirective]
 })
 export class EventPeopleListComponent {
   @Input() people;

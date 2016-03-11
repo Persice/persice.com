@@ -4,35 +4,36 @@ import {Router} from 'angular2/router';
 import {UsersListComponent} from '../../components/userslist/userslist.component';
 import {LoadingComponent} from '../../components/loading/loading.component';
 import {FilterComponent} from '../../components/filter/filter.component';
-import {ProfileFriendComponent} from '../../components/profile/profile_friend.component';
+import {ProfileCrowdComponent} from '../../components/profile/profile_crowd.component';
 
-import {ConnectionsService} from '../../services/connections.service';
+import {CrowdService} from '../../services/crowd.service';
+import {FriendService} from '../../services/friend.service';
 import {FilterService} from '../../services/filter.service';
+import {NotificationService} from '../../services/notification.service';
 
+import {remove, findIndex, debounce} from 'lodash';
 
-import {findIndex, debounce} from 'lodash';
-
-let view = require('./connections.html');
+let view = require('./crowd.html');
 
 declare var jQuery: any;
 
 @Component({
-  selector: 'connections-page',
+  selector: 'crowd',
   template: view,
+  providers: [CrowdService],
   directives: [
     FilterComponent,
     UsersListComponent,
     LoadingComponent,
-    ProfileFriendComponent
+    ProfileCrowdComponent
   ]
 })
-export class ConnectionsComponent {
+export class CrowdContainer {
   items: Array<any> = [];
   loading: boolean = false;
   loadingInitial: boolean = false;
   isListEmpty: boolean = false;
   limit: number = 12;
-  filter: boolean = true;
   next: string = '';
   total_count: number = 0;
   offset: number = 0;
@@ -41,21 +42,21 @@ export class ConnectionsComponent {
   currentIndex = 0;
   serviceInstance;
   routerInstance;
+
   onRefreshList: Function;
 
   constructor(
-    private service: ConnectionsService,
+    private service: CrowdService,
+    private friendService: FriendService,
     private filterService: FilterService,
+    private notificationService: NotificationService,
     private _router: Router
     ) {
     this.onRefreshList = debounce(this.refreshList, 300, { 'leading': false, 'trailing': true });
     this.routerInstance = this._router.parent.subscribe(next => {
       this.closeProfile(true);
     });
-  }
 
-  setLocation(loc) {
-    window.history.pushState('', '', '/' + loc);
   }
 
   ngAfterViewInit() {
@@ -69,21 +70,25 @@ export class ConnectionsComponent {
     this.getList();
 
     //create new observer and subscribe
-    this.filterService.addObserver('connections');
-    this.filterService.observer('connections')
+    this.filterService.addObserver('crowd');
+    this.filterService.observer('crowd')
       .subscribe(
-      (data) => this.onRefreshList(),
+      (data) => {
+        this.onRefreshList();
+      },
       (err) => console.log(err)
       );
+
   }
 
 
   ngOnDestroy() {
-    this.filterService.observer('connections').unsubscribe();
-    this.filterService.removeObserver('connections');
+    this.filterService.observer('crowd').unsubscribe();
+    this.filterService.removeObserver('crowd');
     if (this.serviceInstance) {
       this.serviceInstance.unsubscribe();
     }
+
     this.routerInstance.unsubscribe();
   }
 
@@ -98,7 +103,7 @@ export class ConnectionsComponent {
     if (this.next === '') {
       this.loadingInitial = true;
     }
-    this.serviceInstance = this.service.get(this.next, this.limit, this.filter)
+    this.serviceInstance = this.service.get(this.next, this.limit)
       .subscribe(
       data => {
         this.serviceInstance.unsubscribe();
@@ -117,12 +122,10 @@ export class ConnectionsComponent {
 
 
   refreshList() {
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-    }
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
     this.total_count = 0;
+
     this.currentIndex = 0;
     this.isListEmpty = false;
     this.next = '';
@@ -154,6 +157,7 @@ export class ConnectionsComponent {
       this.total_count = data.objects.length;
     }
 
+
     this.next = data.meta.next;
     this.offset = data.meta.offset;
 
@@ -168,27 +172,85 @@ export class ConnectionsComponent {
 
   }
 
-  viewFriendProfile(id) {
+  setSelectedUser(id) {
 
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
         this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
         this.profileViewActive = true;
-        if (this.items[i].updated_at === null) {
-          this.items[i].updated_at = 'seen';
-        }
         document.body.scrollTop = document.documentElement.scrollTop = 0;
         this.setLocation(this.selectedUser.username);
       }
     }
   }
 
+  setLocation(loc) {
+    window.history.pushState('', '', '/' + loc);
+  }
+
+  passUser(event) {
+
+    let usr;
+    for (var i = this.items.length - 1; i >= 0; i--) {
+      if (this.items[i].id === event.user) {
+        usr = this.items[i];
+      }
+    }
+
+    remove(this.items, (item) => {
+      return item.id === event.user;
+    });
+    this.total_count--;
+
+    if (event.next) {
+      this.nextProfile(true);
+    }
+
+    this.friendService.saveFriendship(-1, event.user)
+      .subscribe(data => {
+      if (!event.next) {
+        this.profileViewActive = false;
+        this.selectedUser = null;
+      }
+    });
+
+  }
+
+  acceptUser(event) {
+    let usr;
+    for (var i = this.items.length - 1; i >= 0; i--) {
+      if (this.items[i].id === event.user) {
+        usr = this.items[i];
+      }
+    }
+
+    remove(this.items, (item) => {
+      return item.id === event.user;
+    });
+    this.total_count--;
+
+    if (event.next) {
+      this.nextProfile(true);
+    }
+
+    this.friendService.saveFriendship(0, event.user)
+      .subscribe(data => {
+      if (!event.next) {
+        this.profileViewActive = false;
+        this.selectedUser = null;
+      }
+    });
+
+  }
+
+
   closeProfile(event) {
     this.profileViewActive = false;
     this.selectedUser = null;
-    this.setLocation('connections');
+    this.setLocation('crowd');
   }
+
 
   previousProfile(event) {
     let currentIndex = findIndex(this.items, { id: this.selectedUser.id });

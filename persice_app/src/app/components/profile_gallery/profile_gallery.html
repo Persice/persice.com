@@ -7,6 +7,7 @@
   <div class="swiper-wrapper">
     <div class="swiper-slide" *ngFor="#photo of photos" [ngStyle]="{'background-image': 'url(' + photo.photo + ')'}"></div>
     <div class="swiper-slide" *ngIf="photos.length === 0" [ngStyle]="{'background-image': 'url(' + defaultPhoto + ')'}"></div>
+    <div class="swiper-slide" *ngIf="photos.length === 0 && defaultPhoto === '' || defaultPhoto === null" [ngStyle]="{'background-image': 'url(/static/assets/images/empty_avatar.png)'}"></div>
   </div>
 </div>
 <div class="modal-gallery__arrow modal-gallery__arrow--prev"></div>
@@ -15,5 +16,6 @@
   <div class="swiper-wrapper">
     <div class="swiper-slide" *ngFor="#photo of photos" [ngStyle]="{'background-image': 'url(' + photo.photo + ')'}"></div>
     <div class="swiper-slide" *ngIf="photos.length === 0" [ngStyle]="{'background-image': 'url(' + defaultPhoto + ')'}"></div>
+    <div class="swiper-slide" *ngIf="photos.length === 0 && (defaultPhoto === '' || defaultPhoto === null)" [ngStyle]="{'background-image': 'url(/static/assets/images/empty_avatar.png)'}"></div>
   </div>
 </div>

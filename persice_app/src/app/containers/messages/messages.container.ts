@@ -47,7 +47,7 @@ let view = require('./messages.html');
     name: 'ConversationNewSelected',
   }
 ])
-export class MessagesComponent {
+export class MessagesContainer {
   counter: number = 0;
   constructor(
     private inboxService: InboxService,

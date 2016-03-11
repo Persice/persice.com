@@ -3,13 +3,18 @@ import {Component, EventEmitter, Input, Output} from 'angular2/core';
 import {GenderPipe} from '../../pipes/gender.pipe';
 import {ObjectUtil} from '../../core/util';
 
+import {CheckImageDirective} from '../../directives/checkimage.directive';
+
 let view = require('./usercard.html');
 
 @Component({
   inputs: ['user'],
   selector: 'user-card',
   pipes: [GenderPipe],
-  template: view
+  template: view,
+  directives: [
+    CheckImageDirective
+  ]
 })
 export class UserCardComponent {
   user: any;
@@ -65,29 +70,13 @@ export class UserCardComponent {
     this.onClick.next(this.user.id);
   }
 
-
-
-
   ngAfterContentInit() {
     this.interests = ObjectUtil.firstSorted(this.user.top_interests[0], 3);
 
-    if (!this.user.image) {
-      this.user.image = '/static/assets/images/avatar_user_m.jpg';
+    if (!this.user.image || this.user.image === '') {
+      this.user.image = '/static/assets/images/empty_avatar.png';
     }
-    else {
-      //fix if no image present
-      if (this.user.image && this.user.image === '' && this.user.gender === 'm') {
-        this.user.image = '/static/assets/images/avatar_user_m.jpg';
-      }
 
-      if (this.user.image && this.user.image === '' && this.user.gender === 'f') {
-        this.user.image = '/static/assets/images/avatar_user_f.jpg';
-      }
-
-      if (this.user.image && this.user.image === '' && this.user.gender === '') {
-        this.user.image = '/static/assets/images/avatar_user_m.jpg';
-      }
-    }
 
   }
 

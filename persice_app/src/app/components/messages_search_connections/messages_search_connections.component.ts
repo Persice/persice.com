@@ -2,12 +2,13 @@ import {Component, Output, Input, EventEmitter, ElementRef} from 'angular2/core'
 import {Control} from 'angular2/common';
 import {Observable} from 'rxjs';
 import {Http} from 'angular2/http';
-
+import {CheckImageDirective} from '../../directives/checkimage.directive';
 declare var jQuery: any;
 
 @Component({
   selector: 'messages-search-connections',
-  template: require('./messages_search_connections.html')
+  template: require('./messages_search_connections.html'),
+  directives: [CheckImageDirective]
 })
 export class MessagesSearchConnections {
   @Output() selected: EventEmitter<any> = new EventEmitter();

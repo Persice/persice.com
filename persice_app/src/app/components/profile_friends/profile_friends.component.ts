@@ -1,6 +1,7 @@
 import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {SwiperDirective} from '../../directives/swiper.directive';
+import {CheckImageDirective} from '../../directives/checkimage.directive';
 
 let view = require('./profile_friends.html');
 
@@ -8,7 +9,7 @@ let view = require('./profile_friends.html');
   template: view,
   selector: 'profile-friends',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [SwiperDirective, ROUTER_DIRECTIVES]
+  directives: [SwiperDirective, ROUTER_DIRECTIVES, CheckImageDirective]
 })
 export class ProfileFriendsComponent {
   @Input() title;

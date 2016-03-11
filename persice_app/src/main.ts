@@ -3,14 +3,17 @@
 import * as ngCore from 'angular2/core';
 import * as browser from 'angular2/platform/browser';
 
+import {provideStore} from '@ngrx/store';
+import * as devtools from '@ngrx/devtools';
+
 import {FORM_PROVIDERS} from 'angular2/common';
 import {
-  ROUTER_PROVIDERS,
-  ROUTER_PRIMARY_COMPONENT,
-  HashLocationStrategy,
-  PathLocationStrategy,
-  LocationStrategy,
-  APP_BASE_HREF
+ROUTER_PROVIDERS,
+ROUTER_PRIMARY_COMPONENT,
+HashLocationStrategy,
+PathLocationStrategy,
+LocationStrategy,
+APP_BASE_HREF
 } from 'angular2/router';
 import {HTTP_PROVIDERS, JSONP_PROVIDERS} from 'angular2/http';
 
@@ -19,6 +22,7 @@ import {HTTP_PROVIDERS, JSONP_PROVIDERS} from 'angular2/http';
  * our collection of injectables services
  */
 import {APP_SERVICES_PROVIDERS} from './app/services/services';
+
 
 
 const ENV_PROVIDERS = [];
@@ -39,10 +43,10 @@ import {HttpClient} from './app/core/http_client';
  */
 
 import {
-  MapsAPILoader,
-  NoOpMapsAPILoader,
-  // MouseEvent,
-  ANGULAR2_GOOGLE_MAPS_PROVIDERS
+MapsAPILoader,
+NoOpMapsAPILoader,
+// MouseEvent,
+ANGULAR2_GOOGLE_MAPS_PROVIDERS
 } from './app/components/map/core';
 
 

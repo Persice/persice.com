@@ -4,11 +4,11 @@ import { Observable, Subject } from 'rxjs';
 
 import {AuthUserModel} from '../models/user.model';
 import {HttpClient} from '../core/http_client';
-
+import {CookieUtil} from '../core/util';
 
 @Injectable()
 export class UserService {
-  static API_URL: string = '/api/v1/me/';
+  static API_URL: string = '/api/v1/auth/user/';
   static DEFAULT_IMAGE: string = '/static/assets/images/empty_avatar.png';
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
@@ -24,16 +24,18 @@ export class UserService {
 
   public getProfileUpdates() {
 
+
      let params = [
       `format=json`
     ].join('&');
 
-    let url = `${UserService.API_URL}?${params}`;
+    let userId = CookieUtil.getValue('userid');
+    let url = `${UserService.API_URL}${userId}/?${params}`;
 
     let channel = this.http.get(url)
       .map((res: Response) => res.json())
       .subscribe((data) => {
-        this.user = new AuthUserModel(data['objects'][0]);
+        this.user = new AuthUserModel(data);
         this.image = this.user.info.image;
         this.name = this.user.info.first_name;
         this._observer.next({
@@ -53,12 +55,14 @@ export class UserService {
       `format=json`
     ].join('&');
 
-    let url = `${UserService.API_URL}?${params}`;
+    let userId = CookieUtil.getValue('userid');
+    let url = `${UserService.API_URL}${userId}/?${params}`;
 
     return this.http.get(url)
       .map((res: Response) => {
         let data = res.json();
-        this.user = new AuthUserModel(data['objects'][0]);
+        this.user = new AuthUserModel(data);
+        console.log('userinfo', this.user);
         this.image = this.user.info.image;
         this.name = this.user.info.first_name;
         return res.json();
@@ -86,4 +90,3 @@ export class UserService {
 export var userServiceInjectables: Array<any> = [
   provide(UserService, { useClass: UserService })
 ];
-

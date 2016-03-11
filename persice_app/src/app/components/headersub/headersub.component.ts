@@ -2,7 +2,6 @@ import {Component} from 'angular2/core';
 
 import {SearchKeywordsComponent} from '../searchkeywords/searchkeywords.component';
 import {ProfileDropdownComponent} from '../profiledropdown/profiledropdown.component';
-import {ToggleFilterDirective} from '../../directives/togglefilter.directive';
 
 let view = require('./headersub.html');
 @Component({
@@ -10,7 +9,6 @@ let view = require('./headersub.html');
   inputs: ['image'],
   directives: [
     ProfileDropdownComponent,
-    ToggleFilterDirective,
     SearchKeywordsComponent
   ],
   template: view

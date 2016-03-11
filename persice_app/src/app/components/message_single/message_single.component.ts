@@ -1,15 +1,17 @@
 import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
 import {Router} from 'angular2/router';
+import {CheckImageDirective} from '../../directives/checkimage.directive';
 
 @Component({
   selector: 'message',
+  directives: [CheckImageDirective],
   template: `
   <div class="message is-open">
     <div class="flag flag--top flag--small">
       <div class="flag__img" (click)="openProfile(message.username)">
         <div class="avatar avatar--medium">
           <div class="avatar-holder"
-          [ngStyle]="{'background-image': 'url(' + message.image + ')'}">
+           checkimage="{{message.image}}" [suffix]="'.56x56_q100_crop.jpg'">
           </div>
         </div>
       </div>

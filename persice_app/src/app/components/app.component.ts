@@ -16,9 +16,9 @@ import {CookieUtil} from '../core/util';
  * Components
  */
 import {HomeComponent} from './home/home.component';
-import {CrowdComponent} from '../containers/crowd/crowd.component';
-import {MessagesComponent} from '../containers/messages/messages.component';
-import {ConnectionsComponent} from '../containers/connections/connections.component';
+import {CrowdContainer} from '../containers/crowd/crowd.container';
+import {MessagesContainer} from '../containers/messages/messages.container';
+import {ConnectionsContainer} from '../containers/connections/connections.container';
 import {EventsComponent} from './events/events.component';
 import {ProfileFriendComponent} from './profile/profile_friend.component';
 import {EventComponent} from './event/event.component';
@@ -104,13 +104,13 @@ class DynamicRouteConfiguratorService {
   },
   {
     path: '/crowd',
-    component: CrowdComponent,
+    component: CrowdContainer,
     name: 'Crowd',
     useAsDefault: true
   },
   new AsyncRoute({
     path: '/messages/...',
-    loader: () => require('es6-promise!../containers/messages/messages.component')('MessagesComponent'),
+    loader: () => require('es6-promise!../containers/messages/messages.container')('MessagesContainer'),
     name: 'Messages'
   }),
   new AsyncRoute({
@@ -120,7 +120,7 @@ class DynamicRouteConfiguratorService {
   }),
   new AsyncRoute({
     path: '/connections',
-    loader: () => require('es6-promise!../containers/connections/connections.component')('ConnectionsComponent'),
+    loader: () => require('es6-promise!../containers/connections/connections.container')('ConnectionsContainer'),
     name: 'Connections'
   }),
   new AsyncRoute({
@@ -355,7 +355,7 @@ export class AppComponent {
 
   // Assign AuthUser user from the /me Api
   assignAuthUser(data) {
-    this.user = new AuthUserModel(data.objects[0]);
+    this.user = new AuthUserModel(data);
     this.image = this.user.info.image;
   }
 

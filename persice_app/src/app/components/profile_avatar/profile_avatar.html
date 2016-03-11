@@ -8,12 +8,12 @@
   <a (click)="openGallery.next($event); $event.stopPropagation()" class="open-photos-link unselectable" *ngIf="type !== 'my'">
   </a>
   <div [ngClass]="{'is-visible': !loading}" class="match-profile__avatar match-profile__avatar-single unselectable" *ngIf="count === 0">
-    <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + avatar + ')'}"></div>
+    <div class="avatar-holder" checkimage="{{avatar}}" [suffix]="'.230x230_q100_crop.jpg'"></div>
   </div>
   <div [ngClass]="{'is-visible': !loading}" id="avatarslider" class="match-profile__avatar js-profile-swiper-4 swiper-container unselectable" swiper="{{swiperOpts}}" *ngIf="count > 0">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="#image of images">
-        <div *ngIf="image.cropped_photo !== '' && image.cropped_photo !== null" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.cropped_photo + ')'}"></div>
+        <div *ngIf="image.cropped_photo !== '' && image.cropped_photo !== null" class="avatar-holder" checkimage="{{image.cropped_photo}}" [suffix]="'.230x230_q100_crop.jpg'"></div>
         <div *ngIf="image.cropped_photo === '' || image.cropped_photo === null" class="avatar-holder" [ngStyle]="{'background-image': 'url(' + image.photo + ')'}"></div>
       </div>
     </div>

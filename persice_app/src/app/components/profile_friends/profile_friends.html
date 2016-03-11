@@ -14,7 +14,7 @@
         <a class="user-listed user-listed--1" [routerLink]="['/ProfileView', {username: item.username}]">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">
-              <div class="avatar-holder" [ngStyle]="{'background-image': 'url(' + item.image + ')'}"></div>
+              <div class="avatar-holder" checkimage="{{item.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
             </div>
             <svg role="img" class="icon avatar-icon">
               <use xlink:href="/static/assets/icons/icons.svg#icon-persice"></use>
