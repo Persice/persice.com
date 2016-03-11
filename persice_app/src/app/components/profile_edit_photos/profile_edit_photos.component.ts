@@ -6,9 +6,7 @@ import {ListUtil} from '../../core/util';
  */
 import {ProfileEditFooterComponent} from '../profile_edit_footer/profile_edit_footer.component';
 
-/**
- * Services
- */
+import {CheckImageDirective} from '../../directives/checkimage.directive';
 
 let view = require('./profile_edit_photos.html');
 
@@ -17,7 +15,8 @@ let view = require('./profile_edit_photos.html');
   selector: 'profile-edit-photos',
   template: view,
   directives: [
-    ProfileEditFooterComponent
+    ProfileEditFooterComponent,
+    CheckImageDirective
   ]
 })
 export class ProfileEditPhotosComponent {
@@ -31,6 +30,7 @@ export class ProfileEditPhotosComponent {
   @Output() openAlbums: EventEmitter<any> = new EventEmitter();
   profilePhotos = [];
   drakeInstance;
+  deleteDisabled = true;
 
   ngOnChanges(values) {
     if (values.photos && values.photos.currentValue) {
@@ -57,6 +57,12 @@ export class ProfileEditPhotosComponent {
   }
 
   assignPhotos(photos) {
+    if (photos.length > 1) {
+      this.deleteDisabled = false;
+    }
+    else {
+      this.deleteDisabled = true;
+    }
     this.profilePhotos = [
       {
         cropped_photo: '',
