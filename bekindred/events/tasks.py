@@ -45,9 +45,6 @@ def update_match_score(instance, **kwargs):
     cum_score.delay(instance.event_id)
 
 
-
-
-
 @task
 def update_index_elastic():
     update_index.Command().handle(interactive=False)
