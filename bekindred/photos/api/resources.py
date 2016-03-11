@@ -109,8 +109,10 @@ class UserResource(ModelResource):
             bundle.request.user.id
         )
         try:
-            bundle.data['image'] = FacebookPhoto.objects.filter(
-                user=bundle.request.user.id, order=0)[0].cropped_photo.url
+            cropped_photo = FacebookPhoto.objects.filter(
+                user=bundle.request.user.id, order=0)[0].cropped_photo
+            if cropped_photo:
+                bundle.data['image'] = cropped_photo.url
         except IndexError:
             pass
         return bundle
