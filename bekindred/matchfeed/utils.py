@@ -177,13 +177,14 @@ class MatchUser(object):
 
     def get_profile_image(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
+        image = None
         try:
             cropped_photo = FacebookPhoto.objects.filter(
                 user=user_id, order=0)[0].cropped_photo
             if cropped_photo:
                 image = cropped_photo.url
         except IndexError:
-            image = None
+            pass
         return image
 
     def get_user_info(self, user_object):
