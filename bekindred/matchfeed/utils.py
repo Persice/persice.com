@@ -156,7 +156,8 @@ class MatchUser(object):
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.facebook_id = self.user.facebook_id
-        self.image = self.get_profile_image(user_object) or self.user.image
+        self.image = self.get_profile_image(user_object) or \
+            '/media/{}'.format(self.user.image)
         self.age = calculate_age(self.user.date_of_birth)
         self.gender = self.user.gender or 'm,f'
         self.about = self.user.about_me
