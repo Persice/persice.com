@@ -108,13 +108,9 @@ class UserResource(ModelResource):
         bundle.data['political_views'] = get_political_views(
             bundle.request.user.id
         )
-        try:
-            cropped_photo = FacebookPhoto.objects.filter(
-                user=bundle.request.user.id, order=0)[0].cropped_photo
-            if cropped_photo:
-                bundle.data['image'] = cropped_photo.url
-        except IndexError:
-            pass
+        bundle.data['image'] = FacebookPhoto.objects.profile_photo(
+            bundle.request.user.id
+        )
         return bundle
 
     def prepend_urls(self):

@@ -37,6 +37,7 @@ from interests import Interest
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
+from photos.models import FacebookPhoto
 from postman.api import pm_write
 
 
@@ -1139,7 +1140,9 @@ class EventAttendees(ModelResource):
         bundle.data['username'] = bundle.obj.user.username
         bundle.data['first_name'] = bundle.obj.user.first_name
         bundle.data['facebook_id'] = bundle.obj.user.facebook_id
-        bundle.data['image'] = bundle.obj.user.image
+        bundle.data['image'] = FacebookPhoto.objects.profile_photo(
+            bundle.obj.user.id
+        )
         bundle.data['age'] = calculate_age(bundle.obj.user.date_of_birth)
         bundle.data['total_mutual_friends'] = 0
         bundle.data['mutual_match_score'] = 0

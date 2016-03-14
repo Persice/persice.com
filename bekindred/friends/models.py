@@ -7,6 +7,7 @@ from django.db.models.query import QuerySet
 
 from django_facebook.models import FacebookCustomUser, FacebookUser
 from members.models import FacebookCustomUserActive
+from photos.models import FacebookPhoto
 
 
 class FriendsQuerySet(QuerySet):
@@ -105,7 +106,7 @@ class FriendsManager(models.Manager):
             d['facebook_id'] = user.facebook_id
             d['first_name'] = user.first_name
             d['last_name'] = user.last_name
-            d['image'] = "%s%s" % (settings.MEDIA_URL, user.image)
+            d['image'] = FacebookPhoto.objects.profile_photo(user.id)
             results.append(d)
         return results
 
