@@ -7,11 +7,11 @@ from django.contrib.auth.signals import user_logged_in
 from django.contrib.sessions.models import Session
 from django.db import models
 from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.http import QueryDict
 
 from django_facebook.models import FacebookCustomUser, FacebookLike, \
-    FacebookProfileModel, get_user_model_setting, FacebookModel
-from django_facebook.utils import get_user_model, get_profile_model
+    FacebookModel
+from django_facebook.connect import _update_image
 from open_facebook import OpenFacebook
 
 from goals.models import MatchFilterState
@@ -137,8 +137,11 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 def create_default_photo(sender, instance, created, **kwargs):
     if created:
+        facebook = OpenFacebook(instance.user.access_token)
+        data = facebook.get('me', fields='picture.hight(1000).width(1000)')
+        image_url = data.get('picture', {}).get('data', {}).get('url', {})
         FacebookPhoto.objects.get_or_create(
-            photo=str(instance.user.image),
+            photo=image_url,
             order=0,
             user=instance.user
         )

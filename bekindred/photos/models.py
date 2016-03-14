@@ -1,10 +1,6 @@
 import json
-from cStringIO import StringIO
 
-import os
-from PIL import Image
 from django.core.exceptions import ValidationError
-from django.core.files import File
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_facebook.connect import _update_image
