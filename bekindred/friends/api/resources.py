@@ -174,7 +174,7 @@ class ConnectionsResource(Resource):
                                         null=True, blank=True)
 
     class Meta:
-        resource_name = 'connections2'
+        resource_name = 'connections'
         authentication = SessionAuthentication()
         authorization = Authorization()
 
