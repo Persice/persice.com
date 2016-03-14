@@ -138,7 +138,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 def create_default_photo(sender, instance, created, **kwargs):
     if created:
         FacebookPhoto.objects.get_or_create(
-            photo=instance.user.image.url,
+            photo=str(instance.user.image),
             order=0,
             user=instance.user
         )

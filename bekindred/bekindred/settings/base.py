@@ -78,7 +78,12 @@ SOUTH_MIGRATION_MODULES = {
 
 THUMBNAIL_ALIASES = {
     '': {
-        'avatar': {'size': (140, 140), 'crop': True, 'quality': 100},
+        '56x56': {'size': (56, 56), 'crop': True, 'quality': 100},
+        '89x89': {'size': (89, 89), 'crop': True, 'quality': 100},
+        '120x120': {'size': (120, 120), 'crop': True, 'quality': 100},
+        '154x154': {'size': (154, 154), 'crop': True, 'quality': 100},
+        '230x230': {'size': (230, 230), 'crop': True, 'quality': 100},
+        '387x387': {'size': (387, 387), 'crop': True, 'quality': 100},
     },
 }
 

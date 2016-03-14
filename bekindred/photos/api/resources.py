@@ -108,6 +108,13 @@ class UserResource(ModelResource):
         bundle.data['political_views'] = get_political_views(
             bundle.request.user.id
         )
+        try:
+            cropped_photo = FacebookPhoto.objects.filter(
+                user=bundle.request.user.id, order=0)[0].cropped_photo
+            if cropped_photo:
+                bundle.data['image'] = cropped_photo.url
+        except IndexError:
+            pass
         return bundle
 
     def prepend_urls(self):
@@ -170,6 +177,13 @@ class FacebookPhotoResource(ModelResource):
         user = request.GET.get('user_id', request.user.id)
         return super(FacebookPhotoResource, self).get_object_list(request).\
             filter(user_id=user)
+
+    def dehydrate(self, bundle):
+        photo_url = bundle.data.get('photo', '')
+        if not photo_url.startswith('/media/') and \
+                not photo_url.startswith('http'):
+            bundle.data['photo'] = u'/media/{}'.format(bundle.data['photo'])
+        return bundle
 
     @staticmethod
     def update_profile_photo(bundle):

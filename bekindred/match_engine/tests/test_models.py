@@ -1,4 +1,6 @@
 from datetime import date
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django_facebook.models import FacebookCustomUser, FacebookLike
 import haystack
@@ -36,30 +38,32 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         Offer.objects.all().delete()
         Subject.objects.all().delete()
         FacebookCustomUser.objects.all().delete()
+        photo = SimpleUploadedFile(name='test_image.jpg',
+                                   content='test')
         self.user = FacebookCustomUser.objects.\
             create_user(username='user_a', facebook_id=1234567,
                         first_name='Andrii', password='test', gender='m',
-                        date_of_birth=date(1989, 5, 20))
+                        date_of_birth=date(1989, 5, 20), image=photo)
         self.user1 = FacebookCustomUser.objects.\
             create_user(username='user_b', facebook_id=12345671,
                         first_name='Sasa', gender='m', password='test',
-                        date_of_birth=date(1979, 1, 9))
+                        date_of_birth=date(1979, 1, 9), image=photo)
         self.user2 = FacebookCustomUser.objects. \
             create_user(username='user_c', facebook_id=12345672,
                         first_name='Ira', gender='f', password='test',
-                        date_of_birth=date(1969, 1, 9))
+                        date_of_birth=date(1969, 1, 9), image=photo)
         self.user3 = FacebookCustomUser.objects. \
             create_user(username='user_d', facebook_id=12345676,
                         first_name='Natali', gender='f', password='test',
-                        date_of_birth=date(1959, 1, 9))
+                        date_of_birth=date(1959, 1, 9), image=photo)
         self.user4 = FacebookCustomUser.objects. \
             create_user(username='user_e', facebook_id=12345675,
                         first_name='Tati', gender='f', password='test',
-                        date_of_birth=date(1949, 1, 9))
+                        date_of_birth=date(1949, 1, 9), image=photo)
         self.user5 = FacebookCustomUser.objects. \
             create_user(username='user_f', facebook_id=12345674,
                         first_name='Ken', gender='m', password='test',
-                        date_of_birth=date(1939, 1, 9))
+                        date_of_birth=date(1939, 1, 9), image=photo)
 
         user_location = UserLocation.objects.create(
             user=self.user, position=[-87.627696, 41.880745])
@@ -507,7 +511,7 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 3)
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/matchfeed2/',
+        resp = self.api_client.get('/api/v1/matchfeed/',
                                    data={'filter': 'true'}, format='json')
         self.assertValidJSONResponse(resp)
         data = self.deserialize(resp)['objects']

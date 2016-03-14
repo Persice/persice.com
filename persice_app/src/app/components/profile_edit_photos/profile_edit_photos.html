@@ -1,0 +1,101 @@
+<div class="profile-edit__photos p-">
+  <div class="layout layout--flush layout--auto">
+    <div class="layout__item">
+      <div *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/assets/images/empty_avatar.png'" id="profile-photo-big" class="profile-edit__photos__main-photo-container">
+        <div id="photo_{{profilePhotos[0].id}}" *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/assets/images/empty_avatar.png' && profilePhotos[0].cropped_photo !== '' && profilePhotos[0].cropped_photo !== null" class="profile-edit__photos__main-photo" checkimage="{{profilePhotos[0]?.cropped_photo}}" [suffix]="'.387x387_q100_crop.jpg'">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])" *ngIf="!deleteDisabled">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[0].id}}" *ngIf="profilePhotos[0].id !== null && profilePhotos[0].photo !== '/static/assets/images/empty_avatar.png' && (profilePhotos[0].cropped_photo === '' || profilePhotos[0].cropped_photo === null)" class="profile-edit__photos__main-photo" [ngStyle]="{'background-image': 'url(' + profilePhotos[0]?.photo + ')'}">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[0])" *ngIf="!deleteDisabled">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="profile-edit__photos__main-photo profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[0].id === null || profilePhotos[0].photo === '/static/assets/images/empty_avatar.png'" (click)="openAlbums.next(0)">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item">
+      <div id="profile-photos" class="profile-edit__photos__thumb-photo-container">
+        <div id="photo_{{profilePhotos[1].id}}" *ngIf="profilePhotos[1].id !== null" class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[1]?.cropped_photo}}" [suffix]="'.89x89_q100_crop.jpg'">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[1])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[2].id}}" *ngIf="profilePhotos[2].id !== null" class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[2]?.cropped_photo}}" [suffix]="'.89x89_q100_crop.jpg'">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[2])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[3].id}}" *ngIf="profilePhotos[3].id !== null" class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[3]?.cropped_photo}}" [suffix]="'.89x89_q100_crop.jpg'">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[3])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+        <div id="photo_{{profilePhotos[4].id}}" *ngIf="profilePhotos[4].id !== null" class="profile-edit__photos__thumb-photo" checkimage="{{profilePhotos[4]?.cropped_photo}}" [suffix]="'.89x89_q100_crop.jpg'">
+          <a class="profile-edit__photos__remove-photo" (click)="deletePhoto(profilePhotos[4])">
+            <svg role="img" class="icon icon--notsotiny">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[1].id === null" (click)="checkOrderAndOpenAlbums($event)">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[2].id === null" (click)="checkOrderAndOpenAlbums($event)">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[3].id === null" (click)="checkOrderAndOpenAlbums($event)">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="profile-edit__photos__thumb-photo-upload" *ngIf="profilePhotos[4].id === null" (click)="checkOrderAndOpenAlbums($event)">
+        <div class="fileUpload">
+          <span>
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="profile-edit__photos-hint text-center p-">Drag to sort the photos</p>
+</div>
+<profile-footer [loadingEdit]="loading" (close)="close.next($event)"></profile-footer>

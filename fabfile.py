@@ -104,6 +104,12 @@ def loaddata():
 
 
 @task
+def loaddata_stopwords():
+    require('hosts', provided_by=[production])
+    manage_py('loaddata ./match_engine/fixtures/initial_data1.json')
+
+
+@task
 def loaddata_collocation():
     require('hosts', provided_by=[production])
     manage_py('loaddata ./match_engine/fixtures/collocationdict.json')

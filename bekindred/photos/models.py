@@ -9,6 +9,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_facebook.connect import _update_image
 from django_facebook.models import FacebookCustomUser, PROFILE_IMAGE_PATH
+from easy_thumbnails.fields import ThumbnailerImageField
 
 from photos.utils import crop_photo
 
@@ -25,9 +26,9 @@ class FacebookPhoto(models.Model):
     photo = models.CharField(max_length=250)
     order = models.IntegerField(null=True)
     bounds = models.TextField(null=True)
-    cropped_photo = models.ImageField(blank=True, null=True,
-                                      upload_to=PROFILE_IMAGE_PATH,
-                                      max_length=255)
+    cropped_photo = ThumbnailerImageField(blank=True, null=True,
+                                          upload_to=PROFILE_IMAGE_PATH,
+                                          max_length=255)
 
     def clean(self):
         try:
@@ -38,7 +39,7 @@ class FacebookPhoto(models.Model):
             )
 
     def save(self, *args, **kwargs):
-        if self.pk is None and self.photo:
+        if self.pk is None and self.photo and self.photo.startswith('http'):
             image_name, image_file = _update_image(self.user.facebook_id,
                                                    self.photo)
             if not isinstance(self.bounds, dict):

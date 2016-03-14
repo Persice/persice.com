@@ -9,20 +9,19 @@ from events.api.resources import (AboutMeResource, AllEventFeedResource,
                                   MyConnectionEventFeedResource,
                                   MyEventFeedResource, EventFeedResource,
                                   UserProfileResource)
-from friends.api.resources import (ConnectionsResource,
-                                   ConnectionsSearchResource,
+from friends.api.resources import (ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
-                                   ConnectionsResource2)
+                                   ConnectionsResource)
 from goals.api.resources import (FacebookLikeResource, GoalResource,
                                  MatchFilterStateResource, OfferResource,
                                  SubjectResource)
 from interests.api.resources import InterestResource, InterestSubjectResource, \
     ReligiousViewResource, ReligiousIndexResource, PoliticalViewResource, \
     PoliticalIndexResource
-from matchfeed.api.resources import (MatchedFeedResource, MatchedFeedResource2,
-                                     MutualFriendsResource, ProfileResource,
-                                     ProfileResource2)
+from matchfeed.api.resources import (MatchedFeedResource,
+                                     MutualFriendsResource,
+                                     ProfileResource)
 from msgs.api.resources import (ChatMessageResource, InboxLastResource,
                                 InboxResource, MessageResource,
                                 UnreadMessageCounter)
@@ -42,17 +41,14 @@ v1_api.register(FacebookPhotoResource())
 v1_api.register(GoalResource())
 v1_api.register(OfferResource())
 v1_api.register(MatchedFeedResource())
-v1_api.register(MatchedFeedResource2())
 v1_api.register(MutualFriendsResource())
 v1_api.register(ProfileResource())
-v1_api.register(ProfileResource2())
 v1_api.register(MessageResource())
 v1_api.register(InterestResource())
 v1_api.register(InterestSubjectResource())
 v1_api.register(FriendsResource())
-v1_api.register(ConnectionsResource())
 v1_api.register(ConnectionsSearchResource())
-v1_api.register(ConnectionsResource2())
+v1_api.register(ConnectionsResource())
 v1_api.register(FacebookLikeResource())
 v1_api.register(InboxResource())
 v1_api.register(InboxLastResource())
@@ -81,7 +77,6 @@ v1_api.register(UserProfileResource())
 
 
 urlpatterns = patterns('',
-                       url(r'^mvp/$', 'goals.views.main_page'),
                        url(r'^signup/interests', 'goals.views.signup_page',
                            name='onboardingflow'),
                        url(r'^signup/goals', 'goals.views.signup_page',
@@ -98,15 +93,10 @@ urlpatterns = patterns('',
                        url(r'^goals/close_login_popup/$', 'goals.views.close_login_popup', name='close_login_popup'),
                        url(r'^goals/error_window/$', 'goals.views.error_window', name='error_window'),
                        url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-                       url(r'^accounts/register/', 'goals.views.register'),
-                       url(r'^accounts/deactivate/', 'members.views.deactivate_user', name='deactivate_user'),
                        url(r'^login/$', 'django.contrib.auth.views.login',
                            {'template_name': 'registration/login_dev.html'}, name='auth_login_dev'),
                        url(r'^accounts/', include('django_facebook.auth_urls')),
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^photo/', include('photos.urls')),
-                       url(r'^profile/(?P<username>[\d\w._@+-]+)/$',
-                           'goals.views.profile_view')
                        )
 
 
@@ -128,5 +118,5 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-                        url(r'^.*$', 'goals.views.main_page_angular2')
+                        url(r'^.*$', 'goals.views.main_app')
                         )
