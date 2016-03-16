@@ -2,9 +2,8 @@ from django.dispatch import receiver
 from django.db import models
 from easy_thumbnails.signals import saved_file
 
-from goals import update_index_delay
 from photos.models import FacebookPhoto
-from tasks import generate_thumbnails
+from photos.tasks import update_index_delay, generate_thumbnails
 
 
 @receiver(saved_file)
