@@ -112,7 +112,7 @@ export class MessagesChatComponent {
 
 
 
-      //if recieved new message scroll to bottom
+      //if receieved new message scroll to bottom
       if (this.hasNew && !this.loadingMessages) {
         let elem = jQuery('#messages')[0];
         setTimeout(() => {

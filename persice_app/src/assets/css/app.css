@@ -845,7 +845,7 @@ li.features-list__match {
   z-index: 9;
   left: 50%;
   margin-left: -115px;
-  padding-top: 73px;
+/*  padding-top: 73px;*/
   transition: ease .25s all
 }
 
@@ -889,20 +889,47 @@ li.features-list__match {
   pointer-events: none!important;
 }
 
-.photos-loading {
-  position: absolute;
-  z-index: 10000;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  text-align: center;
-  background: rgba(67, 79, 84, 0.4);
-  left: 0;
-  vertical-align: middle;
-  padding-top: 160px;
-}
-
-
 .site-logo__mark {
   height: 39px;
 }
+
+.profile-loading__photos {
+  position: absolute!important;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  z-index: -10;
+  background: rgba(67, 79, 84, 0.3);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease-in;
+}
+
+.profile-loading__photos.is-visible {
+  visibility: visible;
+  opacity: 1;
+  z-index: 999;
+  transition: all 0.3s ease-out;
+}
+
+.profile-edit__photos__main-photo {
+  cursor: move!important;
+}
+
+.profile-edit__photos__thumb-photo {
+  cursor: move!important;
+}
+
+
+.profile-edit__photos.p- .layout {
+  height: 396px;
+}
+
+
+/*.modal-gallery .swiper-slide {
+  background-size: contain!important;
+  background-position: center!important;
+  height: 700px!important;
+  background-repeat: no-repeat!important;
+}*/

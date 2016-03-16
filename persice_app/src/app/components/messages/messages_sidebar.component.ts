@@ -45,7 +45,10 @@ export class MessagesSidebarComponent {
   }
 
   ngOnInit() {
-    this.messagesCounterService.refreshCounter();
+    setTimeout(() => {
+      this.messagesCounterService.refreshCounter();
+    }, 500);
+
     //subscribe to inbox service updates
     this.inboxServiceInstance = this.inboxService.serviceObserver()
       .subscribe((res) => {

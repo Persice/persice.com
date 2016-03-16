@@ -64,6 +64,8 @@ export class SignupInterestsComponent {
     if (this.subs) {
       this.subs.unsubscribe();
     }
+
+    jQuery('#interestsInput').typeahead('destroy');
   }
 
   initializeTokenInput() {
@@ -95,17 +97,19 @@ export class SignupInterestsComponent {
       }
     );
 
-    jQuery('#interestsInput').bind('typeahead:select', (ev, suggestion) => {
-      if (this.saveLoading) {
-        return;
-      }
-      this.saveLoading = true;
+    jQuery('#interestsInput').bind('typeahead:selected', (ev, suggestion) => {
+      this.newInterest = suggestion;
       this.saveInterest(suggestion);
     });
 
   }
 
   saveInterest(interest) {
+    if (this.saveLoading) {
+      return;
+    }
+
+    this.saveLoading = true;
     if (interest.length === 0 || interest.length > 100) {
       this.status = 'failure';
       this.saveLoading = false;
@@ -177,18 +181,16 @@ export class SignupInterestsComponent {
     if (event.which !== 13) {
       this.status = null;
     }
-    else { //if key is entered
-      this.addInterest();
+
+    if (event.which === 13) {
+      this.saveInterest(this.newInterest);
     }
   }
 
   addInterest() {
-    if (this.saveLoading) {
-      return;
-    }
-    this.saveLoading = true;
     this.saveInterest(this.newInterest);
   }
+
 
   getList() {
     if (this.next === null) return;

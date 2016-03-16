@@ -37,7 +37,7 @@ export class SignupOffersComponent {
 
   constructor(
     private offersService: OffersService
-    ) {
+  ) {
 
   }
 
@@ -81,19 +81,21 @@ export class SignupOffersComponent {
       {
         source: keywordsEngine
       }
-      );
+    );
 
-    jQuery('#offersInput').bind('typeahead:select', (ev, suggestion) => {
-      if (this.saveLoading) {
-        return;
-      }
-      this.saveLoading = true;
+    jQuery('#offersInput').bind('typeahead:selected', (ev, suggestion) => {
+      this.newOffer = suggestion;
       this.saveOffer(suggestion);
     });
 
   }
 
   saveOffer(offer) {
+    if (this.saveLoading === true) {
+      return;
+    }
+    this.saveLoading = true;
+
 
     if (offer.length === 0 || offer.length > 100) {
       this.status = 'failure';
@@ -103,24 +105,24 @@ export class SignupOffersComponent {
 
     this.offersService.save(offer)
       .subscribe((res) => {
-      let newItem = res;
-      this.items.push(newItem);
-      this.status = 'success';
-      this.total_count++;
-      this.counter.next({
-        type: 'offers',
-        count: this.total_count
-      });
-      if (this.total_count === 0) {
-        this.isListEmpty = true;
-      }
-      else {
-        this.isListEmpty = false;
-      }
-      this.newOffer = '';
-      jQuery('#offersInput').typeahead('val', '');
-      this.saveLoading = false;
-    }, (err) => {
+        let newItem = res;
+        this.items.push(newItem);
+        this.status = 'success';
+        this.total_count++;
+        this.counter.next({
+          type: 'offers',
+          count: this.total_count
+        });
+        if (this.total_count === 0) {
+          this.isListEmpty = true;
+        }
+        else {
+          this.isListEmpty = false;
+        }
+        this.newOffer = '';
+        jQuery('#offersInput').typeahead('val', '');
+        this.saveLoading = false;
+      }, (err) => {
         let error = JSON.parse(err._body);
         if ('offer' in error) {
           this.status = 'failure';
@@ -136,17 +138,14 @@ export class SignupOffersComponent {
     if (event.which !== 13) {
       this.status = null;
     }
-    else { //if key is entered
-      this.addOffer();
+
+    if (event.which === 13) {
+      this.saveOffer(this.newOffer);
     }
 
   }
 
   addOffer() {
-    if (this.saveLoading) {
-      return;
-    }
-    this.saveLoading = true;
     this.saveOffer(this.newOffer);
   }
 
@@ -155,19 +154,19 @@ export class SignupOffersComponent {
     if (this.items[idx]) {
       this.offersService.delete(event.resource_uri)
         .subscribe((res) => {
-        this.items.splice(idx, 1);
-        this.total_count--;
-        this.counter.next({
-          type: 'offers',
-          count: this.total_count
+          this.items.splice(idx, 1);
+          this.total_count--;
+          this.counter.next({
+            type: 'offers',
+            count: this.total_count
+          });
+          if (this.total_count === 0) {
+            this.isListEmpty = true;
+          }
+          else {
+            this.isListEmpty = false;
+          }
         });
-        if (this.total_count === 0) {
-          this.isListEmpty = true;
-        }
-        else {
-          this.isListEmpty = false;
-        }
-      });
     }
 
   }

@@ -66,7 +66,7 @@ export class ProfileEditInterestsComponent {
   }
 
   ngOnDestroy() {
-
+    jQuery('#interestsInput').typeahead('destroy');
   }
 
   initializeTokenInput() {
@@ -98,17 +98,23 @@ export class ProfileEditInterestsComponent {
       }
     );
 
-    jQuery('#interestsInput').bind('typeahead:select', (ev, suggestion) => {
-      if (this.saveLoading) {
-        return;
-      }
-      this.saveLoading = true;
+    jQuery('#interestsInput').bind('typeahead:selected', (ev, suggestion) => {
+      this.newInterest = suggestion;
       this.saveInterest(suggestion);
     });
 
   }
 
+  addInterest() {
+    this.saveInterest(this.newInterest);
+  }
+
   saveInterest(interest) {
+    if (this.saveLoading) {
+      return;
+    }
+    this.saveLoading = true;
+
     if (interest.length === 0 || interest.length > 100) {
       this.status = 'failure';
       this.saveLoading = false;
@@ -172,17 +178,10 @@ export class ProfileEditInterestsComponent {
     if (event.which !== 13) {
       this.status = null;
     }
-    else { //if key is entered
-      this.addInterest();
-    }
-  }
 
-  addInterest() {
-    if (this.saveLoading) {
-      return;
+    if (event.which === 13) {
+      this.saveInterest(this.newInterest);
     }
-    this.saveLoading = true;
-    this.saveInterest(this.newInterest);
   }
 
   getList() {

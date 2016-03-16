@@ -1,4 +1,6 @@
 geodjango*.sql
+*.sublime-project
+*.sublime-workspace
 test_reports/*.xml
 elastic/
 media/

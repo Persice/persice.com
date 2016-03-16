@@ -69,9 +69,9 @@ gulp.task('css-lint', function() {
 
 gulp.task('watch', function(gulpCallback) {
   browserSync.init({
-    port: 3001,
+    port: 3002,
     socket: {
-      domain: 'localhost:3001'
+      domain: 'localhost:3002'
     },
     // serve out of app/
     server: './src/assets',
