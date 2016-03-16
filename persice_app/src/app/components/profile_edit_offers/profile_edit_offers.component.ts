@@ -16,7 +16,6 @@ import {OffersService} from '../../services/offers.service';
 
 
 declare var jQuery: any;
-declare var TweenMax: any;
 declare var Bloodhound: any;
 
 @Component({
@@ -87,17 +86,20 @@ export class ProfileEditOffersComponent {
       }
     );
 
-    jQuery('#offersInput').bind('typeahead:select', (ev, suggestion) => {
-      if (this.saveLoading) {
-        return;
-      }
-      this.saveLoading = true;
+    jQuery('#offersInput').bind('typeahead:selected', (ev, suggestion) => {
+      this.newOffer = suggestion;
       this.saveOffer(suggestion);
     });
 
   }
 
   saveOffer(offer) {
+
+    if (this.saveLoading === true) {
+      return;
+    }
+
+    this.saveLoading = true;
 
     if (offer.length === 0 || offer.length > 100) {
       this.status = 'failure';
@@ -136,18 +138,14 @@ export class ProfileEditOffersComponent {
     if (event.which !== 13) {
       this.status = null;
     }
-    else { //if key is entered
-      this.addOffer();
+
+    if (event.which === 13) {
+      this.saveOffer(this.newOffer);
     }
 
   }
 
   addOffer() {
-    if (this.saveLoading) {
-      return;
-    }
-    this.saveLoading = true;
-
     this.saveOffer(this.newOffer);
   }
 
