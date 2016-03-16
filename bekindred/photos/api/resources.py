@@ -109,7 +109,7 @@ class UserResource(ModelResource):
             bundle.request.user.id
         )
         bundle.data['image'] = FacebookPhoto.objects.profile_photo(
-            bundle.request.user.id
+            bundle.obj.id
         )
         return bundle
 
