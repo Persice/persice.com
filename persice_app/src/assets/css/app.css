@@ -900,7 +900,7 @@ li.features-list__match {
   bottom: 0px;
   right: 0px;
   z-index: -10;
-  background: rgba(67, 79, 84, 0.4);
+  background: rgba(67, 79, 84, 0.3);
   visibility: hidden;
   opacity: 0;
   transition: all 0.3s ease-in;
@@ -911,6 +911,14 @@ li.features-list__match {
   opacity: 1;
   z-index: 999;
   transition: all 0.3s ease-out;
+}
+
+.profile-edit__photos__main-photo {
+  cursor: move!important;
+}
+
+.profile-edit__photos__thumb-photo {
+  cursor: move!important;
 }
 
 
