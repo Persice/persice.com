@@ -181,37 +181,8 @@ class FacebookPhotoResource(ModelResource):
             bundle.data['photo'] = u'/media/{}'.format(bundle.data['photo'])
         return bundle
 
-    @staticmethod
-    def update_profile_photo(bundle):
-        if bundle.data.get('photo') and bundle.data.get('order') == 0:
-            current_user_id = bundle.request.user.id
-            user = FacebookCustomUser.objects.get(pk=current_user_id)
-            image_name, image_file = _update_image(
-                user.facebook_id, bundle.data.get('photo'))
-
-            bounds_ = bundle.data.get('bounds')
-
-            if not isinstance(bounds_, dict):
-                try:
-                    cleared_bounds = bounds_.replace("\'", '"') if bounds_ else None
-                    bounds = json.loads(cleared_bounds)
-                except (ValueError, TypeError):
-                    bounds = None
-            else:
-                bounds = bounds_
-
-            if bounds:
-                filename, content = crop_photo(user, image_file, bounds)
-                user.image.save(filename, content)
-            else:
-                user.image.save(image_name, image_file)
-
-            return user.image.url
-
     def obj_create(self, bundle, **kwargs):
-        FacebookPhotoResource.update_profile_photo(bundle)
         return super(FacebookPhotoResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        FacebookPhotoResource.update_profile_photo(bundle)
         return super(FacebookPhotoResource, self).obj_update(bundle, **kwargs)
