@@ -65,14 +65,15 @@ export class PhotosService {
       });
   }
 
-  public update(image, url, cb: (status: number) => void) {
+  public updateOrder(image, url, cb: (status: number) => void) {
     let userId = CookieUtil.getValue('userid');
+
     let photo = {
-      bounds: image.cropped,
       order: image.order,
-      photo: image.original,
       user: '/api/v1/auth/user/' + userId + '/'
     };
+
+
     let body = JSON.stringify(photo);
     let channel = this.http.patch(`${url}?format=json`, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json())
