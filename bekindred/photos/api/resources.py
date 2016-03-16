@@ -9,6 +9,7 @@ from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.core.paginator import InvalidPage, Paginator
+from django.db.models import F
 from django.http import Http404
 from django_facebook.models import FacebookCustomUser
 from haystack.backends import SQ
@@ -17,6 +18,7 @@ from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
+from tastypie.exceptions import Unauthorized
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 from friends.models import Friend
@@ -186,3 +188,16 @@ class FacebookPhotoResource(ModelResource):
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
         return super(FacebookPhotoResource, self).obj_update(bundle, **kwargs)
+
+    def obj_delete(self, bundle, **kwargs):
+        qs = FacebookPhoto.objects.filter(
+            user_id=bundle.request.user.id)
+        count = qs.count()
+        try:
+            if count == 1:
+                raise Unauthorized()
+            else:
+                qs.exclude(order=0).update(order=F('order') - 1)
+        except Unauthorized as e:
+            self.unauthorized_result(e)
+        return super(FacebookPhotoResource, self).obj_delete(bundle, **kwargs)
