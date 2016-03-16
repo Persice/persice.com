@@ -1,11 +1,10 @@
-// Persice local development
+// Persice
 
 var webpack = require('webpack');
 var helpers = require('./helpers');
 
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
@@ -26,16 +25,17 @@ var metadata = {
 module.exports = {
   // static data for index.html
   metadata: metadata,
-  devtool: 'eval',
-  debug: true,
+  devtool: 'cheap-module-eval-source-map',
   cache: true,
+  debug: true,
   // devtool: 'eval' // for faster builds use 'eval'
 
   // our angular app
   entry: {
     'polyfills': './src/polyfills.ts',
-    'main': './src/main.ts', // our main app
-    'signup': './src/signup/main.ts' // our signup app
+    'vendor': './src/vendor.ts',
+    'main': './src/main.ts',
+    'signup': './src/signup/main.ts'
   },
 
   resolve: {
@@ -53,41 +53,21 @@ module.exports = {
 
   module: {
     preLoaders: [
-      // { test: /\.js$/, loader: "source-map-loader", exclude: [helpers.root('node_modules/rxjs')] },
-      {
-        test: /\.ts$/,
-        loader: 'tslint-loader',
-        exclude: [helpers.root('node_modules')]
-      }
+      { test: /\.ts$/, loader: 'tslint-loader', exclude: [ helpers.root('node_modules') ] },
+      { test: /\.js$/, loader: 'source-map-loader', exclude: [ helpers.root('node_modules/rxjs') ] }
     ],
     loaders: [
       // Support for .ts files.
-      {
-        test: /\.ts$/,
-        loader: 'awesome-typescript-loader',
-        exclude: [/\.(spec|e2e)\.ts$/, helpers.root('node_modules')]
-      },
+      { test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [ /\.(spec|e2e)\.ts$/ ] },
 
       // Support for *.json files.
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
-        exclude: [helpers.root('node_modules')]
-      },
+      { test: /\.json$/,  loader: 'json-loader' },
 
       // Support for CSS as raw text
-      {
-        test: /\.css$/,
-        loader: 'raw-loader',
-        exclude: [helpers.root('node_modules')]
-      },
+      { test: /\.css$/,   loader: 'raw-loader' },
 
       // support for .html as raw text
-      {
-        test: /\.html$/,
-        loader: 'raw-loader',
-        exclude: [helpers.root('src/index.html'), helpers.root('node_modules')]
-      }
+      { test: /\.html$/,  loader: 'raw-loader', exclude: [ helpers.root('src/index.html') ] }
 
     ]
   },
@@ -95,22 +75,18 @@ module.exports = {
   plugins: [
     new ForkCheckerPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(true),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'polyfills',
-      filename: 'polyfills.bundle.js',
-      minChunks: Infinity
-    }),
+    new webpack.optimize.CommonsChunkPlugin({ name: ['vendor', 'polyfills'], minChunks: Infinity }),
+
+
+
     // static assets
-    // new CopyWebpackPlugin([{ from: 'src/assets', to: 'assets' }]),
+    // new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
     // generating html
-    // new HtmlWebpackPlugin({ template: 'src/index.html' }),
-    // replace
+    // new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
+    // Environment helpers (when adding more properties make sure you include them in custom-typings.d.ts)
     new webpack.DefinePlugin({
-      'process.env': {
-        'ENV': JSON.stringify(metadata.ENV),
-        'NODE_ENV': JSON.stringify(metadata.ENV),
-        'HMR': HMR
-      }
+      'ENV': JSON.stringify(metadata.ENV),
+      'HMR': HMR
     })
   ],
 
@@ -133,10 +109,10 @@ module.exports = {
   },
   node: {
     global: 'window',
-    progress: false,
+    process: true,
     crypto: 'empty',
     module: false,
     clearImmediate: false,
     setImmediate: false
-  },
+  }
 };
