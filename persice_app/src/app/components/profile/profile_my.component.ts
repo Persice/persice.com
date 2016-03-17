@@ -384,6 +384,10 @@ export class ProfileMyComponent {
   deletePhoto(photo) {
     this.loadingPhotos = true;
     this.photosService.delete(photo.resource_uri, (res) => {
+      if (res === -1) {
+        this.loadingPhotos = false;
+        return;
+      }
       this.refreshPhotos();
       // if deleting main profile photo, refresh profile photo in upper right corner
       if (photo.order === 0) {
@@ -445,7 +449,16 @@ export class ProfileMyComponent {
     }
 
     this.photosService.updateOrder(otherPhoto, otherPhoto.resource_uri, (res) => {
+      if (res === -1) {
+        this.loadingPhotos = false;
+        return;
+      }
+
       this.photosService.updateOrder({ order: 0 }, profilePhoto.resource_uri, (res) => {
+        if (res === -1) {
+          this.loadingPhotos = false;
+          return;
+        }
         this.userMeService.getProfileUpdates();
         this.refreshPhotos();
       });
