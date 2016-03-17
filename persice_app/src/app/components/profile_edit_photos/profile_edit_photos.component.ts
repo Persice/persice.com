@@ -50,7 +50,7 @@ export class ProfileEditPhotosComponent {
   }
 
   assignPhotos(photos) {
-    // disable delete photo if only one photo exists
+    // Disable delete photo if only one photo exists
     if (photos.length > 1) {
       this.deleteDisabled = false;
     }
