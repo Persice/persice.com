@@ -385,6 +385,10 @@ export class ProfileMyComponent {
     this.loadingPhotos = true;
     this.photosService.delete(photo.resource_uri, (res) => {
       this.refreshPhotos();
+      // if deleting main profile photo, refresh profile photo in upper right corner
+      if (photo.order === 0) {
+        this.userMeService.getProfileUpdates();
+      }
     });
   }
 
