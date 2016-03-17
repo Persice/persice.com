@@ -84,7 +84,7 @@ export class FilterComponent {
   constructor(
     public filterService: FilterService
     ) {
-    this.saveDebounced = debounce(this.save, 1500, {'leading': true, 'trailing': true });
+    this.saveDebounced = debounce(this.save, 500, {'leading': true, 'trailing': true });
     this.filterService.find()
     .subscribe(data => this.setFilters(data),
       (err) => {
