@@ -30,7 +30,7 @@ export class ProfileEditPhotosComponent {
   @Output() openAlbums: EventEmitter<any> = new EventEmitter();
   profilePhotos = [];
   drakeInstance;
-  deleteDisabled = true;
+  deleteDisabled = false;
 
   ngOnChanges(values) {
     if (values.photos && values.photos.currentValue) {
@@ -50,12 +50,14 @@ export class ProfileEditPhotosComponent {
   }
 
   assignPhotos(photos) {
+    // disable delete photo if only one photo exists
     if (photos.length > 1) {
       this.deleteDisabled = false;
     }
     else {
       this.deleteDisabled = true;
     }
+
     this.profilePhotos = [
       {
         cropped_photo: '',
