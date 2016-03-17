@@ -1,16 +1,24 @@
-// Persice
+/**
+ * @author: Persice
+ */
 
 var webpack = require('webpack');
 var helpers = require('./helpers');
 
+/**
+ * Webpack Plugins
+ */
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
-var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
-var HMR = helpers.hasProcessFlag('hot');
 
-var metadata = {
+/**
+ * Webpack Constants
+ */
+const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
+const HMR = helpers.hasProcessFlag('hot');
+const METADATA = {
   title: 'Persice',
   baseUrl: '/',
   host: 'localhost',
@@ -18,13 +26,13 @@ var metadata = {
   ENV: ENV,
   HMR: HMR
 };
-/*
- * Config
- * with default values at webpack.default.conf
+
+/**
+ * Webpack configuration
  */
 module.exports = {
   // static data for index.html
-  metadata: metadata,
+  metadata: METADATA,
   // devtool: 'cheap-module-eval-source-map',
   cache: true,
   debug: true,
@@ -76,16 +84,13 @@ module.exports = {
     new ForkCheckerPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({ name: ['vendor', 'polyfills'], minChunks: Infinity }),
-
-
-
     // static assets
     // new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
     // generating html
     // new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
     // Environment helpers (when adding more properties make sure you include them in custom-typings.d.ts)
     new webpack.DefinePlugin({
-      'ENV': JSON.stringify(metadata.ENV),
+      'ENV': JSON.stringify(METADATA.ENV),
       'HMR': HMR
     })
   ],
@@ -99,8 +104,8 @@ module.exports = {
     resourcePath: 'src',
   },
   devServer: {
-    port: metadata.port,
-    host: metadata.host,
+    port: METADATA.port,
+    host: METADATA.host,
     historyApiFallback: true,
     watchOptions: {
       aggregateTimeout: 300,

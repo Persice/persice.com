@@ -1,11 +1,14 @@
-// Persice
-
-/*
- * Helper: root(), and rootDir() are defined at the bottom
+/**
+ * @author: Persice
  */
+
+
 var helpers = require('./helpers');
-// Webpack Plugins
 var webpack = require('webpack');
+
+/**
+ * Webpack Plugins
+ */
 var ProvidePlugin = require('webpack/lib/ProvidePlugin');
 var DefinePlugin = require('webpack/lib/DefinePlugin');
 var OccurenceOrderPlugin = require('webpack/lib/optimize/OccurenceOrderPlugin');
@@ -17,11 +20,15 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var WebpackMd5Hash    = require('webpack-md5-hash');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-var HOST = process.env.HOST || 'localhost';
-var PORT = process.env.PORT || 8080;
 
-var metadata = {
+
+/**
+ * Webpack Constants
+ */
+const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
+const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.PORT || 8080;
+const METADATA = {
   title: 'Persice',
   baseUrl: '/',
   host: HOST,
@@ -29,12 +36,13 @@ var metadata = {
   ENV: ENV
 };
 
-/*
- * Config
+
+/**
+ * Webpack Configuration
  */
 module.exports = {
   // static data for index.html
-  metadata: metadata,
+  metadata: METADATA,
 
   devtool: 'source-map',
   debug: false,
@@ -141,7 +149,7 @@ module.exports = {
     // generating html
     // new HtmlWebpackPlugin({ template: 'src/index.html', chunksSortMode: 'none' }),
     new DefinePlugin({
-      'ENV': JSON.stringify(metadata.ENV),
+      'ENV': JSON.stringify(METADATA.ENV),
       'HMR': false
     }),
     new UglifyJsPlugin({
@@ -156,61 +164,6 @@ module.exports = {
       // comments: true,//debug
 
       beautify: false,//prod
-      // disable mangling because of a bug in angular2 beta.1, beta.2 and beta.3
-      // TODO(mastertinner): enable mangling as soon as angular2 beta.4 is out
-      // mangle: { screw_ie8 : true },//prod
-      // mangle: {
-      //   screw_ie8 : true,
-      //   except: [
-      //     'App',
-      //     'About',
-      //     'Contact',
-      //     'Home',
-      //     'Menu',
-      //     'Footer',
-      //     'XLarge',
-      //     'RouterActive',
-      //     'RouterLink',
-      //     'RouterOutlet',
-      //     'NgFor',
-      //     'NgIf',
-      //     'NgClass',
-      //     'NgSwitch',
-      //     'NgStyle',
-      //     'NgSwitchDefault',
-      //     'NgControl',
-      //     'NgControlName',
-      //     'NgControlGroup',
-      //     'NgFormControl',
-      //     'NgModel',
-      //     'NgFormModel',
-      //     'NgForm',
-      //     'NgSelectOption',
-      //     'DefaultValueAccessor',
-      //     'NumberValueAccessor',
-      //     'CheckboxControlValueAccessor',
-      //     'SelectControlValueAccessor',
-      //     'RadioControlValueAccessor',
-      //     'NgControlStatus',
-      //     'RequiredValidator',
-      //     'MinLengthValidator',
-      //     'MaxLengthValidator',
-      //     'PatternValidator',
-      //     'AsyncPipe',
-      //     'DatePipe',
-      //     'JsonPipe',
-      //     'NumberPipe',
-      //     'DecimalPipe',
-      //     'PercentPipe',
-      //     'CurrencyPipe',
-      //     'LowerCasePipe',
-      //     'UpperCasePipe',
-      //     'SlicePipe',
-      //     'ReplacePipe',
-      //     'I18nPluralPipe',
-      //     'I18nSelectPipe'
-      //   ] // needed for uglify RouterLink problem
-      // },// prod
       compress : { screw_ie8 : true, warnings: false },//prod
       comments: false//prod
 
