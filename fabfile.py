@@ -189,6 +189,7 @@ def restart_redis():
 @task
 def restart_elasticsearch():
     sudo('service elasticsearch restart')
+    sudo('service elasticsearch start')
 
 
 @task
