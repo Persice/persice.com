@@ -292,6 +292,10 @@ export class FormUtil {
 
 export class StringUtil {
   static contains<T extends string>(data: T, substring): boolean {
+    if (data === null || substring === null) {
+      return false;
+    }
+
     if (data.indexOf(substring) !== -1) {
       return true;
     }
