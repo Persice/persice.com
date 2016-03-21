@@ -4,6 +4,7 @@
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
     </svg>
     <input [(ngModel)]="newGoal" (keyup)="inputChanged($event)" type="text" id="goalsInput" class="search__input typeahead" placeholder="Enter a few goals here">
+
     <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
       <svg role="img" class="icon ">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>

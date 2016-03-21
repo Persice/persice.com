@@ -24,7 +24,7 @@ import {ReligiousViewsService} from '../../services/religiousviews.service';
 import {PoliticalViewsService} from '../../services/politicalviews.service';
 
 /** Utils */
-import {ObjectUtil} from '../../core/util';
+import {ObjectUtil, ListUtil} from '../../core/util';
 
 /** View */
 let view = require('./profile.html');
@@ -227,7 +227,7 @@ export class ProfileCrowdComponent {
     this.profilePhotos = [];
     setTimeout(() => {
       if (data.meta.total_count > 0) {
-        this.profilePhotos = data.objects.reverse();
+        this.profilePhotos = ListUtil.orderBy(data.objects, ['order'], ['asc']);
         this.profilePhotosCount = this.profilePhotos.length;
       }
       this.loadingPhotos = false;

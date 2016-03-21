@@ -51,7 +51,7 @@ export class CrowdContainer {
     private filterService: FilterService,
     private notificationService: NotificationService,
     private _router: Router
-    ) {
+  ) {
     this.onRefreshList = debounce(this.refreshList, 300, { 'leading': false, 'trailing': true });
     this.routerInstance = this._router.parent.subscribe(next => {
       this.closeProfile(true);
@@ -209,11 +209,18 @@ export class CrowdContainer {
 
     this.friendService.saveFriendship(-1, event.user)
       .subscribe(data => {
-      if (!event.next) {
-        this.profileViewActive = false;
-        this.selectedUser = null;
-      }
-    });
+        if (!event.next || this.items.length === 0) {
+          this.profileViewActive = false;
+          this.selectedUser = null;
+        }
+
+      }, (err) => {
+        console.log(err);
+        if (!event.next || this.items.length === 0) {
+          this.profileViewActive = false;
+          this.selectedUser = null;
+        }
+      });
 
   }
 
@@ -236,11 +243,18 @@ export class CrowdContainer {
 
     this.friendService.saveFriendship(0, event.user)
       .subscribe(data => {
-      if (!event.next) {
-        this.profileViewActive = false;
-        this.selectedUser = null;
-      }
-    });
+        if (!event.next || this.items.length === 0) {
+          this.profileViewActive = false;
+          this.selectedUser = null;
+        }
+
+      }, (err) => {
+        console.log(err);
+        if (!event.next || this.items.length === 0) {
+          this.profileViewActive = false;
+          this.selectedUser = null;
+        }
+      });
 
   }
 

@@ -373,45 +373,27 @@ export class ProfileMyComponent {
 
   cropAndSavePhoto(photo) {
     this.loadingPhotos = true;
-    let mainPhotoExists = false;
-    let mainUrl = '';
-    if (photo.order === 0) {
-      for (var i = 0; i < this.profilePhotos.length; ++i) {
-        if (this.profilePhotos[i].order === 0) {
-          mainPhotoExists = true;
-          mainUrl = this.profilePhotos[i].resource_uri;
-        }
+    this.photosService.save(photo, (res) => {
+      this.refreshPhotos();
+      if (photo.order === 0) {
+        this.userMeService.getProfileUpdates();
       }
-
-    }
-
-    if (mainPhotoExists) {
-      this.photosService.update(photo, mainUrl, (res) => {
-        this.refreshPhotos();
-        if (photo.order === 0) {
-          this.userMeService.getProfileUpdates();
-        }
-      });
-    }
-    else {
-      this.photosService.save(photo, (res) => {
-        this.refreshPhotos();
-        if (photo.order === 0) {
-          this.userMeService.getProfileUpdates();
-        }
-      });
-    }
-
+    });
   }
 
   deletePhoto(photo) {
     this.loadingPhotos = true;
-
     this.photosService.delete(photo.resource_uri, (res) => {
+      if (res === -1) {
+        this.loadingPhotos = false;
+        return;
+      }
       this.refreshPhotos();
+      // if deleting main profile photo, refresh profile photo in upper right corner
+      if (photo.order === 0) {
+        this.userMeService.getProfileUpdates();
+      }
     });
-
-
   }
 
   refreshPhotos() {
@@ -419,7 +401,7 @@ export class ProfileMyComponent {
     this.getPhotos(this.user.id);
   }
 
-  replacePhoto(event) {
+  reorderPhoto(event) {
     this.loadingPhotosAction = true;
     if (this.photosServiceSubscriberUpdate) {
       this.photosServiceSubscriberUpdate.unsubscribe();
@@ -466,21 +448,23 @@ export class ProfileMyComponent {
       otherPhoto = srcImg;
     }
 
+    this.photosService.updateOrder(otherPhoto, otherPhoto.resource_uri, (res) => {
+      if (res === -1) {
+        this.loadingPhotos = false;
+        return;
+      }
 
-
-    let image = {
-      original: profilePhoto.photo,
-      order: 0,
-      cropped: JSON.parse(JSON.stringify(profilePhoto.bounds.replace(/u'(?=[^:]+')/g, '\'')))
-    };
-
-    this.photosService.update(otherPhoto, otherPhoto.resource_uri, (res) => {
+      this.photosService.updateOrder({ order: 0 }, profilePhoto.resource_uri, (res) => {
+        if (res === -1) {
+          this.loadingPhotos = false;
+          return;
+        }
+        this.userMeService.getProfileUpdates();
+        this.refreshPhotos();
+      });
     });
 
-    this.photosService.update(image, profilePhoto.resource_uri, (res) => {
-      this.userMeService.getProfileUpdates();
-      this.refreshPhotos();
-    });
+
 
 
   }

@@ -195,6 +195,8 @@ FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday',
                           'user_photos', 'user_work_history',
                           'user_religion_politics', 'user_location']
 
+FACEBOOK_STORE_LOCAL_IMAGE = False
+
 FACEBOOK_REGISTRATION_TEMPLATE = 'registration/registration_form.html'
 BROKER_URL = 'redis://localhost:6379/0'
 FACEBOOK_CELERY_STORE = False

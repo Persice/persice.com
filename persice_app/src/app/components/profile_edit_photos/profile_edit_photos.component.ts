@@ -25,25 +25,18 @@ export class ProfileEditPhotosComponent {
   @Input() default;
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() delete: EventEmitter<any> = new EventEmitter();
-  @Output() replace: EventEmitter<any> = new EventEmitter();
+  @Output() reorder: EventEmitter<any> = new EventEmitter();
   @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter();
   @Output() openAlbums: EventEmitter<any> = new EventEmitter();
   profilePhotos = [];
   drakeInstance;
-  deleteDisabled = true;
+  deleteDisabled = false;
 
   ngOnChanges(values) {
     if (values.photos && values.photos.currentValue) {
       this.assignPhotos(values.photos.currentValue);
-      // this.initializeDragAndDrop();
     }
   }
-
-  ngAfterViewInit() {
-    this.initializeDragAndDrop();
-  }
-
-
 
   ngOnDestroy() {
     if (this.drakeInstance) {
@@ -57,12 +50,14 @@ export class ProfileEditPhotosComponent {
   }
 
   assignPhotos(photos) {
+    // Disable delete photo if only one photo exists
     if (photos.length > 1) {
       this.deleteDisabled = false;
     }
     else {
       this.deleteDisabled = true;
     }
+
     this.profilePhotos = [
       {
         cropped_photo: '',
@@ -115,6 +110,9 @@ export class ProfileEditPhotosComponent {
     }
 
     this.profilePhotos = ListUtil.orderBy(this.profilePhotos, ['order'], ['asc']);
+    setTimeout(() => {
+      this.initializeDragAndDrop();
+    });
   }
 
   checkOrderAndOpenAlbums(event) {
@@ -130,7 +128,6 @@ export class ProfileEditPhotosComponent {
   initializeDragAndDrop() {
 
     if (this.drakeInstance) {
-      console.log('drake already exists.. reinit');
       this.drakeInstance.destroy();
     }
 
@@ -152,7 +149,7 @@ export class ProfileEditPhotosComponent {
         let arrayOfIds = jQuery.map(items, (n, i) => {
           return parseInt(n.id.match(/\d+/g)[0], 10);
         });
-        this.replace.emit(arrayOfIds);
+        this.reorder.emit(arrayOfIds);
         return true;
       }
       // Cancel default behavior
@@ -162,10 +159,21 @@ export class ProfileEditPhotosComponent {
       if (sibling === null) {
         sibling = jQuery(target).children().last()[0];
       }
+
+
+      // replace main profile background image
+      let styleEl = jQuery(`#${el.id}`).css('background-image');
+      let styleSibling = jQuery(`#${sibling.id}`).css('background-image');
+      jQuery(`#${el.id}`).css('background-image', styleSibling);
+      jQuery(`#${sibling.id}`).css('background-image', styleEl);
+
+
       this.changeProfilePhoto.emit({
         src: parseInt(el.id.match(/\d+/g)[0], 10),
         dst: parseInt(sibling.id.match(/\d+/g)[0], 10)
       });
+
+
     });
 
     this.drakeInstance.on('over', (el, target, source) => {

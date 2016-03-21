@@ -1,5 +1,7 @@
 {
   "rules": {
+
+
     "class-name": true,
     "curly": false,
     "eofline": true,
@@ -7,7 +9,6 @@
       true,
       "spaces"
     ],
-    "max-line-length": false,
     "no-arg": true,
     "no-construct": true,
     "no-duplicate-key": true,
@@ -21,9 +22,10 @@
     "no-unreachable": true,
     "no-use-before-declare": true,
     "one-line": [
-      true,
+      false,
       "check-open-brace",
       "check-catch",
+      "check-else",
       "check-whitespace"
     ],
     "quotemark": [

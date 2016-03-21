@@ -54,7 +54,7 @@ export class ProfileEditComponent {
   @Input() activeSection;
   @Output() refreshUser: EventEmitter<any> = new EventEmitter;
   @Output() deletePhoto: EventEmitter<any> = new EventEmitter;
-  @Output() replacePhoto: EventEmitter<any> = new EventEmitter;
+  @Output() reorderPhoto: EventEmitter<any> = new EventEmitter;
   @Output() changeProfilePhoto: EventEmitter<any> = new EventEmitter;
   @Output() cropAndSavePhoto: EventEmitter<any> = new EventEmitter;
   loadingEdit = false;

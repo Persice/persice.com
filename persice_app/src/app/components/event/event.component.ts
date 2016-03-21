@@ -264,38 +264,27 @@ export class EventComponent {
   getAttendees(eventId) {
     this.serviceAttendees.get('', 1000, eventId, 'yes', '')
       .subscribe((data) => {
-        let items = this.fixImageUrl(data.objects);
+        let items = data.objects;
         this.peopleYes = items;
         this.peopleYescounter = items.length;
       });
 
     this.serviceAttendees.get('', 1000, eventId, 'no', '')
       .subscribe((data) => {
-        let items = this.fixImageUrl(data.objects);
+        let items = data.objects;
         this.peopleNo = items;
         this.peopleNocounter = items.length;
       });
 
     this.serviceAttendees.get('', 1000, eventId, 'maybe', '')
       .subscribe((data) => {
-        let items = this.fixImageUrl(data.objects);
+        let items = data.objects;
         this.peopleMaybe = items;
         this.peopleMaybecounter = items.length;
 
         this.selected = '';
         this.selected = 'yes';
       });
-  }
-
-  fixImageUrl(items) {
-    let data = items;
-    for (var i = 0; i <= data.length - 1; ++i) {
-      if (!StringUtil.contains(data[i].image, '/media')) {
-        data[i].image = '/media/' + data[i].image;
-      }
-    }
-
-    return data;
   }
 
   goBack(event) {

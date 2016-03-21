@@ -6,7 +6,7 @@ import {HttpClient} from '../core/http_client';
 
 @Injectable()
 export class ConnectionsService {
-  static API_URL: string = '/api/v1/connections2/';
+  static API_URL: string = '/api/v1/connections/';
   next: string = '';
 
   constructor(public http: HttpClient) {

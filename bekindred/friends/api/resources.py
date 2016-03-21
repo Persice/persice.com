@@ -18,6 +18,7 @@ from matchfeed.api.resources import A
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
+from photos.models import FacebookPhoto
 
 
 class FriendsResource(ModelResource):
@@ -114,8 +115,10 @@ class ConnectionsSearchResource(Resource):
                 position_friend = 'friend1'
 
             new_obj.first_name = getattr(friend, position_friend).first_name
-            new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.image = FacebookPhoto.objects.profile_photo(
+                new_obj.friend_id
+            )
 
             if _first_name.lower() != '' and \
                     _first_name.lower() in new_obj.first_name.lower():
@@ -174,7 +177,7 @@ class ConnectionsResource(Resource):
                                         null=True, blank=True)
 
     class Meta:
-        resource_name = 'connections2'
+        resource_name = 'connections'
         authentication = SessionAuthentication()
         authorization = Authorization()
 

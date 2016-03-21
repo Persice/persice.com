@@ -13,7 +13,6 @@ import {GoalsService} from '../../services/goals.service';
 let view = require('./profile_edit_goals.html');
 
 declare var jQuery: any;
-declare var TweenMax: any;
 declare var Bloodhound: any;
 
 @Component({
@@ -82,18 +81,23 @@ export class ProfileEditGoalsComponent {
       }
     );
 
-    jQuery('#goalsInput').bind('typeahead:select', (ev, suggestion) => {
-      if (this.saveLoading) {
-        return;
-      }
-      this.saveLoading = true;
+    jQuery('#goalsInput').bind('typeahead:selected', (ev, suggestion) => {
+      this.newGoal = suggestion;
       this.saveGoal(suggestion);
     });
 
   }
 
-  saveGoal(goal) {
+  addGoal() {
+    this.saveGoal(this.newGoal);
+  }
 
+  saveGoal(goal) {
+    if (this.saveLoading === true) {
+      return;
+    }
+
+    this.saveLoading = true;
     if (goal.length === 0 || goal.length > 100) {
       this.status = 'failure';
       this.saveLoading = false;
@@ -131,19 +135,10 @@ export class ProfileEditGoalsComponent {
     if (event.which !== 13) {
       this.status = null;
     }
-    else { //if key is entered
-      this.addGoal();
+    if (event.which === 13) {
+      this.saveGoal(this.newGoal);
     }
 
-  }
-
-  addGoal() {
-    if (this.saveLoading) {
-      return;
-    }
-    this.saveLoading = true;
-
-    this.saveGoal(this.newGoal);
   }
 
   removeGoal(event) {

@@ -10,6 +10,7 @@ from PIL import Image
 from django.core.files.temp import NamedTemporaryFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files import File
+
 try:
     import urllib2
 except ImportError:

@@ -9,6 +9,7 @@ from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.core.paginator import InvalidPage, Paginator
+from django.db.models import F
 from django.http import Http404
 from django_facebook.models import FacebookCustomUser
 from haystack.backends import SQ
@@ -17,6 +18,7 @@ from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL
+from tastypie.exceptions import Unauthorized
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
 from friends.models import Friend
@@ -108,13 +110,9 @@ class UserResource(ModelResource):
         bundle.data['political_views'] = get_political_views(
             bundle.request.user.id
         )
-        try:
-            cropped_photo = FacebookPhoto.objects.filter(
-                user=bundle.request.user.id, order=0)[0].cropped_photo
-            if cropped_photo:
-                bundle.data['image'] = cropped_photo.url
-        except IndexError:
-            pass
+        bundle.data['image'] = FacebookPhoto.objects.profile_photo(
+            bundle.obj.id
+        )
         return bundle
 
     def prepend_urls(self):
@@ -185,37 +183,21 @@ class FacebookPhotoResource(ModelResource):
             bundle.data['photo'] = u'/media/{}'.format(bundle.data['photo'])
         return bundle
 
-    @staticmethod
-    def update_profile_photo(bundle):
-        if bundle.data.get('photo') and bundle.data.get('order') == 0:
-            current_user_id = bundle.request.user.id
-            user = FacebookCustomUser.objects.get(pk=current_user_id)
-            image_name, image_file = _update_image(
-                user.facebook_id, bundle.data.get('photo'))
-
-            bounds_ = bundle.data.get('bounds')
-
-            if not isinstance(bounds_, dict):
-                try:
-                    cleared_bounds = bounds_.replace("\'", '"') if bounds_ else None
-                    bounds = json.loads(cleared_bounds)
-                except (ValueError, TypeError):
-                    bounds = None
-            else:
-                bounds = bounds_
-
-            if bounds:
-                filename, content = crop_photo(user, image_file, bounds)
-                user.image.save(filename, content)
-            else:
-                user.image.save(image_name, image_file)
-
-            return user.image.url
-
     def obj_create(self, bundle, **kwargs):
-        FacebookPhotoResource.update_profile_photo(bundle)
         return super(FacebookPhotoResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
-        FacebookPhotoResource.update_profile_photo(bundle)
         return super(FacebookPhotoResource, self).obj_update(bundle, **kwargs)
+
+    def obj_delete(self, bundle, **kwargs):
+        qs = FacebookPhoto.objects.filter(
+            user_id=bundle.request.user.id)
+        count = qs.count()
+        try:
+            if count == 1:
+                raise Unauthorized()
+            else:
+                qs.exclude(order=0).update(order=F('order') - 1)
+        except Unauthorized as e:
+            self.unauthorized_result(e)
+        return super(FacebookPhotoResource, self).obj_delete(bundle, **kwargs)

@@ -17,6 +17,7 @@ from events.models import Event, Membership
 from friends.models import Friend
 from matchfeed.api.resources import A
 from msgs.models import ChatMessage
+from photos.models import FacebookPhoto
 from postman.models import Message
 from members.models import UserSession, FacebookCustomUserActive
 from photos.api.resources import UserResource
@@ -53,7 +54,9 @@ class MessageResource(ModelResource):
                          recipient__is_active=True, recipient=user))
 
     def dehydrate(self, bundle):
-        bundle.data['sender_image'] = bundle.obj.sender.image
+        bundle.data['sender_image'] = FacebookPhoto.objects.profile_photo(
+            bundle.obj.sender.id
+        )
         bundle.data['sender_name'] = bundle.obj.sender.first_name
         bundle.data['sender_sender'] = bundle.obj.sender.username
         return bundle
@@ -67,7 +70,9 @@ class MessageResource(ModelResource):
         user_sessions = UserSession.objects.filter(user_id=user)
 
         data['sent_at'] = str(bundle.obj.sent_at.isoformat())
-        data['sender_image'] = str(bundle.obj.sender.image)
+        data['sender_image'] = FacebookPhoto.objects.profile_photo(
+            bundle.obj.sender.id
+        )
         data['friend_id'] = str(bundle.obj.sender.id)
         data['sender_name'] = str(bundle.obj.sender.first_name.encode('utf8'))
         data['sender_sender'] = str(bundle.obj.sender.username)
@@ -120,8 +125,10 @@ class InboxLastResource(Resource):
             new_obj.first_name = getattr(friend, position_friend).first_name
             new_obj.last_name = getattr(friend, position_friend).last_name
             new_obj.facebook_id = getattr(friend, position_friend).facebook_id
-            new_obj.image = getattr(friend, position_friend).image
             new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.image = FacebookPhoto.objects.profile_photo(
+                new_obj.friend_id
+            )
 
             # counter of unread messages on conversation level
             cnt = Message.objects.\

@@ -1,10 +1,6 @@
 import json
-from cStringIO import StringIO
 
-import os
-from PIL import Image
 from django.core.exceptions import ValidationError
-from django.core.files import File
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_facebook.connect import _update_image
@@ -21,6 +17,18 @@ class Photo(models.Model):
     cropped_photo = models.TextField(default='')
 
 
+class FacebookPhotoManager(models.Manager):
+    @staticmethod
+    def profile_photo(user_id):
+        try:
+            cropped_photo = FacebookPhoto.objects.filter(
+                user=user_id, order=0)[0].cropped_photo
+            if cropped_photo:
+                return cropped_photo.url
+        except IndexError:
+            pass
+
+
 class FacebookPhoto(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
     photo = models.CharField(max_length=250)
@@ -29,6 +37,7 @@ class FacebookPhoto(models.Model):
     cropped_photo = ThumbnailerImageField(blank=True, null=True,
                                           upload_to=PROFILE_IMAGE_PATH,
                                           max_length=255)
+    objects = FacebookPhotoManager()
 
     def clean(self):
         try:
@@ -44,7 +53,8 @@ class FacebookPhoto(models.Model):
                                                    self.photo)
             if not isinstance(self.bounds, dict):
                 try:
-                    cleared_bounds = self.bounds.replace("\'", '"') if self.bounds else None
+                    cleared_bounds = self.bounds.replace("\'",
+                                                         '"') if self.bounds else None
                     bounds = json.loads(cleared_bounds)
                 except (ValueError, TypeError):
                     bounds = None
