@@ -70,7 +70,7 @@ export class PhotosService {
 
     let photo = {
       order: image.order,
-      user: '/api/v1/auth/user/' + userId + '/'
+      resource_uri: image.resource_uri
     };
 
 
@@ -86,8 +86,17 @@ export class PhotosService {
       });
   }
 
-  public batchUpdate(data): Observable<any> {
-    let body = JSON.stringify(data);
+  public batchUpdateOrder(data): Observable<any> {
+    let photos = [];
+    for (var i = data.length - 1; i >= 0; i--) {
+      photos = [...photos, {
+        order: data[i].order,
+        resource_uri: data[i].resource_uri
+      }];
+    }
+
+    let body = JSON.stringify({ objects: photos });
+
     return this.http.patch(`${PhotosService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
 

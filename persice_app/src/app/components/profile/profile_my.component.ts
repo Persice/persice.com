@@ -415,9 +415,9 @@ export class ProfileMyComponent {
         }
       }
     }
-    let data = { objects: this.profilePhotos.slice(1) };
+    let data = this.profilePhotos.slice(1);
 
-    this.photosServiceSubscriberUpdate = this.photosService.batchUpdate(data)
+    this.photosServiceSubscriberUpdate = this.photosService.batchUpdateOrder(data)
       .subscribe(data => {
         this.loadingPhotosAction = false;
       }, err => {
@@ -454,14 +454,15 @@ export class ProfileMyComponent {
         return;
       }
 
-      this.photosService.updateOrder({ order: 0 }, profilePhoto.resource_uri, (res) => {
-        if (res === -1) {
-          this.loadingPhotos = false;
-          return;
-        }
-        this.userMeService.getProfileUpdates();
-        this.refreshPhotos();
-      });
+      this.photosService.updateOrder({ order: 0, resource_uri: profilePhoto.resource_uri },
+        profilePhoto.resource_uri, (res) => {
+          if (res === -1) {
+            this.loadingPhotos = false;
+            return;
+          }
+          this.userMeService.getProfileUpdates();
+          this.refreshPhotos();
+        });
     });
 
 
