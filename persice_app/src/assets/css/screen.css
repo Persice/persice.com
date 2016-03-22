@@ -9359,7 +9359,6 @@ li>ol {
 
 .modal-gallery .swiper-container {
   width: 100%;
-  height: 300px;
   margin-left: auto;
   margin-right: auto
 }
@@ -9367,11 +9366,9 @@ li>ol {
 .modal-gallery .swiper-slide {
   background-size: cover;
   background-position: center;
-  height: 467px
 }
 
 .modal-gallery .gallery-top {
-  height: 80%;
   width: 100%
 }
 

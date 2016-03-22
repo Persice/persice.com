@@ -17,6 +17,7 @@ export class ProfileGalleryComponent {
         nextButton: '.modal-gallery__arrow--next',
         prevButton: '.modal-gallery__arrow--prev',
         spaceBetween: 15,
+        autoHeight: true
       });
       this.galleryThumbs = new Swiper('.gallery-thumbs', {
         spaceBetween: 15,
