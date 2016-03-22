@@ -453,7 +453,7 @@ html.remodal-is-locked {
 }
 
 .remodal-overlay.remodal-is-opening {
-   -webkit-animation-name: remodal-overlay-opening-keyframes;
+  -webkit-animation-name: remodal-overlay-opening-keyframes;
   animation-name: remodal-overlay-opening-keyframes;
 }
 
@@ -499,7 +499,7 @@ html.remodal-is-locked {
 }
 
 .remodal.remodal-is-closing {
-/*  -webkit-animation-name: remodal-closing-keyframes;
+  /*  -webkit-animation-name: remodal-closing-keyframes;
   animation-name: remodal-closing-keyframes;*/
   opacity: 0;
 }
