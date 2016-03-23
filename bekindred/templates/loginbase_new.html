@@ -44,23 +44,36 @@
   <script src="/static/js/facebook.js"></script>
 
   <script>
-  facebookAppId = '{{ FACEBOOK_APP_ID }}';
-  facebookDefaultScope = {{FACEBOOK_DEFAULT_SCOPE_JS}};
-  staticUrl = '{{ STATIC_URL }}';
 
-  function facebookJSLoaded() {
-    FB.init({
-      appId: facebookAppId,
-      status: false,
-      cookie: true,
-      xfbml: true,
-      oauth: true,
-      version: 'v2.3'
-    });
-  }
-  window.fbAsyncInit = facebookJSLoaded;
-  F = new facebookClass(facebookAppId);
-  F.load();
+    facebookAppId = '{{ FACEBOOK_APP_ID }}';
+    facebookDefaultScope = {{FACEBOOK_DEFAULT_SCOPE_JS}};
+    staticUrl = '{{ STATIC_URL }}';
+    var isLoaded = false;
+    function facebookJSLoaded() {
+        FB.init({
+          appId: facebookAppId,
+          status: false,
+          cookie: true,
+          xfbml: true,
+          oauth: true,
+          version: 'v2.3'
+        });
+        isLoaded = true;
+    }
+    window.fbAsyncInit = facebookJSLoaded;
+
+    F = new facebookClass(facebookAppId);
+    F.load();
+
+    function login (el) {
+      if (isLoaded) {
+        F.connect(el);
+      }
+      else {
+        console.log('facebook SDK is not loaded');
+      }
+    }
+
   </script>
 </body>
 
