@@ -34,7 +34,7 @@ from goals.utils import (calculate_age, calculate_distance_events,
                          get_user_location, calculate_distance_user_event,
                          get_current_position, get_lives_in)
 from interests import Interest
-from matchfeed.utils import MatchQuerySet
+from matchfeed.utils import MatchQuerySet, MatchEvent
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
@@ -151,12 +151,17 @@ class EventResource(MultiPartResource, ModelResource):
         bundle.data['spots_remaining'] = int(
             bundle.obj.max_attendees) - total_attendees
 
-        cumulative_match_score = 0
-        try:
-            cumulative_match_score = CumulativeMatchScore.objects. \
-                filter(user=user_id, event=bundle.obj.id)[0].score
-        except IndexError:
-            pass
+        matched_users = MatchQuerySet.attendees(user_id)
+        bundle.data['attendees_yes'] = MatchEvent.get_attendees(
+            user_id, bundle.obj, matched_users, rsvp='yes')
+        bundle.data['attendees_no'] = MatchEvent.get_attendees(
+            user_id, bundle.obj, matched_users, rsvp='no')
+        bundle.data['attendees_maybe'] = MatchEvent.get_attendees(
+            user_id, bundle.obj, matched_users, rsvp='maybe')
+
+        bundle.data['cumulative_match_score'] = MatchEvent.get_cum_score(
+            user_id, bundle.obj, matched_users)
+
         try:
             bundle.data['distance'] = MatchQuerySet.user_event(
                     bundle.request.user.id,
@@ -164,7 +169,6 @@ class EventResource(MultiPartResource, ModelResource):
             )[0].distance
         except IndexError:
             bundle.data['distance'] = [10000, 'mi']
-        bundle.data['cumulative_match_score'] = cumulative_match_score
         return bundle
 
     def prepend_urls(self):

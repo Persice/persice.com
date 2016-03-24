@@ -376,16 +376,13 @@ class MatchEvent(object):
         self.location_name = self.event.location_name
         self.location = self.event.location
         self.max_attendees = self.event.max_attendees
-        self.attendees_yes = self.get_attendees(current_user_id,
-                                                self.event, matched_users,
-                                                rsvp='yes')
-        self.attendees_no = self.get_attendees(current_user_id,
-                                               self.event, matched_users,
-                                               rsvp='no')
-        self.attendees_maybe = self.get_attendees(current_user_id,
-                                                  self.event, matched_users,
-                                                  rsvp='maybe')
-        self.cumulative_match_score = self.get_cum_score(
+        self.attendees_yes = MatchEvent.get_attendees(
+            current_user_id, self.event,  matched_users, rsvp='yes')
+        self.attendees_no = MatchEvent.get_attendees(
+            current_user_id, self.event, matched_users, rsvp='no')
+        self.attendees_maybe = MatchEvent.get_attendees(
+            current_user_id, self.event, matched_users, rsvp='maybe')
+        self.cumulative_match_score = MatchEvent.get_cum_score(
             current_user_id, self.event, matched_users)
         self.friend_attendees_count = MatchEvent.get_friends_attendees(
             current_user_id, self.id).count()
@@ -407,7 +404,8 @@ class MatchEvent(object):
             membership_set.filter(user__in=friends, rsvp='yes')
         return attendees
 
-    def get_cum_score(self, user_id, event, matched_users):
+    @staticmethod
+    def get_cum_score(user_id, event, matched_users):
         attendees = Event.objects.get(pk=event.id). \
             membership_set.filter(rsvp='yes').values_list('user_id', flat=True)
         filtered = []
@@ -416,7 +414,8 @@ class MatchEvent(object):
                 filtered.append(user)
         return sum([x.score for x in filtered])
 
-    def get_attendees(self, user_id, event, matched_users, rsvp='yes'):
+    @staticmethod
+    def get_attendees(user_id, event, matched_users, rsvp='yes'):
         attendees = Event.objects.get(pk=event.id). \
             membership_set.filter(rsvp=rsvp)
         results = []
