@@ -278,18 +278,21 @@ export class EventComponent {
     }
 
     //get event host info
-    this.serviceUser.findOneByUri(this.host.user)
-      .subscribe((data) => {
-        this.userInfo = {
-          name: data.first_name,
-          description: data.about_me,
-          distance: data.distance && this.host.user === this.authUserUri ? '' : `/ ${data.distance[0]} ${data.distance[1]}`,
-          gender: UserUtil.gender(data.gender),
-          age: data.age,
-          image: data.image,
-          username: data.username
-        };
-      });
+    if (this.host) {
+      this.serviceUser.findOneByUri(this.host.user)
+        .subscribe((data) => {
+          this.userInfo = {
+            name: data.first_name,
+            description: data.about_me,
+            distance: data.distance && this.host.user === this.authUserUri ? '' : `/ ${data.distance[0]} ${data.distance[1]}`,
+            gender: UserUtil.gender(data.gender),
+            age: data.age,
+            image: data.image,
+            username: data.username
+          };
+        });
+    }
+
 
   }
 
