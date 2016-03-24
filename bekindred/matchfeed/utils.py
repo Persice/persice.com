@@ -423,6 +423,8 @@ class MatchEvent(object):
             d = dict()
             d['first_name'] = attendee.user.first_name
             d['username'] = attendee.user.username
+            d['is_connection'] = Friend.objects. \
+                checking_friendship(user_id, attendee.user.id)
             try:
                 d['image'] = FacebookPhoto.objects.filter(
                     user_id=attendee.user.id,
