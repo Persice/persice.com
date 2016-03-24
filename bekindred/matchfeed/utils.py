@@ -5,7 +5,6 @@ from operator import attrgetter
 import re
 import nltk
 from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import wordnet as wn
 
@@ -426,9 +425,10 @@ class MatchEvent(object):
             d['first_name'] = attendee.user.first_name
             d['username'] = attendee.user.username
             try:
-                d['image'] = FacebookPhoto.objects.get(user_id=user_id,
-                                                       order=0).cropped_photo
-            except ObjectDoesNotExist:
+                d['image'] = FacebookPhoto.objects.filter(
+                    user_id=attendee.user.id,
+                    order=0)[0].cropped_photo
+            except IndexError:
                 d['image'] = None
 
             match_score = 0
