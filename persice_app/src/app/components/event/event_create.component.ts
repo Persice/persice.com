@@ -13,7 +13,7 @@ import {NotificationComponent} from '../notification/notification.component';
 import {GoogleUtil, ObjectUtil, DateUtil} from '../../core/util';
 
 import {BaseEventComponent} from './base_event.component';
-
+import {LoadingComponent} from '../loading/loading.component';
 declare var jQuery: any;
 
 let view = require('./event_form.html');
@@ -26,12 +26,14 @@ let view = require('./event_form.html');
     NotificationComponent,
     GeocompleteDirective,
     DatepickerDirective,
-    TimepickerDirective
+    TimepickerDirective,
+    LoadingComponent
   ],
   providers: [EventService]
 })
 export class EventCreateComponent extends BaseEventComponent {
   @Input() type;
+  loading: boolean = false;
 
 
   START_DATE = DateUtil.todayRoundUp().unix() * 1000;
@@ -56,13 +58,19 @@ export class EventCreateComponent extends BaseEventComponent {
   }
 
   saveEvent(event) {
+    if (this.loading) {
+      return;
+    }
+
+    this.loading = true;
     this.showValidationError = false;
     this.service.create(this.model).subscribe((res) => {
       this.validationErrors = {};
+      this.loading = false;
       this._notifySuccess('Your event has been created.');
       this.router.parent.navigate(['/EventDetails', { 'eventId': res.id }]);
     }, (err) => {
-      console.log(err);
+      this.loading = false;
       if ('validationErrors' in err) {
         this.validationErrors = err.validationErrors;
       }

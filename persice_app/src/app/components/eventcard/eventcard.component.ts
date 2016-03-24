@@ -19,7 +19,7 @@ export class EventCardComponent {
   distanceUnit = '';
 
   ngOnInit() {
-    if (this.event.event_photo !== null) {
+    if (this.event.event_photo !== null && this.event.event_photo !== '/media/null') {
       this.photo = this.event.event_photo;
     }
 

@@ -120,7 +120,6 @@ export class EventComponent {
 
   ngOnInit() {
     this.getEventDetails(this.eventId);
-    this.getAttendees(this.eventId);
   }
 
   ngAfterViewInit() {
@@ -167,19 +166,46 @@ export class EventComponent {
     this.peopleNocounter = 0;
     this.peopleMaybecounter = 0;
 
-    this.getAttendees(id);
     this.service.findOneById(id).subscribe((data) => {
       this.stats = {
         maxAttendees: data.max_attendees,
         friendsCount: data.total_attendees,
         score: data.cumulative_match_score
       };
+
+      // assign attendees
+      this.peopleYes = data.attendees_yes;
+      this.peopleYescounter = data.attendees_yes.length;
+
+      this.peopleNo = data.attendees_no;
+      this.peopleNocounter = data.attendees_no.length;
+
+      this.peopleMaybe = data.attendees_maybe;
+      this.peopleMaybecounter = data.attendees_maybe.length;
+
+      this.selected = 'yes';
+
+
     });
   }
 
   assignEvent(res) {
     let resp = res;
     this.event = resp;
+
+    // assign attendees
+    this.peopleYes = resp.attendees_yes;
+    this.peopleYescounter = resp.attendees_yes.length;
+
+    this.peopleNo = resp.attendees_no;
+    this.peopleNocounter = resp.attendees_no.length;
+
+    this.peopleMaybe = resp.attendees_maybe;
+    this.peopleMaybecounter = resp.attendees_maybe.length;
+
+    this.selected = 'yes';
+
+    //assign event info
     this.info = {
       spots_remaining: resp.spots_remaining,
       name: resp.name,
@@ -206,7 +232,7 @@ export class EventComponent {
       timezone: DateUtil.localTimezone()
     };
 
-    if (resp.event_photo !== null) {
+    if (resp.event_photo !== null && resp.event_photo !== '/media/null') {
       this.photo = resp.event_photo;
     }
 
@@ -265,32 +291,6 @@ export class EventComponent {
         };
       });
 
-  }
-
-  getAttendees(eventId) {
-    this.serviceAttendees.get('', 1000, eventId, 'yes', '')
-      .subscribe((data) => {
-        let items = data.objects;
-        this.peopleYes = items;
-        this.peopleYescounter = items.length;
-      });
-
-    this.serviceAttendees.get('', 1000, eventId, 'no', '')
-      .subscribe((data) => {
-        let items = data.objects;
-        this.peopleNo = items;
-        this.peopleNocounter = items.length;
-      });
-
-    this.serviceAttendees.get('', 1000, eventId, 'maybe', '')
-      .subscribe((data) => {
-        let items = data.objects;
-        this.peopleMaybe = items;
-        this.peopleMaybecounter = items.length;
-
-        this.selected = '';
-        this.selected = 'yes';
-      });
   }
 
   goBack(event) {
