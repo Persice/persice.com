@@ -945,3 +945,15 @@ li.features-list__match {
 .card--user-highlight .card-subtitle {
   color: #8f989c
 }
+
+
+.event-content {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease-out;
+}
+
+.event-content.is-visible {
+  opacity: 1;
+  visibility: visible;
+}

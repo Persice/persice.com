@@ -8,6 +8,7 @@ import {EventInfoComponent} from '../eventinfo/eventinfo.component';
 import {EventPhotoMapComponent} from '../eventphotomap/eventphotomap.component';
 import {EventDiscussionComponent} from '../eventdiscussion/eventdiscussion.component';
 import {EventEditComponent} from './event_edit.component';
+import {LoadingComponent} from '../loading/loading.component';
 
 import {UserService} from '../../services/user.service';
 import {EventService} from '../../services/event.service';
@@ -35,7 +36,8 @@ declare var jQuery: any;
     EventDiscussionComponent,
     EventPeopleListComponent,
     EventEditComponent,
-    RemodalDirective
+    RemodalDirective,
+    LoadingComponent
   ],
   providers: [EventService, EventMembersService, EventAttendeesService]
 })
@@ -101,6 +103,7 @@ export class EventComponent {
   };
   eventId;
   eventDoesntExist: boolean = false;
+  loading: boolean = false;
 
   constructor(
     params: RouteParams,
@@ -136,10 +139,13 @@ export class EventComponent {
 
 
   getEventDetails(id) {
+    this.loading = true;
     this.service.findOneById(id).subscribe((data) => {
       this.assignEvent(data);
+      this.loading = false;
     }, (err) => {
       this.eventDoesntExist = true;
+      this.loading = false;
       this.notificationService.push({
         type: 'error',
         title: 'Error',
