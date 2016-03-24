@@ -419,6 +419,7 @@ class MatchEvent(object):
         attendees = Event.objects.get(pk=event.id). \
             membership_set.filter(rsvp=rsvp)
         results = []
+        matched_users_scores = {elem.user_id: elem.score for elem in matched_users}
         for attendee in attendees:
             d = dict()
             d['first_name'] = attendee.user.first_name
@@ -432,12 +433,10 @@ class MatchEvent(object):
             except IndexError:
                 d['image'] = None
 
-            match_score = 0
-            for user in matched_users:
-                if user.id == attendee.user_id:
-                    match_score = user.score
-                    break
-            d['match_score'] = match_score
+            if attendee.user_id in matched_users_scores.keys():
+                d['match_score'] = matched_users_scores[attendee.user_id]
+            else:
+                d['match_score'] = 0
             results.append(d)
         return results
 
@@ -467,7 +466,8 @@ class MatchQuerySet(object):
     @staticmethod
     def attendees(current_user_id, is_filter=False, friends=False):
         hits = ElasticSearchMatchEngine.elastic_objects. \
-            match(current_user_id, is_filter=is_filter, friends=friends)
+            match(current_user_id, is_filter=is_filter, friends=friends,
+                  exclude_ids=[])
         users = []
         for hit in hits:
             try:

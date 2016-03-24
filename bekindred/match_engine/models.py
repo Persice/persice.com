@@ -614,7 +614,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     }
                 ]
             }
-            response = client.search(index=index, body=body, size=50)
+            response = client.search(index=index, body=body, size=100)
         else:
             body = {
                 "highlight": {
@@ -662,7 +662,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     }
                 ]
             }
-            response = client.search(index=index, body=body, size=50)
+            response = client.search(index=index, body=body, size=100)
 
         print response
         return response
