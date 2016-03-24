@@ -4,8 +4,8 @@ from operator import attrgetter
 
 import re
 import nltk
-import time
 from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import wordnet as wn
 
@@ -13,7 +13,6 @@ from django_facebook.models import FacebookLike
 from social_auth.db.django_models import UserSocialAuth
 
 from events import Event
-from events.utils import get_cum_score
 from friends.models import Friend, FacebookFriendUser
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
@@ -345,8 +344,26 @@ class MatchUser(object):
         return linkedin_provider
 
 
+class ShortMatchUser(MatchUser):
+    def __init__(self, current_user_id, user_object):
+        self.user = self.get_user_info(user_object)
+        self.goals = self.highlight(user_object, 'goals')
+        self.offers = self.highlight(user_object, 'offers')
+        self.interests = self.highlight(user_object, 'interests')
+        self.likes = self.likes_images(user_object)
+        self.id = self.user.id
+        self.first_name = self.user.first_name
+        self.username = self.user.username
+        self.user_id = self.user.id
+        # Scores
+        self.score = self.match_score()
+        self.es_score = user_object.get('_score', 0)
+        self.friends_score = self.get_friends_score(current_user_id,
+                                                    user_object)
+
+
 class MatchEvent(object):
-    def __init__(self, current_user_id, event_object):
+    def __init__(self, current_user_id, event_object, matched_users):
         self.event = MatchEvent.get_event_info(event_object)
         self.id = self.event.id
         self.name = self.event.name
@@ -360,9 +377,19 @@ class MatchEvent(object):
         self.location_name = self.event.location_name
         self.location = self.event.location
         self.max_attendees = self.event.max_attendees
-        self.cumulative_match_score = get_cum_score(self.id, current_user_id)
-        self.friend_attendees_count = MatchEvent.get_attendees(current_user_id,
-                                                               self.id).count()
+        self.attendees_yes = self.get_attendees(current_user_id,
+                                                self.event, matched_users,
+                                                rsvp='yes')
+        self.attendees_no = self.get_attendees(current_user_id,
+                                               self.event, matched_users,
+                                               rsvp='no')
+        self.attendees_maybe = self.get_attendees(current_user_id,
+                                                  self.event, matched_users,
+                                                  rsvp='maybe')
+        self.cumulative_match_score = self.get_cum_score(
+            current_user_id, self.event, matched_users)
+        self.friend_attendees_count = MatchEvent.get_friends_attendees(
+            current_user_id, self.id).count()
         self.description = self.event.description
         self.starts_on = self.event.starts_on
         self.ends_on = self.event.ends_on
@@ -375,11 +402,43 @@ class MatchEvent(object):
         return Event.objects.get(pk=event_id)
 
     @staticmethod
-    def get_attendees(user_id, event_id):
+    def get_friends_attendees(user_id, event_id):
         friends = Friend.objects.all_my_friends(user_id=user_id)
         attendees = Event.objects.get(pk=event_id). \
             membership_set.filter(user__in=friends, rsvp='yes')
         return attendees
+
+    def get_cum_score(self, user_id, event, matched_users):
+        attendees = Event.objects.get(pk=event.id). \
+            membership_set.filter(rsvp='yes').values_list('user_id', flat=True)
+        filtered = []
+        for user in matched_users:
+            if user.id in attendees:
+                filtered.append(user)
+        return sum([x.score for x in filtered])
+
+    def get_attendees(self, user_id, event, matched_users, rsvp='yes'):
+        attendees = Event.objects.get(pk=event.id). \
+            membership_set.filter(rsvp=rsvp)
+        results = []
+        for attendee in attendees:
+            d = dict()
+            d['first_name'] = attendee.user.first_name
+            d['username'] = attendee.user.username
+            try:
+                d['image'] = FacebookPhoto.objects.get(user_id=user_id,
+                                                       order=0).cropped_photo
+            except ObjectDoesNotExist:
+                d['image'] = None
+
+            match_score = 0
+            for user in matched_users:
+                if user.id == attendee.user_id:
+                    match_score = user.score
+                    break
+            d['match_score'] = match_score
+            results.append(d)
+        return results
 
 
 class MatchQuerySet(object):
@@ -405,12 +464,26 @@ class MatchQuerySet(object):
         return users
 
     @staticmethod
+    def attendees(current_user_id, is_filter=False, friends=False):
+        hits = ElasticSearchMatchEngine.elastic_objects. \
+            match(current_user_id, is_filter=is_filter, friends=friends)
+        users = []
+        for hit in hits:
+            try:
+                user = ShortMatchUser(current_user_id, hit)
+                users.append(user)
+            except FacebookCustomUserActive.DoesNotExist as e:
+                print e
+        return users
+
+    @staticmethod
     def all_event(current_user_id, is_filter=False, feed='my'):
         hits = ElasticSearchMatchEngine.elastic_objects. \
             match_events(current_user_id, is_filter=is_filter, feed=feed)
         events = []
+        matched_users = MatchQuerySet.attendees(current_user_id)
         for hit in hits:
-            event = MatchEvent(current_user_id, hit)
+            event = MatchEvent(current_user_id, hit, matched_users)
             events.append(event)
         return events
 
@@ -419,8 +492,9 @@ class MatchQuerySet(object):
         hits = ElasticSearchMatchEngine.elastic_objects. \
             get_distance(user_id, event_id)
         events = []
+        matched_users = MatchQuerySet.attendees(user_id)
         for hit in hits:
-            event = MatchEvent(user_id, hit)
+            event = MatchEvent(user_id, hit, matched_users)
             events.append(event)
         return events
 

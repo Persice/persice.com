@@ -21,6 +21,18 @@ from friends.models import Friend
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
+def all_my_friends(user_id):
+    fids = Friend.objects.all_my_friends(user_id) + \
+           Friend.objects.thumbed_up_i(user_id) + \
+           Friend.objects.deleted_friends(user_id) + \
+           list(FacebookCustomUser.objects.filter(is_superuser=True)
+                .values_list('id', flat=True)) + \
+           list(FacebookCustomUser.objects.filter
+                (is_active=False, facebook_id__isnull=True).
+                values_list('id', flat=True))
+    return fids
+
+
 class MatchEngineManager(models.Manager):
     @staticmethod
     def match_goals_to_goals(user_id, exclude_friends):
@@ -824,7 +836,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
-    def match(user_id, friends=False, is_filter=False):
+    def match(user_id, friends=False, is_filter=False, exclude_ids=None):
         from nltk.stem.porter import PorterStemmer
         porter_stemmer = PorterStemmer()
 
@@ -849,18 +861,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
 
-        fids = Friend.objects.all_my_friends(user_id) + \
-            Friend.objects.thumbed_up_i(user_id) + \
-            Friend.objects.deleted_friends(user_id) + \
-            list(FacebookCustomUser.objects.filter(is_superuser=True)
-                 .values_list('id', flat=True)) + \
-            list(FacebookCustomUser.objects.filter
-                 (is_active=False, facebook_id__isnull=True).
-                 values_list('id', flat=True))
+        if exclude_ids is None:
+            exclude_ids = all_my_friends(user_id)
 
         friends_list = []
         if not friends:
-            for f in fids:
+            for f in exclude_ids:
                 exclude_user_ids.append(
                     'members.facebookcustomuseractive.%s' % f)
         else:
@@ -885,7 +891,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response['hits']['hits']
 
     @staticmethod
-    def match_friends(user_id, friends=(), is_filter=False):
+    def match_friends(user_id, friends=False, is_filter=False):
         pass
 
     @staticmethod

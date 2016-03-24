@@ -1173,6 +1173,9 @@ class EventFeedResource(Resource):
     ends_on = fields.DateTimeField(attribute='ends_on')
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
+    attendees_yes = fields.ListField(attribute='attendees_yes')
+    attendees_no = fields.ListField(attribute='attendees_no')
+    attendees_maybe = fields.ListField(attribute='attendees_maybe')
     event_photo = fields.FileField(attribute="event_photo", null=True,
                                    blank=True)
 
