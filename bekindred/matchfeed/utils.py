@@ -426,7 +426,7 @@ class MatchEvent(object):
             try:
                 d['image'] = FacebookPhoto.objects.filter(
                     user_id=attendee.user.id,
-                    order=0)[0].cropped_photo
+                    order=0)[0].cropped_photo.url
             except IndexError:
                 d['image'] = None
 
