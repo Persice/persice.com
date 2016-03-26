@@ -1,6 +1,6 @@
 from datetime import date
 from urlparse import parse_qs
-from goals.tasks import twitter_followers, twitter_friends
+from friends.tasks import twitter_followers, twitter_friends
 
 
 def social_auth_to_profile(backend, details, response, user=None, is_new=False, *args, **kwargs):
