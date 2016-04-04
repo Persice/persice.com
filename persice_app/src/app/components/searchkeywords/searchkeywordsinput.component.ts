@@ -75,6 +75,8 @@ export class SearchKeywordsInputComponent {
       }]
     });
 
+    jQuery('input.tt-input').attr('placeholder', 'Search by interest...');
+
 
     //save keywords to backend after token created
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {

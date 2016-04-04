@@ -453,7 +453,7 @@ html.remodal-is-locked {
 }
 
 .remodal-overlay.remodal-is-opening {
-   -webkit-animation-name: remodal-overlay-opening-keyframes;
+  -webkit-animation-name: remodal-overlay-opening-keyframes;
   animation-name: remodal-overlay-opening-keyframes;
 }
 
@@ -499,7 +499,7 @@ html.remodal-is-locked {
 }
 
 .remodal.remodal-is-closing {
-/*  -webkit-animation-name: remodal-closing-keyframes;
+  /*  -webkit-animation-name: remodal-closing-keyframes;
   animation-name: remodal-closing-keyframes;*/
   opacity: 0;
 }
@@ -9359,7 +9359,6 @@ li>ol {
 
 .modal-gallery .swiper-container {
   width: 100%;
-  height: 300px;
   margin-left: auto;
   margin-right: auto
 }
@@ -9367,11 +9366,9 @@ li>ol {
 .modal-gallery .swiper-slide {
   background-size: cover;
   background-position: center;
-  height: 467px
 }
 
 .modal-gallery .gallery-top {
-  height: 80%;
   width: 100%
 }
 

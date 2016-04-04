@@ -10,7 +10,7 @@
         <form action="{% url 'facebook_connect' %}" method="post">
           {% csrf_token %}
           <input type="hidden" value="/" name="next" />
-          <a onclick="F.connect(this.parentNode); return false;" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+          <a onclick="login(this.parentNode); return false;" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
         </form>
       </div>
     </div>
