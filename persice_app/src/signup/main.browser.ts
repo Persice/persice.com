@@ -6,14 +6,14 @@ import {bootstrap} from 'angular2/platform/browser';
 * Platform and Environment
 * our providers/directives/pipes
 */
-import {DIRECTIVES, PIPES, PROVIDERS_MAIN} from './platform/browser';
-import {ENV_PROVIDERS} from './platform/environment';
+import {DIRECTIVES, PIPES, PROVIDERS_SIGNUP} from '../platform/browser';
+import {ENV_PROVIDERS} from '../platform/environment';
 
 /*
 * App Component
 * our top level component that holds all of our components
 */
-import {AppComponent, APP_PROVIDERS} from './app';
+import {SignupComponent, APP_PROVIDERS} from './components';
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
@@ -21,14 +21,14 @@ import {AppComponent, APP_PROVIDERS} from './app';
  */
 export function main(initialHmrState?: any): Promise<any> {
 
-  return bootstrap(AppComponent, [
+  return bootstrap(SignupComponent, [
     ...ENV_PROVIDERS,
-    ...PROVIDERS_MAIN,
+    ...PROVIDERS_SIGNUP,
     ...DIRECTIVES,
     ...PIPES,
     ...APP_PROVIDERS
   ])
-  .catch(err => console.error(err));
+    .catch(err => console.error(err));
 
 }
 
@@ -52,9 +52,6 @@ if ('development' === ENV && HMR === true) {
   // activate hot module reload
   let ngHmr = require('angular2-hmr');
   ngHmr.hotModuleReplacement(main, module);
-  // fix for closing remodal after hot reload
-  jQuery('.remodal-overlay').remove();
-  jQuery('.remodal-wrapper').remove();
 } else {
   // bootstrap when documetn is ready
   document.addEventListener('DOMContentLoaded', () => main());

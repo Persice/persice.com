@@ -1,4 +1,4 @@
-// @AngularClass
+// Persice
 /*
  * When testing with webpack and ES6, we have to do some extra
  * things get testing to work right. Because we are gonna write test
@@ -43,7 +43,8 @@ Object.assign(global, testing);
   any file that ends with spec.js and get its path. By passing in true
   we say do this recursively
 */
-var testContext = require.context('../src', true, /\.spec\.ts/);
+var appContext = require.context('../src', true, /\.spec\.ts/);
+var testContext = require.context('../test', true, /\.spec\.ts/);
 
 // get all the files, for each file, call the context function
 // that will require the file and load it up here. Context will
@@ -53,4 +54,5 @@ function requireAll(requireContext) {
 }
 
 var modules = requireAll(testContext);
+var modules = requireAll(appContext);
 // requires and returns all modules that match

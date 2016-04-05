@@ -1,5 +1,5 @@
 /**
- * @author: @AngularClass
+ * @author: Persice
  */
 
 var helpers = require('./helpers');
