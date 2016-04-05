@@ -193,17 +193,17 @@ export class SignupComponent {
             return;
           }
           else {
+            this.completeOnboarding();
             this.warningService.push(false);
           }
           break;
-
         default:
           break;
       }
 
       this.router.navigate([this.nextStep]);
     } else {
-      this.completeOnboarding();
+      window.location.href = '/crowd/';
     }
 
   }
@@ -212,7 +212,7 @@ export class SignupComponent {
     if (this.nextStep) {
       this.router.navigate([this.nextStep]);
     } else {
-      this.completeOnboarding();
+      window.location.href = '/crowd/';
     }
 
   }
@@ -221,13 +221,10 @@ export class SignupComponent {
   completeOnboarding() {
     if (this.is_complete === null) {
       this.onboardingService.complete().subscribe((data) => {
-        window.location.href = '/crowd/';
       }, (err) => {
       }, () => {
 
       });
-    } else {
-      window.location.href = '/crowd/';
     }
 
   }
