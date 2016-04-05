@@ -137,6 +137,7 @@
         "webpack-md5-hash": "^0.0.5",
         "webpack-merge": "^0.8.4"
     },
+    "engineStrict": true,
     "engines": {
         "node": ">= 4.2.1",
         "npm": ">= 3"
