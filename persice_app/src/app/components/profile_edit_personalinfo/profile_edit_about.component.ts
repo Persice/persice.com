@@ -13,7 +13,7 @@ import {MyProfileService} from '../../services/myprofile.service';
 })
 export class AboutEditComponent {
   @Input() about;
-  @Output() loading: EventEmitter<boolean> = new EventEmitter;
+  @Output() loading: EventEmitter<any> = new EventEmitter;
   observable;
   constructor(
     private service: MyProfileService,

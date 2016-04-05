@@ -35,7 +35,7 @@ declare var Bloodhound: any;
 })
 export class ProfileEditInterestsComponent {
 
-  @Output() close: EventEmitter<boolean> = new EventEmitter;
+  @Output() close: EventEmitter<any> = new EventEmitter;
 
   items: any[] = [];
   loading: boolean = false;
