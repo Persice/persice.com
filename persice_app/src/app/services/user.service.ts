@@ -62,7 +62,6 @@ export class UserService {
       .map((res: Response) => {
         let data = res.json();
         this.user = new AuthUserModel(data);
-        console.log('userinfo', this.user);
         this.image = this.user.info.image;
         this.name = this.user.info.first_name;
         return res.json();
