@@ -6,4 +6,5 @@
 /// <reference path="main/ambient/selenium-webdriver/index.d.ts" />
 /// <reference path="main/ambient/socket.io-client/index.d.ts" />
 /// <reference path="main/ambient/webpack/index.d.ts" />
+/// <reference path="main/definitions/lodash/index.d.ts" />
 /// <reference path="main/definitions/zone.js/index.d.ts" />

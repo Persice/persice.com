@@ -1,11 +1,4 @@
 /*
- * Our custom types
- */
-/// <reference path="./custom_typings/lodash.d.ts" />
-
-declare var jQuery: any;
-declare var dragula: any;
-/*
  * Custom Type Definitions
  * When including 3rd party modules you also need to include the type definition for the module
  * if they don't provide one within the module. You can try to install it with typings
@@ -35,6 +28,10 @@ import * as _ from 'lodash'
  * see https://github.com/typings/registry
  *
  */
+
+declare var jQuery: any;
+declare var dragula: any;
+
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
 declare var HMR: boolean;
