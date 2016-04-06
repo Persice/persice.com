@@ -89,7 +89,15 @@ echo "workon $VIRTUALENV_NAME" >> /home/vagrant/.bashrc
 # Django project setup
 # su - vagrant -c "source $VIRTUALENV_DIR/bin/activate && cd $PROJECT_DIR && ./manage.py syncdb --noinput && ./manage.py migrate"
 
-apt-get install -y memcached
+apt-get install -y memcached elasticsearch
+
+# Install ElasticSearch
+if ! command -v /etc/init.d/elasticsearch; then
+    apt-get install openjdk-7-jre
+    wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.deb
+    dpkg -i elasticsearch-1.7.3.deb
+    update-rc.d elasticsearch defaults
+fi
 
 # Install Redis
 if ! command -v redis-server; then
