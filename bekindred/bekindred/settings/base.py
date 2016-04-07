@@ -187,13 +187,16 @@ FACEBOOK_DEFAULT_FIELDS = [
     'is_shared_login'
 ]
 
-FACEBOOK_DEFAULT_SCOPE = ['email', 'user_about_me', 'user_birthday',
-                          'user_website', 'user_likes', 'user_friends',
-                          'user_status', 'read_custom_friendlists',
-                          'user_relationships', 'user_groups',
-                          'user_relationship_details', 'read_stream',
-                          'user_photos', 'user_work_history',
-                          'user_religion_politics', 'user_location']
+FACEBOOK_DEFAULT_SCOPE = ['email',
+                          'user_about_me',
+                          'user_birthday',
+                          'user_likes',
+                          'user_friends',
+                          'user_groups',
+                          'user_photos',
+                          'user_work_history',
+                          'user_religion_politics',
+                          'user_location']
 
 FACEBOOK_STORE_LOCAL_IMAGE = False
 
