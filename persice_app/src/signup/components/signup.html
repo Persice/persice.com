@@ -1,5 +1,5 @@
 <div class="signup">
-  <signup-header [nextTitle]="nextTitle" [showSkip]="showSkip" (skip)="skip($event)" (next)="next($event)" [page]="page" [counterInterests]="cInt" [counterOffers]="cOff" [counterGoals]="cGoa"></signup-header>
+  <prs-signup-header [nextTitle]="nextTitle" [showSkip]="showSkip" (skip)="skip($event)" (next)="next($event)" [page]="page" [counterInterests]="cInt" [counterOffers]="cOff" [counterGoals]="cGoa"></prs-signup-header>
   <div class="signup__content">
     <ul class="signup-pager">
       <li [ngClass]="{'signup-pager__curent': page === 1, 'signup-pager__completed': page >= 2}">1</li>

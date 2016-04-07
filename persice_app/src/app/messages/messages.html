@@ -1,0 +1,10 @@
+<div class="layout layout--flush position-relative">
+  <div class="layout__item extralarge-and-up-3/10 4/10">
+    <prs-conversations-header [counter]="counter"></prs-conversations-header>
+    <aside class="chat-sidebar is-scrollable-y" id="inbox" (selected)="navigateToConversation($event)">
+    </aside>
+  </div>
+  <div class="layout__item extralarge-and-up-7/10 6/10">
+    <router-outlet></router-outlet>
+  </div>
+</div>
