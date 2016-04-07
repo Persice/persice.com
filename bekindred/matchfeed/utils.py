@@ -438,7 +438,7 @@ class MatchEvent(object):
             else:
                 d['match_score'] = 0
             results.append(d)
-        return results
+        return sorted(results, key=lambda r: r['match_score'], reverse=True)
 
 
 class MatchQuerySet(object):
