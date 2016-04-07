@@ -57,9 +57,33 @@ class Struct(object):
         self.__dict__.update(entries)
 
 
-def update_event_permission():
+def update_public_event_permission():
     public_events = Event.objects.filter(access_level='public')
     users = FacebookCustomUserActive.objects.all()
     for user in users:
         for event in public_events:
             assign_perm('view_event', user, event)
+
+
+def update_connections_event_permission(event):
+    pass
+    # users = FacebookCustomUserActive.objects.all(). \
+    #     exclude(pk=bundle.request.user.id)
+    # for user in users:
+    #     remove_perm('view_event', user, bundle.obj)
+    #
+    # user_ids = []
+    # if bundle.obj.access_user_list:
+    #     try:
+    #         user_ids = map(int,
+    #                        bundle.obj.access_user_list.split(','))
+    #     except TypeError as e:
+    #         print e
+    # else:
+    #     user_ids = Friend.objects. \
+    #         all_my_friends(bundle.request.user)
+    #
+    # users_ = FacebookCustomUserActive.objects. \
+    #     filter(pk__in=user_ids)
+    # for user in users_:
+    #     assign_perm('view_event', user, bundle.obj)
