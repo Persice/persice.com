@@ -131,7 +131,7 @@
   </div>
   <div class="pers-data">
     <span class="pers-data__label mt mb--">About</span>
-    <about-input [about]="user?.about_me" (loading)="loading = $event"></about-input>
+    <prs-edit-about [about]="user?.about_me" (loading)="loading = $event"></prs-edit-about>
   </div>
 </div>
 <prs-edit-footer [loadingEdit]="loading" (close)="close.next($event)"></prs-edit-footer>
