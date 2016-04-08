@@ -1,10 +1,10 @@
-import {Pipe, Injectable} from 'angular2/core';
+import {Pipe, Injectable, PipeTransform} from 'angular2/core';
 
 @Injectable()
 @Pipe({
   name: 'gender'
 })
-export class GenderPipe {
+export class GenderPipe implements PipeTransform {
   transform(value: string, args: any[]): string {
     let retValue: string = '';
     switch (value) {
