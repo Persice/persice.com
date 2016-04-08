@@ -112,9 +112,15 @@ export class FilterComponent implements OnInit {
   }
 
   changeOrder(value) {
+    console.log(value);
+
+     let index = findIndex(this.orderBy, (option) => {
+      return option['label'].toLowerCase() === value.toLowerCase();
+    });
+
     if (this.order !== value) {
       this.order = value;
-      this.filters.state.order_criteria = value;
+      this.filters.state.order_criteria = this.orderBy[index]['value'];
       this.saveDebounced();
     }
   }
@@ -154,10 +160,12 @@ export class FilterComponent implements OnInit {
     this.order = this.filters.state.order_criteria;
 
     let index = findIndex(this.orderBy, (option) => {
-      return option['value'] === this.filters.state.order_criteria;
+      return option['value'] === this.filters.state.order_criteria.toLowerCase();
     });
 
-    if (!isUndefined(index)) {
+
+
+    if (index !== -1) {
       this.orderBy[index]['selected'] = true;
     } else {
       //set match score as default selected option
