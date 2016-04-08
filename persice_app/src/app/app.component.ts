@@ -1,7 +1,8 @@
 import {
   Component,
   Injectable,
-  Type
+  Type,
+  ViewEncapsulation
 } from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {
@@ -150,6 +151,7 @@ class DynamicRouteConfiguratorService {
     NotificationComponent,
     NotificationsComponent
   ],
+  encapsulation: ViewEncapsulation.None,
   template: require('./app.html'),
   providers: [
     FilterService,

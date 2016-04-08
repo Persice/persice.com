@@ -104,7 +104,6 @@ export abstract class BaseEventComponent {
         this.model[type] = DateUtil.formatUTC(datePartsSorted.concat(timeParts), 'YYYY-MM-DDTHH:mm:ss');
         //ensure that end date/time on is always after start date/time
         if (type === 'starts_on' && DateUtil.moment(this.model.starts_on) >= DateUtil.moment(this.model.ends_on)) {
-          console.log('changing start');
           let startDate = DateUtil.convertToLocal(this.model.starts_on).add(1, 'hours');
 
           this.END_DATE = startDate.unix() * 1000;
