@@ -504,8 +504,9 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         Goal.objects.get_or_create(user=self.user3, goal=self.subject5)
         Goal.objects.get_or_create(user=self.user4, goal=self.subject5)
         Goal.objects.get_or_create(user=self.user5, goal=self.subject5)
-        FilterState.objects.create(user=self.user, min_age=18, max_age=99,
-                                   distance=16000, order_criteria='mutual_friends')
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, distance=16000,
+                                   order_criteria='mutual_friends')
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
         Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
         Friend.objects.create(friend1=self.user5, friend2=self.user1, status=1)

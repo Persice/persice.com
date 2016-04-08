@@ -205,38 +205,6 @@ class MatchFeedManagerTestCase(TestCase):
         self.s7 = Subject.objects.create(description='django')
         self.s8 = Subject.objects.create(description='flask')
 
-    def test_match_all_use_case_1(self):
-        # user 1
-        Goal.objects.create(goal=self.s1, user=self.user)
-        Goal.objects.create(goal=self.s2, user=self.user)
-        Goal.objects.create(goal=self.s3, user=self.user)
-        Offer.objects.create(offer=self.s4, user=self.user)
-        Offer.objects.create(offer=self.s5, user=self.user)
-        Offer.objects.create(offer=self.s6, user=self.user)
-        Offer.objects.create(offer=self.s7, user=self.user)
-        Offer.objects.create(offer=self.s8, user=self.user)
-        # user 2
-        Goal.objects.create(goal=self.s1, user=self.user1)
-        Goal.objects.create(goal=self.s5, user=self.user1)
-        Goal.objects.create(goal=self.s6, user=self.user1)
-        Offer.objects.create(offer=self.s4, user=self.user1)
-        Offer.objects.create(offer=self.s2, user=self.user1)
-        Offer.objects.create(offer=self.s3, user=self.user1)
-        Offer.objects.create(offer=self.s7, user=self.user1)
-        # user 3
-        Goal.objects.create(goal=self.s7, user=self.user2)
-        Goal.objects.create(goal=self.s5, user=self.user2)
-        Goal.objects.create(goal=self.s8, user=self.user2)
-        Offer.objects.create(offer=self.s4, user=self.user2)
-        Offer.objects.create(offer=self.s1, user=self.user2)
-        self.maxDiff = 2000
-        res = MatchFeedManager.match_all(self.user.id, exclude_friends=True)
-        self.assertEqual(res, {'users': [
-            {'interests': [{}], 'offers': [{u'oralce': 1, u'erlang': 1, u'ruby': 1, u'django': 1}], 'likes': [{}],
-             'id': self.user1.id, 'goals': [{u'python': 1, u'pascal': 1, u'java': 1}]},
-            {'interests': [{}], 'offers': [{u'python': 1, u'erlang': 1}], 'likes': [{}], 'id': self.user2.id,
-             'goals': [{u'flask': 1, u'java': 1, u'django': 1}]}]})
-
 
 class MatchFilterStateTestCase(TestCase):
     def setUp(self):
