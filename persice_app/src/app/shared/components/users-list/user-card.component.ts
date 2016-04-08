@@ -12,7 +12,7 @@ import {ObjectUtil} from '../../core';
 import {CheckImageDirective} from '../../directives';
 
 @Component({
-  selector: 'user-card',
+  selector: 'prs-user-card',
   pipes: [GenderPipe],
   template: require('./user-card.html'),
   directives: [
