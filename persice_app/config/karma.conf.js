@@ -18,6 +18,11 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     // we are building the test environment in ./spec-bundle.js
     files: [{
+      pattern: './src/assets/**/*.png',
+      watched: false,
+      included: false,
+      served: true
+    }, {
       pattern: './src/assets/**/*.jpg',
       watched: false,
       included: false,
@@ -67,6 +72,15 @@ module.exports = function(config) {
       pattern: './config/spec-bundle.js',
       watched: false
     }],
+
+
+    proxies: {
+      '/media/images/': '/base/src/assets/images/',
+      '/static/assets/images/': '/base/src/assets/images/',
+      '/static/assets/icons/': '/base/src/assets/icons/',
+      '/static/img/': '/base/src/assets/images/',
+    },
+
 
 
     // preprocess matching files before serving them to the browser
