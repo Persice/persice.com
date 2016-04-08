@@ -168,59 +168,7 @@ class FacebookPhotoResourceTest(ResourceTestCase):
     def test_delete_detail(self):
         self.response = self.login()
         self.assertEqual(FacebookPhoto.objects.count(), 1)
-        self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
-        self.assertEqual(FacebookPhoto.objects.count(), 0)
-
-
-class TestOnBoardingFlowResource(ResourceTestCase):
-    def get_credentials(self):
-        pass
-
-    def setUp(self):
-        super(TestOnBoardingFlowResource, self).setUp()
-        self.PHOTO_URL1 = 'https://persice.com/media/images/' \
-                          'facebook_profiles/2016/03/04/' \
-                          'fb_image_784349768271537_3.jpg'
-        self.user = FacebookCustomUser.objects.\
-            create_user(username='user_a', password='test',
-                        image=self.PHOTO_URL1)
-        self.user1 = FacebookCustomUser.objects. \
-            create_user(username='user_b', password='test',
-                        image=self.PHOTO_URL1)
-        self.flow = OnBoardingFlow.objects.\
-            create(user=self.user, is_complete=True)
-
-    def login(self):
-        return self.api_client.client.post('/login/',
-                                           {
-                                               'username': 'user_a',
-                                               'password': 'test'
-                                           })
-
-    def test_get_list_unauthorzied(self):
-        self.assertHttpUnauthorized(
-                self.api_client.get('/api/v1/onboardingflow/', format='json'))
-
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
-
-    def test_get_list_json(self):
-        self.response = self.login()
-        resp = self.api_client.get('/api/v1/onboardingflow/', format='json')
-        self.assertValidJSONResponse(resp)
-
-        # Scope out the data for correctness.
-        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
-
-    def test_create_onboardingflow(self):
-        post_data = {
-            'user': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
-            'is_complete': True,
-        }
-        self.response = self.login()
-        resp = self.api_client.post(
-                '/api/v1/onboardingflow/',
-                format='json', data=post_data
-        )
-        self.assertEqual(self.deserialize(resp)['is_complete'], True)
+        # Yo can't delete last photo by design
+        self.assertHttpUnauthorized(self.api_client.delete(self.detail_url,
+                                                           format='json'))
+        self.assertEqual(FacebookPhoto.objects.count(), 1)
