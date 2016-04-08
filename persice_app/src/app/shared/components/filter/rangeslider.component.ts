@@ -19,7 +19,7 @@ declare var jQuery: any;
 })
 export class RangeSliderComponent implements OnInit, OnChanges, OnDestroy {
   @Input() options;
-  @Input() renderSlide;
+  @Input() renderSlider;
   @Input() class;
   @Output() onChange: EventEmitter<any> = new EventEmitter();
   @Output() onFinish: EventEmitter<any> = new EventEmitter();
