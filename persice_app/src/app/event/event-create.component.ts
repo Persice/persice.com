@@ -6,21 +6,21 @@ import {
   GeocompleteDirective,
   DatepickerDirective,
   TimepickerDirective
-} from '../../shared/directives';
+} from '../shared/directives';
 
 import {BaseEventComponent} from './base-event.component';
 
-import {EventModel, EventOpenTo} from '../../shared/models';
+import {EventModel, EventOpenTo} from '../shared/models';
 
-import {NotificationComponent} from '../../shared/components/notification';
-import {LoadingComponent} from '../../shared/components/loading';
+import {NotificationComponent} from '../shared/components/notification';
+import {LoadingComponent} from '../shared/components/loading';
 
-import {GoogleUtil, ObjectUtil, DateUtil} from '../../shared/core';
+import {GoogleUtil, ObjectUtil, DateUtil} from '../shared/core';
 
 import {
   EventService,
   NotificationService
-} from '../../shared/services';
+} from '../shared/services';
 
 declare var jQuery: any;
 

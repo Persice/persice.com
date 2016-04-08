@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 
-import {EventCreateComponent} from '../event';
+import {EventCreateComponent} from '../../event';
 import {RemodalDirective} from '../../shared/directives';
 
 @Component({

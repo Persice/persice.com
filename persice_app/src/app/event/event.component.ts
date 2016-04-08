@@ -10,7 +10,7 @@ import {EventDiscussionComponent} from './event-discussion';
 import {EventEditComponent} from './event-edit.component';
 import {EventAttendeesComponent} from './event-attendees';
 
-import {LoadingComponent} from '../../shared/components/loading';
+import {LoadingComponent} from '../shared/components/loading';
 
 import {
   NotificationService,
@@ -19,7 +19,7 @@ import {
   EventService,
   EventMembersService,
   EventAttendeesService
-} from '../../shared/services';
+} from '../shared/services';
 
 
 import {
@@ -28,9 +28,9 @@ import {
   CookieUtil,
   UserUtil,
   StringUtil
-} from '../../shared/core';
+} from '../shared/core';
 
-import {RemodalDirective} from '../../shared/directives';
+import {RemodalDirective} from '../shared/directives';
 
 declare var jQuery: any;
 

@@ -1,7 +1,7 @@
-import {EventService, NotificationService} from '../../shared/services';
+import {EventService, NotificationService} from '../shared/services';
 
-import {EventModel, EventOpenTo} from '../../shared/models';
-import {GoogleUtil, ObjectUtil, DateUtil} from '../../shared/core';
+import {EventModel, EventOpenTo} from '../shared/models';
+import {GoogleUtil, ObjectUtil, DateUtil} from '../shared/core';
 
 const moment = require('moment');
 

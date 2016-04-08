@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 import {Router} from 'angular2/router';
 
-import {SwiperDirective, CheckImageDirective} from '../../../shared/directives';
+import {SwiperDirective, CheckImageDirective} from '../../shared/directives';
 
 @Component({
   template: require('./event-attendees.html'),

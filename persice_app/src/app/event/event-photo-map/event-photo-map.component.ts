@@ -1,13 +1,13 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
 
-import {EventService, NotificationService} from '../../../shared/services';
+import {EventService, NotificationService} from '../../shared/services';
 
-import {FileUtil} from '../../../shared/core';
+import {FileUtil} from '../../shared/core';
 
 import {
   ANGULAR2_GOOGLE_MAPS_DIRECTIVES
-} from '../../../shared/components/map/core';
+} from '../../shared/components/map/core';
 
 
 // just an interface for type safety.

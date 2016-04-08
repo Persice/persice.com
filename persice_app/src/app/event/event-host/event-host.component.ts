@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 import {Router} from 'angular2/router';
 
-import {CheckImageDirective} from '../../../shared/directives';
+import {CheckImageDirective} from '../../shared/directives';
 
 @Component({
   selector: 'prs-event-host',

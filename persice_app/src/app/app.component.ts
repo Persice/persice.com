@@ -26,7 +26,8 @@ import {CrowdComponent} from './crowd';
 import {MessagesComponent} from './messages';
 import {ConnectionsComponent} from './connections';
 
-import {EventsComponent, EventComponent} from './events';
+import {EventsComponent} from './events';
+import {EventComponent} from './event';
 
 
 import {
@@ -113,7 +114,7 @@ class DynamicRouteConfiguratorService {
   }),
   new AsyncRoute({
     path: '/event/:eventId',
-    loader: () => require('es6-promise!./events')('EventComponent'),
+    loader: () => require('es6-promise!./event')('EventComponent'),
     name: 'EventDetails'
   }),
   new AsyncRoute({
