@@ -29,7 +29,7 @@ describe('GenderPipe', () => {
 
   it('doesn\'t transform random string to "Female" or "Male"', () => {
     let text = Math.random().toString(36).substring(7);
-    expect(pipe.transform(text, [])).toEqual(text);
+    expect(pipe.transform(text, [])).toEqual('');
   });
 
 });

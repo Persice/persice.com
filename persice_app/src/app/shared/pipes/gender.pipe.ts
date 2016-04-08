@@ -15,7 +15,7 @@ export class GenderPipe implements PipeTransform {
         retValue = 'Female';
         break;
       default:
-        retValue = value;
+        retValue = '';
         break;
     }
     return retValue;
