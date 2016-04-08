@@ -95,6 +95,25 @@ class MultiPartResource(object):
         return super(MultiPartResource, self).patch_detail(request, **kwargs)
 
 
+class FilterStateResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+
+    class Meta:
+        always_return_data = True
+        queryset = FilterState.objects.all()
+        resource_name = 'filter/state2'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        return super(FilterStateResource, self).get_object_list(request). \
+            filter(user_id=request.user.id)
+
+    def obj_update(self, bundle, **kwargs):
+        bundle.data['updated'] = str(datetime.now())
+        return super(FilterStateResource, self).obj_update(bundle, **kwargs)
+
+
 class EventResource(MultiPartResource, ModelResource):
     members = fields.OneToManyField('events.api.resources.MembershipResource',
                                     attribute=lambda bundle:

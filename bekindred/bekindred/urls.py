@@ -6,7 +6,7 @@ from tastypie.api import Api
 from events.api.resources import (AboutMeResource, EventAttendees,
                                   EventConnections, EventResource,
                                   MembershipResource, EventFeedResource,
-                                  UserProfileResource)
+                                  UserProfileResource, FilterStateResource)
 from friends.api.resources import (ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
@@ -55,6 +55,7 @@ v1_api.register(FriendsNewResource())
 v1_api.register(FriendsNewCounterResource())
 v1_api.register(EventResource())
 v1_api.register(MembershipResource())
+v1_api.register(FilterStateResource())
 v1_api.register(EventFeedResource())
 v1_api.register(EventConnections())
 v1_api.register(EventAttendees())
