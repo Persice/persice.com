@@ -117,6 +117,7 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         StopWords.objects.create(word='learn')
         StopWords.objects.create(word=u'and')
         StopWords.objects.create(word=u'teach')
+        StopWords.objects.create(word=u'to')
         clear_index.Command().handle(interactive=False)
         rebuild_index.Command().handle(interactive=False)
 
