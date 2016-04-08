@@ -12,7 +12,7 @@ import {remove, find, debounce} from 'lodash';
 
 @Injectable()
 export class FilterService {
-  static API_URL: string = '/api/v1/filter/state/';
+  static API_URL: string = '/api/v1/filter/state2/';
 
   static DEFAULT_FILTERS: InterfaceFilter = {
     cumulative_match_score: 0,
