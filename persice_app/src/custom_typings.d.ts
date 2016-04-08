@@ -29,8 +29,10 @@ import * as _ from 'lodash'
  *
  */
 
+
 declare var jQuery: any;
 declare var dragula: any;
+declare var Bloodhound: any;
 
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;

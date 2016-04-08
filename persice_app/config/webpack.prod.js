@@ -184,8 +184,10 @@ module.exports = webpackMerge(commonConfig, {
       }, // prod
       */
       compress: {
-        screw_ie8: true
+        screw_ie8: true,
+        warnings: false
       }, //prod
+      warnings: false,
       comments: false //prod
     }),
 

@@ -1,0 +1,177 @@
+<header class="remodal__header">
+  <div class="layout">
+    <div class="layout__item 1/2">
+      <h5 class="remodal__title">{{action}} event</h5> </div>
+  </div>
+  <button data-remodal-action="close" class="remodal-close">
+    <svg role="img" class="icon">
+      <use xlink:href="/static/assets/icons/icons.svg#icon-close"></use>
+    </svg>
+  </button>
+</header>
+<div class="remodal--common__content">
+  <prs-notification [type]="notification.type" [body]="notification.body" [full]="full" [title]="notification.title" [active]="showValidationError"></prs-notification>
+  <div class="layout">
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Event Name</label>
+      <input [ngModel]="model.name" (ngModelChange)="model.name = $event;" class="c-input" type="text" placeholder="Add short, clear name" [ngClass]="{'c-input--error': validationErrors.name}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ngFor="#e of validationErrors.name">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Location</label>
+      <input [ngModel]="model.event_location" (ngModelChange)="model.event_location = $event;" class="c-input" geocomplete (selectedValue)="changeLocation($event)" type="text" placeholder="Include a place or address" [ngClass]="{'c-input--error': validationErrors.event_location}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ngFor="#e of validationErrors.event_location">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item 1/1">
+      <label class="c-label mb--">Description</label>
+      <textarea [ngModel]="model.description" (ngModelChange)="model.description = $event;" [ngClass]="{'c-input--error': validationErrors.description}" class="c-input c-input--textarea" placeholder="Tell people more about the event"></textarea>
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ngFor="#e of validationErrors.description">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
+      <div class="layout layout--small">
+        <div class="layout__item 1/2">
+          <label class="c-label mb--">Date / Time</label>
+          <div class="c-input-icon-holder">
+            <input [ngClass]="{'c-input--error': validationErrors.starts_on || validationErrors.starts_on_date}" class="c-input c-input--prominent datepicker date start" id="starts_on_date" datepicker="{{START_DATE}}" (selectedValue)="changeStartDate($event)" type="text" placeholder="Start date">
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-switch-calendar"></use>
+            </svg>
+          </div>
+        </div>
+        <div class="layout__item layout--alignbottom 1/2">
+          <div class="c-input-icon-holder">
+            <input [ngClass]="{'c-input--error': validationErrors.starts_on || validationErrors.starts_on_time}" class="c-input c-input--prominent timepicker time start" id="starts_on_time" timepicker="{{START_TIME}}" (selectedValue)="changeStartTime($event)" type="text" placeholder="Start time">
+            <svg role="img" class="icon icon--clock">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-clock"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
+      <!-- <a href="" class="link-blank end-time-trigger js-end-time-trigger">+ End time</a> -->
+      <div data-attr-to="to" class="layout layout--small js-end-time end-time">
+        <div class="layout__item 1/2 mb0">
+          <div class="c-input-icon-holder">
+            <input [ngClass]="{'c-input--error': validationErrors.ends_on || validationErrors.ends_on_date}" class="c-input c-input--prominent datepicker date end" id="ends_on_date" datepicker="{{END_DATE}}" (selectedValue)="changeEndDate($event)" type="text" placeholder="End date">
+            <svg role="img" class="icon ">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-switch-calendar"></use>
+            </svg>
+          </div>
+        </div>
+        <div class="layout__item 1/2 mb0 text-right">
+          <!-- <a href="" class="link-blank js-remove-end-time-trigger">Remove</a> -->
+          <div class="c-input-icon-holder">
+            <input [ngClass]="{'c-input--error': validationErrors.ends_on || validationErrors.ends_on_time}" class="c-input c-input--prominent timepicker time end" id="ends_on_time" timepicker="{{END_TIME}}" (selectedValue)="changeEndTime($event)" type="text" placeholder="End time">
+            <svg role="img" class="icon icon--clock">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-clock"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom 1/2">
+      <div class="layout layout--small">
+        <div class="layout__item" *ngIf="validationErrors.starts_on">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ngFor="#e of validationErrors.starts_on">{{e}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="layout__item 1/2">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ngFor="#e of validationErrors.starts_on_date">{{e}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="layout__item layout--alignbottom 1/2">
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ngFor="#e of validationErrors.starts_on_time">{{e}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item layout--alignbottom 1/2">
+      <div class="layout layout--small">
+        <div class="layout__item" *ngIf="validationErrors.ends_on">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- p-l">
+              <p *ngFor="#e of validationErrors.ends_on">{{e}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="layout__item 1/2">
+          <label class="c-label mb--"></label>
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ngFor="#e of validationErrors.ends_on_date">{{e}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="layout__item layout--alignbottom 1/2">
+          <div class="c-input-icon-holder">
+            <div class="c-message c-message--error pt-- pl-">
+              <p *ngFor="#e of validationErrors.ends_on_time">{{e}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Max number of attendees</label>
+      <input [ngModel]="model.max_attendees" (ngModelChange)="model.max_attendees = $event;" class="c-input" type="text" placeholder="0" [ngClass]="{'c-input--error': validationErrors.max_attendees}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ngFor="#e of validationErrors.max_attendees">{{e}}</p>
+      </div>
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Cost</label>
+      <input class="c-input" type="text" placeholder="00.0">
+    </div>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Open to</label>
+      <select class="js-select-rep-create-event" minimalect (selectedValue)="changeOpenTo($event)">
+        <option *ngFor="#order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
+      </select>
+    </div>
+    <div class="layout__item layout--alignbottom 1/2">
+      <label class="c-checkbox mb--">
+        <input class="c-checkbox__input" type="checkbox" name="checkbox" value="99"> <span class="c-checkbox__trigger c-radio__trigger--transparent"></span> <span class="c-checkbox__label c-checkbox__label--unprominent">Guest can invite friends</span> </label>
+    </div>
+  </div>
+</div>
+<footer class="remodal__footer text--right">
+  <div class="layout layout--middle">
+    <div class="layout__item 1/2 text-left" *ngIf="type == 'edit-event'">
+      <a (click)="deleteEvent($event)" class="link-blank link-blank--red">Delete event</a>
+    </div>
+    <div class="layout__item 1/2" style="position: relative;">
+      <button class="btn btn-1 btn-1--small btn-1--darkblue mr--" data-remodal-action="close">Cancel</button>
+      <button (click)="saveEvent($event)" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Save</button>
+      <div class="loader" *ngIf="loading" style="right: 113px; top: 5px;">
+        <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+          <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+    s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+    c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z" />
+          <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+    C22.32,8.481,24.301,9.057,26.013,10.047z">
+            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite" />
+          </path>
+        </svg>
+      </div>
+    </div>
+  </div>
+</footer>

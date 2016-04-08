@@ -1,12 +1,10 @@
 // App
 export * from './signup.component';
 
-import {APP_SERVICES_PROVIDERS} from '../../app/services/services';
 
-import {HttpClient} from '../../app/core/http_client';
+import {HttpClient} from '../../app/shared/core';
 
 // Application wide providers
 export const APP_PROVIDERS = [
-  ...APP_SERVICES_PROVIDERS,
   HttpClient
 ];

@@ -1,25 +1,32 @@
 import {Component, ViewChild} from 'angular2/core';
-import {RouteConfig, Router, Location, RouteParams, ROUTER_DIRECTIVES} from 'angular2/router';
+import {
+  RouteConfig,
+  Router,
+  Location,
+  RouteParams,
+  ROUTER_DIRECTIVES
+} from 'angular2/router';
 
-import {SignupInterestsComponent} from './signup_interests/signup_interests.component';
-import {SignupGoalsComponent} from './signup_goals/signup_goals.component';
-import {SignupOffersComponent} from './signup_offers/signup_offers.component';
-import {SignupConnectComponent} from './signup_connect/signup_connect.component';
-import {SignupHeaderComponent} from './signup_header/signup_header.component';
+import {SignupInterestsComponent} from './signup-interests';
+import {SignupGoalsComponent} from './signup-goals';
+import {SignupOffersComponent} from './signup-offers';
+import {SignupConnectComponent} from './signup-connect';
+import {SignupHeaderComponent} from './signup-header';
 
 
-import {InterestsService} from '../../app/services/interests.service';
-import {KeywordsService} from '../../app/services/keywords.service';
-import {GoalsService} from '../../app/services/goals.service';
-import {OffersService} from '../../app/services/offers.service';
-import {UserAuthService} from '../../app/services/userauth.service';
-import {OnboardingService} from '../../app/services/onboarding.service';
-import {WarningService} from '../../app/services/warning.service';
+import {
+  InterestsService,
+  KeywordsService,
+  GoalsService,
+  OffersService,
+  UserAuthService,
+  OnboardingService,
+  WarningService
+} from '../../app/shared/services';
 
-let view = require('./signup.html');
 
 @Component({
-  template: view,
+  template: require('./signup.html'),
   selector: 'persice-signup',
   directives: [
     SignupHeaderComponent,
@@ -191,8 +198,7 @@ export class SignupComponent {
           if (this.cInt < 3) {
             this.warningService.push(true);
             return;
-          }
-          else {
+          } else {
             this.completeOnboarding();
             this.warningService.push(false);
           }
