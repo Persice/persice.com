@@ -43,6 +43,12 @@ module.exports = function(config) {
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: [ 'mocha', 'coverage' ],
 
+    junitReporter: {
+      outputDir: 'test_results/',
+      outputFile: 'test_results.xml',
+      useBrowserName: false
+    },
+
     // web server port
     port: 9876,
 
