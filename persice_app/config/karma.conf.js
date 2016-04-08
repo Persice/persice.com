@@ -13,11 +13,61 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     // list of files to exclude
-    exclude: [ ],
+    exclude: [],
 
     // list of files / patterns to load in the browser
     // we are building the test environment in ./spec-bundle.js
-    files: [ { pattern: './config/spec-bundle.js', watched: false } ],
+    files: [{
+      pattern: './src/assets/**/*.jpg',
+      watched: false,
+      included: false,
+      served: true
+    }, {
+      pattern: './src/assets/**/*.svg',
+      watched: false,
+      included: false,
+      served: true
+    }, {
+      pattern: './lib/js/jquery-2.1.4.js',
+      watched: false
+    }, {
+      pattern: './lib/js/jstz.js',
+      watched: false
+    }, {
+      pattern: './lib/js/croppie.js',
+      watched: false
+    }, {
+      pattern: './lib/js/ion.rangeSlider.js',
+      watched: false
+    }, {
+      pattern: './lib/js/jquery.minimalect.js',
+      watched: false
+    }, {
+      pattern: './lib/js/jquery.matcheight.js',
+      watched: false
+    }, {
+      pattern: './lib/js/picker.js',
+      watched: false
+    }, {
+      pattern: './lib/js/picker.date.js',
+      watched: false
+    }, {
+      pattern: './lib/js/picker.time.js',
+      watched: false
+    }, {
+      pattern: './lib/js/remodal.js',
+      watched: false
+    }, {
+      pattern: './lib/js/swiper.js',
+      watched: false
+    }, {
+      pattern: './lib/js/tokenfield.js',
+      watched: false
+    }, {
+      pattern: './config/spec-bundle.js',
+      watched: false
+    }],
+
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -27,7 +77,7 @@ module.exports = function(config) {
     webpack: testWebpackConfig,
 
     coverageReporter: {
-      dir : 'coverage/',
+      dir: 'coverage/',
       reporters: [
         { type: 'text-summary' },
         { type: 'json' },
@@ -41,7 +91,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: [ 'mocha', 'coverage' ],
+    reporters: ['mocha', 'coverage'],
 
     junitReporter: {
       outputDir: 'test_results/',
