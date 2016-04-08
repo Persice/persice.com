@@ -42,8 +42,7 @@ export class AboutComponent implements OnChanges {
       if (values.about.currentValue.length > 120) {
         this.aboutMore = values.about.currentValue.substring(0, 119) + '...';
         this.hideMoreLink = false;
-      }
-      else {
+      } else {
         this.aboutMore = values.about.currentValue;
         this.hideMoreLink = true;
       }

@@ -152,8 +152,7 @@ export class EventEditComponent extends BaseEventComponent {
         let parseError = JSON.parse(err.responseText);
         if ('event' in parseError) {
           this.notification.body = parseError.event.error[0];
-        }
-        else {
+        } else {
           this.notification.body = 'There has been an error during saving this event.';
         }
         this.showValidationError = true;

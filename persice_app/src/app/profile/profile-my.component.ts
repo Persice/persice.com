@@ -303,8 +303,7 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
     let uri = this.historyService.getPrev();
     if (uri !== '') {
       this._router.parent.navigateByUrl(uri);
-    }
-    else {
+    } else {
       this._router.parent.navigateByUrl('/');
     }
 
@@ -449,8 +448,7 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
     if (srcImg.order === 0) {
       profilePhoto = srcImg;
       otherPhoto = dstImg;
-    }
-    else {
+    } else {
       profilePhoto = dstImg;
       otherPhoto = srcImg;
     }

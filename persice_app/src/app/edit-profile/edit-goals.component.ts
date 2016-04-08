@@ -113,8 +113,7 @@ export class EditGoalsComponent implements OnInit, OnDestroy {
         this.total_count++;
         if (this.total_count === 0) {
           this.isListEmpty = true;
-        }
-        else {
+        } else {
           this.isListEmpty = false;
         }
         this.newGoal = '';
@@ -154,8 +153,7 @@ export class EditGoalsComponent implements OnInit, OnDestroy {
 
           if (this.total_count === 0) {
             this.isListEmpty = true;
-          }
-          else {
+          } else {
             this.isListEmpty = false;
           }
         });
@@ -205,8 +203,7 @@ export class EditGoalsComponent implements OnInit, OnDestroy {
         this.items.push(more[i]);
       }
 
-    }
-    else {
+    } else {
       this.items = data.objects;
     }
 
@@ -217,8 +214,7 @@ export class EditGoalsComponent implements OnInit, OnDestroy {
     //bind to scroll event to load more data on bottom scroll
     if (this.next !== null) {
       jQuery('#goals').bind('scroll', this.handleScrollEvent.bind(this));
-    }
-    else {
+    } else {
       jQuery('#goals').unbind('scroll');
     }
 

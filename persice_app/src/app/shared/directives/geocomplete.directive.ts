@@ -1,5 +1,8 @@
-import {Directive, ElementRef, EventEmitter} from 'angular2/core';
-import {MapsAPILoader} from '../components/map/services/maps-api-loader/maps-api-loader';
+import {Directive, ElementRef, EventEmitter, Output} from 'angular2/core';
+
+import {
+  MapsAPILoader
+} from '../components/map/services/maps-api-loader/maps-api-loader';
 
 let geocomplete = require('geocomplete');
 
@@ -7,11 +10,10 @@ declare var jQuery: any;
 declare var google: any;
 
 @Directive({
-  selector: '[geocomplete]',
-  outputs: ['selectedValue']
+  selector: '[geocomplete]'
 })
 export class GeocompleteDirective {
-  selectedValue: EventEmitter<any> = new EventEmitter();
+  @Output() selectedValue: EventEmitter<any> = new EventEmitter();
   location;
   instance;
 
@@ -30,14 +32,13 @@ export class GeocompleteDirective {
           this.selectedValue.next(result);
         });
       });
-    }
-    else {
+    } else {
       // google maps api is already loaded
       this.instance = jQuery(this.el.nativeElement).geocomplete({
-          types: ['establishment', 'geocode']
-        }).bind('geocode:result', (event, result) => {
-          this.selectedValue.next(result);
-        });
+        types: ['establishment', 'geocode']
+      }).bind('geocode:result', (event, result) => {
+        this.selectedValue.next(result);
+      });
     }
 
   }

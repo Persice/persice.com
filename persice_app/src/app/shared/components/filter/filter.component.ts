@@ -159,8 +159,7 @@ export class FilterComponent implements OnInit {
 
     if (!isUndefined(index)) {
       this.orderBy[index]['selected'] = true;
-    }
-    else {
+    } else {
       //set match score as default selected option
       this.orderBy[0]['selected'] = true;
     }

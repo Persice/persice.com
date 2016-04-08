@@ -39,9 +39,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     // Listen for changes in the service
     this.listener = this._service.getChangeEmitter()
       .subscribe(item => {
-        if (item === 'clean') this.notifications = [];
-        else if (item.add) this.add(item.notification);
-        else this.notifications.splice(this.notifications.indexOf(item.notification), 1);
+        if (item === 'clean') {
+          this.notifications = [];
+        } else if (item.add) {
+          this.add(item.notification);
+        } else {
+          this.notifications.splice(this.notifications.indexOf(item.notification), 1);
+        }
       });
   }
 

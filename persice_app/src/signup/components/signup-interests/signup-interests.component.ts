@@ -143,13 +143,11 @@ export class SignupInterestsComponent implements OnInit, OnDestroy {
             this.saveLoading = false;
           },
           () => { });
-      }
-      else {
+      } else {
         this.status = 'failure';
         this.saveLoading = false;
       }
-    }
-    else {
+    } else {
       //create new interest
       this.interestsService.save(interest)
         .subscribe((res) => {
@@ -273,8 +271,7 @@ export class SignupInterestsComponent implements OnInit, OnDestroy {
     //bind to scroll event to load more data on bottom scroll
     if (this.next !== null) {
       jQuery('#interests').bind('scroll', this.handleScrollEvent.bind(this));
-    }
-    else {
+    } else {
       jQuery('#interests').unbind('scroll');
     }
 
@@ -315,8 +312,7 @@ export class SignupInterestsComponent implements OnInit, OnDestroy {
           }, (err) => {
             this.status = 'failure';
           }, () => { });
-      }
-      else {
+      } else {
         //select interest
         this.interestsService.save(this.items[idx].description)
           .subscribe((res) => {

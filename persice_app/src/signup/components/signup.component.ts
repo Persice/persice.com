@@ -198,8 +198,7 @@ export class SignupComponent {
           if (this.cInt < 3) {
             this.warningService.push(true);
             return;
-          }
-          else {
+          } else {
             this.completeOnboarding();
             this.warningService.push(false);
           }

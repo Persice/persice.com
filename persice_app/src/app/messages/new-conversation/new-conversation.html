@@ -13,5 +13,5 @@
       </div>
     </div>
   </div>
-  <div class="chat__send-message" [disabled]="tokens.length === 0" (newMessage)="sendMessage($event)"></div>
+  <prs-send-message [disabled]="tokens.length === 0" (newMessage)="sendMessage($event)"></prs-send-message>
 </div>

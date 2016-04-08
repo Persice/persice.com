@@ -22,7 +22,7 @@ export class ProfileLoader implements OnInit {
     private _loader: DynamicComponentLoader,
     private _el: ElementRef,
     private _params: RouteParams
-    ) {
+  ) {
     this.username = CookieUtil.getValue('user_username');
     this.usernameParam = this._params.get('username');
   }
@@ -31,15 +31,14 @@ export class ProfileLoader implements OnInit {
 
     if (this.username === this.usernameParam) {
       this._loader.loadIntoLocation(ProfileMyComponent, this._el, 'child')
-      .then((res) => {
+        .then((res) => {
 
-      });
-    }
-    else {
+        });
+    } else {
       this._loader.loadIntoLocation(ProfileViewComponent, this._el, 'child')
-      .then((res) => {
-        res.instance.setUsername(this.usernameParam);
-      });
+        .then((res) => {
+          res.instance.setUsername(this.usernameParam);
+        });
     }
   }
 }

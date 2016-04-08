@@ -110,8 +110,7 @@ export class SearchComponent {
           autoclose: 4000
         });
         event.preventDefault();
-      }
-      else {
+      } else {
 
         if (tokenInput.length < 2) {
           this.notificationService.push({

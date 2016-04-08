@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Input} from 'angular2/core';
+import {Component, EventEmitter, Input, Output} from 'angular2/core';
 
 import {EventCardComponent} from './event-card.component';
 
 @Component({
-  outputs: ['onClicked'],
   selector: 'prs-events-list',
   directives: [EventCardComponent],
   template: `
@@ -14,7 +13,7 @@ import {EventCardComponent} from './event-card.component';
 })
 export class EventsListComponent {
   @Input() events;
-  onClicked: EventEmitter<any> = new EventEmitter();
+  @Output() onClicked: EventEmitter<any> = new EventEmitter();
 
   onItemClicked(data) {
     this.onClicked.next(data);

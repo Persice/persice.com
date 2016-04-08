@@ -55,8 +55,7 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
     // Disable delete photo if only one photo exists
     if (photos.length > 1) {
       this.deleteDisabled = false;
-    }
-    else {
+    } else {
       this.deleteDisabled = true;
     }
 

@@ -193,8 +193,7 @@ export class FileUtil {
     let regex = new RegExp('(.*?)\.(gif|jpg|jpeg|tiff|png)$');
     if (!(regex.test(filename))) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
@@ -298,8 +297,7 @@ export class StringUtil {
 
     if (data.indexOf(substring) !== -1) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

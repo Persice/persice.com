@@ -101,8 +101,7 @@ export class FacebookAlbumsService {
       ].join('&');
 
       url = `${FacebookAlbumsService.API_URL}&${params}`;
-    }
-    else {
+    } else {
       url = this._next;
     }
 
@@ -118,8 +117,7 @@ export class FacebookAlbumsService {
             this._dataStore = data.albums.data;
             this._next = data.albums.paging.hasOwnProperty('next') ? data.albums.paging.next : null;
 
-          }
-          else {
+          } else {
             this._dataStore = [...this._dataStore, ...data.data];
             this._next = data.paging.hasOwnProperty('next') ? data.paging.next : null;
           }

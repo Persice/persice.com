@@ -39,7 +39,7 @@ import {LoadingComponent} from '../../shared/components/loading';
         </div>
       </div>
     </div>
-    <div class="chat__send-message" [disabled]="0" (newMessage)="sendMessage($event)"></div>
+    <prs-send-message [disabled]="0" (newMessage)="sendMessage($event)"></prs-send-message>
   </div>
   `
 })

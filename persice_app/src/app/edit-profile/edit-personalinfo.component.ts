@@ -97,8 +97,7 @@ export class EditPersonalInfoComponent implements OnChanges, AfterViewInit {
           this.loading = false;
           this[itemListSelected] = ListUtil.filter(this[itemList], 'selected', true);
         });
-    }
-    else {
+    } else {
       this[itemService].create(this[itemList][idx].name)
         .subscribe((data) => {
           this[itemList][idx].selected = true;

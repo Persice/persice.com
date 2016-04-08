@@ -73,8 +73,7 @@ export class LocationService {
       if (res.meta.total_count === 0) {
 
         return this.create(newLoc);
-      }
-      else {
+      } else {
         return this.update(res.objects[0].resource_uri, newLoc);
       }
     });

@@ -1,16 +1,21 @@
-import {Directive, ElementRef, AfterViewInit, EventEmitter} from 'angular2/core';
+import {
+  Directive,
+  ElementRef,
+  AfterViewInit,
+  EventEmitter,
+  Output
+} from 'angular2/core';
 import {DateUtil} from '../core';
 
 declare var jQuery: any;
 
 @Directive({
   selector: '[datepicker]',
-  outputs: ['selectedValue'],
   properties: ['value: datepicker']
 })
 export class DatepickerDirective implements AfterViewInit {
   el: ElementRef;
-  selectedValue: EventEmitter<any> = new EventEmitter();
+  @Output() selectedValue: EventEmitter<any> = new EventEmitter();
   value: any;
 
   constructor(el: ElementRef) {
@@ -31,8 +36,7 @@ export class DatepickerDirective implements AfterViewInit {
 
         if ('object' === typeof context.select) {
           dateString = DateUtil.convertFromUnixToDate(context.select.pick / 1000);
-        }
-        else {
+        } else {
           dateString = DateUtil.convertFromUnixToDate(context.select / 1000);
         }
 

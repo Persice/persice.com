@@ -18,8 +18,7 @@ export class EventDescriptionComponent implements OnChanges {
       if (values.description.currentValue.length > 200) {
         this.descriptionMore = values.description.currentValue.substring(0, 199) + '...';
         this.hideMoreLink = false;
-      }
-      else {
+      } else {
         this.descriptionMore = values.description.currentValue;
         this.hideMoreLink = true;
       }

@@ -1,4 +1,12 @@
-import {Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter} from 'angular2/core';
+import {
+  Directive,
+  SimpleChange,
+  OnDestroy,
+  OnChanges,
+  EventEmitter,
+  Input,
+  Output
+} from 'angular2/core';
 import {MarkerManager} from '../services/marker-manager';
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
@@ -31,45 +39,43 @@ let markerId = 0;
  * ```
  */
 @Directive({
-  selector: 'google-map-marker',
-  inputs: ['latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable'],
-  outputs: ['markerClick', 'dragEnd']
+  selector: 'google-map-marker'
 })
 export class GoogleMapMarker implements OnDestroy, OnChanges {
   /**
    * The latitude position of the marker.
    */
-  latitude: number;
+  @Input() latitude: number;
 
   /**
    * The longitude position of the marker.
    */
-  longitude: number;
+  @Input() longitude: number;
 
   /**
    * The title of the marker.
    */
-  title: string;
+  @Input() title: string;
 
   /**
    * The label (a single uppercase character) for the marker.
    */
-  label: string;
+  @Input() label: string;
 
   /**
    * If true, the marker can be dragged. Default value is false.
    */
-  draggable: boolean = false;
+  @Input() draggable: boolean = false;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
-  markerClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * This event is fired when the user stops dragging the marker.
    */
-  dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   private _markerAddedToManger: boolean = false;
   private _id: string;
@@ -101,15 +107,7 @@ export class GoogleMapMarker implements OnDestroy, OnChanges {
     }
   }
 
-  private _addEventListeners() {
-    this._markerManager.createEventObservable('click', this).subscribe(() => {
-      this.markerClick.next(null);
-    });
-    this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
-        .subscribe((e: mapTypes.MouseEvent) => {
-          this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
-        });
-  }
+
 
   /** @internal */
   id(): string { return this._id; }
@@ -119,4 +117,14 @@ export class GoogleMapMarker implements OnDestroy, OnChanges {
 
   /** @internal */
   ngOnDestroy() { this._markerManager.deleteMarker(this); }
+
+  private _addEventListeners() {
+    this._markerManager.createEventObservable('click', this).subscribe(() => {
+      this.markerClick.next(null);
+    });
+    this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
+      .subscribe((e: mapTypes.MouseEvent) => {
+        this.dragEnd.next({ coords: { lat: e.latLng.lat(), lng: e.latLng.lng() } });
+      });
+  }
 }

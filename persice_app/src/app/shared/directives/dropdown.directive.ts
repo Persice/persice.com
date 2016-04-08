@@ -1,25 +1,24 @@
-import {Directive, ElementRef, Inject} from 'angular2/core';
+import {Directive, ElementRef, HostListener} from 'angular2/core';
 
 declare var jQuery: any;
 
 @Directive({
   selector: '[dropdown]',
-  properties: ['target: dropdown'],
-  host: {
-    '(click)': 'onClick($event)'
-  }
+  properties: ['target: dropdown']
 })
 export class DropdownDirective {
+
   el: ElementRef;
   target: string;
+
+  @HostListener('click') onClick (event: Event) {
+    jQuery(this.target).toggleClass('is-active');
+  };
 
   constructor(el: ElementRef) {
     this.el = el;
   }
 
-  onClick(event: Event) {
-    jQuery(this.target).toggleClass('is-active');
-  }
 
   ngOnDestroy() {
     jQuery(this.target).removeClass('is-active');

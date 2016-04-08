@@ -1,18 +1,16 @@
-import {Directive, ElementRef, Inject, EventEmitter} from 'angular2/core';
+import {Directive, ElementRef, Output, EventEmitter} from 'angular2/core';
 
 declare var jQuery: any;
 
 @Directive({
-  selector: '[minimalect]',
-  outputs: ['selectedValue']
+  selector: '[minimalect]'
 })
 export class SelectDirective {
   el: ElementRef;
-  selectedValue: EventEmitter<any> = new EventEmitter();
+  @Output() selectedValue: EventEmitter<any> = new EventEmitter();
 
-  constructor( @Inject(ElementRef) el: ElementRef) {
+  constructor( el: ElementRef) {
     this.el = el;
-
   }
 
   ngOnInit() {

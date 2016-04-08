@@ -48,8 +48,7 @@ export class SignupConnectComponent {
   toggle(provider) {
     if (this.connectStatus[provider].connected) {
       this.disconnect(provider);
-    }
-    else {
+    } else {
       this.connect(provider);
     }
   }

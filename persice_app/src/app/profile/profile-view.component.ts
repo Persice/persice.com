@@ -300,8 +300,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     let uri = this.historyService.getPrev();
     if (uri !== '') {
       this._router.parent.navigateByUrl(uri);
-    }
-    else {
+    } else {
       this._router.parent.navigateByUrl('/');
     }
 

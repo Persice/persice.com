@@ -94,8 +94,7 @@ export class InboxService {
           this._dataStore = [item, ...this._dataStore];
           this._counter = this._counter + 1;
           this._updateCounter();
-        }
-        else {
+        } else {
           this._dataStore[idx] = item;
         }
 
@@ -157,8 +156,7 @@ export class InboxService {
       ].join('&');
 
       url = `${InboxService.API_URL}?${params}`;
-    }
-    else {
+    } else {
       url = this._next;
     }
 
@@ -208,8 +206,7 @@ export class InboxService {
       let idx = ListUtil.findIndex(this._dataStore, { 'threadId': item.threadId });
       if (idx === -1) {
         this._dataStore = [...this._dataStore, item];
-      }
-      else {
+      } else {
         this._dataStore[idx] = item;
       }
     }

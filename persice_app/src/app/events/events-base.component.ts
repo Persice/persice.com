@@ -96,8 +96,7 @@ export abstract class EventsBaseComponent {
       for (var i = 0; i <= more.length - 1; i++) {
         this.items.push(more[i]);
       }
-    }
-    else {
+    } else {
       this.items = data.objects;
     }
 
@@ -110,8 +109,7 @@ export abstract class EventsBaseComponent {
     //bind to scroll event to load more data on bottom scroll
     if (this.next !== null) {
       jQuery(window).bind('scroll', this.handleScrollEvent.bind(this));
-    }
-    else {
+    } else {
       jQuery(window).unbind('scroll');
     }
   }

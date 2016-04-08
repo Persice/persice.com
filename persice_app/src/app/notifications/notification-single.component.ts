@@ -31,7 +31,7 @@ import {NotificationsService} from '../shared/services/notifications.service';
   </div>
   `
 })
-export class NotificationSingleComponent implements OnInit{
+export class NotificationSingleComponent implements OnInit {
   @Input() notification;
   @Input() timeout;
   isVisible: boolean = false;

@@ -120,8 +120,7 @@ export class SearchConnectionsComponent {
         this.resultsCount = res.meta.total_count;
         if (this.resultsCount > 0) {
           this.resultsVisible = true;
-        }
-        else {
+        } else {
           this.resultsVisible = false;
         }
         return this.resultsCache;

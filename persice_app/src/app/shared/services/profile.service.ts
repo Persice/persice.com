@@ -44,8 +44,7 @@ export class ProfileService {
         this._loading = false;
         if (res.meta.total_count === 1) {
           this._dataStore = res.objects[0];
-        }
-        else {
+        } else {
           this._notFound = true;
         }
         this._notify();

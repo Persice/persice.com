@@ -44,8 +44,7 @@ export abstract class BaseEventComponent {
     if (event !== 'Invalid date') {
       this.model.starts_on_date = event;
       this.combineDateTime('starts_on');
-    }
-    else {
+    } else {
       this.model.starts_on_date = '';
       this.model.starts_on = '';
 
@@ -57,8 +56,7 @@ export abstract class BaseEventComponent {
     if (event !== 'Invalid time') {
       this.model.starts_on_time = event;
       this.combineDateTime('starts_on');
-    }
-    else {
+    } else {
       this.model.starts_on_time = '';
       this.model.starts_on = '';
 
@@ -70,8 +68,7 @@ export abstract class BaseEventComponent {
     if (event !== 'Invalid date') {
       this.model.ends_on_date = event;
       this.combineDateTime('ends_on');
-    }
-    else {
+    } else {
       this.model.ends_on_date = '';
       this.model.ends_on = '';
 
@@ -84,8 +81,7 @@ export abstract class BaseEventComponent {
     if (event !== 'Invalid time') {
       this.model.ends_on_time = event;
       this.combineDateTime('ends_on');
-    }
-    else {
+    } else {
       this.model.ends_on_time = '';
       this.model.ends_on = '';
 

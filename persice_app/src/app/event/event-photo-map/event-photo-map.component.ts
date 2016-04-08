@@ -96,8 +96,7 @@ export class EventPhotoMapComponent {
           console.log(err);
         }, () => {
         });
-      }
-      else {
+      } else {
         this.notificationService.push({
           type: 'error',
           title: 'Error',

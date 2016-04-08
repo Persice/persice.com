@@ -273,8 +273,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
         if (this.authUserUri === resp.members[i].user) {
           this.isHost = true;
         }
-      }
-      else {
+      } else {
         if (this.authUserUri === resp.members[i].user) {
           this.isHost = false;
           this.memberExists = true;
@@ -309,8 +308,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
     let uri = this.historyService.getPrev();
     if (uri !== '') {
       this.router.parent.navigateByUrl(uri);
-    }
-    else {
+    } else {
       this.router.parent.navigateByUrl('/');
     }
   }
@@ -338,8 +336,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
           this.savingRsvp = false;
 
         });
-    }
-    else {
+    } else {
       this.serviceMembers.createOne(data)
         .subscribe((res) => {
           this.member = res;

@@ -199,8 +199,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
       this.setLocation(this.selectedUser.username);
-    }
-    else {
+    } else {
       this.closeProfile(true);
       this.isListEmpty = true;
     }
@@ -221,8 +220,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.items.length > 0) {
       this.selectedUser = this.items[newIndex];
       this.setLocation(this.selectedUser.username);
-    }
-    else {
+    } else {
       this.closeProfile(true);
       this.isListEmpty = true;
     }

@@ -82,8 +82,7 @@ export class UserAuthService {
     if (resourceUri === 'me') {
       let userId = CookieUtil.getValue('userid');
       uri = '/api/v1/auth/user/' + userId + '/';
-    }
-    else {
+    } else {
       uri = resourceUri;
     }
 

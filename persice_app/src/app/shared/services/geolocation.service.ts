@@ -51,8 +51,7 @@ export class GeolocationService {
             }
           },
           this._opts);
-      }
-      else {
+      } else {
         observer.error(GEOLOCATION_ERRORS['errors.location.unsupportedBrowser']);
       }
 

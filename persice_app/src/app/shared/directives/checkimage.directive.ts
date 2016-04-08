@@ -36,8 +36,7 @@ export class CheckImageDirective {
     if (this.image === '/static/assets/images/empty_avatar.png'
       || this.image === '' || this.image === null) {
       this.setBackgroundImage(`url(/static/assets/images/empty_avatar.png)`);
-    }
-    else {// try to load smaller image with suffix
+    } else {// try to load smaller image with suffix
       this._loadImage(imageUrl);
     }
 

@@ -36,8 +36,7 @@ export class NewConversationHeaderComponent {
         this.tokens = [...this.tokens, token];
         this.activeToken = -1;
         this.selected.emit(this.tokens);
-      }
-      else { //make token active
+      } else { //make token active
         this.activeToken = i;
       }
       //if token limit reached, hide search input

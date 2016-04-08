@@ -12,7 +12,6 @@ import {ObjectUtil} from '../../core';
 import {CheckImageDirective} from '../../directives';
 
 @Component({
-  inputs: ['user'],
   selector: 'user-card',
   pipes: [GenderPipe],
   template: require('./user-card.html'),
@@ -21,13 +20,12 @@ import {CheckImageDirective} from '../../directives';
   ]
 })
 export class UserCardComponent implements AfterContentInit {
-  user: any;
-  interests = [];
-
+  @Input() user;
   @Input() showButtons;
   @Output() onClick: EventEmitter<any> = new EventEmitter;
   @Output() passEvent: EventEmitter<any> = new EventEmitter;
   @Output() acceptEvent: EventEmitter<any> = new EventEmitter;
+  interests = [];
   passIsActive = false;
   acceptIsActive = false;
   timeoutPass;

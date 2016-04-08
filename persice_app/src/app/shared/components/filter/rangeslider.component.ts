@@ -1,4 +1,13 @@
-import {Component, ElementRef, EventEmitter, OnInit, OnChanges, OnDestroy} from 'angular2/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  OnChanges,
+  OnDestroy,
+  Input,
+  Output
+} from 'angular2/core';
 
 declare var jQuery: any;
 
@@ -6,15 +15,17 @@ declare var jQuery: any;
   selector: 'prs-range-slider',
   template: `
     <input type="text" value="" name="range" class="{{class}}">
-  `,
-  inputs: ['options', 'renderSlider', 'class'],
-  outputs: ['onChange', 'onFinish']
+  `
 })
 export class RangeSliderComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() options;
+  @Input() renderSlide;
+  @Input() class;
+  @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @Output() onFinish: EventEmitter<any> = new EventEmitter();
+
   el: ElementRef;
-  onChange: EventEmitter<any> = new EventEmitter();
-  onFinish: EventEmitter<any> = new EventEmitter();
-  options: Object;
+
   slider;
 
   constructor(el: ElementRef) {

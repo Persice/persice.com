@@ -1,4 +1,13 @@
-import {Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange} from 'angular2/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  SimpleChange,
+  Input,
+  Output
+} from 'angular2/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
 import {LatLng} from '../services/google-maps-types';
@@ -32,53 +41,64 @@ import {MouseEvent} from '../events';
 @Component({
   selector: 'google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager],
-  inputs: ['longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI'],
-  outputs: ['mapClick', 'mapRightClick', 'mapDblClick'],
   template: `
     <div class="google-map-container"></div>
     <ng-content></ng-content>
   `
 })
-export class GoogleMap implements OnChanges,
-    OnInit {
-  private _longitude: number = 0;
-  private _latitude: number = 0;
-  private _zoom: number = 8;
+export class GoogleMap implements OnChanges, OnInit {
+
+  /**
+  * Map option attributes that can change over time
+  */
+  private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
+
+
+
+
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
    */
-  disableDoubleClickZoom: boolean = false;
+  @Input() disableDoubleClickZoom: boolean = false;
 
   /**
    * Enables/disables all default UI of the Google map. Please note: When the map is created, this
    * value cannot get updated.
    */
-  disableDefaultUI: boolean = false;
+  @Input() disableDefaultUI: boolean = false;
 
-  /**
-   * Map option attributes that can change over time
-   */
-  private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
+
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
    */
-  mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user right-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user double-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
+  private _longitude: number = 0;
+  private _latitude: number = 0;
+  private _zoom: number = 8;
 
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
+
+
+  private static _containsMapOptionsChange(changesKeys: string[]): boolean {
+    return changesKeys.every(
+      (key: string) => { return GoogleMap._mapOptionsAttributes.indexOf(key) !== 1; });
+  }
+
 
   /** @internal */
   ngOnInit() {
@@ -86,21 +106,7 @@ export class GoogleMap implements OnChanges,
     this._initMapInstance(container);
   }
 
-  private _initMapInstance(el: HTMLElement) {
-    this._mapsWrapper.createMap(el, {
-      center: {lat: this._latitude, lng: this._longitude},
-      zoom: this._zoom,
-      disableDefaultUI: this.disableDefaultUI
-    });
-    this._handleMapCenterChange();
-    this._handleMapZoomChange();
-    this._handleMapMouseEvents();
-  }
 
-  private static _containsMapOptionsChange(changesKeys: string[]): boolean {
-    return changesKeys.every(
-        (key: string) => { return GoogleMap._mapOptionsAttributes.indexOf(key) !== 1; });
-  }
 
   /** @internal */
   ngOnChanges(changes: {[propName: string]: SimpleChange}) {
@@ -112,7 +118,7 @@ export class GoogleMap implements OnChanges,
   /**
    * Sets the zoom level of the map. The default value is `8`.
    */
-  set zoom(value: number | string) {
+   @Input() set zoom(value: number | string) {
     this._zoom = this._convertToDecimal(value, 8);
     if (typeof this._zoom === 'number') {
       this._mapsWrapper.setZoom(this._zoom);
@@ -122,7 +128,7 @@ export class GoogleMap implements OnChanges,
   /**
    * The longitude that sets the center of the map.
    */
-  set longitude(value: number | string) {
+   @Input()  set longitude(value: number | string) {
     this._longitude = this._convertToDecimal(value);
     this._updateCenter();
   }
@@ -130,10 +136,12 @@ export class GoogleMap implements OnChanges,
   /**
    * The latitude that sets the center of the map.
    */
-  set latitude(value: number | string) {
+  @Input() set latitude(value: number | string) {
     this._latitude = this._convertToDecimal(value);
     this._updateCenter();
   }
+
+
 
   private _convertToDecimal(value: string | number, defaultValue: number = null): number {
     if (typeof value === 'string') {
@@ -188,4 +196,17 @@ export class GoogleMap implements OnChanges,
           });
     });
   }
+
+  private _initMapInstance(el: HTMLElement) {
+    this._mapsWrapper.createMap(el, {
+      center: { lat: this._latitude, lng: this._longitude },
+      zoom: this._zoom,
+      disableDefaultUI: this.disableDefaultUI
+    });
+    this._handleMapCenterChange();
+    this._handleMapZoomChange();
+    this._handleMapMouseEvents();
+  }
+
+
 }

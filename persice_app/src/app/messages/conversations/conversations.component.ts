@@ -18,14 +18,16 @@ import {ThreadListComponent} from '../../shared/components/thread-list';
 import {LoadingComponent} from '../../shared/components/loading';
 
 @Component({
-  selector: '.chat-sidebar',
+  selector: 'prs-conversations',
   directives: [
     ThreadListComponent,
     LoadingComponent
   ],
   template: `
-    <prs-thread-list (selected)="onSelect($event)" [active]="activeThread" [threads]="threads"></prs-thread-list>
-    <prs-loading [status]="loadingInbox"></prs-loading>
+    <aside class="chat-sidebar is-scrollable-y" id="inbox" (selected)="navigateToConversation($event)">
+      <prs-thread-list (selected)="onSelect($event)" [active]="activeThread" [threads]="threads"></prs-thread-list>
+      <prs-loading [status]="loadingInbox"></prs-loading>
+    </aside>
   `
 })
 export class ConversationsComponent implements OnInit, OnDestroy {
@@ -64,9 +66,9 @@ export class ConversationsComponent implements OnInit, OnDestroy {
         this.activeThread = res.selected;
 
         if (this.loadingInboxFinished === false) {
-          jQuery(this.element.nativeElement).bind('scroll', this.handleScrollEvent.bind(this));
+          jQuery('#inbox').bind('scroll', this.handleScrollEvent.bind(this));
         } else {
-          jQuery(this.element.nativeElement).unbind('scroll');
+          jQuery('#inbox').unbind('scroll');
         }
 
       });
@@ -96,7 +98,7 @@ export class ConversationsComponent implements OnInit, OnDestroy {
   }
 
   handleScrollEvent(event) {
-    let scrollOffset = jQuery(this.element.nativeElement).scrollTop();
+    let scrollOffset = jQuery('#inbox').scrollTop();
     let threshold = jQuery(document).height() - jQuery('#inbox').height() - 60;
 
     if (this.inboxNext && scrollOffset > threshold) {

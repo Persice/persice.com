@@ -123,8 +123,7 @@ export class MessagesService {
       ].join('&');
 
       url = `${MessagesService.API_URL}?${params}`;
-    }
-    else {
+    } else {
       url = this._next;
     }
 

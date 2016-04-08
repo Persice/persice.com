@@ -1,21 +1,25 @@
-import {Directive, ElementRef, EventEmitter, AfterViewInit} from 'angular2/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  AfterViewInit,
+  Output
+} from 'angular2/core';
 import {DateUtil} from '../core';
 
 declare var jQuery: any;
 
 @Directive({
   selector: '[timepicker]',
-  outputs: ['selectedValue'],
   properties: ['value: timepicker']
 })
 export class TimepickerDirective implements AfterViewInit {
   el: ElementRef;
-  selectedValue: EventEmitter<any> = new EventEmitter();
+  @Output() selectedValue: EventEmitter<any> = new EventEmitter();
   value: any;
 
   constructor(el: ElementRef)  {
     this.el = el;
-
   }
 
   ngAfterViewInit() {
@@ -26,15 +30,13 @@ export class TimepickerDirective implements AfterViewInit {
 
         if ('object' === typeof context.select) {
           timeString = DateUtil.convertToHours(context.select.pick);
-        }
-        else {
+        } else {
           timeString = DateUtil.convertToHours(context.select);
         }
 
         if (timeString !== 'NaN:NaN') {
           this.selectedValue.next(timeString);
-        }
-        else {
+        } else {
           this.selectedValue.next('Invalid time');
         }
 
