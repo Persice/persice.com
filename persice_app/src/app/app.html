@@ -1,7 +1,13 @@
-<header-main></header-main>
+<header class="header-main">
+  <a class="site-logo" href="/">
+    <img alt="#" src="/static/assets/images/logo.svg" class="site-logo__mark">
+    <h1 class="site-logo__type">Persice</h1>
+  </a>
+  <prs-navigation></prs-navigation>
+</header>
 <div class="page-content" [ngClass]="{'page-content--white': activeRoute.indexOf('messages') > -1}">
-  <notifications-container></notifications-container>
-  <header-sub [image]="image"></header-sub>
-  <notification [main]="1" [title]="notificationMain.title" [body]="notificationMain.body" [active]="notificationMain.active" [type]="notificationMain.type"></notification>
+  <prs-notifications></prs-notifications>
+  <prs-header [image]="image"></prs-header>
+  <prs-notification [main]="1" [title]="notificationMain.title" [body]="notificationMain.body" [active]="notificationMain.active" [type]="notificationMain.type"></prs-notification>
   <router-outlet></router-outlet>
 </div>

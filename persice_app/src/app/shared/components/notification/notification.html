@@ -1,0 +1,23 @@
+<div class="notification" [ngClass]="{'is-removed': !active, 'warning': type === 'warning', 'error': type === 'error', 'notification-main': main, 'notification-full': full}">
+    <div class="layout layout--auto layout--middle layout--flush">
+        <div class="layout__item 3/4">
+            <div class="flag flag--small">
+                <div class="flag__img">
+                    <svg role="img" class="icon" *ngIf="type === 'success'">
+                        <use xlink:href="/static/assets/icons/icons.svg#icon-success"></use>
+                    </svg>
+                </div>
+                <div class="flag__body">
+                    <p class="notificaiton__message"><b>{{title}}</b> {{body}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="layout__item text-right 1/4">
+            <a class="notification__close js-notification__close" (click)="close($event)">
+                <svg role="img" class="icon icon--close">
+                    <use xlink:href="/static/assets/icons/icons.svg#icon-close"></use>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>

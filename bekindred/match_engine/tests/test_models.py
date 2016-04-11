@@ -11,7 +11,7 @@ from events.models import FilterState, Event, Membership
 from friends.models import Friend
 from goals.models import Subject, Offer, Goal
 from interests.models import InterestSubject, Interest
-from match_engine.models import ElasticSearchMatchEngine
+from match_engine.models import ElasticSearchMatchEngine, StopWords
 from django.test import TestCase
 from haystack.management.commands import update_index, rebuild_index, clear_index
 from matchfeed.utils import MatchQuerySet
@@ -114,12 +114,16 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
             create(description='learn python')
         self.i_subject4 = InterestSubject.objects. \
             create(description='kiteboarding')
+        StopWords.objects.create(word='learn')
+        StopWords.objects.create(word=u'and')
+        StopWords.objects.create(word=u'teach')
+        StopWords.objects.create(word=u'to')
         clear_index.Command().handle(interactive=False)
         rebuild_index.Command().handle(interactive=False)
 
     def tearDown(self):
-        # haystack.connections['default'].get_backend().clear()
         pass
+        # haystack.connections['default'].get_backend().clear()
 
     def test_simple_match_goals(self):
         Goal.objects.create(user=self.user, goal=self.subject)
@@ -500,8 +504,9 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         Goal.objects.get_or_create(user=self.user3, goal=self.subject5)
         Goal.objects.get_or_create(user=self.user4, goal=self.subject5)
         Goal.objects.get_or_create(user=self.user5, goal=self.subject5)
-        FilterState.objects.create(user=self.user, min_age=18, max_age=99,
-                                   distance=16000, order_criteria='mutual_friends')
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, distance=16000,
+                                   order_criteria='mutual_friends')
         Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
         Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
         Friend.objects.create(friend1=self.user5, friend2=self.user1, status=1)
@@ -511,8 +516,7 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 3)
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/matchfeed/',
-                                   data={'filter': 'true'}, format='json')
+        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
         self.assertValidJSONResponse(resp)
         data = self.deserialize(resp)['objects']
         self.assertEqual(data[0]['friends_score'], 2)

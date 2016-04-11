@@ -1,0 +1,44 @@
+<div class="search search--remodal-tab typeahead-search">
+  <div class="search__top">
+    <svg role="img" class="icon">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
+    </svg>
+    <input [(ngModel)]="newGoal" (keyup)="inputChanged($event)" type="text" id="goalsInput" class="search__input typeahead" placeholder="Enter a few goals here">
+
+    <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
+      </svg>
+    </div>
+    <div class="search__notification search__notification--succes" [ngClass]="{'is-visible': status === 'success'}">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
+      </svg>
+    </div>
+    <button class="btn">
+      <svg role="img" class="icon" (click)="addGoal($event)">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+<div class="search__tags-wrapper text-left" id="goals" [ngClass]="{'has-signup-empty-state': isListEmpty}">
+  <span class="search-tag-secondary" *ngFor="#item of items">
+      <a (click)="removeGoal(item)">
+        <svg role="img" class="icon icon--tiny">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+        </svg>
+      </a>
+      {{item.subject}}
+    </span>
+  <div class="signup-empty-state" [ngClass]="{'is-visible': isListEmpty}">
+    <svg role="img" class="icon signup-empty-state__icon">
+      <use xlink:href="/static/assets/icons/icons.svg#no-goals"></use>
+    </svg>
+    <h3 class="signup-empty-state__title">"Goals" are things you want to achieve.</h3>
+    <p class="signup-empty-state__par signup-empty-state__par--prom">For example:</p>
+    <p class="signup-empty-state__par">"Learn how to salsa dance" or
+      <br>"Discover new hiking trails"</p>
+  </div>
+</div>
+<prs-edit-footer [loadingEdit]="saveLoading" (close)="close.next($event)"></prs-edit-footer>

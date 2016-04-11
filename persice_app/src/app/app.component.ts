@@ -1,61 +1,61 @@
-/*
- * Angular 2 decorators and services
- */
-import {Component, NgZone, ViewEncapsulation, Injectable, Type} from 'angular2/core';
-
-/*
- * Angular Directives
- */
+import {
+  Component,
+  Injectable,
+  Type,
+  ViewEncapsulation
+} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {RouteConfig, ROUTER_DIRECTIVES, Router, RouteRegistry, AsyncRoute}
-from 'angular2/router';
+import {
+  RouteConfig,
+  ROUTER_DIRECTIVES,
+  Router,
+  RouteRegistry,
+  AsyncRoute
+} from 'angular2/router';
 
-import {CookieUtil} from './core/util';
-
-/*
- * Components
- */
-import {HomeComponent} from './components/home/home.component';
-import {CrowdContainer} from './containers/crowd/crowd.container';
-import {MessagesContainer} from './containers/messages/messages.container';
-import {ConnectionsContainer} from './containers/connections/connections.container';
-import {EventsComponent} from './components/events/events.component';
-import {ProfileFriendComponent} from './components/profile/profile_friend.component';
-import {EventComponent} from './components/event/event.component';
-import {ProfileViewComponent} from './components/profile/profile_view.component';
-import {ProfileLoader} from './components/profile/profile_loader';
-import {ProfileMyComponent} from './components/profile/profile_my.component';
-import {NotificationsContainerComponent} from './components/notifications/notifications_container.component';
-
-import {HeaderMainComponent} from './components/headermain/headermain.component';
-import {HeaderSubComponent} from './components/headersub/headersub.component';
-import {LoadingComponent} from './components/loading/loading.component';
-import {NotificationComponent} from './components/notification/notification.component';
-
-import {AuthUserModel} from './models/user.model';
-import {InterfaceNotification} from './models/notification.model';
-
-/*
- * Services available to child components
- */
-import {FilterService} from './services/filter.service';
-import {UserService} from './services/user.service';
-import {UserAuthService} from './services/userauth.service';
-import {NotificationService} from './services/notification.service';
-import {EventsService} from './services/events.service';
-import {EventService} from './services/event.service';
-import {WebsocketService} from './services/websocket.service';
-import {GeolocationService} from './services/geolocation.service';
-import {LocationService} from './services/location.service';
-import {MessagesCounterService} from './services/messages_counter.service';
-import {ConnectionsCounterService} from './services/connections_counter.service';
-import {HistoryService} from './services/history.service';
-import {NotificationsService} from './services/notifications.service';
-
-let view = require('./app.html');
+import {CookieUtil} from './shared/core';
 
 
-declare var Reflect: any;
+import {HeaderComponent} from './header';
+import {NavigationComponent} from './navigation';
+import {NotificationsComponent} from './notifications';
+
+import {LoadingComponent} from './shared/components/loading';
+import {NotificationComponent} from './shared/components/notification';
+
+import {CrowdComponent} from './crowd';
+import {MessagesComponent} from './messages';
+import {ConnectionsComponent} from './connections';
+
+import {EventsComponent} from './events';
+import {EventComponent} from './event';
+
+
+import {
+  ProfileLoader,
+  ProfileViewComponent,
+  ProfileFriendComponent,
+  ProfileMyComponent
+} from './profile';
+
+import {AuthUserModel, InterfaceNotification} from './shared/models';
+
+
+import {
+  FilterService,
+  UserService,
+  UserAuthService,
+  NotificationService,
+  EventsService,
+  WebsocketService,
+  GeolocationService,
+  LocationService,
+  MessagesCounterService,
+  ConnectionsCounterService,
+  HistoryService,
+  NotificationsService
+}
+from './shared/services';
 
 @Injectable()
 class DynamicRouteConfiguratorService {
@@ -104,38 +104,38 @@ class DynamicRouteConfiguratorService {
   },
   {
     path: '/crowd',
-    component: CrowdContainer,
+    component: CrowdComponent,
     name: 'Crowd',
     useAsDefault: true
   },
   new AsyncRoute({
     path: '/messages/...',
-    loader: () => require('es6-promise!./containers/messages/messages.container')('MessagesContainer'),
+    loader: () => require('es6-promise!./messages')('MessagesComponent'),
     name: 'Messages'
   }),
   new AsyncRoute({
     path: '/event/:eventId',
-    loader: () => require('es6-promise!./components/event/event.component')('EventComponent'),
+    loader: () => require('es6-promise!./event')('EventComponent'),
     name: 'EventDetails'
   }),
   new AsyncRoute({
     path: '/connections',
-    loader: () => require('es6-promise!./containers/connections/connections.container')('ConnectionsContainer'),
+    loader: () => require('es6-promise!./connections')('ConnectionsComponent'),
     name: 'Connections'
   }),
   new AsyncRoute({
     path: '/connections/:friendId',
-    loader: () => require('es6-promise!./components/profile/profile_friend.component')('ProfileFriendComponent'),
+    loader: () => require('es6-promise!./profile')('ProfileFriendComponent'),
     name: 'ProfileFriend'
   }),
   new AsyncRoute({
     path: '/events/...',
-    loader: () => require('es6-promise!./components/events/events.component')('EventsComponent'),
+    loader: () => require('es6-promise!./events')('EventsComponent'),
     name: 'Events'
   }),
   new AsyncRoute({
     path: '/:username',
-    loader: () => require('es6-promise!./components/profile/profile_loader')('ProfileLoader'),
+    loader: () => require('es6-promise!./profile')('ProfileLoader'),
     name: 'ProfileView'
   })
 ])
@@ -145,13 +145,14 @@ class DynamicRouteConfiguratorService {
     CORE_DIRECTIVES,
     FORM_DIRECTIVES,
     ROUTER_DIRECTIVES,
-    HeaderMainComponent,
-    HeaderSubComponent,
+    HeaderComponent,
+    NavigationComponent,
     LoadingComponent,
     NotificationComponent,
-    NotificationsContainerComponent
+    NotificationsComponent
   ],
-  template: view,
+  encapsulation: ViewEncapsulation.None,
+  template: require('./app.html'),
   providers: [
     FilterService,
     UserService,
@@ -195,8 +196,7 @@ export class AppComponent {
     private connectionsCounterService: ConnectionsCounterService,
     private historyService: HistoryService,
     private dynamicRouteConfiguratorService: DynamicRouteConfiguratorService,
-    private notificationsService: NotificationsService,
-    private _zone: NgZone
+    private notificationsService: NotificationsService
   ) {
     //default image
     this.image = this.userService.getDefaultImage();

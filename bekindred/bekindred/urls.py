@@ -1,14 +1,12 @@
 from django.conf import settings
 from django.conf.urls import include, patterns, url
 from django.contrib import admin
-from events.api.resources import (AboutMeResource, AllEventFeedResource,
-                                  EventAttendees, EventConnections,
-                                  EventFilterStateResource, EventResource,
-                                  FilterStateResource,
-                                  FriendsEventFeedResource, MembershipResource,
-                                  MyConnectionEventFeedResource,
-                                  MyEventFeedResource, EventFeedResource,
-                                  UserProfileResource)
+from tastypie.api import Api
+
+from events.api.resources import (AboutMeResource, EventAttendees,
+                                  EventConnections, EventResource,
+                                  MembershipResource, EventFeedResource,
+                                  UserProfileResource, FilterStateResource)
 from friends.api.resources import (ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
@@ -16,7 +14,7 @@ from friends.api.resources import (ConnectionsSearchResource,
 from goals.api.resources import (FacebookLikeResource, GoalResource,
                                  MatchFilterStateResource, OfferResource,
                                  SubjectResource)
-from interests.api.resources import InterestResource, InterestSubjectResource, \
+from interests.api.resources import InterestResource, InterestSubjectResource,\
     ReligiousViewResource, ReligiousIndexResource, PoliticalViewResource, \
     PoliticalIndexResource
 from matchfeed.api.resources import (MatchedFeedResource,
@@ -27,7 +25,6 @@ from msgs.api.resources import (ChatMessageResource, InboxLastResource,
                                 UnreadMessageCounter)
 from photos.api.resources import FacebookPhotoResource, UserResource, \
     OnBoardingFlowResource
-from tastypie.api import Api
 from world.api.resources import UserLocationResource
 
 admin.autodiscover()
@@ -58,13 +55,8 @@ v1_api.register(FriendsNewResource())
 v1_api.register(FriendsNewCounterResource())
 v1_api.register(EventResource())
 v1_api.register(MembershipResource())
-v1_api.register(EventFeedResource())
-v1_api.register(MyEventFeedResource())
-v1_api.register(AllEventFeedResource())
-v1_api.register(FriendsEventFeedResource())
-v1_api.register(MyConnectionEventFeedResource())
-v1_api.register(EventFilterStateResource())
 v1_api.register(FilterStateResource())
+v1_api.register(EventFeedResource())
 v1_api.register(EventConnections())
 v1_api.register(EventAttendees())
 v1_api.register(ChatMessageResource())
