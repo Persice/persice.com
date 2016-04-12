@@ -9,9 +9,9 @@ import {
 
 import {findIndex} from 'lodash';
 
-import {OffersService} from '../../../app/shared/services';
+import {OffersService} from '../../app/shared/services';
 
-import {LoadingComponent} from '../../../app/shared/components/loading';
+import {LoadingComponent} from '../../app/shared/components/loading';
 
 @Component({
   selector: 'prs-signup-offers',

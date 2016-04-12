@@ -1,6 +1,6 @@
 import {Component, NgZone} from 'angular2/core';
 
-import {UserAuthService} from '../../../app/shared/services';
+import {UserAuthService} from '../../app/shared/services';
 
 declare var jQuery: any;
 @Component({

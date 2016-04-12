@@ -14,9 +14,9 @@ import {
   KeywordsService,
   WarningService
 }
-from '../../../app/shared/services';
+from '../../app/shared/services';
 
-import {LoadingComponent} from '../../../app/shared/components/loading';
+import {LoadingComponent} from '../../app/shared/components/loading';
 
 @Component({
   selector: 'prs-signup-interests',

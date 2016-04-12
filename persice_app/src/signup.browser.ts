@@ -6,14 +6,14 @@ import {bootstrap} from 'angular2/platform/browser';
 * Platform and Environment
 * our providers/directives/pipes
 */
-import {DIRECTIVES, PIPES, PROVIDERS_SIGNUP} from '../platform/browser';
-import {ENV_PROVIDERS} from '../platform/environment';
+import {DIRECTIVES, PIPES, PROVIDERS_SIGNUP} from './platform/browser';
+import {ENV_PROVIDERS} from './platform/environment';
 
 /*
 * App Component
 * our top level component that holds all of our components
 */
-import {SignupComponent, APP_PROVIDERS} from './components';
+import {SignupComponent, APP_PROVIDERS} from './signup';
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject

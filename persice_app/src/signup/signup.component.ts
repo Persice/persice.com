@@ -22,7 +22,7 @@ import {
   UserAuthService,
   OnboardingService,
   WarningService
-} from '../../app/shared/services';
+} from '../app/shared/services';
 
 
 @Component({

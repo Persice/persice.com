@@ -9,8 +9,8 @@ import {
 
 import {findIndex} from 'lodash';
 
-import {GoalsService} from '../../../app/shared/services';
-import {LoadingComponent} from '../../../app/shared/components/loading';
+import {GoalsService} from '../../app/shared/services';
+import {LoadingComponent} from '../../app/shared/components/loading';
 
 @Component({
   selector: 'prs-signup-goals',
