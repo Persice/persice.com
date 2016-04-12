@@ -26,9 +26,19 @@ var jsFiles = [
   './lib/js/dragula.js'
 ];
 
+var cssFilesAll = [
+  './src/assets/css/mobile.css',
+  './src/assets/css/screen.css',
+  './src/assets/css/app.css'
+];
+
 var cssFiles = [
   './src/assets/css/screen.css',
   './src/assets/css/app.css'
+];
+
+var cssFilesMobile = [
+  './src/assets/css/mobile.css',
 ];
 
 gulp.task('js', function() {
@@ -60,11 +70,20 @@ gulp.task('css', function() {
     .pipe(gulp.dest('./src/assets/css/'))
 });
 
+gulp.task('css-mobile', function() {
+  gulp.src(cssFilesMobile)
+    .pipe(sourcemaps.init())
+    .pipe(concat('vendor.mobile.min.css'))
+    .pipe(cssnano())
+    .pipe(gulp.dest('./src/assets/css/'))
+});
+
 gulp.task('css-lint', function() {
-  gulp.src(cssFiles)
+  gulp.src(cssFilesAll)
     .pipe(csslint())
     .pipe(csslint.reporter());
 });
+
 
 
 gulp.task('watch', function(gulpCallback) {
@@ -81,8 +100,8 @@ gulp.task('watch', function(gulpCallback) {
     // (server is now up)
 
     // watch css and stream to BrowserSync when it changes
-    gulp.watch(cssFiles, function() {
-      gulp.src(cssFiles)
+    gulp.watch(cssFilesAll, function() {
+      gulp.src(cssFilesAll)
         .pipe(browserSync.stream());
     });
 
@@ -92,5 +111,5 @@ gulp.task('watch', function(gulpCallback) {
 });
 
 
-gulp.task('default', ['js', 'css']);
+gulp.task('default', ['js', 'css', 'css-mobile']);
 gulp.task('js-lint', ['jshint', 'jscs']);
