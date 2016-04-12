@@ -15,7 +15,7 @@ export const users: any = [
       {}
     ],
     "id": "4",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "animals": 0,
@@ -70,7 +70,7 @@ export const users: any = [
       }
     ],
     "id": "7",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "antiques": 1,
@@ -127,7 +127,7 @@ export const users: any = [
       }
     ],
     "id": "5",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "animals": 0,
@@ -184,7 +184,7 @@ export const users: any = [
       }
     ],
     "id": "6",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "animals": 0,
@@ -241,7 +241,7 @@ export const users: any = [
       }
     ],
     "id": "13",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "badminton": 1,
@@ -296,7 +296,7 @@ export const users: any = [
       {}
     ],
     "id": "3",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "animals": 0,
@@ -350,7 +350,7 @@ export const users: any = [
       }
     ],
     "id": "10",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "architecture": 1,
@@ -407,7 +407,7 @@ export const users: any = [
       }
     ],
     "id": "14",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "animals": 0,
@@ -463,7 +463,7 @@ export const users: any = [
       }
     ],
     "id": "9",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "acting": 0,
@@ -520,7 +520,7 @@ export const users: any = [
       }
     ],
     "id": "12",
-    "image": "/media/images/avatar_user_f.jpg",
+    "image": "/media/images/empty_avatar.png",
     "interests": [
       {
         "board": 1,
