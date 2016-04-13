@@ -9,6 +9,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 
+var HOST = '192.168.1.3:3002';
+
 var jsFiles = [
   './lib/js/jquery-2.1.4.min.js',
   './lib/js/jstz.js',
@@ -90,7 +92,7 @@ gulp.task('watch', function(gulpCallback) {
   browserSync.init({
     port: 3002,
     socket: {
-      domain: 'localhost:3002'
+      domain: HOST
     },
     // serve out of app/
     server: './src/assets',
