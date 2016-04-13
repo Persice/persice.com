@@ -15,6 +15,7 @@ var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var WebpackMd5Hash = require('webpack-md5-hash');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -82,6 +83,11 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: https://www.npmjs.com/package/webpack-md5-hash
     new WebpackMd5Hash(),
+
+     new CopyWebpackPlugin([{
+      from: 'src/assets',
+      to: 'assets'
+    }]),
 
     // Plugin: DedupePlugin
     // Description: Prevents the inclusion of duplicate code into your bundle
