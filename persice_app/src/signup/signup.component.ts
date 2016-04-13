@@ -7,11 +7,11 @@ import {
   ROUTER_DIRECTIVES
 } from 'angular2/router';
 
-import {SignupInterestsComponent} from './signup-interests';
-import {SignupGoalsComponent} from './signup-goals';
-import {SignupOffersComponent} from './signup-offers';
-import {SignupConnectComponent} from './signup-connect';
-import {SignupHeaderComponent} from './signup-header';
+import {SignupInterestsComponent} from './interests';
+import {SignupGoalsComponent} from './goals';
+import {SignupOffersComponent} from './offers';
+import {SignupConnectComponent} from './connect-social-accounts';
+import {SignupHeaderComponent} from './header';
 
 
 import {
