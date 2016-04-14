@@ -1,5 +1,13 @@
 <div class="container">
-  <prs-mobile-signup-header></prs-mobile-signup-header>
+  <prs-mobile-signup-header
+    [nextTitle]="nextTitle"
+    [title]="title"
+    [counter]="counter"
+    [showBack]="showBack"
+    [nextDisabled]="isNextDisabled"
+    (back)="back($event)"
+    (next)="next($event)">
+  </prs-mobile-signup-header>
 </div>
 <div class="content">
   <router-outlet></router-outlet>

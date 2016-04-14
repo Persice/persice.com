@@ -13,6 +13,7 @@ export class SignupHeaderMobileComponent {
   @Input() counter;
   @Input() nextTitle;
   @Input() title;
+  @Input() nextDisabled;
   @Input() showBack;
   @Output() next: EventEmitter<any> = new EventEmitter();
   @Output() back: EventEmitter<any> = new EventEmitter();

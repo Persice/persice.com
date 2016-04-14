@@ -1,28 +1,27 @@
-<div class="search">
-  <div class="search__top">
+<div class="search search--signup">
+  <div class="search__top typeahead-search" id="interestsSearch">
     <svg role="img" class="icon ">
       <use xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
     </svg>
-    <input type="text" class="search__input" placeholder="Enter or select your top interests">
-    <button class="btn">
+    <input [(ngModel)]="newInterest" (keyup)="inputChanged($event)" type="text" class="search__input typeahead" id="interestsInput" placeholder="Enter or select at least three interests">
+    <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
+      </svg>
+    </div>
+    <div class="search__notification search__notification--succes" [ngClass]="{'is-visible': status === 'success'}">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
+      </svg>
+    </div>
+    <button class="btn" (click)="addInterest($event)">
       <svg role="img" class="icon ">
         <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
       </svg>
     </button>
   </div>
-  <div class="has-search__drop">
-    <div class="search__drop">
-      <ul class="search__drop__results">
-        <li><b>Lear</b>n to play the banjo</li>
-        <li><b>Lear</b>n to paint</li>
-        <li><b>Lear</b>n to ride a bike</li>
-        <li><b>Lear</b>n to play the piano</li>
-      </ul>
-    </div>
-  </div>
 </div>
-<div class="search__tags-wrapper"> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span>
-  <span class="search-tag">Arcitecture</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag is-current">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span>
-  <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Archery</span>
-  <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span> <span class="search-tag">3D print</span> <span class="search-tag">Acting</span> <span class="search-tag">Animals</span> <span class="search-tag">Animation</span> <span class="search-tag">Aniques</span> <span class="search-tag">Archery</span> <span class="search-tag">Arcitecture</span> <span class="search-tag">Art</span>
+<div class="search__tags-wrapper" id="interests">
+  <span (click)="onInterestClick(item)" [ngClass]="{'is-current': item.active}" class="search-tag" *ngFor="#item of items">{{item.description}}</span>
+  <prs-loading [status]="loading"></prs-loading>
 </div>
