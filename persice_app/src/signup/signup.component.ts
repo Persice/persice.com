@@ -1,4 +1,9 @@
-import {Component, ViewChild} from 'angular2/core';
+import {
+  Component,
+  ViewChild,
+  ViewEncapsulation,
+  OnInit
+} from 'angular2/core';
 import {
   RouteConfig,
   Router,
@@ -28,6 +33,7 @@ import {
 @Component({
   template: require('./signup.html'),
   selector: 'persice-signup',
+  encapsulation: ViewEncapsulation.None,
   directives: [
     SignupHeaderComponent,
     ROUTER_DIRECTIVES
@@ -72,7 +78,7 @@ import {
     data: { page: 4 }
   }
 ])
-export class SignupComponent {
+export class SignupComponent implements OnInit {
 
   @ViewChild(SignupInterestsComponent) myElem1: SignupInterestsComponent;
   @ViewChild(SignupGoalsComponent) myElem2: SignupGoalsComponent;
@@ -148,11 +154,6 @@ export class SignupComponent {
       this.is_complete = res.onboardingflow;
     });
   }
-
-  ngOnDestroy() {
-
-  }
-
 
   onRouteChanged(path) {
     switch (path) {
