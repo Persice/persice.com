@@ -344,7 +344,7 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 # AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 # Your Amazon Web Services storage bucket name, as a string.
 # AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME',
-                                    'persice.s3.amazonaws.com')
+#                                     'persice.s3.amazonaws.com')
 # The way you'd like to call the Amazon Web Services API,
 # for instance if you prefer subdomains:
 # from S3 import CallingFormat
