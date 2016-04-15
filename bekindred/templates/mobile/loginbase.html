@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--[if IE 8]>    <html class=" no-js  is-scrollable-y ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class=" no-js  is-scrollable-y ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" no-js is-scrollable-y " lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 minimal-ui">
+  <title>{% block title %}{% endblock %}</title>
+  <!-- Prefetch DNS for external assets (Twitter widgets etc). -->
+  <link rel="dns-prefetch" href="//ajax.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//themes.googleusercontent.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/static/dist/assets/css/vendor.mobile.min.css">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  {% include "login.scripts.header.html" %}
+</head>
+
+<body class="push-menu-push ">
+  {% load url from future %}
+  {% block content %}
+  {% endblock content %}
+  <div id="fb-root"></div>
+  {% include "login.scripts.footer.html" %}
+</body>
+
+</html>

@@ -30,6 +30,12 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, '..', 'templates'),
 )
 
+TEMPLATE_LOADERS = (
+        'django_mobile.loader.Loader',
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+)
+
 ALLOWED_HOSTS = []
 
 SESSION_COOKIE_AGE = 1 * 24 * 60 * 60
@@ -70,6 +76,7 @@ INSTALLED_APPS += ('south',
                    'tastypie',
                    'geoposition',
                    'easy_thumbnails',
+                   'django_mobile'
                    )
 
 SOUTH_MIGRATION_MODULES = {
@@ -95,6 +102,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pagination.middleware.PaginationMiddleware',
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware'
 )
 
 MIDDLEWARE_CLASSES += ('social_auth.middleware.SocialAuthExceptionMiddleware',)
@@ -162,6 +171,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
     'social_auth.context_processors.social_auth_login_redirect',
+    'django_mobile.context_processors.flavour'
 )
 
 AUTHENTICATION_BACKENDS = (

@@ -9,6 +9,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 
+var HOST = '192.168.1.3:3002';
+
 var jsFiles = [
   './lib/js/jquery-2.1.4.min.js',
   './lib/js/jstz.js',
@@ -26,9 +28,19 @@ var jsFiles = [
   './lib/js/dragula.js'
 ];
 
+var cssFilesAll = [
+  './src/assets/css/mobile.css',
+  './src/assets/css/screen.css',
+  './src/assets/css/app.css'
+];
+
 var cssFiles = [
   './src/assets/css/screen.css',
   './src/assets/css/app.css'
+];
+
+var cssFilesMobile = [
+  './src/assets/css/mobile.css',
 ];
 
 gulp.task('js', function() {
@@ -60,18 +72,27 @@ gulp.task('css', function() {
     .pipe(gulp.dest('./src/assets/css/'))
 });
 
+gulp.task('css-mobile', function() {
+  gulp.src(cssFilesMobile)
+    .pipe(sourcemaps.init())
+    .pipe(concat('vendor.mobile.min.css'))
+    .pipe(cssnano())
+    .pipe(gulp.dest('./src/assets/css/'))
+});
+
 gulp.task('css-lint', function() {
-  gulp.src(cssFiles)
+  gulp.src(cssFilesAll)
     .pipe(csslint())
     .pipe(csslint.reporter());
 });
+
 
 
 gulp.task('watch', function(gulpCallback) {
   browserSync.init({
     port: 3002,
     socket: {
-      domain: 'localhost:3002'
+      domain: HOST
     },
     // serve out of app/
     server: './src/assets',
@@ -81,8 +102,8 @@ gulp.task('watch', function(gulpCallback) {
     // (server is now up)
 
     // watch css and stream to BrowserSync when it changes
-    gulp.watch(cssFiles, function() {
-      gulp.src(cssFiles)
+    gulp.watch(cssFilesAll, function() {
+      gulp.src(cssFilesAll)
         .pipe(browserSync.stream());
     });
 
@@ -92,5 +113,5 @@ gulp.task('watch', function(gulpCallback) {
 });
 
 
-gulp.task('default', ['js', 'css']);
+gulp.task('default', ['js', 'css', 'css-mobile']);
 gulp.task('js-lint', ['jshint', 'jscs']);

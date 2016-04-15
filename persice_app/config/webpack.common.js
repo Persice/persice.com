@@ -44,10 +44,12 @@ module.exports = {
   //
   // See: http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
-    'main': './src/main.browser.ts',
-    'signup': './src/signup/main.browser.ts'
+    'polyfills': './src/polyfills.ts', // our browser polyfills (es6-promise, etc)
+    'vendor': './src/vendor.ts', // our vendor (angular2, rxjs)
+    'main': './src/main.browser.ts', // persice main desktop app
+    'main-mobile': './src/main-mobile.browser.ts', // persice main mobile app
+    'signup': './src/signup.browser.ts', // persice signup app
+    'signup-mobile': './src/signup-mobile.browser.ts' // persice mobile signup app
   },
 
   // Options affecting the resolving of modules.
