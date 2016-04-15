@@ -112,10 +112,9 @@ export class FilterComponent implements OnInit {
   }
 
   changeOrder(value) {
-    console.log(value);
 
-     let index = findIndex(this.orderBy, (option) => {
-      return option['label'].toLowerCase() === value.toLowerCase();
+    let index = findIndex(this.orderBy, (option) => {
+      return option['value'].toLowerCase() === value.toLowerCase();
     });
 
     if (this.order !== value) {
