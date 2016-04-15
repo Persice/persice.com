@@ -1,3 +1,4 @@
+.env
 geodjango*.sql
 *.sublime-project
 *.sublime-workspace

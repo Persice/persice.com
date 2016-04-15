@@ -70,3 +70,4 @@ elasticsearch-dsl==0.0.8
 elasticstack==0.2.0
 nltk==3.1
 django-mobile==0.7.0
+django-storages==1.4.1
