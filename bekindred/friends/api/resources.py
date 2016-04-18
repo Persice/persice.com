@@ -213,6 +213,14 @@ class ConnectionsResource(Resource):
                 all(request.user.id, is_filter=True, friends=True)
             cache.set('c_%s_%s' % (request.user.id,
                                    filter_updated), match_users)
+        if fs:
+            if fs[0].order_criteria == 'match_score':
+                return sorted(match_users, key=lambda x: -x.score)
+            elif fs[0].order_criteria == 'mutual_friends':
+                return sorted(match_users, key=lambda x: -x.friends_score)
+            elif fs[0].order_criteria == 'date':
+                return sorted(match_users, key=lambda x: x.last_login,
+                              reverse=True)
         return match_users
 
     def obj_get_list(self, bundle, **kwargs):

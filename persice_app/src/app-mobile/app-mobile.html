@@ -1,0 +1,36 @@
+<nav class="push-menu push-menu--left" id="push-menu-s1">
+  <div class="push-menu__logo">
+    <a class="site-logo" href="/">
+      <img alt="Perice" src="/static/assets/images/logo.svg" class="site-logo__mark">
+      <h1 class="site-logo__type">Persice</h1> </a>
+  </div>
+  <prs-mobile-navigation></prs-mobile-navigation>
+</nav>
+<nav class="push-menu push-menu--right" id="push-menu-s2">
+  <h3>Menu2</h3>
+</nav>
+<div class="container push-menu-push">
+  <header class="mob-header">
+    <div class="layout layout--flush layout--middle">
+      <div class="layout__item 1/5">
+        <a prs-mobile-left-menu-push class="mob-header__left-push" id="showLeftPush">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 3/5 text-center">
+        <h2 class="mob-header__title">Crowd</h2> </div>
+      <div class="layout__item 1/5 text-right">
+        <a prs-mobile-right-menu-push class="mob-header__right-push" id="showRightPush">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

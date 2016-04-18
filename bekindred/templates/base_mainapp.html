@@ -50,87 +50,11 @@
 
   <!-- production only -->
   <script src="/static/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/dist/polyfills.8b37deeb475dec574e7e.bundle.js"></script>
-  <script src="/static/dist/vendor.5a36d8568299ac8b6b9a.bundle.js"></script>
-  <script src="/static/dist/main.ea0cc65b6b21186a750a.bundle.js"></script>
-  <script type="text/javascript">
-  function createCookie(name, value, days) {
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      var expires = "; expires=" + date.toGMTString();
-    } else var expires = "";
-    document.cookie = name + "=" + value + expires + "; path=/";
-  }
+  <script src="/static/dist/polyfills.6a6c2a288d71315f6fe6.bundle.js"></script>
+  <script src="/static/dist/vendor.5accec84ca1cfdb710e8.bundle.js"></script>
+  <script src="/static/dist/main.c8877219e6f99a39570a.bundle.js"></script>
 
-  createCookie('userid', '{{user.id}}', 1);
-  createCookie('user_name', '{{user.first_name}}', 1);
-  createCookie('user_image', '{{user.image}}', 1);
-  createCookie('user_token', '{{user.access_token}}', 1);
-  createCookie('user_username', '{{user.username}}', 1);
-
-  function refreshConnect() {
-    $('.connect-media').trigger('persice:refreshConnect');
-  }
-  </script>
-   <script>
-  window.intercomSettings = {
-    app_id: "d1rhvojk",
-    name: "{{user.first_name}} {{user.last_name}}", // Full name
-    email: "{{user.email}}", // Email address
-    created_at: Math.floor({{user.date_joined | date:"U"}}) // Signup date as a Unix timestamp
-  };
-  </script>
-  <script>
-  (function() {
-    var w = window;
-    var ic = w.Intercom;
-    if (typeof ic === "function") {
-      ic('reattach_activator');
-      ic('update', intercomSettings);
-    } else {
-      var d = document;
-      var i = function() {
-        i.c(arguments)
-      };
-      i.q = [];
-      i.c = function(args) {
-        i.q.push(args)
-      };
-      w.Intercom = i;
-
-      function l() {
-        var s = d.createElement('script');
-        s.type = 'text/javascript';
-        s.async = true;
-        s.src = 'https://widget.intercom.io/widget/d1rhvojk';
-        var x = d.getElementsByTagName('script')[0];
-        x.parentNode.insertBefore(s, x);
-      }
-      if (w.attachEvent) {
-        w.attachEvent('onload', l);
-      } else {
-        w.addEventListener('load', l, false);
-      }
-    }
-  })()
-  </script>
-  <script type="text/javascript">
-  window.heap = window.heap || [], heap.load = function(e, t) {
-    window.heap.appid = e, window.heap.config = t = t || {};
-    var n = t.forceSSL || "https:" === document.location.protocol,
-      a = document.createElement("script");
-    a.type = "text/javascript", a.async = !0, a.src = (n ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + e + ".js";
-    var o = document.getElementsByTagName("script")[0];
-    o.parentNode.insertBefore(a, o);
-    for (var r = function(e) {
-        return function() {
-          heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
-        }
-      }, p = ["clearEventProperties", "identify", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++) heap[p[c]] = r(p[c])
-  };
-  heap.load("2088770194");
-  </script>
+  {% include "base.scripts.footer.html" %}
 
 
  <!-- <script async src="http://localhost:3002/browser-sync/browser-sync-client.js"></script> -->

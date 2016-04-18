@@ -30,6 +30,12 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, '..', 'templates'),
 )
 
+TEMPLATE_LOADERS = (
+        'django_mobile.loader.Loader',
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+)
+
 ALLOWED_HOSTS = []
 
 SESSION_COOKIE_AGE = 1 * 24 * 60 * 60
@@ -70,6 +76,8 @@ INSTALLED_APPS += ('south',
                    'tastypie',
                    'geoposition',
                    'easy_thumbnails',
+                   'django_mobile',
+                   'storages'
                    )
 
 SOUTH_MIGRATION_MODULES = {
@@ -95,6 +103,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pagination.middleware.PaginationMiddleware',
+    'django_mobile.middleware.MobileDetectionMiddleware',
+    'django_mobile.middleware.SetFlavourMiddleware'
 )
 
 MIDDLEWARE_CLASSES += ('social_auth.middleware.SocialAuthExceptionMiddleware',)
@@ -144,6 +154,8 @@ STATICFILES_FINDERS = (
 
 STATIC_URL = '/static/'
 
+# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 MEDIA_URL = '/media/'
@@ -162,6 +174,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
     'social_auth.context_processors.social_auth_login_redirect',
+    'django_mobile.context_processors.flavour'
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -321,3 +334,24 @@ ELASTICSEARCH_INDEX_SETTINGS = {
 }
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# Amazone
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+# Your Amazon Web Services access key, as a string.
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# Your Amazon Web Services secret access key, as a string.
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# Your Amazon Web Services storage bucket name, as a string.
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME',
+#                                     'persice.s3.amazonaws.com')
+# The way you'd like to call the Amazon Web Services API,
+# for instance if you prefer subdomains:
+# from S3 import CallingFormat
+# AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
+
+# see http://developer.yahoo.com/performance/rules.html#expires
+# AWS_HEADERS = {
+#     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
+#     'Cache-Control': 'max-age=86400',
+# }

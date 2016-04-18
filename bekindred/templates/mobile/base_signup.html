@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if IE 8]>    <html class=" no-js  is-scrollable-y ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class=" no-js  is-scrollable-y ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" no-js is-scrollable-y " lang="en">
+  <!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 minimal-ui">
+  <title>Persice</title>
+  <!-- base url -->
+  <base href="/">
+  <!-- Prefetch DNS for external assets (Twitter widgets etc). -->
+  <link rel="dns-prefetch" href="//ajax.googleapis.com">
+  <link rel="dns-prefetch" href="//maps.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//themes.googleusercontent.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link rel="dns-prefetch" href="//widget.intercom.io">
+  <link rel="dns-prefetch" href="//cdn.heapanalytics.com">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- dev mode -->
+  <!-- <link rel="stylesheet" href="http://localhost:3002/css/mobile.css" /> -->
+
+  <!-- prod mode -->
+  <link rel="stylesheet" href="/static/dist/assets/css/vendor.mobile.min.css" />
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
+</head>
+
+<body class="bg-gray">
+  <persice-signup-mobile-app>
+    <div id="loadingindicator">
+      <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
+    </div>
+  </persice-signup-mobile-app>
+  <!-- Theme scripts -->
+  <!--  development only  -->
+ <!--  <script src="http://localhost:8080/assets/js/plugins.min.js"></script>
+  <script src="http://localhost:8080/polyfills.bundle.js"></script>
+  <script src="http://localhost:8080/vendor.bundle.js"></script>
+  <script src="http://localhost:8080/signup-mobile.bundle.js"></script> -->
+
+  <!-- production only -->
+  <script src="/static/dist/assets/js/plugins.min.js"></script>
+  <script src="/static/dist/polyfills.6a6c2a288d71315f6fe6.bundle.js"></script>
+  <script src="/static/dist/vendor.5accec84ca1cfdb710e8.bundle.js"></script>
+  <script src="/static/dist/signup-mobile.553fbe21cd8f374df6c2.bundle.js"></script>
+
+  {% include "base.scripts.footer.html" %}
+
+
+ <!-- <script async src="http://localhost:3002/browser-sync/browser-sync-client.js"></script> -->
+</body>

@@ -1,0 +1,33 @@
+<div class="search search--signup">
+  <div class="search__top typeahead-search" id="goalsSearch">
+    <svg role="img" class="icon ">
+      <use xlink:href="static/assets/icons/icons.svg#icon-search"></use>
+    </svg>
+    <input [(ngModel)]="newGoalText" (keyup)="inputChanged($event)" id="goalsInput" type="text" class="search__input typeahead" placeholder="Enter a few goals here">
+    <button class="btn">
+      <svg role="img" class="icon" (click)="addGoal($event)">
+        <use xlink:href="static/assets/icons/icons.svg#icon-plus-big"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="search__tags-wrapper text-left has-mob-signup-empty-state" id="goals" *ngIf="goals.length === 0">
+  <div class="mob-signup-empty-state">
+  <svg role="img" class="icon mob-signup-empty-state__icon">
+    <use xlink:href="static/assets/icons/icons.svg#no-goals"></use>
+  </svg>
+    <h3 class="mob-signup-empty-state__title">"Goals" are things you <br>want to achieve.</h3>
+    <p class="mob-signup-empty-state__par mob-signup-empty-state__par--prom">For example:</p>
+    <p class="mob-signup-empty-state__par">"Learn how to salsa dance" or <br>"Discover new hiking trails"</p>
+  </div>
+</div>
+
+<div class="search__tags-wrapper text-left is-visible" *ngIf="goals.length > 0">
+  <p class="search-tag-secondary" *ngFor="#goal of goals">
+    <a (click)="removeGoal(goal)">
+      <svg role="img" class="icon ">
+        <use xlink:href="static/assets/icons/icons.svg#icon-delete"></use>
+      </svg>
+    </a> {{ goal.subject }}</p>
+</div>
