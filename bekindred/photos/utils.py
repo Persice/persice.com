@@ -63,7 +63,7 @@ def _update_image(facebook_id, image_url):
     return image_name, image_file
 
 
-def crop_photo(user, image_file, bounds):
+def crop_photo(image_name, image_file, bounds):
     image_str = ""
     for c in image_file.chunks():
         image_str += c
@@ -74,7 +74,7 @@ def crop_photo(user, image_file, bounds):
     image = image.crop((bounds['left'], bounds['upper'],
                         bounds['right'], bounds['lower']))
     image_file = StringIO()
-    filename = 'fb_image_%s.jpg' % user.facebook_id
+    filename = 'fb_image_%s.jpg' % image_name
     # save to disk
     image_file = open(os.path.join('/tmp', filename), 'w')
     image.save(image_file, 'JPEG', quality=90)

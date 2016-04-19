@@ -1,5 +1,8 @@
 import json
 
+import time
+
+import math
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -49,7 +52,9 @@ class FacebookPhoto(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk is None and self.photo and self.photo.startswith('http'):
-            image_name, image_file = _update_image(self.user.facebook_id,
+            compose_image_name = '%s_%s' % (self.user.facebook_id,
+                                            int(math.floor(time.time())))
+            image_name, image_file = _update_image(compose_image_name,
                                                    self.photo)
             if not isinstance(self.bounds, dict):
                 try:
@@ -62,7 +67,8 @@ class FacebookPhoto(models.Model):
                 bounds = self.bounds
 
             if bounds:
-                filename, content = crop_photo(self.user, image_file, bounds)
+                filename, content = crop_photo(compose_image_name,
+                                               image_file, bounds)
             else:
                 filename, content = image_name, image_file
             self.cropped_photo = content
