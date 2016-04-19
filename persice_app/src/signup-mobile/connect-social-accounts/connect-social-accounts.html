@@ -15,7 +15,7 @@
         </svg>
       </div>
       <p class="connect-media__username" [ngClass]="{'connect-media__username--activated': connectStatus.twitter.connected}">{{connectStatus.twitter.username}}</p>
-      <a id="twitterLink" (click)="toggle('twitter')" [ngClass]="{'is-active': connectStatus.twitter.connected}" class="btn btn-1 btn-1--connect btn-1--connect--twitter btn--full btn--connect js-accept">
+      <a id="twitterLink" (click)="toggle('twitter')" [ngClass]="{'is-active': connectStatus?.twitter.connected}" class="btn btn-1 btn-1--connect btn-1--connect--twitter btn--full btn--connect js-accept">
         <div class="btn--connect__label">Connect</div>
         <svg role="img" class="icon">
           <use xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
