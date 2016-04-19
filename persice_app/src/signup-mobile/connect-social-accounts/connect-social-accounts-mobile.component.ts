@@ -39,12 +39,6 @@ export class SignupConnectSocialAccountsMobileComponent implements OnInit {
     window.location.href = '/crowd/';
   }
 
-  refreshConnectInfo() {
-    this.service.findOneByUri('me').subscribe((data) => {
-      this.getConnectStatus();
-    });
-  }
-
   getConnectStatus() {
     this.connectStatus = this.service.getConnectStatus();
   }
