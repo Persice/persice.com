@@ -8662,10 +8662,10 @@ li>ol {
 }
 
 .mob-signup-connect-net li {
-  display: inline-block;
-  vertical-align: top;
-  width: 140px;
-  margin-top: 20px;
+  display: inline-block!important;
+  vertical-align: top!important;
+  width: 140px!important;
+  margin-top: 20px!important;
 }
 
 .mob-signup-connect-net {
