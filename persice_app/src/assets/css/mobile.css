@@ -8653,3 +8653,30 @@ li>ol {
 .mob-header__sidelink.mob-header__sidelink--right.is-disabled {
   color: #8498a3!important;
 }
+
+.mob-signup-connect-net .connect-media__username {
+  font-size: 12px;
+  line-height: 2;
+  margin: 10px 0px;
+  color: #999ea1;
+}
+
+.mob-signup-connect-net li {
+  display: inline-block;
+  vertical-align: top;
+  width: 140px;
+  margin-top: 20px;
+}
+
+.mob-signup-connect-net {
+  text-align: center;
+  font-size: 0;
+}
+
+.connect-media__username--activated {
+  color: #57646b!important;
+}
+
+.btn--connect__label {
+  font-size: 10px;
+}

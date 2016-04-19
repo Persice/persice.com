@@ -203,7 +203,7 @@ export class SignupMobileComponent implements OnInit {
         this.nextStep = null;
         this.prevStep = 'SignupOffers';
         this.title = 'Final Step';
-        this.nextTitle = 'Go';
+        this.nextTitle = 'Go!';
         this.counter = null;
         this.page = 4;
         this.isNextDisabled = false;
@@ -250,16 +250,6 @@ export class SignupMobileComponent implements OnInit {
       this.router.navigate([this.prevStep]);
     }
   }
-
-  skip(event) {
-    if (this.nextStep) {
-      this.router.navigate([this.nextStep]);
-    } else {
-      window.location.href = '/crowd/';
-    }
-
-  }
-
 
   completeOnboarding() {
     if (this.is_complete === null) {
