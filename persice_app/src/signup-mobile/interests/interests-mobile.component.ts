@@ -65,7 +65,7 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
   initializeTokenInput() {
     let keywordsEngine = new Bloodhound({
       remote: {
-        url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
+        url: '/api/v1/interest_subject/?format=json&limit=100&description__icontains=%QUERY',
         filter: (x: any) => {
           return jQuery.map(x.objects, (item) => {
             return item.description;
@@ -87,7 +87,7 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
       },
       {
         source: keywordsEngine,
-        limit: 20
+        limit: 100
       }
     );
 
