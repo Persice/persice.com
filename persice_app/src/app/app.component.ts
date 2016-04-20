@@ -23,7 +23,7 @@ import {NotificationsComponent} from './notifications';
 import {LoadingComponent} from './shared/components/loading';
 import {NotificationComponent} from './shared/components/notification';
 
-import {CrowdComponent} from './crowd';
+import {CrowdComponentDesktop} from './crowd';
 import {MessagesComponent} from './messages';
 import {ConnectionsComponent} from './connections';
 
@@ -104,7 +104,7 @@ class DynamicRouteConfiguratorService {
   },
   {
     path: '/crowd',
-    component: CrowdComponent,
+    component: CrowdComponentDesktop,
     name: 'Crowd',
     useAsDefault: true
   },

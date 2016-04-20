@@ -1,34 +1,12 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
-import {Router} from 'angular2/router';
-
-import {UsersListComponent} from '../shared/components/users-list';
-import {LoadingComponent} from '../shared/components/loading';
-import {FilterComponent} from '../shared/components/filter';
-import {ProfileCrowdComponent} from '../profile';
-
 import {CrowdService} from './crowd.service';
-import {
-  FriendService,
-  FilterService,
-  NotificationService
-} from '../shared/services';
-
 import {remove, findIndex, debounce} from 'lodash';
+import {FriendService} from "../../app/shared/services/friend.service";
+import {FilterService} from "../../app/shared/services/filter.service";
+import {Router} from "angular2/router";
 
 declare var jQuery: any;
 
-@Component({
-  selector: 'prs-crowd',
-  template: require('./crowd.html'),
-  providers: [CrowdService, FriendService],
-  directives: [
-    FilterComponent,
-    UsersListComponent,
-    LoadingComponent,
-    ProfileCrowdComponent
-  ]
-})
-export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
+export abstract class CrowdComponent {
   items: Array<any> = [];
   loading: boolean = false;
   loadingInitial: boolean = false;
@@ -46,50 +24,15 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
   onRefreshList: Function;
 
   constructor(
-    private service: CrowdService,
-    private friendService: FriendService,
-    private filterService: FilterService,
-    private notificationService: NotificationService,
-    private _router: Router
+    protected crowdService: CrowdService,
+    protected friendService: FriendService,
+    protected filterService: FilterService,
+    protected _router: Router
   ) {
     this.onRefreshList = debounce(this.refreshList, 300, { 'leading': false, 'trailing': true });
     this.routerInstance = this._router.parent.subscribe(next => {
       this.closeProfile(true);
     });
-
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
-  }
-
-  ngOnInit() {
-    this.total_count = 0;
-    this.getList();
-
-    //create new observer and subscribe
-    this.filterService.addObserver('crowd');
-    this.filterService.observer('crowd')
-      .subscribe(
-      (data) => {
-        this.onRefreshList();
-      },
-      (err) => console.log(err)
-      );
-
-  }
-
-
-  ngOnDestroy() {
-    this.filterService.observer('crowd').unsubscribe();
-    this.filterService.removeObserver('crowd');
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-    }
-
-    this.routerInstance.unsubscribe();
   }
 
   getList() {
@@ -103,7 +46,7 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
     if (this.next === '') {
       this.loadingInitial = true;
     }
-    this.serviceInstance = this.service.get(this.next, this.limit)
+    this.serviceInstance = this.crowdService.get(this.next, this.limit)
       .subscribe(
       data => {
         this.serviceInstance.unsubscribe();
@@ -119,7 +62,6 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
 
       });
   }
-
 
   refreshList() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -157,23 +99,19 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
       this.total_count = data.objects.length;
     }
 
-
     this.next = data.meta.next;
     this.offset = data.meta.offset;
 
 
-    //bind to scroll event to load more data on bottom scroll
+    // Bind to scroll event to load more data on bottom scroll.
     if (this.next !== null) {
       jQuery(window).bind('scroll', this.handleScrollEvent.bind(this));
     } else {
       jQuery(window).unbind('scroll');
     }
-
-
   }
 
   setSelectedUser(id) {
-
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === id) {
         this.selectedUser = this.items[i];
@@ -190,7 +128,6 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   passUser(event) {
-
     let usr;
     for (var i = this.items.length - 1; i >= 0; i--) {
       if (this.items[i].id === event.user) {
@@ -221,7 +158,6 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
           this.selectedUser = null;
         }
       });
-
   }
 
   acceptUser(event) {
@@ -255,16 +191,13 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
           this.selectedUser = null;
         }
       });
-
   }
-
 
   closeProfile(event) {
     this.profileViewActive = false;
     this.selectedUser = null;
     this.setLocation('crowd');
   }
-
 
   previousProfile(event) {
     let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
@@ -304,7 +237,6 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
     this.currentIndex = newIndex;
   }
 
-
   handleScrollEvent(event) {
     let scrollOffset = jQuery(window).scrollTop();
     let threshold = jQuery(document).height() - jQuery(window).height() - 60;
@@ -314,7 +246,5 @@ export class CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
         this.getList();
       }
     }
-
   }
-
 }

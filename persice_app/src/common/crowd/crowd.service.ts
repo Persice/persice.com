@@ -1,17 +1,14 @@
 import {provide, Injectable} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {Response} from 'angular2/http';
 import {Observable} from 'rxjs';
-
-import {HttpClient} from '../shared/core';
+import {HttpClient} from "../../app/shared/core/http-client";
 
 @Injectable()
 export class CrowdService {
   static API_URL: string = '/api/v1/matchfeed/';
   next: string = '';
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) {}
 
   public get(url: string, limit: number): Observable<any> {
 
@@ -29,8 +26,6 @@ export class CrowdService {
 
     return this.http.get(this.next).map((res: Response) => res.json());
   }
-
-
 }
 
 export var crowdServiceInjectables: Array<any> = [

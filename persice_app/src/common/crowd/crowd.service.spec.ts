@@ -8,14 +8,12 @@ import {BaseRequestOptions, ConnectionBackend, Http, Response,
   ResponseOptions,
 } from 'angular2/http';
 
-import {HttpClient} from '../shared/core';
 
 import { MockBackend} from 'angular2/http/testing';
-
 import {RequestMethod} from 'angular2/src/http/enums';
-
 import {CrowdService} from './crowd.service';
 import {crowd} from './crowd.service.mock';
+import {HttpClient} from "../../app/shared/core/http-client";
 
 describe('CrowdService', () => {
 

@@ -1,1 +1,1 @@
-export * from './crowd.component';
+export * from './crowd-desktop.component';

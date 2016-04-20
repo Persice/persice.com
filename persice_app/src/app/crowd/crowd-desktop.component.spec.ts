@@ -8,43 +8,23 @@ import {
 } from 'angular2/testing';
 
 import {Component, provide} from 'angular2/core';
-import {BaseRequestOptions, ConnectionBackend, Http, Response,
-ResponseOptions, HTTP_BINDINGS
-} from 'angular2/http';
-
-import {RequestMethod} from 'angular2/src/http/enums';
-
+import {BaseRequestOptions, ConnectionBackend, Http} from 'angular2/http';
 import {MockBackend} from 'angular2/http/testing';
 
-
-import {CrowdComponent} from './crowd.component';
-
-import {CrowdService} from './crowd.service';
 import {FriendService} from '../shared/services';
 import {FilterService} from '../shared/services';
+import {CrowdComponentDesktop} from "./crowd-desktop.component";
+import {CrowdService} from "../../common/crowd/crowd.service";
 
-// Create a test component to test directives
+// Create a test component to test directives.
 @Component({
   template: '',
-  directives: [CrowdComponent]
+  directives: [CrowdComponentDesktop]
 })
-class TestComponent {
-}
-
-
-class MockFilterService extends FilterService {
-
-}
-
-
-class MockFriendService extends FriendService {
-
-}
-
-
-class MockCrowdService extends CrowdService {
-
-}
+class TestComponent {}
+class MockFilterService extends FilterService {}
+class MockFriendService extends FriendService {}
+class MockCrowdService extends CrowdService {}
 
 describe('Crowd component', () => {
 
@@ -66,7 +46,6 @@ describe('Crowd component', () => {
     }),
   ]);
 
-
   it('should exist', injectAsync(
     [TestComponentBuilder], (tcb) => {
       return tcb.overrideTemplate(TestComponent, '<div><div>')
@@ -78,6 +57,4 @@ describe('Crowd component', () => {
       });
     }
   ));
-
-
 });
