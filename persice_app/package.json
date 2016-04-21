@@ -74,7 +74,7 @@
     "angular2-hmr": "~0.5.1",
     "awesome-typescript-loader": "~0.16.2",
     "browser-sync": "^2.11.1",
-    "codelyzer": "0.0.12",
+    "codelyzer": "0.0.15",
     "compression-webpack-plugin": "^0.3.0",
     "copy-webpack-plugin": "^1.1.1",
     "css-loader": "^0.23.1",
