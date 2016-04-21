@@ -1,7 +1,8 @@
+{% load staticfiles %}
 {% extends 'loginbase_new.html' %} {% block title %}Persice - Login{% endblock %} {% block content %}
 <div class="signup-landing">
   <div class="translate-50">
-    <a class="site-logo" href="/accounts/login"> <img alt="#" src="/static/assets/images/logo.svg" class="site-logo__mark">
+    <a class="site-logo" href="/accounts/login"> <img alt="#" src="{% static 'assets/images/logo.svg' %}" class="site-logo__mark">
       <h1 class="site-logo__type">Persice</h1> </a>
     <h2 class="signup-title">Real world connections</h2>
     <p class="signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>

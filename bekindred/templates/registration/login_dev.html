@@ -1,10 +1,11 @@
+{% load staticfiles %}
 {% extends 'loginbase.html' %} {% block title %}User Login{% endblock %} {% block content %}
 <!-- LOGIN -->
 <section class="login-wrapper">
     <div class="row">
         <div class="medium-5 small-centered columns">
             <ul class="social-icon" id="intro-title">
-                <li><img id="loginLogo" src="/static/assets/images/logo.svg" alt=""></li>
+                <li><img id="loginLogo" src="{% static 'assets/images/logo.svg' %}" alt=""></li>
             </ul>
             <h3><strong>Welcome</strong>. Please login.</h3>
         </div>
