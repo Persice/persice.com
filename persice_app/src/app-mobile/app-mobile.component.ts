@@ -21,13 +21,7 @@ import {
   RightMenuPushDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdMobileComponent} from './crowd';
-import {ConnectionsMobileComponent} from './connections';
-import {SettingsMobileComponent} from './settings';
-import {EventsMobileComponent} from './events';
-import {MessagesMobileComponent} from './messages';
-import {MyProfileMobileComponent} from './my-profile';
-
+import {CrowdComponentMobile} from "./crowd/crowd-mobile.component";
 
 /*
  * Persice App Component
@@ -40,7 +34,7 @@ import {MyProfileMobileComponent} from './my-profile';
   },
   {
     path: '/crowd',
-    component: CrowdMobileComponent,
+    component: CrowdComponentMobile,
     name: 'Crowd',
     useAsDefault: true
   },
@@ -108,6 +102,4 @@ export class AppMobileComponent implements OnInit {
       }
     });
   }
-
-
 }
