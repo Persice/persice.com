@@ -84,10 +84,11 @@ import {FilterService} from '../app/shared/services';
   encapsulation: ViewEncapsulation.None
 })
 export class AppMobileComponent implements OnInit {
+  isHeaderHidden: boolean = false;
   constructor(
     private _router: Router,
     private _dom: BrowserDomAdapter,
-    private _filterService: FilterService
+    private filterService: FilterService
   ) {
 
   }
@@ -100,9 +101,14 @@ export class AppMobileComponent implements OnInit {
         this._dom.removeClass(this._dom.query('#push-menu-s1'), 'is-open');
       }
     });
+
+    this.filterService.isVisibleEmitter
+      .subscribe((visibility: boolean) => {
+        this.isHeaderHidden = visibility;
+      });
   }
 
   setFilterVisible() {
-    this._filterService.setVisibility(true);
+    this.filterService.setVisibility(true);
   }
 }

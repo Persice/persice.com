@@ -2,4 +2,4 @@
   <prs-mobile-user-card [person]="person" *ngFor="#person of items"></prs-mobile-user-card>
   <prs-loading [status]="loading"></prs-loading>
 </div>
-<prs-mobile-filter [isVisible]="isFilterVisible" [type]="'crowd'"></prs-mobile-filter>
+<prs-mobile-filter *ngIf="isFilterVisible" [type]="'crowd'"></prs-mobile-filter>

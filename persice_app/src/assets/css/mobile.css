@@ -6012,7 +6012,7 @@ li>ol {
   padding-left: 23px;
   padding-right: 23px;
   margin-top: 25px;
-  min-height: 85vh
+  min-height: 85vh;
 }
 
 .filter.filter--map {
@@ -8694,24 +8694,14 @@ html {
 }
 
 .is-hidden {
-  visibility: hidden!important;
-  opacity: 0!important;
+  visibility: hidden;
+  opacity: 0;
   transition: all 0.3s ease;
 }
 
 .filter-container {
-  position: fixed;
-  top: 0px;
   width: 100%;
-  height: 100vh!important;
+  height: 100vh;
   background: #eff4f6;
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.3s ease;
-  overflow-y: auto;
-}
-
-.filter-container.is-visible {
-  visibility: visible;
-  opacity: 1;
+  z-index: 9999;
 }

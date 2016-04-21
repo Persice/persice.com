@@ -1,4 +1,4 @@
-<div class="filter-container" [ngClass]="{'is-visible': isVisible}">
+<div class="filter-container">
   <header class="mob-header">
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/5">
@@ -23,7 +23,7 @@
       </div>
     </div>
   </header>
-  <div class="filter js-filter-tab" [ngClass]="{'hidden': keywordsVisible}">
+  <div class="filter" [ngClass]="{'hidden': keywordsVisible}">
     <div class="filter__items">
       <div class="filter__item">
         <h3 class="filter__item__title mb--">Gender</h3>

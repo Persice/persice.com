@@ -21,8 +21,6 @@ import {NumeralPipe} from '../../../../app/shared/pipes';
   pipes: [NumeralPipe]
 })
 export class FilterMobileComponent extends FilterComponent {
-  @Input() isVisible: boolean;
-
   filtersVisible: boolean = true;
   keywordsVisible: boolean = false;
 

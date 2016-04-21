@@ -10,7 +10,7 @@
   <h3>Menu2</h3>
 </nav>
 <div class="container push-menu-push">
-  <header class="mob-header">
+  <header class="mob-header" [ngClass]="{'is-hidden': isHeaderHidden}">
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/5">
         <a prs-mobile-left-menu-push class="mob-header__left-push" id="showLeftPush">
