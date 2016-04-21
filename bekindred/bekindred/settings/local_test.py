@@ -167,8 +167,9 @@ LOGGING = {
 }
 
 # Amazon S3
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+DEFAULT_FILE_STORAGE = 'photos.storage_backends.CachedS3BotoStorage'
 STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
+THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 # Your Amazon Web Services access key, as a string.
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
@@ -181,7 +182,7 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME',
 # for instance if you prefer subdomains:
 # from S3 import CallingFormat
 # AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
-
+AWS_QUERYSTRING_AUTH = False
 # see http://developer.yahoo.com/performance/rules.html#expires
 AWS_HEADERS = {
     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
