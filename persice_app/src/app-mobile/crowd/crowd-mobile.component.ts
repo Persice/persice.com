@@ -1,30 +1,28 @@
 import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
 import {Router} from 'angular2/router';
 
-import {CrowdService} from "../../common/crowd/crowd.service";
-import {CrowdComponent} from "../../common/crowd/crowd.component";
-import {FilterComponent} from "../../app/shared/components/filter/filter.component";
-import {UsersListComponent} from "../../app/shared/components/users-list/users-list.component";
-import {LoadingComponent} from "../../app/shared/components/loading/loading.component";
-import {ProfileCrowdComponent} from "../../app/profile/profile-crowd.component";
-import {FriendService} from "../../app/shared/services/friend.service";
-import {FilterService} from "../../app/shared/services/filter.service";
+import {CrowdService} from '../../common/crowd';
+import {CrowdComponent} from '../../common/crowd';
+import {FilterMobileComponent} from '../shared/components/filter';
+import {UserCardMobileComponent} from '../shared/components/user-card';
+import {LoadingComponent} from '../../app/shared/components/loading';
+import {FriendService, FilterService} from '../../app/shared/services';
 
 declare var jQuery: any;
 
 @Component({
   selector: 'prs-mobile-crowd',
   template: require('./crowd-mobile.html'),
-  providers: [CrowdService, FriendService, FilterService],
+  providers: [CrowdService, FriendService],
   directives: [
-    FilterComponent,
-    UsersListComponent,
     LoadingComponent,
-    ProfileCrowdComponent
+    UserCardMobileComponent,
+    FilterMobileComponent
   ]
 })
 export class CrowdComponentMobile extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
   onRefreshList: Function;
+  isFilterVisible: boolean = false;
 
   constructor(
     protected crowdService: CrowdService,
@@ -33,6 +31,7 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
     protected _router: Router
   ) {
     super(crowdService, friendService, filterService, _router);
+    this.debounceTimeout = 0;
   }
 
   ngAfterViewInit() {
@@ -49,11 +48,16 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
     this.filterService.addObserver('crowd');
     this.filterService.observer('crowd')
       .subscribe(
-        (data) => {
-          this.onRefreshList();
-        },
-        (err) => console.log(err)
+      (data) => {
+        this.onRefreshList();
+      },
+      (err) => console.log(err)
       );
+
+    this.filterService.isVisibleEmitter
+      .subscribe((visibility: boolean) => {
+        this.isFilterVisible = visibility;
+      });
   }
 
   ngOnDestroy() {
