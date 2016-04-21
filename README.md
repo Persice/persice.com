@@ -19,7 +19,7 @@ echo 'marvel.agent.enabled: false' >> ./config/elasticsearch.yml
 # https://github.com/jprante/elasticsearch-jdbc
 ```
 
-#### Flush Contents Of a Memcached Server Using Command Line 
+#### Flush Contents Of a Memcached Server Using Command Line
 ```
 echo 'flush_all' | nc localhost 11211
 ```
@@ -139,6 +139,14 @@ select 'drop table "' || tablename || '" cascade;'
 ```
 update pg_database set datistemplate=true where datname='template_postgis';
 ```
+
+#### Fix Ubuntu clock
+sudo ntpdate ntp.ubuntu.com
+sudo apt-get install ntp
+
+#### How to sync AWS bucket and local folder
+pip install awscli
+aws s3 sync ./event_photos s3://persice/event_photos/
 
 #### Configure SSH keys
 ```

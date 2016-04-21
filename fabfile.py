@@ -159,7 +159,7 @@ def test():
 @task
 def collectstatic():
     require('hosts', provided_by=[production])
-    manage_py('collectstatic -l --noinput', use_sudo=True)
+    manage_py('collectstatic --noinput')
 
 
 @task

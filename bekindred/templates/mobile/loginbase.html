@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <!--[if IE 8]>    <html class=" no-js  is-scrollable-y ie8 oldie" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class=" no-js  is-scrollable-y ie9 oldie" lang="en"> <![endif]-->
@@ -15,7 +16,7 @@
   <link rel="dns-prefetch" href="//themes.googleusercontent.com">
   <link rel="dns-prefetch" href="//www.google-analytics.com">
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/static/dist/assets/css/vendor.mobile.min.css">
+  <link rel="stylesheet" href="{% static 'dist/assets/css/vendor.mobile.min.css' %}">
   <meta name="description" content="">
   <meta name="author" content="">
   {% include "login.scripts.header.html" %}
