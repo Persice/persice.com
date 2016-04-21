@@ -3,7 +3,7 @@ import {Router} from 'angular2/router';
 
 import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';
-import {FilterComponent} from '../shared/components/filter';
+import {FilterDesktopComponent} from '../shared/components/filter';
 import {ProfileCrowdComponent} from '../profile';
 
 import {
@@ -11,8 +11,8 @@ import {
   FilterService,
 } from '../shared/services';
 
-import {CrowdService} from "../../common/crowd/crowd.service";
-import {CrowdComponent} from "../../common/crowd/crowd.component";
+import {CrowdService} from '../../common/crowd/crowd.service';
+import {CrowdComponent} from '../../common/crowd/crowd.component';
 
 declare var jQuery: any;
 
@@ -21,7 +21,7 @@ declare var jQuery: any;
   template: require('./crowd.html'),
   providers: [CrowdService, FriendService],
   directives: [
-    FilterComponent,
+    FilterDesktopComponent,
     UsersListComponent,
     LoadingComponent,
     ProfileCrowdComponent
@@ -37,6 +37,7 @@ export class CrowdComponentDesktop extends CrowdComponent implements AfterViewIn
     protected _router: Router
   ) {
     super(crowdService, friendService, filterService, _router);
+    this.debounceTimeout = 300;
   }
 
   ngAfterViewInit() {
@@ -52,12 +53,7 @@ export class CrowdComponentDesktop extends CrowdComponent implements AfterViewIn
     // Create a new observer and subscribe.
     this.filterService.addObserver('crowd');
     this.filterService.observer('crowd')
-      .subscribe(
-      (data) => {
-        this.onRefreshList();
-      },
-      (err) => console.log(err)
-      );
+      .subscribe((data) => this.onRefreshList(), (err) => console.log(err));
   }
 
   ngOnDestroy() {

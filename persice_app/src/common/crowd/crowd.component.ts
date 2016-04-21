@@ -22,6 +22,7 @@ export abstract class CrowdComponent {
   routerInstance;
 
   onRefreshList: Function;
+  debounceTimeout: number = 0;
 
   constructor(
     protected crowdService: CrowdService,
@@ -29,7 +30,7 @@ export abstract class CrowdComponent {
     protected filterService: FilterService,
     protected _router: Router
   ) {
-    this.onRefreshList = debounce(this.refreshList, 300, { 'leading': false, 'trailing': true });
+    this.onRefreshList = debounce(this.refreshList, this.debounceTimeout, { 'leading': false, 'trailing': true });
     this.routerInstance = this._router.parent.subscribe(next => {
       this.closeProfile(true);
     });
