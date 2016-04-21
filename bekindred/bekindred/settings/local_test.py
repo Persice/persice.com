@@ -168,9 +168,10 @@ LOGGING = {
 
 # Amazon S3
 DEFAULT_FILE_STORAGE = 'photos.storage_backends.CachedS3BotoStorage'
-STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
+AWS_AUTO_CREATE_BUCKET = True
 # Your Amazon Web Services access key, as a string.
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 # Your Amazon Web Services secret access key, as a string.
