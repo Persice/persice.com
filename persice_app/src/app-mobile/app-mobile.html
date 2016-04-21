@@ -22,7 +22,7 @@
       <div class="layout__item 3/5 text-center">
         <h2 class="mob-header__title">Crowd</h2> </div>
       <div class="layout__item 1/5 text-right">
-        <a prs-mobile-right-menu-push class="mob-header__right-push" id="showRightPush">
+        <a (click)="setFilterVisible($event)" class="mob-header__right-push" id="showFilter">
           <svg role="img" class="icon icon--small">
             <use xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
           </svg>

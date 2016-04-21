@@ -1,26 +1,10 @@
-import {Component, Input, OnInit} from 'angular2/core';
+import {Input} from 'angular2/core';
 import {findIndex, isUndefined, debounce, throttle} from 'lodash';
 
-import {SelectDirective} from '../../directives';
-import {RangeSliderComponent} from './rangeslider.component';
-import {NumeralPipe} from '../../pipes';
+import {FilterModel, InterfaceFilter} from '../../app/shared/models';
+import {FilterService} from '../../app/shared/services';
 
-import {FilterModel, InterfaceFilter} from '../../models';
-import {FilterService} from '../../services';
-
-
-declare var jQuery: any;
-
-@Component({
-  selector: 'prs-filters',
-  directives: [
-    SelectDirective,
-    RangeSliderComponent
-  ],
-  pipes: [NumeralPipe],
-  template: require('./filter.html')
-})
-export class FilterComponent implements OnInit {
+export abstract class FilterComponent {
   @Input() showGender = true;
   @Input() type;
   filters: FilterModel;
@@ -79,9 +63,7 @@ export class FilterComponent implements OnInit {
 
   timeoutIdFiltersSave = null;
 
-  constructor(
-    public filterService: FilterService
-  ) {
+  constructor(protected filterService: FilterService) {
     this.saveDebounced = debounce(this.save, 500, { 'leading': true, 'trailing': true });
     this.filterService.find()
       .subscribe(data => this.setFilters(data),
@@ -95,24 +77,15 @@ export class FilterComponent implements OnInit {
     this.filters = new FilterModel(this.defaultState);
   }
 
-  ngOnInit() {
-    //change date label if page is crowd or connections
-    if (this.type === 'crowd' || this.type === 'connections') {
-      this.orderBy[2]['label'] = 'Recently Active';
-    }
-  }
-
   changeGender(value) {
     if (this.gender !== value) {
       this.gender = value;
       this.filters.state.gender = value;
       this.saveDebounced();
     }
-
   }
 
   changeOrder(value) {
-
     let index = findIndex(this.orderBy, (option) => {
       return option['value'].toLowerCase() === value.toLowerCase();
     });
@@ -162,8 +135,6 @@ export class FilterComponent implements OnInit {
       return option['value'] === this.filters.state.order_criteria.toLowerCase();
     });
 
-
-
     if (index !== -1) {
       this.orderBy[index]['selected'] = true;
     } else {
@@ -174,21 +145,13 @@ export class FilterComponent implements OnInit {
   }
 
   save() {
-
-
-    let data = this.filters.state;
     //prevent saving keywords
-    delete data.keyword;
-
-    let resourceUri = this.filters.state.resource_uri;
-
-    this.filterService.updateOne(resourceUri, data)
+    delete this.filters.state.keyword;
+    this.filterService
+      .updateOne(this.filters.state.resource_uri, this.filters.state)
       .subscribe(res => {
         this.filterService.publishObservers();
       });
-
-
   }
-
 
 }

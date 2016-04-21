@@ -1,5 +1,5 @@
-import { provide, Injectable } from 'angular2/core';
-import { Http, Response } from 'angular2/http';
+import {provide, Injectable, EventEmitter} from 'angular2/core';
+import {Http, Response} from 'angular2/http';
 import {HttpClient} from '../core';
 
 import * as Rx from 'rxjs';
@@ -13,6 +13,8 @@ import {remove, find, debounce} from 'lodash';
 @Injectable()
 export class FilterService {
   static API_URL: string = '/api/v1/filter/state2/';
+  isVisible: boolean = false;
+  isVisibleEmitter: EventEmitter<any> = new EventEmitter();
 
   static DEFAULT_FILTERS: InterfaceFilter = {
     cumulative_match_score: 0,
@@ -31,6 +33,11 @@ export class FilterService {
 
   constructor(private http: HttpClient) {
     this.publishObservers = this.publishObserversPrivate;
+  }
+
+  setVisibility(value) {
+    this.isVisible = value;
+    this.isVisibleEmitter.emit(value);
   }
 
   addObserver(name: string) {
@@ -65,9 +72,7 @@ export class FilterService {
   }
 
   public getDefaultState(): InterfaceFilter {
-
     return FilterService.DEFAULT_FILTERS;
-
   }
 
   public findOneByUri(resourceUri: string): Observable<any> {

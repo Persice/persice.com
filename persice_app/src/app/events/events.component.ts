@@ -9,7 +9,7 @@ import {
 
 import {StringUtil} from '../shared/core';
 
-import {FilterComponent} from '../shared/components/filter';
+import {FilterDesktopComponent} from '../shared/components/filter';
 
 import {EventsListSubnavComponent} from './events-list-subnav';
 
@@ -39,7 +39,7 @@ import {
     EventsListSubnavComponent,
     ROUTER_DIRECTIVES,
     RouterLink,
-    FilterComponent
+    FilterDesktopComponent
   ]
 })
 @RouteConfig([

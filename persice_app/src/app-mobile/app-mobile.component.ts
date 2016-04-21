@@ -23,6 +23,8 @@ import {
 import {NavigationMobileComponent} from './navigation';
 import {CrowdComponentMobile} from "./crowd/crowd-mobile.component";
 
+import {FilterService} from '../app/shared/services';
+
 /*
  * Persice App Component
  * Top Level Component
@@ -68,7 +70,8 @@ import {CrowdComponentMobile} from "./crowd/crowd-mobile.component";
   selector: 'persice-mobile-app',
   template: require('./app-mobile.html'),
   providers: [
-    BrowserDomAdapter
+    BrowserDomAdapter,
+    FilterService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -81,25 +84,25 @@ import {CrowdComponentMobile} from "./crowd/crowd-mobile.component";
   encapsulation: ViewEncapsulation.None
 })
 export class AppMobileComponent implements OnInit {
-
   constructor(
     private _router: Router,
-    private _dom: BrowserDomAdapter
+    private _dom: BrowserDomAdapter,
+    private _filterService: FilterService
   ) {
 
   }
 
   ngOnInit() {
     this._router.subscribe((next) => {
-      // If route changed, close menus
+      // If route changed, close left navigation menu
       if (this._dom.hasClass(this._dom.query('.container'), 'push-menu-push--toright')) {
         this._dom.removeClass(this._dom.query('.container'), 'push-menu-push--toright');
         this._dom.removeClass(this._dom.query('#push-menu-s1'), 'is-open');
       }
-      if (this._dom.hasClass(this._dom.query('.container'), 'push-menu-push--toleft')) {
-        this._dom.removeClass(this._dom.query('.container'), 'push-menu-push--toleft');
-        this._dom.removeClass(this._dom.query('#push-menu-s2'), 'is-open');
-      }
     });
+  }
+
+  setFilterVisible() {
+    this._filterService.setVisibility(true);
   }
 }

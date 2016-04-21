@@ -2635,8 +2635,10 @@ html.fusion {
 html,
 body {
   height: 100%;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
 }
 
 body.bg-gray {
@@ -8354,7 +8356,7 @@ li>ol {
 
 .is-scrollable-y {
   overflow-x: hidden !important;
-  overflow-y: auto !important
+  overflow-y: scroll !important
 }
 
 .is-scrollable-x {
@@ -8573,7 +8575,8 @@ li>ol {
 
 .is-visible {
   visibility: visible;
-  opacity: 1
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
 }
 
 .search__notification.is-visible,
@@ -8679,4 +8682,36 @@ li>ol {
 
 .btn--connect__label {
   font-size: 10px;
+}
+
+.avatar-place .avatar {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+html {
+  overflow-x: hidden!important;
+}
+
+.is-hidden {
+  visibility: hidden!important;
+  opacity: 0!important;
+  transition: all 0.3s ease;
+}
+
+.filter-container {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100vh!important;
+  background: #eff4f6;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+}
+
+.filter-container.is-visible {
+  visibility: visible;
+  opacity: 1;
 }

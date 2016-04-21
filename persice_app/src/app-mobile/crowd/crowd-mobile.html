@@ -1,23 +1,5 @@
-<div class="user-card" *ngFor="#person of items">
-  <div class="flag flag--small">
-    <div class="flag__img">
-      <div class="avatar-place"> <img src="{{person.image}}" alt="" class="avatar avatar--small">
-        <div class="match-percent">
-          <canvas width="50" height="50"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="flag__body">
-      <div class="user-card__similarity">
-        <span class="user-card__similarity__value">
-          <svg role="img" class="icon icon--extratiny">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mob-similar"></use>
-          </svg> {{person.score}}°
-        </span>
-        <span class="user-card__similarity__label">Similar</span>
-      </div>
-      <div class="user-card__name"> {{person.first_name}} </div>
-      <div class="user-card__user-details"> {{person.gender === 'm' ? 'male' : 'female'}} / Age {{person.age}} / {{person.distance[0]}} miles </div>
-    </div>
-  </div>
+<div [ngClass]="{'is-hidden': isFilterVisible}">
+  <prs-mobile-user-card [person]="person" *ngFor="#person of items"></prs-mobile-user-card>
+  <prs-loading [status]="loading"></prs-loading>
 </div>
+<prs-mobile-filter [isVisible]="isFilterVisible" [type]="'crowd'"></prs-mobile-filter>
