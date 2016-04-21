@@ -17,7 +17,7 @@ declare var jQuery: any;
     <input type="text" value="" name="range" class="{{class}}">
   `
 })
-export class RangeSliderComponent implements OnInit, OnChanges, OnDestroy {
+export class SliderComponent implements OnInit, OnChanges, OnDestroy {
   @Input() options;
   @Input() renderSlider;
   @Input() class;
@@ -25,7 +25,6 @@ export class RangeSliderComponent implements OnInit, OnChanges, OnDestroy {
   @Output() onFinish: EventEmitter<any> = new EventEmitter();
 
   el: ElementRef;
-
   slider;
 
   constructor(el: ElementRef) {
@@ -33,7 +32,7 @@ export class RangeSliderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    let rangesliderEl = this.el.nativeElement.children[0];
+    let rangesliderEl = this.el.nativeElement;
 
     this.options['onFinish'] = (data) => {
       this.onFinish.next({
@@ -53,7 +52,6 @@ export class RangeSliderComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes) {
-
     if (this.slider && changes.renderSlider) {
       this.slider.update(this.options);
     }
