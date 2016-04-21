@@ -88,7 +88,7 @@ export class MessagesService {
 
   private _appendMessage(data) {
     this._dataStore[this._dataStore.length - 1].data = [...this._dataStore[this._dataStore.length - 1].data, {
-      image: data.sender_image.indexOf('media') === -1 ? '/media/' + data.sender_image : data.sender_image,
+      image: this._checkImage(data.sender_image),
       name: data.sender_name,
       username: data.sender_sender,
       body: data.body,
@@ -98,6 +98,15 @@ export class MessagesService {
     this._total_count++;
     this._newMessage = true;
     this._notify();
+  }
+
+
+  private _checkImage(field) {
+    if (field.indexOf('media') === -1 && field.indexOf('http')) {
+      return '/media/' + field;
+    } else {
+      return field;
+    }
   }
 
   private _loadMessages(limit: number, user: any, more: boolean) {
@@ -173,7 +182,7 @@ export class MessagesService {
       }
 
       this._dataStore[idx].data = [...this._dataStore[idx].data, {
-        image: m[i].sender_image.indexOf('media') === -1 ? '/media/' + m[i].sender_image : m[i].sender_image,
+        image: this._checkImage(m[i].sender_image),
         name: m[i].sender_name,
         username: m[i].sender_sender,
         body: m[i].body,
