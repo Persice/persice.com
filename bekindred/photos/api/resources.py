@@ -92,7 +92,7 @@ class UserResource(ModelResource):
 
         # TODO chane user_id to url from user_id
         bundle.data['twitter_provider'], bundle.data['linkedin_provider'], \
-            bundle.data['twitter_username'] = \
+            bundle.data['twitter_username'], bundle.data['linkedin_first_name'] = \
             social_extra_data(bundle.request.user.id)
 
         if bundle.obj.id != bundle.request.user.id:

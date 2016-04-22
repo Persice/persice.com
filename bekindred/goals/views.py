@@ -83,11 +83,13 @@ def main_app(request, template_name="homepage_mainapp.html"):
 
 @login_required
 def signup_page(request, template_name="homepage_signup.html"):
-    twitter_provider, linkedin_provider, twitter_username = social_extra_data(request.user.id)
+    twitter_provider, linkedin_provider, twitter_username, linkedin_first_name \
+        = social_extra_data(request.user.id)
     context = RequestContext(request, {
         'twitter_provider': twitter_provider,
         'linkedin_provider': linkedin_provider,
         'twitter_username': twitter_username,
+        'linkedin_first_name': linkedin_first_name,
     })
 
     if request.user.is_authenticated():

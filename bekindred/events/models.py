@@ -7,7 +7,7 @@ from djorm_pgfulltext.fields import VectorField
 from djorm_pgfulltext.models import SearchManagerMixIn, SearchQuerySet
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import fromstr
-from easy_thumbnails import fields
+from easy_thumbnails.fields import ThumbnailerImageField
 from django.contrib.gis.db.models.query import GeoQuerySet
 
 
@@ -58,8 +58,8 @@ class Event(models.Model):
                                     default=ACCESS_LEVEL_CHOICES[0],
                                     max_length=20)
     access_user_list = models.TextField(null=True, blank=True)
-    event_photo = models.FileField(null=True,
-                                   upload_to='event_photos/%Y/%m/%d')
+    event_photo = ThumbnailerImageField(null=True,
+                                        upload_to='event_photos/%Y/%m/%d')
 
     search_index = VectorField()
 
