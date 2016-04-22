@@ -95,7 +95,8 @@ module.exports = function(config) {
       reporters: [
         { type: 'text-summary' },
         { type: 'json' },
-        { type: 'html' }
+        { type: 'html' },
+        { type: 'cobertura', file: 'coverage.xml' }
       ]
     },
 
