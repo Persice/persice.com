@@ -1676,7 +1676,6 @@
       this.highlight = !!o.highlight;
       this.name = o.name || nameGenerator();
       this.limit = o.limit || 5;
-      console.log('limiter', this.limit);
       this.displayFn = getDisplayFn(o.display || o.displayKey);
       this.templates = getTemplates(o.templates, this.displayFn);
       this.source = o.source.__ttAdapter ? o.source.__ttAdapter() : o.source;
