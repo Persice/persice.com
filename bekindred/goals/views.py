@@ -51,10 +51,11 @@ def profile_view(request, username):
 
 @login_required
 def main_app(request, template_name="homepage_mainapp.html"):
-    twitter_provider, linkedin_provider, twitter_username = social_extra_data(request.user.id)
+    twitter_provider, linkedin_provider, twitter_username, linkedin_first_name = social_extra_data(request.user.id)
     context = RequestContext(request, {
         'twitter_provider': twitter_provider,
         'linkedin_provider': linkedin_provider,
+        'linkedin_first_name': linkedin_first_name,
         'twitter_username': twitter_username,
     })
 
