@@ -70,7 +70,7 @@ export class EditInterestsComponent implements OnInit, OnDestroy {
   initializeTokenInput() {
     let keywordsEngine = new Bloodhound({
       remote: {
-        url: '/api/v1/interest_subject/?format=json&limit=100&description__icontains=%QUERY',
+        url: '/api/v1/interest_subject/?format=json&limit=30&description__icontains=%QUERY',
         filter: (x: any) => {
           return jQuery.map(x.objects, (item) => {
             return item.description;
@@ -92,7 +92,7 @@ export class EditInterestsComponent implements OnInit, OnDestroy {
       },
       {
         source: keywordsEngine,
-        limit: 100
+        limit: 30
       }
     );
 

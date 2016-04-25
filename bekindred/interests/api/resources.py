@@ -46,8 +46,6 @@ class InterestSubjectResource(ModelResource):
         filtering = {
             'description': ALL
         }
-        limit = 30
-        max_limit = limit
         authentication = SessionAuthentication()
         authorization = Authorization()
 
