@@ -118,7 +118,7 @@ export class UserAuthService {
     this.connectStatus.twitter.username = data.twitter_username ? '@' + data.twitter_username : 'Your twitter account';
     this.connectStatus.twitter.url = data.twitter_username ? 'https://twitter.com/' + data.twitter_username : 'Your twitter account';
     this.connectStatus.linkedin.connected = data.linkedin_provider !== null ? true : false;
-    this.connectStatus.linkedin.username = data.linkedin_provider ? data.first_name : 'Your linkedin account';
+    this.connectStatus.linkedin.username = data.linkedin_first_name ? data.linkedin_first_name : 'Your linkedin account';
     this.connectStatus.linkedin.url = data.linkedin_provider ? data.linkedin_provider : 'Your linkedin account';
   }
 
