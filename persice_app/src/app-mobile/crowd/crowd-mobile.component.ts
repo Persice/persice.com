@@ -1,5 +1,4 @@
 import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
-import {Router} from 'angular2/router';
 
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
@@ -27,10 +26,9 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
   constructor(
     protected crowdService: CrowdService,
     protected friendService: FriendService,
-    protected filterService: FilterService,
-    protected _router: Router
+    protected filterService: FilterService
   ) {
-    super(crowdService, friendService, filterService, _router);
+    super(crowdService, friendService, filterService);
     this.debounceTimeout = 0;
   }
 
@@ -66,7 +64,5 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
     if (this.serviceInstance) {
       this.serviceInstance.unsubscribe();
     }
-
-    this.routerInstance.unsubscribe();
   }
 }

@@ -11,8 +11,7 @@ import {
   FilterService,
 } from '../shared/services';
 
-import {CrowdService} from '../../common/crowd/crowd.service';
-import {CrowdComponent} from '../../common/crowd/crowd.component';
+import {CrowdService, CrowdComponent} from '../../common/crowd';
 
 declare var jQuery: any;
 
@@ -29,6 +28,7 @@ declare var jQuery: any;
 })
 export class CrowdComponentDesktop extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
   onRefreshList: Function;
+  routerInstance;
 
   constructor(
     protected crowdService: CrowdService,
@@ -36,7 +36,7 @@ export class CrowdComponentDesktop extends CrowdComponent implements AfterViewIn
     protected filterService: FilterService,
     protected _router: Router
   ) {
-    super(crowdService, friendService, filterService, _router);
+    super(crowdService, friendService, filterService);
     this.debounceTimeout = 300;
   }
 
@@ -47,6 +47,10 @@ export class CrowdComponentDesktop extends CrowdComponent implements AfterViewIn
   }
 
   ngOnInit() {
+    this.routerInstance = this._router.parent.subscribe(next => {
+      this.closeProfile(true);
+    });
+
     this.total_count = 0;
     this.getList();
 

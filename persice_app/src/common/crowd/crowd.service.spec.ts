@@ -9,10 +9,10 @@ import {BaseRequestOptions, ConnectionBackend, Http, Response,
 } from 'angular2/http';
 
 
-import { MockBackend} from 'angular2/http/testing';
+import {MockBackend} from 'angular2/http/testing';
 import {RequestMethod} from 'angular2/src/http/enums';
 import {CrowdService} from './crowd.service';
-import {crowd} from './crowd.service.mock';
+import {MockCrowd} from './crowd.mock';
 import {HttpClient} from "../../app/shared/core/http-client";
 
 describe('CrowdService', () => {
@@ -59,10 +59,10 @@ describe('CrowdService', () => {
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethod.Get, crowd);
+    ensureCommunication(backend, RequestMethod.Get, MockCrowd);
     service.get('', 12)
       .subscribe(resp => {
-        expect(resp).toBe(crowd);
+        expect(resp).toBe(MockCrowd);
         done();
       });
   });

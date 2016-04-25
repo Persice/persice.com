@@ -8,7 +8,7 @@ export class CrowdService {
   static API_URL: string = '/api/v1/matchfeed/';
   next: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(protected http: HttpClient) {}
 
   public get(url: string, limit: number): Observable<any> {
 

@@ -2,7 +2,6 @@ import {CrowdService} from './crowd.service';
 import {remove, findIndex, debounce} from 'lodash';
 import {FriendService} from "../../app/shared/services/friend.service";
 import {FilterService} from "../../app/shared/services/filter.service";
-import {Router} from "angular2/router";
 
 declare var jQuery: any;
 
@@ -19,7 +18,6 @@ export abstract class CrowdComponent {
   selectedUser = null;
   currentIndex = 0;
   serviceInstance;
-  routerInstance;
 
   onRefreshList: Function;
   debounceTimeout: number = 0;
@@ -27,13 +25,9 @@ export abstract class CrowdComponent {
   constructor(
     protected crowdService: CrowdService,
     protected friendService: FriendService,
-    protected filterService: FilterService,
-    protected _router: Router
+    protected filterService: FilterService
   ) {
     this.onRefreshList = debounce(this.refreshList, this.debounceTimeout, { 'leading': false, 'trailing': true });
-    this.routerInstance = this._router.parent.subscribe(next => {
-      this.closeProfile(true);
-    });
   }
 
   getList() {
@@ -50,14 +44,12 @@ export abstract class CrowdComponent {
     this.serviceInstance = this.crowdService.get(this.next, this.limit)
       .subscribe(
       data => {
-        this.serviceInstance.unsubscribe();
         this.assignList(data);
       },
       (err) => {
         console.log(err);
         this.loading = false;
         this.loadingInitial = false;
-        this.serviceInstance.unsubscribe();
       },
       () => {
 

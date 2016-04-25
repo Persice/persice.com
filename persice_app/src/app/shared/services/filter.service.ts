@@ -13,9 +13,6 @@ import {remove, find, debounce} from 'lodash';
 @Injectable()
 export class FilterService {
   static API_URL: string = '/api/v1/filter/state2/';
-  isVisible: boolean = false;
-  isVisibleEmitter: EventEmitter<any> = new EventEmitter();
-
   static DEFAULT_FILTERS: InterfaceFilter = {
     cumulative_match_score: 0,
     distance: 10000,
@@ -26,6 +23,9 @@ export class FilterService {
     max_age: '60',
     order_criteria: 'match_score'
   };
+
+  isVisible: boolean = false;
+  isVisibleEmitter: EventEmitter<any> = new EventEmitter();
 
   observers: any[] = [];
 
