@@ -1,9 +1,10 @@
 {% extends 'mobile/loginbase.html' %}
+{% load static from staticfiles %}
 {% block title %}Persice - Login{% endblock %}
 {% block content %}
 <div class="mob-signup-landing">
   <a class="site-logo " href="Persice" href="/accounts/login">
-    <img alt="#" src="/static/assets/images/logo.svg" class="site-logo__mark">
+    <img alt="#" src="{% static 'assets/images/logo.svg' %}" class="site-logo__mark">
     <h1 class="site-logo__type">Persice</h1> </a>
   <h2 class="mob-signup-title">Real world connections</h2>
   <p class="mob-signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
@@ -15,7 +16,7 @@
         <a onclick="login(this.parentNode); return false;" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
         <p class="mob-signup-subtitle mb0">
           <svg role="img" class="icon ">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-lock"></use>
+            <use xlink:href="{% static 'assets/icons/icons.svg#icon-lock' %}"></use>
           </svg> We don't post anything to Facebook
         </p>
       </form>

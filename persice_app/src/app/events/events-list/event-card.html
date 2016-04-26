@@ -1,7 +1,7 @@
 <a class="card card--event" [routerLink]="['/EventDetails', {eventId: event.id}]">
   <div class="card--event__inside js-match-height-1">
     <div class="card--event__img">
-      <div class="card--event__img__holder js-image-liquid" [ngStyle]="{'background-image': 'url(' + photo + ')', 'background-size': 'cover', 'background-position': '50% 50%', 'background-repeat': 'no-repeat'}">
+      <div class="card--event__img__holder js-image-liquid" checkimage="{{photo}}" [suffix]="'.300x200_q100_crop.jpg'">
       </div>
     </div>
     <div class="card--event__info">

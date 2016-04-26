@@ -9,7 +9,7 @@ from django.conf.urls import url
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.core.paginator import InvalidPage, Paginator
-from django.db.models import F
+from django.db.models import F, Max
 from django.http import Http404
 from django_facebook.models import FacebookCustomUser
 from haystack.backends import SQ
@@ -92,7 +92,7 @@ class UserResource(ModelResource):
 
         # TODO chane user_id to url from user_id
         bundle.data['twitter_provider'], bundle.data['linkedin_provider'], \
-            bundle.data['twitter_username'] = \
+            bundle.data['twitter_username'], bundle.data['linkedin_first_name'] = \
             social_extra_data(bundle.request.user.id)
 
         if bundle.obj.id != bundle.request.user.id:
@@ -162,7 +162,7 @@ class UserResource(ModelResource):
 class FacebookPhotoResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
     cropped_photo = fields.FileField(attribute="cropped_photo", null=True,
-                                     blank=True)
+                                     blank=True, readonly=True)
 
     class Meta:
         queryset = FacebookPhoto.objects.all()
@@ -193,11 +193,18 @@ class FacebookPhotoResource(ModelResource):
         qs = FacebookPhoto.objects.filter(
             user_id=bundle.request.user.id)
         count = qs.count()
+        max_order = qs.aggregate(Max('order')).get('order__max')
+        photo_id = kwargs.get('pk')
+        target = qs.get(pk=photo_id)
         try:
             if count == 1:
                 raise Unauthorized()
-            else:
+            elif target.order == 0:
                 qs.exclude(order=0).update(order=F('order') - 1)
+            elif target.order == max_order:
+                pass
+            else:
+                qs.filter(order__gt=target.order).update(order=F('order') - 1)
         except Unauthorized as e:
             self.unauthorized_result(e)
         return super(FacebookPhotoResource, self).obj_delete(bundle, **kwargs)

@@ -21,13 +21,9 @@ import {
   RightMenuPushDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdMobileComponent} from './crowd';
-import {ConnectionsMobileComponent} from './connections';
-import {SettingsMobileComponent} from './settings';
-import {EventsMobileComponent} from './events';
-import {MessagesMobileComponent} from './messages';
-import {MyProfileMobileComponent} from './my-profile';
+import {CrowdComponentMobile} from "./crowd/crowd-mobile.component";
 
+import {FilterService} from '../app/shared/services';
 
 /*
  * Persice App Component
@@ -40,7 +36,7 @@ import {MyProfileMobileComponent} from './my-profile';
   },
   {
     path: '/crowd',
-    component: CrowdMobileComponent,
+    component: CrowdComponentMobile,
     name: 'Crowd',
     useAsDefault: true
   },
@@ -74,7 +70,8 @@ import {MyProfileMobileComponent} from './my-profile';
   selector: 'persice-mobile-app',
   template: require('./app-mobile.html'),
   providers: [
-    BrowserDomAdapter
+    BrowserDomAdapter,
+    FilterService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -87,27 +84,31 @@ import {MyProfileMobileComponent} from './my-profile';
   encapsulation: ViewEncapsulation.None
 })
 export class AppMobileComponent implements OnInit {
-
+  isHeaderHidden: boolean = false;
   constructor(
     private _router: Router,
-    private _dom: BrowserDomAdapter
+    private _dom: BrowserDomAdapter,
+    private filterService: FilterService
   ) {
 
   }
 
   ngOnInit() {
     this._router.subscribe((next) => {
-      // If route changed, close menus
+      // If route changed, close left navigation menu
       if (this._dom.hasClass(this._dom.query('.container'), 'push-menu-push--toright')) {
         this._dom.removeClass(this._dom.query('.container'), 'push-menu-push--toright');
         this._dom.removeClass(this._dom.query('#push-menu-s1'), 'is-open');
       }
-      if (this._dom.hasClass(this._dom.query('.container'), 'push-menu-push--toleft')) {
-        this._dom.removeClass(this._dom.query('.container'), 'push-menu-push--toleft');
-        this._dom.removeClass(this._dom.query('#push-menu-s2'), 'is-open');
-      }
     });
+
+    this.filterService.isVisibleEmitter
+      .subscribe((visibility: boolean) => {
+        this.isHeaderHidden = visibility;
+      });
   }
 
-
+  setFilterVisible() {
+    this.filterService.setVisibility(true);
+  }
 }

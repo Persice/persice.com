@@ -44,7 +44,7 @@ export class SignupGoalsMobileComponent {
   initializeTokenInput() {
     let keywordsEngine = new Bloodhound({
       remote: {
-        url: '/api/v1/subject/?format=json&description__icontains=%QUERY',
+        url: '/api/v1/subject/?format=json&limit=30&description__icontains=%QUERY',
         filter: (x: any) => {
           return jQuery.map(x.objects, (item) => {
             return item.description;
@@ -67,7 +67,7 @@ export class SignupGoalsMobileComponent {
         },
         {
           source: keywordsEngine,
-          limit: 20
+          limit: 30
         }
     );
 

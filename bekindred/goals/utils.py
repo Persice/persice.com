@@ -336,7 +336,8 @@ def get_mutual_twitter_friends(user_id1, user_id2):
 
 
 def social_extra_data(user_id):
-    twitter_name, twitter_provider, linkedin_provider = None, None, None
+    twitter_name, twitter_provider, linkedin_provider, linkedin_first_name \
+        = None, None, None, None
     try:
         qs = UserSocialAuth.objects.filter(user_id=user_id, provider='twitter')[0]
         twitter_provider = qs.extra_data['name']
@@ -344,11 +345,12 @@ def social_extra_data(user_id):
     except IndexError:
         pass
     try:
-        linkedin_provider = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0].extra_data[
-            'public_profile_url']
-    except IndexError:
+        user_social = UserSocialAuth.objects.filter(user_id=user_id, provider='linkedin')[0]
+        linkedin_provider = user_social.extra_data['public_profile_url']
+        linkedin_first_name = user_social.extra_data['first_name']
+    except (IndexError, KeyError):
         pass
-    return twitter_provider, linkedin_provider, twitter_name
+    return twitter_provider, linkedin_provider, twitter_name, linkedin_first_name
 
 
 def get_current_position(user):

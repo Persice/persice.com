@@ -2,12 +2,13 @@ import {Component, ChangeDetectionStrategy, Input} from 'angular2/core';
 import {RouterLink} from 'angular2/router';
 
 import {DateUtil} from '../../shared/core';
+import {CheckImageDirective} from '../../shared/directives';
 
 @Component({
   selector: 'prs-event-card',
   template: require('./event-card.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [RouterLink]
+  directives: [RouterLink, CheckImageDirective]
 })
 export class EventCardComponent {
   @Input () event: any;

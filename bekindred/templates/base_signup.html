@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <!--[if IE 8]>    <html class=" no-js ie8 oldie" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class=" no-js ie9 oldie" lang="en"> <![endif]-->
@@ -23,7 +24,7 @@
   <!-- <link rel="stylesheet" href="http://localhost:3001/css/screen.css" />
   <link rel="stylesheet" href="http://localhost:3001/css/app.css" /> -->
   <!-- prod mode -->
-  <link rel="stylesheet" href="/static/dist/assets/css/vendor.min.css" />
+  <link rel="stylesheet" href="{% static 'dist/assets/css/vendor.min.css' %}" />
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
   <meta name="description" content="">
   <meta name="author" content="">
@@ -43,16 +44,16 @@
   </persice-signup>
   <!-- Theme scripts -->
   <!-- development only   -->
- <!--  <script src="http://localhost:8080/assets/js/plugins.min.js"></script>
+<!--   <script src="http://localhost:8080/assets/js/plugins.min.js"></script>
   <script src="http://localhost:8080/polyfills.bundle.js"></script>
   <script src="http://localhost:8080/vendor.bundle.js"></script>
   <script src="http://localhost:8080/signup.bundle.js"></script>
  -->
   <!-- production only  -->
-  <script src="/static/dist/assets/js/plugins.min.js"></script>
-  <script src="/static/dist/polyfills.6a6c2a288d71315f6fe6.bundle.js"></script>
-  <script src="/static/dist/vendor.5accec84ca1cfdb710e8.bundle.js"></script>
-  <script src="/static/dist/signup.6d6e0110957d0d9da16b.bundle.js"></script>
+  <script src="{% static 'dist/assets/js/plugins.min.js' %} "></script>
+  <script src="{% static 'dist/polyfills.31c83fcce2f87286a43a.bundle.js' %} "></script>
+  <script src="{% static 'dist/vendor.5accec84ca1cfdb710e8.bundle.js' %} "></script>
+  <script src="{% static 'dist/signup.c300f63792a9938c5da7.bundle.js' %} "></script>
 
   {% include "base.scripts.footer.html" %}
 

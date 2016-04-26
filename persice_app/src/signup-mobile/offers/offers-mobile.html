@@ -1,0 +1,43 @@
+<div class="search search--signup">
+  <div class="search__top typeahead-search">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
+    </svg>
+    <input [(ngModel)]="newOfferText" (keyup)="inputChanged($event)" id="offersInput" type="text" class="search__input typeahead" placeholder="Enter a few offers here">
+    <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
+      </svg>
+    </div>
+    <div class="search__notification search__notification--succes" [ngClass]="{'is-visible': status === 'success'}">
+      <svg role="img" class="icon ">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
+      </svg>
+    </div>
+    <button class="btn">
+      <svg role="img" class="icon ">
+        <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="search__tags-wrapper text-left" id="interests" *ngIf="offers.length > 0">
+  <p class="search-tag-secondary" *ngFor="#offer of offers">
+    <a (click)="removeOffer(offer)">
+      <svg role="img" class="icon ">
+      <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+    </svg>
+    </a> {{ offer.subject }}
+  </p>
+</div>
+
+<div class="search__tags-wrapper text-left has-mob-signup-empty-state" *ngIf="offers.length === 0">
+  <div class="mob-signup-empty-state"> <svg role="img" class="icon mob-signup-empty-state__icon">
+    <use xlink:href="/static/assets/icons/icons.svg#no-offers"></use>
+  </svg>
+    <h3 class="mob-signup-empty-state__title">"Offers" are things you <br>can help other people achieve.</h3>
+    <p class="mob-signup-empty-state__par mob-signup-empty-state__par--prom">For example:</p>
+    <p class="mob-signup-empty-state__par">"Practice speaking Spanish" or<br> "Find a tennis partner"</p>
+  </div>
+</div>

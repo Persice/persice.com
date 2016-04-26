@@ -95,7 +95,8 @@ module.exports = function(config) {
       reporters: [
         { type: 'text-summary' },
         { type: 'json' },
-        { type: 'html' }
+        { type: 'html' },
+        { type: 'cobertura', file: 'coverage.xml' }
       ]
     },
 
@@ -105,7 +106,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['dots', 'coverage'],
+    reporters: ['mocha', 'coverage'],
 
     junitReporter: {
       outputDir: 'test_results/',

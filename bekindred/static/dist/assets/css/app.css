@@ -946,7 +946,6 @@ li.features-list__match {
   color: #8f989c
 }
 
-
 .event-content {
   opacity: 0;
   visibility: hidden;
@@ -956,4 +955,11 @@ li.features-list__match {
 .event-content.is-visible {
   opacity: 1;
   visibility: visible;
+}
+
+.event-photo-map__content,
+.card--event__img__holder {
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
 }

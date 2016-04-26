@@ -2,7 +2,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
 
 import {EventService, NotificationService} from '../../shared/services';
-
+import {CheckImageDirective} from '../../shared/directives';
 import {FileUtil} from '../../shared/core';
 
 import {
@@ -23,7 +23,11 @@ declare var jQuery: any;
 @Component({
   selector: 'prs-event-photo-map',
   template: require('./event-photo-map.html'),
-  directives: [ANGULAR2_GOOGLE_MAPS_DIRECTIVES, CORE_DIRECTIVES],
+  directives: [
+    ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
+    CORE_DIRECTIVES,
+    CheckImageDirective
+  ],
   providers: [EventService]
 })
 export class EventPhotoMapComponent {

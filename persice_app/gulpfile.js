@@ -9,7 +9,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
 
-var HOST = '192.168.1.3:3002';
+var HOST = 'localhost:3002';
 
 var jsFiles = [
   './lib/js/jquery-2.1.4.min.js',

@@ -3,7 +3,7 @@ import {Router} from 'angular2/router';
 
 import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';
-import {FilterComponent} from '../shared/components/filter';
+import {FilterDesktopComponent} from '../shared/components/filter';
 import {ProfileFriendComponent} from '../profile';
 
 import {ConnectionsService, FilterService} from '../shared/services';
@@ -16,7 +16,7 @@ declare var jQuery: any;
   selector: 'prs-connections',
   template: require('./connections.html'),
   directives: [
-    FilterComponent,
+    FilterDesktopComponent,
     UsersListComponent,
     LoadingComponent,
     ProfileFriendComponent

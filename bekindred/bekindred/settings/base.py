@@ -85,7 +85,7 @@ SOUTH_MIGRATION_MODULES = {
 }
 
 THUMBNAIL_ALIASES = {
-    '': {
+    'photos.Photo.cropped_photo': {
         '56x56': {'size': (56, 56), 'crop': True, 'quality': 100},
         '89x89': {'size': (89, 89), 'crop': True, 'quality': 100},
         '120x120': {'size': (120, 120), 'crop': True, 'quality': 100},
@@ -93,6 +93,11 @@ THUMBNAIL_ALIASES = {
         '230x230': {'size': (230, 230), 'crop': True, 'quality': 100},
         '387x387': {'size': (387, 387), 'crop': True, 'quality': 100},
     },
+    'events.Event.event_photo': {
+        '56x56': {'size': (56, 56), 'crop': True, 'quality': 100},
+        '300x200': {'size': (300, 200), 'crop': True, 'quality': 100},
+        '1000x364': {'size': (1000, 364), 'crop': True, 'quality': 100},
+    }
 }
 
 MIDDLEWARE_CLASSES = (
@@ -153,8 +158,6 @@ STATICFILES_FINDERS = (
 )
 
 STATIC_URL = '/static/'
-
-# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
@@ -334,24 +337,3 @@ ELASTICSEARCH_INDEX_SETTINGS = {
 }
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
-# Amazone
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
-# Your Amazon Web Services access key, as a string.
-# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-# Your Amazon Web Services secret access key, as a string.
-# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-# Your Amazon Web Services storage bucket name, as a string.
-# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME',
-#                                     'persice.s3.amazonaws.com')
-# The way you'd like to call the Amazon Web Services API,
-# for instance if you prefer subdomains:
-# from S3 import CallingFormat
-# AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
-
-# see http://developer.yahoo.com/performance/rules.html#expires
-# AWS_HEADERS = {
-#     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
-#     'Cache-Control': 'max-age=86400',
-# }
