@@ -16,7 +16,9 @@
         <span class="user-card__similarity__label">Similar</span>
       </div>
       <div class="user-card__name"> {{person.first_name}} </div>
-      <div class="user-card__user-details"> {{person.gender === 'm' ? 'male' : 'female'}} / Age {{person.age}} / {{person.distance[0]}} miles </div>
+      <div class="user-card__user-details">
+        {{person.gender === 'm' ? 'male' : 'female'}} / Age {{person.age}} / {{person.distance[0]}} {{person.distance[1]}}
+      </div>
     </div>
   </div>
 </div>
