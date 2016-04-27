@@ -1,24 +1,33 @@
 <div class="user-card">
-  <div class="flag flag--small">
+  <div class="flag flag--small flag--top">
     <div class="flag__img">
       <div class="avatar-place">
-        <div class="avatar avatar--small" checkimage="{{person.image}}" [suffix]="'.56x56_q100_crop.jpg'">
+        <div class="avatar avatar--small" checkimage="{{_person.image}}" [suffix]="'.56x56_q100_crop.jpg'">
         </div>
       </div>
     </div>
     <div class="flag__body">
-      <div class="user-card__similarity">
+      <div class="user-card__name"> {{_person.first_name}} </div>
+      <div class="user-card__user-details"> {{_person.gender | gender}} / Age {{_person.age}} / {{_person.distance[0]}} {{_person.distance[1]}} </div>
+      <a (click)="toggleInterestsVisible($event)" class="user-card__similarity js-user-card__similarity" [ngClass]="{'is-open': interestsVisible }">
         <span class="user-card__similarity__value">
           <svg role="img" class="icon icon--extratiny">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mob-similar"></use>
-          </svg> {{person.score}}&deg;
+            <use xlink:href="/static/assets/icons/icons.svg#icon-mob-similar"></use>
+          </svg> {{_person.score}}&deg;
         </span>
         <span class="user-card__similarity__label">Similar</span>
-      </div>
-      <div class="user-card__name"> {{person.first_name}} </div>
-      <div class="user-card__user-details">
-        {{person.gender === 'm' ? 'male' : 'female'}} / Age {{person.age}} / {{person.distance[0]}} {{person.distance[1]}}
-      </div>
+        <svg role="img" class="icon icon--extratiny icon-arrow">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-down-small"></use>
+        </svg>
+        <div class="user-card__similarity__drop" [ngClass]="{'is-open': interestsVisible }">
+          <ul class="user-card__similarity__list">
+            <li *ngFor="#key of interestsLeftHalf"><i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}</li>
+          </ul>
+          <ul class="user-card__similarity__list">
+            <li *ngFor="#key of interestsRightHalf"><i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}</li>
+          </ul>
+        </div>
+      </a>
     </div>
   </div>
 </div>
