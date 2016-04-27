@@ -27,7 +27,7 @@ export class SignupOffersMobileComponent implements OnInit, OnDestroy {
   offers: any[] = [];
   newOfferText: string = '';
 
-  // Lazy loadind.
+  // Lazy loading.
   limit: number = 12;
   query: string = '';
   next: string = '';
