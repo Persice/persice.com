@@ -2625,7 +2625,8 @@ html {
 }
 
 html {
-  font-family: "Open Sans", sans-serif overflow-x: hidden!important;
+  font-family: "Open Sans", sans-serif;
+  overflow-x: hidden!important;
 }
 
 html.fusion {
