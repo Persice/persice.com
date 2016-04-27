@@ -10,6 +10,9 @@
 import 'core-js';
 require('zone.js/dist/zone');
 
+// Typescript emit helpers polyfill
+import 'ts-helpers';
+
 if ('production' === ENV) {
   // Production
 
