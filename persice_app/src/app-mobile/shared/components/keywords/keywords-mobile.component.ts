@@ -18,7 +18,7 @@ export class KeywordsComponentMobile {
   items: any[] = [];
 
   // Label of current item, bound to the input field.
-  newItemText: string;
+  newItemText: string = '';
 
   // Filters keep state of selected keywords.
   filters: FilterModel;
