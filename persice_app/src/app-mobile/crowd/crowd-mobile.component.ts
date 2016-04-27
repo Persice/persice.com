@@ -6,8 +6,8 @@ import {FilterMobileComponent} from '../shared/components/filter';
 import {UserCardMobileComponent} from '../shared/components/user-card';
 import {LoadingComponent} from '../../app/shared/components/loading';
 import {FriendService, FilterService} from '../../app/shared/services';
+import {InfiniteScrollDirective} from '../../common/directives';
 
-declare var jQuery: any;
 
 @Component({
   selector: 'prs-mobile-crowd',
@@ -16,7 +16,8 @@ declare var jQuery: any;
   directives: [
     LoadingComponent,
     UserCardMobileComponent,
-    FilterMobileComponent
+    FilterMobileComponent,
+    InfiniteScrollDirective
   ]
 })
 export class CrowdComponentMobile extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
