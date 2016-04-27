@@ -1,6 +1,6 @@
 <div class="search">
-  <div class="search__top typeahead-search">
-    <svg role="img" class="icon ">
+  <div class="search__top typeahead-search" id="typeahead-search">
+    <svg role="img" class="icon">
       <use xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
     </svg>
     <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text" class="search__input" placeholder="Enter a keyword here" id="typeaheadInput">
