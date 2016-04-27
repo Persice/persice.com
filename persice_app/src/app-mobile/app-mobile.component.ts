@@ -5,24 +5,24 @@ import {
 } from 'angular2/core';
 
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-
 import {BrowserDomAdapter} from 'angular2/platform/browser';
 
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
-  Router,
   RouteRegistry,
-  AsyncRoute
+  AsyncRoute,
+  Router
 } from 'angular2/router';
 
 import {
-  LeftMenuPushDirective,
-  RightMenuPushDirective
+  OpenLeftMenuDirective,
+  CloseLeftMenuDirective,
+  IfRoutesActiveDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdComponentMobile} from "./crowd/crowd-mobile.component";
-
+import {CrowdComponentMobile} from "./crowd";
+import {PageTitleComponent} from './page-title';
 import {FilterService} from '../app/shared/services';
 
 /*
@@ -78,37 +78,40 @@ import {FilterService} from '../app/shared/services';
     FORM_DIRECTIVES,
     ROUTER_DIRECTIVES,
     NavigationMobileComponent,
-    LeftMenuPushDirective,
-    RightMenuPushDirective
+    OpenLeftMenuDirective,
+    CloseLeftMenuDirective,
+    IfRoutesActiveDirective,
+    PageTitleComponent
   ],
   encapsulation: ViewEncapsulation.None
 })
 export class AppMobileComponent implements OnInit {
   isHeaderHidden: boolean = false;
-  constructor(
-    private _router: Router,
-    private _dom: BrowserDomAdapter,
-    private filterService: FilterService
-  ) {
+  pagesWithFilter = ['crowd'];
+  pageTitle = 'Persice';
 
-  }
+  constructor(
+    private filterService: FilterService,
+    private _router: Router
+    ) { }
 
   ngOnInit() {
-    this._router.subscribe((next) => {
-      // If route changed, close left navigation menu
-      if (this._dom.hasClass(this._dom.query('.container'), 'push-menu-push--toright')) {
-        this._dom.removeClass(this._dom.query('.container'), 'push-menu-push--toright');
-        this._dom.removeClass(this._dom.query('#push-menu-s1'), 'is-open');
-      }
-    });
-
     this.filterService.isVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isHeaderHidden = visibility;
       });
+
+    this._router.subscribe((next: string) => {
+      this._onRouteChange(next);
+    });
   }
 
   setFilterVisible() {
     this.filterService.setVisibility(true);
   }
+
+  private _onRouteChange(next: string) {
+    this.pageTitle = next;
+  }
+
 }
