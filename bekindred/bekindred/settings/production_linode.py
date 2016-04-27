@@ -170,6 +170,9 @@ LOGGING = {
     },
 }
 
+AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN',
+                                 'd2v6m3k9ul63ej.cloudfront.net')
+
 # Amazon S3
 DEFAULT_FILE_STORAGE = 'photos.storage_backends.CachedS3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
