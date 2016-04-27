@@ -28,6 +28,11 @@ export class UserCardMobileComponent {
   //Whether top interests drop is visible.
   interestsVisible: boolean = false;
 
+
+  /**
+   * Toggle visibility of top interests
+   * @param {DOM click Event} event
+   */
   toggleInterestsVisible(event) {
     this.interestsVisible = !this.interestsVisible;
   }
