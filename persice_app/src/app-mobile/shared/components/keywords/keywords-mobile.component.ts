@@ -4,15 +4,15 @@ import {FilterService} from '../../../../app/shared/services';
 
 @Component({
   selector: 'prs-mobile-keywords',
-  template: require('./keywords-mobile.html'),
-  providers: [
-    FilterService
-  ]
+  template: require('./keywords-mobile.html')
 })
 export class KeywordsComponentMobile {
 
   MINIMUM_ITEM_LENGTH: number = 2;
-  MAXIMUM_NUMBER_OF_ITEMS: number = 45;
+
+  // Maximum allowed length of all items converted to string separated by comma
+  // (e.g. "one,two,three"), including the comma character.
+  MAXIMUM_LENGTH_OF_ITEMS: number = 50;
 
   // Collection of items managed by this component.
   items: any[] = [];
@@ -27,10 +27,14 @@ export class KeywordsComponentMobile {
   // on the frontend. Adding could for example fail due to duplicates, or lenght constraints.
   status: string;
 
-  // Way to keep track whether filter saving operation time-outed.
-  timeoutIdFiltersSave = null;
+  // Way to keep track whether filter saving is in progress
+  filtersSaving: boolean = false;
 
-  constructor(public filterService: FilterService) {}
+  // Way to keep track whether we add item from typeahead or via "Enter" key
+  itemBeingAddedFromTypeahead: boolean = false;
+  itemBeingAddedByEnterKey: boolean = false;
+
+  constructor(public filterService: FilterService) { }
 
   ngAfterViewInit() {
     this.filterService.find()
@@ -76,6 +80,8 @@ export class KeywordsComponentMobile {
     );
 
     inputElement.bind('typeahead:selected', (ev, suggestion) => {
+      this.newItemText = suggestion;
+      this.itemBeingAddedFromTypeahead = true;
       this.add();
     });
   }
@@ -87,7 +93,9 @@ export class KeywordsComponentMobile {
    */
   inputChanged(event) {
     if (event.which === 13) {
-      this.add();
+      if (!this.itemBeingAddedFromTypeahead) {
+        this.add();
+      }
     } else {
       this.status = '';
     }
@@ -103,7 +111,7 @@ export class KeywordsComponentMobile {
       return;
     }
 
-    if (this.exceedsMaximumNumberOfItems(this.items)) {
+    if (this.exceedsMaximumLengthOfItems(this.items, item)) {
       this.status = 'failure';
       return;
     }
@@ -114,8 +122,11 @@ export class KeywordsComponentMobile {
     }
 
     this.items.push(item);
-
     this.status = 'success';
+
+    // Clear typeahead input
+    jQuery('#typeaheadInput').typeahead('val', '');
+
     this.save();
   }
 
@@ -145,28 +156,34 @@ export class KeywordsComponentMobile {
    * @private
    */
   private _saveJoinedItems(items: string) {
+    if (this.filtersSaving) {
+      return;
+    }
+    this.filtersSaving = true;
     let data = {
       keyword: items,
       user: this.filters.state.user
     };
-    if (this.timeoutIdFiltersSave) {
-      window.clearTimeout(this.timeoutIdFiltersSave);
-    }
-    this.timeoutIdFiltersSave = window.setTimeout(() => {
-      this.filterService.updateOne(this.filters.state.resource_uri, data)
-        .subscribe(res => {
-          this.filterService.publishObservers();
-        });
-    }, 250);
+    this.filterService.updateOne(this.filters.state.resource_uri, data)
+      .subscribe(res => {
+        this.newItemText = '';
+        this.filtersSaving = false;
+        this.itemBeingAddedByEnterKey = false;
+        this.itemBeingAddedFromTypeahead = false;
+      }, (err) => {
+        this.filtersSaving = false;
+        this.status = 'failure';
+      });
+
 
     this.newItemText = '';
   }
 
-  private exceedsMaximumNumberOfItems(items: any[]) {
-    return items.length > this.MAXIMUM_NUMBER_OF_ITEMS;
+  private exceedsMaximumLengthOfItems(items: any[], newItem: string): boolean {
+    return  [...items, newItem].join(',').length > this.MAXIMUM_LENGTH_OF_ITEMS;
   };
 
-  private hasMinimumLength(item: string) {
+  private hasMinimumLength(item: string): boolean {
     return item.length >= this.MINIMUM_ITEM_LENGTH;
   };
 }
