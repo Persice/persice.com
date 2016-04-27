@@ -13,11 +13,12 @@ import {FilterService} from '../../../../app/shared/services';
 
 import {SelectDirective} from '../../../../app/shared/directives';
 import {NumeralPipe} from '../../../../app/shared/pipes';
+import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
 
 @Component({
   selector: 'prs-mobile-filter',
   template: require('./filter-mobile.html'),
-  directives: [SelectDirective, SliderComponent],
+  directives: [SelectDirective, SliderComponent, KeywordsComponentMobile],
   pipes: [NumeralPipe]
 })
 export class FilterMobileComponent extends FilterComponent {
