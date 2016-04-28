@@ -24,20 +24,12 @@ export class FilterService {
     order_criteria: 'match_score'
   };
 
-  isVisible: boolean = false;
-  isVisibleEmitter: EventEmitter<any> = new EventEmitter();
-
   observers: any[] = [];
 
   publishObservers: Function;
 
   constructor(private http: HttpClient) {
     this.publishObservers = this.publishObserversPrivate;
-  }
-
-  setVisibility(value) {
-    this.isVisible = value;
-    this.isVisibleEmitter.emit(value);
   }
 
   addObserver(name: string) {
@@ -95,17 +87,6 @@ export class FilterService {
       subject.next(name + ' filters:modified');
     }
   }
-
-
-
-  //  public publishObserversWithNext(next) {
-  //   for (var i = this.observers.length - 1; i >= 0; i--) {
-  //     let name = this.observers[i].name;
-  //     let subject = this.observers[i].subject;
-  //     subject.next(next);
-  //   }
-  // }
-
 
 }
 export var filterServiceInjectables: Array<any> = [
