@@ -4,7 +4,8 @@ import {FilterService} from '../../../../app/shared/services';
 
 @Component({
   selector: 'prs-mobile-keywords',
-  template: require('./keywords-mobile.html')
+  template: require('./keywords-mobile.html'),
+  providers: [FilterService]
 })
 export class KeywordsComponentMobile {
 
