@@ -12,14 +12,34 @@ let component: KeywordsComponentMobile;
 let mock: FilterServiceMock;
 
 class FilterServiceMock extends FilterService {
-  findResponse: string;
+  findResponse: any;
 
   public find(): Observable<any> {
     return Observable.of(this.findResponse);
   }
 
+  public updateOne(resourceUri:string, data:any):Observable<any> {
+    return Observable.of(null);
+  }
+
   public setEmptyFindResponse(): void {
-    this.findResponse = null;
+    this.findResponse = this.findResponse = {
+      "objects":[
+        {
+          "keyword":"",
+        }
+      ]
+    };
+  }
+
+  public setNonEmptyFindResponse(): void {
+    this.findResponse = {
+       "objects":[
+          {
+             "keyword":"python,cooking",
+          }
+       ]
+    };
   }
 
   public getProvider(): Provider {
@@ -39,7 +59,7 @@ describe('Keyword mobile component', () => {
   beforeEach(injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-        KeywordsComponentMobile, [provide(FilterService, { useClass: FilterServiceMock })])
+        KeywordsComponentMobile, [provide(FilterService, { useValue: mock })])
       .createAsync(KeywordsComponentMobile)
       .then((componentFixture: any) => {
         component = componentFixture.componentInstance;
@@ -52,5 +72,74 @@ describe('Keyword mobile component', () => {
 
     // then
     expect(component.items.length).toEqual(0);
+  });
+
+  it('should show items when service returns data', () => {
+    // given
+    mock.setNonEmptyFindResponse();
+
+    // when
+    component.ngAfterViewInit();
+
+    // then
+    expect(component.items.length).toEqual(2);
+    expect(component.items[0]).toEqual("python");
+    expect(component.items[1]).toEqual("cooking");
+  });
+
+  it('adds items', () => {
+    // given
+    mock.setEmptyFindResponse();
+
+    // when
+    component.ngAfterViewInit();
+    component.newItemText = 'linux';
+    component.add();
+
+    // then
+    expect(component.items[0]).toEqual("linux");
+  });
+
+  it('removes items', () => {
+    // given
+    mock.setNonEmptyFindResponse();
+
+    // when
+    component.ngAfterViewInit();
+    component.remove("python");
+
+    // then
+    expect(component.items.length).toEqual(1);
+    expect(component.items[0]).toEqual("cooking");
+  });
+
+  it('fails to add duplicates', () => {
+    // given
+    mock.setNonEmptyFindResponse();
+
+    // when
+    component.ngAfterViewInit();
+    component.newItemText = 'python';
+    component.add();
+
+    // then
+    expect(component.items.length).toEqual(2);
+    expect(component.items[0]).toEqual("python");
+    expect(component.items[1]).toEqual("cooking");
+  });
+
+  it('fails to add short items', () => {
+    // given
+    mock.setNonEmptyFindResponse();
+
+    // when
+    component.ngAfterViewInit();
+    component.newItemText = 'a';
+    component.add();
+
+    // then
+    expect(component.items.length).toEqual(2);
+    expect(component.items[0]).toEqual("python");
+    expect(component.items[1]).toEqual("cooking");
   });
 });
