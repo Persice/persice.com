@@ -23,6 +23,9 @@ import {
   CrowdService
 } from '../../common/crowd';
 
+import {AppStateService} from '../shared/services';
+
+
 import {CrowdComponentMobile} from './crowd-mobile.component';
 import {FilterService, FriendService} from '../../app/shared/services';
 import {HttpClient} from '../../app/shared/core/http-client';
@@ -48,6 +51,7 @@ describe('Crowd mobile component', () => {
     return [
       mockCrowdService.getProvider(),
       FilterService,
+      AppStateService,
       FriendService,
       MockBackend,
       BaseRequestOptions,

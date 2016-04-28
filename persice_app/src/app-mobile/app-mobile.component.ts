@@ -24,7 +24,8 @@ import {NavigationMobileComponent} from './navigation';
 import {CrowdComponentMobile} from "./crowd";
 import {PageTitleComponent} from './page-title';
 import {FilterService} from '../app/shared/services';
-
+import {AppStateService} from './shared/services';
+import {ProfileFooterMobileComponent} from './user-profile';
 /*
  * Persice App Component
  * Top Level Component
@@ -71,7 +72,8 @@ import {FilterService} from '../app/shared/services';
   template: require('./app-mobile.html'),
   providers: [
     BrowserDomAdapter,
-    FilterService
+    FilterService,
+    AppStateService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -81,24 +83,39 @@ import {FilterService} from '../app/shared/services';
     OpenLeftMenuDirective,
     CloseLeftMenuDirective,
     IfRoutesActiveDirective,
-    PageTitleComponent
+    PageTitleComponent,
+    ProfileFooterMobileComponent
   ],
   encapsulation: ViewEncapsulation.None
 })
 export class AppMobileComponent implements OnInit {
-  isHeaderHidden: boolean = false;
+  isHeaderVisible: boolean = true;
+  isFooterVisible: boolean = false;
   pagesWithFilter = ['crowd'];
   pageTitle = 'Persice';
+  footerScore: number = 0;
 
   constructor(
-    private filterService: FilterService,
+    private _appStateService: AppStateService,
     private _router: Router
     ) { }
 
   ngOnInit() {
-    this.filterService.isVisibleEmitter
+    // Subscribe to EventEmmitter from AppStateService to show or hide main app header
+    this._appStateService.isHeaderVisibleEmitter
       .subscribe((visibility: boolean) => {
-        this.isHeaderHidden = visibility;
+        this.isHeaderVisible = visibility;
+      });
+
+    this._appStateService.isHeaderVisibleEmitter
+      .subscribe((visibility: boolean) => {
+        this.isHeaderVisible = visibility;
+      });
+
+    this._appStateService.isProfileFooterVisibleEmitter
+      .subscribe((state: any) => {
+        this.isFooterVisible = state.visibility;
+        this.footerScore = state.score;
       });
 
     this._router.subscribe((next: string) => {
@@ -107,7 +124,8 @@ export class AppMobileComponent implements OnInit {
   }
 
   setFilterVisible() {
-    this.filterService.setVisibility(true);
+    this._appStateService.setFilterVisibility(true);
+    this._appStateService.setHeaderVisibility(false);
   }
 
   private _onRouteChange(next: string) {

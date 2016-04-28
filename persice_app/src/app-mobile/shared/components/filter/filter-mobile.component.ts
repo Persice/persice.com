@@ -10,7 +10,7 @@ import {FilterModel, InterfaceFilter} from '../../../../app/shared/models';
 import {FilterComponent} from '../../../../common/filter';
 import {SliderComponent} from '../../../../common/slider';
 import {FilterService} from '../../../../app/shared/services';
-
+import {AppStateService} from '../../services';
 import {SelectDirective} from '../../../../app/shared/directives';
 import {NumeralPipe} from '../../../../app/shared/pipes';
 import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
@@ -25,12 +25,11 @@ export class FilterMobileComponent extends FilterComponent {
   filtersVisible: boolean = true;
   keywordsVisible: boolean = false;
 
-  constructor(protected filterService: FilterService) {
+  constructor(protected filterService: FilterService, public appStateService: AppStateService) {
     super(filterService);
   }
 
   save() {
-    //prevent saving keywords (TODO: probably need to remove it after implemented keywords)
     delete this.filters.state.keyword;
     this.filterService
       .updateOne(this.filters.state.resource_uri, this.filters.state)
@@ -53,11 +52,16 @@ export class FilterMobileComponent extends FilterComponent {
   }
 
   public onBack() {
-    this.filterService.setVisibility(false);
+    this._hideFiltersAndShowMainHeader();
   }
 
   public onGo() {
-    this.filterService.setVisibility(false);
+    this._hideFiltersAndShowMainHeader();
     this.filterService.publishObservers();
+  }
+
+  private _hideFiltersAndShowMainHeader() {
+    this.appStateService.setFilterVisibility(false);
+    this.appStateService.setHeaderVisibility(true);
   }
 }

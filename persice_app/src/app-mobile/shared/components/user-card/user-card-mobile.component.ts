@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
 import {CheckImageDirective} from "../../../../app/shared/directives";
 import {GenderPipe} from '../../../../app/shared/pipes';
 import {ObjectUtil} from '../../../../app/shared/core';
@@ -17,6 +17,7 @@ export class UserCardMobileComponent {
     this.interestsLeftHalf = topInterests.splice(0, halfLength);
     this.interestsRightHalf = topInterests;
   };
+  @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
 
   // Person object which is displayed in the component template
   _person: any;
@@ -35,5 +36,9 @@ export class UserCardMobileComponent {
    */
   toggleInterestsVisible(event) {
     this.interestsVisible = !this.interestsVisible;
+  }
+
+  selectPerson(event) {
+    this.onProfileTap.emit(this._person.id);
   }
 }
