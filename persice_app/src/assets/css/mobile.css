@@ -1,12 +1,3 @@
-/* Ion.RangeSlider
-// css version 2.0.3
-// Â© 2013-2014 Denis Ineshin | IonDen.com
-// ===================================================================================================================*/
-
-
-/* =====================================================================================================================
-// RangeSlider */
-
 .irs {
   position: relative;
   display: block;
@@ -10123,8 +10114,11 @@ li>ol {
 }
 
 .avatar-place .avatar {
-  background-position: 50% 50%;
   background-repeat: no-repeat;
+}
+
+.match-profile__avatar {
+  background-position: 50% 50%;
 }
 
 .filter-container {
@@ -10204,4 +10198,39 @@ html {
 
 .user-card__similarity__drop.is-open {
   display: block;
+}
+
+.user-profile-container {
+  background: #eff4f6;
+  padding-bottom: 70px;
+}
+
+.moreellipses {
+  display: none;
+}
+
+.morecontent span.is-visible,
+.moreellipses.is-visible {
+  display: inline;
+}
+
+.similarity-bullet {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-tab__list li .similarity-bullet:before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  left: -14px;
+  top: -6px;
+  border-radius: 50%;
+  border: 1px solid #39c9f5;
+  position: absolute;
+}
+
+.profile-tab__list li {
+  padding-left: 17px!important;
 }
