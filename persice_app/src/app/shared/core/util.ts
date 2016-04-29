@@ -31,6 +31,10 @@ export class ListUtil {
     return find(arr, props);
   }
 
+  static filterAndCount(arr: any[], property, value): number {
+    return filter(arr, property, value).length;
+  }
+
 }
 
 export class ObjectUtil {

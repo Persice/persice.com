@@ -12,7 +12,7 @@ import {CheckImageDirective} from "../../app/shared/directives";
 
 import {AboutMobileComponent} from './about-mobile.component';
 import {ItemsListMobileComponent} from './items-list.component';
-import {ObjectUtil} from '../../app/shared/core';
+import {ObjectUtil, ListUtil} from '../../app/shared/core';
 
 import {
   ReligiousViewsService,
@@ -61,6 +61,11 @@ export class UserProfileComponent implements AfterViewInit {
   interestsCount: number = 0;
   goalsCount: number = 0;
   offersCount: number = 0;
+
+  // Lists and counters for likes
+  likes: any[] = [];
+  likesCount: number = 0;
+  likesMutualCount: number = 0;
 
   // Indicator for which tab is active: interests(0), goals(1), offers(2)
   activeTab: number = 0;
@@ -122,6 +127,9 @@ export class UserProfileComponent implements AfterViewInit {
     this.interestsCount = ObjectUtil.count(this.person.interests[0]);
     this.offersCount = ObjectUtil.count(this.person.offers[0]);
     this.goalsCount = ObjectUtil.count(this.person.goals[0]);
+
+    this.likesCount = this.person.likes.length;
+    this.likesMutualCount = ListUtil.filterAndCount(this.person.likes, 'match', 1);
   }
 
 }
