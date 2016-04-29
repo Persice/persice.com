@@ -18,15 +18,15 @@ class FilterServiceMock extends FilterService {
     return Observable.of(this.findResponse);
   }
 
-  public updateOne(resourceUri:string, data:any):Observable<any> {
+  public updateOne(resourceUri: string, data: any):Observable<any> {
     return Observable.of(null);
   }
 
   public setEmptyFindResponse(): void {
     this.findResponse = this.findResponse = {
-      "objects":[
+      "objects": [
         {
-          "keyword":"",
+          "keyword": "",
         }
       ]
     };
@@ -34,9 +34,9 @@ class FilterServiceMock extends FilterService {
 
   public setNonEmptyFindResponse(): void {
     this.findResponse = {
-       "objects":[
+       "objects": [
           {
-             "keyword":"python,cooking",
+             "keyword": "python,cooking",
           }
        ]
     };
