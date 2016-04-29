@@ -18,7 +18,7 @@ class FilterServiceMock extends FilterService {
     return Observable.of(this.findResponse);
   }
 
-  public updateOne(resourceUri: string, data: any):Observable<any> {
+  public updateOne(resourceUri: string, data: any): Observable<any> {
     return Observable.of(null);
   }
 
