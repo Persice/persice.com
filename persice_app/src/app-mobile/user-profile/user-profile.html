@@ -74,31 +74,8 @@
       <prs-mobile-items-list [items]="offers"></prs-mobile-items-list>
     </div>
   </div>
-  <div class="profile-connections profile-box"> <span class="profile-titleline">Connections
-    <span class="profile-titleline__value">(126)</span> <span class="profile-titleline__subvalue">- 4 mutual</span> </span>
-    <div class="has-user-links">
-      <div class="layout layout--small">
-        <div class="layout__item 1/5">
-          <a class="user-link"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/mijustin/128.jpg" alt="" class="avatar avatar--small"> <span class="user-link__username">John</span> </a>
-        </div>
-        <div class="layout__item 1/5">
-          <a class="user-link"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/mijustin/128.jpg" alt="" class="avatar avatar--small"> <span class="user-link__username">Miche...</span> </a>
-        </div>
-        <div class="layout__item 1/5">
-          <a class="user-link"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/mijustin/128.jpg" alt="" class="avatar avatar--small"> <span class="user-link__username">John</span> </a>
-        </div>
-        <div class="layout__item 1/5">
-          <a class="user-link"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/mijustin/128.jpg" alt="" class="avatar avatar--small"> <span class="user-link__username">John</span> </a>
-        </div>
-        <div class="layout__item 1/5 text-center">
-          <a>
-            <svg role="img" class="icon ">
-              <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
+  <div class="profile-connections profile-box">
+    <prs-mobile-connections-list [items]="friendsPreview" [count]="friendsTotalCount"></prs-mobile-connections-list>
   </div>
   <a class="profile-link profile-box">
     <div class="layout layout--small layout--middle">

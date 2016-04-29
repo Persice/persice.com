@@ -37,6 +37,72 @@ export class ListUtil {
 
 }
 
+export class FriendUtil {
+  static pickFourFriendsforPreview(
+    friendsPersice: any[],
+    friendsFacebook: any[],
+    friendsLinkedin: any[],
+    friendsTwitterFriends: any[],
+    friendsTwitterFollowers: any[]
+  ): any[] {
+    const PREVIEW_LIMIT = 4;
+    let list = [];
+    let count = 0;
+
+    if (count < PREVIEW_LIMIT) {
+      for (let i = friendsPersice.length - 1; i >= 0; i--) {
+        if (count === PREVIEW_LIMIT) { break; }
+        count++;
+        let item = friendsPersice[i];
+        item.type = 'persice';
+        list = [...list, item];
+      }
+    }
+
+    if (count < PREVIEW_LIMIT) {
+      for (let i = friendsFacebook.length - 1; i >= 0; i--) {
+        if (count === PREVIEW_LIMIT) { break; }
+        count++;
+        let item = friendsFacebook[i];
+        item.type = 'facebook';
+        list = [...list, item];
+      }
+    }
+
+    if (count < PREVIEW_LIMIT) {
+      for (let i = friendsLinkedin.length - 1; i >= 0; i--) {
+        if (count === PREVIEW_LIMIT) { break; }
+        count++;
+        let item = friendsLinkedin[i];
+        item.type = 'linkedin';
+        list = [...list, item];
+      }
+    }
+
+    if (count < PREVIEW_LIMIT) {
+      for (let i = friendsTwitterFriends.length - 1; i >= 0; i--) {
+        if (count === PREVIEW_LIMIT) { break; }
+        count++;
+        let item = friendsTwitterFriends[i];
+        item.type = 'twitter';
+        list = [...list, item];
+      }
+    }
+
+    if (count < PREVIEW_LIMIT) {
+      for (let i = friendsTwitterFollowers.length - 1; i >= 0; i--) {
+        if (count === PREVIEW_LIMIT) { break; }
+        count++;
+        let item = friendsTwitterFollowers[i];
+        item.type = 'twitter';
+        list = [...list, item];
+      }
+    }
+
+    return list;
+  }
+}
+
 export class ObjectUtil {
 
   static clone<T extends Object>(data: T): T {
