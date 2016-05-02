@@ -170,10 +170,13 @@ LOGGING = {
     },
 }
 
+AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN',
+                                 'd2v6m3k9ul63ej.cloudfront.net')
+
 # Amazon S3
 DEFAULT_FILE_STORAGE = 'photos.storage_backends.CachedS3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+THUMBNAIL_DEFAULT_STORAGE = STATICFILES_STORAGE
 
 AWS_AUTO_CREATE_BUCKET = True
 # Your Amazon Web Services access key, as a string.
@@ -193,3 +196,5 @@ AWS_HEADERS = {
     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
     'Cache-Control': 'max-age=86400',
 }
+
+AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')

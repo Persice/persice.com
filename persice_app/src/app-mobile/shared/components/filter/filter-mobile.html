@@ -80,48 +80,6 @@
     </div>
   </div>
   <div class="keywords js-keywords-tab" [ngClass]="{'hidden': filtersVisible}">
-    <div class="search">
-      <div class="search__top">
-        <svg role="img" class="icon ">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
-        </svg>
-        <input type="text" class="search__input" placeholder="Enter a keyword here">
-        <button class="btn">
-          <svg role="img" class="icon ">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
-          </svg>
-        </button>
-      </div>
-      <div class="has-search__drop">
-        <div class="search__drop">
-          <ul class="search__drop__results">
-            <li><b>Lear</b>n to play the banjo</li>
-            <li><b>Lear</b>n to paint</li>
-            <li><b>Lear</b>n to ride a bike</li>
-            <li><b>Lear</b>n to play the piano</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="search__tags-wrapper text-left">
-      <p class="search-tag-secondary">
-        <a>
-          <svg role="img" class="icon ">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a> Biking</p>
-      <p class="search-tag-secondary">
-        <a>
-          <svg role="img" class="icon ">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a> Snowboarding</p>
-      <p class="search-tag-secondary">
-        <a>
-          <svg role="img" class="icon ">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
-          </svg>
-        </a> Portland</p>
-    </div>
+    <prs-mobile-keywords></prs-mobile-keywords>
   </div>
 </div>

@@ -1,28 +1,27 @@
 <nav class="push-menu push-menu--left" id="push-menu-s1">
   <div class="push-menu__logo">
-    <a class="site-logo" href="/">
+    <a class="site-logo">
       <img alt="Perice" src="/static/assets/images/logo.svg" class="site-logo__mark">
       <h1 class="site-logo__type">Persice</h1> </a>
   </div>
   <prs-mobile-navigation></prs-mobile-navigation>
 </nav>
-<nav class="push-menu push-menu--right" id="push-menu-s2">
-  <h3>Menu2</h3>
-</nav>
+<div class="content-mask" prs-close-left-menu></div>
 <div class="container push-menu-push">
-  <header class="mob-header" [ngClass]="{'is-hidden': isHeaderHidden}">
+  <header class="mob-header" [ngClass]="{'is-hidden': !isHeaderVisible}">
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/5">
-        <a prs-mobile-left-menu-push class="mob-header__left-push" id="showLeftPush">
+        <a prs-open-left-menu class="mob-header__left-push" id="showLeftPush">
           <svg role="img" class="icon icon--small">
             <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
           </svg>
         </a>
       </div>
       <div class="layout__item 3/5 text-center">
-        <h2 class="mob-header__title">Crowd</h2> </div>
-      <div class="layout__item 1/5 text-right">
-        <a (click)="setFilterVisible($event)" class="mob-header__right-push" id="showFilter">
+        <prs-page-title [title]="pageTitle"></prs-page-title>
+      </div>
+      <div class="layout__item 1/5 text-right" *prsIfRoutesActive="pagesWithFilter">
+        <a (click)="setFilterVisible($event)" class="mob-header__right-push">
           <svg role="img" class="icon icon--small">
             <use xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
           </svg>
@@ -34,3 +33,4 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+<prs-mobile-profile-footer *ngIf="isFooterVisible" [score]="footerScore"></prs-mobile-profile-footer>

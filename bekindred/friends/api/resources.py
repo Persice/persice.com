@@ -1,3 +1,4 @@
+import hashlib
 import json
 
 import re
@@ -194,16 +195,17 @@ class ConnectionsResource(Resource):
         fs = FilterState.objects.filter(user=request.user.id)
 
         cache_match_users = None
-        filter_updated = None
+        filter_updated_sha = None
         if fs:
             try:
                 attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
                          fs[0].distance, fs[0].distance_unit,
                          fs[0].order_criteria, fs[0].keyword]
                 filter_updated = '.'.join(map(str, attrs))
+                filter_updated_sha = hashlib.sha1(filter_updated).hexdigest()
                 cache_match_users = cache.get('c_%s_%s' %
                                               (request.user.id,
-                                               filter_updated))
+                                               filter_updated_sha))
             except AttributeError:
                 pass
         if cache_match_users:
@@ -212,7 +214,7 @@ class ConnectionsResource(Resource):
             match_users = MatchQuerySet. \
                 all(request.user.id, is_filter=True, friends=True)
             cache.set('c_%s_%s' % (request.user.id,
-                                   filter_updated), match_users)
+                                   filter_updated_sha), match_users)
         if fs:
             if fs[0].order_criteria == 'match_score':
                 return sorted(match_users, key=lambda x: -x.score)

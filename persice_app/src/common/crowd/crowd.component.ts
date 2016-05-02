@@ -3,8 +3,6 @@ import {remove, findIndex, debounce} from 'lodash';
 import {FriendService} from "../../app/shared/services/friend.service";
 import {FilterService} from "../../app/shared/services/filter.service";
 
-declare var jQuery: any;
-
 export abstract class CrowdComponent {
   items: Array<any> = [];
   loading: boolean = false;
@@ -94,14 +92,6 @@ export abstract class CrowdComponent {
 
     this.next = data.meta.next;
     this.offset = data.meta.offset;
-
-
-    // Bind to scroll event to load more data on bottom scroll.
-    if (this.next !== null) {
-      jQuery(window).bind('scroll', this.handleScrollEvent.bind(this));
-    } else {
-      jQuery(window).unbind('scroll');
-    }
   }
 
   setSelectedUser(id) {
@@ -231,13 +221,9 @@ export abstract class CrowdComponent {
   }
 
   handleScrollEvent(event) {
-    let scrollOffset = jQuery(window).scrollTop();
-    let threshold = jQuery(document).height() - jQuery(window).height() - 60;
-
-    if (this.next && scrollOffset > threshold) {
-      if (!this.loading) {
-        this.getList();
-      }
+    if (this.next && !this.loading) {
+      this.getList();
     }
   }
+
 }

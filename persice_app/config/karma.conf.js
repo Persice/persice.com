@@ -69,6 +69,9 @@ module.exports = function(config) {
       pattern: './lib/js/tokenfield.js',
       watched: false
     }, {
+      pattern: './lib/js/typeahead.js',
+      watched: false
+    }, {
       pattern: './config/spec-bundle.js',
       watched: false
     }],

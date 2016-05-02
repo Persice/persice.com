@@ -193,7 +193,7 @@ class MatchUser(object):
         Return
         """
         # Number of top interests to select
-        top_num = 3
+        top_num = 6
         targets = ['goals', 'offers', 'interests']
         interests = []
 

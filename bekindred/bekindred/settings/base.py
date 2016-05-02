@@ -85,7 +85,7 @@ SOUTH_MIGRATION_MODULES = {
 }
 
 THUMBNAIL_ALIASES = {
-    'photos.Photo.cropped_photo': {
+    'photos': {
         '56x56': {'size': (56, 56), 'crop': True, 'quality': 100},
         '89x89': {'size': (89, 89), 'crop': True, 'quality': 100},
         '120x120': {'size': (120, 120), 'crop': True, 'quality': 100},
@@ -93,7 +93,7 @@ THUMBNAIL_ALIASES = {
         '230x230': {'size': (230, 230), 'crop': True, 'quality': 100},
         '387x387': {'size': (387, 387), 'crop': True, 'quality': 100},
     },
-    'events.Event.event_photo': {
+    'events': {
         '56x56': {'size': (56, 56), 'crop': True, 'quality': 100},
         '300x200': {'size': (300, 200), 'crop': True, 'quality': 100},
         '1000x364': {'size': (1000, 364), 'crop': True, 'quality': 100},

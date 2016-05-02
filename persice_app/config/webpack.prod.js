@@ -51,7 +51,7 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: http://webpack.github.io/docs/configuration.html#output-path
     path: helpers.root('../bekindred/static/dist'),
-    publicPath: 'https://persice.s3.amazonaws.com/dist/',
+    publicPath: 'https://d2v6m3k9ul63ej.cloudfront.net/dist/',
 
     // Specifies the name of each output file on disk.
     // IMPORTANT: You must not specify an absolute path here!

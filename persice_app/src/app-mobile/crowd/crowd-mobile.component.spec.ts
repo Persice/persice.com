@@ -23,6 +23,9 @@ import {
   CrowdService
 } from '../../common/crowd';
 
+import {AppStateService} from '../shared/services';
+
+
 import {CrowdComponentMobile} from './crowd-mobile.component';
 import {FilterService, FriendService} from '../../app/shared/services';
 import {HttpClient} from '../../app/shared/core/http-client';
@@ -37,19 +40,18 @@ import {HttpClient} from '../../app/shared/core/http-client';
 })
 class TestComponent { }
 
-
-function obtainLength(element, selector) {
-  return element.querySelectorAll(selector).length;
-}
+let componentInstance: TestComponent;
+let componentElement: any;
 
 describe('Crowd mobile component', () => {
-  let componentFixture: ComponentFixture,
-    mockCrowdService: MockCrowdService;
+  let mockCrowdService: MockCrowdService;
+
   beforeEachProviders(() => {
     mockCrowdService = new MockCrowdService(null);
     return [
       mockCrowdService.getProvider(),
       FilterService,
+      AppStateService,
       FriendService,
       MockBackend,
       BaseRequestOptions,
@@ -63,33 +65,50 @@ describe('Crowd mobile component', () => {
 
   beforeEach(injectAsync([TestComponentBuilder], (tcb) => {
     return tcb
-      .overrideProviders(CrowdComponentMobile, [provide(CrowdService, { useValue: mockCrowdService })])
+      .overrideProviders(
+        CrowdComponentMobile, [provide(CrowdService, { useValue: mockCrowdService })])
       .createAsync(TestComponent)
       .then((componentFixture: ComponentFixture) => {
         this.componentFixture = componentFixture;
+        componentInstance = componentFixture.componentInstance;
+        componentElement = componentFixture.nativeElement;
       });
   }));
 
   it('should show crowd list when matchfeed returns results', () => {
-    mockCrowdService.setResponse(MockCrowd);
-    let componentInstance = this.componentFixture.componentInstance,
-      element = this.componentFixture.nativeElement;
+    // given
+    crowdServiceReturnsResults();
 
+    // when
     this.componentFixture.detectChanges();
 
-    const crowdLength = obtainLength(element, '.user-card');
+    // then
+    const crowdLength = obtainLength(componentElement, '.user-card');
     expect(crowdLength).toBeGreaterThan(0);
   });
 
   it('should be empty when matchfeed returns zero results', () => {
-    mockCrowdService.setResponse(MockCrowdEmpty);
-    let componentInstance = this.componentFixture.componentInstance,
-      element = this.componentFixture.nativeElement;
+    // given
+    crowdServiceReturnsNoResults();
 
+    // when
     this.componentFixture.detectChanges();
 
-    const crowdLength = obtainLength(element, '.user-card');
+    // then
+    const crowdLength = obtainLength(componentElement, '.user-card');
     expect(crowdLength).toEqual(0);
   });
+
+  function crowdServiceReturnsResults() {
+    mockCrowdService.setResponse(MockCrowd);
+  }
+
+  function crowdServiceReturnsNoResults() {
+    mockCrowdService.setResponse(MockCrowdEmpty);
+  }
+
+  function obtainLength(element, selector) {
+    return element.querySelectorAll(selector).length;
+  }
 
 });

@@ -1,0 +1,92 @@
+<div class="user-profile-container">
+  <header class="mob-header mob-header--transparent">
+    <div class="layout layout--flush layout--middle">
+      <div class="layout__item 1/5">
+        <a (click)="onCloseProfile.emit($event)" class="mob-header__left-push">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 3/5 text-center"> </div>
+      <div class="layout__item 1/5 text-right"> </div>
+    </div>
+  </header>
+  <div class="profile-hero">
+    <div class="profile-hero__name">{{person.first_name}}</div>
+    <div class="profile-hero__name-meta">{{person.distance[0]}} {{person.distance[1]}} from you</div>
+    <div class="profile-avatarplace">
+      <div class="match-profile__avatar-place">
+        <div class="match-profile__avatar" checkimage="{{person.image}}" [suffix]="'.230x230_q100_crop.jpg'">
+        </div>
+        <br>
+        <div class="match-percent-large"></div>
+      </div>
+    </div>
+    <prs-mobile-profile-about-me [about]="person.about"></prs-mobile-profile-about-me>
+    <div class="profile-hero-fake-bg-overlay"></div>
+    <img [src]="person.image" alt="User name" class="profile-hero-fake-bg">
+  </div>
+  <div class="profile-info profile-box">
+    <div class="profile-box__sub">
+      <div class="layout">
+        <div class="layout__item 1/3"> <span class="profile-info__label">Gender</span> <span class="profile-info__value">{{person.gender | gender}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Age</span> <span class="profile-info__value">{{person.age}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Lives in</span> <span class="profile-info__value">{{person.lives_in}}</span> </div>
+      </div>
+    </div>
+    <div class="profile-box__collapse js-profile-box__collapse" [ngClass]="{'hidden': !profileExtraInfoVisible}">
+      <div class="profile-box__sub">
+        <div class="layout">
+          <div class="layout__item"> <span class="profile-info__label">Job / Company</span> <span class="profile-info__value" *ngIf="person.position?.job?.length > 0">{{person.position.job}} at {{person.position.company}}</span> </div>
+        </div>
+      </div>
+      <div class="profile-box__sub">
+        <div class="layout">
+          <div class="layout__item 1/2">
+            <span class="profile-info__label">Religious Views</span> <span class="profile-info__value" *ngFor="#rel of profileReligiousViews">{{rel.religious_view}}</span> </div>
+          <div class="layout__item 1/2"> <span class="profile-info__label">Political Views</span> <span class="profile-info__value" *ngFor="#rel of profilePoliticalViews">{{rel.political_view}}</span> </div>
+        </div>
+      </div>
+    </div>
+    <a class="js-profile-box__toggle profile-box__toggle" (tap)="toggleProfileExtraInfoVisibility($event)">
+      <svg role="img" class="icon icon--small profile-box__toggle-icon">
+        <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_menu"></use>
+      </svg>
+    </a>
+  </div>
+  <div class="profile-tabs profile-box">
+    <ul class="list-bare js-tabs profile-tabs__tabs side-nav">
+      <li (tap)="activateTab(0)" [ngClass]="{'is-active': activeTab === 0}"> <span class="profile-titleline">Interests <span class="profile-titleline__value">({{interestsCount}})</span></span>
+      </li>
+      <li (tap)="activateTab(1)" [ngClass]="{'is-active': activeTab === 1}"> <span class="profile-titleline">Goals <span class="profile-titleline__value">({{goalsCount}})</span></span>
+      </li>
+      <li (tap)="activateTab(2)" [ngClass]="{'is-active': activeTab === 2}"> <span class="profile-titleline">Offers <span class="profile-titleline__value">({{offersCount}})</span></span>
+      </li>
+    </ul>
+    <div class="tab-content" [ngClass]="{'is-active': activeTab === 0}">
+      <prs-mobile-items-list [items]="interests"></prs-mobile-items-list>
+    </div>
+    <div class="tab-content" id="tb-goals" [ngClass]="{'is-active': activeTab === 1}">
+      <prs-mobile-items-list [items]="goals"></prs-mobile-items-list>
+    </div>
+    <div class="tab-content" id="tb-offers" [ngClass]="{'is-active': activeTab === 2}">
+      <prs-mobile-items-list [items]="offers"></prs-mobile-items-list>
+    </div>
+  </div>
+  <div class="profile-connections profile-box">
+    <prs-mobile-connections-list [items]="friendsPreview" [count]="friendsTotalCount"></prs-mobile-connections-list>
+  </div>
+  <a class="profile-link profile-box">
+    <div class="layout layout--small layout--middle">
+      <div class="layout__item 4/5"> <span class="profile-titleline">Likes
+        <span class="profile-titleline__value">({{likesCount}})</span> <span class="profile-titleline__subvalue">&#8211; {{likesMutualCount}} mutual</span> </span>
+      </div>
+      <div class="layout__item 1/5 text-center">
+        <svg role="img" class="icon ">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
+        </svg>
+      </div>
+    </div>
+  </a>
+</div>

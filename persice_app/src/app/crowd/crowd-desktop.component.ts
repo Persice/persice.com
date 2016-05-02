@@ -5,6 +5,7 @@ import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';
 import {FilterDesktopComponent} from '../shared/components/filter';
 import {ProfileCrowdComponent} from '../profile';
+import {InfiniteScrollDirective} from '../../common/directives';
 
 import {
   FriendService,
@@ -12,8 +13,6 @@ import {
 } from '../shared/services';
 
 import {CrowdService, CrowdComponent} from '../../common/crowd';
-
-declare var jQuery: any;
 
 @Component({
   selector: 'prs-crowd',
@@ -23,7 +22,8 @@ declare var jQuery: any;
     FilterDesktopComponent,
     UsersListComponent,
     LoadingComponent,
-    ProfileCrowdComponent
+    ProfileCrowdComponent,
+    InfiniteScrollDirective
   ]
 })
 export class CrowdComponentDesktop extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {

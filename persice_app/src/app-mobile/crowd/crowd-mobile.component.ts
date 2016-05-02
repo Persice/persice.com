@@ -6,8 +6,11 @@ import {FilterMobileComponent} from '../shared/components/filter';
 import {UserCardMobileComponent} from '../shared/components/user-card';
 import {LoadingComponent} from '../../app/shared/components/loading';
 import {FriendService, FilterService} from '../../app/shared/services';
+import {AppStateService} from '../shared/services';
+import {InfiniteScrollDirective} from '../../common/directives';
+import {UserProfileComponent} from '../user-profile';
 
-declare var jQuery: any;
+import {findIndex} from 'lodash';
 
 @Component({
   selector: 'prs-mobile-crowd',
@@ -16,7 +19,9 @@ declare var jQuery: any;
   directives: [
     LoadingComponent,
     UserCardMobileComponent,
-    FilterMobileComponent
+    FilterMobileComponent,
+    InfiniteScrollDirective,
+    UserProfileComponent
   ]
 })
 export class CrowdComponentMobile extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -26,7 +31,8 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
   constructor(
     protected crowdService: CrowdService,
     protected friendService: FriendService,
-    protected filterService: FilterService
+    protected filterService: FilterService,
+    public appStateService: AppStateService
   ) {
     super(crowdService, friendService, filterService);
     this.debounceTimeout = 0;
@@ -52,7 +58,7 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
       (err) => console.log(err)
       );
 
-    this.filterService.isVisibleEmitter
+    this.appStateService.isFilterVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isFilterVisible = visibility;
       });
@@ -64,5 +70,30 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
     if (this.serviceInstance) {
       this.serviceInstance.unsubscribe();
     }
+  }
+
+  setSelectedUser(id) {
+    for (var i = this.items.length - 1; i >= 0; i--) {
+      if (this.items[i].id === id) {
+        this.selectedUser = this.items[i];
+        // this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
+        this.profileViewActive = true;
+        this.appStateService.setHeaderVisibility(false);
+        this.appStateService.setProfileFooterVisibility({
+          visibility: true,
+          score: this.selectedUser.score
+        });
+      }
+    }
+  }
+
+  closeProfile(event) {
+    this.profileViewActive = false;
+    this.selectedUser = null;
+    this.appStateService.setHeaderVisibility(true);
+    this.appStateService.setProfileFooterVisibility({
+      visibility: false,
+      score: 0
+    });
   }
 }

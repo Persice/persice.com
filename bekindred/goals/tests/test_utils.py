@@ -26,22 +26,22 @@ class DistanceKmTestCase(TestCase):
     def test_m_50(self):
         user_object = {'sort': [0.0]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [10, 'm'])
+        self.assertEqual(d, [10, 'meters'])
 
     def test_m_gte_50(self):
         user_object = {'sort': [0.9]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [899, 'm'])
+        self.assertEqual(d, [899, 'meters'])
 
     def test_1_km(self):
         user_object = {'sort': [1.0]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [999, 'm'])
+        self.assertEqual(d, [999, 'meters'])
 
     def test_gte_1_km(self):
         user_object = {'sort': [1.1]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [1099, 'm'])
+        self.assertEqual(d, [1099, 'meters'])
 
 
 class DistanceMilesTestCase(TestCase):
@@ -61,12 +61,12 @@ class DistanceMilesTestCase(TestCase):
     def test_m_50(self):
         user_object = {'sort': [0.0]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [10, 'm'])
+        self.assertEqual(d, [10, 'meters'])
 
     def test_m_gte_50(self):
         user_object = {'sort': [0.9]}
         d = calculate_distance_es(self.user.id, user_object)
-        self.assertEqual(d, [1448, 'm'])
+        self.assertEqual(d, [1448, 'meters'])
 
     def test_1_mi(self):
         user_object = {'sort': [1.0]}

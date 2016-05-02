@@ -5,26 +5,27 @@ import {
 } from 'angular2/core';
 
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-
 import {BrowserDomAdapter} from 'angular2/platform/browser';
 
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
-  Router,
   RouteRegistry,
-  AsyncRoute
+  AsyncRoute,
+  Router
 } from 'angular2/router';
 
 import {
-  LeftMenuPushDirective,
-  RightMenuPushDirective
+  OpenLeftMenuDirective,
+  CloseLeftMenuDirective,
+  IfRoutesActiveDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdComponentMobile} from "./crowd/crowd-mobile.component";
-
+import {CrowdComponentMobile} from "./crowd";
+import {PageTitleComponent} from './page-title';
 import {FilterService} from '../app/shared/services';
-
+import {AppStateService} from './shared/services';
+import {ProfileFooterMobileComponent} from './user-profile';
 /*
  * Persice App Component
  * Top Level Component
@@ -71,44 +72,64 @@ import {FilterService} from '../app/shared/services';
   template: require('./app-mobile.html'),
   providers: [
     BrowserDomAdapter,
-    FilterService
+    FilterService,
+    AppStateService
   ],
   directives: [
     CORE_DIRECTIVES,
     FORM_DIRECTIVES,
     ROUTER_DIRECTIVES,
     NavigationMobileComponent,
-    LeftMenuPushDirective,
-    RightMenuPushDirective
+    OpenLeftMenuDirective,
+    CloseLeftMenuDirective,
+    IfRoutesActiveDirective,
+    PageTitleComponent,
+    ProfileFooterMobileComponent
   ],
   encapsulation: ViewEncapsulation.None
 })
 export class AppMobileComponent implements OnInit {
-  isHeaderHidden: boolean = false;
-  constructor(
-    private _router: Router,
-    private _dom: BrowserDomAdapter,
-    private filterService: FilterService
-  ) {
+  isHeaderVisible: boolean = true;
+  isFooterVisible: boolean = false;
+  pagesWithFilter = ['crowd'];
+  pageTitle = 'Persice';
+  footerScore: number = 0;
 
-  }
+  constructor(
+    private _appStateService: AppStateService,
+    private _router: Router
+    ) { }
 
   ngOnInit() {
-    this._router.subscribe((next) => {
-      // If route changed, close left navigation menu
-      if (this._dom.hasClass(this._dom.query('.container'), 'push-menu-push--toright')) {
-        this._dom.removeClass(this._dom.query('.container'), 'push-menu-push--toright');
-        this._dom.removeClass(this._dom.query('#push-menu-s1'), 'is-open');
-      }
-    });
-
-    this.filterService.isVisibleEmitter
+    // Subscribe to EventEmmitter from AppStateService to show or hide main app header
+    this._appStateService.isHeaderVisibleEmitter
       .subscribe((visibility: boolean) => {
-        this.isHeaderHidden = visibility;
+        this.isHeaderVisible = visibility;
       });
+
+    this._appStateService.isHeaderVisibleEmitter
+      .subscribe((visibility: boolean) => {
+        this.isHeaderVisible = visibility;
+      });
+
+    this._appStateService.isProfileFooterVisibleEmitter
+      .subscribe((state: any) => {
+        this.isFooterVisible = state.visibility;
+        this.footerScore = state.score;
+      });
+
+    this._router.subscribe((next: string) => {
+      this._onRouteChange(next);
+    });
   }
 
   setFilterVisible() {
-    this.filterService.setVisibility(true);
+    this._appStateService.setFilterVisibility(true);
+    this._appStateService.setHeaderVisibility(false);
   }
+
+  private _onRouteChange(next: string) {
+    this.pageTitle = next;
+  }
+
 }

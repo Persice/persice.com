@@ -88,9 +88,9 @@ def format_distance(distance, user_id):
 
     if distance < 1.0:
         if miles_to_meters(distance) <= 10.0:
-            return [10, 'm']
+            return [10, 'meters']
         else:
-            return [int(miles_to_meters(distance)), 'm']
+            return [int(miles_to_meters(distance)), 'meters']
 
     if _units == 'km':
         return [int(miles_to_km(distance)), 'km']

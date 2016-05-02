@@ -1,3 +1,5 @@
+import hashlib
+
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.cache import cache
 from tastypie import fields
@@ -73,18 +75,19 @@ class MatchedFeedResource(Resource):
     def get_object_list(self, request):
         fs = FilterState.objects.filter(user=request.user.id)
         cache_match_users = None
-        filter_updated = None
+        filter_updated_sha = None
         if fs:
             try:
                 attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
                          fs[0].distance, fs[0].distance_unit,
                          fs[0].order_criteria, fs[0].keyword]
                 filter_updated = '.'.join(map(str, attrs))
+                filter_updated_sha = hashlib.sha1(filter_updated).hexdigest()
                 # Concatenate all filters value instead!!!
                 # m.1312.10000mi.sim
                 # filter_updated = time.mktime(fs[0].updated.timetuple())
                 cache_match_users = cache.get('%s_%s' % (request.user.id,
-                                                         filter_updated))
+                                                         filter_updated_sha))
             except AttributeError:
                 pass
         if cache_match_users:
@@ -92,7 +95,7 @@ class MatchedFeedResource(Resource):
         else:
             match_users = MatchQuerySet.all(request.user.id, is_filter=True)
             cache.set('%s_%s' % (request.user.id,
-                                 filter_updated), match_users)
+                                 filter_updated_sha), match_users)
         if fs:
             if fs[0].order_criteria == 'match_score':
                 return sorted(match_users, key=lambda x: -x.score)
