@@ -324,7 +324,8 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].top_interests,
-                         [{u'django': 1, u'erlang': 1, u'python': 1}])
+                         [{u'child': 0, u'django': 1, u'erlang': 1,
+                           u'python': 1}])
 
     def test_simple_top_interests_less_than_3(self):
         Goal.objects.create(user=self.user, goal=self.subject11)
