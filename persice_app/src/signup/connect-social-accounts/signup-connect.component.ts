@@ -1,4 +1,4 @@
-import {Component, NgZone} from 'angular2/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 
 import {UserAuthService} from '../../app/shared/services';
 
@@ -7,7 +7,7 @@ declare var jQuery: any;
   selector: 'prs-signup-connect',
   template: require('./signup-connect.html')
 })
-export class SignupConnectComponent {
+export class SignupConnectComponent implements OnInit {
 
   connectStatus = {
     twitter: {

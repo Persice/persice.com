@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {CheckImageDirective} from "../../../../app/shared/directives";
 import {GenderPipe} from '../../../../app/shared/pipes';
 import {ObjectUtil} from '../../../../app/shared/core';

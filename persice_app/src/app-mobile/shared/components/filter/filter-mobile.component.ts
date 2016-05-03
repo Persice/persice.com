@@ -1,7 +1,7 @@
 import {
   Component,
   Input
-} from 'angular2/core';
+} from '@angular/core';
 
 import {findIndex, isUndefined, debounce, throttle} from 'lodash';
 

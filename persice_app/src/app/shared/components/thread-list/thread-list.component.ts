@@ -4,14 +4,14 @@ import {
   Output,
   ChangeDetectionStrategy,
   EventEmitter
-} from 'angular2/core';
+} from '@angular/core';
 
 import {ThreadComponent} from './thread.component';
 
 @Component({
   selector: 'prs-thread-list',
   template: `
-  <prs-thread [isActive]="active" (selected)="selected.next($event)" *ngFor="#item of threads" [thread]="item"></prs-thread>
+  <prs-thread [isActive]="active" (selected)="selected.next($event)" *ngFor="let item of threads" [thread]="item"></prs-thread>
   `,
   directives: [
     ThreadComponent

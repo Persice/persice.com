@@ -6,8 +6,8 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy
-} from 'angular2/core';
-import {Router} from 'angular2/router';
+} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 import {mergeMap} from 'rxjs/operator/mergeMap';
 import {ListUtil} from '../shared/core/';

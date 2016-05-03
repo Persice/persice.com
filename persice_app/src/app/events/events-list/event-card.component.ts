@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, Input} from 'angular2/core';
-import {RouterLink} from 'angular2/router';
+import {Component, ChangeDetectionStrategy, Input, OnInit} from '@angular/core';
+import {RouterLink} from '@angular/router-deprecated';
 
 import {DateUtil} from '../../shared/core';
 import {CheckImageDirective} from '../../shared/directives';
@@ -10,7 +10,7 @@ import {CheckImageDirective} from '../../shared/directives';
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [RouterLink, CheckImageDirective]
 })
-export class EventCardComponent {
+export class EventCardComponent implements OnInit {
   @Input () event: any;
   photo: string = '/static/img/placeholder-image.png';
   date: string = '';

@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy } from 'angular2/core';
+import {Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 const SHOW_CHAR_LIMIT: number = 80;
 

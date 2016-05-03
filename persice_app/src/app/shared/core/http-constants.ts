@@ -1,4 +1,4 @@
-import {Headers} from 'angular2/http';
+import {Headers} from '@angular/http';
 import {CookieUtil} from './util';
 
 let csrfToken = CookieUtil.getValue('csrftoken');
@@ -17,7 +17,6 @@ export const OPTS_REQ_JSON_CSRF = {
     'X-CSRFToken': csrfToken
   })
 };
-
 
 export const OPTS_REQ_UNDEFINED_CSRF = {
 

@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input} from '@angular/core';
 import {findIndex, isUndefined, debounce, throttle} from 'lodash';
 
 import {FilterComponent} from '../../../../common/filter';

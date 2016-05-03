@@ -98,7 +98,7 @@
                 <button class="btn reselect__done js-reselect__done">Done</button>
               </header>
               <ul class="reselect__drop__list">
-                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'religious'})" [ngClass]="{'is-selected': item.selected}" *ngFor="#item of religiousViews;  #i = index">{{item.name}}</li>
+                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'religious'})" [ngClass]="{'is-selected': item.selected}" *ngFor="let item of religiousViews;  let i = index">{{item.name}}</li>
               </ul>
             </div>
           </div>
@@ -121,7 +121,7 @@
                 <button class="btn reselect__done js-reselect__done">Done</button>
               </header>
               <ul class="reselect__drop__list">
-                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'political'})" [ngClass]="{'is-selected': item.selected}" *ngFor="#item of politicalViews; #i = index">{{item.name}}</li>
+                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'political'})" [ngClass]="{'is-selected': item.selected}" *ngFor="let item of politicalViews; let i = index">{{item.name}}</li>
               </ul>
             </div>
           </div>

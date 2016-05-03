@@ -1,10 +1,10 @@
-import {Directive, ElementRef, OnChanges, AfterViewInit, Renderer} from 'angular2/core';
+import {Directive, ElementRef, OnChanges, AfterViewInit, Renderer} from '@angular/core';
 
 @Directive({
   selector: '[checkimage]',
   properties: ['image: checkimage', 'suffix', 'onchanges']
 })
-export class CheckImageDirective {
+export class CheckImageDirective implements OnChanges, AfterViewInit {
   image: string;
   suffix: string;
   onchanges: boolean;

@@ -1,16 +1,14 @@
-import {Injector, provide} from 'angular2/core';
+import {Injector, provide, ReflectiveInjector} from '@angular/core';
 
 import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
   beforeEachProviders
-} from 'angular2/testing';
+} from '@angular/core/testing';
 
-import {BaseRequestOptions, ConnectionBackend, Http, Response,
-  ResponseOptions,
-} from 'angular2/http';
+import {BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions}
+from '@angular/http';
 
-
-import {MockBackend} from 'angular2/http/testing';
-import {RequestMethod} from 'angular2/src/http/enums';
+import {MockBackend} from '@angular/http/testing';
+import {RequestMethod} from '@angular/http';
 import {CrowdService} from './crowd.service';
 import {MockCrowd} from './crowd.mock';
 import {HttpClient} from "../../app/shared/core/http-client";
@@ -25,7 +23,7 @@ describe('CrowdService', () => {
   let service: CrowdService;
 
   beforeEach(() => {
-    injector = Injector.resolveAndCreate([
+    injector = ReflectiveInjector.resolveAndCreate([
       BaseRequestOptions,
       MockBackend,
       HttpClient,

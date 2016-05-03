@@ -5,11 +5,11 @@ import {
   EventEmitter,
   ElementRef,
   OnInit
-} from 'angular2/core';
+} from '@angular/core';
 
-import {Control} from 'angular2/common';
+import {Control} from '@angular/common';
 import {Observable} from 'rxjs';
-import {Http} from 'angular2/http';
+import {Http} from '@angular/http';
 import {CheckImageDirective} from '../../shared/directives';
 
 declare var jQuery: any;
@@ -19,7 +19,7 @@ declare var jQuery: any;
   template: require('./search-connections.html'),
   directives: [CheckImageDirective]
 })
-export class SearchConnectionsComponent {
+export class SearchConnectionsComponent implements OnInit {
   @Output() selected: EventEmitter<any> = new EventEmitter();
   searchTerm = new Control();
   results: Observable<any[]>;

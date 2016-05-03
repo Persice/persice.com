@@ -1,9 +1,9 @@
 <div class="photo-upload-window" [ngClass]="{'is-visible': !isHidden}">
   <div class="photo-upload-window__rows" id="photoAlbums">
-    <div class="photo-upload-window__row" *ngFor="#album of albums">
+    <div class="photo-upload-window__row" *ngFor="let album of albums">
       <h3 class="photo-upload-window__row__title">{{album.name}}</h3>
       <div class="layout layout--small">
-        <div class="layout__item 1/6" *ngFor="#photo of album.photos?.data">
+        <div class="layout__item 1/6" *ngFor="let photo of album.photos?.data">
           <div class="photo-upload-holder" (click)="openCrop.next(photo)" [ngStyle]="{'background-image': 'url(' + photo.picture + ')'}">
           </div>
         </div>

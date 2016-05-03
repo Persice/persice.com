@@ -3,7 +3,7 @@
   [scrollEnabled]="!isFilterVisible && !profileViewActive"
   [bottomOffset]="60">
   <prs-mobile-user-card (onProfileTap)="setSelectedUser($event)" [person]="person"
-    *ngFor="#person of items"></prs-mobile-user-card>
+    *ngFor="let person of items"></prs-mobile-user-card>
   <prs-loading [status]="loading"></prs-loading>
 </div>
 <prs-mobile-filter [ngClass]="{'is-hidden': !isFilterVisible}" [type]="'crowd'"></prs-mobile-filter>

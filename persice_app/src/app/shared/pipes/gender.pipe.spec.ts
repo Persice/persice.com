@@ -1,17 +1,16 @@
 import {
-iit,
-it,
-ddescribe,
-describe,
-expect,
-inject,
-injectAsync,
-TestComponentBuilder,
-beforeEachProviders,
-beforeEach,
-fakeAsync,
-tick
-} from 'angular2/testing';
+  iit,
+  it,
+  ddescribe,
+  describe,
+  expect,
+  inject,
+  injectAsync,
+  beforeEachProviders,
+  beforeEach,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 
 import {GenderPipe} from './gender.pipe';
 

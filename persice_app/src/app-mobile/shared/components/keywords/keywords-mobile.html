@@ -23,7 +23,7 @@
   </div>
 </div>
 <div class="search__tags-wrapper text-left" *ngIf="items.length > 0">
-  <p class="search-tag-secondary" *ngFor="#item of items">
+  <p class="search-tag-secondary" *ngFor="let item of items">
     <a (click)="remove(item)">
       <svg role="img" class="icon ">
         <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>

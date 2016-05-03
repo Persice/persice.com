@@ -1,4 +1,4 @@
-import {provide, Provider} from 'angular2/core';
+import {provide, Provider} from '@angular/core';
 import {CrowdService} from './crowd.service';
 import {Observable} from 'rxjs';
 import {HttpClient} from "../../app/shared/core/http-client";

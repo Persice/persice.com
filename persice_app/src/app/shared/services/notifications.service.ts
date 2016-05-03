@@ -1,4 +1,4 @@
-import {Injectable, provide, EventEmitter} from 'angular2/core';
+import {Injectable, provide, EventEmitter} from '@angular/core';
 
 
 @Injectable()

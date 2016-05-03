@@ -1,6 +1,6 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
-import {RouteParams, Router} from 'angular2/router';
-import {Response} from 'angular2/http';
+import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
+import {RouteParams, Router} from '@angular/router-deprecated';
+import {Response} from '@angular/http';
 
 import {EventDescriptionComponent} from './event-description';
 import {EventHostComponent} from './event-host';

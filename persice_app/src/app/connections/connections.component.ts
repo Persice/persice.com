@@ -1,5 +1,5 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';

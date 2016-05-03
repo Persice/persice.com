@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from 'angular2/core';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 import {mergeMap} from 'rxjs/operator/mergeMap';
 
 

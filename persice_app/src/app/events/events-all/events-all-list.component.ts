@@ -1,5 +1,4 @@
-import {Component} from 'angular2/core';
-
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {EventsBaseComponent} from '../events-base.component';
 import {EventsListComponent} from '../events-list';
@@ -7,7 +6,6 @@ import {LoadingComponent} from '../../shared/components/loading';
 import {NewEventCardComponent} from '../new-event-card';
 
 import {EventsService, FilterService} from '../../shared/services';
-declare var jQuery: any;
 
 @Component({
   selector: 'prs-events-all-list',
@@ -23,9 +21,26 @@ declare var jQuery: any;
     <prs-loading [status]="loading"></prs-loading>
   `
 })
-export class EventsAllListComponent extends EventsBaseComponent {
+export class EventsAllListComponent extends EventsBaseComponent implements OnInit, OnDestroy {
   constructor(public service: EventsService, public filterService: FilterService) {
     super(service, filterService, 'all');
+  }
+
+  ngOnInit() {
+    this.getList();
+    //create new observer and subscribe
+    this.filterService.addObserver(`events${this.type}`);
+    this.filterService.observer(`events${this.type}`)
+      .subscribe(
+      (data) => this.refreshList(),
+      (err) => console.log(err),
+      () => console.log('event completed')
+      );
+  }
+
+  ngOnDestroy() {
+    this.filterService.observer(`events${this.type}`).unsubscribe();
+    this.filterService.removeObserver(`events${this.type}`);
   }
 
 }

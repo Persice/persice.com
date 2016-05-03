@@ -4,7 +4,7 @@ import {
   AfterViewInit,
   EventEmitter,
   Output
-} from 'angular2/core';
+} from '@angular/core';
 import {DateUtil} from '../core';
 
 declare var jQuery: any;

@@ -74,7 +74,7 @@
       <div class="filter__item">
         <h3 class="filter__item__title mb-">Order by</h3>
         <select minimalect (selectedValue)="changeOrder($event)">
-          <option *ngFor="#order of orderBy" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
+          <option *ngFor="let order of orderBy" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
         </select>
       </div>
     </div>

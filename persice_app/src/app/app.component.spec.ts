@@ -1,40 +1,34 @@
 import {
-it,
-iit,
-xit,
-describe,
-ddescribe,
-xdescribe,
-expect,
-tick,
-beforeEach,
-inject,
-beforeEachProviders,
-TestComponentBuilder,
-} from 'angular2/testing';
+  it,
+  iit,
+  xit,
+  describe,
+  ddescribe,
+  xdescribe,
+  expect,
+  tick,
+  beforeEach,
+  inject,
+  beforeEachProviders
+} from '@angular/core/testing';
+import {TestComponentBuilder} from '@angular/compiler/testing';
 
-import {Component} from 'angular2/core';
-
-
+import {Component, OnInit} from '@angular/core';
 
 import {AppComponent} from './app.component';
 
-
-
 // Create a test component to test directives
 @Component({
-  selector: 'test-cmp',
+  selector: 'prs-test-cmp',
   template: '<div>Original Child</div>'
 })
-class ChildCmp {
+class ChildCmp implements OnInit {
   ngOnInit() {
     console.log('hello Home component');
   }
 }
 
-
 describe('App component', () => {
-
   // provide our implementations or mocks to the dependency injector
   beforeEachProviders(() => [
     ChildCmp

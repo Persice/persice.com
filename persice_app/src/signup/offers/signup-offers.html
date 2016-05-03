@@ -24,7 +24,7 @@
     </div>
   </div>
   <div class="search__tags-wrapper text-left" id="offers" [ngClass]="{'has-signup-empty-state': isListEmpty}">
-    <span class="search-tag-secondary" *ngFor="#item of items">
+    <span class="search-tag-secondary" *ngFor="let item of items">
       <a (click)="removeOffer(item)">
         <svg role="img" class="icon icon--tiny">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>

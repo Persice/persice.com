@@ -1,27 +1,19 @@
 import {
-  iit,
   it,
-  ddescribe,
   describe,
   expect,
   inject,
-  injectAsync,
-  TestComponentBuilder,
-  beforeEachProviders,
-  fakeAsync,
-  tick
-} from 'angular2/testing';
-
-import {DOM} from 'angular2/src/platform/dom/dom_adapter';
-
-import {Component, provide} from 'angular2/core';
+  async,
+  beforeEachProviders
+} from '@angular/core/testing';
+import {TestComponentBuilder} from '@angular/compiler/testing';
+import {Component, provide} from '@angular/core';
 
 import {UserCardComponent} from './user-card.component';
 
 import {user} from './user-card.component.mock';
 
 import {ObjectUtil} from '../../core';
-
 
 // Create a test component to test directives
 @Component({
@@ -52,7 +44,7 @@ class TestComponent {
 
 describe('UserCard component', () => {
 
-  it('should exist', injectAsync([TestComponentBuilder], (tcb) => {
+  it('should exist', async(inject([TestComponentBuilder], (tcb) => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {
       fixture.detectChanges();
 
@@ -61,10 +53,10 @@ describe('UserCard component', () => {
       expect(elRef).not.toBeNull(true);
 
     });
-  }));
+  })));
 
 
-  it('should display user interests', injectAsync([TestComponentBuilder], (tcb) => {
+  it('should display user interests', async(inject([TestComponentBuilder], (tcb) => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {
       fixture.detectChanges();
 
@@ -89,10 +81,10 @@ describe('UserCard component', () => {
       expect(interest2).toEqual('ballet');
 
     });
-  }));
+  })));
 
 
-  it('should display user information', injectAsync([TestComponentBuilder], (tcb) => {
+  it('should display user information', async(inject([TestComponentBuilder], (tcb) => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {
       fixture.detectChanges();
 
@@ -105,6 +97,6 @@ describe('UserCard component', () => {
       expect(header).toBe(user.first_name);
       expect(subtitle).toEqual('Female / age 35 / 10 meters');
     });
-  }));
+  })));
 
 });

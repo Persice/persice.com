@@ -4,7 +4,7 @@ import {
   Input,
   Output,
   AfterContentInit
-} from 'angular2/core';
+} from '@angular/core';
 
 import {GenderPipe} from '../../pipes';
 import {ObjectUtil} from '../../core';

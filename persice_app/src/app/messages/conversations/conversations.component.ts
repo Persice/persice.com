@@ -6,7 +6,7 @@ import {
   EventEmitter,
   OnInit,
   OnDestroy
-} from 'angular2/core';
+} from '@angular/core';
 
 import {
   InboxService,

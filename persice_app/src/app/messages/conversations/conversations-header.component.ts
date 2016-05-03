@@ -1,5 +1,5 @@
-import {Component, Input, OnDestroy} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, Input, OnDestroy} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {InboxService} from '../../shared/services';
 

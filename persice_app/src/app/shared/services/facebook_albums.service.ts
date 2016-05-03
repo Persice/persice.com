@@ -1,5 +1,5 @@
-import {provide, Injectable} from 'angular2/core';
-import {Http} from 'angular2/http';
+import {provide, Injectable} from '@angular/core';
+import {Http} from '@angular/http';
 import {HttpClient} from '../core';
 import {StringUtil, DateUtil, ListUtil, CookieUtil} from '../core/util';
 import {Observable, Subject} from 'rxjs';

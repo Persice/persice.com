@@ -3,14 +3,14 @@ import {
   ViewEncapsulation,
   ViewChild,
   OnInit
-} from 'angular2/core';
+} from '@angular/core';
 
 import {
   Router,
   ROUTER_DIRECTIVES,
-  RouteConfig,
-  Location
-} from 'angular2/router';
+  RouteConfig
+} from '@angular/router-deprecated';
+import {Location} from '@angular/common';
 
 import {SignupHeaderMobileComponent} from './header';
 import {SignupInterestsMobileComponent} from './interests';

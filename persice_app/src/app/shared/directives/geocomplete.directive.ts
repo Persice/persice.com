@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter, Output} from 'angular2/core';
+import {Directive, ElementRef, EventEmitter, Output, OnInit, OnDestroy} from '@angular/core';
 
 import {
   MapsAPILoader
@@ -12,15 +12,11 @@ declare var google: any;
 @Directive({
   selector: '[geocomplete]'
 })
-export class GeocompleteDirective {
+export class GeocompleteDirective implements OnInit, OnDestroy {
   @Output() selectedValue: EventEmitter<any> = new EventEmitter();
   location;
   instance;
-
-
-  constructor(private el: ElementRef, private _loader: MapsAPILoader) {
-
-  }
+  constructor(private el: ElementRef, private _loader: MapsAPILoader) { }
 
   ngOnInit() {
     // lazy load google maps api

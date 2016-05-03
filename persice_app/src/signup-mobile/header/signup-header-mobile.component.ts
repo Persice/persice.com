@@ -3,7 +3,7 @@ import {
   Input,
   Output,
   EventEmitter
-} from 'angular2/core';
+} from '@angular/core';
 
 @Component({
   selector: 'prs-mobile-signup-header',

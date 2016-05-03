@@ -5,7 +5,7 @@ import {
   EventEmitter,
   OnChanges,
   AfterViewInit
-} from 'angular2/core';
+} from '@angular/core';
 
 import {ListUtil} from '../shared/core';
 import {GenderPipe} from '../shared/pipes';

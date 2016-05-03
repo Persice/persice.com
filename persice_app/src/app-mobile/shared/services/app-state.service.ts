@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter, provide} from 'angular2/core';
+import {Injectable, EventEmitter, provide} from '@angular/core';
 
 @Injectable()
 export class AppStateService {

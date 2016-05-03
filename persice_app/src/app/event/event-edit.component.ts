@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 import {
   SelectDirective,
@@ -38,7 +38,7 @@ declare var jQuery: any;
   providers: [EventService]
 
 })
-export class EventEditComponent extends BaseEventComponent {
+export class EventEditComponent extends BaseEventComponent implements OnChanges {
 
   @Input() event;
   @Input() type;

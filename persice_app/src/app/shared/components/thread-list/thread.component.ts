@@ -4,7 +4,7 @@ import {
   Output,
   ChangeDetectionStrategy,
   EventEmitter
-} from 'angular2/core';
+} from '@angular/core';
 
 import {CheckImageDirective} from '../../directives';
 

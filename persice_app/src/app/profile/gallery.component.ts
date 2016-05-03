@@ -1,4 +1,4 @@
-import {Component, Input, AfterViewInit, OnDestroy} from 'angular2/core';
+import {Component, Input, AfterViewInit, OnDestroy} from '@angular/core';
 
 declare var Swiper: any;
 @Component({

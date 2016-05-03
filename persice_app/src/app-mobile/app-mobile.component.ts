@@ -2,10 +2,10 @@ import {
   Component,
   ViewEncapsulation,
   OnInit
-} from 'angular2/core';
+} from '@angular/core';
 
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {BrowserDomAdapter} from 'angular2/platform/browser';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
+import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
 
 import {
   RouteConfig,
@@ -13,7 +13,7 @@ import {
   RouteRegistry,
   AsyncRoute,
   Router
-} from 'angular2/router';
+} from '@angular/router-deprecated';
 
 import {
   OpenLeftMenuDirective,

@@ -1,7 +1,7 @@
 <input (click)="resultsVisible = true" (focus)="resultsVisible = true" (blur)="resultsVisible = false" (keydown)="keyEvent($event)" [ngFormControl]="searchTerm" type="text" class="left-labeled-input__element js-message-to" placeholder="NAME">
 <div class="message-drop" [ngClass]="{'is-invisible': !resultsVisible}">
   <div class="message-drop__results">
-    <a class="message-drop__results__result" *ngFor="#result of results | async; #i = index" (mouseover)="selectedIndex = i" (click)="select(result)" [ngClass]="{'is-active': selectedIndex === i}">
+    <a class="message-drop__results__result" *ngFor="let result of results | async; let i = index" (mouseover)="selectedIndex = i" (click)="select(result)" [ngClass]="{'is-active': selectedIndex === i}">
       <div class="flag flag--small">
         <div class="flag__img">
           <div class="avatar avatar--medium">

@@ -44,8 +44,8 @@
       <div class="profile-box__sub">
         <div class="layout">
           <div class="layout__item 1/2">
-            <span class="profile-info__label">Religious Views</span> <span class="profile-info__value" *ngFor="#rel of profileReligiousViews">{{rel.religious_view}}</span> </div>
-          <div class="layout__item 1/2"> <span class="profile-info__label">Political Views</span> <span class="profile-info__value" *ngFor="#rel of profilePoliticalViews">{{rel.political_view}}</span> </div>
+            <span class="profile-info__label">Religious Views</span> <span class="profile-info__value" *ngFor="let rel of profileReligiousViews">{{rel.religious_view}}</span> </div>
+          <div class="layout__item 1/2"> <span class="profile-info__label">Political Views</span> <span class="profile-info__value" *ngFor="let rel of profilePoliticalViews">{{rel.political_view}}</span> </div>
         </div>
       </div>
     </div>

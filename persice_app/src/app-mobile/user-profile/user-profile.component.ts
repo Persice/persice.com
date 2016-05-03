@@ -5,7 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
   AfterViewInit
-} from 'angular2/core';
+} from '@angular/core';
 
 import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";

@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
+import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
 
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';

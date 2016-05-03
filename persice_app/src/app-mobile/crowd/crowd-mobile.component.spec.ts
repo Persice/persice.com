@@ -2,19 +2,18 @@ import {
   expect,
   it,
   describe,
-  injectAsync,
-  TestComponentBuilder,
   beforeEachProviders,
   beforeEach,
   inject,
   fakeAsync,
   tick,
-  ComponentFixture
-} from 'angular2/testing';
+  async
+} from '@angular/core/testing';
+import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
 
-import {Component, provide} from 'angular2/core';
-import {BaseRequestOptions, ConnectionBackend, Http} from 'angular2/http';
-import {MockBackend} from 'angular2/http/testing';
+import {Component, provide} from '@angular/core';
+import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
 import {
   MockCrowd,
@@ -63,17 +62,17 @@ describe('Crowd mobile component', () => {
     ];
   });
 
-  beforeEach(injectAsync([TestComponentBuilder], (tcb) => {
+  beforeEach(async(inject([TestComponentBuilder], (tcb) => {
     return tcb
       .overrideProviders(
-        CrowdComponentMobile, [provide(CrowdService, { useValue: mockCrowdService })])
+      CrowdComponentMobile, [provide(CrowdService, { useValue: mockCrowdService })])
       .createAsync(TestComponent)
-      .then((componentFixture: ComponentFixture) => {
+      .then((componentFixture: ComponentFixture<any>) => {
         this.componentFixture = componentFixture;
         componentInstance = componentFixture.componentInstance;
         componentElement = componentFixture.nativeElement;
       });
-  }));
+  })));
 
   it('should show crowd list when matchfeed returns results', () => {
     // given

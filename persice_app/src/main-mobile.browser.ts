@@ -1,7 +1,7 @@
 /*
  * Providers provided by Angular
  */
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
 /*
 * Platform and Environment
 * our providers/directives/pipes
@@ -51,6 +51,8 @@ export function main(initialHmrState?: any): Promise<any> {
 if ('development' === ENV && HMR === true) {
   // activate hot module reload
   let ngHmr = require('angular2-hmr');
+
+
   ngHmr.hotModuleReplacement(main, module);
 } else {
   // bootstrap when documetn is ready

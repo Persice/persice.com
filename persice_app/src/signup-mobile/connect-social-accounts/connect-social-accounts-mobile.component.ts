@@ -1,7 +1,7 @@
 import {
   Component,
   OnInit
-} from 'angular2/core';
+} from '@angular/core';
 
 import {UserAuthService} from '../../app/shared/services';
 

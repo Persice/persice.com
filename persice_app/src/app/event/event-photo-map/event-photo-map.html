@@ -22,7 +22,7 @@
         </div>
         <div [ngClass]="{'is-current': showMap}" *ngIf="showMap" class="event-photo-map__content tab-content" id="js-map">
           <google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-            <google-map-marker *ngFor="#m of markers" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label"></google-map-marker>
+            <google-map-marker *ngFor="let m of markers" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label"></google-map-marker>
           </google-map>
         </div>
       </div>

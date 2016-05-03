@@ -1,11 +1,11 @@
-import {
-  expect,
-  it,
-  describe, TestComponentBuilder, injectAsync, beforeEach, beforeEachProviders
-} from 'angular2/testing';
-import {KeywordsComponentMobile} from "./keywords-mobile.component";
-import {FilterService} from "../../../../app/shared/services/filter.service";
-import {provide, Provider} from "angular2/core";
+import {expect, it, describe, async, inject, beforeEach, beforeEachProviders}
+from '@angular/core/testing';
+
+import {TestComponentBuilder} from '@angular/compiler/testing';
+
+import {KeywordsComponentMobile} from './keywords-mobile.component';
+import {FilterService} from '../../../../app/shared/services/filter.service';
+import {provide, Provider} from '@angular/core';
 import {Observable} from 'rxjs';
 
 let component: KeywordsComponentMobile;
@@ -24,9 +24,9 @@ class FilterServiceMock extends FilterService {
 
   public setEmptyFindResponse(): void {
     this.findResponse = this.findResponse = {
-      "objects": [
+      'objects': [
         {
-          "keyword": "",
+          'keyword': '',
         }
       ]
     };
@@ -34,11 +34,11 @@ class FilterServiceMock extends FilterService {
 
   public setNonEmptyFindResponse(): void {
     this.findResponse = {
-       "objects": [
-          {
-             "keyword": "python,cooking",
-          }
-       ]
+      'objects': [
+        {
+          'keyword': 'python,cooking',
+        }
+      ]
     };
   }
 
@@ -56,15 +56,15 @@ describe('Keyword mobile component', () => {
     ];
   });
 
-  beforeEach(injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+  beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-        KeywordsComponentMobile, [provide(FilterService, { useValue: mock })])
+      KeywordsComponentMobile, [provide(FilterService, { useValue: mock })])
       .createAsync(KeywordsComponentMobile)
       .then((componentFixture: any) => {
         component = componentFixture.componentInstance;
       });
-  }));
+  })));
 
   it('should initially be empty', () => {
     // when
@@ -83,8 +83,8 @@ describe('Keyword mobile component', () => {
 
     // then
     expect(component.items.length).toEqual(2);
-    expect(component.items[0]).toEqual("python");
-    expect(component.items[1]).toEqual("cooking");
+    expect(component.items[0]).toEqual('python');
+    expect(component.items[1]).toEqual('cooking');
   });
 
   it('adds items', () => {
@@ -97,7 +97,7 @@ describe('Keyword mobile component', () => {
     component.add();
 
     // then
-    expect(component.items[0]).toEqual("linux");
+    expect(component.items[0]).toEqual('linux');
   });
 
   it('removes items', () => {
@@ -106,11 +106,11 @@ describe('Keyword mobile component', () => {
 
     // when
     component.ngAfterViewInit();
-    component.remove("python");
+    component.remove('python');
 
     // then
     expect(component.items.length).toEqual(1);
-    expect(component.items[0]).toEqual("cooking");
+    expect(component.items[0]).toEqual('cooking');
   });
 
   it('fails to add duplicates', () => {
@@ -124,8 +124,8 @@ describe('Keyword mobile component', () => {
 
     // then
     expect(component.items.length).toEqual(2);
-    expect(component.items[0]).toEqual("python");
-    expect(component.items[1]).toEqual("cooking");
+    expect(component.items[0]).toEqual('python');
+    expect(component.items[1]).toEqual('cooking');
   });
 
   it('fails to add short items', () => {
@@ -139,7 +139,7 @@ describe('Keyword mobile component', () => {
 
     // then
     expect(component.items.length).toEqual(2);
-    expect(component.items[0]).toEqual("python");
-    expect(component.items[1]).toEqual("cooking");
+    expect(component.items[0]).toEqual('python');
+    expect(component.items[1]).toEqual('cooking');
   });
 });

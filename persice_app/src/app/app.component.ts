@@ -2,16 +2,19 @@ import {
   Component,
   Injectable,
   Type,
-  ViewEncapsulation
-} from 'angular2/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+  ViewEncapsulation,
+  AfterViewInit,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
   Router,
   RouteRegistry,
   AsyncRoute
-} from 'angular2/router';
+} from '@angular/router-deprecated';
 
 import {CookieUtil} from './shared/core';
 
@@ -168,7 +171,7 @@ class DynamicRouteConfiguratorService {
     NotificationsService
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   activeRoute: string = '';
   user: AuthUserModel;
   image: string;

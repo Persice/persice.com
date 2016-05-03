@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy } from 'angular2/core';
+import {Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import {CheckImageDirective} from '../../app/shared/directives';
 
 const ITEMS_LIMIT: number = 100;

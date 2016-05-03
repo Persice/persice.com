@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, AfterViewInit} from '@angular/core';
 import {FilterModel} from '../../../../app/shared/models';
 import {FilterService} from '../../../../app/shared/services';
 
@@ -7,7 +7,7 @@ import {FilterService} from '../../../../app/shared/services';
   template: require('./keywords-mobile.html'),
   providers: [FilterService]
 })
-export class KeywordsComponentMobile {
+export class KeywordsComponentMobile implements AfterViewInit {
 
   MINIMUM_ITEM_LENGTH: number = 2;
 

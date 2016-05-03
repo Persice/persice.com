@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Inject, NgZone} from 'angular2/core';
+import {Directive, ElementRef, Inject, NgZone, AfterViewInit, OnDestroy} from '@angular/core';
 
 declare var jQuery: any;
 declare var Swiper: any;
@@ -7,7 +7,7 @@ declare var Swiper: any;
   selector: '[swiper]',
   properties: ['options: swiper', 'id']
 })
-export class SwiperDirective {
+export class SwiperDirective implements AfterViewInit, OnDestroy {
   el: ElementRef;
   _ngZone: NgZone;
   options;

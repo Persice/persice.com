@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener} from 'angular2/core';
+import {Directive, ElementRef, HostListener, OnDestroy} from '@angular/core';
 
 declare var jQuery: any;
 
@@ -6,19 +6,14 @@ declare var jQuery: any;
   selector: '[dropdown]',
   properties: ['target: dropdown']
 })
-export class DropdownDirective {
-
-  el: ElementRef;
+export class DropdownDirective implements OnDestroy {
   target: string;
 
-  @HostListener('click') onClick (event: Event) {
+  @HostListener('click') onClick(event: Event) {
     jQuery(this.target).toggleClass('is-active');
   };
 
-  constructor(el: ElementRef) {
-    this.el = el;
-  }
-
+  constructor(public el: ElementRef) { }
 
   ngOnDestroy() {
     jQuery(this.target).removeClass('is-active');

@@ -1,19 +1,17 @@
-import {Injectable} from 'angular2/core';
-import {Http, RequestOptionsArgs, Response} from 'angular2/http';
+import {Injectable} from '@angular/core';
+import {Http, RequestOptionsArgs, Response} from '@angular/http';
 
 import {Subject} from 'rxjs';
 import {Observable} from 'rxjs';
 
 import {Notification} from './dto';
 
-
 @Injectable()
 export class HttpClient {
 
   requestNotifier = new Subject();
 
-  constructor(private http: Http) {
-  }
+  constructor(private http: Http) { }
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
     this._notify({ type: 'start' });

@@ -4,9 +4,9 @@ import {
   Output,
   OnInit,
   OnDestroy
-} from 'angular2/core';
-import {RouteParams, Router, ROUTER_DIRECTIVES} from 'angular2/router';
-import {Http} from 'angular2/http';
+} from '@angular/core';
+import {RouteParams, Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Http} from '@angular/http';
 
 import {AvatarComponent} from './avatar.component';
 import {AboutComponent} from './about.component';

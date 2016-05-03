@@ -1,5 +1,5 @@
-import {provide, Injectable, EventEmitter} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {provide, Injectable, EventEmitter} from '@angular/core';
+import {Http, Response} from '@angular/http';
 import {HttpClient} from '../core';
 
 import * as Rx from 'rxjs';

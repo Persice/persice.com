@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnDestroy} from '@angular/core';
 
 import {EventCreateComponent} from '../../event';
 import {RemodalDirective} from '../../shared/directives';
@@ -11,8 +11,7 @@ import {RemodalDirective} from '../../shared/directives';
     RemodalDirective
   ]
 })
-export class NewEventCardComponent {
-
+export class NewEventCardComponent implements OnDestroy {
 
   ngOnDestroy() {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');

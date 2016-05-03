@@ -21,10 +21,10 @@
         </svg>
         <div class="user-card__similarity__drop" [ngClass]="{'is-open': interestsVisible }">
           <ul class="user-card__similarity__list">
-            <li *ngFor="#key of interestsLeftHalf"><i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}</li>
+            <li *ngFor="let key of interestsLeftHalf"><i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}</li>
           </ul>
           <ul class="user-card__similarity__list">
-            <li *ngFor="#key of interestsRightHalf"><i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}</li>
+            <li *ngFor="let key of interestsRightHalf"><i *ngIf="key && key.match" class="interest-list__bullet"></i>{{key.value}}</li>
           </ul>
         </div>
       </a>

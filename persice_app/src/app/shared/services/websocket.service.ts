@@ -1,5 +1,5 @@
-import {provide, Injectable} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {provide, Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
 import {Subject} from 'rxjs/Subject';
 import * as io from 'socket.io-client';
 import {CookieUtil} from '../core';

@@ -45,7 +45,7 @@
             </span>
           </a>
         </h4>
-        <div class="profile-feature" *ngFor="#rel of profileReligiousViews"><a (click)="openEdit('religious')" class="edit-link">{{rel.religious_view}}</a></div>
+        <div class="profile-feature" *ngFor="let rel of profileReligiousViews"><a (click)="openEdit('religious')" class="edit-link">{{rel.religious_view}}</a></div>
       </div>
       <hr class="hr --mh mb0">
       <div class="pt ph+ pb has-edit-link">
@@ -58,7 +58,7 @@
             </span>
           </a>
         </h4>
-        <div class="profile-feature" *ngFor="#rel of profilePoliticalViews"><a (click)="openEdit('political')" class="edit-link">{{rel.political_view}}</a></div>
+        <div class="profile-feature" *ngFor="let rel of profilePoliticalViews"><a (click)="openEdit('political')" class="edit-link">{{rel.political_view}}</a></div>
       </div>
       <hr class="hr --mh mb0">
       <div class="pt ph+ pb has-edit-link">

@@ -1,4 +1,4 @@
-import {Injectable, Optional} from 'angular2/core';
+import {Injectable, Optional} from '@angular/core';
 import {MapsAPILoader} from './maps-api-loader';
 
 export enum GoogleMapsScriptProtocol {
@@ -68,7 +68,6 @@ export class LazyMapsAPILoader extends MapsAPILoader {
     if (this._scriptLoadingPromise) {
       return this._scriptLoadingPromise;
     }
-
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
