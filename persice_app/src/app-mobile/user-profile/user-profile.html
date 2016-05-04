@@ -9,8 +9,8 @@
         </a>
       </div>
       <div class="layout__item 3/5 text-center"> </div>
-      <!-- <div class="layout__item 1/5 text-right"> </div> -->
-      <div class="layout__item 1/5 text-right">
+      <div class="layout__item 1/5 text-right" *ngIf="type === 'crowd'"> </div>
+      <div class="layout__item 1/5 text-right" *ngIf="type === 'connection'">
         <a class="js-mob-header__profile-drop-trigg">
           <svg role="img" class="icon icon--small">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/dist/assets/icons/icons.svg#icon-mobile_menu"></use>

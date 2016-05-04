@@ -98,6 +98,7 @@ export class AppMobileComponent implements OnInit {
   pagesWithFilter = PAGES_WITH_FILTER;
   pageTitle = 'Persice';
   footerScore: number = 0;
+  footerType: string;
 
   constructor(
     private _appStateService: AppStateService,
@@ -115,11 +116,11 @@ export class AppMobileComponent implements OnInit {
       .subscribe((visibility: boolean) => {
         this.isHeaderVisible = visibility;
       });
-
     this._appStateService.isProfileFooterVisibleEmitter
       .subscribe((state: any) => {
         this.isFooterVisible = state.visibility;
-        this.footerScore = state.score;
+        this.footerScore = state.score ? state.score : 0;
+        this.footerType = state.type ? state.type : '';
       });
 
     this._router.subscribe((next: string) => {

@@ -64,7 +64,8 @@ export class CrowdMobileComponent
     // Show profile footer visibility
     this.appStateService.setProfileFooterVisibility({
       visibility: true,
-      score: this.selectedItem.score
+      score: this.selectedItem.score,
+      type: 'crowd'
     });
   }
 
@@ -73,10 +74,9 @@ export class CrowdMobileComponent
     // Show top header
     this.appStateService.setHeaderVisibility(true);
 
-     // Hide profile footer
+    // Hide profile footer
     this.appStateService.setProfileFooterVisibility({
-      visibility: false,
-      score: 0
+      visibility: false
     });
   }
 

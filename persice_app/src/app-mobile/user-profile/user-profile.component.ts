@@ -38,6 +38,8 @@ import {
   ]
 })
 export class UserProfileComponent implements AfterViewInit {
+  // Profile type, crowd or connection
+  @Input() type: string;
 
   // When [user] from Input property change, set internal state for our component
   @Input() set user(value) {

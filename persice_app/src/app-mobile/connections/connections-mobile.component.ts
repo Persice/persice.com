@@ -57,11 +57,22 @@ export class ConnectionsMobileComponent
   afterItemSelected() {
     // Hide profile header
     this.appStateService.setHeaderVisibility(false);
+
+    // Show profile footer visibility
+    this.appStateService.setProfileFooterVisibility({
+      visibility: true,
+      type: 'connection'
+    });
   }
 
   afterItemClosed() {
     // Show top header
     this.appStateService.setHeaderVisibility(true);
+
+    // Hide profile footer
+    this.appStateService.setProfileFooterVisibility({
+      visibility: false
+    });
   }
 
 }
