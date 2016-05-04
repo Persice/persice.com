@@ -1,4 +1,5 @@
 import {remove, findIndex, debounce} from 'lodash';
+import {Observable} from 'rxjs';
 
 const DEFAULT_LIST_LIMIT: number = 12;
 
@@ -7,19 +8,41 @@ interface ListService {
 };
 
 export abstract class ListComponent {
+
+  // Collection of items managed by this component.
   items: Array<any> = [];
+
+  // Loading indicators
   loading: boolean = false;
   loadingInitial: boolean = false;
+
+  // Indicator whether list of items is empty.
+  // Changes to true when initial loading of items returns 0 results.
   isListEmpty: boolean = false;
+
+  // Indicator for whether there are more items to load from API
   next: string = '';
+
+  // Total count of items loaded
   total_count: number = 0;
+
+  // Limit for page size
   limit: number = DEFAULT_LIST_LIMIT;
-  offset: number = 0;
+
+  // Indicator for showing indidividual items
   itemViewActive = false;
+
+  // Selected item to show
   selectedItem = null;
+
+  // Index of selectedItem
   currentIndex = 0;
+
+  // Instance of ListService Observable
   serviceInstance: any;
 
+  // Debounced function for refreshing the list that delays invoking func until after
+  // wait milliseconds have elapsed since the last time the debounced function was invoked.
   onRefreshList: Function;
 
   constructor(
@@ -31,7 +54,7 @@ export abstract class ListComponent {
   ) {
     this.limit = listLimit;
     this.onRefreshList = debounce(
-      this.refreshList,
+      this._refreshList,
       listRefreshTimeout,
       {
         'leading': false,
@@ -40,7 +63,10 @@ export abstract class ListComponent {
     );
   }
 
-  getList() {
+  /**
+   * Load items from listService
+   */
+  public getList() {
     if (this.loading) {
       return;
     }
@@ -54,7 +80,7 @@ export abstract class ListComponent {
     this.serviceInstance = this.listService.get(this.next, this.limit)
       .subscribe(
       data => {
-        this.assignList(data);
+        this._assignList(data);
       },
       (err) => {
         this.loading = false;
@@ -62,77 +88,54 @@ export abstract class ListComponent {
       });
   }
 
-  refreshList() {
-    this.scrollTop();
-    this.items = [];
-    this.total_count = 0;
+  /**
+   * Select item by id atrribute
+   * @param {number} id of selected item
+   */
+  public selectItem(itemId: number): void {
+    // Find index of item with item.id === itemId in items collection
+    let index = findIndex(this.items, { id: itemId });
 
-    this.currentIndex = 0;
-    this.isListEmpty = false;
-    this.next = '';
-    this.getList();
-  }
+    // If item is found, select it and call afterItemSelected() function
+    if (index !== -1) {
+      this.selectedItem = this.items[index];
+      this.currentIndex = index;
+      this.itemViewActive = true;
 
-  assignList(data) {
-    this.loading = false;
-    this.loadingInitial = false;
-
-    if (data.meta.total_count === 0) {
-      this.isListEmpty = true;
-      return;
-    } else {
-      this.isListEmpty = false;
-    }
-
-    if (this.items.length > 0) {
-      let more = data.objects;
-      for (var i = 0; i <= more.length - 1; i++) {
-        this.items.push(more[i]);
-      }
-      this.total_count += more.length;
-    } else {
-      this.items = data.objects;
-      this.total_count = data.objects.length;
-    }
-
-    this.next = data.meta.next;
-    this.offset = data.meta.offset;
-  }
-
-  selectItem(id) {
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === id) {
-        this.selectedItem = this.items[i];
-        this.currentIndex = i;
-        this.itemViewActive = true;
-
-        // TODO: this check is for connections page only, need to refactor!!!
-        if (this.items[i].updated_at === null) {
-          this.items[i].updated_at = 'seen';
-        }
-
-        this.afterItemSelected();
-      }
+      this.afterItemSelected();
     }
   }
 
-  setLocation(loc: string) {
-    window.history.pushState('', '', '/' + loc);
+  /**
+   * Change URL of browser window to chosen item attribute
+   * @param {string} value of item attribute
+   */
+  public setLocation(value: string) {
+    window.history.pushState('', '', '/' + value);
   }
 
-  closeItemView(event) {
+  /**
+   * Close viewing of selectedItem
+   * @param {DOM event} event
+   */
+  public closeItemView(event: any) {
     this.itemViewActive = false;
     this.selectedItem = null;
     this.afterItemClosed();
   }
 
-  previousItem(event) {
+  /**
+   * Select previous item from items list and update currentIndex and selectedItem
+   * @param {DOM event} event
+   */
+  public previousItem(event: any): void {
     let currentIndex = findIndex(this.items, { id: this.selectedItem.id });
     let newIndex = currentIndex - 1;
 
     if (newIndex < 0) {
       return;
     }
+
     if (this.items.length > 0) {
       this.selectedItem = this.items[newIndex];
       this.setLocation(this.selectedItem[this.urlProperty]);
@@ -143,7 +146,11 @@ export abstract class ListComponent {
     this.currentIndex = newIndex;
   }
 
-  nextItem(event) {
+  /**
+   * Select next item from items list and update currentIndex and selectedItem
+   * @param {DOM event} event
+   */
+  public nextItem(event) {
     let currentIndex = findIndex(this.items, { id: this.selectedItem.id });
     let newIndex = currentIndex + 1;
 
@@ -165,24 +172,79 @@ export abstract class ListComponent {
     this.currentIndex = newIndex;
   }
 
-  loadMoreItems(event) {
+  /**
+   * Find and remove item with item.id === itemId from items list
+   * @param {number} id [description]
+   */
+  public removeItemById(itemId: number): void {
+    remove(this.items, (item) => {
+      return item.id === itemId;
+    });
+    this.total_count--;
+  }
+
+  /**
+   * Load more items from listService
+   * @param {DOM event} event
+   */
+  public loadMoreItems(event) {
     if (this.next && !this.loading) {
       this.getList();
     }
   }
 
-  removeItemById(id: number) {
-    remove(this.items, (item) => {
-      return item.id === id;
-    });
-    this.total_count--;
+  /**
+   * Function which executres after viewing of selectedItem is closed
+   * @param {any} optional param
+   */
+  protected afterItemClosed(param?: any) { }
+
+  /**
+   * Function which executes after item is selected
+   * @param {any} optional param
+   */
+  protected afterItemSelected(param?: any) { }
+
+  /**
+   * Remove all items, reset all indicator variables and
+   * reload new data from listService
+   */
+  private _refreshList() {
+    this.items = [];
+    this.total_count = 0;
+    this.currentIndex = 0;
+    this.isListEmpty = false;
+    this.next = '';
+    this.getList();
   }
 
-  scrollTop() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
-  }
+  /**
+   * Assign data from listService into items collection
+   * @param {any} data
+   */
+  private _assignList(data: any) {
+    this.loading = false;
+    this.loadingInitial = false;
 
-  afterItemClosed() { }
-  afterItemSelected() { }
+    if (data.meta.total_count === 0) {
+      this.isListEmpty = true;
+      return;
+    } else {
+      this.isListEmpty = false;
+    }
+
+    if (this.items.length > 0) {
+      let more = data.objects;
+      for (var i = 0; i <= more.length - 1; i++) {
+        this.items = [...this.items, more[i]];
+      }
+      this.total_count += more.length;
+    } else {
+      this.items = data.objects;
+      this.total_count = data.objects.length;
+    }
+
+    this.next = data.meta.next;
+  }
 
 }
