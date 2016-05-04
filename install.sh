@@ -113,3 +113,12 @@ apt-get install -y nodejs
 apt-get install -y build-essential
 
 npm install pm2 -g
+
+if ! command -v /usr/bin/neo4j; then
+    add-apt-repository ppa:webupd8team/java
+    wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
+    echo 'deb http://debian.neo4j.org/repo stable/' >/tmp/neo4j.list
+    mv /tmp/neo4j.list /etc/apt/sources.list.d
+    apt-get update
+    apt-get install -y oracle-java8-installer neo4j
+fi
