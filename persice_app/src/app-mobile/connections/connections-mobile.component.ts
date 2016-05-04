@@ -49,6 +49,10 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     this.clearServicesSubscriptions();
   }
 
+  beforeItemSelected() {
+    this.saveScrollPosition();
+  }
+
   afterItemSelected() {
     // Hide profile header
     this.appStateService.setHeaderVisibility(false);
@@ -68,6 +72,8 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     this.appStateService.setProfileFooterVisibility({
       visibility: false
     });
+
+    this.restoreScrollPosition();
   }
 
 }

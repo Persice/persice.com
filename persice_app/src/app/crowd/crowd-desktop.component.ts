@@ -48,11 +48,56 @@ export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, 
     this.clearServicesSubscriptions();
   }
 
+  pass(event) {
+    this.removeItemById(event.user);
+    if (event.next) {
+      this.nextItem(true);
+    }
+
+    this.friendService.saveFriendship(-1, event.user)
+      .subscribe(data => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+
+      }, (err) => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      });
+  }
+
+  accept(event) {
+    this.removeItemById(event.user);
+    if (event.next) {
+      this.nextItem(true);
+    }
+    this.friendService.saveFriendship(0, event.user)
+      .subscribe(data => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      }, (err) => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      });
+  }
+
+  beforeItemSelected() {
+    this.saveScrollPosition();
+  }
+
   afterItemSelected() {
     this.setLocation(this.selectedItem[this.urlProperty]);
   }
 
   afterItemClosed() {
     this.setLocation(this.listType);
+    this.restoreScrollPosition();
   }
 }

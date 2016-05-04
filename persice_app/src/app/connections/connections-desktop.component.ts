@@ -42,6 +42,11 @@ export class ConnectionsDesktopComponent
     this.clearServicesSubscriptions();
   }
 
+
+  beforeItemSelected() {
+    this.saveScrollPosition();
+  }
+
   afterItemSelected() {
     if (this.selectedItem.updated_at === null) {
       this.selectedItem.updated_at = 'seen';
@@ -51,6 +56,7 @@ export class ConnectionsDesktopComponent
 
   afterItemClosed() {
     this.setLocation(this.listType);
+    this.restoreScrollPosition();
   }
 
 }

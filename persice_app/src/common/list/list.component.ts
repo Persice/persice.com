@@ -45,6 +45,11 @@ export abstract class ListComponent {
   // wait milliseconds have elapsed since the last time the debounced function was invoked.
   onRefreshList: Function;
 
+
+  // Way to temporarily remember scroll position before item is selected
+  // and restore it after item view is closed.
+  windowScrollPosition: number = 0;
+
   constructor(
     protected listService: ListService,
     protected listType: string,
@@ -93,6 +98,9 @@ export abstract class ListComponent {
    * @param {number} id of selected item
    */
   public selectItem(itemId: number): void {
+
+    this.beforeItemSelected();
+
     // Find index of item with item.id === itemId in items collection
     let index = findIndex(this.items, { id: itemId });
 
@@ -194,6 +202,22 @@ export abstract class ListComponent {
   }
 
   /**
+   * Temporarily remember window scroll position
+   */
+  protected saveScrollPosition() {
+    this.windowScrollPosition = jQuery(window).scrollTop();
+  }
+
+  /**
+   * Restore window scroll position
+   */
+  protected restoreScrollPosition() {
+    setTimeout(() => {
+      jQuery(window).scrollTop(this.windowScrollPosition);
+    });
+  }
+
+  /**
    * Function which executres after viewing of selectedItem is closed
    * @param {any} optional param
    */
@@ -204,6 +228,12 @@ export abstract class ListComponent {
    * @param {any} optional param
    */
   protected afterItemSelected(param?: any) { }
+
+  /**
+   * Function which executes immediately before item is selected
+   * @param {any} optional param
+   */
+  protected beforeItemSelected(param?: any) { }
 
   /**
    * Remove all items, reset all indicator variables and
