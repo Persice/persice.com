@@ -1,229 +1,78 @@
+const LIST_TYPE: string = 'crowd';
+const LIST_LIMIT: number = 12;
+
+import {ListComponent} from '../list';
 import {CrowdService} from './crowd.service';
-import {remove, findIndex, debounce} from 'lodash';
 import {FriendService} from "../../app/shared/services/friend.service";
 import {FilterService} from "../../app/shared/services/filter.service";
 
-export abstract class CrowdComponent {
-  items: Array<any> = [];
-  loading: boolean = false;
-  loadingInitial: boolean = false;
-  isListEmpty: boolean = false;
-  limit: number = 12;
-  next: string = '';
-  total_count: number = 0;
-  offset: number = 0;
-  profileViewActive = false;
-  selectedUser = null;
-  currentIndex = 0;
-  serviceInstance;
-
-  onRefreshList: Function;
-  debounceTimeout: number = 0;
+export class CrowdComponent extends ListComponent {
 
   constructor(
-    protected crowdService: CrowdService,
+    protected listService: CrowdService,
     protected friendService: FriendService,
-    protected filterService: FilterService
+    protected filterService: FilterService,
+    protected listRefreshTimeout: number
   ) {
-    this.onRefreshList = debounce(this.refreshList, this.debounceTimeout, { 'leading': false, 'trailing': true });
+    super(listService, LIST_TYPE, LIST_LIMIT, 'username', listRefreshTimeout);
   }
 
-  getList() {
-    if (this.loading) {
-      return;
-    }
+  subscribeToFilterServiceUpdates() {
 
-    this.isListEmpty = false;
-    if (this.next === null) return;
-    this.loading = true;
-    if (this.next === '') {
-      this.loadingInitial = true;
-    }
-    this.serviceInstance = this.crowdService.get(this.next, this.limit)
-      .subscribe(
-      data => {
-        this.assignList(data);
-      },
-      (err) => {
-        console.log(err);
-        this.loading = false;
-        this.loadingInitial = false;
-      },
-      () => {
+    // Add observer for filter updates
+    this.filterService.addObserver(LIST_TYPE);
 
-      });
+    // When filter updates, automatically refresh crowd list
+    this.filterService.observer(LIST_TYPE).subscribe((data) => this.onRefreshList());
   }
 
-  refreshList() {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
-    this.items = [];
-    this.total_count = 0;
-
-    this.currentIndex = 0;
-    this.isListEmpty = false;
-    this.next = '';
-    this.getList();
-  }
-
-  assignList(data) {
-
-    this.loading = false;
-    this.loadingInitial = false;
-
-
-    if (data.meta.total_count === 0) {
-      this.isListEmpty = true;
-      return;
-    } else {
-      this.isListEmpty = false;
-    }
-
-
-    if (this.items.length > 0) {
-      let more = data.objects;
-      for (var i = 0; i <= more.length - 1; i++) {
-        this.items.push(more[i]);
-      }
-      this.total_count += more.length;
-    } else {
-      this.items = data.objects;
-      this.total_count = data.objects.length;
-    }
-
-    this.next = data.meta.next;
-    this.offset = data.meta.offset;
-  }
-
-  setSelectedUser(id) {
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === id) {
-        this.selectedUser = this.items[i];
-        this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
-        this.profileViewActive = true;
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-        this.setLocation(this.selectedUser.username);
-      }
+  clearServicesSubscriptions() {
+    this.filterService.observer(LIST_TYPE).unsubscribe();
+    this.filterService.removeObserver(LIST_TYPE);
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
     }
   }
 
-  setLocation(loc) {
-    window.history.pushState('', '', '/' + loc);
-  }
-
-  passUser(event) {
-    let usr;
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === event.user) {
-        usr = this.items[i];
-      }
-    }
-
-    remove(this.items, (item) => {
-      return item.id === event.user;
-    });
-    this.total_count--;
-
+  pass(event) {
+    this.removeItemById(event.user);
     if (event.next) {
-      this.nextProfile(true);
+      this.nextItem(true);
     }
 
     this.friendService.saveFriendship(-1, event.user)
       .subscribe(data => {
         if (!event.next || this.items.length === 0) {
-          this.profileViewActive = false;
-          this.selectedUser = null;
+          this.itemViewActive = false;
+          this.selectedItem = null;
         }
 
       }, (err) => {
-        console.log(err);
         if (!event.next || this.items.length === 0) {
-          this.profileViewActive = false;
-          this.selectedUser = null;
+          this.itemViewActive = false;
+          this.selectedItem = null;
         }
       });
   }
 
-  acceptUser(event) {
-    let usr;
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === event.user) {
-        usr = this.items[i];
-      }
-    }
-
-    remove(this.items, (item) => {
-      return item.id === event.user;
-    });
-    this.total_count--;
-
+  accept(event) {
+    this.removeItemById(event.user);
     if (event.next) {
-      this.nextProfile(true);
+      this.nextItem(true);
     }
-
     this.friendService.saveFriendship(0, event.user)
       .subscribe(data => {
         if (!event.next || this.items.length === 0) {
-          this.profileViewActive = false;
-          this.selectedUser = null;
+          this.itemViewActive = false;
+          this.selectedItem = null;
         }
-
       }, (err) => {
-        console.log(err);
         if (!event.next || this.items.length === 0) {
-          this.profileViewActive = false;
-          this.selectedUser = null;
+          this.itemViewActive = false;
+          this.selectedItem = null;
         }
       });
   }
 
-  closeProfile(event) {
-    this.profileViewActive = false;
-    this.selectedUser = null;
-    this.setLocation('crowd');
-  }
-
-  previousProfile(event) {
-    let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
-    let newIndex = currentIndex - 1;
-
-    if (newIndex < 0) {
-      return;
-    }
-    if (this.items.length > 0) {
-      this.selectedUser = this.items[newIndex];
-      this.setLocation(this.selectedUser.username);
-    } else {
-      this.closeProfile(true);
-      this.isListEmpty = true;
-    }
-    this.currentIndex = newIndex;
-  }
-
-  nextProfile(event) {
-    let currentIndex = findIndex(this.items, { id: this.selectedUser.id });
-    let newIndex = currentIndex + 1;
-
-    if (!this.loading && newIndex > this.items.length - 13 && this.next) {
-      this.getList();
-    }
-
-    if (newIndex > this.items.length - 1) {
-      return;
-    }
-    if (this.items.length > 0) {
-      this.selectedUser = this.items[newIndex];
-      this.setLocation(this.selectedUser.username);
-    } else {
-      this.closeProfile(true);
-      this.isListEmpty = true;
-    }
-    this.currentIndex = newIndex;
-  }
-
-  handleScrollEvent(event) {
-    if (this.next && !this.loading) {
-      this.getList();
-    }
-  }
 
 }

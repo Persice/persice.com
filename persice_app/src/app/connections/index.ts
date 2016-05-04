@@ -1,1 +1,1 @@
-export * from './connections.component';
+export * from './connections-desktop.component';

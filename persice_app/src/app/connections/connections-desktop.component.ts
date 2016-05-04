@@ -3,41 +3,34 @@ import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
 import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';
 import {FilterDesktopComponent} from '../shared/components/filter';
-import {ProfileCrowdComponent} from '../profile';
+import {ProfileFriendComponent} from '../profile';
 import {InfiniteScrollDirective} from '../../common/directives';
 
-import {
-  FriendService,
-  FilterService,
-} from '../shared/services';
-
-import {CrowdService, CrowdComponent} from '../../common/crowd';
-
+import {ConnectionsService, FilterService} from '../shared/services';
+import {ConnectionsComponent} from '../../common/connections';
 
 // Refresh list timeout in miliseconds (when filters change, list must refresh)
 const LIST_REFRESH_TIMEOUT: number = 300;
 
 @Component({
-  selector: 'prs-crowd',
-  template: require('./crowd.html'),
-  providers: [CrowdService, FriendService],
+  selector: 'prs-connections',
+  template: require('./connections.html'),
   directives: [
     FilterDesktopComponent,
     UsersListComponent,
     LoadingComponent,
-    ProfileCrowdComponent,
+    ProfileFriendComponent,
     InfiniteScrollDirective
+  ],
+  providers: [
+    ConnectionsService
   ]
 })
-export class CrowdDesktopComponent
-  extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
+export class ConnectionsDesktopComponent
+  extends ConnectionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  constructor(
-    protected listService: CrowdService,
-    protected friendService: FriendService,
-    protected filterService: FilterService
-  ) {
-    super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
+  constructor(protected listService: ConnectionsService, protected filterService: FilterService) {
+    super(listService, filterService, LIST_REFRESH_TIMEOUT);
   }
 
   ngAfterViewInit() {
@@ -61,4 +54,5 @@ export class CrowdDesktopComponent
   afterItemClosed() {
     this.setLocation(this.listType);
   }
+
 }

@@ -1,7 +1,7 @@
-<div class="layout layout--flush content" [ngClass]="{'is-hidden': profileViewActive}">
+<div class="layout layout--flush content" [ngClass]="{'is-hidden': itemViewActive}" prs-infinite-scroll (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
   <div class="layout__item 3/4 extralarge-and-up-4/5">
     <h3 *ngIf="!loading && emptyList">No results...</h3>
-    <prs-users-list [showButtons]="0" [users]="items" (onClicked)="viewFriendProfile($event)"></prs-users-list>
+    <prs-users-list [showButtons]="0" [users]="items" (onClicked)="selectItem($event)"></prs-users-list>
     <prs-loading [status]="loading"></prs-loading>
     <div class="no-results" *ngIf="isListEmpty" [ngClass]="{'is-visible': isListEmpty}">
       <h2 class="no-results__title">Whoops!</h2>
@@ -11,8 +11,8 @@
     </div>
   </div>
   <div class="layout__item 1/4 extralarge-and-up-1/5 filter-place">
-    <prs-filters [type]="'connections'"></prs-filters>
+    <prs-filters [type]="LIST_TYPE"></prs-filters>
   </div>
 </div>
-<prs-profile-friend [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousProfile($event)" (nextEvent)="nextProfile($event)" *ngIf="profileViewActive" [user]="selectedUser" (closeprofileEvent)="closeProfile($event)">
+<prs-profile-friend [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousItem($event)" (nextEvent)="nextItem($event)" *ngIf="itemViewActive" [user]="selectedItem" (closeprofileEvent)="closeItemView($event)">
 </prs-profile-friend>

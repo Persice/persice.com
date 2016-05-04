@@ -25,14 +25,14 @@ import {
 import {AppStateService} from '../shared/services';
 
 
-import {CrowdComponentMobile} from './crowd-mobile.component';
+import {CrowdMobileComponent} from './crowd-mobile.component';
 import {FilterService, FriendService} from '../../app/shared/services';
 import {HttpClient} from '../../app/shared/core/http-client';
 
 
 @Component({
   template: `<prs-mobile-crowd></prs-mobile-crowd>`,
-  directives: [CrowdComponentMobile],
+  directives: [CrowdMobileComponent],
   providers: [
     FilterService
   ]
@@ -65,7 +65,7 @@ describe('Crowd mobile component', () => {
   beforeEach(async(inject([TestComponentBuilder], (tcb) => {
     return tcb
       .overrideProviders(
-      CrowdComponentMobile, [provide(CrowdService, { useValue: mockCrowdService })])
+      CrowdMobileComponent, [provide(CrowdService, { useValue: mockCrowdService })])
       .createAsync(TestComponent)
       .then((componentFixture: ComponentFixture<any>) => {
         this.componentFixture = componentFixture;

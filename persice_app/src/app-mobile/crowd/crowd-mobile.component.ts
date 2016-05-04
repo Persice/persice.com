@@ -10,7 +10,7 @@ import {AppStateService} from '../shared/services';
 import {InfiniteScrollDirective} from '../../common/directives';
 import {UserProfileComponent} from '../user-profile';
 
-import {findIndex} from 'lodash';
+const LIST_REFRESH_TIMEOUT: number = 0;
 
 @Component({
   selector: 'prs-mobile-crowd',
@@ -24,40 +24,28 @@ import {findIndex} from 'lodash';
     UserProfileComponent
   ]
 })
-export class CrowdComponentMobile extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
-  onRefreshList: Function;
+export class CrowdMobileComponent
+  extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
   isFilterVisible: boolean = false;
 
   constructor(
-    protected crowdService: CrowdService,
+    protected listService: CrowdService,
     protected friendService: FriendService,
     protected filterService: FilterService,
     public appStateService: AppStateService
   ) {
-    super(crowdService, friendService, filterService);
-    this.debounceTimeout = 0;
+    super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
+    this.scrollTop();
   }
 
   ngOnInit() {
-    this.total_count = 0;
     this.getList();
+    this.subscribeToFilterServiceUpdates();
 
-    // Create a new observer and subscribe.
-    this.filterService.addObserver('crowd');
-    this.filterService.observer('crowd')
-      .subscribe(
-      (data) => {
-        this.onRefreshList();
-      },
-      (err) => console.log(err)
-      );
-
+    // Control filter visibility
     this.appStateService.isFilterVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isFilterVisible = visibility;
@@ -65,35 +53,31 @@ export class CrowdComponentMobile extends CrowdComponent implements AfterViewIni
   }
 
   ngOnDestroy() {
-    this.filterService.observer('crowd').unsubscribe();
-    this.filterService.removeObserver('crowd');
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-    }
+    this.clearServicesSubscriptions();
   }
 
-  setSelectedUser(id) {
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === id) {
-        this.selectedUser = this.items[i];
-        // this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
-        this.profileViewActive = true;
-        this.appStateService.setHeaderVisibility(false);
-        this.appStateService.setProfileFooterVisibility({
-          visibility: true,
-          score: this.selectedUser.score
-        });
-      }
-    }
+  afterItemSelected() {
+
+    // Hide profile header
+    this.appStateService.setHeaderVisibility(false);
+
+    // Show profile footer visibility
+    this.appStateService.setProfileFooterVisibility({
+      visibility: true,
+      score: this.selectedItem.score
+    });
   }
 
-  closeProfile(event) {
-    this.profileViewActive = false;
-    this.selectedUser = null;
+  afterItemClosed() {
+
+    // Show top header
     this.appStateService.setHeaderVisibility(true);
+
+     // Hide profile footer
     this.appStateService.setProfileFooterVisibility({
       visibility: false,
       score: 0
     });
   }
+
 }

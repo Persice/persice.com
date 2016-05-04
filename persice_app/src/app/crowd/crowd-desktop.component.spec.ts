@@ -14,20 +14,20 @@ import {MockBackend} from '@angular/http/testing';
 
 import {FriendService} from '../shared/services';
 import {FilterService} from '../shared/services';
-import {CrowdComponentDesktop} from "./crowd-desktop.component";
-import {CrowdService} from "../../common/crowd/crowd.service";
+import {CrowdDesktopComponent} from './crowd-desktop.component';
+import {CrowdService} from '../../common/crowd/crowd.service';
 
 // Create a test component to test directives.
 @Component({
   template: '',
-  directives: [CrowdComponentDesktop]
+  directives: [CrowdDesktopComponent]
 })
 class TestComponent { }
 class MockFilterService extends FilterService { }
 class MockFriendService extends FriendService { }
 class MockCrowdService extends CrowdService { }
 
-describe('Crowd mobile component', () => {
+describe('Crowd desktop component', () => {
 
   beforeEachProviders(() => [
     provide(FilterService, { useClass: MockFilterService }),

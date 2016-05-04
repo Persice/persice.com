@@ -26,9 +26,9 @@ import {NotificationsComponent} from './notifications';
 import {LoadingComponent} from './shared/components/loading';
 import {NotificationComponent} from './shared/components/notification';
 
-import {CrowdComponentDesktop} from './crowd';
+import {CrowdDesktopComponent} from './crowd';
+import {ConnectionsDesktopComponent} from './connections';
 import {MessagesComponent} from './messages';
-import {ConnectionsComponent} from './connections';
 
 import {EventsComponent} from './events';
 import {EventComponent} from './event';
@@ -107,7 +107,7 @@ class DynamicRouteConfiguratorService {
   },
   {
     path: '/crowd',
-    component: CrowdComponentDesktop,
+    component: CrowdDesktopComponent,
     name: 'Crowd',
     useAsDefault: true
   },
@@ -123,7 +123,7 @@ class DynamicRouteConfiguratorService {
   }),
   new AsyncRoute({
     path: '/connections',
-    loader: () => require('es6-promise!./connections')('ConnectionsComponent'),
+    loader: () => require('es6-promise!./connections')('ConnectionsDesktopComponent'),
     name: 'Connections'
   }),
   new AsyncRoute({
