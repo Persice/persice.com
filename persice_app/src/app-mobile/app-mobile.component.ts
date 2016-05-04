@@ -21,11 +21,15 @@ import {
   IfRoutesActiveDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdComponentMobile} from "./crowd";
+import {CrowdMobileComponent} from "./crowd";
 import {PageTitleComponent} from './page-title';
 import {FilterService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
 import {ProfileFooterMobileComponent} from './user-profile';
+
+
+const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
+
 /*
  * Persice App Component
  * Top Level Component
@@ -37,7 +41,7 @@ import {ProfileFooterMobileComponent} from './user-profile';
   },
   {
     path: '/crowd',
-    component: CrowdComponentMobile,
+    component: CrowdMobileComponent,
     name: 'Crowd',
     useAsDefault: true
   },
@@ -91,7 +95,7 @@ import {ProfileFooterMobileComponent} from './user-profile';
 export class AppMobileComponent implements OnInit {
   isHeaderVisible: boolean = true;
   isFooterVisible: boolean = false;
-  pagesWithFilter = ['crowd'];
+  pagesWithFilter = PAGES_WITH_FILTER;
   pageTitle = 'Persice';
   footerScore: number = 0;
 

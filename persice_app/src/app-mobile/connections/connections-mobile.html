@@ -1,3 +1,12 @@
-<div>
-  <p>Connections</p>
+<div [ngClass]="{'is-hidden': isFilterVisible || itemViewActive}"
+  prs-infinite-scroll (scrolled)="loadMoreItems($event)"
+  [scrollEnabled]="!isFilterVisible && !itemViewActive"
+  [bottomOffset]="60">
+  <prs-mobile-user-card (onProfileTap)="selectItem($event)" [person]="person"
+    *ngFor="let person of items"></prs-mobile-user-card>
+  <prs-loading [status]="loading"></prs-loading>
 </div>
+<prs-mobile-filter [ngClass]="{'is-hidden': !isFilterVisible}" [type]="LIST_TYPE"></prs-mobile-filter>
+<prs-user-profile *ngIf="itemViewActive" [user]="selectedItem"
+  (onCloseProfile)="closeItemView($event)">
+</prs-user-profile>
