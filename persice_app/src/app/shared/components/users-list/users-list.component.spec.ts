@@ -8,6 +8,8 @@ import {
 } from '@angular/core/testing';
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, provide} from '@angular/core';
+import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
 import {UsersListComponent} from './users-list.component';
 
@@ -26,6 +28,22 @@ class TestComponent {
 }
 
 describe('UsersList component', () => {
+
+  beforeEachProviders(() => [
+    BaseRequestOptions,
+    MockBackend,
+    provide(Http, {
+      useFactory: (connectionBackend: ConnectionBackend,
+        defaultOptions: BaseRequestOptions) => {
+        return new Http(connectionBackend, defaultOptions);
+      },
+      deps: [
+        MockBackend,
+        BaseRequestOptions
+      ]
+    }),
+  ]);
+
   it('should exist', async(inject([TestComponentBuilder], (tcb) => {
     return tcb.overrideTemplate(TestComponent, '<prs-users-list [users]="items" (onClicked)="setSelectedUser($event)"></prs-users-list>')
       .createAsync(TestComponent).then((fixture: any) => {

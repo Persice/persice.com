@@ -8,6 +8,8 @@ import {
 } from '@angular/core/testing';
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Component, provide} from '@angular/core';
+import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
 import {UserCardComponent} from './user-card.component';
 
@@ -43,6 +45,21 @@ class TestComponent {
 }
 
 describe('UserCard component', () => {
+
+  beforeEachProviders(() => [
+    BaseRequestOptions,
+    MockBackend,
+    provide(Http, {
+      useFactory: (connectionBackend: ConnectionBackend,
+        defaultOptions: BaseRequestOptions) => {
+        return new Http(connectionBackend, defaultOptions);
+      },
+      deps: [
+        MockBackend,
+        BaseRequestOptions
+      ]
+    }),
+  ]);
 
   it('should exist', async(inject([TestComponentBuilder], (tcb) => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {
