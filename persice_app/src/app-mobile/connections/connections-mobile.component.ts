@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {ConnectionsService, FilterService} from '../../app/shared/services';
 import {ConnectionsComponent} from '../../common/connections';
@@ -23,8 +23,7 @@ const LIST_REFRESH_TIMEOUT: number = 0;
     UserProfileComponent
   ]
 })
-export class ConnectionsMobileComponent
-   extends ConnectionsComponent implements AfterViewInit, OnDestroy, OnInit {
+export class ConnectionsMobileComponent extends ConnectionsComponent implements OnDestroy, OnInit {
   isFilterVisible: boolean = false;
 
   constructor(
@@ -33,10 +32,6 @@ export class ConnectionsMobileComponent
     public appStateService: AppStateService
   ) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
-  }
-
-  ngAfterViewInit() {
-    this.scrollTop();
   }
 
   ngOnInit() {

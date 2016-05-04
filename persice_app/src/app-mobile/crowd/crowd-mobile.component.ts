@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
@@ -24,8 +24,7 @@ const LIST_REFRESH_TIMEOUT: number = 0;
     UserProfileComponent
   ]
 })
-export class CrowdMobileComponent
-  extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
+export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, OnInit {
   isFilterVisible: boolean = false;
 
   constructor(
@@ -35,10 +34,6 @@ export class CrowdMobileComponent
     public appStateService: AppStateService
   ) {
     super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
-  }
-
-  ngAfterViewInit() {
-    this.scrollTop();
   }
 
   ngOnInit() {
