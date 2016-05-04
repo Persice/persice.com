@@ -2,6 +2,10 @@ import {remove, findIndex, debounce} from 'lodash';
 
 const DEFAULT_LIST_LIMIT: number = 12;
 
+interface ListService {
+  get: Function;
+};
+
 export abstract class ListComponent {
   items: Array<any> = [];
   loading: boolean = false;
@@ -19,7 +23,7 @@ export abstract class ListComponent {
   onRefreshList: Function;
 
   constructor(
-    protected listService: any,
+    protected listService: ListService,
     protected listType: string,
     protected listLimit: number,
     protected urlProperty: string,
