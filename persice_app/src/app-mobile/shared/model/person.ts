@@ -16,7 +16,7 @@ export class Person {
   private _score: number;
 
   constructor(dto: any) {
-    this._id = dto._id;
+    this._id = dto.id;
     this._firstName = dto.first_name;
     this._lastName = dto.last_name;
     this._gender = dto.gender === 'm' ? 'male' : 'female';
