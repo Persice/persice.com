@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';
@@ -27,14 +27,10 @@ const LIST_REFRESH_TIMEOUT: number = 300;
   ]
 })
 export class ConnectionsDesktopComponent
-  extends ConnectionsComponent implements OnInit, OnDestroy, AfterViewInit {
+  extends ConnectionsComponent implements OnInit, OnDestroy {
 
   constructor(protected listService: ConnectionsService, protected filterService: FilterService) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
-  }
-
-  ngAfterViewInit() {
-    this.scrollTop();
   }
 
   ngOnInit() {
@@ -46,13 +42,21 @@ export class ConnectionsDesktopComponent
     this.clearServicesSubscriptions();
   }
 
+
+  beforeItemSelected() {
+    this.saveScrollPosition();
+  }
+
   afterItemSelected() {
-    this.scrollTop();
+    if (this.selectedItem.updated_at === null) {
+      this.selectedItem.updated_at = 'seen';
+    }
     this.setLocation(this.selectedItem[this.urlProperty]);
   }
 
   afterItemClosed() {
     this.setLocation(this.listType);
+    this.restoreScrollPosition();
   }
 
 }

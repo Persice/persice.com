@@ -24,6 +24,7 @@ export class IfRoutesActiveDirective implements OnInit {
 
   private _showIfRoutesAreActive(current: string, list: string[]) {
     if (list.indexOf(current) > -1) {
+      this._viewContainer.clear();
       this._viewContainer.createEmbeddedView(this._templateRef);
     } else {
       this._viewContainer.clear();

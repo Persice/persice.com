@@ -2,7 +2,7 @@
  <!-- footer crowd profile -->
    <div class="layout layout--flush mh-" *ngIf="type === 'crowd'">
     <div class="layout__item text-center 1/3">
-      <a class="pass-accept">
+      <a class="pass-accept pass-accept__pass" (tap)="pass($event)" [ngClass]="{'is-active': passIsActive}">
         <svg role="img" class="icon red">
           <use xlink:href="/static/assets/icons/icons.svg#icon-pass"></use>
         </svg>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="layout__item text-center 1/3">
-      <a class="pass-accept">
+      <a class="pass-accept pass-accept__accept" (tap)="accept($event)" [ngClass]="{'is-active': acceptIsActive}">
         <svg role="img" class="icon green">
           <use xlink:href="/static/assets/icons/icons.svg#icon-accepted"></use>
         </svg>

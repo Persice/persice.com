@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';
@@ -29,8 +29,7 @@ const LIST_REFRESH_TIMEOUT: number = 300;
     InfiniteScrollDirective
   ]
 })
-export class CrowdDesktopComponent
-  extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
+export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, OnInit {
 
   constructor(
     protected listService: CrowdService,
@@ -38,10 +37,6 @@ export class CrowdDesktopComponent
     protected filterService: FilterService
   ) {
     super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
-  }
-
-  ngAfterViewInit() {
-    this.scrollTop();
   }
 
   ngOnInit() {
@@ -53,12 +48,56 @@ export class CrowdDesktopComponent
     this.clearServicesSubscriptions();
   }
 
+  pass(event) {
+    this.removeItemById(event.user);
+    if (event.next) {
+      this.nextItem(true);
+    }
+
+    this.friendService.saveFriendship(-1, event.user)
+      .subscribe(data => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+
+      }, (err) => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      });
+  }
+
+  accept(event) {
+    this.removeItemById(event.user);
+    if (event.next) {
+      this.nextItem(true);
+    }
+    this.friendService.saveFriendship(0, event.user)
+      .subscribe(data => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      }, (err) => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      });
+  }
+
+  beforeItemSelected() {
+    this.saveScrollPosition();
+  }
+
   afterItemSelected() {
-    this.scrollTop();
     this.setLocation(this.selectedItem[this.urlProperty]);
   }
 
   afterItemClosed() {
     this.setLocation(this.listType);
+    this.restoreScrollPosition();
   }
 }

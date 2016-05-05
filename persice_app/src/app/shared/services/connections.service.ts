@@ -9,17 +9,15 @@ export class ConnectionsService {
   static API_URL: string = '/api/v1/connections/';
   next: string = '';
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient) { }
 
-  }
-
-  public get(url: string, limit: number, filter: boolean): Observable<any> {
+  public get(url: string, limit: number, filter?: boolean): Observable<any> {
 
     if (url === '') {
       let params: string = [
         `format=json`,
         `limit=${limit}`,
-        `filter=${filter}`,
+        `filter=${filter ? filter : true}`,
         `offset=0`,
       ].join('&');
 

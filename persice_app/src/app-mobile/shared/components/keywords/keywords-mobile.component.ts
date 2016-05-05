@@ -1,4 +1,4 @@
-import {Component, AfterViewInit} from '@angular/core';
+import {Component, AfterViewInit, OnDestroy} from '@angular/core';
 import {FilterModel} from '../../../../app/shared/models';
 import {FilterService} from '../../../../app/shared/services';
 
@@ -7,7 +7,7 @@ import {FilterService} from '../../../../app/shared/services';
   template: require('./keywords-mobile.html'),
   providers: [FilterService]
 })
-export class KeywordsComponentMobile implements AfterViewInit {
+export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
 
   MINIMUM_ITEM_LENGTH: number = 2;
 
@@ -35,11 +35,19 @@ export class KeywordsComponentMobile implements AfterViewInit {
   itemBeingAddedFromTypeahead: boolean = false;
   itemBeingAddedByEnterKey: boolean = false;
 
+
+  // Filter service instance
+  serviceInstance;
+
   constructor(public filterService: FilterService) { }
 
   ngAfterViewInit() {
-    this.filterService.find()
+    this.serviceInstance = this.filterService.find()
       .subscribe(data => this.setInitialData(data));
+  }
+
+  ngOnDestroy() {
+    this.serviceInstance.unsubscribe();
   }
 
   setInitialData(data) {
