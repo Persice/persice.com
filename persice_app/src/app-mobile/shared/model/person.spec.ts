@@ -11,6 +11,7 @@ describe('Person', () => {
     let person: Person = new Person(dto);
 
     // then
+    expect(person.id).toEqual(dto.id);
     expect(person.firstName).toEqual(dto.first_name);
     expect(person.lastName).toEqual(dto.last_name);
     expect(person.gender).toEqual(dto.gender === 'm' ? 'male' : 'female');
