@@ -19,7 +19,7 @@ export class Person {
     this._id = dto.id;
     this._firstName = dto.first_name;
     this._lastName = dto.last_name;
-    this._gender = dto.gender === 'm' ? 'male' : 'female';
+    this._gender = Person.parseGender(dto.gender);
     this._age = dto.age;
     this._distance = dto.distance[0];
     this._distanceUnit = dto.distance[1];
@@ -72,5 +72,22 @@ export class Person {
 
   get score(): number {
     return this._score;
+  }
+
+  static parseGender(value: string) {
+    let retValue: string = '';
+    switch (value) {
+      case 'm':
+        retValue = 'Male';
+        break;
+      case 'f':
+        retValue = 'Female';
+        break;
+      default:
+        retValue = '';
+        break;
+    }
+
+    return retValue;
   }
 }

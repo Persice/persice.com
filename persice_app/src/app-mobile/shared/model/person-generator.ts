@@ -15,8 +15,25 @@ export class PersonGenerator {
     };
   }
 
+  public static givenAPersonWithoutInterestDto(): any {
+    return {
+      id: 1,
+      first_name: `${this.givenAnyFirstName()}`,
+      last_name: `${this.givenAnyLastName()}`,
+      distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
+      top_interests: [],
+      gender: `${this.givenAnyGenderServerResponse()}`,
+      score: `${this.givenAnyScore()}`,
+      age: `${this.givenAnyAge()}`
+    };
+  }
+
   public static givenAnyPerson(): Person {
     return new Person(this.givenAnyPersonDto());
+  }
+
+  public static givenAPersonWithoutInterest(): Person {
+    return new Person(this.givenAPersonWithoutInterestDto());
   }
 
   public static givenAnyFirstName(): string {

@@ -1,4 +1,5 @@
 import {Pipe, Injectable, PipeTransform} from '@angular/core';
+import {Person} from "../../../app-mobile/shared/model/person";
 
 @Injectable()
 @Pipe({
@@ -6,18 +7,6 @@ import {Pipe, Injectable, PipeTransform} from '@angular/core';
 })
 export class GenderPipe implements PipeTransform {
   transform(value: string, args: any[]): string {
-    let retValue: string = '';
-    switch (value) {
-      case 'm':
-        retValue = 'Male';
-        break;
-      case 'f':
-        retValue = 'Female';
-        break;
-      default:
-        retValue = '';
-        break;
-    }
-    return retValue;
+    return Person.parseGender(value);
   }
 }
