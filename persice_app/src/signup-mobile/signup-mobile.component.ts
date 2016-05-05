@@ -1,7 +1,6 @@
 import {
   Component,
   ViewEncapsulation,
-  ViewChild,
   OnInit
 } from '@angular/core';
 
@@ -28,6 +27,7 @@ import {
   OnboardingService
 } from '../app/shared/services';
 
+import {SignupStateService} from '../common/services';
 
 @Component({
   selector: 'persice-signup-mobile-app',
@@ -43,7 +43,8 @@ import {
     OffersService,
     KeywordsService,
     UserAuthService,
-    OnboardingService
+    OnboardingService,
+    SignupStateService
   ]
 })
 @RouteConfig([
@@ -77,10 +78,6 @@ import {
   }
 ])
 export class SignupMobileComponent implements OnInit {
-  @ViewChild(SignupInterestsMobileComponent) myElem1: SignupInterestsMobileComponent;
-  @ViewChild(SignupGoalsMobileComponent) myElem2: SignupGoalsMobileComponent;
-  @ViewChild(SignupOffersMobileComponent) myElem3: SignupOffersMobileComponent;
-
   cGoa: number = 0;
   cOff: number = 0;
   cInt: number = 0;
@@ -111,35 +108,17 @@ export class SignupMobileComponent implements OnInit {
     private offersService: OffersService,
     private interestsService: InterestsService,
     private userAuthService: UserAuthService,
-    private onboardingService: OnboardingService
+    private onboardingService: OnboardingService,
+    private signupStateService: SignupStateService
   ) {
     this.router = router;
     this.location = location;
 
-    let subs = null;
+    this.signupStateService.counterEmitter.subscribe((state) => {
+      this.onCounterChanged(state);
+    });
 
     this.router.subscribe((path) => {
-      if (subs) {
-        subs.unsubscribe();
-        subs = null;
-      }
-      if (this.myElem1) {
-        subs = this.myElem1.counter.subscribe(message => {
-          this.onCounterChanged(message);
-          if (message.count >= 3) {
-            this.isNextDisabled = false;
-          }
-        });
-      }
-
-      if (this.myElem2) {
-        subs = this.myElem2.counter.subscribe(message => this.onCounterChanged(message));
-      }
-
-      if (this.myElem3) {
-        subs = this.myElem3.counter.subscribe(message => this.onCounterChanged(message));
-      }
-
       this.onRouteChanged(path);
     });
   }
@@ -273,8 +252,7 @@ export class SignupMobileComponent implements OnInit {
           } else {
             this.isNextDisabled = false;
           }
-        };
-
+        }
         break;
       case 'goals':
         this.cGoa = event.count;
