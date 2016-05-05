@@ -1,8 +1,5 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   OnInit,
   OnDestroy
 } from '@angular/core';
@@ -14,6 +11,7 @@ import {
   KeywordsService
 }
 from '../../app/shared/services';
+import {SignupStateService} from '../../common/services';
 
 import {LoadingComponent} from '../../app/shared/components/loading';
 
@@ -25,9 +23,6 @@ import {LoadingComponent} from '../../app/shared/components/loading';
   ]
 })
 export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
-
-  @Output() counter: EventEmitter<any> = new EventEmitter();
-
   items: any[] = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
@@ -39,8 +34,6 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
   newInterest = '';
   status;
   saveLoading = false;
-
-  subs: EventEmitter<any>;
   showWarning = false;
 
   userInterest: any[] = [];
@@ -48,7 +41,8 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
 
   constructor(
     private interestsService: InterestsService,
-    private keywordsService: KeywordsService
+    private keywordsService: KeywordsService,
+    private signupStateService: SignupStateService
   ) {
 
   }
@@ -119,7 +113,7 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
             this.items[idx].active = true;
             this.items[idx].interest_resource = res.resource_uri;
             this.userInterestCounter++;
-            this.counter.next({
+            this.signupStateService.counterEmitter.emit({
               type: 'interests',
               count: this.userInterestCounter
             });
@@ -150,7 +144,7 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
           this.status = 'success';
 
           this.userInterestCounter++;
-          this.counter.next({
+          this.signupStateService.counterEmitter.emit({
             type: 'interests',
             count: this.userInterestCounter
           });
@@ -192,7 +186,7 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
 
         this.userInterestCounter = data.meta.total_count;
 
-        this.counter.next({
+        this.signupStateService.counterEmitter.emit({
           type: 'interests',
           count: this.userInterestCounter
         });
@@ -294,7 +288,7 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
             this.items[idx].active = false;
             this.items[idx].interest_resource = null;
             this.userInterestCounter--;
-            this.counter.next({
+            this.signupStateService.counterEmitter.emit({
               type: 'interests',
               count: this.userInterestCounter
             });
@@ -308,7 +302,7 @@ export class SignupInterestsMobileComponent implements OnInit, OnDestroy {
             this.items[idx].active = true;
             this.items[idx].interest_resource = res.resource_uri;
             this.userInterestCounter++;
-            this.counter.next({
+            this.signupStateService.counterEmitter.emit({
               type: 'interests',
               count: this.userInterestCounter
             });

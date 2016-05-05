@@ -1,8 +1,5 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   OnInit,
   OnDestroy
 } from '@angular/core';
@@ -10,6 +7,8 @@ import {
 import {findIndex} from 'lodash';
 
 import {GoalsService} from '../../app/shared/services';
+import {SignupStateService} from '../../common/services';
+
 import {LoadingComponent} from '../../app/shared/components/loading';
 
 @Component({
@@ -20,9 +19,6 @@ import {LoadingComponent} from '../../app/shared/components/loading';
   ]
 })
 export class SignupGoalsComponent implements OnInit, OnDestroy {
-
-  @Output() counter: EventEmitter<any> = new EventEmitter();
-
   items: any[] = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
@@ -36,7 +32,8 @@ export class SignupGoalsComponent implements OnInit, OnDestroy {
   saveLoading = false;
 
   constructor(
-    private goalsService: GoalsService
+    private goalsService: GoalsService,
+    private signupStateService: SignupStateService
     ) {
 
   }
@@ -105,7 +102,7 @@ export class SignupGoalsComponent implements OnInit, OnDestroy {
       this.status = 'success';
 
       this.total_count++;
-      this.counter.next({
+      this.signupStateService.counterEmitter.emit({
         type: 'goals',
         count: this.total_count
       });
@@ -146,7 +143,7 @@ export class SignupGoalsComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
         this.items.splice(idx, 1);
         this.total_count--;
-        this.counter.next({
+        this.signupStateService.counterEmitter.emit({
           type: 'goals',
           count: this.total_count
         });
@@ -193,7 +190,7 @@ export class SignupGoalsComponent implements OnInit, OnDestroy {
 
     this.total_count = data.meta.total_count;
 
-    this.counter.next({
+    this.signupStateService.counterEmitter.emit({
       type: 'goals',
       count: this.total_count
     });

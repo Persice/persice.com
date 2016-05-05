@@ -1,22 +1,18 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   OnInit,
   OnDestroy
 } from '@angular/core';
 
 import {findIndex} from 'lodash';
 import {GoalsService} from '../../app/shared/services';
+import {SignupStateService} from '../../common/services';
 
 @Component({
   selector: 'prs-mobile-goals',
   template: require('./goals-mobile.html')
 })
 export class SignupGoalsMobileComponent implements OnInit, OnDestroy {
-  @Output() counter: EventEmitter<any> = new EventEmitter();
-
   goals: Goal[] = [];
   newGoalText: string = '';
 
@@ -30,7 +26,11 @@ export class SignupGoalsMobileComponent implements OnInit, OnDestroy {
   status;
   saveLoading: boolean = false;
 
-  constructor(private goalsService: GoalsService) { }
+  constructor(
+    private goalsService: GoalsService,
+    private signupStateService: SignupStateService
+  ) {
+  }
 
   ngOnInit() {
     this.initializeTokenInput();
@@ -99,7 +99,7 @@ export class SignupGoalsMobileComponent implements OnInit, OnDestroy {
       this.status = 'success';
 
       this.total_count++;
-      this.counter.emit({
+      this.signupStateService.counterEmitter.emit({
         type: 'goals',
         count: this.total_count
       });
@@ -132,7 +132,7 @@ export class SignupGoalsMobileComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           this.goals.splice(idx, 1);
           this.total_count--;
-          this.counter.next({
+          this.signupStateService.counterEmitter.emit({
             type: 'goals',
             count: this.total_count
           });
@@ -171,7 +171,7 @@ export class SignupGoalsMobileComponent implements OnInit, OnDestroy {
     this.loading = false;
     this.total_count = data.meta.total_count;
 
-    this.counter.next({
+    this.signupStateService.counterEmitter.emit({
       type: 'goals',
       count: this.total_count
     });

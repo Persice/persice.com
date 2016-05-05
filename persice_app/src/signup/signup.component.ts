@@ -1,6 +1,5 @@
 import {
   Component,
-  ViewChild,
   ViewEncapsulation,
   OnInit
 } from '@angular/core';
@@ -19,7 +18,6 @@ import {SignupOffersComponent} from './offers';
 import {SignupConnectComponent} from './connect-social-accounts';
 import {SignupHeaderComponent} from './header';
 
-
 import {
   InterestsService,
   KeywordsService,
@@ -29,7 +27,7 @@ import {
   OnboardingService,
   WarningService
 } from '../app/shared/services';
-
+import {SignupStateService} from '../common/services';
 
 @Component({
   template: require('./signup.html'),
@@ -46,7 +44,8 @@ import {
     KeywordsService,
     UserAuthService,
     OnboardingService,
-    WarningService
+    WarningService,
+    SignupStateService
   ]
 })
 @RouteConfig([
@@ -80,11 +79,6 @@ import {
   }
 ])
 export class SignupComponent implements OnInit {
-
-  @ViewChild(SignupInterestsComponent) myElem1: SignupInterestsComponent;
-  @ViewChild(SignupGoalsComponent) myElem2: SignupGoalsComponent;
-  @ViewChild(SignupOffersComponent) myElem3: SignupOffersComponent;
-
   page: number = 1;
   cGoa: number = 0;
   cOff: number = 0;
@@ -112,35 +106,17 @@ export class SignupComponent implements OnInit {
     private interestsService: InterestsService,
     private userAuthService: UserAuthService,
     private onboardingService: OnboardingService,
-    private warningService: WarningService
+    private warningService: WarningService,
+    private signupStateService: SignupStateService
   ) {
     this.router = router;
     this.location = location;
 
-    let subs = null;
+    this.signupStateService.counterEmitter.subscribe((state) => {
+      this.onCounterChanged(state);
+    });
 
     this.router.subscribe((path) => {
-      if (subs) {
-        subs.unsubscribe();
-        subs = null;
-      }
-      if (this.myElem1) {
-        subs = this.myElem1.counter.subscribe(message => {
-          this.onCounterChanged(message);
-          if (message.count >= 3) {
-            this.warningService.push(false);
-          }
-        });
-      }
-
-      if (this.myElem2) {
-        subs = this.myElem2.counter.subscribe(message => this.onCounterChanged(message));
-      }
-
-      if (this.myElem3) {
-        subs = this.myElem3.counter.subscribe(message => this.onCounterChanged(message));
-      }
-
       this.onRouteChanged(path);
     });
   }
