@@ -3,7 +3,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy,
   OnInit,
   OnChanges,
   OnDestroy
@@ -17,7 +16,6 @@ import {LikesComponent} from './likes.component';
 import {FriendsComponent} from './friends.component';
 import {NetworksComponent} from './networks.component';
 import {ItemsComponent} from './items.component';
-import {AcceptPassComponent} from './acceptpass.component';
 import {GalleryComponent} from './gallery.component';
 
 import {LoadingComponent} from '../shared/components/loading';

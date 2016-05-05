@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {DateUtil} from '../core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[timepicker]',

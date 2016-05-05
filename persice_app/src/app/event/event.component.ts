@@ -1,6 +1,5 @@
 import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
 import {RouteParams, Router} from '@angular/router-deprecated';
-import {Response} from '@angular/http';
 
 import {EventDescriptionComponent} from './event-description';
 import {EventHostComponent} from './event-host';
@@ -26,13 +25,12 @@ import {
   DateUtil,
   EventUtil,
   CookieUtil,
-  UserUtil,
-  StringUtil
+  UserUtil
 } from '../shared/core';
 
 import {RemodalDirective} from '../shared/directives';
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-event',

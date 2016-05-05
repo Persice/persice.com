@@ -4,9 +4,9 @@ import {
   MapsAPILoader
 } from '../components/map/services/maps-api-loader/maps-api-loader';
 
-let geocomplete = require('geocomplete');
+require('geocomplete');
 
-declare var jQuery: any;
+
 declare var google: any;
 
 @Directive({

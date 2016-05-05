@@ -1,6 +1,6 @@
-import {Component, DynamicComponentLoader, ElementRef, OnInit, ViewContainerRef}
+import {Component, DynamicComponentLoader, OnInit, ViewContainerRef}
 from '@angular/core';
-import {RouteParams, Router} from '@angular/router-deprecated';
+import {RouteParams} from '@angular/router-deprecated';
 
 import {ProfileViewComponent} from './profile-view.component';
 import {ProfileMyComponent} from './profile-my.component';

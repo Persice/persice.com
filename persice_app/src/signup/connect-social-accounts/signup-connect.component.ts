@@ -2,7 +2,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 
 import {UserAuthService} from '../../app/shared/services';
 
-declare var jQuery: any;
+
 @Component({
   selector: 'prs-signup-connect',
   template: require('./signup-connect.html')

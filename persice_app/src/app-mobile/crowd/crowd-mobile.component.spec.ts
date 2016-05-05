@@ -5,14 +5,12 @@ import {
   beforeEachProviders,
   beforeEach,
   inject,
-  fakeAsync,
-  tick,
   async
 } from '@angular/core/testing';
 import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
 
 import {Component, provide} from '@angular/core';
-import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
+import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 
 import {
@@ -23,12 +21,9 @@ import {
 } from '../../common/crowd';
 
 import {AppStateService} from '../shared/services';
-
-
 import {CrowdMobileComponent} from './crowd-mobile.component';
 import {FilterService, FriendService} from '../../app/shared/services';
 import {HttpClient} from '../../app/shared/core/http-client';
-
 
 @Component({
   template: `<prs-mobile-crowd></prs-mobile-crowd>`,

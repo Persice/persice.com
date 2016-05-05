@@ -4,7 +4,6 @@ import {
   EventEmitter,
   OnDestroy
 } from '@angular/core';
-import {mergeMap} from 'rxjs/operator/mergeMap';
 import {findIndex} from 'lodash';
 
 import {

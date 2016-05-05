@@ -1,12 +1,7 @@
-import { provide, Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operator/map';
-import { mergeMap } from 'rxjs/operator/mergeMap';
+import {provide, Injectable} from '@angular/core';
+import {Response} from '@angular/http';
+import {Observable} from 'rxjs';
 import {HttpClient} from '../core';
-
-Observable.prototype.map = map;
-Observable.prototype.flatMap = mergeMap;
 
 @Injectable()
 export class MutualFriendsService {

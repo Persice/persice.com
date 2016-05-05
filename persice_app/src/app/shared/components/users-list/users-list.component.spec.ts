@@ -48,12 +48,8 @@ describe('UsersList component', () => {
     return tcb.overrideTemplate(TestComponent, '<prs-users-list [users]="items" (onClicked)="setSelectedUser($event)"></prs-users-list>')
       .createAsync(TestComponent).then((fixture: any) => {
         fixture.detectChanges();
-        let userCardInstance = fixture.debugElement.componentInstance;
-        let userCardDOMEl = fixture.debugElement.nativeElement;
         let elRef = fixture.debugElement.elementRef;
-
         expect(elRef).not.toBeNull(true);
-
       });
   })));
 
@@ -62,8 +58,7 @@ describe('UsersList component', () => {
       .createAsync(TestComponent).then((fixture: any) => {
         fixture.detectChanges();
 
-        let componentInstance = fixture.componentInstance,
-          element = fixture.nativeElement;
+        let element = fixture.nativeElement;
 
         let usersLength = users.length;
         expect(element.querySelectorAll('.card--user').length).toEqual(usersLength);

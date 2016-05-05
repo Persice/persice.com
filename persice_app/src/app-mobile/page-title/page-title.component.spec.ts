@@ -4,14 +4,11 @@ import {
   describe,
   async,
   inject,
-  beforeEachProviders,
   beforeEach,
-  fakeAsync,
-  tick
 } from '@angular/core/testing';
 import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
 
-import {Component, provide} from '@angular/core';
+import {Component} from '@angular/core';
 import {PageTitleComponent} from './page-title.component';
 
 @Component({

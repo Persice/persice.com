@@ -1,9 +1,6 @@
 import { provide, Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-
-import * as Rx from 'rxjs';
+import { Response } from '@angular/http';
 import {Observable} from 'rxjs';
-
 import {HttpClient} from '../core';
 
 @Injectable()

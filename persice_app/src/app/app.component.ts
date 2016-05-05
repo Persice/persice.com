@@ -27,17 +27,8 @@ import {LoadingComponent} from './shared/components/loading';
 import {NotificationComponent} from './shared/components/notification';
 
 import {CrowdDesktopComponent} from './crowd';
-import {ConnectionsDesktopComponent} from './connections';
-import {MessagesComponent} from './messages';
-
-import {EventsComponent} from './events';
-import {EventComponent} from './event';
-
 
 import {
-  ProfileLoader,
-  ProfileViewComponent,
-  ProfileFriendComponent,
   ProfileMyComponent
 } from './profile';
 
@@ -49,7 +40,6 @@ import {
   UserService,
   UserAuthService,
   NotificationService,
-  EventsService,
   WebsocketService,
   GeolocationService,
   LocationService,

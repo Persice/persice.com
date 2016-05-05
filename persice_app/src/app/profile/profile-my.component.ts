@@ -1,15 +1,10 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
   OnInit,
   OnDestroy
 } from '@angular/core';
 import {Router} from '@angular/router-deprecated';
 
-import {mergeMap} from 'rxjs/operator/mergeMap';
 import {ListUtil} from '../shared/core/';
 
 
@@ -21,12 +16,8 @@ import {NetworksComponent} from './networks.component';
 import {ItemsComponent} from './items.component';
 import {EditProfileComponent} from '../edit-profile';
 import {LoadingComponent} from '../shared/components/loading';
-
 import {RemodalDirective} from '../shared/directives';
-
-
 import {
-  MutualFriendsService,
   PhotosService,
   UserAuthService,
   ConnectionsService,
@@ -36,9 +27,6 @@ import {
   HistoryService,
   UserService
 } from '../shared/services';
-
-import {ObjectUtil} from '../shared/core';
-
 
 @Component({
   selector: 'prs-profile-my',

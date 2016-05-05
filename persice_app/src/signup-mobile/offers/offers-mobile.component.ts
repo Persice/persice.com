@@ -22,6 +22,7 @@ import {LoadingComponent} from '../../app/shared/components/loading';
 export class SignupOffersMobileComponent implements OnInit, OnDestroy {
   offers: any[] = [];
   newOfferText: string = '';
+  sadsf;
 
   // Lazy loading.
   limit: number = 12;

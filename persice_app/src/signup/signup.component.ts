@@ -7,7 +7,6 @@ import {
 import {
   RouteConfig,
   Router,
-  RouteParams,
   ROUTER_DIRECTIVES
 } from '@angular/router-deprecated';
 import {Location} from '@angular/common';

@@ -1,10 +1,7 @@
-import {take, slice, keys, keysIn, forEach, merge, filter, assign, defaults, orderBy, find, findIndex} from 'lodash';
-
-
-declare var jstz: any;
+import {take, slice, keysIn, forEach, merge, filter, orderBy, find, findIndex} from 'lodash';
 
 const moment = require('moment');
-const momentTz = require('moment-timezone/builds/moment-timezone-with-data.min');
+require('moment-timezone/builds/moment-timezone-with-data.min');
 
 export class ListUtil {
   static take(arr: any[], n: number): any[] {

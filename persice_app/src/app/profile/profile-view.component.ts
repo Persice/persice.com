@@ -1,11 +1,9 @@
 import {
   Component,
-  Input,
-  Output,
   OnInit,
   OnDestroy
 } from '@angular/core';
-import {RouteParams, Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {Http} from '@angular/http';
 
 import {AvatarComponent} from './avatar.component';

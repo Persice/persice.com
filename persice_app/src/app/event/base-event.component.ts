@@ -3,9 +3,7 @@ import {EventService, NotificationService} from '../shared/services';
 import {EventModel, EventOpenTo} from '../shared/models';
 import {GoogleUtil, ObjectUtil, DateUtil} from '../shared/core';
 
-const moment = require('moment');
 
-declare var jQuery: any;
 
 export abstract class BaseEventComponent {
   model;

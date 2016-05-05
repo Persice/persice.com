@@ -18,7 +18,7 @@ interface IMarker {
 }
 
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-event-photo-map',

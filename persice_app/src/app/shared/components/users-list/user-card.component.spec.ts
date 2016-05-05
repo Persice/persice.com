@@ -12,10 +12,7 @@ import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 
 import {UserCardComponent} from './user-card.component';
-
 import {user} from './user-card.component.mock';
-
-import {ObjectUtil} from '../../core';
 
 // Create a test component to test directives
 @Component({
@@ -77,17 +74,12 @@ describe('UserCard component', () => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {
       fixture.detectChanges();
 
-      let componentInstance = fixture.componentInstance,
-        element = fixture.nativeElement;
-
-      let interests = ObjectUtil.first(user.top_interests[0], 3);
-
+      let element = fixture.nativeElement;
 
       let interestsHeader = element.querySelector('h6').textContent.trim();
       let interestsLength = element.querySelectorAll('li.interest-list-match').length;
       expect(interestsHeader).toEqual('Interests');
       expect(interestsLength).toEqual(3);
-
 
       let interest0 = element.querySelectorAll('li')[0].textContent.trim();
       let interest1 = element.querySelectorAll('li')[1].textContent.trim();
@@ -105,8 +97,7 @@ describe('UserCard component', () => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {
       fixture.detectChanges();
 
-      let componentInstance = fixture.componentInstance,
-        element = fixture.nativeElement;
+      let element = fixture.nativeElement;
 
       let header = element.querySelector('h4.card-title').innerText;
       let subtitle = element.querySelector('p.card-subtitle').textContent.trim();

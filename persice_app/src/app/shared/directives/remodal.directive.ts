@@ -1,6 +1,6 @@
 import {Directive, ElementRef, OnDestroy, AfterViewInit} from '@angular/core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[remodal]',

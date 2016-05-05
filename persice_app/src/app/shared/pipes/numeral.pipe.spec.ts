@@ -1,15 +1,8 @@
 import {
-  iit,
   it,
-  ddescribe,
   describe,
   expect,
-  inject,
-  injectAsync,
-  beforeEachProviders,
-  beforeEach,
-  fakeAsync,
-  tick
+  beforeEach
 } from '@angular/core/testing';
 
 import {NumeralPipe} from './numeral.pipe';

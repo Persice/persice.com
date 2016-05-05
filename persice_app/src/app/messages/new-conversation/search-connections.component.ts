@@ -1,9 +1,7 @@
 import {
   Component,
   Output,
-  Input,
   EventEmitter,
-  ElementRef,
   OnInit
 } from '@angular/core';
 
@@ -12,7 +10,7 @@ import {Observable} from 'rxjs';
 import {Http} from '@angular/http';
 import {CheckImageDirective} from '../../shared/directives';
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-search-connections',

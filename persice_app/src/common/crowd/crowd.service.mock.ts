@@ -1,7 +1,6 @@
 import {provide, Provider} from '@angular/core';
 import {CrowdService} from './crowd.service';
 import {Observable} from 'rxjs';
-import {HttpClient} from "../../app/shared/core/http-client";
 
 export class MockCrowdService extends CrowdService {
   fakeResponse: any = null;

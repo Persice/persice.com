@@ -2,8 +2,6 @@
 export * from './app.component';
 
 import {
-  MapsAPILoader,
-  NoOpMapsAPILoader,
   ANGULAR2_GOOGLE_MAPS_PROVIDERS
 } from './shared/components/map/core';
 

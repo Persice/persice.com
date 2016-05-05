@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, AfterViewInit} from '@angular/core';
+import {Component, ElementRef, AfterViewInit} from '@angular/core';
 
 import {FilterModel} from '../shared/models';
 import {
@@ -9,7 +9,7 @@ import {
 
 import {map} from 'lodash';
 
-declare var jQuery: any;
+
 declare var Bloodhound: any;
 
 @Component({

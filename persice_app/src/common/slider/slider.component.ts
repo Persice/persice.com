@@ -9,7 +9,7 @@ import {
   Output
 } from '@angular/core';
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-range-slider',

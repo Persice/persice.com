@@ -1,16 +1,11 @@
 import {provide, Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
+import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
 
 import {HttpClient} from '../core';
 
 import {CookieUtil, FormUtil} from '../core';
 import {OPTS_REQ_JSON_CSRF} from '../core';
-import {pick} from 'lodash';
-
-declare var jQuery: any;
-
-
 
 let validate = require('validate.js');
 const moment = require('moment');
@@ -291,21 +286,6 @@ export class EventService {
 
 
     this.validationErrors = errors;
-
-    if (this.validationErrors && Object.keys(this.validationErrors).length > 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  private _validateSingle(data, attribute): boolean {
-    this.validationErrors = {};
-
-    let errors = validate(data, this.constraints, EventService.VALIDATION_OPTIONS);
-
-
-    this.validationErrors = pick(errors, attribute);
 
     if (this.validationErrors && Object.keys(this.validationErrors).length > 0) {
       return false;

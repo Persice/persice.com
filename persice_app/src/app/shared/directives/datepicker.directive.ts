@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {DateUtil} from '../core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[datepicker]',
@@ -23,13 +23,9 @@ export class DatepickerDirective implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-
-    let today = DateUtil.getTodayDate();
-
     jQuery(this.el.nativeElement).pickadate({
       format: 'mm/dd/yyyy',
       formatSubmit: 'mm/dd/yyyy',
-      // min: new Date( today[0], today[1] - 1, today[2] ),
       onSet: (context) => {
 
         let dateString = '';

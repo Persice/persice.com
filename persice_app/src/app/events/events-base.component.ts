@@ -1,6 +1,6 @@
 import {EventsService, FilterService} from '../shared/services';
 
-declare var jQuery: any;
+
 
 export abstract class EventsBaseComponent {
   items: Array<any> = [];

@@ -1,8 +1,7 @@
 import {provide, Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {HttpClient} from '../core';
-import {StringUtil, DateUtil, ListUtil, CookieUtil} from '../core/util';
-import {Observable, Subject} from 'rxjs';
+import {CookieUtil} from '../core/util';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class FacebookAlbumsService {
@@ -136,28 +135,6 @@ export class FacebookAlbumsService {
       () => {
 
       });
-  }
-
-
-
-  private _parseData(data) {
-    for (var i = 0; i < data.objects.length; ++i) {
-      let item = {
-
-      };
-      this._dataStore = [...this._dataStore, item];
-
-    }
-    this._loading = false;
-
-    if (data.meta.total_count === 0) {
-      this._isListEmpty = true;
-      this._dataStore = [];
-    } else {
-      this._isListEmpty = false;
-    }
-    this._next = data.meta.next;
-    this._offset = data.meta.offset;
   }
 
   private _notify() {

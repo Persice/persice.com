@@ -1,8 +1,6 @@
 import {Injector, provide, ReflectiveInjector} from '@angular/core';
 
-import {afterEach, beforeEach, describe, expect, inject, injectAsync, it,
-  beforeEachProviders
-} from '@angular/core/testing';
+import {afterEach, beforeEach, describe, expect, it} from '@angular/core/testing';
 
 import {BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions}
 from '@angular/http';
@@ -17,9 +15,6 @@ describe('CrowdService', () => {
 
   let injector: Injector;
   let backend: MockBackend;
-  let response;
-  let connection;
-
   let service: CrowdService;
 
   beforeEach(() => {

@@ -10,19 +10,19 @@ import {
 
 import {BaseEventComponent} from './base-event.component';
 
-import {EventModel, EventOpenTo} from '../shared/models';
+import {EventModel} from '../shared/models';
 
 import {NotificationComponent} from '../shared/components/notification';
 import {LoadingComponent} from '../shared/components/loading';
 
-import {GoogleUtil, ObjectUtil, DateUtil} from '../shared/core';
+import {DateUtil} from '../shared/core';
 
 import {
   EventService,
   NotificationService
 } from '../shared/services';
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-event-create',

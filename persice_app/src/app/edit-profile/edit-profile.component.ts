@@ -1,6 +1,4 @@
 import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {mergeMap} from 'rxjs/operator/mergeMap';
-
 
 import {EditPersonalInfoComponent} from './edit-personalinfo.component';
 import {EditPhotosComponent} from './edit-photos.component';
@@ -11,7 +9,7 @@ import {EditAlbumsComponent} from './edit-albums.component';
 import {EditCropComponent} from './edit-crop.component';
 import {LoadingComponent} from '../shared/components/loading';
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-edit-profile',

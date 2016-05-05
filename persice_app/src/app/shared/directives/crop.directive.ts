@@ -1,7 +1,7 @@
 import {Directive, ElementRef, Output, EventEmitter, OnChanges, AfterViewInit, OnDestroy}
 from '@angular/core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[croppie]',

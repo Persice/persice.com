@@ -9,20 +9,17 @@ import {
 } from '../shared/directives';
 
 import {BaseEventComponent} from './base-event.component';
-
-import {EventModel, EventOpenTo} from '../shared/models';
-
 import {NotificationComponent} from '../shared/components/notification';
 import {LoadingComponent} from '../shared/components/loading';
 
-import {GoogleUtil, ObjectUtil, DateUtil} from '../shared/core';
+import {DateUtil} from '../shared/core';
 
 import {
   EventService,
   NotificationService
 } from '../shared/services';
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-event-edit',
@@ -172,7 +169,6 @@ export class EventEditComponent extends BaseEventComponent implements OnChanges 
       this.router.parent.navigate(['./Events', 'AllEventsList']);
     }, (err) => {
       if ('status' in err) {
-        let parseError = JSON.parse(err.responseText);
         this.notification.body = 'Your event could not be deleted.';
         this.showValidationError = true;
       }

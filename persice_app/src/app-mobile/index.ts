@@ -2,8 +2,6 @@
 export * from './app-mobile.component';
 
 import {
-  MapsAPILoader,
-  NoOpMapsAPILoader,
   ANGULAR2_GOOGLE_MAPS_PROVIDERS
 } from '../app/shared/components/map/core';
 

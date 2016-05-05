@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Output, EventEmitter, OnInit} from '@angular/core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[minimalect]'

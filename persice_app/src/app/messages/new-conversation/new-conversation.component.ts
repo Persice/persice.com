@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import {Component} from '@angular/core';
 import {Router, RouteParams} from '@angular/router-deprecated';
 
 

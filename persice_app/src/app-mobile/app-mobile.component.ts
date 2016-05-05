@@ -10,7 +10,6 @@ import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_a
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
-  RouteRegistry,
   AsyncRoute,
   Router
 } from '@angular/router-deprecated';

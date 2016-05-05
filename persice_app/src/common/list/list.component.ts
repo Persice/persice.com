@@ -1,5 +1,4 @@
 import {remove, findIndex, debounce} from 'lodash';
-import {Observable} from 'rxjs';
 
 const DEFAULT_LIST_LIMIT: number = 12;
 

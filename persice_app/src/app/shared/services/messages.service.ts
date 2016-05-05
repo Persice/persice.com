@@ -1,7 +1,6 @@
 import {provide, Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {HttpClient} from '../core';
-import {StringUtil, DateUtil, ListUtil} from '../core';
+import {DateUtil, ListUtil} from '../core';
 import {Observable, Subject} from 'rxjs';
 import {CookieUtil} from '../core';
 import {OPTS_REQ_JSON_CSRF} from '../core';

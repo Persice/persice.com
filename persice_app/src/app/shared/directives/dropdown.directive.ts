@@ -1,6 +1,6 @@
 import {Directive, ElementRef, HostListener, OnDestroy} from '@angular/core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[dropdown]',

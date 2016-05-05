@@ -1,6 +1,6 @@
-import {Directive, ElementRef, Inject, NgZone, AfterViewInit, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, NgZone, AfterViewInit, OnDestroy} from '@angular/core';
 
-declare var jQuery: any;
+
 declare var Swiper: any;
 
 @Directive({

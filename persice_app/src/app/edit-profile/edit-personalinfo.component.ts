@@ -16,7 +16,7 @@ import {EditFooterComponent} from './edit-footer.component';
 
 import {ReligiousViewsService, PoliticalViewsService} from '../shared/services';
 
-declare var jQuery: any;
+
 
 
 @Component({

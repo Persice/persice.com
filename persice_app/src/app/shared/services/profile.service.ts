@@ -1,9 +1,7 @@
 import {provide, Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable, Subject} from 'rxjs';
-import {map} from 'rxjs/operator/map';
+import {Response} from '@angular/http';
+import {Subject} from 'rxjs';
 import {HttpClient} from '../core';
-
 
 @Injectable()
 export class ProfileService {
