@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {Person} from "../../model/person";
 
 @Component({
   selector: 'prs-mobile-interests-card',
-  template: require('./interests-card-mobile.html')
+  template: require('./interests-card-mobile.html'),
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InterestsCardMobileComponent {
   @Input() set person (person: Person) {

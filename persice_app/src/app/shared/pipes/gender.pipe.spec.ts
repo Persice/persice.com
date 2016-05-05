@@ -1,28 +1,21 @@
 import {
-  iit,
   it,
-  ddescribe,
   describe,
   expect,
-  inject,
-  injectAsync,
-  beforeEachProviders,
-  beforeEach,
-  fakeAsync,
-  tick
+  beforeEach
 } from '@angular/core/testing';
 
-import {GenderPipe} from './gender.pipe';
+import {GenderPipe} from './gender.pipe.ts';
 
 describe('GenderPipe', () => {
   let pipe: GenderPipe;
   beforeEach(() => {
     pipe = new GenderPipe();
   });
-  it('transforms "m" to "male"', () => {
+  it('transforms "m" to "Male"', () => {
     expect(pipe.transform('m', [])).toEqual('Male');
   });
-  it('transforms "f" to "female"', () => {
+  it('transforms "f" to "Female"', () => {
     expect(pipe.transform('f', [])).toEqual('Female');
   });
 
