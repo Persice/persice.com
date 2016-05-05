@@ -86,7 +86,7 @@ describe('Crowd desktop component', () => {
     // then
     const crowdLength = obtainLength(componentElement, '.user-card');
     expect(crowdLength).toEqual(0);
-  })
+  });
 
   function crowdServiceReturnsResults() {
     mockCrowdService.setResponse(MockCrowd);
