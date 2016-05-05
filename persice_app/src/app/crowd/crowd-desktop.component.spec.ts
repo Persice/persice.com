@@ -2,6 +2,7 @@ import {
   expect,
   it,
   describe,
+  beforeEach,
   inject,
   async,
   beforeEachProviders
