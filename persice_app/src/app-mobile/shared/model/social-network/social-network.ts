@@ -1,20 +1,20 @@
 export abstract class SocialNetwork {
-  private _name;
-  private _url;
+  private _name: string;
+  private _url: string;
 
-  get name() {
+  get name(): string {
     return this._name;
   }
 
-  get url() {
+  get url(): string {
     return this._url;
   }
 
-  set name(value) {
+  set name(value: string) {
     this._name = value;
   }
 
-  set url(value) {
+  set url(value: string) {
     this._url = value;
   }
 }

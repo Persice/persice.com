@@ -14,9 +14,20 @@ describe('Linkedin', () => {
     expect(network.url).toEqual('alice');
   });
 
-  it('URL empty when invalid data', () => {
+  it('URL empty when empty data', () => {
     // given
     let userId: string = '';
+
+    // when
+    let network: SocialNetworkLinkedin = new SocialNetworkLinkedin(userId);
+
+    // then
+    expect(network.url).toEqual('');
+  });
+
+  it('URL empty when null data', () => {
+    // given
+    let userId: string = null;
 
     // when
     let network: SocialNetworkLinkedin = new SocialNetworkLinkedin(userId);

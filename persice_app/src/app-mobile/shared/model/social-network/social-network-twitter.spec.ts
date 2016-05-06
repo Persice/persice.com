@@ -14,7 +14,7 @@ describe('Twitter', () => {
     expect(network.url).toEqual('https://twitter.com/alice');
   });
 
-  it('URL empty when invalid data', () => {
+  it('URL empty when empty data', () => {
     // given
     let userId: string = '';
 
@@ -22,7 +22,17 @@ describe('Twitter', () => {
     let network: SocialNetworkTwitter = new SocialNetworkTwitter(userId);
 
     // then
-    expect(network.name).toEqual('twitter');
+    expect(network.url).toEqual('');
+  });
+
+  it('URL empty when null data', () => {
+    // given
+    let userId: string = null;
+
+    // when
+    let network: SocialNetworkTwitter = new SocialNetworkTwitter(userId);
+
+    // then
     expect(network.url).toEqual('');
   });
 });
