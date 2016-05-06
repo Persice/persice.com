@@ -1,4 +1,7 @@
 import {ObjectUtil} from "../../../app/shared/core/util";
+import {SocialNetworkFacebook} from "./social-network/social-network-facebook";
+import {SocialNetworkLinkedin} from "./social-network/social-network-linkedin";
+import {SocialNetworkTwitter} from "./social-network/social-network-twitter";
 export class Person {
 
   public topInterestsFirstHalf: any[];
@@ -14,6 +17,9 @@ export class Person {
   private _topInterests: any[];
   private _image: string;
   private _score: number;
+  private _facebook: SocialNetworkFacebook;
+  private _twitter: SocialNetworkTwitter;
+  private _linkedin: SocialNetworkLinkedin;
 
   constructor(dto: any) {
     this._id = dto.id;
@@ -32,6 +38,10 @@ export class Person {
     this._topInterests = ObjectUtil.firstSorted(dto.top_interests[0], 6);
     this.topInterestsFirstHalf = interestsFromDto.splice(0, halfLength);
     this.topInterestsSecondHalf = interestsFromDto;
+
+    this._facebook = new SocialNetworkFacebook(dto.facebook_id);
+    this._twitter = new SocialNetworkTwitter(dto.twitter_username);
+    this._linkedin = new SocialNetworkLinkedin(dto.linkedin_provider);
   }
 
   get id(): string {
@@ -72,6 +82,18 @@ export class Person {
 
   get score(): number {
     return this._score;
+  }
+
+  get facebookUrl() {
+    return this._facebook.url;
+  }
+
+  get twitterUrl() {
+    return this._twitter.url;
+  }
+
+  get linkedinUrl() {
+    return this._linkedin.url;
   }
 
   static parseGender(value: string) {

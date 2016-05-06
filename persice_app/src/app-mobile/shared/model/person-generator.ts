@@ -11,7 +11,26 @@ export class PersonGenerator {
       top_interests: `${this.givenAnyTopInterests()}`,
       gender: `${this.givenAnyGenderServerResponse()}`,
       score: `${this.givenAnyScore()}`,
-      age: `${this.givenAnyAge()}`
+      age: `${this.givenAnyAge()}`,
+      facebook_id: `${this.givenAnyFacebookId()}`,
+      twitter_username: `${this.givenAnyTwiiterUsername()}`,
+      linkedin_provider: `${this.givenAnyLinkedinProvider()}`,
+    };
+  }
+
+  public static givenAnyPersonWithoutLinkedinAndTwitterDto(): any {
+    return {
+      id: 1,
+      first_name: `${this.givenAnyFirstName()}`,
+      last_name: `${this.givenAnyLastName()}`,
+      distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
+      top_interests: `${this.givenAnyTopInterests()}`,
+      gender: `${this.givenAnyGenderServerResponse()}`,
+      score: `${this.givenAnyScore()}`,
+      age: `${this.givenAnyAge()}`,
+      facebook_id: `${this.givenAnyFacebookId()}`,
+      twitter_username: null,
+      linkedin_provider: null,
     };
   }
 
@@ -24,7 +43,10 @@ export class PersonGenerator {
       top_interests: [],
       gender: `${this.givenAnyGenderServerResponse()}`,
       score: `${this.givenAnyScore()}`,
-      age: `${this.givenAnyAge()}`
+      age: `${this.givenAnyAge()}`,
+      facebook_id: `${this.givenAnyFacebookId()}`,
+      twitter_username: `${this.givenAnyTwiiterUsername()}`,
+      linkedin_provider: `${this.givenAnyLinkedinProvider()}`,
     };
   }
 
@@ -72,5 +94,17 @@ export class PersonGenerator {
 
   public static givenAnyAge(): number {
     return 24;
+  }
+
+  public static givenAnyFacebookId(): number {
+    return 123;
+  }
+
+  public static givenAnyTwiiterUsername(): string {
+    return 'alice';
+  }
+
+  public static givenAnyLinkedinProvider(): string {
+    return 'alice';
   }
 }

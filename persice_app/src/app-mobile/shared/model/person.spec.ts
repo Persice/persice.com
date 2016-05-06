@@ -21,6 +21,21 @@ describe('Person', () => {
     expect(person.distanceUnit).toEqual(dto.distance[1]);
     expect(person.topInterests.length).toBeGreaterThan(0);
     expect(person.image).toEqual(dto.image);
+    expect(person.facebookUrl.length).not.toEqual(0);
+    expect(person.twitterUrl.length).not.toEqual(0);
+    expect(person.linkedinUrl.length).not.toEqual(0);
+  });
+
+  it('does not instantiate linkedin URL when empty', () => {
+    // given
+    let dto: any = PersonGenerator.givenAnyPersonWithoutLinkedinAndTwitterDto();
+
+    // when
+    let person: Person = new Person(dto);
+
+    // then
+    expect(person.linkedinUrl.length).toEqual(0);
+    expect(person.twitterUrl.length).toEqual(0);
   });
 
   it('determines first and second half of top interests', () => {
