@@ -6,7 +6,7 @@ import {
   ElementRef,
   OnInit,
   OnDestroy
-} from 'angular2/core';
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import {MyProfileService} from '../shared/services';
 

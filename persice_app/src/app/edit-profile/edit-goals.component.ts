@@ -1,11 +1,10 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   OnInit,
   OnDestroy
-} from 'angular2/core';
+} from '@angular/core';
 import {findIndex} from 'lodash';
 
 import {LoadingComponent} from '../shared/components/loading';

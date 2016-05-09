@@ -77,6 +77,7 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   connectionsServiceInjectables,
   eventAttendeesServiceInjectables,
   eventConnectionsServiceInjectables,
+  eventServiceInjectables,
   eventMembersServiceInjectables,
   eventMessagesServiceInjectables,
   eventsServiceInjectables,

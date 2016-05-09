@@ -3,13 +3,12 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy,
   OnInit,
   OnChanges,
   OnDestroy
-} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {Http} from 'angular2/http';
+} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import {Http} from '@angular/http';
 
 import {AvatarComponent} from './avatar.component';
 import {AboutComponent} from './about.component';
@@ -17,7 +16,6 @@ import {LikesComponent} from './likes.component';
 import {FriendsComponent} from './friends.component';
 import {NetworksComponent} from './networks.component';
 import {ItemsComponent} from './items.component';
-import {AcceptPassComponent} from './acceptpass.component';
 import {GalleryComponent} from './gallery.component';
 
 import {LoadingComponent} from '../shared/components/loading';

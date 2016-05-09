@@ -1,5 +1,5 @@
-import {provide, Injectable} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {provide, Injectable} from '@angular/core';
+import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
 
 import {HttpClient} from '../core';
@@ -66,13 +66,10 @@ export class PhotosService {
   }
 
   public updateOrder(image, url, cb: (status: number) => void) {
-    let userId = CookieUtil.getValue('userid');
-
     let photo = {
       order: image.order,
       resource_uri: image.resource_uri
     };
-
 
     let body = JSON.stringify(photo);
     let channel = this.http.patch(`${url}?format=json`, body, OPTS_REQ_JSON_CSRF)

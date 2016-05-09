@@ -1,5 +1,4 @@
-import {Injectable} from 'angular2/core';
-
+import {Injectable} from '@angular/core';
 @Injectable()
 export abstract class MapsAPILoader {
   abstract load(): Promise<void>;

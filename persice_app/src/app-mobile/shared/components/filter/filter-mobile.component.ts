@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input
-} from 'angular2/core';
-
-import {findIndex, isUndefined, debounce, throttle} from 'lodash';
-
-import {FilterModel, InterfaceFilter} from '../../../../app/shared/models';
-
+import {Component} from '@angular/core';
 import {FilterComponent} from '../../../../common/filter';
 import {SliderComponent} from '../../../../common/slider';
 import {FilterService} from '../../../../app/shared/services';

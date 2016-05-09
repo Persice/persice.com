@@ -1,15 +1,13 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   OnInit,
   OnDestroy
-} from 'angular2/core';
+} from '@angular/core';
 
 import {findIndex} from 'lodash';
 
 import {OffersService} from '../../app/shared/services';
+import {SignupStateService} from '../../common/services';
 
 import {LoadingComponent} from '../../app/shared/components/loading';
 
@@ -22,10 +20,9 @@ import {LoadingComponent} from '../../app/shared/components/loading';
   ]
 })
 export class SignupOffersMobileComponent implements OnInit, OnDestroy {
-  @Output() counter: EventEmitter<any> = new EventEmitter();
-
   offers: any[] = [];
   newOfferText: string = '';
+  sadsf;
 
   // Lazy loading.
   limit: number = 12;
@@ -39,7 +36,11 @@ export class SignupOffersMobileComponent implements OnInit, OnDestroy {
   // Whether adding new offer succeeded or not.
   status;
 
-  constructor(private offersService: OffersService) {}
+  constructor(
+    private offersService: OffersService,
+    private signupStateService: SignupStateService
+  ) {
+  }
 
   ngOnInit() {
     this.initializeTokenInput();
@@ -105,7 +106,7 @@ export class SignupOffersMobileComponent implements OnInit, OnDestroy {
         this.offers.push(newItem);
         this.status = 'success';
         this.total_count++;
-        this.counter.next({
+        this.signupStateService.counterEmitter.emit({
           type: 'offers',
           count: this.total_count
         });
@@ -143,7 +144,7 @@ export class SignupOffersMobileComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           this.offers.splice(idx, 1);
           this.total_count--;
-          this.counter.next({
+          this.signupStateService.counterEmitter.emit({
             type: 'offers',
             count: this.total_count
           });
@@ -156,9 +157,9 @@ export class SignupOffersMobileComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.offersService.get(this.next, 100)
       .subscribe(data => this.assignList(data),
-        () => {
-          this.loading = false;
-        });
+      () => {
+        this.loading = false;
+      });
   }
 
   refreshList() {
@@ -173,7 +174,7 @@ export class SignupOffersMobileComponent implements OnInit, OnDestroy {
 
     this.total_count = data.meta.total_count;
 
-    this.counter.next({
+    this.signupStateService.counterEmitter.emit({
       type: 'offers',
       count: this.total_count
     });

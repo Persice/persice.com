@@ -1,17 +1,28 @@
-import {Directive, ElementRef, OnChanges, AfterViewInit, Renderer} from 'angular2/core';
+import {Directive, ElementRef, Input, AfterViewInit, Renderer, OnDestroy} from '@angular/core';
+import {Http} from '@angular/http';
 
 @Directive({
   selector: '[checkimage]',
   properties: ['image: checkimage', 'suffix', 'onchanges']
 })
-export class CheckImageDirective {
+export class CheckImageDirective implements AfterViewInit, OnDestroy {
+  @Input() set checkimage(value: string) {
+    if (this.onchanges) {
+      this.image = value;
+      this._displayImage();
+    }
+  };
+
   image: string;
   suffix: string;
   onchanges: boolean;
+  serviceInstance: any;
 
   constructor(
     private el: ElementRef,
-    private renderer: Renderer) {
+    private renderer: Renderer,
+    private http: Http
+  ) {
 
   }
 
@@ -19,9 +30,9 @@ export class CheckImageDirective {
     this._displayImage();
   }
 
-  ngOnChanges(values) {
-    if (this.onchanges) {
-      this._displayImage();
+  ngOnDestroy() {
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
     }
   }
 
@@ -47,19 +58,18 @@ export class CheckImageDirective {
    * @param {[string]} url [image url]
    */
   private _loadImage(url): void {
-    let test = new Image();
-    test.onload = () => {
-      // console.log('smaller image is loaded', url);
-      this.setBackgroundImage(`url(${url})`);
-    };
-
-    test.onerror = () => {
-      // console.log('smaller image load error, loading original image', this.image);
-      this.setBackgroundImage(`url(${this.image})`);
-    };
-
-    test.src = url;
-
+    if (url) {
+      this.serviceInstance = this.http.head(url).map((res) => res.json())
+        .subscribe((data) => {
+          this.setBackgroundImage(`url(${url})`);
+        }, (err) => {
+          this.setBackgroundImage(`url(${this.image})`);
+          return true;
+        }, () => {
+          return true;
+        });
+    }
   }
+
 
 }

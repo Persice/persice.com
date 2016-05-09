@@ -1,13 +1,8 @@
-import { provide, Injectable } from 'angular2/core';
-import { Http, Response } from 'angular2/http';
+import {provide, Injectable} from '@angular/core';
+import {Response } from '@angular/http';
 import {HttpClient} from '../core';
 import {Observable} from 'rxjs';
-import {mergeMap} from 'rxjs/operator/mergeMap';
-
 import {OPTS_REQ_JSON_CSRF} from '../core';
-
-import {remove, find} from 'lodash';
-
 import {CookieUtil} from '../core';
 
 const USER_ID = CookieUtil.getValue('userid');

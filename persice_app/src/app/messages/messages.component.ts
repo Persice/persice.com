@@ -1,7 +1,5 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteConfig, RouterLink, ROUTER_DIRECTIVES, Router, Location}
-from 'angular2/router';
-
+import {Component, OnInit} from '@angular/core';
+import {RouteConfig, ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
 
 import {InboxService} from '../shared/services';
 

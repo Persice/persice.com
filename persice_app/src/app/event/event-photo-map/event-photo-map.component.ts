@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {CORE_DIRECTIVES} from 'angular2/common';
+import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
+import {CORE_DIRECTIVES} from '@angular/common';
 
 import {EventService, NotificationService} from '../../shared/services';
 import {CheckImageDirective} from '../../shared/directives';
@@ -18,7 +18,7 @@ interface IMarker {
 }
 
 
-declare var jQuery: any;
+
 
 @Component({
   selector: 'prs-event-photo-map',
@@ -30,7 +30,7 @@ declare var jQuery: any;
   ],
   providers: [EventService]
 })
-export class EventPhotoMapComponent {
+export class EventPhotoMapComponent implements OnChanges {
   @Input() location;
   @Input() photo;
   @Input() stats;

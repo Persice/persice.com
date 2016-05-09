@@ -16,7 +16,7 @@
   </div>
   <h6 class="card-subtitle interest-list-title">Interests</h6>
   <ul class="interest-list" *ngIf="user.top_interests">
-    <li *ngFor="#key of interests" [ngClass]="{'interest-list-match': key && key.match }">{{key.value}}</li>
+    <li *ngFor="let key of interests" [ngClass]="{'interest-list-match': key && key.match }">{{key.value}}</li>
   </ul>
   <div class="pass-accept" *ngIf="showButtons">
     <div class="layout layout--small">

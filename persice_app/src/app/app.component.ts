@@ -2,16 +2,19 @@ import {
   Component,
   Injectable,
   Type,
-  ViewEncapsulation
-} from 'angular2/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+  ViewEncapsulation,
+  AfterViewInit,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
   Router,
   RouteRegistry,
   AsyncRoute
-} from 'angular2/router';
+} from '@angular/router-deprecated';
 
 import {CookieUtil} from './shared/core';
 
@@ -23,18 +26,9 @@ import {NotificationsComponent} from './notifications';
 import {LoadingComponent} from './shared/components/loading';
 import {NotificationComponent} from './shared/components/notification';
 
-import {CrowdComponentDesktop} from './crowd';
-import {MessagesComponent} from './messages';
-import {ConnectionsComponent} from './connections';
-
-import {EventsComponent} from './events';
-import {EventComponent} from './event';
-
+import {CrowdDesktopComponent} from './crowd';
 
 import {
-  ProfileLoader,
-  ProfileViewComponent,
-  ProfileFriendComponent,
   ProfileMyComponent
 } from './profile';
 
@@ -46,7 +40,6 @@ import {
   UserService,
   UserAuthService,
   NotificationService,
-  EventsService,
   WebsocketService,
   GeolocationService,
   LocationService,
@@ -104,7 +97,7 @@ class DynamicRouteConfiguratorService {
   },
   {
     path: '/crowd',
-    component: CrowdComponentDesktop,
+    component: CrowdDesktopComponent,
     name: 'Crowd',
     useAsDefault: true
   },
@@ -120,7 +113,7 @@ class DynamicRouteConfiguratorService {
   }),
   new AsyncRoute({
     path: '/connections',
-    loader: () => require('es6-promise!./connections')('ConnectionsComponent'),
+    loader: () => require('es6-promise!./connections')('ConnectionsDesktopComponent'),
     name: 'Connections'
   }),
   new AsyncRoute({
@@ -168,7 +161,7 @@ class DynamicRouteConfiguratorService {
     NotificationsService
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   activeRoute: string = '';
   user: AuthUserModel;
   image: string;

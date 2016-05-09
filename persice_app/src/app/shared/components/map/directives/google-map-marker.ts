@@ -6,7 +6,7 @@ import {
   EventEmitter,
   Input,
   Output
-} from 'angular2/core';
+} from '@angular/core';
 import {MarkerManager} from '../services/marker-manager';
 import {MouseEvent} from '../events';
 import * as mapTypes from '../services/google-maps-types';
@@ -18,7 +18,7 @@ let markerId = 0;
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
+ * import {Component} from '@angular/core';
  * import {GoogleMap, GoogleMapMarker} from 'angular2-google-maps/core';
  *
  * @Component({

@@ -3,7 +3,7 @@
 </span>
 <div class="has-user-links">
   <div class="layout layout--small">
-    <div class="layout__item 1/5" *ngFor="#item of connections">
+    <div class="layout__item 1/5" *ngFor="let item of connections">
       <a class="user-link" *ngIf="item.type === 'persice'">
         <div class="avatar avatar--small" checkimage="{{item.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
         <span class="user-link__username">{{item.first_name}}</span>

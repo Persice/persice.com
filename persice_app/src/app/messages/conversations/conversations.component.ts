@@ -1,12 +1,11 @@
 import {
   Component,
-  Input,
   Output,
   ElementRef,
   EventEmitter,
   OnInit,
   OnDestroy
-} from 'angular2/core';
+} from '@angular/core';
 
 import {
   InboxService,

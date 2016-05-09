@@ -1,4 +1,4 @@
-import { provide, Injectable } from 'angular2/core';
+import { provide, Injectable } from '@angular/core';
 
 
 @Injectable()

@@ -10235,3 +10235,16 @@ html {
 .profile-tab__list li {
   padding-left: 17px!important;
 }
+
+.pass-accept__pass.is-active {
+  background-color: #ec8672!important;
+}
+
+.pass-accept__pass.is-active .icon.red,
+.pass-accept__accept.is-active .icon.green {
+  fill: #ffffff!important;
+}
+
+.pass-accept__accept.is-active {
+  background-color: #a6e16c!important;
+}

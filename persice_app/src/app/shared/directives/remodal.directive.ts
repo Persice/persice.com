@@ -1,21 +1,17 @@
-import {Directive, ElementRef, Inject} from 'angular2/core';
+import {Directive, ElementRef, OnDestroy, AfterViewInit} from '@angular/core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[remodal]',
   properties: ['options: remodal']
 })
-export class RemodalDirective {
-  el: ElementRef;
+export class RemodalDirective implements OnDestroy, AfterViewInit {
   options;
 
-  constructor( @Inject(ElementRef) el: ElementRef) {
-    this.el = el;
-  }
+  constructor(public el: ElementRef) { }
 
   ngAfterViewInit() {
-
     this.initializeModal();
   }
 

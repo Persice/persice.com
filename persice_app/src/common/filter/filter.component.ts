@@ -1,5 +1,5 @@
-import {Input} from 'angular2/core';
-import {findIndex, isUndefined, debounce, throttle} from 'lodash';
+import {Input} from '@angular/core';
+import {findIndex, debounce} from 'lodash';
 
 import {FilterModel, InterfaceFilter} from '../../app/shared/models';
 import {FilterService} from '../../app/shared/services';

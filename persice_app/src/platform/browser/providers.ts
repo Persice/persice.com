@@ -1,17 +1,16 @@
 /*
  * These are globally available services in any component or any other service
  */
-
-
-import {provide} from 'angular2/core';
+import {provide} from '@angular/core';
 
 // Angular 2
-import {FORM_PROVIDERS} from 'angular2/common';
+import {FORM_PROVIDERS, APP_BASE_HREF, LocationStrategy, PathLocationStrategy}
+from '@angular/common';
 
 // Angular 2 Http
-import {HTTP_PROVIDERS, JSONP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS, JSONP_PROVIDERS} from '@angular/http';
 // Angular 2 Router
-import {ROUTER_PROVIDERS, APP_BASE_HREF, LocationStrategy, PathLocationStrategy} from 'angular2/router';
+import {ROUTER_PROVIDERS} from '@angular/router-deprecated';
 
 /*
 * Application Providers/Directives/Pipes

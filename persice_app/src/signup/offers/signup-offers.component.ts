@@ -1,15 +1,13 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   OnInit,
   OnDestroy
-} from 'angular2/core';
+} from '@angular/core';
 
 import {findIndex} from 'lodash';
 
 import {OffersService} from '../../app/shared/services';
+import {SignupStateService} from '../../common/services';
 
 import {LoadingComponent} from '../../app/shared/components/loading';
 
@@ -21,9 +19,6 @@ import {LoadingComponent} from '../../app/shared/components/loading';
   ]
 })
 export class SignupOffersComponent implements OnInit, OnDestroy {
-
-  @Output() counter: EventEmitter<any> = new EventEmitter();
-
   items: any[] = [];
   loading: boolean = false;
   isListEmpty: boolean = false;
@@ -37,7 +32,8 @@ export class SignupOffersComponent implements OnInit, OnDestroy {
   saveLoading = false;
 
   constructor(
-    private offersService: OffersService
+    private offersService: OffersService,
+    private signupStateService: SignupStateService
   ) {
 
   }
@@ -107,7 +103,7 @@ export class SignupOffersComponent implements OnInit, OnDestroy {
         this.items.push(newItem);
         this.status = 'success';
         this.total_count++;
-        this.counter.next({
+        this.signupStateService.counterEmitter.emit({
           type: 'offers',
           count: this.total_count
         });
@@ -153,7 +149,7 @@ export class SignupOffersComponent implements OnInit, OnDestroy {
         .subscribe((res) => {
           this.items.splice(idx, 1);
           this.total_count--;
-          this.counter.next({
+          this.signupStateService.counterEmitter.emit({
             type: 'offers',
             count: this.total_count
           });
@@ -196,7 +192,7 @@ export class SignupOffersComponent implements OnInit, OnDestroy {
 
     this.total_count = data.meta.total_count;
 
-    this.counter.next({
+    this.signupStateService.counterEmitter.emit({
       type: 'offers',
       count: this.total_count
     });

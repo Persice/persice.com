@@ -1,7 +1,8 @@
 <footer class="profile-footer">
-  <div class="layout layout--flush mh-">
+ <!-- footer crowd profile -->
+   <div class="layout layout--flush mh-" *ngIf="type === 'crowd'">
     <div class="layout__item text-center 1/3">
-      <a class="pass-accept">
+      <a class="pass-accept pass-accept__pass" (tap)="pass($event)" [ngClass]="{'is-active': passIsActive}">
         <svg role="img" class="icon red">
           <use xlink:href="/static/assets/icons/icons.svg#icon-pass"></use>
         </svg>
@@ -9,17 +10,24 @@
     </div>
     <div class="layout__item text-center 1/3">
       <div class="profile-footer__similarity">
-        <div class="profile-footer__similarity__value">{{matchScore}}&deg;</div>
+        <div class="profile-footer__similarity__value">{{score}}&deg;</div>
         <div class="profile-footer__similarity__label">Similar</div>
         <div class="profile-footer__similarity__progres"></div>
       </div>
     </div>
     <div class="layout__item text-center 1/3">
-      <a class="pass-accept">
+      <a class="pass-accept pass-accept__accept" (tap)="accept($event)" [ngClass]="{'is-active': acceptIsActive}">
         <svg role="img" class="icon green">
           <use xlink:href="/static/assets/icons/icons.svg#icon-accepted"></use>
         </svg>
       </a>
     </div>
   </div>
+
+  <!-- footer connection profile -->
+  <a class="profile-footer__message" *ngIf="type === 'connection'">
+    <svg role="img" class="icon ">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
+    </svg>
+  </a>
 </footer>

@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 import {NotificationsService} from '../shared/services/notifications.service';
 

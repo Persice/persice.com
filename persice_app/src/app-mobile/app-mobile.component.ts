@@ -2,18 +2,17 @@ import {
   Component,
   ViewEncapsulation,
   OnInit
-} from 'angular2/core';
+} from '@angular/core';
 
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {BrowserDomAdapter} from 'angular2/platform/browser';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
+import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
 
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
-  RouteRegistry,
   AsyncRoute,
   Router
-} from 'angular2/router';
+} from '@angular/router-deprecated';
 
 import {
   OpenLeftMenuDirective,
@@ -21,11 +20,15 @@ import {
   IfRoutesActiveDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdComponentMobile} from "./crowd";
+import {CrowdMobileComponent} from "./crowd";
 import {PageTitleComponent} from './page-title';
 import {FilterService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
 import {ProfileFooterMobileComponent} from './user-profile';
+
+
+const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
+
 /*
  * Persice App Component
  * Top Level Component
@@ -37,7 +40,7 @@ import {ProfileFooterMobileComponent} from './user-profile';
   },
   {
     path: '/crowd',
-    component: CrowdComponentMobile,
+    component: CrowdMobileComponent,
     name: 'Crowd',
     useAsDefault: true
   },
@@ -91,9 +94,11 @@ import {ProfileFooterMobileComponent} from './user-profile';
 export class AppMobileComponent implements OnInit {
   isHeaderVisible: boolean = true;
   isFooterVisible: boolean = false;
-  pagesWithFilter = ['crowd'];
+  pagesWithFilter = PAGES_WITH_FILTER;
   pageTitle = 'Persice';
   footerScore: number = 0;
+  footerType: string;
+  footerUserId: number;
 
   constructor(
     private _appStateService: AppStateService,
@@ -111,11 +116,12 @@ export class AppMobileComponent implements OnInit {
       .subscribe((visibility: boolean) => {
         this.isHeaderVisible = visibility;
       });
-
     this._appStateService.isProfileFooterVisibleEmitter
       .subscribe((state: any) => {
         this.isFooterVisible = state.visibility;
-        this.footerScore = state.score;
+        this.footerScore = state.score ? state.score : 0;
+        this.footerType = state.type ? state.type : '';
+        this.footerUserId = state.userId ? state.userId : null;
       });
 
     this._router.subscribe((next: string) => {
@@ -123,11 +129,26 @@ export class AppMobileComponent implements OnInit {
     });
   }
 
-  setFilterVisible() {
+  /**
+   * Set Filter page visible using app state service
+   */
+  public setFilterVisible() {
     this._appStateService.setFilterVisibility(true);
     this._appStateService.setHeaderVisibility(false);
   }
 
+  /**
+   * Emit accept or pass state for friendship on crowd page
+   * @param {Object} event {userid: number, state: [-1|0]}
+   */
+  public setFriendshipStatus(event) {
+    this._appStateService.setFriendshipStatus(event);
+  }
+
+  /**
+   * Change page title in top header when route changes
+   * @param {string} next [description]
+   */
   private _onRouteChange(next: string) {
     this.pageTitle = next;
   }

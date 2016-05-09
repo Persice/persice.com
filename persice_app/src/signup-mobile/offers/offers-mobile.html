@@ -23,7 +23,7 @@
 </div>
 
 <div class="search__tags-wrapper text-left" id="interests" *ngIf="offers.length > 0">
-  <p class="search-tag-secondary" *ngFor="#offer of offers">
+  <p class="search-tag-secondary" *ngFor="let offer of offers">
     <a (click)="removeOffer(offer)">
       <svg role="img" class="icon ">
       <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>

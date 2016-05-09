@@ -5,7 +5,7 @@
 
   <div class="swiper-container js-profile-swiper-2 pt likes" *ngIf="count > 0" swiper="{{swiperOptions}}">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" *ngFor="#item of likes">
+      <div class="swiper-slide" *ngFor="let item of likes">
         <div class="flag flag--small flag--fix">
           <div class="flag__img">
             <div class="listed-user-avatar-place">

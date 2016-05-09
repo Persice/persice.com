@@ -3,9 +3,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy,
   AfterViewInit
-} from 'angular2/core';
+} from '@angular/core';
 
 import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";
@@ -38,6 +37,8 @@ import {
   ]
 })
 export class UserProfileComponent implements AfterViewInit {
+  // Profile type, crowd or connection
+  @Input() type: string;
 
   // When [user] from Input property change, set internal state for our component
   @Input() set user(value) {

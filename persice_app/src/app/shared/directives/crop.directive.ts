@@ -1,12 +1,13 @@
-import {Directive, ElementRef, Output, EventEmitter} from 'angular2/core';
+import {Directive, ElementRef, Output, EventEmitter, OnChanges, AfterViewInit, OnDestroy}
+from '@angular/core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[croppie]',
   properties: ['options: croppie', 'image', 'crop']
 })
-export class CropDirective {
+export class CropDirective implements OnChanges, AfterViewInit, OnDestroy {
   @Output() cropResult: EventEmitter<any> = new EventEmitter();
   options;
   image;

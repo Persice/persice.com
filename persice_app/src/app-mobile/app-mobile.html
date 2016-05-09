@@ -33,4 +33,4 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-<prs-mobile-profile-footer *ngIf="isFooterVisible" [score]="footerScore"></prs-mobile-profile-footer>
+<prs-mobile-profile-footer *ngIf="isFooterVisible" (onAcceptPassEvent)="setFriendshipStatus($event)" [type]="footerType" [userId]="footerUserId" [score]="footerScore"></prs-mobile-profile-footer>

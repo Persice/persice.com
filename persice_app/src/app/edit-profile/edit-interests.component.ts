@@ -1,13 +1,11 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   OnInit,
   OnDestroy
-} from 'angular2/core';
+} from '@angular/core';
 
-import {mergeMap} from 'rxjs/operator/mergeMap';
 import {findIndex} from 'lodash';
 
 
@@ -16,7 +14,7 @@ import {EditFooterComponent} from './edit-footer.component';
 
 import {InterestsService, KeywordsService} from '../shared/services';
 
-declare var jQuery: any;
+
 declare var Bloodhound: any;
 
 @Component({

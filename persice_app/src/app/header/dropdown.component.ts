@@ -1,5 +1,5 @@
-import {Component, Input} from 'angular2/core';
-import {RouterLink, Router} from 'angular2/router';
+import {Component, Input} from '@angular/core';
+import {RouterLink, Router} from '@angular/router-deprecated';
 
 import {DropdownDirective} from '../shared/directives/dropdown.directive';
 import {CheckImageDirective} from '../shared/directives/checkimage.directive';

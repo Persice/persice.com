@@ -2,21 +2,17 @@ import {
   expect,
   it,
   describe,
-  injectAsync,
-  TestComponentBuilder,
-  beforeEachProviders,
-  beforeEach,
+  async,
   inject,
-  fakeAsync,
-  tick,
-  ComponentFixture
-} from 'angular2/testing';
+  beforeEach,
+} from '@angular/core/testing';
+import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
 
-import {Component, provide} from 'angular2/core';
+import {Component} from '@angular/core';
 import {PageTitleComponent} from './page-title.component';
 
 @Component({
-  selector: 'test-component',
+  selector: 'prs-test-component',
   directives: [PageTitleComponent],
   template: `
   <div>
@@ -33,15 +29,15 @@ let componentElement: any;
 
 describe('Page title component', () => {
 
-  beforeEach(injectAsync([TestComponentBuilder], (tcb) => {
+  beforeEach(async(inject([TestComponentBuilder], (tcb) => {
     return tcb
       .createAsync(TestComponent)
-      .then((componentFixture: ComponentFixture) => {
+      .then((componentFixture: ComponentFixture<any>) => {
         this.componentFixture = componentFixture;
         componentInstance = componentFixture.componentInstance;
         componentElement = componentFixture.nativeElement;
       });
-  }));
+  })));
 
   it('should show default page title', () => {
     // given

@@ -1,18 +1,13 @@
-import {provide, Injectable} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {provide, Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import * as io from 'socket.io-client';
-import {CookieUtil} from '../core';
 
-const HOSTNAME = window.location.hostname;
-
-const USER_ID = CookieUtil.getValue('userid');
+const HOSTNAME: string = window.location.hostname;
 
 @Injectable()
 export class WebsocketService {
 
   static API_URL: string = '//' + HOSTNAME;
-
   static _socket: any;
 
   constructor() {

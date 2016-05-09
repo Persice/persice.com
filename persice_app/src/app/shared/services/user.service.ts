@@ -1,6 +1,6 @@
-import { provide, Injectable } from 'angular2/core';
-import { Http, Response } from 'angular2/http';
-import { Observable, Subject } from 'rxjs';
+import {provide, Injectable} from '@angular/core';
+import {Response} from '@angular/http';
+import {Observable, Subject} from 'rxjs';
 
 import {AuthUserModel} from '../models';
 import {HttpClient} from '../core';

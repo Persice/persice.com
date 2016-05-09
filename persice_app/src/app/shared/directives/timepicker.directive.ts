@@ -4,10 +4,10 @@ import {
   EventEmitter,
   AfterViewInit,
   Output
-} from 'angular2/core';
+} from '@angular/core';
 import {DateUtil} from '../core';
 
-declare var jQuery: any;
+
 
 @Directive({
   selector: '[timepicker]',

@@ -9,7 +9,19 @@
         </a>
       </div>
       <div class="layout__item 3/5 text-center"> </div>
-      <div class="layout__item 1/5 text-right"> </div>
+      <div class="layout__item 1/5 text-right" *ngIf="type === 'crowd'"> </div>
+      <div class="layout__item 1/5 text-right" *ngIf="type === 'connection'">
+        <a class="js-mob-header__profile-drop-trigg">
+          <svg role="img" class="icon icon--small">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/dist/assets/icons/icons.svg#icon-mobile_menu"></use>
+          </svg>
+        </a>
+        <ul class="mob-header__drop js-mob-header__drop hidden">
+          <li><a href="">Invite to event</a></li>
+          <li><a href="">Report user</a></li>
+          <li><a href="">Disconnect</a></li>
+        </ul>
+      </div>
     </div>
   </header>
   <div class="profile-hero">
@@ -44,8 +56,40 @@
       <div class="profile-box__sub">
         <div class="layout">
           <div class="layout__item 1/2">
-            <span class="profile-info__label">Religious Views</span> <span class="profile-info__value" *ngFor="#rel of profileReligiousViews">{{rel.religious_view}}</span> </div>
-          <div class="layout__item 1/2"> <span class="profile-info__label">Political Views</span> <span class="profile-info__value" *ngFor="#rel of profilePoliticalViews">{{rel.political_view}}</span> </div>
+            <span class="profile-info__label">Religious Views</span> <span class="profile-info__value" *ngFor="let rel of profileReligiousViews">{{rel.religious_view}}</span> </div>
+          <div class="layout__item 1/2"> <span class="profile-info__label">Political Views</span> <span class="profile-info__value" *ngFor="let rel of profilePoliticalViews">{{rel.political_view}}</span> </div>
+        </div>
+      </div>
+      <div class="profile-box__sub"> <span class="profile-info__label mb--">Networks</span>
+        <div class="layout">
+          <div class="layout__item 1/4 text-center">
+            <a href="#">
+              <svg role="img" class="icon icon--medium">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-twitter_middle"></use>
+              </svg>
+            </a>
+          </div>
+          <div class="layout__item 1/4 text-center">
+            <a href="#">
+              <svg role="img" class="icon icon--medium">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-linkedin_middle"></use>
+              </svg>
+            </a>
+          </div>
+          <div class="layout__item 1/4 text-center">
+            <a href="#">
+              <svg role="img" class="icon icon--medium">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-facebook_middle"></use>
+              </svg>
+            </a>
+          </div>
+          <div class="layout__item 1/4 text-center">
+            <a href="#">
+              <svg role="img" class="icon icon--medium">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-instagram_middle"></use>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>

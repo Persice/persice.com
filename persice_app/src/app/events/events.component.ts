@@ -1,11 +1,12 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular/core';
 import {
   RouteConfig,
   RouterLink,
   ROUTER_DIRECTIVES,
-  Router,
-  Location
-} from 'angular2/router';
+  Router
+} from '@angular/router-deprecated';
+
+import {Location} from '@angular/common';
 
 import {StringUtil} from '../shared/core';
 

@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input} from '@angular/core';
 
 import {SearchComponent} from './search.component';
 import {DropdownComponent} from './dropdown.component';

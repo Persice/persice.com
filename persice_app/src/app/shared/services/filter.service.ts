@@ -1,5 +1,5 @@
-import {provide, Injectable, EventEmitter} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
+import {provide, Injectable} from '@angular/core';
+import {Response} from '@angular/http';
 import {HttpClient} from '../core';
 
 import * as Rx from 'rxjs';
@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 import {InterfaceFilter} from '../models';
 import {OPTS_REQ_JSON_CSRF} from '../core';
 
-import {remove, find, debounce} from 'lodash';
+import {remove, find} from 'lodash';
 
 @Injectable()
 export class FilterService {

@@ -1,22 +1,18 @@
 import {
-    Component,
-    Input,
-    Output,
-    EventEmitter,
-    OnInit,
-    OnDestroy
-} from 'angular2/core';
+  Component,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 
 import {findIndex} from 'lodash';
 import {GoalsService} from '../../app/shared/services';
+import {SignupStateService} from '../../common/services';
 
 @Component({
   selector: 'prs-mobile-goals',
   template: require('./goals-mobile.html')
 })
-export class SignupGoalsMobileComponent {
-  @Output() counter: EventEmitter<any> = new EventEmitter();
-
+export class SignupGoalsMobileComponent implements OnInit, OnDestroy {
   goals: Goal[] = [];
   newGoalText: string = '';
 
@@ -30,7 +26,11 @@ export class SignupGoalsMobileComponent {
   status;
   saveLoading: boolean = false;
 
-  constructor(private goalsService: GoalsService) {}
+  constructor(
+    private goalsService: GoalsService,
+    private signupStateService: SignupStateService
+  ) {
+  }
 
   ngOnInit() {
     this.initializeTokenInput();
@@ -60,15 +60,15 @@ export class SignupGoalsMobileComponent {
 
     var goalInputElement = jQuery('#goalsInput');
     goalInputElement.typeahead(
-        {
-          hint: false,
-          highlight: true,
-          minLength: 2
-        },
-        {
-          source: keywordsEngine,
-          limit: 30
-        }
+      {
+        hint: false,
+        highlight: true,
+        minLength: 2
+      },
+      {
+        source: keywordsEngine,
+        limit: 30
+      }
     );
 
     goalInputElement.bind('typeahead:selected', (ev, suggestion) => {
@@ -99,7 +99,7 @@ export class SignupGoalsMobileComponent {
       this.status = 'success';
 
       this.total_count++;
-      this.counter.emit({
+      this.signupStateService.counterEmitter.emit({
         type: 'goals',
         count: this.total_count
       });
@@ -129,14 +129,14 @@ export class SignupGoalsMobileComponent {
     let idx = findIndex(this.goals, event);
     if (this.goals[idx]) {
       this.goalsService.delete(event.resource_uri)
-          .subscribe((res) => {
-            this.goals.splice(idx, 1);
-            this.total_count--;
-            this.counter.next({
-              type: 'goals',
-              count: this.total_count
-            });
+        .subscribe((res) => {
+          this.goals.splice(idx, 1);
+          this.total_count--;
+          this.signupStateService.counterEmitter.emit({
+            type: 'goals',
+            count: this.total_count
           });
+        });
     }
   }
 
@@ -148,10 +148,10 @@ export class SignupGoalsMobileComponent {
     if (this.next === null) return;
     this.loading = true;
     this.goalsService.get(this.next, 100)
-        .subscribe(data => this.renderGoalsResponse(data),
-            () => {
-              this.loading = false;
-            });
+      .subscribe(data => this.renderGoalsResponse(data),
+      () => {
+        this.loading = false;
+      });
   }
 
   refreshGoals() {
@@ -171,7 +171,7 @@ export class SignupGoalsMobileComponent {
     this.loading = false;
     this.total_count = data.meta.total_count;
 
-    this.counter.next({
+    this.signupStateService.counterEmitter.emit({
       type: 'goals',
       count: this.total_count
     });

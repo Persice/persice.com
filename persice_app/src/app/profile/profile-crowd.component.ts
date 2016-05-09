@@ -3,12 +3,11 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy,
   OnInit,
   OnChanges,
   OnDestroy
-} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
+} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 import {AvatarComponent} from './avatar.component';
 import {AboutComponent} from './about.component';

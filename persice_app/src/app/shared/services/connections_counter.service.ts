@@ -1,6 +1,6 @@
-import {provide, Injectable} from 'angular2/core';
+import {provide, Injectable} from '@angular/core';
 import {HttpClient} from '../core';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class ConnectionsCounterService {

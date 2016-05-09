@@ -1,5 +1,5 @@
-import {Directive, OnInit, Input, ViewContainerRef, TemplateRef} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Directive, OnInit, Input, ViewContainerRef, TemplateRef} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
 
 @Directive({
   selector: '[prsIfRoutesActive]'
@@ -13,7 +13,7 @@ export class IfRoutesActiveDirective implements OnInit {
   constructor(
     private _router: Router,
     private _viewContainer: ViewContainerRef,
-    private _templateRef: TemplateRef
+    private _templateRef: TemplateRef<any>
   ) { }
 
   ngOnInit() {
@@ -24,6 +24,7 @@ export class IfRoutesActiveDirective implements OnInit {
 
   private _showIfRoutesAreActive(current: string, list: string[]) {
     if (list.indexOf(current) > -1) {
+      this._viewContainer.clear();
       this._viewContainer.createEmbeddedView(this._templateRef);
     } else {
       this._viewContainer.clear();

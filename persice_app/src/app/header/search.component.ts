@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject} from 'angular2/core';
+import {Component, ElementRef, AfterViewInit} from '@angular/core';
 
 import {FilterModel} from '../shared/models';
 import {
@@ -9,7 +9,7 @@ import {
 
 import {map} from 'lodash';
 
-declare var jQuery: any;
+
 declare var Bloodhound: any;
 
 @Component({
@@ -19,19 +19,17 @@ declare var Bloodhound: any;
   <input type="text" class="search__input" id="tokenfield-typeahead" placeholder="Search by interest...">
   `
 })
-export class SearchComponent {
-  el: ElementRef;
+export class SearchComponent implements AfterViewInit {
   keywords: any[];
   filters: FilterModel;
   timeoutIdFiltersSave = null;
 
   constructor(
-    @Inject(ElementRef) el: ElementRef,
+    public el: ElementRef,
     public filterService: FilterService,
     public keywordsService: KeywordsService,
     public notificationService: NotificationService
   ) {
-    this.el = el;
   }
 
   ngAfterViewInit() {

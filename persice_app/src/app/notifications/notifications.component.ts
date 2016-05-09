@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from 'angular2/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {StringUtil} from '../shared/core';
 
@@ -11,7 +11,7 @@ import {NotificationsService} from '../shared/services/notifications.service';
   template: `
   <div class="notifications-container">
     <prs-notification-single
-    *ngFor="#notification of notifications"
+    *ngFor="let notification of notifications"
     [notification]="notification"
     [timeout]="options.timeout">
     </prs-notification-single>

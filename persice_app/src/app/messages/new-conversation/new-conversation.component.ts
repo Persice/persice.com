@@ -1,5 +1,5 @@
-import {Component, Output, EventEmitter} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
+import {Component} from '@angular/core';
+import {Router, RouteParams} from '@angular/router-deprecated';
 
 
 import {ConversationInputComponent} from '../conversation-input';

@@ -1,6 +1,6 @@
 import {EventsService, FilterService} from '../shared/services';
 
-declare var jQuery: any;
+
 
 export abstract class EventsBaseComponent {
   items: Array<any> = [];
@@ -27,26 +27,6 @@ export abstract class EventsBaseComponent {
     this.type = type;
   }
 
-  ngOnInit() {
-    this.getList();
-    //create new observer and subscribe
-    this.filterService.addObserver(`events${this.type}`);
-    this.filterService.observer(`events${this.type}`)
-      .subscribe(
-      (data) => this.refreshList(),
-      (err) => console.log(err),
-      () => console.log('event completed')
-      );
-
-  }
-
-
-  ngOnDestroy() {
-    this.filterService.observer(`events${this.type}`).unsubscribe();
-    this.filterService.removeObserver(`events${this.type}`);
-  }
-
-
   refreshList() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.items = [];
@@ -55,8 +35,6 @@ export abstract class EventsBaseComponent {
     this.next = '';
     this.getList();
   }
-
-
 
   getList() {
     this.closeNotification();
@@ -90,7 +68,6 @@ export abstract class EventsBaseComponent {
       this.isListEmpty = false;
     }
 
-
     if (this.items.length > 0) {
       let more = data.objects;
       for (var i = 0; i <= more.length - 1; i++) {
@@ -101,10 +78,8 @@ export abstract class EventsBaseComponent {
     }
 
     this.matchHeight();
-
     this.next = data.meta.next;
     this.offset = data.meta.offset;
-
 
     //bind to scroll event to load more data on bottom scroll
     if (this.next !== null) {
@@ -122,7 +97,6 @@ export abstract class EventsBaseComponent {
     });
   }
 
-
   closeNotification() {
     this.notification.active = false;
   }
@@ -138,6 +112,4 @@ export abstract class EventsBaseComponent {
     }
 
   }
-
-
 }

@@ -22,6 +22,6 @@
   </div>
 </div>
 <div class="search__tags-wrapper" id="interests">
-  <span (click)="onInterestClick(item)" [ngClass]="{'is-current': item.active}" class="search-tag" *ngFor="#item of items">{{item.description}}</span>
+  <span (click)="onInterestClick(item)" [ngClass]="{'is-current': item.active}" class="search-tag" *ngFor="let item of items">{{item.description}}</span>
   <prs-loading [status]="loading"></prs-loading>
 </div>

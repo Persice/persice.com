@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
@@ -10,7 +10,7 @@ import {AppStateService} from '../shared/services';
 import {InfiniteScrollDirective} from '../../common/directives';
 import {UserProfileComponent} from '../user-profile';
 
-import {findIndex} from 'lodash';
+const LIST_REFRESH_TIMEOUT: number = 0;
 
 @Component({
   selector: 'prs-mobile-crowd',
@@ -24,76 +24,98 @@ import {findIndex} from 'lodash';
     UserProfileComponent
   ]
 })
-export class CrowdComponentMobile extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
-  onRefreshList: Function;
+export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, OnInit {
   isFilterVisible: boolean = false;
 
+  isFilterVisibleEmitterInstance;
+  acceptPassEmitterInstance;
+
   constructor(
-    protected crowdService: CrowdService,
+    protected listService: CrowdService,
     protected friendService: FriendService,
     protected filterService: FilterService,
     public appStateService: AppStateService
   ) {
-    super(crowdService, friendService, filterService);
-    this.debounceTimeout = 0;
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
+    super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
   }
 
   ngOnInit() {
-    this.total_count = 0;
     this.getList();
+    this.subscribeToFilterServiceUpdates();
 
-    // Create a new observer and subscribe.
-    this.filterService.addObserver('crowd');
-    this.filterService.observer('crowd')
-      .subscribe(
-      (data) => {
-        this.onRefreshList();
-      },
-      (err) => console.log(err)
-      );
-
-    this.appStateService.isFilterVisibleEmitter
+    // Control filter visibility
+    this.isFilterVisibleEmitterInstance = this.appStateService.isFilterVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isFilterVisible = visibility;
+      });
+
+    // Subscribe to appStateService acceptPassEmitter
+    // for knowing when to update friendship status via accept() or pass() methods
+    this.acceptPassEmitterInstance = this.appStateService.acceptPassEmitter
+      .subscribe((state: any) => {
+        this._saveFriendshipStatus(state);
       });
   }
 
   ngOnDestroy() {
-    this.filterService.observer('crowd').unsubscribe();
-    this.filterService.removeObserver('crowd');
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-    }
+    this.clearServicesSubscriptions();
+
+    // Unsubscribe from appStateService Emitters
+    this.isFilterVisibleEmitterInstance.unsubscribe();
+    this.acceptPassEmitterInstance.unsubscribe();
   }
 
-  setSelectedUser(id) {
-    for (var i = this.items.length - 1; i >= 0; i--) {
-      if (this.items[i].id === id) {
-        this.selectedUser = this.items[i];
-        // this.currentIndex = findIndex(this.items, { id: this.selectedUser.id });
-        this.profileViewActive = true;
-        this.appStateService.setHeaderVisibility(false);
-        this.appStateService.setProfileFooterVisibility({
-          visibility: true,
-          score: this.selectedUser.score
-        });
-      }
-    }
+  beforeItemSelected() {
+    this.saveScrollPosition();
+
+    // TODO: think how to solve hiding intercom without using jQuery
+    // This is a temporary workaround to hide intercom icon when opening profile page
+    jQuery('#intercom-launcher').css('display', 'none');
   }
 
-  closeProfile(event) {
-    this.profileViewActive = false;
-    this.selectedUser = null;
-    this.appStateService.setHeaderVisibility(true);
+  afterItemSelected() {
+    // Hide profile header.
+    this.appStateService.setHeaderVisibility(false);
+
+    // Show profile footer visibility.
     this.appStateService.setProfileFooterVisibility({
-      visibility: false,
-      score: 0
+      visibility: true,
+      score: this.selectedItem.score,
+      userId: this.selectedItem.id,
+      type: 'crowd'
     });
   }
+
+  afterItemClosed() {
+    // Show top header.
+    this.appStateService.setHeaderVisibility(true);
+
+    // Hide profile footer.
+    this.appStateService.setProfileFooterVisibility({
+      visibility: false
+    });
+
+    this.restoreScrollPosition();
+
+    // TODO: think how to solve showing intercom without using jQuery
+    // This is a temporary workaround to show intercom icon after profile page is closed
+    jQuery('#intercom-launcher').css('display', 'block');
+  }
+
+  private _saveFriendshipStatus(state): void {
+    // Remove user from feed after friendship status is changed.
+    this.removeItemById(state.userId);
+
+    // When state.userId is equal to selected user's id attribute (selectedItem.id),
+    // save new friendship state.
+    if (this.selectedItem.id === state.userId) {
+      this.friendService.saveFriendship(state.status, state.userId)
+        .subscribe(data => {
+          this.closeItemView(null);
+        }, (err) => {
+          this.closeItemView(null);
+        });
+    }
+  }
+
 }

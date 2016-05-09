@@ -1,6 +1,5 @@
-import {provide, Injectable} from 'angular2/core';
-import {Http, Response} from 'angular2/http';
-import * as Rx from 'rxjs';
+import {provide, Injectable} from '@angular/core';
+import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
 import {OPTS_REQ_JSON_CSRF} from '../core';
 import {CookieUtil} from '../core';

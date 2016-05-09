@@ -1,5 +1,4 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from 'angular2/core';
-import {Router} from 'angular2/router';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {UsersListComponent} from '../shared/components/users-list';
 import {LoadingComponent} from '../shared/components/loading';
@@ -14,6 +13,10 @@ import {
 
 import {CrowdService, CrowdComponent} from '../../common/crowd';
 
+
+// Refresh list timeout in miliseconds (when filters change, list must refresh)
+const LIST_REFRESH_TIMEOUT: number = 300;
+
 @Component({
   selector: 'prs-crowd',
   template: require('./crowd.html'),
@@ -26,47 +29,75 @@ import {CrowdService, CrowdComponent} from '../../common/crowd';
     InfiniteScrollDirective
   ]
 })
-export class CrowdComponentDesktop extends CrowdComponent implements AfterViewInit, OnDestroy, OnInit {
-  onRefreshList: Function;
-  routerInstance;
+export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, OnInit {
 
   constructor(
-    protected crowdService: CrowdService,
+    protected listService: CrowdService,
     protected friendService: FriendService,
-    protected filterService: FilterService,
-    protected _router: Router
+    protected filterService: FilterService
   ) {
-    super(crowdService, friendService, filterService);
-    this.debounceTimeout = 300;
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
+    super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
   }
 
   ngOnInit() {
-    this.routerInstance = this._router.parent.subscribe(next => {
-      this.closeProfile(true);
-    });
-
-    this.total_count = 0;
     this.getList();
-
-    // Create a new observer and subscribe.
-    this.filterService.addObserver('crowd');
-    this.filterService.observer('crowd')
-      .subscribe((data) => this.onRefreshList(), (err) => console.log(err));
+    this.subscribeToFilterServiceUpdates();
   }
 
   ngOnDestroy() {
-    this.filterService.observer('crowd').unsubscribe();
-    this.filterService.removeObserver('crowd');
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
+    this.clearServicesSubscriptions();
+  }
+
+  pass(event) {
+    this.removeItemById(event.user);
+    if (event.next) {
+      this.nextItem(true);
     }
 
-    this.routerInstance.unsubscribe();
+    this.friendService.saveFriendship(-1, event.user)
+      .subscribe(data => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+
+      }, (err) => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      });
+  }
+
+  accept(event) {
+    this.removeItemById(event.user);
+    if (event.next) {
+      this.nextItem(true);
+    }
+    this.friendService.saveFriendship(0, event.user)
+      .subscribe(data => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      }, (err) => {
+        if (!event.next || this.items.length === 0) {
+          this.itemViewActive = false;
+          this.selectedItem = null;
+        }
+      });
+  }
+
+  beforeItemSelected() {
+    this.saveScrollPosition();
+  }
+
+  afterItemSelected() {
+    this.setLocation(this.selectedItem[this.urlProperty]);
+  }
+
+  afterItemClosed() {
+    this.setLocation(this.listType);
+    this.restoreScrollPosition();
   }
 }

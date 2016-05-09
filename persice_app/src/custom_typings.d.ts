@@ -29,7 +29,7 @@ import * as _ from 'lodash'
  *
  */
 
-
+declare var jstz: any;
 declare var jQuery: any;
 declare var dragula: any;
 declare var Bloodhound: any;

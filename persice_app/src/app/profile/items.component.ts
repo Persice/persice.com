@@ -5,7 +5,7 @@ import {
   EventEmitter,
   OnChanges,
   OnInit
-} from 'angular2/core';
+} from '@angular/core';
 import {ListUtil} from '../shared/core';
 
 const LEFT_COUNT = 4;
@@ -32,14 +32,14 @@ const RIGHT_COUNT = 3;
   <div class="layout" *ngIf="!editable">
     <div class="layout__item 1/2">
       <ul class="features-list">
-        <li class="features-list__match" *ngFor="#item of itemsLeft" [ngClass]="{'features-list__match': item.match}">
+        <li class="features-list__match" *ngFor="let item of itemsLeft" [ngClass]="{'features-list__match': item.match}">
          {{item.value}}
         </li>
       </ul>
     </div>
     <div class="layout__item 1/2">
       <ul class="features-list">
-        <li *ngFor="#item of itemsRight" [ngClass]="{'features-list__match': item.match}">
+        <li *ngFor="let item of itemsRight" [ngClass]="{'features-list__match': item.match}">
           {{item.value}}
         </li>
       </ul>
@@ -52,7 +52,7 @@ const RIGHT_COUNT = 3;
     <div class="layout__item 1/2">
       <ul class="features-list">
         <a (click)="openEdit.next(title)" class="edit-link">
-          <li *ngFor="#item of itemsLeft" [ngClass]="{'features-list__match': item.match}">
+          <li *ngFor="let item of itemsLeft" [ngClass]="{'features-list__match': item.match}">
             {{item.value}}
           </li>
         </a>
@@ -61,7 +61,7 @@ const RIGHT_COUNT = 3;
     <div class="layout__item 1/2">
       <ul class="features-list">
         <a (click)="openEdit.next(title)" class="edit-link">
-          <li *ngFor="#item of itemsRight" [ngClass]="{'features-list__match': item.match}">
+          <li *ngFor="let item of itemsRight" [ngClass]="{'features-list__match': item.match}">
             {{item.value}}
           </li>
         </a>

@@ -1,4 +1,3 @@
-import { MockBackend } from 'angular2/http/testing';
 import {DateUtil} from '../core/util';
 
 export class EventModel {

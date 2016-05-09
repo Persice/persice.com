@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy } from 'angular2/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'prs-mobile-profile-footer',
@@ -6,22 +6,49 @@ import {Component, Input, ChangeDetectionStrategy } from 'angular2/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileFooterMobileComponent {
+  @Input() score: number;
+  @Input() type: string;
+  @Input() userId: number;
+  @Output() onAcceptPassEvent: EventEmitter<any> = new EventEmitter();
 
-  // When [score] from Input property change, set internal state for our component
-  @Input() set score(score: number) {
-    this._setState(score);
+  passIsActive = false;
+  acceptIsActive = false;
+  timeoutPass;
+  timeoutAccept;
+
+  pass(event) {
+    this.acceptIsActive = false;
+    if (this.timeoutAccept) {
+      window.clearTimeout(this.timeoutAccept);
+    }
+
+    if (this.passIsActive) {
+      return;
+    }
+    this.passIsActive = true;
+    if (this.timeoutPass) {
+      window.clearTimeout(this.timeoutPass);
+    }
+    this.timeoutPass = setTimeout(() => {
+      this.onAcceptPassEvent.emit({ userId: this.userId, status: -1 });
+    }, 1500);
+
   }
 
-  // Component main state
-  public matchScore: number = 0;
-
-  /**
-   * Set matchScore
-   * @param {number} score
-   */
-  private _setState(score: number) {
-    this.matchScore = score;
-
+  accept(event) {
+    this.passIsActive = false;
+    if (this.timeoutPass) {
+      window.clearTimeout(this.timeoutPass);
+    }
+    if (this.acceptIsActive) {
+      return;
+    }
+    this.acceptIsActive = true;
+    if (this.timeoutAccept) {
+      window.clearTimeout(this.timeoutAccept);
+    }
+    this.timeoutAccept = setTimeout(() => {
+      this.onAcceptPassEvent.emit({ userId: this.userId, status: 0 });
+    }, 1500);
   }
-
 }

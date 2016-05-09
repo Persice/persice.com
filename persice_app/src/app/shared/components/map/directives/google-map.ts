@@ -7,7 +7,7 @@ import {
   SimpleChange,
   Input,
   Output
-} from 'angular2/core';
+} from '@angular/core';
 import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
 import {MarkerManager} from '../services/marker-manager';
 import {LatLng} from '../services/google-maps-types';
@@ -20,7 +20,7 @@ import {MouseEvent} from '../events';
  *
  * ### Example
  * ```typescript
- * import {Component} from 'angular2/core';
+ * import {Component} from '@angular/core';
  * import {GoogleMap} from 'angular2google-maps/core';
  *
  * @Component({
