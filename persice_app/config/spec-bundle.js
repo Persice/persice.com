@@ -26,6 +26,9 @@ require('zone.js/dist/async-test');
 // RxJS
 require('rxjs/Rx');
 
+// Hammer.js
+require('hammerjs');
+
 var testing = require('@angular/core/testing');
 var browser = require('@angular/platform-browser-dynamic/testing');
 
