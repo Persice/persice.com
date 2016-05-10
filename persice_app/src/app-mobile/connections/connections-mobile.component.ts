@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 
-import {ConnectionsService, FilterService} from '../../app/shared/services';
-import {ConnectionsComponent} from '../../common/connections';
+import {FilterService} from '../../app/shared/services';
+import {ConnectionsComponent, ConnectionsService} from '../../common/connections';
 import {FilterMobileComponent} from '../shared/components/filter';
 import {UserCardMobileComponent} from '../shared/components/user-card';
 import {LoadingComponent} from '../../app/shared/components/loading';
