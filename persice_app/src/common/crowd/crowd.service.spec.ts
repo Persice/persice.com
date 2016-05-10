@@ -60,7 +60,6 @@ describe('CrowdService', () => {
       });
   });
 
-
   function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
