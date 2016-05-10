@@ -1,5 +1,5 @@
 import {expect, it, describe, async, inject, beforeEach}
-  from '@angular/core/testing';
+from '@angular/core/testing';
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {ItemsListMobileComponent} from "./items-list.component";
 
@@ -8,10 +8,30 @@ let domElement: any;
 
 describe('Items list mobile component', () => {
 
+  var givenEmptyList = function() {
+    return [];
+  };
+
+  var givenListWithSevenItems = function() {
+    return [
+      { value: 1 },
+      { value: 1 },
+      { value: 1 },
+      { value: 1 },
+      { value: 1 },
+      { value: 1 },
+      { value: 1 }
+    ];
+  };
+
+  var numberOfVisibleElementsInList = function(): number {
+    return domElement.querySelectorAll('li').length - domElement.querySelectorAll('.hidden').length;
+  };
+
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-        ItemsListMobileComponent, [])
+      ItemsListMobileComponent, [])
       .createAsync(ItemsListMobileComponent)
       .then((componentFixture: any) => {
         this.componentFixture = componentFixture;
@@ -54,15 +74,4 @@ describe('Items list mobile component', () => {
     expect(numberOfVisibleElementsInList()).toBe(7);
   });
 
-  var givenEmptyList = function () {
-    return [];
-  };
-
-  var givenListWithSevenItems = function () {
-    return [{value: 1}, {value: 1}, {value: 1}, {value: 1}, {value: 1}, {value: 1}, {value: 1}];
-  };
-
-  var numberOfVisibleElementsInList = function (): number {
-    return domElement.querySelectorAll('li').length - domElement.querySelectorAll('.hidden').length;
-  };
 });
