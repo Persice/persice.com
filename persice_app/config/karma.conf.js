@@ -84,8 +84,6 @@ module.exports = function(config) {
       '/static/img/': '/base/src/assets/images/',
     },
 
-
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: { './config/spec-bundle.js': ['coverage', 'webpack', 'sourcemap'] },
@@ -93,14 +91,42 @@ module.exports = function(config) {
     // Webpack Config at ./webpack.test.js
     webpack: testWebpackConfig,
 
+    webpackMiddleware: {
+      // webpack-dev-middleware configuration
+      stats: 'errors-only'
+    },
+
     coverageReporter: {
       dir: 'coverage/',
+      subdir: function(browser) {
+        // normalization process to keep a consistent browser name across different
+        // OS
+        return browser.toLowerCase().split(/[ /-]/)[0];
+      },
       reporters: [
         { type: 'text-summary' },
-        { type: 'json' },
+        // { type: 'text' },
         { type: 'html' },
-        { type: 'cobertura', file: 'coverage.xml' }
-      ]
+        { type: 'cobertura', subdir: 'cobertura', file: 'coverage.xml' },
+        { type: 'json', subdir: '.' }
+      ],
+      // check: {
+        // global: {
+        //   statements: 60,
+        //   branches: 60,
+        //   functions: 60,
+        //   lines: 60,
+        //   excludes: []
+        // },
+        // each: {
+        //   statements: 60,
+        //   branches: 60,
+        //   functions: 60,
+        //   lines: 60,
+        //   excludes: [],
+        //   overrides: {}
+        // }
+      // },
     },
 
     // Webpack please don't spam the console when running in karma!
