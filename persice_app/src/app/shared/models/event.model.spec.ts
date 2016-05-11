@@ -2,7 +2,6 @@ import {EventModel} from "./event.model";
 import {NumberGenerators} from "../generators/number-generators";
 import {StringGenerators} from "../generators/string-generators";
 import {DateGenerators} from "../generators/date-generators";
-import {max} from "rxjs/operator/max";
 
 describe('Event model', () => {
 
