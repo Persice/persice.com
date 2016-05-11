@@ -1,7 +1,5 @@
 import {
   Component,
-  Injectable,
-  Type,
   ViewEncapsulation,
   AfterViewInit,
   OnInit,
@@ -11,13 +9,8 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
-  Router,
-  RouteRegistry,
-  AsyncRoute
+  Router
 } from '@angular/router-deprecated';
-
-import {CookieUtil} from './shared/core';
-
 
 import {HeaderComponent} from './header';
 import {NavigationComponent} from './navigation';
@@ -27,10 +20,11 @@ import {LoadingComponent} from './shared/components/loading';
 import {NotificationComponent} from './shared/components/notification';
 
 import {CrowdDesktopComponent} from './crowd';
-
-import {
-  ProfileMyComponent
-} from './profile';
+import {ProfileLoader, ProfileFriendComponent} from './profile';
+import {MessagesComponent} from './messages';
+import {EventComponent} from './event';
+import {ConnectionsDesktopComponent} from './connections';
+import {EventsComponent} from './events';
 
 import {AuthUserModel, InterfaceNotification} from './shared/models';
 
@@ -65,36 +59,36 @@ from './shared/services';
     name: 'Crowd',
     useAsDefault: true
   },
-  new AsyncRoute({
+  {
     path: '/messages/...',
-    loader: () => require('es6-promise!./messages')('MessagesComponent'),
+    component: MessagesComponent,
     name: 'Messages'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/event/:eventId',
-    loader: () => require('es6-promise!./event')('EventComponent'),
+    component: EventComponent,
     name: 'EventDetails'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/connections',
-    loader: () => require('es6-promise!./connections')('ConnectionsDesktopComponent'),
+    component: ConnectionsDesktopComponent,
     name: 'Connections'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/connections/:friendId',
-    loader: () => require('es6-promise!./profile')('ProfileFriendComponent'),
+    component: ProfileFriendComponent,
     name: 'ProfileFriend'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/events/...',
-    loader: () => require('es6-promise!./events')('EventsComponent'),
+    component: EventsComponent,
     name: 'Events'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/:username',
-    loader: () => require('es6-promise!./profile')('ProfileLoader'),
+    component: ProfileLoader,
     name: 'ProfileView'
-  })
+  }
 ])
 @Component({
   selector: 'persice-app',
@@ -154,7 +148,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private notificationsService: NotificationsService
   ) {
     this.image = this.userService.getDefaultImage();
-    let username = CookieUtil.getValue('user_username');
 
     this.userServiceObserver = this.userService.serviceObserver()
       .subscribe((data) => {
@@ -175,8 +168,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   initWebsocket(channel: string) {
     this.websocketService.on(channel).subscribe((data: any) => {
-      console.log('websocket recieved data for channel %s', channel);
-      console.log(data);
       switch (channel) {
         case 'messages:new':
           if (this.activeRoute.indexOf('messages') === -1) {
@@ -212,8 +203,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('hello App component');
-
     this._router.subscribe((next) => {
       this.activeRoute = next;
       this.historyService.setRoute(next);
@@ -297,8 +286,5 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.user = new AuthUserModel(data);
     this.image = this.user.info.image;
   }
-
-
-
 
 }
