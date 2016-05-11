@@ -49,12 +49,9 @@ import {MouseEvent} from '../events';
 export class GoogleMap implements OnChanges, OnInit {
 
   /**
-  * Map option attributes that can change over time
-  */
+   * Map option attributes that can change over time
+   */
   private static _mapOptionsAttributes: string[] = ['disableDoubleClickZoom'];
-
-
-
 
   /**
    * Enables/disables zoom and center on double click. Enabled by default.
@@ -91,14 +88,12 @@ export class GoogleMap implements OnChanges, OnInit {
   private _latitude: number = 0;
   private _zoom: number = 8;
 
-  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
-
-
   private static _containsMapOptionsChange(changesKeys: string[]): boolean {
     return changesKeys.every(
       (key: string) => { return GoogleMap._mapOptionsAttributes.indexOf(key) !== 1; });
   }
 
+  constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) { }
 
   /** @internal */
   ngOnInit() {
@@ -109,16 +104,16 @@ export class GoogleMap implements OnChanges, OnInit {
 
 
   /** @internal */
-  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+  ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     if (GoogleMap._containsMapOptionsChange(Object.keys(changes))) {
-      this._mapsWrapper.setMapOptions({disableDoubleClickZoom: this.disableDoubleClickZoom});
+      this._mapsWrapper.setMapOptions({ disableDoubleClickZoom: this.disableDoubleClickZoom });
     }
   }
 
   /**
    * Sets the zoom level of the map. The default value is `8`.
    */
-   @Input() set zoom(value: number | string) {
+  @Input() set zoom(value: number | string) {
     this._zoom = this._convertToDecimal(value, 8);
     if (typeof this._zoom === 'number') {
       this._mapsWrapper.setZoom(this._zoom);
@@ -128,7 +123,7 @@ export class GoogleMap implements OnChanges, OnInit {
   /**
    * The longitude that sets the center of the map.
    */
-   @Input()  set longitude(value: number | string) {
+  @Input() set longitude(value: number | string) {
     this._longitude = this._convertToDecimal(value);
     this._updateCenter();
   }
@@ -181,19 +176,19 @@ export class GoogleMap implements OnChanges, OnInit {
     interface Emitter {
       emit(value: any): void;
     }
-    type Event = {name: string, emitter: Emitter};
+    type Event = { name: string, emitter: Emitter };
 
     const events: Event[] = [
-      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
-      {name: 'dblclick', emitter: this.mapDblClick}
+      { name: 'click', emitter: this.mapClick }, { name: 'rightclick', emitter: this.mapRightClick },
+      { name: 'dblclick', emitter: this.mapDblClick }
     ];
 
     events.forEach((e: Event) => {
-      this._mapsWrapper.subscribeToMapEvent<{latLng: LatLng}>(e.name).subscribe(
-          (event: {latLng: LatLng}) => {
-            const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
-            e.emitter.emit(value);
-          });
+      this._mapsWrapper.subscribeToMapEvent<{ latLng: LatLng }>(e.name).subscribe(
+        (event: { latLng: LatLng }) => {
+          const value = <MouseEvent>{ coords: { lat: event.latLng.lat(), lng: event.latLng.lng() } };
+          e.emitter.emit(value);
+        });
     });
   }
 

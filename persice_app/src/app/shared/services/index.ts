@@ -1,4 +1,3 @@
-import {connectionsServiceInjectables} from './connections.service';
 import {eventAttendeesServiceInjectables} from './eventattendees.service';
 import {eventConnectionsServiceInjectables} from './eventconnections.service';
 import {eventMembersServiceInjectables} from './eventmembers.service';
@@ -35,7 +34,6 @@ import {userServiceInjectables} from './user.service';
 import {warningServiceInjectables} from './warning.service';
 import {websocketServiceInjectables} from './websocket.service';
 
-export * from './connections.service';
 export * from './event.service';
 export * from './eventattendees.service';
 export * from './eventconnections.service';
@@ -74,7 +72,6 @@ export * from './warning.service';
 export * from './websocket.service';
 
 export var APP_SERVICES_PROVIDERS: Array<any> = [
-  connectionsServiceInjectables,
   eventAttendeesServiceInjectables,
   eventConnectionsServiceInjectables,
   eventServiceInjectables,

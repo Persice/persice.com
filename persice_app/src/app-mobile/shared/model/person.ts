@@ -21,6 +21,23 @@ export class Person {
   private _twitter: SocialNetworkTwitter;
   private _linkedin: SocialNetworkLinkedin;
 
+  static parseGender(value: string) {
+    let retValue: string = '';
+    switch (value) {
+      case 'm':
+        retValue = 'Male';
+        break;
+      case 'f':
+        retValue = 'Female';
+        break;
+      default:
+        retValue = '';
+        break;
+    }
+
+    return retValue;
+  }
+
   constructor(dto: any) {
     this._id = dto.id;
     this._firstName = dto.first_name;
@@ -96,20 +113,4 @@ export class Person {
     return this._linkedin.url;
   }
 
-  static parseGender(value: string) {
-    let retValue: string = '';
-    switch (value) {
-      case 'm':
-        retValue = 'Male';
-        break;
-      case 'f':
-        retValue = 'Female';
-        break;
-      default:
-        retValue = '';
-        break;
-    }
-
-    return retValue;
-  }
 }

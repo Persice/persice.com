@@ -2,7 +2,8 @@ const LIST_TYPE: string = 'connections';
 const LIST_LIMIT: number = 12;
 
 import {ListComponent} from '../list';
-import {ConnectionsService, FilterService} from '../../app/shared/services';
+import {FilterService} from '../../app/shared/services';
+import {ConnectionsService} from './connections.service';
 
 export class ConnectionsComponent extends ListComponent {
 

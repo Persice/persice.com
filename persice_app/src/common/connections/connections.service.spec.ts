@@ -7,15 +7,15 @@ from '@angular/http';
 
 import {MockBackend} from '@angular/http/testing';
 import {RequestMethod} from '@angular/http';
-import {CrowdService} from './crowd.service';
-import {MockCrowd} from './crowd.mock';
+import {ConnectionsService} from './connections.service';
+import {MockConnections} from './connections.mock';
 import {HttpClient} from "../../app/shared/core/http-client";
 
-describe('Crowd service', () => {
+describe('Connections service', () => {
 
   let injector: Injector;
   let backend: MockBackend;
-  let service: CrowdService;
+  let service: ConnectionsService;
 
   beforeEach(() => {
     injector = ReflectiveInjector.resolveAndCreate([
@@ -32,11 +32,11 @@ describe('Crowd service', () => {
           BaseRequestOptions
         ]
       }),
-      provide(CrowdService, {
+      provide(ConnectionsService, {
         useFactory: (
           http: HttpClient
         ) => {
-          return new CrowdService(http);
+          return new ConnectionsService(http);
         },
         deps: [
           Http
@@ -45,17 +45,17 @@ describe('Crowd service', () => {
     ]);
 
     backend = injector.get(MockBackend);
-    service = injector.get(CrowdService);
+    service = injector.get(ConnectionsService);
 
   });
 
   afterEach(() => backend.verifyNoPendingRequests());
 
   it('should find resource', (done: Function) => {
-    ensureCommunication(backend, RequestMethod.Get, MockCrowd);
+    ensureCommunication(backend, RequestMethod.Get, MockConnections);
     service.get('', 12)
       .subscribe(resp => {
-        expect(resp).toBe(MockCrowd);
+        expect(resp).toBe(MockConnections);
         done();
       });
   });

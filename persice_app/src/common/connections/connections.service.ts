@@ -2,7 +2,7 @@ import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import {Observable} from 'rxjs';
 
-import {HttpClient} from '../core';
+import {HttpClient} from '../../app/shared/core';
 
 @Injectable()
 export class ConnectionsService {
