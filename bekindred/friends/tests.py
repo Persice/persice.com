@@ -1,8 +1,7 @@
-from unittest import TestCase
+from django.test import TestCase
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from friends.models import Friend
-from goals.models import Subject, Goal
 
 
 class TestFriendResource(ResourceTestCase):
@@ -205,3 +204,8 @@ class TestFriendsNewResource(ResourceTestCase):
         self.assertEqual(self.deserialize(resp)['objects'],
                          [{u'new_connection_counter': 2,
                            u'resource_uri': u''}])
+
+
+class FriendUtilsTestCase(TestCase):
+    def test_simple(self):
+        self.assertEqual(1, 0)

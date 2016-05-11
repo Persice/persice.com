@@ -1,11 +1,10 @@
 from itertools import chain
-from django.conf import settings
 
 from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
-
 from django_facebook.models import FacebookCustomUser, FacebookUser
+
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
 

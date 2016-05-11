@@ -192,3 +192,5 @@ LOGGING = {
 #     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
 #     'Cache-Control': 'max-age=86400',
 # }
+
+NEO4J_URL = 'http://neo4j:admin@localhost:7474/db/data/'
