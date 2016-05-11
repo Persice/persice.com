@@ -12,7 +12,7 @@ import {Person} from '../shared/model';
 import {AboutMobileComponent} from './about-mobile.component';
 import {ConnectionsListMobileComponent} from './connections-list-mobile.component';
 import {ItemsListMobileComponent} from './items-list.component';
-import {ObjectUtil, ListUtil, FriendUtil} from '../../app/shared/core';
+import {FriendUtil} from '../../app/shared/core';
 
 import {
   ReligiousViewsService,
