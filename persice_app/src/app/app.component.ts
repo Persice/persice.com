@@ -50,42 +50,6 @@ import {
 }
 from './shared/services';
 
-@Injectable()
-class DynamicRouteConfiguratorService {
-  constructor(private registry: RouteRegistry) { }
-  addRoute(component: Type, route) {
-    let routeConfig = this.getRoutes(component);
-    routeConfig.configs.push(route);
-    this.updateRouteConfig(component, routeConfig);
-    this.registry.config(component, route);
-  }
-  removeRoute() {
-    // need to touch private APIs - bad
-  }
-  getRoutes(component: Type) {
-    return Reflect.getMetadata('annotations', component)
-      .filter(a => {
-        return a.constructor.name === 'RouteConfig';
-      }).pop();
-  }
-  updateRouteConfig(component: Type, routeConfig) {
-    let annotations = Reflect.getMetadata('annotations', component);
-    let routeConfigIndex = -1;
-    for (let i = 0; i < annotations.length; i += 1) {
-      if (annotations[i].constructor.name === 'RouteConfig') {
-        routeConfigIndex = i;
-        break;
-      }
-    }
-    if (routeConfigIndex < 0) {
-      throw new Error('No route metadata attached to the component');
-    }
-    annotations[routeConfigIndex] = routeConfig;
-    Reflect.defineMetadata('annotations', annotations, { AppComponent });
-  }
-}
-
-
 /*
  * Persice App Component
  * Top Level Component
@@ -156,7 +120,6 @@ class DynamicRouteConfiguratorService {
     UserAuthService,
     MessagesCounterService,
     HistoryService,
-    DynamicRouteConfiguratorService,
     ConnectionsCounterService,
     NotificationsService
   ]
@@ -188,32 +151,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private messagesCounterService: MessagesCounterService,
     private connectionsCounterService: ConnectionsCounterService,
     private historyService: HistoryService,
-    private dynamicRouteConfiguratorService: DynamicRouteConfiguratorService,
     private notificationsService: NotificationsService
   ) {
-    //default image
     this.image = this.userService.getDefaultImage();
     let username = CookieUtil.getValue('user_username');
-    //dynamically set myprofile route
-    this.appRoutes = this.getAppRoutes();
-    setTimeout(_ => {
-      let route = { path: '/' + username, component: ProfileMyComponent, as: 'ProfileMy' };
-      this.dynamicRouteConfiguratorService.addRoute(this.constructor, route);
-      this.appRoutes = this.getAppRoutes();
-    }, 500);
 
     this.userServiceObserver = this.userService.serviceObserver()
       .subscribe((data) => {
         this.image = data.user.info.image;
       });
 
-  }
-
-  public getAppRoutes(): string[][] {
-    return this.dynamicRouteConfiguratorService
-      .getRoutes(this.constructor).configs.map(route => {
-        return { path: [`/${route.as}`], name: route.as };
-      });
   }
 
   ngAfterViewInit() {
