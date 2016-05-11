@@ -8,7 +8,7 @@ import {
 
 import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";
-
+import {Person} from '../shared/model';
 import {AboutMobileComponent} from './about-mobile.component';
 import {ConnectionsListMobileComponent} from './connections-list-mobile.component';
 import {ItemsListMobileComponent} from './items-list.component';
@@ -47,7 +47,7 @@ export class UserProfileComponent implements AfterViewInit {
   @Output() onCloseProfile: EventEmitter<any> = new EventEmitter();
 
   // Person object which is displayed in the component template
-  person: any;
+  person: Person;
 
   // Boolean flag which controls whether full profile information is collapsed and visible
   profileExtraInfoVisible: boolean = false;
@@ -58,18 +58,6 @@ export class UserProfileComponent implements AfterViewInit {
   // List of political views for person
   politicalViews = [];
 
-  // Lists and counters for profile interests, goals and offers
-  interests: any[] = [];
-  goals: any[] = [];
-  offers: any[] = [];
-  interestsCount: number = 0;
-  goalsCount: number = 0;
-  offersCount: number = 0;
-
-  // Lists and counters for likes
-  likes: any[] = [];
-  likesCount: number = 0;
-  likesMutualCount: number = 0;
 
   // List and counters for mutual friends
   friendsTotalCount: number = 0;
@@ -155,20 +143,10 @@ export class UserProfileComponent implements AfterViewInit {
   }
 
   private _setState(value: any) {
-    this.person = value;
+    this.person = new Person(value);
     this._getReligiousViews(this.person.id);
     this._getPoliticalViews(this.person.id);
     this._getMutualFriends(this.person.id);
-
-    this.offers = ObjectUtil.transformSorted(this.person.offers[0]);
-    this.interests = ObjectUtil.transformSorted(this.person.interests[0]);
-    this.goals = ObjectUtil.transformSorted(this.person.goals[0]);
-    this.interestsCount = ObjectUtil.count(this.person.interests[0]);
-    this.offersCount = ObjectUtil.count(this.person.offers[0]);
-    this.goalsCount = ObjectUtil.count(this.person.goals[0]);
-
-    this.likesCount = this.person.likes.length;
-    this.likesMutualCount = ListUtil.filterAndCount(this.person.likes, 'match', 1);
   }
 
 }

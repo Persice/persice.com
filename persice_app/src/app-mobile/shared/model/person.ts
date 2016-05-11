@@ -1,4 +1,4 @@
-import {ObjectUtil} from "../../../app/shared/core/util";
+import {ObjectUtil, ListUtil} from "../../../app/shared/core/util";
 import {SocialNetworkFacebook} from "./social-network/social-network-facebook";
 import {SocialNetworkLinkedin} from "./social-network/social-network-linkedin";
 import {SocialNetworkTwitter} from "./social-network/social-network-twitter";
@@ -15,11 +15,25 @@ export class Person {
   private _distance: number;
   private _distanceUnit: string;
   private _topInterests: any[];
+  private _goals: any[];
+  private _goalsCount: number;
+  private _offers: any[];
+  private _offersCount: number;
+  private _interests: any[];
+  private _interestsCount: number;
+  private _likesMutualCount: number;
+  private _likes: any[];
+  private _likesCount: number;
   private _image: string;
   private _score: number;
   private _facebook: SocialNetworkFacebook;
   private _twitter: SocialNetworkTwitter;
   private _linkedin: SocialNetworkLinkedin;
+  private _job: string;
+  private _company: string;
+  private _about: string;
+  private _livesIn: string;
+
 
   static parseGender(value: string) {
     let retValue: string = '';
@@ -48,13 +62,33 @@ export class Person {
     this._distanceUnit = dto.distance[1];
     this._image = dto.image;
     this._score = dto.score;
+    this._about = dto.about ? dto.about : '';
+    this._livesIn = dto.lives_in ? dto.lives_in : '';
+    this._job = dto.position && dto.position.job ? dto.position.job : '';
+    this._company = dto.position && dto.position.company ? dto.position.company : '';
 
-    let interestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
-    let halfLength = Math.ceil(interestsFromDto.length / 2);
+    let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
+    let halfLength = Math.ceil(topInterestsFromDto.length / 2);
 
     this._topInterests = ObjectUtil.firstSorted(dto.top_interests[0], 6);
-    this.topInterestsFirstHalf = interestsFromDto.splice(0, halfLength);
-    this.topInterestsSecondHalf = interestsFromDto;
+    this.topInterestsFirstHalf = topInterestsFromDto.splice(0, halfLength);
+    this.topInterestsSecondHalf = topInterestsFromDto;
+
+    let goalsFromDto = ObjectUtil.transformSorted(dto.goals[0]),
+      offersFromDto = ObjectUtil.transformSorted(dto.offers[0]),
+      interestsFromDto = ObjectUtil.transformSorted(dto.interests[0]),
+      likesFromDto = dto.likes,
+      likesMutualCountFromDto = ListUtil.filterAndCount(dto.likes, 'match', 1);
+
+    this._goals = goalsFromDto;
+    this._goalsCount = goalsFromDto.length;
+    this._offers = offersFromDto;
+    this._offersCount = offersFromDto.length;
+    this._interests = interestsFromDto;
+    this._interestsCount = interestsFromDto.length;
+    this._likes = likesFromDto;
+    this._likesCount = likesFromDto.length;
+    this._likesMutualCount = likesMutualCountFromDto;
 
     this._facebook = new SocialNetworkFacebook(dto.facebook_id);
     this._twitter = new SocialNetworkTwitter(dto.twitter_username);
@@ -101,6 +135,22 @@ export class Person {
     return this._score;
   }
 
+  get livesIn(): string {
+    return this._livesIn;
+  }
+
+  get about(): string {
+    return this._about;
+  }
+
+  get job(): string {
+    return this._job;
+  }
+
+  get company(): string {
+    return this._company;
+  }
+
   get facebookUrl() {
     return this._facebook.url;
   }
@@ -111,6 +161,42 @@ export class Person {
 
   get linkedinUrl() {
     return this._linkedin.url;
+  }
+
+  get interests(): any[] {
+    return this._interests;
+  }
+
+  get interestsCount(): number {
+    return this._interestsCount;
+  }
+
+  get offers(): any[] {
+    return this._offers;
+  }
+
+  get offersCount(): number {
+    return this._offersCount;
+  }
+
+  get goals(): any[] {
+    return this._goals;
+  }
+
+  get goalsCount(): number {
+    return this._goalsCount;
+  }
+
+  get likes(): any[] {
+    return this._likes;
+  }
+
+  get likesCount(): number {
+    return this._likesCount;
+  }
+
+  get likesMutualCount(): number {
+    return this._likesMutualCount;
   }
 
 }

@@ -5,6 +5,13 @@ export class PersonGenerator {
   public static givenAnyPersonDto(): any {
     return {
       id: 1,
+      goals: [],
+      offers: [],
+      likes: [],
+      interests: [],
+      about: '',
+      lives_in: '',
+      position: {job: null, company: null},
       first_name: `${this.givenAnyFirstName()}`,
       last_name: `${this.givenAnyLastName()}`,
       distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
@@ -21,6 +28,13 @@ export class PersonGenerator {
   public static givenAnyPersonWithoutLinkedinAndTwitterDto(): any {
     return {
       id: 1,
+      goals: [],
+      offers: [],
+      likes: [],
+      interests: [],
+      about: '',
+      lives_in: '',
+      position: {job: null, company: null},
       first_name: `${this.givenAnyFirstName()}`,
       last_name: `${this.givenAnyLastName()}`,
       distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
@@ -37,6 +51,13 @@ export class PersonGenerator {
   public static givenAPersonWithoutInterestDto(): any {
     return {
       id: 1,
+      goals: [],
+      offers: [],
+      likes: [],
+      interests: [],
+      about: '',
+      lives_in: '',
+      position: {job: null, company: null},
       first_name: `${this.givenAnyFirstName()}`,
       last_name: `${this.givenAnyLastName()}`,
       distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
@@ -90,6 +111,10 @@ export class PersonGenerator {
 
   public static givenAnyScore(): number {
     return 5;
+  }
+
+  public static givenAnyAbout(): string {
+    return 'this is about me';
   }
 
   public static givenAnyAge(): number {

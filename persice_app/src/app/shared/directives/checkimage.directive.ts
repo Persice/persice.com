@@ -59,14 +59,11 @@ export class CheckImageDirective implements AfterViewInit, OnDestroy {
    */
   private _loadImage(url): void {
     if (url) {
-      this.serviceInstance = this.http.head(url).map((res) => res.json())
+      this.serviceInstance = this.http.head(url)
         .subscribe((data) => {
           this.setBackgroundImage(`url(${url})`);
         }, (err) => {
           this.setBackgroundImage(`url(${this.image})`);
-          return true;
-        }, () => {
-          return true;
         });
     }
   }
