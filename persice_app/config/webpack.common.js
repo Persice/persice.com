@@ -11,7 +11,7 @@ var helpers = require('./helpers');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-
+var BundleTracker  = require('webpack-bundle-tracker');
 /**
  * Webpack Constants
  */
@@ -212,6 +212,7 @@ module.exports = {
     //   template: 'src/index.html',
     //   chunksSortMode: 'none'
     // })
+    new BundleTracker({indent: 2, path: __dirname, filename: '../webpack-stats.json'})
 
   ],
 
