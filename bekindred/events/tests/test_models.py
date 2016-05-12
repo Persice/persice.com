@@ -80,7 +80,7 @@ class EventTestCase(TestCase):
         event = Event.objects.filter(
             point__distance_lte=(lagrange, D(km=15000).m))
         self.assertEqual(len(event), 2)
-        self.assertEqual(event[1].name, 'Ruby conference piano')
+        self.assertIn('Ruby conference piano', [e.name for e in event])
 
     def test_create_private_event(self):
         user_z = FacebookCustomUser.objects.\

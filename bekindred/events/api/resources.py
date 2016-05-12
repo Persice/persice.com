@@ -610,6 +610,8 @@ class EventFeedResource(Resource):
     location = fields.CharField(attribute='location', null=True)
     location_name = fields.CharField(attribute='location_name', null=True)
     max_attendees = fields.IntegerField(attribute='max_attendees')
+    event_score = fields.IntegerField(
+        attribute='recommended_event_score')
     cumulative_match_score = fields.IntegerField(
         attribute='cumulative_match_score')
     friend_attendees_count = fields.IntegerField(
@@ -657,7 +659,7 @@ class EventFeedResource(Resource):
             if fs:
                 if fs[0].order_criteria == 'match_score':
                     return sorted(match, key=lambda x: -x.cumulative_match_score)
-                elif fs[0].order_criteria == 'recommended_event_score':
+                elif fs[0].order_criteria == 'event_score':
                     return sorted(match,
                                   key=lambda x: -x.recommended_event_score)
                 elif fs[0].order_criteria == 'mutual_friends':

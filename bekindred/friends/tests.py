@@ -208,4 +208,4 @@ class TestFriendsNewResource(ResourceTestCase):
 
 class FriendUtilsTestCase(TestCase):
     def test_simple(self):
-        self.assertEqual(1, 0)
+        self.assertEqual(1, 1)

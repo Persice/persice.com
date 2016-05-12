@@ -37,9 +37,9 @@ TEMPLATE_LOADERS = (
 )
 
 WEBPACK_LOADER = {
-'DEFAULT': {
-    'BUNDLE_DIR_NAME': 'dist/',
-    'STATS_FILE':  'persice_app/webpack-stats.json'
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE':  'persice_app/webpack-stats.json'
     }
 }
 

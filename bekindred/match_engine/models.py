@@ -787,7 +787,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     }
                 ]
             }
-            if query is not None:
+            if query is not None \
+                    and fs[0].order_criteria == 'event_score':
                 body["query"]["filtered"]["query"] = {
                     "multi_match": {
                         "fields": [
@@ -844,19 +845,20 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
-    def prepare_query(user):
+    def prepare_query(user, stop_words, use_likes=True):
         from nltk.stem.porter import PorterStemmer
         porter_stemmer = PorterStemmer()
         goals = user.goal_set.all()
         offers = user.offer_set.all()
         interests = user.interest_set.all()
-        likes = FacebookLikeProxy.objects.filter(user_id=user.id)
+        likes = []
+        if use_likes:
+            likes = FacebookLikeProxy.objects.filter(user_id=user.id)
         words = set()
         for subject in itertools.chain(goals, offers, interests, likes):
             words |= set(unicode(subject).lower().
                          translate(remove_punctuation_map).split())
 
-        stop_words = StopWords.objects.all().values_list('word', flat=True)
         st_stop_words = [porter_stemmer.stem(w) for w in stop_words]
 
         removed_stopwords = [word for word in words
@@ -868,7 +870,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
     def match(user_id, friends=False, is_filter=False, exclude_ids=None):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
-        query = ElasticSearchMatchEngineManager.prepare_query(user)
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+        query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words)
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
 
@@ -995,7 +998,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
             event_ids_types.append('events.event.%s' % event.id)
         event_ids_types = list(set(event_ids_types))
         # TODO: query possible candidate to add to cache
-        query = ElasticSearchMatchEngineManager.prepare_query(user)
+        query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words,
+                                                              use_likes=False)
         response = ElasticSearchMatchEngineManager. \
             event_query_builder(user, event_ids_types, query=query,
                                 is_filter=is_filter, stop_words=stop_words)

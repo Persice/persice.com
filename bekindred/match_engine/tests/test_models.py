@@ -671,7 +671,13 @@ class TestMatchEvents(BaseTestCase, ResourceTestCase):
     def test_filter_by_recommended_event_score_my_events(self):
         e = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
                                  ends_on='2055-06-14T05:15:22.792659',
-                                 name="Play piano", location=[7000, 22965.83])
+                                 description='PyCon is a conference for the '
+                                             'Python community, organized by '
+                                             'members of the Python community '
+                                             'PyCon is for Python enthusiasts '
+                                             'of all experience levels, from '
+                                             'new users to core developers.',
+                                 name="Python Con", location=[7000, 22965.83])
 
         e1 = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
                                   ends_on='2055-06-14T05:15:22.792659',
@@ -688,9 +694,12 @@ class TestMatchEvents(BaseTestCase, ResourceTestCase):
         assign_perm('view_event', self.user, e1)
         FilterState.objects.create(user=self.user, min_age=18,
                                    max_age=99, keyword='python',
+                                   order_criteria='event_score',
                                    distance=16516)
         update_index.Command().handle(interactive=False)
         events = MatchQuerySet.all_event(self.user.id, feed='my',
                                          is_filter=True)
-        self.assertEqual(len(events), 1)
+        self.assertEqual(len(events), 2)
         self.assertEqual(events[0].name, 'python meetup')
+        self.assertEqual(events[0].recommended_event_score, 1)
+        self.assertEqual(events[1].recommended_event_score, 4)
