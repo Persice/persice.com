@@ -129,7 +129,7 @@ export class UserProfileComponent implements AfterViewInit {
 
   private _setState(value: any) {
     this.person = new Person(value);
-    if (this.type === 'crowd' || this.type === 'connections') {
+    if (this.type === 'crowd' || this.type === 'connection') {
       this._getMutualFriends(this.person.id);
     } else if (this.type === 'my-profile') {
       this._getConnections();
