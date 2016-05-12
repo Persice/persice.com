@@ -10252,3 +10252,7 @@ html {
 .match-profile__avatar {
   background-size: cover!important;
 }
+
+.user-profile-container.my-profile {
+  padding-bottom: 1px!important;
+}

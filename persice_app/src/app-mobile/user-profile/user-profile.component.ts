@@ -5,6 +5,9 @@ import {
   EventEmitter,
   AfterViewInit
 } from '@angular/core';
+import {
+  OpenLeftMenuDirective,
+} from '../shared/directives';
 
 import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";
@@ -14,11 +17,8 @@ import {ConnectionsListMobileComponent} from './connections-list-mobile.componen
 import {ItemsListMobileComponent} from './items-list.component';
 import {FriendUtil} from '../../app/shared/core';
 
-import {
-  ReligiousViewsService,
-  PoliticalViewsService,
-  MutualFriendsService
-} from '../../app/shared/services';
+import {MutualFriendsService} from '../../app/shared/services';
+import {ConnectionsService} from '../../common/connections';
 
 @Component({
   selector: 'prs-user-profile',
@@ -28,12 +28,12 @@ import {
     CheckImageDirective,
     AboutMobileComponent,
     ItemsListMobileComponent,
-    ConnectionsListMobileComponent
+    ConnectionsListMobileComponent,
+    OpenLeftMenuDirective
   ],
   providers: [
-    ReligiousViewsService,
-    PoliticalViewsService,
-    MutualFriendsService
+    MutualFriendsService,
+    ConnectionsService
   ]
 })
 export class UserProfileComponent implements AfterViewInit {
@@ -52,13 +52,6 @@ export class UserProfileComponent implements AfterViewInit {
   // Boolean flag which controls whether full profile information is collapsed and visible
   profileExtraInfoVisible: boolean = false;
 
-  // List of religious views for person
-  religiousViews = [];
-
-  // List of political views for person
-  politicalViews = [];
-
-
   // List and counters for mutual friends
   friendsTotalCount: number = 0;
   friendsPreview: any[] = [];
@@ -72,9 +65,8 @@ export class UserProfileComponent implements AfterViewInit {
   activeTab: number = 0;
 
   constructor(
-    private _religiousViewsService: ReligiousViewsService,
-    private _politicalViewsService: PoliticalViewsService,
-    private _friendService: MutualFriendsService
+    private _friendService: MutualFriendsService,
+    private _connectionsService: ConnectionsService
   ) {
 
   }
@@ -95,27 +87,6 @@ export class UserProfileComponent implements AfterViewInit {
    */
   public activateTab(tab: number) {
     this.activeTab = tab;
-  }
-
-  private _getReligiousViews(id) {
-    this._religiousViewsService.getByUser('', 100, id)
-      .subscribe((data: any) => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects;
-          this.religiousViews = items;
-        }
-      });
-  }
-
-  private _getPoliticalViews(id) {
-    this._politicalViewsService.getByUser('', 100, id)
-      .subscribe(
-      (data: any) => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects;
-          this.politicalViews = items;
-        }
-      });
   }
 
   private _getMutualFriends(id) {
@@ -142,11 +113,27 @@ export class UserProfileComponent implements AfterViewInit {
       });
   }
 
+  private _getConnections() {
+    this._connectionsService.get('', 100, false)
+      .subscribe((data) => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects;
+          this.friendsTotalCount = data.meta.total_count;
+          this.friendsPersice = items;
+
+          // Pick four friends for preview
+          this.friendsPreview = FriendUtil.pickFourFriendsforPreview(this.friendsPersice, [], [], [], []);
+        }
+      });
+  }
+
   private _setState(value: any) {
     this.person = new Person(value);
-    this._getReligiousViews(this.person.id);
-    this._getPoliticalViews(this.person.id);
-    this._getMutualFriends(this.person.id);
+    if (this.type === 'crowd' || this.type === 'connections') {
+      this._getMutualFriends(this.person.id);
+    } else if (this.type === 'my-profile') {
+      this._getConnections();
+    }
   }
 
 }
