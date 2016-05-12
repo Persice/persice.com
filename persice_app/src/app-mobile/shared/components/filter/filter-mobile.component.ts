@@ -16,7 +16,7 @@ import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
 export class FilterMobileComponent extends FilterComponent {
   @Input() showGender = true;
   @Input() set type(value: string) {
-    this.addOrderByForEventsFilter(value);
+    this.checkIfEvents(value);
   };
 
   filtersVisible: boolean = true;
