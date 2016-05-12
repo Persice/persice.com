@@ -3,6 +3,7 @@ import {RouteParams} from '@angular/router-deprecated';
 import {Person} from "../shared/model/person";
 import {ProfileService} from "../../app/shared/services/profile.service";
 import {UserProfileComponent} from "../user-profile/user-profile.component";
+import {LoadingComponent} from '../../app/shared/components/loading';
 import {CookieUtil} from "../../app/shared/core/util";
 import {AppStateService} from '../shared/services';
 
@@ -10,7 +11,7 @@ import {AppStateService} from '../shared/services';
   selector: 'prs-mobile-my-profile',
   template: require('./my-profile-mobile.html'),
   providers: [ProfileService],
-  directives: [UserProfileComponent]
+  directives: [UserProfileComponent, LoadingComponent]
 })
 export class MyProfileMobileComponent implements OnInit, OnDestroy {
 
@@ -22,7 +23,7 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
   constructor(
     private profileService: ProfileService,
     private _params: RouteParams,
-    private appStateService:AppStateService
+    private appStateService: AppStateService
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
     this.usernameFromUrl = _params.get('username');

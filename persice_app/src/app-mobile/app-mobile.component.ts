@@ -68,7 +68,7 @@ const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
     name: 'Messages'
   },
   {
-    path: '/my-profile',
+    path: '/:username',
     component: MyProfileMobileComponent,
     name: 'MyProfile'
   },

@@ -70,8 +70,8 @@ describe('App component mobile', () => {
   });
 
   it('Should be able to navigate to MyProfile', done => {
-    router.navigate(['MyProfile']).then(() => {
-      expect(location.path()).toBe('/my-profile');
+    router.navigate(['MyProfile', {'username': 'johndoe' }]).then(() => {
+      expect(location.path()).toBe('/johndoe');
       done();
     }).catch(e => done.fail(e));
   });

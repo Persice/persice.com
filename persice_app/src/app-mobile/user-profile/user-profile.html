@@ -59,9 +59,9 @@
   <div class="profile-info profile-box">
     <div class="profile-box__sub">
       <div class="layout">
-        <div class="layout__item 1/3"> <span class="profile-info__label">Gender</span> <span class="profile-info__value">{{person.gender}}</span> </div>
-        <div class="layout__item 1/3"> <span class="profile-info__label">Age</span> <span class="profile-info__value">{{person.age}}</span> </div>
-        <div class="layout__item 1/3"> <span class="profile-info__label">Lives in</span> <span class="profile-info__value">{{person.livesIn}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Gender</span> <span class="profile-info__value profile-info__gender-value">{{person.gender}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Age</span> <span class="profile-info__value profile-info__age-value">{{person.age}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Lives in</span> <span class="profile-info__value profile-info__livesin-value">{{person.livesIn}}</span> </div>
       </div>
     </div>
     <div class="profile-box__collapse js-profile-box__collapse" [ngClass]="{'hidden': !profileExtraInfoVisible}">
