@@ -1,12 +1,11 @@
-import {Input} from '@angular/core';
 import {findIndex, debounce} from 'lodash';
 
 import {FilterModel, InterfaceFilter} from '../../app/shared/models';
 import {FilterService} from '../../app/shared/services';
 
 export abstract class FilterComponent {
-  @Input() showGender = true;
-  @Input() type;
+  showAge: boolean = true;
+  showGender: boolean = true;
   filters: FilterModel;
   defaultState: InterfaceFilter;
   gender: string = 'm,f';
@@ -65,6 +64,7 @@ export abstract class FilterComponent {
 
   constructor(protected filterService: FilterService) {
     this.saveDebounced = debounce(this.save, 500, { 'leading': true, 'trailing': true });
+
     this.filterService.find()
       .subscribe(data => this.setFilters(data),
       (err) => {
@@ -75,6 +75,8 @@ export abstract class FilterComponent {
       });
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
+
+
   }
 
   changeGender(value) {
@@ -153,5 +155,20 @@ export abstract class FilterComponent {
         this.filterService.publishObservers();
       });
   }
+
+  checkIfEvents(value: string): void {
+    if (value === 'events') {
+      this.showAge = false;
+      this.showGender = false;
+      this.orderBy = [...this.orderBy, {
+        'label': 'Event score',
+        'value': 'event_score',
+        'selected': false
+      }];
+    } else {
+      this.orderBy[2]['label'] = 'Recently Active';
+    }
+  }
+
 
 }

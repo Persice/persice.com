@@ -1,7 +1,7 @@
 <nav class="mob-nav-main">
   <ul>
     <li>
-      <a [routerLink]="['./MyProfile']">
+      <a [routerLink]="['./MyProfile', {'username': username}]">
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-profile"></use>
         </svg> <span>My Profile</span>

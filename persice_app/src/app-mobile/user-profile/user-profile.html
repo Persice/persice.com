@@ -1,10 +1,15 @@
-<div class="user-profile-container">
+<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile'}">
   <header class="mob-header mob-header--transparent">
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/5">
-        <a (click)="onCloseProfile.emit($event)" class="mob-header__left-push">
+        <a (click)="onCloseProfile.emit($event)" class="mob-header__left-push" *ngIf="type === 'crowd' || type === 'connection'">
           <svg role="img" class="icon icon--small">
             <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+          </svg>
+        </a>
+        <a prs-open-left-menu class="mob-header__left-push" *ngIf="type === 'my-profile'">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
           </svg>
         </a>
       </div>
@@ -14,6 +19,18 @@
         <a class="js-mob-header__profile-drop-trigg">
           <svg role="img" class="icon icon--small">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/dist/assets/icons/icons.svg#icon-mobile_menu"></use>
+          </svg>
+        </a>
+        <ul class="mob-header__drop js-mob-header__drop hidden">
+          <li><a href="">Invite to event</a></li>
+          <li><a href="">Report user</a></li>
+          <li><a href="">Disconnect</a></li>
+        </ul>
+      </div>
+      <div class="layout__item 1/5 text-right" *ngIf="type === 'my-profile'">
+        <a class="js-mob-header__profile-drop-trigg">
+          <svg role="img" class="icon icon--small">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/dist/assets/icons/icons.svg#icon-mobile_edit"></use>
           </svg>
         </a>
         <ul class="mob-header__drop js-mob-header__drop hidden">
@@ -42,9 +59,9 @@
   <div class="profile-info profile-box">
     <div class="profile-box__sub">
       <div class="layout">
-        <div class="layout__item 1/3"> <span class="profile-info__label">Gender</span> <span class="profile-info__value">{{person.gender}}</span> </div>
-        <div class="layout__item 1/3"> <span class="profile-info__label">Age</span> <span class="profile-info__value">{{person.age}}</span> </div>
-        <div class="layout__item 1/3"> <span class="profile-info__label">Lives in</span> <span class="profile-info__value">{{person.livesIn}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Gender</span> <span class="profile-info__value profile-info__gender-value">{{person.gender}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Age</span> <span class="profile-info__value profile-info__age-value">{{person.age}}</span> </div>
+        <div class="layout__item 1/3"> <span class="profile-info__label">Lives in</span> <span class="profile-info__value profile-info__livesin-value">{{person.livesIn}}</span> </div>
       </div>
     </div>
     <div class="profile-box__collapse js-profile-box__collapse" [ngClass]="{'hidden': !profileExtraInfoVisible}">
@@ -58,8 +75,8 @@
       <div class="profile-box__sub">
         <div class="layout">
           <div class="layout__item 1/2">
-            <span class="profile-info__label">Religious Views</span> <span class="profile-info__value" *ngFor="let rel of profileReligiousViews">{{rel.religious_view}}</span> </div>
-          <div class="layout__item 1/2"> <span class="profile-info__label">Political Views</span> <span class="profile-info__value" *ngFor="let rel of profilePoliticalViews">{{rel.political_view}}</span> </div>
+            <span class="profile-info__label">Religious Views</span> <span class="profile-info__value" *ngFor="let view of person.religiousViews">{{view}}</span> </div>
+          <div class="layout__item 1/2"> <span class="profile-info__label">Political Views</span> <span class="profile-info__value" *ngFor="let view of person.politicalViews">{{view}}</span> </div>
         </div>
       </div>
       <div class="profile-box__sub"> <span class="profile-info__label mb--">Networks</span>

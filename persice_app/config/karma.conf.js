@@ -81,6 +81,7 @@ module.exports = function(config) {
       '/media/images/': '/base/src/assets/images/',
       '/static/assets/images/': '/base/src/assets/images/',
       '/static/assets/icons/': '/base/src/assets/icons/',
+      '/static/dist/assets/icons/': '/base/src/assets/icons/',
       '/static/img/': '/base/src/assets/images/',
     },
 
