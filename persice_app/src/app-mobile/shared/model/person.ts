@@ -33,6 +33,8 @@ export class Person {
   private _company: string;
   private _about: string;
   private _livesIn: string;
+  private _religiousViews: any[];
+  private _politicalViews: any[];
 
 
   static parseGender(value: string) {
@@ -89,6 +91,9 @@ export class Person {
     this._likes = likesFromDto;
     this._likesCount = likesFromDto.length;
     this._likesMutualCount = likesMutualCountFromDto;
+
+    this._religiousViews = dto.religious_views;
+    this._politicalViews = dto.political_views;
 
     this._facebook = new SocialNetworkFacebook(dto.facebook_id);
     this._twitter = new SocialNetworkTwitter(dto.twitter_username);
@@ -197,6 +202,14 @@ export class Person {
 
   get likesMutualCount(): number {
     return this._likesMutualCount;
+  }
+
+  get politicalViews(): any[] {
+    return this._politicalViews;
+  }
+
+  get religiousViews(): any[] {
+    return this._religiousViews;
   }
 
 }
