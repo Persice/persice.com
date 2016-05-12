@@ -382,6 +382,7 @@ class MatchEvent(object):
             current_user_id, self.event, matched_users, rsvp='no')
         self.attendees_maybe = MatchEvent.get_attendees(
             current_user_id, self.event, matched_users, rsvp='maybe')
+        self.recommended_event_score = MatchEvent.get_recommended_event_score()
         self.cumulative_match_score = MatchEvent.get_cum_score(
             current_user_id, self.event, matched_users)
         self.friend_attendees_count = MatchEvent.get_friends_attendees(
@@ -413,6 +414,10 @@ class MatchEvent(object):
             if user.id in attendees:
                 filtered.append(user)
         return sum([x.score for x in filtered])
+
+    @staticmethod
+    def get_recommended_event_score():
+        return 0
 
     @staticmethod
     def get_attendees(user_id, event, matched_users, rsvp='yes'):

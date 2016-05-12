@@ -657,6 +657,9 @@ class EventFeedResource(Resource):
             if fs:
                 if fs[0].order_criteria == 'match_score':
                     return sorted(match, key=lambda x: -x.cumulative_match_score)
+                elif fs[0].order_criteria == 'recommended_event_score':
+                    return sorted(match,
+                                  key=lambda x: -x.recommended_event_score)
                 elif fs[0].order_criteria == 'mutual_friends':
                     return sorted(match, key=lambda x: (-x.distance[0],
                                                         x.distance[1]))

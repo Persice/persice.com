@@ -93,7 +93,6 @@ apt-get install -y memcached elasticsearch
 
 # Install ElasticSearch
 if ! command -v /etc/init.d/elasticsearch; then
-    apt-get install openjdk-7-jre
     wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.deb
     dpkg -i elasticsearch-1.7.3.deb
     update-rc.d elasticsearch defaults
