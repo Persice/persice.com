@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FilterComponent} from '../../../../common/filter';
 import {SliderComponent} from '../../../../common/slider';
 import {FilterService} from '../../../../app/shared/services';
@@ -14,6 +14,11 @@ import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
   pipes: [NumeralPipe]
 })
 export class FilterMobileComponent extends FilterComponent {
+  @Input() showGender = true;
+  @Input() set type(value: string) {
+    this.addOrderByForEventsFilter(value);
+  };
+
   filtersVisible: boolean = true;
   keywordsVisible: boolean = false;
 

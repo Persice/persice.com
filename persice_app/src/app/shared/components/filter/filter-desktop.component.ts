@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FilterComponent} from '../../../../common/filter';
 import {SliderComponent} from '../../../../common/slider';
 
@@ -13,6 +13,9 @@ import {FilterService} from '../../services';
   template: require('./filter-desktop.html')
 })
 export class FilterDesktopComponent extends FilterComponent {
+  @Input() set type(value: string) {
+    this.checkIfEvents(value);
+  };
   constructor(protected filterService: FilterService) {
     super(filterService);
   }
