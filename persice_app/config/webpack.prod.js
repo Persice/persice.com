@@ -206,7 +206,6 @@ module.exports = webpackMerge(commonConfig, {
       regExp: /\.css$|\.html$|\.js$|\.map$/,
       threshold: 2 * 1024
     })
-
   ],
 
   // Static analysis linter for TypeScript advanced options configuration

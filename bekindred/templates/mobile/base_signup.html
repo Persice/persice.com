@@ -1,4 +1,5 @@
 {% load static from staticfiles %}
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 <!--[if IE 8]>    <html class=" no-js  is-scrollable-y ie8 oldie" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class=" no-js  is-scrollable-y ie9 oldie" lang="en"> <![endif]-->
@@ -43,20 +44,12 @@
     </div>
   </persice-signup-mobile-app>
   <!-- Theme scripts -->
-  <!--  development only  -->
- <!--  <script src="http://localhost:8080/assets/js/plugins.min.js"></script>
-  <script src="http://localhost:8080/polyfills.bundle.js"></script>
-  <script src="http://localhost:8080/vendor.bundle.js"></script>
-  <script src="http://localhost:8080/signup-mobile.bundle.js"></script> -->
-
-  <!-- production only -->
   <script src="{% static 'dist/assets/js/plugins.min.js' %}"></script>
-  <script src="{% static 'dist/polyfills.0a5fa375cda8df736015.bundle.js' %}"></script>
-  <script src="{% static 'dist/vendor.ba27215e98551e5914d6.bundle.js' %}"></script>
-  <script src="{% static 'dist/signup-mobile.99795daccab509df3a26.bundle.js' %}"></script>
+  {% render_bundle 'polyfills' %}
+  {% render_bundle 'vendor' %}
+  {% render_bundle 'signup-mobile' %}
 
   {% include "base.scripts.footer.html" %}
-
 
  <!-- <script async src="http://localhost:3002/browser-sync/browser-sync-client.js"></script> -->
 </body>
