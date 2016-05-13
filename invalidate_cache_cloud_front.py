@@ -3,8 +3,8 @@ import boto
 import os
 
 paths = [
-"/dist/1.134576f2b3f8f4d30f96.bundle.map",
-"/dist/1.134576f2b3f8f4d30f96.bundle.map.gz"
+    "/dist/1.134576f2b3f8f4d30f96.bundle.map",
+    "/dist/1.134576f2b3f8f4d30f96.bundle.map.gz"
 ]
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
