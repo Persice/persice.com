@@ -1,9 +1,14 @@
+import logging
+
 from django.conf import settings
 from django.db.models import Q
 from django_facebook.models import FacebookCustomUser
 from py2neo import Graph, Node, Relationship
 
 from .models import Friend
+
+logging.getLogger("py2neo.batch").setLevel(logging.DEBUG)
+logging.getLogger("py2neo.cypher").setLevel(logging.DEBUG)
 
 
 def migrate_all_friendships_to_neo():
@@ -41,23 +46,42 @@ def migrate_all_friendships_to_neo():
 
 
 class NeoFourJ(object):
-    # TODO:
-    # 1. Add to friends
-    # 2. confirm friends
-    # 3. Get all friends for user_id
-    # 4. checking_friendship
+    """
+     - Add to friends
+     - confirm friends
+     - Get all friends for user_id
+     - checking_friendship
+    """
     def __init__(self, neo4j_url=settings.NEO4J_URL):
         self.graph = Graph(neo4j_url)
 
-    def create_node(self, node):
-        self.graph.create(node)
+    @staticmethod
+    def person(user):
+        return Node("Person", user_id=user.pk,
+                    name=u'{} {}'.format(user.first_name, user.last_name))
+
+    def create_person(self, node):
+        return self.graph.create(node)[0]
+
+    def get_person(self, user):
+        return self.graph.find_one('Person', property_key='user_id',
+                                   property_value=user.id)
 
     def add_to_friends(self, node1, node2):
         rel = Relationship(node1, "FRIENDS", node2)
-        self.graph.create(rel)
+        self.graph.create_unique(rel)
 
-    def get_my_friends(self):
-        pass
+    def get_my_friends(self, user_id):
+        return self.graph.cypher.execute("""
+            MATCH (Person { user_id:{USER_ID} })-[:FRIENDS]->(n)
+            -[:FRIENDS]->(Person { user_id:{USER_ID} })
+            return n.name, n.user_id
+        """, {'USER_ID': user_id})
 
-    def check_friendship(self, node1, node2):
-        return False
+    def check_friendship(self, user_id1, user_id2):
+        return self.graph.cypher.execute("""
+            MATCH (Person { user_id:{USER_ID1} })-[:FRIENDS]->
+            (n:Person { user_id:{USER_ID2} })-[:FRIENDS]->
+            (Person { user_id:{USER_ID1} })
+            return n.name, n.user_id
+        """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})

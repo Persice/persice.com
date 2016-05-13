@@ -148,6 +148,21 @@ LOGGING = {
             'level': 'INFO',
             'handlers': ['console'],
             },
+        # 'httpstream': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'py2neo.batch': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        #     },
+        # 'py2neo.cypher': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
         # 'open_facebook': {
         #     'handlers': ['console'],
         #     'level': 'INFO',

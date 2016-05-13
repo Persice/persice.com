@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django_facebook.models import FacebookCustomUser
+from py2neo import Node
 from tastypie.test import ResourceTestCase
 from friends.models import Friend
+from friends.utils import NeoFourJ
 
 
 class TestFriendResource(ResourceTestCase):
@@ -207,5 +209,39 @@ class TestFriendsNewResource(ResourceTestCase):
 
 
 class FriendUtilsTestCase(TestCase):
-    def test_simple(self):
-        self.assertEqual(1, 1)
+    def setUp(self):
+        self.user = FacebookCustomUser.objects.create_user(username='user_a',
+                                                           password='test',
+                                                           first_name='Ani',
+                                                           last_name='Lendel')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b',
+                                                            password='test',
+                                                            first_name='Sneja',
+                                                            last_name='Yerson')
+        self.neo = NeoFourJ()
+        self.neo.graph.delete_all()
+
+    def test_create_person(self):
+        self.neo.create_person(self.neo.person(self.user))
+        neo_user = self.neo.get_person(self.user)
+        self.assertEqual(neo_user.properties['user_id'], self.user.id)
+        self.assertEqual(
+            neo_user.properties['name'], u'{} {}'.format(self.user.first_name,
+                                                         self.user.last_name)
+        )
+
+    def test_add_to_friend(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        self.neo.add_to_friends(n1, n2)
+        self.neo.add_to_friends(n2, n1)
+        friends = self.neo.get_my_friends(self.user.id)
+        self.assertEqual(friends.one['n.name'], n2.properties['name'])
+
+    def test_check_friends(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        self.neo.add_to_friends(n1, n2)
+        self.neo.add_to_friends(n2, n1)
+        friends = self.neo.check_friendship(self.user.id, self.user1.id)
+        self.assertEqual(friends.one['n.name'], n2.properties['name'])
