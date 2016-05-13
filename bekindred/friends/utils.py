@@ -47,10 +47,10 @@ def migrate_all_friendships_to_neo():
 
 class NeoFourJ(object):
     """
-     - Add to friends
-     - confirm friends
-     - Get all friends for user_id
-     - checking_friendship
+    - Add to friends
+    - confirm friends
+    - Get all friends for user_id
+    - checking_friendship
     """
     def __init__(self, neo4j_url=settings.NEO4J_URL):
         self.graph = Graph(neo4j_url)

@@ -24,6 +24,10 @@ signals.post_delete.connect(update_match_score,
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
+def create_neo4j_node(sender, instance, created, **kwargs):
+    pass
+
+
 def create_fb_political_view(sender, instance, created, **kwargs):
     if created:
         user = instance.user
