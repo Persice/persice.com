@@ -39,14 +39,14 @@
     ],
     "main-mobile": [
       {
-        "name": "main-mobile.0b31784bf1a5a9031ddd.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js",
-        "path": "/Users/andriisoldatenko/work/persice.com/bekindred/static/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js"
+        "name": "main-mobile.bd439cc07427175b9e31.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.bd439cc07427175b9e31.bundle.js",
+        "path": "/Users/andriisoldatenko/work/persice.com/bekindred/static/dist/main-mobile.bd439cc07427175b9e31.bundle.js"
       },
       {
-        "name": "main-mobile.0b31784bf1a5a9031ddd.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map",
-        "path": "/Users/andriisoldatenko/work/persice.com/bekindred/static/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map"
+        "name": "main-mobile.bd439cc07427175b9e31.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.bd439cc07427175b9e31.bundle.map",
+        "path": "/Users/andriisoldatenko/work/persice.com/bekindred/static/dist/main-mobile.bd439cc07427175b9e31.bundle.map"
       }
     ],
     "signup": [
