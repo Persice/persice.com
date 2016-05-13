@@ -43,7 +43,7 @@
   </header>
   <div class="profile-hero">
     <div class="profile-hero__name">{{person.firstName}}</div>
-    <div class="profile-hero__name-meta">{{person.distance}} {{person.distanceUnit}} from you</div>
+    <div class="profile-hero__name-meta" *ngIf="type === 'crowd' || type === 'connection'">{{person.distance}} {{person.distanceUnit}} from you</div>
     <div class="profile-avatarplace">
       <div class="match-profile__avatar-place">
         <div class="match-profile__avatar" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'">
@@ -136,7 +136,7 @@
   <a class="profile-link profile-box">
     <div class="layout layout--small layout--middle">
       <div class="layout__item 4/5"> <span class="profile-titleline">Likes
-        <span class="profile-titleline__value">({{person.likesCount}})</span> <span class="profile-titleline__subvalue">&#8211; {{person.likesMutualCount}} mutual</span>
+        <span class="profile-titleline__value">({{person.likesCount}})</span> <span class="profile-titleline__subvalue" *ngIf="type === 'crowd' || type === 'connection'">&#8211; {{person.likesMutualCount}} mutual</span>
         </span>
       </div>
       <div class="layout__item 1/5 text-center">
