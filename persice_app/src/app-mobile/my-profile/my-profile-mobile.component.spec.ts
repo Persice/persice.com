@@ -76,19 +76,6 @@ describe('My profile mobile component', () => {
     expect(displayedUsername()).toBe(aPersonDto.first_name);
   });
 
-  it('should show distance value and unit in subtitle', () => {
-    // given
-    let aPersonDto: any = PersonGenerator.givenAnyPersonDto();
-    mock.setResponse(aPersonDto);
-
-    // when
-    fixture.detectChanges();
-
-    // then
-    let expectedDistance = aPersonDto.distance[0] + ' ' + aPersonDto.distance[1] + ' from you';
-    expect(displayedDistance()).toBe(expectedDistance);
-  });
-
   it('should show gender inside profile box', () => {
     // given
     let aPersonDto: any = PersonGenerator.givenAnyPersonDto();
@@ -128,11 +115,6 @@ describe('My profile mobile component', () => {
   function displayedUsername() {
     let titleElement = fixture.nativeElement.querySelectorAll('.profile-hero__name')[0];
     return titleElement.textContent;
-  }
-
-  function displayedDistance() {
-    let distanceElement = fixture.nativeElement.querySelectorAll('.profile-hero__name-meta')[0];
-    return distanceElement.textContent;
   }
 
   function displayedGender() {
