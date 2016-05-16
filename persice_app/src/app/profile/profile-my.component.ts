@@ -20,13 +20,14 @@ import {RemodalDirective} from '../shared/directives';
 import {
   PhotosService,
   UserAuthService,
-  ConnectionsService,
   LikesService,
   ReligiousViewsService,
   PoliticalViewsService,
   HistoryService,
   UserService
 } from '../shared/services';
+
+import {ConnectionsService} from '../../common/connections';
 
 @Component({
   selector: 'prs-profile-my',

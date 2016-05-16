@@ -711,7 +711,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
-    def event_query_builder(user, event_ids, is_filter=False,
+    def event_query_builder(user, event_ids, query=None, is_filter=False,
                             stop_words=()):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
@@ -751,10 +751,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
             body = {
                 "highlight": {
                     "fields": {
-                        "goals": {},
-                        "interests": {},
-                        "likes": {},
-                        "offers": {}
+                        "name": {},
+                        "description": {}
                     }
                 },
                 "query": {
@@ -789,6 +787,17 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     }
                 ]
             }
+            if query is not None \
+                    and fs[0].order_criteria == 'event_score':
+                body["query"]["filtered"]["query"] = {
+                    "multi_match": {
+                        "fields": [
+                            "name",
+                            "description"
+                        ],
+                        "query": query
+                    }
+                }
         else:
             body = {
                 "highlight": {
@@ -836,28 +845,33 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response
 
     @staticmethod
-    def match(user_id, friends=False, is_filter=False, exclude_ids=None):
+    def prepare_query(user, stop_words, use_likes=True):
         from nltk.stem.porter import PorterStemmer
         porter_stemmer = PorterStemmer()
-
-        user = FacebookCustomUserActive.objects.get(pk=user_id)
         goals = user.goal_set.all()
         offers = user.offer_set.all()
         interests = user.interest_set.all()
-        likes = FacebookLikeProxy.objects.filter(user_id=user.id)
+        likes = []
+        if use_likes:
+            likes = FacebookLikeProxy.objects.filter(user_id=user.id)
         words = set()
         for subject in itertools.chain(goals, offers, interests, likes):
             words |= set(unicode(subject).lower().
                          translate(remove_punctuation_map).split())
 
-        stop_words = StopWords.objects.all().values_list('word', flat=True)
         st_stop_words = [porter_stemmer.stem(w) for w in stop_words]
 
         removed_stopwords = [word for word in words
                              if porter_stemmer.stem(word) not in st_stop_words]
 
         query = ' '.join(removed_stopwords)
+        return query
 
+    @staticmethod
+    def match(user_id, friends=False, is_filter=False, exclude_ids=None):
+        user = FacebookCustomUserActive.objects.get(pk=user_id)
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+        query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words)
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
 
@@ -983,10 +997,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
         for event in events:
             event_ids_types.append('events.event.%s' % event.id)
         event_ids_types = list(set(event_ids_types))
-
+        # TODO: query possible candidate to add to cache
+        query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words,
+                                                              use_likes=False)
         response = ElasticSearchMatchEngineManager. \
-            event_query_builder(user, event_ids_types, is_filter=is_filter,
-                                stop_words=stop_words)
+            event_query_builder(user, event_ids_types, query=query,
+                                is_filter=is_filter, stop_words=stop_words)
         return response['hits']['hits']
 
 

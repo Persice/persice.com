@@ -6,8 +6,8 @@ import {FilterDesktopComponent} from '../shared/components/filter';
 import {ProfileFriendComponent} from '../profile';
 import {InfiniteScrollDirective} from '../../common/directives';
 
-import {ConnectionsService, FilterService} from '../shared/services';
-import {ConnectionsComponent} from '../../common/connections';
+import {FilterService} from '../shared/services';
+import {ConnectionsComponent, ConnectionsService} from '../../common/connections';
 
 // Refresh list timeout in miliseconds (when filters change, list must refresh)
 const LIST_REFRESH_TIMEOUT: number = 300;
@@ -41,7 +41,6 @@ export class ConnectionsDesktopComponent
   ngOnDestroy() {
     this.clearServicesSubscriptions();
   }
-
 
   beforeItemSelected() {
     this.saveScrollPosition();

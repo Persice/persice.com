@@ -199,3 +199,5 @@ AWS_HEADERS = {
 }
 
 AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
+
+NEO4J_URL = 'http://neo4j:MmNjNTJj@localhost:7474/db/data/'

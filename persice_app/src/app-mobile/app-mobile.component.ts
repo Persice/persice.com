@@ -10,7 +10,6 @@ import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_a
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
-  AsyncRoute,
   Router
 } from '@angular/router-deprecated';
 
@@ -25,7 +24,11 @@ import {PageTitleComponent} from './page-title';
 import {FilterService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
 import {ProfileFooterMobileComponent} from './user-profile';
-
+import {ConnectionsMobileComponent} from './connections';
+import {SettingsMobileComponent} from './settings';
+import {EventsMobileComponent} from './events';
+import {MessagesMobileComponent} from './messages';
+import {MyProfileMobileComponent} from './my-profile';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 
@@ -44,31 +47,31 @@ const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
     name: 'Crowd',
     useAsDefault: true
   },
-  new AsyncRoute({
+  {
     path: '/connections',
-    loader: () => require('es6-promise!./connections')('ConnectionsMobileComponent'),
+    component: ConnectionsMobileComponent,
     name: 'Connections'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/settings',
-    loader: () => require('es6-promise!./settings')('SettingsMobileComponent'),
+    component: SettingsMobileComponent,
     name: 'Settings'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/events',
-    loader: () => require('es6-promise!./events')('EventsMobileComponent'),
+    component: EventsMobileComponent,
     name: 'Events'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/messages',
-    loader: () => require('es6-promise!./messages')('MessagesMobileComponent'),
+    component: MessagesMobileComponent,
     name: 'Messages'
-  }),
-  new AsyncRoute({
-    path: '/my-profile',
-    loader: () => require('es6-promise!./my-profile')('MyProfileMobileComponent'),
+  },
+  {
+    path: '/:username',
+    component: MyProfileMobileComponent,
     name: 'MyProfile'
-  }),
+  },
 ])
 @Component({
   selector: 'persice-mobile-app',
@@ -103,7 +106,7 @@ export class AppMobileComponent implements OnInit {
   constructor(
     private _appStateService: AppStateService,
     private _router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
     // Subscribe to EventEmmitter from AppStateService to show or hide main app header

@@ -89,11 +89,23 @@ echo "workon $VIRTUALENV_NAME" >> /home/vagrant/.bashrc
 # Django project setup
 # su - vagrant -c "source $VIRTUALENV_DIR/bin/activate && cd $PROJECT_DIR && ./manage.py syncdb --noinput && ./manage.py migrate"
 
-apt-get install -y memcached elasticsearch
+apt-get install -y memcached
+
+# Install Neo4j
+if ! command -v /usr/bin/neo4j; then
+    apt-get install -y python-software-properties debconf-utils
+    add-apt-repository -y ppa:webupd8team/java
+    apt-get update
+    echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
+    wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
+    echo 'deb http://debian.neo4j.org/repo stable/' >/tmp/neo4j.list
+    mv /tmp/neo4j.list /etc/apt/sources.list.d
+    apt-get update
+    apt-get install -y oracle-java8-installer neo4j
+fi
 
 # Install ElasticSearch
 if ! command -v /etc/init.d/elasticsearch; then
-    apt-get install openjdk-7-jre
     wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.deb
     dpkg -i elasticsearch-1.7.3.deb
     update-rc.d elasticsearch defaults
@@ -113,12 +125,3 @@ apt-get install -y nodejs
 apt-get install -y build-essential
 
 npm install pm2 -g
-
-if ! command -v /usr/bin/neo4j; then
-    add-apt-repository ppa:webupd8team/java
-    wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
-    echo 'deb http://debian.neo4j.org/repo stable/' >/tmp/neo4j.list
-    mv /tmp/neo4j.list /etc/apt/sources.list.d
-    apt-get update
-    apt-get install -y oracle-java8-installer neo4j
-fi

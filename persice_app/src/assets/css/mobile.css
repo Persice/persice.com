@@ -10248,3 +10248,11 @@ html {
 .pass-accept__accept.is-active {
   background-color: #a6e16c!important;
 }
+
+.match-profile__avatar {
+  background-size: cover!important;
+}
+
+.user-profile-container.my-profile {
+  padding-bottom: 1px!important;
+}

@@ -364,6 +364,8 @@ class ShortMatchUser(MatchUser):
 class MatchEvent(object):
     def __init__(self, current_user_id, event_object, matched_users):
         self.event = MatchEvent.get_event_info(event_object)
+        self.names = self.highlight(event_object, 'name')
+        self.descriptions = self.highlight(event_object, 'description')
         self.id = self.event.id
         self.name = self.event.name
         self.city = self.event.city
@@ -382,6 +384,7 @@ class MatchEvent(object):
             current_user_id, self.event, matched_users, rsvp='no')
         self.attendees_maybe = MatchEvent.get_attendees(
             current_user_id, self.event, matched_users, rsvp='maybe')
+        self.recommended_event_score = self.match_score()
         self.cumulative_match_score = MatchEvent.get_cum_score(
             current_user_id, self.event, matched_users)
         self.friend_attendees_count = MatchEvent.get_friends_attendees(
@@ -391,6 +394,26 @@ class MatchEvent(object):
         self.ends_on = self.event.ends_on
         self.distance = calculate_distance_es(current_user_id, event_object)
         self.event_photo = self.event.event_photo
+
+    def match_score(self):
+        return sum(self.names[0].values()) + sum(self.descriptions[0].values())
+
+    def highlight(self, event_object, target='name'):
+        """
+        Match highlighted goals to list of all user goals
+        """
+        result = {}
+        objects = event_object['_source'].get(target)
+        if objects:
+            result[objects.lower()] = 0
+        try:
+            h_objects = event_object['highlight'].get(target, [])
+            h = ' '.join(h_objects)
+            new_h = h.replace('<em>', '').replace('</em>', '')
+            result[new_h.lower()] = h.count('<em>')
+        except KeyError as er:
+            print er
+        return [result]
 
     @staticmethod
     def get_event_info(event_object):

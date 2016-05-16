@@ -549,6 +549,8 @@ class TestMatchEvents(BaseTestCase, ResourceTestCase):
                 user=self.user, position=[-87.627696, 41.880745])
         user_location1 = UserLocation.objects.create(
                 user=self.user1, position=[-87.627696, 41.880745])
+        self.subject = Subject.objects.create(description='learning django')
+        self.subject2 = Subject.objects.create(description='learn python')
         clear_index.Command().handle(interactive=False)
         rebuild_index.Command().handle(interactive=False)
 
@@ -665,3 +667,39 @@ class TestMatchEvents(BaseTestCase, ResourceTestCase):
                                          is_filter=True)
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0].name, 'python meetup')
+
+    def test_filter_by_recommended_event_score_my_events(self):
+        e = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                 ends_on='2055-06-14T05:15:22.792659',
+                                 description='PyCon is a conference for the '
+                                             'Python community, organized by '
+                                             'members of the Python community '
+                                             'PyCon is for Python enthusiasts '
+                                             'of all experience levels, from '
+                                             'new users to core developers.',
+                                 name="Python Con", location=[7000, 22965.83])
+
+        e1 = Event.objects.create(starts_on='2055-06-13T05:15:22.792659',
+                                  ends_on='2055-06-14T05:15:22.792659',
+                                  name="python meetup",
+                                  location=[700, 22965.83])
+
+        Goal.objects.get_or_create(user=self.user, goal=self.subject)
+        Goal.objects.get_or_create(user=self.user, goal=self.subject2)
+        Membership.objects.create(user=self.user, event=e, is_organizer=True,
+                                  rsvp='yes')
+        Membership.objects.create(user=self.user, event=e1, is_organizer=True,
+                                  rsvp='yes')
+        assign_perm('view_event', self.user, e)
+        assign_perm('view_event', self.user, e1)
+        FilterState.objects.create(user=self.user, min_age=18,
+                                   max_age=99, keyword='python',
+                                   order_criteria='event_score',
+                                   distance=16516)
+        update_index.Command().handle(interactive=False)
+        events = MatchQuerySet.all_event(self.user.id, feed='my',
+                                         is_filter=True)
+        self.assertEqual(len(events), 2)
+        self.assertEqual(events[0].name, 'python meetup')
+        self.assertEqual(events[0].recommended_event_score, 1)
+        self.assertEqual(events[1].recommended_event_score, 4)

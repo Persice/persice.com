@@ -1,7 +1,5 @@
 import {
   Component,
-  Injectable,
-  Type,
   ViewEncapsulation,
   AfterViewInit,
   OnInit,
@@ -11,13 +9,8 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {
   RouteConfig,
   ROUTER_DIRECTIVES,
-  Router,
-  RouteRegistry,
-  AsyncRoute
+  Router
 } from '@angular/router-deprecated';
-
-import {CookieUtil} from './shared/core';
-
 
 import {HeaderComponent} from './header';
 import {NavigationComponent} from './navigation';
@@ -27,10 +20,11 @@ import {LoadingComponent} from './shared/components/loading';
 import {NotificationComponent} from './shared/components/notification';
 
 import {CrowdDesktopComponent} from './crowd';
-
-import {
-  ProfileMyComponent
-} from './profile';
+import {ProfileLoader, ProfileFriendComponent} from './profile';
+import {MessagesComponent} from './messages';
+import {EventComponent} from './event';
+import {ConnectionsDesktopComponent} from './connections';
+import {EventsComponent} from './events';
 
 import {AuthUserModel, InterfaceNotification} from './shared/models';
 
@@ -50,42 +44,6 @@ import {
 }
 from './shared/services';
 
-@Injectable()
-class DynamicRouteConfiguratorService {
-  constructor(private registry: RouteRegistry) { }
-  addRoute(component: Type, route) {
-    let routeConfig = this.getRoutes(component);
-    routeConfig.configs.push(route);
-    this.updateRouteConfig(component, routeConfig);
-    this.registry.config(component, route);
-  }
-  removeRoute() {
-    // need to touch private APIs - bad
-  }
-  getRoutes(component: Type) {
-    return Reflect.getMetadata('annotations', component)
-      .filter(a => {
-        return a.constructor.name === 'RouteConfig';
-      }).pop();
-  }
-  updateRouteConfig(component: Type, routeConfig) {
-    let annotations = Reflect.getMetadata('annotations', component);
-    let routeConfigIndex = -1;
-    for (let i = 0; i < annotations.length; i += 1) {
-      if (annotations[i].constructor.name === 'RouteConfig') {
-        routeConfigIndex = i;
-        break;
-      }
-    }
-    if (routeConfigIndex < 0) {
-      throw new Error('No route metadata attached to the component');
-    }
-    annotations[routeConfigIndex] = routeConfig;
-    Reflect.defineMetadata('annotations', annotations, { AppComponent });
-  }
-}
-
-
 /*
  * Persice App Component
  * Top Level Component
@@ -101,36 +59,36 @@ class DynamicRouteConfiguratorService {
     name: 'Crowd',
     useAsDefault: true
   },
-  new AsyncRoute({
+  {
     path: '/messages/...',
-    loader: () => require('es6-promise!./messages')('MessagesComponent'),
+    component: MessagesComponent,
     name: 'Messages'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/event/:eventId',
-    loader: () => require('es6-promise!./event')('EventComponent'),
+    component: EventComponent,
     name: 'EventDetails'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/connections',
-    loader: () => require('es6-promise!./connections')('ConnectionsDesktopComponent'),
+    component: ConnectionsDesktopComponent,
     name: 'Connections'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/connections/:friendId',
-    loader: () => require('es6-promise!./profile')('ProfileFriendComponent'),
+    component: ProfileFriendComponent,
     name: 'ProfileFriend'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/events/...',
-    loader: () => require('es6-promise!./events')('EventsComponent'),
+    component: EventsComponent,
     name: 'Events'
-  }),
-  new AsyncRoute({
+  },
+  {
     path: '/:username',
-    loader: () => require('es6-promise!./profile')('ProfileLoader'),
+    component: ProfileLoader,
     name: 'ProfileView'
-  })
+  }
 ])
 @Component({
   selector: 'persice-app',
@@ -156,7 +114,6 @@ class DynamicRouteConfiguratorService {
     UserAuthService,
     MessagesCounterService,
     HistoryService,
-    DynamicRouteConfiguratorService,
     ConnectionsCounterService,
     NotificationsService
   ]
@@ -188,32 +145,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private messagesCounterService: MessagesCounterService,
     private connectionsCounterService: ConnectionsCounterService,
     private historyService: HistoryService,
-    private dynamicRouteConfiguratorService: DynamicRouteConfiguratorService,
     private notificationsService: NotificationsService
   ) {
-    //default image
     this.image = this.userService.getDefaultImage();
-    let username = CookieUtil.getValue('user_username');
-    //dynamically set myprofile route
-    this.appRoutes = this.getAppRoutes();
-    setTimeout(_ => {
-      let route = { path: '/' + username, component: ProfileMyComponent, as: 'ProfileMy' };
-      this.dynamicRouteConfiguratorService.addRoute(this.constructor, route);
-      this.appRoutes = this.getAppRoutes();
-    }, 500);
 
     this.userServiceObserver = this.userService.serviceObserver()
       .subscribe((data) => {
         this.image = data.user.info.image;
       });
 
-  }
-
-  public getAppRoutes(): string[][] {
-    return this.dynamicRouteConfiguratorService
-      .getRoutes(this.constructor).configs.map(route => {
-        return { path: [`/${route.as}`], name: route.as };
-      });
   }
 
   ngAfterViewInit() {
@@ -228,8 +168,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   initWebsocket(channel: string) {
     this.websocketService.on(channel).subscribe((data: any) => {
-      console.log('websocket recieved data for channel %s', channel);
-      console.log(data);
       switch (channel) {
         case 'messages:new':
           if (this.activeRoute.indexOf('messages') === -1) {
@@ -265,8 +203,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('hello App component');
-
     this._router.subscribe((next) => {
       this.activeRoute = next;
       this.historyService.setRoute(next);
@@ -350,8 +286,5 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.user = new AuthUserModel(data);
     this.image = this.user.info.image;
   }
-
-
-
 
 }

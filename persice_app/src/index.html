@@ -56,24 +56,6 @@
   <script src="{%= o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
   {% } %}
 
-
-  <script type="text/javascript">
-    function createCookie(name, value, days) {
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        var expires = "; expires=" + date.toGMTString();
-      } else var expires = "";
-      document.cookie = name + "=" + value + expires + "; path=/";
-    }
-
-    // createCookie('userid', '{{user.id}}', 1);
-
-    function refreshConnect() {
-      console.log('your social account is now connected.');
-    }
-  </script>
-
 </body>
 
 </html>

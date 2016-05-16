@@ -47,7 +47,6 @@ module.exports = {
   //
   // See: http://webpack.github.io/docs/configuration.html#module
   module: {
-
     // An array of applied pre and post loaders.
     //
     // See: http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
@@ -56,17 +55,21 @@ module.exports = {
       // Tslint loader support for *.ts files
       //
       // See: https://github.com/wbuchwalter/tslint-loader
-      {test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')]},
+      { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] },
 
       // Source map loader support for *.js files
       // Extracts SourceMaps for source files that as added as sourceMappingURL comment.
       //
       // See: https://github.com/webpack/source-map-loader
-      {test: /\.js$/, loader: "source-map-loader", exclude: [
-        // these packages have problems with their sourcemaps
-        helpers.root('node_modules/rxjs'),
-        helpers.root('node_modules/@angular')
-      ]}
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader',
+        exclude: [
+          // these packages have problems with their sourcemaps
+          helpers.root('node_modules/rxjs'),
+          helpers.root('node_modules/@angular')
+        ]
+      }
 
     ],
 
@@ -84,34 +87,30 @@ module.exports = {
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
+        exclude: [/\.e2e\.ts$/],
         query: {
-          "compilerOptions": {
-
-            // Remove TypeScript helpers to be injected
-            // below by DefinePlugin
-            "removeComments": true
-
-          }
-        },
-        exclude: [/\.e2e\.ts$/]
+          "inlineSourceMap": true,
+          "inlineSources": false,
+          "source-map": false
+        }
       },
 
       // Json loader support for *.json files.
       //
       // See: https://github.com/webpack/json-loader
-      {test: /\.json$/, loader: 'json-loader', exclude: [helpers.root('src/index.html')]},
+      { test: /\.json$/, loader: 'json-loader', exclude: [helpers.root('src/index.html')] },
 
       // Raw loader support for *.css files
       // Returns file content as string
       //
       // See: https://github.com/webpack/raw-loader
-      {test: /\.html$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html')]},
+      { test: /\.html$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html')] },
 
       // Raw loader support for *.html
       // Returns file content as string
       //
       // See: https://github.com/webpack/raw-loader
-      {test: /\.css$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html')]}
+      { test: /\.css$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html')] }
 
     ],
 
@@ -125,7 +124,8 @@ module.exports = {
       //
       // See: https://github.com/deepsweet/istanbul-instrumenter-loader
       {
-        test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
+        test: /\.(js|ts)$/,
+        loader: 'istanbul-instrumenter-loader',
         include: helpers.root('src'),
         exclude: [
           /\.(e2e|spec)\.ts$/,
@@ -149,7 +149,7 @@ module.exports = {
     //
     // See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
-    new DefinePlugin({'ENV': JSON.stringify(ENV), 'HMR': false})
+    new DefinePlugin({ 'ENV': JSON.stringify(ENV), 'HMR': false })
 
   ],
 

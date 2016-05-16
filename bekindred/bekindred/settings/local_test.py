@@ -148,6 +148,21 @@ LOGGING = {
             'level': 'INFO',
             'handlers': ['console'],
             },
+        # 'httpstream': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+        # 'py2neo.batch': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        #     },
+        # 'py2neo.cypher': {
+        #     'handlers': ['console'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
         # 'open_facebook': {
         #     'handlers': ['console'],
         #     'level': 'INFO',
@@ -192,3 +207,5 @@ LOGGING = {
 #     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
 #     'Cache-Control': 'max-age=86400',
 # }
+
+NEO4J_URL = 'http://neo4j:admin@localhost:7474/db/data/'

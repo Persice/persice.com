@@ -5,20 +5,20 @@ import {
   EventEmitter,
   AfterViewInit
 } from '@angular/core';
+import {
+  OpenLeftMenuDirective,
+} from '../shared/directives';
 
 import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";
-
+import {Person} from '../shared/model';
 import {AboutMobileComponent} from './about-mobile.component';
 import {ConnectionsListMobileComponent} from './connections-list-mobile.component';
 import {ItemsListMobileComponent} from './items-list.component';
-import {ObjectUtil, ListUtil, FriendUtil} from '../../app/shared/core';
+import {FriendUtil} from '../../app/shared/core';
 
-import {
-  ReligiousViewsService,
-  PoliticalViewsService,
-  MutualFriendsService
-} from '../../app/shared/services';
+import {MutualFriendsService} from '../../app/shared/services';
+import {ConnectionsService} from '../../common/connections';
 
 @Component({
   selector: 'prs-user-profile',
@@ -28,12 +28,12 @@ import {
     CheckImageDirective,
     AboutMobileComponent,
     ItemsListMobileComponent,
-    ConnectionsListMobileComponent
+    ConnectionsListMobileComponent,
+    OpenLeftMenuDirective
   ],
   providers: [
-    ReligiousViewsService,
-    PoliticalViewsService,
-    MutualFriendsService
+    MutualFriendsService,
+    ConnectionsService
   ]
 })
 export class UserProfileComponent implements AfterViewInit {
@@ -47,29 +47,10 @@ export class UserProfileComponent implements AfterViewInit {
   @Output() onCloseProfile: EventEmitter<any> = new EventEmitter();
 
   // Person object which is displayed in the component template
-  person: any;
+  person: Person;
 
   // Boolean flag which controls whether full profile information is collapsed and visible
   profileExtraInfoVisible: boolean = false;
-
-  // List of religious views for person
-  religiousViews = [];
-
-  // List of political views for person
-  politicalViews = [];
-
-  // Lists and counters for profile interests, goals and offers
-  interests: any[] = [];
-  goals: any[] = [];
-  offers: any[] = [];
-  interestsCount: number = 0;
-  goalsCount: number = 0;
-  offersCount: number = 0;
-
-  // Lists and counters for likes
-  likes: any[] = [];
-  likesCount: number = 0;
-  likesMutualCount: number = 0;
 
   // List and counters for mutual friends
   friendsTotalCount: number = 0;
@@ -84,9 +65,8 @@ export class UserProfileComponent implements AfterViewInit {
   activeTab: number = 0;
 
   constructor(
-    private _religiousViewsService: ReligiousViewsService,
-    private _politicalViewsService: PoliticalViewsService,
-    private _friendService: MutualFriendsService
+    private _friendService: MutualFriendsService,
+    private _connectionsService: ConnectionsService
   ) {
 
   }
@@ -107,27 +87,6 @@ export class UserProfileComponent implements AfterViewInit {
    */
   public activateTab(tab: number) {
     this.activeTab = tab;
-  }
-
-  private _getReligiousViews(id) {
-    this._religiousViewsService.getByUser('', 100, id)
-      .subscribe((data: any) => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects;
-          this.religiousViews = items;
-        }
-      });
-  }
-
-  private _getPoliticalViews(id) {
-    this._politicalViewsService.getByUser('', 100, id)
-      .subscribe(
-      (data: any) => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects;
-          this.politicalViews = items;
-        }
-      });
   }
 
   private _getMutualFriends(id) {
@@ -154,21 +113,27 @@ export class UserProfileComponent implements AfterViewInit {
       });
   }
 
+  private _getConnections() {
+    this._connectionsService.get('', 100, false)
+      .subscribe((data) => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects;
+          this.friendsTotalCount = data.meta.total_count;
+          this.friendsPersice = items;
+
+          // Pick four friends for preview
+          this.friendsPreview = FriendUtil.pickFourFriendsforPreview(this.friendsPersice, [], [], [], []);
+        }
+      });
+  }
+
   private _setState(value: any) {
-    this.person = value;
-    this._getReligiousViews(this.person.id);
-    this._getPoliticalViews(this.person.id);
-    this._getMutualFriends(this.person.id);
-
-    this.offers = ObjectUtil.transformSorted(this.person.offers[0]);
-    this.interests = ObjectUtil.transformSorted(this.person.interests[0]);
-    this.goals = ObjectUtil.transformSorted(this.person.goals[0]);
-    this.interestsCount = ObjectUtil.count(this.person.interests[0]);
-    this.offersCount = ObjectUtil.count(this.person.offers[0]);
-    this.goalsCount = ObjectUtil.count(this.person.goals[0]);
-
-    this.likesCount = this.person.likes.length;
-    this.likesMutualCount = ListUtil.filterAndCount(this.person.likes, 'match', 1);
+    this.person = new Person(value);
+    if (this.type === 'crowd' || this.type === 'connection') {
+      this._getMutualFriends(this.person.id);
+    } else if (this.type === 'my-profile') {
+      this._getConnections();
+    }
   }
 
 }

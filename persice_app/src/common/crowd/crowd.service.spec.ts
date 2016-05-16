@@ -11,7 +11,7 @@ import {CrowdService} from './crowd.service';
 import {MockCrowd} from './crowd.mock';
 import {HttpClient} from "../../app/shared/core/http-client";
 
-describe('CrowdService', () => {
+describe('Crowd service', () => {
 
   let injector: Injector;
   let backend: MockBackend;
@@ -59,7 +59,6 @@ describe('CrowdService', () => {
         done();
       });
   });
-
 
   function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {

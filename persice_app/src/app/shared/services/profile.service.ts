@@ -1,6 +1,6 @@
 import {provide, Injectable} from '@angular/core';
 import {Response} from '@angular/http';
-import {Subject} from 'rxjs';
+import {Subject, Observable} from 'rxjs';
 import {HttpClient} from '../core';
 
 @Injectable()
@@ -26,12 +26,18 @@ export class ProfileService {
     return this._observer;
   }
 
+  public ofUsername(username: string): Observable<any> {
+    let url = this.buildUrl(username);
+
+    return this.http.get(url).map((res: Response) => res.json().objects[0]);
+  }
+
   private _findByUri(username: string) {
     if (this._loading) {
       return;
     }
 
-    let url = `${ProfileService.API_URL}/?format=json&username=${username}`;
+    let url = this.buildUrl(username);
 
     this._loading = true;
     this._notFound = false;
@@ -54,6 +60,10 @@ export class ProfileService {
         this._notify();
         channel.unsubscribe();
       });
+  }
+
+  private buildUrl(username: string) {
+    return `${ProfileService.API_URL}/?format=json&username=${username}`;
   }
 
   private _notify() {

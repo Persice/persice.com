@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-
+import {RouterLink} from '@angular/router-deprecated';
+import {CookieUtil} from "../../app/shared/core/util";
 @Component({
   selector: 'prs-mobile-navigation',
   template: require('./navigation-mobile.html'),
-  directives: [
-    ROUTER_DIRECTIVES
-  ]
+  directives: [RouterLink]
 })
 export class NavigationMobileComponent {
+  public username: string;
 
+  constructor() {
+    this.username = CookieUtil.getValue('user_username');
+  }
 }

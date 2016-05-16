@@ -71,3 +71,5 @@ elasticstack==0.2.0
 nltk==3.1
 django-mobile==0.7.0
 django-storages==1.4.1
+py2neo==2.0.8
+django-webpack-loader==0.3.0

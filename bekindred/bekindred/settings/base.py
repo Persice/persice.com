@@ -36,6 +36,15 @@ TEMPLATE_LOADERS = (
         'django.template.loaders.app_directories.Loader',
 )
 
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE':  os.path.abspath(os.path.join(BASE_DIR, '..', '..',
+                                                    'persice_app',
+                                                    'webpack-stats.json'))
+    }
+}
+
 ALLOWED_HOSTS = []
 
 SESSION_COOKIE_AGE = 1 * 24 * 60 * 60
@@ -77,7 +86,8 @@ INSTALLED_APPS += ('south',
                    'geoposition',
                    'easy_thumbnails',
                    'django_mobile',
-                   'storages'
+                   'storages',
+                   'webpack_loader'
                    )
 
 SOUTH_MIGRATION_MODULES = {
