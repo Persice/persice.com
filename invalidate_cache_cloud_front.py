@@ -3,14 +3,14 @@ import boto
 import os
 
 paths = [
-"/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js",
-"/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js.gz",
-"/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map",
-"/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map.gz",
-"/dist/polyfills.0a5fa375cda8df736015.bundle.js",
-"/dist/polyfills.0a5fa375cda8df736015.bundle.js.gz",
-"/dist/polyfills.0a5fa375cda8df736015.bundle.map",
-"/dist/polyfills.0a5fa375cda8df736015.bundle.map.gz"
+    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js",
+    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js.gz",
+    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map",
+    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map.gz",
+    "/dist/polyfills.0a5fa375cda8df736015.bundle.js",
+    "/dist/polyfills.0a5fa375cda8df736015.bundle.js.gz",
+    "/dist/polyfills.0a5fa375cda8df736015.bundle.map",
+    "/dist/polyfills.0a5fa375cda8df736015.bundle.map.gz"
 ]
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
