@@ -1,15 +1,23 @@
 import {Component, AfterViewInit, OnDestroy} from '@angular/core';
 import {FilterModel} from '../../../../app/shared/models';
 import {FilterService} from '../../../../app/shared/services';
+import {AutocompleteDirective} from '../../../../common/directives';
 
 @Component({
   selector: 'prs-mobile-keywords',
   template: require('./keywords-mobile.html'),
-  providers: [FilterService]
+  providers: [FilterService],
+  directives: [AutocompleteDirective]
 })
 export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
 
   MINIMUM_ITEM_LENGTH: number = 2;
+
+  // API endpoint for autocomplete search in input
+  AUTOCOMPLETE_API_ENDPOINT = '/api/v1/interest_subject/';
+
+  // Attribute of API response, used for showing autocomplete search results
+  AUTOCOMPLETE_API_ATTRIBUTE = 'description';
 
   // Maximum allowed length of all items converted to string separated by comma
   // (e.g. "one,two,three"), including the comma character.
@@ -31,9 +39,8 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
   // Way to keep track whether filter saving is in progress
   filtersSaving: boolean = false;
 
-  // Way to keep track whether we add item from typeahead or via "Enter" key
+  // Way to keep track whether we add item from typeahead
   itemBeingAddedFromTypeahead: boolean = false;
-  itemBeingAddedByEnterKey: boolean = false;
 
 
   // Filter service instance
@@ -55,44 +62,12 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
     if (this.filters.state.keyword.length > 0) {
       this.items = this.filters.state.keyword.split(',');
     }
-    this.initializeTokenInput();
   }
 
-  initializeTokenInput() {
-    let keywordsEngine = new Bloodhound({
-      remote: {
-        url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
-        filter: (x: any) => {
-          return jQuery.map(x.objects, (item) => {
-            return item.description;
-          });
-        },
-        wildcard: '%QUERY'
-      },
-      datumTokenizer: Bloodhound.tokenizers.whitespace,
-      queryTokenizer: Bloodhound.tokenizers.whitespace
-    });
-
-    keywordsEngine.initialize();
-
-    var inputElement = jQuery('#typeaheadInput');
-    inputElement.typeahead(
-      {
-        hint: false,
-        highlight: true,
-        minLength: this.MINIMUM_ITEM_LENGTH
-      },
-      {
-        source: keywordsEngine,
-        limit: 30
-      }
-    );
-
-    inputElement.bind('typeahead:selected', (ev, suggestion) => {
-      this.newItemText = suggestion;
-      this.itemBeingAddedFromTypeahead = true;
-      this.add();
-    });
+  itemSelectedFromAutocomplete(event) {
+    this.newItemText = event;
+    this.itemBeingAddedFromTypeahead = true;
+    this.add();
   }
 
   /**
@@ -177,7 +152,6 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
       .subscribe(res => {
         this.newItemText = '';
         this.filtersSaving = false;
-        this.itemBeingAddedByEnterKey = false;
         this.itemBeingAddedFromTypeahead = false;
       }, (err) => {
         this.filtersSaving = false;

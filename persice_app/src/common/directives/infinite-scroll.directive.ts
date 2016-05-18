@@ -1,9 +1,7 @@
 import {Directive, HostListener, EventEmitter, Output, Input} from '@angular/core';
-import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
 
 @Directive({
-  selector: '[prs-infinite-scroll]',
-  providers: [BrowserDomAdapter]
+  selector: '[prs-infinite-scroll]'
 })
 export class InfiniteScrollDirective {
   @Input() scrollEnabled: boolean;
@@ -13,8 +11,6 @@ export class InfiniteScrollDirective {
   @HostListener('window:scroll') onScrolledBottom() {
     this._triggerMenu();
   }
-
-  constructor(private _dom: BrowserDomAdapter) { }
 
   private _triggerMenu() {
     let scrollOffset = window.pageYOffset
