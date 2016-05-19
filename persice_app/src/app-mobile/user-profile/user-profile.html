@@ -28,7 +28,7 @@
         </ul>
       </div>
       <div class="layout__item 1/5 text-right" *ngIf="type === 'my-profile'">
-        <a [routerLink]="['EditMyProfile']" class="mob-header__right-push">
+        <a [routerLink]="['EditMyProfile', {username: username}]" class="mob-header__right-push">
           <svg role="img" class="icon icon--small">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mobile_edit"></use>
           </svg>

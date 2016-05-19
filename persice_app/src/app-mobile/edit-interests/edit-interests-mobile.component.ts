@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
 import {ManageInterestsComponent} from '../../common/manage-interests';
 
@@ -18,7 +18,7 @@ import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../commo
   ],
   providers: [InterestsService, KeywordsService]
 })
-export class EditInterestsMobileComponent extends ManageInterestsComponent implements OnInit, OnDestroy {
+export class EditInterestsMobileComponent extends ManageInterestsComponent implements OnInit {
   constructor(
     protected interestsService: InterestsService,
     protected keywordsService: KeywordsService,
@@ -29,11 +29,7 @@ export class EditInterestsMobileComponent extends ManageInterestsComponent imple
 
   ngOnInit() {
     this.getList();
-    this.appStateService.setHeaderVisibility(false);
-  }
-
-  ngOnDestroy() {
-    this.appStateService.setHeaderVisibility(true);
+    this.appStateService.setEditMyProfileState({title: 'interests', isDoneButtonVisible: true});
   }
 
 }

@@ -28,7 +28,6 @@ import {SettingsMobileComponent} from './settings';
 import {EventsMobileComponent} from './events';
 import {MessagesMobileComponent} from './messages';
 import {MyProfileMobileComponent} from './my-profile';
-import {EditInterestsMobileComponent} from './edit-interests';
 import {EditMyProfileMobileComponent} from './edit-my-profile';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
@@ -69,20 +68,16 @@ const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
     name: 'Messages'
   },
   {
-    path: '/:username',
-    component: MyProfileMobileComponent,
-    name: 'MyProfile'
-  },
-  {
-    path: '/my-profile/edit',
+    path: '/:username/edit-profile/...',
     component: EditMyProfileMobileComponent,
     name: 'EditMyProfile'
   },
   {
-    path: '/my-profile/edit/interests',
-    component: EditInterestsMobileComponent,
-    name: 'EditInterests'
-  },
+    path: '/:username',
+    component: MyProfileMobileComponent,
+    name: 'MyProfile'
+  }
+
 ])
 @Component({
   selector: 'persice-mobile-app',
