@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
 import {AppStateService} from '../shared/services';
 import {InterestsService, GoalsService, OffersService, PhotosService}
@@ -16,8 +16,6 @@ export class EditMyProfileNavigationComponent implements OnInit {
   public offersCounter: number = 0;
   public goalsCounter: number = 0;
   public photosCounter: number = 0;
-
-  editProfileActive: boolean = true;
 
   constructor(
     private interestsService: InterestsService,

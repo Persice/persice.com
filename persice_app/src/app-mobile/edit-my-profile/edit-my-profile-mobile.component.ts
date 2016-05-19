@@ -26,9 +26,9 @@ import {EditInterestsMobileComponent} from '../edit-interests';
 ])
 export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
   public title: string = 'edit';
-  private username: string;
-
   public isDoneButtonVisible: boolean = false;
+
+  private username: string;
 
   constructor(
     private appStateService: AppStateService,
