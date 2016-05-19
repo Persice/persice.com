@@ -3,7 +3,7 @@
     <svg role="img" class="icon ">
       <use xlink:href="static/assets/icons/icons.svg#icon-search"></use>
     </svg>
-    <input [(ngModel)]="newGoalText" (keyup)="inputChanged($event)" id="goalsInput" type="text" class="search__input typeahead" placeholder="Enter a few goals here">
+    <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text" class="search__input typeahead" placeholder="Enter a few goals here" id="typeaheadInput" persice-autocomplete [apiUrl]="AUTOCOMPLETE_API_ENDPOINT" [apiAttr]="AUTOCOMPLETE_API_ATTRIBUTE" [minLength]="MINIMUM_ITEM_LENGTH" (onSelected)="itemSelectedFromAutocomplete($event)">
     <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
       <svg role="img" class="icon ">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
@@ -15,14 +15,14 @@
       </svg>
     </div>
     <button class="btn">
-      <svg role="img" class="icon" (click)="addGoal($event)">
+      <svg role="img" class="icon" (click)="add($event)">
         <use xlink:href="static/assets/icons/icons.svg#icon-plus-big"></use>
       </svg>
     </button>
   </div>
 </div>
-<div class="search__tags-wrapper text-left has-mob-signup-empty-state" id="goals" *ngIf="goals.length === 0">
-  <div class="mob-signup-empty-state">
+<div class="search__tags-wrapper text-left is-visible" prs-infinite-scroll-element (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
+  <div class="mob-signup-empty-state" *ngIf="isListEmpty">
     <svg role="img" class="icon mob-signup-empty-state__icon">
       <use xlink:href="static/assets/icons/icons.svg#no-goals"></use>
     </svg>
@@ -31,12 +31,11 @@
     <p class="mob-signup-empty-state__par">"Learn how to salsa dance" or
       <br>"Discover new hiking trails"</p>
   </div>
-</div>
-<div class="search__tags-wrapper text-left is-visible" *ngIf="goals.length > 0">
-  <p class="search-tag-secondary" *ngFor="let goal of goals">
-    <a (click)="removeGoal(goal)">
+  <p class="search-tag-secondary" *ngFor="let goal of items">
+    <a (click)="remove(goal)">
       <svg role="img" class="icon ">
         <use xlink:href="static/assets/icons/icons.svg#icon-delete"></use>
       </svg>
     </a> {{ goal.subject }}</p>
+  <prs-loading [status]="loading"></prs-loading>
 </div>

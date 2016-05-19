@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
-import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
 
 import {
   RouteConfig,
@@ -29,6 +28,7 @@ import {SettingsMobileComponent} from './settings';
 import {EventsMobileComponent} from './events';
 import {MessagesMobileComponent} from './messages';
 import {MyProfileMobileComponent} from './my-profile';
+import {EditMyProfileMobileComponent} from './edit-my-profile';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 
@@ -68,16 +68,21 @@ const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
     name: 'Messages'
   },
   {
+    path: '/:username/edit-profile/...',
+    component: EditMyProfileMobileComponent,
+    name: 'EditMyProfile'
+  },
+  {
     path: '/:username',
     component: MyProfileMobileComponent,
     name: 'MyProfile'
-  },
+  }
+
 ])
 @Component({
   selector: 'persice-mobile-app',
   template: require('./app-mobile.html'),
   providers: [
-    BrowserDomAdapter,
     FilterService,
     AppStateService
   ],

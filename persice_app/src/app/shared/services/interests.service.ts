@@ -31,6 +31,19 @@ export class InterestsService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
+  public getCount(): Observable<any> {
+    let userId = CookieUtil.getValue('userid');
+
+    let params: string = [
+      `format=json`,
+      `limit=1`,
+      `user_id=${userId}`,
+      `offset=0`,
+    ].join('&');
+    let url = `${InterestsService.API_URL}?${params}`;
+    return this.http.get(url).map((dto: Response) => dto.json().meta.total_count);
+  }
+
   public find(query): Observable<any> {
 
     let params: string = [
@@ -43,7 +56,6 @@ export class InterestsService {
     return this.http.get(url)
       .map((res: Response) => res.json());
   }
-
 
   public save(subject: string): Observable<any> {
     let userId = CookieUtil.getValue('userid');

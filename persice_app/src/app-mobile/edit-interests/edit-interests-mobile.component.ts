@@ -1,41 +1,35 @@
 import {Component, OnInit} from '@angular/core';
-
+import {RouterLink} from '@angular/router-deprecated';
 import {ManageInterestsComponent} from '../../common/manage-interests';
 
 import {InterestsService, KeywordsService} from '../../app/shared/services';
-import {SignupStateService} from '../../common/services';
-
+import {AppStateService} from '../shared/services';
 import {LoadingComponent} from '../../app/shared/components/loading';
 import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../common/directives';
 
 @Component({
-  selector: 'persice-mobile-signup-interests',
-  template: require('./interests-mobile.html'),
+  selector: 'persice-mobile-edit-interests',
+  template: require('./edit-interests-mobile.html'),
   directives: [
     LoadingComponent,
     AutocompleteDirective,
-    InfiniteScrollElementDirective
-  ]
+    InfiniteScrollElementDirective,
+    RouterLink
+  ],
+  providers: [InterestsService, KeywordsService]
 })
-export class SignupInterestsMobileComponent extends ManageInterestsComponent implements OnInit {
-
+export class EditInterestsMobileComponent extends ManageInterestsComponent implements OnInit {
   constructor(
     protected interestsService: InterestsService,
     protected keywordsService: KeywordsService,
-    private signupStateService: SignupStateService
+    private appStateService: AppStateService
   ) {
     super(interestsService, keywordsService);
   }
 
   ngOnInit() {
     this.getList();
-  }
-
-  afterCounterChanged() {
-    this.signupStateService.counterEmitter.emit({
-      type: 'interests',
-      count: this.counter
-    });
+    this.appStateService.setEditMyProfileState({title: 'interests', isDoneButtonVisible: true});
   }
 
 }
