@@ -6,6 +6,7 @@ export class SocialNetworkFacebook extends SocialNetwork {
   constructor(id: string) {
     super();
     this.name = this.networkName;
+    this.id = id;
     this.url = `https://www.facebook.com/app_scoped_user_id/${id}`;
   }
 }

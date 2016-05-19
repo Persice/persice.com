@@ -6,6 +6,7 @@ export class SocialNetworkTwitter extends SocialNetwork {
   constructor(id: string) {
     super();
     this.name = this.networkName;
+    this.id = id;
     this.url = id && id !== null ? `https://twitter.com/${id}` : '';
   }
 }

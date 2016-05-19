@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '../core';
 import {OPTS_REQ_JSON_CSRF} from '../core';
 import {CookieUtil} from '../core';
+import {Person} from "../../../app-mobile/shared/model/person";
 
 @Injectable()
 export class MyProfileService {
@@ -15,22 +16,25 @@ export class MyProfileService {
 
   public get(): Observable<any> {
     let userId = CookieUtil.getValue('userid');
-    let url = `${MyProfileService.API_URL}${userId}/?format=json`;
+    let url = this.buildUrl(userId);
     return this.http.get(url)
     .map((res: Response) => {
       return res.json();
     });
   }
 
-
   public update(data): Observable<any> {
     let userId = CookieUtil.getValue('userid');
-    let url = `${MyProfileService.API_URL}${userId}/?format=json`;
+    let url = this.buildUrl(userId);
     let body = JSON.stringify(data);
+
     return this.http.patch(url, body, OPTS_REQ_JSON_CSRF)
     .map((res: Response) => res.json());
   }
 
+  private buildUrl(userId:string) {
+    return `${MyProfileService.API_URL}${userId}/?format=json`;
+  }
 }
 
 export var myProfileServiceInjectables: Array<any> = [

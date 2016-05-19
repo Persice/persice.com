@@ -3,8 +3,10 @@ import {RouterOutlet, RouteConfig, Router, RouteParams} from '@angular/router-de
 
 import {AppStateService} from '../shared/services';
 
-import {EditMyProfileNavigationComponent} from './edit-my-profile-navigation.component';
-import {EditInterestsMobileComponent} from '../edit-interests';
+import {EditMyProfileNavigationComponent} from './navigation/edit-my-profile-navigation.component.ts';
+import {EditInterestsMobileComponent} from './edit-interests';
+import {PersonalInfoMobileComponent} from "./edit-personal-info/personal-info-mobile.component";
+import {ReligiousViewsMobileComponent} from "./edit-religious-views/religious-views-mobile.component";
 
 @Component({
   selector: 'prs-mobile-edit-my-profile',
@@ -22,6 +24,16 @@ import {EditInterestsMobileComponent} from '../edit-interests';
     path: '/interests',
     component: EditInterestsMobileComponent,
     name: 'EditInterests'
+  },
+  {
+    path: '/personal',
+    component: PersonalInfoMobileComponent,
+    name: 'EditPersonalInfo'
+  },
+  {
+    path: '/religious',
+    component: ReligiousViewsMobileComponent,
+    name: 'EditReligiousViews'
   }
 ])
 export class EditMyProfileMobileComponent implements OnInit, OnDestroy {

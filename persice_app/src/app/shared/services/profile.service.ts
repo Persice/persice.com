@@ -2,10 +2,14 @@ import {provide, Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Subject, Observable} from 'rxjs';
 import {HttpClient} from '../core';
+import {Person} from "../../../app-mobile/shared/model/person";
+import {CookieUtil} from "../core/util";
+import {OPTS_REQ_JSON_CSRF} from "../core/http-constants";
 
 @Injectable()
 export class ProfileService {
   static API_URL: string = '/api/v1/profile';
+  static UPDATE_API_URL: string = '/api/v1/user_profile/';
   static DEFAULT_IMAGE: string = '/static/assets/images/empty_avatar.png';
 
   _observer: Subject<any> = new Subject(null);
@@ -27,9 +31,25 @@ export class ProfileService {
   }
 
   public ofUsername(username: string): Observable<any> {
-    let url = this.buildUrl(username);
+    let url = this.buildGetUrl(username);
 
     return this.http.get(url).map((res: Response) => res.json().objects[0]);
+  }
+
+  // Logic in this method should ideally be refactored into a request object.
+  public updateAboutMe(newAboutMe: string): Observable<any> {
+    return this.update({about_me: newAboutMe});
+  }
+
+  public update(data: any): Observable<any> {
+    const body = JSON.stringify(data);
+    let userId = CookieUtil.getValue('userid');
+    let uri = this.buildUpdateUrl(userId);
+
+    return this.http.patch(
+      `${uri}?format=json`,
+      body,
+      OPTS_REQ_JSON_CSRF);
   }
 
   private _findByUri(username: string) {
@@ -37,7 +57,7 @@ export class ProfileService {
       return;
     }
 
-    let url = this.buildUrl(username);
+    let url = this.buildGetUrl(username);
 
     this._loading = true;
     this._notFound = false;
@@ -62,8 +82,12 @@ export class ProfileService {
       });
   }
 
-  private buildUrl(username: string) {
+  private buildGetUrl(username: string) {
     return `${ProfileService.API_URL}/?format=json&username=${username}`;
+  }
+
+  private buildUpdateUrl(userId: string) {
+    return '/api/v1/user_profile/' + userId + '/';
   }
 
   private _notify() {

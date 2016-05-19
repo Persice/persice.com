@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
-import {ManageInterestsComponent} from '../../common/manage-interests';
+import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
+import {AutocompleteDirective} from "../../../common/directives/autocomplete.directive";
+import {KeywordsService} from "../../../app/shared/services/keywords.service";
+import {InfiniteScrollElementDirective} from "../../../common/directives/infinite-scroll-element.directive";
+import {InterestsService} from "../../../app/shared/services/interests.service";
+import {ManageInterestsComponent} from "../../../common/manage-interests/manage-interests.component";
+import {AppStateService} from "../../shared/services/app-state.service";
 
-import {InterestsService, KeywordsService} from '../../app/shared/services';
-import {AppStateService} from '../shared/services';
-import {LoadingComponent} from '../../app/shared/components/loading';
-import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../common/directives';
 
 @Component({
   selector: 'persice-mobile-edit-interests',
