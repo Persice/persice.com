@@ -72,6 +72,12 @@ export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
       case 'interests':
         this.router.navigate(['EditNavigation']);
         break;
+      case 'personal info':
+        this.router.navigate(['EditNavigation']);
+        break;
+      case 'religious views':
+        this.router.navigate(['EditNavigation']);
+        break;
 
       default:
         break;

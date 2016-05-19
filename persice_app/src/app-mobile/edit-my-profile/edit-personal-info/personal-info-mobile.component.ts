@@ -27,7 +27,7 @@ export class PersonalInfoMobileComponent implements OnInit, OnDestroy, AfterView
   }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState({title: 'Personal info', isDoneButtonVisible: true});
+    this.appStateService.setEditMyProfileState({title: 'personal info', isDoneButtonVisible: true});
     this.profileService.ofUsername(this.usernameFromCookie).subscribe(resp => {
       this.me = new Person(resp);
       this.isProfileLoaded = true;
@@ -36,10 +36,6 @@ export class PersonalInfoMobileComponent implements OnInit, OnDestroy, AfterView
 
   ngAfterViewChecked(): any {
     this.setupDebouncer();
-  }
-
-  ngOnDestroy(): any {
-    this.appStateService.setHeaderVisibility(true);
   }
 
   private save(): void {

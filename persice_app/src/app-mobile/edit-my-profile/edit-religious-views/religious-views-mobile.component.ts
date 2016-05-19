@@ -11,25 +11,19 @@ import {CookieUtil} from "../../../app/shared/core/util";
 })
 export class ReligiousViewsMobileComponent implements OnInit, OnDestroy {
 
-  private me: Person;
-  private usernameFromCookie: string;
-  private isProfileLoaded: boolean = true;
+  private me:Person;
+  private usernameFromCookie:string;
+  private isProfileLoaded:boolean = true;
 
-  constructor(
-    private appStateService: AppStateService
-  ) {
+  constructor(private appStateService:AppStateService) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
   }
 
-  ngOnInit(): any {
+  ngOnInit():any {
     this.appStateService.setEditMyProfileState(
-      {title: 'Religious views', isDoneButtonVisible: true});
+      {title: 'religious views', isDoneButtonVisible: true});
   }
 
   private save():void {
-  }
-
-  ngOnDestroy(): any {
-    this.appStateService.setHeaderVisibility(true);
   }
 }
