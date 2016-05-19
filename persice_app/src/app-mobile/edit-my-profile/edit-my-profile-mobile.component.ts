@@ -7,6 +7,7 @@ import {EditMyProfileNavigationComponent} from './navigation/edit-my-profile-nav
 import {EditInterestsMobileComponent} from './edit-interests';
 import {PersonalInfoMobileComponent} from "./edit-personal-info/personal-info-mobile.component";
 import {ReligiousViewsMobileComponent} from "./edit-religious-views/religious-views-mobile.component";
+import {PoliticalViewsMobileComponent} from "./edit-political-views/political-views-mobile.component";
 
 @Component({
   selector: 'prs-mobile-edit-my-profile',
@@ -34,6 +35,11 @@ import {ReligiousViewsMobileComponent} from "./edit-religious-views/religious-vi
     path: '/religious',
     component: ReligiousViewsMobileComponent,
     name: 'EditReligiousViews'
+  },
+  {
+    path: '/political',
+    component: PoliticalViewsMobileComponent,
+    name: 'EditPoliticalViews'
   }
 ])
 export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
@@ -77,6 +83,9 @@ export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
         break;
       case 'religious views':
         this.router.navigate(['EditPersonalInfo']);
+        break;
+      case 'political views':
+        this.router.navigate(['EditNavigation']);
         break;
 
       default:
