@@ -170,14 +170,6 @@ export abstract class ManageGoalsOffersComponent {
     }
   }
 
-  private _refreshList() {
-    this.items = [];
-    this.isListEmpty = false;
-    this.next = '';
-    this.total_count = 0;
-    this.getList();
-  }
-
   /**
    * Parse the response from server and render received items.
    *
