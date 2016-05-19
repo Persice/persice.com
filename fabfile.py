@@ -170,10 +170,32 @@ def restart_app():
 
 
 @task
+def stop_app():
+    sudo('supervisorctl stop bekindred')
+
+
+@task
+def start_app():
+    sudo('supervisorctl start bekindred')
+    sudo('supervisorctl status bekindred')
+
+
+@task
 def restart_celery():
     sudo('supervisorctl stop bekindred-celery')
     sudo('supervisorctl start bekindred-celery')
     sudo('supervisorctl status bekindred-celery')
+
+
+@task
+def start_celery():
+    sudo('supervisorctl start bekindred-celery')
+    sudo('supervisorctl status bekindred-celery')
+
+
+@task
+def stop_celery():
+    sudo('supervisorctl stop bekindred-celery')
 
 
 @task
@@ -189,7 +211,6 @@ def restart_redis():
 @task
 def restart_elasticsearch():
     sudo('service elasticsearch restart')
-    sudo('service elasticsearch start')
 
 
 @task
@@ -207,11 +228,13 @@ def restart_node():
 
 @task
 def reload():
-    restart_celery()
+    stop_celery()
+    stop_app()
     restart_redis()
     restart_memcached()
     restart_elasticsearch()
-    restart_app()
+    start_celery()
+    start_app()
     restart_node()
     restart_nginx()
 
