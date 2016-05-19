@@ -11,6 +11,7 @@ describe('Facebook', () => {
 
     // then
     expect(network.name).toEqual('facebook');
+    expect(network.id).toEqual('alice');
     expect(network.url).toEqual('https://www.facebook.com/app_scoped_user_id/alice');
   });
 });

@@ -77,7 +77,6 @@ const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
     component: MyProfileMobileComponent,
     name: 'MyProfile'
   }
-
 ])
 @Component({
   selector: 'persice-mobile-app',

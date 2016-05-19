@@ -54,4 +54,24 @@ describe('Person', () => {
       expect(person.topInterests).toContain(interest);
     }
   });
+
+  it('preserves DTO', () => {
+    // given
+    let personDto: any = PersonGenerator.givenAnyPersonDto();
+
+    // when
+    let person: Person = new Person(personDto);
+
+    // then
+    expect(person.toDto().first_name).toEqual(personDto.first_name);
+    expect(person.toDto().last_name).toEqual(personDto.last_name);
+    expect(person.toDto().gender).toEqual(personDto.gender);
+    expect(person.toDto().age).toEqual(personDto.age);
+    expect(person.toDto().distance).toEqual(personDto.distance);
+    expect(person.toDto().goals).toEqual(personDto.goals);
+    expect(person.toDto().interests).toEqual(personDto.interests);
+    expect(person.toDto().facebook_id).toEqual(personDto.facebook_id);
+    expect(person.toDto().twitter_name).toEqual(personDto.twitter_name);
+    expect(person.toDto().linkedin_provider).toEqual(personDto.linkedin_provider);
+  });
 });

@@ -12,16 +12,16 @@ export class PersonGenerator {
       about: '',
       lives_in: '',
       position: {job: null, company: null},
-      first_name: `${this.givenAnyFirstName()}`,
-      last_name: `${this.givenAnyLastName()}`,
-      distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
-      top_interests: `${this.givenAnyTopInterests()}`,
-      gender: `${this.givenAnyGenderServerResponse()}`,
-      score: `${this.givenAnyScore()}`,
-      age: `${this.givenAnyAge()}`,
-      facebook_id: `${this.givenAnyFacebookId()}`,
-      twitter_username: `${this.givenAnyTwiiterUsername()}`,
-      linkedin_provider: `${this.givenAnyLinkedinProvider()}`,
+      first_name: this.givenAnyFirstName(),
+      last_name: this.givenAnyLastName(),
+      distance: [this.givenAnyDistance(), this.givenAnyDistanceUnit()],
+      top_interests: this.givenAnyTopInterests(),
+      gender: this.givenAnyGenderServerResponse(),
+      score: this.givenAnyScore(),
+      age: this.givenAnyAge(),
+      facebook_id: this.givenAnyFacebookId(),
+      twitter_username: this.givenAnyTwiiterUsername(),
+      linkedin_provider: this.givenAnyLinkedinProvider(),
     };
   }
 
@@ -35,14 +35,14 @@ export class PersonGenerator {
       about: '',
       lives_in: '',
       position: {job: null, company: null},
-      first_name: `${this.givenAnyFirstName()}`,
-      last_name: `${this.givenAnyLastName()}`,
-      distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
-      top_interests: `${this.givenAnyTopInterests()}`,
-      gender: `${this.givenAnyGenderServerResponse()}`,
-      score: `${this.givenAnyScore()}`,
-      age: `${this.givenAnyAge()}`,
-      facebook_id: `${this.givenAnyFacebookId()}`,
+      first_name: this.givenAnyFirstName(),
+      last_name: this.givenAnyLastName(),
+      distance: [this.givenAnyDistance(), this.givenAnyDistanceUnit()],
+      top_interests: this.givenAnyTopInterests(),
+      gender: this.givenAnyGenderServerResponse(),
+      score: this.givenAnyScore(),
+      age: this.givenAnyAge(),
+      facebook_id: this.givenAnyFacebookId(),
       twitter_username: null,
       linkedin_provider: null,
     };
@@ -58,16 +58,16 @@ export class PersonGenerator {
       about: '',
       lives_in: '',
       position: {job: null, company: null},
-      first_name: `${this.givenAnyFirstName()}`,
-      last_name: `${this.givenAnyLastName()}`,
-      distance: [`${this.givenAnyDistance()}`, `${this.givenAnyDistanceUnit()}`],
+      first_name: this.givenAnyFirstName(),
+      last_name: this.givenAnyLastName(),
+      distance: [this.givenAnyDistance(), this.givenAnyDistanceUnit()],
       top_interests: [],
-      gender: `${this.givenAnyGenderServerResponse()}`,
-      score: `${this.givenAnyScore()}`,
-      age: `${this.givenAnyAge()}`,
-      facebook_id: `${this.givenAnyFacebookId()}`,
-      twitter_username: `${this.givenAnyTwiiterUsername()}`,
-      linkedin_provider: `${this.givenAnyLinkedinProvider()}`,
+      gender: this.givenAnyGenderServerResponse(),
+      score: this.givenAnyScore(),
+      age: this.givenAnyAge(),
+      facebook_id: this.givenAnyFacebookId(),
+      twitter_username: this.givenAnyTwiiterUsername(),
+      linkedin_provider: this.givenAnyLinkedinProvider(),
     };
   }
 
@@ -96,13 +96,13 @@ export class PersonGenerator {
   }
 
   public static givenAnyTopInterests(): any {
-    return {
+    return [{
       acting: 0,
       bird: 0,
       learn: 1,
       swimming: 0,
       coding: 0
-    };
+    }];
   }
 
   public static givenAnyGenderServerResponse(): string {

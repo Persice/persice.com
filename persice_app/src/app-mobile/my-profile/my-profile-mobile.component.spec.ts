@@ -110,7 +110,7 @@ describe('My profile mobile component', () => {
     fixture.detectChanges();
 
     // then
-    expect(displayedAge()).toBe(aPersonDto.age);
+    expect(displayedAge()).toBe(aPersonDto.age.toString());
   });
 
   it('should show lives in inside profile box', () => {

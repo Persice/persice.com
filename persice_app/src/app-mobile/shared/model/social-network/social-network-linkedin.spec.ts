@@ -11,6 +11,7 @@ describe('Linkedin', () => {
 
     // then
     expect(network.name).toEqual('linkedin');
+    expect(network.id).toEqual('alice');
     expect(network.url).toEqual('alice');
   });
 

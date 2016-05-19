@@ -1,5 +1,5 @@
 import {Pipe, Injectable, PipeTransform} from '@angular/core';
-import {Person} from "../../../app-mobile/shared/model/person";
+import {Gender} from "../../../app-mobile/shared/model/gender";
 
 @Injectable()
 @Pipe({
@@ -7,6 +7,6 @@ import {Person} from "../../../app-mobile/shared/model/person";
 })
 export class GenderPipe implements PipeTransform {
   transform(value: string, args: any[]): string {
-    return Person.parseGender(value);
+    return Gender.parseGender(value);
   }
 }

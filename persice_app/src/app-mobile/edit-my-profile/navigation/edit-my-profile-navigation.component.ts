@@ -1,8 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
-import {AppStateService} from '../shared/services';
-import {InterestsService, GoalsService, OffersService, PhotosService}
-from '../../app/shared/services';
+import {CookieUtil} from "../../../app/shared/core/util";
+import {InterestsService} from "../../../app/shared/services/interests.service";
+import {GoalsService} from "../../../app/shared/services/goals.service";
+import {OffersService} from "../../../app/shared/services/offers.service";
+import {PhotosService} from "../../../app/shared/services/photos.service";
+import {AppStateService} from "../../shared/services/app-state.service";
 
 @Component({
   selector: 'prs-mobile-edit-my-profile-navigation',
@@ -16,6 +19,7 @@ export class EditMyProfileNavigationComponent implements OnInit {
   public offersCounter: number = 0;
   public goalsCounter: number = 0;
   public photosCounter: number = 0;
+  private usernameFromCookie: string;
 
   constructor(
     private interestsService: InterestsService,
@@ -23,7 +27,9 @@ export class EditMyProfileNavigationComponent implements OnInit {
     private offersService: OffersService,
     private photosService: PhotosService,
     private appStateService: AppStateService
-  ) { }
+  ) {
+      this.usernameFromCookie = CookieUtil.getValue('user_username');
+  }
 
   ngOnInit() {
     this._getCounters();
@@ -43,6 +49,4 @@ export class EditMyProfileNavigationComponent implements OnInit {
     this.photosService.getCount()
       .subscribe((count: number) => this.photosCounter = count);
   }
-
-
 }
