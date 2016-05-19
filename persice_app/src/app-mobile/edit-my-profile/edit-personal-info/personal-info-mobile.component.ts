@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ElementRef, AfterViewChecked} from '@angular/core';
+import {Component, OnInit, ElementRef, AfterViewChecked} from '@angular/core';
 import {Observable} from "rxjs/Rx";
 import {ProfileService} from "../../../app/shared/services/profile.service";
 import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
@@ -11,7 +11,7 @@ import {CookieUtil} from "../../../app/shared/core/util";
   template: require('./personal-info-mobile.html'),
   providers: [ProfileService, LoadingComponent],
 })
-export class PersonalInfoMobileComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
 
   private me: Person;
   private usernameFromCookie: string;

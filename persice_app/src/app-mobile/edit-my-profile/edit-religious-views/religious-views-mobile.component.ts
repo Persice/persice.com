@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Person} from "../../shared/model/person";
 import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
 import {AppStateService} from "../../shared/services/app-state.service";
@@ -9,7 +9,7 @@ import {CookieUtil} from "../../../app/shared/core/util";
   template: require('./religious-views-mobile.html'),
   providers: [LoadingComponent],
 })
-export class ReligiousViewsMobileComponent implements OnInit, OnDestroy {
+export class ReligiousViewsMobileComponent implements OnInit {
 
   private me:Person;
   private usernameFromCookie:string;
