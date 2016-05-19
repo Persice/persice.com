@@ -5,6 +5,7 @@ import {
   EventEmitter,
   AfterViewInit
 } from '@angular/core';
+import {RouterLink} from '@angular/router-deprecated';
 import {
   OpenLeftMenuDirective,
 } from '../shared/directives';
@@ -29,7 +30,8 @@ import {ConnectionsService} from '../../common/connections';
     AboutMobileComponent,
     ItemsListMobileComponent,
     ConnectionsListMobileComponent,
-    OpenLeftMenuDirective
+    OpenLeftMenuDirective,
+    RouterLink
   ],
   providers: [
     MutualFriendsService,

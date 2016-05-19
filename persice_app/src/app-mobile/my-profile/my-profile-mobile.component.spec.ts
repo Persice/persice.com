@@ -5,7 +5,16 @@ import {TestComponentBuilder} from '@angular/compiler/testing';
 import {RouteParams} from '@angular/router-deprecated';
 import {BaseRequestOptions, Http } from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {SpyLocation} from '@angular/common/testing';
+import {RootRouter} from '@angular/router-deprecated/src/router';
+import {Location} from '@angular/common';
+import {
+  ROUTER_PRIMARY_COMPONENT,
+  Router,
+  RouteRegistry
+} from '@angular/router-deprecated';
 
+import {AppMobileComponent} from "../app-mobile.component";
 import {provide, Provider} from '@angular/core';
 import {Observable} from 'rxjs';
 import {MyProfileMobileComponent} from "./my-profile-mobile.component";
@@ -49,7 +58,11 @@ describe('My profile mobile component', () => {
       }),
       AppStateService,
       provide(RouteParams,
-        { useValue: new RouteParams({ username: PersonGenerator.givenAnyFirstName() }) })
+        { useValue: new RouteParams({ username: PersonGenerator.givenAnyFirstName() }) }),
+      RouteRegistry,
+      provide(Location, { useClass: SpyLocation }),
+      provide(Router, { useClass: RootRouter }),
+      provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent })
     ];
   });
 
