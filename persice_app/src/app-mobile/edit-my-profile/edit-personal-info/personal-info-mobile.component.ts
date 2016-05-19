@@ -1,5 +1,6 @@
 import {Component, OnInit, ElementRef, AfterViewChecked} from '@angular/core';
-import {Observable} from "rxjs/Rx";
+import {RouterLink} from '@angular/router-deprecated';
+import {Observable} from "rxjs";
 import {ProfileService} from "../../../app/shared/services/profile.service";
 import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
 import {Person} from "../../shared/model/person";
@@ -10,7 +11,7 @@ import {CookieUtil} from "../../../app/shared/core/util";
   selector: 'prs-mobile-personal-info',
   template: require('./personal-info-mobile.html'),
   providers: [ProfileService],
-  directives: [LoadingComponent]
+  directives: [LoadingComponent, RouterLink]
 })
 export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
 
