@@ -20,10 +20,8 @@ def migrate_all_friendships_to_neo():
                                     Q(status__in=[1, 0],
                                       friend2__is_active=True,
                                       friend1__is_active=True))
-    ids = list(friends.values_list('friend1', flat=True))
-    ids2 = list(friends.values_list('friend2', flat=True))
-    result_ids = ids + ids2
-    users = FacebookCustomUser.objects.filter(pk__in=result_ids)
+    users = FacebookCustomUser.objects.filter(is_active=True, is_staff=False,
+                                              is_superuser=False)
     print users
     for user in users:
         a = Node("Person", user_id=user.pk,
