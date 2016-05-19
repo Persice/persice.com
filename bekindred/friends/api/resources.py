@@ -22,6 +22,49 @@ from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
 
 
+class NeoFriendsResource(Resource):
+    id = fields.CharField(attribute='id')
+    user_id = fields.CharField(attribute='user_id')
+
+    class Meta:
+        resource_name = 'friends'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        pass
+
+    def obj_delete_list(self, bundle, **kwargs):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+    def obj_get_list(self, bundle, **kwargs):
+        pass
+
+    def obj_update(self, bundle, **kwargs):
+        pass
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        pass
+
+    def obj_delete_list_for_update(self, bundle, **kwargs):
+        pass
+
+    def apply_filters(self, request, applicable_filters):
+        pass
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_create(self, bundle, **kwargs):
+        pass
+
+    def obj_delete(self, bundle, **kwargs):
+        pass
+
+
 class FriendsResource(ModelResource):
     friend1 = fields.ForeignKey(UserResource, 'friend1')
     friend2 = fields.ForeignKey(UserResource, 'friend2')
