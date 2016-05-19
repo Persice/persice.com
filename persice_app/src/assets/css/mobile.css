@@ -10260,3 +10260,7 @@ html {
 .search__tags-wrapper {
   background: #eff4f6;
 }
+
+.edit-info-list, .link-to-list {
+  height: calc(100vh - 40px)!important;
+}

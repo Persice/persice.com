@@ -9,7 +9,8 @@ import {CookieUtil} from "../../../app/shared/core/util";
 @Component({
   selector: 'prs-mobile-personal-info',
   template: require('./personal-info-mobile.html'),
-  providers: [ProfileService, LoadingComponent],
+  providers: [ProfileService],
+  directives: [LoadingComponent]
 })
 export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
 
