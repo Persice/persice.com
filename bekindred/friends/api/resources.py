@@ -4,6 +4,7 @@ import json
 import re
 import redis
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.utils.timezone import now
 from tastypie import fields
@@ -11,6 +12,7 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL
+from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
 
 from events.models import FilterState
@@ -22,6 +24,37 @@ from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
 import logging
 logger = logging.getLogger(__name__)
+
+
+class LoggingMixin(object):
+    def dispatch(self, request_type, request, **kwargs):
+        logger.debug(
+            '"%s %s"' %
+            (request.method, request.get_full_path()))
+
+        try:
+            response = super(LoggingMixin, self).dispatch(
+                request_type, request, **kwargs)
+        except (BadRequest, fields.ApiFieldError), e:
+            logger.debug(
+                'Response 400 %s' % e.args[0])
+            raise
+        except ValidationError, e:
+            logger.debug(
+                'Response 400 %s' % e.messages)
+            raise
+        except Exception, e:
+            if hasattr(e, 'response'):
+                logger.debug(
+                    'Response %s %s' %
+                    (e.response.status_code, e.response.content))
+            else:
+                logger.debug('Response 500')
+            raise
+
+        logger.debug(
+            'Response %s %s' % (response.status_code, response.content))
+        return response
 
 
 class NeoFriendsResource(Resource):
@@ -183,7 +216,7 @@ class ConnectionsSearchResource(Resource):
         pass
 
 
-class ConnectionsResource(Resource):
+class ConnectionsResource(LoggingMixin, Resource):
     id = fields.CharField(attribute='id')
     facebook_id = fields.CharField(attribute='facebook_id', null=True)
     username = fields.CharField(attribute='username', null=True)
