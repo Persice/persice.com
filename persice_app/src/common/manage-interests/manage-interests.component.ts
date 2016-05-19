@@ -236,8 +236,10 @@ export abstract class ManageInterestsComponent {
         this.items[index].interest_resource = null;
         this.counter--;
         this.afterCounterChanged();
+        this.itemBeingAddedFromTypeahead = false;
       }, (err) => {
         this.status = 'failure';
+        this.itemBeingAddedFromTypeahead = false;
       });
   }
 
@@ -286,6 +288,7 @@ export abstract class ManageInterestsComponent {
       }, (err) => {
         this.status = 'failure';
         this.interestBeingSaved = false;
+        this.itemBeingAddedFromTypeahead = false;
       });
   }
 
