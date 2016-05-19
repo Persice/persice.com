@@ -32,7 +32,7 @@ class TestFriendResource(ResourceTestCase):
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 0,
-            }
+        }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data)
         self.assertHttpCreated(resp)
@@ -43,7 +43,7 @@ class TestFriendResource(ResourceTestCase):
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': 0,
-            }
+        }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data)
         self.assertHttpCreated(resp)
@@ -54,12 +54,12 @@ class TestFriendResource(ResourceTestCase):
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 0,
-            }
+        }
         post_data2 = {
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 1,
-            }
+        }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
         self.assertHttpCreated(resp)
@@ -72,12 +72,12 @@ class TestFriendResource(ResourceTestCase):
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 0,
-            }
+        }
         post_data2 = {
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': 1,
-            }
+        }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
         self.assertHttpCreated(resp)
@@ -91,12 +91,12 @@ class TestFriendResource(ResourceTestCase):
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 0,
-            }
+        }
         post_data2 = {
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': -1,
-            }
+        }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
         self.assertHttpCreated(resp)
@@ -110,12 +110,12 @@ class TestFriendResource(ResourceTestCase):
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 0,
-            }
+        }
         post_data2 = {
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': -1,
-            }
+        }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
         self.assertHttpCreated(resp)
@@ -129,22 +129,22 @@ class TestFriendResource(ResourceTestCase):
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 0,
-            }
+        }
         post_data2 = {
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': 1,
-            }
+        }
         post_data3 = {
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user2.pk),
             'status': 0,
-            }
+        }
         post_data4 = {
             'friend1': '/api/v1/auth/user/{0}/'.format(self.user2.pk),
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': 1,
-            }
+        }
         self.response = self.login()
         resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
         self.assertHttpCreated(resp)

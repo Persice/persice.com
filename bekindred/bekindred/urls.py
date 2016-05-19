@@ -10,7 +10,7 @@ from events.api.resources import (AboutMeResource, EventAttendees,
 from friends.api.resources import (ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
-                                   ConnectionsResource)
+                                   ConnectionsResource, NeoFriendsResource)
 from goals.api.resources import (FacebookLikeResource, GoalResource,
                                  MatchFilterStateResource, OfferResource,
                                  SubjectResource)
@@ -67,6 +67,8 @@ v1_api.register(PoliticalViewResource())
 v1_api.register(PoliticalIndexResource())
 v1_api.register(UserProfileResource())
 
+v2_api = Api(api_name='v2')
+v1_api.register(NeoFriendsResource())
 
 urlpatterns = patterns('',
                        url(r'^signup/interests', 'goals.views.signup_page',
@@ -80,6 +82,7 @@ urlpatterns = patterns('',
                        url(r'^signup/$', 'goals.views.signup_page',
                            name='onboardingflow'),
                        url(r'^api/', include(v1_api.urls)),
+                       url(r'^api/', include(v2_api.urls)),
                        url(r'^facebook/', include('django_facebook.urls')),
                        url(r'^social/', include('social_auth.urls')),
                        url(r'^goals/close_login_popup/$', 'goals.views.close_login_popup', name='close_login_popup'),

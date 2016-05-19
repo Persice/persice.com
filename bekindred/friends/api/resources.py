@@ -20,6 +20,8 @@ from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
+import logging
+logger = logging.getLogger(__name__)
 
 
 class NeoFriendsResource(Resource):
