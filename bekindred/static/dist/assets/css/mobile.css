@@ -10256,3 +10256,7 @@ html {
 .user-profile-container.my-profile {
   padding-bottom: 1px!important;
 }
+
+.search__tags-wrapper {
+  background: #eff4f6;
+}
