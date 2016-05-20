@@ -67,6 +67,7 @@ class UserResource(ModelResource):
     onboardingflow = fields.OneToOneField(OnBoardingFlowResource,
                                           'onboardingflow',
                                           full=True, null=True)
+    image = fields.FileField(attribute='image', null=True, readonly=True)
 
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
