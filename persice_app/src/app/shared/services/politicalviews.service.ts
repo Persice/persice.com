@@ -50,7 +50,7 @@ export class PoliticalViewsService {
           name: view.name,
           url: view.resource_uri,
           selected: false
-        })
+        });
       }
       return this.my('', 100);
     }).subscribe((resp) => {
