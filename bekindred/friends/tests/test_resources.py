@@ -277,7 +277,7 @@ class FriendUtilsTestCase(TestCase):
         n2 = self.neo.create_person(self.neo.person(self.user1))
         self.neo.add_to_friends(n1, n2)
         self.neo.add_to_friends(n2, n1)
-        self.neo.remove_from_friends(n1, n2)
+        self.neo.remove_from_friends(self.user.id, self.user1.id)
         ids = self.neo.get_my_friends_ids(self.user.id)
         self.assertEqual(ids, [])
 
