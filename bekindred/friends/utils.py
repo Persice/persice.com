@@ -62,19 +62,37 @@ class NeoFourJ(object):
         return self.graph.create(node)[0]
 
     def get_person(self, user):
+        if isinstance(user, int):
+            user_id = user
+        else:
+            user_id = user.id
         return self.graph.find_one('Person', property_key='user_id',
-                                   property_value=user.id)
+                                   property_value=user_id)
 
     def add_to_friends(self, node1, node2):
         rel = Relationship(node1, "FRIENDS", node2)
         self.graph.create_unique(rel)
 
+    def remove_from_friends(self, user_id1, user_id2):
+        return self.graph.cypher.execute("""
+            MATCH (n)-[rel:FRIENDS]->(r)
+            WHERE n.user_id={USER_ID1} AND r.user_id={USER_ID2}
+            DELETE rel
+        """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+
     def get_my_friends(self, user_id):
         return self.graph.cypher.execute("""
             MATCH (Person { user_id:{USER_ID} })-[:FRIENDS]->(n)
             -[:FRIENDS]->(Person { user_id:{USER_ID} })
-            return n.name, n.user_id
+            return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
         """, {'USER_ID': user_id})
+
+    def get_my_friends_ids(self, user_id):
+        my_friends = self.get_my_friends(user_id)
+        results = []
+        for record in my_friends:
+            results.append(record.user_id)
+        return results
 
     def check_friendship(self, user_id1, user_id2):
         return self.graph.cypher.execute("""
@@ -83,3 +101,17 @@ class NeoFourJ(object):
             (Person { user_id:{USER_ID1} })
             return n.name, n.user_id
         """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+
+    def get_or_create_node(self, user_id):
+        """
+        This function return new person or get existing
+        also return created flag
+        :param user_id:
+        :return:
+        """
+        person = self.get_person(user_id)
+        if person:
+            return person, False
+        else:
+            person = self.create_person(self.person(user_id))
+            return person, True

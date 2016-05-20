@@ -68,7 +68,7 @@ v1_api.register(PoliticalIndexResource())
 v1_api.register(UserProfileResource())
 
 v2_api = Api(api_name='v2')
-v1_api.register(NeoFriendsResource())
+v2_api.register(NeoFriendsResource())
 
 urlpatterns = patterns('',
                        url(r'^signup/interests', 'goals.views.signup_page',

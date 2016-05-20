@@ -3,6 +3,7 @@ import json
 
 import re
 import redis
+from django.conf.urls import url
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db.models import Q
@@ -14,9 +15,11 @@ from tastypie.bundle import Bundle
 from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
+from tastypie.utils import trailing_slash
 
 from events.models import FilterState
 from friends.models import Friend
+from friends.utils import NeoFourJ
 from matchfeed.api.resources import A
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
@@ -57,46 +60,126 @@ class LoggingMixin(object):
         return response
 
 
+class NeoObject(object):
+    def __init__(self, initial=None):
+        self.__dict__['_data'] = {}
+
+        if hasattr(initial, 'items'):
+            self.__dict__['_data'] = initial
+
+    def __getattr__(self, name):
+        return self._data.get(name, None)
+
+    def __setattr__(self, name, value):
+        self.__dict__['_data'][name] = value
+
+    def to_dict(self):
+        return self._data
+
+
 class NeoFriendsResource(Resource):
-    id = fields.CharField(attribute='id')
-    user_id = fields.CharField(attribute='user_id')
+    id = fields.IntegerField(attribute='id')
+    user_id = fields.IntegerField(attribute='user_id')
+    name = fields.CharField(attribute='name')
 
     class Meta:
         resource_name = 'friends'
+        object_class = NeoObject
+        always_return_data = True
         authentication = SessionAuthentication()
         authorization = Authorization()
 
+    # Specific to this resource, just to get the needed Riak bits.
+    def _client(self):
+        return NeoFourJ()
+
+    # The following methods will need overriding regardless of your
+    # data source.
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
     def get_object_list(self, request):
+        my_friends = self._client().get_my_friends(request.user.id)
+        results = []
+        for result in my_friends.records:
+            new_obj = NeoObject()
+            new_obj.id = result['id']
+            new_obj.name = result['node_name']
+            new_obj.user_id = result['user_id']
+            results.append(new_obj)
+
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        return self.get_object_list(bundle.request)
+
+    def obj_get(self, bundle, **kwargs):
+        bucket = self._bucket()
+        message = bucket.get(kwargs['pk'])
+        return NeoObject(initial=message.get_data())
+
+    def obj_create(self, bundle, **kwargs):
+        bundle.obj = NeoObject()
+        bundle = self.full_hydrate(bundle)
+        client = self._client()
+
+        current_user_id = bundle.request.user.id
+        target_user_id = bundle.data.get('user_id')
+
+        if not target_user_id:
+            raise BadRequest
+
+        if current_user_id == target_user_id:
+            raise BadRequest
+
+        node1, _ = client.get_or_create_node(bundle.request.user.id)
+        node2, _ = client.get_or_create_node(bundle.data.get('user_id'))
+        client.add_to_friends(node1, node2)
+        bundle.obj.id = node2._id
+        bundle.obj.name = node2['name']
+        bundle.obj.user_id = node2['user_id']
+        return bundle
+
+    def obj_update(self, bundle, **kwargs):
+        return self.obj_create(bundle, **kwargs)
+
+    def obj_delete(self, bundle, **kwargs):
         pass
 
     def obj_delete_list(self, bundle, **kwargs):
-        pass
+        bundle.obj = NeoObject()
+        bundle = self.full_hydrate(bundle)
+        client = self._client()
 
-    def obj_get(self, bundle, **kwargs):
-        pass
+        current_user_id = bundle.request.user.id
+        try:
+            target_user_id = json.loads(kwargs['request'].body).get('user_id')
+        except (ValueError, TypeError) as err:
+            target_user_id = None
+            logger.error(err)
 
-    def obj_get_list(self, bundle, **kwargs):
-        pass
+        if not target_user_id:
+            raise BadRequest
 
-    def obj_update(self, bundle, **kwargs):
-        pass
+        if current_user_id == target_user_id:
+            raise BadRequest
 
-    def detail_uri_kwargs(self, bundle_or_obj):
-        pass
-
-    def obj_delete_list_for_update(self, bundle, **kwargs):
-        pass
-
-    def apply_filters(self, request, applicable_filters):
-        pass
+        node1, _ = client.get_or_create_node(current_user_id)
+        node2, _ = client.get_or_create_node(target_user_id)
+        client.remove_from_friends(current_user_id, target_user_id)
+        bundle.obj.id = node2._id
+        bundle.obj.name = node2['name']
+        bundle.obj.user_id = node2['user_id']
+        return bundle
 
     def rollback(self, bundles):
-        pass
-
-    def obj_create(self, bundle, **kwargs):
-        pass
-
-    def obj_delete(self, bundle, **kwargs):
         pass
 
 
