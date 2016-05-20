@@ -48,7 +48,7 @@ export class ReligiousViewsService {
       for (let view of views) {
         result.push({
           name: view.name,
-          url: view.resource_uri,
+          index_url: view.resource_uri,
           selected: false
         });
       }
@@ -58,8 +58,9 @@ export class ReligiousViewsService {
 
       for (let i = 0; i < items.length; i++) {
         for (let j = 0; j < result.length; j++) {
-          if (result[j].url ===  items[i].religious_index) {
+          if (result[j].index_url ===  items[i].religious_index) {
             result[j].selected = true;
+            result[j].view_url = items[i].resource_uri;
           }
         }
       }

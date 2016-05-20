@@ -28,4 +28,25 @@ export class PoliticalViewsMobileComponent implements OnInit {
       this.politicalViews = resp;
     });
   }
+
+  public create(item: any) {
+    this.politicalViewsService.create(item.name).subscribe((resp) => {
+      item.view_url = resp.resource_uri;
+      item.selected = !item.selected;
+    });
+  }
+
+  public delete(item: any) {
+    this.politicalViewsService.delete(item.view_url).subscribe(() => {
+      item.selected = !item.selected;
+    });
+  }
+
+  public toggleState(item: any) {
+    if (!item.selected) {
+      this.create(item);
+    } else {
+      this.delete(item);
+    }
+  }
 }

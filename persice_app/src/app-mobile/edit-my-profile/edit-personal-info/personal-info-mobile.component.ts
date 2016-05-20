@@ -40,10 +40,6 @@ export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
     this.setupDebouncer();
   }
 
-  public goBack() {
-    console.log('back');
-  }
-
   private save(): void {
     this.profileService.updateAboutMe(this.me.about).subscribe(() => { });
   }
@@ -67,5 +63,4 @@ export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
         this.save();
       });
   }
-
 }

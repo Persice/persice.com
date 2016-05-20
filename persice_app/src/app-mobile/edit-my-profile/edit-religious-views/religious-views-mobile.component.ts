@@ -28,4 +28,25 @@ export class ReligiousViewsMobileComponent implements OnInit {
       this.religiousViews = resp;
     });
   }
+
+  public create(item: any) {
+    this.religiousViewsService.create(item.name).subscribe((resp) => {
+      item.view_url = resp.resource_uri;
+      item.selected = !item.selected;
+    });
+  }
+
+  public delete(item: any) {
+    this.religiousViewsService.delete(item.view_url).subscribe(() => {
+      item.selected = !item.selected;
+    });
+  }
+
+  public toggleState(item: any) {
+    if (!item.selected) {
+      this.create(item);
+    } else {
+      this.delete(item);
+    }
+  }
 }
