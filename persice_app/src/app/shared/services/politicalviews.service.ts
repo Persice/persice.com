@@ -1,4 +1,4 @@
-import {provide, Injectable} from '@angular/core';
+import {provide, Injectable, EventEmitter} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
 
@@ -11,6 +11,7 @@ export class PoliticalViewsService {
   static API_URL: string = '/api/v1/political_view/';
   static API_URL_INDEX: string = '/api/v1/political_index/';
   next: string = '';
+  public emitter: EventEmitter<any> = new EventEmitter();
 
   constructor(private http: HttpClient) {
 
@@ -31,6 +32,40 @@ export class PoliticalViewsService {
     }
 
     return this.http.get(this.next).map((res: Response) => res.json());
+  }
+
+  public getAllPoliticalViewsWithStatus(): void {
+    let params: string = [
+      `format=json`,
+      `limit=100`,
+      `offset=0`,
+    ].join('&');
+
+    let url = `${PoliticalViewsService.API_URL_INDEX}?${params}`;
+
+    let result: any[] = [];
+    this.http.get(url).map((res: Response) => res.json().objects).mergeMap((views: any[]) => {
+      for (let view of views) {
+        result.push({
+          name: view.name,
+          url: view.resource_uri,
+          selected: false
+        })
+      }
+      return this.my('', 100);
+    }).subscribe((resp) => {
+      let items = resp.objects;
+
+      for (let i = 0; i < items.length; i++) {
+        for (let j = 0; j < result.length; j++) {
+          if (result[j].url ===  items[i].political_index) {
+            result[j].selected = true;
+          }
+        }
+      }
+
+      this.emitter.emit(result);
+    });
   }
 
   public getIndex(url: string, limit: number): Observable<any> {

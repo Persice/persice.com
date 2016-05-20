@@ -1,61 +1,7 @@
-<div class="container">
- <div class="content">
-  <ul class="mob-multiselect">
-   <li class="js-mob-multiselect__item"> Atheist
+<ul class="mob-multiselect">
+  <li class="js-mob-multiselect__item" *ngFor="let item of religiousViews" [ngClass]="{'is-selected': item.selected}"> {{item.name}}
     <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
+      <use xlink:href="static/assets/icons/icons.svg#icon-drop-checker"></use>
     </svg>
     <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Agnostic
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Buddhist
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Catholic
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Christian
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Hindu
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Jewish
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Muslim
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Spiritual
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Unitarian / Universalist
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-   <li class="js-mob-multiselect__item"> Other
-    <svg role="img" class="icon icon--tiny icon-check">
-     <use xlink:href="icons/icons.svg#icon-drop-checker"></use>
-    </svg>
-    <input type="checkbox" class="mob-multiselect__item__checkbox"> </li>
-  </ul>
- </div>
-</div>
+</ul>
