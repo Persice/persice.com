@@ -140,7 +140,7 @@ export class Person {
   }
 
   get jobDescription(): string {
-    return `${this._job} at ${this._company}`
+    return `${this._job} at ${this._company}`;
   }
 
   get facebookUrl() {
@@ -212,7 +212,7 @@ export class Person {
       interests: this.interests,
       about: this.about,
       lives_in: this.livesIn,
-      position: {job: this.job, company: this.company},
+      position: { job: this.job, company: this.company },
       first_name: this.firstName,
       last_name: this.lastName,
       distance: [this.distance, this.distanceUnit],

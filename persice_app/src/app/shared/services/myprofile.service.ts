@@ -18,9 +18,9 @@ export class MyProfileService {
     let userId = CookieUtil.getValue('userid');
     let url = this.buildUrl(userId);
     return this.http.get(url)
-    .map((res: Response) => {
-      return res.json();
-    });
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
   public update(data): Observable<any> {
@@ -29,14 +29,14 @@ export class MyProfileService {
     let body = JSON.stringify(data);
 
     return this.http.patch(url, body, OPTS_REQ_JSON_CSRF)
-    .map((res: Response) => res.json());
+      .map((res: Response) => res.json());
   }
 
-  private buildUrl(userId:string) {
+  private buildUrl(userId: string) {
     return `${MyProfileService.API_URL}${userId}/?format=json`;
   }
 }
 
 export var myProfileServiceInjectables: Array<any> = [
-provide(MyProfileService, { useClass: MyProfileService })
+  provide(MyProfileService, { useClass: MyProfileService })
 ];

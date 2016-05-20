@@ -29,7 +29,7 @@ export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState({title: 'personal info', isDoneButtonVisible: true});
+    this.appStateService.setEditMyProfileState({ title: 'personal info', isDoneButtonVisible: true });
     this.profileService.ofUsername(this.usernameFromCookie).subscribe(resp => {
       this.me = new Person(resp);
       this.isProfileLoaded = true;
@@ -41,7 +41,7 @@ export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
   }
 
   private save(): void {
-    this.profileService.updateAboutMe(this.me.about).subscribe(() => {});
+    this.profileService.updateAboutMe(this.me.about).subscribe(() => { });
   }
 
   private setupDebouncer(): void {
@@ -54,17 +54,13 @@ export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
 
     // Do nothing if we already registered a debouncer.
     if (this.isDebouncerSet) {
-      return
+      return;
     }
 
     this.isDebouncerSet = true;
-    Observable.fromEvent(inputElement , 'keyup')
+    Observable.fromEvent(inputElement, 'keyup')
       .debounceTime(500).subscribe(() => {
-      this.save();
-    });
-  }
-
-  public goBack() {
-    console.log('back');
+        this.save();
+      });
   }
 }

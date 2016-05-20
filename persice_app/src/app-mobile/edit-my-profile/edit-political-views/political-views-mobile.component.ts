@@ -16,16 +16,37 @@ export class PoliticalViewsMobileComponent implements OnInit {
   constructor(
     private appStateService: AppStateService,
     private politicalViewsService: PoliticalViewsService
-) {
+  ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
     this.politicalViewsService.getAllPoliticalViewsWithStatus();
   }
 
-  ngOnInit():any {
+  ngOnInit(): any {
     this.appStateService.setEditMyProfileState(
-      {title: 'political views', isDoneButtonVisible: true});
+      { title: 'political views', isDoneButtonVisible: true });
     this.politicalViewsService.emitter.subscribe((resp) => {
       this.politicalViews = resp;
-    })
+    });
+  }
+
+  public create(item: any) {
+    this.politicalViewsService.create(item.name).subscribe((resp) => {
+      item.view_url = resp.resource_uri;
+      item.selected = !item.selected;
+    });
+  }
+
+  public delete(item: any) {
+    this.politicalViewsService.delete(item.view_url).subscribe(() => {
+      item.selected = !item.selected;
+    });
+  }
+
+  public toggleState(item: any) {
+    if (!item.selected) {
+      this.create(item);
+    } else {
+      this.delete(item);
+    }
   }
 }
