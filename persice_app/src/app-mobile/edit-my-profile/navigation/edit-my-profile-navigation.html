@@ -3,7 +3,7 @@
     <a [routerLink]="['../EditPersonalInfo']">
       <div class="layout layout--top layout--flush">
         <div class="layout__item 2/3">
-          <span class="profile-titleline">Personal info</span>
+          <span class="profile-titleline"><span class="profile-titleline__0">Personal info</span></span>
         </div>
         <div class="layout__item 1/3 text-right">
           <svg role="img" class="icon icon--tiny mr--">
@@ -17,8 +17,8 @@
     <a>
       <div class="layout layout--top layout--flush">
         <div class="layout__item 2/3">
-          <span class="profile-titleline">Photos
-            <span class="profile-titleline__value">({{photosCounter}})</span>
+          <span class="profile-titleline"><span class="profile-titleline__1">Photos</span>
+            <span class="profile-titleline__value" id="photos-counter">({{photosCounter}})</span>
           </span>
         </div>
         <div class="layout__item 1/3 text-right">
@@ -33,8 +33,8 @@
     <a [routerLink]="['../EditInterests']">
       <div class="layout layout--top layout--flush">
         <div class="layout__item 2/3">
-          <span class="profile-titleline">Interests
-            <span class="profile-titleline__value">({{interestsCounter}})</span>
+          <span class="profile-titleline"><span class="profile-titleline__2">Interests</span>
+          <span class="profile-titleline__value" id="interests-counter">({{interestsCounter}})</span>
           </span>
         </div>
         <div class="layout__item 1/3 text-right">
@@ -49,8 +49,8 @@
     <a>
       <div class="layout layout--top layout--flush">
         <div class="layout__item 2/3">
-          <span class="profile-titleline">Goals
-            <span class="profile-titleline__value">({{goalsCounter}})</span>
+          <span class="profile-titleline"><span class="profile-titleline__3">Goals</span>
+          <span class="profile-titleline__value" id="goals-counter">({{goalsCounter}})</span>
           </span>
         </div>
         <div class="layout__item 1/3 text-right">
@@ -65,8 +65,8 @@
     <a>
       <div class="layout layout--top layout--flush">
         <div class="layout__item 2/3">
-          <span class="profile-titleline">offers
-            <span class="profile-titleline__value">({{offersCounter}})</span>
+          <span class="profile-titleline"><span class="profile-titleline__4">Offers</span>
+          <span class="profile-titleline__value" id="offers-counter">({{offersCounter}})</span>
           </span>
         </div>
         <div class="layout__item 1/3 text-right">
@@ -81,7 +81,7 @@
     <a>
       <div class="layout layout--top layout--flush">
         <div class="layout__item 2/3">
-          <span class="profile-titleline">Social Accounts</span>
+          <span class="profile-titleline"><span class="profile-titleline__5">Social accounts</span></span>
         </div>
         <div class="layout__item 1/3 text-right">
           <svg role="img" class="icon icon--tiny mr--">
