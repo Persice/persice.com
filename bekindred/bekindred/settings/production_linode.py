@@ -139,6 +139,10 @@ LOGGING = {
             'format': '%(levelname)s %(asctime)s %(module)s '
                       '%(process)d %(thread)d %(message)s'
         },
+        'simple': {
+            'format': '[%(asctime)s] %(levelname)s %(message)s',
+            'datefmt': '%d/%b/%Y %H:%M:%S'
+        }
     },
     'handlers': {
         'sentry': {
@@ -161,6 +165,16 @@ LOGGING = {
         'raven': {
             'level': 'INFO',
             'handlers': ['console'],
+            'propagate': True,
+        },
+        'friends': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'events': {
+            'handlers': ['console'],
+            'level': 'INFO',
             'propagate': True,
         },
         'sentry.errors': {

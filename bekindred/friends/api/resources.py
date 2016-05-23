@@ -353,6 +353,7 @@ class ConnectionsResource(LoggingMixin, Resource):
         return kwargs
 
     def get_object_list(self, request):
+        logger.info('Get connections for user_id {}'.format(request.user.id))
         fs = FilterState.objects.filter(user=request.user.id)
 
         cache_match_users = None
