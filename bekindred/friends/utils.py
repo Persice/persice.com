@@ -93,6 +93,12 @@ class NeoFourJ(object):
             return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
         """, {'USER_ID': user_id})
 
+    def get_my_thumbed_up(self, user_id):
+        return self.graph.cypher.execute("""
+            MATCH (Person { user_id:{USER_ID} })-[:FRIENDS|PASSES]->(n)
+            return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
+        """, {'USER_ID': user_id})
+
     def get_my_passes(self, user_id):
         return self.graph.cypher.execute("""
             MATCH (Person { user_id:{USER_ID} })-[:PASSES]->(n)

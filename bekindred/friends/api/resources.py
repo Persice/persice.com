@@ -131,7 +131,11 @@ class NeoFriendsResource(Resource):
         client = self._client()
 
         current_user_id = bundle.request.user.id
-        target_user_id = bundle.data.get('user_id')
+        try:
+            target_user_id = int(bundle.data.get('user_id'))
+        except ValueError as err:
+            target_user_id = None
+            logger.error(err)
         action = bundle.data.get('action')
 
         if not target_user_id:
@@ -372,8 +376,8 @@ class ConnectionsResource(LoggingMixin, Resource):
                 cache_match_users = cache.get('c_%s_%s' %
                                               (request.user.id,
                                                filter_updated_sha))
-            except AttributeError:
-                pass
+            except AttributeError as err:
+                logger.error(err)
         if cache_match_users:
             match_users = cache_match_users
         else:
