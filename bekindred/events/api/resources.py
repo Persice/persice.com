@@ -377,6 +377,8 @@ class EventResource(MultiPartResource, ModelResource):
 
 
 class UserResourceShort(ModelResource):
+    image = fields.FileField(attribute='image', null=True, readonly=True)
+
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
@@ -389,6 +391,8 @@ class UserResourceShort(ModelResource):
 
 
 class UserProfileResource(ModelResource):
+    image = fields.FileField(attribute='image', null=True, readonly=True)
+
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'user_profile'
@@ -401,6 +405,8 @@ class UserProfileResource(ModelResource):
 
 
 class AboutMeResource(ModelResource):
+    image = fields.FileField(attribute='image', null=True, readonly=True)
+
     class Meta:
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'me'

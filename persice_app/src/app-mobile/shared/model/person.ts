@@ -2,6 +2,7 @@ import {ObjectUtil, ListUtil} from "../../../app/shared/core/util";
 import {SocialNetworkFacebook} from "./social-network/social-network-facebook";
 import {SocialNetworkLinkedin} from "./social-network/social-network-linkedin";
 import {SocialNetworkTwitter} from "./social-network/social-network-twitter";
+import {Gender} from "./gender";
 export class Person {
 
   public topInterestsFirstHalf: any[];
@@ -10,7 +11,7 @@ export class Person {
   private _id: string;
   private _firstName: string;
   private _lastName: string;
-  private _gender: string;
+  private _gender: Gender;
   private _age: number;
   private _distance: number;
   private _distanceUnit: string;
@@ -36,29 +37,11 @@ export class Person {
   private _religiousViews: any[];
   private _politicalViews: any[];
 
-
-  static parseGender(value: string) {
-    let retValue: string = '';
-    switch (value) {
-      case 'm':
-        retValue = 'Male';
-        break;
-      case 'f':
-        retValue = 'Female';
-        break;
-      default:
-        retValue = '';
-        break;
-    }
-
-    return retValue;
-  }
-
   constructor(dto: any) {
     this._id = dto.id;
     this._firstName = dto.first_name;
     this._lastName = dto.last_name;
-    this._gender = Person.parseGender(dto.gender);
+    this._gender = new Gender(dto.gender);
     this._age = dto.age;
     this._distance = dto.distance[0];
     this._distanceUnit = dto.distance[1];
@@ -113,7 +96,7 @@ export class Person {
   }
 
   get gender(): string {
-    return this._gender;
+    return this._gender.value;
   }
 
   get age(): number {
@@ -154,6 +137,10 @@ export class Person {
 
   get company(): string {
     return this._company;
+  }
+
+  get jobDescription(): string {
+    return `${this._job} at ${this._company}`;
   }
 
   get facebookUrl() {
@@ -212,4 +199,30 @@ export class Person {
     return this._religiousViews;
   }
 
+  set about(text: string) {
+    this._about = text;
+  }
+
+  public toDto(): any {
+    return {
+      id: this.id,
+      goals: this.goals,
+      offers: this.offers,
+      likes: this.likes,
+      interests: this.interests,
+      about: this.about,
+      lives_in: this.livesIn,
+      position: { job: this.job, company: this.company },
+      first_name: this.firstName,
+      last_name: this.lastName,
+      distance: [this.distance, this.distanceUnit],
+      top_interests: this.topInterests,
+      gender: this._gender.shortCode,
+      score: this.score,
+      age: this.age,
+      facebook_id: this._facebook.id,
+      twitter_username: this._twitter.id,
+      linkedin_provider: this._linkedin.id
+    };
+  }
 }

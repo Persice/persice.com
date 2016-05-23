@@ -33,6 +33,19 @@ export class PhotosService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
+  public getCount(): Observable<any> {
+    let userId = CookieUtil.getValue('userid');
+    let params: string = [
+      `format=json`,
+      `limit=1`,
+      `user_id=${userId}`,
+      `offset=0`,
+    ].join('&');
+    let url = `${PhotosService.API_URL}?${params}`;
+    return this.http.get(url).map((dto: Response) => dto.json().meta.total_count);
+  }
+
+
 
   public delete(url: string, cb: (status: number) => void) {
     let channel = this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json())

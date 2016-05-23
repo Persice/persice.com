@@ -3,14 +3,32 @@ import boto
 import os
 
 paths = [
-    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js",
-    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.js.gz",
-    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map",
-    "/dist/main-mobile.0b31784bf1a5a9031ddd.bundle.map.gz",
+    "/dist/assets/css/mobile.css",
+    "/dist/assets/css/vendor.mobile.min.css",
+    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.js",
+    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.js.gz",
+    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.map",
+    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.map.gz",
+    "/dist/main.bf4dd7fa74f293a1be88.bundle.js",
+    "/dist/main.bf4dd7fa74f293a1be88.bundle.js.gz",
+    "/dist/main.bf4dd7fa74f293a1be88.bundle.map",
+    "/dist/main.bf4dd7fa74f293a1be88.bundle.map.gz",
     "/dist/polyfills.0a5fa375cda8df736015.bundle.js",
     "/dist/polyfills.0a5fa375cda8df736015.bundle.js.gz",
     "/dist/polyfills.0a5fa375cda8df736015.bundle.map",
-    "/dist/polyfills.0a5fa375cda8df736015.bundle.map.gz"
+    "/dist/polyfills.0a5fa375cda8df736015.bundle.map.gz",
+    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.js",
+    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.js.gz",
+    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.map",
+    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.map.gz",
+    "/dist/signup.ed545904d327b2e6befa.bundle.js",
+    "/dist/signup.ed545904d327b2e6befa.bundle.js.gz",
+    "/dist/signup.ed545904d327b2e6befa.bundle.map",
+    "/dist/signup.ed545904d327b2e6befa.bundle.map.gz",
+    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.js",
+    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.js.gz",
+    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.map",
+    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.map.gz"
 ]
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')

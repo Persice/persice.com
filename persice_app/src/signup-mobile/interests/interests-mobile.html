@@ -3,7 +3,15 @@
     <svg role="img" class="icon ">
       <use xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
     </svg>
-    <input [(ngModel)]="newInterest" (keyup)="inputChanged($event)" type="text" class="search__input typeahead" id="interestsInput" placeholder="Enter or select at least three interests">
+    <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text"
+      class="search__input typeahead"
+      id="typeaheadInput"
+      placeholder="Enter or select at least three interests"
+      persice-autocomplete
+      [apiUrl]="AUTOCOMPLETE_API_ENDPOINT"
+      [apiAttr]="AUTOCOMPLETE_API_ATTRIBUTE"
+      [minLength]="MINIMUM_ITEM_LENGTH"
+      (onSelected)="itemSelectedFromAutocomplete($event)">
     <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
       <svg role="img" class="icon ">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
@@ -14,14 +22,16 @@
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
       </svg>
     </div>
-    <button class="btn" (click)="addInterest($event)">
+    <button class="btn" (click)="add($event)">
       <svg role="img" class="icon ">
         <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
       </svg>
     </button>
   </div>
 </div>
-<div class="search__tags-wrapper" id="interests">
+<div class="search__tags-wrapper" prs-infinite-scroll-element (scrolled)="loadMoreItems($event)"
+  [scrollEnabled]="1"
+  [bottomOffset]="60">
   <span (click)="onInterestClick(item)" [ngClass]="{'is-current': item.active}" class="search-tag" *ngFor="let item of items">{{item.description}}</span>
   <prs-loading [status]="loading"></prs-loading>
 </div>

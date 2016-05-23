@@ -1,6 +1,7 @@
 import json
 import string
 import uuid
+import logging
 
 from django.db import models
 from django.db.models import signals
@@ -12,6 +13,7 @@ from events.models import Membership, Event
 from events.tasks import update_index_delay
 from events.tasks import update_match_score
 from friends import Friend
+from friends.utils import NeoFourJ
 from interests.models import PoliticalIndex, PoliticalView, ReligiousIndex, \
     ReligiousView
 from members.models import OnBoardingFlow, FacebookCustomUserActive
@@ -24,8 +26,19 @@ signals.post_delete.connect(update_match_score,
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
+
 def create_neo4j_node(sender, instance, created, **kwargs):
-    pass
+    if created:
+        user = instance.user
+        neo = NeoFourJ()
+        if not neo.get_person(user):
+            neo.create_person(neo.person(user))
+            logger.info('Create Neo4j node with user: {}'.format(user.id))
+
+post_save.connect(create_neo4j_node, sender=OnBoardingFlow)
 
 
 def create_fb_political_view(sender, instance, created, **kwargs):

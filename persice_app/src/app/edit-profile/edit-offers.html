@@ -3,7 +3,7 @@
     <svg role="img" class="icon">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
     </svg>
-    <input [(ngModel)]="newOffer" (keyup)="inputChanged($event)" type="text" id="offersInput" class="search__input typeahead" placeholder="Enter a few offers here">
+    <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text" class="search__input typeahead" placeholder="Enter a few goals here" id="typeaheadInput" persice-autocomplete [apiUrl]="AUTOCOMPLETE_API_ENDPOINT" [apiAttr]="AUTOCOMPLETE_API_ATTRIBUTE" [minLength]="MINIMUM_ITEM_LENGTH" (onSelected)="itemSelectedFromAutocomplete($event)">
     <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
       <svg role="img" class="icon ">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
@@ -15,22 +15,22 @@
       </svg>
     </div>
     <button class="btn">
-      <svg role="img" class="icon" (click)="addOffer($event)">
+      <svg role="img" class="icon" (click)="add($event)">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
       </svg>
     </button>
   </div>
 </div>
-<div class="search__tags-wrapper text-left" id="offers" [ngClass]="{'has-signup-empty-state': isListEmpty}">
+<div class="search__tags-wrapper text-left" [ngClass]="{'has-signup-empty-state': isListEmpty}" prs-infinite-scroll-element (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
   <span class="search-tag-secondary" *ngFor="let item of items">
-      <a (click)="removeOffer(item)">
+      <a (click)="remove(item)">
         <svg role="img" class="icon icon--tiny">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
         </svg>
       </a>
       {{item.subject}}
     </span>
-  <div class="signup-empty-state" [ngClass]="{'is-visible': isListEmpty}">
+  <div class="signup-empty-state is-visible" *ngIf="isListEmpty">
     <svg role="img" class="icon signup-empty-state__icon">
       <use xlink:href="/static/assets/icons/icons.svg#no-offers"></use>
     </svg>
@@ -39,5 +39,6 @@
     <p class="signup-empty-state__par">"Practice speaking Spanish"
       <br>or "Find a tennis partner"</p>
   </div>
+  <prs-loading [status]="loading"></prs-loading>
 </div>
 <prs-edit-footer [loadingEdit]="saveLoading" (close)="close.next($event)"></prs-edit-footer>

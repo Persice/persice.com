@@ -5,6 +5,7 @@ import {
   EventEmitter,
   AfterViewInit
 } from '@angular/core';
+import {RouterLink} from '@angular/router-deprecated';
 import {
   OpenLeftMenuDirective,
 } from '../shared/directives';
@@ -29,7 +30,8 @@ import {ConnectionsService} from '../../common/connections';
     AboutMobileComponent,
     ItemsListMobileComponent,
     ConnectionsListMobileComponent,
-    OpenLeftMenuDirective
+    OpenLeftMenuDirective,
+    RouterLink
   ],
   providers: [
     MutualFriendsService,
@@ -39,6 +41,8 @@ import {ConnectionsService} from '../../common/connections';
 export class UserProfileComponent implements AfterViewInit {
   // Profile type, crowd or connection
   @Input() type: string;
+
+  @Input() username: string;
 
   // When [user] from Input property change, set internal state for our component
   @Input() set user(value) {
