@@ -969,6 +969,20 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return response.hits.hits or response1.hits.hits
 
     @staticmethod
+    def get_user(user_id):
+        client = Elasticsearch()
+
+        s = Search(using=client,
+                   index=settings.HAYSTACK_CONNECTIONS['default'][
+                       'INDEX_NAME']) \
+            .filter(F("ids", type="modelresult",
+                      values=[
+                          'members.facebookcustomuseractive.%s' % user_id]))
+        response = s.execute()
+
+        return response.hits.hits
+
+    @staticmethod
     def match_events(user_id, is_filter=False, feed='my'):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         events = []

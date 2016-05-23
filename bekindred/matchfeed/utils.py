@@ -145,7 +145,8 @@ class MatchedResults(object):
 
 
 class MatchUser(object):
-    def __init__(self, current_user_id, user_object):
+    def __init__(self, current_user_id, user_object,
+                 include_top_interests=True):
         self.user = self.get_user_info(user_object)
         self.goals = self.highlight(user_object, 'goals')
         self.offers = self.highlight(user_object, 'offers')
@@ -169,7 +170,8 @@ class MatchUser(object):
         self.score = self.match_score()
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.get_friends_score(current_user_id, user_object)
-        self.top_interests = self.get_top_interests(user_object)
+        self.top_interests = \
+            self.get_top_interests(user_object) if include_top_interests else []
         self.last_login = self.user.last_login
         self.keywords = self.get_keywords(user_object)
         self.position = get_current_position(self.user)
@@ -527,9 +529,13 @@ class MatchQuerySet(object):
 
     @staticmethod
     def between(user_id1, user_id2):
-        hits = ElasticSearchMatchEngine.elastic_objects.\
-            match_between(user_id1, user_id2)
+        if user_id1 == user_id2:
+            hits = ElasticSearchMatchEngine.elastic_objects. \
+                get_user(user_id1)
+        else:
+            hits = ElasticSearchMatchEngine.elastic_objects.\
+                match_between(user_id1, user_id2)
         users = []
         for hit in hits:
-            users.append(MatchUser(user_id1, hit))
+            users.append(MatchUser(user_id1, hit, include_top_interests=False))
         return users
