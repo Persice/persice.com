@@ -71,6 +71,15 @@ export class PersonGenerator {
     };
   }
 
+  public static givenAnyPersonDtoWithoutInterestsAndDistance(): any {
+    let dto = this.givenAnyPersonDto();
+
+    delete dto.top_interests;
+    delete dto.distance;
+
+    return dto;
+  }
+
   public static givenAnyPerson(): Person {
     return new Person(this.givenAnyPersonDto());
   }
