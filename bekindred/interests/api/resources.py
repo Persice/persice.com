@@ -1,4 +1,5 @@
 import re
+import logging
 from tastypie import fields
 from tastypie.constants import ALL
 from tastypie.authentication import SessionAuthentication
@@ -8,6 +9,8 @@ from tastypie.validation import Validation
 from photos.api.resources import UserResource
 from interests.models import Interest, InterestSubject, ReligiousView, \
     ReligiousIndex, PoliticalIndex, PoliticalView
+
+logger = logging.getLogger(__name__)
 
 
 class InterestValidation(Validation):
@@ -25,7 +28,7 @@ class InterestValidation(Validation):
         try:
             subject = InterestSubject.objects.filter(description=interest_subject)[0]
         except IndexError as err:
-            print err
+            logger.error(err)
 
         user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
         interests = Interest.objects.filter(interest_id=subject.id, user_id=user)
@@ -76,7 +79,7 @@ class InterestResource(ModelResource):
             subject, created = InterestSubject.objects.get_or_create(description=interest_subject)
             return super(InterestResource, self).obj_create(bundle, interest=subject)
         except IndexError as err:
-            print err
+            logger.error(err)
         return super(InterestResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
@@ -86,7 +89,7 @@ class InterestResource(ModelResource):
             bundle.data['interest'] = '/api/v1/interest_subject/{0}/'.format(subject.id)
             return super(InterestResource, self).obj_update(bundle, interest='/api/v1/interest_subject/{0}/'.format(subject.id))
         except IndexError as err:
-            print err
+            logger.error(err)
         return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):
@@ -143,7 +146,7 @@ class ReligiousViewResource(ModelResource):
             bundle.data['religious_index'] = '/api/v1/religious_index/{0}/'.format(subject.id)
             return super(ReligiousViewResource, self).obj_create(bundle, religious_index=subject)
         except IndexError as err:
-            print err
+            logger.error(err)
         return super(ReligiousViewResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
@@ -156,7 +159,7 @@ class ReligiousViewResource(ModelResource):
                     religious_index='/api/v1/religious_index/{0}/'.format(subject.id)
             )
         except IndexError as err:
-            print err
+            logger.error(err)
         return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):
@@ -208,7 +211,7 @@ class PoliticalViewResource(ModelResource):
             bundle.data['political_index'] = '/api/v1/political_index/{0}/'.format(subject.id)
             return super(PoliticalViewResource, self).obj_create(bundle, political_index=subject)
         except IndexError as err:
-            print err
+            logger.error(err)
         return super(PoliticalViewResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
@@ -221,7 +224,7 @@ class PoliticalViewResource(ModelResource):
                     political_index='/api/v1/political_index/{0}/'.format(subject.id)
             )
         except IndexError as err:
-            print err
+            logger.error(err)
         return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):

@@ -1,4 +1,5 @@
 import re
+import logging
 
 from django_facebook.models import FacebookLike
 from tastypie import fields
@@ -11,6 +12,8 @@ from tastypie.validation import Validation
 
 from goals.models import Subject, MatchFilterState, Goal, Offer
 from photos.api.resources import UserResource
+
+logger = logging.getLogger(__name__)
 
 
 class SubjectResource(ModelResource):
@@ -61,7 +64,7 @@ class GoalValidation(Validation):
         try:
             subject = Subject.objects.filter(description=goal_subject)[0]
         except IndexError as err:
-            print err
+            logger.error()
 
         user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
         goals = Goal.objects.filter(goal_id=subject.id, user_id=user)
@@ -91,7 +94,7 @@ class OfferValidation(Validation):
         try:
             subject = Subject.objects.filter(description=offer_subject)[0]
         except IndexError as err:
-            print err
+            logger.error(err)
 
         user = re.findall(r'/(\d+)/', bundle.data['user'])[0]
         goals = Goal.objects.filter(goal_id=subject.id, user_id=user)
@@ -129,7 +132,7 @@ class GoalResource(ModelResource):
             subject, created = Subject.objects.get_or_create(description=goal_subject)
             return super(GoalResource, self).obj_create(bundle, goal=subject)
         except IndexError as err:
-            print err
+            logger.error(err)
         return super(GoalResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
@@ -139,7 +142,7 @@ class GoalResource(ModelResource):
             bundle.data['goal'] = '/api/v1/subject/{0}/'.format(subject.id)
             return super(GoalResource, self).obj_update(bundle, goal='/api/v1/subject/{0}/'.format(subject.id))
         except IndexError as err:
-            print err
+            logger.error(err)
         return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):
@@ -170,7 +173,7 @@ class OfferResource(ModelResource):
             subject, created = Subject.objects.get_or_create(description=offer_subject)
             return super(OfferResource, self).obj_create(bundle, offer=subject)
         except IndexError as err:
-            print err
+            logger.error(err)
         return super(OfferResource, self).obj_create(bundle, **kwargs)
 
     def obj_update(self, bundle, skip_errors=False, **kwargs):
@@ -180,7 +183,7 @@ class OfferResource(ModelResource):
             bundle.data['offer'] = '/api/v1/subject/{0}/'.format(subject.id)
             return super(OfferResource, self).obj_update(bundle, offer='/api/v1/subject/{0}/'.format(subject.id))
         except IndexError as err:
-            print err
+            logger.error(err)
         return self.save(bundle, skip_errors=skip_errors)
 
     def dehydrate(self, bundle):

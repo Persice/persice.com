@@ -664,7 +664,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
             }
             response = client.search(index=index, body=body, size=100)
 
-        print response
         return response
 
     @staticmethod
@@ -707,7 +706,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         response = client.search(index=index, body=body, size=50)
 
-        print response
         return response
 
     @staticmethod
@@ -841,7 +839,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
             }
         response = client.search(index=index, body=body, size=50)
 
-        print response
         return response
 
     @staticmethod
@@ -958,7 +955,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
                        values=exclude_user_ids)) \
             .highlight(*fields) \
             .sort(sorting)
-        print s.to_dict()
         response = s.execute()
 
         s1 = Search(using=client,
@@ -968,7 +964,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
                       values=[
                           'members.facebookcustomuseractive.%s' % user_id2])). \
             sort(sorting)
-        print s1.to_dict()
         response1 = s1.execute()
 
         return response.hits.hits or response1.hits.hits

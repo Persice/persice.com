@@ -1,5 +1,6 @@
 from random import sample
 import string
+import logging
 from operator import attrgetter
 
 import re
@@ -23,6 +24,8 @@ from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
 from match_engine.utils import find_collocations
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
+
+logger = logging.getLogger(__name__)
 
 
 def order_by(target, **kwargs):
@@ -305,7 +308,7 @@ class MatchUser(object):
                 new_h = h.replace('<em>', '').replace('</em>', '')
                 result[new_h] = 1
         except KeyError as er:
-            print er
+            logger.error(er)
         return [result]
 
     def likes_images(self, user_object):
@@ -412,7 +415,7 @@ class MatchEvent(object):
             new_h = h.replace('<em>', '').replace('</em>', '')
             result[new_h.lower()] = h.count('<em>')
         except KeyError as er:
-            print er
+            logger.error(er)
         return [result]
 
     @staticmethod
@@ -482,8 +485,8 @@ class MatchQuerySet(object):
                     cache.set('%s_%s' % (current_user_id,
                                          matched_user_id), user, 600)
                 users.append(user)
-            except FacebookCustomUserActive.DoesNotExist as e:
-                print e
+            except FacebookCustomUserActive.DoesNotExist as er:
+                logger.error(er)
         return users
 
     @staticmethod
@@ -496,8 +499,8 @@ class MatchQuerySet(object):
             try:
                 user = ShortMatchUser(current_user_id, hit)
                 users.append(user)
-            except FacebookCustomUserActive.DoesNotExist as e:
-                print e
+            except FacebookCustomUserActive.DoesNotExist as er:
+                logger.error(er)
         return users
 
     @staticmethod

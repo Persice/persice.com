@@ -1,6 +1,6 @@
 from datetime import date
 import json
-import pprint
+import logging
 
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.geos import GEOSGeometry, Point
@@ -18,6 +18,8 @@ from goals.models import UserIPAddress, MatchFilterState
 from interests.models import ReligiousView, PoliticalView
 from members.models import FacebookCustomUserActive
 from world.models import UserLocation
+
+logger = logging.getLogger(__name__)
 
 
 def calculate_age(born):
@@ -252,7 +254,7 @@ def get_twitter_friends(uid, oauth_token, oauth_token_secret):
     result = []
     users = json.loads(content)
     if not users.get('errors'):
-        pprint.pprint(users)
+        logger.info(users)
         result.extend(users['users'])
 
         while users['next_cursor'] != 0:
@@ -261,7 +263,7 @@ def get_twitter_friends(uid, oauth_token, oauth_token_secret):
             if not users.get('errors'):
                 result.extend(users['users'])
         result = [(x.get('id'), x.get('name'), x.get('profile_image_url')) for x in result]
-        print result
+        logger.info(result)
         return result
     return result
 

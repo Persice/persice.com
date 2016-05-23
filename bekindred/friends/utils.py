@@ -10,6 +10,8 @@ from .models import Friend
 logging.getLogger("py2neo.batch").setLevel(logging.DEBUG)
 logging.getLogger("py2neo.cypher").setLevel(logging.DEBUG)
 
+logger = logging.getLogger(__name__)
+
 
 def migrate_all_friendships_to_neo():
     graph = Graph(settings.NEO4J_URL)
@@ -22,7 +24,7 @@ def migrate_all_friendships_to_neo():
                                       friend1__is_active=True))
     users = FacebookCustomUser.objects.filter(is_active=True, is_staff=False,
                                               is_superuser=False)
-    print users
+    logger.info(users)
     for user in users:
         a = Node("Person", user_id=user.pk,
                  name=u'{} {}'.format(user.first_name, user.last_name))

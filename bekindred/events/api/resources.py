@@ -1,5 +1,6 @@
 import json
 import re
+import logging
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from datetime import datetime
 import redis
@@ -39,6 +40,9 @@ from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
 from postman.api import pm_write
+
+
+logger = logging.getLogger(__name__)
 
 
 class EventValidation(Validation):
@@ -247,14 +251,14 @@ class EventResource(MultiPartResource, ModelResource):
                     for user in users:
                         assign_perm('view_event', user, bundle.obj)
                 except TypeError as e:
-                    print e
+                    logger.error(e)
         elif bundle.obj.access_level == 'connections':
             user_ids = []
             if bundle.obj.access_user_list:
                 try:
                     user_ids = map(int, bundle.obj.access_user_list.split(','))
                 except TypeError as e:
-                    print e
+                    logger.error(e)
             else:
                 user_ids = Friend.objects.all_my_friends(bundle.request.user)
 
@@ -290,7 +294,7 @@ class EventResource(MultiPartResource, ModelResource):
                         for user in users_:
                             assign_perm('view_event', user, bundle.obj)
                     except TypeError as e:
-                        print e
+                        logger.error(e)
 
             elif new_access_level == 'connections':
                 users = FacebookCustomUserActive.objects.all(). \
@@ -304,7 +308,7 @@ class EventResource(MultiPartResource, ModelResource):
                         user_ids = map(int,
                                        bundle.obj.access_user_list.split(','))
                     except TypeError as e:
-                        print e
+                        logger.error(e)
                 else:
                     user_ids = Friend.objects.\
                         all_my_friends(bundle.request.user)
