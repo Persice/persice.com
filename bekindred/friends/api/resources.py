@@ -132,16 +132,20 @@ class NeoFriendsResource(Resource):
 
         current_user_id = bundle.request.user.id
         target_user_id = bundle.data.get('user_id')
+        action = bundle.data.get('action')
 
         if not target_user_id:
             raise BadRequest
 
         if current_user_id == target_user_id:
             raise BadRequest
-
         node1, _ = client.get_or_create_node(bundle.request.user.id)
         node2, _ = client.get_or_create_node(bundle.data.get('user_id'))
-        client.add_to_friends(node1, node2)
+        if action and action.lower() == 'pass':
+            client.pass_friend(node1, node2)
+            bundle.obj.action = 'pass'
+        else:
+            client.add_to_friends(node1, node2)
         bundle.obj.id = node2._id
         bundle.obj.name = node2['name']
         bundle.obj.user_id = node2['user_id']

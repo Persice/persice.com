@@ -75,6 +75,10 @@ class NeoFourJ(object):
         rel = Relationship(node1, "FRIENDS", node2)
         self.graph.create_unique(rel)
 
+    def pass_friend(self, node1, node2):
+        rel = Relationship(node1, "PASSES", node2)
+        self.graph.create_unique(rel)
+
     def remove_from_friends(self, user_id1, user_id2):
         return self.graph.cypher.execute("""
             MATCH (n)-[rel:FRIENDS]->(r)
@@ -86,6 +90,12 @@ class NeoFourJ(object):
         return self.graph.cypher.execute("""
             MATCH (Person { user_id:{USER_ID} })-[:FRIENDS]->(n)
             -[:FRIENDS]->(Person { user_id:{USER_ID} })
+            return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
+        """, {'USER_ID': user_id})
+
+    def get_my_passes(self, user_id):
+        return self.graph.cypher.execute("""
+            MATCH (Person { user_id:{USER_ID} })-[:PASSES]->(n)
             return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
         """, {'USER_ID': user_id})
 

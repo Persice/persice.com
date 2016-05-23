@@ -244,6 +244,13 @@ class FriendUtilsTestCase(TestCase):
         friends = self.neo.get_my_friends(self.user.id)
         self.assertEqual(friends.one['node_name'], n2.properties['name'])
 
+    def test_passes_friend(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        self.neo.pass_friend(n1, n2)
+        friends = self.neo.get_my_passes(self.user.id)
+        self.assertEqual(friends.one['node_name'], n2.properties['name'])
+
     def test_check_friends(self):
         n1 = self.neo.create_person(self.neo.person(self.user))
         n2 = self.neo.create_person(self.neo.person(self.user1))
@@ -336,6 +343,15 @@ class NeoFriendsResourceTestCase(ResourceTestCase):
     def test_add_to_friends(self):
         self.response = self.login()
         self.data = {'user_id': self.user2.id}
+        resp = self.api_client.post('/api/v2/friends/', format='json',
+                                    data=self.data)
+        self.assertHttpCreated(resp)
+        deserialized_resp = self.deserialize(resp)
+        self.assertEqual(deserialized_resp['user_id'], self.user2.id)
+
+    def test_pass_friend(self):
+        self.response = self.login()
+        self.data = {'user_id': self.user2.id, 'action': 'pass'}
         resp = self.api_client.post('/api/v2/friends/', format='json',
                                     data=self.data)
         self.assertHttpCreated(resp)
