@@ -1,14 +1,14 @@
 import {expect, it, describe, async, inject, beforeEach, beforeEachProviders}
-    from '@angular/core/testing';
+from '@angular/core/testing';
 
 import {TestComponentBuilder} from '@angular/compiler/testing';
 
 import {provide, Provider} from '@angular/core';
 import {Observable} from 'rxjs';
-import {EditGoalsMobileComponent} from "./edit-goals-mobile.component";
-import {GoalsService} from "../../../app/shared/services/goals.service";
-import {AppStateService} from "../../shared/services/app-state.service";
-import {GoalsGenerators} from "./goals-generators";
+import {EditGoalsMobileComponent} from './edit-goals-mobile.component';
+import {GoalsService} from '../../../app/shared/services/goals.service';
+import {AppStateService} from '../../shared/services/app-state.service';
+import {GoalsGenerators} from './goals-generators';
 
 let component: EditGoalsMobileComponent;
 let mock: GoalsServiceMock;
@@ -16,20 +16,20 @@ let mock: GoalsServiceMock;
 class GoalsServiceMock extends GoalsService {
   response: any;
 
-  public get(url:string, limit:number): Observable<any> {
+  public get(url: string, limit: number): Observable<any> {
     return Observable.of(this.response);
   }
 
-  public getCount(): Observable<any>{
-      return this.response.objects.length;
+  public getCount(): Observable<any> {
+    return this.response.objects.length;
   }
 
-  public save(subject: string): Observable<any>{
-      return Observable.of(GoalsGenerators.givenAGoalWithSubjectDto(subject));
+  public save(subject: string): Observable<any> {
+    return Observable.of(GoalsGenerators.givenAGoalWithSubjectDto(subject));
   }
 
-  public delete(url: string): Observable<any>{
-      return Observable.of(null);
+  public delete(url: string): Observable<any> {
+    return Observable.of(null);
   }
 
   public setEmptyFindResponse(): void {
@@ -70,12 +70,12 @@ describe('Edit goals mobile component', () => {
 
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
-        .overrideProviders(
-            EditGoalsMobileComponent, [provide(GoalsService, { useValue: mock })])
-        .createAsync(EditGoalsMobileComponent)
-        .then((componentFixture: any) => {
-          component = componentFixture.componentInstance;
-        });
+      .overrideProviders(
+      EditGoalsMobileComponent, [provide(GoalsService, { useValue: mock })])
+      .createAsync(EditGoalsMobileComponent)
+      .then((componentFixture: any) => {
+        component = componentFixture.componentInstance;
+      });
   })));
 
   it('should initially be empty', () => {
@@ -111,7 +111,7 @@ describe('Edit goals mobile component', () => {
     // then
     expect(component.items[0].id).toEqual(GoalsGenerators.givenAGoalWithSubjectDto('something new').id);
     expect(component.items[0].resource_uri)
-        .toEqual(GoalsGenerators.givenAGoalWithSubjectDto('something new').resource_uri);
+      .toEqual(GoalsGenerators.givenAGoalWithSubjectDto('something new').resource_uri);
     expect(component.items[0].subject).toEqual(GoalsGenerators.givenAGoalWithSubjectDto('something new').subject);
   });
 
