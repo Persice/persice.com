@@ -12,6 +12,7 @@ from django.db.models import Q as Q_
 from nltk.stem.porter import PorterStemmer
 
 from events.models import FilterState, Event
+from friends.utils import NeoFourJ
 from goals.models import Goal, Subject, Offer
 from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
@@ -871,9 +872,9 @@ class ElasticSearchMatchEngineManager(models.Manager):
         query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words)
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
-
+        neo = NeoFourJ()
         if exclude_ids is None:
-            exclude_ids = all_my_friends(user_id)
+            exclude_ids = neo.get_my_thumbed_up_ids(user_id)
 
         friends_list = []
         if not friends:
@@ -883,7 +884,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
         else:
             # All my friends
             #
-            fids = Friend.objects.all_my_friends(user_id)
+            # fids = Friend.objects.all_my_friends(user_id)
+            fids = neo.get_my_friends_ids(user_id)
             for f in fids:
                 friends_list.append('members.facebookcustomuseractive.%s' % f)
         response = ElasticSearchMatchEngineManager. \

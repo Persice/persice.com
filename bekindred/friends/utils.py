@@ -114,6 +114,13 @@ class NeoFourJ(object):
             results.append(record.user_id)
         return results
 
+    def get_my_thumbed_up_ids(self, user_id):
+        thumbed_up = self.get_my_thumbed_up(user_id)
+        results = []
+        for record in thumbed_up:
+            results.append(record.user_id)
+        return results
+
     def check_friendship(self, user_id1, user_id2):
         return self.graph.cypher.execute("""
             MATCH (Person { user_id:{USER_ID1} })-[:FRIENDS]->
