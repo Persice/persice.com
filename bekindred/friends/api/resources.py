@@ -128,7 +128,12 @@ class NeoFriendsResource(Resource):
     def obj_create(self, bundle, **kwargs):
         bundle.obj = NeoObject()
         bundle = self.full_hydrate(bundle)
-        client = self._client()
+        try:
+            client = self._client()
+        except Exception as err:
+            self.create_response(bundle.request, bundle,
+                                 response_class=BadRequest)
+            logger.error(err)
 
         current_user_id = bundle.request.user.id
         try:

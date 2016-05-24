@@ -1,4 +1,6 @@
+import json
 import logging
+import redis
 
 from django.conf import settings
 from django.db.models import Q
@@ -133,3 +135,16 @@ class NeoFourJ(object):
         else:
             person = self.create_person(self.person(user_id))
             return person, True
+
+    def _publish_to_redis_channel(self, user1, user2):
+        # redis
+        r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        user_1 = {'friend_name': user2.first_name,
+                  'friend_id': user2.id,
+                  'friend_username': user2.username}
+        r.publish('connection.{}'.format(user1.id), json.dumps(user_1))
+
+        user_2 = {'friend_name': user1.first_name,
+                  'friend_id': user1.id,
+                  'friend_username': user1.username}
+        r.publish('connection.{}'.format(user2.id), json.dumps(user_2))
