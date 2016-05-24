@@ -1,0 +1,9 @@
+<prs-loading [status]="loadingPhotos"></prs-loading>
+<prs-mobile-arrange-photos *ngIf="page === 1 && !loadingPhotos"
+  [photos]="photos"
+  [photosCount]="photosCount"
+  (onDelete)="deletePhoto($event)">
+</prs-mobile-arrange-photos>
+<prs-mobile-choose-album *ngIf="page === 2 && !loadingPhotos"></prs-mobile-choose-album>
+<prs-mobile-choose-photo *ngIf="page === 3 && !loadingPhotos"></prs-mobile-choose-photo>
+<prs-mobile-crop-photo *ngIf="page === 4 && !loadingPhotos"></prs-mobile-crop-photo>

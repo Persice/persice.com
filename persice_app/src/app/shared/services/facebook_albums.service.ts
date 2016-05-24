@@ -7,7 +7,6 @@ import {Subject} from 'rxjs';
 export class FacebookAlbumsService {
   static API_URL = 'https://graph.facebook.com/me/?fields=albums.limit(4){picture, name, photos.limit(6)}';
 
-
   _dataStore: any = [];
   _limit: number = 4;
   _next: string = '';
