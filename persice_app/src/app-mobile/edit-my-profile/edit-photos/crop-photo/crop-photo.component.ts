@@ -22,8 +22,4 @@ export class CropPhotoComponent implements OnInit {
     });
   }
 
-  private _getPhoto() {
-
-  }
-
 }
