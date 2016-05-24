@@ -1,7 +1,7 @@
 import {provide, Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
-import {OPTS_REQ_JSON_CSRF, CookieUtil, HttpClient} from '../core';
+import {OPTS_REQ_JSON_CSRF, HttpClient} from '../core';
 
 @Injectable()
 export class FriendService {

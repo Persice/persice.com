@@ -7,6 +7,7 @@ export class AppStateService {
   isProfileFooterVisibleEmitter: EventEmitter<any> = new EventEmitter();
   editMyProfileStateEmitter: EventEmitter<any> = new EventEmitter();
   acceptPassEmitter: EventEmitter<any> = new EventEmitter();
+  editPhotosStateEmitter: EventEmitter<any> = new EventEmitter();
 
   setHeaderVisibility(visible: boolean) {
     this.isHeaderVisibleEmitter.emit(visible);
@@ -26,6 +27,10 @@ export class AppStateService {
 
   setEditMyProfileState(state: any) {
     this.editMyProfileStateEmitter.emit(state);
+  }
+
+  setEditPhotosState(state: any) {
+    this.editPhotosStateEmitter.emit(state);
   }
 
 }
