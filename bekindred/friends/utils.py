@@ -4,6 +4,7 @@ import redis
 
 from django.conf import settings
 from django.db.models import Q
+from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 from py2neo import Graph, Node, Relationship
 
@@ -74,11 +75,13 @@ class NeoFourJ(object):
                                    property_value=user_id)
 
     def add_to_friends(self, node1, node2):
-        rel = Relationship(node1, "FRIENDS", node2)
+        rel = Relationship(node1, "FRIENDS", node2, since=now(),
+                           updated_at='new')
         self.graph.create_unique(rel)
 
     def pass_friend(self, node1, node2):
-        rel = Relationship(node1, "PASSES", node2)
+        rel = Relationship(node1, "PASSES", node2, since=now(),
+                           updated_at='new')
         self.graph.create_unique(rel)
 
     def remove_from_friends(self, user_id1, user_id2):
@@ -111,6 +114,13 @@ class NeoFourJ(object):
         my_friends = self.get_my_friends(user_id)
         results = []
         for record in my_friends:
+            results.append(record.user_id)
+        return results
+
+    def get_my_thumbed_up_ids(self, user_id):
+        thumbed_up = self.get_my_thumbed_up(user_id)
+        results = []
+        for record in thumbed_up:
             results.append(record.user_id)
         return results
 
