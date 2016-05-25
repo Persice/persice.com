@@ -39,12 +39,15 @@ def migrate_all_friendships_to_neo():
         n2 = graph.find_one('Person', property_key='user_id',
                             property_value=friend.friend2_id)
         if friend.status == 1:
-            rel = Relationship(n1, "FRIENDS", n2)
-            rel1 = Relationship(n2, "FRIENDS", n1)
+            rel = Relationship(n1, "FRIENDS", n2, seen=True,
+                               since=friend.updated_at)
+            rel1 = Relationship(n2, "FRIENDS", n1, seen=True,
+                                since=friend.updated_at)
             graph.create(rel)
             graph.create(rel1)
         elif friend.status == 0:
-            rel = Relationship(n1, "FRIENDS", n2)
+            rel = Relationship(n1, "FRIENDS", n2, seen=True,
+                               since=friend.updated_at)
             graph.create(rel)
 
 
@@ -76,12 +79,12 @@ class NeoFourJ(object):
 
     def add_to_friends(self, node1, node2):
         rel = Relationship(node1, "FRIENDS", node2, since=now(),
-                           updated_at='new')
+                           seen=False)
         self.graph.create_unique(rel)
 
     def pass_friend(self, node1, node2):
         rel = Relationship(node1, "PASSES", node2, since=now(),
-                           updated_at='new')
+                           seen=False)
         self.graph.create_unique(rel)
 
     def remove_from_friends(self, user_id1, user_id2):
@@ -123,6 +126,9 @@ class NeoFourJ(object):
         for record in thumbed_up:
             results.append(record.user_id)
         return results
+
+    def get_new_friends(self):
+        pass
 
     def check_friendship(self, user_id1, user_id2):
         return self.graph.cypher.execute("""
