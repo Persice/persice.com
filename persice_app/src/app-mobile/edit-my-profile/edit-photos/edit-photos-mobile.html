@@ -4,6 +4,6 @@
   [photosCount]="photosCount"
   (onDelete)="deletePhoto($event)">
 </prs-mobile-arrange-photos>
-<prs-mobile-choose-album *ngIf="page === 2 && !loadingPhotos"></prs-mobile-choose-album>
-<prs-mobile-choose-photo *ngIf="page === 3 && !loadingPhotos"></prs-mobile-choose-photo>
-<prs-mobile-crop-photo *ngIf="page === 4 && !loadingPhotos"></prs-mobile-crop-photo>
+<prs-mobile-choose-album *ngIf="page === 2"></prs-mobile-choose-album>
+<prs-mobile-choose-photo *ngIf="page === 3"></prs-mobile-choose-photo>
+<prs-mobile-crop-photo *ngIf="page === 4"></prs-mobile-crop-photo>

@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter, OnInit} from '@angular/core';
 
 import {EditPhotoThumbComponent} from './edit-photo-thumb';
 import {EditProfilePhotoComponent} from './edit-profile-photo';
@@ -11,7 +11,7 @@ import {AppStateService} from '../../../shared/services/app-state.service';
   directives: [EditPhotoThumbComponent, EditProfilePhotoComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ArrangePhotosComponent {
+export class ArrangePhotosComponent implements OnInit {
 
   @Input() set photos (photosList: Photo[]) {
     this._setState(photosList);
@@ -39,7 +39,7 @@ export class ArrangePhotosComponent {
   }
 
   private _checkIfProfilePhotoIsDeletable(count: number) {
-    if (count == 1) {
+    if (count === 1) {
       this.isProfilePhotoDeletable = false;
     } else {
       this.isProfilePhotoDeletable = true;

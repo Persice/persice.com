@@ -1,21 +1,56 @@
-import {provide, Injectable, EventEmitter} from '@angular/core';
+import {provide, Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
 
 import {HttpClient} from '../core';
 import {OPTS_REQ_JSON_CSRF} from '../core';
 import {CookieUtil, ListUtil} from '../core';
-import {Photo} from '../../../common/models/photo'
+import {Photo} from '../../../common/models/photo';
 
 @Injectable()
 export class PhotosService {
   static API_URL: string = '/api/v1/photo/';
   next: string = '';
-  public photosCounterEmitter: EventEmitter<any> = new EventEmitter();
 
-  constructor(private http: HttpClient) {
+  /**
+   * Sort photos by order and create an array of (limit) photos used for editing purposes.
+   * @param {any} dtoJson [description]
+   */
+  public static getEditPhotos(dtoJson: any, limit: number): Photo[] {
+    // Create empty Photo[] of limit.
+    let photosTemp: Photo[] = [];
 
+    for (let i = 0; i <= limit - 1; i++) {
+      let emptyPhoto = new Photo({ order: i });
+      photosTemp = [...photosTemp, emptyPhoto];
+    }
+
+    // Assign photo from dtoJson to photosTemp
+    if (!!dtoJson) {
+      let sortedPhotos = ListUtil.orderBy(dtoJson.objects, ['order'], ['asc']);
+      for (let j = 0; j <= sortedPhotos.length - 1; j++) {
+        if (sortedPhotos[j].order === j) {
+          photosTemp[j] = new Photo(sortedPhotos[j]);
+        }
+      }
+    }
+
+    return photosTemp;
   }
+
+  /**
+   * Get photos count
+   * @param {any} dtoJson [description]
+   */
+  public static getEditPhotosCount(dtoJson: any): number {
+    let count: number = 0;
+    if (!!dtoJson && !!dtoJson.meta) {
+      count = dtoJson.meta.total_count;
+    }
+    return count;
+  }
+
+  constructor(private http: HttpClient) { }
 
   public get(url: string, limit: number, user: number): Observable<any> {
 
@@ -47,38 +82,17 @@ export class PhotosService {
     return this.http.get(url).map((dto: Response) => dto.json().meta.total_count);
   }
 
-  public getMyPhotosForEditing(): Observable<Photo[]> {
+  public getMyPhotos(limit: number): Observable<any> {
     let userId = CookieUtil.getValue('userid');
     let params: string = [
       `format=json`,
-      `limit=5`,
+      `limit=${limit}`,
       `user_id=${userId}`,
       `offset=0`,
     ].join('&');
     let url = `${PhotosService.API_URL}?${params}`;
 
-    return this.http.get(url).map((dto: Response) => {
-      let dtoJson = dto.json();
-
-      // Emit counter of photos
-      this.photosCounterEmitter.emit(dtoJson.meta.total_count);
-
-      // Sort photos by order and create a temporary list of 5 photos used for editing purposes.
-      // If photo does not exist, put empty Photo in temporary list.
-      // Main profile photo has order 0.
-      // Other photos with order > 0 are thumbs.
-      let sortedPhotos = ListUtil.orderBy(dtoJson.objects, ['order'], ['asc']);
-      let photosTemp: Photo[] = [];
-      for (let i = 0; i <= 4; i++) {
-        if (sortedPhotos[i] && sortedPhotos[i].order === i) {
-          photosTemp = [...photosTemp, new Photo(sortedPhotos[i])];
-        } else {
-          let emptyPhoto = new Photo({order: i});
-          photosTemp = [...photosTemp, emptyPhoto];
-        }
-      }
-      return photosTemp;
-    });
+    return this.http.get(url).map((dto: Response) => dto.json());
   }
 
   public delete(url: string, cb: (status: number) => void) {
@@ -145,7 +159,6 @@ export class PhotosService {
       .map((res: Response) => res.json());
 
   }
-
 
 }
 

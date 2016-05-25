@@ -22,8 +22,4 @@ export class ChoosePhotoComponent implements OnInit {
     this.appStateService.setEditPhotosState({page: 4, refreshPhotos: false});
   }
 
-  private _getPhotos() {
-
-  }
-
 }

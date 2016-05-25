@@ -1,7 +1,7 @@
 interface PhotoInterface {
   order: number;
   id?: number;
-  photo?: string
+  photo?: string;
   cropped_photo?: string;
   resource_uri?: string;
   user?: string;

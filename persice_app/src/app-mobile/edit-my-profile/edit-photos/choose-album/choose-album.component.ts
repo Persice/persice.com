@@ -22,9 +22,4 @@ export class ChooseAlbumComponent implements OnInit {
     this.appStateService.setEditPhotosState({ page: 3, refreshPhotos: false });
   }
 
-  private _getAlbums() {
-
-  }
-
-
 }
