@@ -8,6 +8,7 @@ from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 from py2neo import Graph, Node, Relationship
 
+from friends import update_index_delay
 from .models import Friend
 
 logging.getLogger("py2neo.batch").setLevel(logging.DEBUG)
@@ -81,11 +82,13 @@ class NeoFourJ(object):
         rel = Relationship(node1, "FRIENDS", node2, since=now(),
                            seen=False)
         self.graph.create_unique(rel)
+        update_index_delay()
 
     def pass_friend(self, node1, node2):
         rel = Relationship(node1, "PASSES", node2, since=now(),
                            seen=False)
         self.graph.create_unique(rel)
+        update_index_delay()
 
     def remove_from_friends(self, user_id1, user_id2):
         return self.graph.cypher.execute("""
