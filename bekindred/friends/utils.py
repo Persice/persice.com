@@ -150,8 +150,17 @@ class NeoFourJ(object):
             results.append(record.user_id)
         return results
 
-    def get_new_friends(self):
-        pass
+    def get_new_friends_count(self, user_id):
+        result = self.graph.cypher.execute("""
+        MATCH (Person { user_id:{USER_ID} })-[r1:FRIENDS]->
+        (n)-[r2:FRIENDS]->(Person { user_id:{USER_ID} })
+        where r1.seen = FALSE
+        return count(n.user_id) AS new_friend_count
+        """, {'USER_ID': user_id})
+        if result.one:
+            return result.one
+        else:
+            return 0
 
     def check_friendship(self, user_id1, user_id2):
         return self.graph.cypher.execute("""
