@@ -510,9 +510,10 @@ class NeoFriendsNewResource(Resource):
             friend_id = int(raw_friend_id)
             user = FacebookCustomUserActive.objects.get(id=request.user.id)
             fb_obj = FacebookCustomUserActive.objects.get(id=friend_id)
-            # Friend.objects.filter(Q(friend1=fb_obj, friend2=user) |
-            #                       Q(friend1=user, friend2=fb_obj)). \
-            #     update(updated_at=now())
+            try:
+                NeoFourJ().update_rel_seen(user.id, fb_obj.id)
+            except Exception as err:
+                logger.error(err)
         return list()
 
     def obj_get_list(self, bundle, **kwargs):

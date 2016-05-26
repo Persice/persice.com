@@ -150,6 +150,13 @@ class NeoFourJ(object):
             results.append(record.user_id)
         return results
 
+    def update_rel_seen(self, user_id1, user_id2):
+        n1 = self.get_person(user_id1)
+        n2 = self.get_person(user_id2)
+        rel = self.graph.match_one(n1, 'FRIENDS', n2)
+        rel['seen'] = True
+        rel.push()
+
     def get_new_friends_count(self, user_id):
         result = self.graph.cypher.execute("""
         MATCH (Person { user_id:{USER_ID} })-[r1:FRIENDS]->
