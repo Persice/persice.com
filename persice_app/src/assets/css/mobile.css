@@ -11520,3 +11520,29 @@ html {
 .mob-nav-main li a.router-link-active .icon {
   fill: #39c9f5;
 }
+
+.mob-photo-album__image {
+  display: block;
+  max-width: none;
+  height: 73px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.profile-edit__photos__main-photo,
+.profile-edit__photos__thumb-photo {
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+.mob-photo-grid__item {
+  display: block;
+  max-width: none;
+  height: 119px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  width: 119px;
+}

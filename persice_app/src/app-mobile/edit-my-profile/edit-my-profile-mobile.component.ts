@@ -119,13 +119,13 @@ export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
         this.router.navigate(['EditNavigation']);
         break;
       case 'choose album':
-        this.appStateService.setEditPhotosState({ page: 1, refreshPhotos: false });
+        this.appStateService.setEditPhotosState({ page: 1 });
         break;
       case 'choose photo':
-        this.appStateService.setEditPhotosState({ page: 2, refreshPhotos: false });
+        this.appStateService.setEditPhotosState({ page: 2 });
         break;
       case 'crop photo':
-        this.appStateService.setEditPhotosState({ page: 3, refreshPhotos: false });
+        this.appStateService.setEditPhotosState({ page: 3 });
         break;
       default:
         break;
@@ -133,6 +133,6 @@ export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
   }
 
   public doneCroppingPhoto(event) {
-    this.appStateService.setEditPhotosState({ page: 1, refreshPhotos: true });
+    this.appStateService.setEditPhotosState({ page: 1, savePhotoAndRefresh: true });
   }
 }

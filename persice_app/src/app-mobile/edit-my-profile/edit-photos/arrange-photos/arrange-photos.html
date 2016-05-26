@@ -1,4 +1,5 @@
-<div class="mob-edit-photos-arrange">
+<prs-loading [status]="loading"></prs-loading>
+<div class="mob-edit-photos-arrange" *ngIf="!loading">
   <div class="profile-edit__photos p--">
     <div class="layout layout--flush layout--auto">
       <div id="profile-photo-big" class="profile-edit__photos__main-photo-container">
