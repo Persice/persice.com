@@ -81,6 +81,8 @@ class NeoFourJ(object):
     def add_to_friends(self, node1, node2):
         rel = Relationship(node1, "FRIENDS", node2, since=now(),
                            seen=False)
+        # self.get_my_friends_ids()
+        # self._publish_to_redis_channel(node1, node2)
         self.graph.create_unique(rel)
         update_index_delay()
 
@@ -115,6 +117,21 @@ class NeoFourJ(object):
             MATCH (Person { user_id:{USER_ID} })-[:PASSES]->(n)
             return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
         """, {'USER_ID': user_id})
+
+    def check_friendsip_rel(self, user_id1, user_id2):
+        """
+        Check :FRIENDS rel in one direction
+        :return:
+        """
+        result = self.graph.cypher.execute("""
+            MATCH (n1:Person { user_id:{USER_ID1} })-[:FRIENDS]->
+            (n2:Person { user_id:{USER_ID2} })
+            return n1.user_id AS user_id1, n2.user_id AS user_id2
+        """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+        if result.one.user_id1 == user_id1 and result.one.user_id2 == user_id2:
+            return True
+        else:
+            return False
 
     def get_my_friends_ids(self, user_id):
         my_friends = self.get_my_friends(user_id)

@@ -288,6 +288,14 @@ class FriendUtilsTestCase(TestCase):
         ids = self.neo.get_my_friends_ids(self.user.id)
         self.assertEqual(ids, [])
 
+    def test_check_friendsip(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        self.neo.add_to_friends(n1, n2)
+        self.assertTrue(
+            self.neo.check_friendsip_rel(self.user.id, self.user1.id)
+        )
+
 
 class NeoFriendsResourceTestCase(ResourceTestCase):
     def get_credentials(self):
