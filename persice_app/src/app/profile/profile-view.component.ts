@@ -177,7 +177,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
     if (this.profileType === 'friend') {
       if (data.updated_at === null) {
-        let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${data.id}`;
+        let url = `/api/v2/new_connections/updated_at/?format=json&friend_id=${data.id}`;
         this.http.get(url).map(res => res.json()).subscribe(data => {
           this.counterService.refreshCounter();
         });
