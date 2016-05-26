@@ -17,7 +17,7 @@ export class PhotosService {
    * @param {any} dtoJson [description]
    */
   public static getEditPhotos(dtoJson: any, limit: number): Photo[] {
-    // Create empty Photo[] of limit.
+
     let photosTemp: Photo[] = [];
 
     for (let i = 0; i <= limit - 1; i++) {
@@ -25,20 +25,22 @@ export class PhotosService {
       photosTemp = [...photosTemp, emptyPhoto];
     }
 
-    // Assign photo from dtoJson to photosTemp
     if (!!dtoJson) {
       let sortedPhotos = ListUtil.orderBy(dtoJson.objects, ['order'], ['asc']);
-      for (let j = 0; j <= sortedPhotos.length - 1; j++) {
-        if (sortedPhotos[j].order === j) {
-          photosTemp[j] = new Photo(sortedPhotos[j]);
+      for (var i = 0; i < sortedPhotos.length; ++i) {
+        for (var j = 0; j < photosTemp.length; ++j) {
+          if (sortedPhotos[i].order === photosTemp[j].order) {
+            photosTemp[j] = new Photo(sortedPhotos[i]);
+          }
         }
       }
+
     }
 
     return photosTemp;
-  }
 
-  /**
+  }
+           /**
    * Get photos count
    * @param {any} dtoJson [description]
    */

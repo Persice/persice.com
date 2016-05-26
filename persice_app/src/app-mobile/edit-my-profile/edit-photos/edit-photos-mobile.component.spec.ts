@@ -6,7 +6,7 @@ import {MockBackend} from '@angular/http/testing';
 import {Observable} from 'rxjs';
 
 import {EditPhotosMobileComponent} from './edit-photos-mobile.component';
-import {PhotosService} from '../../../app/shared/services';
+import {PhotosService, FacebookAlbumsService} from '../../../app/shared/services';
 import {AppStateService} from '../../shared/services/app-state.service';
 import {HttpClient} from '../../../app/shared/core';
 import {TestComponentBuilder} from '@angular/compiler/testing';
@@ -71,6 +71,7 @@ describe('Edit photos mobile component', () => {
 
     return [
       HttpClient,
+      FacebookAlbumsService,
       MockBackend,
       AppStateService,
       BaseRequestOptions,
