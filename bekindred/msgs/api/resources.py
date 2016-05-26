@@ -15,6 +15,7 @@ from events.api.resources import EventResource
 from events.models import Event, Membership
 
 from friends.models import Friend
+from friends.utils import NeoFourJ
 from matchfeed.api.resources import A
 from msgs.models import ChatMessage
 from photos.models import FacebookPhoto
@@ -112,20 +113,16 @@ class InboxLastResource(Resource):
 
     def get_object_list(self, request):
         current_user = request.user.id
-        friends = Friend.objects.friends(current_user)
-
+        friends_ids = NeoFourJ().get_my_friends_ids(current_user)
+        friends = FacebookCustomUserActive.objects.filter(pk__in=friends_ids)
         results = []
         for friend in friends:
             new_obj = A()
             new_obj.id = friend.id
-            if friend.friend1.id == current_user:
-                position_friend = 'friend2'
-            else:
-                position_friend = 'friend1'
-            new_obj.first_name = getattr(friend, position_friend).first_name
-            new_obj.last_name = getattr(friend, position_friend).last_name
-            new_obj.facebook_id = getattr(friend, position_friend).facebook_id
-            new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.first_name = friend.first_name
+            new_obj.last_name = friend.last_name
+            new_obj.facebook_id = friend.facebook_id
+            new_obj.friend_id = friend.id
             new_obj.image = FacebookPhoto.objects.profile_photo(
                 new_obj.friend_id
             )
