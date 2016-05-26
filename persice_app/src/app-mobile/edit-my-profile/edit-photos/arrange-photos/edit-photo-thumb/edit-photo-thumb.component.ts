@@ -16,7 +16,7 @@ export class EditPhotoThumbComponent {
   constructor(private appStateService: AppStateService) { }
 
   public openChooseAlbum(event) {
-    this.appStateService.setEditPhotosState({ page: 2, refreshPhotos: false });
+    this.appStateService.setEditPhotosState({ page: 2});
   }
 
 }

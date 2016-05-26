@@ -5,8 +5,10 @@ import {Subject} from 'rxjs';
 
 @Injectable()
 export class FacebookAlbumsService {
-  static API_URL = 'https://graph.facebook.com/me/?fields=albums.limit(4){picture, name, photos.limit(6)}';
+  static API_URL = 'https://graph.facebook.com/me/?fields=albums.limit(4){picture, count, name, photos.limit(6)}';
 
+  _limitPhotos: number = 6;
+  _limitAlbums: number = 4;
   _dataStore: any = [];
   _limit: number = 4;
   _next: string = '';
@@ -22,7 +24,14 @@ export class FacebookAlbumsService {
     this._token = CookieUtil.getValue('user_token');
   }
 
-  public startLoadingAlbums() {
+  public startLoadingAlbums(limitAlbums?: number, limitPhotos?: number) {
+    if (!!limitAlbums) {
+      this._limitAlbums = limitAlbums;
+    }
+    if (!!limitPhotos) {
+      this._limitPhotos = limitPhotos;
+    }
+
     this._loadAlbums();
   }
 
@@ -32,6 +41,22 @@ export class FacebookAlbumsService {
 
   public loadMore() {
     this._loadAlbums();
+  }
+
+  public startLoadingPhotos() {
+    this._notify();
+  }
+
+  public getAlbumPhotos(albumId: number): any {
+    let photos = {};
+
+    for (var i = 0; i < this._dataStore.length; ++i) {
+      if (this._dataStore[i].id === albumId) {
+        photos = this._dataStore[i].photos;
+      }
+    }
+
+    return photos;
   }
 
   public loadMorePhotos(albumId) {
@@ -53,6 +78,8 @@ export class FacebookAlbumsService {
   }
 
   private _loadPhotos(index) {
+    this._loadingMorePhotos = true;
+    this._notify();
     let url = this._dataStore[index].photos.paging.next;
     url = url.replace(/limit\=6/, 'limit=12');
     let channel = this.http.get(url)
@@ -89,16 +116,15 @@ export class FacebookAlbumsService {
       return;
     }
 
-
     let url = '';
-
-
     if (this._next === '') {
       let params: string = [
         `access_token=${this._token}`
       ].join('&');
 
-      url = `${FacebookAlbumsService.API_URL}&${params}`;
+      let urlFB = `https://graph.facebook.com/me/?fields=albums.limit(${this._limitAlbums}){picture, count, name, photos.limit(${this._limitPhotos})}`;
+      url = `${urlFB}&${params}`;
+
     } else {
       url = this._next;
     }

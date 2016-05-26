@@ -2,7 +2,7 @@
   <div class="profile-edit__photos__thumb-photo" *ngIf="photo.id !== -1"
   checkimage="{{photo.croppedPhoto}}"
   [suffix]="'.89x89_q100_crop.jpg'">
-    <a (click)="onDelete.emit(photo.resourceUri)">
+    <a (click)="onDelete.emit(photo)">
       <svg role="img" class="icon icon--notsotiny">
         <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
       </svg>

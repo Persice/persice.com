@@ -2,16 +2,18 @@ import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter, OnInit}
 
 import {EditPhotoThumbComponent} from './edit-photo-thumb';
 import {EditProfilePhotoComponent} from './edit-profile-photo';
+import {LoadingComponent} from '../../../../app/shared/components/loading';
 import {Photo} from '../../../../common/models/photo';
 import {AppStateService} from '../../../shared/services/app-state.service';
 
 @Component({
   selector: 'prs-mobile-arrange-photos',
   template: require('./arrange-photos.html'),
-  directives: [EditPhotoThumbComponent, EditProfilePhotoComponent],
+  directives: [EditPhotoThumbComponent, EditProfilePhotoComponent, LoadingComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArrangePhotosComponent implements OnInit {
+  @Input() loading: boolean;
 
   @Input() set photos (photosList: Photo[]) {
     this._setState(photosList);
