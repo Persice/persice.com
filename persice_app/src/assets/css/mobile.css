@@ -11527,6 +11527,7 @@ html {
   height: 73px;
   background-size: cover;
   background-position: 50% 50%;
+  background-repeat: no-repeat;
 }
 
 .profile-edit__photos__main-photo,
@@ -11534,4 +11535,14 @@ html {
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
+}
+
+.mob-photo-grid__item {
+  display: block;
+  max-width: none;
+  height: 119px;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  width: 119px;
 }
