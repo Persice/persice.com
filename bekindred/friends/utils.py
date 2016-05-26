@@ -205,3 +205,9 @@ class NeoFourJ(object):
                   'friend_id': user1.id,
                   'friend_username': user1.username}
         r.publish('connection.{}'.format(user2.id), json.dumps(user_2))
+
+    def create_friendship(self, user1, user2):
+        n1 = self.create_person(self.person(user1))
+        n2 = self.create_person(self.person(user2))
+        self.add_to_friends(n1, n2)
+        self.add_to_friends(n2, n1)

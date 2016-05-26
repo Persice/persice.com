@@ -14,6 +14,7 @@ from social_auth.db.django_models import UserSocialAuth
 
 from events import Event
 from friends.models import Friend, FacebookFriendUser
+from friends.utils import NeoFourJ
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     calculate_distance_es, get_mutual_linkedin_connections, \
@@ -123,9 +124,7 @@ class MatchedResults(object):
     def __init__(self, current_user_id, exclude_user_ids):
         self.items = []
         self.current_user = FacebookCustomUserActive.objects.get(pk=current_user_id)
-        exclude_friends = Friend.objects.all_my_friends(current_user_id) + Friend.objects.thumbed_up_i(current_user_id) + \
-            FacebookFriendUser.objects.all_my_friends(current_user_id) + \
-            Friend.objects.deleted_friends(current_user_id)
+        exclude_friends = NeoFourJ().get_my_thumbed_up_ids(current_user_id)
         self.exclude_user_ids = exclude_user_ids + [current_user_id] + exclude_friends
 
     def find(self):
@@ -427,7 +426,7 @@ class MatchEvent(object):
 
     @staticmethod
     def get_friends_attendees(user_id, event_id):
-        friends = Friend.objects.all_my_friends(user_id=user_id)
+        friends = NeoFourJ().get_my_friends_ids(user_id)
         attendees = Event.objects.get(pk=event_id). \
             membership_set.filter(user__in=friends, rsvp='yes')
         return attendees

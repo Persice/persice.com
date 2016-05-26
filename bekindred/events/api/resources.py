@@ -30,6 +30,7 @@ from events.models import (CumulativeMatchScore, Event, EventFilterState,
                            Membership, FilterState)
 from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
+from friends.utils import NeoFourJ
 from goals.models import MatchFilterState, Goal, Offer
 from goals.utils import (calculate_age, calculate_distance_events,
                          get_user_location, calculate_distance_user_event,
@@ -127,7 +128,7 @@ class EventResource(MultiPartResource, ModelResource):
         'events.api.resources.MembershipResource',
         attribute=lambda bundle:
         bundle.obj.membership_set.filter(
-            user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id) +
+            user__in=NeoFourJ().get_my_friends_ids(bundle.request.user.id) +
             [bundle.request.user.id], rsvp='yes'),
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,
@@ -151,7 +152,7 @@ class EventResource(MultiPartResource, ModelResource):
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
-        friends = Friend.objects.all_my_friends(user_id=user_id)
+        friends = NeoFourJ().get_my_friends_ids(user_id)
         try:
             bundle.data['hosted_by'] = bundle.obj.membership_set. \
                 filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
@@ -260,7 +261,7 @@ class EventResource(MultiPartResource, ModelResource):
                 except TypeError as e:
                     logger.error(e)
             else:
-                user_ids = Friend.objects.all_my_friends(bundle.request.user)
+                user_ids = NeoFourJ().get_my_friends_ids(bundle.request.user)
 
             users = FacebookCustomUserActive.objects.filter(pk__in=user_ids)
             for user in users:
