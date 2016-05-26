@@ -4,6 +4,7 @@ from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 from events.models import Event, Membership
 from friends.models import Friend
+from friends.utils import NeoFourJ
 from msgs.models import ChatMessage
 from postman.api import pm_write
 from postman.models import Message
@@ -98,9 +99,10 @@ class TestInboxLastResource(ResourceTestCase):
             username='user_c', password='test', facebook_id=12347)
         self.user3 = FacebookCustomUser.objects.create_user(
             username='user_d', password='test', facebook_id=12348)
-        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
-        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
-        Friend.objects.create(friend1=self.user1, friend2=self.user2, status=1)
+        self.neo = NeoFourJ()
+        self.neo.create_friendship(self.user, self.user1)
+        self.neo.create_friendship(self.user, self.user3)
+        self.neo.create_friendship(self.user1, self.user2)
         for x in range(10):
             pm_write(self.user1, self.user, 'test %s' % x)
         for x in range(10):

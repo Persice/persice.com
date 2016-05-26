@@ -22,16 +22,16 @@ from friends.models import Friend
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
-def all_my_friends(user_id):
-    fids = Friend.objects.all_my_friends(user_id) + \
-           Friend.objects.thumbed_up_i(user_id) + \
-           Friend.objects.deleted_friends(user_id) + \
-           list(FacebookCustomUser.objects.filter(is_superuser=True)
-                .values_list('id', flat=True)) + \
-           list(FacebookCustomUser.objects.filter
-                (is_active=False, facebook_id__isnull=True).
-                values_list('id', flat=True))
-    return fids
+# def all_my_friends(user_id):
+#     fids = Friend.objects.all_my_friends(user_id) + \
+#            Friend.objects.thumbed_up_i(user_id) + \
+#            Friend.objects.deleted_friends(user_id) + \
+#            list(FacebookCustomUser.objects.filter(is_superuser=True)
+#                 .values_list('id', flat=True)) + \
+#            list(FacebookCustomUser.objects.filter
+#                 (is_active=False, facebook_id__isnull=True).
+#                 values_list('id', flat=True))
+#     return fids
 
 
 class MatchEngineManager(models.Manager):
@@ -997,7 +997,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
             events = Event.objects.filter(ends_on__gt=now())
 
         elif feed == 'connections':
-            friends = Friend.objects.all_my_friends(user_id=user_id)
+            friends = NeoFourJ().get_my_friends_ids(user_id)
             events = Event.objects.filter(
                 Q_(membership__user_id__in=friends,
                    membership__rsvp__in=['yes', 'maybe'], ends_on__gt=now()) |
