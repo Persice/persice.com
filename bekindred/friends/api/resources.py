@@ -468,3 +468,60 @@ class FriendsNewCounterResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+class NeoFriendsNewCounterResource(Resource):
+    new_connection_counter = fields.IntegerField(
+        attribute='new_connection_counter')
+
+    class Meta:
+        resource_name = 'new_connections/counter'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        results = []
+        new_obj = A()
+        new_obj.new_connection_counter = NeoFourJ().\
+            get_new_friends_count(request.user.id)
+        results.append(new_obj)
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+
+class NeoFriendsNewResource(Resource):
+    class Meta:
+        resource_name = 'new_connections/updated_at'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        raw_friend_id = request.GET.get('friend_id')
+        if raw_friend_id:
+            friend_id = int(raw_friend_id)
+            user = FacebookCustomUserActive.objects.get(id=request.user.id)
+            fb_obj = FacebookCustomUserActive.objects.get(id=friend_id)
+            try:
+                NeoFourJ().update_rel_seen(user.id, fb_obj.id)
+            except Exception as err:
+                logger.error(err)
+        return list()
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass

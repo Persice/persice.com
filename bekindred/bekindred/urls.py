@@ -10,7 +10,9 @@ from events.api.resources import (AboutMeResource, EventAttendees,
 from friends.api.resources import (ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
-                                   ConnectionsResource, NeoFriendsResource)
+                                   ConnectionsResource, NeoFriendsResource,
+                                   NeoFriendsNewCounterResource,
+                                   NeoFriendsNewResource)
 from goals.api.resources import (FacebookLikeResource, GoalResource,
                                  MatchFilterStateResource, OfferResource,
                                  SubjectResource)
@@ -69,6 +71,8 @@ v1_api.register(UserProfileResource())
 
 v2_api = Api(api_name='v2')
 v2_api.register(NeoFriendsResource())
+v2_api.register(NeoFriendsNewCounterResource())
+v2_api.register(NeoFriendsNewResource())
 
 urlpatterns = patterns('',
                        url(r'^signup/interests', 'goals.views.signup_page',

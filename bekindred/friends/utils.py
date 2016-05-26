@@ -81,8 +81,8 @@ class NeoFourJ(object):
     def add_to_friends(self, node1, node2):
         rel = Relationship(node1, "FRIENDS", node2, since=now(),
                            seen=False)
-        # self.get_my_friends_ids()
-        # self._publish_to_redis_channel(node1, node2)
+        if self.check_friendship_rel(node2['user_id'], node1['user_id']):
+            self._publish_to_redis_channel(node1['user_id'], node2['user_id'])
         self.graph.create_unique(rel)
         update_index_delay()
 
@@ -118,7 +118,7 @@ class NeoFourJ(object):
             return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
         """, {'USER_ID': user_id})
 
-    def check_friendsip_rel(self, user_id1, user_id2):
+    def check_friendship_rel(self, user_id1, user_id2):
         """
         Check :FRIENDS rel in one direction
         :return:
@@ -128,6 +128,9 @@ class NeoFourJ(object):
             (n2:Person { user_id:{USER_ID2} })
             return n1.user_id AS user_id1, n2.user_id AS user_id2
         """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+        if result.one is None:
+            return False
+
         if result.one.user_id1 == user_id1 and result.one.user_id2 == user_id2:
             return True
         else:
@@ -147,8 +150,24 @@ class NeoFourJ(object):
             results.append(record.user_id)
         return results
 
-    def get_new_friends(self):
-        pass
+    def update_rel_seen(self, user_id1, user_id2):
+        n1 = self.get_person(user_id1)
+        n2 = self.get_person(user_id2)
+        rel = self.graph.match_one(n1, 'FRIENDS', n2)
+        rel['seen'] = True
+        rel.push()
+
+    def get_new_friends_count(self, user_id):
+        result = self.graph.cypher.execute("""
+        MATCH (Person { user_id:{USER_ID} })-[r1:FRIENDS]->
+        (n)-[r2:FRIENDS]->(Person { user_id:{USER_ID} })
+        where r1.seen = FALSE
+        return count(n.user_id) AS new_friend_count
+        """, {'USER_ID': user_id})
+        if result.one:
+            return result.one
+        else:
+            return 0
 
     def check_friendship(self, user_id1, user_id2):
         return self.graph.cypher.execute("""
@@ -172,8 +191,10 @@ class NeoFourJ(object):
             person = self.create_person(self.person(user_id))
             return person, True
 
-    def _publish_to_redis_channel(self, user1, user2):
+    def _publish_to_redis_channel(self, user_id1, user_id2):
         # redis
+        user1 = FacebookCustomUser.objects.get(pk=user_id1)
+        user2 = FacebookCustomUser.objects.get(pk=user_id2)
         r = redis.StrictRedis(host='localhost', port=6379, db=0)
         user_1 = {'friend_name': user2.first_name,
                   'friend_id': user2.id,

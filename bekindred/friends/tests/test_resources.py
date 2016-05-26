@@ -293,8 +293,39 @@ class FriendUtilsTestCase(TestCase):
         n2 = self.neo.create_person(self.neo.person(self.user1))
         self.neo.add_to_friends(n1, n2)
         self.assertTrue(
-            self.neo.check_friendsip_rel(self.user.id, self.user1.id)
+            self.neo.check_friendship_rel(self.user.id, self.user1.id)
         )
+
+    def test_check_friendship_negative(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        self.neo.add_to_friends(n2, n1)
+        self.assertFalse(
+            self.neo.check_friendship_rel(self.user.id, self.user1.id)
+        )
+
+    def test_get_new_friends(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        n3 = self.neo.create_person(self.neo.person(self.user2))
+        self.neo.add_to_friends(n1, n2)
+        self.neo.add_to_friends(n2, n1)
+        self.neo.add_to_friends(n1, n3)
+        self.neo.add_to_friends(n3, n1)
+        self.neo.add_to_friends(n3, n2)
+        self.neo.add_to_friends(n2, n3)
+        count = self.neo.get_new_friends_count(n1['user_id'])
+        self.assertEqual(count, 2)
+
+    def test_update_rel_seen(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        self.neo.add_to_friends(n1, n2)
+        self.neo.add_to_friends(n2, n1)
+        self.assertEqual(self.neo.get_new_friends_count(n1['user_id']), 1)
+        self.neo.update_rel_seen(n1['user_id'], n2['user_id'])
+        self.assertEqual(self.neo.get_new_friends_count(n1['user_id']), 0)
+        self.assertEqual(self.neo.get_new_friends_count(n2['user_id']), 1)
 
 
 class NeoFriendsResourceTestCase(ResourceTestCase):
