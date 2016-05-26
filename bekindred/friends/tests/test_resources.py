@@ -293,7 +293,15 @@ class FriendUtilsTestCase(TestCase):
         n2 = self.neo.create_person(self.neo.person(self.user1))
         self.neo.add_to_friends(n1, n2)
         self.assertTrue(
-            self.neo.check_friendsip_rel(self.user.id, self.user1.id)
+            self.neo.check_friendship_rel(self.user.id, self.user1.id)
+        )
+
+    def test_check_friendsip_negative(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        self.neo.add_to_friends(n2, n1)
+        self.assertFalse(
+            self.neo.check_friendship_rel(self.user.id, self.user1.id)
         )
 
 
