@@ -19,6 +19,11 @@ export class UserAuthService {
       connected: false,
       username: 'Your linkedin account',
       url: ''
+    },
+    facebook: {
+      connected: true,
+      username: '',
+      url: ''
     }
   };
 
@@ -118,6 +123,8 @@ export class UserAuthService {
     this.connectStatus.linkedin.connected = data.linkedin_provider !== null ? true : false;
     this.connectStatus.linkedin.username = data.linkedin_first_name ? data.linkedin_first_name : 'Your linkedin account';
     this.connectStatus.linkedin.url = data.linkedin_provider ? data.linkedin_provider : 'Your linkedin account';
+    this.connectStatus.facebook.url = data.facebook_id ? `https://www.facebook.com/app_scoped_user_id/${data.facebook_id}` : '';
+    this.connectStatus.facebook.username = data.username;
   }
 
   private assignStats(data) {

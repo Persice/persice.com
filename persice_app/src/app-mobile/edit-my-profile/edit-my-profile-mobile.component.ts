@@ -10,7 +10,8 @@ import {ReligiousViewsMobileComponent} from './edit-religious-views';
 import {PoliticalViewsMobileComponent} from './edit-political-views';
 import {EditPhotosMobileComponent} from './edit-photos';
 import {EditGoalsMobileComponent} from './edit-goals';
-import {EditOffersMobileComponent} from "./edit-offers/edit-offers-mobile.component";
+import {EditOffersMobileComponent} from './edit-offers';
+import {EditSocialAccountsMobileComponent} from './edit-social-accounts';
 
 @Component({
   selector: 'prs-mobile-edit-my-profile',
@@ -58,6 +59,11 @@ import {EditOffersMobileComponent} from "./edit-offers/edit-offers-mobile.compon
     path: '/offers',
     component: EditOffersMobileComponent,
     name: 'EditOffers'
+  },
+  {
+    path: '/accounts',
+    component: EditSocialAccountsMobileComponent,
+    name: 'EditSocialAccounts'
   }
 
 ])
@@ -113,6 +119,9 @@ export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
         this.router.navigate(['EditNavigation']);
         break;
       case 'offers':
+        this.router.navigate(['EditNavigation']);
+        break;
+      case 'accounts':
         this.router.navigate(['EditNavigation']);
         break;
       case 'edit photos':
