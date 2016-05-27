@@ -16,5 +16,4 @@ git push origin $1
 
 fab deploy:$1
 
-
-git diff --name-only HEAD~$2 HEAD | grep static | sed -e "s/bekindred\/static//g" | python invalidate_cache_cloud_front.py
+python invalidate_cache_cloud_front.py
