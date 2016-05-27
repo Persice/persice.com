@@ -12,6 +12,7 @@ git ls-files . | grep -E '(\.js$)|(\.css$)|(\.gz$)|(\.map$)|(\.svg$)' | xargs gi
 git add .
 
 git commit -am 'automatic commit before deploy fronted' || true
+git push origin $1
 
 fab deploy:$1
 
