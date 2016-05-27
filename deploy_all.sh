@@ -10,6 +10,7 @@ npm run build:prod
 popd
 
 git ls-files . | grep -E '(\.js$)|(\.css$)|(\.gz$)|(\.map$)|(\.svg$)' | xargs git add
+git add .
 
 git commit -am 'automatic commit before deploy fronted'
 
