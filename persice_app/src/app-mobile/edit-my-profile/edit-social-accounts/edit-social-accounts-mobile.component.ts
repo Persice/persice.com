@@ -43,7 +43,7 @@ export class EditSocialAccountsMobileComponent implements OnInit {
   }
 
   /**
-   * Get social accounts status
+   * Get social accounts status testing
    */
   getConnectStatus() {
     this.userAuthService.findOneByUri('me').subscribe((data) => {
