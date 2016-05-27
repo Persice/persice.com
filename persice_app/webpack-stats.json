@@ -39,14 +39,14 @@
     ],
     "main-mobile": [
       {
-        "name": "main-mobile.a4b4ae6b6ef32cb4f0fc.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.a4b4ae6b6ef32cb4f0fc.bundle.js",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.a4b4ae6b6ef32cb4f0fc.bundle.js"
+        "name": "main-mobile.d25b6133c02c66f316db.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.d25b6133c02c66f316db.bundle.js",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.d25b6133c02c66f316db.bundle.js"
       },
       {
-        "name": "main-mobile.a4b4ae6b6ef32cb4f0fc.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.a4b4ae6b6ef32cb4f0fc.bundle.map",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.a4b4ae6b6ef32cb4f0fc.bundle.map"
+        "name": "main-mobile.d25b6133c02c66f316db.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.d25b6133c02c66f316db.bundle.map",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.d25b6133c02c66f316db.bundle.map"
       }
     ],
     "signup": [
