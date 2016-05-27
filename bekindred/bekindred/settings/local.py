@@ -23,8 +23,8 @@ CACHES = {
 }
 
 INSTALLED_APPS += (
-    'debug_toolbar',
-    'tastypie_swagger',
+    # 'debug_toolbar',
+    # 'tastypie_swagger',
 )
 
 HAYSTACK_CONNECTIONS = {
