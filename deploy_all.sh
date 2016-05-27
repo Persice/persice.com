@@ -12,7 +12,7 @@ popd
 git ls-files . | grep -E '(\.js$)|(\.css$)|(\.gz$)|(\.map$)|(\.svg$)' | xargs git add
 git add .
 
-git commit -am 'automatic commit before deploy fronted'
+git commit -am 'automatic commit before deploy fronted' || true
 
 fab deploy:$1
 
