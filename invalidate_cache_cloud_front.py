@@ -1,35 +1,11 @@
 import time
 import boto
 import os
+import sys
 
-paths = [
-    "/dist/assets/css/mobile.css",
-    "/dist/assets/css/vendor.mobile.min.css",
-    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.js",
-    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.js.gz",
-    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.map",
-    "/dist/main-mobile.27d308a5554b0cf8ed62.bundle.map.gz",
-    "/dist/main.bf4dd7fa74f293a1be88.bundle.js",
-    "/dist/main.bf4dd7fa74f293a1be88.bundle.js.gz",
-    "/dist/main.bf4dd7fa74f293a1be88.bundle.map",
-    "/dist/main.bf4dd7fa74f293a1be88.bundle.map.gz",
-    "/dist/polyfills.0a5fa375cda8df736015.bundle.js",
-    "/dist/polyfills.0a5fa375cda8df736015.bundle.js.gz",
-    "/dist/polyfills.0a5fa375cda8df736015.bundle.map",
-    "/dist/polyfills.0a5fa375cda8df736015.bundle.map.gz",
-    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.js",
-    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.js.gz",
-    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.map",
-    "/dist/signup-mobile.8a30fe4b5a0d032b773b.bundle.map.gz",
-    "/dist/signup.ed545904d327b2e6befa.bundle.js",
-    "/dist/signup.ed545904d327b2e6befa.bundle.js.gz",
-    "/dist/signup.ed545904d327b2e6befa.bundle.map",
-    "/dist/signup.ed545904d327b2e6befa.bundle.map.gz",
-    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.js",
-    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.js.gz",
-    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.map",
-    "/dist/vendor.ac0544fdf8dc68aaeedf.bundle.map.gz"
-]
+
+paths = list(map(str.strip, sys.stdin.readlines()))
+print paths
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -37,16 +13,15 @@ CLOUD_FRONT_ID = os.getenv('CLOUD_FRONT_ID', u'E8V5GR8FWEOOB')
 
 c = boto.connect_cloudfront(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
-# os.system()
-# git diff --name-only HEAD~1 HEAD | grep static |sed -e "s/bekindred\/static//g"
-
 inval_req = c.create_invalidation_request(CLOUD_FRONT_ID, paths)
 
 max_timer = 1200
 status = c.invalidation_request_status(CLOUD_FRONT_ID, inval_req.id).status
 timer = 0
-while status == u'InProgress' or timer > max_timer:
+while True:
     time.sleep(10)
     timer += 10
     status = c.invalidation_request_status(CLOUD_FRONT_ID, inval_req.id).status
+    if status != u'InProgress' or (timer > max_timer):
+        break
     print (status, timer)
