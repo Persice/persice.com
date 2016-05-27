@@ -100,6 +100,10 @@ export class Person {
     return this._lastName;
   }
 
+  get formatedName(): string {
+    return `${this._firstName} ${this._lastName}`;
+  }
+
   get gender(): string {
     return this._gender.value;
   }

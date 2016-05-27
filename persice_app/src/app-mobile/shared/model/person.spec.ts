@@ -14,6 +14,7 @@ describe('Person', () => {
     expect(person.id).toEqual(dto.id);
     expect(person.firstName).toEqual(dto.first_name);
     expect(person.lastName).toEqual(dto.last_name);
+    expect(person.formatedName).toBe(dto.first_name + ' ' + dto.last_name);
     expect(person.gender).toEqual(dto.gender === 'm' ? 'Male' : 'Female');
     expect(person.score).toEqual(dto.score);
     expect(person.age).toEqual(dto.age);
