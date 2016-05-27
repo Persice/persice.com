@@ -77,11 +77,6 @@ const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
     path: '/:username',
     component: MyProfileMobileComponent,
     name: 'MyProfile'
-  },
-  {
-    path: '/:username/photos',
-    component: PhotosMobileComponent,
-    name: 'Photos'
   }
 ])
 @Component({

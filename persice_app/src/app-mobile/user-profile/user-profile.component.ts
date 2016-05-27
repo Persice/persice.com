@@ -14,6 +14,7 @@ import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";
 import {Person} from '../shared/model';
 import {AboutMobileComponent} from './about-mobile.component';
+import {PhotosMobileComponent} from './photos';
 import {ConnectionsListMobileComponent} from './connections-list-mobile.component';
 import {ItemsListMobileComponent} from './items-list.component';
 import {FriendUtil} from '../../app/shared/core';
@@ -31,7 +32,8 @@ import {ConnectionsService} from '../../common/connections';
     ItemsListMobileComponent,
     ConnectionsListMobileComponent,
     OpenLeftMenuDirective,
-    RouterLink
+    RouterLink,
+    PhotosMobileComponent
   ],
   providers: [
     MutualFriendsService,
@@ -68,6 +70,8 @@ export class UserProfileComponent implements AfterViewInit {
   // Indicator for which tab is active: interests(0), goals(1), offers(2)
   activeTab: number = 0;
 
+  isPhotosViewEnabled: boolean = false;
+
   constructor(
     private _friendService: MutualFriendsService,
     private _connectionsService: ConnectionsService
@@ -91,6 +95,10 @@ export class UserProfileComponent implements AfterViewInit {
    */
   public activateTab(tab: number) {
     this.activeTab = tab;
+  }
+
+  public openPhotos(event) {
+    this.isPhotosViewEnabled = true;
   }
 
   private _getMutualFriends(id) {
