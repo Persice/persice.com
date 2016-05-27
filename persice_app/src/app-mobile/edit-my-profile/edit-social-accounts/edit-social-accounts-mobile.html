@@ -39,7 +39,7 @@
 </div>
 <div class="pers-data mh--">
   <div class="tableize tableize--middle">
-    <div class="tableize__cell">
+    <div class="tableize__cell 2/4">
       <div class="tableize__content">
         <div class="flag flag--small">
           <div class="flag__img">
@@ -55,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="tableize__cell 1/4">
+    <div class="tableize__cell 2/4">
       <div class="tableize__content text-right">
         <a class="link-blank" (click)="connect('twitter')" *ngIf="!connectStatus.twitter.connected && username !== ''">Connect</a>
         <svg (click)="disconnect('twitter')" role="img" class="icon icon--tiny icon--green" *ngIf="connectStatus.twitter.connected">
@@ -67,7 +67,7 @@
 </div>
 <div class="pers-data pers-data--no-border mh--">
   <div class="tableize tableize--middle">
-    <div class="tableize__cell">
+    <div class="tableize__cell  2/4">
       <div class="tableize__content">
         <div class="flag flag--small">
           <div class="flag__img">
@@ -83,7 +83,7 @@
         </div>
       </div>
     </div>
-    <div class="tableize__cell 1/4">
+    <div class="tableize__cell 2/4">
       <div class="tableize__content text-right">
         <a class="link-blank" (click)="connect('linkedin')" *ngIf="!connectStatus.linkedin.connected && username !== ''">Connect</a>
         <svg (click)="disconnect('linkedin')" role="img" class="icon icon--tiny icon--green" *ngIf="connectStatus.linkedin.connected">
