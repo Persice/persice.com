@@ -4,7 +4,8 @@ import os
 import sys
 
 
-paths = map(str.strip, sys.stdin.readlines())
+paths = list(map(str.strip, sys.stdin.readlines()))
+print paths
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
