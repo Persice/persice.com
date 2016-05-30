@@ -52,7 +52,7 @@ export abstract class FilterComponent {
     hide_min_max: true,
     hide_from_to: true,
     keyboard: true,
-    min: 0,
+    min: 1,
     max: 200,
     step: 1,
     from: 0,
