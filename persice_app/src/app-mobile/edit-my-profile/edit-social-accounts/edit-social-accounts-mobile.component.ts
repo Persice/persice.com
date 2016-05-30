@@ -10,8 +10,6 @@ import {UserAuthService} from '../../../app/shared/services';
   providers: [UserAuthService]
 })
 export class EditSocialAccountsMobileComponent implements OnInit {
-
-  private username: string;
   public connectStatus = {
     twitter: {
       connected: false,
@@ -29,6 +27,7 @@ export class EditSocialAccountsMobileComponent implements OnInit {
       url: ''
     }
   };
+  private username: string;
 
   constructor(
     private userAuthService: UserAuthService,

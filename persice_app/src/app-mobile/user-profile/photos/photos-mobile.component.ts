@@ -41,7 +41,7 @@ export class PhotosMobileComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy():void {
+  ngOnDestroy(): void {
     switch (this.profileType) {
       case 'my-profile':
         break;
