@@ -66,7 +66,8 @@
           <div class="layout__item 1/2 mb-">
             <h3 class="filter__item__title">Distance</h3> </div>
           <div class="layout__item 1/2 text-right mb-">
-            <span class="range-value">{{ distanceValue | numeral }} {{distanceUnit}}</span>
+            <span class="range-value" *ngIf="distanceValue < rangeSliderOptionsDistance.max">{{ distanceValue | numeral }} {{distanceUnit}}</span>
+            <span class="range-value" *ngIf="distanceValue >= rangeSliderOptionsDistance.max">{{ rangeSliderOptionsDistance.max_value_display_name }}</span>
           </div>
         </div>
         <prs-range-slider [renderSlider]="renderSlider" [options]="rangeSliderOptionsDistance" (onChange)="distanceChanged($event)" (onFinish)="saveDistance($event)" [class]="'range-to'"></prs-range-slider>
