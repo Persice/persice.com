@@ -5,6 +5,7 @@ source .env
 
 pushd persice_app
 npm install
+gulp
 npm run build:prod
 popd
 
