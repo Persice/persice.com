@@ -8,7 +8,7 @@ from guardian.shortcuts import assign_perm
 from tastypie.test import ResourceTestCase
 
 from events.models import FilterState, Event, Membership
-from friends.models import Friend
+from friends.utils import NeoFourJ
 from goals.models import Subject, Offer, Goal
 from interests.models import InterestSubject, Interest
 from match_engine.models import ElasticSearchMatchEngine, StopWords
@@ -120,6 +120,8 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         StopWords.objects.create(word=u'to')
         clear_index.Command().handle(interactive=False)
         rebuild_index.Command().handle(interactive=False)
+        self.neo = NeoFourJ()
+        self.neo.graph.delete_all()
 
     def tearDown(self):
         pass
@@ -488,7 +490,7 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         Goal.objects.create(user=self.user3, goal=self.subject5)
         FilterState.objects.create(user=self.user, min_age=18,
                                    max_age=99, distance=10000)
-        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
+        self.neo.create_friendship(self.user, self.user3)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id)
         self.assertEqual(len(match_users), 1)
@@ -508,11 +510,11 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         FilterState.objects.create(user=self.user, min_age=18,
                                    max_age=99, distance=16000,
                                    order_criteria='mutual_friends')
-        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
-        Friend.objects.create(friend1=self.user, friend2=self.user3, status=1)
-        Friend.objects.create(friend1=self.user5, friend2=self.user1, status=1)
-        Friend.objects.create(friend1=self.user5, friend2=self.user3, status=1)
-        Friend.objects.create(friend1=self.user4, friend2=self.user1, status=1)
+        self.neo.create_friendship(self.user, self.user1)
+        self.neo.create_friendship(self.user, self.user3)
+        self.neo.create_friendship(self.user5, self.user1)
+        self.neo.create_friendship(self.user5, self.user3)
+        self.neo.create_friendship(self.user4, self.user1)
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 3)
@@ -553,6 +555,8 @@ class TestMatchEvents(BaseTestCase, ResourceTestCase):
         self.subject2 = Subject.objects.create(description='learn python')
         clear_index.Command().handle(interactive=False)
         rebuild_index.Command().handle(interactive=False)
+        self.neo = NeoFourJ()
+        self.neo.graph.delete_all()
 
     def get_credentials(self):
         pass
@@ -615,7 +619,7 @@ class TestMatchEvents(BaseTestCase, ResourceTestCase):
         self.membership = Membership.objects. \
             create(user=self.user1, event=self.event1,
                    is_organizer=True, rsvp='yes')
-        Friend.objects.create(friend1=self.user, friend2=self.user1, status=1)
+        self.neo.create_friendship(self.user, self.user1)
         assign_perm('view_event', self.user, self.event)
         update_index.Command().handle(interactive=False)
         events = MatchQuerySet.all_event(self.user.id, feed='connections')

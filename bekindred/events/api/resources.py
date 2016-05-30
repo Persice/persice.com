@@ -1,5 +1,6 @@
 import json
 import re
+import logging
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from datetime import datetime
 import redis
@@ -29,6 +30,7 @@ from events.models import (CumulativeMatchScore, Event, EventFilterState,
                            Membership, FilterState)
 from events.utils import ResourseObject, Struct, get_cum_score
 from friends.models import Friend
+from friends.utils import NeoFourJ
 from goals.models import MatchFilterState, Goal, Offer
 from goals.utils import (calculate_age, calculate_distance_events,
                          get_user_location, calculate_distance_user_event,
@@ -39,6 +41,9 @@ from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
 from postman.api import pm_write
+
+
+logger = logging.getLogger(__name__)
 
 
 class EventValidation(Validation):
@@ -123,7 +128,7 @@ class EventResource(MultiPartResource, ModelResource):
         'events.api.resources.MembershipResource',
         attribute=lambda bundle:
         bundle.obj.membership_set.filter(
-            user__in=Friend.objects.all_my_friends(user_id=bundle.request.user.id) +
+            user__in=NeoFourJ().get_my_friends_ids(bundle.request.user.id) +
             [bundle.request.user.id], rsvp='yes'),
         full=True, null=True)
     event_photo = fields.FileField(attribute="event_photo", null=True,
@@ -147,7 +152,7 @@ class EventResource(MultiPartResource, ModelResource):
 
     def dehydrate(self, bundle):
         user_id = bundle.request.user.id
-        friends = Friend.objects.all_my_friends(user_id=user_id)
+        friends = NeoFourJ().get_my_friends_ids(user_id)
         try:
             bundle.data['hosted_by'] = bundle.obj.membership_set. \
                 filter(is_organizer=True, rsvp='yes')[0].user.get_full_name()
@@ -247,16 +252,16 @@ class EventResource(MultiPartResource, ModelResource):
                     for user in users:
                         assign_perm('view_event', user, bundle.obj)
                 except TypeError as e:
-                    print e
+                    logger.error(e)
         elif bundle.obj.access_level == 'connections':
             user_ids = []
             if bundle.obj.access_user_list:
                 try:
                     user_ids = map(int, bundle.obj.access_user_list.split(','))
                 except TypeError as e:
-                    print e
+                    logger.error(e)
             else:
-                user_ids = Friend.objects.all_my_friends(bundle.request.user)
+                user_ids = NeoFourJ().get_my_friends_ids(bundle.request.user)
 
             users = FacebookCustomUserActive.objects.filter(pk__in=user_ids)
             for user in users:
@@ -290,7 +295,7 @@ class EventResource(MultiPartResource, ModelResource):
                         for user in users_:
                             assign_perm('view_event', user, bundle.obj)
                     except TypeError as e:
-                        print e
+                        logger.error(e)
 
             elif new_access_level == 'connections':
                 users = FacebookCustomUserActive.objects.all(). \
@@ -304,7 +309,7 @@ class EventResource(MultiPartResource, ModelResource):
                         user_ids = map(int,
                                        bundle.obj.access_user_list.split(','))
                     except TypeError as e:
-                        print e
+                        logger.error(e)
                 else:
                     user_ids = Friend.objects.\
                         all_my_friends(bundle.request.user)

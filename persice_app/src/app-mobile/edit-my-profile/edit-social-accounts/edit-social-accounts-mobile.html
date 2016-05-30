@@ -1,0 +1,95 @@
+<div class="mob-connect-accounts">
+  <h4 class="mob-connect-accounts__title">Connect your accounts</h4>
+  <p class="mob-connect-accounts__paragraph"> This will improve your match results within the Persice community </p>
+  <p class="mob-connect-accounts__paragraph mb-">
+    <svg role="img" class="icon icon--extratiny">
+      <use xlink:href="/static/assets/icons/icons.svg#icon-lock_slim"></use>
+    </svg> Persice will never share your information or post on your behalf. </p>
+</div>
+<div class="pers-data pers-data--b-top mh--">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell">
+      <div class="tableize__content">
+        <div class="flag flag--small">
+          <div class="flag__img">
+            <svg role="img" class="icon icon--medium">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-facebook_middle"></use>
+            </svg>
+          </div>
+          <div class="flag__body">
+            <h5 class="social-label">Facebook</h5>
+            <a target="_new" class="social-data link--lightgrey" [href]="sanitize(connectStatus.facebook.url)">
+              {{connectStatus.facebook.username}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tableize__cell 1/4">
+      <div class="tableize__content text-right">
+        <svg role="img" class="icon icon--tiny icon--green">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+        </svg>
+        <svg role="img" class="icon icon--extratiny">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-lock_slim"></use>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data mh--">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell 2/4">
+      <div class="tableize__content">
+        <div class="flag flag--small">
+          <div class="flag__img">
+            <svg role="img" class="icon icon--medium">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-twitter"></use>
+            </svg>
+          </div>
+          <div class="flag__body">
+            <h5 class="social-label">Twitter</h5>
+            <p class="social-data social-data--unpopulated" *ngIf="!connectStatus.twitter.connected">Your Twitter account</p>
+            <a class="social-data link--lightgrey" [href]="sanitize(connectStatus.twitter.url)" *ngIf="connectStatus.twitter.connected">{{connectStatus.twitter.username}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tableize__cell 2/4">
+      <div class="tableize__content text-right">
+        <a class="link-blank" (click)="connect('twitter')" *ngIf="!connectStatus.twitter.connected && username !== ''">Connect</a>
+        <svg (click)="disconnect('twitter')" role="img" class="icon icon--tiny icon--green" *ngIf="connectStatus.twitter.connected">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pers-data pers-data--no-border mh--">
+  <div class="tableize tableize--middle">
+    <div class="tableize__cell  2/4">
+      <div class="tableize__content">
+        <div class="flag flag--small">
+          <div class="flag__img">
+            <svg role="img" class="icon icon--medium">
+              <use xlink:href="/static/assets/icons/icons.svg#icon-linkedin"></use>
+            </svg>
+          </div>
+          <div class="flag__body">
+            <h5 class="social-label">Linkedin</h5>
+            <p class="social-data social-data--unpopulated" *ngIf="!connectStatus.linkedin.connected">Your Linkedin account</p>
+            <a class="social-data link--lightgrey" [href]="sanitize(connectStatus.linkedin.url)" *ngIf="connectStatus.linkedin.connected">{{connectStatus.linkedin.username}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tableize__cell 2/4">
+      <div class="tableize__content text-right">
+        <a class="link-blank" (click)="connect('linkedin')" *ngIf="!connectStatus.linkedin.connected && username !== ''">Connect</a>
+        <svg (click)="disconnect('linkedin')" role="img" class="icon icon--tiny icon--green" *ngIf="connectStatus.linkedin.connected">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>

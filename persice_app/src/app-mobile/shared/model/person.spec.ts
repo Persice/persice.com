@@ -14,12 +14,34 @@ describe('Person', () => {
     expect(person.id).toEqual(dto.id);
     expect(person.firstName).toEqual(dto.first_name);
     expect(person.lastName).toEqual(dto.last_name);
+    expect(person.formatedName).toBe(dto.first_name + ' ' + dto.last_name);
     expect(person.gender).toEqual(dto.gender === 'm' ? 'Male' : 'Female');
     expect(person.score).toEqual(dto.score);
     expect(person.age).toEqual(dto.age);
     expect(person.distance).toEqual(dto.distance[0]);
     expect(person.distanceUnit).toEqual(dto.distance[1]);
     expect(person.topInterests.length).toBeGreaterThan(0);
+    expect(person.image).toEqual(dto.image);
+    expect(person.facebookUrl.length).not.toEqual(0);
+    expect(person.twitterUrl.length).not.toEqual(0);
+    expect(person.linkedinUrl.length).not.toEqual(0);
+  });
+
+  it('instantiates from dto without top interests and distance', () => {
+    // given
+    let dto: any = PersonGenerator.givenAnyPersonDtoWithoutInterestsAndDistance();
+
+    // when
+    let person: Person = new Person(dto);
+
+    // then
+    expect(person.id).toEqual(dto.id);
+    expect(person.firstName).toEqual(dto.first_name);
+    expect(person.lastName).toEqual(dto.last_name);
+    expect(person.gender).toEqual(dto.gender === 'm' ? 'Male' : 'Female');
+    expect(person.score).toEqual(dto.score);
+    expect(person.age).toEqual(dto.age);
+    expect(person.topInterests.length).toBe(0);
     expect(person.image).toEqual(dto.image);
     expect(person.facebookUrl.length).not.toEqual(0);
     expect(person.twitterUrl.length).not.toEqual(0);

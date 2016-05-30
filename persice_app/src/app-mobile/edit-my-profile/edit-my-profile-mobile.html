@@ -12,6 +12,9 @@
     <div class="layout__item 1/5 text-right" *ngIf="isDoneButtonVisible">
       <a (click)="goBack($event)">Done</a>
     </div>
+    <div class="layout__item 1/5 text-right" *ngIf="isCroppingPhotosDoneButtonVisible">
+      <a (click)="doneCroppingPhoto($event)">Done</a>
+    </div>
   </div>
 </header>
 <router-outlet></router-outlet>

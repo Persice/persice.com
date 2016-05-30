@@ -10,6 +10,7 @@ from django.utils.timezone import now
 
 from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
+from friends.utils import NeoFourJ
 from goals.models import Subject, Goal, Offer, MatchFilterState
 from world.models import UserLocation
 
@@ -35,6 +36,8 @@ class TestEventResource(ResourceTestCase):
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'events': '/api/v1/event/{0}/'.format(self.event.pk),
         }
+        self.neo = NeoFourJ()
+        self.neo.graph.delete_all()
 
     def get_credentials(self):
         pass
@@ -278,8 +281,7 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        Friend.objects.create(friend1=user1, friend2=self.user, status=1)
-        Friend.objects.create(friend1=user2, friend2=self.user, status=1)
+        self.neo.create_friendship(user1, user2)
         event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[7000, 22965.83])
         Membership.objects.create(user=self.user, event=event, is_organizer=True)

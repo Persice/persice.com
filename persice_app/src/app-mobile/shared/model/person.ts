@@ -15,7 +15,7 @@ export class Person {
   private _age: number;
   private _distance: number;
   private _distanceUnit: string;
-  private _topInterests: any[];
+  private _topInterests: any[] = [];
   private _goals: any[];
   private _goalsCount: number;
   private _offers: any[];
@@ -43,8 +43,11 @@ export class Person {
     this._lastName = dto.last_name;
     this._gender = new Gender(dto.gender);
     this._age = dto.age;
-    this._distance = dto.distance[0];
-    this._distanceUnit = dto.distance[1];
+
+    if (dto.distance) {
+      this._distance = dto.distance[0];
+      this._distanceUnit = dto.distance[1] ;
+    }
     this._image = dto.image;
     this._score = dto.score;
     this._about = dto.about ? dto.about : '';
@@ -52,12 +55,14 @@ export class Person {
     this._job = dto.position && dto.position.job ? dto.position.job : '';
     this._company = dto.position && dto.position.company ? dto.position.company : '';
 
-    let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
-    let halfLength = Math.ceil(topInterestsFromDto.length / 2);
+    if (dto.top_interests) {
+      let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
+      let halfLength = Math.ceil(topInterestsFromDto.length / 2);
 
-    this._topInterests = ObjectUtil.firstSorted(dto.top_interests[0], 6);
-    this.topInterestsFirstHalf = topInterestsFromDto.splice(0, halfLength);
-    this.topInterestsSecondHalf = topInterestsFromDto;
+      this._topInterests = ObjectUtil.firstSorted(dto.top_interests[0], 6);
+      this.topInterestsFirstHalf = topInterestsFromDto.splice(0, halfLength);
+      this.topInterestsSecondHalf = topInterestsFromDto;
+    }
 
     let goalsFromDto = ObjectUtil.transformSorted(dto.goals[0]),
       offersFromDto = ObjectUtil.transformSorted(dto.offers[0]),
@@ -93,6 +98,10 @@ export class Person {
 
   get lastName(): string {
     return this._lastName;
+  }
+
+  get formatedName(): string {
+    return `${this._firstName} ${this._lastName}`;
   }
 
   get gender(): string {

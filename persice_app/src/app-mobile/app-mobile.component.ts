@@ -29,6 +29,7 @@ import {EventsMobileComponent} from './events';
 import {MessagesMobileComponent} from './messages';
 import {MyProfileMobileComponent} from './my-profile';
 import {EditMyProfileMobileComponent} from './edit-my-profile';
+import {PhotosMobileComponent} from "./user-profile/photos/photos-mobile.component";
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 

@@ -4,16 +4,55 @@ import {Observable} from 'rxjs';
 
 import {HttpClient} from '../core';
 import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core';
+import {CookieUtil, ListUtil} from '../core';
+import {Photo} from '../../../common/models/photo';
 
 @Injectable()
 export class PhotosService {
   static API_URL: string = '/api/v1/photo/';
   next: string = '';
 
-  constructor(private http: HttpClient) {
+  /**
+   * Sort photos by order and create an array of (limit) photos used for editing purposes.
+   * @param {any} dtoJson [description]
+   */
+  public static getEditPhotos(dtoJson: any, limit: number): Photo[] {
+
+    let photosTemp: Photo[] = [];
+
+    for (let i = 0; i <= limit - 1; i++) {
+      let emptyPhoto = new Photo({ order: i });
+      photosTemp = [...photosTemp, emptyPhoto];
+    }
+
+    if (!!dtoJson) {
+      let sortedPhotos = ListUtil.orderBy(dtoJson.objects, ['order'], ['asc']);
+      for (var i = 0; i < sortedPhotos.length; ++i) {
+        for (var j = 0; j < photosTemp.length; ++j) {
+          if (sortedPhotos[i].order === photosTemp[j].order) {
+            photosTemp[j] = new Photo(sortedPhotos[i]);
+          }
+        }
+      }
+
+    }
+
+    return photosTemp;
 
   }
+           /**
+   * Get photos count
+   * @param {any} dtoJson [description]
+   */
+  public static getEditPhotosCount(dtoJson: any): number {
+    let count: number = 0;
+    if (!!dtoJson && !!dtoJson.meta) {
+      count = dtoJson.meta.total_count;
+    }
+    return count;
+  }
+
+  constructor(private http: HttpClient) { }
 
   public get(url: string, limit: number, user: number): Observable<any> {
 
@@ -45,7 +84,18 @@ export class PhotosService {
     return this.http.get(url).map((dto: Response) => dto.json().meta.total_count);
   }
 
+  public getMyPhotos(limit: number): Observable<any> {
+    let userId = CookieUtil.getValue('userid');
+    let params: string = [
+      `format=json`,
+      `limit=${limit}`,
+      `user_id=${userId}`,
+      `offset=0`,
+    ].join('&');
+    let url = `${PhotosService.API_URL}?${params}`;
 
+    return this.http.get(url).map((dto: Response) => dto.json());
+  }
 
   public delete(url: string, cb: (status: number) => void) {
     let channel = this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json())
@@ -111,7 +161,6 @@ export class PhotosService {
       .map((res: Response) => res.json());
 
   }
-
 
 }
 

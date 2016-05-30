@@ -1,5 +1,6 @@
 from random import sample
 import string
+import logging
 from operator import attrgetter
 
 import re
@@ -13,6 +14,7 @@ from social_auth.db.django_models import UserSocialAuth
 
 from events import Event
 from friends.models import Friend, FacebookFriendUser
+from friends.utils import NeoFourJ
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
     calculate_distance_es, get_mutual_linkedin_connections, \
@@ -23,6 +25,8 @@ from match_engine.models import MatchEngine, ElasticSearchMatchEngine, \
 from match_engine.utils import find_collocations
 from members.models import FacebookCustomUserActive
 from photos.models import FacebookPhoto
+
+logger = logging.getLogger(__name__)
 
 
 def order_by(target, **kwargs):
@@ -120,9 +124,7 @@ class MatchedResults(object):
     def __init__(self, current_user_id, exclude_user_ids):
         self.items = []
         self.current_user = FacebookCustomUserActive.objects.get(pk=current_user_id)
-        exclude_friends = Friend.objects.all_my_friends(current_user_id) + Friend.objects.thumbed_up_i(current_user_id) + \
-            FacebookFriendUser.objects.all_my_friends(current_user_id) + \
-            Friend.objects.deleted_friends(current_user_id)
+        exclude_friends = NeoFourJ().get_my_thumbed_up_ids(current_user_id)
         self.exclude_user_ids = exclude_user_ids + [current_user_id] + exclude_friends
 
     def find(self):
@@ -142,7 +144,8 @@ class MatchedResults(object):
 
 
 class MatchUser(object):
-    def __init__(self, current_user_id, user_object):
+    def __init__(self, current_user_id, user_object,
+                 include_top_interests=True):
         self.user = self.get_user_info(user_object)
         self.goals = self.highlight(user_object, 'goals')
         self.offers = self.highlight(user_object, 'offers')
@@ -166,7 +169,8 @@ class MatchUser(object):
         self.score = self.match_score()
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.get_friends_score(current_user_id, user_object)
-        self.top_interests = self.get_top_interests(user_object)
+        self.top_interests = \
+            self.get_top_interests(user_object) if include_top_interests else []
         self.last_login = self.user.last_login
         self.keywords = self.get_keywords(user_object)
         self.position = get_current_position(self.user)
@@ -305,7 +309,7 @@ class MatchUser(object):
                 new_h = h.replace('<em>', '').replace('</em>', '')
                 result[new_h] = 1
         except KeyError as er:
-            print er
+            logger.error(er)
         return [result]
 
     def likes_images(self, user_object):
@@ -412,7 +416,7 @@ class MatchEvent(object):
             new_h = h.replace('<em>', '').replace('</em>', '')
             result[new_h.lower()] = h.count('<em>')
         except KeyError as er:
-            print er
+            logger.error(er)
         return [result]
 
     @staticmethod
@@ -422,7 +426,7 @@ class MatchEvent(object):
 
     @staticmethod
     def get_friends_attendees(user_id, event_id):
-        friends = Friend.objects.all_my_friends(user_id=user_id)
+        friends = NeoFourJ().get_my_friends_ids(user_id)
         attendees = Event.objects.get(pk=event_id). \
             membership_set.filter(user__in=friends, rsvp='yes')
         return attendees
@@ -482,8 +486,8 @@ class MatchQuerySet(object):
                     cache.set('%s_%s' % (current_user_id,
                                          matched_user_id), user, 600)
                 users.append(user)
-            except FacebookCustomUserActive.DoesNotExist as e:
-                print e
+            except FacebookCustomUserActive.DoesNotExist as er:
+                logger.error(er)
         return users
 
     @staticmethod
@@ -496,8 +500,8 @@ class MatchQuerySet(object):
             try:
                 user = ShortMatchUser(current_user_id, hit)
                 users.append(user)
-            except FacebookCustomUserActive.DoesNotExist as e:
-                print e
+            except FacebookCustomUserActive.DoesNotExist as er:
+                logger.error(er)
         return users
 
     @staticmethod
@@ -524,9 +528,13 @@ class MatchQuerySet(object):
 
     @staticmethod
     def between(user_id1, user_id2):
-        hits = ElasticSearchMatchEngine.elastic_objects.\
-            match_between(user_id1, user_id2)
+        if user_id1 == user_id2:
+            hits = ElasticSearchMatchEngine.elastic_objects. \
+                get_user(user_id1)
+        else:
+            hits = ElasticSearchMatchEngine.elastic_objects.\
+                match_between(user_id1, user_id2)
         users = []
         for hit in hits:
-            users.append(MatchUser(user_id1, hit))
+            users.append(MatchUser(user_id1, hit, include_top_interests=False))
         return users

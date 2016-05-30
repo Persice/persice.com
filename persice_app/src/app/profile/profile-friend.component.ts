@@ -161,7 +161,7 @@ export class ProfileFriendComponent implements OnChanges, OnInit, OnDestroy {
     this.loadingPhotos = true;
     this.loadingLikes = true;
 
-    let url = `/api/v1/new_connections/updated_at/?format=json&friend_id=${this.user.id}`;
+    let url = `/api/v2/new_connections/updated_at/?format=json&friend_id=${this.user.id}`;
     this.http.get(url).map(res => res.json()).subscribe(data => {
       this.counterService.refreshCounter();
     });

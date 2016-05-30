@@ -128,20 +128,36 @@ class NeoFriendsResource(Resource):
     def obj_create(self, bundle, **kwargs):
         bundle.obj = NeoObject()
         bundle = self.full_hydrate(bundle)
-        client = self._client()
+        try:
+            client = self._client()
+        except Exception as err:
+            self.create_response(bundle.request, bundle,
+                                 response_class=BadRequest)
+            logger.error(err)
 
         current_user_id = bundle.request.user.id
-        target_user_id = bundle.data.get('user_id')
+        try:
+            target_user_id = int(bundle.data.get('user_id'))
+        except ValueError as err:
+            target_user_id = None
+            logger.error(err)
+        action = bundle.data.get('action')
 
         if not target_user_id:
-            raise BadRequest
+            self.create_response(bundle.request, bundle,
+                                 response_class=BadRequest)
 
         if current_user_id == target_user_id:
-            raise BadRequest
+            self.create_response(bundle.request, bundle,
+                                 response_class=BadRequest)
 
         node1, _ = client.get_or_create_node(bundle.request.user.id)
-        node2, _ = client.get_or_create_node(bundle.data.get('user_id'))
-        client.add_to_friends(node1, node2)
+        node2, _ = client.get_or_create_node(target_user_id)
+        if action and action.lower() == 'pass':
+            client.pass_friend(node1, node2)
+            bundle.obj.action = 'pass'
+        else:
+            client.add_to_friends(node1, node2)
         bundle.obj.id = node2._id
         bundle.obj.name = node2['name']
         bundle.obj.user_id = node2['user_id']
@@ -353,6 +369,7 @@ class ConnectionsResource(LoggingMixin, Resource):
         return kwargs
 
     def get_object_list(self, request):
+        logger.info('Get connections for user_id {}'.format(request.user.id))
         fs = FilterState.objects.filter(user=request.user.id)
 
         cache_match_users = None
@@ -367,8 +384,8 @@ class ConnectionsResource(LoggingMixin, Resource):
                 cache_match_users = cache.get('c_%s_%s' %
                                               (request.user.id,
                                                filter_updated_sha))
-            except AttributeError:
-                pass
+            except AttributeError as err:
+                logger.error(err)
         if cache_match_users:
             match_users = cache_match_users
         else:
@@ -441,6 +458,63 @@ class FriendsNewCounterResource(Resource):
             new_friends(request.user.id).count()
         results.append(new_obj)
         return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+
+class NeoFriendsNewCounterResource(Resource):
+    new_connection_counter = fields.IntegerField(
+        attribute='new_connection_counter')
+
+    class Meta:
+        resource_name = 'new_connections/counter'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        results = []
+        new_obj = A()
+        new_obj.new_connection_counter = NeoFourJ().\
+            get_new_friends_count(request.user.id)
+        results.append(new_obj)
+        return results
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+
+class NeoFriendsNewResource(Resource):
+    class Meta:
+        resource_name = 'new_connections/updated_at'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        raw_friend_id = request.GET.get('friend_id')
+        if raw_friend_id:
+            friend_id = int(raw_friend_id)
+            user = FacebookCustomUserActive.objects.get(id=request.user.id)
+            fb_obj = FacebookCustomUserActive.objects.get(id=friend_id)
+            try:
+                NeoFourJ().update_rel_seen(user.id, fb_obj.id)
+            except Exception as err:
+                logger.error(err)
+        return list()
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...

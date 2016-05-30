@@ -1,11 +1,12 @@
 import {provide, Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
-import {OPTS_REQ_JSON_CSRF, CookieUtil, HttpClient} from '../core';
+import {OPTS_REQ_JSON_CSRF, HttpClient} from '../core';
 
 @Injectable()
 export class FriendService {
   static API_URL: string = '/api/v1/friends/';
+  static API_URLv2: string = '/api/v2/friends/';
   next: string = '';
   constructor(private http: HttpClient) {
 
@@ -29,14 +30,22 @@ export class FriendService {
   }
 
   public saveFriendship(status: number, friendId: number): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
-    let friendship = {
-      friend1: '/api/v1/auth/user/' + userId + '/',
-      friend2: '/api/v1/auth/user/' + friendId + '/',
-      status: status
-    };
-    let body = JSON.stringify(friendship);
-    return this.http.post(`${FriendService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+    let friendshipState = {};
+
+    if (status === 0) {
+      friendshipState = {
+        user_id: friendId
+      };
+    } else {
+      friendshipState = {
+        user_id: friendId,
+        action: 'pass'
+      };
+    }
+
+    let body = JSON.stringify(friendshipState);
+
+    return this.http.post(`${FriendService.API_URLv2}?format=json`, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
   }
 }

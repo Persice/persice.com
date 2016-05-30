@@ -1,0 +1,21 @@
+<header class="mob-header">
+  <div class="layout layout--flush layout--middle">
+    <div class="layout__item 1/5">
+      <a (click)="onClosePhotos.emit($event)" class="mob-header__left-push">
+        <svg role="img" class="icon icon--small">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+        </svg>
+      </a>
+    </div>
+    <div class="layout__item 3/5 text-center">
+      <h2 class="mob-header__title js-swiper-gallery__pagination"></h2> </div>
+    <div class="layout__item 1/5 text-right"> </div>
+  </div>
+</header>
+<div class="mob-gallery js-swiper-gallery  swiper-container" swiper="{{swiperOpts}}" *ngIf="isProfileLoaded">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" *ngFor="let photo of photos">
+      <img src="{{photo.cropped_photo}}" alt="profile photo">
+    </div>
+  </div>
+</div>

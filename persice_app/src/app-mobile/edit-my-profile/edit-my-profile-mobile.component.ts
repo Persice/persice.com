@@ -3,11 +3,15 @@ import {RouterOutlet, RouteConfig, Router, RouteParams} from '@angular/router-de
 
 import {AppStateService} from '../shared/services';
 
-import {EditMyProfileNavigationComponent} from './navigation/edit-my-profile-navigation.component.ts';
+import {EditMyProfileNavigationComponent} from './navigation';
 import {EditInterestsMobileComponent} from './edit-interests';
-import {PersonalInfoMobileComponent} from "./edit-personal-info/personal-info-mobile.component";
-import {ReligiousViewsMobileComponent} from "./edit-religious-views/religious-views-mobile.component";
-import {PoliticalViewsMobileComponent} from "./edit-political-views/political-views-mobile.component";
+import {PersonalInfoMobileComponent} from './edit-personal-info';
+import {ReligiousViewsMobileComponent} from './edit-religious-views';
+import {PoliticalViewsMobileComponent} from './edit-political-views';
+import {EditPhotosMobileComponent} from './edit-photos';
+import {EditGoalsMobileComponent} from './edit-goals';
+import {EditOffersMobileComponent} from './edit-offers';
+import {EditSocialAccountsMobileComponent} from './edit-social-accounts';
 
 @Component({
   selector: 'prs-mobile-edit-my-profile',
@@ -40,11 +44,34 @@ import {PoliticalViewsMobileComponent} from "./edit-political-views/political-vi
     path: '/political',
     component: PoliticalViewsMobileComponent,
     name: 'EditPoliticalViews'
+  },
+  {
+    path: '/photos',
+    component: EditPhotosMobileComponent,
+    name: 'EditPhotos'
+  },
+  {
+    path: '/goals',
+    component: EditGoalsMobileComponent,
+    name: 'EditGoals'
+  },
+  {
+    path: '/offers',
+    component: EditOffersMobileComponent,
+    name: 'EditOffers'
+  },
+  {
+    path: '/accounts',
+    component: EditSocialAccountsMobileComponent,
+    name: 'EditSocialAccounts'
   }
+
 ])
 export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
   public title: string = 'edit';
   public isDoneButtonVisible: boolean = false;
+  public isCroppingPhotosDoneButtonVisible: boolean = false;
+
 
   private username: string;
 
@@ -63,6 +90,7 @@ export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
       .subscribe((state: any) => {
         this.title = state.title;
         this.isDoneButtonVisible = state.isDoneButtonVisible;
+        this.isCroppingPhotosDoneButtonVisible = state.isCroppingPhotosDoneButtonVisible ? true : false;
       });
   }
 
@@ -87,9 +115,33 @@ export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
       case 'political views':
         this.router.navigate(['EditPersonalInfo']);
         break;
-
+      case 'goals':
+        this.router.navigate(['EditNavigation']);
+        break;
+      case 'offers':
+        this.router.navigate(['EditNavigation']);
+        break;
+      case 'accounts':
+        this.router.navigate(['EditNavigation']);
+        break;
+      case 'edit photos':
+        this.router.navigate(['EditNavigation']);
+        break;
+      case 'choose album':
+        this.appStateService.setEditPhotosState({ page: 1 });
+        break;
+      case 'choose photo':
+        this.appStateService.setEditPhotosState({ page: 2 });
+        break;
+      case 'crop photo':
+        this.appStateService.setEditPhotosState({ page: 3 });
+        break;
       default:
         break;
     }
+  }
+
+  public doneCroppingPhoto(event) {
+    this.appStateService.setEditPhotosState({ page: 1, savePhotoAndRefresh: true });
   }
 }

@@ -2,7 +2,6 @@ import {provide, Injectable} from '@angular/core';
 import {Response} from '@angular/http';
 import {Subject, Observable} from 'rxjs';
 import {HttpClient} from '../core';
-import {Person} from "../../../app-mobile/shared/model/person";
 import {CookieUtil} from "../core/util";
 import {OPTS_REQ_JSON_CSRF} from "../core/http-constants";
 

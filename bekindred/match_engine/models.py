@@ -12,6 +12,7 @@ from django.db.models import Q as Q_
 from nltk.stem.porter import PorterStemmer
 
 from events.models import FilterState, Event
+from friends.utils import NeoFourJ
 from goals.models import Goal, Subject, Offer
 from goals.utils import get_user_location
 from interests.models import Interest, InterestSubject
@@ -21,16 +22,16 @@ from friends.models import Friend
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
-def all_my_friends(user_id):
-    fids = Friend.objects.all_my_friends(user_id) + \
-           Friend.objects.thumbed_up_i(user_id) + \
-           Friend.objects.deleted_friends(user_id) + \
-           list(FacebookCustomUser.objects.filter(is_superuser=True)
-                .values_list('id', flat=True)) + \
-           list(FacebookCustomUser.objects.filter
-                (is_active=False, facebook_id__isnull=True).
-                values_list('id', flat=True))
-    return fids
+# def all_my_friends(user_id):
+#     fids = Friend.objects.all_my_friends(user_id) + \
+#            Friend.objects.thumbed_up_i(user_id) + \
+#            Friend.objects.deleted_friends(user_id) + \
+#            list(FacebookCustomUser.objects.filter(is_superuser=True)
+#                 .values_list('id', flat=True)) + \
+#            list(FacebookCustomUser.objects.filter
+#                 (is_active=False, facebook_id__isnull=True).
+#                 values_list('id', flat=True))
+#     return fids
 
 
 class MatchEngineManager(models.Manager):
@@ -664,7 +665,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
             }
             response = client.search(index=index, body=body, size=100)
 
-        print response
         return response
 
     @staticmethod
@@ -707,7 +707,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
 
         response = client.search(index=index, body=body, size=50)
 
-        print response
         return response
 
     @staticmethod
@@ -841,7 +840,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
             }
         response = client.search(index=index, body=body, size=50)
 
-        print response
         return response
 
     @staticmethod
@@ -874,9 +872,9 @@ class ElasticSearchMatchEngineManager(models.Manager):
         query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words)
         fields = ["goals", "offers", "interests", "likes"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
-
+        neo = NeoFourJ()
         if exclude_ids is None:
-            exclude_ids = all_my_friends(user_id)
+            exclude_ids = neo.get_my_thumbed_up_ids(user_id)
 
         friends_list = []
         if not friends:
@@ -886,7 +884,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
         else:
             # All my friends
             #
-            fids = Friend.objects.all_my_friends(user_id)
+            # fids = Friend.objects.all_my_friends(user_id)
+            fids = neo.get_my_friends_ids(user_id)
             for f in fids:
                 friends_list.append('members.facebookcustomuseractive.%s' % f)
         response = ElasticSearchMatchEngineManager. \
@@ -958,7 +957,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
                        values=exclude_user_ids)) \
             .highlight(*fields) \
             .sort(sorting)
-        print s.to_dict()
         response = s.execute()
 
         s1 = Search(using=client,
@@ -968,10 +966,23 @@ class ElasticSearchMatchEngineManager(models.Manager):
                       values=[
                           'members.facebookcustomuseractive.%s' % user_id2])). \
             sort(sorting)
-        print s1.to_dict()
         response1 = s1.execute()
 
         return response.hits.hits or response1.hits.hits
+
+    @staticmethod
+    def get_user(user_id):
+        client = Elasticsearch()
+
+        s = Search(using=client,
+                   index=settings.HAYSTACK_CONNECTIONS['default'][
+                       'INDEX_NAME']) \
+            .filter(F("ids", type="modelresult",
+                      values=[
+                          'members.facebookcustomuseractive.%s' % user_id]))
+        response = s.execute()
+
+        return response.hits.hits
 
     @staticmethod
     def match_events(user_id, is_filter=False, feed='my'):
@@ -986,7 +997,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
             events = Event.objects.filter(ends_on__gt=now())
 
         elif feed == 'connections':
-            friends = Friend.objects.all_my_friends(user_id=user_id)
+            friends = NeoFourJ().get_my_friends_ids(user_id)
             events = Event.objects.filter(
                 Q_(membership__user_id__in=friends,
                    membership__rsvp__in=['yes', 'maybe'], ends_on__gt=now()) |

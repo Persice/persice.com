@@ -5,7 +5,6 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '../core';
 import {OPTS_REQ_JSON_CSRF} from '../core';
 import {CookieUtil} from '../core';
-import {Person} from "../../../app-mobile/shared/model/person";
 
 @Injectable()
 export class MyProfileService {

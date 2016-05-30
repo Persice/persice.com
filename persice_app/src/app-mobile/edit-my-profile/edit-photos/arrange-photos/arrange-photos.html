@@ -1,0 +1,14 @@
+<prs-loading [status]="loading"></prs-loading>
+<div class="mob-edit-photos-arrange" *ngIf="!loading">
+  <div class="profile-edit__photos p--">
+    <div class="layout layout--flush layout--auto">
+      <div id="profile-photo-big" class="profile-edit__photos__main-photo-container">
+        <prs-mobile-edit-profile-photo [photo]="profilePhoto" [isDeletionEnabled]="isProfilePhotoDeletable" (onDelete)="onDelete.emit($event)"></prs-mobile-edit-profile-photo>
+      </div>
+      <div class="text-center">
+        <prs-mobile-edit-photo-thumb *ngFor="let photo of thumbs" [photo]="photo" (onDelete)="onDelete.emit($event)"></prs-mobile-edit-photo-thumb>
+      </div>
+      <p class="profile-edit__photos-hint text-center pv">Drag &amp; Drop to reorder your photos</p>
+    </div>
+  </div>
+</div>

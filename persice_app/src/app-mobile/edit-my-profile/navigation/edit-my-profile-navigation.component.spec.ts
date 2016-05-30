@@ -6,11 +6,11 @@ import {MockBackend} from '@angular/http/testing';
 import {Observable} from 'rxjs';
 import {MockRouterProvider} from '../../../common/test/mocks/routes';
 
-import {InterestsService} from "../../../app/shared/services/interests.service";
-import {GoalsService} from "../../../app/shared/services/goals.service";
-import {OffersService} from "../../../app/shared/services/offers.service";
-import {PhotosService} from "../../../app/shared/services/photos.service";
-import {AppStateService} from "../../shared/services/app-state.service";
+import {InterestsService} from '../../../app/shared/services/interests.service';
+import {GoalsService} from '../../../app/shared/services/goals.service';
+import {OffersService} from '../../../app/shared/services/offers.service';
+import {PhotosService} from '../../../app/shared/services/photos.service';
+import {AppStateService} from '../../shared/services/app-state.service';
 import {HttpClient} from '../../../app/shared/core';
 
 import {TestComponentBuilder} from '@angular/compiler/testing';
@@ -147,7 +147,7 @@ describe('My profile edit navigation mobile component', () => {
     var links = [
       'edit-profile', 'interests'];
     for (var link in links) {
-      expect(domElement.querySelectorAll(`a[href="/${link}"]`)).not.toBeNull();
+      expect(domElement.querySelectorAll(`a[href='/${link}']`)).not.toBeNull();
     }
   });
 
