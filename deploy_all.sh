@@ -11,7 +11,7 @@ popd
 git ls-files . | grep -E '(\.js$)|(\.css$)|(\.gz$)|(\.map$)|(\.svg$)' | xargs git add
 git add .
 
-git commit -am 'automatic commit before deploy fronted' || true
+git commit -am 'Automatic commit before deploying frontend' || true
 git push origin $1
 
 fab deploy:$1
