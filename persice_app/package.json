@@ -34,7 +34,7 @@
     "serve:coverage": "http-server coverage/html-report-with-ts-source -o -p 8083",
     "webdriver:update": "npm run webdriver-manager update",
     "webdriver:start": "npm run webdriver-manager start",
-    "lint": "npm run tslint './src/**/*.ts' && npm run tslint './src/**/*.spec.ts'",
+    "lint": "npm run tslint --force './src/**/*.ts' && npm run tslint './src/**/*.spec.ts'",
     "pree2e": "npm run webdriver:update -- --standalone",
     "e2e": "npm run protractor",
     "e2e:live": "npm run e2e -- --elementExplorer",
