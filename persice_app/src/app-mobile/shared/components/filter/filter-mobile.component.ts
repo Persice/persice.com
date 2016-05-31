@@ -28,8 +28,13 @@ export class FilterMobileComponent extends FilterComponent {
 
   save() {
     delete this.filters.state.keyword;
+    let data = this.filters.state;
+    if (data.distance >= this.rangeSliderOptionsDistance.max)  {
+      data.distance = this.rangeSliderOptionsDistance.unlimited;
+    }
+
     this.filterService
-      .updateOne(this.filters.state.resource_uri, this.filters.state)
+      .updateOne(this.filters.state.resource_uri, data)
       .subscribe();
   }
 
