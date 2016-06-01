@@ -1,4 +1,4 @@
-<div class="user-card">
+<div class="user-card" [ngClass]="{'is-new': isNewConnection}">
   <div class="flag flag--small flag--top">
     <div class="flag__img" (click)="selectPerson($event)">
       <div class="avatar-place">

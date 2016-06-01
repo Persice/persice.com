@@ -11452,6 +11452,10 @@ html {
   display: block;
 }
 
+.user-card.is-new {
+  border-left: 5px solid #39c9f5;
+}
+
 .user-profile-container {
   background: #eff4f6;
   padding-bottom: 70px;
