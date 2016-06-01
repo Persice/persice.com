@@ -46,7 +46,7 @@ export class ConnectionsDesktopComponent
     this.saveScrollPosition();
   }
 
-  afterItemSelected() {
+  afterItemSelected(index?: number) {
     if (this.selectedItem.updated_at === null) {
       this.selectedItem.updated_at = 'seen';
     }

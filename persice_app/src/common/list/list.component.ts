@@ -109,7 +109,7 @@ export abstract class ListComponent {
       this.currentIndex = index;
       this.itemViewActive = true;
 
-      this.afterItemSelected();
+      this.afterItemSelected(index);
     }
   }
 

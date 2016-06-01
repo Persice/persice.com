@@ -53,7 +53,7 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     this.saveScrollPosition();
   }
 
-  afterItemSelected() {
+  afterItemSelected(index?: number) {
     // Hide profile header
     this.appStateService.setHeaderVisibility(false);
 
@@ -62,6 +62,12 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
       visibility: true,
       type: 'connection'
     });
+
+    // If newly formed connection profile is being selected, mark it as 'seen'
+    if (this.selectedItem.updated_at === null) {
+      this.items[index] = Object.assign({}, this.items[index], {updated_at: 'seen'});
+      this.listService.markNewConnectionsAsSeen(this.selectedItem.id);
+    }
   }
 
   afterItemClosed() {
