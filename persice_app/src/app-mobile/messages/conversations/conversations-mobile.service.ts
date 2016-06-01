@@ -6,6 +6,8 @@ import {Conversation} from '../../../common/models';
 import {ConversationActions} from '../../../common/actions';
 import {AppState, getConversationsState} from '../../../common/reducers';
 
+const PER_PAGE_LIMIT: number = 12;
+
 @Injectable()
 export class ConversationsMobileService {
 
@@ -13,8 +15,7 @@ export class ConversationsMobileService {
   static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
 
   public conversations$: Observable<Conversation[]>;
-  public loading$: Observable<boolean>;
-  public count$: Observable<number>;
+  public loading$: Observable<any>;
 
   private _next: string = '';
   private _loading: boolean;
@@ -30,7 +31,12 @@ export class ConversationsMobileService {
     this.loading$ = store$.map(state => state['loading']);
   }
 
-  loadConversations() {
+  public loadConversations(resetCollection?: boolean) {
+
+    if (resetCollection) {
+      this.store.dispatch(this.actions.resetCollection());
+    }
+
     if (this._loading || this._next === null) {
       return;
     }
@@ -40,7 +46,7 @@ export class ConversationsMobileService {
     if (this._next === '') {
       let params: string = [
         `format=json`,
-        `limit=12`,
+        `limit=${PER_PAGE_LIMIT}`,
         `offset=0`
       ].join('&');
 
@@ -49,9 +55,8 @@ export class ConversationsMobileService {
       url = this._next;
     }
     this._loading = true;
-
+    this.store.dispatch(this.actions.loadingCollection(true));
     this.http.get(url)
-      .do(() => this.store.dispatch(this.actions.loadingCollection(true)))
       .map((res: any) => res.json())
       .subscribe((dto: any) => {
         const meta = dto.meta;
@@ -70,7 +75,7 @@ export class ConversationsMobileService {
 
   }
 
-  assignData(dtoArray: any[]) {
+  private assignData(dtoArray: any[]) {
     let items: Conversation[] = [];
     for (var i = 0; i < dtoArray.length; ++i) {
       let item = new Conversation(dtoArray[i]);

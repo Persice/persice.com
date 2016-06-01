@@ -19,12 +19,16 @@ let initialState: ConversationsState = {
 export default function(state = initialState, action: Action): ConversationsState {
   switch (action.type) {
 
+    case ConversationActions.RESET_COLLECTION: {
+      return Object.assign({}, state, initialState);
+    }
+
     case ConversationActions.LOAD_COLLECTION_SUCCESS: {
-      const objects: Conversation[] = action.payload.conversations;
+      const conversations: Conversation[] = action.payload.conversations;
       const count: number = action.payload.count;
 
       return Object.assign({}, state, {
-        items: [...objects],
+        items: [...state.items, ...conversations],
         count: count,
         loading: false
       });

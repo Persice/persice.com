@@ -20,6 +20,7 @@ export class ConversationActions {
 
   public static LOAD_COLLECTION_SUCCESS = '[Conversation] Load Collection Success';
   public static LOADING_COLLECTION = '[Conversation] Loading Collection';
+  public static RESET_COLLECTION = '[Conversation] Reseting Collection';
 
   public loadCollectionSuccess(data: ConversationsData): Action {
     return {
@@ -32,6 +33,13 @@ export class ConversationActions {
     return {
       type: ConversationActions.LOADING_COLLECTION,
       payload: loading
+    };
+  }
+
+  public resetCollection(): Action {
+    return {
+      type: ConversationActions.RESET_COLLECTION,
+      payload: {}
     };
   }
 

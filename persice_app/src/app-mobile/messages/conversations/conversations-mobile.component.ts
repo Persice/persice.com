@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ConversationsMobileService} from './conversations-mobile.service';
-import {ConversationsListMobileComponent} from "./conversations-list";
+import {ConversationsListMobileComponent} from './conversations-list';
 import {Observable} from 'rxjs';
 import {Conversation} from '../../../common/models';
 
@@ -9,7 +9,8 @@ import {Conversation} from '../../../common/models';
   template: `
     <prs-mobile-conversations-list
       [conversations]="conversations | async"
-      [loading]="loading | async">
+      [loading]="loading | async"
+      (onScrollBottom)="conversationsService.loadConversations(false)">
     </prs-mobile-conversations-list>
   `,
   directives: [ConversationsListMobileComponent],
@@ -25,6 +26,7 @@ export class ConversationsMobileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.conversationsService.loadConversations();
+    this.conversationsService.loadConversations(true);
   }
+
 }

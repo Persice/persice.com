@@ -18,7 +18,7 @@ export class InfiniteScrollDirective {
       || document.body.scrollTop || 0;
     let threshold = jQuery(document).height() - jQuery(window).height() - this.bottomOffset;
     if (scrollOffset > threshold && this.scrollEnabled) {
-      this.scrolled.next(true);
+      this.scrolled.emit(true);
     }
   }
 }
