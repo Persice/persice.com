@@ -12,6 +12,8 @@ import {
   Router
 } from '@angular/router-deprecated';
 
+import {Observable} from 'rxjs';
+
 import {
   OpenLeftMenuDirective,
   CloseLeftMenuDirective,
@@ -32,6 +34,8 @@ import {EditMyProfileMobileComponent} from './edit-my-profile';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 
+import {AppState, getConversationsState} from '../common/reducers';
+import {Store} from '@ngrx/store';
 /*
  * Persice App Component
  * Top Level Component
@@ -63,7 +67,7 @@ const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
     name: 'Events'
   },
   {
-    path: '/messages',
+    path: '/messages/...',
     component: MessagesMobileComponent,
     name: 'Messages'
   },
@@ -102,15 +106,20 @@ export class AppMobileComponent implements OnInit {
   isHeaderVisible: boolean = true;
   isFooterVisible: boolean = false;
   pagesWithFilter = PAGES_WITH_FILTER;
-  pageTitle = 'Persice';
+  pageTitle: string = 'Persice';
+  conversationsCounter: Observable<number>;
   footerScore: number = 0;
   footerType: string;
   footerUserId: number;
 
   constructor(
     private _appStateService: AppStateService,
-    private _router: Router
-  ) { }
+    private _router: Router,
+    private _store: Store<AppState>
+    ) {
+    const store$ = _store.let(getConversationsState());
+    this.conversationsCounter = store$.map(state => state['count']);
+    }
 
   ngOnInit() {
     // Subscribe to EventEmmitter from AppStateService to show or hide main app header

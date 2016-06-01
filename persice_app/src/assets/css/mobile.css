@@ -11531,7 +11531,8 @@ html {
 }
 
 .profile-edit__photos__main-photo,
-.profile-edit__photos__thumb-photo {
+.profile-edit__photos__thumb-photo,
+.avatar--messages {
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -11551,4 +11552,9 @@ html {
   opacity: 0;
   visibility: none;
   transition: opacity .5s;
+}
+
+
+.message__intro__notif {
+  float: right;
 }

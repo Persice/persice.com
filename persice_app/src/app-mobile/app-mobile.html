@@ -18,7 +18,7 @@
         </a>
       </div>
       <div class="layout__item 3/5 text-center">
-        <prs-page-title [title]="pageTitle"></prs-page-title>
+        <prs-page-title [title]="pageTitle" [conversationsCounter]="conversationsCounter | async"></prs-page-title>
       </div>
       <div class="layout__item 1/5 text-right" *prsIfRoutesActive="pagesWithFilter">
         <a (click)="setFilterVisible($event)" class="mob-header__right-push">
