@@ -4,7 +4,8 @@ const PAGES_WITH_COUNTER: string[] = ['messages'];
 @Component({
   selector: 'prs-page-title',
   template: `
-  <h2 class="mob-header__title">{{pageTitle}}
+  <h2 class="mob-header__title">
+    <span class="mob-header__title-value">{{pageTitle}}</span>
     <span *ngIf="conversationsCounterVisible">({{conversationsCounter}})</span>
   </h2>
   `,
