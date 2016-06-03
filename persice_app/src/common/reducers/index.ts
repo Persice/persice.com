@@ -13,17 +13,20 @@ import {Observable} from 'rxjs';
  */
 
 import conversationsReducer, * as fromConversations from './conversations.reducer';
+import messagesReducer, * as fromMessages from './messages.reducer';
 
 /**
- * As mentioned, we treat each reducer like a table in a database. This means
+ * We treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface AppState {
   conversations: fromConversations.ConversationsState;
+  messages: fromMessages.MessagesState;
 }
 
 export default compose(storeLogger(), combineReducers)({
-  conversations: conversationsReducer
+  conversations: conversationsReducer,
+  messages: messagesReducer
 });
 
 
@@ -46,4 +49,9 @@ export default compose(storeLogger(), combineReducers)({
 export function getConversationsState() {
   return (state$: Observable<AppState>) => state$
     .select(s => s.conversations);
+}
+
+export function getMessagesState() {
+  return (state$: Observable<AppState>) => state$
+    .select(s => s.messages);
 }

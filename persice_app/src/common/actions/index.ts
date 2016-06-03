@@ -1,9 +1,12 @@
 import {ConversationActions} from './conversation.action';
+import {MessageActions} from './message.action';
 
 export {
-  ConversationActions
+  ConversationActions,
+  MessageActions
 };
 
 export default [
-  ConversationActions
+  ConversationActions,
+  MessageActions
 ];

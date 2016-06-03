@@ -1,1 +1,2 @@
-export { Conversation } from './conversation';
+export {Conversation} from './conversation';
+export {Message} from './message';
