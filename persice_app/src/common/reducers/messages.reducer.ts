@@ -63,17 +63,6 @@ export default function(state = initialState, action: Action): MessagesState {
       });
     }
 
-    case MessageActions.LOAD_COLLECTION_SUCCESS: {
-      const messages: Message[] = action.payload.messages;
-      const count: number = action.payload.count;
-
-      return Object.assign({}, state, {
-        entities: [...messages, ...state.entities],
-        count: count,
-        loading: false
-      });
-    }
-
     case MessageActions.LOADING_COLLECTION:
       return Object.assign({}, state, {
         loading: true
