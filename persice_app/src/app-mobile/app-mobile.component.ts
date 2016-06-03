@@ -22,7 +22,7 @@ import {
 import {NavigationMobileComponent} from './navigation';
 import {CrowdMobileComponent} from "./crowd";
 import {PageTitleComponent} from './page-title';
-import {FilterService} from '../app/shared/services';
+import {FilterService, WebsocketService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
 import {ProfileFooterMobileComponent} from './user-profile';
 import {ConnectionsMobileComponent} from './connections';
@@ -33,6 +33,7 @@ import {MyProfileMobileComponent} from './my-profile';
 import {EditMyProfileMobileComponent} from './edit-my-profile';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
+const PAGES_WITH_ADD_ACTION: string[] = ['messages'];
 
 import {AppState, getConversationsState} from '../common/reducers';
 import {Store} from '@ngrx/store';
@@ -87,7 +88,8 @@ import {Store} from '@ngrx/store';
   template: require('./app-mobile.html'),
   providers: [
     FilterService,
-    AppStateService
+    AppStateService,
+    WebsocketService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -106,6 +108,7 @@ export class AppMobileComponent implements OnInit {
   isHeaderVisible: boolean = true;
   isFooterVisible: boolean = false;
   pagesWithFilter = PAGES_WITH_FILTER;
+  pagesWithAddAction = PAGES_WITH_ADD_ACTION;
   pageTitle: string = 'Persice';
   conversationsCounter: Observable<number>;
   footerScore: number = 0;
@@ -115,11 +118,12 @@ export class AppMobileComponent implements OnInit {
   constructor(
     private _appStateService: AppStateService,
     private _router: Router,
-    private _store: Store<AppState>
-    ) {
+    private _store: Store<AppState>,
+    private websocketService: WebsocketService
+  ) {
     const store$ = _store.let(getConversationsState());
     this.conversationsCounter = store$.map(state => state['count']);
-    }
+  }
 
   ngOnInit() {
     // Subscribe to EventEmmitter from AppStateService to show or hide main app header
@@ -143,6 +147,9 @@ export class AppMobileComponent implements OnInit {
     this._router.subscribe((next: string) => {
       this._onRouteChange(next);
     });
+
+    // Initialize and connect to socket.io websocket
+    this.websocketService.connect();
   }
 
   /**

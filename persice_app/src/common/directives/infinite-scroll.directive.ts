@@ -9,15 +9,17 @@ export class InfiniteScrollDirective {
   @Output() scrolled: EventEmitter<any> = new EventEmitter();
 
   @HostListener('window:scroll') onScrolledBottom() {
-    this._triggerMenu();
+    if (this.scrollEnabled) {
+      this._trigger();
+    }
   }
 
-  private _triggerMenu() {
+  private _trigger() {
     let scrollOffset = window.pageYOffset
       || document.documentElement.scrollTop
       || document.body.scrollTop || 0;
     let threshold = jQuery(document).height() - jQuery(window).height() - this.bottomOffset;
-    if (scrollOffset > threshold && this.scrollEnabled) {
+    if (scrollOffset > threshold) {
       this.scrolled.emit(true);
     }
   }

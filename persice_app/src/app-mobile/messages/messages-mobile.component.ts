@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {RouteConfig, RouterOutlet} from '@angular/router-deprecated';
 import {ConversationsMobileComponent} from './conversations';
+import {ConversationMobileComponent} from './conversation';
 
 @Component({
   selector: 'prs-mobile-messages',
@@ -13,6 +14,11 @@ import {ConversationsMobileComponent} from './conversations';
     component: ConversationsMobileComponent,
     name: 'Conversations',
     useAsDefault: true
+  },
+  {
+    path: '/:senderId',
+    component: ConversationMobileComponent,
+    name: 'Conversation'
   }
 ])
 export class MessagesMobileComponent {

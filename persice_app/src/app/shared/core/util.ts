@@ -441,6 +441,14 @@ export class DateUtil {
     }
   }
 
+  static isWithinLastWeek(date): boolean {
+    let dayDiff = moment.utc().diff(date, 'days');
+    if (dayDiff <= 7) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   static convertTo24Hour(time: any): any {
     let hours = parseInt(time.substr(0, 2), 10);

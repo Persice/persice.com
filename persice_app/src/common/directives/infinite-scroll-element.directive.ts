@@ -4,20 +4,26 @@ import {Directive, ElementRef, HostListener, EventEmitter, Output, Input} from '
   selector: '[prs-infinite-scroll-element]'
 })
 export class InfiniteScrollElementDirective {
+  public _element;
+
   @Input() scrollEnabled: boolean;
   @Input() bottomOffset: number;
   @Output() scrolled: EventEmitter<any> = new EventEmitter();
 
   @HostListener('scroll') onScrolledBottom() {
-    this._triggerMenu();
+    if (this.scrollEnabled) {
+      this._trigger();
+    }
   }
 
-  constructor(private _el: ElementRef) { }
+  constructor(private _el: ElementRef) {
+    this._element = _el.nativeElement;
+  }
 
-  private _triggerMenu() {
-    let scrollOffset = jQuery(this._el.nativeElement).scrollTop() + jQuery(this._el.nativeElement).innerHeight();
-    let threshold = jQuery(this._el.nativeElement)[0].scrollHeight - this.bottomOffset;
-    if (scrollOffset >= threshold && this.scrollEnabled) {
+  private _trigger() {
+    let scrollOffset = this._element.scrollTop + this._element.offsetHeight;
+    let threshold = this._element.scrollHeight - this.bottomOffset;
+    if (scrollOffset >= threshold) {
       this.scrolled.next(true);
     }
   }
