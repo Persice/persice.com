@@ -2,10 +2,10 @@ import {StringUtil, DateUtil} from '../../../app/shared/core';
 
 export class Conversation {
 
-  private _id: number;
-  private _threadId: number;
-  private _name: string;
+  private _id: string;
   private _senderId: string;
+  private _name: string;
+  private _sender: string;
   private _sentAt: string;
   private _readAt: string;
   private _date: string;
@@ -14,11 +14,20 @@ export class Conversation {
   private _body: string;
   private _image: string;
 
+  public static getCollection(dtoArray: any): Conversation[] {
+    let items: Conversation[] = [];
+    for (var i = 0; i < dtoArray.length; ++i) {
+      let item = new Conversation(dtoArray[i]);
+      items = [...items, item];
+    }
+    return items;
+  }
+
   constructor(dto: any) {
     this._id = dto.id;
-    this._threadId = parseInt(dto.friend_id, 10);
+    this._senderId = dto.friend_id;
     this._name = dto.first_name;
-    this._senderId = dto.sender_id ? dto.sender_id :  `api/v1/auth/user/${dto.sender_id}`;
+    this._sender = dto.sender_id ? dto.sender_id : `api/v1/auth/user/${dto.sender_id}`;
     this._sentAt = this.formatDate(dto.sent_at);
     this._date = dto.sent_at ? dto.sent_at : '';
     this._readAt = dto.read_at;
@@ -28,20 +37,20 @@ export class Conversation {
     this._image = dto.image ? dto.image : '';
   }
 
-  get id(): number {
+  get id(): string {
     return this._id;
   }
 
-  get threadId(): number {
-    return this._threadId;
+  get senderId(): string {
+    return this._senderId;
   }
 
   get name(): string {
     return this._name;
   }
 
-  get senderId(): string {
-    return this._senderId;
+  get sender(): string {
+    return this._sender;
   }
 
   get sentAt(): string {

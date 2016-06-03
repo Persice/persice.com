@@ -3,8 +3,8 @@ import {
   describe,
   expect
 } from '@angular/core/testing';
-import {ConversationGenerators} from "./conversation.model.generators";
-import {Conversation} from "./conversation.model";
+import {ConversationGenerators} from './conversation.model.generators';
+import {Conversation} from './conversation.model';
 
 describe('Conversation model', () => {
 

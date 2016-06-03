@@ -1,25 +1,30 @@
-import conversationsReducer, * as fromConversations from './conversations.reducer';
-import {ConversationsState} from "./conversations.reducer";
-import {ConversationActions} from "../actions/conversation.action";
+import conversationsReducer from './conversations.reducer';
+import {ConversationsState} from './conversations.reducer';
+import {ConversationActions} from '../actions';
+import {Conversation} from '../models';
 
 import {
   it,
   describe,
   expect
 } from '@angular/core/testing';
-import {ConversationGenerators} from "../models/conversation/conversation.model.generators";
+import {ConversationGenerators} from '../models/conversation/conversation.model.generators';
 
 describe('Conversations reducer', () => {
   let emptyState: ConversationsState = {
-    items: [],
+    entities: [],
+    selectedItem: <Conversation>{},
     count: 0,
-    loading: false
+    loading: false,
+    loaded: false
   };
-  
+
   let stateWithMessages: ConversationsState = {
-    items: [ConversationGenerators.givenAnyConversation()],
+    entities: [ConversationGenerators.givenAnyConversation()],
+    selectedItem: <Conversation>{},
     count: 1,
-    loading: false
+    loading: false,
+    loaded: false
   };
 
   let payloadWithConversations: any = {
@@ -32,7 +37,7 @@ describe('Conversations reducer', () => {
     let payload = emptyState;
 
     // when
-    let newState = conversationsReducer(emptyState, {type: ConversationActions.RESET_COLLECTION, payload: payload});
+    let newState = conversationsReducer(emptyState, { type: ConversationActions.RESET_COLLECTION, payload: payload });
 
     // then
     expect(newState).toEqual(emptyState);
@@ -45,7 +50,7 @@ describe('Conversations reducer', () => {
     // when
     let newState = conversationsReducer(
       emptyState,
-      {type: ConversationActions.LOAD_COLLECTION_SUCCESS, payload: payload});
+      { type: ConversationActions.LOAD_COLLECTION_SUCCESS, payload: payload });
 
     // then
     expect(newState).toEqual(stateWithMessages);
@@ -56,7 +61,7 @@ describe('Conversations reducer', () => {
     let payload = stateWithMessages;
 
     // when
-    let newState = conversationsReducer(emptyState, {type: ConversationActions.LOADING_COLLECTION, payload: payload});
+    let newState = conversationsReducer(emptyState, { type: ConversationActions.LOADING_COLLECTION, payload: payload });
 
     // then
     let expectedState = emptyState;

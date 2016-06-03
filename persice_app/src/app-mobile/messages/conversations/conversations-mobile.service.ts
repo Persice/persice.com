@@ -15,7 +15,8 @@ export class ConversationsMobileService {
   static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
 
   public conversations$: Observable<Conversation[]>;
-  public loading$: Observable<any>;
+  public loading$: Observable<boolean>;
+  public loaded$: Observable<boolean>;
 
   private _next: string = '';
   private _loading: boolean;
@@ -24,32 +25,40 @@ export class ConversationsMobileService {
     private store: Store<AppState>,
     private http: HttpClient,
     private actions: ConversationActions
-    ) {
+  ) {
     const store$ = store.let(getConversationsState());
 
-    this.conversations$ = store$.map(state => state['items']);
+    this.conversations$ = store$.map(state => state['entities']);
     this.loading$ = store$.map(state => state['loading']);
+    this.loaded$ = store$.map(state => state['loaded']);
   }
 
-  public loadConversations(resetCollection?: boolean) {
+  public emptyConversations(): void {
+    this.store.dispatch(this.actions.resetCollection());
+  }
 
-    if (resetCollection) {
-      this.store.dispatch(this.actions.resetCollection());
-    }
+  public markConversationRead(senderId: string): void {
+    let url: string = `${ConversationsMobileService.API_URL_MARK_READ}?format=json&sender_id=${senderId}`;
+    this.http.get(url)
+      .map((res: any) => res.json())
+      .subscribe((data: any) => { });
+  }
 
+  public selectConversation(conversation: Conversation): void {
+    this.store.dispatch(this.actions.selectConversation(conversation));
+  }
+
+  public loadConversations(): void {
     if (this._loading || this._next === null) {
       return;
     }
-
     let url = '';
-
     if (this._next === '') {
       let params: string = [
         `format=json`,
         `limit=${PER_PAGE_LIMIT}`,
         `offset=0`
       ].join('&');
-
       url = `${ConversationsMobileService.API_URL}?${params}`;
     } else {
       url = this._next;
@@ -63,11 +72,15 @@ export class ConversationsMobileService {
         const objects = dto.objects;
 
         const data = {
-          conversations: this.assignData(objects),
+          conversations: Conversation.getCollection(objects),
           count: meta.total_count
         };
 
         this.store.dispatch(this.actions.loadCollectionSuccess(data));
+
+        if (this._next === null) {
+          this.store.dispatch(this.actions.collectionFullyLoaded());
+        }
 
         this._loading = false;
         this._next = meta.next;
@@ -75,12 +88,4 @@ export class ConversationsMobileService {
 
   }
 
-  private assignData(dtoArray: any[]) {
-    let items: Conversation[] = [];
-    for (var i = 0; i < dtoArray.length; ++i) {
-      let item = new Conversation(dtoArray[i]);
-      items = [...items, item];
-    }
-    return items;
-  }
 }

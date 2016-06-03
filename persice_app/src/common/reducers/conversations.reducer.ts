@@ -2,18 +2,21 @@ import {Action} from '@ngrx/store';
 
 import {Conversation} from '../models';
 import {ConversationActions} from '../actions';
-// import {ListUtil} from '../../app/shared/core';
 
 export interface ConversationsState {
-  items: Conversation[];
+  entities: Conversation[];
+  selectedItem: Conversation;
   count: number;
   loading: boolean;
+  loaded: boolean;
 };
 
 let initialState: ConversationsState = {
-  items: [],
+  entities: [],
+  selectedItem: <Conversation>{},
   count: 0,
-  loading: false
+  loading: false,
+  loaded: false
 };
 
 export default function(state = initialState, action: Action): ConversationsState {
@@ -23,12 +26,17 @@ export default function(state = initialState, action: Action): ConversationsStat
       return Object.assign({}, state, initialState);
     }
 
+    case ConversationActions.SELECT_CONVERSATION: {
+      const conversation: Conversation = action.payload;
+      return Object.assign({}, state, { selectedItem: conversation });
+    }
+
     case ConversationActions.LOAD_COLLECTION_SUCCESS: {
       const conversations: Conversation[] = action.payload.conversations;
       const count: number = action.payload.count;
 
       return Object.assign({}, state, {
-        items: [...state.items, ...conversations],
+        entities: [...state.entities, ...conversations],
         count: count,
         loading: false
       });
@@ -37,6 +45,11 @@ export default function(state = initialState, action: Action): ConversationsStat
     case ConversationActions.LOADING_COLLECTION:
       return Object.assign({}, state, {
         loading: true
+      });
+
+    case ConversationActions.COLLECTION_FULLY_LOADED:
+      return Object.assign({}, state, {
+        loaded: true
       });
 
     default: {

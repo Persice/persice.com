@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router-deprecated';
+import {Observable} from 'rxjs';
+
 import {ConversationsMobileService} from './conversations-mobile.service';
 import {ConversationsListMobileComponent} from './conversations-list';
-import {Observable} from 'rxjs';
 import {Conversation} from '../../../common/models';
 
 @Component({
@@ -10,23 +12,41 @@ import {Conversation} from '../../../common/models';
     <prs-mobile-conversations-list
       [conversations]="conversations | async"
       [loading]="loading | async"
-      (onScrollBottom)="conversationsService.loadConversations(false)">
+      [loaded]="loading | async"
+      (onConversationClick)="selectAndViewConversation($event)"
+      (onScrollBottom)="loadMoreConversations($event)">
     </prs-mobile-conversations-list>
   `,
   directives: [ConversationsListMobileComponent],
   providers: [ConversationsMobileService]
 })
 export class ConversationsMobileComponent implements OnInit {
-  conversations: Observable<Conversation[]>;
-  loading: Observable<boolean>;
+  private conversations: Observable<Conversation[]>;
+  private loading: Observable<boolean>;
+  private loaded: Observable<boolean>;
 
-  constructor(private conversationsService: ConversationsMobileService) {
+  constructor(
+    private conversationsService: ConversationsMobileService,
+    private router: Router
+    ) {
     this.conversations = this.conversationsService.conversations$;
     this.loading = this.conversationsService.loading$;
+    this.loaded = this.conversationsService.loaded$;
   }
 
   ngOnInit() {
-    this.conversationsService.loadConversations(true);
+    this.conversationsService.emptyConversations();
+    this.conversationsService.loadConversations();
+  }
+
+  public selectAndViewConversation(conversation: Conversation) {
+    this.conversationsService.markConversationRead(conversation.senderId);
+    this.conversationsService.selectConversation(conversation);
+    this.router.parent.navigate(['/Messages', 'Conversation', {senderId: conversation.senderId}]);
+  }
+
+  public loadMoreConversations($event: MouseEvent) {
+    this.conversationsService.loadConversations();
   }
 
 }

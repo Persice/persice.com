@@ -12,5 +12,7 @@ import {InfiniteScrollDirective} from '../../../../common/directives';
 export class ConversationsListMobileComponent {
   @Input() conversations;
   @Input() loading;
+  @Input() loaded;
   @Output() onScrollBottom: EventEmitter<any> = new EventEmitter();
+  @Output() onConversationClick: EventEmitter<any> = new EventEmitter();
 }

@@ -1,6 +1,8 @@
-
-<div prs-infinite-scroll [scrollEnabled]="1" [bottomOffset]="60" (scrolled)="onScrollBottom.emit($event)">
-  <div class="message message--intro" *ngFor="let conversation of conversations" [ngClass]="{'message--unread': conversation.unread}">
+<div prs-infinite-scroll [scrollEnabled]="!loaded" [bottomOffset]="60" (scrolled)="onScrollBottom.emit($event)">
+  <div class="message message--intro"
+    *ngFor="let conversation of conversations"
+    [ngClass]="{'message--unread': conversation.unread}"
+    (click)="onConversationClick.emit(conversation)">
     <div class="flag flag--middle flag--small">
       <div class="flag__img">
         <div class="avatar-with-icon">

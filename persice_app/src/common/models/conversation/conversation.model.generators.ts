@@ -1,7 +1,7 @@
 import {Conversation} from "./conversation.model";
 
 export class ConversationGenerators {
-  
+
   public static givenAnyConversation(): Conversation {
     return new Conversation(this.givenAnyConversationDto());
   }
