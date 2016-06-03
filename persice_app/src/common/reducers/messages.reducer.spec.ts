@@ -38,20 +38,6 @@ describe('Messages reducer', () => {
     count: 1
   };
 
-  let stateWithPayload: any = {
-    entities: [{
-      messages: [MessageGenerators.givenAnyMessage()],
-      count: 1
-    }],
-    totalCount: 1,
-    loadedCount: 0,
-    conversationTitle: '',
-    loading: false,
-    loaded: false,
-    isNewMessageBeingSent: false,
-    isNewMessageBeingReceived: false
-  };
-
   it('RESET COLLECTION', () => {
     // given
     let payload = emptyState;
@@ -78,7 +64,7 @@ describe('Messages reducer', () => {
 
   it('ADD NEW MESSAGE TO COLLECTION SUCCESS', () => {
     // given
-    let payload = payloadWithMessages;
+    let payload = MessageGenerators.givenAnyMessage();
 
     // when
     let newState = messagesReducer(
@@ -86,7 +72,7 @@ describe('Messages reducer', () => {
       { type: MessageActions.ADD_NEW_MESSAGE_TO_COLLECTION_SUCCESS, payload: payload });
 
     // then
-    expect(JSON.stringify(newState)).toBe(JSON.stringify(stateWithPayload));
+    expect(JSON.stringify(newState)).toBe(JSON.stringify(stateWithMessages));
   });
 
   it('LOADING COLLECTION', () => {
