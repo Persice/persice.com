@@ -89,7 +89,6 @@ export default function(state = initialState, action: Action): MessagesState {
         loaded: true
       });
 
-
     case MessageActions.SENDING_NEW_MESSAGE:
       return Object.assign({}, state, {
         isNewMessageBeingSent: true

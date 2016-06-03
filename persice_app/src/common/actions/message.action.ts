@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Action} from '@ngrx/store';
 import {Message} from '../models';
 
-interface MessagesData {
+export interface MessagesData {
   messages: Message[];
   count: number;
 }
