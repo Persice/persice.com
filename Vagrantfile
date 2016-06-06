@@ -5,6 +5,9 @@ Vagrant::Config.run do |config|
 	# Every Vagrant virtual environment requires a box to build off of.
 	config.vm.box = "ubuntu/trusty64"
 
+  config.ssh.private_key_path = "~/.ssh/id_rsa"
+  config.ssh.forward_agent = true
+
 	# The url from where the 'config.vm.box' box will be fetched if it
 	# doesn't already exist on the user's system.
 
@@ -30,7 +33,6 @@ Vagrant::Config.run do |config|
 
 	# Enable provisioning with a shell script.
 	config.vm.provision :shell, :path => "install.sh", :args => "bekindred"
-  config.ssh.forward_agent = true
 end
 
 

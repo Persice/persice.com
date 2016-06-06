@@ -27,6 +27,12 @@ export class ConnectionsService {
     }
     return this.http.get(this.next).map((res: Response) => res.json());
   }
+
+  public markNewConnectionsAsSeen(id: number): void {
+    let url = `/api/v2/new_connections/updated_at/?format=json&friend_id=${id}`;
+    this.http.get(url).map(res => res.json()).subscribe(data => { });
+  }
+
 }
 
 export var connectionsServiceInjectables: Array<any> = [

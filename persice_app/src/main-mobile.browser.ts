@@ -9,12 +9,19 @@ import {bootstrap} from '@angular/platform-browser-dynamic';
 import {DIRECTIVES, PIPES, PROVIDERS_MAIN} from './platform/browser';
 import {ENV_PROVIDERS} from './platform/environment';
 
+
+/**
+ * RxJS Redux store and reducers
+ */
+import {provideStore} from '@ngrx/store';
+import STORE_REDUCERS from './common/reducers';
+import STORE_ACTIONS from './common/actions';
+
 /*
 * App Component
 * our top level component that holds all of our components
 */
 import {AppMobileComponent, APP_PROVIDERS} from './app-mobile';
-
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection
@@ -26,14 +33,13 @@ export function main(initialHmrState?: any): Promise<any> {
     ...PROVIDERS_MAIN,
     ...DIRECTIVES,
     ...PIPES,
-    ...APP_PROVIDERS
+    ...APP_PROVIDERS,
+    provideStore(STORE_REDUCERS),
+    STORE_ACTIONS
   ])
     .catch(err => console.error(err));
 
 }
-
-
-
 
 
 /*

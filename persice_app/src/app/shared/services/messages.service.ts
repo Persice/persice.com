@@ -101,6 +101,10 @@ export class MessagesService {
 
 
   private _checkImage(field) {
+    if (!field) {
+      return '';
+    }
+
     if (field.indexOf('media') === -1 && field.indexOf('http')) {
       return '/media/' + field;
     } else {

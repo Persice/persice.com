@@ -11452,6 +11452,10 @@ html {
   display: block;
 }
 
+.user-card.is-new {
+  border-left: 5px solid #39c9f5;
+}
+
 .user-profile-container {
   background: #eff4f6;
   padding-bottom: 70px;
@@ -11531,7 +11535,8 @@ html {
 }
 
 .profile-edit__photos__main-photo,
-.profile-edit__photos__thumb-photo {
+.profile-edit__photos__thumb-photo,
+.avatar--messages {
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
@@ -11550,5 +11555,45 @@ html {
 .user-profile-container.is-hidden {
   opacity: 0;
   visibility: none;
-  transition: opacity .5s;
+  transition: opacity .3s;
+}
+
+.message__intro__notif {
+  float: right;
+}
+
+.chat-wrapper {
+  overflow-y: scroll;
+  height: calc(100vh - 103px);
+}
+
+.chat__send-message {
+  position: relative!important;
+}
+
+
+/* custom loading indicator inline*/
+
+.loader {
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.loader svg path,
+.loader svg rect {
+  fill: #39c9f5;
+}
+
+.tableize__content.chat__send-message__has-btn {
+  width: 70px;
+  text-align: center;
+}
+
+.chat__send-message__has-btn > a.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease-in-out;
 }

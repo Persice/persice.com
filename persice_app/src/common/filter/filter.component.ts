@@ -10,7 +10,7 @@ export abstract class FilterComponent {
   defaultState: InterfaceFilter;
   gender: string = 'm,f';
   order: string = 'match_score';
-  distanceValue: any = 10000;
+  distanceValue: any = 201;
   distanceUnit: string = 'miles';
   minAge: any = 25;
   maxAge: any = 60;
@@ -52,11 +52,13 @@ export abstract class FilterComponent {
     hide_min_max: true,
     hide_from_to: true,
     keyboard: true,
-    min: 0,
-    max: 10000,
+    min: 1,
+    max: 201,
+    unlimited: 10000,
     step: 1,
     from: 0,
-    type: 'single'
+    type: 'single',
+    max_value_display_name: 'Anywhere'
   };
   saveDebounced: Function;
 
@@ -116,6 +118,11 @@ export abstract class FilterComponent {
 
   saveDistance(value) {
     this.filters.state.distance = value.from;
+
+    if (this.filters.state.distance >= this.rangeSliderOptionsDistance.max)  {
+      this.filters.state.distance = this.rangeSliderOptionsDistance.unlimited;
+    }
+
     this.saveDebounced();
   }
 

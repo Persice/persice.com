@@ -47,7 +47,7 @@ describe('Page title component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let pageTitle = obtainText(componentElement, '.mob-header__title');
+    let pageTitle = obtainText(componentElement, '.mob-header__title-value');
     expect(pageTitle).toBe(expectedTitle);
   });
 
@@ -60,7 +60,7 @@ describe('Page title component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let pageTitle = obtainText(componentElement, '.mob-header__title');
+    let pageTitle = obtainText(componentElement, '.mob-header__title-value');
     expect(pageTitle).toBe(expectedTitle);
   });
 
@@ -73,7 +73,7 @@ describe('Page title component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let pageTitle = obtainText(componentElement, '.mob-header__title');
+    let pageTitle = obtainText(componentElement, '.mob-header__title-value');
     expect(pageTitle).toBe(expectedTitle);
   });
 

@@ -35,13 +35,13 @@ export class PhotosMobileComponent implements OnInit, OnDestroy {
 
     this.photosService.get('', 5, this.personId).subscribe((photos) => {
         if (photos) {
-          this.photos = photos.objects;
+          this.photos = photos.objects.reverse();
           this.isProfileLoaded = true;
         }
       });
   }
 
-  ngOnDestroy():void {
+  ngOnDestroy(): void {
     switch (this.profileType) {
       case 'my-profile':
         break;

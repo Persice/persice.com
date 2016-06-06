@@ -1,4 +1,4 @@
-<div class="user-card">
+<div class="user-card" [ngClass]="{'is-new': isNewConnection}">
   <div class="flag flag--small flag--top">
     <div class="flag__img" (click)="selectPerson($event)">
       <div class="avatar-place">
@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="flag__body">
-      <div class="user-card__name" (click)="selectPerson($event)"> {{_person.firstName}} </div>
+      <div class="user-card__name" (click)="selectPerson($event)"> {{_person.firstName}} {{updatedAt}}</div>
       <div class="user-card__user-details" (click)="selectPerson($event)"> {{_person.gender}} / Age {{_person.age}} / {{_person.distance}} {{_person.distanceUnit}} </div>
       <a (click)="toggleInterestsVisible($event)" class="user-card__similarity js-user-card__similarity" [ngClass]="{'is-open': interestsVisible }">
         <span class="user-card__similarity__value">

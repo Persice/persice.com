@@ -1,0 +1,27 @@
+<div prs-infinite-scroll [scrollEnabled]="!loaded" [bottomOffset]="60" (scrolled)="onScrollBottom.emit($event)">
+  <div class="message message--intro"
+    *ngFor="let conversation of conversations"
+    [ngClass]="{'message--unread': conversation.unread}"
+    (click)="onConversationClick.emit(conversation)">
+    <div class="flag flag--middle flag--small">
+      <div class="flag__img">
+        <div class="avatar-with-icon">
+          <div class="avatar avatar--small avatar--messages" checkimage="{{conversation.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
+        </div>
+      </div>
+      <div class="flag__body">
+        <div class="message__intro">
+          <div class="message__intro__1">
+            <div class="message__subject">{{conversation.name}}</div>
+            <div class="message__excerpt">{{conversation.body}}</div>
+          </div>
+          <div class="message__intro__2">
+            <div class="message__intro__time">{{conversation.sentAt}}</div>
+            <div class="message__intro__notif" *ngIf="conversation.unreadCounter > 0">{{conversation.unreadCounter}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <prs-loading [status]="loading"></prs-loading>
+</div>

@@ -18,12 +18,19 @@
         </a>
       </div>
       <div class="layout__item 3/5 text-center">
-        <prs-page-title [title]="pageTitle"></prs-page-title>
+        <prs-page-title [title]="pageTitle" [conversationsCounter]="conversationsCounter | async"></prs-page-title>
       </div>
       <div class="layout__item 1/5 text-right" *prsIfRoutesActive="pagesWithFilter">
         <a (click)="setFilterVisible($event)" class="mob-header__right-push">
           <svg role="img" class="icon icon--small">
             <use xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 1/5 text-right" *prsIfRoutesActive="pagesWithAddAction">
+        <a>
+          <svg role="img" class="icon ">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
           </svg>
         </a>
       </div>

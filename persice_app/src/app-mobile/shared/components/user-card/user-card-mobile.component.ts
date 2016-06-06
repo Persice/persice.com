@@ -12,8 +12,11 @@ import {GenderPipe} from "../../../../app/shared/pipes/gender.pipe.ts";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserCardMobileComponent {
+  isNewConnection: boolean = false;
+
   @Input() set person (dto: any) {
     this._person = new Person(dto);
+    this.isNewConnection = dto.updated_at === null;
   };
   @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
 
