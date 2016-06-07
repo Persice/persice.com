@@ -11597,3 +11597,18 @@ html {
   visibility: hidden;
   transition: all .3s ease-in-out;
 }
+
+.mob-nav-main__value {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.mob-nav-main__value.is-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: all .3s ease-in-out;
+}
+
+.spinner.small {
+  margin: 10px auto!important;
+}

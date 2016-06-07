@@ -19,7 +19,7 @@
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
         </svg> <span>Messages</span>
-        <!-- <i class="mob-nav-main__value">32</i> -->
+        <i class="mob-nav-main__value" [ngClass]="{'is-visible': unreadMessagesCounter > 0}">{{unreadMessagesCounter}}</i>
       </a>
     </li>
     <li>
