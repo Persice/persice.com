@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AppStateService} from "../../shared/services/app-state.service";
 import {Location} from '@angular/common';
 import {Router, RouteParams} from '@angular/router-deprecated';
+import {Subscription} from 'rxjs';
+
+import {AppStateService} from "../../shared/services/app-state.service";
 import {MessagesService} from "../../../app/shared/services/messages.service";
 import {InboxService} from "../../../app/shared/services/inbox.service";
 import {UserAuthService} from "../../../app/shared/services/userauth.service";
@@ -55,9 +57,9 @@ export class NewConversationMobileComponent implements OnInit {
 
   send() {
     if (this.tokens.length === 1 && this.messageText.length > 0) {
-      let channel = this.messagesService.sendNew(this.tokens[0].friend_id, this.messageText)
+      let subs: Subscription = this.messagesService.sendNew(this.tokens[0].friend_id, this.messageText)
         .subscribe(() => {
-          channel.unsubscribe();
+          subs.unsubscribe();
           this.inboxService.addSender(this.tokens[0].friend_id);
           this._router.parent.navigate(['/Messages', 'Conversation', {senderId: this.tokens[0].friend_id}]);
         }, error => console.log('Could not create a new message.'));
