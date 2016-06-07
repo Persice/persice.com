@@ -20,7 +20,7 @@ export class InfiniteScrollReverseDirective {
       // Scroll completely to bottom after new items are loaded
       setTimeout(() => {
         this._element.scrollTop = this._element.scrollHeight;
-      });
+      }, 300);
     }
   };
 
@@ -45,7 +45,9 @@ export class InfiniteScrollReverseDirective {
     let threshold = this.topOffset;
     if (scrollOffset <= threshold) {
       this._previousScrollHeight = this._element.scrollHeight;
-      this.scrolled.emit(true);
+      setTimeout(() => {
+        this.scrolled.emit(true);
+      }, 500);
     }
   }
 
