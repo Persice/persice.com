@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Location} from '@angular/common';
 import {Router, RouteParams} from '@angular/router-deprecated';
 import {Subscription} from 'rxjs';
@@ -15,7 +15,7 @@ import {UserAuthService} from "../../../app/shared/services/userauth.service";
     MessagesService,
     UserAuthService]
 })
-export class NewConversationMobileComponent implements OnInit {
+export class NewConversationMobileComponent implements OnInit, OnDestroy {
 
   tokens: any[] = [];
   recipientId: string;
@@ -49,6 +49,10 @@ export class NewConversationMobileComponent implements OnInit {
 
   ngOnInit(): any {
     this.appStateService.setHeaderVisibility(false);
+  }
+
+  ngOnDestroy() {
+    this.appStateService.setHeaderVisibility(true);
   }
 
   back() {

@@ -47,6 +47,13 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
 
   ngOnDestroy() {
     this.clearServicesSubscriptions();
+    // Show top header
+    this.appStateService.setHeaderVisibility(true);
+
+    // Hide profile footer
+    this.appStateService.setProfileFooterVisibility({
+      visibility: false
+    });
   }
 
   beforeItemSelected() {
