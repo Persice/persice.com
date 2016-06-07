@@ -1,0 +1,30 @@
+<div class="container">
+  <header class="mob-header">
+    <div class="layout layout--flush layout--middle">
+      <div class="layout__item 1/5 text-left"> <a (click)="back()" class="mob-header__left-push">Cancel</a> </div>
+      <div class="layout__item 3/5 text-center">
+        <h2 class="mob-header__title">New Message</h2> </div>
+      <div class="layout__item 1/5 text-right"> <a (click)="send()">Send</a> </div>
+    </div>
+  </header>
+  <div class="conversation-top"> <span class="conversation-top__label">To:</span>
+    <div class="tokenfield" *ngIf="tokens.length > 0">
+      <div class="token" *ngFor="let token of tokens; let i = index;" (click)="activeToken = i" [ngClass]="{'active': activeToken === i}">
+        <span class="token-label">{{token.first_name}}</span>
+        <a (click)="removeToken(i)" class="close">×</a>
+      </div>
+    </div>
+    <input [(ngModel)]="recipientName" type="text" class="c-input c-input--conversation-top">
+    <ul class="conversation-top__drop">
+      <li>
+        <div class="flag flag--small">
+          <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/thizizraz/128.jpg" alt="" class="avatar avatar--small"> </div>
+          <div class="flag__body"> <span class="conversation-top__drop__name">Justin</span> </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="content">
+    <textarea [(ngModel)]="messageText" placeholder="Write a message" class="c-input c-input--textarea c-input--textarea-noborder c-input--textarea--new-message"></textarea>
+  </div>
+</div>

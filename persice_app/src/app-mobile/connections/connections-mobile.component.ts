@@ -60,7 +60,8 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     // Show profile footer visibility
     this.appStateService.setProfileFooterVisibility({
       visibility: true,
-      type: 'connection'
+      type: 'connection',
+      userId: this.selectedItem.id
     });
 
     // If newly formed connection profile is being selected, mark it as 'seen'

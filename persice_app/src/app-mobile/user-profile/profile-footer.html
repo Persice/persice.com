@@ -25,7 +25,7 @@
   </div>
 
   <!-- footer connection profile -->
-  <a class="profile-footer__message" *ngIf="type === 'connection'">
+  <a class="profile-footer__message" [routerLink]="['/Messages', 'NewConversationToRecipient', {recipientId: userId}]" *ngIf="type === 'connection'">
     <svg role="img" class="icon ">
       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
     </svg>
