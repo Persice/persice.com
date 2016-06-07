@@ -11612,3 +11612,7 @@ html {
 .spinner.small {
   margin: 10px auto!important;
 }
+
+.chat__messages--initial-loading .spinner.small {
+  margin: 10rem auto!important;
+}

@@ -1,6 +1,6 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 
-const PAGES_WITH_COUNTER: string[] = ['messages'];
+const PAGES_WITH_COUNTER: string[] = ['conversations'];
 @Component({
   selector: 'prs-page-title',
   template: `
@@ -14,6 +14,10 @@ const PAGES_WITH_COUNTER: string[] = ['messages'];
 export class PageTitleComponent {
   @Input() set title(value: string) {
     this.pageTitle = value.replace(/-/g, ' '); //replace '-' char with space
+
+    if (this.pageTitle === 'messages') {
+      this.pageTitle = 'conversations';
+    }
 
     if (PAGES_WITH_COUNTER.indexOf(this.pageTitle) > -1) {
       this.conversationsCounterVisible = true;
