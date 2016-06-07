@@ -1,8 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {RouteParams} from '@angular/router-deprecated';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 import {MessagesMobileService} from './messages-mobile.service';
+import {UnreadMessagesCounterService} from './../../../common/services';
+
 import {AppStateService} from '../../shared/services';
 import {WebsocketService} from '../../../app/shared/services';
 import {ConversationMessagesMobileComponent} from './conversation-messages';
@@ -21,7 +23,6 @@ import {ConversationInputMobileComponent} from './conversation-input';
       [loadedCount]="loadedCount | async"
       [totalCount]="totalCount | async"
       [isNewMessageBeingSent]="isNewMessageBeingSent | async"
-      [isNewMessageBeingReceived]="isNewMessageBeingReceived | async"
       (onScrollTop)="loadConversationMessages($event)">
     </prs-mobile-conversation-messages>
     <prs-mobile-conversation-input [isNewMessageBeingSent]="isNewMessageBeingSent | async"
@@ -43,18 +44,18 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
   private loadedCount: Observable<number>;
   private totalCount: Observable<number>;
   private isNewMessageBeingSent: Observable<boolean>;
-  private isNewMessageBeingReceived: Observable<boolean>;
   private selectedConversation: Observable<Conversation>;
   private conversationTitle: Observable<string>;
   private senderId: string;
 
-  private websocketServiceInstance;
+  private websocketServiceSubs: Subscription;
 
   constructor(
     private messagesService: MessagesMobileService,
     private params: RouteParams,
     private appStateService: AppStateService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private unreadMessagesCounterService: UnreadMessagesCounterService
   ) {
     this.messages = this.messagesService.messages$;
     this.loading = this.messagesService.loading$;
@@ -62,21 +63,22 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
     this.loadedCount = this.messagesService.loadedCount$;
     this.totalCount = this.messagesService.totalCount$;
     this.isNewMessageBeingSent = this.messagesService.isNewMessageBeingSent$;
-    this.isNewMessageBeingReceived = this.messagesService.isNewMessageBeingReceived$;
     this.selectedConversation = this.messagesService.selectedConversation$;
     this.conversationTitle = this.messagesService.conversationTitle$;
     this.senderId = this.params.get('senderId');
   }
 
   ngOnInit() {
+
     this.appStateService.setHeaderVisibility(false);
     this.messagesService.emptyConversationMessages();
     this.messagesService.loadConversationTitle(this.senderId);
     this.loadConversationMessages();
 
-    // Subscribe to websocket service updates
-    this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
-      this.messagesService.markConversationRead(this.senderId);
+    this.markConversationRead();
+
+    // Subscribe to websocket service updates for new message channel
+    this.websocketServiceSubs = this.websocketService.on('messages:new').subscribe((data: any) => {
       this.messagesService.recievedMessageViaWebSocket(data, this.senderId);
     });
 
@@ -85,9 +87,10 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.appStateService.setHeaderVisibility(true);
-    this.websocketServiceInstance.unsubscribe();
-
+    this.websocketServiceSubs.unsubscribe();
+    this.markConversationRead();
     setTimeout(() => jQuery('#intercom-launcher').css('display', 'block'), 500);
+
   }
 
   public loadConversationMessages() {
@@ -96,6 +99,17 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
 
   public sendMessage(message: string) {
     this.messagesService.sendMessage(this.senderId, message);
+  }
+
+  /**
+   *  Mark all messages in this conversation as read and refresh unread messages counter.
+   */
+  private markConversationRead(): void {
+    let subs = this.messagesService.markConversationRead(this.senderId)
+      .subscribe((data) => {
+        this.unreadMessagesCounterService.refresh();
+        subs.unsubscribe();
+      });
   }
 
 }

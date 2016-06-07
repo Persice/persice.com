@@ -15,6 +15,7 @@ export class ConversationActions {
   public static RESET_COLLECTION = '[Conversation] Reseting Collection';
   public static SELECT_CONVERSATION = '[Conversation] Select Conversation';
   public static COLLECTION_FULLY_LOADED = '[Conversation] Collection Fully Loaded';
+  public static ADD_NEW_OR_REPLACE_EXISTING = '[Conversation] Add New Or Replace Existing';
 
   public loadCollectionSuccess(data: ConversationsData): Action {
     return {
@@ -48,6 +49,13 @@ export class ConversationActions {
     return {
       type: ConversationActions.COLLECTION_FULLY_LOADED,
       payload: {}
+    };
+  }
+
+  public addNewOrReplaceExisting(conversation: Conversation): Action {
+    return {
+      type: ConversationActions.ADD_NEW_OR_REPLACE_EXISTING,
+      payload: conversation
     };
   }
 

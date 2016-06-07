@@ -11,7 +11,6 @@ export interface MessagesState {
   loading: boolean;
   loaded: boolean;
   isNewMessageBeingSent: boolean;
-  isNewMessageBeingReceived: boolean;
 };
 
 let initialState: MessagesState = {
@@ -21,8 +20,7 @@ let initialState: MessagesState = {
   conversationTitle: '',
   loading: false,
   loaded: false,
-  isNewMessageBeingSent: false,
-  isNewMessageBeingReceived: false
+  isNewMessageBeingSent: false
 };
 
 export default function(state = initialState, action: Action): MessagesState {
@@ -58,8 +56,7 @@ export default function(state = initialState, action: Action): MessagesState {
 
       return Object.assign({}, state, {
         entities: [...state.entities, message],
-        totalCount: state.totalCount + 1,
-        isNewMessageBeingReceived: false
+        totalCount: state.totalCount + 1
       });
     }
 
@@ -81,11 +78,6 @@ export default function(state = initialState, action: Action): MessagesState {
     case MessageActions.SENDING_NEW_MESSAGE:
       return Object.assign({}, state, {
         isNewMessageBeingSent: true
-      });
-
-    case MessageActions.RECEIVING_NEW_MESSAGE:
-      return Object.assign({}, state, {
-        isNewMessageBeingReceived: true
       });
 
     case MessageActions.LOADED_CONVERSATION_TITLE: {

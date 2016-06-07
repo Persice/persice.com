@@ -4,7 +4,8 @@
       <img alt="Perice" src="/static/assets/images/logo.svg" class="site-logo__mark">
       <h1 class="site-logo__type">Persice</h1> </a>
   </div>
-  <prs-mobile-navigation></prs-mobile-navigation>
+  <prs-mobile-navigation [username]="username" [unreadMessagesCounter]="unreadMessagesCounter | async">
+  </prs-mobile-navigation>
 </nav>
 <div class="content-mask" prs-close-left-menu></div>
 <div class="container push-menu-push">

@@ -108,7 +108,6 @@ export class ConversationsComponent implements OnInit, OnDestroy {
 
   }
 
-
   ngOnDestroy() {
     if (this.inboxServiceInstance) {
       this.inboxServiceInstance.unsubscribe();

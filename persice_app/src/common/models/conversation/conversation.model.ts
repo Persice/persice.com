@@ -2,7 +2,7 @@ import {StringUtil, DateUtil} from '../../../app/shared/core';
 
 export class Conversation {
 
-  private _id: string;
+  private _id: number;
   private _senderId: string;
   private _name: string;
   private _sender: string;
@@ -37,7 +37,7 @@ export class Conversation {
     this._image = dto.image ? dto.image : '';
   }
 
-  get id(): string {
+  get id(): number {
     return this._id;
   }
 
@@ -57,6 +57,11 @@ export class Conversation {
     return this._sentAt;
   }
 
+  set sentAt(date: string) {
+    this._date = date;
+    this._sentAt = date;
+  }
+
   get readAt(): string {
     return this._readAt;
   }
@@ -69,12 +74,24 @@ export class Conversation {
     return this._unread;
   }
 
+  set unread(state: boolean) {
+    this._unread = state;
+  }
+
   get unreadCounter(): number {
     return this._unreadCounter;
   }
 
+  set unreadCounter(counter: number) {
+    this._unreadCounter = counter;
+  }
+
   get body(): string {
     return this._body;
+  }
+
+  set body(value: string) {
+    this._body = value;
   }
 
   get image(): string {

@@ -20,10 +20,11 @@ import {
   IfRoutesActiveDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdMobileComponent} from "./crowd";
+import {CrowdMobileComponent} from './crowd';
 import {PageTitleComponent} from './page-title';
 import {FilterService, WebsocketService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
+import {UnreadMessagesCounterService} from '../common/services';
 import {ProfileFooterMobileComponent} from './user-profile';
 import {ConnectionsMobileComponent} from './connections';
 import {SettingsMobileComponent} from './settings';
@@ -35,8 +36,10 @@ import {EditMyProfileMobileComponent} from './edit-my-profile';
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 const PAGES_WITH_ADD_ACTION: string[] = ['messages'];
 
-import {AppState, getConversationsState} from '../common/reducers';
+import {AppState, getConversationsState, getUnreadMessagesCounterState} from '../common/reducers';
 import {Store} from '@ngrx/store';
+import {CookieUtil} from '../app/shared/core';
+
 /*
  * Persice App Component
  * Top Level Component
@@ -89,7 +92,8 @@ import {Store} from '@ngrx/store';
   providers: [
     FilterService,
     AppStateService,
-    WebsocketService
+    WebsocketService,
+    UnreadMessagesCounterService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -111,32 +115,40 @@ export class AppMobileComponent implements OnInit {
   pagesWithAddAction = PAGES_WITH_ADD_ACTION;
   pageTitle: string = 'Persice';
   conversationsCounter: Observable<number>;
+  unreadMessagesCounter: Observable<number>;
   footerScore: number = 0;
   footerType: string;
   footerUserId: number;
+  username: string = '';
 
   constructor(
-    private _appStateService: AppStateService,
-    private _router: Router,
-    private _store: Store<AppState>,
-    private websocketService: WebsocketService
+    private appStateService: AppStateService,
+    private router: Router,
+    private store: Store<AppState>,
+    private websocketService: WebsocketService,
+    private unreadMessagesCounterService: UnreadMessagesCounterService
   ) {
-    const store$ = _store.let(getConversationsState());
-    this.conversationsCounter = store$.map(state => state['count']);
+    this.username = CookieUtil.getValue('user_username');
+
+    const conversationsStore$ = store.let(getConversationsState());
+    this.conversationsCounter = conversationsStore$.map(state => state['count']);
+
+    const unreadMessagesCounterStore$ = store.let(getUnreadMessagesCounterState());
+    this.unreadMessagesCounter = unreadMessagesCounterStore$.map(state => state['counter']);
   }
 
   ngOnInit() {
     // Subscribe to EventEmmitter from AppStateService to show or hide main app header
-    this._appStateService.isHeaderVisibleEmitter
+    this.appStateService.isHeaderVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isHeaderVisible = visibility;
       });
 
-    this._appStateService.isHeaderVisibleEmitter
+    this.appStateService.isHeaderVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isHeaderVisible = visibility;
       });
-    this._appStateService.isProfileFooterVisibleEmitter
+    this.appStateService.isProfileFooterVisibleEmitter
       .subscribe((state: any) => {
         this.isFooterVisible = state.visibility;
         this.footerScore = state.score ? state.score : 0;
@@ -144,20 +156,27 @@ export class AppMobileComponent implements OnInit {
         this.footerUserId = state.userId ? state.userId : null;
       });
 
-    this._router.subscribe((next: string) => {
+    this.router.subscribe((next: string) => {
       this._onRouteChange(next);
     });
 
     // Initialize and connect to socket.io websocket
     this.websocketService.connect();
+
+    // Get unread messages counter
+    this.unreadMessagesCounterService.refresh();
+
+    this.websocketService.on('messages:new').subscribe((data: any) => {
+      this.unreadMessagesCounterService.increase();
+    });
   }
 
   /**
    * Set Filter page visible using app state service
    */
   public setFilterVisible() {
-    this._appStateService.setFilterVisibility(true);
-    this._appStateService.setHeaderVisibility(false);
+    this.appStateService.setFilterVisibility(true);
+    this.appStateService.setHeaderVisibility(false);
   }
 
   /**
@@ -165,7 +184,7 @@ export class AppMobileComponent implements OnInit {
    * @param {Object} event {userid: number, state: [-1|0]}
    */
   public setFriendshipStatus(event) {
-    this._appStateService.setFriendshipStatus(event);
+    this.appStateService.setFriendshipStatus(event);
   }
 
   /**

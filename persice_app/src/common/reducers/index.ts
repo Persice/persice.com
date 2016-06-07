@@ -14,6 +14,8 @@ import {Observable} from 'rxjs';
 
 import conversationsReducer, * as fromConversations from './conversations.reducer';
 import messagesReducer, * as fromMessages from './messages.reducer';
+import unreadMessagesCounterReducer, * as fromUnreadMessagesCounter
+from './unread-messages-counter.reducer';
 
 /**
  * We treat each reducer like a table in a database. This means
@@ -22,13 +24,14 @@ import messagesReducer, * as fromMessages from './messages.reducer';
 export interface AppState {
   conversations: fromConversations.ConversationsState;
   messages: fromMessages.MessagesState;
+  unreadMessagesCounter: fromUnreadMessagesCounter.UnreadMessagesCounterState;
 }
 
 export default compose(storeLogger(), combineReducers)({
   conversations: conversationsReducer,
-  messages: messagesReducer
+  messages: messagesReducer,
+  unreadMessagesCounter: unreadMessagesCounterReducer
 });
-
 
 /**
  * A selector function is a map function factory. We pass it parameters and it
@@ -54,4 +57,9 @@ export function getConversationsState() {
 export function getMessagesState() {
   return (state$: Observable<AppState>) => state$
     .select(s => s.messages);
+}
+
+export function getUnreadMessagesCounterState() {
+  return (state$: Observable<AppState>) => state$
+    .select(s => s.unreadMessagesCounter);
 }
