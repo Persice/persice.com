@@ -11622,3 +11622,42 @@ html {
   box-shadow: inset 0px -3px 0px 0px #39c9f5;
   color: #374145;
 }
+
+.tokenfield {
+  display: inline-block;
+  height: 44px;
+  vertical-align: bottom;
+}
+
+.tokenfield .token--mobile {
+  border-radius: 3px;
+  display: inline-block;
+  border: 1px solid #dce4e7;
+  background-color: #f8fcfd;
+  color: #434f54;
+  font-size: 13px;
+  white-space: nowrap;
+  margin: -1px 10px 0px 0;
+  line-height: 20px;
+  cursor: default;
+  transition: all .2s ease;
+  font-family: Montserrat,sans-serif;
+  padding-left: 10px;
+}
+
+.tokenfield .token--mobile .close {
+  transition: all .3s ease;
+  color: #bcc5c9;
+  font-size: 18px;
+  line-height: 1;
+  margin-left: 5px;
+  padding-right: 6px;
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.conversation-top--mobile {
+  line-height: 44px;
+  height: 44px;
+}

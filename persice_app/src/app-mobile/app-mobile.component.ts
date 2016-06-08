@@ -213,6 +213,12 @@ export class AppMobileComponent implements OnInit {
     this.appStateService.setFriendshipStatus(event);
   }
 
+  public performAddAction() {
+    if (this.router.isRouteActive(this.router.generate(['/Messages', 'Conversations']))) {
+      this.router.navigate(['/Messages', 'NewConversation']);
+    }
+  }
+
   /**
    * Change page title in top header when route changes
    * @param {string} next [description]

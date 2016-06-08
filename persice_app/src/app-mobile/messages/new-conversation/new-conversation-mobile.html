@@ -6,19 +6,19 @@
     <div class="layout__item 1/5 text-right"> <a (click)="send()">Send</a> </div>
   </div>
 </header>
-<div class="conversation-top"> <span class="conversation-top__label">To:</span>
+<div class="conversation-top conversation-top--mobile"> <span class="conversation-top__label">To:</span>
   <div class="tokenfield" *ngIf="tokens.length > 0">
-    <div class="token" *ngFor="let token of tokens; let i = index;" (click)="activeToken = i" [ngClass]="{'active': activeToken === i}">
+    <div class="token token--mobile" *ngFor="let token of tokens; let i = index;">
       <span class="token-label">{{token.first_name}}</span>
-      <a (click)="removeToken(i)" class="close">×</a>
+      <a (click)="removeRecipient(i)" class="close">×</a>
     </div>
   </div>
-  <input [(ngModel)]="recipientName" type="text" class="c-input c-input--conversation-top">
-  <ul class="conversation-top__drop">
-    <li>
+  <input [(ngModel)]="recipientName" [ngFormControl]="recipientNameInput" *ngIf="tokens.length < 1" type="text" class="c-input c-input--conversation-top">
+  <ul class="conversation-top__drop" style="display:block">
+    <li *ngFor="let item of possibleRecipients" (click)="selectRecipient(item)">
       <div class="flag flag--small">
-        <div class="flag__img"> <img src="https://s3.amazonaws.com/uifaces/faces/twitter/thizizraz/128.jpg" alt="" class="avatar avatar--small"> </div>
-        <div class="flag__body"> <span class="conversation-top__drop__name">Justin</span> </div>
+        <div class="flag__img"> <img src="{{item.image}}" alt="{{item.first_name}}" class="avatar avatar--small"> </div>
+        <div class="flag__body"> <span class="conversation-top__drop__name">{{item.first_name}}</span> </div>
       </div>
     </li>
   </ul>
