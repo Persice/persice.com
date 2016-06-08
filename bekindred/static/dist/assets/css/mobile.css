@@ -11597,3 +11597,28 @@ html {
   visibility: hidden;
   transition: all .3s ease-in-out;
 }
+
+.mob-nav-main__value {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.mob-nav-main__value__counter.is-visible,
+.mob-nav-main__value__counter_connections.is-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: all .3s ease-in-out;
+}
+
+.spinner.small {
+  margin: 10px auto!important;
+}
+
+.chat__messages--initial-loading .spinner.small {
+  margin: 10rem auto!important;
+}
+
+.mob-tabs li > a.router-link-active {
+  box-shadow: inset 0px -3px 0px 0px #39c9f5;
+  color: #374145;
+}
