@@ -31,7 +31,7 @@ export interface AppState {
 }
 
 // Available: storeLogger()
-export default compose(combineReducers)({
+export default compose(storeLogger(), combineReducers)({
   conversations: conversationsReducer,
   messages: messagesReducer,
   unreadMessagesCounter: unreadMessagesCounterReducer,
