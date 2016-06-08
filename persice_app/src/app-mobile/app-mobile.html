@@ -28,7 +28,7 @@
           </svg>
         </a>
       </div>
-      <div class="layout__item 1/5 text-right" *prsIfRoutesActive="pagesWithAddAction">
+      <div  (click)="performAddAction()" class="layout__item 1/5 text-right" *prsIfRoutesActive="pagesWithAddAction">
         <a>
           <svg role="img" class="icon ">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
