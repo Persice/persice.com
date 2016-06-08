@@ -1,5 +1,5 @@
-import { provide, Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import {provide, Injectable} from '@angular/core';
+import {Response} from '@angular/http';
 import {Observable} from 'rxjs';
 
 import {HttpClient} from '../../app/shared/core';
@@ -28,9 +28,9 @@ export class ConnectionsService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-  public markNewConnectionsAsSeen(id: number): void {
+  public markNewConnectionsAsSeen(id: number): Observable<any> {
     let url = `/api/v2/new_connections/updated_at/?format=json&friend_id=${id}`;
-    this.http.get(url).map(res => res.json()).subscribe(data => { });
+    return this.http.get(url).map(res => res.json());
   }
 
 }
