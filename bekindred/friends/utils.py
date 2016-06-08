@@ -106,6 +106,23 @@ class NeoFourJ(object):
             return ID(n) AS id, n.name AS node_name, n.user_id AS user_id
         """, {'USER_ID': user_id})
 
+    def get_my_friends_icontains_name(self, user_id, name):
+        if not name:
+            return []
+        result = self.graph.cypher.execute(
+            "MATCH (Person { user_id:{USER_ID} })-[:FRIENDS]->(n)"
+            "-[:FRIENDS]->(Person { user_id:{USER_ID} })"
+            "WHERE n.name =~ '(?i).*" + name.lower() + ".*'"
+            "return ID(n) AS id, n.name AS node_name, n.user_id AS user_id",
+            {'USER_ID': user_id})
+        if result is None:
+            return list()
+        else:
+            results = []
+            for record in result:
+                results.append(record.user_id)
+            return results
+
     def get_my_thumbed_up(self, user_id):
         return self.graph.cypher.execute("""
             MATCH (Person { user_id:{USER_ID} })-[:FRIENDS|PASSES]->(n)

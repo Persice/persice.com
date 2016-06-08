@@ -276,7 +276,7 @@ class MatchUser(object):
     def get_friends_score(self, current_user_id, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
         mutual_bk_friends_count = len(
-                Friend.objects.mutual_friends(current_user_id, user_id))
+                NeoFourJ().get_my_friends_ids(user_id))
 
         mutual_fb_friends_count = len(
                 FacebookFriendUser.objects.mutual_friends(

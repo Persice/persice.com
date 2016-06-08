@@ -5,7 +5,6 @@ Vagrant::Config.run do |config|
 	# Every Vagrant virtual environment requires a box to build off of.
 	config.vm.box = "ubuntu/trusty64"
 
-  config.ssh.private_key_path = "~/.ssh/id_rsa"
   config.ssh.forward_agent = true
 
 	# The url from where the 'config.vm.box' box will be fetched if it
