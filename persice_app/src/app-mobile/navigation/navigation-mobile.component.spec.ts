@@ -26,7 +26,8 @@ let domElement: any;
   template: `
     <prs-mobile-navigation
       [username]="username"
-      [unreadMessagesCounter]="counter">
+      [unreadMessagesCounter]="counter"
+      [newConnectionsCounter]="counterConnections">
     </prs-mobile-navigation>
   `,
   directives: [NavigationMobileComponent]
@@ -35,6 +36,7 @@ let domElement: any;
 class TestComponent {
   username: string = '';
   counter: number = 0;
+  counterConnections: number = 0;
 }
 
 describe('Navigation mobile component', () => {
@@ -105,7 +107,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterElement = obtainElement(domElement, '.is-visible');
+    let counterElement = obtainElement(domElement, '.mob-nav-main__value__counter.is-visible');
     expect(counterElement).toBeNull();
   });
 
@@ -119,6 +121,30 @@ describe('Navigation mobile component', () => {
     // then
     let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__counter'), 10);
     expect(counterValue).toEqual(component.counter);
+  });
+
+  it('should hide new connections counter when counter is 0', () => {
+    // given
+    component.counterConnections = 0;
+
+    // when
+    this.componentFixture.detectChanges();
+
+    // then
+    let counterElement = obtainElement(domElement, '.mob-nav-main__value__counter_connections.is-visible');
+    expect(counterElement).toBeNull();
+  });
+
+  it('should display new connections counter when counter is > 0', () => {
+    // given
+    component.counterConnections = 10;
+
+    // when
+    this.componentFixture.detectChanges();
+
+    // then
+    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__counter_connections'), 10);
+    expect(counterValue).toEqual(component.counterConnections);
   });
 
   function obtainText(element, selector) {

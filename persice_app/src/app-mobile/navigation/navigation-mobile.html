@@ -27,7 +27,7 @@
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
         </svg> <span>Connections</span>
-        <!-- <i class="mob-nav-main__value">3</i> -->
+        <i class="mob-nav-main__value mob-nav-main__value__counter_connections" [ngClass]="{'is-visible': newConnectionsCounter > 0}">{{newConnectionsCounter}}</i>
       </a>
     </li>
     <li>
@@ -53,7 +53,6 @@
   </ul>
 </nav>
 <ul class="mob-nav-submain">
-  <li><a>Privacy</a></li>
-  <li><a>Terms</a></li>
-  <li><a>Faq</a></li>
+  <li><a [routerLink]="['./Info', 'PrivacyPolicy']">Privacy</a></li>
+  <li><a [routerLink]="['./Info', 'TermsOfService']">Terms</a></li>
 </ul>
