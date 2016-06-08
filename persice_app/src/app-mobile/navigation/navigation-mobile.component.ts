@@ -9,5 +9,6 @@ import {RouterLink} from '@angular/router-deprecated';
 export class NavigationMobileComponent {
   @Input() username: string;
   @Input() unreadMessagesCounter: number;
+  @Input() newConnectionsCounter: number;
 
 }

@@ -1,6 +1,7 @@
 import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 
 const PAGES_WITH_COUNTER: string[] = ['conversations'];
+const PAGES_WITH_NO_TITLE: string[] = ['info privacy policy', 'info terms of service'];
 @Component({
   selector: 'prs-page-title',
   template: `
@@ -13,8 +14,10 @@ const PAGES_WITH_COUNTER: string[] = ['conversations'];
 })
 export class PageTitleComponent {
   @Input() set title(value: string) {
-    this.pageTitle = value.replace(/-/g, ' '); //replace '-' char with space
 
+    this.pageTitle = value.replace(/[-\/]/g, ' '); //replace - and / special chars with space
+
+    // Change title for messages route
     if (this.pageTitle === 'messages') {
       this.pageTitle = 'conversations';
     }
@@ -23,6 +26,10 @@ export class PageTitleComponent {
       this.conversationsCounterVisible = true;
     } else {
       this.conversationsCounterVisible = false;
+    }
+
+    if (PAGES_WITH_NO_TITLE.indexOf(this.pageTitle) > -1) {
+      this.pageTitle = '';
     }
 
   }

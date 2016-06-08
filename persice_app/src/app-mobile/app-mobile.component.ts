@@ -24,7 +24,7 @@ import {CrowdMobileComponent} from './crowd';
 import {PageTitleComponent} from './page-title';
 import {FilterService, WebsocketService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
-import {UnreadMessagesCounterService} from '../common/services';
+import {UnreadMessagesCounterService, NewConnectionsCounterService} from '../common/services';
 import {ProfileFooterMobileComponent} from './user-profile';
 import {ConnectionsMobileComponent} from './connections';
 import {SettingsMobileComponent} from './settings';
@@ -32,11 +32,17 @@ import {EventsMobileComponent} from './events';
 import {MessagesMobileComponent} from './messages';
 import {MyProfileMobileComponent} from './my-profile';
 import {EditMyProfileMobileComponent} from './edit-my-profile';
+import {InfoMobileComponent} from './info';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 const PAGES_WITH_ADD_ACTION: string[] = ['messages'];
 
-import {AppState, getConversationsState, getUnreadMessagesCounterState} from '../common/reducers';
+import {
+  AppState,
+  getConversationsState,
+  getUnreadMessagesCounterState,
+  getNewConnectionsCounterState
+} from '../common/reducers';
 import {Store} from '@ngrx/store';
 import {CookieUtil} from '../app/shared/core';
 
@@ -84,6 +90,11 @@ import {CookieUtil} from '../app/shared/core';
     path: '/:username',
     component: MyProfileMobileComponent,
     name: 'MyProfile'
+  },
+  {
+    path: '/info/...',
+    component: InfoMobileComponent,
+    name: 'Info'
   }
 ])
 @Component({
@@ -93,7 +104,8 @@ import {CookieUtil} from '../app/shared/core';
     FilterService,
     AppStateService,
     WebsocketService,
-    UnreadMessagesCounterService
+    UnreadMessagesCounterService,
+    NewConnectionsCounterService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -116,6 +128,7 @@ export class AppMobileComponent implements OnInit {
   pageTitle: string = 'Persice';
   conversationsCounter: Observable<number>;
   unreadMessagesCounter: Observable<number>;
+  newConnectionsCounter: Observable<number>;
   footerScore: number = 0;
   footerType: string;
   footerUserId: number;
@@ -126,7 +139,8 @@ export class AppMobileComponent implements OnInit {
     private router: Router,
     private store: Store<AppState>,
     private websocketService: WebsocketService,
-    private unreadMessagesCounterService: UnreadMessagesCounterService
+    private unreadMessagesCounterService: UnreadMessagesCounterService,
+    private newConnectionsCounterService: NewConnectionsCounterService
   ) {
     this.username = CookieUtil.getValue('user_username');
 
@@ -135,6 +149,9 @@ export class AppMobileComponent implements OnInit {
 
     const unreadMessagesCounterStore$ = store.let(getUnreadMessagesCounterState());
     this.unreadMessagesCounter = unreadMessagesCounterStore$.map(state => state['counter']);
+
+    const newConnectionsCounterStore$ = store.let(getNewConnectionsCounterState());
+    this.newConnectionsCounter = newConnectionsCounterStore$.map(state => state['counter']);
   }
 
   ngOnInit() {
@@ -166,8 +183,17 @@ export class AppMobileComponent implements OnInit {
     // Get unread messages counter
     this.unreadMessagesCounterService.refresh();
 
+    // Get new connections counter
+    this.newConnectionsCounterService.refresh();
+
+    // If new message received via websocket, increase unread messages counter state.
     this.websocketService.on('messages:new').subscribe((data: any) => {
       this.unreadMessagesCounterService.increase();
+    });
+
+    // If new connection message received via websocket, increase new connections counter state.
+    this.websocketService.on('connections:new').subscribe((data: any) => {
+      this.newConnectionsCounterService.increase();
     });
   }
 
@@ -185,6 +211,12 @@ export class AppMobileComponent implements OnInit {
    */
   public setFriendshipStatus(event) {
     this.appStateService.setFriendshipStatus(event);
+  }
+
+  public performAddAction() {
+    if (this.router.isRouteActive(this.router.generate(['/Messages', 'Conversations']))) {
+      this.router.navigate(['/Messages', 'NewConversation']);
+    }
   }
 
   /**
