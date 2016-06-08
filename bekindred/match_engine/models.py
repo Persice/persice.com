@@ -870,7 +870,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         stop_words = StopWords.objects.all().values_list('word', flat=True)
         query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words)
-        fields = ["goals", "offers", "interests", "likes"]
+        fields = ["goals", "offers", "interests"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
         neo = NeoFourJ()
         if exclude_ids is None:

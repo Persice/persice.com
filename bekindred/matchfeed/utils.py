@@ -249,7 +249,7 @@ class MatchUser(object):
         porter_stemmer = PorterStemmer()
         stop_words = StopWords.objects.all().values_list('word', flat=True)
         st_stop_words = [porter_stemmer.stem(w) for w in stop_words]
-        targets = ['goals', 'offers', 'interests', 'likes']
+        targets = ['goals', 'offers', 'interests']
         translate_table = dict((ord(char), None) for char in string.punctuation)
 
         for target in targets:
