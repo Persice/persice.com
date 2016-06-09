@@ -57,19 +57,19 @@ module.exports = webpackMerge(commonConfig, {
     // IMPORTANT: You must not specify an absolute path here!
     //
     // See: http://webpack.github.io/docs/configuration.html#output-filename
-    filename: '[name].[chunkhash].bundle.js',
+    filename: '[name].[chunkhash].prod.bundle.js',
 
     // The filename of the SourceMaps for the JavaScript files.
     // They are inside the output.path directory.
     //
     // See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
-    sourceMapFilename: '[name].[chunkhash].bundle.map',
+    sourceMapFilename: '[name].[chunkhash].prod.bundle.map',
 
     // The filename of non-entry chunks as relative path
     // inside the output.path directory.
     //
     // See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
-    chunkFilename: '[id].[chunkhash].chunk.js'
+    chunkFilename: '[id].[chunkhash].prod.chunk.js'
 
   },
 
@@ -82,7 +82,7 @@ module.exports = webpackMerge(commonConfig, {
     // Description: Plugin to replace a standard webpack chunkhash with md5.
     //
     // See: https://www.npmjs.com/package/webpack-md5-hash
-    new WebpackMd5Hash(),
+    // new WebpackMd5Hash(),
 
      new CopyWebpackPlugin([{
       from: 'src/assets',
