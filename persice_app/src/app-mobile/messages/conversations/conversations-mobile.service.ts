@@ -91,7 +91,6 @@ export class ConversationsMobileService {
       .subscribe((dto: any) => {
         if (dto.objects[0]) {
           let conversation: Conversation = new Conversation(dto.objects[0]);
-          console.log(conversation);
           this.store.dispatch(this.actions.addNewOrReplaceExisting(conversation));
         }
       });
