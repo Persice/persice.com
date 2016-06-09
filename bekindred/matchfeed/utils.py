@@ -166,7 +166,7 @@ class MatchUser(object):
         self.distance = calculate_distance_es(current_user_id, user_object)
         self.updated_at = self.get_updated_at(current_user_id, user_object)
         # Scores
-        self.score = self.match_score()
+        self.score = self.match_score(current_user_id, self.user_id)
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.get_friends_score(current_user_id, user_object)
         self.top_interests = \
@@ -186,11 +186,18 @@ class MatchUser(object):
         user_id = int(user_object['_id'].split('.')[-1])
         return FacebookCustomUserActive.objects.get(pk=user_id)
 
-    def match_score(self):
+    def match_score(self, user1_id, user2_id):
         score = sum(self.goals[0].values()) + sum(self.offers[0].values()) + \
-                sum(v['match'] for v in self.likes) + \
+                self.fb_likes_match_score(user1_id, user2_id) + \
                 sum(self.interests[0].values())
         return score
+
+    def fb_likes_match_score(self, user1, user2):
+        fb_likes_u1 = FacebookLike.objects.filter(user_id=user1).\
+            values_list('facebook_id', flat=True)
+        fb_likes_u2 = FacebookLike.objects.filter(user_id=user2). \
+            values_list('facebook_id', flat=True)
+        return len(set(fb_likes_u1) & set(fb_likes_u2))
 
     def get_top_interests(self, user_object):
         """

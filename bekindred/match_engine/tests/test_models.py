@@ -163,15 +163,16 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
     def test_simple_match_likes(self):
         FacebookLike.objects.create(user_id=self.user.id, facebook_id=123456,
                                     name='learn python')
-        FacebookLike.objects.create(user_id=self.user1.id, facebook_id=123457,
-                                    name='teach python')
+        fb_like = FacebookLike.objects.create(user_id=self.user1.id,
+                                              facebook_id=123456,
+                                              name='learn python')
         update_index.Command().handle(interactive=False)
         match_users = ElasticSearchMatchEngine. \
             elastic_objects.match(user_id=self.user.id)
         self.assertEqual(match_users[0]['_id'],
                          u'members.facebookcustomuseractive.%s' % self.user1.id)
-        self.assertEqual(match_users[0]['highlight']['likes'],
-                         [u'teach <em>python</em>'])
+        self.assertEqual(match_users[0]['_source']['likes_fb_ids'],
+                         [unicode(fb_like.facebook_id)])
 
     def test_simple_match_two_goals_to_two_offers(self):
         Goal.objects.create(user=self.user, goal=self.subject)
