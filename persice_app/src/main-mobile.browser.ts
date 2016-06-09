@@ -9,7 +9,6 @@ import {bootstrap} from '@angular/platform-browser-dynamic';
 import {DIRECTIVES, PIPES, PROVIDERS_MAIN} from './platform/browser';
 import {ENV_PROVIDERS} from './platform/environment';
 
-
 /**
  * RxJS Redux store and reducers
  */
