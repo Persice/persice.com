@@ -129,9 +129,7 @@ export class AppMobileComponent implements OnInit {
   conversationsCounter: Observable<number>;
   unreadMessagesCounter: Observable<number>;
   newConnectionsCounter: Observable<number>;
-  footerScore: number = 0;
   footerType: string;
-  footerUserId: number;
   username: string = '';
 
   constructor(
@@ -168,9 +166,7 @@ export class AppMobileComponent implements OnInit {
     this.appStateService.isProfileFooterVisibleEmitter
       .subscribe((state: any) => {
         this.isFooterVisible = state.visibility;
-        this.footerScore = state.score ? state.score : 0;
         this.footerType = state.type ? state.type : '';
-        this.footerUserId = state.userId ? state.userId : null;
       });
 
     this.router.subscribe((next: string) => {
@@ -203,14 +199,6 @@ export class AppMobileComponent implements OnInit {
   public setFilterVisible() {
     this.appStateService.setFilterVisibility(true);
     this.appStateService.setHeaderVisibility(false);
-  }
-
-  /**
-   * Emit accept or pass state for friendship on crowd page
-   * @param {Object} event {userid: number, state: [-1|0]}
-   */
-  public setFriendshipStatus(event) {
-    this.appStateService.setFriendshipStatus(event);
   }
 
   public performAddAction() {
