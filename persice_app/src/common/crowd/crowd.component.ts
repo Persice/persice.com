@@ -3,14 +3,12 @@ const LIST_LIMIT: number = 12;
 
 import {ListComponent} from '../list';
 import {CrowdService} from './crowd.service';
-import {FriendService} from "../../app/shared/services/friend.service";
 import {FilterService} from "../../app/shared/services/filter.service";
 
 export class CrowdComponent extends ListComponent {
 
   constructor(
     protected listService: CrowdService,
-    protected friendService: FriendService,
     protected filterService: FilterService,
     protected listRefreshTimeout: number
   ) {

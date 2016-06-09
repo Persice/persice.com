@@ -1,4 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
@@ -9,6 +11,9 @@ import {FriendService, FilterService} from '../../app/shared/services';
 import {AppStateService} from '../shared/services';
 import {InfiniteScrollDirective} from '../../common/directives';
 import {UserProfileComponent} from '../user-profile';
+
+import {AppState, getSelectedPersonState} from '../../common/reducers';
+import {SelectedPersonActions} from '../../common/actions';
 
 const LIST_REFRESH_TIMEOUT: number = 0;
 
@@ -25,18 +30,40 @@ const LIST_REFRESH_TIMEOUT: number = 0;
   ]
 })
 export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, OnInit {
-  isFilterVisible: boolean = false;
 
-  isFilterVisibleEmitterInstance;
-  acceptPassEmitterInstance;
+  private isFilterVisible: boolean = false;
+  private isFilterVisibleEmitterInstance;
+
+  private accepted$: Observable<boolean>;
+  private passed$: Observable<boolean>;
 
   constructor(
     protected listService: CrowdService,
     protected friendService: FriendService,
     protected filterService: FilterService,
-    public appStateService: AppStateService
+    private appStateService: AppStateService,
+    private store: Store<AppState>,
+    private actions: SelectedPersonActions
   ) {
-    super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
+    super(listService, filterService, LIST_REFRESH_TIMEOUT);
+
+    const store$ = store.let(getSelectedPersonState());
+    this.accepted$ = store$.map((data) => data['accept']);
+    this.passed$ = store$.map((data) => data['pass']);
+
+    this.accepted$.subscribe((status: boolean) => {
+      if (!!status) {
+        this._saveFriendshipStatus(0);
+      }
+    });
+
+    this.passed$.subscribe((status: boolean) => {
+      if (!!status) {
+        this._saveFriendshipStatus(-1);
+      }
+
+    });
+
   }
 
   ngOnInit() {
@@ -48,13 +75,6 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
       .subscribe((visibility: boolean) => {
         this.isFilterVisible = visibility;
       });
-
-    // Subscribe to appStateService acceptPassEmitter
-    // for knowing when to update friendship status via accept() or pass() methods
-    this.acceptPassEmitterInstance = this.appStateService.acceptPassEmitter
-      .subscribe((state: any) => {
-        this._saveFriendshipStatus(state);
-      });
   }
 
   ngOnDestroy() {
@@ -62,7 +82,6 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
 
     // Unsubscribe from appStateService Emitters
     this.isFilterVisibleEmitterInstance.unsubscribe();
-    this.acceptPassEmitterInstance.unsubscribe();
   }
 
   beforeItemSelected() {
@@ -74,19 +93,22 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
   }
 
   afterItemSelected() {
+    // Set selectedItem as selected person and profileype as 'crowd' in SelectedPerson App Store
+    this.store.dispatch(this.actions.set(this.selectedItem, 'crowd'));
+
     // Hide profile header.
     this.appStateService.setHeaderVisibility(false);
 
     // Show profile footer visibility.
     this.appStateService.setProfileFooterVisibility({
-      visibility: true,
-      score: this.selectedItem.score,
-      userId: this.selectedItem.id,
-      type: 'crowd'
+      visibility: true
     });
   }
 
   afterItemClosed() {
+    // Clear selected person from SelectedPerson App Store
+    this.store.dispatch(this.actions.clear());
+
     // Show top header.
     this.appStateService.setHeaderVisibility(true);
 
@@ -102,20 +124,18 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     jQuery('#intercom-launcher').css('display', 'block');
   }
 
-  private _saveFriendshipStatus(state): void {
-    // Remove user from feed after friendship status is changed.
-    this.removeItemById(state.userId);
-
-    // When state.userId is equal to selected user's id attribute (selectedItem.id),
-    // save new friendship state.
-    if (this.selectedItem.id === state.userId) {
-      this.friendService.saveFriendship(state.status, state.userId)
+  private _saveFriendshipStatus(status: number): void {
+    if (!!this.selectedItem) {
+      const id: string = this.selectedItem.id;
+      this.removeItemById(this.selectedItem.id);
+      this.friendService.saveFriendship(status, id)
         .subscribe(data => {
           this.closeItemView(null);
         }, (err) => {
           this.closeItemView(null);
         });
     }
+
   }
 
 }

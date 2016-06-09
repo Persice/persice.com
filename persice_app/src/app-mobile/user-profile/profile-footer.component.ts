@@ -1,4 +1,10 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router-deprecated';
+import {Store} from '@ngrx/store';
+
+import {SelectedPersonActions} from '../../common/actions';
+import {AppState, getSelectedPersonState} from '../../common/reducers';
 
 @Component({
   selector: 'prs-mobile-profile-footer',
@@ -6,15 +12,29 @@ import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileFooterMobileComponent {
-  @Input() score: number;
-  @Input() type: string;
-  @Input() userId: number;
-  @Output() onAcceptPassEvent: EventEmitter<any> = new EventEmitter();
+  private selectedPersonState$: Observable<any>;
 
-  passIsActive = false;
-  acceptIsActive = false;
-  timeoutPass;
-  timeoutAccept;
+  private type: string = '';
+  private score: number = 0;
+  private connected: boolean;
+
+  private passIsActive = false;
+  private acceptIsActive = false;
+  private timeoutPass;
+  private timeoutAccept;
+
+  constructor(
+    private _router: Router,
+    private store: Store<AppState>,
+    private actions: SelectedPersonActions
+  ) {
+    this.selectedPersonState$ = store.let(getSelectedPersonState());
+    this.selectedPersonState$.subscribe((state: any) => {
+      this.score = state.person.score;
+      this.type = state.type;
+      this.connected = state.connected;
+    });
+  }
 
   pass(event) {
     this.acceptIsActive = false;
@@ -30,7 +50,7 @@ export class ProfileFooterMobileComponent {
       window.clearTimeout(this.timeoutPass);
     }
     this.timeoutPass = setTimeout(() => {
-      this.onAcceptPassEvent.emit({ userId: this.userId, status: -1 });
+      this.store.dispatch(this.actions.passed());
     }, 1500);
 
   }
@@ -48,7 +68,12 @@ export class ProfileFooterMobileComponent {
       window.clearTimeout(this.timeoutAccept);
     }
     this.timeoutAccept = setTimeout(() => {
-      this.onAcceptPassEvent.emit({ userId: this.userId, status: 0 });
+      this.store.dispatch(this.actions.accepted());
     }, 1500);
+  }
+
+  openNewConversation(event: MouseEvent): void {
+    this.store.dispatch(this.actions.useAsNewConversationRecipient());
+    this._router.navigate(['Messages', 'NewConversation']);
   }
 }

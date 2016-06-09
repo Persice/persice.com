@@ -23,7 +23,12 @@ import {
 import {AppStateService} from '../shared/services';
 import {ConnectionsMobileComponent} from './connections-mobile.component';
 import {FilterService, FriendService} from '../../app/shared/services';
+import {NewConnectionsCounterService} from '../../common/services';
 import {HttpClient} from '../../app/shared/core/http-client';
+
+import {provideStore} from '@ngrx/store';
+import STORE_REDUCERS from '../../common/reducers';
+import STORE_ACTIONS from '../../common/actions';
 
 @Component({
   template: `<prs-mobile-connections></prs-mobile-connections>`,
@@ -43,8 +48,11 @@ describe('Connections mobile component', () => {
   beforeEachProviders(() => {
     mockConnectionsService = new MockConnectionsService(null);
     return [
+      provideStore(STORE_REDUCERS),
+      STORE_ACTIONS,
       mockConnectionsService.getProvider(),
       FilterService,
+      NewConnectionsCounterService,
       AppStateService,
       FriendService,
       MockBackend,
