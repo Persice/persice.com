@@ -5,7 +5,7 @@
 var helpers = require('./helpers'); // Helper: root(), and rootDir() are defined at the bottom
 var webpackMerge = require('webpack-merge'); //Used to merge webpack configs
 var commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
-
+var HASH = helpers.generateHash();
 /**
  * Webpack Plugins
  */
@@ -57,19 +57,19 @@ module.exports = webpackMerge(commonConfig, {
     // IMPORTANT: You must not specify an absolute path here!
     //
     // See: http://webpack.github.io/docs/configuration.html#output-filename
-    filename: '[name].[chunkhash].prod.bundle.js',
+    filename: '[name].' + HASH + '.prod.bundle.js',
 
     // The filename of the SourceMaps for the JavaScript files.
     // They are inside the output.path directory.
     //
     // See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
-    sourceMapFilename: '[name].[chunkhash].prod.bundle.map',
+    sourceMapFilename: '[name].' + HASH + '.prod.bundle.map',
 
     // The filename of non-entry chunks as relative path
     // inside the output.path directory.
     //
     // See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
-    chunkFilename: '[id].[chunkhash].prod.chunk.js'
+    chunkFilename: '[id].' + HASH + '.prod.chunk.js'
 
   },
 
@@ -79,7 +79,7 @@ module.exports = webpackMerge(commonConfig, {
   plugins: [
 
     // Plugin: WebpackMd5Hash
-    // Description: Plugin to replace a standard webpack chunkhash with md5.
+    // Description: Plugin to replace a standard webpack hash with md5.
     //
     // See: https://www.npmjs.com/package/webpack-md5-hash
     // new WebpackMd5Hash(),
