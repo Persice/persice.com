@@ -376,7 +376,7 @@ export class StringUtil {
     if (!options) options = {};
     let defaultOptions = {
       suffix: true,
-      suffixString: ' ...',
+      suffixString: '...',
       preserveWordBoundaries: true,
       wordSeparator: ' '
     };
