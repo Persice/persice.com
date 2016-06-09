@@ -18,6 +18,8 @@ import unreadMessagesCounterReducer, * as fromUnreadMessagesCounter
 from './unread-messages-counter.reducer';
 import newConnectionsCounterReducer, * as fromNewConnectionsCounter
 from './new-connections-counter.reducer';
+import selecterPersonReducer, * as fromSelectedPerson
+from './selected-person.reducer';
 
 /**
  * We treat each reducer like a table in a database. This means
@@ -28,6 +30,7 @@ export interface AppState {
   messages: fromMessages.MessagesState;
   unreadMessagesCounter: fromUnreadMessagesCounter.UnreadMessagesCounterState;
   newConnectionsCounter: fromNewConnectionsCounter.NewConnectionsCounterState;
+  selectedPerson: fromSelectedPerson.SelectedPersonState;
 }
 
 // Available: storeLogger()
@@ -35,7 +38,8 @@ export default compose(storeLogger(), combineReducers)({
   conversations: conversationsReducer,
   messages: messagesReducer,
   unreadMessagesCounter: unreadMessagesCounterReducer,
-  newConnectionsCounter: newConnectionsCounterReducer
+  newConnectionsCounter: newConnectionsCounterReducer,
+  selectedPerson: selecterPersonReducer
 });
 
 /**
@@ -72,4 +76,9 @@ export function getUnreadMessagesCounterState() {
 export function getNewConnectionsCounterState() {
   return (state$: Observable<AppState>) => state$
     .select(s => s.newConnectionsCounter);
+}
+
+export function getSelectedPersonState() {
+  return (state$: Observable<AppState>) => state$
+    .select(s => s.selectedPerson);
 }
