@@ -1,5 +1,4 @@
 import {Directive, ElementRef, Input, AfterViewInit, Renderer, OnDestroy} from '@angular/core';
-import {Http} from '@angular/http';
 
 @Directive({
   selector: '[checkimage]',
@@ -18,13 +17,7 @@ export class CheckImageDirective implements AfterViewInit, OnDestroy {
   onchanges: boolean;
   serviceInstance: any;
 
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer,
-    private http: Http
-  ) {
-
-  }
+  constructor(private el: ElementRef, private renderer: Renderer) { }
 
   ngAfterViewInit() {
     this._displayImage();
@@ -36,21 +29,26 @@ export class CheckImageDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  public setBackgroundImage(url) {
-    this.renderer.setElementStyle(this.el.nativeElement, 'backgroundImage', url);
-  }
-
   private _displayImage(): void {
     let imageUrl = this.image + this.suffix;
 
-    // if image is empty or default avatar
+    // If image is empty or default avatar
     if (this.image === '/static/assets/images/empty_avatar.png'
       || this.image === '' || this.image === null) {
-      this.setBackgroundImage(`url(/static/assets/images/empty_avatar.png)`);
-    } else {// try to load smaller image with suffix
-      this._loadImage(imageUrl);
+      this._setBackgroundImage(`url(/static/assets/images/empty_avatar.png)`);
+    } else {
+      // Try to load image with suffix
+      if (this._isCached(imageUrl)) {
+        this._setBackgroundImage(`url(${imageUrl})`);
+      } else {
+        this._loadImage(imageUrl);
+      }
     }
+  }
 
+  // Sets background-image on an element
+  private _setBackgroundImage(url: string): void {
+    this.renderer.setElementStyle(this.el.nativeElement, 'backgroundImage', url);
   }
 
   /**
@@ -59,14 +57,21 @@ export class CheckImageDirective implements AfterViewInit, OnDestroy {
    */
   private _loadImage(url): void {
     if (url) {
-      this.serviceInstance = this.http.head(url)
-        .subscribe((data) => {
-          this.setBackgroundImage(`url(${url})`);
-        }, (err) => {
-          this.setBackgroundImage(`url(${this.image})`);
-        });
+      let image = new Image();
+      image.onload = (status) => {
+        this._setBackgroundImage(`url(${url})`);
+      };
+      image.onerror = (status) => {
+        this._setBackgroundImage(`url(${this.image})`);
+      };
+      image.src = url;
     }
   }
 
+  private _isCached(src: string): boolean {
+    let image = new Image();
+    image.src = src;
+    return image.complete;
+  }
 
 }
