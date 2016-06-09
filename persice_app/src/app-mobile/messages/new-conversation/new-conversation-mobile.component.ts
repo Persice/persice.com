@@ -1,96 +1,109 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Location, Control} from '@angular/common';
-import {Router, RouteParams} from '@angular/router-deprecated';
+import {Router} from '@angular/router-deprecated';
 import {Subscription, Observable} from 'rxjs';
+import {Http} from '@angular/http';
+import {Store} from '@ngrx/store';
+import {SelectedPersonActions} from '../../../common/actions';
+import {AppState, getSelectedPersonState} from '../../../common/reducers';
 
-import {AppStateService} from "../../shared/services/app-state.service";
-import {MessagesService} from "../../../app/shared/services/messages.service";
-import {InboxService} from "../../../app/shared/services/inbox.service";
-import {UserAuthService} from "../../../app/shared/services/userauth.service";
-import {Http} from "@angular/http";
+import {AppStateService} from '../../shared/services';
+import {NewConversationMobileService} from './new-conversation-mobile.service';
+
+import {CheckImageDirective} from '../../../app/shared/directives';
 
 @Component({
+  selector: 'prs-mobile-new-conversation',
   template: require('./new-conversation-mobile.html'),
-  providers: [
-    InboxService,
-    MessagesService,
-    UserAuthService]
+  providers: [NewConversationMobileService],
+  directives: [CheckImageDirective]
 })
 export class NewConversationMobileComponent implements OnInit, OnDestroy {
 
   tokens: any[] = [];
-  recipientId: string;
   messageText: string = '';
   recipientName: string;
   recipientNameInput = new Control();
-  possibleRecipients: any[];
+  possibleRecipients: any[] = [];
+
+  private selectedPersonState$: Observable<any>;
+  private recipientIsAlreadySelected: boolean = false;
 
   constructor(
     private appStateService: AppStateService,
     private _location: Location,
-    private inboxService: InboxService,
-    private messagesService: MessagesService,
-    private userService: UserAuthService,
     private _router: Router,
-    private _params: RouteParams,
-    public http: Http
+    private http: Http,
+    private service: NewConversationMobileService,
+    private store: Store<AppState>,
+    private actions: SelectedPersonActions
   ) {
-    // Get recipient from URL, if any.
-    this.recipientId = this._params.get('recipientId');
+    this.selectedPersonState$ = store.let(getSelectedPersonState());
+
+    this.selectedPersonState$.subscribe((state: any) => {
+      // Preselect a recipient, if it was previously selected.
+      if (state.selected && state.useAsNewConversationRecipient) {
+        this.recipientIsAlreadySelected = true;
+        this.tokens.push({
+          first_name: state.person.first_name,
+          image: state.person.image,
+          friend_id: state.person.id
+        });
+      } else {
+        this.recipientIsAlreadySelected = false;
+      }
+    });
 
     // Setup debouncer on recipient input field.
     this.recipientNameInput.valueChanges
       .debounceTime(400)
       .subscribe(() => this.searchRecipientsByPartialName());
 
-    // Preselect a recipient, if any.
-    if (this.recipientId !== null) {
-      let uri = `/api/v1/auth/user/${this.recipientId}/`;
-      let channel = this.userService.findOneByUri(uri)
-        .subscribe(data => {
-          this.tokens.push({
-            first_name: data.first_name,
-            image: data.image,
-            friend_id: this.recipientId
-          });
-          channel.unsubscribe();
-        });
-    }
   }
 
   ngOnInit(): any {
     this.appStateService.setHeaderVisibility(false);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): any {
     this.appStateService.setHeaderVisibility(true);
+
+    // If recipient was already selected, clear selected person from App Store.
+    if (this.recipientIsAlreadySelected) {
+      this.store.dispatch(this.actions.clear());
+    }
+
   }
 
-  back() {
+  public back() {
     this._location.back();
   }
 
   // Send a message.
-  send() {
+  public send() {
     if (this.tokens.length === 1 && this.messageText.length > 0) {
-      let subs: Subscription = this.messagesService.sendNew(this.tokens[0].friend_id, this.messageText)
-        .subscribe(() => {
+      let subs: Subscription = this.service.sendMessage(this.tokens[0].friend_id, this.messageText)
+        .subscribe((dto: any) => {
+          this.service.messageSent();
           subs.unsubscribe();
-          this.inboxService.addSender(this.tokens[0].friend_id);
-          this._router.parent.navigate(['/Messages', 'Conversation', {senderId: this.tokens[0].friend_id}]);
-        }, error => console.log('Could not create a new message.'));
+          this._router.parent.navigate(['/Messages', 'Conversation', { senderId: this.tokens[0].friend_id }]);
+        }, error => {
+          subs.unsubscribe();
+          this.service.messageNotSent();
+        });
     }
   }
 
   // Search for a connection with a given name.
   public searchRecipientsByPartialName() {
-    this._rawSearch(this.recipientName).subscribe(data => {
+    let subs: Subscription = this._rawSearch(this.recipientName).subscribe(data => {
       this.possibleRecipients = data.objects;
+      subs.unsubscribe();
     });
   }
 
   // Select a recipient, clear input fields.
-  private selectRecipient(recipient: any) {
+  public selectRecipient(recipient: any) {
     this.tokens = [{
       first_name: recipient.first_name,
       image: recipient.image,
@@ -101,7 +114,7 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy {
   }
 
   // Remove a recipient with a given index.
-  private removeRecipient(i: number) {
+  public removeRecipient(i: number) {
     this.tokens.splice(i, 1);
   }
 
