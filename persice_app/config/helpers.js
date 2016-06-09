@@ -3,7 +3,7 @@
  */
 
 var path = require('path');
-
+var crypto = require('crypto');
 // Helper functions
 var ROOT = path.resolve(__dirname, '..');
 
@@ -18,6 +18,12 @@ function root(args) {
   return path.join.apply(path, [ROOT].concat(args));
 }
 
+function generateHash() {
+  var hash = crypto.randomBytes(20).toString('hex');
+  return hash;
+}
+
 
 exports.hasProcessFlag = hasProcessFlag;
+exports.generateHash = generateHash;
 exports.root = root;
