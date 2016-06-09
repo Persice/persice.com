@@ -2844,8 +2844,10 @@ html.fusion {
 html,
 body {
   height: 100%;
-  /*overflow-y: scroll;*/
-  -webkit-overflow-scrolling: touch
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
 }
 
 body.bg-gray {
