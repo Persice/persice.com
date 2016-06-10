@@ -45,9 +45,7 @@ end
 config.vm.network "private_network", ip: "192.168.10.11"
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 3000, host: 3000
-  config.vm.network "forwarded_port", guest: 3002, host: 3002
   config.vm.network "forwarded_port", guest: 80, host: 80
-  config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 9200, host: 9200
   config.vm.network "forwarded_port", guest: 5432, host: 5433
   config.vm.network "forwarded_port", guest: 7474, host: 7475
