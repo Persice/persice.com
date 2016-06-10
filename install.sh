@@ -116,12 +116,33 @@ if ! command -v redis-server; then
     apt-get install -y redis-server
 fi
 
-apt-get install -y build-essential curl openssl libssl-dev
+
 
 # Add node repo
-curl -sL https://deb.nodesource.com/setup | sudo bash -
+apt-get install -y build-essential curl openssl libssl-dev
+sudo su vagrant -c 'curl https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash'
+sudo su vagrant -c '. ~vagrant/.nvm/nvm.sh;nvm install stable'
+sudo su vagrant -c '. ~vagrant/.nvm/nvm.sh;nvm use stable'
 
-apt-get install -y nodejs
-apt-get install -y build-essential
+# Add nginx and test1.com nginx conf
 
-npm install pm2 -g
+if ! which nginx > /dev/null 2>&1; then
+    add-apt-repository ppa:nginx/stable
+    apt-get update
+    apt-get -y install nginx
+    service nginx start
+fi
+
+if [ ! -f /etc/nginx/sites-available/test1.com ]; then
+    cp /home/vagrant/bekindred/test1.com /etc/nginx/sites-available/test1.com
+    chmod 644 /etc/nginx/sites-available/test1.com
+    ln -s /etc/nginx/sites-available/test1.com /etc/nginx/sites-enabled/test1.com
+    service nginx restart
+fi
+
+# Change password for neo4j
+curl -H "Content-Type: application/json" -X POST -d '{"password":"admin"}' -u neo4j:neo4j http://localhost:7474/user/neo4j/password
+
+
+# Start elasticsearch
+service elasticsearch start
