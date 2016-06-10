@@ -17,7 +17,7 @@ var DefinePlugin = require('webpack/lib/DefinePlugin');
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = webpackMerge(commonConfig.metadata, {
-  host: '0.0.0.0',
+  host: 'localhost',
   port: 8080,
   ENV: ENV,
   HMR: HMR
@@ -38,7 +38,7 @@ module.exports = webpackMerge(commonConfig, {
   //
   // See: http://webpack.github.io/docs/configuration.html#devtool
   // See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval',
 
   // Options affecting the output of the compilation.
   //

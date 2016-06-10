@@ -52,6 +52,7 @@ module.exports = webpackMerge(commonConfig, {
     // See: http://webpack.github.io/docs/configuration.html#output-path
     path: helpers.root('../bekindred/static/dist'),
     publicPath: 'https://d2v6m3k9ul63ej.cloudfront.net/dist/',
+    // publicPath: 'http://test1.com:8000/static/dist/',
 
     // Specifies the name of each output file on disk.
     // IMPORTANT: You must not specify an absolute path here!
@@ -71,6 +72,39 @@ module.exports = webpackMerge(commonConfig, {
     // See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
     chunkFilename: '[id].' + HASH + '.prod.chunk.js'
 
+  },
+
+  // Options affecting the normal modules.
+  //
+  // See: http://webpack.github.io/docs/configuration.html#module
+  module: {
+
+    // An array of applied pre and post loaders.
+    //
+    // See: http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
+    preLoaders: [
+
+      // Tslint loader support for *.ts files
+      //
+      // See: https://github.com/wbuchwalter/tslint-loader
+      { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] },
+
+      // Source map loader support for *.js files
+      // Extracts SourceMaps for source files that as added as sourceMappingURL comment.
+      //
+      // See: https://github.com/webpack/source-map-loader
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader',
+        exclude: [
+          // these packages have problems with their sourcemaps
+          helpers.root('node_modules/rxjs'),
+          helpers.root('node_modules/@angular'),
+          helpers.root('node_modules/@ngrx')
+        ]
+      }
+
+    ],
   },
 
   // Add additional plugins to the compiler.
