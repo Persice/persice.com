@@ -44,6 +44,7 @@
     "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/",
     "start": "npm run server:dev",
     "start:hmr": "npm run server:dev:hmr",
+    "start:hmr:css": "concurrently --kill-others \"npm run start:hmr\" \"gulp watch\"",
     "pretest": "rimraf coverage",
     "postinstall": "npm run typings -- install",
     "preversion": "npm test",
