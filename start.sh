@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=8000
+PORT=8888
 
 if [ -n "$1" ]
 then
