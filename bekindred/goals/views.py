@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from django.http.response import HttpResponse
 from django.shortcuts import render_to_response, render, redirect
@@ -53,7 +54,8 @@ def profile_view(request, username):
 @login_required
 def main_app(request, template_name="homepage_mainapp.html"):
     if not request.user.is_staff and request.flavour == u'full':
-        return render_to_response(template_name, {'hide': True})
+        logout(request)
+        return render_to_response("registration/login.html", {'hide': True})
     twitter_provider, linkedin_provider, twitter_username, linkedin_first_name = social_extra_data(request.user.id)
     context = RequestContext(request, {
         'twitter_provider': twitter_provider,

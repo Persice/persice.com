@@ -6,6 +6,10 @@
       <h1 class="site-logo__type">Persice</h1> </a>
     <h2 class="signup-title">Real world connections</h2>
     <p class="signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
+    {% if hide %}
+    <p class="signup-subtitle">Persice is only available on mobile devices at this time. Please login via your smartphone or tablet.</p>
+    {% endif %}
+    {% if not hide %}
     <div class="layout">
       <div class="layout__item">
         <form action="{% url 'facebook_connect' %}" method="post">
@@ -15,6 +19,7 @@
         </form>
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
