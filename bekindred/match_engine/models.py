@@ -869,8 +869,8 @@ class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
     def match(user_id, friends=False, is_filter=False, exclude_ids=None):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
-        likes = list(FacebookLike.objects.filter(user_id=user.id).\
-            values_list('facebook_id', flat=True))
+        likes = list(FacebookLike.objects.filter(user_id=user.id).
+                     values_list('facebook_id', flat=True))
         stop_words = StopWords.objects.all().values_list('word', flat=True)
         query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words)
         fields = ["goals", "offers", "interests"]
