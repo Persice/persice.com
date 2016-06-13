@@ -630,3 +630,7 @@ html {
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+
+.edit-info-list, .link-to-list {
+  height: calc(100vh - 50px)!important;
+}
