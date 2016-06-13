@@ -168,6 +168,7 @@ class FacebookPhotoResource(ModelResource):
     class Meta:
         queryset = FacebookPhoto.objects.all()
         resource_name = 'photo'
+        ordering = ['order']
         always_return_data = True
         authentication = SessionAuthentication()
         authorization = Authorization()
