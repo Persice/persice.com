@@ -2,7 +2,7 @@ import '@ngrx/core/add/operator/select';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/let';
 import {compose} from '@ngrx/core/compose';
-import {storeLogger} from 'ngrx-store-logger';
+// import {storeLogger} from 'ngrx-store-logger';
 import {combineReducers} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
@@ -34,7 +34,7 @@ export interface AppState {
 }
 
 // Available: storeLogger()
-export default compose(storeLogger(), combineReducers)({
+export default compose(combineReducers)({
   conversations: conversationsReducer,
   messages: messagesReducer,
   unreadMessagesCounter: unreadMessagesCounterReducer,

@@ -4,6 +4,9 @@
 logs
 *.log
 
+# Typescript loader cache
+.awcache
+
 # Runtime data
 pids
 *.pid

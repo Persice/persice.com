@@ -23,7 +23,11 @@ function generateHash() {
   return hash;
 }
 
+function isWebpackDevServer() {
+  return process.argv[1] && !! (/webpack-dev-server$/.exec(process.argv[1]));
+}
 
 exports.hasProcessFlag = hasProcessFlag;
 exports.generateHash = generateHash;
+exports.isWebpackDevServer = isWebpackDevServer;
 exports.root = root;

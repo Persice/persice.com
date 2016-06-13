@@ -117,12 +117,7 @@ if ! command -v redis-server; then
 fi
 
 
-
-# Add node repo
 apt-get install -y build-essential curl openssl libssl-dev
-sudo su vagrant -c 'curl https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash'
-sudo su vagrant -c '. ~vagrant/.nvm/nvm.sh;nvm install stable'
-sudo su vagrant -c '. ~vagrant/.nvm/nvm.sh;nvm use stable'
 
 # Add nginx and test1.com nginx conf
 
@@ -146,3 +141,11 @@ curl -H "Content-Type: application/json" -X POST -d '{"password":"admin"}' -u ne
 
 # Start elasticsearch
 service elasticsearch start
+
+
+# Add nvm path to .bashrc
+
+printf '%s' '
+export NVM_DIR="/home/vagrant/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+' >> /home/vagrant/.bashrc
