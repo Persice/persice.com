@@ -10,9 +10,7 @@ const PER_PAGE_LIMIT: number = 12;
 
 @Injectable()
 export class ConversationsMobileService {
-
   static API_URL = '/api/v1/inbox/last/';
-  static API_URL_MARK_READ = '/api/v1/inbox/reat_at/';
 
   public conversations$: Observable<Conversation[]>;
   public loading$: Observable<boolean>;
@@ -35,13 +33,6 @@ export class ConversationsMobileService {
 
   public emptyConversations(): void {
     this.store.dispatch(this.actions.resetCollection());
-  }
-
-  public markConversationRead(senderId: string): void {
-    let url: string = `${ConversationsMobileService.API_URL_MARK_READ}?format=json&sender_id=${senderId}`;
-    this.http.get(url)
-      .map((res: any) => res.json())
-      .subscribe((data: any) => { });
   }
 
   public selectConversation(conversation: Conversation): void {
@@ -86,6 +77,23 @@ export class ConversationsMobileService {
         this._next = meta.next;
       });
 
+  }
+
+  public receivedNewMessage(data: any): void {
+    if (!data.friend_id) {
+      return;
+    }
+
+    const url: string = `${ConversationsMobileService.API_URL}?format=json&sender_id=${data.friend_id}`;
+
+    this.http.get(url)
+      .map((res: any) => res.json())
+      .subscribe((dto: any) => {
+        if (dto.objects[0]) {
+          let conversation: Conversation = new Conversation(dto.objects[0]);
+          this.store.dispatch(this.actions.addNewOrReplaceExisting(conversation));
+        }
+      });
   }
 
 }

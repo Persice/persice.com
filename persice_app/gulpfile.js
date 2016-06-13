@@ -30,6 +30,7 @@ var jsFiles = [
 
 var cssFilesAll = [
   './src/assets/css/mobile.css',
+  './src/assets/css/app-mobile.css',
   './src/assets/css/screen.css',
   './src/assets/css/app.css'
 ];
@@ -41,6 +42,7 @@ var cssFiles = [
 
 var cssFilesMobile = [
   './src/assets/css/mobile.css',
+  './src/assets/css/app-mobile.css',
 ];
 
 gulp.task('js', function() {

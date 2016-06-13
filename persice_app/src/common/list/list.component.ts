@@ -180,10 +180,10 @@ export abstract class ListComponent {
   }
 
   /**
-   * Find and remove item with item.id === itemId from items list
-   * @param {number} id [description]
+   * Find item by id in items list and remove it
+   * @param {string} itemId
    */
-  public removeItemById(itemId: number): void {
+  public removeItemById(itemId: string): void {
     remove(this.items, (item) => {
       return item.id === itemId;
     });

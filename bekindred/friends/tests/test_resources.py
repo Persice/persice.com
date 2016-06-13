@@ -279,6 +279,25 @@ class FriendUtilsTestCase(TestCase):
         self.assertEqual(sorted(user_ids),
                          sorted([self.user1.id, self.user2.id]))
 
+    def test_get_my_friends_icontains_name(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        n3 = self.neo.create_person(self.neo.person(self.user2))
+        self.neo.add_to_friends(n1, n2)
+        self.neo.add_to_friends(n2, n1)
+        self.neo.add_to_friends(n2, n3)
+        self.neo.add_to_friends(n3, n2)
+        self.neo.add_to_friends(n1, n3)
+        self.neo.add_to_friends(n3, n1)
+        user_id = self.neo.get_my_friends_icontains_name(self.user.id, 'sne')
+        self.assertIn(self.user1.id, user_id)
+        user_id = self.neo.get_my_friends_icontains_name(self.user.id, 'ens')
+        self.assertEqual(user_id, list())
+        user_id = self.neo.get_my_friends_icontains_name(self.user.id, '')
+        self.assertEqual(user_id, list())
+        user_id = self.neo.get_my_friends_icontains_name(self.user.id, 'Alena')
+        self.assertIn(self.user2.id, user_id)
+
     def test_remove_from_friends(self):
         n1 = self.neo.create_person(self.neo.person(self.user))
         n2 = self.neo.create_person(self.neo.person(self.user1))

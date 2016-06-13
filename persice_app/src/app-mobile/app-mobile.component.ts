@@ -20,10 +20,11 @@ import {
   IfRoutesActiveDirective
 } from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
-import {CrowdMobileComponent} from "./crowd";
+import {CrowdMobileComponent} from './crowd';
 import {PageTitleComponent} from './page-title';
 import {FilterService, WebsocketService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
+import {UnreadMessagesCounterService, NewConnectionsCounterService} from '../common/services';
 import {ProfileFooterMobileComponent} from './user-profile';
 import {ConnectionsMobileComponent} from './connections';
 import {SettingsMobileComponent} from './settings';
@@ -31,12 +32,20 @@ import {EventsMobileComponent} from './events';
 import {MessagesMobileComponent} from './messages';
 import {MyProfileMobileComponent} from './my-profile';
 import {EditMyProfileMobileComponent} from './edit-my-profile';
+import {InfoMobileComponent} from './info';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 const PAGES_WITH_ADD_ACTION: string[] = ['messages'];
 
-import {AppState, getConversationsState} from '../common/reducers';
+import {
+  AppState,
+  getConversationsState,
+  getUnreadMessagesCounterState,
+  getNewConnectionsCounterState
+} from '../common/reducers';
 import {Store} from '@ngrx/store';
+import {CookieUtil} from '../app/shared/core';
+
 /*
  * Persice App Component
  * Top Level Component
@@ -81,6 +90,11 @@ import {Store} from '@ngrx/store';
     path: '/:username',
     component: MyProfileMobileComponent,
     name: 'MyProfile'
+  },
+  {
+    path: '/info/...',
+    component: InfoMobileComponent,
+    name: 'Info'
   }
 ])
 @Component({
@@ -89,7 +103,9 @@ import {Store} from '@ngrx/store';
   providers: [
     FilterService,
     AppStateService,
-    WebsocketService
+    WebsocketService,
+    UnreadMessagesCounterService,
+    NewConnectionsCounterService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -111,61 +127,84 @@ export class AppMobileComponent implements OnInit {
   pagesWithAddAction = PAGES_WITH_ADD_ACTION;
   pageTitle: string = 'Persice';
   conversationsCounter: Observable<number>;
-  footerScore: number = 0;
+  unreadMessagesCounter: Observable<number>;
+  newConnectionsCounter: Observable<number>;
   footerType: string;
-  footerUserId: number;
+  username: string = '';
 
   constructor(
-    private _appStateService: AppStateService,
-    private _router: Router,
-    private _store: Store<AppState>,
-    private websocketService: WebsocketService
+    private appStateService: AppStateService,
+    private router: Router,
+    private store: Store<AppState>,
+    private websocketService: WebsocketService,
+    private unreadMessagesCounterService: UnreadMessagesCounterService,
+    private newConnectionsCounterService: NewConnectionsCounterService
   ) {
-    const store$ = _store.let(getConversationsState());
-    this.conversationsCounter = store$.map(state => state['count']);
+    this.username = CookieUtil.getValue('user_username');
+
+    const conversationsStore$ = store.let(getConversationsState());
+    this.conversationsCounter = conversationsStore$.map(state => state['count']);
+
+    const unreadMessagesCounterStore$ = store.let(getUnreadMessagesCounterState());
+    this.unreadMessagesCounter = unreadMessagesCounterStore$.map(state => state['counter']);
+
+    const newConnectionsCounterStore$ = store.let(getNewConnectionsCounterState());
+    this.newConnectionsCounter = newConnectionsCounterStore$.map(state => state['counter']);
   }
 
   ngOnInit() {
     // Subscribe to EventEmmitter from AppStateService to show or hide main app header
-    this._appStateService.isHeaderVisibleEmitter
+    this.appStateService.isHeaderVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isHeaderVisible = visibility;
       });
 
-    this._appStateService.isHeaderVisibleEmitter
+    this.appStateService.isHeaderVisibleEmitter
       .subscribe((visibility: boolean) => {
         this.isHeaderVisible = visibility;
       });
-    this._appStateService.isProfileFooterVisibleEmitter
+    this.appStateService.isProfileFooterVisibleEmitter
       .subscribe((state: any) => {
         this.isFooterVisible = state.visibility;
-        this.footerScore = state.score ? state.score : 0;
         this.footerType = state.type ? state.type : '';
-        this.footerUserId = state.userId ? state.userId : null;
       });
 
-    this._router.subscribe((next: string) => {
+    this.router.subscribe((next: string) => {
       this._onRouteChange(next);
     });
 
     // Initialize and connect to socket.io websocket
     this.websocketService.connect();
+
+    // Get unread messages counter
+    this.unreadMessagesCounterService.refresh();
+
+    // Get new connections counter
+    this.newConnectionsCounterService.refresh();
+
+    // If new message received via websocket, increase unread messages counter state.
+    this.websocketService.on('messages:new').subscribe((data: any) => {
+      this.unreadMessagesCounterService.increase();
+    });
+
+    // If new connection message received via websocket, increase new connections counter state.
+    this.websocketService.on('connections:new').subscribe((data: any) => {
+      this.newConnectionsCounterService.increase();
+    });
   }
 
   /**
    * Set Filter page visible using app state service
    */
   public setFilterVisible() {
-    this._appStateService.setFilterVisibility(true);
-    this._appStateService.setHeaderVisibility(false);
+    this.appStateService.setFilterVisibility(true);
+    this.appStateService.setHeaderVisibility(false);
   }
 
-  /**
-   * Emit accept or pass state for friendship on crowd page
-   * @param {Object} event {userid: number, state: [-1|0]}
-   */
-  public setFriendshipStatus(event) {
-    this._appStateService.setFriendshipStatus(event);
+  public performAddAction() {
+    if (this.router.isRouteActive(this.router.generate(['/Messages', 'Conversations']))) {
+      this.router.navigate(['/Messages', 'NewConversation']);
+    }
   }
 
   /**

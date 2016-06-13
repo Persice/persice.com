@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {HttpClient, CookieUtil, OPTS_REQ_JSON_CSRF} from '../../../app/shared/core';
 import {Message, Conversation} from '../../../common/models';
@@ -23,7 +23,6 @@ export class MessagesMobileService {
   public selectedConversation$: Observable<Conversation>;
   public conversationTitle$: Observable<string>;
   public isNewMessageBeingSent$: Observable<boolean>;
-  public isNewMessageBeingReceived$: Observable<boolean>;
 
   private _next: string = '';
   private _loading: boolean;
@@ -48,7 +47,6 @@ export class MessagesMobileService {
     this.loadedCount$ = storeMessages$.map(state => state['loadedCount']);
     this.conversationTitle$ = storeMessages$.map(state => state['conversationTitle']);
     this.isNewMessageBeingSent$ = storeMessages$.map(state => state['isNewMessageBeingSent']);
-    this.isNewMessageBeingReceived$ = storeMessages$.map(state => state['isNewMessageBeingReceived']);
     this.selectedConversation$ = storeConversations$.map(state => state['selectedItem']);
   }
 
@@ -61,19 +59,19 @@ export class MessagesMobileService {
       `format=json`,
     ].join('&');
     const url = `${MessagesMobileService.API_USER_URL}${senderId}/?${params}`;
-    this.http.get(url)
+    let subs: Subscription = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((dto: any) => {
         const name: string = dto.first_name;
         this.store.dispatch(this.actions.loadedConversationTitle(name));
+        subs.unsubscribe();
       });
   }
 
-  public markConversationRead(senderId: string): void {
+  public markConversationRead(senderId: string): Observable<any> {
     let url: string = `${MessagesMobileService.API_URL_MARK_READ}?format=json&sender_id=${senderId}`;
-    this.http.get(url)
-      .map((res: any) => res.json())
-      .subscribe((data: any) => { });
+    return this.http.get(url)
+      .map((res: any) => res.json());
   }
 
   public loadMessages(senderId: string) {
@@ -95,7 +93,7 @@ export class MessagesMobileService {
     }
     this._loading = true;
     this.store.dispatch(this.actions.loadingCollection(true));
-    this.http.get(url)
+    let subs = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((dto: any) => {
         const meta = dto.meta;
@@ -118,6 +116,7 @@ export class MessagesMobileService {
 
         this._loading = false;
         this._next = meta.next;
+        subs.unsubscribe();
       });
   }
 
@@ -130,11 +129,12 @@ export class MessagesMobileService {
       sender: this._me
     };
     this.store.dispatch(this.actions.sendingNewMessage());
-    this.http.post(url, JSON.stringify(data), OPTS_REQ_JSON_CSRF)
+    let subs: Subscription = this.http.post(url, JSON.stringify(data), OPTS_REQ_JSON_CSRF)
       .map((res: any) => res.json())
       .subscribe((dto: any) => {
         const data = new Message(dto);
         this.store.dispatch(this.actions.addNewMessageToCollectionSuccess(data));
+        subs.unsubscribe();
       });
   }
 
@@ -142,7 +142,6 @@ export class MessagesMobileService {
     let expectedSender = `/api/v1/auth/user/${senderId}/`;
     if (dto.recipient === this._me && dto.sender === expectedSender) {
       const data = new Message(dto);
-      this.store.dispatch(this.actions.receivingNewMessage());
       this.store.dispatch(this.actions.addNewMessageToCollectionViaWebsocketSuccess(data));
     }
   }

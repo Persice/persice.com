@@ -282,25 +282,18 @@ class ConnectionsSearchResource(Resource):
         results = []
         _first_name = request.GET.get('first_name', '')
         current_user = request.user.id
-        friends = Friend.objects.friends(current_user)
-        for friend in friends:
-
+        friends = NeoFourJ().get_my_friends_icontains_name(current_user,
+                                                           _first_name)
+        users = FacebookCustomUserActive.objects.filter(id__in=friends)
+        for friend in users:
             new_obj = A()
             new_obj.id = friend.id
-            if friend.friend1.id == current_user:
-                position_friend = 'friend2'
-            else:
-                position_friend = 'friend1'
-
-            new_obj.first_name = getattr(friend, position_friend).first_name
-            new_obj.friend_id = getattr(friend, position_friend).id
+            new_obj.first_name = friend.first_name
+            new_obj.friend_id = friend.id
             new_obj.image = FacebookPhoto.objects.profile_photo(
                 new_obj.friend_id
             )
-
-            if _first_name.lower() != '' and \
-                    _first_name.lower() in new_obj.first_name.lower():
-                results.append(new_obj)
+            results.append(new_obj)
 
         return sorted(results, key=lambda x: x.first_name, reverse=False)
 

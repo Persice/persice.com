@@ -508,10 +508,12 @@ class CollocationDict(models.Model):
 class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
     def query_builder(user, query, fields, exclude_user_ids, stop_words,
-                      is_filter=False, friends_list=(), friends=False):
+                      is_filter=False, friends_list=(), friends=False,
+                      likes=None):
         client = Elasticsearch()
         index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
         body = {}
+        likes_ids = likes if likes else []
         location = get_user_location(user.id)
         fs = FilterState.objects.filter(user=user)
         distance_unit = fs[0].distance_unit[:2] if fs else "mi"
@@ -525,12 +527,24 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     "values": friends_list
                 }
             }
-
+        multi_match_query = {
+            "bool":
+                {
+                    "should":
+                        [
+                            {
+                                "multi_match": {
+                                    "fields": fields,
+                                    "query": query}
+                            },
+                            {"terms": {"likes_fb_ids": likes_ids}}
+                        ]
+                }
+        }
         if is_filter:
             gender_predicate = {}
             age_predicate = {}
             distance_predicate = {}
-            q = ''
             if fs:
                 age_predicate = {"range": {"age": {"gte": fs[0].min_age,
                                                    "lte": fs[0].max_age}}}
@@ -551,7 +565,6 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     if s_words:
                         gender_predicate.append({"terms": {"goals": s_words}})
                         gender_predicate.append({"terms": {"offers": s_words}})
-                        gender_predicate.append({"terms": {"likes": s_words}})
                         gender_predicate.append(
                             {"terms": {"interests": s_words}})
 
@@ -571,18 +584,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     "fields": {
                         "goals": {},
                         "interests": {},
-                        "likes": {},
                         "offers": {}
                     }
                 },
                 "query": {
                     "filtered": {
-                        "query": {
-                            "multi_match": {
-                                "fields": fields,
-                                "query": query
-                            }
-                        },
+                        "query": multi_match_query,
                         "filter": {
                             "bool": {
                                 "must_not": [
@@ -622,18 +629,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
                     "fields": {
                         "goals": {},
                         "interests": {},
-                        "likes": {},
                         "offers": {}
                     }
                 },
                 "query": {
                     "filtered": {
-                        "query": {
-                            "multi_match": {
-                                "fields": fields,
-                                "query": query
-                            }
-                        },
+                        "query": multi_match_query,
                         "filter": {
                             "bool": {
                                 "must_not": [
@@ -868,9 +869,11 @@ class ElasticSearchMatchEngineManager(models.Manager):
     @staticmethod
     def match(user_id, friends=False, is_filter=False, exclude_ids=None):
         user = FacebookCustomUserActive.objects.get(pk=user_id)
+        likes = list(FacebookLike.objects.filter(user_id=user.id).
+                     values_list('facebook_id', flat=True))
         stop_words = StopWords.objects.all().values_list('word', flat=True)
         query = ElasticSearchMatchEngineManager.prepare_query(user, stop_words)
-        fields = ["goals", "offers", "interests", "likes"]
+        fields = ["goals", "offers", "interests"]
         exclude_user_ids = ['members.facebookcustomuseractive.%s' % user_id]
         neo = NeoFourJ()
         if exclude_ids is None:
@@ -891,7 +894,7 @@ class ElasticSearchMatchEngineManager(models.Manager):
         response = ElasticSearchMatchEngineManager. \
             query_builder(user, query, fields, exclude_user_ids, stop_words,
                           is_filter=is_filter, friends_list=friends_list,
-                          friends=friends)
+                          friends=friends, likes=likes)
 
         return response['hits']['hits']
 

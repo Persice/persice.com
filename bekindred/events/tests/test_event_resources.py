@@ -281,7 +281,8 @@ class TestEventResource(ResourceTestCase):
         self.response = self.login()
         user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
         user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        self.neo.create_friendship(user1, user2)
+        self.neo.create_friendship(user1, self.user)
+        self.neo.create_friendship(self.user, user2)
         event = Event.objects.create(starts_on='2055-06-13T05:15:22.792659', ends_on='2055-06-14T05:15:22.792659',
                                      name="Play piano", location=[7000, 22965.83])
         Membership.objects.create(user=self.user, event=event, is_organizer=True)

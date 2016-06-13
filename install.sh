@@ -116,12 +116,36 @@ if ! command -v redis-server; then
     apt-get install -y redis-server
 fi
 
+
 apt-get install -y build-essential curl openssl libssl-dev
 
-# Add node repo
-curl -sL https://deb.nodesource.com/setup | sudo bash -
+# Add nginx and test1.com nginx conf
 
-apt-get install -y nodejs
-apt-get install -y build-essential
+if ! which nginx > /dev/null 2>&1; then
+    add-apt-repository ppa:nginx/stable
+    apt-get update
+    apt-get -y install nginx
+    service nginx start
+fi
 
-npm install pm2 -g
+if [ ! -f /etc/nginx/sites-available/test1.com ]; then
+    cp /home/vagrant/bekindred/test1.com /etc/nginx/sites-available/test1.com
+    chmod 644 /etc/nginx/sites-available/test1.com
+    ln -s /etc/nginx/sites-available/test1.com /etc/nginx/sites-enabled/test1.com
+    service nginx restart
+fi
+
+# Change password for neo4j
+curl -H "Content-Type: application/json" -X POST -d '{"password":"admin"}' -u neo4j:neo4j http://localhost:7474/user/neo4j/password
+
+
+# Start elasticsearch
+service elasticsearch start
+
+
+# Add nvm path to .bashrc
+
+printf '%s' '
+export NVM_DIR="/home/vagrant/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+' >> /home/vagrant/.bashrc

@@ -36,7 +36,7 @@ export class CrowdDesktopComponent extends CrowdComponent implements OnDestroy, 
     protected friendService: FriendService,
     protected filterService: FilterService
   ) {
-    super(listService, friendService, filterService, LIST_REFRESH_TIMEOUT);
+    super(listService, filterService, LIST_REFRESH_TIMEOUT);
   }
 
   ngOnInit() {

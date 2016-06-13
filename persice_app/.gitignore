@@ -4,6 +4,9 @@
 logs
 *.log
 
+# Typescript loader cache
+.awcache
+
 # Runtime data
 pids
 *.pid
@@ -13,7 +16,9 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-/coverage/
+coverage/
+
+node_modules/
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt

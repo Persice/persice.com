@@ -17,7 +17,6 @@ export class MessageActions {
   public static COLLECTION_FULLY_LOADED = '[Message] Collection Fully Loaded';
   public static MORE_ITEMS_LOADED = '[Message] More Items Loaded';
   public static SENDING_NEW_MESSAGE = '[Message] Sending New Message';
-  public static RECEIVING_NEW_MESSAGE = '[Message] Receiving New Message';
   public static ADD_NEW_MESSAGE_TO_COLLECTION_SUCCESS = '[Message] Add New Message To Collection Success';
   public static ADD_NEW_MESSAGE_TO_COLLECTION_VIA_WEBSOCKET_SUCCESS = '[Message] Add New Message To Collection Via Websocket Success';
 
@@ -66,13 +65,6 @@ export class MessageActions {
   public sendingNewMessage(): Action {
     return {
       type: MessageActions.SENDING_NEW_MESSAGE,
-      payload: {}
-    };
-  }
-
-   public receivingNewMessage(): Action {
-    return {
-      type: MessageActions.RECEIVING_NEW_MESSAGE,
       payload: {}
     };
   }

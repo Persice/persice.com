@@ -2,10 +2,11 @@ import {Component} from '@angular/core';
 import {RouteConfig, RouterOutlet} from '@angular/router-deprecated';
 import {ConversationsMobileComponent} from './conversations';
 import {ConversationMobileComponent} from './conversation';
+import {NewConversationMobileComponent} from './new-conversation';
 
 @Component({
   selector: 'prs-mobile-messages',
-  template: require('./messages-mobile.html'),
+  template: `<router-outlet></router-outlet>`,
   directives: [RouterOutlet]
 })
 @RouteConfig([
@@ -19,8 +20,11 @@ import {ConversationMobileComponent} from './conversation';
     path: '/:senderId',
     component: ConversationMobileComponent,
     name: 'Conversation'
+  },
+  {
+    path: '/new',
+    component: NewConversationMobileComponent,
+    name: 'NewConversation'
   }
 ])
-export class MessagesMobileComponent {
-
-}
+export class MessagesMobileComponent { }

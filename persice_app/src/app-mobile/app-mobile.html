@@ -4,7 +4,8 @@
       <img alt="Perice" src="/static/assets/images/logo.svg" class="site-logo__mark">
       <h1 class="site-logo__type">Persice</h1> </a>
   </div>
-  <prs-mobile-navigation></prs-mobile-navigation>
+  <prs-mobile-navigation [username]="username" [unreadMessagesCounter]="unreadMessagesCounter | async" [newConnectionsCounter]="newConnectionsCounter | async">
+  </prs-mobile-navigation>
 </nav>
 <div class="content-mask" prs-close-left-menu></div>
 <div class="container push-menu-push">
@@ -27,7 +28,7 @@
           </svg>
         </a>
       </div>
-      <div class="layout__item 1/5 text-right" *prsIfRoutesActive="pagesWithAddAction">
+      <div (click)="performAddAction()" class="layout__item 1/5 text-right pr0" *prsIfRoutesActive="pagesWithAddAction">
         <a>
           <svg role="img" class="icon ">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
@@ -40,4 +41,4 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-<prs-mobile-profile-footer *ngIf="isFooterVisible" (onAcceptPassEvent)="setFriendshipStatus($event)" [type]="footerType" [userId]="footerUserId" [score]="footerScore"></prs-mobile-profile-footer>
+<prs-mobile-profile-footer *ngIf="isFooterVisible"></prs-mobile-profile-footer>

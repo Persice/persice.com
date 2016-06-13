@@ -8,3 +8,4 @@ PyYAML
 python-jenkins
 unittest-xml-reporting
 coverage
+boto==2.40.0

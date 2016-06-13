@@ -35,8 +35,18 @@ export default function(state = initialState, action: Action): ConversationsStat
       const conversations: Conversation[] = action.payload.conversations;
       const count: number = action.payload.count;
 
+      let existingConversationsIDs: number[] = state.entities.map((conversation: Conversation, index) => {
+        return conversation.id;
+      });
+
+      let conversationsNew: Conversation[] = conversations.map((conversation: Conversation, index) => {
+        if (existingConversationsIDs.indexOf(conversation.id) === -1 ) {
+          return conversation;
+        }
+      });
+
       return Object.assign({}, state, {
-        entities: [...state.entities, ...conversations],
+        entities: [...state.entities, ...conversationsNew],
         count: count,
         loading: false
       });
@@ -51,6 +61,36 @@ export default function(state = initialState, action: Action): ConversationsStat
       return Object.assign({}, state, {
         loaded: true
       });
+
+    case ConversationActions.ADD_NEW_OR_REPLACE_EXISTING: {
+      const newConversation: Conversation = action.payload;
+      let conversationExists: boolean = false;
+
+      let conversations = state.entities
+        .map((conversation: Conversation, index: number) => {
+          if (conversation.id === newConversation.id) {
+            conversationExists = true;
+
+            conversation.unread = newConversation.unread;
+            conversation.unreadCounter = newConversation.unreadCounter;
+            conversation.body = newConversation.body;
+            conversation.sentAt = newConversation.sentAt;
+            return conversation;
+          }
+          return conversation;
+        });
+
+      if (!conversationExists) {
+        return Object.assign({}, state, {
+          entities: [newConversation, ...state.entities]
+        });
+      } else {
+        return Object.assign({}, state, {
+          entities: [...conversations]
+        });
+      }
+
+    }
 
     default: {
       return state;

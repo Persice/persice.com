@@ -29,7 +29,7 @@ export class FriendService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-  public saveFriendship(status: number, friendId: number): Observable<any> {
+  public saveFriendship(status: number, friendId: string): Observable<any> {
     let friendshipState = {};
 
     if (status === 0) {

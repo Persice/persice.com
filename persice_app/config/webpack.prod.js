@@ -5,7 +5,7 @@
 var helpers = require('./helpers'); // Helper: root(), and rootDir() are defined at the bottom
 var webpackMerge = require('webpack-merge'); //Used to merge webpack configs
 var commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
-
+var HASH = helpers.generateHash();
 /**
  * Webpack Plugins
  */
@@ -52,25 +52,59 @@ module.exports = webpackMerge(commonConfig, {
     // See: http://webpack.github.io/docs/configuration.html#output-path
     path: helpers.root('../bekindred/static/dist'),
     publicPath: 'https://d2v6m3k9ul63ej.cloudfront.net/dist/',
+    // publicPath: 'http://test1.com:8000/static/dist/',
 
     // Specifies the name of each output file on disk.
     // IMPORTANT: You must not specify an absolute path here!
     //
     // See: http://webpack.github.io/docs/configuration.html#output-filename
-    filename: '[name].[chunkhash].bundle.js',
+    filename: '[name].' + HASH + '.prod.bundle.js',
 
     // The filename of the SourceMaps for the JavaScript files.
     // They are inside the output.path directory.
     //
     // See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
-    sourceMapFilename: '[name].[chunkhash].bundle.map',
+    sourceMapFilename: '[name].' + HASH + '.prod.bundle.map',
 
     // The filename of non-entry chunks as relative path
     // inside the output.path directory.
     //
     // See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
-    chunkFilename: '[id].[chunkhash].chunk.js'
+    chunkFilename: '[id].' + HASH + '.prod.chunk.js'
 
+  },
+
+  // Options affecting the normal modules.
+  //
+  // See: http://webpack.github.io/docs/configuration.html#module
+  module: {
+
+    // An array of applied pre and post loaders.
+    //
+    // See: http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
+    preLoaders: [
+
+      // Tslint loader support for *.ts files
+      //
+      // See: https://github.com/wbuchwalter/tslint-loader
+      { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] },
+
+      // Source map loader support for *.js files
+      // Extracts SourceMaps for source files that as added as sourceMappingURL comment.
+      //
+      // See: https://github.com/webpack/source-map-loader
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader',
+        exclude: [
+          // these packages have problems with their sourcemaps
+          helpers.root('node_modules/rxjs'),
+          helpers.root('node_modules/@angular'),
+          helpers.root('node_modules/@ngrx')
+        ]
+      }
+
+    ],
   },
 
   // Add additional plugins to the compiler.
@@ -79,10 +113,10 @@ module.exports = webpackMerge(commonConfig, {
   plugins: [
 
     // Plugin: WebpackMd5Hash
-    // Description: Plugin to replace a standard webpack chunkhash with md5.
+    // Description: Plugin to replace a standard webpack hash with md5.
     //
     // See: https://www.npmjs.com/package/webpack-md5-hash
-    new WebpackMd5Hash(),
+    // new WebpackMd5Hash(),
 
      new CopyWebpackPlugin([{
       from: 'src/assets',

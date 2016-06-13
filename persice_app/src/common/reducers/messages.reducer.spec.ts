@@ -18,8 +18,7 @@ describe('Messages reducer', () => {
     conversationTitle: '',
     loading: false,
     loaded: false,
-    isNewMessageBeingSent: false,
-    isNewMessageBeingReceived: false
+    isNewMessageBeingSent: false
   };
 
   let stateWithMessages: MessagesState = {
@@ -29,8 +28,7 @@ describe('Messages reducer', () => {
     conversationTitle: '',
     loading: false,
     loaded: false,
-    isNewMessageBeingSent: false,
-    isNewMessageBeingReceived: false
+    isNewMessageBeingSent: false
   };
 
   let payloadWithMessages: MessagesData = {
@@ -122,18 +120,6 @@ describe('Messages reducer', () => {
 
     // then
     expect(newState.isNewMessageBeingSent).toEqual(true);
-  });
-
-  it('RECEIVING NEW MESSAGE', () => {
-    // given
-    let payload = payloadWithMessages;
-
-    // when
-    let newState = messagesReducer(stateWithMessages,
-      { type: MessageActions.RECEIVING_NEW_MESSAGE, payload: payload });
-
-    // then
-    expect(newState.isNewMessageBeingReceived).toEqual(true);
   });
 
   it('LOADED CONVERSATION TITLE', () => {

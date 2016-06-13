@@ -16,17 +16,23 @@ import {SpyLocation} from '@angular/common/testing';
 import {RootRouter} from '@angular/router-deprecated/src/router';
 import {Location} from '@angular/common';
 
-import {AppMobileComponent} from "./app-mobile.component";
+import {AppMobileComponent} from './app-mobile.component';
+
+import {provideStore} from '@ngrx/store';
+import STORE_REDUCERS from '../common/reducers';
+import STORE_ACTIONS from '../common/actions';
 
 describe('App component mobile', () => {
 
   var location, router;
 
   beforeEachProviders(() => [
+    provideStore(STORE_REDUCERS),
+    STORE_ACTIONS,
     RouteRegistry,
-    provide(Location, {useClass: SpyLocation}),
-    provide(Router, {useClass: RootRouter}),
-    provide(ROUTER_PRIMARY_COMPONENT, {useValue: AppMobileComponent})
+    provide(Location, { useClass: SpyLocation }),
+    provide(Router, { useClass: RootRouter }),
+    provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent })
   ]);
 
   beforeEach(inject([Router, Location], (r, l) => {
@@ -70,7 +76,7 @@ describe('App component mobile', () => {
   });
 
   it('Should be able to navigate to MyProfile', done => {
-    router.navigate(['MyProfile', {'username': 'johndoe' }]).then(() => {
+    router.navigate(['MyProfile', { 'username': 'johndoe' }]).then(() => {
       expect(location.path()).toBe('/johndoe');
       done();
     }).catch(e => done.fail(e));

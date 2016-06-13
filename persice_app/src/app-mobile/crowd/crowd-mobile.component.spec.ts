@@ -13,6 +13,10 @@ import {Component, provide} from '@angular/core';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 
+import {provideStore} from '@ngrx/store';
+import STORE_REDUCERS from '../../common/reducers';
+import STORE_ACTIONS from '../../common/actions';
+
 import {
   MockCrowd,
   MockCrowdEmpty,
@@ -43,6 +47,8 @@ describe('Crowd mobile component', () => {
   beforeEachProviders(() => {
     mockCrowdService = new MockCrowdService(null);
     return [
+      provideStore(STORE_REDUCERS),
+      STORE_ACTIONS,
       mockCrowdService.getProvider(),
       FilterService,
       AppStateService,

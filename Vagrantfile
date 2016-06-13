@@ -5,7 +5,6 @@ Vagrant::Config.run do |config|
 	# Every Vagrant virtual environment requires a box to build off of.
 	config.vm.box = "ubuntu/trusty64"
 
-  config.ssh.private_key_path = "~/.ssh/id_rsa"
   config.ssh.forward_agent = true
 
 	# The url from where the 'config.vm.box' box will be fetched if it
@@ -33,14 +32,15 @@ Vagrant::Config.run do |config|
 
 	# Enable provisioning with a shell script.
 	config.vm.provision :shell, :path => "install.sh", :args => "bekindred"
+  config.vm.provision :shell, :path => "provision-configure.sh", :privileged => false
 end
 
 
 Vagrant.configure("2") do |config|
 config.vm.provider "virtualbox" do |v|
-   v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-   v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-   v.customize ["modifyvm", :id, "--memory", 1024*4]
+  v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+  v.customize ["modifyvm", :id, "--memory", 1024*4]
 end
 config.vm.network "private_network", ip: "192.168.10.11"
   config.vm.network "forwarded_port", guest: 8000, host: 8000

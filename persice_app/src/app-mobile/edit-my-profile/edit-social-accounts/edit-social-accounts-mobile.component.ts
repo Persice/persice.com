@@ -47,7 +47,6 @@ export class EditSocialAccountsMobileComponent implements OnInit {
   getConnectStatus() {
     this.userAuthService.findOneByUri('me').subscribe((data) => {
       this.connectStatus = this.userAuthService.getConnectStatus();
-      console.log(data.username);
       this.username = data.username;
     });
   }
