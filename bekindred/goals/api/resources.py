@@ -46,7 +46,8 @@ class MatchFilterStateResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        return super(MatchFilterStateResource, self).get_object_list(request).filter(user_id=request.user.id)
+        return super(MatchFilterStateResource, self).\
+            get_object_list(request).filter(user_id=request.user.id)
 
 
 class GoalValidation(Validation):
@@ -124,12 +125,15 @@ class GoalResource(ModelResource):
 
     def get_object_list(self, request):
         user = request.GET.get('user_id', request.user.id)
-        return super(GoalResource, self).get_object_list(request).filter(user_id=user)
+        return super(GoalResource, self).get_object_list(request).\
+            filter(user_id=user)
 
     def obj_create(self, bundle, **kwargs):
         goal_subject = bundle.data.get('goal_subject').lower()
         try:
-            subject, created = Subject.objects.get_or_create(description=goal_subject)
+            subject, created = Subject.objects.get_or_create(
+                description=goal_subject
+            )
             return super(GoalResource, self).obj_create(bundle, goal=subject)
         except IndexError as err:
             logger.error(err)
@@ -138,9 +142,13 @@ class GoalResource(ModelResource):
     def obj_update(self, bundle, skip_errors=False, **kwargs):
         goal_subject = bundle.data['goal_subject'].lower()
         try:
-            subject, created = Subject.objects.get_or_create(description=goal_subject)
+            subject, created = Subject.objects.get_or_create(
+                description=goal_subject
+            )
             bundle.data['goal'] = '/api/v1/subject/{0}/'.format(subject.id)
-            return super(GoalResource, self).obj_update(bundle, goal='/api/v1/subject/{0}/'.format(subject.id))
+            return super(GoalResource, self).obj_update(
+                bundle, goal='/api/v1/subject/{0}/'.format(subject.id)
+            )
         except IndexError as err:
             logger.error(err)
         return self.save(bundle, skip_errors=skip_errors)
@@ -165,12 +173,15 @@ class OfferResource(ModelResource):
 
     def get_object_list(self, request):
         user = request.GET.get('user_id', request.user.id)
-        return super(OfferResource, self).get_object_list(request).filter(user_id=user)
+        return super(OfferResource, self).get_object_list(request).\
+            filter(user_id=user)
 
     def obj_create(self, bundle, **kwargs):
         offer_subject = bundle.data.get('offer_subject').lower()
         try:
-            subject, created = Subject.objects.get_or_create(description=offer_subject)
+            subject, created = Subject.objects.get_or_create(
+                description=offer_subject
+            )
             return super(OfferResource, self).obj_create(bundle, offer=subject)
         except IndexError as err:
             logger.error(err)
@@ -179,9 +190,13 @@ class OfferResource(ModelResource):
     def obj_update(self, bundle, skip_errors=False, **kwargs):
         offer_subject = bundle.data['offer_subject'].lower()
         try:
-            subject, created = Subject.objects.get_or_create(description=offer_subject)
+            subject, created = Subject.objects.get_or_create(
+                description=offer_subject
+            )
             bundle.data['offer'] = '/api/v1/subject/{0}/'.format(subject.id)
-            return super(OfferResource, self).obj_update(bundle, offer='/api/v1/subject/{0}/'.format(subject.id))
+            return super(OfferResource, self).obj_update(
+                bundle, offer='/api/v1/subject/{0}/'.format(subject.id)
+            )
         except IndexError as err:
             logger.error(err)
         return self.save(bundle, skip_errors=skip_errors)
@@ -194,7 +209,8 @@ class OfferResource(ModelResource):
 class FacebookLikeResource(ModelResource):
     class Meta:
         queryset = FacebookLike.objects.all()
-        fields = ['id', 'name', 'facebook_id', 'picture']
+        fields = ['id', 'name', 'facebook_id', 'picture', 'fan_count',
+                  'created_time']
         list_allowed_methods = ['get']
         resource_name = 'likes'
         authentication = SessionAuthentication()
@@ -202,4 +218,48 @@ class FacebookLikeResource(ModelResource):
 
     def get_object_list(self, request):
         user = request.GET.get('user_id', request.user.id)
-        return super(FacebookLikeResource, self).get_object_list(request).filter(user_id=user)
+        return super(FacebookLikeResource, self).get_object_list(request).\
+            filter(user_id=user)
+
+
+class FacebookMutualLikeResource(ModelResource):
+    class Meta:
+        queryset = FacebookLike.objects.all()
+        fields = ['id', 'name', 'facebook_id', 'picture', 'fan_count',
+                  'created_time']
+        list_allowed_methods = ['get']
+        resource_name = 'mutual_likes'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        user = request.user.id
+        target_user = request.GET.get('user_id')
+        target_user_likes = FacebookLike.objects.filter(
+            user_id=target_user
+        ).values_list('facebook_id', flat=True)
+        return super(FacebookMutualLikeResource, self).get_object_list(request).\
+            filter(user_id=user, facebook_id__in=target_user_likes).\
+            order_by('-fan_count', '-created_time')
+
+
+class FacebookOtherLikeResource(ModelResource):
+    class Meta:
+        queryset = FacebookLike.objects.all()
+        fields = ['id', 'name', 'facebook_id', 'picture', 'fan_count',
+                  'created_time']
+        list_allowed_methods = ['get']
+        resource_name = 'other_likes'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        user = request.user.id
+        target_user = request.GET.get('user_id')
+        target_user_likes = FacebookLike.objects.filter(
+            user_id=target_user
+        ).values_list('facebook_id', flat=True)
+        return super(FacebookOtherLikeResource, self).get_object_list(request). \
+            filter(user_id=user). \
+            exclude(facebook_id__in=target_user_likes). \
+            order_by('-fan_count', '-created_time')
