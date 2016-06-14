@@ -1,7 +1,5 @@
 import {Directive, ElementRef, HostListener, OnDestroy} from '@angular/core';
 
-
-
 @Directive({
   selector: '[dropdown]',
   properties: ['target: dropdown']

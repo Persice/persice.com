@@ -381,7 +381,7 @@ html {
 
 .user-profile-container {
   background: #eff4f6;
-  padding-bottom: 70px;
+  padding-bottom: 98px;
 }
 
 .moreellipses {
@@ -631,6 +631,14 @@ html {
   background-repeat: no-repeat;
 }
 
-.edit-info-list, .link-to-list {
+.edit-info-list,
+.link-to-list {
   height: calc(100vh - 50px)!important;
+}
+
+html.remodal-is-locked,
+html.remodal-is-locked > body {
+  overflow: hidden!important;
+  -ms-touch-action: none!important;
+  touch-action: none!important;
 }

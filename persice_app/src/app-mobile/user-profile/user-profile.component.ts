@@ -1,14 +1,8 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewInit
-} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
-import {
-  OpenLeftMenuDirective,
-} from '../shared/directives';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { RouterLink } from '@angular/router-deprecated';
+import { OpenLeftMenuDirective } from '../shared/directives';
+import {DROPDOWN_DIRECTIVES} from '../../common/directives/dropdown';
+import {RemodalDirective} from '../../app/shared/directives';
 
 import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";
@@ -28,6 +22,8 @@ import {ConnectionsService} from '../../common/connections';
   pipes: [GenderPipe],
   directives: [
     CheckImageDirective,
+    DROPDOWN_DIRECTIVES,
+    RemodalDirective,
     AboutMobileComponent,
     ItemsListMobileComponent,
     ConnectionsListMobileComponent,
@@ -48,7 +44,10 @@ export class UserProfileComponent implements AfterViewInit {
 
   // When [user] from Input property change, set internal state for our component
   @Input() set user(value) {
-    this._setState(value);
+    // If value is defined, set person
+    if (value) {
+      this._setState(value);
+    }
   }
   @Output() onCloseProfile: EventEmitter<any> = new EventEmitter();
 
@@ -70,7 +69,17 @@ export class UserProfileComponent implements AfterViewInit {
   // Indicator for which tab is active: interests(0), goals(1), offers(2)
   activeTab: number = 0;
 
+  // Boolean flag which checks if photos view is opened
   isPhotosViewEnabled: boolean = false;
+
+  // Boolean flag which checks if dropdown menu is opened
+  isDropdownOpen: boolean = false;
+
+  // Remodal option
+  modalOptions = JSON.stringify({
+    hashTracking: true,
+    closeOnOutsideClick: true
+  });
 
   constructor(
     private _friendService: MutualFriendsService,
@@ -83,6 +92,11 @@ export class UserProfileComponent implements AfterViewInit {
     setTimeout(() => {
       window.scrollTo(0, 0);
     });
+  }
+
+  // TODO(sasa): Add API call to disconnect a connection
+  public disconnect(event: MouseEvent) {
+    console.log('disconnecting user');
   }
 
   public toggleProfileExtraInfoVisibility(event) {

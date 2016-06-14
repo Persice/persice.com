@@ -59,6 +59,10 @@ if ('development' === ENV && HMR === true) {
 
 
   ngHmr.hotModuleReplacement(main, module);
+
+  // fix for closing remodal after hot reload
+  jQuery('.remodal-overlay').remove();
+  jQuery('.remodal-wrapper').remove();
 } else {
   // bootstrap when documetn is ready
   document.addEventListener('DOMContentLoaded', () => main());
