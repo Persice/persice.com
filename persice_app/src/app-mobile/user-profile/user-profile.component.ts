@@ -126,6 +126,11 @@ export class UserProfileComponent implements AfterViewInit {
   }
 
   public showNetworkView(event): void {
+    if (this.person.connectionsCount < 1) {
+      // Do nothing.
+      return;
+    }
+
     this.activeView = this.viewsType.Network;
     this.toggleFooterVisibility(false);
   }
