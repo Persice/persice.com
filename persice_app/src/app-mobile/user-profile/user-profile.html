@@ -22,10 +22,10 @@
           </svg>
         </a>
         <ul prs-dropdown-menu class="mob-header__drop hidden">
-          <li><a>Invite to event</a></li>
+          <!-- <li><a>Invite to event</a></li> -->
           <li><a href="" data-remodal-target="disconnect-user">Disconnect</a></li>
-          <li><a>Report user</a></li>
-          <li><a>Block user</a></li>
+          <!-- <li><a>Report user</a></li> -->
+          <!-- <li><a>Block user</a></li> -->
         </ul>
       </div>
       <div class="layout__item 1/5 text-right" *ngIf="type === 'my-profile'">
@@ -126,7 +126,7 @@
     </div>
   </div>
   <div class="profile-connections profile-box">
-    <prs-mobile-network-preview (click)="showNetworkView($event)" [items]="friendsPreview" [count]="friendsTotalCount"></prs-mobile-network-preview>
+    <prs-mobile-network-preview (click)="showNetworkView($event)"></prs-mobile-network-preview>
   </div>
   <a class="profile-link profile-box" (click)="showLikesView($event)">
     <div class="layout layout--small layout--middle">
@@ -157,7 +157,7 @@
 </div>
 <prs-mobile-photos *ngIf="activeView === viewsType.Photos" [personId]="person.id" (onClose)="showProfileView($event)">
 </prs-mobile-photos>
-<prs-mobile-network *ngIf="activeView === viewsType.Network" (onClose)="showProfileView($event)">
+<prs-mobile-network *ngIf="activeView === viewsType.Network" [personId]="person.id" (onClose)="showProfileView($event)">
 </prs-mobile-network>
 <prs-mobile-likes *ngIf="activeView === viewsType.Likes" (onClose)="showProfileView($event)" [userId]="person.id">
 </prs-mobile-likes>
