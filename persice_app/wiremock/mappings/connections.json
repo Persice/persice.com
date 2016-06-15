@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/api/v1/connections/.*&offset=0"
+    },
+    "response": {
+        "status": 200,
+  "headers" : {
+        "Access-Control-Allow-Origin" : "*"
+      },
+        "bodyFileName": "connections/connections-continued.response.json"
+    }
+}
