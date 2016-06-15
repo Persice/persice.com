@@ -1,5 +1,5 @@
 <span class="profile-titleline">Connections
-      <span class="profile-titleline__value">({{connectionsCount}})</span> <span class="profile-titleline__subvalue"></span>
+      <span class="profile-titleline__value">({{connectionsCount}})</span> <span class="profile-titleline__subvalue" *ngIf="connectionsMutualCount > 0">- {{connectionsMutualCount}} mutual</span>
 </span>
 <div class="has-user-links">
   <div class="layout layout--small">

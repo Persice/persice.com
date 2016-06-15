@@ -57,8 +57,8 @@ export class Person {
     this._job = dto.position && dto.position.job ? dto.position.job : '';
     this._company = dto.position && dto.position.company ? dto.position.company : '';
 
-    this._connectionsCount = 0;
-    this._connectionsMutualCount = 0;
+    this._connectionsCount = 10;
+    this._connectionsMutualCount = 5;
 
     if (dto.top_interests) {
       let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);

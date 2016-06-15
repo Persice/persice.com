@@ -12,9 +12,7 @@ import {PhotosMobileComponent} from './photos';
 import {NetworkPreviewComponent} from './network-preview';
 import {NetworkComponent} from './network';
 import {ItemsListMobileComponent} from './items-list';
-import {FriendUtil} from '../../app/shared/core';
 
-import {MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
 import {AppStateService} from '../shared/services';
 import {LikesMobileComponent} from "./likes/likes-mobile.component";
@@ -42,10 +40,6 @@ enum ViewsType {
     RouterLink,
     PhotosMobileComponent,
     LikesMobileComponent
-  ],
-  providers: [
-    MutualFriendsService,
-    ConnectionsService
   ]
 })
 export class UserProfileComponent implements AfterViewInit {
@@ -76,15 +70,6 @@ export class UserProfileComponent implements AfterViewInit {
   // Indicator for which tab is active: interests(0), goals(1), offers(2)
   public activeTab: number = 0;
 
-  // List and counters for mutual friends
-  public friendsTotalCount: number = 0;
-  public friendsPreview: any[] = [];
-  public friendsPersice: any[] = [];
-  public friendsFacebook: any[] = [];
-  public friendsLinkedin: any[] = [];
-  public friendsTwitterFollowers: any[] = [];
-  public friendsTwitterFriends: any[] = [];
-
   // Boolean flag which checks if dropdown menu is opened
   public isDropdownOpen: boolean = false;
 
@@ -94,13 +79,7 @@ export class UserProfileComponent implements AfterViewInit {
     closeOnOutsideClick: true
   });
 
-  constructor(
-    private friendService: MutualFriendsService,
-    private connectionsService: ConnectionsService,
-    private appStateService: AppStateService
-  ) {
-
-  }
+  constructor(private appStateService: AppStateService) { }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -164,51 +143,8 @@ export class UserProfileComponent implements AfterViewInit {
     });
   }
 
-  private _getMutualFriends(id) {
-    this.friendService.get('', 100, id)
-      .subscribe(data => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects[0];
-          this.friendsTotalCount += parseInt(items.mutual_bk_friends_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_fb_friends_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_linkedin_connections_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_twitter_followers_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_twitter_friends_count, 10);
-          this.friendsPersice = items.mutual_bk_friends;
-          this.friendsFacebook = items.mutual_fb_friends;
-          this.friendsLinkedin = items.mutual_linkedin_connections;
-          this.friendsTwitterFriends = items.mutual_twitter_friends;
-          this.friendsTwitterFollowers = items.mutual_twitter_followers;
-
-          // Pick four friends for preview
-          this.friendsPreview = FriendUtil.pickFourFriendsforPreview(
-            this.friendsPersice, this.friendsFacebook, this.friendsLinkedin,
-            this.friendsTwitterFriends, this.friendsTwitterFollowers);
-        }
-      });
-  }
-
-  private _getConnections() {
-    this.connectionsService.get('', 100, false)
-      .subscribe((data) => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects;
-          this.friendsTotalCount = data.meta.total_count;
-          this.friendsPersice = items;
-
-          // Pick four friends for preview
-          this.friendsPreview = FriendUtil.pickFourFriendsforPreview(this.friendsPersice, [], [], [], []);
-        }
-      });
-  }
-
   private _setState(value: any) {
     this.person = new Person(value);
-    if (this.type === 'crowd' || this.type === 'connection') {
-      this._getMutualFriends(this.person.id);
-    } else if (this.type === 'my-profile') {
-      this._getConnections();
-    }
   }
 
 }
