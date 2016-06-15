@@ -1,6 +1,8 @@
 import re
 import logging
 
+from django.db.models import Q
+
 from django_facebook.models import FacebookLike
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
@@ -260,6 +262,5 @@ class FacebookOtherLikeResource(ModelResource):
             user_id=target_user
         ).values_list('facebook_id', flat=True)
         return super(FacebookOtherLikeResource, self).get_object_list(request). \
-            filter(user_id=user). \
-            exclude(facebook_id__in=target_user_likes). \
+            filter(Q(user_id=user) & ~Q(facebook_id__in=target_user_likes)). \
             order_by('-fan_count', '-created_time')
