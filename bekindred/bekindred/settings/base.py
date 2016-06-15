@@ -213,6 +213,10 @@ FACEBOOK_DEFAULT_FIELDS = [
     'is_shared_login'
 ]
 
+FACEBOOK_DEFAULT_LIKES_FIELDS = [
+    "picture.type(large)", "name", "category", "fan_count", "created_time"
+]
+
 FACEBOOK_DEFAULT_SCOPE = ['email',
                           'user_about_me',
                           'user_birthday',

@@ -17,11 +17,13 @@ import {FriendUtil} from '../../app/shared/core';
 import {MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
 import {AppStateService} from '../shared/services';
+import {LikesMobileComponent} from "./likes/likes-mobile.component";
 
 enum ViewsType {
   Profile,
   Photos,
-  Network
+  Network,
+  Likes
 }
 
 @Component({
@@ -38,7 +40,8 @@ enum ViewsType {
     NetworkComponent,
     OpenLeftMenuDirective,
     RouterLink,
-    PhotosMobileComponent
+    PhotosMobileComponent,
+    LikesMobileComponent
   ],
   providers: [
     MutualFriendsService,
@@ -70,7 +73,7 @@ export class UserProfileComponent implements AfterViewInit {
   // Boolean flag which controls whether full profile information is collapsed and visible
   public profileExtraInfoVisible: boolean = false;
 
-    // Indicator for which tab is active: interests(0), goals(1), offers(2)
+  // Indicator for which tab is active: interests(0), goals(1), offers(2)
   public activeTab: number = 0;
 
   // List and counters for mutual friends
@@ -129,6 +132,11 @@ export class UserProfileComponent implements AfterViewInit {
 
   public showPhotosView(event): void {
     this.activeView = this.viewsType.Photos;
+    this.toggleFooterVisibility(false);
+  }
+
+  public showLikesView(event): void {
+    this.activeView = this.viewsType.Likes;
     this.toggleFooterVisibility(false);
   }
 

@@ -135,7 +135,7 @@
         </span>
       </div>
       <div class="layout__item 1/5 text-center">
-        <svg role="img" class="icon ">
+        <svg role="img" class="icon " (click)="showLikesView($event)">
           <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
         </svg>
       </div>
@@ -159,3 +159,5 @@
 </prs-mobile-photos>
 <prs-mobile-network *ngIf="activeView === viewsType.Network" (onClose)="showProfileView($event)">
 </prs-mobile-network>
+<prs-mobile-likes *ngIf="activeView === viewsType.Likes" (onClose)="showProfileView($event)" [userId]="person.id">
+</prs-mobile-likes>

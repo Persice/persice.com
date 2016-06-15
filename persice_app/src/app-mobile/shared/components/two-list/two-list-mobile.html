@@ -1,0 +1,34 @@
+<div class="container-likes">
+  <header class="mob-header">
+    <div class="layout layout--flush layout--middle">
+      <div class="layout__item 1/5">
+        <a class="mob-header__left-push" (click)="close()">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 3/5 text-center">
+        <h2 class="mob-header__title">{{pageTitle}}</h2> </div>
+      <div class="layout__item 1/5 text-right"> </div>
+    </div>
+  </header>
+  <div class="content">
+    <div class="mob-user-card-title"> {{firstListTitle}} ({{firstListCount}}) </div>
+    <a href="" class="mob-like-dislike" *ngFor="let item of firstList">
+      <div class="flag flag--small">
+        <div class="flag__img"><img src="{{item.picture}}" alt="" class="avatar avatar--medium"></div>
+        <div class="flag__body">
+          <h3 class="mob-like-dislike__title">{{item.name}}</h3></div>
+      </div>
+    </a>
+    <div class="mob-user-card-title"> {{secondListTitle}} ({{secondListCount}}) </div>
+    <a href="" class="mob-like-dislike" *ngFor="let item of secondList">
+      <div class="flag flag--small">
+        <div class="flag__img"><img src="{{item.picture}}" alt="" class="avatar avatar--medium"></div>
+        <div class="flag__body">
+          <h3 class="mob-like-dislike__title">{{item.name}}</h3> </div>
+      </div>
+    </a>
+  </div>
+</div>
