@@ -128,14 +128,14 @@
   <div class="profile-connections profile-box">
     <prs-mobile-network-preview (click)="showNetworkView($event)" [items]="friendsPreview" [count]="friendsTotalCount"></prs-mobile-network-preview>
   </div>
-  <a class="profile-link profile-box">
+  <a class="profile-link profile-box" (click)="showLikesView($event)">
     <div class="layout layout--small layout--middle">
       <div class="layout__item 4/5"> <span class="profile-titleline">Likes
         <span class="profile-titleline__value">({{person.likesCount}})</span> <span class="profile-titleline__subvalue" *ngIf="type === 'crowd' || type === 'connection'">&#8211; {{person.likesMutualCount}} mutual</span>
         </span>
       </div>
       <div class="layout__item 1/5 text-center">
-        <svg role="img" class="icon " (click)="showLikesView($event)">
+        <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
         </svg>
       </div>
