@@ -1,7 +1,7 @@
 {
     "request": {
         "method": "GET",
-        "urlPattern": "/api/v1/mutual_likes/(.*)&offset=20"
+        "urlPattern": "/api/v1/mutual_likes/.*&offset=20"
     },
     "response": {
         "status": 200,
