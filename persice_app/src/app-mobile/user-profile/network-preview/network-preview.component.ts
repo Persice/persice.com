@@ -17,9 +17,6 @@ export class NetworkPreviewComponent {
   // When count from Input property changes, set internal state for our component
   @Input() set count(count: number) {
     this.connectionsCount = count;
-    if (count > 4) {
-      this.moreVisible = true;
-    }
   }
 
   // List and counter for all connections
@@ -27,8 +24,5 @@ export class NetworkPreviewComponent {
 
   // Counter for total number of all connections
   public connectionsCount: number = 0;
-
-  // Indicator for is more button visible
-  public moreVisible: boolean = false;
 
 }
