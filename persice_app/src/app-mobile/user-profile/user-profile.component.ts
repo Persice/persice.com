@@ -136,6 +136,11 @@ export class UserProfileComponent implements AfterViewInit {
   }
 
   public showLikesView(event): void {
+    if (this.person.likesCount + this.person.likesMutualCount < 1) {
+      // Do nothing.
+      return;
+    }
+
     this.activeView = this.viewsType.Likes;
     this.toggleFooterVisibility(false);
   }
