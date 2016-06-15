@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "limit": 20,
+    "next": "/api/v1/likes/?offset=20&limit=20&format=json",
+    "offset": 0,
+    "previous": null,
+    "total_count": 23
+  },
+  "objects": [
+    {
+      "facebook_id": "383059411812617",
+      "id": 1,
+      "name": "Mak Na Konac",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/11998955_849558685162685_5989506943804102779_n.png?oh=ba19d91fdb33aa8064894acffde30c35&oe=57CAE2F0",
+      "resource_uri": "/api/v1/likes/1/"
+    },
+    {
+      "facebook_id": "135578283226835",
+      "id": 2,
+      "name": "Coursera",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/18311_738040899647234_8477230347191571252_n.jpg?oh=0d5b1bcd6e885349de5b22cd93399c95&oe=57CA1048",
+      "resource_uri": "/api/v1/likes/2/"
+    },
+    {
+      "facebook_id": "255230916034",
+      "id": 3,
+      "name": "Samoborski FaÅ¡nik",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/1557701_10151852913801035_784845050_n.jpg?oh=c30eba414236880209e98a12b419336a&oe=580939DB",
+      "resource_uri": "/api/v1/likes/3/"
+    },
+    {
+      "facebook_id": "492631287598078",
+      "id": 4,
+      "name": "RETRO palaÄinkarnica",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/13138784_511256245735582_411380268517559846_n.jpg?oh=ead5f9d67552bf243410adadee69d20e&oe=57C32A7D",
+      "resource_uri": "/api/v1/likes/4/"
+    },
+    {
+      "facebook_id": "228735667216",
+      "id": 5,
+      "name": "BBC News",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/1926656_10151955586072217_265500303_n.png?oh=5da167c2531e01d02abcea71ea1f8d56&oe=5808957D",
+      "resource_uri": "/api/v1/likes/5/"
+    },
+    {
+      "facebook_id": "135792139960730",
+      "id": 6,
+      "name": "Udruga za zaÅ¡titu Å¾ivotinja Sedma od Devet",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/c1.0.200.200/p200x200/11133915_361326774073931_5012677316201913518_n.png?oh=1e637e5b3d27334e6ab31bbb4e43d54b&oe=57CFD981",
+      "resource_uri": "/api/v1/likes/6/"
+    },
+    {
+      "facebook_id": "315153765161464",
+      "id": 7,
+      "name": "Putoholicari",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/c0.126.200.200/p200x200/12799360_1149884545021711_6716551695580742437_n.jpg?oh=f454f16311524dbcaa814b38f3daf548&oe=57C2EF09",
+      "resource_uri": "/api/v1/likes/7/"
+    },
+    {
+      "facebook_id": "17610706465",
+      "id": 8,
+      "name": "Space.com",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/1240451_10153324432361466_979490665095513579_n.png?oh=67769da9f95de64e02eb377d7c039f48&oe=57D0E261",
+      "resource_uri": "/api/v1/likes/8/"
+    },
+    {
+      "facebook_id": "832506610169817",
+      "id": 9,
+      "name": "Mrkvica - DomaÄ‡i Proizvodi",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/13400_832514590169019_8472560019615657420_n.jpg?oh=1c9cae05b11058da6486d6977c29efe3&oe=580ABBFC",
+      "resource_uri": "/api/v1/likes/9/"
+    },
+    {
+      "facebook_id": "272921962761470",
+      "id": 10,
+      "name": "R&B Food",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/11390237_859525020767825_1815744833321469170_n.png?oh=f25624df05a7dd667f3beb4d11493a14&oe=58002157",
+      "resource_uri": "/api/v1/likes/10/"
+    },
+    {
+      "facebook_id": "654396991315924",
+      "id": 11,
+      "name": "Humanitarna akcija: Kupimo japanskom  sucu naoÄale",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/c25.0.200.200/p200x200/10313001_654398794649077_8615974851746251345_n.jpg?oh=9d6836e7702273e3c8b84724ab197a59&oe=57C6B095",
+      "resource_uri": "/api/v1/likes/11/"
+    },
+    {
+      "facebook_id": "6250307292",
+      "id": 12,
+      "name": "Washington Post",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/417431_10150619336367293_1301841967_n.jpg?oh=bf33c58b1925970c364055f895a6fe3f&oe=580A1A09",
+      "resource_uri": "/api/v1/likes/12/"
+    },
+    {
+      "facebook_id": "473675242743259",
+      "id": 13,
+      "name": "Vacation Rentals Njofra",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/c33.0.200.200/p200x200/1656245_488197067957743_353789700_n.jpg?oh=ba2f52768718fe68db884296f4885d1a&oe=580E0825",
+      "resource_uri": "/api/v1/likes/13/"
+    },
+    {
+      "facebook_id": "99382526928",
+      "id": 14,
+      "name": "Croatia Full of life",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/12049585_10153740849341929_229891575270420094_n.jpg?oh=87ab303a483e37dca66f8165890c8747&oe=5805D47A",
+      "resource_uri": "/api/v1/likes/14/"
+    },
+    {
+      "facebook_id": "636975469717369",
+      "id": 15,
+      "name": "Seoski fudbal",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/10347778_646235128791403_2585058704817237589_n.jpg?oh=2b369580d03c5007da3932422be280e1&oe=57C6E9AD",
+      "resource_uri": "/api/v1/likes/15/"
+    },
+    {
+      "facebook_id": "1726792010878582",
+      "id": 16,
+      "name": "Zeko Grill",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/10456190_846168032101560_6280729532119691671_n.jpg?oh=20614a6a2767aad363b7174ef3f6d2b8&oe=580E57DE",
+      "resource_uri": "/api/v1/likes/16/"
+    },
+    {
+      "facebook_id": "367116489976035",
+      "id": 17,
+      "name": "I fucking love science",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/644518_482964478391235_1344225470_n.jpg?oh=c66c8a49bb27105e56caec997465b2b8&oe=57CAAD90",
+      "resource_uri": "/api/v1/likes/17/"
+    },
+    {
+      "facebook_id": "151026981607172",
+      "id": 18,
+      "name": "Five",
+      "picture": "https://scontent.xx.fbcdn.net/v/l/t1.0-1/p200x200/13092010_1092374220805772_8040499424615258630_n.png?oh=547310a1444d46b932e3c30c9479f432&oe=5800C934",
+      "resource_uri": "/api/v1/likes/18/"
+    },
+    {
+      "facebook_id": "118876841606028",
+      "id": 19,
+      "name": "rougemarin.hr",
+      "picture": "https://scontent.xx.fbcdn.net/v/t1.0-1/c0.0.200.200/p200x200/10577000_325402344286809_3162973861934719449_n.jpg?oh=3b96f1d30ebd1fe755ccd9b49eacba8c&oe=58089FB8",
+      "resource_uri": "/api/v1/likes/19/"
+    },
+    {
+      "facebook_id": "608024169341339",
+      "id": 20,
+      "name": "Teatar Exit",
+      "picture": "https://fbcdn-profile-a.akamaihd.net/static-ak/rsrc.php/v2/y9/r/zesEb_o5oyL.png",
+      "resource_uri": "/api/v1/likes/20/"
+    }
+  ]
+}
