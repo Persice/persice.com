@@ -704,7 +704,7 @@ html.remodal-is-locked {
 
 
 /**
- * Note: the root picker element should *NOT* be styled more than what’s here.
+ * Note: the root picker element should *NOT* be styled more than whatâ€™s here.
  */
 
 .picker {
@@ -731,7 +731,7 @@ html.remodal-is-locked {
 
 
 /**
- * When the picker is opened, the input element is “activated”.
+ * When the picker is opened, the input element is â€œactivatedâ€.
  */
 
 .picker__input.picker__input--active {
@@ -740,7 +740,7 @@ html.remodal-is-locked {
 
 
 /**
- * The holder is the only “scrollable” top-level container element.
+ * The holder is the only â€œscrollableâ€ top-level container element.
  */
 
 .picker__holder {
@@ -757,7 +757,7 @@ html.remodal-is-locked {
 
 
 /**
- * Note: the root picker element should *NOT* be styled more than what’s here.
+ * Note: the root picker element should *NOT* be styled more than whatâ€™s here.
  */
 
 .picker {
@@ -793,7 +793,7 @@ html.remodal-is-locked {
 
 /**
  * The frame and wrap work together to ensure that
- * clicks within the picker don’t reach the holder.
+ * clicks within the picker donâ€™t reach the holder.
  */
 
 .picker__frame {
@@ -1356,7 +1356,7 @@ html.remodal-is-locked {
 
 /**
  * Note: the root picker element should __NOT__ be styled
- * more than what’s here. Style the `.picker__holder` instead.
+ * more than whatâ€™s here. Style the `.picker__holder` instead.
  */
 
 .picker--time {
@@ -1845,7 +1845,7 @@ ul.tagit input[type="text"] {
   float: left;
 }
 
-.swiper-container-vertical> .swiper-wrapper {
+.swiper-container-vertical > .swiper-wrapper {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
   -ms-flex-direction: column;
@@ -1882,7 +1882,7 @@ ul.tagit input[type="text"] {
   transform: translate3d(0px, 0, 0);
 }
 
-.swiper-container-multirow> .swiper-wrapper {
+.swiper-container-multirow > .swiper-wrapper {
   -webkit-box-lines: multiple;
   -moz-box-lines: multiple;
   -ms-flex-wrap: wrap;
@@ -1890,7 +1890,7 @@ ul.tagit input[type="text"] {
   flex-wrap: wrap;
 }
 
-.swiper-container-free-mode> .swiper-wrapper {
+.swiper-container-free-mode > .swiper-wrapper {
   -webkit-transition-timing-function: ease-out;
   -moz-transition-timing-function: ease-out;
   -ms-transition-timing-function: ease-out;
@@ -2039,7 +2039,7 @@ ul.tagit input[type="text"] {
 
 .swiper-pagination-fraction,
 .swiper-pagination-custom,
-.swiper-container-horizontal> .swiper-pagination-bullets {
+.swiper-container-horizontal > .swiper-pagination-bullets {
   bottom: 10px;
   left: 0;
   width: 100%;
@@ -2089,7 +2089,7 @@ button.swiper-pagination-bullet {
   background: #000;
 }
 
-.swiper-container-vertical> .swiper-pagination-bullets {
+.swiper-container-vertical > .swiper-pagination-bullets {
   right: 10px;
   top: 50%;
   -webkit-transform: translate3d(0px, -50%, 0);
@@ -2099,12 +2099,12 @@ button.swiper-pagination-bullet {
   transform: translate3d(0px, -50%, 0);
 }
 
-.swiper-container-vertical> .swiper-pagination-bullets .swiper-pagination-bullet {
+.swiper-container-vertical > .swiper-pagination-bullets .swiper-pagination-bullet {
   margin: 5px 0;
   display: block;
 }
 
-.swiper-container-horizontal> .swiper-pagination-bullets .swiper-pagination-bullet {
+.swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
   margin: 0 5px;
 }
 
@@ -2142,14 +2142,14 @@ button.swiper-pagination-bullet {
   transform-origin: right top;
 }
 
-.swiper-container-horizontal> .swiper-pagination-progress {
+.swiper-container-horizontal > .swiper-pagination-progress {
   width: 100%;
   height: 4px;
   left: 0;
   top: 0;
 }
 
-.swiper-container-vertical> .swiper-pagination-progress {
+.swiper-container-vertical > .swiper-pagination-progress {
   width: 4px;
   height: 100%;
   left: 0;
@@ -2333,7 +2333,7 @@ button.swiper-pagination-bullet {
 .swiper-container-cube .swiper-slide-active,
 .swiper-container-cube .swiper-slide-next,
 .swiper-container-cube .swiper-slide-prev,
-.swiper-container-cube .swiper-slide-next+ .swiper-slide {
+.swiper-container-cube .swiper-slide-next + .swiper-slide {
   pointer-events: auto;
   visibility: visible;
 }
@@ -2389,7 +2389,7 @@ button.swiper-pagination-bullet {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.swiper-container-horizontal> .swiper-scrollbar {
+.swiper-container-horizontal > .swiper-scrollbar {
   position: absolute;
   left: 1%;
   bottom: 3px;
@@ -2398,7 +2398,7 @@ button.swiper-pagination-bullet {
   width: 98%;
 }
 
-.swiper-container-vertical> .swiper-scrollbar {
+.swiper-container-vertical > .swiper-scrollbar {
   position: absolute;
   right: 3px;
   top: 1%;
@@ -3727,6 +3727,30 @@ li>ol {
   font-weight: 700
 }
 
+.btn-remodal--mob-report__footer-cancel,
+.btn-remodal--mob-report__footer-ok,
+.btn-remodal--mob-report__footer-claim {
+  text-transform: uppercase;
+  line-height: 46px !important;
+  display: block !important;
+  font-size: 13px;
+  font-family: "Montserrat", sans-serif
+}
+
+.btn-remodal--mob-report__footer-cancel {
+  color: #ec8672
+}
+
+.btn-remodal--mob-report__footer-ok {
+  background: #39c9f5 !important;
+  color: #fff
+}
+
+.btn-remodal--mob-report__footer-claim {
+  background: #ec8672 !important;
+  color: #fff
+}
+
 .tableize {
   display: table;
   width: 100%
@@ -4068,6 +4092,14 @@ li>ol {
   color: #a6e16c
 }
 
+.icon--yellow {
+  color: #ffc437
+}
+
+.icon--red {
+  color: #ec8672
+}
+
 .fake-icon-plus {
   width: 85px;
   height: 85px;
@@ -4116,6 +4148,12 @@ li>ol {
 
 .icon-round-holder .icon--connectoin {
   margin-top: 1px
+}
+
+.remodal--mob-report__header__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%
 }
 
 .avatar {
@@ -4627,7 +4665,7 @@ li>ol {
   margin: 0 -1px;
   position: absolute;
   width: 100%;
-  width: calc(100%+ 2px);
+  width: calc(100% + 2px);
   border: 1px solid #e5e5e5;
   border-top: 1px solid #f9f9f9;
   border-bottom-left-radius: 3px;
@@ -5999,7 +6037,7 @@ li>ol {
 .avatar-place .icon {
   bottom: -2px;
   height: 20px;
-  left: -2px;
+  left: -8px;
   position: absolute;
   width: 20px
 }
@@ -9221,6 +9259,339 @@ li>ol {
 .mob-sec-tabs__item.is-current a {
   color: #63727a;
   border-bottom: 3px solid #39c9f5
+}
+
+.remodal-overlay {
+  background: rgba(67, 79, 84, 0.7)
+}
+
+.remodal {
+  border-radius: 3px
+}
+
+.remodal .search {
+  box-shadow: 0px 1px 3px 0px rgba(1, 2, 2, 0.051)
+}
+
+.remodal .search .search__top>.icon {
+  left: 24px
+}
+
+.remodal .search.search--bottombordered {
+  border-bottom: 1px solid #dee1e2;
+  box-shadow: none
+}
+
+.remodal .search__input {
+  padding-left: 70px;
+  font-size: 13px
+}
+
+.remodal .sub-nav .sub-nav__link {
+  font-size: 11px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  letter-spacing: .5px
+}
+
+.remodal .sub-nav__item {
+  margin-right: 80px
+}
+
+.remodal .sub-nav__item.is-active .sub-nav__link {
+  color: #4f5b5f
+}
+
+.remodal .icon--succes {
+  fill: #a6e16c
+}
+
+.remodal .invite-to-event-step-2 .remodal--common__content {
+  height: 491px;
+  padding-top: 0
+}
+
+.remodal .invite-to-event-step-2 .c-input--textarea-noborder {
+  height: 220px
+}
+
+.remodal-close {
+  z-index: 100;
+  left: auto;
+  right: 0;
+  top: -40px;
+  color: #63727a
+}
+
+.remodal-close:before {
+  font-size: 0;
+  content: ""
+}
+
+.remodal-close:hover {
+  opacity: .9
+}
+
+.remodal--narrow {
+  width: 408px
+}
+
+.remodal--medium {
+  width: 540px
+}
+
+.remodal--medium-large {
+  width: 690px
+}
+
+.remodal--common {
+  padding: 0;
+  text-align: left
+}
+
+.remodal--common .remodal-close {
+  right: 22px;
+  top: 20px
+}
+
+.remodal--common .end-time-trigger {
+  display: inline-block;
+  margin-bottom: 8px
+}
+
+.remodal--common .end-time {
+  position: relative
+}
+
+.remodal--common .end-time:after {
+  content: attr(data-attr-to);
+  position: absolute;
+  bottom: 12px;
+  left: -6px;
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif
+}
+
+.remodal--common__content {
+  padding: 30px
+}
+
+.remodal--common__content.remodal--common__content--overflowed {
+  overflow: auto;
+  height: 410px
+}
+
+.remodal__header {
+  border-bottom: 1px solid #dde2e4;
+  background: #f8fcfd;
+  padding: 18px 30px;
+  height: 80px;
+  border-radius: 3px 3px 0
+}
+
+.remodal__footer {
+  border-top: 1px solid #dde2e4;
+  text-align: right;
+  padding: 20px 30px
+}
+
+.remodal__footer__par {
+  font-size: 13px;
+  color: #63727a;
+  line-height: 1.4
+}
+
+.remodal__title {
+  text-transform: uppercase;
+  line-height: 45px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #434f54
+}
+
+.remodal__title a {
+  color: inherit;
+  position: relative;
+  margin-right: 60px
+}
+
+.remodal__title a:first-child:after {
+  display: none
+}
+
+.remodal__title a:after {
+  display: block;
+  position: absolute;
+  content: "";
+  top: -11px;
+  right: 100%;
+  margin-right: 13px;
+  width: 40px;
+  height: 40px;
+  background: url("../images/icon-arrow_right.svg") center center no-repeat
+}
+
+.remodal__title--small {
+  font-size: 19px;
+  color: #63727a;
+  margin-bottom: 20px;
+  font-weight: 600
+}
+
+.remodal__paragraph {
+  color: #63727a;
+  font-size: 13px
+}
+
+.remodal__paragraph .icon {
+  margin-left: -2px;
+  margin-bottom: 5px
+}
+
+.remodal__paragraph-2 {
+  color: #63727a;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 30px
+}
+
+.remodal__paragraph-prominent {
+  color: #434f54;
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5
+}
+
+.remodal__section {
+  border-top: 1px solid #dde2e4;
+  padding: 40px 30px
+}
+
+.remodal--mob-report {
+  border-radius: 10px;
+  padding: 0
+}
+
+.remodal--mob-report .remodal--mob-report__header__icon {
+  margin: -40px auto 0;
+  background: #fff;
+  position: relative
+}
+
+.remodal--mob-report .remodal--mob-report__header__icon .icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%)
+}
+
+.remodal--mob-report__title {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #63727a;
+  font-family: "Montserrat", sans-serif;
+  margin-top: -10px;
+  position: relative;
+  z-index: 10px
+}
+
+.remodal--mob-report__title--spaced-v {
+  margin: 30px 20px
+}
+
+.remodal--mob-report__title--spaced-t {
+  margin: 30px 20px 0
+}
+
+.remodal--mob-report__subtitle {
+  font-size: 12px;
+  color: #63727a;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  margin-bottom: 18px
+}
+
+.remodal--mob-report__list {
+  background: #f8fcfd;
+  overflow: auto;
+  max-height: 185px
+}
+
+.remodal--mob-report__list__item {
+  border-bottom: 1px solid #e9ebec;
+  font-size: 13px;
+  color: #bcc7cd;
+  font-weight: 600;
+  list-style-type: none;
+  text-align: left;
+  padding: 0 13px;
+  line-height: 40px;
+  cursor: pointer;
+  position: relative
+}
+
+.remodal--mob-report__list__item.remodal--mob-report__list__item--long-label {
+  line-height: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px
+}
+
+.remodal--mob-report__list__item:last-child {
+  border-bottom: none
+}
+
+.remodal--mob-report__list__item.is-selected {
+  color: #63727a
+}
+
+.remodal--mob-report__list__item.is-selected:after {
+  content: '';
+  background: url("../images/drop-checker.svg") center center no-repeat;
+  display: block;
+  width: 14px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  right: 10px
+}
+
+.remodal--mob-report__footer {
+  overflow: hidden;
+  border-radius: 0 0 10px 10px
+}
+
+.remodal--mob-report__content {
+  padding: 20px
+}
+
+.remodal--mob-report__content p,
+.remodal--mob-report__content li {
+  font-size: 13px;
+  color: #63727a;
+  text-align: left
+}
+
+.remodal--mob-report__content li {
+  list-style-type: none;
+  position: relative;
+  padding: 0 0 0 33px
+}
+
+.remodal--mob-report__content li:after {
+  content: "";
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #39c9f5;
+  position: absolute;
+  top: 12px;
+  left: 17px
 }
 
 .m {
