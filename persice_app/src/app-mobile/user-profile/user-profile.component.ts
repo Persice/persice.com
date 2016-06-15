@@ -142,7 +142,9 @@ export class UserProfileComponent implements AfterViewInit {
 
   public showProfileView(event: any): void {
     this.activeView = this.viewsType.Profile;
-    this.toggleFooterVisibility(true);
+    if (this.type !== 'my-profile') {
+      this.toggleFooterVisibility(true);
+    }
   }
 
   private toggleFooterVisibility(visible: boolean): void {
