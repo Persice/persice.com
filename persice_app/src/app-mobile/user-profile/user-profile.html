@@ -1,4 +1,4 @@
-<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': isPhotosViewEnabled, 'overlay': isDropdownOpen}">
+<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': activeView !== viewsType.Profile, 'overlay': isDropdownOpen}">
   <header class="mob-header mob-header--transparent">
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/5">
@@ -42,7 +42,7 @@
     <div class="profile-hero__name-meta" *ngIf="type === 'crowd' || type === 'connection'">{{person.distance}} {{person.distanceUnit}} from you</div>
     <div class="profile-avatarplace">
       <div class="match-profile__avatar-place">
-        <div class="match-profile__avatar" (click)="openPhotos($event)" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
+        <div class="match-profile__avatar" (click)="showPhotosView($event)" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
         <br>
         <div class="match-percent-large"></div>
       </div>
@@ -126,7 +126,7 @@
     </div>
   </div>
   <div class="profile-connections profile-box">
-    <prs-mobile-connections-list [items]="friendsPreview" [count]="friendsTotalCount"></prs-mobile-connections-list>
+    <prs-mobile-network-preview (click)="showNetworkView($event)" [items]="friendsPreview" [count]="friendsTotalCount"></prs-mobile-network-preview>
   </div>
   <a class="profile-link profile-box">
     <div class="layout layout--small layout--middle">
@@ -142,8 +142,6 @@
     </div>
   </a>
 </div>
-<prs-mobile-photos *ngIf="isPhotosViewEnabled" [personId]="person.id" [profileType]="type" [profileScore]="person.score" (onClosePhotos)="isPhotosViewEnabled = false;">
-</prs-mobile-photos>
 <div data-remodal-id="disconnect-user" class="remodal remodal--mob-report" remodal="{{modalOptions}}">
   <header class="remodal--mob-report__header">
     <h3 class="remodal--mob-report__title remodal--mob-report__title--spaced-t">Disconnect</h3> </header>
@@ -157,4 +155,7 @@
     </div>
   </footer>
 </div>
-<div>
+<prs-mobile-photos *ngIf="activeView === viewsType.Photos" [personId]="person.id" (onClose)="showProfileView($event)">
+</prs-mobile-photos>
+<prs-mobile-network *ngIf="activeView === viewsType.Network" (onClose)="showProfileView($event)">
+</prs-mobile-network>

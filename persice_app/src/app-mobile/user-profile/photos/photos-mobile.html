@@ -1,7 +1,7 @@
 <header class="mob-header">
   <div class="layout layout--flush layout--middle">
     <div class="layout__item 1/5">
-      <a (click)="onClosePhotos.emit($event)" class="mob-header__left-push">
+      <a (click)="onClose.emit($event)" class="mob-header__left-push">
         <svg role="img" class="icon icon--small">
           <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
         </svg>
@@ -12,7 +12,7 @@
     <div class="layout__item 1/5 text-right"> </div>
   </div>
 </header>
-<div class="mob-gallery js-swiper-gallery  swiper-container" swiper="{{swiperOpts}}" *ngIf="isProfileLoaded">
+<div class="mob-gallery js-swiper-gallery  swiper-container" swiper="{{swiperOpts}}" *ngIf="isPhotosLoaded">
   <div class="swiper-wrapper">
     <div class="swiper-slide" *ngFor="let photo of photos">
       <img src="{{photo.cropped_photo}}" alt="profile photo">

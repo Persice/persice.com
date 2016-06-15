@@ -1,20 +1,28 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { RouterLink } from '@angular/router-deprecated';
-import { OpenLeftMenuDirective } from '../shared/directives';
+import {Component, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
+import {RouterLink} from '@angular/router-deprecated';
+import {OpenLeftMenuDirective} from '../shared/directives';
 import {DROPDOWN_DIRECTIVES} from '../../common/directives/dropdown';
 import {RemodalDirective} from '../../app/shared/directives';
 
 import {GenderPipe} from '../../app/shared/pipes';
 import {CheckImageDirective} from "../../app/shared/directives";
 import {Person} from '../shared/model';
-import {AboutMobileComponent} from './about-mobile.component';
+import {AboutMobileComponent} from './about';
 import {PhotosMobileComponent} from './photos';
-import {ConnectionsListMobileComponent} from './connections-list-mobile.component';
-import {ItemsListMobileComponent} from './items-list.component';
+import {NetworkPreviewComponent} from './network-preview';
+import {NetworkComponent} from './network';
+import {ItemsListMobileComponent} from './items-list';
 import {FriendUtil} from '../../app/shared/core';
 
 import {MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
+import {AppStateService} from '../shared/services';
+
+enum ViewsType {
+  Profile,
+  Photos,
+  Network
+}
 
 @Component({
   selector: 'prs-user-profile',
@@ -26,7 +34,8 @@ import {ConnectionsService} from '../../common/connections';
     RemodalDirective,
     AboutMobileComponent,
     ItemsListMobileComponent,
-    ConnectionsListMobileComponent,
+    NetworkPreviewComponent,
+    NetworkComponent,
     OpenLeftMenuDirective,
     RouterLink,
     PhotosMobileComponent
@@ -51,39 +60,41 @@ export class UserProfileComponent implements AfterViewInit {
   }
   @Output() onCloseProfile: EventEmitter<any> = new EventEmitter();
 
+  // Indicator for active view
+  public activeView = ViewsType.Profile;
+  public viewsType = ViewsType;
+
   // Person object which is displayed in the component template
-  person: Person;
+  public person: Person;
 
   // Boolean flag which controls whether full profile information is collapsed and visible
-  profileExtraInfoVisible: boolean = false;
+  public profileExtraInfoVisible: boolean = false;
+
+    // Indicator for which tab is active: interests(0), goals(1), offers(2)
+  public activeTab: number = 0;
 
   // List and counters for mutual friends
-  friendsTotalCount: number = 0;
-  friendsPreview: any[] = [];
-  friendsPersice: any[] = [];
-  friendsFacebook: any[] = [];
-  friendsLinkedin: any[] = [];
-  friendsTwitterFollowers: any[] = [];
-  friendsTwitterFriends: any[] = [];
-
-  // Indicator for which tab is active: interests(0), goals(1), offers(2)
-  activeTab: number = 0;
-
-  // Boolean flag which checks if photos view is opened
-  isPhotosViewEnabled: boolean = false;
+  public friendsTotalCount: number = 0;
+  public friendsPreview: any[] = [];
+  public friendsPersice: any[] = [];
+  public friendsFacebook: any[] = [];
+  public friendsLinkedin: any[] = [];
+  public friendsTwitterFollowers: any[] = [];
+  public friendsTwitterFriends: any[] = [];
 
   // Boolean flag which checks if dropdown menu is opened
-  isDropdownOpen: boolean = false;
+  public isDropdownOpen: boolean = false;
 
   // Remodal option
-  modalOptions = JSON.stringify({
+  public modalOptions = JSON.stringify({
     hashTracking: true,
     closeOnOutsideClick: true
   });
 
   constructor(
-    private _friendService: MutualFriendsService,
-    private _connectionsService: ConnectionsService
+    private friendService: MutualFriendsService,
+    private connectionsService: ConnectionsService,
+    private appStateService: AppStateService
   ) {
 
   }
@@ -111,12 +122,30 @@ export class UserProfileComponent implements AfterViewInit {
     this.activeTab = tab;
   }
 
-  public openPhotos(event) {
-    this.isPhotosViewEnabled = true;
+  public showNetworkView(event): void {
+    this.activeView = this.viewsType.Network;
+    this.toggleFooterVisibility(false);
+  }
+
+  public showPhotosView(event): void {
+    this.activeView = this.viewsType.Photos;
+    this.toggleFooterVisibility(false);
+  }
+
+  public showProfileView(event: any): void {
+    this.activeView = this.viewsType.Profile;
+    this.toggleFooterVisibility(true);
+  }
+
+  private toggleFooterVisibility(visible: boolean): void {
+    this.appStateService.setProfileFooterVisibility({
+      visibility: visible,
+      type: this.type
+    });
   }
 
   private _getMutualFriends(id) {
-    this._friendService.get('', 100, id)
+    this.friendService.get('', 100, id)
       .subscribe(data => {
         if (data.meta.total_count > 0) {
           let items = data.objects[0];
@@ -140,7 +169,7 @@ export class UserProfileComponent implements AfterViewInit {
   }
 
   private _getConnections() {
-    this._connectionsService.get('', 100, false)
+    this.connectionsService.get('', 100, false)
       .subscribe((data) => {
         if (data.meta.total_count > 0) {
           let items = data.objects;

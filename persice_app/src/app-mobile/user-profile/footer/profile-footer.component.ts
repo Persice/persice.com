@@ -3,8 +3,8 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router-deprecated';
 import {Store} from '@ngrx/store';
 
-import {SelectedPersonActions} from '../../common/actions';
-import {AppState, getSelectedPersonState} from '../../common/reducers';
+import {SelectedPersonActions} from '../../../common/actions';
+import {AppState, getSelectedPersonState} from '../../../common/reducers';
 
 @Component({
   selector: 'prs-mobile-profile-footer',

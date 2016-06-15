@@ -1,13 +1,13 @@
 import {Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import {CheckImageDirective} from '../../app/shared/directives';
+import {CheckImageDirective} from '../../../app/shared/directives';
 
 @Component({
-  selector: 'prs-mobile-connections-list',
-  template: require('./connections-list-mobile.html'),
+  selector: 'prs-mobile-network-preview',
+  template: require('./network-preview.html'),
   directives: [CheckImageDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConnectionsListMobileComponent {
+export class NetworkPreviewComponent {
 
   // When [items] from Input property change, set internal state for our component
   @Input() set items(itemsList: any[]) {
