@@ -15,6 +15,7 @@ import {FriendUtil} from '../../app/shared/core';
 
 import {MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
+import {LikesMobileComponent} from "./likes/likes-mobile.component";
 
 @Component({
   selector: 'prs-user-profile',
@@ -29,7 +30,8 @@ import {ConnectionsService} from '../../common/connections';
     ConnectionsListMobileComponent,
     OpenLeftMenuDirective,
     RouterLink,
-    PhotosMobileComponent
+    PhotosMobileComponent,
+    LikesMobileComponent
   ],
   providers: [
     MutualFriendsService,
@@ -71,6 +73,7 @@ export class UserProfileComponent implements AfterViewInit {
 
   // Boolean flag which checks if photos view is opened
   isPhotosViewEnabled: boolean = false;
+  isLikesViewEnabled: boolean = false;
 
   // Boolean flag which checks if dropdown menu is opened
   isDropdownOpen: boolean = false;
@@ -113,6 +116,14 @@ export class UserProfileComponent implements AfterViewInit {
 
   public openPhotos(event) {
     this.isPhotosViewEnabled = true;
+  }
+
+  public openLikes() {
+    this.isLikesViewEnabled = true;
+  }
+
+  public closeLikes() {
+    this.isLikesViewEnabled = false;
   }
 
   private _getMutualFriends(id) {

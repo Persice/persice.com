@@ -1,4 +1,4 @@
-<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': isPhotosViewEnabled, 'overlay': isDropdownOpen}">
+<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': isPhotosViewEnabled || isLikesViewEnabled, 'overlay': isDropdownOpen}">
   <header class="mob-header mob-header--transparent">
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/5">
@@ -135,7 +135,7 @@
         </span>
       </div>
       <div class="layout__item 1/5 text-center">
-        <svg role="img" class="icon ">
+        <svg role="img" class="icon " (click)="openLikes()">
           <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
         </svg>
       </div>
@@ -158,3 +158,7 @@
   </footer>
 </div>
 <div>
+<prs-mobile-likes *ngIf="isLikesViewEnabled"
+  (onCloseLikes)="closeLikes()"
+  [userId]="person.id">
+</prs-mobile-likes>

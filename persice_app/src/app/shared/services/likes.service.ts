@@ -6,6 +6,8 @@ import {HttpClient} from '../core';
 @Injectable()
 export class LikesService {
   static API_URL: string = '/api/v1/likes/';
+  static MUTUAL_LIKES_API_URL: string = '/api/v1/mutual_likes/';
+  static OTHER_LIKES_API_URL: string = '/api/v1/other_likes/';
   next: string = '';
 
   constructor(private http: HttpClient) {
@@ -46,8 +48,6 @@ export class LikesService {
 
     return this.http.get(this.next).map((res: Response) => res.json());
   }
-
-
 }
 
 export var likesServiceInjectables: Array<any> = [
