@@ -1,9 +1,0 @@
-<div class="profile-about">
-  <span class="profile-about__text">{{aboutLess}}<span class="moreellipses" [ngClass]="{'is-visible': aboutMore.length > 0 && !showMore}">...</span>
-    <span class="morecontent" *ngIf="aboutMore.length > 0">
-      <span [ngClass]="{'is-visible': showMore}">{{aboutMore}}</span>&nbsp;&nbsp;
-      <a (click)="toggleMore(true)" class="morelink" *ngIf="!showMore">View more</a>
-      <a (click)="toggleMore(false)" class="morelink less" *ngIf="showMore">View less</a>
-    </span>
-  </span>
-</div>

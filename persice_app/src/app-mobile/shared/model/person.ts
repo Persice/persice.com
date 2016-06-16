@@ -25,6 +25,8 @@ export class Person {
   private _likesMutualCount: number;
   private _likes: any[];
   private _likesCount: number;
+  private _connectionsCount: number;
+  private _connectionsMutualCount: number;
   private _image: string;
   private _score: number;
   private _facebook: SocialNetworkFacebook;
@@ -54,6 +56,9 @@ export class Person {
     this._livesIn = dto.lives_in ? dto.lives_in : '';
     this._job = dto.position && dto.position.job ? dto.position.job : '';
     this._company = dto.position && dto.position.company ? dto.position.company : '';
+
+    this._connectionsCount = 10;
+    this._connectionsMutualCount = 5;
 
     if (dto.top_interests) {
       let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
@@ -198,6 +203,14 @@ export class Person {
 
   get likesMutualCount(): number {
     return this._likesMutualCount;
+  }
+
+  get connectionsCount(): number {
+    return this._connectionsCount;
+  }
+
+  get connectionsMutualCount(): number {
+    return this._connectionsMutualCount;
   }
 
   get politicalViews(): any[] {

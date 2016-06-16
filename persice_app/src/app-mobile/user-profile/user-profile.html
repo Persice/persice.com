@@ -1,4 +1,4 @@
-<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': isPhotosViewEnabled || isLikesViewEnabled, 'overlay': isDropdownOpen}">
+<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': activeView !== viewsType.Profile, 'overlay': isDropdownOpen}">
   <header class="mob-header mob-header--transparent">
     <div class="layout layout--flush layout--middle">
       <div class="layout__item 1/5">
@@ -22,10 +22,10 @@
           </svg>
         </a>
         <ul prs-dropdown-menu class="mob-header__drop hidden">
-          <li><a>Invite to event</a></li>
+          <!-- <li><a>Invite to event</a></li> -->
           <li><a href="" data-remodal-target="disconnect-user">Disconnect</a></li>
-          <li><a>Report user</a></li>
-          <li><a>Block user</a></li>
+          <!-- <li><a>Report user</a></li> -->
+          <!-- <li><a>Block user</a></li> -->
         </ul>
       </div>
       <div class="layout__item 1/5 text-right" *ngIf="type === 'my-profile'">
@@ -42,7 +42,7 @@
     <div class="profile-hero__name-meta" *ngIf="type === 'crowd' || type === 'connection'">{{person.distance}} {{person.distanceUnit}} from you</div>
     <div class="profile-avatarplace">
       <div class="match-profile__avatar-place">
-        <div class="match-profile__avatar" (click)="openPhotos($event)" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
+        <div class="match-profile__avatar" (click)="showPhotosView($event)" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
         <br>
         <div class="match-percent-large"></div>
       </div>
@@ -126,24 +126,22 @@
     </div>
   </div>
   <div class="profile-connections profile-box">
-    <prs-mobile-connections-list [items]="friendsPreview" [count]="friendsTotalCount"></prs-mobile-connections-list>
+    <prs-mobile-network-preview (click)="showNetworkView($event)"></prs-mobile-network-preview>
   </div>
-  <a class="profile-link profile-box">
+  <a class="profile-link profile-box" (click)="showLikesView($event)">
     <div class="layout layout--small layout--middle">
       <div class="layout__item 4/5"> <span class="profile-titleline">Likes
         <span class="profile-titleline__value">({{person.likesCount}})</span> <span class="profile-titleline__subvalue" *ngIf="type === 'crowd' || type === 'connection'">&#8211; {{person.likesMutualCount}} mutual</span>
         </span>
       </div>
       <div class="layout__item 1/5 text-center">
-        <svg role="img" class="icon " (click)="openLikes()">
+        <svg role="img" class="icon " *ngIf="person.likesCount + person.likesMutualCount > 0">
           <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
         </svg>
       </div>
     </div>
   </a>
 </div>
-<prs-mobile-photos *ngIf="isPhotosViewEnabled" [personId]="person.id" [profileType]="type" [profileScore]="person.score" (onClosePhotos)="isPhotosViewEnabled = false;">
-</prs-mobile-photos>
 <div data-remodal-id="disconnect-user" class="remodal remodal--mob-report" remodal="{{modalOptions}}">
   <header class="remodal--mob-report__header">
     <h3 class="remodal--mob-report__title remodal--mob-report__title--spaced-t">Disconnect</h3> </header>
@@ -157,8 +155,9 @@
     </div>
   </footer>
 </div>
-<div>
-<prs-mobile-likes *ngIf="isLikesViewEnabled"
-  (onCloseLikes)="closeLikes()"
-  [userId]="person.id">
+<prs-mobile-photos *ngIf="activeView === viewsType.Photos" [personId]="person.id" (onClose)="showProfileView($event)">
+</prs-mobile-photos>
+<prs-mobile-network *ngIf="activeView === viewsType.Network" [personId]="person.id" (onClose)="showProfileView($event)">
+</prs-mobile-network>
+<prs-mobile-likes *ngIf="activeView === viewsType.Likes" (onClose)="showProfileView($event)" [userId]="person.id">
 </prs-mobile-likes>
