@@ -16,7 +16,7 @@ dj-database-url==0.3.0
 dj-static==0.0.5
 django-allauth==0.18.0
 django-debug-toolbar==1.2.2
--e git+https://github.com/andriisoldatenko/Django-facebook.git@2b421127c873d49b2d627fcf4af122eba306012c#egg=django_facebook-origin
+-e git+https://github.com/andriisoldatenko/Django-facebook.git@fff321c072553eeaeede018b46fe5982e4cb1363#egg=django_facebook-origin
 django-guardian==1.2.4
 django-import-export==0.2.6
 django-messages==0.5.1
