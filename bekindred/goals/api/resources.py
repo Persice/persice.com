@@ -235,13 +235,12 @@ class FacebookMutualLikeResource(ModelResource):
         authorization = Authorization()
 
     def get_object_list(self, request):
-        user = request.user.id
-        target_user = request.GET.get('user_id')
+        target_user = request.GET.get('user_id', request.user.id)
         target_user_likes = FacebookLike.objects.filter(
             user_id=target_user
         ).values_list('facebook_id', flat=True)
         return super(FacebookMutualLikeResource, self).get_object_list(request).\
-            filter(user_id=user, facebook_id__in=target_user_likes).\
+            filter(user_id=target_user, facebook_id__in=target_user_likes).\
             order_by('-fan_count', '-created_time')
 
 
@@ -257,10 +256,10 @@ class FacebookOtherLikeResource(ModelResource):
 
     def get_object_list(self, request):
         user = request.user.id
-        target_user = request.GET.get('user_id')
+        target_user = request.GET.get('user_id', request.user.id)
         target_user_likes = FacebookLike.objects.filter(
-            user_id=target_user
+            user_id=user
         ).values_list('facebook_id', flat=True)
         return super(FacebookOtherLikeResource, self).get_object_list(request). \
-            filter(Q(user_id=user) & ~Q(facebook_id__in=target_user_likes)). \
+            filter(Q(user_id=target_user) & ~Q(facebook_id__in=target_user_likes)). \
             order_by('-fan_count', '-created_time')

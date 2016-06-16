@@ -1,4 +1,4 @@
-from django_facebook.models import FacebookCustomUser
+from django_facebook.models import FacebookCustomUser, FacebookLike
 from tastypie.test import ResourceTestCase
 from goals.models import Subject, Goal, Offer
 from goals.api.resources import SubjectResource
@@ -286,3 +286,43 @@ class TestOfferResource(ResourceTestCase):
         self.assertEqual(Offer.objects.count(), 1)
         self.assertHttpAccepted(self.api_client.delete(self.detail_url, format='json'))
         self.assertEqual(Goal.objects.count(), 0)
+
+
+class TestFacebookOtherLikeResource(ResourceTestCase):
+    def setUp(self):
+        super(TestFacebookOtherLikeResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(username='user_a',
+                                                           password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(username='user_b',
+                                                            password='test')
+        FacebookLike.objects.create(user_id=self.user.id, facebook_id=1,
+                                    name='t1')
+        FacebookLike.objects.create(user_id=self.user.id, facebook_id=2,
+                                    name='t2')
+        FacebookLike.objects.create(user_id=self.user1.id, facebook_id=1,
+                                    name='t1', fan_count=1)
+        FacebookLike.objects.create(user_id=self.user1.id, facebook_id=3,
+                                    name='t3', fan_count=2)
+        FacebookLike.objects.create(user_id=self.user1.id, facebook_id=4,
+                                    name='t4', fan_count=3)
+
+    def login(self):
+        return self.api_client.client.post('/login/', {'username': 'user_a',
+                                                       'password': 'test'})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(
+            self.api_client.get('/api/v1/other_likes/', format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)
+
+    def test_get_list_json(self):
+        self.response = self.login()
+        resp = self.api_client.get('/api/v1/other_likes/', format='json',
+                                   data={'user_id': self.user1.id})
+        self.assertValidJSONResponse(resp)
+        data = self.deserialize(resp)['objects']
+        self.assertEqual(data[0]['facebook_id'], u'4')
+        self.assertEqual(data[1]['facebook_id'], u'3')
