@@ -15,13 +15,18 @@
   </header>
   <div class="content">
     <div class="mob-user-card-title" *ngIf="firstListCount > 0"> {{firstListTitle}} ({{firstListCount}}) </div>
-    <a href="" class="mob-like-dislike" *ngFor="let item of firstList">
-      <div class="flag flag--small">
-        <div class="flag__img"><img src="{{item.picture}}" alt="" class="avatar avatar--medium"></div>
-        <div class="flag__body">
-          <h3 class="mob-like-dislike__title">{{item.name}}</h3></div>
-      </div>
-    </a>
+    <!--<div-->
+      <!--prs-infinite-scroll (scrolled)="loadMoreFirstList()"-->
+      <!--[scrollEnabled]="true"-->
+      <!--[bottomOffset]="60">-->
+      <a href="" class="mob-like-dislike" *ngFor="let item of firstList">
+        <div class="flag flag--small">
+          <div class="flag__img"><img src="{{item.picture}}" alt="" class="avatar avatar--medium"></div>
+          <div class="flag__body">
+            <h3 class="mob-like-dislike__title">{{item.name}}</h3></div>
+        </div>
+      </a>
+    <!--</div>-->
     <div class="mob-user-card-title" *ngIf="secondListCount > 0"> {{secondListTitle}} ({{secondListCount}}) </div>
     <a href="" class="mob-like-dislike" *ngFor="let item of secondList">
       <div class="flag flag--small">
