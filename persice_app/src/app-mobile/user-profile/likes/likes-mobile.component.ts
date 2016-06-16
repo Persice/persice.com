@@ -1,11 +1,12 @@
 import {Component, Input, Output, EventEmitter, OnInit, OnDestroy} from '@angular/core'
 import {LikesMobileService} from "../../shared/services/likes-mobile.service";
 import {TwoListMobileComponent} from "../../shared/components/two-list/two-list-mobile.component";
+import {InfiniteScrollDirective} from "../../../common/directives/infinite-scroll.directive";
 
 @Component({
   selector: 'prs-mobile-likes',
   template: require('../../shared/components/two-list/two-list-mobile.html'),
-  providers: [LikesMobileService],
+  providers: [LikesMobileService, InfiniteScrollDirective],
 })
 export class LikesMobileComponent extends TwoListMobileComponent implements OnInit, OnDestroy {
 
