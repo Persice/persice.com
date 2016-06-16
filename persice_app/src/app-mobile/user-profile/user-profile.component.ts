@@ -1,11 +1,13 @@
 import {Component, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
+import {Subscription} from 'rxjs';
+
 import {OpenLeftMenuDirective} from '../shared/directives';
 import {DROPDOWN_DIRECTIVES} from '../../common/directives/dropdown';
 import {RemodalDirective} from '../../app/shared/directives';
 
 import {GenderPipe} from '../../app/shared/pipes';
-import {CheckImageDirective} from "../../app/shared/directives";
+import {CheckImageDirective} from '../../app/shared/directives';
 import {Person} from '../shared/model';
 import {AboutMobileComponent} from './about';
 import {PhotosMobileComponent} from './photos';
@@ -14,7 +16,8 @@ import {NetworkComponent} from './network';
 import {ItemsListMobileComponent} from './items-list';
 
 import {AppStateService} from '../shared/services';
-import {LikesMobileComponent} from "./likes/likes-mobile.component";
+import {LikesMobileComponent} from './likes/likes-mobile.component';
+import {FriendService} from '../../app/shared/services';
 
 enum ViewsType {
   Profile,
@@ -39,7 +42,8 @@ enum ViewsType {
     RouterLink,
     PhotosMobileComponent,
     LikesMobileComponent
-  ]
+  ],
+  providers: [FriendService]
 })
 export class UserProfileComponent implements AfterViewInit {
   // Profile type, crowd or connection
@@ -55,6 +59,7 @@ export class UserProfileComponent implements AfterViewInit {
     }
   }
   @Output() onCloseProfile: EventEmitter<any> = new EventEmitter();
+  @Output() onDisconnectProfile: EventEmitter<any> = new EventEmitter();
 
   // Indicator for active view
   public activeView = ViewsType.Profile;
@@ -78,7 +83,7 @@ export class UserProfileComponent implements AfterViewInit {
     closeOnOutsideClick: true
   });
 
-  constructor(private appStateService: AppStateService) { }
+  constructor(private appStateService: AppStateService, private friendService: FriendService) { }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -86,9 +91,18 @@ export class UserProfileComponent implements AfterViewInit {
     });
   }
 
-  // TODO(sasa): Add API call to disconnect a connection
+  /**
+   * Disconnects a connection
+   * @param {MouseEvent} event
+   */
   public disconnect(event: MouseEvent) {
-    console.log('disconnecting user');
+     let subs: Subscription = this.friendService.disconnect(this.person.id)
+        .subscribe((data: any) => {
+          this.onDisconnectProfile.emit(this.person.id);
+          subs.unsubscribe();
+        }, (err) => {
+          subs.unsubscribe();
+        });
   }
 
   public toggleProfileExtraInfoVisibility(event) {
