@@ -2,11 +2,13 @@ import {Component, Input, Output, EventEmitter, OnInit, OnDestroy} from '@angula
 import {LikesMobileService} from "../../shared/services/likes-mobile.service";
 import {TwoListMobileComponent} from "../../shared/components/two-list/two-list-mobile.component";
 import {InfiniteScrollDirective} from "../../../common/directives/infinite-scroll.directive";
+import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
 
 @Component({
   selector: 'prs-mobile-likes',
   template: require('../../shared/components/two-list/two-list-mobile.html'),
-  providers: [LikesMobileService, InfiniteScrollDirective],
+  providers: [LikesMobileService],
+  directives: [InfiniteScrollDirective, LoadingComponent]
 })
 export class LikesMobileComponent extends TwoListMobileComponent implements OnInit, OnDestroy {
 
@@ -26,8 +28,8 @@ export class LikesMobileComponent extends TwoListMobileComponent implements OnIn
   public ngOnInit(): any {
     this.listParameter = this.userId;
     this.pageTitle = 'Likes';
-    this.firstListTitle = 'Mutual';
-    this.secondListTitle = 'Other';
+    this.firstList.title = 'Mutual';
+    this.secondList.title = 'Other';
 
     super.ngOnInit();
   }
