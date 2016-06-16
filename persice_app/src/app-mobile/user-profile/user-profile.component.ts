@@ -13,7 +13,6 @@ import {NetworkPreviewComponent} from './network-preview';
 import {NetworkComponent} from './network';
 import {ItemsListMobileComponent} from './items-list';
 
-import {ConnectionsService} from '../../common/connections';
 import {AppStateService} from '../shared/services';
 import {LikesMobileComponent} from "./likes/likes-mobile.component";
 
