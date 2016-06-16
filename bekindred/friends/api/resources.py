@@ -324,11 +324,14 @@ class ConnectionsResource(LoggingMixin, Resource):
     photos = fields.ListField(attribute='photos')
     goals = fields.ListField(attribute='goals')
     offers = fields.ListField(attribute='offers')
-    likes = fields.ListField(attribute='likes')
     interests = fields.ListField(attribute='interests')
     top_interests = fields.ListField(attribute='top_interests')
 
     score = fields.IntegerField(attribute='score', null=True)
+    mutual_likes_count = fields.IntegerField(attribute='mutual_likes_count',
+                                             null=True)
+    total_likes_count = fields.IntegerField(attribute='total_likes_count',
+                                            null=True)
     es_score = fields.FloatField(attribute='es_score', null=True)
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
 

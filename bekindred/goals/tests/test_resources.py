@@ -364,4 +364,4 @@ class TestFacebookMutualLikeResource(ResourceTestCase):
                                    data={'user_id': self.user1.id})
         self.assertValidJSONResponse(resp)
         data = self.deserialize(resp)['objects']
-        self.assertEqual(data, [])
+        self.assertEqual(data[0]['facebook_id'], u'1')
