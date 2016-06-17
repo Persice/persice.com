@@ -18,9 +18,9 @@ export class UserCardMobileComponent {
   @Input() showSendMessage: boolean = false;
   @Input() isNewConnectionDisabled: boolean = false;
 
-  @Input() set person (dto: any) {
+  @Input() set person(dto: any) {
+    this.isNewConnection = dto.seen !== undefined && dto.seen === false ? true : false;
     this._person = new Person(dto);
-    this.isNewConnection = dto.updated_at === null;
   };
   @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
   @Output() onOpenNewConversation: EventEmitter<any> = new EventEmitter();
