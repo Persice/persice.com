@@ -52,11 +52,11 @@ export class ScrollableList {
     this._nextUrl = value;
   }
 
-  get hideTitle():boolean {
+  get hideTitle(): boolean {
     return this._hideTitle;
   }
 
-  set hideTitle(value:boolean) {
+  set hideTitle(value: boolean) {
     this._hideTitle = value;
   }
 }
