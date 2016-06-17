@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar ./wiremock.jar --port 9998 --verbose
+java -jar ./wiremock.jar --port 9999 --verbose
