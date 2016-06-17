@@ -51,7 +51,6 @@ export class DropdownDirective implements OnDestroy {
     this.globalListenFunc = this.renderer.listenGlobal('document', 'click', (event) => {
 
       const targetElement: HTMLElement = event.target;
-
       // Check if clicking inside dropdown.
       // When clicked outside of dropdown, close it.
       if (targetElement && targetElement !== this.elementRef.nativeElement) {
@@ -66,7 +65,9 @@ export class DropdownDirective implements OnDestroy {
   }
 
   private removeGlobalClickListener() {
-    this.globalListenFunc();
+    if (!!this.globalListenFunc) {
+      this.globalListenFunc();
+    }
   }
 
 }
