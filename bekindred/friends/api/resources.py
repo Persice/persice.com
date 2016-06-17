@@ -156,6 +156,11 @@ class NeoFriendsResource(Resource):
         if action and action.lower() == 'pass':
             client.pass_friend(node1, node2)
             bundle.obj.action = 'pass'
+        elif action.lower() == 'disconnect':
+            client.remove_from_friends(node1['user_id'], node2['user_id'])
+            client.pass_friend(node1, node2)
+            client.pass_friend(node2, node1)
+            bundle.obj.action = 'disconnect'
         else:
             client.add_to_friends(node1, node2)
         bundle.obj.id = node2._id
