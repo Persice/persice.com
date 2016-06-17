@@ -8,7 +8,7 @@
   "headers" : {
         "Access-Control-Allow-Origin" : "*"
       },
-        "bodyFileName": "connections/connections-mutual.response.json",
+        "bodyFileName": "connections/connections-mutual-single.response.json",
         "fixedDelayMilliseconds": 1000
     }
 }
