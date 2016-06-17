@@ -171,7 +171,7 @@ export class ProfileCrowdComponent implements OnChanges, OnInit, OnDestroy {
     setTimeout(() => {
       this.profileLikesCount = 0;
       this.profileLikes = [];
-      let likes = this.user.likes;
+      let likes = this.user.likes ? this.user.likes : [];
       this.profileLikes = likes;
       this.profileLikesCount = this.profileLikes.length;
       this.loadingLikes = false;
