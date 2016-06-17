@@ -12,6 +12,10 @@ export class NetworkPreviewComponent {
   // When [items] from Input property change, set internal state for our component
   @Input() set items(itemsList: any[]) {
     this.connections = itemsList;
+
+    // Fill array for displaying empty places
+    const length: number = 4 - this.connections.length;
+    this.emptyPlacesArray = Array(length).fill().map((x, i) => i);
   }
 
   @Input() otherConnectionsCount: number = 0;
@@ -20,5 +24,5 @@ export class NetworkPreviewComponent {
 
   // List and counter for all connections
   public connections: any[];
-
+  public emptyPlacesArray: any[];
 }
