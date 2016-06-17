@@ -164,7 +164,7 @@ class MatchUser(object):
         self.about = self.user.about_me
         self.photos = []
         self.distance = calculate_distance_es(current_user_id, user_object)
-        self.updated_at = self.get_updated_at(current_user_id, user_object)
+        self.seen = self.get_seen(current_user_id, user_object)
         # Scores
         self.score = self.match_score(current_user_id, self.user_id)
         self.es_score = user_object.get('_score', 0)
@@ -280,10 +280,10 @@ class MatchUser(object):
                     keywords.append(word.lower())
         return keywords
 
-    def get_updated_at(self, current_user_id, user_object):
+    def get_seen(self, current_user_id, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
-        f_row = Friend.objects.friendship_row(current_user_id, user_id)
-        return f_row.updated_at if f_row else None
+        result = NeoFourJ().get_seen(current_user_id, user_id)
+        return result.one if result.one else False
 
     def get_friends_score(self, current_user_id, user_object):
         user_id = int(user_object['_id'].split('.')[-1])

@@ -194,6 +194,13 @@ class NeoFourJ(object):
             return n.name, n.user_id
         """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
 
+    def get_seen(self, user_id1, user_id2):
+        return self.graph.cypher.execute("""
+            MATCH (Person { user_id:{USER_ID1} })-[r:FRIENDS]->
+            (n:Person { user_id:{USER_ID2} })
+            return r.seen
+        """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+
     def get_or_create_node(self, user_id):
         """
         This function return new person or get existing

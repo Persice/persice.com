@@ -342,7 +342,7 @@ class ConnectionsResource(LoggingMixin, Resource):
 
     friend_id = fields.CharField(attribute='friend_id', null=True)
 
-    updated_at = fields.DateTimeField(attribute='updated_at', null=True)
+    seen = fields.BooleanField(attribute='seen', null=True)
     last_login = fields.DateTimeField(attribute='last_login', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
     position = fields.DictField(attribute="position", null=True, blank=True)
