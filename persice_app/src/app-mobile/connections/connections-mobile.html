@@ -7,7 +7,10 @@
   <prs-loading [status]="loading"></prs-loading>
 </div>
 <prs-mobile-filter [ngClass]="{'is-hidden': !isFilterVisible}" [type]="LIST_TYPE"></prs-mobile-filter>
-<prs-user-profile *ngIf="itemViewActive" [user]="selectedItem" [type]="'connection'"
+<prs-user-profile *ngIf="itemViewActive"
+  [isNewConnectionDisabled]="0"
+  [user]="selectedItem"
+  [type]="'connection'"
   (onCloseProfile)="closeItemView($event)"
   (onDisconnectProfile)="afterProfileDisconnected($event)">
 </prs-user-profile>
