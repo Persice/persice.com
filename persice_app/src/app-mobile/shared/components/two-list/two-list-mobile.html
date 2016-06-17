@@ -14,7 +14,7 @@
     </div>
   </header>
   <div class="content">
-    <div class="mob-user-card-title" *ngIf="firstList.itemTotalCount > 0"> {{firstList.title}} ({{firstList.itemTotalCount}}) </div>
+    <div class="mob-user-card-title" *ngIf="firstList.itemTotalCount > 0 && !firstList.hideTitle"> {{firstList.title}} ({{firstList.itemTotalCount}}) </div>
     <div
       prs-infinite-scroll (scrolled)="loadMoreFirstList()"
       [scrollEnabled]="!firstList.loading"
@@ -27,7 +27,7 @@
         </div>
       </a>
     </div>
-    <div class="mob-user-card-title" *ngIf="secondList.itemTotalCount > 0"> {{secondList.title}} ({{secondList.itemTotalCount}}) </div>
+    <div class="mob-user-card-title" *ngIf="secondList.itemTotalCount > 0 && !secondList.hideTitle"> {{secondList.title}} ({{secondList.itemTotalCount}}) </div>
     <div
       prs-infinite-scroll (scrolled)="loadMoreSecondList()"
       [scrollEnabled]="!secondList.loading"
