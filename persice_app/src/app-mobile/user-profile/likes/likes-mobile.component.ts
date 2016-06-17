@@ -13,6 +13,7 @@ import {LoadingComponent} from "../../../app/shared/components/loading/loading.c
 export class LikesMobileComponent extends TwoListMobileComponent implements OnInit, OnDestroy {
 
   @Input() userId: string;
+  @Input() hideMutualLikesTitle: boolean;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
 
   constructor(
@@ -30,6 +31,7 @@ export class LikesMobileComponent extends TwoListMobileComponent implements OnIn
     this.pageTitle = 'Likes';
     this.firstList.title = 'Mutual';
     this.secondList.title = 'Other';
+    this.firstList.hideTitle = this.hideMutualLikesTitle;
 
     super.ngOnInit();
   }

@@ -169,5 +169,9 @@
   [name]="person.firstName"
   (onClose)="showProfileView($event)">
 </prs-mobile-network>
-<prs-mobile-likes *ngIf="activeView === viewsType.Likes" (onClose)="showProfileView($event)" [userId]="person.id">
+<prs-mobile-likes
+  *ngIf="activeView === viewsType.Likes"
+  (onClose)="showProfileView($event)"
+  [userId]="person.id"
+  [hideMutualLikesTitle]="type === 'my-profile'">
 </prs-mobile-likes>

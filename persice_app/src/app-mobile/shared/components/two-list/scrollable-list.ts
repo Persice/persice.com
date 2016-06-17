@@ -1,6 +1,7 @@
 export class ScrollableList {
 
   private _title: string;
+  private _hideTitle: boolean = false;
   private _itemTotalCount: string;
   private _items: any[];
   private _loading: boolean;
@@ -49,5 +50,13 @@ export class ScrollableList {
 
   set nextUrl(value: string) {
     this._nextUrl = value;
+  }
+
+  get hideTitle():boolean {
+    return this._hideTitle;
+  }
+
+  set hideTitle(value:boolean) {
+    this._hideTitle = value;
   }
 }
