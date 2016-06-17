@@ -24,7 +24,7 @@ export class ProfileFooterMobileComponent {
   private timeoutAccept;
 
   constructor(
-    private _router: Router,
+    private router: Router,
     private store: Store<AppState>,
     private actions: SelectedPersonActions
   ) {
@@ -74,6 +74,6 @@ export class ProfileFooterMobileComponent {
 
   openNewConversation(event: MouseEvent): void {
     this.store.dispatch(this.actions.useAsNewConversationRecipient());
-    this._router.navigate(['Messages', 'NewConversation']);
+    this.router.navigate(['Messages', 'NewConversation']);
   }
 }

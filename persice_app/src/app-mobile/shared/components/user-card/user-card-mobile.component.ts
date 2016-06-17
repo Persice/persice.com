@@ -1,8 +1,8 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {CheckImageDirective} from "../../../../app/shared/directives";
-import {Person} from "../../model/person";
-import {InterestsCardMobileComponent} from "../interests-card/interests-card-mobile.component";
-import {GenderPipe} from "../../../../app/shared/pipes/gender.pipe.ts";
+import {CheckImageDirective} from '../../../../app/shared/directives';
+import {Person} from '../../model/person';
+import {InterestsCardMobileComponent} from '../interests-card/interests-card-mobile.component';
+import {GenderPipe} from '../../../../app/shared/pipes/gender.pipe.ts';
 
 @Component({
   selector: 'prs-mobile-user-card',
@@ -14,11 +14,16 @@ import {GenderPipe} from "../../../../app/shared/pipes/gender.pipe.ts";
 export class UserCardMobileComponent {
   isNewConnection: boolean = false;
 
+
+  @Input() showSendMessage: boolean = false;
+  @Input() isNewConnectionDisabled: boolean = false;
+
   @Input() set person (dto: any) {
     this._person = new Person(dto);
     this.isNewConnection = dto.updated_at === null;
   };
   @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
+  @Output() onOpenNewConversation: EventEmitter<any> = new EventEmitter();
 
   // Person object which is displayed in the component template
   _person: Person;

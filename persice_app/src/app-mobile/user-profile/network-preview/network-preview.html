@@ -1,32 +1,54 @@
-<span class="profile-titleline">Connections
-      <span class="profile-titleline__value">({{connectionsCount}})</span> <span class="profile-titleline__subvalue" *ngIf="connectionsMutualCount > 0">- {{connectionsMutualCount}} mutual</span>
+<span class="profile-titleline"><span *ngIf="type !== 'my-profile'">Mutual</span> Connections
+<span class="profile-titleline__value" *ngIf="type === 'my-profile'">({{otherConnectionsCount}})</span>
+<span class="profile-titleline__value" *ngIf="type !== 'my-profile'">({{mutualConnectionsCount}})</span>
 </span>
 <div class="has-user-links">
   <div class="layout layout--small">
     <div class="layout__item 1/5" *ngFor="let item of connections">
-      <a class="user-link" *ngIf="item.type === 'persice'">
-        <div class="avatar avatar--small" checkimage="{{item.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
+      <div class="user-link" *ngIf="item.type === 'persice'">
+        <div class="avatar-place">
+          <div class="avatar avatar--small cover-background" checkimage="{{item.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
+          <svg role="img" class="icon avatar-icon network-preview">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-persice"></use>
+          </svg>
+        </div>
         <span class="user-link__username">{{item.first_name}}</span>
-      </a>
-      <a class="user-link" *ngIf="item.type === 'facebook'">
-        <div class="avatar avatar--small" [ngStyle]="{'background-image': 'url(' + '//graph.facebook.com/' + item.facebook_id + '/picture?type=square' + ')'}"></div>
+      </div>
+      <div class="user-link" *ngIf="item.type === 'facebook'">
+        <div class="avatar-place">
+          <div class="avatar avatar--small cover-background" [ngStyle]="{'background-image': 'url(' + '//graph.facebook.com/' + item.facebook_id + '/picture?type=square' + ')'}"></div>
+          <svg role="img" class="icon avatar-icon network-preview">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-facebook"></use>
+          </svg>
+        </div>
         <span class="user-link__username">{{item.first_name}}</span>
-      </a>
-      <a class="user-link" *ngIf="item.type === 'linkedin'">
-        <div class="avatar avatar--small" [ngStyle]="{'background-image': 'url(' + item.pictureUrls.values[0] + ')'}"></div>
+      </div>
+      <div class="user-link" *ngIf="item.type === 'linkedin'">
+        <div class="avatar-place">
+          <div class="avatar avatar--small cover-background" [ngStyle]="{'background-image': 'url(' + item.pictureUrls.values[0] + ')'}"></div>
+          <svg role="img" class="icon avatar-icon network-preview">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-linkedin"></use>
+          </svg>
+        </div>
         <span class="user-link__username">{{item.firstName}}</span>
-      </a>
-      <a class="user-link" *ngIf="item.type === 'twitter'">
-        <div class="avatar avatar--small" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
+      </div>
+      <div class="user-link" *ngIf="item.type === 'twitter'">
+        <div class="avatar-place">
+          <div class="avatar avatar--small cover-background" [ngStyle]="{'background-image': 'url(' + item.profile_image_url + ')'}"></div>
+          <svg role="img" class="icon avatar-icon network-preview">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-twitter"></use>
+          </svg>
+        </div>
         <span class="user-link__username">{{item.name}}</span>
-      </a>
+      </div>
     </div>
-    <div class="layout__item 1/5 text-center">
-      <a *ngIf="connectionsCount > 0">
-        <svg role="img" class="icon ">
+    <div class="layout__item 1/5 text-center" id="show-network">
+      <a *ngIf="otherConnectionsCount + mutualConnectionsCount > 0">
+        <svg role="img" class="icon">
           <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
         </svg>
       </a>
     </div>
   </div>
+  <div style="height: 15px;" *ngIf="otherConnectionsCount + mutualConnectionsCount === 0"></div>
 </div>

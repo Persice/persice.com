@@ -18,6 +18,9 @@ import {ItemsListMobileComponent} from './items-list';
 import {AppStateService} from '../shared/services';
 import {LikesMobileComponent} from './likes/likes-mobile.component';
 import {FriendService} from '../../app/shared/services';
+import {MutualFriendsService} from '../../app/shared/services';
+import {ConnectionsService} from '../../common/connections';
+import {FriendUtil} from '../../app/shared/core';
 
 enum ViewsType {
   Profile,
@@ -43,7 +46,7 @@ enum ViewsType {
     PhotosMobileComponent,
     LikesMobileComponent
   ],
-  providers: [FriendService]
+  providers: [FriendService, MutualFriendsService, ConnectionsService]
 })
 export class UserProfileComponent implements AfterViewInit {
   // Profile type, crowd or connection
@@ -83,7 +86,26 @@ export class UserProfileComponent implements AfterViewInit {
     closeOnOutsideClick: true
   });
 
-  constructor(private appStateService: AppStateService, private friendService: FriendService) { }
+  // Counters for all connections and mutual connections
+  public otherConnectionsCount: number = 0;
+  public mutualConnectionsCount: number = 0;
+
+  // List for preview
+  public connectionsPreview: any[] = [];
+
+  // Lists for mutual friends
+  public connectionsMutualPersice: any[] = [];
+  public connectionsMutualFacebook: any[] = [];
+  public connectionsMutualLinkedin: any[] = [];
+  public connectionsMutualTwitterFollowers: any[] = [];
+  public connectionsMutualTwitterFriends: any[] = [];
+
+  constructor(
+    private appStateService: AppStateService,
+    private friendService: FriendService,
+    private mutualFriendService: MutualFriendsService,
+    private connectionsService: ConnectionsService
+  ) { }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -96,13 +118,13 @@ export class UserProfileComponent implements AfterViewInit {
    * @param {MouseEvent} event
    */
   public disconnect(event: MouseEvent) {
-     let subs: Subscription = this.friendService.disconnect(this.person.id)
-        .subscribe((data: any) => {
-          this.onDisconnectProfile.emit(this.person.id);
-          subs.unsubscribe();
-        }, (err) => {
-          subs.unsubscribe();
-        });
+    let subs: Subscription = this.friendService.disconnect(this.person.id)
+      .subscribe((data: any) => {
+        this.onDisconnectProfile.emit(this.person.id);
+        subs.unsubscribe();
+      }, (err) => {
+        subs.unsubscribe();
+      });
   }
 
   public toggleProfileExtraInfoVisibility(event) {
@@ -118,7 +140,7 @@ export class UserProfileComponent implements AfterViewInit {
   }
 
   public showNetworkView(event): void {
-    if (this.person.connectionsCount < 1) {
+    if (this.otherConnectionsCount + this.mutualConnectionsCount < 1) {
       // Do nothing.
       return;
     }
@@ -156,8 +178,53 @@ export class UserProfileComponent implements AfterViewInit {
     });
   }
 
+  private _getMutualConnections(id) {
+    let subs: Subscription = this.mutualFriendService.get('', 1, id)
+      .subscribe(data => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects[0];
+          this.mutualConnectionsCount += parseInt(items.mutual_bk_friends_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_fb_friends_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_linkedin_connections_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_twitter_followers_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_twitter_friends_count, 10);
+
+          this.connectionsMutualPersice = items.mutual_bk_friends;
+          this.connectionsMutualFacebook = items.mutual_fb_friends;
+          this.connectionsMutualLinkedin = items.mutual_linkedin_connections;
+          this.connectionsMutualTwitterFriends = items.mutual_twitter_friends;
+          this.connectionsMutualTwitterFollowers = items.mutual_twitter_followers;
+
+          // Pick four connections for preview
+          this.connectionsPreview = FriendUtil.pickFourFriendsforPreview(
+            this.connectionsMutualPersice, this.connectionsMutualFacebook, this.connectionsMutualLinkedin,
+            this.connectionsMutualTwitterFriends, this.connectionsMutualTwitterFollowers);
+          subs.unsubscribe();
+        }
+      });
+  }
+
+  private _getMyConnections() {
+    let subs: Subscription = this.connectionsService.get('', 4, false)
+      .subscribe((data) => {
+        if (data.meta.total_count > 0) {
+          let items = data.objects;
+          this.otherConnectionsCount = data.meta.total_count;
+          // Pick four connections for preview
+          this.connectionsPreview = FriendUtil.pickFourFriendsforPreview(items, [], [], [], []);
+          subs.unsubscribe();
+        }
+      });
+  }
+
   private _setState(value: any) {
     this.person = new Person(value);
+    if (this.type === 'crowd' || this.type === 'connection') {
+      this._getMutualConnections(this.person.id);
+    } else if (this.type === 'my-profile') {
+      this._getMyConnections();
+    }
+
   }
 
 }

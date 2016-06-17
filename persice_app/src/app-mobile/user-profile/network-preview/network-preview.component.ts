@@ -9,18 +9,16 @@ import {CheckImageDirective} from '../../../app/shared/directives';
 })
 export class NetworkPreviewComponent {
 
-  // When count from Input property changes, set internal state for our component
-  // @Input() set count(count: number) {
-  //   this.connectionsCount = count;
-  // }
+  // When [items] from Input property change, set internal state for our component
+  @Input() set items(itemsList: any[]) {
+    this.connections = itemsList;
+  }
+
+  @Input() otherConnectionsCount: number = 0;
+  @Input() mutualConnectionsCount: number = 0;
+  @Input() type: string;
 
   // List and counter for all connections
   public connections: any[];
-
-  // Counter for total number of all connections
-  public connectionsCount: number = 10;
-
-   // Counter for total number of all connections
-  public connectionsMutualCount: number = 5;
 
 }
