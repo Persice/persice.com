@@ -59,6 +59,7 @@ export class PhotosService {
     if (url === '') {
       let params: string = [
         `format=json`,
+        `order_by=order`,
         `limit=${limit}`,
         `user_id=${user}`,
         `offset=0`,

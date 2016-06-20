@@ -156,6 +156,11 @@ class NeoFriendsResource(Resource):
         if action and action.lower() == 'pass':
             client.pass_friend(node1, node2)
             bundle.obj.action = 'pass'
+        elif action and action.lower() == 'disconnect':
+            client.remove_from_friends(node1['user_id'], node2['user_id'])
+            client.pass_friend(node1, node2)
+            client.pass_friend(node2, node1)
+            bundle.obj.action = 'disconnect'
         else:
             client.add_to_friends(node1, node2)
         bundle.obj.id = node2._id
@@ -324,17 +329,20 @@ class ConnectionsResource(LoggingMixin, Resource):
     photos = fields.ListField(attribute='photos')
     goals = fields.ListField(attribute='goals')
     offers = fields.ListField(attribute='offers')
-    likes = fields.ListField(attribute='likes')
     interests = fields.ListField(attribute='interests')
     top_interests = fields.ListField(attribute='top_interests')
 
     score = fields.IntegerField(attribute='score', null=True)
+    mutual_likes_count = fields.IntegerField(attribute='mutual_likes_count',
+                                             null=True)
+    total_likes_count = fields.IntegerField(attribute='total_likes_count',
+                                            null=True)
     es_score = fields.FloatField(attribute='es_score', null=True)
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
 
     friend_id = fields.CharField(attribute='friend_id', null=True)
 
-    updated_at = fields.DateTimeField(attribute='updated_at', null=True)
+    seen = fields.BooleanField(attribute='seen', null=True)
     last_login = fields.DateTimeField(attribute='last_login', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
     position = fields.DictField(attribute="position", null=True, blank=True)

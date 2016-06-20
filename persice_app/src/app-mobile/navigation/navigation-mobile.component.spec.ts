@@ -79,7 +79,7 @@ describe('Navigation mobile component', () => {
 
     // then
     var sidebarLinks = [
-      'crowd', 'messages', 'connections', 'settings', 'accounts/logout/'];
+      'crowd', 'messages', 'connections', 'accounts/logout/'];
     for (var i = sidebarLinks.length - 1; i >= 0; i--) {
       expect(domElement.querySelectorAll(`a[href="/${sidebarLinks[i]}"]`).length).toEqual(1);
     }

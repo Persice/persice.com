@@ -32,7 +32,6 @@ import {EventsMobileComponent} from './events';
 import {MessagesMobileComponent} from './messages';
 import {MyProfileMobileComponent} from './my-profile';
 import {EditMyProfileMobileComponent} from './edit-my-profile';
-import {InfoMobileComponent} from './info';
 
 const PAGES_WITH_FILTER: string[] = ['crowd', 'connections'];
 const PAGES_WITH_ADD_ACTION: string[] = ['messages'];
@@ -45,6 +44,8 @@ import {
 } from '../common/reducers';
 import {Store} from '@ngrx/store';
 import {CookieUtil} from '../app/shared/core';
+import {TermsOfServiceMobileComponent} from "./info/terms-of-service/terms-of-service-mobile.component";
+import {PrivacyPolicyMobileComponent} from "./info/privacy-policy/privacy-policy-mobile.component";
 
 /*
  * Persice App Component
@@ -92,9 +93,14 @@ import {CookieUtil} from '../app/shared/core';
     name: 'MyProfile'
   },
   {
-    path: '/info/...',
-    component: InfoMobileComponent,
-    name: 'Info'
+    path: '/privacy',
+    component: PrivacyPolicyMobileComponent,
+    name: 'PrivacyPolicy'
+  },
+  {
+    path: '/terms',
+    component: TermsOfServiceMobileComponent,
+    name: 'TermsOfService'
   }
 ])
 @Component({

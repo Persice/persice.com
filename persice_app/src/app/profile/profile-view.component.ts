@@ -195,7 +195,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.profileLikesCount = 0;
       this.profileLikes = [];
-      let likes = data.likes;
+      let likes = data.likes ? data.likes : [];
       this.profileLikes = likes;
       this.profileLikesCount = this.profileLikes.length;
       this.loadingLikes = false;

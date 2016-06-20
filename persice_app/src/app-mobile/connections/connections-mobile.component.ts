@@ -84,14 +84,23 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
 
     // If newly formed connection profile is being selected, mark it as 'seen'
     // and refresh new connections counter.
-    if (this.selectedItem.updated_at === null) {
-      this.items[index] = Object.assign({}, this.items[index], {updated_at: 'seen'});
+    if (!!!this.selectedItem.seen) {
+      this.items[index] = Object.assign({}, this.items[index], { seen: true });
       let subs: Subscription = this.listService.markNewConnectionsAsSeen(this.selectedItem.id)
         .subscribe((dto) => {
           subs.unsubscribe();
           this.newConnectionsCounterService.refresh();
         });
     }
+  }
+
+  afterProfileDisconnected(event) {
+    if (!!this.selectedItem) {
+      const id: string = this.selectedItem.id;
+      this.removeItemById(id);
+      this.newConnectionsCounterService.refresh();
+    }
+    this.closeItemView(event);
   }
 
   afterItemClosed() {

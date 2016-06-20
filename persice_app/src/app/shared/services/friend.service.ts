@@ -48,6 +48,18 @@ export class FriendService {
     return this.http.post(`${FriendService.API_URLv2}?format=json`, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
   }
+
+  public disconnect(friendId: string): Observable<any> {
+
+    let friendshipState = {
+        user_id: friendId,
+        action: 'disconnect'
+      };
+
+    let body = JSON.stringify(friendshipState);
+    return this.http.post(`${FriendService.API_URLv2}?format=json`, body, OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json());
+  }
 }
 
 export var friendServiceInjectables: Array<any> = [

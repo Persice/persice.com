@@ -1,0 +1,45 @@
+<div class="container-likes">
+  <header class="mob-header">
+    <div class="layout layout--flush layout--middle">
+      <div class="layout__item 1/5">
+        <a class="mob-header__left-push" (click)="close()">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+          </svg>
+        </a>
+      </div>
+      <div class="layout__item 3/5 text-center">
+        <h2 class="mob-header__title">{{pageTitle}}</h2> </div>
+      <div class="layout__item 1/5 text-right"> </div>
+    </div>
+  </header>
+  <div class="content">
+    <div class="mob-user-card-title" *ngIf="firstList.itemTotalCount > 0 && !firstList.hideTitle"> {{firstList.title}} ({{firstList.itemTotalCount}}) </div>
+    <div
+      prs-infinite-scroll (scrolled)="loadMoreFirstList()"
+      [scrollEnabled]="!firstList.loading"
+      [bottomOffset]="60">
+      <a class="mob-like-dislike" *ngFor="let item of firstList.items">
+        <div class="flag flag--small">
+          <div class="flag__img"><img src="{{item.picture}}" alt="" class="avatar avatar--medium"></div>
+          <div class="flag__body">
+            <h3 class="mob-like-dislike__title">{{item.name}}</h3></div>
+        </div>
+      </a>
+    </div>
+    <div class="mob-user-card-title" *ngIf="secondList.itemTotalCount > 0 && !secondList.hideTitle"> {{secondList.title}} ({{secondList.itemTotalCount}}) </div>
+    <div
+      prs-infinite-scroll (scrolled)="loadMoreSecondList()"
+      [scrollEnabled]="!secondList.loading"
+      [bottomOffset]="60">
+      <a class="mob-like-dislike" *ngFor="let item of secondList.items">
+        <div class="flag flag--small">
+          <div class="flag__img"><img src="{{item.picture}}" alt="" class="avatar avatar--medium"></div>
+          <div class="flag__body">
+            <h3 class="mob-like-dislike__title">{{item.name}}</h3> </div>
+        </div>
+      </a>
+    </div>
+    <prs-loading [status]="firstList.loading || secondList.loading"></prs-loading>
+  </div>
+</div>

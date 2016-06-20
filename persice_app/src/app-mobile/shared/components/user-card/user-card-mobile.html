@@ -1,8 +1,8 @@
-<div class="user-card" [ngClass]="{'is-new': isNewConnection}">
+<div class="user-card" [ngClass]="{'is-new': isNewConnection && !isNewConnectionDisabled}">
   <div class="flag flag--small flag--top">
     <div class="flag__img" (click)="selectPerson($event)">
       <div class="avatar-place">
-        <div class="avatar avatar--small" checkimage="{{_person.image}}" [suffix]="'.56x56_q100_crop.jpg'">
+        <div class="avatar avatar--small cover-background" checkimage="{{_person.image}}" [suffix]="'.56x56_q100_crop.jpg'">
         </div>
       </div>
     </div>
@@ -20,6 +20,11 @@
           <use xlink:href="/static/assets/icons/icons.svg#icon-down-small"></use>
         </svg>
         <prs-mobile-interests-card [person]="_person" *ngIf="interestsVisible"></prs-mobile-interests-card>
+      </a>
+      <a (click)="onOpenNewConversation.emit(_person.id)" class="user-card__send-message" *ngIf="showSendMessage">
+        <svg role="img" class="icon ">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
+        </svg>
       </a>
     </div>
   </div>

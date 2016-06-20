@@ -87,7 +87,7 @@ module.exports = webpackMerge(commonConfig, {
       // Tslint loader support for *.ts files
       //
       // See: https://github.com/wbuchwalter/tslint-loader
-      { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] },
+      // { test: /\.ts$/, loader: 'tslint-loader', exclude: [helpers.root('node_modules')] },
 
       // Source map loader support for *.js files
       // Extracts SourceMaps for source files that as added as sourceMappingURL comment.

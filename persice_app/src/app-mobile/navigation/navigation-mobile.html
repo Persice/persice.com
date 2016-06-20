@@ -31,13 +31,6 @@
       </a>
     </li>
     <li>
-      <a [routerLink]="['./Settings']">
-        <svg role="img" class="icon ">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-menu-settings"></use>
-        </svg> <span>Settings</span>
-      </a>
-    </li>
-    <li>
       <a href="/accounts/logout/">
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-logout"></use>
@@ -46,6 +39,6 @@
   </ul>
 </nav>
 <ul class="mob-nav-submain">
-  <li><a [routerLink]="['./Info', 'PrivacyPolicy']">Privacy</a></li>
-  <li><a [routerLink]="['./Info', 'TermsOfService']">Terms</a></li>
+  <li><a [routerLink]="['PrivacyPolicy']">Privacy</a></li>
+  <li><a [routerLink]="['TermsOfService']">Terms</a></li>
 </ul>

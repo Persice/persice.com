@@ -381,7 +381,7 @@ html {
 
 .user-profile-container {
   background: #eff4f6;
-  padding-bottom: 70px;
+  padding-bottom: 98px;
 }
 
 .moreellipses {
@@ -629,4 +629,37 @@ html {
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: no-repeat;
+}
+
+.edit-info-list,
+.link-to-list {
+  height: calc(100vh - 50px)!important;
+}
+
+html.remodal-is-locked,
+html.remodal-is-locked > body {
+  overflow: hidden!important;
+  -ms-touch-action: none!important;
+  touch-action: none!important;
+}
+
+#show-network {
+  position: absolute;
+  right: 0px;
+}
+
+.bg-gray {
+  background: #eff4f6
+}
+
+.bg-gray-2 {
+  background: #e1e6e8
+}
+
+.bg-gray-3 {
+  background: #f8fcfd
+}
+
+.network-preview {
+  left: 3px!important;
 }

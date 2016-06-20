@@ -1,4 +1,4 @@
-import {ObjectUtil, ListUtil} from "../../../app/shared/core/util";
+import {ObjectUtil} from "../../../app/shared/core/util";
 import {SocialNetworkFacebook} from "./social-network/social-network-facebook";
 import {SocialNetworkLinkedin} from "./social-network/social-network-linkedin";
 import {SocialNetworkTwitter} from "./social-network/social-network-twitter";
@@ -23,8 +23,9 @@ export class Person {
   private _interests: any[];
   private _interestsCount: number;
   private _likesMutualCount: number;
-  private _likes: any[];
   private _likesCount: number;
+  private _connectionsCount: number;
+  private _connectionsMutualCount: number;
   private _image: string;
   private _score: number;
   private _facebook: SocialNetworkFacebook;
@@ -55,6 +56,9 @@ export class Person {
     this._job = dto.position && dto.position.job ? dto.position.job : '';
     this._company = dto.position && dto.position.company ? dto.position.company : '';
 
+    this._connectionsCount = 0;
+    this._connectionsMutualCount = 0;
+
     if (dto.top_interests) {
       let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
       let halfLength = Math.ceil(topInterestsFromDto.length / 2);
@@ -66,9 +70,7 @@ export class Person {
 
     let goalsFromDto = ObjectUtil.transformSorted(dto.goals[0]),
       offersFromDto = ObjectUtil.transformSorted(dto.offers[0]),
-      interestsFromDto = ObjectUtil.transformSorted(dto.interests[0]),
-      likesFromDto = dto.likes,
-      likesMutualCountFromDto = ListUtil.filterAndCount(dto.likes, 'match', 1);
+      interestsFromDto = ObjectUtil.transformSorted(dto.interests[0]);
 
     this._goals = goalsFromDto;
     this._goalsCount = goalsFromDto.length;
@@ -76,9 +78,8 @@ export class Person {
     this._offersCount = offersFromDto.length;
     this._interests = interestsFromDto;
     this._interestsCount = interestsFromDto.length;
-    this._likes = likesFromDto;
-    this._likesCount = likesFromDto.length;
-    this._likesMutualCount = likesMutualCountFromDto;
+    this._likesCount = dto.total_likes_count;
+    this._likesMutualCount = dto.mutual_likes_count;
 
     this._religiousViews = dto.religious_views;
     this._politicalViews = dto.political_views;
@@ -188,16 +189,28 @@ export class Person {
     return this._goalsCount;
   }
 
-  get likes(): any[] {
-    return this._likes;
-  }
-
   get likesCount(): number {
     return this._likesCount;
   }
 
   get likesMutualCount(): number {
     return this._likesMutualCount;
+  }
+
+  get connectionsCount(): number {
+    return this._connectionsCount;
+  }
+
+  set connectionsCount(count: number) {
+    this._connectionsCount = count;
+  }
+
+  get connectionsMutualCount(): number {
+    return this._connectionsMutualCount;
+  }
+
+  set connectionsMutualCount(count: number) {
+    this._connectionsMutualCount = count;
   }
 
   get politicalViews(): any[] {
@@ -217,12 +230,13 @@ export class Person {
       id: this.id,
       goals: this.goals,
       offers: this.offers,
-      likes: this.likes,
       interests: this.interests,
       about: this.about,
       lives_in: this.livesIn,
       position: { job: this.job, company: this.company },
       first_name: this.firstName,
+      total_likes_count: this.likesCount,
+      mutual_likes_count: this.likesMutualCount,
       last_name: this.lastName,
       distance: [this.distance, this.distanceUnit],
       top_interests: this.topInterests,

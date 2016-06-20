@@ -45,11 +45,14 @@ class MatchedFeedResource(Resource):
     photos = fields.ListField(attribute='photos')
     goals = fields.ListField(attribute='goals')
     offers = fields.ListField(attribute='offers')
-    likes = fields.ListField(attribute='likes')
     interests = fields.ListField(attribute='interests')
     top_interests = fields.ListField(attribute='top_interests')
 
     score = fields.IntegerField(attribute='score', null=True)
+    mutual_likes_count = fields.IntegerField(attribute='mutual_likes_count',
+                                             null=True)
+    total_likes_count = fields.IntegerField(attribute='total_likes_count',
+                                            null=True)
     es_score = fields.FloatField(attribute='es_score', null=True)
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
     last_login = fields.DateField(attribute='last_login', null=True)
@@ -185,6 +188,7 @@ class MutualFriendsResource(Resource):
         if user and user != current_user:
             new_obj = A()
             new_obj.id = 0
+            # TODO: Use Neo Friend
             new_obj.mutual_bk_friends = Friend.objects.mutual_friends(current_user, user)
             new_obj.mutual_bk_friends_count = len(new_obj.mutual_bk_friends)
 
@@ -230,11 +234,14 @@ class ProfileResource(Resource):
     photos = fields.ListField(attribute='photos')
     goals = fields.ListField(attribute='goals')
     offers = fields.ListField(attribute='offers')
-    likes = fields.ListField(attribute='likes')
     interests = fields.ListField(attribute='interests')
     top_interests = fields.ListField(attribute='top_interests')
 
     score = fields.IntegerField(attribute='score', null=True)
+    mutual_likes_count = fields.IntegerField(attribute='mutual_likes_count',
+                                             null=True)
+    total_likes_count = fields.IntegerField(attribute='total_likes_count',
+                                            null=True)
     es_score = fields.FloatField(attribute='es_score', null=True)
     friends_score = fields.IntegerField(attribute='friends_score', null=True)
 

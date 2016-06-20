@@ -424,3 +424,16 @@ class NeoFriendsResourceTestCase(ResourceTestCase):
         )
         self.assertHttpAccepted(resp)
         self.assertEqual(self.neo.get_my_friends_ids(self.user.id), [])
+
+    def test_disconnect_friend(self):
+        self.response = self.login()
+        self.data = {'user_id': self.user1.id, 'action': 'disconnect'}
+        resp = self.api_client.post(
+            '/api/v2/friends/', format='json',
+            data=self.data
+        )
+        self.assertHttpCreated(resp)
+        deserialized_resp = self.deserialize(resp)
+        self.assertEqual(deserialized_resp['user_id'], self.user1.id)
+        self.assertFalse(self.neo.check_friendship_rel(self.user.id,
+                                                       self.user1.id))

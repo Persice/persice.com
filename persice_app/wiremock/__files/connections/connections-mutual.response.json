@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "limit": 1,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total_count": 1
+  },
+  "objects": [
+    {
+      "id": "0",
+      "mutual_bk_friends": [
+        {
+          "facebook_id": 10152489084433844,
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "last_name": "Tracey",
+          "user_id": 58,
+          "username": "thomasetracey"
+        },
+        {
+          "facebook_id": 10207269494316005,
+          "first_name": "Mirjana",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/08/fb_image_10207269494316005_1.jpg",
+          "last_name": "Popovic",
+          "user_id": 29,
+          "username": "minja10"
+        }
+      ],
+      "mutual_bk_friends_count": 2,
+      "mutual_fb_friends": [
+        {
+          "facebook_id": 10152489084433844,
+          "first_name": "Thomas",
+          "last_name": "Tracey"
+        }
+      ],
+      "mutual_fb_friends_count": 1,
+      "mutual_linkedin_connections": [
+        {
+          "firstName": "Mirjana",
+          "public_profile_url": "https://www.linkedin.com/in/sa%C5%A1a-macakanja-637ba5b1",
+          "pictureUrls": {
+            "values": [
+              "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/08/fb_image_10207269494316005_1.jpg"
+            ]
+          }
+        }
+      ],
+      "mutual_linkedin_connections_count": 1,
+      "mutual_twitter_followers": [
+        {
+          "name": "Mirjana",
+          "screen_name": "SashaM07",
+          "profile_image_url": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/08/fb_image_10207269494316005_1.jpg"
+        }
+      ],
+      "mutual_twitter_followers_count": 1,
+      "mutual_twitter_friends": [
+        {
+          "name": "Mirjana",
+          "screen_name": "SashaM07",
+          "profile_image_url": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/08/fb_image_10207269494316005_1.jpg"
+        }
+      ],
+      "mutual_twitter_friends_count": 1,
+      "resource_uri": "/api/v1/mutual/friends/0/"
+    }
+  ]
+}

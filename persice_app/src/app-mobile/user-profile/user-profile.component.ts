@@ -1,26 +1,33 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewInit
-} from '@angular/core';
+import {Component, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
-import {
-  OpenLeftMenuDirective,
-} from '../shared/directives';
+import {Subscription} from 'rxjs';
+
+import {OpenLeftMenuDirective} from '../shared/directives';
+import {DROPDOWN_DIRECTIVES} from '../../common/directives/dropdown';
+import {RemodalDirective} from '../../app/shared/directives';
 
 import {GenderPipe} from '../../app/shared/pipes';
-import {CheckImageDirective} from "../../app/shared/directives";
+import {CheckImageDirective} from '../../app/shared/directives';
 import {Person} from '../shared/model';
-import {AboutMobileComponent} from './about-mobile.component';
+import {AboutMobileComponent} from './about';
 import {PhotosMobileComponent} from './photos';
-import {ConnectionsListMobileComponent} from './connections-list-mobile.component';
-import {ItemsListMobileComponent} from './items-list.component';
-import {FriendUtil} from '../../app/shared/core';
+import {NetworkPreviewComponent} from './network-preview';
+import {NetworkComponent} from './network';
+import {ItemsListMobileComponent} from './items-list';
 
+import {AppStateService} from '../shared/services';
+import {LikesMobileComponent} from './likes/likes-mobile.component';
+import {FriendService} from '../../app/shared/services';
 import {MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
+import {FriendUtil} from '../../app/shared/core';
+
+enum ViewsType {
+  Profile,
+  Photos,
+  Network,
+  Likes
+}
 
 @Component({
   selector: 'prs-user-profile',
@@ -28,17 +35,18 @@ import {ConnectionsService} from '../../common/connections';
   pipes: [GenderPipe],
   directives: [
     CheckImageDirective,
+    DROPDOWN_DIRECTIVES,
+    RemodalDirective,
     AboutMobileComponent,
     ItemsListMobileComponent,
-    ConnectionsListMobileComponent,
+    NetworkPreviewComponent,
+    NetworkComponent,
     OpenLeftMenuDirective,
     RouterLink,
-    PhotosMobileComponent
+    PhotosMobileComponent,
+    LikesMobileComponent
   ],
-  providers: [
-    MutualFriendsService,
-    ConnectionsService
-  ]
+  providers: [FriendService, MutualFriendsService, ConnectionsService]
 })
 export class UserProfileComponent implements AfterViewInit {
   // Profile type, crowd or connection
@@ -48,41 +56,75 @@ export class UserProfileComponent implements AfterViewInit {
 
   // When [user] from Input property change, set internal state for our component
   @Input() set user(value) {
-    this._setState(value);
+    // If value is defined, set person
+    if (value) {
+      this._setState(value);
+    }
   }
   @Output() onCloseProfile: EventEmitter<any> = new EventEmitter();
+  @Output() onDisconnectProfile: EventEmitter<any> = new EventEmitter();
+
+  // Indicator for active view
+  public activeView = ViewsType.Profile;
+  public viewsType = ViewsType;
 
   // Person object which is displayed in the component template
-  person: Person;
+  public person: Person;
 
   // Boolean flag which controls whether full profile information is collapsed and visible
-  profileExtraInfoVisible: boolean = false;
-
-  // List and counters for mutual friends
-  friendsTotalCount: number = 0;
-  friendsPreview: any[] = [];
-  friendsPersice: any[] = [];
-  friendsFacebook: any[] = [];
-  friendsLinkedin: any[] = [];
-  friendsTwitterFollowers: any[] = [];
-  friendsTwitterFriends: any[] = [];
+  public profileExtraInfoVisible: boolean = false;
 
   // Indicator for which tab is active: interests(0), goals(1), offers(2)
-  activeTab: number = 0;
+  public activeTab: number = 0;
 
-  isPhotosViewEnabled: boolean = false;
+  // Boolean flag which checks if dropdown menu is opened
+  public isDropdownOpen: boolean = false;
+
+  // Remodal option
+  public modalOptions = JSON.stringify({
+    hashTracking: true,
+    closeOnOutsideClick: true
+  });
+
+  // Counters for all connections and mutual connections
+  public otherConnectionsCount: number = 0;
+  public mutualConnectionsCount: number = 0;
+
+  // List for preview
+  public connectionsPreview: any[] = [];
+
+  // Lists for mutual friends
+  public connectionsMutualPersice: any[] = [];
+  public connectionsMutualFacebook: any[] = [];
+  public connectionsMutualLinkedin: any[] = [];
+  public connectionsMutualTwitterFollowers: any[] = [];
+  public connectionsMutualTwitterFriends: any[] = [];
 
   constructor(
-    private _friendService: MutualFriendsService,
-    private _connectionsService: ConnectionsService
-  ) {
-
-  }
+    private appStateService: AppStateService,
+    private friendService: FriendService,
+    private mutualFriendService: MutualFriendsService,
+    private connectionsService: ConnectionsService
+  ) { }
 
   ngAfterViewInit() {
     setTimeout(() => {
       window.scrollTo(0, 0);
     });
+  }
+
+  /**
+   * Disconnects a connection
+   * @param {MouseEvent} event
+   */
+  public disconnect(event: MouseEvent) {
+    let subs: Subscription = this.friendService.disconnect(this.person.id)
+      .subscribe((data: any) => {
+        this.onDisconnectProfile.emit(this.person.id);
+        subs.unsubscribe();
+      }, (err) => {
+        subs.unsubscribe();
+      });
   }
 
   public toggleProfileExtraInfoVisibility(event) {
@@ -97,44 +139,80 @@ export class UserProfileComponent implements AfterViewInit {
     this.activeTab = tab;
   }
 
-  public openPhotos(event) {
-    this.isPhotosViewEnabled = true;
+  public showNetworkView(event): void {
+    if (this.otherConnectionsCount + this.mutualConnectionsCount < 1) {
+      // Do nothing.
+      return;
+    }
+
+    this.activeView = this.viewsType.Network;
+    this.toggleFooterVisibility(false);
   }
 
-  private _getMutualFriends(id) {
-    this._friendService.get('', 100, id)
+  public showPhotosView(event): void {
+    this.activeView = this.viewsType.Photos;
+    this.toggleFooterVisibility(false);
+  }
+
+  public showLikesView(event): void {
+    if (this.person.likesCount + this.person.likesMutualCount < 1) {
+      // Do nothing.
+      return;
+    }
+
+    this.activeView = this.viewsType.Likes;
+    this.toggleFooterVisibility(false);
+  }
+
+  public showProfileView(event: any): void {
+    this.activeView = this.viewsType.Profile;
+    if (this.type !== 'my-profile') {
+      this.toggleFooterVisibility(true);
+    }
+  }
+
+  private toggleFooterVisibility(visible: boolean): void {
+    this.appStateService.setProfileFooterVisibility({
+      visibility: visible,
+      type: this.type
+    });
+  }
+
+  private _getMutualConnections(id) {
+    let subs: Subscription = this.mutualFriendService.get('', 1, id)
       .subscribe(data => {
         if (data.meta.total_count > 0) {
           let items = data.objects[0];
-          this.friendsTotalCount += parseInt(items.mutual_bk_friends_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_fb_friends_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_linkedin_connections_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_twitter_followers_count, 10);
-          this.friendsTotalCount += parseInt(items.mutual_twitter_friends_count, 10);
-          this.friendsPersice = items.mutual_bk_friends;
-          this.friendsFacebook = items.mutual_fb_friends;
-          this.friendsLinkedin = items.mutual_linkedin_connections;
-          this.friendsTwitterFriends = items.mutual_twitter_friends;
-          this.friendsTwitterFollowers = items.mutual_twitter_followers;
+          this.mutualConnectionsCount += parseInt(items.mutual_bk_friends_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_fb_friends_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_linkedin_connections_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_twitter_followers_count, 10);
+          this.mutualConnectionsCount += parseInt(items.mutual_twitter_friends_count, 10);
 
-          // Pick four friends for preview
-          this.friendsPreview = FriendUtil.pickFourFriendsforPreview(
-            this.friendsPersice, this.friendsFacebook, this.friendsLinkedin,
-            this.friendsTwitterFriends, this.friendsTwitterFollowers);
+          this.connectionsMutualPersice = items.mutual_bk_friends;
+          this.connectionsMutualFacebook = items.mutual_fb_friends;
+          this.connectionsMutualLinkedin = items.mutual_linkedin_connections;
+          this.connectionsMutualTwitterFriends = items.mutual_twitter_friends;
+          this.connectionsMutualTwitterFollowers = items.mutual_twitter_followers;
+
+          // Pick four connections for preview
+          this.connectionsPreview = FriendUtil.pickFourFriendsforPreview(
+            this.connectionsMutualPersice, this.connectionsMutualFacebook, this.connectionsMutualLinkedin,
+            this.connectionsMutualTwitterFriends, this.connectionsMutualTwitterFollowers);
+          subs.unsubscribe();
         }
       });
   }
 
-  private _getConnections() {
-    this._connectionsService.get('', 100, false)
+  private _getMyConnections() {
+    let subs: Subscription = this.connectionsService.get('', 4, false)
       .subscribe((data) => {
         if (data.meta.total_count > 0) {
           let items = data.objects;
-          this.friendsTotalCount = data.meta.total_count;
-          this.friendsPersice = items;
-
-          // Pick four friends for preview
-          this.friendsPreview = FriendUtil.pickFourFriendsforPreview(this.friendsPersice, [], [], [], []);
+          this.otherConnectionsCount = data.meta.total_count;
+          // Pick four connections for preview
+          this.connectionsPreview = FriendUtil.pickFourFriendsforPreview(items, [], [], [], []);
+          subs.unsubscribe();
         }
       });
   }
@@ -142,10 +220,11 @@ export class UserProfileComponent implements AfterViewInit {
   private _setState(value: any) {
     this.person = new Person(value);
     if (this.type === 'crowd' || this.type === 'connection') {
-      this._getMutualFriends(this.person.id);
+      this._getMutualConnections(this.person.id);
     } else if (this.type === 'my-profile') {
-      this._getConnections();
+      this._getMyConnections();
     }
+
   }
 
 }

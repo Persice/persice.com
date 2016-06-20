@@ -15,7 +15,8 @@ from friends.api.resources import (ConnectionsSearchResource,
                                    NeoFriendsNewResource)
 from goals.api.resources import (FacebookLikeResource, GoalResource,
                                  MatchFilterStateResource, OfferResource,
-                                 SubjectResource)
+                                 SubjectResource, FacebookMutualLikeResource,
+                                 FacebookOtherLikeResource)
 from interests.api.resources import InterestResource, InterestSubjectResource,\
     ReligiousViewResource, ReligiousIndexResource, PoliticalViewResource, \
     PoliticalIndexResource
@@ -49,6 +50,8 @@ v1_api.register(FriendsResource())
 v1_api.register(ConnectionsSearchResource())
 v1_api.register(ConnectionsResource())
 v1_api.register(FacebookLikeResource())
+v1_api.register(FacebookMutualLikeResource())
+v1_api.register(FacebookOtherLikeResource())
 v1_api.register(InboxResource())
 v1_api.register(InboxLastResource())
 v1_api.register(UnreadMessageCounter())

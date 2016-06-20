@@ -93,11 +93,13 @@ class NeoFourJ(object):
         update_index_delay()
 
     def remove_from_friends(self, user_id1, user_id2):
-        return self.graph.cypher.execute("""
+        result = self.graph.cypher.execute("""
             MATCH (n)-[rel:FRIENDS]->(r)
             WHERE n.user_id={USER_ID1} AND r.user_id={USER_ID2}
             DELETE rel
         """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+        update_index_delay()
+        return result
 
     def get_my_friends(self, user_id):
         return self.graph.cypher.execute("""
@@ -173,6 +175,7 @@ class NeoFourJ(object):
         rel = self.graph.match_one(n1, 'FRIENDS', n2)
         rel['seen'] = True
         rel.push()
+        update_index_delay()
 
     def get_new_friends_count(self, user_id):
         result = self.graph.cypher.execute("""
@@ -192,6 +195,13 @@ class NeoFourJ(object):
             (n:Person { user_id:{USER_ID2} })-[:FRIENDS]->
             (Person { user_id:{USER_ID1} })
             return n.name, n.user_id
+        """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+
+    def get_seen(self, user_id1, user_id2):
+        return self.graph.cypher.execute("""
+            MATCH (Person { user_id:{USER_ID1} })-[r:FRIENDS]->
+            (n:Person { user_id:{USER_ID2} })
+            return r.seen
         """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
 
     def get_or_create_node(self, user_id):
@@ -228,3 +238,4 @@ class NeoFourJ(object):
         n2 = self.create_person(self.person(user2))
         self.add_to_friends(n1, n2)
         self.add_to_friends(n2, n1)
+        update_index_delay()

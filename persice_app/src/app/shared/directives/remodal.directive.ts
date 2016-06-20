@@ -1,7 +1,5 @@
 import {Directive, ElementRef, OnDestroy, AfterViewInit} from '@angular/core';
 
-
-
 @Directive({
   selector: '[remodal]',
   properties: ['options: remodal']
