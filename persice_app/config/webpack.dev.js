@@ -2,14 +2,14 @@
  * @author: Persice
  */
 
-var helpers = require('./helpers');
-var webpackMerge = require('webpack-merge'); //Used to merge webpack configs
-var commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
+const helpers = require('./helpers');
+const webpackMerge = require('webpack-merge'); //Used to merge webpack configs
+const commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
 
 /**
  * Webpack Plugins
  */
-var DefinePlugin = require('webpack/lib/DefinePlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 
 /**
  * Webpack Constants
@@ -82,7 +82,12 @@ module.exports = webpackMerge(commonConfig, {
     // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
     new DefinePlugin({
       'ENV': JSON.stringify(METADATA.ENV),
-      'HMR': METADATA.HMR
+      'HMR': METADATA.HMR,
+      'process.env': {
+        'ENV': JSON.stringify(METADATA.ENV),
+        'NODE_ENV': JSON.stringify(METADATA.ENV),
+        'HMR': METADATA.HMR,
+      }
     }),
   ],
 
@@ -109,7 +114,8 @@ module.exports = webpackMerge(commonConfig, {
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
-    }
+    },
+    outputPath: helpers.root('dist')
   },
 
   node: {
