@@ -1,3 +1,4 @@
+///<reference path="../../node_modules/@angular/http/src/http.d.ts"/>
 import {
   ROUTER_PRIMARY_COMPONENT,
   Router,
@@ -9,7 +10,7 @@ import {
   beforeEach,
   expect,
   inject,
-  beforeEachProviders
+  beforeEachProviders, async
 } from '@angular/core/testing';
 import {provide} from '@angular/core';
 import {SpyLocation} from '@angular/common/testing';
@@ -21,19 +22,40 @@ import {AppMobileComponent} from './app-mobile.component';
 import {provideStore} from '@ngrx/store';
 import STORE_REDUCERS from '../common/reducers';
 import STORE_ACTIONS from '../common/actions';
+import {MockGeolocationService} from "../app/shared/services/mock-geolocation.service";
+import {MockBackend} from "@angular/http/testing";
+import {HttpClient} from "../app/shared/core/http-client";
+import {Http, ConnectionBackend, BaseRequestOptions} from "@angular/http";
 
 describe('App component mobile', () => {
 
-  var location, router;
+  var location, router, mockGeolocationService, fixture;
 
-  beforeEachProviders(() => [
-    provideStore(STORE_REDUCERS),
-    STORE_ACTIONS,
-    RouteRegistry,
-    provide(Location, { useClass: SpyLocation }),
-    provide(Router, { useClass: RootRouter }),
-    provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent })
-  ]);
+  beforeEachProviders(() => { 
+    mockGeolocationService = new MockGeolocationService();
+
+    return [
+      provideStore(STORE_REDUCERS),
+      STORE_ACTIONS,
+      BaseRequestOptions,
+      RouteRegistry,
+      MockBackend,
+      HttpClient,
+      provide(Http, {
+        useFactory: (connectionBackend: ConnectionBackend,
+                     defaultOptions: BaseRequestOptions) => {
+          return new Http(connectionBackend, defaultOptions);
+        },
+        deps: [
+          MockBackend,
+          BaseRequestOptions
+        ]
+      }),
+      provide(Location, { useClass: SpyLocation }),
+      provide(Router, { useClass: RootRouter }),
+      provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent }),
+      mockGeolocationService.getProviders()
+    ]});
 
   beforeEach(inject([Router, Location], (r, l) => {
     router = r;

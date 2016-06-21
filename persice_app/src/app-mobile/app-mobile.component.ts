@@ -46,6 +46,8 @@ import {Store} from '@ngrx/store';
 import {CookieUtil} from '../app/shared/core';
 import {TermsOfServiceMobileComponent} from "./info/terms-of-service/terms-of-service-mobile.component";
 import {PrivacyPolicyMobileComponent} from "./info/privacy-policy/privacy-policy-mobile.component";
+import {GeolocationService} from "../app/shared/services/geolocation.service";
+import {LocationService, UserLocation} from "../app/shared/services/location.service";
 
 /*
  * Persice App Component
@@ -111,7 +113,9 @@ import {PrivacyPolicyMobileComponent} from "./info/privacy-policy/privacy-policy
     AppStateService,
     WebsocketService,
     UnreadMessagesCounterService,
-    NewConnectionsCounterService
+    NewConnectionsCounterService,
+    GeolocationService,
+    LocationService
   ],
   directives: [
     CORE_DIRECTIVES,
@@ -144,7 +148,9 @@ export class AppMobileComponent implements OnInit {
     private store: Store<AppState>,
     private websocketService: WebsocketService,
     private unreadMessagesCounterService: UnreadMessagesCounterService,
-    private newConnectionsCounterService: NewConnectionsCounterService
+    private newConnectionsCounterService: NewConnectionsCounterService,
+    private geolocationService: GeolocationService,
+    private locationService: LocationService
   ) {
     this.username = CookieUtil.getValue('user_username');
 
@@ -197,6 +203,22 @@ export class AppMobileComponent implements OnInit {
     this.websocketService.on('connections:new').subscribe((data: any) => {
       this.newConnectionsCounterService.increase();
     });
+
+    // Geolocation parameters.
+    const GEOLOCATION_OPTS = {
+      enableHighAccuracy: true,
+      timeout: 60000,
+      maximumAge: 0
+    };
+
+    // Get geolocation using JavaScript browser API.
+    this.geolocationService.getLocation(GEOLOCATION_OPTS)
+      .subscribe((res: UserLocation) => {
+          this._updateOrCreateLocation(res);
+        },
+        (err) => {
+          console.log('Geolocation Error: ', err);
+        });
   }
 
   /**
@@ -221,4 +243,18 @@ export class AppMobileComponent implements OnInit {
     this.pageTitle = next;
   }
 
+  /**
+   * Update the current user's location. If no record for the user exists on the backend, create a new one.
+   * @param location
+   * @private
+   */
+  private _updateOrCreateLocation(location: UserLocation) {
+    this.locationService.updateOrCreate(location)
+      .subscribe((res: UserLocation) => {
+          this.locationService.updateLocation(res);
+        },
+        (err) => {
+          console.log('Location saving error: ', err);
+        });
+  }
 }
