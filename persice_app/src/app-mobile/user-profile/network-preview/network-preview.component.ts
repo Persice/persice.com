@@ -15,7 +15,7 @@ export class NetworkPreviewComponent {
 
     // Fill array for displaying empty places
     const length: number = 4 - this.connections.length;
-    this.emptyPlacesArray = Array(length).fill().map((x, i) => i);
+    this.emptyPlacesArray = Array(length).fill(1).map((x, i) => i);
   }
 
   @Input() otherConnectionsCount: number = 0;
