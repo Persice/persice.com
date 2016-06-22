@@ -1,0 +1,58 @@
+<header class="mob-header" [ngClass]="{'mob-header--transparent': headerState.transparent}">
+  <div class="layout layout--flush layout--middle">
+   <!-- LEFT -->
+    <div class="layout__item 1/5">
+      <a prs-open-left-menu *ngIf="headerState.left === leftState.Menu" class="mob-header__left-push" id="showLeftPush">
+        <svg role="img" class="icon icon--small">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
+        </svg>
+      </a>
+
+      <a (click)="onAction(headerState.leftAction)" *ngIf="headerState.left === leftState.Back" class="mob-header__left-push">
+        <svg role="img" class="icon icon--small">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+        </svg>
+      </a>
+
+      <a (click)="onAction(headerState.leftAction)" *ngIf="headerState.left === leftState.Cancel">
+        Cancel
+      </a>
+    </div>
+
+    <!-- CENTER -->
+    <div class="layout__item 3/5 text-center">
+      <prs-page-title *ngIf="headerState.center ===  centerState.Title" [title]="headerState.title"></prs-page-title>
+      <prs-page-title-conversations *ngIf="headerState.center ===  centerState.ConversationsTitleWithCounter"></prs-page-title-conversations>
+
+      <ul *ngIf="headerState.center ===  centerState.FiltersTabs" class="mob-header-tabs">
+        <li class="1/2" [ngClass]="{'mob-header-tab-current': filtersVisible}">
+          <a (click)="activateTab('filters')" class="js-mob-header-tab__filters">Filters</a>
+        </li>
+        <li class="1/2" [ngClass]="{'mob-header-tab-current': keywordsVisible}">
+          <a (click)="activateTab('keywords')" class="js-mob-header-tab__keywords">Keywords</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="layout__item 1/5 text-right" [ngClass]="{'pr0': headerState.right ===  rightState.NewConversation}">
+      <a *ngIf="headerState.right ===  rightState.Add" (click)="onAction(headerState.rightAction)">
+        <svg role="img" class="icon ">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+        </svg>
+      </a>
+      <a *ngIf="headerState.right ===  rightState.Search" (click)="onAction(headerState.rightAction)">
+        <svg role="img" class="icon icon--small">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
+        </svg>
+      </a>
+      <a *ngIf="headerState.right === rightState.Edit" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">
+        <svg role="img" class="icon icon--small">
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mobile_edit"></use>
+        </svg>
+      </a>
+      <a *ngIf="headerState.right === rightState.Go" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">Go</a>
+      <a *ngIf="headerState.right === rightState.Done" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">Done</a>
+    </div>
+  </div>
+</header>
