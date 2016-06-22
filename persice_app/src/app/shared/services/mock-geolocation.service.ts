@@ -1,7 +1,8 @@
 import {GeolocationService} from "./geolocation.service";
 import {SpyObject} from "../../../common/test/mocks/helper";
-import {provide} from "@angular/core";
+import {provide, Injectable} from "@angular/core";
 
+@Injectable()
 export class MockGeolocationService extends SpyObject {
   getLocationSpy;
   fakeResponse;
