@@ -31,7 +31,7 @@ export class EditMyProfileNavigationComponent implements OnInit {
 
   ngOnInit() {
     this._getCounters();
-    this.appStateService.setEditMyProfileState({ title: 'edit', isDoneButtonVisible: false });
+    // this.appStateService.setEditMyProfileState({ title: 'edit', isDoneButtonVisible: false });
   }
 
   private _getCounters() {

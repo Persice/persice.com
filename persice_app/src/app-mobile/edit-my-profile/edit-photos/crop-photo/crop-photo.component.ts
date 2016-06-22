@@ -2,6 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 import {AppStateService} from '../../../shared/services/app-state.service';
 import {CropDirective} from '../../../../app/shared/directives';
+import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-crop-photo',
@@ -44,11 +45,17 @@ export class CropPhotoComponent implements OnInit {
   constructor(private appStateService: AppStateService) { }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState({
-      title: 'crop photo',
-      isDoneButtonVisible: false,
-      isCroppingPhotosDoneButtonVisible: true
+
+    this.appStateService.headerStateEmitter.emit({
+      left: LeftHeaderState.Back,
+      leftAction: HeaderActions.ChoosePhoto,
+      center: CenterHeaderState.Title,
+      right: RightHeaderState.Done,
+      rightAction: HeaderActions.SaveCroppedPhoto,
+      transparent: false,
+      title: 'Crop Photo'
     });
+
   }
 
 }

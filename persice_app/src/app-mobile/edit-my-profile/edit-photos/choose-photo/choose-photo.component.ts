@@ -3,6 +3,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {AppStateService} from '../../../shared/services/app-state.service';
 import {InfiniteScrollDirective} from '../../../../common/directives';
 import {LoadingComponent} from '../../../../app/shared/components/loading';
+import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-choose-photo',
@@ -18,11 +19,18 @@ export class ChoosePhotoComponent implements OnInit {
   constructor(private appStateService: AppStateService) { }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState({ title: 'choose photo', isDoneButtonVisible: false });
+    this.appStateService.headerStateEmitter.emit({
+      left: LeftHeaderState.Back,
+      leftAction: HeaderActions.ChooseAlbum,
+      center: CenterHeaderState.Title,
+      right: RightHeaderState.None,
+      transparent: false,
+      title: 'Choose Photo'
+    });
   }
 
   public openCropPhoto(selectedPhoto: any) {
-    this.appStateService.setEditPhotosState({page: 4, refreshPhotos: false, photo: selectedPhoto});
+    this.appStateService.setEditPhotosState({ page: 4, refreshPhotos: false, photo: selectedPhoto });
   }
 
 }

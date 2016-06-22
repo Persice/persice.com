@@ -3,6 +3,7 @@ import {DomSanitizationService} from '@angular/platform-browser';
 
 import {AppStateService} from '../../shared/services';
 import {UserAuthService} from '../../../app/shared/services';
+import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-edit-social-accounts',
@@ -37,7 +38,15 @@ export class EditSocialAccountsMobileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appStateService.setEditMyProfileState({ title: 'accounts', isDoneButtonVisible: true });
+    this.appStateService.headerStateEmitter.emit({
+      left: LeftHeaderState.Back,
+      leftAction: HeaderActions.EditMyProfile,
+      center: CenterHeaderState.Title,
+      right: RightHeaderState.Done,
+      rightAction: HeaderActions.EditMyProfile,
+      transparent: false,
+      title: 'Accounts'
+    });
     this.getConnectStatus();
   }
 

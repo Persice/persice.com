@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppStateService} from "../../shared/services/app-state.service";
 import {CookieUtil} from "../../../app/shared/core/util";
 import {PoliticalViewsService} from "../../../app/shared/services/politicalviews.service";
+import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-political-views',
@@ -22,8 +23,15 @@ export class PoliticalViewsMobileComponent implements OnInit {
   }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState(
-      { title: 'political views', isDoneButtonVisible: true });
+    this.appStateService.headerStateEmitter.emit({
+      left: LeftHeaderState.Back,
+      leftAction: HeaderActions.EditPersonalInfo,
+      center: CenterHeaderState.Title,
+      right: RightHeaderState.Done,
+      rightAction: HeaderActions.EditPersonalInfo,
+      transparent: false,
+      title: 'Political Views'
+    });
     this.politicalViewsService.emitter.subscribe((resp) => {
       this.politicalViews = resp;
     });

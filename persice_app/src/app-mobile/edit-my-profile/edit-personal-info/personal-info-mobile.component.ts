@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, AfterViewChecked} from '@angular/core';
+import {Component, OnInit, ElementRef} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
 import {Observable} from "rxjs";
 import {ProfileService} from "../../../app/shared/services/profile.service";
@@ -6,6 +6,7 @@ import {LoadingComponent} from "../../../app/shared/components/loading/loading.c
 import {Person} from "../../shared/model/person";
 import {AppStateService} from "../../shared/services/app-state.service";
 import {CookieUtil} from "../../../app/shared/core/util";
+import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-personal-info',
@@ -13,7 +14,7 @@ import {CookieUtil} from "../../../app/shared/core/util";
   providers: [ProfileService],
   directives: [LoadingComponent, RouterLink]
 })
-export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
+export class PersonalInfoMobileComponent implements OnInit {
 
   private me: Person;
   private usernameFromCookie: string;
@@ -29,14 +30,20 @@ export class PersonalInfoMobileComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState({ title: 'personal info', isDoneButtonVisible: true });
+    this.appStateService.headerStateEmitter.emit({
+      left: LeftHeaderState.Back,
+      leftAction: HeaderActions.EditMyProfile,
+      center: CenterHeaderState.Title,
+      right: RightHeaderState.Done,
+      rightAction: HeaderActions.EditMyProfile,
+      transparent: false,
+      title: 'Personal Info'
+    });
+
     this.profileService.ofUsername(this.usernameFromCookie).subscribe(resp => {
       this.me = new Person(resp);
       this.isProfileLoaded = true;
     });
-  }
-
-  ngAfterViewChecked(): any {
     this.setupDebouncer();
   }
 
