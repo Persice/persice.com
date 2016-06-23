@@ -19,7 +19,6 @@ import {provide, Provider} from '@angular/core';
 import {Observable} from 'rxjs';
 import {MyProfileMobileComponent} from "./my-profile-mobile.component";
 import {ProfileService} from "../../app/shared/services/profile.service";
-import {AppStateService} from '../shared/services';
 import {PersonGenerator} from "../shared/model/person-generator";
 import {HttpClient} from '../../app/shared/core';
 
@@ -56,7 +55,6 @@ describe('My profile mobile component', () => {
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
       }),
-      AppStateService,
       provide(RouteParams,
         { useValue: new RouteParams({ username: PersonGenerator.givenAnyFirstName() }) }),
       RouteRegistry,

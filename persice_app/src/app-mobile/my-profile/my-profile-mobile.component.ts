@@ -5,7 +5,6 @@ import {ProfileService} from "../../app/shared/services/profile.service";
 import {UserProfileComponent} from "../user-profile/user-profile.component";
 import {LoadingComponent} from '../../app/shared/components/loading';
 import {CookieUtil} from "../../app/shared/core/util";
-import {AppStateService} from '../shared/services';
 
 @Component({
   selector: 'prs-mobile-my-profile',
@@ -22,8 +21,7 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
 
   constructor(
     private profileService: ProfileService,
-    private _params: RouteParams,
-    private appStateService: AppStateService
+    private _params: RouteParams
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
     this.usernameFromUrl = _params.get('username');
@@ -33,11 +31,10 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
     this.profileService.ofUsername(this.usernameFromCookie).subscribe(resp => {
       this.me = resp;
       this.isProfileLoaded = true;
-      this.appStateService.setHeaderVisibility(false);
     });
   }
 
   ngOnDestroy(): any {
-    this.appStateService.setHeaderVisibility(true);
+
   }
 }
