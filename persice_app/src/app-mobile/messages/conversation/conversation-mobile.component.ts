@@ -34,7 +34,7 @@ import {ConversationInputMobileComponent} from './conversation-input';
     ConversationInputMobileComponent,
     ConversationMessagesMobileComponent
   ],
-  providers: [MessagesMobileService]
+  providers: [MessagesMobileService, UnreadMessagesCounterService]
 })
 export class ConversationMobileComponent implements OnInit, OnDestroy {
 

@@ -14,7 +14,7 @@
       <a (click)="removeRecipient(i)" class="close">×</a>
     </div>
   </div>
-  <input [(ngModel)]="recipientName" [ngFormControl]="recipientNameInput" *ngIf="tokens.length < 1" type="text" class="c-input c-input--conversation-top">
+  <input [(ngModel)]="recipientName" ngControl="recipientNameInput" *ngIf="tokens.length < 1" type="text" class="c-input c-input--conversation-top">
   <ul class="conversation-top__drop" *ngIf="possibleRecipients.length > 0">
     <li *ngFor="let item of possibleRecipients" (click)="selectRecipient(item)">
       <div class="flag flag--small">
