@@ -9,6 +9,7 @@ import {EditOffersMobileComponent} from './edit-offers-mobile.component';
 import {OffersService} from '../../../app/shared/services/offers.service';
 import {AppStateService} from '../../shared/services/app-state.service';
 import {OffersGenerators} from './offers-generators';
+import {HeaderState} from "../../header/header.state";
 
 let component: EditOffersMobileComponent;
 let mock: OffersServiceMock;
@@ -64,7 +65,8 @@ describe('Edit offers mobile component', () => {
     mock = new OffersServiceMock(null);
     return [
       mock.getProvider(),
-      AppStateService
+      AppStateService,
+      HeaderState
     ];
   });
 

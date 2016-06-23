@@ -9,6 +9,7 @@ import {EditGoalsMobileComponent} from './edit-goals-mobile.component';
 import {GoalsService} from '../../../app/shared/services/goals.service';
 import {AppStateService} from '../../shared/services/app-state.service';
 import {GoalsGenerators} from './goals-generators';
+import {HeaderState} from "../../header/header.state";
 
 let component: EditGoalsMobileComponent;
 let mock: GoalsServiceMock;
@@ -64,7 +65,8 @@ describe('Edit goals mobile component', () => {
     mock = new GoalsServiceMock(null);
     return [
       mock.getProvider(),
-      AppStateService
+      AppStateService,
+      HeaderState
     ];
   });
 
