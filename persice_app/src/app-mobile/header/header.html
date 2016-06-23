@@ -1,4 +1,4 @@
-<header class="mob-header" [ngClass]="{'mob-header--transparent': headerState.transparent}">
+<header class="mob-header" [ngClass]="{'mob-header--transparent': headerState.transparent}" *ngIf="isHeaderVisible">
   <div class="layout layout--flush layout--middle">
    <!-- LEFT -->
     <div class="layout__item 1/5">
@@ -21,17 +21,9 @@
 
     <!-- CENTER -->
     <div class="layout__item 3/5 text-center">
-      <prs-page-title *ngIf="headerState.center ===  centerState.Title" [title]="headerState.title"></prs-page-title>
-      <prs-page-title-conversations *ngIf="headerState.center ===  centerState.ConversationsTitleWithCounter"></prs-page-title-conversations>
-
-      <ul *ngIf="headerState.center ===  centerState.FiltersTabs" class="mob-header-tabs">
-        <li class="1/2" [ngClass]="{'mob-header-tab-current': filtersVisible}">
-          <a (click)="activateTab('filters')" class="js-mob-header-tab__filters">Filters</a>
-        </li>
-        <li class="1/2" [ngClass]="{'mob-header-tab-current': keywordsVisible}">
-          <a (click)="activateTab('keywords')" class="js-mob-header-tab__keywords">Keywords</a>
-        </li>
-      </ul>
+      <prs-page-title *ngIf="headerState.center === centerState.Title" [title]="headerState.title"></prs-page-title>
+      <prs-page-title-conversations *ngIf="headerState.center === centerState.ConversationsTitleWithCounter"></prs-page-title-conversations>
+      <h2 *ngIf="headerState.center === centerState.GalleryPagination" class="mob-header__title js-swiper-gallery__pagination"></h2>
     </div>
 
     <!-- RIGHT -->
@@ -53,6 +45,21 @@
       </a>
       <a *ngIf="headerState.right === rightState.Go" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">Go</a>
       <a *ngIf="headerState.right === rightState.Done" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">Done</a>
+
+      <div *ngIf="headerState.right === rightState.ConnectionMenu" prs-dropdown>
+        <a class="js-mob-header__profile-drop-trigg" prs-dropdown-open>
+          <svg role="img" class="icon icon--small">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mobile_menu"></use>
+          </svg>
+        </a>
+        <ul prs-dropdown-menu class="mob-header__drop hidden">
+          <!-- <li><a>Invite to event</a></li> -->
+          <li><a data-remodal-target="disconnect-user">Disconnect</a></li>
+          <!-- <li><a>Report user</a></li> -->
+          <!-- <li><a>Block user</a></li> -->
+        </ul>
+      </div>
+
     </div>
   </div>
 </header>
