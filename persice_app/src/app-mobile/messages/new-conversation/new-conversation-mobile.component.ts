@@ -57,7 +57,7 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
 
   ngAfterViewInit(): any {
     // Setup debouncer on recipient input field.
-    const eventStream = Observable.fromEvent(this.recipientNameInput.nativeElement, 'keyup')
+    Observable.fromEvent(this.recipientNameInput.nativeElement, 'keyup')
       .debounceTime(400)
       .distinctUntilChanged()
       .subscribe(() => this.searchRecipientsByPartialName());
@@ -88,7 +88,8 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
         .subscribe((dto: any) => {
           this.service.messageSent();
           subs.unsubscribe();
-          this._router.parent.navigate(['/Messages', 'Conversation', { senderId: this.tokens[0].friend_id }]);
+          this._router.parent
+            .navigate(['/Messages', 'Conversation', { senderId: this.tokens[0].friend_id }]);
         }, error => {
           subs.unsubscribe();
           this.service.messageNotSent();

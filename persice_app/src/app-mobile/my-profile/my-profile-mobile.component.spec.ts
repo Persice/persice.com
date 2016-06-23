@@ -21,7 +21,6 @@ import {MyProfileMobileComponent} from "./my-profile-mobile.component";
 import {ProfileService} from "../../app/shared/services/profile.service";
 import {PersonGenerator} from "../shared/model/person-generator";
 import {HttpClient} from '../../app/shared/core';
-import {HeaderState} from "../header/header.state";
 import {AppStateService} from "../shared/services/app-state.service";
 
 let component: MyProfileMobileComponent;
