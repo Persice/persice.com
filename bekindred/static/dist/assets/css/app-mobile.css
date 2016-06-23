@@ -644,7 +644,8 @@ html.remodal-is-locked > body {
 }
 
 #show-network {
-  float: right;
+  position: absolute;
+  right: 0px;
 }
 
 .bg-gray {

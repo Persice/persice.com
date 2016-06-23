@@ -64,13 +64,12 @@ export class LocationService {
     };
 
     return this.get()
-    .mergeMap((res) => {
-      if (res.meta.total_count === 0) {
-
-        return this.create(newLoc);
-      } else {
-        return this.update(res.objects[0].resource_uri, newLoc);
-      }
+      .mergeMap((res) => {
+        if (res.meta.total_count === 0) {
+          return this.create(newLoc);
+        } else {
+          return this.update(res.objects[0].resource_uri, newLoc);
+        }
     });
 
   }
@@ -93,10 +92,16 @@ export class LocationService {
       OPTS_REQ_JSON_CSRF)
     .map((res: Response) => res.json());
   }
-
-
-
 }
 export var locationServiceInjectables: Array<any> = [
 provide(LocationService, { useClass: LocationService })
 ];
+
+export interface UserLocation {
+  altitude: string;
+  altitude_accuracy: string;
+  heading: string;
+  position: string;
+  speed: string;
+  user: string;
+}

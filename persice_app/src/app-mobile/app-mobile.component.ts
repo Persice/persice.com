@@ -17,8 +17,9 @@ import {EditMyProfileMobileComponent} from './edit-my-profile';
 import {HeaderComponent} from './header';
 import {TermsOfServiceMobileComponent} from './info/terms-of-service';
 import {PrivacyPolicyMobileComponent} from './info/privacy-policy';
-
 import {HeaderState} from './header';
+import {GeolocationService} from "../app/shared/services/geolocation.service";
+import {LocationService, UserLocation} from "../app/shared/services/location.service";
 
 /*
  * Persice App Component
@@ -101,7 +102,9 @@ import {HeaderState} from './header';
     FilterService,
     WebsocketService,
     AppStateService,
-    HeaderState
+    HeaderState,
+    GeolocationService,
+    LocationService
   ],
   directives: [
     NavigationMobileComponent,
@@ -118,7 +121,9 @@ export class AppMobileComponent implements OnInit {
 
   constructor(
     private websocketService: WebsocketService,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private geolocationService: GeolocationService,
+    private locationService: LocationService
   ) {
 
   }
@@ -133,6 +138,35 @@ export class AppMobileComponent implements OnInit {
     // Initialize and connect to socket.io websocket
     this.websocketService.connect();
 
+    // Geolocation parameters.
+    const GEOLOCATION_OPTS = {
+      enableHighAccuracy: true,
+      timeout: 60000,
+      maximumAge: 0
+    };
+
+    // Get geolocation using JavaScript browser API.
+    this.geolocationService.getLocation(GEOLOCATION_OPTS)
+      .subscribe((res: UserLocation) => {
+        this._updateOrCreateLocation(res);
+      },
+      (err) => {
+        console.log('Geolocation Error: ', err);
+      });
   }
 
+  /**
+   * Update the current user's location. If no record for the user exists on the backend, create a new one.
+   * @param location
+   * @private
+   */
+  private _updateOrCreateLocation(location: UserLocation) {
+    this.locationService.updateOrCreate(location)
+      .subscribe((res: UserLocation) => {
+        this.locationService.updateLocation(res);
+      },
+      (err) => {
+        console.log('Location saving error: ', err);
+      });
+  }
 }
