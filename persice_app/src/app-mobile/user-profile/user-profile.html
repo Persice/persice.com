@@ -1,42 +1,4 @@
-<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': activeView !== viewsType.Profile, 'overlay': isDropdownOpen}">
-  <header class="mob-header mob-header--transparent">
-    <div class="layout layout--flush layout--middle">
-      <div class="layout__item 1/5">
-        <a (click)="onCloseProfile.emit($event)" class="mob-header__left-push" *ngIf="type === 'crowd' || type === 'connection'">
-          <svg role="img" class="icon icon--small">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
-          </svg>
-        </a>
-        <a prs-open-left-menu class="mob-header__left-push" *ngIf="type === 'my-profile'">
-          <svg role="img" class="icon icon--small">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
-          </svg>
-        </a>
-      </div>
-      <div class="layout__item 3/5 text-center"> </div>
-      <div class="layout__item 1/5 text-right" *ngIf="type === 'crowd'"> </div>
-      <div class="layout__item 1/5 text-right" prs-dropdown (onOpen)="isDropdownOpen = true;" (onClose)="isDropdownOpen = false;" *ngIf="type === 'connection'">
-        <a class="js-mob-header__profile-drop-trigg" prs-dropdown-open>
-          <svg role="img" class="icon icon--small">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mobile_menu"></use>
-          </svg>
-        </a>
-        <ul prs-dropdown-menu class="mob-header__drop hidden">
-          <!-- <li><a>Invite to event</a></li> -->
-          <li><a href="" data-remodal-target="disconnect-user">Disconnect</a></li>
-          <!-- <li><a>Report user</a></li> -->
-          <!-- <li><a>Block user</a></li> -->
-        </ul>
-      </div>
-      <div class="layout__item 1/5 text-right" *ngIf="type === 'my-profile'">
-        <a [routerLink]="['EditMyProfile', {username: username}]" class="mob-header__right-push">
-          <svg role="img" class="icon icon--small">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mobile_edit"></use>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </header>
+<div class="user-profile-container" [ngClass]="{'my-profile': type === 'my-profile', 'is-hidden': activeView !== viewsType.Profile, 'overlay': isOverlayVisible}">
   <div class="profile-hero">
     <div class="profile-hero__name">{{person.firstName}}</div>
     <div class="profile-hero__name-meta" *ngIf="type === 'crowd' || type === 'connection'">{{person.distance}} {{person.distanceUnit}} from you</div>
@@ -155,7 +117,7 @@
     </div>
   </footer>
 </div>
-<prs-mobile-photos *ngIf="activeView === viewsType.Photos" [personId]="person.id" (onClose)="showProfileView($event)">
+<prs-mobile-photos *ngIf="activeView === viewsType.Photos" [personId]="person.id">
 </prs-mobile-photos>
 <prs-mobile-network *ngIf="activeView === viewsType.Network"
   [mutualConnectionsCount]="mutualConnectionsCount"
@@ -166,12 +128,10 @@
   [connectionsMutualTwitterFriends]="connectionsMutualTwitterFriends"
   [connectionsMutualTwitterFriends]="connectionsMutualTwitterFriends"
   [type]="type"
-  [name]="person.firstName"
-  (onClose)="showProfileView($event)">
+  [name]="person.firstName">
 </prs-mobile-network>
 <prs-mobile-likes
   *ngIf="activeView === viewsType.Likes"
-  (onClose)="showProfileView($event)"
   [userId]="person.id"
   [hideMutualLikesTitle]="type === 'my-profile'">
 </prs-mobile-likes>

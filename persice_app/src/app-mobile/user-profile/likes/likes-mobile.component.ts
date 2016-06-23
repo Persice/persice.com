@@ -3,6 +3,8 @@ import {LikesMobileService} from "../../shared/services/likes-mobile.service";
 import {TwoListMobileComponent} from "../../shared/components/two-list/two-list-mobile.component";
 import {InfiniteScrollDirective} from "../../../common/directives/infinite-scroll.directive";
 import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
+import {AppStateService} from '../../shared/services';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-likes',
@@ -14,21 +16,22 @@ export class LikesMobileComponent extends TwoListMobileComponent implements OnIn
 
   @Input() userId: string;
   @Input() hideMutualLikesTitle: boolean;
-  @Output() onClose: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    protected likesService: LikesMobileService
+    protected likesService: LikesMobileService,
+    private appStateService: AppStateService,
+    private headerState: HeaderState
   ) {
     super(likesService);
   }
 
-  public close(event?: any): void {
-    this.onClose.emit(event);
-  }
-
   public ngOnInit(): any {
+
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backWithTitle('likes', HeaderState.actions.ShowUserProfile)
+    );
+
     this.listParameter = this.userId;
-    this.pageTitle = 'Likes';
     this.firstList.title = 'Mutual';
     this.secondList.title = 'Other';
     this.firstList.hideTitle = this.hideMutualLikesTitle;

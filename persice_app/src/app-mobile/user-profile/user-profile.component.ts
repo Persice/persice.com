@@ -1,9 +1,8 @@
-import {Component, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {RouterLink} from '@angular/router-deprecated';
 import {Subscription} from 'rxjs';
 
 import {OpenLeftMenuDirective} from '../shared/directives';
-import {DROPDOWN_DIRECTIVES} from '../../common/directives/dropdown';
 import {RemodalDirective} from '../../app/shared/directives';
 
 import {GenderPipe} from '../../app/shared/pipes';
@@ -22,6 +21,8 @@ import {MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
 import {FriendUtil} from '../../app/shared/core';
 
+import {HeaderState} from '../header';
+
 enum ViewsType {
   Profile,
   Photos,
@@ -35,7 +36,6 @@ enum ViewsType {
   pipes: [GenderPipe],
   directives: [
     CheckImageDirective,
-    DROPDOWN_DIRECTIVES,
     RemodalDirective,
     AboutMobileComponent,
     ItemsListMobileComponent,
@@ -48,7 +48,7 @@ enum ViewsType {
   ],
   providers: [FriendService, MutualFriendsService, ConnectionsService]
 })
-export class UserProfileComponent implements AfterViewInit {
+export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   // Profile type, crowd or connection
   @Input() type: string;
 
@@ -61,8 +61,6 @@ export class UserProfileComponent implements AfterViewInit {
       this._setState(value);
     }
   }
-  @Output() onCloseProfile: EventEmitter<any> = new EventEmitter();
-  @Output() onDisconnectProfile: EventEmitter<any> = new EventEmitter();
 
   // Indicator for active view
   public activeView = ViewsType.Profile;
@@ -77,12 +75,12 @@ export class UserProfileComponent implements AfterViewInit {
   // Indicator for which tab is active: interests(0), goals(1), offers(2)
   public activeTab: number = 0;
 
-  // Boolean flag which checks if dropdown menu is opened
-  public isDropdownOpen: boolean = false;
+  // Boolean flag which checks if dimmed overlay over user profile is visible
+  public isOverlayVisible: boolean = false;
 
   // Remodal option
   public modalOptions = JSON.stringify({
-    hashTracking: true,
+    hashTracking: false,
     closeOnOutsideClick: true
   });
 
@@ -100,6 +98,8 @@ export class UserProfileComponent implements AfterViewInit {
   public connectionsMutualTwitterFollowers: any[] = [];
   public connectionsMutualTwitterFriends: any[] = [];
 
+  private appStateServiceInstance;
+
   constructor(
     private appStateService: AppStateService,
     private friendService: FriendService,
@@ -107,10 +107,39 @@ export class UserProfileComponent implements AfterViewInit {
     private connectionsService: ConnectionsService
   ) { }
 
+  ngOnInit(): any {
+    this.appStateServiceInstance = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
+      if (!!visible) {
+        this.showProfileView(undefined);
+      }
+    });
+
+    this.makeProfileHeaderVisible();
+
+  }
+
+  ngOnDestroy(): any {
+    this.appStateServiceInstance.unsubscribe();
+  }
+
   ngAfterViewInit() {
     setTimeout(() => {
       window.scrollTo(0, 0);
     });
+  }
+
+  public makeProfileHeaderVisible() {
+    if (this.type === 'my-profile') {
+      this.appStateService.headerStateEmitter.emit(HeaderState.myProfile);
+    }
+
+    if (this.type === 'crowd') {
+      this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBack);
+    }
+
+    if (this.type === 'connection') {
+      this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBackAndMenu);
+    }
   }
 
   /**
@@ -120,7 +149,7 @@ export class UserProfileComponent implements AfterViewInit {
   public disconnect(event: MouseEvent) {
     let subs: Subscription = this.friendService.disconnect(this.person.id)
       .subscribe((data: any) => {
-        this.onDisconnectProfile.emit(this.person.id);
+        this.appStateService.userProfileDisconnected.emit(this.person.id);
         subs.unsubscribe();
       }, (err) => {
         subs.unsubscribe();
@@ -169,6 +198,9 @@ export class UserProfileComponent implements AfterViewInit {
     if (this.type !== 'my-profile') {
       this.toggleFooterVisibility(true);
     }
+
+    this.makeProfileHeaderVisible();
+
   }
 
   private toggleFooterVisibility(visible: boolean): void {

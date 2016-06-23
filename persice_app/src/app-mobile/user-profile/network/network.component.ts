@@ -11,6 +11,8 @@ import {InfiniteScrollDirective} from '../../../common/directives';
 import {ConnectionsService} from '../../../common/connections';
 import {SelectedPersonActions} from '../../../common/actions';
 import {AppState} from '../../../common/reducers';
+import {AppStateService} from '../../shared/services';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-network',
@@ -35,9 +37,6 @@ export class NetworkComponent implements OnInit {
   @Input() connectionsMutualTwitterFollowers: any[] = [];
   @Input() connectionsMutualTwitterFriends: any[] = [];
 
-  @Output() onClose: EventEmitter<any> = new EventEmitter();
-  @Output() onOpen: EventEmitter<any> = new EventEmitter();
-
   public connections: Array<any> = [];
   public connectionsCount: number = 0;
   public loadingConnections: boolean = false;
@@ -48,12 +47,20 @@ export class NetworkComponent implements OnInit {
     private router: Router,
     private store: Store<AppState>,
     private actions: SelectedPersonActions,
-    private connectionsService: ConnectionsService
+    private connectionsService: ConnectionsService,
+    private appStateService: AppStateService,
+    private headerState: HeaderState
   ) {
 
   }
 
   ngOnInit(): any {
+
+    const pageTitle: string = `${this.name}'s network`;
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backWithTitle(pageTitle, HeaderState.actions.ShowUserProfile)
+    );
+
     if (this.type === 'my-profile') {
       this.getConnections();
     }
