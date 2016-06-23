@@ -10,7 +10,5 @@
 <prs-user-profile *ngIf="itemViewActive"
   [isNewConnectionDisabled]="0"
   [user]="selectedItem"
-  [type]="'connection'"
-  (onCloseProfile)="closeItemView($event)"
-  (onDisconnectProfile)="afterProfileDisconnected($event)">
+  [type]="'connection'">
 </prs-user-profile>

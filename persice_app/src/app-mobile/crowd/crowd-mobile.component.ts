@@ -14,6 +14,7 @@ import {UserProfileComponent} from '../user-profile';
 
 import {AppState, getSelectedPersonState} from '../../common/reducers';
 import {SelectedPersonActions} from '../../common/actions';
+import {HeaderState} from '../header';
 
 const LIST_REFRESH_TIMEOUT: number = 0;
 
@@ -75,6 +76,11 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
       .subscribe((visibility: boolean) => {
         this.isFilterVisible = visibility;
       });
+
+    // Is List view visible
+    this.appStateService.goBackToListViewEmitter.subscribe((data) => {
+      this.closeItemView(undefined);
+    });
   }
 
   ngOnDestroy() {
@@ -96,9 +102,6 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     // Set selectedItem as selected person and profileype as 'crowd' in SelectedPerson App Store
     this.store.dispatch(this.actions.set(this.selectedItem, 'crowd'));
 
-    // Hide profile header.
-    this.appStateService.setHeaderVisibility(false);
-
     // Show profile footer visibility.
     this.appStateService.setProfileFooterVisibility({
       visibility: true
@@ -109,8 +112,7 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     // Clear selected person from SelectedPerson App Store
     this.store.dispatch(this.actions.clear());
 
-    // Show top header.
-    this.appStateService.setHeaderVisibility(true);
+    this.appStateService.headerStateEmitter.emit(HeaderState.crowd);
 
     // Hide profile footer.
     this.appStateService.setProfileFooterVisibility({

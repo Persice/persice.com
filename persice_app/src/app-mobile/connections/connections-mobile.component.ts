@@ -13,6 +13,7 @@ import {UserProfileComponent} from '../user-profile';
 
 import {AppState} from '../../common/reducers';
 import {SelectedPersonActions} from '../../common/actions';
+import {HeaderState} from '../header';
 
 import {Subscription} from 'rxjs';
 
@@ -53,12 +54,20 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
       .subscribe((visibility: boolean) => {
         this.isFilterVisible = visibility;
       });
+
+    // Is List view visible
+    this.appStateService.goBackToListViewEmitter.subscribe((data) => {
+      this.closeItemView(undefined);
+    });
+
+    // Listen for event when connection is disconnected
+    this.appStateService.userProfileDisconnected.subscribe((userId) => {
+      this.afterProfileDisconnected(userId);
+    });
   }
 
   ngOnDestroy() {
     this.clearServicesSubscriptions();
-    // Show top header
-    this.appStateService.setHeaderVisibility(true);
 
     // Hide profile footer
     this.appStateService.setProfileFooterVisibility({
@@ -73,9 +82,6 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
   afterItemSelected(index?: number) {
     // Set selectedItem as selected person and profileype as 'connection' in SelectedPerson App Store
     this.store.dispatch(this.actions.set(this.selectedItem, 'connection'));
-
-    // Hide profile header
-    this.appStateService.setHeaderVisibility(false);
 
     // Show profile footer visibility
     this.appStateService.setProfileFooterVisibility({
@@ -94,8 +100,8 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     }
   }
 
-  afterProfileDisconnected(event) {
-    if (!!this.selectedItem) {
+  afterProfileDisconnected(userId) {
+    if (!!this.selectedItem && this.selectedItem.id === userId) {
       const id: string = this.selectedItem.id;
       this.removeItemById(id);
       this.newConnectionsCounterService.refresh();
@@ -107,8 +113,7 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     // Clear selected person from SelectedPerson App Store
     this.store.dispatch(this.actions.clear());
 
-    // Show top header
-    this.appStateService.setHeaderVisibility(true);
+    this.appStateService.headerStateEmitter.emit(HeaderState.connections);
 
     // Hide profile footer
     this.appStateService.setProfileFooterVisibility({
