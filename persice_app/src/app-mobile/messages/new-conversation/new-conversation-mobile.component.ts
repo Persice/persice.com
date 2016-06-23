@@ -18,7 +18,7 @@ import {CheckImageDirective} from '../../../app/shared/directives';
   providers: [NewConversationMobileService],
   directives: [CheckImageDirective]
 })
-export class NewConversationMobileComponent implements OnInit, OnDestroy {
+export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('recipientNameInput') recipientNameInput: ElementRef;
   tokens: any[] = [];
   messageText: string = '';

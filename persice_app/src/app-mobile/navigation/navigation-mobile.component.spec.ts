@@ -17,13 +17,6 @@ import {
 import {AppMobileComponent} from '../app-mobile.component';
 
 import {NavigationMobileComponent} from './navigation-mobile.component';
-import {MockBackend} from "@angular/http/testing";
-import {Http, BaseRequestOptions} from "@angular/http";
-import {HttpClient} from "../../app/shared/core/http-client";
-import {Store} from "@ngrx/store";
-import {UnreadMessagesCounterService} from "../../common/services/unread-messages-counter.service";
-import {NewConnectionsCounterService} from "../../common/services/new-connections-counter.service";
-import {AppState} from "../../common/reducers/index";
 
 let component: TestComponent;
 let domElement: any;
@@ -52,14 +45,6 @@ describe('Navigation mobile component', () => {
     return [
       RouterLink,
       RouteRegistry,
-      MockBackend,
-      BaseRequestOptions,
-      HttpClient,
-      Store<AppState>,
-      provide(Http, {
-        useFactory: (backend, options) => new Http(backend, options),
-        deps: [MockBackend, BaseRequestOptions]
-      }),
       provide(Location, { useClass: SpyLocation }),
       provide(Router, { useClass: RootRouter }),
       provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent })
@@ -122,7 +107,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterElement = obtainElement(domElement, '.mob-nav-main__value__counter.is-visible');
+    let counterElement = obtainElement(domElement, '.mob-nav-main__value__messages.is-visible');
     expect(counterElement).toBeNull();
   });
 
@@ -134,7 +119,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__counter'), 10);
+    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__messages'), 10);
     expect(counterValue).toEqual(component.counter);
   });
 
@@ -146,7 +131,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterElement = obtainElement(domElement, '.mob-nav-main__value__counter_connections.is-visible');
+    let counterElement = obtainElement(domElement, '.mob-nav-main__value__connections.is-visible');
     expect(counterElement).toBeNull();
   });
 
@@ -158,7 +143,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__counter_connections'), 10);
+    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__connections'), 10);
     expect(counterValue).toEqual(component.counterConnections);
   });
 

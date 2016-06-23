@@ -19,7 +19,7 @@
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
         </svg> <span>Messages</span>
-        <prs-mobile-counter [type]="'messages'" [counter]="messagesCounter | async"></prs-mobile-counter>
+        <i class="mob-nav-main__value mob-nav-main__value__messages" [ngClass]="{'is-visible': unreadMessagesCounter > 0}">{{unreadMessagesCounter}}</i>
       </a>
     </li>
     <li>
@@ -27,7 +27,7 @@
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
         </svg> <span>Connections</span>
-        <prs-mobile-counter [type]="'connections'" [counter]="connectionsCounter | async"></prs-mobile-counter>
+        <i class="mob-nav-main__value mob-nav-main__value__connections" [ngClass]="{'is-visible': newConnectionsCounter > 0}">{{newConnectionsCounter}}</i>
       </a>
     </li>
     <li>
