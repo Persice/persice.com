@@ -526,8 +526,8 @@ html {
   opacity: 0;
 }
 
-.mob-nav-main__value__counter.is-visible,
-.mob-nav-main__value__counter_connections.is-visible {
+.mob-nav-main__value__messages.is-visible,
+.mob-nav-main__value__connections.is-visible {
   visibility: visible;
   opacity: 1;
   transition: all .3s ease-in-out;
