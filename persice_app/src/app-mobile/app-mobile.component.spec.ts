@@ -1,4 +1,3 @@
-///<reference path="../../node_modules/@angular/http/src/http.d.ts"/>
 import {
   ROUTER_PRIMARY_COMPONENT,
   Router,
@@ -32,7 +31,7 @@ describe('App component mobile', () => {
 
   var location, router, mockGeolocationService, _tcb;
 
-  beforeEachProviders(() => { 
+  beforeEachProviders(() => {
     mockGeolocationService = new MockGeolocationService();
 
     return [

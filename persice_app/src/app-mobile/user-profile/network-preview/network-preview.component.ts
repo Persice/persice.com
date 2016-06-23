@@ -25,6 +25,4 @@ export class NetworkPreviewComponent {
   // List and counter for all connections
   public connections: any[];
   public emptyPlacesArray: any[];
-
-  public
 }

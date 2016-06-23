@@ -72,7 +72,7 @@ export class HeaderState {
     rightAction: HeaderState.actions.None,
     transparent: false,
     title: ''
-  }
+  };
 
 
   public static userProfileWithBack = {
@@ -83,7 +83,7 @@ export class HeaderState {
     rightAction: HeaderState.actions.None,
     transparent: true,
     title: ''
-  }
+  };
 
   public static userProfileWithBackAndMenu = {
     left: HeaderState.left.Back,
@@ -93,7 +93,7 @@ export class HeaderState {
     rightAction: HeaderState.actions.None,
     transparent: true,
     title: ''
-  }
+  };
 
   public static userProfile = {
     left: HeaderState.left.Menu,
@@ -103,7 +103,7 @@ export class HeaderState {
     rightAction: HeaderState.actions.None,
     transparent: true,
     title: ''
-  }
+  };
 
   public static crowd = {
     left: LeftHeaderState.Menu,
@@ -112,7 +112,7 @@ export class HeaderState {
     rightAction: HeaderActions.FiltersOpen,
     transparent: false,
     title: 'Crowd'
-  }
+  };
 
   public static connections = {
     left: LeftHeaderState.Menu,
@@ -121,7 +121,7 @@ export class HeaderState {
     rightAction: HeaderActions.FiltersOpen,
     transparent: false,
     title: 'Connections'
-  }
+  };
 
   public static messages = {
     left: LeftHeaderState.Menu,
@@ -130,7 +130,7 @@ export class HeaderState {
     rightAction: HeaderActions.NewConversation,
     transparent: false,
     title: 'Conversations'
-  }
+  };
 
   public static editMyProfile = {
     left: LeftHeaderState.Back,
@@ -139,7 +139,7 @@ export class HeaderState {
     right: RightHeaderState.None,
     transparent: false,
     title: 'Edit'
-  }
+  };
 
   public static myProfile = {
     left: LeftHeaderState.Menu,
@@ -148,7 +148,7 @@ export class HeaderState {
     rightAction: HeaderActions.EditMyProfile,
     transparent: true,
     title: ''
-  }
+  };
 
   public static privacyAndTerms = {
     left: LeftHeaderState.Menu,
@@ -156,7 +156,7 @@ export class HeaderState {
     right: RightHeaderState.None,
     transparent: false,
     title: ''
-  }
+  };
 
   public backDoneWithTitle(pageTitle: string, action: any) {
     return {
@@ -167,7 +167,7 @@ export class HeaderState {
       rightAction: action,
       transparent: false,
       title: pageTitle
-    }
+    };
   }
 
   public backDoneWithTitleAndActions(pageTitle: string, actionLeft: any, actionRight: any) {
@@ -179,7 +179,7 @@ export class HeaderState {
       rightAction: actionRight,
       transparent: false,
       title: pageTitle
-    }
+    };
   }
 
   public backWithTitle(pageTitle: string, action: any) {
@@ -191,7 +191,7 @@ export class HeaderState {
       rightAction: HeaderActions.None,
       transparent: false,
       title: pageTitle
-    }
+    };
   }
 
 }

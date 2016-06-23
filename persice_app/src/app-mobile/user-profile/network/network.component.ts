@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnInit}
+import {Component, Input, OnInit}
 from '@angular/core';
 import {Router} from '@angular/router-deprecated';
 import {Store} from '@ngrx/store';
