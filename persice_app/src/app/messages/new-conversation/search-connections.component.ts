@@ -1,33 +1,30 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  OnInit
-} from '@angular/core';
+import {Component, Output, Renderer, EventEmitter, OnInit, AfterViewInit, ViewChild, ElementRef}
+from '@angular/core';
 
-import {Control} from '@angular/common';
 import {Observable} from 'rxjs';
 import {Http} from '@angular/http';
 import {CheckImageDirective} from '../../shared/directives';
-
-
 
 @Component({
   selector: 'prs-search-connections',
   template: require('./search-connections.html'),
   directives: [CheckImageDirective]
 })
-export class SearchConnectionsComponent implements OnInit {
+export class SearchConnectionsComponent implements OnInit, AfterViewInit {
   @Output() selected: EventEmitter<any> = new EventEmitter();
-  searchTerm = new Control();
+  @ViewChild('searchTerm') searchTerm: ElementRef;
   results: Observable<any[]>;
   resultsVisible: boolean = false;
   selectedIndex: number = -1;
   resultsCount: number = 0;
   resultsCache: any[] = [];
 
-  constructor(public http: Http) {
-    this.results = this._search(this.searchTerm.valueChanges);
+  constructor(public http: Http, private renderer: Renderer) {
+  }
+
+  ngAfterViewInit(): any {
+    const eventStream = Observable.fromEvent(this.searchTerm.nativeElement, 'keyup');
+    this.results = this._search(eventStream);
   }
 
   keyEvent(event) {
@@ -97,12 +94,13 @@ export class SearchConnectionsComponent implements OnInit {
   public select(result) {
     this.resultsVisible = false;
     this.resultsCache = [];
-    this.searchTerm.updateValue('');
+    this.renderer.setElementProperty(this.searchTerm.nativeElement, 'value', '');
     this.selected.emit(result);
   }
 
-  private _search(terms: Observable<string>, debounceDuration = 400): Observable<any[]> {
-    return terms.debounceTime(debounceDuration)
+  private _search(terms: Observable<any>, debounceDuration = 400): Observable<any[]> {
+    return terms
+      .debounceTime(debounceDuration)
       .distinctUntilChanged()
       .switchMap((term: any) => this._rawSearch(term));
   }
