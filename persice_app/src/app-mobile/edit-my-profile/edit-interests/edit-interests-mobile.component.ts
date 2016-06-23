@@ -7,7 +7,7 @@ import {InfiniteScrollElementDirective} from "../../../common/directives/infinit
 import {InterestsService} from "../../../app/shared/services/interests.service";
 import {ManageInterestsComponent} from "../../../common/manage-interests/manage-interests.component";
 import {AppStateService} from "../../shared/services/app-state.service";
-import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../header';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'persice-mobile-edit-interests',
@@ -24,20 +24,14 @@ export class EditInterestsMobileComponent extends ManageInterestsComponent imple
   constructor(
     protected interestsService: InterestsService,
     protected keywordsService: KeywordsService,
-    private appStateService: AppStateService
+    private appStateService: AppStateService,
+    private headerState: HeaderState
   ) {
     super(interestsService, keywordsService);
   }
 
   ngOnInit() {
-    this.appStateService.headerStateEmitter.emit({
-      leftAction: HeaderActions.EditMyProfile,
-      center: CenterHeaderState.Title,
-      right: RightHeaderState.Done,
-      rightAction: HeaderActions.EditMyProfile,
-      transparent: false,
-      title: 'Interests'
-    });
+    this.appStateService.headerStateEmitter.emit(this.headerState.backDoneWithTitle('interests', HeaderState.actions.EditMyProfile));
     this.getList();
   }
 

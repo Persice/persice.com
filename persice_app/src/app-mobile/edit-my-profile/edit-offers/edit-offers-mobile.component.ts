@@ -5,7 +5,7 @@ import {AutocompleteDirective} from '../../../common/directives/autocomplete.dir
 import {LoadingComponent} from '../../../app/shared/components/loading/loading.component';
 import {OffersService} from '../../../app/shared/services/offers.service';
 import {AppStateService} from '../../shared/services/app-state.service';
-import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../header';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-offers',
@@ -21,20 +21,16 @@ export class EditOffersMobileComponent extends ManageGoalsOffersComponent implem
 
   constructor(
     protected offersService: OffersService,
-    protected appStateService: AppStateService
+    protected appStateService: AppStateService,
+    private headerState: HeaderState
   ) {
     super(offersService);
   }
 
   ngOnInit() {
-    this.appStateService.headerStateEmitter.emit({
-      leftAction: HeaderActions.EditMyProfile,
-      center: CenterHeaderState.Title,
-      right: RightHeaderState.Done,
-      rightAction: HeaderActions.EditMyProfile,
-      transparent: false,
-      title: 'Offers'
-    });
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backDoneWithTitle('offers', HeaderState.actions.EditMyProfile)
+    );
     this.getList();
   }
 }

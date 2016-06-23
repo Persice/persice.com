@@ -3,7 +3,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {AppStateService} from '../../../shared/services/app-state.service';
 import {InfiniteScrollDirective} from '../../../../common/directives';
 import {LoadingComponent} from '../../../../app/shared/components/loading';
-import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../../header';
+import {HeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-choose-photo',
@@ -16,17 +16,15 @@ export class ChoosePhotoComponent implements OnInit {
   @Input() loading: boolean;
   @Output() onLoadMoreFBPhotos: EventEmitter<any> = new EventEmitter();
 
-  constructor(private appStateService: AppStateService) { }
+  constructor(
+    private appStateService: AppStateService,
+    private headerState: HeaderState
+    ) { }
 
   ngOnInit(): any {
-    this.appStateService.headerStateEmitter.emit({
-      left: LeftHeaderState.Back,
-      leftAction: HeaderActions.ChooseAlbum,
-      center: CenterHeaderState.Title,
-      right: RightHeaderState.None,
-      transparent: false,
-      title: 'Choose Photo'
-    });
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backWithTitle('choose photo', HeaderState.actions.ChooseAlbum)
+    );
   }
 
   public openCropPhoto(selectedPhoto: any) {

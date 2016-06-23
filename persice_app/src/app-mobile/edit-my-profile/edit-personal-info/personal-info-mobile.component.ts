@@ -6,7 +6,7 @@ import {LoadingComponent} from "../../../app/shared/components/loading/loading.c
 import {Person} from "../../shared/model/person";
 import {AppStateService} from "../../shared/services/app-state.service";
 import {CookieUtil} from "../../../app/shared/core/util";
-import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../header';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-personal-info',
@@ -24,21 +24,16 @@ export class PersonalInfoMobileComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private appStateService: AppStateService,
+    private headerState: HeaderState,
     public element: ElementRef
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
   }
 
   ngOnInit(): any {
-    this.appStateService.headerStateEmitter.emit({
-      left: LeftHeaderState.Back,
-      leftAction: HeaderActions.EditMyProfile,
-      center: CenterHeaderState.Title,
-      right: RightHeaderState.Done,
-      rightAction: HeaderActions.EditMyProfile,
-      transparent: false,
-      title: 'Personal Info'
-    });
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backDoneWithTitle('Personal Info', HeaderState.actions.EditMyProfile)
+    );
 
     this.profileService.ofUsername(this.usernameFromCookie).subscribe(resp => {
       this.me = new Person(resp);

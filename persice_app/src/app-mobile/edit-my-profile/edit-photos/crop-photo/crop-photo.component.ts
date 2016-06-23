@@ -2,7 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 import {AppStateService} from '../../../shared/services/app-state.service';
 import {CropDirective} from '../../../../app/shared/directives';
-import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} from '../../../header';
+import {HeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-crop-photo',
@@ -11,9 +11,9 @@ import {HeaderActions, LeftHeaderState, RightHeaderState, CenterHeaderState} fro
 })
 export class CropPhotoComponent implements OnInit {
 
-  @Input() set photo (data: any) {
+  @Input() set photo(data: any) {
     if (!!data.images && data.images.length > 0) {
-      this._imageUri = data.images[0].source;
+      this._imageUri = data.images[2].source;
     }
   };
 
@@ -42,20 +42,19 @@ export class CropPhotoComponent implements OnInit {
   private _imageUri: string = '';
   private _croppedImage: any;
 
-  constructor(private appStateService: AppStateService) { }
+  constructor(
+    private appStateService: AppStateService,
+    private headerState: HeaderState
+  ) { }
 
   ngOnInit(): any {
-
-    this.appStateService.headerStateEmitter.emit({
-      left: LeftHeaderState.Back,
-      leftAction: HeaderActions.ChoosePhoto,
-      center: CenterHeaderState.Title,
-      right: RightHeaderState.Done,
-      rightAction: HeaderActions.SaveCroppedPhoto,
-      transparent: false,
-      title: 'Crop Photo'
-    });
-
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backDoneWithTitleAndActions(
+        'crop photo',
+        HeaderState.actions.ChoosePhoto,
+        HeaderState.actions.SaveCroppedPhoto
+      )
+    );
   }
 
 }

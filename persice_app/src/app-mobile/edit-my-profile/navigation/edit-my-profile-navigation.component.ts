@@ -3,7 +3,6 @@ import {RouterLink} from '@angular/router-deprecated';
 import {CookieUtil} from '../../../app/shared/core/util';
 import {GoalsService, OffersService, PhotosService, InterestsService}
 from '../../../app/shared/services';
-import {AppStateService} from '../../shared/services/app-state.service';
 
 @Component({
   selector: 'prs-mobile-edit-my-profile-navigation',
@@ -23,15 +22,13 @@ export class EditMyProfileNavigationComponent implements OnInit {
     private interestsService: InterestsService,
     private goalsService: GoalsService,
     private offersService: OffersService,
-    private photosService: PhotosService,
-    private appStateService: AppStateService
+    private photosService: PhotosService
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
   }
 
   ngOnInit() {
     this._getCounters();
-    // this.appStateService.setEditMyProfileState({ title: 'edit', isDoneButtonVisible: false });
   }
 
   private _getCounters() {
