@@ -4,7 +4,8 @@
     "module": "commonjs",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noEmitHelpers": true
+    "noEmitHelpers": true,
+    "sourceMap": false
   },
   "exclude": [
     "node_modules"
