@@ -9,7 +9,7 @@ import {
   beforeEach,
   expect,
   inject,
-  beforeEachProviders, async
+  beforeEachProviders
 } from '@angular/core/testing';
 import {provide} from '@angular/core';
 import {SpyLocation} from '@angular/common/testing';
@@ -43,7 +43,7 @@ describe('App component mobile', () => {
       HttpClient,
       provide(Http, {
         useFactory: (connectionBackend: ConnectionBackend,
-                     defaultOptions: BaseRequestOptions) => {
+          defaultOptions: BaseRequestOptions) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [
@@ -55,12 +55,13 @@ describe('App component mobile', () => {
       provide(Router, { useClass: RootRouter }),
       provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent }),
       mockGeolocationService.getProviders()
-    ]});
+    ];
+  });
 
   beforeEach(inject([Router, Location, TestComponentBuilder], (r, l, tcb) => {
     router = r;
     location = l;
-    _tcb = tcb
+    _tcb = tcb;
   }));
 
   it('Should be able to navigate to Crowd', done => {

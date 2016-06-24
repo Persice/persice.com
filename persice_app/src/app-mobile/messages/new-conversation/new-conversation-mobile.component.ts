@@ -1,5 +1,5 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Location, Control} from '@angular/common';
+import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
+import {Location} from '@angular/common';
 import {Router} from '@angular/router-deprecated';
 import {Subscription, Observable} from 'rxjs';
 import {Http} from '@angular/http';
@@ -18,12 +18,11 @@ import {CheckImageDirective} from '../../../app/shared/directives';
   providers: [NewConversationMobileService],
   directives: [CheckImageDirective]
 })
-export class NewConversationMobileComponent implements OnInit, OnDestroy {
-
+export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('recipientNameInput') recipientNameInput: ElementRef;
   tokens: any[] = [];
   messageText: string = '';
   recipientName: string;
-  recipientNameInput = new Control();
   possibleRecipients: any[] = [];
 
   private selectedPersonState$: Observable<any>;
@@ -54,11 +53,14 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Setup debouncer on recipient input field.
-    this.recipientNameInput.valueChanges
-      .debounceTime(400)
-      .subscribe(() => this.searchRecipientsByPartialName());
+  }
 
+  ngAfterViewInit(): any {
+    // Setup debouncer on recipient input field.
+    Observable.fromEvent(this.recipientNameInput.nativeElement, 'keyup')
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .subscribe(() => this.searchRecipientsByPartialName());
   }
 
   ngOnInit(): any {
@@ -86,7 +88,8 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy {
         .subscribe((dto: any) => {
           this.service.messageSent();
           subs.unsubscribe();
-          this._router.parent.navigate(['/Messages', 'Conversation', { senderId: this.tokens[0].friend_id }]);
+          this._router.parent
+            .navigate(['/Messages', 'Conversation', { senderId: this.tokens[0].friend_id }]);
         }, error => {
           subs.unsubscribe();
           this.service.messageNotSent();

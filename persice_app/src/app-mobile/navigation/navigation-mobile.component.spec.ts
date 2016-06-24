@@ -107,7 +107,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterElement = obtainElement(domElement, '.mob-nav-main__value__counter.is-visible');
+    let counterElement = obtainElement(domElement, '.mob-nav-main__value__messages.is-visible');
     expect(counterElement).toBeNull();
   });
 
@@ -119,7 +119,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__counter'), 10);
+    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__messages'), 10);
     expect(counterValue).toEqual(component.counter);
   });
 
@@ -131,7 +131,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterElement = obtainElement(domElement, '.mob-nav-main__value__counter_connections.is-visible');
+    let counterElement = obtainElement(domElement, '.mob-nav-main__value__connections.is-visible');
     expect(counterElement).toBeNull();
   });
 
@@ -143,7 +143,7 @@ describe('Navigation mobile component', () => {
     this.componentFixture.detectChanges();
 
     // then
-    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__counter_connections'), 10);
+    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__connections'), 10);
     expect(counterValue).toEqual(component.counterConnections);
   });
 

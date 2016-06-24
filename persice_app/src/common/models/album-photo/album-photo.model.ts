@@ -1,5 +1,3 @@
-import {StringUtil} from '../../../app/shared/core';
-
 export class AlbumPhoto {
 
   private _id: string;

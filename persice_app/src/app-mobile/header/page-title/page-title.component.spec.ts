@@ -40,41 +40,41 @@ describe('Page title component', () => {
   })));
 
   it('should show default page title', () => {
-    // // given
-    // const expectedTitle = 'Persice';
-    //
-    // // when
-    // this.componentFixture.detectChanges();
-    //
-    // // then
-    // let pageTitle = obtainText(componentElement, '.mob-header__title-value');
-    // expect(pageTitle).toBe(expectedTitle);
+    // given
+    const expectedTitle = 'Persice';
+
+    // when
+    this.componentFixture.detectChanges();
+
+    // then
+    let pageTitle = obtainText(componentElement, '.mob-header__title-value');
+    expect(pageTitle).toBe(expectedTitle);
   });
 
   it('should show new page title when it changes', () => {
     // given
-    // componentInstance.pageTitle = 'New-page-title';
-    // const expectedTitle = 'New page title';
-    //
-    // // when
-    // this.componentFixture.detectChanges();
-    //
-    // // then
-    // let pageTitle = obtainText(componentElement, '.mob-header__title-value');
-    // expect(pageTitle).toBe(expectedTitle);
+    componentInstance.pageTitle = 'New page title';
+    const expectedTitle = 'New page title';
+
+    // when
+    this.componentFixture.detectChanges();
+
+    // then
+    let pageTitle = obtainText(componentElement, '.mob-header__title-value');
+    expect(pageTitle).toBe(expectedTitle);
   });
 
   it('should be empty when title is empty string', () => {
-    // // given
-    // componentInstance.pageTitle = '';
-    // const expectedTitle = '';
-    //
-    // // when
-    // this.componentFixture.detectChanges();
-    //
-    // // then
-    // let pageTitle = obtainText(componentElement, '.mob-header__title-value');
-    // expect(pageTitle).toBe(expectedTitle);
+    // given
+    componentInstance.pageTitle = '';
+    const expectedTitle = '';
+
+    // when
+    this.componentFixture.detectChanges();
+
+    // then
+    let pageTitle = obtainText(componentElement, '.mob-header__title-value');
+    expect(pageTitle).toBe(expectedTitle);
   });
 
   function obtainText(element, selector) {
