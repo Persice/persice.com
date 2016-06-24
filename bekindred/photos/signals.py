@@ -3,7 +3,8 @@ from django.db import models
 from easy_thumbnails.signals import saved_file
 
 from photos.models import FacebookPhoto
-from photos.tasks import update_index_delay, generate_thumbnails
+from core.tasks import update_index_delay
+from photos.tasks import generate_thumbnails
 
 
 @receiver(saved_file)

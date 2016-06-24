@@ -1,11 +1,17 @@
+import logging
 from collections import Counter
 
+import time
 from nltk.stem.porter import PorterStemmer
 
 from match_engine.models import CollocationDict, StopWords
 
 
+logger = logging.getLogger(__name__)
+
+
 def find_collocations(keywords):
+    now = time.time()
     collocations = CollocationDict.objects. \
         all().values_list('phrase', flat=True)
     stop_words = StopWords.objects.all().values_list('word', flat=True)
@@ -42,4 +48,6 @@ def find_collocations(keywords):
             result.append(keyword)
 
     result.extend(d.keys())
+    logger.debug("Time find_collocations: {} {}".format(now - time.time(),
+                                                   keywords))
     return result

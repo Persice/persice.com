@@ -54,6 +54,7 @@ python-openid==2.2.5
 python-twitter==2.2
 pytz==2014.7
 redis==2.10.3
+django-redis-cache==1.6.5
 requests==2.4.0
 requests-oauthlib==0.4.1
 simplejson==3.6.3
