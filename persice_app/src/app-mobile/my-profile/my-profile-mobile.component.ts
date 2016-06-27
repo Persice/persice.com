@@ -1,10 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
-import {Person} from "../shared/model/person";
-import {ProfileService} from "../../app/shared/services/profile.service";
-import {UserProfileComponent} from "../user-profile/user-profile.component";
+import {Router, ActivatedRoute} from '@angular/router';
+import {Person} from '../shared/model/person';
+import {ProfileService} from '../../app/shared/services';
+import {UserProfileComponent} from '../user-profile';
 import {LoadingComponent} from '../../app/shared/components/loading';
-import {CookieUtil} from "../../app/shared/core/util";
+import {CookieUtil} from '../../app/shared/core';
 
 @Component({
   selector: 'prs-mobile-my-profile',
@@ -18,13 +18,19 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
   private usernameFromCookie: string;
   private usernameFromUrl: string;
   private isProfileLoaded: boolean = false;
+  private sub: any;
 
   constructor(
     private profileService: ProfileService,
-    private _params: RouteParams
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
-    this.usernameFromUrl = _params.get('username');
+
+    this.sub = this.route.params.subscribe(params => {
+      this.usernameFromUrl = params['username'];
+    });
+
   }
 
   ngOnInit(): any {
@@ -35,6 +41,6 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
-
+    this.sub.unsubscribe();
   }
 }
