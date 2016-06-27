@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
 import {FilterMobileComponent} from '../shared/components/filter';
@@ -23,6 +23,7 @@ const LIST_REFRESH_TIMEOUT: number = 0;
   template: require('./crowd-mobile.html'),
   providers: [CrowdService, FriendService],
   directives: [
+    ROUTER_DIRECTIVES,
     LoadingComponent,
     UserCardMobileComponent,
     FilterMobileComponent,
@@ -68,6 +69,7 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
   }
 
   ngOnInit() {
+    this.appStateService.headerStateEmitter.emit(HeaderState.crowd);
     this.getList();
     this.subscribeToFilterServiceUpdates();
 

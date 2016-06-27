@@ -46,6 +46,7 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
   }
 
   ngOnInit() {
+    this.appStateService.headerStateEmitter.emit(HeaderState.connections);
     this.getList();
     this.subscribeToFilterServiceUpdates();
 
