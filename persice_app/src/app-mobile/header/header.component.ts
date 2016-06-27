@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 
 import {CookieUtil} from '../../app/shared/core';
 import {PageTitleComponent} from './page-title';
@@ -34,18 +34,7 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router, private appStateService: AppStateService) { }
 
   ngOnInit(): any {
-    this.router.subscribe((next: any) => {
-      const state: any = next.instruction.routeData.data;
-      this.headerState = Object.assign({}, this.headerState, state.headerState);
-      console.log('changing header state via ROUTER');
-      console.log(state);
-      console.log(this.headerState);
-
-    });
-
     this.appStateService.headerStateEmitter.subscribe((state: any) => {
-      console.log('changing header state via SERVICE');
-      console.log('changing header state', state);
       this.headerState = Object.assign({}, this.headerState, state);
     });
 
@@ -62,19 +51,19 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.NewConversation:
-        this.router.navigate(['Messages', 'NewConversation']);
+        this.router.navigateByUrl('/messages/new');
         break;
 
       case this.actions.EditMyProfile:
-        this.router.navigate(['EditMyProfile', { username: this.username }]);
+        this.router.navigateByUrl('/edit-profile');
         break;
 
       case this.actions.MyProfile:
-        this.router.navigate(['MyProfile', { username: this.username }]);
+        this.router.navigateByUrl(`/${this.username}`);
         break;
 
       case this.actions.EditPersonalInfo:
-        this.router.navigate(['EditMyProfile', { username: this.username }, 'EditPersonalInfo']);
+        this.router.navigateByUrl('/edit-profile/personal');
         break;
 
       case this.actions.EditPhotos:

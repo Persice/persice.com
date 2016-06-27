@@ -150,7 +150,7 @@ export class HeaderState {
     title: ''
   };
 
-  public static privacyAndTerms = {
+  public static onlyMenu = {
     left: LeftHeaderState.Menu,
     center: CenterHeaderState.None,
     right: RightHeaderState.None,
