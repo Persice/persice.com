@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
 import {Location} from '@angular/common';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 import {Subscription, Observable} from 'rxjs';
 import {Http} from '@angular/http';
 import {Store} from '@ngrx/store';
@@ -41,7 +41,7 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
 
     this.selectedPersonState$.subscribe((state: any) => {
       // Preselect a recipient, if it was previously selected.
-      if (state.selected && state.useAsNewConversationRecipient) {
+      if (state.selected) {
         this.recipientIsAlreadySelected = true;
         this.tokens.push({
           first_name: state.person.first_name,
@@ -88,8 +88,8 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
         .subscribe((dto: any) => {
           this.service.messageSent();
           subs.unsubscribe();
-          this._router.parent
-            .navigate(['/Messages', 'Conversation', { senderId: this.tokens[0].friend_id }]);
+          this._router
+            .navigateByUrl('messages/' + this.tokens[0].friend_id);
         }, error => {
           subs.unsubscribe();
           this.service.messageNotSent();

@@ -1,5 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
+import {Router, ActivatedRoute} from '@angular/router';
+
 import {Observable, Subscription} from 'rxjs';
 
 import {MessagesMobileService} from './messages-mobile.service';
@@ -49,10 +50,12 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
   private senderId: string;
 
   private websocketServiceSubs: Subscription;
+  private sub: any;
 
   constructor(
     private messagesService: MessagesMobileService,
-    private params: RouteParams,
+    private router: Router,
+    private route: ActivatedRoute,
     private appStateService: AppStateService,
     private websocketService: WebsocketService,
     private unreadMessagesCounterService: UnreadMessagesCounterService
@@ -65,7 +68,11 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
     this.isNewMessageBeingSent = this.messagesService.isNewMessageBeingSent$;
     this.selectedConversation = this.messagesService.selectedConversation$;
     this.conversationTitle = this.messagesService.conversationTitle$;
-    this.senderId = this.params.get('senderId');
+
+    this.sub = this.route.params.subscribe(params => {
+      this.senderId = params['senderId'];
+    });
+
   }
 
   ngOnInit() {
@@ -86,6 +93,7 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.sub.unsubscribe();
     this.appStateService.setHeaderVisibility(true);
     this.websocketServiceSubs.unsubscribe();
     this.markConversationRead();
