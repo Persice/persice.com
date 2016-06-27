@@ -122,6 +122,8 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     });
 
     this.restoreScrollPosition();
+    this._setBrowserLocationUrl('/crowd');
+
 
     // TODO: think how to solve showing intercom without using jQuery
     // This is a temporary workaround to show intercom icon after profile page is closed
@@ -139,7 +141,5 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
           this.closeItemView(null);
         });
     }
-
   }
-
 }

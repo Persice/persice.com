@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-
+import {Location} from '@angular/common';
 import {CookieUtil} from '../../app/shared/core';
 import {PageTitleComponent} from './page-title';
 import {PageTitleConversationsComponent} from './page-title-conversations';

@@ -9,6 +9,7 @@ export class Person {
   public topInterestsSecondHalf: any[];
 
   private _id: string;
+  private _username: string;
   private _firstName: string;
   private _lastName: string;
   private _gender: Gender;
@@ -40,6 +41,7 @@ export class Person {
 
   constructor(dto: any) {
     this._id = dto.id;
+    this._username = dto.username;
     this._firstName = dto.first_name;
     this._lastName = dto.last_name;
     this._gender = new Gender(dto.gender);
@@ -91,6 +93,10 @@ export class Person {
 
   get id(): string {
     return this._id;
+  }
+
+  get username(): string {
+    return this._username;
   }
 
   get firstName(): string {
@@ -228,6 +234,7 @@ export class Person {
   public toDto(): any {
     return {
       id: this.id,
+      username: this.username,
       goals: this.goals,
       offers: this.offers,
       interests: this.interests,

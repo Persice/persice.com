@@ -15,6 +15,7 @@ import {CookieUtil} from '../../app/shared/core';
 export class MyProfileMobileComponent implements OnInit, OnDestroy {
 
   private me: Person;
+  private type: String;
   private usernameFromCookie: string;
   private usernameFromUrl: string;
   private isProfileLoaded: boolean = false;
@@ -33,10 +34,16 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit(): any {
-    this.profileService.ofUsername(this.usernameFromCookie).subscribe(resp => {
+  ngOnInit() {
+    this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
       this.me = resp;
       this.isProfileLoaded = true;
+
+      if (this.usernameFromCookie === this.usernameFromUrl) {
+        this.type = 'my-profile';
+      } else {
+        this.type = 'view-profile';
+      }
     });
   }
 

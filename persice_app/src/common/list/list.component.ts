@@ -235,6 +235,13 @@ export abstract class ListComponent {
   protected beforeItemSelected(param?: any) { }
 
   /**
+   * Change the URL displayed in browsers location bar.
+   */
+  protected _setBrowserLocationUrl(path: string) {
+    window.history.pushState('', '', `${path}`);
+  }
+
+  /**
    * Remove all items, reset all indicator variables and
    * reload new data from listService
    */
@@ -275,5 +282,4 @@ export abstract class ListComponent {
 
     this.next = data.meta.next;
   }
-
 }
