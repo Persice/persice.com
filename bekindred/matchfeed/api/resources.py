@@ -304,3 +304,29 @@ class ProfileResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+def refresh_cache(user_id=None):
+    fs = FilterState.objects.filter(user=user_id)
+    cache_match_users = None
+    filter_updated_sha = None
+    if fs:
+        try:
+            attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
+                     fs[0].distance, fs[0].distance_unit,
+                     fs[0].order_criteria, fs[0].keyword]
+            filter_updated = '.'.join(map(str, attrs))
+            filter_updated_sha = hashlib.sha1(filter_updated).hexdigest()
+            # Concatenate all filters value instead!!!
+            # m.1312.10000mi.sim
+            # filter_updated = time.mktime(fs[0].updated.timetuple())
+            cache_match_users = cache.get('%s_%s' % (user_id,
+                                                     filter_updated_sha))
+        except AttributeError:
+            pass
+    if cache_match_users:
+        pass
+    else:
+        match_users = MatchQuerySet.all(user_id, is_filter=True)
+        cache.set('%s_%s' % (user_id,
+                             filter_updated_sha), match_users)

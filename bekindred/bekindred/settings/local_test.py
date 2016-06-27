@@ -16,7 +16,9 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'localhost:6379',
+        'TIMEOUT': 60 * 60,
     }
 }
 
@@ -190,12 +192,17 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
             },
-        'events': {
+        'match_engine': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
-            }
+            },
+        'matchfeed': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
         }
+    }
 }
 
 # AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN',

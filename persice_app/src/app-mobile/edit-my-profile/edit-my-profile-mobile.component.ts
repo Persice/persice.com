@@ -1,7 +1,5 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {RouterOutlet, RouteConfig, Router, RouteParams} from '@angular/router-deprecated';
-
-import {AppStateService} from '../shared/services';
+import {Component} from '@angular/core';
+import {RouterOutlet, RouteConfig} from '@angular/router-deprecated';
 
 import {EditMyProfileNavigationComponent} from './navigation';
 import {EditInterestsMobileComponent} from './edit-interests';
@@ -67,81 +65,4 @@ import {EditSocialAccountsMobileComponent} from './edit-social-accounts';
   }
 
 ])
-export class EditMyProfileMobileComponent implements OnInit, OnDestroy {
-  public title: string = 'edit';
-  public isDoneButtonVisible: boolean = false;
-  public isCroppingPhotosDoneButtonVisible: boolean = false;
-
-
-  private username: string;
-
-  constructor(
-    private appStateService: AppStateService,
-    private router: Router,
-    private params: RouteParams
-  ) {
-    this.username = params.get('username');
-  }
-
-  ngOnInit() {
-    this.appStateService.setHeaderVisibility(false);
-
-    this.appStateService.editMyProfileStateEmitter
-      .subscribe((state: any) => {
-        this.title = state.title;
-        this.isDoneButtonVisible = state.isDoneButtonVisible;
-        this.isCroppingPhotosDoneButtonVisible = state.isCroppingPhotosDoneButtonVisible ? true : false;
-      });
-  }
-
-  ngOnDestroy() {
-    this.appStateService.setHeaderVisibility(true);
-  }
-
-  public goBack(event) {
-    switch (this.title) {
-      case 'edit':
-        this.router.parent.navigate(['./MyProfile', { username: this.username }]);
-        break;
-      case 'interests':
-        this.router.navigate(['EditNavigation']);
-        break;
-      case 'personal info':
-        this.router.navigate(['EditNavigation']);
-        break;
-      case 'religious views':
-        this.router.navigate(['EditPersonalInfo']);
-        break;
-      case 'political views':
-        this.router.navigate(['EditPersonalInfo']);
-        break;
-      case 'goals':
-        this.router.navigate(['EditNavigation']);
-        break;
-      case 'offers':
-        this.router.navigate(['EditNavigation']);
-        break;
-      case 'accounts':
-        this.router.navigate(['EditNavigation']);
-        break;
-      case 'edit photos':
-        this.router.navigate(['EditNavigation']);
-        break;
-      case 'choose album':
-        this.appStateService.setEditPhotosState({ page: 1 });
-        break;
-      case 'choose photo':
-        this.appStateService.setEditPhotosState({ page: 2 });
-        break;
-      case 'crop photo':
-        this.appStateService.setEditPhotosState({ page: 3 });
-        break;
-      default:
-        break;
-    }
-  }
-
-  public doneCroppingPhoto(event) {
-    this.appStateService.setEditPhotosState({ page: 1, savePhotoAndRefresh: true });
-  }
-}
+export class EditMyProfileMobileComponent { }

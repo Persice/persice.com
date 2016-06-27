@@ -132,7 +132,8 @@ export class SignupComponent implements OnInit {
   }
 
   onRouteChanged(path) {
-    switch (path) {
+    const urlPath: string = path.instruction.urlPath;
+    switch (urlPath) {
       case 'interests':
         this.page = 1;
         this.showSkip = false;

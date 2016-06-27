@@ -7,8 +7,6 @@ var crypto = require('crypto');
 // Helper functions
 var ROOT = path.resolve(__dirname, '..');
 
-console.log('root directory:', root() + '\n');
-
 function hasProcessFlag(flag) {
   return process.argv.join('').indexOf(flag) > -1;
 }
@@ -16,6 +14,13 @@ function hasProcessFlag(flag) {
 function root(args) {
   args = Array.prototype.slice.call(arguments, 0);
   return path.join.apply(path, [ROOT].concat(args));
+}
+
+function checkNodeImport(context, request, cb) {
+  if (!path.isAbsolute(request) && request.charAt(0) !== '.') {
+    cb(null, 'commonjs ' + request); return;
+  }
+  cb();
 }
 
 function generateHash() {
@@ -30,4 +35,5 @@ function isWebpackDevServer() {
 exports.hasProcessFlag = hasProcessFlag;
 exports.generateHash = generateHash;
 exports.isWebpackDevServer = isWebpackDevServer;
+exports.checkNodeImport = checkNodeImport;
 exports.root = root;

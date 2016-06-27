@@ -12,6 +12,7 @@ import {HttpClient} from '../../../app/shared/core';
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {PhotosGenerators} from './photos-generators';
 import {Photo} from '../../../common/models/photo';
+import {HeaderState} from "../../header/header.state";
 
 class MockPhotosService extends PhotosService {
   response: any = null;
@@ -76,6 +77,7 @@ describe('Edit photos mobile component', () => {
       AppStateService,
       BaseRequestOptions,
       HttpClient,
+      HeaderState,
       provide(Http, {
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]

@@ -1,3 +1,5 @@
+import functools
+import hashlib
 from random import sample
 import string
 import logging
@@ -5,6 +7,7 @@ from operator import attrgetter
 
 import re
 import nltk
+import time
 from django.core.cache import cache
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import wordnet as wn
@@ -53,6 +56,7 @@ def make_gerund(word):
     :param word:
     :return:
     """
+    # now = time.time()
     is_found = False
     gerund = word
     for lem in wn.lemmas(word):
@@ -73,7 +77,22 @@ def make_gerund(word):
             g_word = GerundWords.objects.filter(word='%sing' % gerund)
             if g_word:
                 return g_word[0].word
+    # logger.debug("Time get_gerund: {} {}".format(time.time() - now, word))
     return gerund
+
+
+def timeit(method):
+
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+
+        print '%r (%r, %r) %2.2f sec' % \
+              (method.__name__, args, kw, te-ts)
+        return result
+
+    return timed
 
 
 class MatchedUser(object):
@@ -147,6 +166,7 @@ class MatchUser(object):
     def __init__(self, current_user_id, user_object,
                  include_top_interests=True):
         self.user = self.get_user_info(user_object)
+        self.current_user_id = current_user_id
         self.goals = self.highlight(user_object, 'goals')
         self.offers = self.highlight(user_object, 'offers')
         self.interests = self.highlight(user_object, 'interests')
@@ -218,15 +238,30 @@ class MatchUser(object):
             for h in h_objects:
                 new_h = re.findall(r'<em>(.*?)</em>', h)
                 interests.append(new_h[0])
-
+        # now_k = time.time()
         keywords = self.get_keywords(user_object)
-        keywords = find_collocations(keywords)
+        # logger.info("keywords: {}".format(time.time() - now_k))
+
+        text_keywords = u','.join(sorted(keywords))
+        unique_key = hashlib.sha1(text_keywords).hexdigest()
+
+        collocations = cache.get(unique_key)
+        if collocations:
+            keywords_ = collocations
+            logger.info("get collocations from cache {}".format(unique_key))
+        else:
+            keywords_ = find_collocations(keywords)
+            logger.info("calc collocations")
+            text_keywords_ = u','.join(sorted(keywords))
+            unique_key_ = hashlib.sha1(text_keywords_).hexdigest()
+            logger.info("set collocations to cache: {}".format(unique_key_))
+            cache.set(unique_key_, keywords_, 60*60)
 
         result_interests = []
         other_keywords = []
         s = PorterStemmer()
         for i in interests:
-            for k in keywords:
+            for k in keywords_:
                 if s.stem(i.lower()) == s.stem(k.lower()):
                     result_interests.append(k)
                 elif len(k.lower().split()) == 2 and \
@@ -234,7 +269,7 @@ class MatchUser(object):
                          s.stem(i.lower()) == s.stem(k.lower().split()[1])):
                     result_interests.append(k)
 
-        other_keywords = list(set(keywords) - set(result_interests))
+        other_keywords = list(set(keywords_) - set(result_interests))
         result_interests = list(set(result_interests))
 
         shuffled_interests = []
@@ -256,6 +291,7 @@ class MatchUser(object):
                 return [d]
 
     def get_keywords(self, user_object):
+        now = time.time()
         keywords = []
         draft_keywords = set()
         porter_stemmer = PorterStemmer()
@@ -278,6 +314,9 @@ class MatchUser(object):
                     keywords.append(gerund)
                 else:
                     keywords.append(word.lower())
+        logger.debug("Time get_keywords: {} {} {}".format(now - time.time(),
+                                                          self.current_user_id,
+                                                          self.user_id))
         return keywords
 
     def get_seen(self, current_user_id, user_object):

@@ -1,8 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import {PhotosService} from '../../../app/shared/services';
 import {SwiperDirective} from '../../../app/shared/directives';
+import {AppStateService} from '../../shared/services/app-state.service';
+import {HeaderState} from '../../header';
 
 /**
  * Component for displaying person photos
@@ -16,8 +18,6 @@ import {SwiperDirective} from '../../../app/shared/directives';
 export class PhotosMobileComponent implements OnInit {
   @Input() personId: number;
 
-  @Output() onClose: EventEmitter<any> = new EventEmitter();
-
   public photos: string[] = [];
   public isPhotosLoaded = false;
 
@@ -28,10 +28,12 @@ export class PhotosMobileComponent implements OnInit {
     autoHeight: true
   });
 
-  constructor(private photosService: PhotosService) { }
+  constructor(private photosService: PhotosService, private appStateService: AppStateService) { }
 
   ngOnInit(): any {
-    // Get oerson photos from backend
+    this.appStateService.headerStateEmitter.emit(HeaderState.photoGallery);
+
+    // Get person photos from backend
     let subs: Subscription = this.photosService.get('', 5, this.personId).subscribe((photos) => {
       if (!!photos && !!photos.objects) {
         this.photos = photos.objects;

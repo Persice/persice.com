@@ -2,20 +2,21 @@
  * @author: Persice
  */
 
-var helpers = require('./helpers'); // Helper: root(), and rootDir() are defined at the bottom
-var webpackMerge = require('webpack-merge'); //Used to merge webpack configs
-var commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
-var HASH = helpers.generateHash();
+const helpers = require('./helpers'); // Helper: root(), and rootDir() are defined at the bottom
+const webpackMerge = require('webpack-merge'); // Used to merge webpack configs
+const commonConfig = require('./webpack.common.js'); // The settings that are common to prod and dev
+const HASH = helpers.generateHash(); // Generate unique hash used for cache busting
 /**
  * Webpack Plugins
  */
-var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var DefinePlugin = require('webpack/lib/DefinePlugin');
-var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
-var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-var CompressionPlugin = require('compression-webpack-plugin');
-var WebpackMd5Hash = require('webpack-md5-hash');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
+const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
+const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -141,7 +142,12 @@ module.exports = webpackMerge(commonConfig, {
     // NOTE: when adding more properties make sure you include them in custom-typings.d.ts
     new DefinePlugin({
       'ENV': JSON.stringify(METADATA.ENV),
-      'HMR': METADATA.HMR
+      'HMR': METADATA.HMR,
+      'process.env': {
+        'ENV': JSON.stringify(METADATA.ENV),
+        'NODE_ENV': JSON.stringify(METADATA.ENV),
+        'HMR': METADATA.HMR,
+      }
     }),
 
     // Plugin: UglifyJsPlugin
@@ -169,60 +175,6 @@ module.exports = webpackMerge(commonConfig, {
 
       // mangle: { screw_ie8 : true }, //prod
       mangle: false,
-      /*
-      mangle: {
-        screw_ie8: true,
-        except: [
-            'App',
-            'About',
-            'Contact',
-            'Home',
-            'Menu',
-            'Footer',
-            'XLarge',
-            'RouterActive',
-            'RouterLink',
-            'RouterOutlet',
-            'NgFor',
-            'NgIf',
-            'NgClass',
-            'NgSwitch',
-            'NgStyle',
-            'NgSwitchDefault',
-            'NgControl',
-            'NgControlName',
-            'NgControlGroup',
-            'NgFormControl',
-            'NgModel',
-            'NgFormModel',
-            'NgForm',
-            'NgSelectOption',
-            'DefaultValueAccessor',
-            'NumberValueAccessor',
-            'CheckboxControlValueAccessor',
-            'SelectControlValueAccessor',
-            'RadioControlValueAccessor',
-            'NgControlStatus',
-            'RequiredValidator',
-            'MinLengthValidator',
-            'MaxLengthValidator',
-            'PatternValidator',
-            'AsyncPipe',
-            'DatePipe',
-            'JsonPipe',
-            'NumberPipe',
-            'DecimalPipe',
-            'PercentPipe',
-            'CurrencyPipe',
-            'LowerCasePipe',
-            'UpperCasePipe',
-            'SlicePipe',
-            'ReplacePipe',
-            'I18nPluralPipe',
-            'I18nSelectPipe'
-          ] // Needed for uglify RouterLink problem
-      }, // prod
-      */
       compress: {
         screw_ie8: true,
         warnings: false
@@ -230,6 +182,18 @@ module.exports = webpackMerge(commonConfig, {
       warnings: false,
       comments: false //prod
     }),
+
+    /**
+     * Plugin: NormalModuleReplacementPlugin
+     * Description: Replace resources that matches resourceRegExp with newResource
+     *
+     * See: http://webpack.github.io/docs/list-of-plugins.html#normalmodulereplacementplugin
+     */
+
+    new NormalModuleReplacementPlugin(
+      /angular2-hmr/,
+      helpers.root('node_modules/angular2-hmr/prod.js')
+    ),
 
     // Plugin: CompressionPlugin
     // Description: Prepares compressed versions of assets to serve

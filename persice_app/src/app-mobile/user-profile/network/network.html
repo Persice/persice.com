@@ -1,17 +1,3 @@
-<header class="mob-header">
-  <div class="layout layout--flush layout--middle">
-    <div class="layout__item 1/5">
-      <a (click)="onClose.emit($event)" class="mob-header__left-push">
-        <svg role="img" class="icon icon--small">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
-        </svg>
-      </a>
-    </div>
-    <div class="layout__item 3/5 text-center">
-      <h2 class="mob-header__title">{{name}}'s network</h2> </div>
-    <div class="layout__item 1/5 text-right"> </div>
-  </div>
-</header>
 <div class="network-container bg-gray-3" *ngIf="type !== 'my-profile'">
   <div class="mob-user-card-title" *ngIf="mutualConnectionsCount > 0"> Mutual connections ({{mutualConnectionsCount}}) </div>
   <div class="user-card" *ngFor="let item of connectionsMutualPersice">

@@ -66,7 +66,7 @@ export class EditPhotosMobileComponent implements OnInit, OnDestroy {
 
     // Start fetching my facebook albums and photos
     // Load first 12 facebook albums with first 20 photos present in each faceboom album
-    this.facebookAlbumsService.startLoadingAlbums(12, 20);
+    this.facebookAlbumsService.startLoadingAlbums(6, 20);
 
     // Subscribe to App state service updates.
     this.appStateServiceInstance = this.appStateService.editPhotosStateEmitter

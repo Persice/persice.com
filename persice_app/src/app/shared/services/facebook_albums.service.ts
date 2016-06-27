@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 
 @Injectable()
 export class FacebookAlbumsService {
-  static API_URL = 'https://graph.facebook.com/me/?fields=albums.limit(4){picture, count, name, photos.limit(6)}';
+  static API_URL = 'https://graph.facebook.com/v2.6/me/?fields=albums.limit(4){picture, count, name, photos.limit(6){name,images,picture}}';
 
   _limitPhotos: number = 6;
   _limitAlbums: number = 4;
@@ -122,7 +122,7 @@ export class FacebookAlbumsService {
         `access_token=${this._token}`
       ].join('&');
 
-      let urlFB = `https://graph.facebook.com/me/?fields=albums.limit(${this._limitAlbums}){picture, count, name, photos.limit(${this._limitPhotos})}`;
+      let urlFB = `https://graph.facebook.com/v2.6/me/?fields=albums.limit(${this._limitAlbums}){picture, count, name, photos.limit(${this._limitPhotos}){name,images,picture}}`;
       url = `${urlFB}&${params}`;
 
     } else {

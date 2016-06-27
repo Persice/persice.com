@@ -5,6 +5,7 @@ import {AutocompleteDirective} from '../../../common/directives/autocomplete.dir
 import {LoadingComponent} from '../../../app/shared/components/loading/loading.component';
 import {OffersService} from '../../../app/shared/services/offers.service';
 import {AppStateService} from '../../shared/services/app-state.service';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-offers',
@@ -20,14 +21,16 @@ export class EditOffersMobileComponent extends ManageGoalsOffersComponent implem
 
   constructor(
     protected offersService: OffersService,
-    protected appStateService: AppStateService
+    protected appStateService: AppStateService,
+    private headerState: HeaderState
   ) {
     super(offersService);
   }
 
   ngOnInit() {
-    this.appStateService.setEditMyProfileState(
-        { title: 'offers', isDoneButtonVisible: true });
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backDoneWithTitle('offers', HeaderState.actions.EditMyProfile)
+    );
     this.getList();
   }
 }

@@ -2,16 +2,16 @@
  * @author: Persice
  */
 
-var webpack = require('webpack');
-var helpers = require('./helpers');
+const webpack = require('webpack');
+const helpers = require('./helpers');
 
 /**
  * Webpack Plugins
  */
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-var BundleTracker  = require('webpack-bundle-tracker');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+const BundleTracker  = require('webpack-bundle-tracker');
 /**
  * Webpack Constants
  */
@@ -45,8 +45,8 @@ module.exports = {
   //
   // See: http://webpack.github.io/docs/configuration.html#entry
   entry: {
-    'polyfills': './src/polyfills.ts', // our browser polyfills (es6-promise, etc)
-    'vendor': './src/vendor.ts', // our vendor (angular2, rxjs)
+    'polyfills': './src/polyfills.browser.ts', // our browser polyfills (es6-promise, etc)
+    'vendor': './src/vendor.browser.ts', // our vendor (angular2, rxjs)
     'main': './src/main.browser.ts', // persice main desktop app
     'main-mobile': './src/main-mobile.browser.ts', // persice main mobile app
     'signup': './src/signup.browser.ts', // persice signup app

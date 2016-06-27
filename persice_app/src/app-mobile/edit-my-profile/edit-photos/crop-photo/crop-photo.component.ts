@@ -2,6 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 import {AppStateService} from '../../../shared/services/app-state.service';
 import {CropDirective} from '../../../../app/shared/directives';
+import {HeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-crop-photo',
@@ -10,9 +11,9 @@ import {CropDirective} from '../../../../app/shared/directives';
 })
 export class CropPhotoComponent implements OnInit {
 
-  @Input() set photo (data: any) {
+  @Input() set photo(data: any) {
     if (!!data.images && data.images.length > 0) {
-      this._imageUri = data.images[0].source;
+      this._imageUri = data.images[2].source;
     }
   };
 
@@ -41,14 +42,19 @@ export class CropPhotoComponent implements OnInit {
   private _imageUri: string = '';
   private _croppedImage: any;
 
-  constructor(private appStateService: AppStateService) { }
+  constructor(
+    private appStateService: AppStateService,
+    private headerState: HeaderState
+  ) { }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState({
-      title: 'crop photo',
-      isDoneButtonVisible: false,
-      isCroppingPhotosDoneButtonVisible: true
-    });
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backDoneWithTitleAndActions(
+        'crop photo',
+        HeaderState.actions.ChoosePhoto,
+        HeaderState.actions.SaveCroppedPhoto
+      )
+    );
   }
 
 }

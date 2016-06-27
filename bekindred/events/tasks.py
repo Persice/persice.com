@@ -1,15 +1,17 @@
 from __future__ import absolute_import
 
+import logging
+
 from celery import task
-from django.dispatch import receiver
 from django.core.cache import cache
-from easy_thumbnails.files import generate_all_aliases
-from easy_thumbnails.signals import saved_file
 from haystack.management.commands import update_index
 
 from events.models import CumulativeMatchScore, Event, Membership
 from events.utils import calc_score
 from members.models import FacebookCustomUserActive
+
+
+logger = logging.getLogger(__name__)
 
 
 @task
@@ -44,12 +46,27 @@ def cum_score(event_id):
 def update_match_score(instance, **kwargs):
     cum_score.delay(instance.event_id)
 
-
 @task
-def update_index_elastic():
+def update_index_elastic(user_id=None):
     update_index.Command().handle(interactive=False)
-    cache.clear()
+    if user_id is not None:
+        # Crowd
+        cache.delete_pattern("{}_*".format(user_id))
+        logger.info("delete from cache: KEYS {}_*".format(user_id))
+        # Connections
+        cache.delete_pattern("c_{}_*".format(user_id))
+        logger.info("delete from cache: KEYS c_{}_*".format(user_id))
+        # pairs
+        cache.delete_pattern("*_{}".format(user_id))
+        logger.info("delete from cache: KEYS *_{}".format(user_id))
+    else:
+        cache.clear()
+
 
 
 def update_index_delay(*args, **kwargs):
-    update_index_elastic.delay()
+    user_id = None
+    if kwargs.get('instance'):
+        user_id = kwargs.get('instance').user_id
+    update_index_elastic.delay(user_id=user_id)
+    refresh_cache.delay(user_id)

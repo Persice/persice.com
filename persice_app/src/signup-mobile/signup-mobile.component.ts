@@ -146,8 +146,9 @@ export class SignupMobileComponent implements OnInit {
     });
   }
 
-  onRouteChanged(path) {
-    switch (path) {
+  onRouteChanged(path: any) {
+    const urlPath: string = path.instruction.urlPath;
+    switch (urlPath) {
       case 'interests':
         this.showBack = false;
         this.nextStep = 'SignupGoals';
@@ -234,8 +235,6 @@ export class SignupMobileComponent implements OnInit {
     if (this.is_complete === null) {
       this.onboardingService.complete().subscribe((data) => {
       }, (err) => {
-      }, () => {
-
       });
     }
 

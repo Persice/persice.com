@@ -5,6 +5,7 @@ import {EditProfilePhotoComponent} from './edit-profile-photo';
 import {LoadingComponent} from '../../../../app/shared/components/loading';
 import {Photo} from '../../../../common/models/photo';
 import {AppStateService} from '../../../shared/services/app-state.service';
+import {HeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-arrange-photos',
@@ -15,11 +16,11 @@ import {AppStateService} from '../../../shared/services/app-state.service';
 export class ArrangePhotosComponent implements OnInit {
   @Input() loading: boolean;
 
-  @Input() set photos (photosList: Photo[]) {
+  @Input() set photos(photosList: Photo[]) {
     this._setState(photosList);
   };
 
-  @Input() set photosCount (count: number) {
+  @Input() set photosCount(count: number) {
     this._checkIfProfilePhotoIsDeletable(count);
   };
 
@@ -29,10 +30,15 @@ export class ArrangePhotosComponent implements OnInit {
   private thumbs: Photo[] = [];
   private isProfilePhotoDeletable: boolean = true;
 
-  constructor(private appStateService: AppStateService) { }
+  constructor(
+    private appStateService: AppStateService,
+    private headerState: HeaderState
+    ) { }
 
   ngOnInit() {
-    this.appStateService.setEditMyProfileState({ title: 'edit photos', isDoneButtonVisible: true });
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backDoneWithTitle('edit photos', HeaderState.actions.EditMyProfile)
+    );
   }
 
   private _setState(data: Photo[]) {

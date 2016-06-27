@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppStateService} from "../../shared/services/app-state.service";
 import {CookieUtil} from "../../../app/shared/core/util";
 import {ReligiousViewsService} from "../../../app/shared/services/religiousviews.service";
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-religious-views',
@@ -15,15 +16,17 @@ export class ReligiousViewsMobileComponent implements OnInit {
 
   constructor(
     private appStateService: AppStateService,
-    private religiousViewsService: ReligiousViewsService
+    private religiousViewsService: ReligiousViewsService,
+    private headerState: HeaderState
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
     this.religiousViewsService.getAllReligiousViewsWithStatus();
   }
 
   ngOnInit(): any {
-    this.appStateService.setEditMyProfileState(
-      { title: 'religious views', isDoneButtonVisible: true });
+    this.appStateService.headerStateEmitter.emit(
+      this.headerState.backDoneWithTitle('religious views', HeaderState.actions.EditPersonalInfo)
+    );
     this.religiousViewsService.emitter.subscribe((resp) => {
       this.religiousViews = resp;
     });

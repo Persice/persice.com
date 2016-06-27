@@ -204,7 +204,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this._router.subscribe((next) => {
-      this.activeRoute = next;
+      this.activeRoute = next.instruction.urlPath;
       this.historyService.setRoute(next);
     });
 
