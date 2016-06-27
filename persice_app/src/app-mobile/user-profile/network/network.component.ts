@@ -1,6 +1,6 @@
 import {Component, Input, OnInit}
 from '@angular/core';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 
@@ -126,8 +126,7 @@ export class NetworkComponent implements OnInit {
 
   private openNewConversation(person: any): void {
     this.store.dispatch(this.actions.set(person, 'connection'));
-    this.store.dispatch(this.actions.useAsNewConversationRecipient());
-    this.router.navigate(['Messages', 'NewConversation']);
+    this.router.navigateByUrl('/messages/new');
   }
 
   private assignConnectionsList(data: any) {

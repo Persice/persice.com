@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Router} from '@angular/router-deprecated';
 import {Store} from '@ngrx/store';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {SelectedPersonActions} from '../../../common/actions';
 import {AppState, getSelectedPersonState} from '../../../common/reducers';
@@ -9,7 +9,8 @@ import {AppState, getSelectedPersonState} from '../../../common/reducers';
 @Component({
   selector: 'prs-mobile-profile-footer',
   template: require('./profile-footer.html'),
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  directives: [ROUTER_DIRECTIVES]
 })
 export class ProfileFooterMobileComponent {
   private selectedPersonState$: Observable<any>;
@@ -24,7 +25,6 @@ export class ProfileFooterMobileComponent {
   private timeoutAccept;
 
   constructor(
-    private router: Router,
     private store: Store<AppState>,
     private actions: SelectedPersonActions
   ) {
@@ -70,10 +70,5 @@ export class ProfileFooterMobileComponent {
     this.timeoutAccept = setTimeout(() => {
       this.store.dispatch(this.actions.accepted());
     }, 1500);
-  }
-
-  openNewConversation(event: MouseEvent): void {
-    this.store.dispatch(this.actions.useAsNewConversationRecipient());
-    this.router.navigate(['Messages', 'NewConversation']);
   }
 }

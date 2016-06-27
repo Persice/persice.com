@@ -1,5 +1,4 @@
 import {Component, Input, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
 import {Subscription} from 'rxjs';
 
 import {OpenLeftMenuDirective} from '../shared/directives';
@@ -42,7 +41,6 @@ enum ViewsType {
     NetworkPreviewComponent,
     NetworkComponent,
     OpenLeftMenuDirective,
-    RouterLink,
     PhotosMobileComponent,
     LikesMobileComponent
   ],
