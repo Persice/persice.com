@@ -28,7 +28,6 @@ export class EditSocialAccountsMobileComponent implements OnInit {
       url: ''
     }
   };
-  private username: string;
 
   constructor(
     private userAuthService: UserAuthService,
@@ -51,7 +50,6 @@ export class EditSocialAccountsMobileComponent implements OnInit {
   getConnectStatus() {
     this.userAuthService.findOneByUri('me').subscribe((data) => {
       this.connectStatus = this.userAuthService.getConnectStatus();
-      this.username = data.username;
     });
   }
 
@@ -64,12 +62,12 @@ export class EditSocialAccountsMobileComponent implements OnInit {
   }
 
   connect(provider) {
-    let url = `/social/associate/${provider}/?next=/${this.username}/edit-profile/accounts`;
+    let url = `/social/associate/${provider}/?next=/edit-profile/accounts`;
     window.location.href = url;
   }
 
   disconnect(provider) {
-    let url = `/social/disconnect/${provider}/?next=/${this.username}/edit-profile/accounts`;
+    let url = `/social/disconnect/${provider}/?next=/edit-profile/accounts`;
     window.location.href = url;
   }
 

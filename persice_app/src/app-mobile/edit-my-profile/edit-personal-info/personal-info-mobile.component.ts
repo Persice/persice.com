@@ -1,5 +1,4 @@
 import {Component, OnInit, ElementRef} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
 import {Observable} from "rxjs";
 import {ProfileService} from "../../../app/shared/services/profile.service";
 import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
@@ -12,7 +11,7 @@ import {HeaderState} from '../../header';
   selector: 'prs-mobile-personal-info',
   template: require('./personal-info-mobile.html'),
   providers: [ProfileService],
-  directives: [LoadingComponent, RouterLink]
+  directives: [LoadingComponent]
 })
 export class PersonalInfoMobileComponent implements OnInit {
 

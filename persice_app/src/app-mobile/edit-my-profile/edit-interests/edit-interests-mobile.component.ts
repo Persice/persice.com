@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
 import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
 import {AutocompleteDirective} from "../../../common/directives/autocomplete.directive";
 import {KeywordsService} from "../../../app/shared/services/keywords.service";
@@ -15,8 +14,7 @@ import {HeaderState} from '../../header';
   directives: [
     LoadingComponent,
     AutocompleteDirective,
-    InfiniteScrollElementDirective,
-    RouterLink
+    InfiniteScrollElementDirective
   ],
   providers: [InterestsService, KeywordsService]
 })
