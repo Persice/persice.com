@@ -1,6 +1,6 @@
 import {Directive, HostListener, OnInit} from '@angular/core';
 import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
-import {Router} from '@angular/router-deprecated';
+import {Router, NavigationStart, Event} from '@angular/router';
 
 @Directive({
   selector: '[prs-close-left-menu]',
@@ -21,8 +21,10 @@ export class CloseLeftMenuDirective implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._router.subscribe((next) => {
-      this._closeMenu();
+    this._router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        this._closeMenu();
+      }
     });
   }
 
