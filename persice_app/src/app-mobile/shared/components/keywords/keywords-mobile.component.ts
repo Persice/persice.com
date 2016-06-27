@@ -54,7 +54,9 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.serviceInstance.unsubscribe();
+    if (this.serviceInstance) {
+      this.serviceInstance.unsubscribe();
+    }
   }
 
   setInitialData(data) {
