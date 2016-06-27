@@ -1,12 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
   selector: 'prs-mobile-navigation',
   template: require('./navigation-mobile.html'),
-  directives: [
-    RouterLink
-  ]
+  directives: [ROUTER_DIRECTIVES]
 })
 export class NavigationMobileComponent {
   @Input() username: string;
