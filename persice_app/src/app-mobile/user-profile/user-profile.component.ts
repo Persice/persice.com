@@ -115,7 +115,6 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     });
 
     this.makeProfileHeaderVisible();
-
   }
 
   ngOnDestroy(): any {
@@ -139,6 +138,10 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
     if (this.type === 'connection') {
       this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBackAndMenu);
+    }
+
+    if (this.type === 'view-profile') {
+      this.appStateService.headerStateEmitter.emit(HeaderState.userProfile);
     }
   }
 
@@ -249,14 +252,23 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       });
   }
 
-  private _setState(value: any) {
-    this.person = new Person(value);
-    if (this.type === 'crowd' || this.type === 'connection') {
+  private _setState(user: any) {
+    this.person = new Person(user);
+    if (this.type === 'crowd' || this.type === 'connection' || this.type === 'view-profile') {
       this._getMutualConnections(this.person.id);
+
+      if (this.username) {
+        this.setBrowserLocationUrl(`/${this.username}`);
+      } else if (user.username) {
+        this.setBrowserLocationUrl(`/${user.username}`);
+      }
+
     } else if (this.type === 'my-profile') {
       this._getMyConnections();
     }
-
   }
 
+  private setBrowserLocationUrl(path: string) {
+    window.history.pushState('', '', `${path}`);
+  }
 }

@@ -121,6 +121,6 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     });
 
     this.restoreScrollPosition();
+    this._setBrowserLocationUrl('/connections');
   }
-
 }

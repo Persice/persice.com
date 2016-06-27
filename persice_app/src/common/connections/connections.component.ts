@@ -31,5 +31,4 @@ export class ConnectionsComponent extends ListComponent {
       this.serviceInstance.unsubscribe();
     }
   }
-
 }

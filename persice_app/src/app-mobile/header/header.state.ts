@@ -14,6 +14,7 @@ export enum HeaderActions {
   EditPersonalInfo,
   ShowUserProfile,
   BackToListView,
+  Back,
   None
 }
 
@@ -97,7 +98,7 @@ export class HeaderState {
 
   public static userProfile = {
     left: HeaderState.left.Menu,
-    leftAction: HeaderState.actions.None,
+    leftAction: HeaderState.actions.Back,
     center: HeaderState.center.None,
     right: HeaderState.right.None,
     rightAction: HeaderState.actions.None,

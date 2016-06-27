@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router-deprecated';
-
+import {Location} from '@angular/common';
 import {CookieUtil} from '../../app/shared/core';
 import {PageTitleComponent} from './page-title';
 import {PageTitleConversationsComponent} from './page-title-conversations';
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   public username = CookieUtil.getValue('user_username');
 
-  constructor(private router: Router, private appStateService: AppStateService) { }
+  constructor(private router: Router, private location: Location, private appStateService: AppStateService) { }
 
   ngOnInit(): any {
     this.router.subscribe((next: any) => {
@@ -99,6 +99,10 @@ export class HeaderComponent implements OnInit {
 
       case this.actions.BackToListView:
         this.appStateService.goBackToListViewEmitter.emit(true);
+        break;
+
+      case this.actions.Back:
+        this.location.back();
         break;
 
       default:

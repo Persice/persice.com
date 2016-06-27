@@ -5,6 +5,7 @@ export class PersonGenerator {
   public static givenAnyPersonDto(): any {
     return {
       id: 1,
+      username: 'alice',
       goals: [],
       offers: [],
       likes: [],
