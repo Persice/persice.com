@@ -1,5 +1,6 @@
 import {
   it,
+  xit,
   describe,
   expect,
   inject,
@@ -8,10 +9,9 @@ import {
 } from '@angular/core/testing';
 
 import {Router} from '@angular/router';
-
+import {provide} from '@angular/core';
 import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
 import {TestComponentBuilder} from '@angular/compiler/testing';
-import {provide} from '@angular/core';
 import {Location} from '@angular/common';
 import {MockBackend} from '@angular/http/testing';
 
@@ -66,7 +66,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -82,7 +82,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -98,7 +98,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -114,7 +114,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -130,7 +130,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -146,7 +146,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -162,7 +162,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -178,7 +178,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(AppMobileComponent);
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
         advance(fixture);
 
         // when
@@ -189,21 +189,21 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/johndoe');
       })));
 
-  // TODO(sasa): think how to test geolocation
-  // it('should ask browser for geolocation',
-  //   fakeAsync(inject(
-  //     [TestComponentBuilder],
-  //     (tcb: TestComponentBuilder) => {
-  //       // given
-  //       const fixture = tcb.createFakeAsync(AppMobileComponent);
-  //       advance(fixture);
+  // TODO(sasa): needs recatoring
+  xit('should ask browser for geolocation',
+    fakeAsync(inject(
+      [TestComponentBuilder],
+      (tcb: TestComponentBuilder) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
 
-  //       // when
-  //       fixture.componentInstance.ngOnInit();
-  //       advance(fixture);
+        // when
+        fixture.componentInstance.ngOnInit();
+        advance(fixture);
 
-  //       // then
-  //       expect(mockGeolocationService.getLocationSpy).toHaveBeenCalled();
-  //     })));
+        // then
+        expect(mockGeolocationService.getLocationSpy).toHaveBeenCalled();
+      })));
 
 });
