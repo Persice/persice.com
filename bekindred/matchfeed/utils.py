@@ -410,7 +410,7 @@ class ShortMatchUser(MatchUser):
         self.username = self.user.username
         self.user_id = self.user.id
         # Scores
-        self.score = self.match_score()
+        self.score = self.match_score(current_user_id, self.user_id)
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.get_friends_score(current_user_id,
                                                     user_object)
