@@ -1,4 +1,4 @@
-import {ComponentResolver, Injector, provide} from '@angular/core';
+import {ComponentResolver, Injector} from '@angular/core';
 import {tick} from '@angular/core/testing';
 import {SpyLocation} from '@angular/common/testing';
 import {ComponentFixture} from '@angular/compiler/testing';
@@ -8,14 +8,6 @@ import {Router, RouterConfig, RouterOutletMap, UrlSerializer,
   DefaultUrlSerializer, ActivatedRoute} from '@angular/router';
 
 import {AppMobileComponent, routesAppMobile} from '../../../app-mobile';
-
-class MockRouter { }
-class MockActivatedRoute { }
-
-export const MOCK_ROUTER_LINK: any[] = [
-  provide(Router, { useClass: MockRouter }),
-  provide(ActivatedRoute, { useClass: MockActivatedRoute })
-];
 
 const routes: RouterConfig = routesAppMobile;
 
@@ -29,7 +21,7 @@ export const TEST_ROUTER_PROVIDERS_APP_MOBILE: any[] = [
     useFactory: (resolver: ComponentResolver, urlSerializer: UrlSerializer,
       outletMap: RouterOutletMap, location: Location, injector: Injector, config: RouterConfig) => {
 
-      const r = new Router(AppMobileComponent, resolver, urlSerializer, outletMap, location, injector, routes);
+      const r = new Router(<any>AppMobileComponent, resolver, urlSerializer, outletMap, location, injector, routes);
       r.initialNavigation();
       return r;
     },
