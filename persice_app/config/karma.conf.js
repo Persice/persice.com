@@ -81,8 +81,7 @@ module.exports = function(config) {
       '/media/images/': '/base/src/assets/images/',
       '/static/assets/images/': '/base/src/assets/images/',
       '/static/assets/icons/': '/base/src/assets/icons/',
-      '/static/dist/assets/icons/': '/base/src/assets/icons/',
-      '/static/img/': '/base/src/assets/images/',
+      '/static/img/': '/base/src/assets/images/'
     },
 
     // preprocess matching files before serving them to the browser
@@ -136,7 +135,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage'],
+    reporters: ['dots', 'coverage'],
 
     junitReporter: {
       outputDir: 'test_results/',
