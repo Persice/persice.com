@@ -119,7 +119,7 @@ module.exports = webpackMerge(commonConfig, {
     // See: https://www.npmjs.com/package/webpack-md5-hash
     // new WebpackMd5Hash(),
 
-     new CopyWebpackPlugin([{
+    new CopyWebpackPlugin([{
       from: 'src/assets',
       to: 'assets'
     }]),
@@ -172,12 +172,14 @@ module.exports = webpackMerge(commonConfig, {
       // comments: true, //debug
 
       beautify: false, //prod
-
-      // mangle: { screw_ie8 : true }, //prod
-      mangle: false,
+      // dead_code: false,
+      // unused: false,
+      mangle: { screw_ie8: true }, //prod
+      // mangle: false,
       compress: {
         screw_ie8: true,
-        warnings: false
+        warnings: false,
+
       }, //prod
       warnings: false,
       comments: false //prod
