@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   public username = CookieUtil.getValue('user_username');
 
-  constructor(private router: Router, private appStateService: AppStateService) { }
+  constructor(private router: Router, private location: Location, private appStateService: AppStateService) { }
 
   ngOnInit(): any {
     this.appStateService.headerStateEmitter.subscribe((state: any) => {
@@ -88,6 +88,10 @@ export class HeaderComponent implements OnInit {
 
       case this.actions.BackToListView:
         this.appStateService.goBackToListViewEmitter.emit(true);
+        break;
+
+      case this.actions.Back:
+        this.location.back();
         break;
 
       default:
