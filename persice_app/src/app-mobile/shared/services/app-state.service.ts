@@ -12,6 +12,7 @@ export class AppStateService {
   isUserProfileVisibleEmitter: EventEmitter<any> = new EventEmitter();
   editMyProfileStateEmitter: EventEmitter<any> = new EventEmitter();
   editPhotosStateEmitter: EventEmitter<any> = new EventEmitter();
+  sendMessageEmitter: EventEmitter<any> = new EventEmitter();
 
   setHeaderVisibility(visible: boolean) {
     this.isHeaderVisibleEmitter.emit(visible);

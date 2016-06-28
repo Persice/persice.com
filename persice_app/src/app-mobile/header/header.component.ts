@@ -66,6 +66,10 @@ export class HeaderComponent implements OnInit {
         this.router.navigateByUrl('/edit-profile/personal');
         break;
 
+      case this.actions.Conversations:
+        this.router.navigateByUrl('/messages');
+        break;
+
       case this.actions.EditPhotos:
         this.appStateService.setEditPhotosState({ page: 1 });
         break;
@@ -76,6 +80,10 @@ export class HeaderComponent implements OnInit {
 
       case this.actions.ChoosePhoto:
         this.appStateService.setEditPhotosState({ page: 3 });
+        break;
+
+      case this.actions.SendMessage:
+        this.appStateService.sendMessageEmitter.emit(undefined);
         break;
 
       case this.actions.SaveCroppedPhoto:
@@ -91,6 +99,7 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.Back:
+        console.log('Back');
         this.location.back();
         break;
 

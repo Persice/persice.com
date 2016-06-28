@@ -7,6 +7,7 @@ export enum HeaderActions {
   NewConversation,
   EditMyProfile,
   MyProfile,
+  Conversations,
   EditPhotos,
   ChooseAlbum,
   ChoosePhoto,
@@ -15,6 +16,7 @@ export enum HeaderActions {
   ShowUserProfile,
   BackToListView,
   Back,
+  SendMessage,
   None
 }
 
@@ -22,7 +24,8 @@ export enum HeaderActions {
 export enum LeftHeaderState {
   Menu,
   Back,
-  Cancel
+  Cancel,
+  CancelSmall
 }
 
 // State for keeping record which button is visible on the right side of header
@@ -131,6 +134,16 @@ export class HeaderState {
     rightAction: HeaderActions.NewConversation,
     transparent: false,
     title: 'Conversations'
+  };
+
+  public static newConversation = {
+    left: LeftHeaderState.CancelSmall,
+    leftAction: HeaderActions.Conversations,
+    center: CenterHeaderState.Title,
+    right: RightHeaderState.Send,
+    rightAction: HeaderActions.SendMessage,
+    transparent: false,
+    title: 'New Message'
   };
 
   public static editMyProfile = {

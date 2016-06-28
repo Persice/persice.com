@@ -1,7 +1,7 @@
 <header class="mob-header" [ngClass]="{'mob-header--transparent': headerState.transparent}" *ngIf="isHeaderVisible">
   <div class="layout layout--flush layout--middle">
    <!-- LEFT -->
-    <div class="layout__item 1/5">
+    <div class="layout__item 1/5 text-left">
       <a prs-open-left-menu *ngIf="headerState.left === leftState.Menu" class="mob-header__left-push" id="showLeftPush">
         <svg role="img" class="icon icon--small">
           <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
@@ -15,6 +15,10 @@
       </a>
 
       <a (click)="onAction(headerState.leftAction)" *ngIf="headerState.left === leftState.Cancel">
+        Cancel
+      </a>
+
+      <a class="text-left" (click)="onAction(headerState.leftAction)" *ngIf="headerState.left === leftState.CancelSmall">
         Cancel
       </a>
     </div>
@@ -45,6 +49,7 @@
       </a>
       <a *ngIf="headerState.right === rightState.Go" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">Go</a>
       <a *ngIf="headerState.right === rightState.Done" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">Done</a>
+      <a *ngIf="headerState.right === rightState.Send" (click)="onAction(headerState.rightAction)" class="mob-header__right-push">Send</a>
 
       <div *ngIf="headerState.right === rightState.ConnectionMenu" prs-dropdown>
         <a class="js-mob-header__profile-drop-trigg" prs-dropdown-open>

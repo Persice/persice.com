@@ -8,6 +8,7 @@ import {SelectedPersonActions} from '../../../common/actions';
 import {AppState, getSelectedPersonState} from '../../../common/reducers';
 
 import {AppStateService} from '../../shared/services';
+import {HeaderState} from '../../header';
 import {NewConversationMobileService} from './new-conversation-mobile.service';
 
 import {CheckImageDirective} from '../../../app/shared/directives';
@@ -27,10 +28,10 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
 
   private selectedPersonState$: Observable<any>;
   private recipientIsAlreadySelected: boolean = false;
+  private sendNewMessageSub: Subscription;
 
   constructor(
     private appStateService: AppStateService,
-    private _location: Location,
     private _router: Router,
     private http: Http,
     private service: NewConversationMobileService,
@@ -64,12 +65,14 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
   }
 
   ngOnInit(): any {
-    this.appStateService.setHeaderVisibility(false);
+    this.appStateService.headerStateEmitter.emit(HeaderState.newConversation);
+    this.sendNewMessageSub = this.appStateService.sendMessageEmitter.subscribe(() => {
+      this.send();
+    });
   }
 
   ngOnDestroy(): any {
-    this.appStateService.setHeaderVisibility(true);
-
+    this.sendNewMessageSub.unsubscribe();
     // If recipient was already selected, clear selected person from App Store.
     if (this.recipientIsAlreadySelected) {
       this.store.dispatch(this.actions.clear());
@@ -77,9 +80,6 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
 
   }
 
-  public back() {
-    this._location.back();
-  }
 
   // Send a message.
   public send() {
