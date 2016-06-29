@@ -1,0 +1,16 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPattern": "/api/v2/friends/.*"
+    },
+    "response": {
+        "status": 201,
+  "headers" : {
+        "Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Headers": "*",
+	"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH"
+      },
+        "bodyFileName": "friends/friends.response.json",
+        "fixedDelayMilliseconds": 5
+    }
+}

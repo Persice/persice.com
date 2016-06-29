@@ -1,5 +1,5 @@
-import {Component, Input, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter} from '@angular/core';
+import {Subscription, Observable} from 'rxjs';
 
 import {OpenLeftMenuDirective} from '../shared/directives';
 import {RemodalDirective} from '../../app/shared/directives';
@@ -21,6 +21,9 @@ import {ConnectionsService} from '../../common/connections';
 import {FriendUtil} from '../../app/shared/core';
 
 import {HeaderState} from '../header';
+import {AppState, getSelectedPersonState} from "../../common/reducers/index";
+import {Store} from "@ngrx/store";
+import {SelectedPersonActions} from "../../common/actions/selected-person.action";
 
 enum ViewsType {
   Profile,
@@ -52,6 +55,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @Input() username: string;
 
+  @Input() isStandalonePage: boolean = false;
+
   // When [user] from Input property change, set internal state for our component
   @Input() set user(value) {
     // If value is defined, set person
@@ -59,6 +64,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       this._setState(value);
     }
   }
+
+  @Output() public profileClosedEvent: EventEmitter<any> = new EventEmitter;
 
   // Indicator for active view
   public activeView = ViewsType.Profile;
@@ -98,12 +105,34 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private appStateServiceInstance;
 
+  private accepted$: Observable<boolean>;
+  private passed$: Observable<boolean>;
+
   constructor(
     private appStateService: AppStateService,
     private friendService: FriendService,
     private mutualFriendService: MutualFriendsService,
-    private connectionsService: ConnectionsService
-  ) { }
+    private connectionsService: ConnectionsService,
+    private store: Store<AppState>,
+    private actions: SelectedPersonActions
+  ) {
+    const store$ = store.let(getSelectedPersonState());
+    this.accepted$ = store$.map((data) => data['accept']);
+    this.passed$ = store$.map((data) => data['pass']);
+
+    this.accepted$.subscribe((status: boolean) => {
+      if (!!status) {
+        this._saveFriendshipStatus(0);
+      }
+    });
+
+    this.passed$.subscribe((status: boolean) => {
+      if (!!status) {
+        this._saveFriendshipStatus(-1);
+      }
+
+    });
+  }
 
   ngOnInit(): any {
     this.appStateServiceInstance = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
@@ -111,6 +140,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
         this.showProfileView(undefined);
       }
     });
+
 
     this.makeProfileHeaderVisible();
   }
@@ -122,6 +152,9 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   ngAfterViewInit() {
     setTimeout(() => {
       window.scrollTo(0, 0);
+      if (this.type === 'crowd') {
+        this.toggleFooterVisibility(true);
+      }
     });
   }
 
@@ -138,8 +171,12 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBackAndMenu);
     }
 
-    if (this.type === 'view-profile') {
-      this.appStateService.headerStateEmitter.emit(HeaderState.userProfile);
+    if (this.isStandalonePage) {
+      if (!!this.person.connected) {
+        this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithMenu);
+      } else {
+        this.appStateService.headerStateEmitter.emit(HeaderState.userProfile);
+      }
     }
   }
 
@@ -252,7 +289,9 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private _setState(user: any) {
     this.person = new Person(user);
-    if (this.type === 'crowd' || this.type === 'connection' || this.type === 'view-profile') {
+    this.store.dispatch(this.actions.set(this.person, this.type));
+
+    if (this.type === 'crowd' || this.type === 'connection') {
       this._getMutualConnections(this.person.id);
 
       if (this.username) {
@@ -268,5 +307,26 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private setBrowserLocationUrl(path: string) {
     window.history.pushState('', '', `${path}`);
+  }
+
+  private _saveFriendshipStatus(status: number): void {
+    if (!!this.person) {
+      const id: string = this.person.id;
+      this.friendService.saveFriendship(status, id)
+        .subscribe(data => {
+          this.closeView();
+        }, (err) => {
+          this.closeView();
+        });
+    }
+  }
+
+  private closeView() {
+    if (this.isStandalonePage) {
+      this.toggleFooterVisibility(false);
+      window.history.go(-2);
+    } else {
+      this.profileClosedEvent.emit(this.person.id);
+    }
   }
 }

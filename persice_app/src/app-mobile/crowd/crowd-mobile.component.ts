@@ -12,7 +12,7 @@ import {AppStateService} from '../shared/services';
 import {InfiniteScrollDirective} from '../../common/directives';
 import {UserProfileComponent} from '../user-profile';
 
-import {AppState, getSelectedPersonState} from '../../common/reducers';
+import {AppState} from '../../common/reducers';
 import {SelectedPersonActions} from '../../common/actions';
 import {HeaderState} from '../header';
 
@@ -36,9 +36,6 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
   private isFilterVisible: boolean = false;
   private isFilterVisibleEmitterInstance;
 
-  private accepted$: Observable<boolean>;
-  private passed$: Observable<boolean>;
-
   constructor(
     protected listService: CrowdService,
     protected friendService: FriendService,
@@ -48,24 +45,6 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     private actions: SelectedPersonActions
   ) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
-
-    const store$ = store.let(getSelectedPersonState());
-    this.accepted$ = store$.map((data) => data['accept']);
-    this.passed$ = store$.map((data) => data['pass']);
-
-    this.accepted$.subscribe((status: boolean) => {
-      if (!!status) {
-        this._saveFriendshipStatus(0);
-      }
-    });
-
-    this.passed$.subscribe((status: boolean) => {
-      if (!!status) {
-        this._saveFriendshipStatus(-1);
-      }
-
-    });
-
   }
 
   ngOnInit() {
@@ -110,6 +89,11 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     });
   }
 
+  closeItem(id: string) {
+    this.removeItemById(id);
+    this.closeItemView(null);
+  }
+
   afterItemClosed() {
     // Clear selected person from SelectedPerson App Store
     this.store.dispatch(this.actions.clear());
@@ -128,18 +112,5 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     // TODO: think how to solve showing intercom without using jQuery
     // This is a temporary workaround to show intercom icon after profile page is closed
     jQuery('#intercom-launcher').css('display', 'block');
-  }
-
-  private _saveFriendshipStatus(status: number): void {
-    if (!!this.selectedItem) {
-      const id: string = this.selectedItem.id;
-      this.removeItemById(this.selectedItem.id);
-      this.friendService.saveFriendship(status, id)
-        .subscribe(data => {
-          this.closeItemView(null);
-        }, (err) => {
-          this.closeItemView(null);
-        });
-    }
   }
 }

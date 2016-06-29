@@ -16,6 +16,7 @@ export enum HeaderActions {
   ShowUserProfile,
   BackToListView,
   Back,
+  BackTwoPages,
   SendMessage,
   None
 }
@@ -100,14 +101,25 @@ export class HeaderState {
   };
 
   public static userProfile = {
-    left: HeaderState.left.Menu,
-    leftAction: HeaderState.actions.Back,
+    left: HeaderState.left.Back,
+    leftAction: HeaderState.actions.BackTwoPages,
     center: HeaderState.center.None,
     right: HeaderState.right.None,
     rightAction: HeaderState.actions.None,
     transparent: true,
     title: ''
   };
+
+  public static userProfileWithMenu = {
+    left: HeaderState.left.Back,
+    leftAction: HeaderState.actions.BackTwoPages,
+    center: HeaderState.center.None,
+    right: HeaderState.right.ConnectionMenu,
+    rightAction: HeaderState.actions.None,
+    transparent: true,
+    title: ''
+  };
+
 
   public static crowd = {
     left: LeftHeaderState.Menu,

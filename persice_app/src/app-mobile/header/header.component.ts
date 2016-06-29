@@ -99,8 +99,13 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.Back:
-        console.log('Back');
         this.location.back();
+        break;
+
+      case this.actions.BackTwoPages:
+        // This is a workaround since Location::back can't go more than one page back, and for some reason there are
+        // situations where just going one page back leaves on the same page. Probably something to do with routers.
+        window.history.go(-2);
         break;
 
       default:
