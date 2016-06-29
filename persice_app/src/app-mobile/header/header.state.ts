@@ -176,6 +176,15 @@ export class HeaderState {
     title: ''
   };
 
+  public static attendees = {
+    left: LeftHeaderState.Back,
+    leftAction: HeaderState.actions.Back,
+    center: CenterHeaderState.Title,
+    right: RightHeaderState.None,
+    transparent: false,
+    title: 'Attendees'
+  };
+
   public static onlyMenu = {
     left: LeftHeaderState.Menu,
     center: CenterHeaderState.None,
