@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/v2/mutual-connections/.*&offset=0"
+  },
+  "response": {
+    "status": 200,
+    "headers" : {
+      "Access-Control-Allow-Origin" : "*"
+    },
+    "bodyFileName": "mutual-connections/mutual-connections.response.json",
+    "fixedDelayMilliseconds": 500
+  }
+}
