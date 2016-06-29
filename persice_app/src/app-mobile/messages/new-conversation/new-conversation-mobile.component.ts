@@ -45,7 +45,7 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
       if (state.selected) {
         this.recipientIsAlreadySelected = true;
         this.tokens.push({
-          first_name: state.person.first_name,
+          first_name: state.person.firstName,
           image: state.person.image,
           friend_id: state.person.id
         });
