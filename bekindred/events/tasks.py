@@ -60,13 +60,10 @@ def update_index_elastic(user_id=None):
         cache.delete_pattern("*_{}".format(user_id))
         logger.info("delete from cache: KEYS *_{}".format(user_id))
     else:
+        # TODO: Implement refresh cache for events if needed
         cache.clear()
-
 
 
 def update_index_delay(*args, **kwargs):
     user_id = None
-    if kwargs.get('instance'):
-        user_id = kwargs.get('instance').user_id
     update_index_elastic.delay(user_id=user_id)
-    refresh_cache.delay(user_id)

@@ -127,6 +127,8 @@ class EventResource(MultiPartResource, ModelResource):
     attendees = fields.OneToManyField(
         'events.api.resources.MembershipResource',
         attribute=lambda bundle:
+        # TODO: fix user bundle.request.user.id
+        #
         bundle.obj.membership_set.filter(
             user__in=NeoFourJ().get_my_friends_ids(bundle.request.user.id) +
             [bundle.request.user.id], rsvp='yes'),
@@ -261,7 +263,7 @@ class EventResource(MultiPartResource, ModelResource):
                 except TypeError as e:
                     logger.error(e)
             else:
-                user_ids = NeoFourJ().get_my_friends_ids(bundle.request.user)
+                user_ids = NeoFourJ().get_my_friends_ids(bundle.request.user.id)
 
             users = FacebookCustomUserActive.objects.filter(pk__in=user_ids)
             for user in users:
@@ -607,6 +609,9 @@ class EventAttendees(ModelResource):
             checking_friendship(bundle.obj.user.id, bundle.request.user.id)
         return bundle
 
+
+class Attendees(ModelResource):
+    pass
 
 class EventFeedResource(Resource):
     id = fields.CharField(attribute='id')
