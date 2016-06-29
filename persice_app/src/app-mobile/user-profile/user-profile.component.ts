@@ -290,11 +290,10 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private _setState(user: any) {
     this.person = new Person(user);
-    this.store.dispatch(this.actions.set(this.person, this.type));
-
     if (this.type === 'crowd' || this.type === 'connection') {
+      // Set selected user only if profile is crowd or connection
+      this.store.dispatch(this.actions.set(this.person, this.type));
       this._getMutualConnections(this.person.id);
-
       if (this.username) {
         this.setBrowserLocationUrl(`/${this.username}`);
       } else if (user.username) {
