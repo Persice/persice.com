@@ -19,6 +19,7 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
   private usernameFromCookie: string;
   private usernameFromUrl: string;
   private isProfileLoaded: boolean = false;
+  private isStandalonePage: boolean = false;
   private sub: any;
 
   constructor(
@@ -31,7 +32,6 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.usernameFromUrl = params['username'];
     });
-
   }
 
   ngOnInit() {
@@ -42,7 +42,12 @@ export class MyProfileMobileComponent implements OnInit, OnDestroy {
       if (this.usernameFromCookie === this.usernameFromUrl) {
         this.type = 'my-profile';
       } else {
-        this.type = 'view-profile';
+        this.isStandalonePage = true;
+        if (!!resp.connected) {
+          this.type = 'connection';
+        } else {
+          this.type = 'crowd';
+        }
       }
     });
   }
