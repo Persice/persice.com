@@ -146,6 +146,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
+    this.toggleFooterVisibility(false);
     this.appStateServiceInstance.unsubscribe();
   }
 
