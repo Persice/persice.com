@@ -291,9 +291,9 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
   closeProfile(event) {
     let uri = this.historyService.getPrev();
     if (uri !== '') {
-      this._router.parent.navigateByUrl(uri);
+      window.history.back(-1);
     } else {
-      this._router.parent.navigateByUrl('/');
+      window.history.back(-2);
     }
 
   }
