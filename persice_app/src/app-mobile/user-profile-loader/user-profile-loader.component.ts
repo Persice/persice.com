@@ -7,12 +7,12 @@ import {LoadingComponent} from '../../app/shared/components/loading';
 import {CookieUtil} from '../../app/shared/core';
 
 @Component({
-  selector: 'prs-mobile-my-profile',
-  template: require('./my-profile-mobile.html'),
+  selector: 'prs-mobile-user-profile',
+  template: require('./user-profile-loader.html'),
   providers: [ProfileService],
   directives: [UserProfileComponent, LoadingComponent]
 })
-export class MyProfileMobileComponent implements OnInit, OnDestroy {
+export class UserProfileLoaderComponent implements OnInit, OnDestroy {
 
   private me: Person;
   private type: String;
