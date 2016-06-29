@@ -324,7 +324,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   private closeView() {
     if (this.isStandalonePage) {
       this.toggleFooterVisibility(false);
-      window.history.go(-2);
+      setTimeout(() => window.history.go(-2), 500);
     } else {
       this.profileClosedEvent.emit(this.person.id);
     }
