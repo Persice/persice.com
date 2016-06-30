@@ -6,7 +6,8 @@ from tastypie.api import Api
 from events.api.resources import (AboutMeResource, EventAttendees,
                                   EventConnections, EventResource,
                                   MembershipResource, EventFeedResource,
-                                  UserProfileResource, FilterStateResource)
+                                  UserProfileResource, FilterStateResource,
+                                  Attendees)
 from friends.api.resources import (ConnectionsSearchResource,
                                    FriendsNewCounterResource,
                                    FriendsNewResource, FriendsResource,
@@ -76,6 +77,7 @@ v2_api = Api(api_name='v2')
 v2_api.register(NeoFriendsResource())
 v2_api.register(NeoFriendsNewCounterResource())
 v2_api.register(NeoFriendsNewResource())
+v2_api.register(Attendees())
 
 urlpatterns = patterns('',
                        url(r'^signup/interests', 'goals.views.signup_page',

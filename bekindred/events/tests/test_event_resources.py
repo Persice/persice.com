@@ -1,10 +1,11 @@
 from datetime import timedelta, date
 import json
 from django.core.files.uploadedfile import SimpleUploadedFile
-
+from django.core.management import call_command
 
 from django_facebook.models import FacebookCustomUser
 from guardian.shortcuts import assign_perm
+from haystack.management.commands import update_index
 from tastypie.test import ResourceTestCase
 from django.utils.timezone import now
 
@@ -12,6 +13,7 @@ from events.models import Event, Membership, EventFilterState
 from friends.models import Friend
 from friends.utils import NeoFourJ
 from goals.models import Subject, Goal, Offer, MatchFilterState
+from match_engine.tests.test_models import BaseTestCase
 from world.models import UserLocation
 
 
@@ -384,3 +386,65 @@ class TestEventResource(ResourceTestCase):
                                    format='json')
         self.assertEqual(self.deserialize(resp)['access_user_list'],
                          str(user.id))
+
+
+class TestAttendeesResource(BaseTestCase, ResourceTestCase):
+    def setUp(self):
+        super(TestAttendeesResource, self).setUp()
+        self.user = FacebookCustomUser.objects. \
+            create_user(username='user_a', password='test', facebook_id=123,
+                        first_name='Andrii', last_name='Soldatenko')
+        self.user1 = FacebookCustomUser.objects. \
+            create_user(username='user_b', password='test', facebook_id=124,
+                        first_name='First Name', last_name='Last Name')
+        self.user2 = FacebookCustomUser.objects. \
+            create_user(username='user_c', password='test', facebook_id=125,
+                        first_name='Lara', last_name='Croft')
+        self.event = Event.objects. \
+            create(starts_on='2055-06-13T05:15:22.792659',
+                   ends_on='2055-06-14T05:15:22.792659',
+                   name="Play piano", location=[7000, 22965.83])
+        self.membership = Membership.objects. \
+            create(user=self.user, event=self.event,
+                   is_organizer=True, rsvp='yes')
+        self.membership1 = Membership.objects. \
+            create(user=self.user1, event=self.event, rsvp='yes')
+        self.membership2 = Membership.objects. \
+            create(user=self.user2, event=self.event, rsvp='yes')
+        assign_perm('view_event', self.user, self.event)
+        assign_perm('view_event', self.user1, self.event)
+        self.detail_url = '/api/v1/event/{0}/'.format(self.event.pk)
+        self.post_data = {
+            'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
+            'events': '/api/v1/event/{0}/'.format(self.event.pk),
+        }
+        self.neo = NeoFourJ()
+        self.neo.graph.delete_all()
+
+    def login(self, username='user_a', password='test'):
+        return self.api_client.client.post('/login/', {'username': username,
+                                                       'password': password})
+
+    def test_get_list_unauthorzied(self):
+        self.assertHttpUnauthorized(
+            self.api_client.get('/api/v1/event/', format='json'))
+
+    def test_login(self):
+        self.response = self.login()
+        self.assertEqual(self.response.status_code, 302)
+
+    def get_event_attendees(self):
+        subject = Subject.objects.create(description='python')
+        Goal.objects.create(user=self.user, goal=subject)
+        Goal.objects.create(user=self.user1, goal=subject)
+        update_index.Command().handle(interactive=False)
+        self.response = self.login()
+        resp = self.api_client.get('/api/v2/attendees/', format='json',
+                                   data={'rsvp': 'yes',
+                                         'event_id': self.event.id})
+        self.assertValidJSONResponse(resp)
+        data = self.deserialize(resp)
+        self.assertEqual(len(data), 2)
+        self.assertEqual(data['objects'][0]['top_interests'], [{u'python': 1}])
+        self.assertEqual(data['objects'][0]['connected'], False)
+        self.assertEqual(data['objects'][1]['connected'], False)

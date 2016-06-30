@@ -1,6 +1,8 @@
 import json
 import re
 import logging
+
+from django.contrib.humanize.templatetags.humanize import intcomma
 from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from datetime import datetime
 import redis
@@ -36,7 +38,7 @@ from goals.utils import (calculate_age, calculate_distance_events,
                          get_user_location, calculate_distance_user_event,
                          get_current_position, get_lives_in)
 from interests import Interest
-from matchfeed.utils import MatchQuerySet, MatchEvent
+from matchfeed.utils import MatchQuerySet, MatchEvent, NonMatchUser
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
@@ -611,7 +613,120 @@ class EventAttendees(ModelResource):
 
 
 class Attendees(ModelResource):
-    pass
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name')
+    last_name = fields.CharField(attribute='last_name')
+    facebook_id = fields.CharField(attribute='facebook_id')
+    username = fields.CharField(attribute='username')
+    image = fields.FileField(attribute="image", null=True, blank=True)
+    user_id = fields.CharField(attribute='user_id')
+    twitter_provider = fields.CharField(attribute='twitter_provider',
+                                        null=True)
+    twitter_username = fields.CharField(attribute='twitter_username',
+                                        null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider',
+                                         null=True)
+    age = fields.IntegerField(attribute='age')
+    distance = fields.ListField(attribute='distance', null=True)
+    about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
+
+    photos = fields.ListField(attribute='photos', null=True)
+    goals = fields.ListField(attribute='goals', null=True)
+    offers = fields.ListField(attribute='offers', null=True)
+    interests = fields.ListField(attribute='interests', null=True)
+    top_interests = fields.ListField(attribute='top_interests', null=True)
+
+    score = fields.IntegerField(attribute='score', null=True, default=0)
+    mutual_likes_count = fields.IntegerField(
+        attribute='mutual_likes_count',
+        null=True)
+    total_likes_count = fields.IntegerField(attribute='total_likes_count',
+                                            null=True)
+    es_score = fields.FloatField(attribute='es_score', null=True, default=0)
+    friends_score = fields.IntegerField(attribute='friends_score',
+                                        null=True)
+    last_login = fields.DateField(attribute='last_login', null=True)
+    keywords = fields.ListField(attribute='keywords', null=True)
+    position = fields.DictField(attribute='position', null=True)
+    lives_in = fields.CharField(attribute='lives_in', null=True)
+    connected = fields.BooleanField(attribute='connected', default=False)
+
+    class Meta:
+        # max_limit = 10
+        resource_name = 'attendees'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        rsvp = request.GET.get('rsvp')
+        event_id = request.GET.get('event_id')
+        if rsvp is None and event_id is None:
+            logger.error('rsvp and event_id is required')
+            raise BadRequest('rsvp and event_id is required')
+        if rsvp not in ('yes', 'no', 'maybe'):
+            logger.error('rsvp is incorrect rsvp: {}'.format(rsvp))
+            raise BadRequest('Please use correct rsvp: yes, no or maybe')
+        attendees_ids = Membership.objects.filter(rsvp=rsvp, event_id=event_id,
+                                                  is_organizer=False).\
+            values_list('user_id', flat=True)
+
+        match_users = MatchQuerySet.all(request.user.id,
+                                        is_filter=False)
+        attendees = []
+        matched_attendees_ids = []
+        for match_user in match_users:
+            if match_user.id in attendees_ids:
+                attendees.append(match_user)
+                matched_attendees_ids.append(match_user.id)
+        non_match_attendees = set(attendees_ids) - set(matched_attendees_ids)
+        for non_match_attendee in non_match_attendees:
+            attendees.append(NonMatchUser(request.user.id, non_match_attendee))
+        return sorted(attendees, key=lambda x: -x.connected)
+
+    def obj_get_list(self, bundle, **kwargs):
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+    def obj_delete(self, bundle, **kwargs):
+        pass
+
+    def apply_filters(self, request, applicable_filters):
+        pass
+
+    def obj_update(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list(self, bundle, **kwargs):
+        pass
+
+    def obj_create(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list_for_update(self, bundle, **kwargs):
+        pass
+
+    def dehydrate_distance(self, bundle):
+        if bundle.data['distance']:
+            bundle.data['distance'] = [intcomma(bundle.data['distance'][0]),
+                                       bundle.data['distance'][1]]
+        bundle.data['position'] = get_current_position(bundle.data['id'])
+        return bundle.data['distance']
+
 
 class EventFeedResource(Resource):
     id = fields.CharField(attribute='id')
