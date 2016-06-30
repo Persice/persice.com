@@ -24,7 +24,7 @@ interface AttendeesMapped {
 
 @Injectable()
 export class AttendeeService {
-  public static API_URL = 'http://localhost:9999/api/v2/attendees/';
+  public static API_URL = '/api/v2/attendees/';
 
   public attendees$: Observable<Attendees>;
   public isLoading$: Observable<boolean>;
