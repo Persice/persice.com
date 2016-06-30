@@ -66,6 +66,10 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     this.clearServicesSubscriptions();
   }
 
+   selectPerson(person) {
+    this.selectItem(person.id);
+  }
+
   beforeItemSelected() {
     this.saveScrollPosition();
   }

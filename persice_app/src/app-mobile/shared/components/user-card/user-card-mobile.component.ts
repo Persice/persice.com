@@ -45,6 +45,6 @@ export class UserCardMobileComponent {
   }
 
   selectPerson(event) {
-    this.onProfileTap.emit(this._person.id);
+    this.onProfileTap.emit(this._person);
   }
 }

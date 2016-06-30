@@ -2,7 +2,7 @@
   prs-infinite-scroll (scrolled)="loadMoreItems($event)"
   [scrollEnabled]="!isFilterVisible && !itemViewActive"
   [bottomOffset]="60">
-  <prs-mobile-user-card (onProfileTap)="selectItem($event)" [person]="person"
+  <prs-mobile-user-card (onProfileTap)="selectPerson($event)" [person]="person"
     *ngFor="let person of items; trackBy:id"></prs-mobile-user-card>
   <prs-loading [status]="loading"></prs-loading>
 </div>

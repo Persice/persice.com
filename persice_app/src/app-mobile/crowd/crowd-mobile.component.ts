@@ -83,6 +83,10 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     this.closeItemView(null);
   }
 
+  selectPerson(person) {
+    this.selectItem(person.id);
+  }
+
   afterItemClosed() {
 
     this.appStateService.headerStateEmitter.emit(HeaderState.crowd);
