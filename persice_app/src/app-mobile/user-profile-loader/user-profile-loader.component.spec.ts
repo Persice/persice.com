@@ -15,16 +15,16 @@ import {
   RouteRegistry
 } from '@angular/router-deprecated';
 
-import {AppMobileComponent} from "../app-mobile.component";
+import {AppMobileComponent} from '../app-mobile.component';
 import {provide, Provider} from '@angular/core';
 import {Observable} from 'rxjs';
-import {MyProfileMobileComponent} from "./my-profile-mobile.component";
-import {ProfileService} from "../../app/shared/services/profile.service";
-import {PersonGenerator} from "../shared/model/person-generator";
+import {UserProfileLoaderComponent} from './user-profile-loader.component';
+import {ProfileService} from '../../app/shared/services/profile.service';
+import {PersonGenerator} from '../shared/model/person-generator';
 import {HttpClient} from '../../app/shared/core';
-import {AppStateService} from "../shared/services/app-state.service";
+import {AppStateService} from '../shared/services/app-state.service';
 
-let component: MyProfileMobileComponent;
+let component: UserProfileLoaderComponent;
 let mock: ProfileServiceMock;
 
 class ProfileServiceMock extends ProfileService {
@@ -70,8 +70,8 @@ xdescribe('My profile mobile component', () => {
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      MyProfileMobileComponent, [provide(ProfileService, { useValue: mock })])
-      .createAsync(MyProfileMobileComponent)
+      UserProfileLoaderComponent, [provide(ProfileService, { useValue: mock })])
+      .createAsync(UserProfileLoaderComponent)
       .then((componentFixture: any) => {
         fixture = componentFixture;
         component = componentFixture.componentInstance;
