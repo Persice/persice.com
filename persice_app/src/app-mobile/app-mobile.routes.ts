@@ -33,7 +33,7 @@ export const rootRoutes: RouterConfig = [
     component: EventsMobileComponent,
   },
   {
-    path: 'attendees',
+    path: 'attendees/:eventId',
     component: AttendeesMobileComponent,
   },
   {
