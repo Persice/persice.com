@@ -405,6 +405,7 @@ class MatchUser(object):
 class NonMatchUser(MatchUser):
     def __init__(self, current_user_id, user_id):
         self.user = FacebookCustomUserActive.objects.get(pk=user_id)
+        self.current_user_id = current_user_id
         self.id = self.user.id
         self.user_id = self.user.id
         self.username = self.user.username
@@ -422,6 +423,25 @@ class NonMatchUser(MatchUser):
         self.linkedin_provider = self.get_linkedin_data()
         self.twitter_username, self.twitter_provider = self.get_twitter_data()
         self.connected = self.is_connected(current_user_id, user_id)
+        self.top_interests = self.get_top_interests(
+            self.get_user_object(user_id)
+        )
+
+    def get_user_object(self, user_id):
+        goals = Goal.objects.filter(user_id=user_id).\
+            values_list('goal__description', flat=True)
+        offers = Offer.objects.filter(user_id=user_id). \
+            values_list('offer__description', flat=True)
+        interests = Interest.objects.filter(user_id=user_id). \
+            values_list('interest__description', flat=True)
+        user_object = {
+            u'_source': {
+                u'goals': list(goals),
+                u'offers': list(offers),
+                u'interests': list(interests)
+            }
+        }
+        return user_object
 
 
 class ShortMatchUser(MatchUser):
@@ -547,7 +567,7 @@ class MatchEvent(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id, is_filter=False, friends=False, exclude_ids=()):
+    def all(current_user_id, is_filter=False, friends=False, exclude_ids=None):
         hits = ElasticSearchMatchEngine.elastic_objects.\
             match(current_user_id, is_filter=is_filter, friends=friends,
                   exclude_ids=exclude_ids)
