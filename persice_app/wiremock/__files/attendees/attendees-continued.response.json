@@ -3,7 +3,7 @@
     "limit": 12,
     "next": null,
     "offset": 12,
-    "previous": "/api/v2/attendees/?format=json&limit=12&offset=0",
+    "previous": "http://localhost:9999/api/v2/attendees/?format=json&limit=12&offset=0",
     "total_count": 24
   },
   "objects": [
@@ -56,7 +56,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -107,7 +107,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -158,7 +158,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -209,7 +209,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -260,7 +260,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -311,7 +311,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -362,7 +362,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -413,7 +413,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -464,7 +464,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -515,7 +515,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -566,7 +566,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     },
     {
       "connected": false,
@@ -617,7 +617,7 @@
       "twitter_provider": null,
       "twitter_username": null,
       "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "username": "tgprrba_letuchyberg_1422048120"
     }
   ]
 }
