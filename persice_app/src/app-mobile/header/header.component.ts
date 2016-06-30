@@ -95,11 +95,15 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.BackToListView:
+        // Emit event before going back, so subscriber can do some action before actual
+        // back is triggered
         this.appStateService.backEmitter.emit(undefined);
         this.appStateService.goBackToListViewEmitter.emit(true);
         break;
 
       case this.actions.Back:
+        // Emit event before going back, so subscriber can do some action before actual
+        // back is triggered
         this.appStateService.backEmitter.emit(undefined);
         this.location.back();
         break;
