@@ -1,8 +1,8 @@
-import {ObjectUtil} from "../../../app/shared/core/util";
-import {SocialNetworkFacebook} from "./social-network/social-network-facebook";
-import {SocialNetworkLinkedin} from "./social-network/social-network-linkedin";
-import {SocialNetworkTwitter} from "./social-network/social-network-twitter";
-import {Gender} from "./gender";
+import {ObjectUtil} from '../../../app/shared/core/util';
+import {SocialNetworkFacebook} from './social-network/social-network-facebook';
+import {SocialNetworkLinkedin} from './social-network/social-network-linkedin';
+import {SocialNetworkTwitter} from './social-network/social-network-twitter';
+import {Gender} from './gender';
 export class Person {
 
   public topInterestsFirstHalf: any[];
