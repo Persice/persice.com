@@ -228,6 +228,9 @@ export class ObjectUtil {
   }
 
   static transformSorted(data): Array<Object> {
+    if (!!data) {
+      return [];
+    }
     let keys = [];
     for (var key in data) {
       if (data[key] === 1) {
