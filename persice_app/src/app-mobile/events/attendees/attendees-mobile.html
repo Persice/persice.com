@@ -1,14 +1,16 @@
 <div class="content">
   <div class="mob-sec-tabs">
     <ul>
-      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 1}"><a (click)="activateTab(1)">Going (147)</a></li>
-      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 2}"><a (click)="activateTab(2)">Maybe (76)</a></li>
-      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 3}"><a (click)="activateTab(3)">Can't Go (1.5k)</a></li>
+      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 1}"><a (click)="activateTab(1)">Going ({{ counterGoing$ | async }})</a></li>
+      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 2}"><a (click)="activateTab(2)">Maybe ({{ counterMaybe$ | async }})</a></li>
+      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 3}"><a (click)="activateTab(3)">Can't Go ({{ counterNotGoing$ | async }})</a></li>
     </ul>
   </div>
-  <div class="mob-user-card-title"> Connections </div>
-  <prs-mobile-user-card [personEntity]="person" *ngFor="let person of attendees;" [showSendMessage]="true"></prs-mobile-user-card>
-  <div class="mob-user-card-title"> Others </div>
-  <prs-mobile-user-card [personEntity]="person" *ngFor="let person of attendees;"></prs-mobile-user-card>
-
+  <div prs-infinite-scroll (scrolled)="loadMoreData($event)" [scrollEnabled]="!!!isLoaded" [bottomOffset]="60">
+    <div class="mob-user-card-title" *ngIf="(connectionsTotalCount$ | async) > 0"> Connections </div>
+    <prs-mobile-user-card (onOpenNewConversation)="openNewConversation(person)" (onProfileTap)="viewProfile(person.username)" [showPersiceIcon]="person.connected" [personEntity]="person" *ngFor="let person of connections$ | async" [showSendMessage]="true"></prs-mobile-user-card>
+    <div class="mob-user-card-title" *ngIf="(othersTotalCount$ | async) > 0"> Others </div>
+    <prs-mobile-user-card (onProfileTap)="viewProfile(person.id)" [personEntity]="person" *ngFor="let person of others$ | async"></prs-mobile-user-card>
+  </div>
+  <prs-loading [status]="!!(isLoading$ | async)"></prs-loading>
 </div>
