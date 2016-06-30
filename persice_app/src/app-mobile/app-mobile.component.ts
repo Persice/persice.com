@@ -50,15 +50,12 @@ import {FilterService, WebsocketService} from '../app/shared/services';
   encapsulation: ViewEncapsulation.None
 })
 export class AppMobileComponent implements OnInit {
-  isFooterVisible: boolean = false;
-  footerType: string;
   username: string = '';
   unreadMessagesCounter: Observable<number>;
   newConnectionsCounter: Observable<number>;
 
   constructor(
     private websocketService: WebsocketService,
-    private appStateService: AppStateService,
     private geolocationService: GeolocationService,
     private locationService: LocationService,
     private store: Store<AppState>,
@@ -74,12 +71,6 @@ export class AppMobileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appStateService.isProfileFooterVisibleEmitter
-      .subscribe((state: any) => {
-        this.isFooterVisible = state.visibility;
-        this.footerType = state.type ? state.type : '';
-      });
-
     // Initialize and connect to socket.io websocket
     this.websocketService.connect();
 

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {Subscription, Observable} from 'rxjs';
+import {Location} from '@angular/common';
 
 import {OpenLeftMenuDirective} from '../shared/directives';
 import {RemodalDirective} from '../../app/shared/directives';
@@ -65,7 +66,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  @Output() public profileClosedEvent: EventEmitter<any> = new EventEmitter;
+  @Output() public profileClosedAfterActionEvent: EventEmitter<any> = new EventEmitter;
 
   // Indicator for active view
   public activeView = ViewsType.Profile;
@@ -103,7 +104,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   public connectionsMutualTwitterFollowers: any[] = [];
   public connectionsMutualTwitterFriends: any[] = [];
 
-  private appStateServiceInstance;
+  private isUserProfileVisibleSubs;
+  private backSubs;
 
   private accepted$: Observable<boolean>;
   private passed$: Observable<boolean>;
@@ -114,7 +116,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     private mutualFriendService: MutualFriendsService,
     private connectionsService: ConnectionsService,
     private store: Store<AppState>,
-    private actions: SelectedPersonActions
+    private actions: SelectedPersonActions,
+    private location: Location
   ) {
     const store$ = store.let(getSelectedPersonState());
     this.accepted$ = store$.map((data) => data['accept']);
@@ -135,27 +138,41 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): any {
-    this.appStateServiceInstance = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
+    this.isUserProfileVisibleSubs = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
       if (!!visible) {
         this.showProfileView(undefined);
       }
     });
 
 
+    // When going back from profile view, hide footer and clear selected person from Store
+    this.backSubs= this.appStateService.backEmitter.subscribe(() => {
+      this.toggleFooterVisibility(false);
+      this.clearSelectedPersonFromStore();
+    });
+
     this.makeProfileHeaderVisible();
+
+    if (this.type === 'crowd' || this.type === 'connection') {
+      this.toggleFooterVisibility(true);
+    }
+
   }
 
   ngOnDestroy(): any {
     this.toggleFooterVisibility(false);
-    this.appStateServiceInstance.unsubscribe();
+    this.isUserProfileVisibleSubs.unsubscribe();
+    this.backSubs.unsubscribe();
+  }
+
+  clearSelectedPersonFromStore() {
+    // Clear selected person from SelectedPerson App Store
+    this.store.dispatch(this.actions.clear());
   }
 
   ngAfterViewInit() {
     setTimeout(() => {
       window.scrollTo(0, 0);
-      if (this.type === 'crowd') {
-        this.toggleFooterVisibility(true);
-      }
     });
   }
 
@@ -165,11 +182,11 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     if (this.type === 'crowd') {
-      this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBack);
+      this.appStateService.headerStateEmitter.emit(HeaderState.crowdProfile);
     }
 
     if (this.type === 'connection') {
-      this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBackAndMenu);
+      this.appStateService.headerStateEmitter.emit(HeaderState.connectionProfile);
     }
 
     if (this.isStandalonePage) {
@@ -188,7 +205,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   public disconnect(event: MouseEvent) {
     let subs: Subscription = this.friendService.disconnect(this.person.id)
       .subscribe((data: any) => {
-        this.appStateService.userProfileDisconnected.emit(this.person.id);
+        this.closeView();
         subs.unsubscribe();
       }, (err) => {
         subs.unsubscribe();
@@ -234,7 +251,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public showProfileView(event: any): void {
     this.activeView = this.viewsType.Profile;
-    if (this.type !== 'my-profile') {
+    if (this.type === 'crowd' || this.type === 'connection') {
       this.toggleFooterVisibility(true);
     }
 
@@ -244,8 +261,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private toggleFooterVisibility(visible: boolean): void {
     this.appStateService.setProfileFooterVisibility({
-      visibility: visible,
-      type: this.type
+      visibility: visible
     });
   }
 
@@ -306,7 +322,9 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private setBrowserLocationUrl(path: string) {
-    window.history.pushState('', '', `${path}`);
+    if (!this.isStandalonePage) {
+      window.history.pushState('', '', `${path}`);
+    }
   }
 
   private _saveFriendshipStatus(status: number): void {
@@ -322,11 +340,12 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private closeView() {
+    this.toggleFooterVisibility(false);
+    this.clearSelectedPersonFromStore();
     if (this.isStandalonePage) {
-      this.toggleFooterVisibility(false);
-      setTimeout(() => window.history.go(-2), 500);
+      setTimeout(() => this.location.back(), 200);
     } else {
-      this.profileClosedEvent.emit(this.person.id);
+      this.profileClosedAfterActionEvent.emit(this.person.id);
     }
   }
 }

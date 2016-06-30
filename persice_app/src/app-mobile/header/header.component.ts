@@ -95,17 +95,13 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.BackToListView:
+        this.appStateService.backEmitter.emit(undefined);
         this.appStateService.goBackToListViewEmitter.emit(true);
         break;
 
       case this.actions.Back:
+        this.appStateService.backEmitter.emit(undefined);
         this.location.back();
-        break;
-
-      case this.actions.BackTwoPages:
-        // This is a workaround since Location::back can't go more than one page back, and for some reason there are
-        // situations where just going one page back leaves on the same page. Probably something to do with routers.
-        window.history.go(-2);
         break;
 
       default:

@@ -79,31 +79,14 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     jQuery('#intercom-launcher').css('display', 'none');
   }
 
-  afterItemSelected() {
-    // Set selectedItem as selected person and profileype as 'crowd' in SelectedPerson App Store
-    this.store.dispatch(this.actions.set(this.selectedItem, 'crowd'));
-
-    // Show profile footer visibility.
-    this.appStateService.setProfileFooterVisibility({
-      visibility: true
-    });
-  }
-
-  closeItem(id: string) {
+  acceptPassEvent(id: string) {
     this.removeItemById(id);
     this.closeItemView(null);
   }
 
   afterItemClosed() {
-    // Clear selected person from SelectedPerson App Store
-    this.store.dispatch(this.actions.clear());
 
     this.appStateService.headerStateEmitter.emit(HeaderState.crowd);
-
-    // Hide profile footer.
-    this.appStateService.setProfileFooterVisibility({
-      visibility: false
-    });
 
     this.restoreScrollPosition();
     this._setBrowserLocationUrl('/crowd');

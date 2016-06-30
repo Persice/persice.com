@@ -60,20 +60,10 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     this.appStateService.goBackToListViewEmitter.subscribe((data) => {
       this.closeItemView(undefined);
     });
-
-    // Listen for event when connection is disconnected
-    this.appStateService.userProfileDisconnected.subscribe((userId) => {
-      this.afterProfileDisconnected(userId);
-    });
   }
 
   ngOnDestroy() {
     this.clearServicesSubscriptions();
-
-    // Hide profile footer
-    this.appStateService.setProfileFooterVisibility({
-      visibility: false
-    });
   }
 
   beforeItemSelected() {
@@ -81,13 +71,6 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
   }
 
   afterItemSelected(index?: number) {
-    // Set selectedItem as selected person and profileype as 'connection' in SelectedPerson App Store
-    this.store.dispatch(this.actions.set(this.selectedItem, 'connection'));
-
-    // Show profile footer visibility
-    this.appStateService.setProfileFooterVisibility({
-      visibility: true
-    });
 
     // If newly formed connection profile is being selected, mark it as 'seen'
     // and refresh new connections counter.
@@ -111,15 +94,8 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
   }
 
   afterItemClosed() {
-    // Clear selected person from SelectedPerson App Store
-    this.store.dispatch(this.actions.clear());
 
     this.appStateService.headerStateEmitter.emit(HeaderState.connections);
-
-    // Hide profile footer
-    this.appStateService.setProfileFooterVisibility({
-      visibility: false
-    });
 
     this.restoreScrollPosition();
     this._setBrowserLocationUrl('/connections');

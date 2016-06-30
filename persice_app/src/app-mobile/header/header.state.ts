@@ -79,8 +79,7 @@ export class HeaderState {
     title: ''
   };
 
-
-  public static userProfileWithBack = {
+  public static crowdProfile = {
     left: HeaderState.left.Back,
     leftAction: HeaderState.actions.BackToListView,
     center: HeaderState.center.None,
@@ -90,7 +89,7 @@ export class HeaderState {
     title: ''
   };
 
-  public static userProfileWithBackAndMenu = {
+  public static connectionProfile = {
     left: HeaderState.left.Back,
     leftAction: HeaderState.actions.BackToListView,
     center: HeaderState.center.None,
@@ -102,7 +101,7 @@ export class HeaderState {
 
   public static userProfile = {
     left: HeaderState.left.Back,
-    leftAction: HeaderState.actions.BackTwoPages,
+    leftAction: HeaderState.actions.Back,
     center: HeaderState.center.None,
     right: HeaderState.right.None,
     rightAction: HeaderState.actions.None,
@@ -112,7 +111,7 @@ export class HeaderState {
 
   public static userProfileWithMenu = {
     left: HeaderState.left.Back,
-    leftAction: HeaderState.actions.BackTwoPages,
+    leftAction: HeaderState.actions.Back,
     center: HeaderState.center.None,
     right: HeaderState.right.ConnectionMenu,
     rightAction: HeaderState.actions.None,
