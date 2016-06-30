@@ -110,8 +110,11 @@ export abstract class BaseEventComponent {
           this.model.ends_on_date = startDate.format('MM/DD/YYYY');
           this.model.ends_on_time = startDate.format('hh:mm');
 
-          jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
+          setTimeout(() => {
+             jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
           jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+        }, 400);
+
         }
 
       }

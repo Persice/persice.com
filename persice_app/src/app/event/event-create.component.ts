@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router-deprecated';
 
 import {
@@ -37,7 +37,7 @@ import {
   ],
   providers: [EventService]
 })
-export class EventCreateComponent extends BaseEventComponent {
+export class EventCreateComponent extends BaseEventComponent implements OnInit {
   @Input() type;
   loading: boolean = false;
 
@@ -57,10 +57,16 @@ export class EventCreateComponent extends BaseEventComponent {
     this.router = router;
     this.model = new EventModel();
 
-    this.model.starts_on_date = DateUtil.todayRoundUp().format('MM/DD/YYYY');
-    this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
-    this.model.starts_on_time = DateUtil.todayRoundUp().format('hh:mm');
-    this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('hh:mm');
+  }
+
+  ngOnInit(): any {
+    setTimeout(() => {
+      this.model.starts_on_date = DateUtil.todayRoundUp().format('MM/DD/YYYY');
+      this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
+      this.model.starts_on_time = DateUtil.todayRoundUp().format('hh:mm');
+      this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('hh:mm');
+    })
+
   }
 
   saveEvent(event) {
