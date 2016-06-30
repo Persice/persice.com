@@ -63,7 +63,7 @@ export class Person {
     this._connectionsCount = 0;
     this._connectionsMutualCount = 0;
 
-    if (dto.top_interests) {
+    if (!!dto.top_interests[0]) {
       let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
       let halfLength = Math.ceil(topInterestsFromDto.length / 2);
 
@@ -72,9 +72,9 @@ export class Person {
       this.topInterestsSecondHalf = topInterestsFromDto;
     }
 
-    let goalsFromDto = ObjectUtil.transformSorted(dto.goals[0]),
-      offersFromDto = ObjectUtil.transformSorted(dto.offers[0]),
-      interestsFromDto = ObjectUtil.transformSorted(dto.interests[0]);
+    let goalsFromDto = !!dto.goals ? ObjectUtil.transformSorted(dto.goals[0]) : [],
+      offersFromDto = !!dto.offers ? ObjectUtil.transformSorted(dto.offers[0]) : [],
+      interestsFromDto = !!dto.interests ? ObjectUtil.transformSorted(dto.interests[0]) : [];
 
     this._goals = goalsFromDto;
     this._goalsCount = goalsFromDto.length;
