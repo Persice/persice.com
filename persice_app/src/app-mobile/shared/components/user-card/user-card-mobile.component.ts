@@ -22,6 +22,10 @@ export class UserCardMobileComponent {
     this.isNewConnection = dto.seen !== undefined && dto.seen === false ? true : false;
     this._person = new Person(dto);
   };
+
+  @Input() set personEntity(entity: any) {
+    this._person = entity;
+  }
   @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
   @Output() onOpenNewConversation: EventEmitter<any> = new EventEmitter();
 
