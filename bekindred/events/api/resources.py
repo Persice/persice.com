@@ -690,7 +690,13 @@ class Attendees(ModelResource):
                 matched_attendees_ids.append(match_user.id)
         non_match_attendees = set(attendees_ids) - set(matched_attendees_ids)
         for non_match_attendee in non_match_attendees:
-            attendees.append(NonMatchUser(request.user.id, non_match_attendee))
+            try:
+                attendees.append(
+                    NonMatchUser(request.user.id, non_match_attendee)
+                )
+            except FacebookCustomUserActive.DoesNotExist as er:
+                logger.error(er)
+
         return sorted(attendees, key=lambda x: -x.connected)
 
     def obj_get_list(self, bundle, **kwargs):
