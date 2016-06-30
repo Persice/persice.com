@@ -86,8 +86,8 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     this._loadData(this.activeTab, true);
   }
 
-  public viewProfile(username: string) {
-    this.router.navigateByUrl(username);
+  public viewProfile(person: Person) {
+    this.router.navigateByUrl('/' + person.username);
   }
 
   public openNewConversation(person: Person) {
