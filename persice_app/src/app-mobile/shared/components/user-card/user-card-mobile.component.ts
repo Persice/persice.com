@@ -17,6 +17,7 @@ export class UserCardMobileComponent {
 
   @Input() showSendMessage: boolean = false;
   @Input() isNewConnectionDisabled: boolean = false;
+  @Input() showPersiceIcon: boolean = false;
 
   @Input() set person(dto: any) {
     this.isNewConnection = dto.seen !== undefined && dto.seen === false ? true : false;
