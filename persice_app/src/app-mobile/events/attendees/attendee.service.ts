@@ -166,7 +166,6 @@ export class AttendeeService {
     const dto: any = response.json();
 
     // Parse API response.
-    let totalCount: number = dto.meta.total_count;
     let next: string = dto.meta.next;
     let personsList: Person[] = dto.objects.map((data) => this._toPerson(data));
 

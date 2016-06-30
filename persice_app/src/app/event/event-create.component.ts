@@ -65,7 +65,7 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
       this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
       this.model.starts_on_time = DateUtil.todayRoundUp().format('hh:mm');
       this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('hh:mm');
-    })
+    });
 
   }
 

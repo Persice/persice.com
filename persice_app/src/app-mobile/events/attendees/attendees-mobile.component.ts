@@ -10,7 +10,7 @@ import {UserCardMobileComponent} from '../../shared/components/user-card/user-ca
 import {InfiniteScrollDirective} from '../../../common/directives';
 import {LoadingComponent} from '../../../app/shared/components/loading';
 import {SelectedPersonActions} from '../../../common/actions';
-import {AppState, getSelectedPersonState} from '../../../common/reducers';
+import {AppState} from '../../../common/reducers';
 
 @Component({
   selector: 'prs-mobile-attendees',
@@ -27,14 +27,13 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   public counterGoing$: Observable<number>;
   public counterMaybe$: Observable<number>;
   public counterNotGoing$: Observable<number>;
+  public activeTab: AttendeeTab = AttendeeTab.Maybe;
 
   private isLoading$: Observable<boolean>;
   private isLoadedSub: Subscription;
   private isLoaded: boolean = false;
   private eventId: number;
   private routerSub: Subscription;
-
-  activeTab: AttendeeTab = AttendeeTab.Maybe;
 
   constructor(
     private appStateService: AppStateService,

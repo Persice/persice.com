@@ -71,7 +71,7 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
   }
 
   ngOnDestroy(): any {
-    if(this.sendNewMessageSub) {
+    if (this.sendNewMessageSub) {
       this.sendNewMessageSub.unsubscribe();
     }
     // If recipient was already selected, clear selected person from App Store.
