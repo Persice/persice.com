@@ -63,7 +63,7 @@ export class Person {
     this._connectionsCount = 0;
     this._connectionsMutualCount = 0;
 
-    if (!!dto.top_interests[0]) {
+    if (!!dto.top_interests) {
       let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
       let halfLength = Math.ceil(topInterestsFromDto.length / 2);
 
