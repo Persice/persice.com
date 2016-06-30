@@ -22,9 +22,9 @@ import {ConnectionsService} from '../../common/connections';
 import {FriendUtil} from '../../app/shared/core';
 
 import {HeaderState} from '../header';
-import {AppState, getSelectedPersonState} from "../../common/reducers/index";
-import {Store} from "@ngrx/store";
-import {SelectedPersonActions} from "../../common/actions/selected-person.action";
+import {AppState, getSelectedPersonState} from '../../common/reducers';
+import {Store} from '@ngrx/store';
+import {SelectedPersonActions} from '../../common/actions';
 
 enum ViewsType {
   Profile,
@@ -146,7 +146,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
     // When going back from profile view, hide footer and clear selected person from Store
-    this.backSubs= this.appStateService.backEmitter.subscribe(() => {
+    this.backSubs = this.appStateService.backEmitter.subscribe(() => {
       this.toggleFooterVisibility(false);
       this.clearSelectedPersonFromStore();
     });

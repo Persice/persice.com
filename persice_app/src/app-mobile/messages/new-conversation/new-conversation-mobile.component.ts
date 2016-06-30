@@ -1,5 +1,4 @@
 import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
-import {Location} from '@angular/common';
 import {Router} from '@angular/router';
 import {Subscription, Observable} from 'rxjs';
 import {Http} from '@angular/http';

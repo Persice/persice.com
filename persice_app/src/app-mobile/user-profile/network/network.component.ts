@@ -113,7 +113,7 @@ export class NetworkComponent implements OnInit {
       image: data.image,
       id: data.user_id
     };
-    this.openNewConversation(data);
+    this.openNewConversation(person);
   }
 
   private openNewConversation(person: any): void {

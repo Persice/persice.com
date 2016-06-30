@@ -1,6 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
