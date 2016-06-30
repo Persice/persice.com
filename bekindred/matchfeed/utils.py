@@ -547,7 +547,7 @@ class MatchEvent(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id, is_filter=False, friends=False, exclude_ids=()):
+    def all(current_user_id, is_filter=False, friends=False, exclude_ids=None):
         hits = ElasticSearchMatchEngine.elastic_objects.\
             match(current_user_id, is_filter=is_filter, friends=friends,
                   exclude_ids=exclude_ids)

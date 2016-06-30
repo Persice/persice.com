@@ -35,7 +35,7 @@ def refresh_cache2(user_id=None):
 
 def update_index_delay(*args, **kwargs):
     user_id = None
-    if kwargs.get('instance'):
+    if kwargs.get('instance') and hasattr(kwargs.get('instance'), 'user_id'):
         user_id = kwargs.get('instance').user_id
     update_index_elastic.delay(user_id=user_id)
     refresh_cache2.delay(user_id)
