@@ -19,6 +19,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
   private usernameFromCookie: string;
   private usernameFromUrl: string;
   private isProfileLoaded: boolean = false;
+  private isProfileNotFound: boolean = false;
   private isStandalonePage: boolean = false;
   private sub: any;
 
@@ -35,20 +36,29 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
-      this.me = resp;
-      this.isProfileLoaded = true;
-
-      if (this.usernameFromCookie === this.usernameFromUrl) {
-        this.type = 'my-profile';
-      } else {
-        this.isStandalonePage = true;
-        if (!!resp.connected) {
-          this.type = 'connection';
+    let sub = this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
+      if (resp) {
+        this.me = resp;
+        this.isProfileLoaded = true;
+        this.isProfileNotFound = false;
+        if (this.usernameFromCookie === this.usernameFromUrl) {
+          this.type = 'my-profile';
         } else {
-          this.type = 'crowd';
+          this.isStandalonePage = true;
+          if (!!resp.connected) {
+            this.type = 'connection';
+          } else {
+            this.type = 'crowd';
+          }
         }
+      } else {
+        this.isProfileNotFound = true;
       }
+    }, (err) => {
+      this.isProfileNotFound = true;
+      console.log('Could not load profile', err);
+    }, () => {
+      sub.unsubscribe();
     });
   }
 
