@@ -21,7 +21,7 @@
         </svg>
         <prs-mobile-interests-card [person]="_person" *ngIf="interestsVisible"></prs-mobile-interests-card>
       </a>
-      <a (click)="onOpenNewConversation.emit(_person.id)" class="user-card__send-message" *ngIf="showSendMessage">
+      <a (click)="onOpenNewConversation.emit(_person)" class="user-card__send-message" *ngIf="showSendMessage">
         <svg role="img" class="icon ">
           <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
         </svg>
