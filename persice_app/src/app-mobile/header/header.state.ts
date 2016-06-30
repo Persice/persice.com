@@ -16,7 +16,6 @@ export enum HeaderActions {
   ShowUserProfile,
   BackToListView,
   Back,
-  BackTwoPages,
   SendMessage,
   None
 }
