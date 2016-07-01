@@ -3,7 +3,7 @@ import {tick} from '@angular/core/testing';
 import {SpyLocation} from '@angular/common/testing';
 import {ComponentFixture} from '@angular/compiler/testing';
 import {Location, LocationStrategy} from '@angular/common';
-import {MockLocationStrategy} from '@angular/common/testing/mock_location_strategy';
+
 import {Router, RouterConfig, RouterOutletMap, UrlSerializer,
   DefaultUrlSerializer, ActivatedRoute} from '@angular/router';
 
@@ -15,7 +15,7 @@ export const TEST_ROUTER_PROVIDERS_APP_MOBILE: any[] = [
   RouterOutletMap,
   { provide: UrlSerializer, useClass: DefaultUrlSerializer },
   { provide: Location, useClass: SpyLocation },
-  { provide: LocationStrategy, useClass: MockLocationStrategy },
+  { provide: LocationStrategy, useClass: SpyLocation },
   {
     provide: Router,
     useFactory: (resolver: ComponentResolver, urlSerializer: UrlSerializer,
