@@ -26,6 +26,10 @@ const rootRoutes: RouterConfig = [
   {
     path: 'connect',
     component: SignupConnectSocialAccountsMobileComponent
+  },
+  {
+    path: '**',
+    component: SignupInterestsMobileComponent
   }
 ];
 
