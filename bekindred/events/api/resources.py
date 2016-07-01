@@ -681,7 +681,7 @@ class Attendees(ModelResource):
             values_list('user_id', flat=True)
 
         match_users = MatchQuerySet.all(request.user.id,
-                                        is_filter=False)
+                                        is_filter=False, exclude_ids=())
         attendees = []
         matched_attendees_ids = []
         for match_user in match_users:
