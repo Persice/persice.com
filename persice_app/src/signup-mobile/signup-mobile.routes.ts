@@ -29,7 +29,8 @@ const rootRoutes: RouterConfig = [
   },
   {
     path: '**',
-    component: SignupInterestsMobileComponent
+    redirectTo: '/interests',
+    terminal: true
   }
 ];
 
