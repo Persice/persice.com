@@ -1,17 +1,18 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Router} from '@angular/router-deprecated';
 import {Store} from '@ngrx/store';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {SelectedPersonActions} from '../../../common/actions';
 import {AppState, getSelectedPersonState} from '../../../common/reducers';
+import {AppStateService} from '../../shared/services';
 
 @Component({
   selector: 'prs-mobile-profile-footer',
   template: require('./profile-footer.html'),
-  changeDetection: ChangeDetectionStrategy.OnPush
+  directives: [ROUTER_DIRECTIVES]
 })
-export class ProfileFooterMobileComponent {
+export class ProfileFooterMobileComponent implements OnInit {
   private selectedPersonState$: Observable<any>;
 
   private type: string = '';
@@ -22,11 +23,12 @@ export class ProfileFooterMobileComponent {
   private acceptIsActive = false;
   private timeoutPass;
   private timeoutAccept;
+  private isVisible: boolean = false;
 
   constructor(
-    private router: Router,
     private store: Store<AppState>,
-    private actions: SelectedPersonActions
+    private actions: SelectedPersonActions,
+    private appStateService: AppStateService
   ) {
     this.selectedPersonState$ = store.let(getSelectedPersonState());
     this.selectedPersonState$.subscribe((state: any) => {
@@ -34,6 +36,13 @@ export class ProfileFooterMobileComponent {
       this.type = state.type;
       this.connected = state.connected;
     });
+  }
+
+  ngOnInit() {
+     this.appStateService.isProfileFooterVisibleEmitter
+      .subscribe((state: any) => {
+        this.isVisible = state.visibility;
+      });
   }
 
   pass(event) {
@@ -50,6 +59,7 @@ export class ProfileFooterMobileComponent {
       window.clearTimeout(this.timeoutPass);
     }
     this.timeoutPass = setTimeout(() => {
+      this.passIsActive = false;
       this.store.dispatch(this.actions.passed());
     }, 1500);
 
@@ -68,12 +78,8 @@ export class ProfileFooterMobileComponent {
       window.clearTimeout(this.timeoutAccept);
     }
     this.timeoutAccept = setTimeout(() => {
+       this.acceptIsActive = false;
       this.store.dispatch(this.actions.accepted());
     }, 1500);
-  }
-
-  openNewConversation(event: MouseEvent): void {
-    this.store.dispatch(this.actions.useAsNewConversationRecipient());
-    this.router.navigate(['Messages', 'NewConversation']);
   }
 }

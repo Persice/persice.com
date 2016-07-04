@@ -1,30 +1,8 @@
 import {Component} from '@angular/core';
-import {RouteConfig, RouterOutlet} from '@angular/router-deprecated';
-import {ConversationsMobileComponent} from './conversations';
-import {ConversationMobileComponent} from './conversation';
-import {NewConversationMobileComponent} from './new-conversation';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
-  selector: 'prs-mobile-messages',
   template: `<router-outlet></router-outlet>`,
-  directives: [RouterOutlet]
+  directives: [ROUTER_DIRECTIVES]
 })
-@RouteConfig([
-  {
-    path: '/',
-    component: ConversationsMobileComponent,
-    name: 'Conversations',
-    useAsDefault: true
-  },
-  {
-    path: '/:senderId',
-    component: ConversationMobileComponent,
-    name: 'Conversation'
-  },
-  {
-    path: '/new',
-    component: NewConversationMobileComponent,
-    name: 'NewConversation'
-  }
-])
 export class MessagesMobileComponent { }

@@ -12,6 +12,7 @@ describe('Person', () => {
 
     // then
     expect(person.id).toEqual(dto.id);
+    expect(person.username).toEqual(dto.username);
     expect(person.firstName).toEqual(dto.first_name);
     expect(person.lastName).toEqual(dto.last_name);
     expect(person.formatedName).toBe(dto.first_name + ' ' + dto.last_name);
@@ -85,6 +86,7 @@ describe('Person', () => {
     let person: Person = new Person(personDto);
 
     // then
+    expect(person.toDto().username).toEqual(personDto.username);
     expect(person.toDto().first_name).toEqual(personDto.first_name);
     expect(person.toDto().last_name).toEqual(personDto.last_name);
     expect(person.toDto().gender).toEqual(personDto.gender);

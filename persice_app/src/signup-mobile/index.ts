@@ -6,3 +6,5 @@ import {HttpClient} from '../app/shared/core';
 export const APP_PROVIDERS = [
   HttpClient
 ];
+
+export * from './signup-mobile.routes';

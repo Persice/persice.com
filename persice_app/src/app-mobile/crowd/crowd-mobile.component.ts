@@ -1,7 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
 import {FilterMobileComponent} from '../shared/components/filter';
@@ -12,7 +11,7 @@ import {AppStateService} from '../shared/services';
 import {InfiniteScrollDirective} from '../../common/directives';
 import {UserProfileComponent} from '../user-profile';
 
-import {AppState, getSelectedPersonState} from '../../common/reducers';
+import {AppState} from '../../common/reducers';
 import {SelectedPersonActions} from '../../common/actions';
 import {HeaderState} from '../header';
 
@@ -23,6 +22,7 @@ const LIST_REFRESH_TIMEOUT: number = 0;
   template: require('./crowd-mobile.html'),
   providers: [CrowdService, FriendService],
   directives: [
+    ROUTER_DIRECTIVES,
     LoadingComponent,
     UserCardMobileComponent,
     FilterMobileComponent,
@@ -35,9 +35,6 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
   private isFilterVisible: boolean = false;
   private isFilterVisibleEmitterInstance;
 
-  private accepted$: Observable<boolean>;
-  private passed$: Observable<boolean>;
-
   constructor(
     protected listService: CrowdService,
     protected friendService: FriendService,
@@ -47,27 +44,10 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     private actions: SelectedPersonActions
   ) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
-
-    const store$ = store.let(getSelectedPersonState());
-    this.accepted$ = store$.map((data) => data['accept']);
-    this.passed$ = store$.map((data) => data['pass']);
-
-    this.accepted$.subscribe((status: boolean) => {
-      if (!!status) {
-        this._saveFriendshipStatus(0);
-      }
-    });
-
-    this.passed$.subscribe((status: boolean) => {
-      if (!!status) {
-        this._saveFriendshipStatus(-1);
-      }
-
-    });
-
   }
 
   ngOnInit() {
+    this.appStateService.headerStateEmitter.emit(HeaderState.crowd);
     this.getList();
     this.subscribeToFilterServiceUpdates();
 
@@ -98,46 +78,25 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     jQuery('#intercom-launcher').css('display', 'none');
   }
 
-  afterItemSelected() {
-    // Set selectedItem as selected person and profileype as 'crowd' in SelectedPerson App Store
-    this.store.dispatch(this.actions.set(this.selectedItem, 'crowd'));
+  acceptPassEvent(id: string) {
+    this.removeItemById(id);
+    this.closeItemView(null);
+  }
 
-    // Show profile footer visibility.
-    this.appStateService.setProfileFooterVisibility({
-      visibility: true
-    });
+  selectPerson(person) {
+    this.selectItem(person.id);
   }
 
   afterItemClosed() {
-    // Clear selected person from SelectedPerson App Store
-    this.store.dispatch(this.actions.clear());
 
     this.appStateService.headerStateEmitter.emit(HeaderState.crowd);
 
-    // Hide profile footer.
-    this.appStateService.setProfileFooterVisibility({
-      visibility: false
-    });
-
     this.restoreScrollPosition();
+    this._setBrowserLocationUrl('/crowd');
+
 
     // TODO: think how to solve showing intercom without using jQuery
     // This is a temporary workaround to show intercom icon after profile page is closed
     jQuery('#intercom-launcher').css('display', 'block');
   }
-
-  private _saveFriendshipStatus(status: number): void {
-    if (!!this.selectedItem) {
-      const id: string = this.selectedItem.id;
-      this.removeItemById(this.selectedItem.id);
-      this.friendService.saveFriendship(status, id)
-        .subscribe(data => {
-          this.closeItemView(null);
-        }, (err) => {
-          this.closeItemView(null);
-        });
-    }
-
-  }
-
 }

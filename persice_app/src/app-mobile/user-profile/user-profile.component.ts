@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
-import {Subscription} from 'rxjs';
+import {Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter} from '@angular/core';
+import {Subscription, Observable} from 'rxjs';
+import {Location} from '@angular/common';
 
 import {OpenLeftMenuDirective} from '../shared/directives';
 import {RemodalDirective} from '../../app/shared/directives';
@@ -22,6 +22,9 @@ import {ConnectionsService} from '../../common/connections';
 import {FriendUtil} from '../../app/shared/core';
 
 import {HeaderState} from '../header';
+import {AppState, getSelectedPersonState} from '../../common/reducers';
+import {Store} from '@ngrx/store';
+import {SelectedPersonActions} from '../../common/actions';
 
 enum ViewsType {
   Profile,
@@ -42,7 +45,6 @@ enum ViewsType {
     NetworkPreviewComponent,
     NetworkComponent,
     OpenLeftMenuDirective,
-    RouterLink,
     PhotosMobileComponent,
     LikesMobileComponent
   ],
@@ -54,6 +56,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @Input() username: string;
 
+  @Input() isStandalonePage: boolean = false;
+
   // When [user] from Input property change, set internal state for our component
   @Input() set user(value) {
     // If value is defined, set person
@@ -61,6 +65,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       this._setState(value);
     }
   }
+
+  @Output() public profileClosedAfterActionEvent: EventEmitter<any> = new EventEmitter;
 
   // Indicator for active view
   public activeView = ViewsType.Profile;
@@ -98,28 +104,70 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   public connectionsMutualTwitterFollowers: any[] = [];
   public connectionsMutualTwitterFriends: any[] = [];
 
-  private appStateServiceInstance;
+  private isUserProfileVisibleSubs;
+  private backSubs;
+
+  private accepted$: Observable<boolean>;
+  private passed$: Observable<boolean>;
 
   constructor(
     private appStateService: AppStateService,
     private friendService: FriendService,
     private mutualFriendService: MutualFriendsService,
-    private connectionsService: ConnectionsService
-  ) { }
+    private connectionsService: ConnectionsService,
+    private store: Store<AppState>,
+    private actions: SelectedPersonActions,
+    private location: Location
+  ) {
+    const store$ = store.let(getSelectedPersonState());
+    this.accepted$ = store$.map((data) => data['accept']);
+    this.passed$ = store$.map((data) => data['pass']);
+
+    this.accepted$.subscribe((status: boolean) => {
+      if (!!status) {
+        this._saveFriendshipStatus(0);
+      }
+    });
+
+    this.passed$.subscribe((status: boolean) => {
+      if (!!status) {
+        this._saveFriendshipStatus(-1);
+      }
+
+    });
+  }
 
   ngOnInit(): any {
-    this.appStateServiceInstance = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
+    this.isUserProfileVisibleSubs = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
       if (!!visible) {
         this.showProfileView(undefined);
       }
     });
 
+
+    // When going back from profile view, hide footer and clear selected person from Store
+    this.backSubs = this.appStateService.backEmitter.subscribe(() => {
+      this.toggleFooterVisibility(false);
+      this.clearSelectedPersonFromStore();
+    });
+
     this.makeProfileHeaderVisible();
+
+    if (this.type === 'crowd' || this.type === 'connection') {
+      this.toggleFooterVisibility(true);
+    }
 
   }
 
   ngOnDestroy(): any {
-    this.appStateServiceInstance.unsubscribe();
+    this.toggleFooterVisibility(false);
+    this.isUserProfileVisibleSubs.unsubscribe();
+    this.backSubs.unsubscribe();
+  }
+
+  clearSelectedPersonFromStore() {
+    // Clear selected person from SelectedPerson App Store
+    this.store.dispatch(this.actions.clear());
   }
 
   ngAfterViewInit() {
@@ -134,11 +182,19 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     if (this.type === 'crowd') {
-      this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBack);
+      this.appStateService.headerStateEmitter.emit(HeaderState.crowdProfile);
     }
 
     if (this.type === 'connection') {
-      this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithBackAndMenu);
+      this.appStateService.headerStateEmitter.emit(HeaderState.connectionProfile);
+    }
+
+    if (this.isStandalonePage) {
+      if (!!this.person.connected) {
+        this.appStateService.headerStateEmitter.emit(HeaderState.userProfileWithMenu);
+      } else {
+        this.appStateService.headerStateEmitter.emit(HeaderState.userProfile);
+      }
     }
   }
 
@@ -149,7 +205,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   public disconnect(event: MouseEvent) {
     let subs: Subscription = this.friendService.disconnect(this.person.id)
       .subscribe((data: any) => {
-        this.appStateService.userProfileDisconnected.emit(this.person.id);
+        this.closeView();
         subs.unsubscribe();
       }, (err) => {
         subs.unsubscribe();
@@ -195,7 +251,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public showProfileView(event: any): void {
     this.activeView = this.viewsType.Profile;
-    if (this.type !== 'my-profile') {
+    if (this.type === 'crowd' || this.type === 'connection') {
       this.toggleFooterVisibility(true);
     }
 
@@ -205,8 +261,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private toggleFooterVisibility(visible: boolean): void {
     this.appStateService.setProfileFooterVisibility({
-      visibility: visible,
-      type: this.type
+      visibility: visible
     });
   }
 
@@ -249,14 +304,48 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       });
   }
 
-  private _setState(value: any) {
-    this.person = new Person(value);
+  private _setState(user: any) {
+    this.person = new Person(user);
     if (this.type === 'crowd' || this.type === 'connection') {
+      // Set selected user only if profile is crowd or connection
+      this.store.dispatch(this.actions.set(this.person, this.type));
       this._getMutualConnections(this.person.id);
+      if (this.username) {
+        this.setBrowserLocationUrl(`/${this.username}`);
+      } else if (user.username) {
+        this.setBrowserLocationUrl(`/${user.username}`);
+      }
+
     } else if (this.type === 'my-profile') {
       this._getMyConnections();
     }
-
   }
 
+  private setBrowserLocationUrl(path: string) {
+    if (!this.isStandalonePage) {
+      window.history.pushState('', '', `${path}`);
+    }
+  }
+
+  private _saveFriendshipStatus(status: number): void {
+    if (!!this.person) {
+      const id: string = this.person.id;
+      this.friendService.saveFriendship(status, id)
+        .subscribe(data => {
+          this.closeView();
+        }, (err) => {
+          this.closeView();
+        });
+    }
+  }
+
+  private closeView() {
+    this.toggleFooterVisibility(false);
+    this.clearSelectedPersonFromStore();
+    if (this.isStandalonePage) {
+      setTimeout(() => this.location.back(), 200);
+    } else {
+      this.profileClosedAfterActionEvent.emit(this.person.id);
+    }
+  }
 }

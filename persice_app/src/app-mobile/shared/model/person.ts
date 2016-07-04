@@ -1,18 +1,20 @@
-import {ObjectUtil} from "../../../app/shared/core/util";
-import {SocialNetworkFacebook} from "./social-network/social-network-facebook";
-import {SocialNetworkLinkedin} from "./social-network/social-network-linkedin";
-import {SocialNetworkTwitter} from "./social-network/social-network-twitter";
-import {Gender} from "./gender";
+import {ObjectUtil} from '../../../app/shared/core/util';
+import {SocialNetworkFacebook} from './social-network/social-network-facebook';
+import {SocialNetworkLinkedin} from './social-network/social-network-linkedin';
+import {SocialNetworkTwitter} from './social-network/social-network-twitter';
+import {Gender} from './gender';
 export class Person {
 
   public topInterestsFirstHalf: any[];
   public topInterestsSecondHalf: any[];
 
   private _id: string;
+  private _username: string;
   private _firstName: string;
   private _lastName: string;
   private _gender: Gender;
   private _age: number;
+  private _connected: boolean;
   private _distance: number;
   private _distanceUnit: string;
   private _topInterests: any[] = [];
@@ -40,10 +42,12 @@ export class Person {
 
   constructor(dto: any) {
     this._id = dto.id;
+    this._username = dto.username;
     this._firstName = dto.first_name;
     this._lastName = dto.last_name;
     this._gender = new Gender(dto.gender);
     this._age = dto.age;
+    this._connected = dto.connected;
 
     if (dto.distance) {
       this._distance = dto.distance[0];
@@ -59,7 +63,7 @@ export class Person {
     this._connectionsCount = 0;
     this._connectionsMutualCount = 0;
 
-    if (dto.top_interests) {
+    if (!!dto.top_interests) {
       let topInterestsFromDto = ObjectUtil.firstSorted(dto.top_interests[0], 6);
       let halfLength = Math.ceil(topInterestsFromDto.length / 2);
 
@@ -68,9 +72,9 @@ export class Person {
       this.topInterestsSecondHalf = topInterestsFromDto;
     }
 
-    let goalsFromDto = ObjectUtil.transformSorted(dto.goals[0]),
-      offersFromDto = ObjectUtil.transformSorted(dto.offers[0]),
-      interestsFromDto = ObjectUtil.transformSorted(dto.interests[0]);
+    let goalsFromDto = !!dto.goals ? ObjectUtil.transformSorted(dto.goals[0]) : [],
+      offersFromDto = !!dto.offers ? ObjectUtil.transformSorted(dto.offers[0]) : [],
+      interestsFromDto = !!dto.interests ? ObjectUtil.transformSorted(dto.interests[0]) : [];
 
     this._goals = goalsFromDto;
     this._goalsCount = goalsFromDto.length;
@@ -93,6 +97,10 @@ export class Person {
     return this._id;
   }
 
+  get username(): string {
+    return this._username;
+  }
+
   get firstName(): string {
     return this._firstName;
   }
@@ -111,6 +119,10 @@ export class Person {
 
   get age(): number {
     return this._age;
+  }
+
+  get connected(): boolean {
+    return this._connected;
   }
 
   get distance(): number {
@@ -228,6 +240,7 @@ export class Person {
   public toDto(): any {
     return {
       id: this.id,
+      username: this.username,
       goals: this.goals,
       offers: this.offers,
       interests: this.interests,
@@ -239,6 +252,7 @@ export class Person {
       mutual_likes_count: this.likesMutualCount,
       last_name: this.lastName,
       distance: [this.distance, this.distanceUnit],
+      connected: this.connected,
       top_interests: this.topInterests,
       gender: this._gender.shortCode,
       score: this.score,

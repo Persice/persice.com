@@ -16,3 +16,5 @@ export const APP_PROVIDERS = [
   ...ANGULAR2_GOOGLE_MAPS_PROVIDERS,
   HttpClient
 ];
+
+export * from './app-mobile.routes';

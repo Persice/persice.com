@@ -6,7 +6,7 @@ import {bootstrap} from '@angular/platform-browser-dynamic';
 * Platform and Environment
 * our providers/directives/pipes
 */
-import {PLATFORM_PROVIDERS_SIGNUP} from './platform/browser';
+import {PLATFORM_PROVIDERS_SIGNUP_MOBILE} from './platform/browser';
 import {ENV_PROVIDERS} from './platform/environment';
 
 /*
@@ -22,7 +22,7 @@ import {SignupMobileComponent, APP_PROVIDERS} from './signup-mobile';
 export function main(initialHmrState?: any): Promise<any> {
 
   return bootstrap(SignupMobileComponent, [
-    ...PLATFORM_PROVIDERS_SIGNUP,
+    ...PLATFORM_PROVIDERS_SIGNUP_MOBILE,
     ...ENV_PROVIDERS,
     ...APP_PROVIDERS
   ])

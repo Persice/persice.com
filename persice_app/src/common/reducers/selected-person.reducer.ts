@@ -8,7 +8,6 @@ export interface SelectedPersonState {
   person: any;
   selected: boolean;
   type: string;
-  useAsNewConversationRecipient: boolean;
   connected: boolean;
   accept: boolean;
   pass: boolean;
@@ -18,7 +17,6 @@ let initialState: SelectedPersonState = {
   person: {},
   selected: false,
   type: '',
-  useAsNewConversationRecipient: false,
   connected: false,
   accept: false,
   pass: false
@@ -42,16 +40,12 @@ export default function(state = initialState, action: Action): SelectedPersonSta
         type: profileType,
         connected: connectedStatus,
         selected: true,
-        useAsNewConversationRecipient: false,
         accept: false,
         pass: false
       });
     }
     case SelectedPersonActions.CLEAR: {
       return Object.assign({}, state, initialState);
-    }
-    case SelectedPersonActions.USE_AS_NEW_CONVERSATION_RECIPIENT: {
-      return Object.assign({}, state, { useAsNewConversationRecipient: true});
     }
     case SelectedPersonActions.ACCEPTED: {
       return Object.assign({}, state, { accept: true });

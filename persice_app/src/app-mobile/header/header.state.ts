@@ -7,6 +7,7 @@ export enum HeaderActions {
   NewConversation,
   EditMyProfile,
   MyProfile,
+  Conversations,
   EditPhotos,
   ChooseAlbum,
   ChoosePhoto,
@@ -14,6 +15,8 @@ export enum HeaderActions {
   EditPersonalInfo,
   ShowUserProfile,
   BackToListView,
+  Back,
+  SendMessage,
   None
 }
 
@@ -21,7 +24,8 @@ export enum HeaderActions {
 export enum LeftHeaderState {
   Menu,
   Back,
-  Cancel
+  Cancel,
+  CancelSmall
 }
 
 // State for keeping record which button is visible on the right side of header
@@ -74,8 +78,7 @@ export class HeaderState {
     title: ''
   };
 
-
-  public static userProfileWithBack = {
+  public static crowdProfile = {
     left: HeaderState.left.Back,
     leftAction: HeaderState.actions.BackToListView,
     center: HeaderState.center.None,
@@ -85,7 +88,7 @@ export class HeaderState {
     title: ''
   };
 
-  public static userProfileWithBackAndMenu = {
+  public static connectionProfile = {
     left: HeaderState.left.Back,
     leftAction: HeaderState.actions.BackToListView,
     center: HeaderState.center.None,
@@ -96,14 +99,25 @@ export class HeaderState {
   };
 
   public static userProfile = {
-    left: HeaderState.left.Menu,
-    leftAction: HeaderState.actions.None,
+    left: HeaderState.left.Back,
+    leftAction: HeaderState.actions.Back,
     center: HeaderState.center.None,
     right: HeaderState.right.None,
     rightAction: HeaderState.actions.None,
     transparent: true,
     title: ''
   };
+
+  public static userProfileWithMenu = {
+    left: HeaderState.left.Back,
+    leftAction: HeaderState.actions.Back,
+    center: HeaderState.center.None,
+    right: HeaderState.right.ConnectionMenu,
+    rightAction: HeaderState.actions.None,
+    transparent: true,
+    title: ''
+  };
+
 
   public static crowd = {
     left: LeftHeaderState.Menu,
@@ -132,6 +146,16 @@ export class HeaderState {
     title: 'Conversations'
   };
 
+  public static newConversation = {
+    left: LeftHeaderState.CancelSmall,
+    leftAction: HeaderActions.Conversations,
+    center: CenterHeaderState.Title,
+    right: RightHeaderState.Send,
+    rightAction: HeaderActions.SendMessage,
+    transparent: false,
+    title: 'New Message'
+  };
+
   public static editMyProfile = {
     left: LeftHeaderState.Back,
     leftAction: HeaderActions.MyProfile,
@@ -150,7 +174,16 @@ export class HeaderState {
     title: ''
   };
 
-  public static privacyAndTerms = {
+  public static attendees = {
+    left: LeftHeaderState.Back,
+    leftAction: HeaderState.actions.Back,
+    center: CenterHeaderState.Title,
+    right: RightHeaderState.None,
+    transparent: false,
+    title: 'Attendees'
+  };
+
+  public static onlyMenu = {
     left: LeftHeaderState.Menu,
     center: CenterHeaderState.None,
     right: RightHeaderState.None,

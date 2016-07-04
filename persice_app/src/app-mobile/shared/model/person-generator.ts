@@ -5,6 +5,7 @@ export class PersonGenerator {
   public static givenAnyPersonDto(): any {
     return {
       id: 1,
+      username: 'alice',
       goals: [],
       offers: [],
       likes: [],
@@ -15,6 +16,7 @@ export class PersonGenerator {
       first_name: this.givenAnyFirstName(),
       last_name: this.givenAnyLastName(),
       distance: [this.givenAnyDistance(), this.givenAnyDistanceUnit()],
+      connected: false,
       top_interests: this.givenAnyTopInterests(),
       gender: this.givenAnyGenderServerResponse(),
       score: this.givenAnyScore(),

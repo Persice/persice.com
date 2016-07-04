@@ -86,7 +86,7 @@
   <div class="mob-user-card-title" *ngIf="connectionsCount > 0">
     Connections ({{connectionsCount}})
   </div>
-  <prs-mobile-user-card [isNewConnectionDisabled]="1" [showSendMessage]="1" (onOpenNewConversation)="openNewConversationFromConnections($event)" [person]="person" *ngFor="let person of connections">
+  <prs-mobile-user-card [isNewConnectionDisabled]="1" [showSendMessage]="1" (onOpenNewConversation)="openNewConversation($event)" [person]="person" *ngFor="let person of connections">
   </prs-mobile-user-card>
 </div>
 <prs-loading [status]="loadingConnections"></prs-loading>

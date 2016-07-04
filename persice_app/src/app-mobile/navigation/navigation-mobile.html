@@ -1,29 +1,29 @@
 <nav class="mob-nav-main">
   <ul>
-    <li>
-      <a [routerLink]="['./MyProfile', {'username': username}]">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/' + username]">
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-profile"></use>
         </svg> <span>My Profile</span>
       </a>
     </li>
-    <li>
-      <a [routerLink]="['./Crowd']">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/crowd']">
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-crowd"></use>
         </svg> <span>Crowd</span>
       </a>
     </li>
-    <li>
-      <a [routerLink]="['./Messages']">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/messages']">
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
         </svg> <span>Messages</span>
         <i class="mob-nav-main__value mob-nav-main__value__messages" [ngClass]="{'is-visible': unreadMessagesCounter > 0}">{{unreadMessagesCounter}}</i>
       </a>
     </li>
-    <li>
-      <a [routerLink]="['./Connections']">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/connections']">
         <svg role="img" class="icon ">
           <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
         </svg> <span>Connections</span>
@@ -39,6 +39,7 @@
   </ul>
 </nav>
 <ul class="mob-nav-submain">
-  <li><a [routerLink]="['PrivacyPolicy']">Privacy</a></li>
-  <li><a [routerLink]="['TermsOfService']">Terms</a></li>
+  <li><a [routerLink]="['/privacy']">Privacy</a></li>
+  <li><a [routerLink]="['/terms']">Terms</a></li>
 </ul>
+

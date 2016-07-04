@@ -1,22 +1,9 @@
-import {
-  Component,
-  ViewEncapsulation,
-  OnInit
-} from '@angular/core';
+import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 
-import {
-  Router,
-  ROUTER_DIRECTIVES,
-  RouteConfig
-} from '@angular/router-deprecated';
+import {Router, NavigationEnd} from '@angular/router';
 import {Location} from '@angular/common';
 
 import {SignupHeaderMobileComponent} from './header';
-import {SignupInterestsMobileComponent} from './interests';
-import {SignupOffersMobileComponent} from './offers';
-import {SignupGoalsMobileComponent} from './goals';
-import {SignupConnectSocialAccountsMobileComponent} from './connect-social-accounts';
-
 
 import {
   InterestsService,
@@ -34,7 +21,6 @@ import {SignupStateService} from '../common/services';
   encapsulation: ViewEncapsulation.None,
   template: require('./signup-mobile.html'),
   directives: [
-    ROUTER_DIRECTIVES,
     SignupHeaderMobileComponent
   ],
   providers: [
@@ -47,36 +33,6 @@ import {SignupStateService} from '../common/services';
     SignupStateService
   ]
 })
-@RouteConfig([
-  {
-    path: '/',
-    redirectTo: ['SignupInterests']
-  },
-  {
-    path: '/interests',
-    component: SignupInterestsMobileComponent,
-    name: 'SignupInterests',
-    data: { page: 1 }
-  },
-  {
-    path: '/goals',
-    component: SignupGoalsMobileComponent,
-    name: 'SignupGoals',
-    data: { page: 2 }
-  },
-  {
-    path: '/offers',
-    component: SignupOffersMobileComponent,
-    name: 'SignupOffers',
-    data: { page: 3 }
-  },
-  {
-    path: '/connect',
-    component: SignupConnectSocialAccountsMobileComponent,
-    name: 'SignupConnect',
-    data: { page: 4 }
-  }
-])
 export class SignupMobileComponent implements OnInit {
   cGoa: number = 0;
   cOff: number = 0;
@@ -118,8 +74,11 @@ export class SignupMobileComponent implements OnInit {
       this.onCounterChanged(state);
     });
 
-    this.router.subscribe((path) => {
-      this.onRouteChanged(path);
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.onRouteChanged(event.url);
+      }
+
     });
   }
 
@@ -146,42 +105,41 @@ export class SignupMobileComponent implements OnInit {
     });
   }
 
-  onRouteChanged(path: any) {
-    const urlPath: string = path.instruction.urlPath;
-    switch (urlPath) {
-      case 'interests':
+  onRouteChanged(url: string) {
+    switch (url) {
+      case '/interests':
         this.showBack = false;
-        this.nextStep = 'SignupGoals';
+        this.nextStep = '/goals';
         this.prevStep = null;
         this.title = 'Interests';
         this.nextTitle = 'Next';
         this.counter = this.cInt;
         this.page = 1;
         break;
-      case 'goals':
+      case '/goals':
         this.showBack = true;
-        this.nextStep = 'SignupOffers';
-        this.prevStep = 'SignupInterests';
+        this.nextStep = '/offers';
+        this.prevStep = '/interests';
         this.title = 'Goals';
         this.nextTitle = 'Next';
         this.counter = this.cGoa;
         this.page = 2;
         this.isNextDisabled = false;
         break;
-      case 'offers':
+      case '/offers':
         this.showBack = true;
-        this.nextStep = 'SignupConnect';
-        this.prevStep = 'SignupGoals';
+        this.nextStep = '/connect';
+        this.prevStep = '/goals';
         this.title = 'Offers';
         this.nextTitle = 'Next';
         this.counter = this.cOff;
         this.page = 3;
         this.isNextDisabled = false;
         break;
-      case 'connect':
+      case '/connect':
         this.showBack = true;
         this.nextStep = null;
-        this.prevStep = 'SignupOffers';
+        this.prevStep = '/offers';
         this.title = 'Final Step';
         this.nextTitle = 'Go!';
         this.counter = null;
@@ -190,10 +148,10 @@ export class SignupMobileComponent implements OnInit {
         break;
       default:
         this.showBack = false;
-        this.nextStep = 'SignupGoals';
+        this.nextStep = '/goals';
         this.title = 'Interests';
-        this.nextTitle = 'Interests';
-        this.counter = null;
+        this.nextTitle = 'Next';
+        this.counter = this.cInt;
         this.page = 1;
         this.isNextDisabled = false;
         break;
@@ -204,7 +162,7 @@ export class SignupMobileComponent implements OnInit {
   next(event) {
     if (this.nextStep) {
       switch (this.nextStep) {
-        case 'SignupGoals':
+        case '/goals':
           //check if user selected less than 3 interests
           if (this.cInt < 3) {
             this.isNextDisabled = true;
@@ -218,7 +176,7 @@ export class SignupMobileComponent implements OnInit {
           break;
       }
 
-      this.router.navigate([this.nextStep]);
+      this.router.navigateByUrl(this.nextStep);
     } else {
       window.location.href = '/crowd/';
     }
@@ -227,7 +185,7 @@ export class SignupMobileComponent implements OnInit {
 
   back(event) {
     if (this.prevStep) {
-      this.router.navigate([this.prevStep]);
+      this.router.navigateByUrl(this.prevStep);
     }
   }
 

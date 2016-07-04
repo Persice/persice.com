@@ -1,11 +1,19 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
-
+import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
+import {TabNavigationComponent} from '../tab-navigation';
+import {AppStateService} from '../../shared/services';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-terms-of-service',
   template: require('./terms-of-service-mobile.html'),
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [RouterLink]
+  directives: [TabNavigationComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TermsOfServiceMobileComponent { }
+export class TermsOfServiceMobileComponent implements OnInit {
+
+  constructor(private appStateService: AppStateService) { }
+
+  ngOnInit() {
+    this.appStateService.headerStateEmitter.emit(HeaderState.onlyMenu);
+  }
+}

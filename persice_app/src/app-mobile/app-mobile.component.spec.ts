@@ -1,44 +1,50 @@
 import {
-  ROUTER_PRIMARY_COMPONENT,
-  Router,
-  RouteRegistry
-} from '@angular/router-deprecated';
-import {
   it,
+  xit,
   describe,
-  beforeEach,
   expect,
   inject,
-  beforeEachProviders
+  beforeEachProviders,
+  fakeAsync
 } from '@angular/core/testing';
+
+import {Router} from '@angular/router';
 import {provide} from '@angular/core';
-import {SpyLocation} from '@angular/common/testing';
-import {RootRouter} from '@angular/router-deprecated/src/router';
+import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
+import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Location} from '@angular/common';
+import {MockBackend} from '@angular/http/testing';
+
+import {TEST_ROUTER_PROVIDERS_APP_MOBILE, advance} from '../common/test/mocks/router.mock';
 
 import {AppMobileComponent} from './app-mobile.component';
 
 import {provideStore} from '@ngrx/store';
 import STORE_REDUCERS from '../common/reducers';
 import STORE_ACTIONS from '../common/actions';
-import {MockGeolocationService} from "../app/shared/services/mock-geolocation.service";
-import {MockBackend} from "@angular/http/testing";
-import {HttpClient} from "../app/shared/core/http-client";
-import {Http, ConnectionBackend, BaseRequestOptions} from "@angular/http";
-import {TestComponentBuilder, ComponentFixture} from "@angular/compiler/testing";
+import {HttpClient} from '../app/shared/core/http-client';
+
+import {WebsocketService} from '../app/shared/services';
+import {AppStateService} from './shared/services';
+import {MockGeolocationService} from '../app/shared/services/mock-geolocation.service';
+import {UnreadMessagesCounterService, NewConnectionsCounterService} from '../common/services';
 
 describe('App component mobile', () => {
 
-  var location, router, mockGeolocationService, _tcb;
+  var mockGeolocationService;
 
   beforeEachProviders(() => {
     mockGeolocationService = new MockGeolocationService();
 
     return [
+      TEST_ROUTER_PROVIDERS_APP_MOBILE,
+      AppStateService,
+      UnreadMessagesCounterService,
+      NewConnectionsCounterService,
+      WebsocketService,
       provideStore(STORE_REDUCERS),
       STORE_ACTIONS,
       BaseRequestOptions,
-      RouteRegistry,
       MockBackend,
       HttpClient,
       provide(Http, {
@@ -51,68 +57,153 @@ describe('App component mobile', () => {
           BaseRequestOptions
         ]
       }),
-      provide(Location, { useClass: SpyLocation }),
-      provide(Router, { useClass: RootRouter }),
-      provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent }),
       mockGeolocationService.getProviders()
     ];
   });
 
-  beforeEach(inject([Router, Location, TestComponentBuilder], (r, l, tcb) => {
-    router = r;
-    location = l;
-    _tcb = tcb;
-  }));
+  it('should navigate to Crowd page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
 
-  it('Should be able to navigate to Crowd', done => {
-    router.navigate(['Crowd']).then(() => {
-      expect(location.path()).toBe('/crowd');
-      done();
-    }).catch(e => done.fail(e));
-  });
+        // when
+        router.navigateByUrl('/crowd');
+        advance(fixture);
 
-  it('Should be able to navigate to Connections', done => {
-    router.navigate(['Connections']).then(() => {
-      expect(location.path()).toBe('/connections');
-      done();
-    }).catch(e => done.fail(e));
-  });
+        // then
+        expect(location.path()).toEqual('/crowd');
+      })));
 
-  it('Should be able to navigate to Settings', done => {
-    router.navigate(['Settings']).then(() => {
-      expect(location.path()).toBe('/settings');
-      done();
-    }).catch(e => done.fail(e));
-  });
+  it('should navigate to Connections page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
 
-  it('Should be able to navigate to Events', done => {
-    router.navigate(['Events']).then(() => {
-      expect(location.path()).toBe('/events');
-      done();
-    }).catch(e => done.fail(e));
-  });
+        // when
+        router.navigateByUrl('/connections');
+        advance(fixture);
 
-  it('Should be able to navigate to Messages', done => {
-    router.navigate(['Messages']).then(() => {
-      expect(location.path()).toBe('/messages');
-      done();
-    }).catch(e => done.fail(e));
-  });
+        // then
+        expect(location.path()).toEqual('/connections');
+      })));
 
-  it('Should be able to navigate to MyProfile', done => {
-    router.navigate(['MyProfile', { 'username': 'johndoe' }]).then(() => {
-      expect(location.path()).toBe('/johndoe');
-      done();
-    }).catch(e => done.fail(e));
-  });
+  it('should navigate to Mesages page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
 
-  it('Should ask browser for geolocation', done => {
-    return _tcb.createAsync(AppMobileComponent).then((componentFixture: ComponentFixture<AppMobileComponent>) => {
-      componentFixture.detectChanges();
-      componentFixture.componentInstance.ngOnInit();
-      // expect(mockGeolocationService.getLocationSpy).toHaveBeenCalled();
-      done();
-    }).catch(e => done.fail(e));
-  });
+        // when
+        router.navigateByUrl('/messages');
+        advance(fixture);
+
+        // then
+        expect(location.path()).toEqual('/messages');
+      })));
+
+  it('should navigate to Events page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
+
+        // when
+        router.navigateByUrl('/events');
+        advance(fixture);
+
+        // then
+        expect(location.path()).toEqual('/events');
+      })));
+
+  it('should navigate to Settings page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
+
+        // when
+        router.navigateByUrl('/settings');
+        advance(fixture);
+
+        // then
+        expect(location.path()).toEqual('/settings');
+      })));
+
+  it('should navigate to Privacy page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
+
+        // when
+        router.navigateByUrl('/privacy');
+        advance(fixture);
+
+        // then
+        expect(location.path()).toEqual('/privacy');
+      })));
+
+  it('should navigate to Terms page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
+
+        // when
+        router.navigateByUrl('/terms');
+        advance(fixture);
+
+        // then
+        expect(location.path()).toEqual('/terms');
+      })));
+
+  it('should navigate to My profile page',
+    fakeAsync(inject(
+      [Router, TestComponentBuilder, Location],
+      (router: Router, tcb: TestComponentBuilder, location: Location) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
+
+        // when
+        router.navigateByUrl('/johndoe');
+        advance(fixture);
+
+        // then
+        expect(location.path()).toEqual('/johndoe');
+      })));
+
+  // TODO(sasa): needs recatoring
+  xit('should ask browser for geolocation',
+    fakeAsync(inject(
+      [TestComponentBuilder],
+      (tcb: TestComponentBuilder) => {
+        // given
+        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
+        advance(fixture);
+
+        // when
+        fixture.componentInstance.ngOnInit();
+        advance(fixture);
+
+        // then
+        expect(mockGeolocationService.getLocationSpy).toHaveBeenCalled();
+      })));
+
 });
-

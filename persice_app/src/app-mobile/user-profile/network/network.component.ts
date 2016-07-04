@@ -1,6 +1,6 @@
 import {Component, Input, OnInit}
 from '@angular/core';
-import {Router} from '@angular/router-deprecated';
+import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 
@@ -106,18 +106,10 @@ export class NetworkComponent implements OnInit {
     }
   }
 
-  public openNewConversationFromConnections(id: string): void {
-    for (var i = this.connections.length - 1; i >= 0; i--) {
-      if (this.connections[i].id === id) {
-        this.openNewConversation(this.connections[i]);
-      }
-    }
-  }
-
   public openNewConversationFromMutualConnections(data: any): void {
     // Prepare data for putting selectedPerson, it must have first_name, image and id
     const person: Object = {
-      first_name: data.first_name,
+      firstName: data.first_name,
       image: data.image,
       id: data.user_id
     };
@@ -126,8 +118,7 @@ export class NetworkComponent implements OnInit {
 
   private openNewConversation(person: any): void {
     this.store.dispatch(this.actions.set(person, 'connection'));
-    this.store.dispatch(this.actions.useAsNewConversationRecipient());
-    this.router.navigate(['Messages', 'NewConversation']);
+    this.router.navigateByUrl('/messages/new');
   }
 
   private assignConnectionsList(data: any) {

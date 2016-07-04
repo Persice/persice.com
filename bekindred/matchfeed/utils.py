@@ -199,6 +199,7 @@ class MatchUser(object):
         self.lives_in = get_lives_in(self.user)
         self.linkedin_provider = self.get_linkedin_data()
         self.twitter_username, self.twitter_provider = self.get_twitter_data()
+        self.connected = self.is_connected(current_user_id, self.user_id)
 
     def get_profile_image(self, user_object):
         user_id = int(user_object['_id'].split('.')[-1])
@@ -397,6 +398,51 @@ class MatchUser(object):
             pass
         return linkedin_provider
 
+    def is_connected(self, user_id1, user_id2):
+        return NeoFourJ().check_friendship_rel(user_id1, user_id2)
+
+
+class NonMatchUser(MatchUser):
+    def __init__(self, current_user_id, user_id):
+        self.user = FacebookCustomUserActive.objects.get(pk=user_id)
+        self.current_user_id = current_user_id
+        self.id = self.user.id
+        self.user_id = self.user.id
+        self.username = self.user.username
+        self.first_name = self.user.first_name
+        self.last_name = self.user.last_name
+        self.facebook_id = self.user.facebook_id
+        self.image = FacebookPhoto.objects.profile_photo(user_id) or \
+                     '/media/{}'.format(self.user.image)
+        self.age = calculate_age(self.user.date_of_birth)
+        self.gender = self.user.gender or 'm,f'
+        self.about = self.user.about_me
+        self.last_login = self.user.last_login
+        self.position = get_current_position(self.user)
+        self.lives_in = get_lives_in(self.user)
+        self.linkedin_provider = self.get_linkedin_data()
+        self.twitter_username, self.twitter_provider = self.get_twitter_data()
+        self.connected = self.is_connected(current_user_id, user_id)
+        self.top_interests = self.get_top_interests(
+            self.get_user_object(user_id)
+        )
+
+    def get_user_object(self, user_id):
+        goals = Goal.objects.filter(user_id=user_id).\
+            values_list('goal__description', flat=True)
+        offers = Offer.objects.filter(user_id=user_id). \
+            values_list('offer__description', flat=True)
+        interests = Interest.objects.filter(user_id=user_id). \
+            values_list('interest__description', flat=True)
+        user_object = {
+            u'_source': {
+                u'goals': list(goals),
+                u'offers': list(offers),
+                u'interests': list(interests)
+            }
+        }
+        return user_object
+
 
 class ShortMatchUser(MatchUser):
     def __init__(self, current_user_id, user_object):
@@ -410,7 +456,7 @@ class ShortMatchUser(MatchUser):
         self.username = self.user.username
         self.user_id = self.user.id
         # Scores
-        self.score = self.match_score()
+        self.score = self.match_score(current_user_id, self.user_id)
         self.es_score = user_object.get('_score', 0)
         self.friends_score = self.get_friends_score(current_user_id,
                                                     user_object)
@@ -521,9 +567,10 @@ class MatchEvent(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id, is_filter=False, friends=False):
+    def all(current_user_id, is_filter=False, friends=False, exclude_ids=None):
         hits = ElasticSearchMatchEngine.elastic_objects.\
-            match(current_user_id, is_filter=is_filter, friends=friends)
+            match(current_user_id, is_filter=is_filter, friends=friends,
+                  exclude_ids=exclude_ids)
         users = []
         for hit in hits:
             try:

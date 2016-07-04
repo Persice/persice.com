@@ -17,11 +17,16 @@ export class UserCardMobileComponent {
 
   @Input() showSendMessage: boolean = false;
   @Input() isNewConnectionDisabled: boolean = false;
+  @Input() showPersiceIcon: boolean = false;
 
   @Input() set person(dto: any) {
     this.isNewConnection = dto.seen !== undefined && dto.seen === false ? true : false;
     this._person = new Person(dto);
   };
+
+  @Input() set personEntity(entity: any) {
+    this._person = entity;
+  }
   @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
   @Output() onOpenNewConversation: EventEmitter<any> = new EventEmitter();
 
@@ -40,6 +45,6 @@ export class UserCardMobileComponent {
   }
 
   selectPerson(event) {
-    this.onProfileTap.emit(this._person.id);
+    this.onProfileTap.emit(this._person);
   }
 }

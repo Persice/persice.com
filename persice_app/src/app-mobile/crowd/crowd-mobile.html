@@ -2,10 +2,15 @@
   prs-infinite-scroll (scrolled)="loadMoreItems($event)"
   [scrollEnabled]="!isFilterVisible && !itemViewActive"
   [bottomOffset]="60">
-  <prs-mobile-user-card (onProfileTap)="selectItem($event)" [person]="person"
+  <prs-mobile-user-card (onProfileTap)="selectPerson($event)" [person]="person"
     *ngFor="let person of items; trackBy:id"></prs-mobile-user-card>
   <prs-loading [status]="loading"></prs-loading>
 </div>
-<prs-mobile-filter [ngClass]="{'is-hidden': !isFilterVisible}" [type]="LIST_TYPE"></prs-mobile-filter>
-<prs-user-profile *ngIf="itemViewActive" [isNewConnectionDisabled]="1" [user]="selectedItem" [type]="'crowd'">
+<prs-mobile-filter *ngIf="isFilterVisible" [type]="LIST_TYPE"></prs-mobile-filter>
+<prs-user-profile *ngIf="itemViewActive"
+  [isNewConnectionDisabled]="1"
+  [user]="selectedItem"
+  [type]="'crowd'"
+  (profileClosedAfterActionEvent)="acceptPassEvent($event)"
+  >
 </prs-user-profile>

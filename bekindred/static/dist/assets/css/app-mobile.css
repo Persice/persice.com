@@ -663,3 +663,9 @@ html.remodal-is-locked > body {
 .network-preview {
   left: 3px!important;
 }
+
+
+.c-input--conversation-top.is-hidden {
+  visibility: hidden!important;
+  opacity: 0!important;
+}

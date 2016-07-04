@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/v2/attendees/.*&offset=12"
+  },
+  "response": {
+    "status": 200,
+    "headers" : {
+      "Access-Control-Allow-Origin" : "*"
+    },
+    "bodyFileName": "attendees/attendees-continued.response.json",
+    "fixedDelayMilliseconds": 1000
+  }
+}

@@ -11,6 +11,7 @@ from members.models import OnBoardingFlow
 from photos.models import FacebookPhoto
 
 ResourceTestCase.maxDiff = None
+PHOTO_LINK = 'https://asoldatenko.com/theme/img/profile.png'
 
 
 class TestFacebookPhoto(TestCase):
@@ -23,9 +24,7 @@ class TestFacebookPhoto(TestCase):
             user=self.user,
             bounds='{"left": 170, "upper": 170, "right": 468, "lower": 468}',
             order=0,
-            photo='https://scontent.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/'
-                  '11073058_639702779498180_1466183275475347856_n.jpg?'
-                  'oh=87bf52793774bc854bfacb32c82c66d1&oe=5764DDDF'
+            photo=PHOTO_LINK
         )
         self.assertEqual(FacebookPhoto.objects.all().count(), 1)
         self.assertIsNotNone(FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
@@ -35,9 +34,7 @@ class TestFacebookPhoto(TestCase):
             user=self.user,
             bounds='{"left": 170, "upper": 170, "right": 468, "lower": 468}',
             order=0,
-            photo='https://scontent.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/'
-                  '11073058_639702779498180_1466183275475347856_n.jpg?'
-                  'oh=87bf52793774bc854bfacb32c82c66d1&oe=5764DDDF'
+            photo=PHOTO_LINK
         )
         self.assertEqual(FacebookPhoto.objects.all().count(), 1)
         self.assertIsNotNone(FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
@@ -81,15 +78,9 @@ class TestUserResource(ResourceTestCase):
 class FacebookPhotoResourceTest(ResourceTestCase):
     def setUp(self):
         super(FacebookPhotoResourceTest, self).setUp()
-        self.PHOTO_URL = \
-            'https://scontent-fra3-1.xx.fbcdn.net/hphotos-xft1' \
-            '/v/t1.0-9/11046342_962374947135684_624952069961722' \
-            '2869_n.jpg?oh=1e7c381e7c15d070552869a1d6174e99&oe=57616753'
+        self.PHOTO_URL = PHOTO_LINK
 
-        self.PHOTO_URL1 = \
-            'https://scontent-fra3-1.xx.fbcdn.net/hphotos-xft1' \
-            '/v/t1.0-9/11046342_962374947135684_624952069961722' \
-            '2869_n.jpg?oh=1e7c381e7c15d070552869a1d6174e99&oe=57616753'
+        self.PHOTO_URL1 = PHOTO_LINK
 
         self.user = FacebookCustomUser.objects.create_user(username='user_a',
                                                            password='test',

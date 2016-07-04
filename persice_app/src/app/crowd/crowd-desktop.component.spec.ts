@@ -1,7 +1,7 @@
 import {
   expect,
   it,
-  describe,
+  xdescribe,
   beforeEach,
   inject,
   async,
@@ -34,7 +34,7 @@ class TestComponent { }
 let componentInstance: TestComponent;
 let componentElement: any;
 
-describe('Crowd desktop component', () => {
+xdescribe('Crowd desktop component', () => {
   let mockCrowdService: MockCrowdService;
 
   beforeEachProviders(() => {

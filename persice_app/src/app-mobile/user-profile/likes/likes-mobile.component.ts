@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {LikesMobileService} from "../../shared/services/likes-mobile.service";
-import {TwoListMobileComponent} from "../../shared/components/two-list/two-list-mobile.component";
-import {InfiniteScrollDirective} from "../../../common/directives/infinite-scroll.directive";
-import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
+import {LikesMobileService} from '../../shared/services/likes-mobile.service';
+import {TwoListMobileComponent} from '../../shared/components/two-list/two-list-mobile.component';
+import {InfiniteScrollDirective} from '../../../common/directives/infinite-scroll.directive';
+import {LoadingComponent} from '../../../app/shared/components/loading/loading.component';
 import {AppStateService} from '../../shared/services';
 import {HeaderState} from '../../header';
 

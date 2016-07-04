@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
 import {CookieUtil} from '../../../app/shared/core/util';
 import {GoalsService, OffersService, PhotosService, InterestsService}
 from '../../../app/shared/services';
+import {AppStateService} from '../../shared/services';
+import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-edit-my-profile-navigation',
   template: require('./edit-my-profile-navigation.html'),
-  directives: [RouterLink],
   providers: [InterestsService, GoalsService, OffersService, PhotosService]
 })
 export class EditMyProfileNavigationComponent implements OnInit {
@@ -22,12 +22,14 @@ export class EditMyProfileNavigationComponent implements OnInit {
     private interestsService: InterestsService,
     private goalsService: GoalsService,
     private offersService: OffersService,
-    private photosService: PhotosService
+    private photosService: PhotosService,
+    private appStateService: AppStateService
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
   }
 
   ngOnInit() {
+    this.appStateService.headerStateEmitter.emit(HeaderState.editMyProfile);
     this._getCounters();
   }
 

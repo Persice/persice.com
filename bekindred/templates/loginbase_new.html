@@ -26,8 +26,10 @@
   {% load url from future %}
   {% block content %}
   {% endblock content %}
+  {% if not hide %}
   <div id="fb-root"></div>
   {% include "login.scripts.footer.html" %}
+  {% endif %}
 </body>
 
 </html>

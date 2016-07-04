@@ -303,11 +303,11 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   goBack(event) {
-    let uri = this.historyService.getPrev();
+    let uri: any = this.historyService.getPrev();
     if (uri !== '') {
-      this.router.parent.navigateByUrl(uri);
+      window.history.back(-1);
     } else {
-      this.router.parent.navigateByUrl('/');
+      window.history.back(-2);
     }
   }
 
