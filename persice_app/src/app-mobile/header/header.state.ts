@@ -38,7 +38,8 @@ export enum RightHeaderState {
   Edit,
   Done,
   None,
-  ConnectionMenu
+  ConnectionMenu,
+  EventMenu
 }
 
 // State for keeping record what content is visible in the center section of header
@@ -181,6 +182,16 @@ export class HeaderState {
     right: RightHeaderState.None,
     transparent: false,
     title: 'Attendees'
+  };
+
+  public static event = {
+    left: LeftHeaderState.Back,
+    leftAction: HeaderState.actions.Back,
+    center: CenterHeaderState.None,
+    right: RightHeaderState.EventMenu,
+    rigthAction: HeaderState.actions.None,
+    transparent: true,
+    title: ''
   };
 
   public static onlyMenu = {
