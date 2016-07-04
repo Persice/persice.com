@@ -1,29 +1,15 @@
-import {
-  it,
-  xit,
-  describe,
-  expect,
-  inject,
-  beforeEachProviders,
-  fakeAsync
-} from '@angular/core/testing';
-
+import {inject, fakeAsync, addProviders} from '@angular/core/testing';
 import {Router} from '@angular/router';
-import {provide} from '@angular/core';
 import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Location} from '@angular/common';
 import {MockBackend} from '@angular/http/testing';
-
 import {TEST_ROUTER_PROVIDERS_APP_MOBILE, advance} from '../common/test/mocks/router.mock';
-
 import {AppMobileComponent} from './app-mobile.component';
-
 import {provideStore} from '@ngrx/store';
 import STORE_REDUCERS from '../common/reducers';
 import STORE_ACTIONS from '../common/actions';
 import {HttpClient} from '../app/shared/core/http-client';
-
 import {WebsocketService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
 import {MockGeolocationService} from '../app/shared/services/mock-geolocation.service';
@@ -33,10 +19,10 @@ describe('App component mobile', () => {
 
   var mockGeolocationService;
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mockGeolocationService = new MockGeolocationService();
 
-    return [
+    addProviders([
       TEST_ROUTER_PROVIDERS_APP_MOBILE,
       AppStateService,
       UnreadMessagesCounterService,
@@ -47,18 +33,19 @@ describe('App component mobile', () => {
       BaseRequestOptions,
       MockBackend,
       HttpClient,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (connectionBackend: ConnectionBackend,
-          defaultOptions: BaseRequestOptions) => {
+                     defaultOptions: BaseRequestOptions) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [
           MockBackend,
           BaseRequestOptions
         ]
-      }),
+      },
       mockGeolocationService.getProviders()
-    ];
+    ]);
   });
 
   it('should navigate to Crowd page',

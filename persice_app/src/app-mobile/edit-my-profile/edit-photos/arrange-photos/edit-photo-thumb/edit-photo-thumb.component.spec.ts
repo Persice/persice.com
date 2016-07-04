@@ -1,10 +1,7 @@
-import {expect, it, async, describe, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-import {TestComponentBuilder} from '@angular/compiler/testing';
-import {Component, EventEmitter, provide} from '@angular/core';
+import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
+import {Component, EventEmitter} from '@angular/core';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-
 import {EditPhotoThumbComponent} from './edit-photo-thumb.component';
 import {AppStateService} from '../../../../shared/services/app-state.service';
 import {PhotosGenerators} from '../../photos-generators';
@@ -32,16 +29,17 @@ let domElement: any;
 
 describe('Edit photo thumb mobile component', () => {
 
-  beforeEachProviders(() => {
-    return [
+  beforeEach(() => {
+    addProviders([
       AppStateService,
       MockBackend,
       BaseRequestOptions,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
-      }),
-    ];
+      },
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder],
@@ -70,7 +68,7 @@ describe('Edit photo thumb mobile component', () => {
 
   it('should display upload profile photo when profile photo is not set', () => {
     //given
-    component.thumbPhoto = new Photo({ order: 1 });
+    component.thumbPhoto = new Photo({order: 1});
 
     //when
     this.componentFixture.detectChanges();

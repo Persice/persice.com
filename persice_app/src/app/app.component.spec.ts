@@ -1,33 +1,21 @@
-import {provide} from '@angular/core';
-
-import {
-  ROUTER_PRIMARY_COMPONENT,
-  Router,
-  RouteRegistry
-} from '@angular/router-deprecated';
-import {
-  it,
-  describe,
-  beforeEach,
-  expect,
-  inject,
-  beforeEachProviders
-} from '@angular/core/testing';
-import {SpyLocation} from '@angular/common/testing';
-import {RootRouter} from '@angular/router-deprecated/src/router';
+import {Router, RouteRegistry, ROUTER_PRIMARY_COMPONENT, RootRouter} from '@angular/router-deprecated';
+import {inject, addProviders} from '@angular/core/testing';
 import {Location} from '@angular/common';
-
-import {AppComponent} from "./app.component";
+import {AppComponent} from './app.component';
+import {SpyLocation} from '@angular/common/testing';
 
 describe('App component', () => {
   var location, router;
 
-  beforeEachProviders(() => [
-    RouteRegistry,
-    provide(Location, { useClass: SpyLocation }),
-    provide(Router, { useClass: RootRouter }),
-    provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppComponent })
-  ]);
+  beforeEach(() => {
+
+    addProviders([
+      RouteRegistry,
+      {provide: Location, useClass: SpyLocation},
+      {provide: Router, useClass: RootRouter},
+      {provide: ROUTER_PRIMARY_COMPONENT, useValue: AppComponent}
+    ]);
+  });
 
   beforeEach(inject([Router, Location], (r, l) => {
     router = r;

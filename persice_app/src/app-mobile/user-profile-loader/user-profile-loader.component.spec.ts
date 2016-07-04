@@ -1,22 +1,12 @@
 // TODO(sasa): fix unit tests once @angular/router has testing exported
-import {expect, it, xdescribe, async, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-
-import {TestComponentBuilder} from '@angular/compiler/testing';
-import {RouteParams} from '@angular/router-deprecated';
-import {BaseRequestOptions, Http } from '@angular/http';
+import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
+import {RouteParams, ROUTER_PRIMARY_COMPONENT, Router, RouteRegistry} from '@angular/router-deprecated';
+import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {SpyLocation} from '@angular/common/testing';
 import {RootRouter} from '@angular/router-deprecated/src/router';
 import {Location} from '@angular/common';
-import {
-  ROUTER_PRIMARY_COMPONENT,
-  Router,
-  RouteRegistry
-} from '@angular/router-deprecated';
-
 import {AppMobileComponent} from '../app-mobile.component';
-import {provide, Provider} from '@angular/core';
 import {Observable} from 'rxjs';
 import {UserProfileLoaderComponent} from './user-profile-loader.component';
 import {ProfileService} from '../../app/shared/services/profile.service';
@@ -38,39 +28,42 @@ class ProfileServiceMock extends ProfileService {
     this.profileDto = dto;
   }
 
-  public getProvider(): Provider {
-    return provide(ProfileService, { useValue: this });
+  public getProvider(): any {
+    return {provide: ProfileService, useValue: this};
   }
 }
 
 xdescribe('My profile mobile component', () => {
   let fixture: any;
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mock = new ProfileServiceMock(null);
-    return [
+    addProviders([
       mock.getProvider(),
       MockBackend,
       BaseRequestOptions,
       HttpClient,
       AppStateService,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
-      }),
-      provide(RouteParams,
-        { useValue: new RouteParams({ username: PersonGenerator.givenAnyFirstName() }) }),
+      },
+      {
+        provide: RouteParams,
+        useValue: new RouteParams({username: PersonGenerator.givenAnyFirstName()})
+      },
       RouteRegistry,
-      provide(Location, { useClass: SpyLocation }),
-      provide(Router, { useClass: RootRouter }),
-      provide(ROUTER_PRIMARY_COMPONENT, { useValue: AppMobileComponent })
-    ];
+      {provide: Location, useClass: SpyLocation},
+      {provide: Router, useClass: RootRouter},
+      {provide: ROUTER_PRIMARY_COMPONENT, useValue: AppMobileComponent}
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      UserProfileLoaderComponent, [provide(ProfileService, { useValue: mock })])
+        UserProfileLoaderComponent, [{provide: ProfileService, useValue: mock}])
       .createAsync(UserProfileLoaderComponent)
       .then((componentFixture: any) => {
         fixture = componentFixture;

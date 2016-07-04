@@ -1,11 +1,6 @@
-import {expect, it, describe, async, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-
-import {TestComponentBuilder} from '@angular/compiler/testing';
-
+import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
 import {KeywordsComponentMobile} from './keywords-mobile.component';
 import {FilterService} from '../../../../app/shared/services/filter.service';
-import {provide, Provider} from '@angular/core';
 import {Observable} from 'rxjs';
 
 let component: KeywordsComponentMobile;
@@ -42,24 +37,24 @@ class FilterServiceMock extends FilterService {
     };
   }
 
-  public getProvider(): Provider {
-    return provide(FilterService, { useValue: this });
+  public getProvider(): any {
+    return {provide: FilterService, useValue: this};
   }
 }
 
 describe('Keyword mobile component', () => {
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mock = new FilterServiceMock(null);
-    return [
+    addProviders([
       mock.getProvider()
-    ];
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      KeywordsComponentMobile, [provide(FilterService, { useValue: mock })])
+        KeywordsComponentMobile, [{provide: FilterService, useValue: mock}])
       .createAsync(KeywordsComponentMobile)
       .then((componentFixture: any) => {
         component = componentFixture.componentInstance;

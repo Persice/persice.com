@@ -1,25 +1,13 @@
-import {
-  expect,
-  it,
-  xdescribe,
-  beforeEach,
-  inject,
-  async,
-  beforeEachProviders
-} from '@angular/core/testing';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
-
-import {Component, provide} from '@angular/core';
+import {inject, async, addProviders, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
+import {Component} from '@angular/core';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-
-import {FriendService} from '../shared/services';
-import {FilterService} from '../shared/services';
+import {FriendService, FilterService} from '../shared/services';
 import {ConnectionsDesktopComponent} from './connections-desktop.component';
 import {ConnectionsService} from '../../common/connections/connections.service';
-import {MockConnections, MockConnectionsEmpty} from "../../common/connections/connections.mock";
-import {MockConnectionsService} from "../../common/connections/connections.service.mock";
-import {HttpClient} from "../shared/core/http-client";
+import {MockConnections, MockConnectionsEmpty} from '../../common/connections/connections.mock';
+import {MockConnectionsService} from '../../common/connections/connections.service.mock';
+import {HttpClient} from '../shared/core/http-client';
 
 // Create a test component to test directives.
 @Component({
@@ -29,7 +17,8 @@ import {HttpClient} from "../shared/core/http-client";
     FilterService
   ]
 })
-class TestComponent { }
+class TestComponent {
+}
 
 let componentInstance: TestComponent;
 let componentElement: any;
@@ -37,26 +26,27 @@ let componentElement: any;
 xdescribe('Connections desktop component', () => {
   let mockConnectionsService: MockConnectionsService;
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mockConnectionsService = new MockConnectionsService(null);
-    return [
+    addProviders([
       mockConnectionsService.getProvider(),
       FilterService,
       FriendService,
       MockBackend,
       BaseRequestOptions,
       HttpClient,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
-      })
-    ];
+      }
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder], (tcb) => {
     return tcb
       .overrideProviders(
-      ConnectionsDesktopComponent, [provide(ConnectionsService, { useValue: mockConnectionsService })])
+        ConnectionsDesktopComponent, [{provide: ConnectionsService, useValue: mockConnectionsService}])
       .createAsync(TestComponent)
       .then((componentFixture: ComponentFixture<any>) => {
         this.componentFixture = componentFixture;

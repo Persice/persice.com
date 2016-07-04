@@ -1,14 +1,7 @@
-import messagesReducer from './messages.reducer';
-import {MessagesState} from './messages.reducer';
+import messagesReducer, {MessagesState} from './messages.reducer';
 import {MessageActions} from '../actions';
-
-import {
-  it,
-  describe,
-  expect
-} from '@angular/core/testing';
-import {MessageGenerators} from "../models/message/message.model.generators";
-import {MessagesData} from "../actions/message.action";
+import {MessageGenerators} from '../models/message/message.model.generators';
+import {MessagesData} from '../actions/message.action';
 
 describe('Messages reducer', () => {
   let emptyState: MessagesState = {
@@ -41,7 +34,7 @@ describe('Messages reducer', () => {
     let payload = emptyState;
 
     // when
-    let newState = messagesReducer(emptyState, { type: MessageActions.RESET_COLLECTION, payload: payload });
+    let newState = messagesReducer(emptyState, {type: MessageActions.RESET_COLLECTION, payload: payload});
 
     // then
     expect(newState).toEqual(emptyState);
@@ -54,7 +47,7 @@ describe('Messages reducer', () => {
     // when
     let newState = messagesReducer(
       emptyState,
-      { type: MessageActions.LOAD_COLLECTION_SUCCESS, payload: payload });
+      {type: MessageActions.LOAD_COLLECTION_SUCCESS, payload: payload});
 
     // then
     expect(newState).toEqual(stateWithMessages);
@@ -67,7 +60,7 @@ describe('Messages reducer', () => {
     // when
     let newState = messagesReducer(
       emptyState,
-      { type: MessageActions.ADD_NEW_MESSAGE_TO_COLLECTION_SUCCESS, payload: payload });
+      {type: MessageActions.ADD_NEW_MESSAGE_TO_COLLECTION_SUCCESS, payload: payload});
 
     // then
     expect(JSON.stringify(newState)).toBe(JSON.stringify(stateWithMessages));
@@ -78,7 +71,7 @@ describe('Messages reducer', () => {
     let payload = payloadWithMessages;
 
     // when
-    let newState = messagesReducer(emptyState, { type: MessageActions.LOADING_COLLECTION, payload: payload });
+    let newState = messagesReducer(emptyState, {type: MessageActions.LOADING_COLLECTION, payload: payload});
 
     // then
     let expectedState = emptyState;
@@ -92,7 +85,7 @@ describe('Messages reducer', () => {
     let payload = payloadWithMessages;
 
     // when
-    let newState = messagesReducer(stateWithMessages, { type: MessageActions.LOADING_COLLECTION, payload: payload });
+    let newState = messagesReducer(stateWithMessages, {type: MessageActions.LOADING_COLLECTION, payload: payload});
 
     // then
     expect(newState.loadedCount).toEqual(stateWithMessages.loadedCount);
@@ -104,7 +97,7 @@ describe('Messages reducer', () => {
 
     // when
     let newState = messagesReducer(stateWithMessages,
-      { type: MessageActions.COLLECTION_FULLY_LOADED, payload: payload });
+      {type: MessageActions.COLLECTION_FULLY_LOADED, payload: payload});
 
     // then
     expect(newState.loaded).toEqual(true);
@@ -116,7 +109,7 @@ describe('Messages reducer', () => {
 
     // when
     let newState = messagesReducer(stateWithMessages,
-      { type: MessageActions.SENDING_NEW_MESSAGE, payload: payload });
+      {type: MessageActions.SENDING_NEW_MESSAGE, payload: payload});
 
     // then
     expect(newState.isNewMessageBeingSent).toEqual(true);
@@ -125,7 +118,7 @@ describe('Messages reducer', () => {
   it('LOADED CONVERSATION TITLE', () => {
     // when
     let newState = messagesReducer(stateWithMessages,
-      { type: MessageActions.LOADED_CONVERSATION_TITLE, payload: 'Hello' });
+      {type: MessageActions.LOADED_CONVERSATION_TITLE, payload: 'Hello'});
 
     // then
     expect(newState.conversationTitle).toEqual('Hello');

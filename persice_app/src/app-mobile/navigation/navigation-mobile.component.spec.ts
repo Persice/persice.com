@@ -1,20 +1,18 @@
 // TODO(sasa): fix unit tests once @angular/router has testing exported
-import {expect, it, xdescribe, async, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-import {TestComponentBuilder} from '@angular/compiler/testing';
-
-import {Component, provide} from '@angular/core';
+import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
+import {Component} from '@angular/core';
 import {SpyLocation} from '@angular/common/testing';
 import {Location} from '@angular/common';
 import {Router, ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
-
 import {NavigationMobileComponent} from './navigation-mobile.component';
 
 let component: TestComponent;
 let domElement: any;
 
-class MockRouter { }
-class MockActivatedRoute { }
+class MockRouter {
+}
+class MockActivatedRoute {
+}
 
 @Component({
   selector: 'prs-test-component',
@@ -36,12 +34,12 @@ class TestComponent {
 
 xdescribe('Navigation mobile component', () => {
 
-  beforeEachProviders(() => {
-    return [
-      provide(Location, { useClass: SpyLocation }),
-      provide(Router, { useClass: MockRouter }),
-      provide(ActivatedRoute, { useClass: MockActivatedRoute })
-    ];
+  beforeEach(() => {
+    addProviders([
+      {provide: Location, useClass: SpyLocation},
+      {provide: Router, useClass: MockRouter},
+      {provide: ActivatedRoute, useClass: MockActivatedRoute}
+    ]);
   });
 
   beforeEach(async(inject([Router, TestComponentBuilder], (router: Router, tcb: TestComponentBuilder) => {
