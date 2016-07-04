@@ -16,9 +16,7 @@
   outline: none !important;
 }
 
-.irs-line-left,
-.irs-line-mid,
-.irs-line-right {
+.irs-line-left, .irs-line-mid, .irs-line-right {
   position: absolute;
   display: block;
   top: 0;
@@ -67,11 +65,17 @@
   z-index: 1;
 }
 
-.irs-slider.single {}
+.irs-slider.single {
 
-.irs-slider.from {}
+}
 
-.irs-slider.to {}
+.irs-slider.from {
+
+}
+
+.irs-slider.to {
+
+}
 
 .irs-slider.type_last {
   z-index: 2;
@@ -91,9 +95,7 @@
   cursor: default;
 }
 
-.irs-from,
-.irs-to,
-.irs-single {
+.irs-from, .irs-to, .irs-single {
   position: absolute;
   display: block;
   top: 0;
@@ -180,6 +182,14 @@
   border-color: transparent !important;
 }
 
+/* Ion.RangeSlider, Nice Skin
+// css version 2.0.3
+// Â© Denis Ineshin, 2014    https://github.com/IonDen
+// ===================================================================================================================*/
+
+/* =====================================================================================================================
+// Skin details */
+
 .irs-line-mid,
 .irs-line-left,
 .irs-line-right,
@@ -248,13 +258,11 @@
   background-position: 0 -120px;
 }
 
-.irs-slider.state_hover,
-.irs-slider:hover {
+.irs-slider.state_hover, .irs-slider:hover {
   background-position: 0 -150px;
 }
 
-.irs-min,
-.irs-max {
+.irs-min, .irs-max {
   color: #999;
   font-size: 10px;
   line-height: 1.333;
@@ -266,14 +274,11 @@
   border-radius: 3px;
 }
 
-.lt-ie9 .irs-min,
-.lt-ie9 .irs-max {
+.lt-ie9 .irs-min, .lt-ie9 .irs-max {
   background: #ccc;
 }
 
-.irs-from,
-.irs-to,
-.irs-single {
+.irs-from, .irs-to, .irs-single {
   color: #fff;
   font-size: 10px;
   line-height: 1.333;
@@ -284,9 +289,7 @@
   border-radius: 3px;
 }
 
-.lt-ie9 .irs-from,
-.lt-ie9 .irs-to,
-.lt-ie9 .irs-single {
+.lt-ie9 .irs-from, .lt-ie9 .irs-to, .lt-ie9 .irs-single {
   background: #999;
 }
 
@@ -298,8 +301,8 @@
   color: #99a4ac;
 }
 
-.irs-disabled {}
-
+.irs-disabled {
+}
 
 /*
  *  Remodal - v1.0.7
@@ -310,20 +313,18 @@
  *  Under MIT License
  */
 
-
 /* ==========================================================================
    Remodal's necessary styles
    ========================================================================== */
-
 
 /* Hide scroll bar */
 
 html.remodal-is-locked {
   overflow: hidden;
+
   -ms-touch-action: none;
   touch-action: none;
 }
-
 
 /* Anti FOUC */
 
@@ -331,7 +332,6 @@ html.remodal-is-locked {
 [data-remodal-id] {
   display: none;
 }
-
 
 /* Necessary styles of the overlay */
 
@@ -342,9 +342,9 @@ html.remodal-is-locked {
   right: -5000px;
   bottom: -5000px;
   left: -5000px;
+
   display: none;
 }
-
 
 /* Necessary styles of the wrapper */
 
@@ -355,19 +355,23 @@ html.remodal-is-locked {
   right: 0;
   bottom: 0;
   left: 0;
+
   display: none;
   overflow: auto;
+
   text-align: center;
+
   -webkit-overflow-scrolling: touch;
 }
 
 .remodal-wrapper:after {
   display: inline-block;
+
   height: 100%;
   margin-left: -0.05em;
+
   content: "";
 }
-
 
 /* Fix iPad, iPhone glitches */
 
@@ -377,12 +381,13 @@ html.remodal-is-locked {
   backface-visibility: hidden;
 }
 
-
 /* Necessary styles of the modal dialog */
 
 .remodal {
   position: relative;
+
   outline: none;
+
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -394,7 +399,6 @@ html.remodal-is-locked {
   display: inline-block;
 }
 
-
 /*
  *  Remodal - v1.0.7
  *  Responsive, lightweight, fast, synchronized with CSS animations, fully customizable modal window plugin with declarative configuration and hash tracking.
@@ -404,11 +408,9 @@ html.remodal-is-locked {
  *  Under MIT License
  */
 
-
 /* ==========================================================================
    Remodal's default mobile first theme
    ========================================================================== */
-
 
 /* Default theme styles for the background */
 
@@ -417,7 +419,6 @@ html.remodal-is-locked {
   -webkit-filter: blur(3px);
   filter: blur(3px);
 }
-
 
 /* Default theme styles of the overlay */
 
@@ -443,13 +444,11 @@ html.remodal-is-locked {
   animation-name: remodal-overlay-closing-keyframes;
 }
 
-
 /* Default theme styles of the wrapper */
 
 .remodal-wrapper {
   padding: 10px 10px 0;
 }
-
 
 /* Default theme styles of the modal dialog */
 
@@ -459,8 +458,10 @@ html.remodal-is-locked {
   width: 100%;
   margin-bottom: 10px;
   padding: 35px;
+
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+
   color: #2b2e38;
   background: #fff;
 }
@@ -483,7 +484,6 @@ html.remodal-is-locked {
   animation-name: remodal-closing-keyframes;
 }
 
-
 /* Vertical align of the modal dialog */
 
 .remodal,
@@ -491,23 +491,26 @@ html.remodal-is-locked {
   vertical-align: middle;
 }
 
-
 /* Close button */
 
 .remodal-close {
   position: absolute;
   top: 0;
   left: 0;
+
   display: block;
   overflow: visible;
+
   width: 35px;
   height: 35px;
   margin: 0;
   padding: 0;
+
   cursor: pointer;
   -webkit-transition: color 0.2s;
   transition: color 0.2s;
   text-decoration: none;
+
   color: #95979c;
   border: 0;
   outline: 0;
@@ -523,32 +526,39 @@ html.remodal-is-locked {
   font-family: Arial, "Helvetica CY", "Nimbus Sans L", sans-serif !important;
   font-size: 25px;
   line-height: 35px;
+
   position: absolute;
   top: 0;
   left: 0;
+
   display: block;
+
   width: 35px;
+
   content: "\00d7";
   text-align: center;
 }
-
 
 /* Dialog buttons */
 
 .remodal-confirm,
 .remodal-cancel {
   font: inherit;
+
   display: inline-block;
   overflow: visible;
+
   min-width: 110px;
   margin: 0;
   padding: 12px 0;
+
   cursor: pointer;
   -webkit-transition: background 0.2s;
   transition: background 0.2s;
   text-align: center;
   vertical-align: middle;
   text-decoration: none;
+
   border: 0;
   outline: 0;
 }
@@ -573,16 +583,15 @@ html.remodal-is-locked {
   background: #ef5350;
 }
 
-
 /* Remove inner padding and border in Firefox 4+ for the button tag. */
 
 .remodal-confirm::-moz-focus-inner,
 .remodal-cancel::-moz-focus-inner,
 .remodal-close::-moz-focus-inner {
   padding: 0;
+
   border: 0;
 }
-
 
 /* Keyframes
    ========================================================================== */
@@ -591,11 +600,13 @@ html.remodal-is-locked {
   from {
     -webkit-transform: scale(1.05);
     transform: scale(1.05);
+
     opacity: 0;
   }
   to {
     -webkit-transform: none;
     transform: none;
+
     opacity: 1;
   }
 }
@@ -604,11 +615,13 @@ html.remodal-is-locked {
   from {
     -webkit-transform: scale(1.05);
     transform: scale(1.05);
+
     opacity: 0;
   }
   to {
     -webkit-transform: none;
     transform: none;
+
     opacity: 1;
   }
 }
@@ -617,11 +630,13 @@ html.remodal-is-locked {
   from {
     -webkit-transform: scale(1);
     transform: scale(1);
+
     opacity: 1;
   }
   to {
     -webkit-transform: scale(0.95);
     transform: scale(0.95);
+
     opacity: 0;
   }
 }
@@ -630,11 +645,13 @@ html.remodal-is-locked {
   from {
     -webkit-transform: scale(1);
     transform: scale(1);
+
     opacity: 1;
   }
   to {
     -webkit-transform: scale(0.95);
     transform: scale(0.95);
+
     opacity: 0;
   }
 }
@@ -675,7 +692,6 @@ html.remodal-is-locked {
   }
 }
 
-
 /* Media queries
    ========================================================================== */
 
@@ -684,7 +700,6 @@ html.remodal-is-locked {
     max-width: 700px;
   }
 }
-
 
 /* IE8
    ========================================================================== */
@@ -697,16 +712,12 @@ html.remodal-is-locked {
   width: 700px;
 }
 
-
 /* ==========================================================================
    $BASE-PICKER
    ========================================================================== */
-
-
 /**
  * Note: the root picker element should *NOT* be styled more than whatâ€™s here.
  */
-
 .picker {
   font-size: 16px;
   text-align: left;
@@ -720,55 +731,43 @@ html.remodal-is-locked {
   user-select: none;
 }
 
-
 /**
  * The picker input element.
  */
-
 .picker__input {
   cursor: default;
 }
 
-
 /**
  * When the picker is opened, the input element is â€œactivatedâ€.
  */
-
 .picker__input.picker__input--active {
   border-color: #0089ec;
 }
 
-
 /**
  * The holder is the only â€œscrollableâ€ top-level container element.
  */
-
 .picker__holder {
   width: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-
 /*!
  * Classic picker styling for pickadate.js
  * Demo: http://amsul.github.io/pickadate.js
  */
-
-
 /**
  * Note: the root picker element should *NOT* be styled more than whatâ€™s here.
  */
-
 .picker {
   width: 100%;
 }
 
-
 /**
  * The holder is the base of the picker.
  */
-
 .picker__holder {
   position: absolute;
   background: #ffffff;
@@ -790,12 +789,10 @@ html.remodal-is-locked {
   transition: transform 0.15s ease-out, opacity 0.15s ease-out, max-height 0s 0.15s, border-width 0s 0.15s;
 }
 
-
 /**
  * The frame and wrap work together to ensure that
  * clicks within the picker donâ€™t reach the holder.
  */
-
 .picker__frame {
   padding: 1px;
 }
@@ -804,11 +801,9 @@ html.remodal-is-locked {
   margin: -1px;
 }
 
-
 /**
  * When the picker opens...
  */
-
 .picker--opened .picker__holder {
   max-height: 25em;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -850,36 +845,28 @@ html.remodal-is-locked {
   filter: alpha(opacity=20);
 }
 
-
 /* ==========================================================================
    $BASE-DATE-PICKER
    ========================================================================== */
-
-
 /**
  * The picker box.
  */
-
 .picker__box {
   padding: 0 1em;
 }
 
-
 /**
  * The header containing the month and year stuff.
  */
-
 .picker__header {
   text-align: center;
   position: relative;
   margin-top: .75em;
 }
 
-
 /**
  * The month and year labels.
  */
-
 .picker__month,
 .picker__year {
   font-weight: 500;
@@ -894,11 +881,9 @@ html.remodal-is-locked {
   font-style: italic;
 }
 
-
 /**
  * The month and year selectors.
  */
-
 .picker__select--month,
 .picker__select--year {
   border: 1px solid #b7b7b7;
@@ -928,11 +913,9 @@ html.remodal-is-locked {
   border-color: #0089ec;
 }
 
-
 /**
  * The month navigation buttons.
  */
-
 .picker__nav--prev,
 .picker__nav--next {
   position: absolute;
@@ -1006,11 +989,9 @@ html.remodal-is-locked {
   border-left-color: #f5f5f5;
 }
 
-
 /**
  * The calendar table of dates
  */
-
 .picker__table {
   text-align: center;
   border-collapse: collapse;
@@ -1033,11 +1014,9 @@ html.remodal-is-locked {
   padding: 0;
 }
 
-
 /**
  * The weekday labels
  */
-
 .picker__weekday {
   width: 14.285714286%;
   font-size: .75em;
@@ -1053,11 +1032,9 @@ html.remodal-is-locked {
   }
 }
 
-
 /**
  * The days on the calendar
  */
-
 .picker__day {
   padding: .3125em 0;
   font-weight: 200;
@@ -1126,11 +1103,9 @@ html.remodal-is-locked {
   background: #bbbbbb;
 }
 
-
 /**
  * The footer containing the "today", "clear", and "close" buttons.
  */
-
 .picker__footer {
   text-align: center;
 }
@@ -1213,32 +1188,25 @@ html.remodal-is-locked {
   border-top-color: #aaaaaa;
 }
 
-
 /* ==========================================================================
    $CLASSIC-DATE-PICKER
    ========================================================================== */
 
-
 /* ==========================================================================
    $BASE-TIME-PICKER
    ========================================================================== */
-
-
 /**
  * The list of times.
  */
-
 .picker__list {
   list-style: none;
   padding: 0.75em 0 4.2em;
   margin: 0;
 }
 
-
 /**
  * The times on the clock.
  */
-
 .picker__list-item {
   border-bottom: 1px solid #dddddd;
   border-top: 1px solid #dddddd;
@@ -1254,9 +1222,7 @@ html.remodal-is-locked {
   }
 }
 
-
 /* Hovered time */
-
 .picker__list-item:hover {
   cursor: pointer;
   color: #000000;
@@ -1265,9 +1231,7 @@ html.remodal-is-locked {
   z-index: 10;
 }
 
-
 /* Highlighted and hovered/focused time */
-
 .picker__list-item--highlighted {
   border-color: #0089ec;
   z-index: 10;
@@ -1280,9 +1244,7 @@ html.remodal-is-locked {
   background: #b1dcfb;
 }
 
-
 /* Selected and hovered/focused time */
-
 .picker__list-item--selected,
 .picker__list-item--selected:hover,
 .picker--focused .picker__list-item--selected {
@@ -1291,9 +1253,7 @@ html.remodal-is-locked {
   z-index: 10;
 }
 
-
 /* Disabled time */
-
 .picker__list-item--disabled,
 .picker__list-item--disabled:hover,
 .picker--focused .picker__list-item--disabled {
@@ -1305,11 +1265,9 @@ html.remodal-is-locked {
   z-index: auto;
 }
 
-
 /**
  * The clear button
  */
-
 .picker--time .picker__button--clear {
   display: block;
   width: 80%;
@@ -1348,27 +1306,21 @@ html.remodal-is-locked {
   border-color: #ffffff;
 }
 
-
 /* ==========================================================================
    $CLASSIC-TIME-PICKER
    ========================================================================== */
-
-
 /**
  * Note: the root picker element should __NOT__ be styled
  * more than whatâ€™s here. Style the `.picker__holder` instead.
  */
-
 .picker--time {
   min-width: 256px;
   max-width: 320px;
 }
 
-
 /**
  * The holder is the base of the picker.
  */
-
 .picker--time .picker__holder {
   background: #f2f2f2;
 }
@@ -1379,11 +1331,9 @@ html.remodal-is-locked {
   }
 }
 
-
 /**
  * The box contains the list of times.
  */
-
 .picker--time .picker__box {
   padding: 0;
   position: relative;
@@ -1392,8 +1342,7 @@ html.remodal-is-locked {
 ul.tagit {
   padding: 1px 5px;
   overflow: auto;
-  margin-left: inherit;
-  /* usually we don't want the regular ul margins. */
+  margin-left: inherit; /* usually we don't want the regular ul margins. */
   margin-right: inherit;
 }
 
@@ -1438,9 +1387,7 @@ ul.tagit li.tagit-choice .tagit-close {
   line-height: 17px;
 }
 
-
 /* used for some custom themes that don't need image icons */
-
 ul.tagit li.tagit-choice .tagit-close .text-icon {
   display: none;
 }
@@ -1455,9 +1402,11 @@ ul.tagit input[type="text"] {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+
   border: none;
   margin: 0;
   padding: 0;
@@ -1524,28 +1473,16 @@ ul.tagit input[type="text"] {
   position: absolute;
 }
 
-
 /*************************************/
-
-
 /***** STYLING RANGE INPUT ***********/
-
-
 /*************************************/
-
-
 /*http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
-
-
 /*************************************/
 
 .cr-slider {
-  -webkit-appearance: none;
-  /*removes default webkit styles*/
-  /*border: 1px solid white; */
-  /*fix for FF unable to apply focus style bug */
-  width: 300px;
-  /*required for proper track sizing in FF*/
+  -webkit-appearance: none; /*removes default webkit styles*/
+  /*border: 1px solid white; *//*fix for FF unable to apply focus style bug */
+  width: 300px; /*required for proper track sizing in FF*/
   max-width: 100%;
 }
 
@@ -1571,7 +1508,6 @@ ul.tagit input[type="text"] {
   outline: none;
 }
 
-
 /*
 .cr-slider:focus::-webkit-slider-runnable-track {
     background: #ccc;
@@ -1595,9 +1531,7 @@ ul.tagit input[type="text"] {
   margin-top: -6px;
 }
 
-
 /*hide the outline behind the border*/
-
 .cr-slider:-moz-focusring {
   outline: 1px solid white;
   outline-offset: -1px;
@@ -1606,13 +1540,10 @@ ul.tagit input[type="text"] {
 .cr-slider::-ms-track {
   width: 300px;
   height: 5px;
-  background: transparent;
-  /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
-  border-color: transparent;
-  /*leave room for the larger thumb to overflow with a transparent border */
+  background: transparent; /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+  border-color: transparent; /*leave room for the larger thumb to overflow with a transparent border */
   border-width: 6px 0;
-  color: transparent;
-  /*remove default tick marks*/
+  color: transparent; /*remove default tick marks*/
 }
 
 .cr-slider::-ms-fill-lower {
@@ -1641,12 +1572,9 @@ ul.tagit input[type="text"] {
   background: rgba(0, 0, 0, 0.5);
 }
 
-
 /*******************************************/
 
-
 /* Just cross hairs for debugging - can be removed upon release */
-
 .croppie-container .cr-viewport.debug:before,
 .croppie-container .cr-viewport.debug:after {
   background: white;
@@ -1668,7 +1596,6 @@ ul.tagit input[type="text"] {
   width: 100%;
 }
 
-
 /* Optional scoped theme for tag-it which mimics the zendesk widget. */
 
 ul.tagit {
@@ -1683,8 +1610,10 @@ ul.tagit li.tagit-choice {
   border-radius: 6px;
   -webkit-border-radius: 6px;
   border: 1px solid #CAD8F3;
+
   background: none;
   background-color: #DEE7F8;
+
   font-weight: normal;
 }
 
@@ -1712,8 +1641,7 @@ ul.tagit li.tagit-choice .tagit-close .text-icon {
   color: #777;
 }
 
-ul.tagit li.tagit-choice:hover,
-ul.tagit li.tagit-choice.remove {
+ul.tagit li.tagit-choice:hover, ul.tagit li.tagit-choice.remove {
   background-color: #bbcef1;
   border-color: #6d95e0;
 }
@@ -1732,9 +1660,7 @@ ul.tagit input[type="text"] {
   font-size: 1.1em;
 }
 
-
 /* Forked from a jQuery UI theme, so that we don't require the jQuery UI CSS as a dependency. */
-
 .tagit-autocomplete.ui-autocomplete {
   position: absolute;
   cursor: default;
@@ -1744,9 +1670,7 @@ ul.tagit input[type="text"] {
   width: 1px;
 }
 
-
 /* without this, the menu expands to 100% in IE6 */
-
 .tagit-autocomplete.ui-menu {
   list-style: none;
   padding: 2px;
@@ -1788,16 +1712,14 @@ ul.tagit input[type="text"] {
   color: #222222;
 }
 
-.tagit-autocomplete.ui-corner-all,
-.tagit-autocomplete .ui-corner-all {
+.tagit-autocomplete.ui-corner-all, .tagit-autocomplete .ui-corner-all {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   -khtml-border-radius: 4px;
   border-radius: 4px;
 }
 
-.tagit-autocomplete .ui-state-hover,
-.tagit-autocomplete .ui-state-focus {
+.tagit-autocomplete .ui-state-hover, .tagit-autocomplete .ui-state-focus {
   border: 1px solid #999999;
   background: #dadada;
   font-weight: normal;
@@ -1817,7 +1739,6 @@ ul.tagit input[type="text"] {
   clip: rect(1px, 1px, 1px, 1px);
 }
 
-
 /**
  * Swiper 3.3.1
  * Most modern mobile touch slider and framework with hardware accelerated transitions
@@ -1832,7 +1753,6 @@ ul.tagit input[type="text"] {
  *
  * Released on: February 7, 2016
  */
-
 .swiper-container {
   margin: 0 auto;
   position: relative;
@@ -1908,9 +1828,7 @@ ul.tagit input[type="text"] {
   position: relative;
 }
 
-
 /* Auto Height */
-
 .swiper-container-autoheight,
 .swiper-container-autoheight .swiper-slide {
   height: auto;
@@ -1928,9 +1846,7 @@ ul.tagit input[type="text"] {
   transition-property: transform, height;
 }
 
-
 /* a11y */
-
 .swiper-container .swiper-notification {
   position: absolute;
   left: 0;
@@ -1940,9 +1856,7 @@ ul.tagit input[type="text"] {
   z-index: -1000;
 }
 
-
 /* IE10 Windows Phone 8 Fixes */
-
 .swiper-wp8-horizontal {
   -ms-touch-action: pan-y;
   touch-action: pan-y;
@@ -1953,9 +1867,7 @@ ul.tagit input[type="text"] {
   touch-action: pan-x;
 }
 
-
 /* Arrows */
-
 .swiper-button-prev,
 .swiper-button-next {
   position: absolute;
@@ -2013,9 +1925,7 @@ ul.tagit input[type="text"] {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
 }
 
-
 /* Pagination Styles */
-
 .swiper-pagination {
   position: absolute;
   text-align: center;
@@ -2034,9 +1944,7 @@ ul.tagit input[type="text"] {
   opacity: 0;
 }
 
-
 /* Common Styles */
-
 .swiper-pagination-fraction,
 .swiper-pagination-custom,
 .swiper-container-horizontal > .swiper-pagination-bullets {
@@ -2045,9 +1953,7 @@ ul.tagit input[type="text"] {
   width: 100%;
 }
 
-
 /* Bullets */
-
 .swiper-pagination-bullet {
   width: 8px;
   height: 8px;
@@ -2108,9 +2014,7 @@ button.swiper-pagination-bullet {
   margin: 0 5px;
 }
 
-
 /* Progress */
-
 .swiper-pagination-progress {
   background: rgba(0, 0, 0, 0.25);
   position: absolute;
@@ -2168,9 +2072,7 @@ button.swiper-pagination-bullet {
   background: #000;
 }
 
-
 /* 3D Container */
-
 .swiper-container-3d {
   -webkit-perspective: 1200px;
   -moz-perspective: 1200px;
@@ -2256,18 +2158,14 @@ button.swiper-pagination-bullet {
   /* Firefox 16+, IE10, Opera 12.50+ */
 }
 
-
 /* Coverflow */
-
 .swiper-container-coverflow .swiper-wrapper,
 .swiper-container-flip .swiper-wrapper {
   /* Windows 8 IE 10 fix */
   -ms-perspective: 1200px;
 }
 
-
 /* Cube + Flip */
-
 .swiper-container-cube,
 .swiper-container-flip {
   overflow: visible;
@@ -2310,9 +2208,7 @@ button.swiper-pagination-bullet {
   backface-visibility: hidden;
 }
 
-
 /* Cube */
-
 .swiper-container-cube .swiper-slide {
   visibility: hidden;
   -webkit-transform-origin: 0 0;
@@ -2351,9 +2247,7 @@ button.swiper-pagination-bullet {
   z-index: 0;
 }
 
-
 /* Fade */
-
 .swiper-container-fade.swiper-container-free-mode .swiper-slide {
   -webkit-transition-timing-function: ease-out;
   -moz-transition-timing-function: ease-out;
@@ -2379,9 +2273,7 @@ button.swiper-pagination-bullet {
   pointer-events: auto;
 }
 
-
 /* Scrollbar */
-
 .swiper-scrollbar {
   border-radius: 10px;
   position: relative;
@@ -2421,9 +2313,7 @@ button.swiper-pagination-bullet {
   cursor: move;
 }
 
-
 /* Preloader */
-
 .swiper-lazy-preloader {
   width: 42px;
   height: 42px;
@@ -2469,15 +2359,1110 @@ button.swiper-pagination-bullet {
   }
 }
 
-
 /*!
- * inuitcss, by @csswizardry
- *
- * github.com/inuitcss | inuitcss.com
+ * FullCalendar v2.6.1 Stylesheet
+ * Docs & License: http://fullcalendar.io/
+ * (c) 2015 Adam Shaw
  */
 
+.fc {
+  direction: ltr;
+  text-align: left;
+}
+
+.fc-rtl {
+  text-align: right;
+}
+
+body .fc { /* extra precedence to overcome jqui */
+  font-size: 1em;
+}
+
+/* Colors
+--------------------------------------------------------------------------------------------------*/
+
+.fc-unthemed th,
+.fc-unthemed td,
+.fc-unthemed thead,
+.fc-unthemed tbody,
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-row,
+.fc-unthemed .fc-popover {
+  border-color: #ddd;
+}
+
+.fc-unthemed .fc-popover {
+  background-color: #fff;
+}
+
+.fc-unthemed .fc-divider,
+.fc-unthemed .fc-popover .fc-header {
+  background: #eee;
+}
+
+.fc-unthemed .fc-popover .fc-header .fc-close {
+  color: #666;
+}
+
+.fc-unthemed .fc-today {
+  background: #fcf8e3;
+}
+
+.fc-highlight { /* when user is selecting cells */
+  background: #bce8f1;
+  opacity: .3;
+  filter: alpha(opacity=30); /* for IE */
+}
+
+.fc-bgevent { /* default look for background events */
+  background: rgb(143, 223, 130);
+  opacity: .3;
+  filter: alpha(opacity=30); /* for IE */
+}
+
+.fc-nonbusiness { /* default look for non-business-hours areas */
+  /* will inherit .fc-bgevent's styles */
+  background: #d7d7d7;
+}
+
+/* Icons (inline elements with styled text that mock arrow icons)
+--------------------------------------------------------------------------------------------------*/
+
+.fc-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1em;
+  font-size: 1em;
+  text-align: center;
+  overflow: hidden;
+  font-family: "Courier New", Courier, monospace;
+
+  /* don't allow browser text-selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/*
+Acceptable font-family overrides for individual icons:
+  "Arial", sans-serif
+  "Times New Roman", serif
+
+NOTE: use percentage font sizes or else old IE chokes
+*/
+
+.fc-icon:after {
+  position: relative;
+  margin: 0 -1em; /* ensures character will be centered, regardless of width */
+}
+
+.fc-icon-left-single-arrow:after {
+  content: "\02039";
+  font-weight: bold;
+  font-size: 200%;
+  top: -7%;
+  left: 3%;
+}
+
+.fc-icon-right-single-arrow:after {
+  content: "\0203A";
+  font-weight: bold;
+  font-size: 200%;
+  top: -7%;
+  left: -3%;
+}
+
+.fc-icon-left-double-arrow:after {
+  content: "\000AB";
+  font-size: 160%;
+  top: -7%;
+}
+
+.fc-icon-right-double-arrow:after {
+  content: "\000BB";
+  font-size: 160%;
+  top: -7%;
+}
+
+.fc-icon-left-triangle:after {
+  content: "\25C4";
+  font-size: 125%;
+  top: 3%;
+  left: -2%;
+}
+
+.fc-icon-right-triangle:after {
+  content: "\25BA";
+  font-size: 125%;
+  top: 3%;
+  left: 2%;
+}
+
+.fc-icon-down-triangle:after {
+  content: "\25BC";
+  font-size: 125%;
+  top: 2%;
+}
+
+.fc-icon-x:after {
+  content: "\000D7";
+  font-size: 200%;
+  top: 6%;
+}
+
+/* Buttons (styled <button> tags, normalized to work cross-browser)
+--------------------------------------------------------------------------------------------------*/
+
+.fc button {
+  /* force height to include the border and padding */
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+
+  /* dimensions */
+  margin: 0;
+  height: 2.1em;
+  padding: 0 .6em;
+
+  /* text & cursor */
+  font-size: 1em; /* normalize */
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Firefox has an annoying inner border */
+.fc button::-moz-focus-inner {
+  margin: 0;
+  padding: 0;
+}
+
+.fc-state-default { /* non-theme */
+  border: 1px solid;
+}
+
+.fc-state-default.fc-corner-left { /* non-theme */
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.fc-state-default.fc-corner-right { /* non-theme */
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* icons in buttons */
+
+.fc button .fc-icon { /* non-theme */
+  position: relative;
+  top: -0.05em; /* seems to be a good adjustment across browsers */
+  margin: 0 .2em;
+  vertical-align: middle;
+}
+
+/*
+  button states
+  borrowed from twitter bootstrap (http://twitter.github.com/bootstrap/)
+*/
+
+.fc-state-default {
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  color: #333;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.fc-state-hover,
+.fc-state-down,
+.fc-state-active,
+.fc-state-disabled {
+  color: #333333;
+  background-color: #e6e6e6;
+}
+
+.fc-state-hover {
+  color: #333333;
+  text-decoration: none;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  -o-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+
+.fc-state-down,
+.fc-state-active {
+  background-color: #cccccc;
+  background-image: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.fc-state-disabled {
+  cursor: default;
+  background-image: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  box-shadow: none;
+}
+
+/* Buttons Groups
+--------------------------------------------------------------------------------------------------*/
+
+.fc-button-group {
+  display: inline-block;
+}
+
+/*
+every button that is not first in a button group should scootch over one pixel and cover the
+previous button's border...
+*/
+
+.fc .fc-button-group > * { /* extra precedence b/c buttons have margin set to zero */
+  float: left;
+  margin: 0 0 0 -1px;
+}
+
+.fc .fc-button-group > :first-child { /* same */
+  margin-left: 0;
+}
+
+/* Popover
+--------------------------------------------------------------------------------------------------*/
+
+.fc-popover {
+  position: absolute;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+}
+
+.fc-popover .fc-header { /* TODO: be more consistent with fc-head/fc-body */
+  padding: 2px 4px;
+}
+
+.fc-popover .fc-header .fc-title {
+  margin: 0 2px;
+}
+
+.fc-popover .fc-header .fc-close {
+  cursor: pointer;
+}
+
+.fc-ltr .fc-popover .fc-header .fc-title,
+.fc-rtl .fc-popover .fc-header .fc-close {
+  float: left;
+}
+
+.fc-rtl .fc-popover .fc-header .fc-title,
+.fc-ltr .fc-popover .fc-header .fc-close {
+  float: right;
+}
+
+/* unthemed */
+
+.fc-unthemed .fc-popover {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.fc-unthemed .fc-popover .fc-header .fc-close {
+  font-size: .9em;
+  margin-top: 2px;
+}
+
+/* jqui themed */
+
+.fc-popover > .ui-widget-header + .ui-widget-content {
+  border-top: 0; /* where they meet, let the header have the border */
+}
+
+/* Misc Reusable Components
+--------------------------------------------------------------------------------------------------*/
+
+.fc-divider {
+  border-style: solid;
+  border-width: 1px;
+}
+
+hr.fc-divider {
+  height: 0;
+  margin: 0;
+  padding: 0 0 2px; /* height is unreliable across browsers, so use padding */
+  border-width: 1px 0;
+}
+
+.fc-clear {
+  clear: both;
+}
+
+.fc-bg,
+.fc-bgevent-skeleton,
+.fc-highlight-skeleton,
+.fc-helper-skeleton {
+  /* these element should always cling to top-left/right corners */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.fc-bg {
+  bottom: 0; /* strech bg to bottom edge */
+}
+
+.fc-bg table {
+  height: 100%; /* strech bg to bottom edge */
+}
+
+/* Tables
+--------------------------------------------------------------------------------------------------*/
+
+.fc table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 1em; /* normalize cross-browser */
+}
+
+.fc th {
+  text-align: center;
+}
+
+.fc th,
+.fc td {
+  border-style: solid;
+  border-width: 1px;
+  padding: 0;
+  vertical-align: top;
+}
+
+.fc td.fc-today {
+  border-style: double; /* overcome neighboring borders */
+}
+
+/* Fake Table Rows
+--------------------------------------------------------------------------------------------------*/
+
+.fc .fc-row { /* extra precedence to overcome themes w/ .ui-widget-content forcing a 1px border */
+  /* no visible border by default. but make available if need be (scrollbar width compensation) */
+  border-style: solid;
+  border-width: 0;
+}
+
+.fc-row table {
+  /* don't put left/right border on anything within a fake row.
+     the outer tbody will worry about this */
+  border-left: 0 hidden transparent;
+  border-right: 0 hidden transparent;
+
+  /* no bottom borders on rows */
+  border-bottom: 0 hidden transparent;
+}
+
+.fc-row:first-child table {
+  border-top: 0 hidden transparent; /* no top border on first row */
+}
+
+/* Day Row (used within the header and the DayGrid)
+--------------------------------------------------------------------------------------------------*/
+
+.fc-row {
+  position: relative;
+}
+
+.fc-row .fc-bg {
+  z-index: 1;
+}
+
+/* highlighting cells & background event skeleton */
+
+.fc-row .fc-bgevent-skeleton,
+.fc-row .fc-highlight-skeleton {
+  bottom: 0; /* stretch skeleton to bottom of row */
+}
+
+.fc-row .fc-bgevent-skeleton table,
+.fc-row .fc-highlight-skeleton table {
+  height: 100%; /* stretch skeleton to bottom of row */
+}
+
+.fc-row .fc-highlight-skeleton td,
+.fc-row .fc-bgevent-skeleton td {
+  border-color: transparent;
+}
+
+.fc-row .fc-bgevent-skeleton {
+  z-index: 2;
+
+}
+
+.fc-row .fc-highlight-skeleton {
+  z-index: 3;
+}
+
+/*
+row content (which contains day/week numbers and events) as well as "helper" (which contains
+temporary rendered events).
+*/
+
+.fc-row .fc-content-skeleton {
+  position: relative;
+  z-index: 4;
+  padding-bottom: 2px; /* matches the space above the events */
+}
+
+.fc-row .fc-helper-skeleton {
+  z-index: 5;
+}
+
+.fc-row .fc-content-skeleton td,
+.fc-row .fc-helper-skeleton td {
+  /* see-through to the background below */
+  background: none; /* in case <td>s are globally styled */
+  border-color: transparent;
+
+  /* don't put a border between events and/or the day number */
+  border-bottom: 0;
+}
+
+.fc-row .fc-content-skeleton tbody td, /* cells with events inside (so NOT the day number cell) */
+.fc-row .fc-helper-skeleton tbody td {
+  /* don't put a border between event cells */
+  border-top: 0;
+}
+
+/* Scrolling Container
+--------------------------------------------------------------------------------------------------*/
+
+.fc-scroller { /* this class goes on elements for guaranteed vertical scrollbars */
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.fc-scroller > * { /* we expect an immediate inner element */
+  position: relative; /* re-scope all positions */
+  width: 100%; /* hack to force re-sizing this inner element when scrollbars appear/disappear */
+  overflow: hidden; /* don't let negative margins or absolute positioning create further scroll */
+}
+
+/* Global Event Styles
+--------------------------------------------------------------------------------------------------*/
+
+.fc-event {
+  position: relative; /* for resize handle and other inner positioning */
+  display: block; /* make the <a> tag block */
+  font-size: .85em;
+  line-height: 1.3;
+  border-radius: 3px;
+  border: 1px solid #3a87ad; /* default BORDER color */
+  background-color: #3a87ad; /* default BACKGROUND color */
+  font-weight: normal; /* undo jqui's ui-widget-header bold */
+}
+
+/* overpower some of bootstrap's and jqui's styles on <a> tags */
+.fc-event,
+.fc-event:hover,
+.ui-widget .fc-event {
+  color: #fff; /* default TEXT color */
+  text-decoration: none; /* if <a> has an href */
+}
+
+.fc-event[href],
+.fc-event.fc-draggable {
+  cursor: pointer; /* give events with links and draggable events a hand mouse pointer */
+}
+
+.fc-not-allowed, /* causes a "warning" cursor. applied on body */
+.fc-not-allowed .fc-event { /* to override an event's custom cursor */
+  cursor: not-allowed;
+}
+
+.fc-event .fc-bg { /* the generic .fc-bg already does position */
+  z-index: 1;
+  background: #fff;
+  opacity: .25;
+  filter: alpha(opacity=25); /* for IE */
+}
+
+.fc-event .fc-content {
+  position: relative;
+  z-index: 2;
+}
+
+.fc-event .fc-resizer {
+  position: absolute;
+  z-index: 3;
+}
+
+/* Horizontal Events
+--------------------------------------------------------------------------------------------------*/
+
+/* events that are continuing to/from another week. kill rounded corners and butt up against edge */
+
+.fc-ltr .fc-h-event.fc-not-start,
+.fc-rtl .fc-h-event.fc-not-end {
+  margin-left: 0;
+  border-left-width: 0;
+  padding-left: 1px; /* replace the border with padding */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.fc-ltr .fc-h-event.fc-not-end,
+.fc-rtl .fc-h-event.fc-not-start {
+  margin-right: 0;
+  border-right-width: 0;
+  padding-right: 1px; /* replace the border with padding */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* resizer */
+
+.fc-h-event .fc-resizer { /* positioned it to overcome the event's borders */
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+  width: 5px;
+}
+
+/* left resizer  */
+.fc-ltr .fc-h-event .fc-start-resizer,
+.fc-ltr .fc-h-event .fc-start-resizer:before,
+.fc-ltr .fc-h-event .fc-start-resizer:after,
+.fc-rtl .fc-h-event .fc-end-resizer,
+.fc-rtl .fc-h-event .fc-end-resizer:before,
+.fc-rtl .fc-h-event .fc-end-resizer:after {
+  right: auto; /* ignore the right and only use the left */
+  cursor: w-resize;
+}
+
+/* right resizer */
+.fc-ltr .fc-h-event .fc-end-resizer,
+.fc-ltr .fc-h-event .fc-end-resizer:before,
+.fc-ltr .fc-h-event .fc-end-resizer:after,
+.fc-rtl .fc-h-event .fc-start-resizer,
+.fc-rtl .fc-h-event .fc-start-resizer:before,
+.fc-rtl .fc-h-event .fc-start-resizer:after {
+  left: auto; /* ignore the left and only use the right */
+  cursor: e-resize;
+}
+
+/* DayGrid events
+----------------------------------------------------------------------------------------------------
+We use the full "fc-day-grid-event" class instead of using descendants because the event won't
+be a descendant of the grid when it is being dragged.
+*/
+
+.fc-day-grid-event {
+  margin: 1px 2px 0; /* spacing between events and edges */
+  padding: 0 1px;
+}
+
+.fc-day-grid-event .fc-content { /* force events to be one-line tall */
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.fc-day-grid-event .fc-time {
+  font-weight: bold;
+}
+
+.fc-day-grid-event .fc-resizer { /* enlarge the default hit area */
+  left: -3px;
+  right: -3px;
+  width: 7px;
+}
+
+/* Event Limiting
+--------------------------------------------------------------------------------------------------*/
+
+/* "more" link that represents hidden events */
+
+a.fc-more {
+  margin: 1px 3px;
+  font-size: .85em;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a.fc-more:hover {
+  text-decoration: underline;
+}
+
+.fc-limited { /* rows and cells that are hidden because of a "more" link */
+  display: none;
+}
+
+/* popover that appears when "more" link is clicked */
+
+.fc-day-grid .fc-row {
+  z-index: 1; /* make the "more" popover one higher than this */
+}
+
+.fc-more-popover {
+  z-index: 2;
+  width: 220px;
+}
+
+.fc-more-popover .fc-event-container {
+  padding: 10px;
+}
+
+/* Now Indicator
+--------------------------------------------------------------------------------------------------*/
+
+.fc-now-indicator {
+  position: absolute;
+  border: 0 solid red;
+}
+
+/* Toolbar
+--------------------------------------------------------------------------------------------------*/
+
+.fc-toolbar {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.fc-toolbar .fc-left {
+  float: left;
+}
+
+.fc-toolbar .fc-right {
+  float: right;
+}
+
+.fc-toolbar .fc-center {
+  display: inline-block;
+}
+
+/* the things within each left/right/center section */
+.fc .fc-toolbar > * > * { /* extra precedence to override button border margins */
+  float: left;
+  margin-left: .75em;
+}
+
+/* the first thing within each left/center/right section */
+.fc .fc-toolbar > * > :first-child { /* extra precedence to override button border margins */
+  margin-left: 0;
+}
+
+/* title text */
+
+.fc-toolbar h2 {
+  margin: 0;
+}
+
+/* button layering (for border precedence) */
+
+.fc-toolbar button {
+  position: relative;
+}
+
+.fc-toolbar .fc-state-hover,
+.fc-toolbar .ui-state-hover {
+  z-index: 2;
+}
+
+.fc-toolbar .fc-state-down {
+  z-index: 3;
+}
+
+.fc-toolbar .fc-state-active,
+.fc-toolbar .ui-state-active {
+  z-index: 4;
+}
+
+.fc-toolbar button:focus {
+  z-index: 5;
+}
+
+/* View Structure
+--------------------------------------------------------------------------------------------------*/
+
+/* undo twitter bootstrap's box-sizing rules. normalizes positioning techniques */
+/* don't do this for the toolbar because we'll want bootstrap to style those buttons as some pt */
+.fc-view-container *,
+.fc-view-container *:before,
+.fc-view-container *:after {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.fc-view, /* scope positioning and z-index's for everything within the view */
+.fc-view > table { /* so dragged elements can be above the view's main element */
+  position: relative;
+  z-index: 1;
+}
+
+/* BasicView
+--------------------------------------------------------------------------------------------------*/
+
+/* day row structure */
+
+.fc-basicWeek-view .fc-content-skeleton,
+.fc-basicDay-view .fc-content-skeleton {
+  /* we are sure there are no day numbers in these views, so... */
+  padding-top: 1px; /* add a pixel to make sure there are 2px padding above events */
+  padding-bottom: 1em; /* ensure a space at bottom of cell for user selecting/clicking */
+}
+
+.fc-basic-view .fc-body .fc-row {
+  min-height: 4em; /* ensure that all rows are at least this tall */
+}
+
+/* a "rigid" row will take up a constant amount of height because content-skeleton is absolute */
+
+.fc-row.fc-rigid {
+  overflow: hidden;
+}
+
+.fc-row.fc-rigid .fc-content-skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* week and day number styling */
+
+.fc-basic-view .fc-week-number,
+.fc-basic-view .fc-day-number {
+  padding: 0 2px;
+}
+
+.fc-basic-view td.fc-week-number span,
+.fc-basic-view td.fc-day-number {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.fc-basic-view .fc-week-number {
+  text-align: center;
+}
+
+.fc-basic-view .fc-week-number span {
+  /* work around the way we do column resizing and ensure a minimum width */
+  display: inline-block;
+  min-width: 1.25em;
+}
+
+.fc-ltr .fc-basic-view .fc-day-number {
+  text-align: right;
+}
+
+.fc-rtl .fc-basic-view .fc-day-number {
+  text-align: left;
+}
+
+.fc-day-number.fc-other-month {
+  opacity: 0.3;
+  filter: alpha(opacity=30); /* for IE */
+  /* opacity with small font can sometimes look too faded
+     might want to set the 'color' property instead
+     making day-numbers bold also fixes the problem */
+}
+
+/* AgendaView all-day area
+--------------------------------------------------------------------------------------------------*/
+
+.fc-agenda-view .fc-day-grid {
+  position: relative;
+  z-index: 2; /* so the "more.." popover will be over the time grid */
+}
+
+.fc-agenda-view .fc-day-grid .fc-row {
+  min-height: 3em; /* all-day section will never get shorter than this */
+}
+
+.fc-agenda-view .fc-day-grid .fc-row .fc-content-skeleton {
+  padding-top: 1px; /* add a pixel to make sure there are 2px padding above events */
+  padding-bottom: 1em; /* give space underneath events for clicking/selecting days */
+}
+
+/* TimeGrid axis running down the side (for both the all-day area and the slot area)
+--------------------------------------------------------------------------------------------------*/
+
+.fc .fc-axis { /* .fc to overcome default cell styles */
+  vertical-align: middle;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
+.fc-ltr .fc-axis {
+  text-align: right;
+}
+
+.fc-rtl .fc-axis {
+  text-align: left;
+}
+
+.ui-widget td.fc-axis {
+  font-weight: normal; /* overcome jqui theme making it bold */
+}
+
+/* TimeGrid Structure
+--------------------------------------------------------------------------------------------------*/
+
+.fc-time-grid-container, /* so scroll container's z-index is below all-day */
+.fc-time-grid { /* so slats/bg/content/etc positions get scoped within here */
+  position: relative;
+  z-index: 1;
+}
+
+.fc-time-grid {
+  min-height: 100%; /* so if height setting is 'auto', .fc-bg stretches to fill height */
+}
+
+.fc-time-grid table { /* don't put outer borders on slats/bg/content/etc */
+  border: 0 hidden transparent;
+}
+
+.fc-time-grid > .fc-bg {
+  z-index: 1;
+}
+
+.fc-time-grid .fc-slats,
+.fc-time-grid > hr { /* the <hr> AgendaView injects when grid is shorter than scroller */
+  position: relative;
+  z-index: 2;
+}
+
+.fc-time-grid .fc-content-col {
+  position: relative; /* because now-indicator lives directly inside */
+}
+
+.fc-time-grid .fc-content-skeleton {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* divs within a cell within the fc-content-skeleton */
+
+.fc-time-grid .fc-business-container {
+  position: relative;
+  z-index: 1;
+}
+
+.fc-time-grid .fc-bgevent-container {
+  position: relative;
+  z-index: 2;
+}
+
+.fc-time-grid .fc-highlight-container {
+  position: relative;
+  z-index: 3;
+}
+
+.fc-time-grid .fc-event-container {
+  position: relative;
+  z-index: 4;
+}
+
+.fc-time-grid .fc-now-indicator-line {
+  z-index: 5;
+}
+
+.fc-time-grid .fc-helper-container { /* also is fc-event-container */
+  position: relative;
+  z-index: 6;
+}
+
+/* TimeGrid Slats (lines that run horizontally)
+--------------------------------------------------------------------------------------------------*/
+
+.fc-time-grid .fc-slats td {
+  height: 1.5em;
+  border-bottom: 0; /* each cell is responsible for its top border */
+}
+
+.fc-time-grid .fc-slats .fc-minor td {
+  border-top-style: dotted;
+}
+
+.fc-time-grid .fc-slats .ui-widget-content { /* for jqui theme */
+  background: none; /* see through to fc-bg */
+}
+
+/* TimeGrid Highlighting Slots
+--------------------------------------------------------------------------------------------------*/
+
+.fc-time-grid .fc-highlight-container { /* a div within a cell within the fc-highlight-skeleton */
+  position: relative; /* scopes the left/right of the fc-highlight to be in the column */
+}
+
+.fc-time-grid .fc-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* top and bottom will be in by JS */
+}
+
+/* TimeGrid Event Containment
+--------------------------------------------------------------------------------------------------*/
+
+.fc-ltr .fc-time-grid .fc-event-container { /* space on the sides of events for LTR (default) */
+  margin: 0 2.5% 0 2px;
+}
+
+.fc-rtl .fc-time-grid .fc-event-container { /* space on the sides of events for RTL */
+  margin: 0 2px 0 2.5%;
+}
+
+.fc-time-grid .fc-event,
+.fc-time-grid .fc-bgevent {
+  position: absolute;
+  z-index: 1; /* scope inner z-index's */
+}
+
+.fc-time-grid .fc-bgevent {
+  /* background events always span full width */
+  left: 0;
+  right: 0;
+}
+
+/* Generic Vertical Event
+--------------------------------------------------------------------------------------------------*/
+
+.fc-v-event.fc-not-start { /* events that are continuing from another day */
+  /* replace space made by the top border with padding */
+  border-top-width: 0;
+  padding-top: 1px;
+
+  /* remove top rounded corners */
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.fc-v-event.fc-not-end {
+  /* replace space made by the top border with padding */
+  border-bottom-width: 0;
+  padding-bottom: 1px;
+
+  /* remove bottom rounded corners */
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* TimeGrid Event Styling
+----------------------------------------------------------------------------------------------------
+We use the full "fc-time-grid-event" class instead of using descendants because the event won't
+be a descendant of the grid when it is being dragged.
+*/
+
+.fc-time-grid-event {
+  overflow: hidden; /* don't let the bg flow over rounded corners */
+}
+
+.fc-time-grid-event .fc-time,
+.fc-time-grid-event .fc-title {
+  padding: 0 1px;
+}
+
+.fc-time-grid-event .fc-time {
+  font-size: .85em;
+  white-space: nowrap;
+}
+
+/* short mode, where time and title are on the same line */
+
+.fc-time-grid-event.fc-short .fc-content {
+  /* don't wrap to second line (now that contents will be inline) */
+  white-space: nowrap;
+}
+
+.fc-time-grid-event.fc-short .fc-time,
+.fc-time-grid-event.fc-short .fc-title {
+  /* put the time and title on the same line */
+  display: inline-block;
+  vertical-align: top;
+}
+
+.fc-time-grid-event.fc-short .fc-time span {
+  display: none; /* don't display the full time text... */
+}
+
+.fc-time-grid-event.fc-short .fc-time:before {
+  content: attr(data-start); /* ...instead, display only the start time */
+}
+
+.fc-time-grid-event.fc-short .fc-time:after {
+  content: "\000A0-\000A0"; /* seperate with a dash, wrapped in nbsp's */
+}
+
+.fc-time-grid-event.fc-short .fc-title {
+  font-size: .85em; /* make the title text the same size as the time */
+  padding: 0; /* undo padding from above */
+}
+
+/* resizer */
+
+.fc-time-grid-event .fc-resizer {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  overflow: hidden;
+  line-height: 8px;
+  font-size: 11px;
+  font-family: monospace;
+  text-align: center;
+  cursor: s-resize;
+}
+
+.fc-time-grid-event .fc-resizer:after {
+  content: "=";
+}
+
+/* Now Indicator
+--------------------------------------------------------------------------------------------------*/
+
+.fc-time-grid .fc-now-indicator-line {
+  border-top-width: 1px;
+  left: 0;
+  right: 0;
+}
+
+/* arrow on axis */
+
+.fc-time-grid .fc-now-indicator-arrow {
+  margin-top: -5px; /* vertically center on top coordinate */
+}
+
+.fc-ltr .fc-time-grid .fc-now-indicator-arrow {
+  left: 0;
+  /* triangle pointing right... */
+  border-width: 5px 0 5px 6px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.fc-rtl .fc-time-grid .fc-now-indicator-arrow {
+  right: 0;
+  /* triangle pointing left... */
+  border-width: 5px 6px 5px 0;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
 @-webkit-viewport {
-  width: device-width
+  width: device -width
 }
 
 @-moz-viewport {
@@ -2492,8 +3477,7 @@ button.swiper-pagination-bullet {
   width: device-width
 }
 
-
-/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+/
 
 html {
   font-family: sans-serif;
@@ -2505,26 +3489,11 @@ body {
   margin: 0
 }
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-menu,
-nav,
-section,
-summary {
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block
 }
 
-audio,
-canvas,
-progress,
-video {
+audio, canvas, progress, video {
   display: inline-block;
   vertical-align: baseline
 }
@@ -2534,8 +3503,7 @@ audio:not([controls]) {
   height: 0
 }
 
-[hidden],
-template {
+[hidden], template {
   display: none
 }
 
@@ -2543,8 +3511,7 @@ a {
   background-color: transparent
 }
 
-a:active,
-a:hover {
+a:active, a:hover {
   outline: 0
 }
 
@@ -2552,8 +3519,7 @@ abbr[title] {
   border-bottom: 1px dotted
 }
 
-b,
-strong {
+b, strong {
   font-weight: bold
 }
 
@@ -2575,8 +3541,7 @@ small {
   font-size: 80%
 }
 
-sub,
-sup {
+sub, sup {
   font-size: 75%;
   line-height: 0;
   position: relative;
@@ -2612,19 +3577,12 @@ pre {
   overflow: auto
 }
 
-code,
-kbd,
-pre,
-samp {
+code, kbd, pre, samp {
   font-family: monospace, monospace;
   font-size: 1em
 }
 
-button,
-input,
-optgroup,
-select,
-textarea {
+button, input, optgroup, select, textarea {
   color: inherit;
   font: inherit;
   margin: 0
@@ -2634,26 +3592,20 @@ button {
   overflow: visible
 }
 
-button,
-select {
+button, select {
   text-transform: none
 }
 
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer
 }
 
-button[disabled],
-html input[disabled] {
+button[disabled], html input[disabled] {
   cursor: default
 }
 
-button::-moz-focus-inner,
-input::-moz-focus-inner {
+button::-moz-focus-inner, input::-moz-focus-inner {
   border: 0;
   padding: 0
 }
@@ -2662,14 +3614,12 @@ input {
   line-height: normal
 }
 
-input[type="checkbox"],
-input[type="radio"] {
+input[type="checkbox"], input[type="radio"] {
   box-sizing: border-box;
   padding: 0
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
   height: auto
 }
 
@@ -2678,8 +3628,7 @@ input[type="search"] {
   box-sizing: content-box
 }
 
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none
 }
 
@@ -2707,45 +3656,20 @@ table {
   border-spacing: 0
 }
 
-td,
-th {
+td, th {
   padding: 0
 }
 
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-dl,
-dd,
-ol,
-ul,
-form,
-fieldset,
-legend,
-figure,
-table,
-th,
-td,
-caption,
-hr {
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, dl, dd, ol, ul, form, fieldset, legend, figure, table, th, td, caption, hr {
   margin: 0;
   padding: 0
 }
 
-abbr[title],
-dfn[title] {
+abbr[title], dfn[title] {
   cursor: help
 }
 
-u,
-ins {
+u, ins {
   text-decoration: none
 }
 
@@ -2753,11 +3677,7 @@ ins {
   border-bottom: 1px solid
 }
 
-audio,
-canvas,
-img,
-svg,
-video {
+audio, canvas, img, svg, video {
   vertical-align: middle
 }
 
@@ -2769,30 +3689,21 @@ table {
   outline: none
 }
 
-input,
-textarea {
+input, textarea {
   border-radius: 0
 }
 
-select,
-input,
-textarea,
-button {
+select, input, textarea, button {
   font-size: 15px;
   font-size: 1rem;
   margin: 0
 }
 
-select:focus,
-input:focus,
-textarea:focus,
-button:focus {
+select:focus, input:focus, textarea:focus, button:focus {
   outline: none
 }
 
-select,
-input,
-button {
+select, input, button {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale
 }
@@ -2814,9 +3725,7 @@ html {
   box-sizing: border-box
 }
 
-*,
-*:before,
-*:after {
+*, *:before, *:after {
   box-sizing: inherit
 }
 
@@ -2898,21 +3807,11 @@ h6 {
   line-height: 2.14286
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-weight: 400
 }
 
-h1>a,
-h2>a,
-h3>a,
-h4>a,
-h5>a,
-h6>a {
+h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a {
   color: inherit
 }
 
@@ -2965,13 +3864,11 @@ img {
   vertical-align: middle
 }
 
-img[width],
-img[height] {
+img[width], img[height] {
   max-width: none
 }
 
-li>ul,
-li>ol {
+li > ul, li > ol {
   margin-bottom: 0
 }
 
@@ -2998,7 +3895,7 @@ li>ol {
   text-decoration: none !important
 }
 
-.btn:disabled {
+.btn :disabled {
   cursor: default !important
 }
 
@@ -3015,8 +3912,7 @@ li>ol {
   text-align: center
 }
 
-.btn-1:hover,
-.btn-1:active {
+.btn-1:hover, .btn-1:active {
   color: #fff !important
 }
 
@@ -3085,8 +3981,7 @@ li>ol {
   background-color: #c0ea96 !important
 }
 
-.btn-1--green:hover i,
-.btn-1--green:hover span {
+.btn-1--green:hover i, .btn-1--green:hover span {
   color: #fff
 }
 
@@ -3177,8 +4072,7 @@ li>ol {
   background-color: #6ad6f7 !important
 }
 
-.btn-1--blue:hover i,
-.btn-1--blue:hover span {
+.btn-1--blue:hover i, .btn-1--blue:hover span {
   color: #fff
 }
 
@@ -3205,18 +4099,15 @@ li>ol {
   fill: #fff
 }
 
-.btn-1--blue.btn--icon-circle .icon,
-.btn-1--blue.btn--icon-circle-small .icon {
+.btn-1--blue.btn--icon-circle .icon, .btn-1--blue.btn--icon-circle-small .icon {
   fill: #39c9f5
 }
 
-.btn-1--blue.btn--icon-circle:hover,
-.btn-1--blue.btn--icon-circle-small:hover {
+.btn-1--blue.btn--icon-circle:hover, .btn-1--blue.btn--icon-circle-small:hover {
   background-color: #39c9f5 !important
 }
 
-.btn-1--blue.btn--icon-circle:hover .icon,
-.btn-1--blue.btn--icon-circle-small:hover .icon {
+.btn-1--blue.btn--icon-circle:hover .icon, .btn-1--blue.btn--icon-circle-small:hover .icon {
   fill: #fff
 }
 
@@ -3267,8 +4158,7 @@ li>ol {
   background-color: #7c8c94 !important
 }
 
-.btn-1--darkblue:hover i,
-.btn-1--darkblue:hover span {
+.btn-1--darkblue:hover i, .btn-1--darkblue:hover span {
   color: #fff
 }
 
@@ -3343,8 +4233,7 @@ li>ol {
   background-color: #f2ad9f !important
 }
 
-.btn-1--red:hover i,
-.btn-1--red:hover span {
+.btn-1--red:hover i, .btn-1--red:hover span {
   color: #fff
 }
 
@@ -3427,8 +4316,7 @@ li>ol {
   background-color: #4c70ba !important
 }
 
-.btn-1--darkest-blue:hover i,
-.btn-1--darkest-blue:hover span {
+.btn-1--darkest-blue:hover i, .btn-1--darkest-blue:hover span {
   color: #fff
 }
 
@@ -3486,8 +4374,7 @@ li>ol {
   background-color: #fff !important
 }
 
-.btn-1--white:hover i,
-.btn-1--white:hover span {
+.btn-1--white:hover i, .btn-1--white:hover span {
   color: #fff
 }
 
@@ -3607,15 +4494,11 @@ li>ol {
   transform: translate(-50%, -50%)
 }
 
-.btn--twitter-share,
-.btn--facebook-share,
-.btn--linkedin-share {
+.btn--twitter-share, .btn--facebook-share, .btn--linkedin-share {
   border: none !important
 }
 
-.btn--twitter-share .icon,
-.btn--facebook-share .icon,
-.btn--linkedin-share .icon {
+.btn--twitter-share .icon, .btn--facebook-share .icon, .btn--linkedin-share .icon {
   width: 30px;
   height: 30px;
   fill: #fff
@@ -3727,9 +4610,7 @@ li>ol {
   font-weight: 700
 }
 
-.btn-remodal--mob-report__footer-cancel,
-.btn-remodal--mob-report__footer-ok,
-.btn-remodal--mob-report__footer-claim {
+.btn-remodal--mob-report__footer-cancel, .btn-remodal--mob-report__footer-ok, .btn-remodal--mob-report__footer-claim {
   text-transform: uppercase;
   line-height: 46px !important;
   display: block !important;
@@ -3765,11 +4646,11 @@ li>ol {
   width: 100%
 }
 
-.tableize--middle>.tableize__cell {
+.tableize--middle > .tableize__cell {
   vertical-align: middle
 }
 
-.tableize--bottom>.tableize__cell {
+.tableize--bottom > .tableize__cell {
   vertical-align: bottom
 }
 
@@ -3781,8 +4662,7 @@ li>ol {
   height: 100%
 }
 
-.tableize--full>.tableize__cell,
-.tableize--full>.tableize__cell>.tableize__content {
+.tableize--full > .tableize__cell, .tableize--full > .tableize__cell > .tableize__content {
   height: inherit
 }
 
@@ -3818,8 +4698,7 @@ li>ol {
   width: 100%
 }
 
-.flag__img,
-.flag__body {
+.flag__img, .flag__body {
   display: table-cell;
   vertical-align: middle
 }
@@ -3828,7 +4707,7 @@ li>ol {
   padding-right: 30px
 }
 
-.flag__img>img {
+.flag__img > img {
   display: block;
   max-width: none
 }
@@ -3837,43 +4716,42 @@ li>ol {
   width: 100%
 }
 
-.flag__body,
-.flag__body>:last-child {
+.flag__body, .flag__body > :last-child {
   margin-bottom: 0
 }
 
-.flag--tiny>.flag__img {
+.flag--tiny > .flag__img {
   padding-right: 8px
 }
 
-.flag--tiny.flag--rev>.flag__img {
+.flag--tiny.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 8px
 }
 
-.flag--small>.flag__img {
+.flag--small > .flag__img {
   padding-right: 15px
 }
 
-.flag--small.flag--rev>.flag__img {
+.flag--small.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 15px
 }
 
-.flag--large>.flag__img {
+.flag--large > .flag__img {
   padding-right: 60px
 }
 
-.flag--large.flag--rev>.flag__img {
+.flag--large.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 60px
 }
 
-.flag--huge>.flag__img {
+.flag--huge > .flag__img {
   padding-right: 120px
 }
 
-.flag--huge.flag--rev>.flag__img {
+.flag--huge.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 120px
 }
@@ -3882,28 +4760,25 @@ li>ol {
   direction: rtl
 }
 
-.flag--rev>.flag__img,
-.flag--rev>.flag__body {
+.flag--rev > .flag__img, .flag--rev > .flag__body {
   direction: ltr
 }
 
-.flag--rev>.flag__img {
+.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 30px
 }
 
-.flag--flush>.flag__img {
+.flag--flush > .flag__img {
   padding-right: 0;
   padding-left: 0
 }
 
-.flag--top>.flag__img,
-.flag--top>.flag__body {
+.flag--top > .flag__img, .flag--top > .flag__body {
   vertical-align: top
 }
 
-.flag--bottom>.flag__img,
-.flag--bottom>.flag__body {
+.flag--bottom > .flag__img, .flag--bottom > .flag__body {
   vertical-align: bottom
 }
 
@@ -3911,32 +4786,36 @@ li>ol {
   .flag--responsive {
     direction: ltr
   }
-  .flag--responsive,
-  .flag--responsive>.flag__img,
-  .flag--responsive>.flag__body {
+
+  .flag--responsive, .flag--responsive > .flag__img, .flag--responsive > .flag__body {
     display: block
   }
-  .flag--responsive>.flag__img {
+
+  .flag--responsive > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 30px
   }
-  .flag--responsive.flag--tiny>.flag__img {
+
+  .flag--responsive.flag--tiny > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 8px
   }
-  .flag--responsive.flag--small>.flag__img {
+
+  .flag--responsive.flag--small > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 15px
   }
-  .flag--responsive.flag--large>.flag__img {
+
+  .flag--responsive.flag--large > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 60px
   }
-  .flag--responsive.flag--huge>.flag__img {
+
+  .flag--responsive.flag--huge > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 120px
@@ -3952,7 +4831,7 @@ li>ol {
   margin-right: 30px
 }
 
-.media__img>img {
+.media__img > img {
   display: block
 }
 
@@ -3961,81 +4840,84 @@ li>ol {
   display: block
 }
 
-.media__body,
-.media__body>:last-child {
+.media__body, .media__body > :last-child {
   margin-bottom: 0
 }
 
-.media--tiny>.media__img {
+.media--tiny > .media__img {
   margin-right: 8px
 }
 
-.media--tiny.media--rev>.media__img {
+.media--tiny.media--rev > .media__img {
   margin-right: 0;
   margin-left: 8px
 }
 
-.media--small>.media__img {
+.media--small > .media__img {
   margin-right: 15px
 }
 
-.media--small.media--rev>.media__img {
+.media--small.media--rev > .media__img {
   margin-right: 0;
   margin-left: 15px
 }
 
-.media--large>.media__img {
+.media--large > .media__img {
   margin-right: 60px
 }
 
-.media--large.media--rev>.media__img {
+.media--large.media--rev > .media__img {
   margin-right: 0;
   margin-left: 60px
 }
 
-.media--huge>.media__img {
+.media--huge > .media__img {
   margin-right: 120px
 }
 
-.media--huge.media--rev>.media__img {
+.media--huge.media--rev > .media__img {
   margin-right: 0;
   margin-left: 120px
 }
 
-.media--rev>.media__img {
+.media--rev > .media__img {
   float: right;
   margin-right: 0;
   margin-left: 30px
 }
 
-.media--flush>.media__img {
+.media--flush > .media__img {
   margin-right: 0;
   margin-left: 0
 }
 
 @media screen and (max-width: 720px) {
-  .media--responsive>.media__img {
+  .media--responsive > .media__img {
     float: none;
     margin-right: 0;
     margin-bottom: 30px;
     margin-left: 0
   }
-  .media--responsive.media--tiny>.media__img {
+
+  .media--responsive.media--tiny > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 8px
   }
-  .media--responsive.media--small>.media__img {
+
+  .media--responsive.media--small > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 15px
   }
-  .media--responsive.media--large>.media__img {
+
+  .media--responsive.media--large > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 60px
   }
-  .media--responsive.media--huge>.media__img {
+
+  .media--responsive.media--huge > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 120px
@@ -4108,8 +4990,7 @@ li>ol {
   border-radius: 50%
 }
 
-.fake-icon-plus:after,
-.fake-icon-plus:before {
+.fake-icon-plus:after, .fake-icon-plus:before {
   content: '';
   background: #fff;
   position: absolute;
@@ -4200,8 +5081,7 @@ li>ol {
   position: relative
 }
 
-.has-avatar-multy:before,
-.has-avatar-multy:after {
+.has-avatar-multy:before, .has-avatar-multy:after {
   content: "";
   display: block;
   position: absolute;
@@ -4375,7 +5255,7 @@ li>ol {
   transition: ease 0.25s all
 }
 
-.link-blank>span {
+.link-blank > span {
   color: #bcc7cd
 }
 
@@ -4413,7 +5293,7 @@ li>ol {
   list-style: none
 }
 
-.list-inline>li {
+.list-inline > li {
   display: inline-block
 }
 
@@ -4422,7 +5302,7 @@ li>ol {
   padding: 30px
 }
 
-.box>:last-child {
+.box > :last-child {
   margin-bottom: 0
 }
 
@@ -4444,7 +5324,7 @@ li>ol {
   margin-left: -8px
 }
 
-.layout--tiny>.layout__item {
+.layout--tiny > .layout__item {
   padding-left: 8px
 }
 
@@ -4452,7 +5332,7 @@ li>ol {
   margin-left: -15px
 }
 
-.layout--small>.layout__item {
+.layout--small > .layout__item {
   padding-left: 15px
 }
 
@@ -4460,7 +5340,7 @@ li>ol {
   margin-left: -60px
 }
 
-.layout--large>.layout__item {
+.layout--large > .layout__item {
   padding-left: 60px
 }
 
@@ -4468,7 +5348,7 @@ li>ol {
   margin-left: -120px
 }
 
-.layout--huge>.layout__item {
+.layout--huge > .layout__item {
   padding-left: 120px
 }
 
@@ -4476,7 +5356,7 @@ li>ol {
   margin-left: 0
 }
 
-.layout--flush>.layout__item {
+.layout--flush > .layout__item {
   padding-left: 0
 }
 
@@ -4485,16 +5365,16 @@ li>ol {
   text-align: left
 }
 
-.layout--rev>.layout__item {
+.layout--rev > .layout__item {
   direction: ltr;
   text-align: left
 }
 
-.layout--middle>.layout__item {
+.layout--middle > .layout__item {
   vertical-align: middle
 }
 
-.layout--bottom>.layout__item {
+.layout--bottom > .layout__item {
   vertical-align: bottom
 }
 
@@ -4502,7 +5382,7 @@ li>ol {
   text-align: right
 }
 
-.layout--right>.layout__item {
+.layout--right > .layout__item {
   text-align: left
 }
 
@@ -4510,11 +5390,11 @@ li>ol {
   text-align: center
 }
 
-.layout--center>.layout__item {
+.layout--center > .layout__item {
   text-align: left
 }
 
-.layout--auto>.layout__item {
+.layout--auto > .layout__item {
   width: auto
 }
 
@@ -4541,7 +5421,7 @@ li>ol {
   margin-top: -8px
 }
 
-.layout--tiny>.layout__item {
+.layout--tiny > .layout__item {
   margin-bottom: 8px
 }
 
@@ -4549,7 +5429,7 @@ li>ol {
   margin-top: -15px
 }
 
-.layout--small>.layout__item {
+.layout--small > .layout__item {
   margin-bottom: 15px
 }
 
@@ -4557,7 +5437,7 @@ li>ol {
   margin-top: -60px
 }
 
-.layout--large>.layout__item {
+.layout--large > .layout__item {
   margin-bottom: 60px
 }
 
@@ -4565,7 +5445,7 @@ li>ol {
   margin-top: -120px
 }
 
-.layout--huge>.layout__item {
+.layout--huge > .layout__item {
   margin-bottom: 120px
 }
 
@@ -4573,7 +5453,7 @@ li>ol {
   margin-top: 0
 }
 
-.layout--flush>.layout__item {
+.layout--flush > .layout__item {
   margin-bottom: 0
 }
 
@@ -4831,14 +5711,12 @@ li>ol {
   width: 30px
 }
 
-.c-checkbox,
-.c-radio {
+.c-checkbox, .c-radio {
   cursor: pointer;
   display: block
 }
 
-.c-radio__input,
-.c-checkbox__input {
+.c-radio__input, .c-checkbox__input {
   border: 0;
   clip: rect(1px, 1px, 1px, 1px);
   height: 1px;
@@ -4848,7 +5726,7 @@ li>ol {
   position: absolute
 }
 
-.c-radio__input+.c-radio__trigger {
+.c-radio__input + .c-radio__trigger {
   background-color: #fff;
   border: 1px solid #bcc7cd;
   border-radius: 50px;
@@ -4860,18 +5738,18 @@ li>ol {
   margin: 0 13px -5px 0
 }
 
-.c-radio__input+.c-radio__trigger.c-radio__trigger--transparent {
+.c-radio__input + .c-radio__trigger.c-radio__trigger--transparent {
   background: transparent
 }
 
-.c-radio__input:checked+.c-radio__trigger {
+.c-radio__input:checked + .c-radio__trigger {
   background-color: #39c9f5;
   width: 18px;
   height: 18px;
   border-color: #39c9f5
 }
 
-.c-radio__input:checked+.c-radio__trigger:after {
+.c-radio__input:checked + .c-radio__trigger:after {
   background: #fff;
   border-radius: 50px;
   content: " ";
@@ -4882,7 +5760,7 @@ li>ol {
   width: 6px
 }
 
-.c-radio .c-radio__input:disabled+.c-radio__trigger {
+.c-radio .c-radio__input:disabled + .c-radio__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
@@ -4892,17 +5770,17 @@ li>ol {
   border-color: #bcc7cd
 }
 
-.c-radio:hover .c-radio__input:disabled+.c-radio__trigger {
+.c-radio:hover .c-radio__input:disabled + .c-radio__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
 
-.c-radio__input:checked+.c-radio__trigger {
+.c-radio__input:checked + .c-radio__trigger {
   background-color: #39c9f5;
   border-color: #39c9f5
 }
 
-.c-checkbox__input+.c-checkbox__trigger {
+.c-checkbox__input + .c-checkbox__trigger {
   background-color: #eff4f6;
   border: 1px solid #bcc7cd;
   border-radius: 2px;
@@ -4913,12 +5791,12 @@ li>ol {
   margin: 0 13px -5px 0
 }
 
-.c-checkbox__input+.c-checkbox__trigger.c-radio__trigger--transparent {
+.c-checkbox__input + .c-checkbox__trigger.c-radio__trigger--transparent {
   border: 1px solid #bec5c9;
   background: transparent
 }
 
-.c-checkbox .c-checkbox__input:disabled+.c-checkbox__trigger {
+.c-checkbox .c-checkbox__input:disabled + .c-checkbox__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
@@ -4928,17 +5806,17 @@ li>ol {
   border-color: #bcc7cd
 }
 
-.c-checkbox:hover .c-checkbox__input:disabled+.c-checkbox__trigger {
+.c-checkbox:hover .c-checkbox__input:disabled + .c-checkbox__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
 
-.c-checkbox__input:checked+.c-checkbox__trigger {
+.c-checkbox__input:checked + .c-checkbox__trigger {
   background-color: #39c9f5;
   border-color: #39c9f5
 }
 
-.c-checkbox__input:checked+.c-checkbox__trigger:after {
+.c-checkbox__input:checked + .c-checkbox__trigger:after {
   color: #fff;
   content: url("../images/checker.svg");
   width: 13px;
@@ -4948,8 +5826,7 @@ li>ol {
   bottom: 10px
 }
 
-.c-radio__label,
-.c-checkbox__label {
+.c-radio__label, .c-checkbox__label {
   cursor: pointer;
   color: #3d474d;
   text-transform: uppercase;
@@ -4958,10 +5835,7 @@ li>ol {
   font-family: "Montserrat", sans-serif
 }
 
-.c-radio__label.c-radio__label--unprominent,
-.c-radio__label.c-checkbox__label--unprominent,
-.c-checkbox__label.c-radio__label--unprominent,
-.c-checkbox__label.c-checkbox__label--unprominent {
+.c-radio__label.c-radio__label--unprominent, .c-radio__label.c-checkbox__label--unprominent, .c-checkbox__label.c-radio__label--unprominent, .c-checkbox__label.c-checkbox__label--unprominent {
   font-weight: 400;
   font-size: 11px;
   letter-spacing: 1px;
@@ -5039,7 +5913,7 @@ li>ol {
 }
 
 .push-menu--right.is-open {
-  right: 0px
+  /*right: 0px*/
 }
 
 .push-menu-push {
@@ -5054,7 +5928,7 @@ li>ol {
 }
 
 .push-menu-push--toleft {
-  left: -270px
+  /*left: -270px*/
 }
 
 .push-menu__logo {
@@ -5100,8 +5974,7 @@ li>ol {
   padding-right: 8px
 }
 
-.mob-header .text-right,
-.mob-header .text-left {
+.mob-header .text-right, .mob-header .text-left {
   font-family: "Montserrat", sans-serif;
   font-size: 12px
 }
@@ -5159,8 +6032,7 @@ li>ol {
   color: #fff
 }
 
-.mob-header__right-push,
-.mob-header__left-push {
+.mob-header__right-push, .mob-header__left-push {
   display: block;
   height: 40px;
   padding-top: 7px;
@@ -5202,7 +6074,8 @@ li>ol {
 }
 
 .mob-header-tabs li a {
-  color: #71828b
+  color: #71828b;
+  display: block
 }
 
 .mob-header-tabs li a:hover {
@@ -5629,7 +6502,7 @@ li>ol {
 }
 
 .c-input.c-input--prominent {
-  font-size: 12px;
+  font-size: 13px;
   color: #3d474d
 }
 
@@ -5659,7 +6532,8 @@ li>ol {
 
 .c-input.c-input--uppercase {
   font-size: 10px;
-  text-transform: uppercase
+  text-transform: uppercase;
+  font-family: "Open Sans", sans-serif
 }
 
 .c-input--error {
@@ -5695,8 +6569,7 @@ li>ol {
   min-height: 83px
 }
 
-.c-input--textarea-noborder:focus,
-.c-input--textarea-noborder:hover {
+.c-input--textarea-noborder:focus, .c-input--textarea-noborder:hover {
   background: transparent
 }
 
@@ -5738,6 +6611,11 @@ li>ol {
 
 .c-input--textarea--new-message {
   height: 100px
+}
+
+.c-input--textarea--new-message-short {
+  height: 43px;
+  min-height: 43px
 }
 
 .has-c-input--comment {
@@ -5782,6 +6660,14 @@ li>ol {
   content: attr(placeholder) !important
 }
 
+input[type=date] {
+  display: block;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  line-height: 40px
+}
+
 .search {
   background: #fff;
   position: relative;
@@ -5814,12 +6700,12 @@ li>ol {
   height: 55px
 }
 
-.search .search__top>.icon {
+.search .search__top > .icon {
   left: 4px;
   top: 9px
 }
 
-.search .search__top>.btn {
+.search .search__top > .btn {
   position: absolute;
   right: 1px;
   top: 50%;
@@ -5912,7 +6798,7 @@ li>ol {
   margin: 0 9px 0 7px
 }
 
-.search__top>.icon {
+.search__top > .icon {
   position: absolute;
   top: 22px;
   left: 30px;
@@ -5983,8 +6869,7 @@ li>ol {
   text-decoration: none
 }
 
-.user-card__similarity__value,
-.user-card__similarity__label {
+.user-card__similarity__value, .user-card__similarity__label {
   font-size: 10px;
   text-transform: uppercase;
   color: #63727a
@@ -6255,8 +7140,7 @@ li>ol {
   opacity: 0
 }
 
-.match-profile__avatar-place .match-percent-large,
-.match-profile__avatar-place .match-percent-large-fake {
+.match-profile__avatar-place .match-percent-large, .match-profile__avatar-place .match-percent-large-fake {
   position: absolute;
   top: -5px;
   left: 50%;
@@ -6395,8 +7279,7 @@ li>ol {
   padding: 25px 30px
 }
 
-.profile-box__toggle,
-.profile-tab__list__toggle {
+.profile-box__toggle, .profile-tab__list__toggle {
   text-align: center;
   display: block;
   background: #fff;
@@ -6404,8 +7287,7 @@ li>ol {
   top: -13px
 }
 
-.profile-box__toggle .icon,
-.profile-tab__list__toggle .icon {
+.profile-box__toggle .icon, .profile-tab__list__toggle .icon {
   fill: #c5cacb
 }
 
@@ -6752,11 +7634,11 @@ li>ol {
   margin-bottom: 180px
 }
 
-.filter .c-radio__input+.c-radio__trigger {
+.filter .c-radio__input + .c-radio__trigger {
   background: transparent
 }
 
-.filter .c-radio__input:checked+.c-radio__trigger {
+.filter .c-radio__input:checked + .c-radio__trigger {
   background: #39c9f5
 }
 
@@ -6798,6 +7680,12 @@ li>ol {
   position: fixed;
   width: 100%;
   left: 0
+}
+
+.filter__item-set-location .c-input {
+  font-size: 13px;
+  text-transform: none;
+  font-family: "Open Sans", sans-serif
 }
 
 .filter__item--keywords .c-input-icon-holder:after {
@@ -6874,9 +7762,7 @@ li>ol {
   height: 3px
 }
 
-.irs-line-mid,
-.irs-line-left,
-.irs-line-right {
+.irs-line-mid, .irs-line-left, .irs-line-right {
   background: transparent
 }
 
@@ -6891,9 +7777,7 @@ li>ol {
   height: 3px
 }
 
-.irs-from,
-.irs-to,
-.irs-single {
+.irs-from, .irs-to, .irs-single {
   display: none
 }
 
@@ -7001,8 +7885,7 @@ li>ol {
   margin-top: -5px
 }
 
-.edit-info-list__label-preamp,
-.edit-info-list__value-preamp {
+.edit-info-list__label-preamp, .edit-info-list__value-preamp {
   height: 40px;
   padding: 0 15px
 }
@@ -7134,13 +8017,11 @@ li>ol {
   display: block
 }
 
-.profile-edit__photos__thumb-photo-container,
-.profile-edit__photos__main-photo-container {
+.profile-edit__photos__thumb-photo-container, .profile-edit__photos__main-photo-container {
   position: relative
 }
 
-.profile-edit__photos__thumb-photo-container .is-over-target,
-.profile-edit__photos__main-photo-container .is-over-target {
+.profile-edit__photos__thumb-photo-container .is-over-target, .profile-edit__photos__main-photo-container .is-over-target {
   position: absolute;
   z-index: 10001;
   width: inherit;
@@ -7174,13 +8055,11 @@ li>ol {
   margin-bottom: 10px
 }
 
-.profile-edit__photos__thumb-photo,
-.profile-edit__photos__main-photo {
+.profile-edit__photos__thumb-photo, .profile-edit__photos__main-photo {
   position: relative
 }
 
-.profile-edit__photos__thumb-photo a,
-.profile-edit__photos__main-photo a {
+.profile-edit__photos__thumb-photo a, .profile-edit__photos__main-photo a {
   position: absolute;
   top: -5px;
   right: -5px;
@@ -7192,8 +8071,7 @@ li>ol {
   text-align: center
 }
 
-.profile-edit__photos__thumb-photo a .icon,
-.profile-edit__photos__main-photo a .icon {
+.profile-edit__photos__thumb-photo a .icon, .profile-edit__photos__main-photo a .icon {
   vertical-align: top;
   fill: #859095
 }
@@ -7213,8 +8091,7 @@ li>ol {
   font-family: "Montserrat", sans-serif
 }
 
-.profile-edit__photos__thumb-photo-upload,
-.profile-edit__photos__main-photo-upload {
+.profile-edit__photos__thumb-photo-upload, .profile-edit__photos__main-photo-upload {
   border: 1px solid #d0d4d6;
   width: 70px;
   height: 70px;
@@ -7224,8 +8101,7 @@ li>ol {
   background: #f8fcfd
 }
 
-.profile-edit__photos__thumb-photo-upload .icon,
-.profile-edit__photos__main-photo-upload .icon {
+.profile-edit__photos__thumb-photo-upload .icon, .profile-edit__photos__main-photo-upload .icon {
   fill: #39c9f5
 }
 
@@ -7356,7 +8232,8 @@ li>ol {
 }
 
 .mob-event-list-tooltip__event {
-  border-bottom: 1px solid #eff4f6
+  border-bottom: 1px solid #eff4f6;
+  min-height: 55px
 }
 
 .mob-event-list-tooltip__event__date-n-time {
@@ -7365,8 +8242,7 @@ li>ol {
   padding: 13px 10px 12px
 }
 
-.mob-event-list-tooltip__event__date,
-.mob-event-list-tooltip__event__time {
+.mob-event-list-tooltip__event__date, .mob-event-list-tooltip__event__time {
   font-size: 10px;
   color: #434f54;
   display: block;
@@ -7374,8 +8250,7 @@ li>ol {
   margin-bottom: 7px
 }
 
-.mob-event-list-tooltip__event__date b,
-.mob-event-list-tooltip__event__time b {
+.mob-event-list-tooltip__event__date b, .mob-event-list-tooltip__event__time b {
   font-weight: 400;
   font-family: "Open Sans", sans-serif;
   color: #8498a3
@@ -7387,7 +8262,7 @@ li>ol {
 
 .mob-event-list-tooltip__event__stat {
   font-family: "Montserrat", sans-serif;
-  margin-bottom: 5px;
+  margin-bottom: 5px !important;
   font-size: 0
 }
 
@@ -7400,6 +8275,12 @@ li>ol {
 
 .mob-event-list-tooltip__event__stat li:last-child {
   border-right: none
+}
+
+.mob-event-list-tooltip__event__stat.mob-event-list-tooltip__event__stat--stretch li {
+  min-width: 31%;
+  text-align: center;
+  white-space: nowrap
 }
 
 .mob-event-list-tooltip__event__status {
@@ -7478,7 +8359,7 @@ li>ol {
   outline: none
 }
 
-.picker--opened+.icon {
+.picker--opened + .icon {
   fill: #39c9f5
 }
 
@@ -7493,8 +8374,7 @@ li>ol {
   margin: 0
 }
 
-.picker__month,
-.picker__year {
+.picker__month, .picker__year {
   color: #434f54;
   font-style: normal
 }
@@ -7512,18 +8392,15 @@ li>ol {
   padding-bottom: 12px
 }
 
-.picker__nav--prev,
-.picker__nav--next {
+.picker__nav--prev, .picker__nav--next {
   top: 15px
 }
 
-.picker__nav--prev:before,
-.picker__nav--next:before {
+.picker__nav--prev:before, .picker__nav--next:before {
   border: none
 }
 
-.picker__nav--prev:hover,
-.picker__nav--next:hover {
+.picker__nav--prev:hover, .picker__nav--next:hover {
   background-color: transparent
 }
 
@@ -7570,8 +8447,7 @@ li>ol {
   background: #cbf1fc
 }
 
-.picker__day--selected,
-.picker--focused .picker__day--selected {
+.picker__day--selected, .picker--focused .picker__day--selected {
   background: #39c9f5
 }
 
@@ -7594,9 +8470,7 @@ li>ol {
   padding: 0 15px
 }
 
-.picker__button--today,
-.picker__button--clear,
-.picker__button--close {
+.picker__button--today, .picker__button--clear, .picker__button--close {
   padding: 17px;
   text-transform: uppercase;
   font-size: 11px;
@@ -7605,17 +8479,13 @@ li>ol {
   border-bottom: none
 }
 
-.picker__button--today:hover,
-.picker__button--clear:hover,
-.picker__button--close:hover {
+.picker__button--today:hover, .picker__button--clear:hover, .picker__button--close:hover {
   background: transparent;
   border-bottom: none;
   text-decoration: none
 }
 
-.picker__button--today:before,
-.picker__button--clear:before,
-.picker__button--close:before {
+.picker__button--today:before, .picker__button--clear:before, .picker__button--close:before {
   content: none
 }
 
@@ -7668,8 +8538,7 @@ li>ol {
   border-color: transparent
 }
 
-.picker--time .picker__holder .picker__list-item:hover,
-.picker--time .picker__holder .picker__list-item.picker__list-item--selected {
+.picker--time .picker__holder .picker__list-item:hover, .picker--time .picker__holder .picker__list-item.picker__list-item--selected {
   border-color: #dae1e6;
   background: #f8fcfd
 }
@@ -7694,8 +8563,7 @@ li>ol {
   line-height: 1.3
 }
 
-.event-summary.event-summary--smaller .event-summary__location,
-.event-summary.event-summary--smaller .event-summary__date-n-time {
+.event-summary.event-summary--smaller .event-summary__location, .event-summary.event-summary--smaller .event-summary__date-n-time {
   font-size: 11px
 }
 
@@ -7715,8 +8583,7 @@ li>ol {
   border: 1px solid #d9d9d9
 }
 
-.event-summary.event-summary--smaller .card__stat .layout__item,
-.event-summary.event-summary--smaller .card__stat .event-summary__status {
+.event-summary.event-summary--smaller .card__stat .layout__item, .event-summary.event-summary--smaller .card__stat .event-summary__status {
   height: 65px;
   line-height: 65px
 }
@@ -7729,10 +8596,7 @@ li>ol {
   height: 65px
 }
 
-.event-summary.event-summary--smaller.separated-left:after,
-.event-summary.event-summary--smaller.separated-left:before,
-.event-summary.event-summary--smaller.separated-right:after,
-.event-summary.event-summary--smaller.separated-right:before {
+.event-summary.event-summary--smaller.separated-left:after, .event-summary.event-summary--smaller.separated-left:before, .event-summary.event-summary--smaller.separated-right:after, .event-summary.event-summary--smaller.separated-right:before {
   height: 36px
 }
 
@@ -8203,13 +9067,11 @@ li>ol {
   opacity: 1
 }
 
-.card--user:hover .interest-list,
-.card--user:hover .interest-list-title {
+.card--user:hover .interest-list, .card--user:hover .interest-list-title {
   opacity: 0
 }
 
-.card--user.card--user-conected:hover .interest-list,
-.card--user.card--user-conected:hover .interest-list-title {
+.card--user.card--user-conected:hover .interest-list, .card--user.card--user-conected:hover .interest-list-title {
   opacity: 1
 }
 
@@ -8217,8 +9079,7 @@ li>ol {
   min-height: 79px
 }
 
-.card--user .interest-list,
-.card--user .interest-list-title {
+.card--user .interest-list, .card--user .interest-list-title {
   transition: ease .25s all
 }
 
@@ -8335,15 +9196,11 @@ li>ol {
   font-size: 0
 }
 
-.card__stat .layout__item.separated-left,
-.card__stat .layout__item.separated-right {
+.card__stat .layout__item.separated-left, .card__stat .layout__item.separated-right {
   position: relative
 }
 
-.card__stat .layout__item.separated-left:after,
-.card__stat .layout__item.separated-left:before,
-.card__stat .layout__item.separated-right:after,
-.card__stat .layout__item.separated-right:before {
+.card__stat .layout__item.separated-left:after, .card__stat .layout__item.separated-left:before, .card__stat .layout__item.separated-right:after, .card__stat .layout__item.separated-right:before {
   display: block;
   content: "";
   width: 1px;
@@ -8399,8 +9256,7 @@ li>ol {
   font-size: 11px
 }
 
-.card--new-event .card-stat__value,
-.card--new-event .card-stat__label {
+.card--new-event .card-stat__value, .card--new-event .card-stat__label {
   color: #dfe4e7
 }
 
@@ -8408,10 +9264,7 @@ li>ol {
   border-top: 1px solid #f1f1f1 !important
 }
 
-.card--new-event .separated-left:after,
-.card--new-event .separated-left:before,
-.card--new-event .separated-right:after,
-.card--new-event .separated-right:before {
+.card--new-event .separated-left:after, .card--new-event .separated-left:before, .card--new-event .separated-right:after, .card--new-event .separated-right:before {
   background: #f1f1f1 !important
 }
 
@@ -8666,7 +9519,8 @@ li>ol {
   font-size: 27px;
   font-family: "Open Sans", sans-serif;
   margin-bottom: 10px;
-  color: #434f54
+  color: #434f54;
+  line-height: 1.3
 }
 
 .noresult__par {
@@ -8734,6 +9588,10 @@ li>ol {
   border-bottom: 1px solid #dde2e4;
   padding: 15px;
   position: relative
+}
+
+.message.message-no-bottom {
+  border-bottom: none
 }
 
 .message__name {
@@ -8808,6 +9666,20 @@ li>ol {
   position: absolute;
   top: 8px;
   left: -13px
+}
+
+.message__text-list-event-info {
+  padding-top: 20px
+}
+
+.message__text-list-event-info li {
+  line-height: 1.7;
+  list-style-type: none;
+  font-size: 12px
+}
+
+.message__text-list-event-info li a {
+  color: #39c9f5
 }
 
 .message--unread {
@@ -9273,7 +10145,7 @@ li>ol {
   box-shadow: 0px 1px 3px 0px rgba(1, 2, 2, 0.051)
 }
 
-.remodal .search .search__top>.icon {
+.remodal .search .search__top > .icon {
   left: 24px
 }
 
@@ -9565,12 +10437,16 @@ li>ol {
   border-radius: 0 0 10px 10px
 }
 
+.remodal--mob-report__footer.remodal--mob-report__footer--disabled .btn-remodal--mob-report__footer-ok {
+  background: #bcc7cd !important;
+  pointer-events: none
+}
+
 .remodal--mob-report__content {
   padding: 20px
 }
 
-.remodal--mob-report__content p,
-.remodal--mob-report__content li {
+.remodal--mob-report__content p, .remodal--mob-report__content li {
   font-size: 13px;
   color: #63727a;
   text-align: left
@@ -9592,6 +10468,267 @@ li>ol {
   position: absolute;
   top: 12px;
   left: 17px
+}
+
+.mob-notification {
+  background: #a6e16c;
+  color: #fff;
+  padding: 0 5px;
+  transition: ease .3s all;
+  overflow: hidden;
+  height: 40px;
+  line-height: 40px
+}
+
+.mob-notification.is-removed {
+  height: 0;
+  margin-bottom: 0
+}
+
+.mob-notification .flag {
+  height: 40px
+}
+
+.mob-notification .flag .icon {
+  height: 32px;
+  width: 32px;
+  margin-top: -4px
+}
+
+.mob-notification .flag__img {
+  padding-right: 0
+}
+
+.notificaiton__message {
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: .5px;
+  font-size: 12px
+}
+
+.notification__close .icon {
+  margin-top: -4px;
+  height: 32px;
+  width: 32px
+}
+
+.notification__close:hover {
+  opacity: .8
+}
+
+.mob-calendar {
+  background: #fff;
+  border-bottom: 1px solid #dae1e6
+}
+
+.mob-calendar .fc-toolbar {
+  background: #eff4f6;
+  border-bottom: 1px solid #dae1e6;
+  height: 40px;
+  margin-bottom: 5px
+}
+
+.mob-calendar .fc-center h2 {
+  line-height: 40px
+}
+
+.mob-calendar .fc-day-number {
+  text-align: center !important;
+  font-size: 12px !important;
+  font-weight: 600;
+  color: #505b5f
+}
+
+.mob-calendar .fc-day-header {
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #8498a3;
+  font-weight: 400
+}
+
+.mob-calendar .fc-toolbar .fc-center h2 {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700
+}
+
+.mob-calendar .fc-basic-view .fc-body .fc-row {
+  min-height: 4px
+}
+
+.fc-unthemed .fc-today {
+  background: #39c9f5;
+  color: #fff
+}
+
+.fc-today {
+  font-weight: 700 !important
+}
+
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody, .fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-popover {
+  border-color: #fff !important
+}
+
+.fc-prev-button, .fc-next-button {
+  text-indent: -9999px;
+  border: 0;
+  width: 40px;
+  height: 40px !important;
+  display: block;
+  padding: 0;
+  cursor: pointer;
+  transition: ease .25s all;
+  box-shadow: none
+}
+
+.fc-prev-button {
+  background: url("../images/arrow_left.svg") center center no-repeat
+}
+
+.fc-next-button {
+  background: url("../images/arrow_right.svg") center center no-repeat;
+  right: 0
+}
+
+.fc th, .fc td {
+  line-height: 1.7 !important
+}
+
+.fc-event {
+  background-color: transparent;
+  color: #4b595e;
+  border: none;
+  padding-left: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inherit
+}
+
+.fc-event:hover {
+  color: inherit;
+  text-decoration: underline
+}
+
+.fc-event:before {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: #bcc7cd;
+  position: absolute;
+  content: '';
+  top: 5px;
+  left: 8px;
+  border-radius: 50%
+}
+
+.fc-event.fc-event--red:before {
+  background: #ec8672
+}
+
+.fc-event.fc-event--green:before {
+  background: #a6e16c
+}
+
+.fc-event.fc-event--blue:before {
+  background: #39c9f5
+}
+
+.fc-content-skeleton .fc-event--red {
+  position: relative
+}
+
+.fc-content-skeleton .fc-event--red:before {
+  background: #ec8672;
+  display: block;
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 50%;
+  margin-left: -3px;
+  border-radius: 50%
+}
+
+.fc-content-skeleton .fc-event--green {
+  position: relative
+}
+
+.fc-content-skeleton .fc-event--green:before {
+  background: #a6e16c;
+  display: block;
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 50%;
+  margin-left: -3px;
+  border-radius: 50%
+}
+
+.fc-content-skeleton .fc-event--blue {
+  position: relative
+}
+
+.fc-content-skeleton .fc-event--blue:before {
+  background: #39c9f5;
+  display: block;
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 50%;
+  margin-left: -3px;
+  border-radius: 50%
+}
+
+.fc-content-skeleton .fc-event--blue-triangle {
+  position: relative
+}
+
+.fc-content-skeleton .fc-event--blue-triangle:before {
+  display: block;
+  position: absolute;
+  content: '';
+  top: 0;
+  right: 7px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 5px 5px 0;
+  border-color: transparent #39c9f5 transparent transparent
+}
+
+.fc-content-skeleton .fc-event--green-dash {
+  position: relative
+}
+
+.fc-content-skeleton .fc-event--green-dash:before {
+  background: #a6e16c;
+  display: block;
+  width: 12px;
+  height: 2px;
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 50%;
+  margin-left: -6px
+}
+
+.mob-calendar-event-list {
+  background: #fff
+}
+
+.mob-calendar-event-list-title {
+  background: transparent url("image.png") left top no-repeat;
+  background: #eff4f6;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-family: "Montserrat", sans-serif;
+  line-height: 20px;
+  padding: 0 10px
 }
 
 .m {
@@ -10108,68 +11245,47 @@ li>ol {
   width: 100% !important
 }
 
-[class~="1/2"],
-[class~="2/4"],
-[class~="3/6"],
-[class~="4/8"],
-[class~="5/10"],
-[class~="6/12"] {
+[class~="1/2"], [class~="2/4"], [class~="3/6"], [class~="4/8"], [class~="5/10"], [class~="6/12"] {
   width: 50% !important
 }
 
-[class~="1/3"],
-[class~="2/6"],
-[class~="3/9"],
-[class~="4/12"] {
+[class~="1/3"], [class~="2/6"], [class~="3/9"], [class~="4/12"] {
   width: 33.3333333% !important
 }
 
-[class~="2/3"],
-[class~="4/6"],
-[class~="6/9"],
-[class~="8/12"] {
+[class~="2/3"], [class~="4/6"], [class~="6/9"], [class~="8/12"] {
   width: 66.6666666% !important
 }
 
-[class~="1/4"],
-[class~="2/8"],
-[class~="3/12"] {
+[class~="1/4"], [class~="2/8"], [class~="3/12"] {
   width: 25% !important
 }
 
-[class~="3/4"],
-[class~="6/8"],
-[class~="9/12"] {
+[class~="3/4"], [class~="6/8"], [class~="9/12"] {
   width: 75% !important
 }
 
-[class~="1/5"],
-[class~="2/10"] {
+[class~="1/5"], [class~="2/10"] {
   width: 20% !important
 }
 
-[class~="2/5"],
-[class~="4/10"] {
+[class~="2/5"], [class~="4/10"] {
   width: 40% !important
 }
 
-[class~="3/5"],
-[class~="6/10"] {
+[class~="3/5"], [class~="6/10"] {
   width: 60% !important
 }
 
-[class~="4/5"],
-[class~="8/10"] {
+[class~="4/5"], [class~="8/10"] {
   width: 80% !important
 }
 
-[class~="1/6"],
-[class~="2/12"] {
+[class~="1/6"], [class~="2/12"] {
   width: 16.6666666% !important
 }
 
-[class~="5/6"],
-[class~="10/12"] {
+[class~="5/6"], [class~="10/12"] {
   width: 83.3333333% !important
 }
 
@@ -10249,111 +11365,119 @@ li>ol {
   [class~="medium-1/1"] {
     width: 100% !important
   }
-  [class~="medium-1/2"],
-  [class~="medium-2/4"],
-  [class~="medium-3/6"],
-  [class~="medium-4/8"],
-  [class~="medium-5/10"],
-  [class~="medium-6/12"] {
+
+  [class~="medium-1/2"], [class~="medium-2/4"], [class~="medium-3/6"], [class~="medium-4/8"], [class~="medium-5/10"], [class~="medium-6/12"] {
     width: 50% !important
   }
-  [class~="medium-1/3"],
-  [class~="medium-2/6"],
-  [class~="medium-3/9"],
-  [class~="medium-4/12"] {
+
+  [class~="medium-1/3"], [class~="medium-2/6"], [class~="medium-3/9"], [class~="medium-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="medium-2/3"],
-  [class~="medium-4/6"],
-  [class~="medium-6/9"],
-  [class~="medium-8/12"] {
+
+  [class~="medium-2/3"], [class~="medium-4/6"], [class~="medium-6/9"], [class~="medium-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="medium-1/4"],
-  [class~="medium-2/8"],
-  [class~="medium-3/12"] {
+
+  [class~="medium-1/4"], [class~="medium-2/8"], [class~="medium-3/12"] {
     width: 25% !important
   }
-  [class~="medium-3/4"],
-  [class~="medium-6/8"],
-  [class~="medium-9/12"] {
+
+  [class~="medium-3/4"], [class~="medium-6/8"], [class~="medium-9/12"] {
     width: 75% !important
   }
-  [class~="medium-1/5"],
-  [class~="medium-2/10"] {
+
+  [class~="medium-1/5"], [class~="medium-2/10"] {
     width: 20% !important
   }
-  [class~="medium-2/5"],
-  [class~="medium-4/10"] {
+
+  [class~="medium-2/5"], [class~="medium-4/10"] {
     width: 40% !important
   }
-  [class~="medium-3/5"],
-  [class~="medium-6/10"] {
+
+  [class~="medium-3/5"], [class~="medium-6/10"] {
     width: 60% !important
   }
-  [class~="medium-4/5"],
-  [class~="medium-8/10"] {
+
+  [class~="medium-4/5"], [class~="medium-8/10"] {
     width: 80% !important
   }
-  [class~="medium-1/6"],
-  [class~="medium-2/12"] {
+
+  [class~="medium-1/6"], [class~="medium-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="medium-5/6"],
-  [class~="medium-10/12"] {
+
+  [class~="medium-5/6"], [class~="medium-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="medium-1/8"] {
     width: 12.5% !important
   }
+
   [class~="medium-3/8"] {
     width: 37.5% !important
   }
+
   [class~="medium-5/8"] {
     width: 62.5% !important
   }
+
   [class~="medium-7/8"] {
     width: 87.5% !important
   }
+
   [class~="medium-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="medium-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="medium-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="medium-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="medium-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="medium-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="medium-1/10"] {
     width: 10% !important
   }
+
   [class~="medium-3/10"] {
     width: 30% !important
   }
+
   [class~="medium-7/10"] {
     width: 70% !important
   }
+
   [class~="medium-9/10"] {
     width: 90% !important
   }
+
   [class~="medium-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="medium-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="medium-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="medium-11/12"] {
     width: 91.6666666% !important
   }
@@ -10363,111 +11487,119 @@ li>ol {
   [class~="medium-and-up-1/1"] {
     width: 100% !important
   }
-  [class~="medium-and-up-1/2"],
-  [class~="medium-and-up-2/4"],
-  [class~="medium-and-up-3/6"],
-  [class~="medium-and-up-4/8"],
-  [class~="medium-and-up-5/10"],
-  [class~="medium-and-up-6/12"] {
+
+  [class~="medium-and-up-1/2"], [class~="medium-and-up-2/4"], [class~="medium-and-up-3/6"], [class~="medium-and-up-4/8"], [class~="medium-and-up-5/10"], [class~="medium-and-up-6/12"] {
     width: 50% !important
   }
-  [class~="medium-and-up-1/3"],
-  [class~="medium-and-up-2/6"],
-  [class~="medium-and-up-3/9"],
-  [class~="medium-and-up-4/12"] {
+
+  [class~="medium-and-up-1/3"], [class~="medium-and-up-2/6"], [class~="medium-and-up-3/9"], [class~="medium-and-up-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="medium-and-up-2/3"],
-  [class~="medium-and-up-4/6"],
-  [class~="medium-and-up-6/9"],
-  [class~="medium-and-up-8/12"] {
+
+  [class~="medium-and-up-2/3"], [class~="medium-and-up-4/6"], [class~="medium-and-up-6/9"], [class~="medium-and-up-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="medium-and-up-1/4"],
-  [class~="medium-and-up-2/8"],
-  [class~="medium-and-up-3/12"] {
+
+  [class~="medium-and-up-1/4"], [class~="medium-and-up-2/8"], [class~="medium-and-up-3/12"] {
     width: 25% !important
   }
-  [class~="medium-and-up-3/4"],
-  [class~="medium-and-up-6/8"],
-  [class~="medium-and-up-9/12"] {
+
+  [class~="medium-and-up-3/4"], [class~="medium-and-up-6/8"], [class~="medium-and-up-9/12"] {
     width: 75% !important
   }
-  [class~="medium-and-up-1/5"],
-  [class~="medium-and-up-2/10"] {
+
+  [class~="medium-and-up-1/5"], [class~="medium-and-up-2/10"] {
     width: 20% !important
   }
-  [class~="medium-and-up-2/5"],
-  [class~="medium-and-up-4/10"] {
+
+  [class~="medium-and-up-2/5"], [class~="medium-and-up-4/10"] {
     width: 40% !important
   }
-  [class~="medium-and-up-3/5"],
-  [class~="medium-and-up-6/10"] {
+
+  [class~="medium-and-up-3/5"], [class~="medium-and-up-6/10"] {
     width: 60% !important
   }
-  [class~="medium-and-up-4/5"],
-  [class~="medium-and-up-8/10"] {
+
+  [class~="medium-and-up-4/5"], [class~="medium-and-up-8/10"] {
     width: 80% !important
   }
-  [class~="medium-and-up-1/6"],
-  [class~="medium-and-up-2/12"] {
+
+  [class~="medium-and-up-1/6"], [class~="medium-and-up-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="medium-and-up-5/6"],
-  [class~="medium-and-up-10/12"] {
+
+  [class~="medium-and-up-5/6"], [class~="medium-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="medium-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="medium-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="medium-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="medium-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="medium-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="medium-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="medium-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="medium-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="medium-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="medium-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="medium-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="medium-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="medium-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="medium-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="medium-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="medium-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="medium-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="medium-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -10477,111 +11609,119 @@ li>ol {
   [class~="large-1/1"] {
     width: 100% !important
   }
-  [class~="large-1/2"],
-  [class~="large-2/4"],
-  [class~="large-3/6"],
-  [class~="large-4/8"],
-  [class~="large-5/10"],
-  [class~="large-6/12"] {
+
+  [class~="large-1/2"], [class~="large-2/4"], [class~="large-3/6"], [class~="large-4/8"], [class~="large-5/10"], [class~="large-6/12"] {
     width: 50% !important
   }
-  [class~="large-1/3"],
-  [class~="large-2/6"],
-  [class~="large-3/9"],
-  [class~="large-4/12"] {
+
+  [class~="large-1/3"], [class~="large-2/6"], [class~="large-3/9"], [class~="large-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="large-2/3"],
-  [class~="large-4/6"],
-  [class~="large-6/9"],
-  [class~="large-8/12"] {
+
+  [class~="large-2/3"], [class~="large-4/6"], [class~="large-6/9"], [class~="large-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="large-1/4"],
-  [class~="large-2/8"],
-  [class~="large-3/12"] {
+
+  [class~="large-1/4"], [class~="large-2/8"], [class~="large-3/12"] {
     width: 25% !important
   }
-  [class~="large-3/4"],
-  [class~="large-6/8"],
-  [class~="large-9/12"] {
+
+  [class~="large-3/4"], [class~="large-6/8"], [class~="large-9/12"] {
     width: 75% !important
   }
-  [class~="large-1/5"],
-  [class~="large-2/10"] {
+
+  [class~="large-1/5"], [class~="large-2/10"] {
     width: 20% !important
   }
-  [class~="large-2/5"],
-  [class~="large-4/10"] {
+
+  [class~="large-2/5"], [class~="large-4/10"] {
     width: 40% !important
   }
-  [class~="large-3/5"],
-  [class~="large-6/10"] {
+
+  [class~="large-3/5"], [class~="large-6/10"] {
     width: 60% !important
   }
-  [class~="large-4/5"],
-  [class~="large-8/10"] {
+
+  [class~="large-4/5"], [class~="large-8/10"] {
     width: 80% !important
   }
-  [class~="large-1/6"],
-  [class~="large-2/12"] {
+
+  [class~="large-1/6"], [class~="large-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="large-5/6"],
-  [class~="large-10/12"] {
+
+  [class~="large-5/6"], [class~="large-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="large-1/8"] {
     width: 12.5% !important
   }
+
   [class~="large-3/8"] {
     width: 37.5% !important
   }
+
   [class~="large-5/8"] {
     width: 62.5% !important
   }
+
   [class~="large-7/8"] {
     width: 87.5% !important
   }
+
   [class~="large-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="large-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="large-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="large-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="large-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="large-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="large-1/10"] {
     width: 10% !important
   }
+
   [class~="large-3/10"] {
     width: 30% !important
   }
+
   [class~="large-7/10"] {
     width: 70% !important
   }
+
   [class~="large-9/10"] {
     width: 90% !important
   }
+
   [class~="large-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="large-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="large-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="large-11/12"] {
     width: 91.6666666% !important
   }
@@ -10591,111 +11731,119 @@ li>ol {
   [class~="large-and-up-1/1"] {
     width: 100% !important
   }
-  [class~="large-and-up-1/2"],
-  [class~="large-and-up-2/4"],
-  [class~="large-and-up-3/6"],
-  [class~="large-and-up-4/8"],
-  [class~="large-and-up-5/10"],
-  [class~="large-and-up-6/12"] {
+
+  [class~="large-and-up-1/2"], [class~="large-and-up-2/4"], [class~="large-and-up-3/6"], [class~="large-and-up-4/8"], [class~="large-and-up-5/10"], [class~="large-and-up-6/12"] {
     width: 50% !important
   }
-  [class~="large-and-up-1/3"],
-  [class~="large-and-up-2/6"],
-  [class~="large-and-up-3/9"],
-  [class~="large-and-up-4/12"] {
+
+  [class~="large-and-up-1/3"], [class~="large-and-up-2/6"], [class~="large-and-up-3/9"], [class~="large-and-up-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="large-and-up-2/3"],
-  [class~="large-and-up-4/6"],
-  [class~="large-and-up-6/9"],
-  [class~="large-and-up-8/12"] {
+
+  [class~="large-and-up-2/3"], [class~="large-and-up-4/6"], [class~="large-and-up-6/9"], [class~="large-and-up-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="large-and-up-1/4"],
-  [class~="large-and-up-2/8"],
-  [class~="large-and-up-3/12"] {
+
+  [class~="large-and-up-1/4"], [class~="large-and-up-2/8"], [class~="large-and-up-3/12"] {
     width: 25% !important
   }
-  [class~="large-and-up-3/4"],
-  [class~="large-and-up-6/8"],
-  [class~="large-and-up-9/12"] {
+
+  [class~="large-and-up-3/4"], [class~="large-and-up-6/8"], [class~="large-and-up-9/12"] {
     width: 75% !important
   }
-  [class~="large-and-up-1/5"],
-  [class~="large-and-up-2/10"] {
+
+  [class~="large-and-up-1/5"], [class~="large-and-up-2/10"] {
     width: 20% !important
   }
-  [class~="large-and-up-2/5"],
-  [class~="large-and-up-4/10"] {
+
+  [class~="large-and-up-2/5"], [class~="large-and-up-4/10"] {
     width: 40% !important
   }
-  [class~="large-and-up-3/5"],
-  [class~="large-and-up-6/10"] {
+
+  [class~="large-and-up-3/5"], [class~="large-and-up-6/10"] {
     width: 60% !important
   }
-  [class~="large-and-up-4/5"],
-  [class~="large-and-up-8/10"] {
+
+  [class~="large-and-up-4/5"], [class~="large-and-up-8/10"] {
     width: 80% !important
   }
-  [class~="large-and-up-1/6"],
-  [class~="large-and-up-2/12"] {
+
+  [class~="large-and-up-1/6"], [class~="large-and-up-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="large-and-up-5/6"],
-  [class~="large-and-up-10/12"] {
+
+  [class~="large-and-up-5/6"], [class~="large-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="large-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="large-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="large-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="large-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="large-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="large-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="large-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="large-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="large-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="large-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="large-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="large-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="large-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="large-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="large-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="large-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="large-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="large-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -10705,111 +11853,119 @@ li>ol {
   [class~="large-tweakup-1/1"] {
     width: 100% !important
   }
-  [class~="large-tweakup-1/2"],
-  [class~="large-tweakup-2/4"],
-  [class~="large-tweakup-3/6"],
-  [class~="large-tweakup-4/8"],
-  [class~="large-tweakup-5/10"],
-  [class~="large-tweakup-6/12"] {
+
+  [class~="large-tweakup-1/2"], [class~="large-tweakup-2/4"], [class~="large-tweakup-3/6"], [class~="large-tweakup-4/8"], [class~="large-tweakup-5/10"], [class~="large-tweakup-6/12"] {
     width: 50% !important
   }
-  [class~="large-tweakup-1/3"],
-  [class~="large-tweakup-2/6"],
-  [class~="large-tweakup-3/9"],
-  [class~="large-tweakup-4/12"] {
+
+  [class~="large-tweakup-1/3"], [class~="large-tweakup-2/6"], [class~="large-tweakup-3/9"], [class~="large-tweakup-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="large-tweakup-2/3"],
-  [class~="large-tweakup-4/6"],
-  [class~="large-tweakup-6/9"],
-  [class~="large-tweakup-8/12"] {
+
+  [class~="large-tweakup-2/3"], [class~="large-tweakup-4/6"], [class~="large-tweakup-6/9"], [class~="large-tweakup-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="large-tweakup-1/4"],
-  [class~="large-tweakup-2/8"],
-  [class~="large-tweakup-3/12"] {
+
+  [class~="large-tweakup-1/4"], [class~="large-tweakup-2/8"], [class~="large-tweakup-3/12"] {
     width: 25% !important
   }
-  [class~="large-tweakup-3/4"],
-  [class~="large-tweakup-6/8"],
-  [class~="large-tweakup-9/12"] {
+
+  [class~="large-tweakup-3/4"], [class~="large-tweakup-6/8"], [class~="large-tweakup-9/12"] {
     width: 75% !important
   }
-  [class~="large-tweakup-1/5"],
-  [class~="large-tweakup-2/10"] {
+
+  [class~="large-tweakup-1/5"], [class~="large-tweakup-2/10"] {
     width: 20% !important
   }
-  [class~="large-tweakup-2/5"],
-  [class~="large-tweakup-4/10"] {
+
+  [class~="large-tweakup-2/5"], [class~="large-tweakup-4/10"] {
     width: 40% !important
   }
-  [class~="large-tweakup-3/5"],
-  [class~="large-tweakup-6/10"] {
+
+  [class~="large-tweakup-3/5"], [class~="large-tweakup-6/10"] {
     width: 60% !important
   }
-  [class~="large-tweakup-4/5"],
-  [class~="large-tweakup-8/10"] {
+
+  [class~="large-tweakup-4/5"], [class~="large-tweakup-8/10"] {
     width: 80% !important
   }
-  [class~="large-tweakup-1/6"],
-  [class~="large-tweakup-2/12"] {
+
+  [class~="large-tweakup-1/6"], [class~="large-tweakup-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="large-tweakup-5/6"],
-  [class~="large-tweakup-10/12"] {
+
+  [class~="large-tweakup-5/6"], [class~="large-tweakup-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="large-tweakup-1/8"] {
     width: 12.5% !important
   }
+
   [class~="large-tweakup-3/8"] {
     width: 37.5% !important
   }
+
   [class~="large-tweakup-5/8"] {
     width: 62.5% !important
   }
+
   [class~="large-tweakup-7/8"] {
     width: 87.5% !important
   }
+
   [class~="large-tweakup-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="large-tweakup-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="large-tweakup-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="large-tweakup-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="large-tweakup-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="large-tweakup-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="large-tweakup-1/10"] {
     width: 10% !important
   }
+
   [class~="large-tweakup-3/10"] {
     width: 30% !important
   }
+
   [class~="large-tweakup-7/10"] {
     width: 70% !important
   }
+
   [class~="large-tweakup-9/10"] {
     width: 90% !important
   }
+
   [class~="large-tweakup-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="large-tweakup-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="large-tweakup-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="large-tweakup-11/12"] {
     width: 91.6666666% !important
   }
@@ -10819,111 +11975,119 @@ li>ol {
   [class~="large-tweakup-and-up-1/1"] {
     width: 100% !important
   }
-  [class~="large-tweakup-and-up-1/2"],
-  [class~="large-tweakup-and-up-2/4"],
-  [class~="large-tweakup-and-up-3/6"],
-  [class~="large-tweakup-and-up-4/8"],
-  [class~="large-tweakup-and-up-5/10"],
-  [class~="large-tweakup-and-up-6/12"] {
+
+  [class~="large-tweakup-and-up-1/2"], [class~="large-tweakup-and-up-2/4"], [class~="large-tweakup-and-up-3/6"], [class~="large-tweakup-and-up-4/8"], [class~="large-tweakup-and-up-5/10"], [class~="large-tweakup-and-up-6/12"] {
     width: 50% !important
   }
-  [class~="large-tweakup-and-up-1/3"],
-  [class~="large-tweakup-and-up-2/6"],
-  [class~="large-tweakup-and-up-3/9"],
-  [class~="large-tweakup-and-up-4/12"] {
+
+  [class~="large-tweakup-and-up-1/3"], [class~="large-tweakup-and-up-2/6"], [class~="large-tweakup-and-up-3/9"], [class~="large-tweakup-and-up-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="large-tweakup-and-up-2/3"],
-  [class~="large-tweakup-and-up-4/6"],
-  [class~="large-tweakup-and-up-6/9"],
-  [class~="large-tweakup-and-up-8/12"] {
+
+  [class~="large-tweakup-and-up-2/3"], [class~="large-tweakup-and-up-4/6"], [class~="large-tweakup-and-up-6/9"], [class~="large-tweakup-and-up-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="large-tweakup-and-up-1/4"],
-  [class~="large-tweakup-and-up-2/8"],
-  [class~="large-tweakup-and-up-3/12"] {
+
+  [class~="large-tweakup-and-up-1/4"], [class~="large-tweakup-and-up-2/8"], [class~="large-tweakup-and-up-3/12"] {
     width: 25% !important
   }
-  [class~="large-tweakup-and-up-3/4"],
-  [class~="large-tweakup-and-up-6/8"],
-  [class~="large-tweakup-and-up-9/12"] {
+
+  [class~="large-tweakup-and-up-3/4"], [class~="large-tweakup-and-up-6/8"], [class~="large-tweakup-and-up-9/12"] {
     width: 75% !important
   }
-  [class~="large-tweakup-and-up-1/5"],
-  [class~="large-tweakup-and-up-2/10"] {
+
+  [class~="large-tweakup-and-up-1/5"], [class~="large-tweakup-and-up-2/10"] {
     width: 20% !important
   }
-  [class~="large-tweakup-and-up-2/5"],
-  [class~="large-tweakup-and-up-4/10"] {
+
+  [class~="large-tweakup-and-up-2/5"], [class~="large-tweakup-and-up-4/10"] {
     width: 40% !important
   }
-  [class~="large-tweakup-and-up-3/5"],
-  [class~="large-tweakup-and-up-6/10"] {
+
+  [class~="large-tweakup-and-up-3/5"], [class~="large-tweakup-and-up-6/10"] {
     width: 60% !important
   }
-  [class~="large-tweakup-and-up-4/5"],
-  [class~="large-tweakup-and-up-8/10"] {
+
+  [class~="large-tweakup-and-up-4/5"], [class~="large-tweakup-and-up-8/10"] {
     width: 80% !important
   }
-  [class~="large-tweakup-and-up-1/6"],
-  [class~="large-tweakup-and-up-2/12"] {
+
+  [class~="large-tweakup-and-up-1/6"], [class~="large-tweakup-and-up-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="large-tweakup-and-up-5/6"],
-  [class~="large-tweakup-and-up-10/12"] {
+
+  [class~="large-tweakup-and-up-5/6"], [class~="large-tweakup-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="large-tweakup-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="large-tweakup-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="large-tweakup-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="large-tweakup-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="large-tweakup-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="large-tweakup-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="large-tweakup-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="large-tweakup-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="large-tweakup-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="large-tweakup-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="large-tweakup-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="large-tweakup-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="large-tweakup-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="large-tweakup-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="large-tweakup-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="large-tweakup-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="large-tweakup-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="large-tweakup-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -10933,111 +12097,119 @@ li>ol {
   [class~="extralarge-1/1"] {
     width: 100% !important
   }
-  [class~="extralarge-1/2"],
-  [class~="extralarge-2/4"],
-  [class~="extralarge-3/6"],
-  [class~="extralarge-4/8"],
-  [class~="extralarge-5/10"],
-  [class~="extralarge-6/12"] {
+
+  [class~="extralarge-1/2"], [class~="extralarge-2/4"], [class~="extralarge-3/6"], [class~="extralarge-4/8"], [class~="extralarge-5/10"], [class~="extralarge-6/12"] {
     width: 50% !important
   }
-  [class~="extralarge-1/3"],
-  [class~="extralarge-2/6"],
-  [class~="extralarge-3/9"],
-  [class~="extralarge-4/12"] {
+
+  [class~="extralarge-1/3"], [class~="extralarge-2/6"], [class~="extralarge-3/9"], [class~="extralarge-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="extralarge-2/3"],
-  [class~="extralarge-4/6"],
-  [class~="extralarge-6/9"],
-  [class~="extralarge-8/12"] {
+
+  [class~="extralarge-2/3"], [class~="extralarge-4/6"], [class~="extralarge-6/9"], [class~="extralarge-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="extralarge-1/4"],
-  [class~="extralarge-2/8"],
-  [class~="extralarge-3/12"] {
+
+  [class~="extralarge-1/4"], [class~="extralarge-2/8"], [class~="extralarge-3/12"] {
     width: 25% !important
   }
-  [class~="extralarge-3/4"],
-  [class~="extralarge-6/8"],
-  [class~="extralarge-9/12"] {
+
+  [class~="extralarge-3/4"], [class~="extralarge-6/8"], [class~="extralarge-9/12"] {
     width: 75% !important
   }
-  [class~="extralarge-1/5"],
-  [class~="extralarge-2/10"] {
+
+  [class~="extralarge-1/5"], [class~="extralarge-2/10"] {
     width: 20% !important
   }
-  [class~="extralarge-2/5"],
-  [class~="extralarge-4/10"] {
+
+  [class~="extralarge-2/5"], [class~="extralarge-4/10"] {
     width: 40% !important
   }
-  [class~="extralarge-3/5"],
-  [class~="extralarge-6/10"] {
+
+  [class~="extralarge-3/5"], [class~="extralarge-6/10"] {
     width: 60% !important
   }
-  [class~="extralarge-4/5"],
-  [class~="extralarge-8/10"] {
+
+  [class~="extralarge-4/5"], [class~="extralarge-8/10"] {
     width: 80% !important
   }
-  [class~="extralarge-1/6"],
-  [class~="extralarge-2/12"] {
+
+  [class~="extralarge-1/6"], [class~="extralarge-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="extralarge-5/6"],
-  [class~="extralarge-10/12"] {
+
+  [class~="extralarge-5/6"], [class~="extralarge-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="extralarge-1/8"] {
     width: 12.5% !important
   }
+
   [class~="extralarge-3/8"] {
     width: 37.5% !important
   }
+
   [class~="extralarge-5/8"] {
     width: 62.5% !important
   }
+
   [class~="extralarge-7/8"] {
     width: 87.5% !important
   }
+
   [class~="extralarge-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="extralarge-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="extralarge-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="extralarge-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="extralarge-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="extralarge-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="extralarge-1/10"] {
     width: 10% !important
   }
+
   [class~="extralarge-3/10"] {
     width: 30% !important
   }
+
   [class~="extralarge-7/10"] {
     width: 70% !important
   }
+
   [class~="extralarge-9/10"] {
     width: 90% !important
   }
+
   [class~="extralarge-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="extralarge-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="extralarge-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="extralarge-11/12"] {
     width: 91.6666666% !important
   }
@@ -11047,111 +12219,119 @@ li>ol {
   [class~="extralarge-and-up-1/1"] {
     width: 100% !important
   }
-  [class~="extralarge-and-up-1/2"],
-  [class~="extralarge-and-up-2/4"],
-  [class~="extralarge-and-up-3/6"],
-  [class~="extralarge-and-up-4/8"],
-  [class~="extralarge-and-up-5/10"],
-  [class~="extralarge-and-up-6/12"] {
+
+  [class~="extralarge-and-up-1/2"], [class~="extralarge-and-up-2/4"], [class~="extralarge-and-up-3/6"], [class~="extralarge-and-up-4/8"], [class~="extralarge-and-up-5/10"], [class~="extralarge-and-up-6/12"] {
     width: 50% !important
   }
-  [class~="extralarge-and-up-1/3"],
-  [class~="extralarge-and-up-2/6"],
-  [class~="extralarge-and-up-3/9"],
-  [class~="extralarge-and-up-4/12"] {
+
+  [class~="extralarge-and-up-1/3"], [class~="extralarge-and-up-2/6"], [class~="extralarge-and-up-3/9"], [class~="extralarge-and-up-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="extralarge-and-up-2/3"],
-  [class~="extralarge-and-up-4/6"],
-  [class~="extralarge-and-up-6/9"],
-  [class~="extralarge-and-up-8/12"] {
+
+  [class~="extralarge-and-up-2/3"], [class~="extralarge-and-up-4/6"], [class~="extralarge-and-up-6/9"], [class~="extralarge-and-up-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="extralarge-and-up-1/4"],
-  [class~="extralarge-and-up-2/8"],
-  [class~="extralarge-and-up-3/12"] {
+
+  [class~="extralarge-and-up-1/4"], [class~="extralarge-and-up-2/8"], [class~="extralarge-and-up-3/12"] {
     width: 25% !important
   }
-  [class~="extralarge-and-up-3/4"],
-  [class~="extralarge-and-up-6/8"],
-  [class~="extralarge-and-up-9/12"] {
+
+  [class~="extralarge-and-up-3/4"], [class~="extralarge-and-up-6/8"], [class~="extralarge-and-up-9/12"] {
     width: 75% !important
   }
-  [class~="extralarge-and-up-1/5"],
-  [class~="extralarge-and-up-2/10"] {
+
+  [class~="extralarge-and-up-1/5"], [class~="extralarge-and-up-2/10"] {
     width: 20% !important
   }
-  [class~="extralarge-and-up-2/5"],
-  [class~="extralarge-and-up-4/10"] {
+
+  [class~="extralarge-and-up-2/5"], [class~="extralarge-and-up-4/10"] {
     width: 40% !important
   }
-  [class~="extralarge-and-up-3/5"],
-  [class~="extralarge-and-up-6/10"] {
+
+  [class~="extralarge-and-up-3/5"], [class~="extralarge-and-up-6/10"] {
     width: 60% !important
   }
-  [class~="extralarge-and-up-4/5"],
-  [class~="extralarge-and-up-8/10"] {
+
+  [class~="extralarge-and-up-4/5"], [class~="extralarge-and-up-8/10"] {
     width: 80% !important
   }
-  [class~="extralarge-and-up-1/6"],
-  [class~="extralarge-and-up-2/12"] {
+
+  [class~="extralarge-and-up-1/6"], [class~="extralarge-and-up-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="extralarge-and-up-5/6"],
-  [class~="extralarge-and-up-10/12"] {
+
+  [class~="extralarge-and-up-5/6"], [class~="extralarge-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="extralarge-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="extralarge-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="extralarge-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="extralarge-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="extralarge-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="extralarge-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="extralarge-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="extralarge-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="extralarge-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="extralarge-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="extralarge-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="extralarge-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="extralarge-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="extralarge-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="extralarge-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="extralarge-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="extralarge-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="extralarge-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -11161,111 +12341,119 @@ li>ol {
   [class~="huge-1/1"] {
     width: 100% !important
   }
-  [class~="huge-1/2"],
-  [class~="huge-2/4"],
-  [class~="huge-3/6"],
-  [class~="huge-4/8"],
-  [class~="huge-5/10"],
-  [class~="huge-6/12"] {
+
+  [class~="huge-1/2"], [class~="huge-2/4"], [class~="huge-3/6"], [class~="huge-4/8"], [class~="huge-5/10"], [class~="huge-6/12"] {
     width: 50% !important
   }
-  [class~="huge-1/3"],
-  [class~="huge-2/6"],
-  [class~="huge-3/9"],
-  [class~="huge-4/12"] {
+
+  [class~="huge-1/3"], [class~="huge-2/6"], [class~="huge-3/9"], [class~="huge-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="huge-2/3"],
-  [class~="huge-4/6"],
-  [class~="huge-6/9"],
-  [class~="huge-8/12"] {
+
+  [class~="huge-2/3"], [class~="huge-4/6"], [class~="huge-6/9"], [class~="huge-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="huge-1/4"],
-  [class~="huge-2/8"],
-  [class~="huge-3/12"] {
+
+  [class~="huge-1/4"], [class~="huge-2/8"], [class~="huge-3/12"] {
     width: 25% !important
   }
-  [class~="huge-3/4"],
-  [class~="huge-6/8"],
-  [class~="huge-9/12"] {
+
+  [class~="huge-3/4"], [class~="huge-6/8"], [class~="huge-9/12"] {
     width: 75% !important
   }
-  [class~="huge-1/5"],
-  [class~="huge-2/10"] {
+
+  [class~="huge-1/5"], [class~="huge-2/10"] {
     width: 20% !important
   }
-  [class~="huge-2/5"],
-  [class~="huge-4/10"] {
+
+  [class~="huge-2/5"], [class~="huge-4/10"] {
     width: 40% !important
   }
-  [class~="huge-3/5"],
-  [class~="huge-6/10"] {
+
+  [class~="huge-3/5"], [class~="huge-6/10"] {
     width: 60% !important
   }
-  [class~="huge-4/5"],
-  [class~="huge-8/10"] {
+
+  [class~="huge-4/5"], [class~="huge-8/10"] {
     width: 80% !important
   }
-  [class~="huge-1/6"],
-  [class~="huge-2/12"] {
+
+  [class~="huge-1/6"], [class~="huge-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="huge-5/6"],
-  [class~="huge-10/12"] {
+
+  [class~="huge-5/6"], [class~="huge-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="huge-1/8"] {
     width: 12.5% !important
   }
+
   [class~="huge-3/8"] {
     width: 37.5% !important
   }
+
   [class~="huge-5/8"] {
     width: 62.5% !important
   }
+
   [class~="huge-7/8"] {
     width: 87.5% !important
   }
+
   [class~="huge-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="huge-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="huge-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="huge-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="huge-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="huge-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="huge-1/10"] {
     width: 10% !important
   }
+
   [class~="huge-3/10"] {
     width: 30% !important
   }
+
   [class~="huge-7/10"] {
     width: 70% !important
   }
+
   [class~="huge-9/10"] {
     width: 90% !important
   }
+
   [class~="huge-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="huge-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="huge-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="huge-11/12"] {
     width: 91.6666666% !important
   }
@@ -11275,111 +12463,119 @@ li>ol {
   [class~="huge-and-up-1/1"] {
     width: 100% !important
   }
-  [class~="huge-and-up-1/2"],
-  [class~="huge-and-up-2/4"],
-  [class~="huge-and-up-3/6"],
-  [class~="huge-and-up-4/8"],
-  [class~="huge-and-up-5/10"],
-  [class~="huge-and-up-6/12"] {
+
+  [class~="huge-and-up-1/2"], [class~="huge-and-up-2/4"], [class~="huge-and-up-3/6"], [class~="huge-and-up-4/8"], [class~="huge-and-up-5/10"], [class~="huge-and-up-6/12"] {
     width: 50% !important
   }
-  [class~="huge-and-up-1/3"],
-  [class~="huge-and-up-2/6"],
-  [class~="huge-and-up-3/9"],
-  [class~="huge-and-up-4/12"] {
+
+  [class~="huge-and-up-1/3"], [class~="huge-and-up-2/6"], [class~="huge-and-up-3/9"], [class~="huge-and-up-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="huge-and-up-2/3"],
-  [class~="huge-and-up-4/6"],
-  [class~="huge-and-up-6/9"],
-  [class~="huge-and-up-8/12"] {
+
+  [class~="huge-and-up-2/3"], [class~="huge-and-up-4/6"], [class~="huge-and-up-6/9"], [class~="huge-and-up-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="huge-and-up-1/4"],
-  [class~="huge-and-up-2/8"],
-  [class~="huge-and-up-3/12"] {
+
+  [class~="huge-and-up-1/4"], [class~="huge-and-up-2/8"], [class~="huge-and-up-3/12"] {
     width: 25% !important
   }
-  [class~="huge-and-up-3/4"],
-  [class~="huge-and-up-6/8"],
-  [class~="huge-and-up-9/12"] {
+
+  [class~="huge-and-up-3/4"], [class~="huge-and-up-6/8"], [class~="huge-and-up-9/12"] {
     width: 75% !important
   }
-  [class~="huge-and-up-1/5"],
-  [class~="huge-and-up-2/10"] {
+
+  [class~="huge-and-up-1/5"], [class~="huge-and-up-2/10"] {
     width: 20% !important
   }
-  [class~="huge-and-up-2/5"],
-  [class~="huge-and-up-4/10"] {
+
+  [class~="huge-and-up-2/5"], [class~="huge-and-up-4/10"] {
     width: 40% !important
   }
-  [class~="huge-and-up-3/5"],
-  [class~="huge-and-up-6/10"] {
+
+  [class~="huge-and-up-3/5"], [class~="huge-and-up-6/10"] {
     width: 60% !important
   }
-  [class~="huge-and-up-4/5"],
-  [class~="huge-and-up-8/10"] {
+
+  [class~="huge-and-up-4/5"], [class~="huge-and-up-8/10"] {
     width: 80% !important
   }
-  [class~="huge-and-up-1/6"],
-  [class~="huge-and-up-2/12"] {
+
+  [class~="huge-and-up-1/6"], [class~="huge-and-up-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="huge-and-up-5/6"],
-  [class~="huge-and-up-10/12"] {
+
+  [class~="huge-and-up-5/6"], [class~="huge-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="huge-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="huge-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="huge-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="huge-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="huge-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="huge-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="huge-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="huge-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="huge-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="huge-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="huge-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="huge-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="huge-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="huge-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="huge-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="huge-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="huge-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="huge-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -11389,119 +12585,125 @@ li>ol {
   [class~="extrahuge-and-up-1/1"] {
     width: 100% !important
   }
-  [class~="extrahuge-and-up-1/2"],
-  [class~="extrahuge-and-up-2/4"],
-  [class~="extrahuge-and-up-3/6"],
-  [class~="extrahuge-and-up-4/8"],
-  [class~="extrahuge-and-up-5/10"],
-  [class~="extrahuge-and-up-6/12"] {
+
+  [class~="extrahuge-and-up-1/2"], [class~="extrahuge-and-up-2/4"], [class~="extrahuge-and-up-3/6"], [class~="extrahuge-and-up-4/8"], [class~="extrahuge-and-up-5/10"], [class~="extrahuge-and-up-6/12"] {
     width: 50% !important
   }
-  [class~="extrahuge-and-up-1/3"],
-  [class~="extrahuge-and-up-2/6"],
-  [class~="extrahuge-and-up-3/9"],
-  [class~="extrahuge-and-up-4/12"] {
+
+  [class~="extrahuge-and-up-1/3"], [class~="extrahuge-and-up-2/6"], [class~="extrahuge-and-up-3/9"], [class~="extrahuge-and-up-4/12"] {
     width: 33.3333333% !important
   }
-  [class~="extrahuge-and-up-2/3"],
-  [class~="extrahuge-and-up-4/6"],
-  [class~="extrahuge-and-up-6/9"],
-  [class~="extrahuge-and-up-8/12"] {
+
+  [class~="extrahuge-and-up-2/3"], [class~="extrahuge-and-up-4/6"], [class~="extrahuge-and-up-6/9"], [class~="extrahuge-and-up-8/12"] {
     width: 66.6666666% !important
   }
-  [class~="extrahuge-and-up-1/4"],
-  [class~="extrahuge-and-up-2/8"],
-  [class~="extrahuge-and-up-3/12"] {
+
+  [class~="extrahuge-and-up-1/4"], [class~="extrahuge-and-up-2/8"], [class~="extrahuge-and-up-3/12"] {
     width: 25% !important
   }
-  [class~="extrahuge-and-up-3/4"],
-  [class~="extrahuge-and-up-6/8"],
-  [class~="extrahuge-and-up-9/12"] {
+
+  [class~="extrahuge-and-up-3/4"], [class~="extrahuge-and-up-6/8"], [class~="extrahuge-and-up-9/12"] {
     width: 75% !important
   }
-  [class~="extrahuge-and-up-1/5"],
-  [class~="extrahuge-and-up-2/10"] {
+
+  [class~="extrahuge-and-up-1/5"], [class~="extrahuge-and-up-2/10"] {
     width: 20% !important
   }
-  [class~="extrahuge-and-up-2/5"],
-  [class~="extrahuge-and-up-4/10"] {
+
+  [class~="extrahuge-and-up-2/5"], [class~="extrahuge-and-up-4/10"] {
     width: 40% !important
   }
-  [class~="extrahuge-and-up-3/5"],
-  [class~="extrahuge-and-up-6/10"] {
+
+  [class~="extrahuge-and-up-3/5"], [class~="extrahuge-and-up-6/10"] {
     width: 60% !important
   }
-  [class~="extrahuge-and-up-4/5"],
-  [class~="extrahuge-and-up-8/10"] {
+
+  [class~="extrahuge-and-up-4/5"], [class~="extrahuge-and-up-8/10"] {
     width: 80% !important
   }
-  [class~="extrahuge-and-up-1/6"],
-  [class~="extrahuge-and-up-2/12"] {
+
+  [class~="extrahuge-and-up-1/6"], [class~="extrahuge-and-up-2/12"] {
     width: 16.6666666% !important
   }
-  [class~="extrahuge-and-up-5/6"],
-  [class~="extrahuge-and-up-10/12"] {
+
+  [class~="extrahuge-and-up-5/6"], [class~="extrahuge-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="extrahuge-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="extrahuge-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="extrahuge-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="extrahuge-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="extrahuge-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="extrahuge-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="extrahuge-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="extrahuge-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="extrahuge-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="extrahuge-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="extrahuge-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="extrahuge-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="extrahuge-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="extrahuge-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="extrahuge-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="extrahuge-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="extrahuge-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="extrahuge-and-up-11/12"] {
     width: 91.6666666% !important
   }
 }
 
-.clearfix:after,
-.media:after,
-.box:after {
+.clearfix:after, .media:after, .box:after {
   content: "";
   display: table;
   clear: both
@@ -11556,8 +12758,7 @@ li>ol {
   visibility: hidden !important
 }
 
-.no-transition,
-.no-transition * {
+.no-transition, .no-transition * {
   transition: none !important
 }
 
@@ -11637,26 +12838,26 @@ li>ol {
 }
 
 @media print {
-  *,
-  *:before,
-  *:after {
+  *, *:before, *:after {
     background: transparent !important;
     color: #000 !important;
     box-shadow: none !important;
     text-shadow: none !important
   }
-  a,
-  a:visited {
+
+  a, a:visited {
     text-decoration: underline
   }
+
   a[href]:after {
     content: " (" attr(href) ")"
   }
+
   abbr[title]:after {
     content: " (" attr(title) ")"
   }
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after {
+
+  a[href^="#"]:after, a[href^="javascript:"]:after {
     content: ""
   }
 }
