@@ -5,6 +5,7 @@ import {NoContentComponent} from './no-content';
 import {ConnectionsMobileComponent} from './connections';
 import {SettingsMobileComponent} from './settings';
 import {EventsMobileComponent} from './events';
+import {EventMobileComponent} from './events/event/event-mobile.component';
 import {AttendeesMobileComponent} from './events/attendees';
 import {UserProfileLoaderComponent} from './user-profile-loader';
 import {TermsOfServiceMobileComponent} from './info/terms-of-service';
@@ -31,6 +32,10 @@ export const rootRoutes: RouterConfig = [
   {
     path: 'events',
     component: EventsMobileComponent,
+  },
+  {
+    path: 'event/:eventId',
+    component: EventMobileComponent,
   },
   {
     path: 'attendees/:eventId',
