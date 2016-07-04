@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
+    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654",
     "angular-protractor": "registry:dt/angular-protractor#1.5.0+20160425143459",
     "core-js": "registry:dt/core-js#0.0.0+20160602141332",
     "hammerjs": "registry:dt/hammerjs#2.0.4+20160417130828",
@@ -8,8 +9,7 @@
     "selenium-webdriver": "registry:dt/selenium-webdriver#2.44.0+20160317120654",
     "source-map": "registry:dt/source-map#0.0.0+20160317120654",
     "uglify-js": "registry:dt/uglify-js#2.6.1+20160316155526",
-    "webpack": "registry:dt/webpack#1.12.9+20160523035535",
-    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654"
+    "webpack": "registry:dt/webpack#1.12.9+20160523035535"
   },
   "dependencies": {
     "lodash": "registry:npm/lodash#4.0.0+20160416211519"
