@@ -1,9 +1,4 @@
-import {provide} from '@angular/core';
-import {
-  ComponentInstruction,
-  Router,
-  RouteParams
-} from '@angular/router-deprecated';
+import {ComponentInstruction, Router, RouteParams} from '@angular/router-deprecated';
 import {Location, LocationStrategy} from '@angular/common';
 import {ResolvedInstruction} from '@angular/router-deprecated/src/instruction';
 import {SpyObject} from './helper';
@@ -11,7 +6,9 @@ import {SpyObject} from './helper';
 export class MockRouteParams extends SpyObject {
   private ROUTE_PARAMS = {};
 
-  constructor() { super(RouteParams); }
+  constructor() {
+    super(RouteParams);
+  }
 
   set(key: string, value: string) {
     this.ROUTE_PARAMS[key] = value;
@@ -23,8 +20,14 @@ export class MockRouteParams extends SpyObject {
 }
 
 export class MockRouter extends SpyObject {
-  constructor() { super(Router); }
-  isRouteActive(s) { return true; }
+  constructor() {
+    super(Router);
+  }
+
+  isRouteActive(s) {
+    return true;
+  }
+
   generate(s) {
     // let klass: any = ComponentInstruction; // hack b/c ComponentInstruction constructor typing isn't exposed
     let instruction: ComponentInstruction; //= new klass('detail', [], null, null, true, '0', null, 'Detail');
@@ -32,10 +35,14 @@ export class MockRouter extends SpyObject {
   }
 }
 export class MockLocationStrategy extends SpyObject {
-  constructor() { super(LocationStrategy); }
+  constructor() {
+    super(LocationStrategy);
+  }
 }
 export class MockLocation extends SpyObject {
-  constructor() { super(Location); }
+  constructor() {
+    super(Location);
+  }
 }
 
 export class MockRouterProvider {
@@ -50,10 +57,10 @@ export class MockRouterProvider {
 
   getProviders(): Array<any> {
     return [
-      provide(Router, {useValue: this.mockRouter}),
-      provide(RouteParams, {useValue: this.mockRouteParams}),
-      provide(Location, {useValue: this.mockLocation}),
-      provide(LocationStrategy, {useValue: this.mockLocationStrategy})
+      {provide: Router, useValue: this.mockRouter},
+      {provide: RouteParams, useValue: this.mockRouteParams},
+      {provide: Location, useValue: this.mockLocation},
+      {provide: LocationStrategy, useValue: this.mockLocationStrategy}
     ];
   }
 }

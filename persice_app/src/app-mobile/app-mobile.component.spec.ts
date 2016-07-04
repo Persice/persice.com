@@ -4,7 +4,7 @@ import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Location} from '@angular/common';
 import {MockBackend} from '@angular/http/testing';
-import {TEST_ROUTER_PROVIDERS_APP_MOBILE, advance} from '../common/test/mocks/router.mock';
+import {provideTestRouter, advance} from '../common/test/mocks/router.mock';
 import {AppMobileComponent} from './app-mobile.component';
 import {provideStore} from '@ngrx/store';
 import STORE_REDUCERS from '../common/reducers';
@@ -14,6 +14,7 @@ import {WebsocketService} from '../app/shared/services';
 import {AppStateService} from './shared/services';
 import {MockGeolocationService} from '../app/shared/services/mock-geolocation.service';
 import {UnreadMessagesCounterService, NewConnectionsCounterService} from '../common/services';
+import {routesAppMobile} from './app-mobile.routes';
 
 describe('App component mobile', () => {
 
@@ -23,7 +24,7 @@ describe('App component mobile', () => {
     mockGeolocationService = new MockGeolocationService();
 
     addProviders([
-      TEST_ROUTER_PROVIDERS_APP_MOBILE,
+      provideTestRouter(AppMobileComponent, routesAppMobile),
       AppStateService,
       UnreadMessagesCounterService,
       NewConnectionsCounterService,
