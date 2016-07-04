@@ -1,5 +1,5 @@
 import {
-  iit,
+  xit,
   expect,
   beforeEachProviders,
   describe
@@ -33,7 +33,7 @@ describe('Attendee service', () => {
     ];
   });
 
-  iit('Should initialize', (done: Function) => {
+  xit('Should initialize', (done: Function) => {
     expect(service).toBeDefined();
     done();
   });
