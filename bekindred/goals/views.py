@@ -53,9 +53,10 @@ def profile_view(request, username):
 
 @login_required
 def main_app(request, template_name="homepage_mainapp.html"):
-    if not request.user.is_staff and request.flavour == u'full':
-        logout(request)
-        return render_to_response("registration/login.html", {'hide': True})
+    # TODO: Uncomment after Facebook app review
+    # if not request.user.is_staff and request.flavour == u'full':
+    #     logout(request)
+    #     return render_to_response("registration/login.html", {'hide': True})
     twitter_provider, linkedin_provider, twitter_username, linkedin_first_name = social_extra_data(request.user.id)
     context = RequestContext(request, {
         'twitter_provider': twitter_provider,
