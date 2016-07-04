@@ -82,7 +82,7 @@ interface WebpackModule {
 }
 
 interface WebpackRequireEnsureCallback {
-  (req: WebpackRequire): void
+  (req: WebpackRequire): void;
 }
 
 interface WebpackRequire {
