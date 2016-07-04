@@ -79,11 +79,13 @@
       "firstName": "Andrii",
       "lastName": "Soldatenko",
       "pictureUrls": {
-        "values": ["https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/4/000/153/3da/294d2c7.jpg"]
+        "values": [
+          "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/4/000/153/3da/294d2c7.jpg"
+        ]
       },
       "public_profile_url": "https://www.linkedin.com/in/andriisoldatenko"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
@@ -135,7 +137,7 @@
       "user_id": "3",
       "username": "plvndvh_dinglesky_1422048137"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
@@ -187,7 +189,7 @@
       "user_id": "3",
       "username": "plvndvh_dinglesky_1422048137"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
@@ -239,7 +241,7 @@
       "user_id": "3",
       "username": "plvndvh_dinglesky_1422048137"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
@@ -291,7 +293,7 @@
       "user_id": "3",
       "username": "plvndvh_dinglesky_1422048137"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
@@ -343,7 +345,7 @@
       "user_id": "3",
       "username": "plvndvh_dinglesky_1422048137"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
@@ -395,7 +397,7 @@
       "user_id": "3",
       "username": "plvndvh_dinglesky_1422048137"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
@@ -447,7 +449,7 @@
       "user_id": "3",
       "username": "plvndvh_dinglesky_1422048137"
     },
-     {
+    {
       "type": "persice",
       "mutual": true,
       "about": null,
