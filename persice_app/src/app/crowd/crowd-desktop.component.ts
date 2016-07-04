@@ -19,7 +19,7 @@ const LIST_REFRESH_TIMEOUT: number = 300;
 
 @Component({
   selector: 'prs-crowd',
-  template: require('./crowd.html'),
+  template: <any>require('./crowd.html'),
   providers: [CrowdService, FriendService],
   directives: [
     FilterDesktopComponent,

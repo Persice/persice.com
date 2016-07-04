@@ -6,7 +6,7 @@ import {UserCardComponent} from './user-card.component';
 @Component({
   selector: 'prs-users-list',
   directives: [UserCardComponent],
-  template: require('./users-list.html')
+  template: <any>require('./users-list.html')
 })
 export class UsersListComponent {
   @Input() users;

@@ -6,7 +6,7 @@ import {GenderPipe} from '../../../../app/shared/pipes/gender.pipe.ts';
 
 @Component({
   selector: 'prs-mobile-user-card',
-  template: require('./user-card-mobile.html'),
+  template: <any>require('./user-card-mobile.html'),
   directives: [CheckImageDirective, InterestsCardMobileComponent],
   pipes: [GenderPipe],
   changeDetection: ChangeDetectionStrategy.OnPush

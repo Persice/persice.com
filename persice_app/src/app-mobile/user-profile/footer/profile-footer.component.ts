@@ -9,7 +9,7 @@ import {AppStateService} from '../../shared/services';
 
 @Component({
   selector: 'prs-mobile-profile-footer',
-  template: require('./profile-footer.html'),
+  template: <any>require('./profile-footer.html'),
   directives: [ROUTER_DIRECTIVES]
 })
 export class ProfileFooterMobileComponent implements OnInit {

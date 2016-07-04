@@ -15,7 +15,7 @@ import {CheckImageDirective} from '../shared/directives';
 
 @Component({
   selector: 'prs-edit-photos',
-  template: require('./edit-photos.html'),
+  template: <any>require('./edit-photos.html'),
   directives: [
     EditFooterComponent,
     CheckImageDirective

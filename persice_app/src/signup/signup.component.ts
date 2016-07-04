@@ -29,7 +29,7 @@ import {
 import {SignupStateService} from '../common/services';
 
 @Component({
-  template: require('./signup.html'),
+  template: <any>require('./signup.html'),
   selector: 'persice-signup',
   encapsulation: ViewEncapsulation.None,
   directives: [

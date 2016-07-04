@@ -11,7 +11,7 @@ import {HeaderState} from '../../header';
  */
 @Component({
   selector: 'prs-mobile-photos',
-  template: require('./photos-mobile.html'),
+  template: <any>require('./photos-mobile.html'),
   providers: [PhotosService],
   directives: [SwiperDirective]
 })

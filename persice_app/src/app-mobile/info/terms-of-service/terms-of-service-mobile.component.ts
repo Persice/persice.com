@@ -5,7 +5,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-terms-of-service',
-  template: require('./terms-of-service-mobile.html'),
+  template: <any>require('./terms-of-service-mobile.html'),
   directives: [TabNavigationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

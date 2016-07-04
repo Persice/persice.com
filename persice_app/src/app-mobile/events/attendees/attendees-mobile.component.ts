@@ -14,7 +14,7 @@ import {AppState} from '../../../common/reducers';
 
 @Component({
   selector: 'prs-mobile-attendees',
-  template: require('./attendees-mobile.html'),
+  template: <any>require('./attendees-mobile.html'),
   providers: [AttendeeService],
   directives: [UserCardMobileComponent, InfiniteScrollDirective, LoadingComponent]
 })

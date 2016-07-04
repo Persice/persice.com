@@ -9,7 +9,7 @@ import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
 
 @Component({
   selector: 'prs-mobile-filter',
-  template: require('./filter-mobile.html'),
+  template: <any>require('./filter-mobile.html'),
   directives: [SelectDirective, SliderComponent, KeywordsComponentMobile],
   pipes: [NumeralPipe]
 })

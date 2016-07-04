@@ -14,7 +14,7 @@ import {CheckImageDirective} from '../../../app/shared/directives';
 
 @Component({
   selector: 'prs-mobile-new-conversation',
-  template: require('./new-conversation-mobile.html'),
+  template: <any>require('./new-conversation-mobile.html'),
   providers: [NewConversationMobileService],
   directives: [CheckImageDirective]
 })

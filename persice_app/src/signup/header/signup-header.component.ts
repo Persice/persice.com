@@ -4,7 +4,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 
 @Component({
   selector: 'prs-signup-header',
-  template: require('./signup-header.html'),
+  template: <any>require('./signup-header.html'),
   directives: [ROUTER_DIRECTIVES]
 })
 export class SignupHeaderComponent {

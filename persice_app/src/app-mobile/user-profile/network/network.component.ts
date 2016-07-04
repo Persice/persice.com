@@ -16,7 +16,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-network',
-  template: require('./network.html'),
+  template: <any>require('./network.html'),
   directives: [
     CheckImageDirective,
     LoadingComponent,

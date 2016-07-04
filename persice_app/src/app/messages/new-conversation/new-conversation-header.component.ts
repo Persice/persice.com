@@ -11,7 +11,7 @@ const TOKEN_LIMIT: number = 1;
   directives: [
     SearchConnectionsComponent
   ],
-  template: require('./new-conversation-header.html')
+  template: <any>require('./new-conversation-header.html')
 })
 export class NewConversationHeaderComponent implements OnChanges {
   @Output() selected: EventEmitter<any> = new EventEmitter;

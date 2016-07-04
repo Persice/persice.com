@@ -4,7 +4,7 @@ import {CropDirective} from '../shared/directives';
 
 @Component({
   selector: 'prs-edit-crop',
-  template: require('./edit-crop.html'),
+  template: <any>require('./edit-crop.html'),
   directives: [CropDirective]
 })
 export class EditCropComponent implements OnChanges {

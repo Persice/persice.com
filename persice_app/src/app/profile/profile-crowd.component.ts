@@ -34,7 +34,7 @@ import {ObjectUtil, ListUtil} from '../shared/core';
 
 @Component({
   selector: 'prs-profile-crowd',
-  template: require('./profile.html'),
+  template: <any>require('./profile.html'),
   directives: [
     AvatarComponent,
     AboutComponent,

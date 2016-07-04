@@ -35,7 +35,7 @@ enum ViewsType {
 
 @Component({
   selector: 'prs-user-profile',
-  template: require('./user-profile.html'),
+  template: <any>require('./user-profile.html'),
   pipes: [GenderPipe],
   directives: [
     CheckImageDirective,

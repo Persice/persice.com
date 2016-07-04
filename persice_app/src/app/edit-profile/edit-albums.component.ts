@@ -13,7 +13,7 @@ import {FacebookAlbumsService} from '../shared/services';
 
 @Component({
   selector: 'prs-edit-albums',
-  template: require('./edit-albums.html'),
+  template: <any>require('./edit-albums.html'),
   directives: [
     LoadingComponent
   ],

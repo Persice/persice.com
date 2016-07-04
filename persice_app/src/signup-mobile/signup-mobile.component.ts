@@ -19,7 +19,7 @@ import {SignupStateService} from '../common/services';
 @Component({
   selector: 'persice-signup-mobile-app',
   encapsulation: ViewEncapsulation.None,
-  template: require('./signup-mobile.html'),
+  template: <any>require('./signup-mobile.html'),
   directives: [
     SignupHeaderMobileComponent
   ],

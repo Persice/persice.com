@@ -9,7 +9,7 @@ import {LoadingComponent} from '../../app/shared/components/loading';
 
 @Component({
   selector: 'prs-signup-offers',
-  template: require('./signup-offers.html'),
+  template: <any>require('./signup-offers.html'),
   directives: [
     LoadingComponent,
     AutocompleteDirective,

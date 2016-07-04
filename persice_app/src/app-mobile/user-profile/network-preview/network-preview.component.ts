@@ -3,7 +3,7 @@ import {CheckImageDirective} from '../../../app/shared/directives';
 
 @Component({
   selector: 'prs-mobile-network-preview',
-  template: require('./network-preview.html'),
+  template: <any>require('./network-preview.html'),
   directives: [CheckImageDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

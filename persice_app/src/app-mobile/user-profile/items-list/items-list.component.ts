@@ -4,7 +4,7 @@ const LESS_ITEMS_LIMIT: number = 6;
 
 @Component({
   selector: 'prs-mobile-items-list',
-  template: require('./items-list.html'),
+  template: <any>require('./items-list.html'),
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemsListMobileComponent {

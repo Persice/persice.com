@@ -6,7 +6,7 @@ import {CheckImageDirective} from '../../shared/directives';
 
 @Component({
   selector: 'prs-event-card',
-  template: require('./event-card.html'),
+  template: <any>require('./event-card.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [RouterLink, CheckImageDirective]
 })

@@ -14,7 +14,7 @@ const LIST_REFRESH_TIMEOUT: number = 300;
 
 @Component({
   selector: 'prs-connections',
-  template: require('./connections.html'),
+  template: <any>require('./connections.html'),
   directives: [
     FilterDesktopComponent,
     UsersListComponent,

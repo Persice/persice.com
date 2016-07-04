@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'prs-notification',
-  template: require('./notification.html')
+  template: <any>require('./notification.html')
 })
 export class NotificationComponent {
   @Input() body;

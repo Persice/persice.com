@@ -8,7 +8,7 @@ import {CookieUtil} from '../../app/shared/core';
 
 @Component({
   selector: 'prs-mobile-user-profile',
-  template: require('./user-profile-loader.html'),
+  template: <any>require('./user-profile-loader.html'),
   providers: [ProfileService],
   directives: [UserProfileComponent, LoadingComponent]
 })

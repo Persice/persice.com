@@ -6,7 +6,7 @@ import {TimeAgoPipe} from '../../../../common/pipes';
 
 @Component({
   selector: 'prs-mobile-conversations-list',
-  template: require('./conversations-list-mobile.html'),
+  template: <any>require('./conversations-list-mobile.html'),
   directives: [LoadingComponent, CheckImageDirective, InfiniteScrollDirective],
   pipes: [TimeAgoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush

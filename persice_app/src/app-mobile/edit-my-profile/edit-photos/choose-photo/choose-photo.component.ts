@@ -7,7 +7,7 @@ import {HeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-choose-photo',
-  template: require('./choose-photo.html'),
+  template: <any>require('./choose-photo.html'),
   directives: [InfiniteScrollDirective, LoadingComponent]
 })
 export class ChoosePhotoComponent implements OnInit {

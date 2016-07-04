@@ -15,7 +15,7 @@ const LIST_REFRESH_TIMEOUT: number = 0;
 
 @Component({
   selector: 'prs-mobile-crowd',
-  template: require('./crowd-mobile.html'),
+  template: <any>require('./crowd-mobile.html'),
   providers: [CrowdService, FriendService],
   directives: [
     ROUTER_DIRECTIVES,

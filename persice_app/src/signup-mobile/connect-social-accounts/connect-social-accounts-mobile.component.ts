@@ -7,7 +7,7 @@ import {UserAuthService} from '../../app/shared/services';
 
 @Component({
   selector: 'prs-connect-social-accounts',
-  template: require('./connect-social-accounts.html')
+  template: <any>require('./connect-social-accounts.html')
 })
 export class SignupConnectSocialAccountsMobileComponent implements OnInit {
 

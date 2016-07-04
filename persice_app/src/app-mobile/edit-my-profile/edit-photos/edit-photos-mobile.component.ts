@@ -10,7 +10,7 @@ import {CropPhotoComponent} from './crop-photo';
 
 @Component({
   selector: 'prs-mobile-edit-photos',
-  template: require('./edit-photos-mobile.html'),
+  template: <any>require('./edit-photos-mobile.html'),
   directives: [
     ArrangePhotosComponent,
     ChooseAlbumComponent,

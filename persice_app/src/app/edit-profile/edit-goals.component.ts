@@ -15,7 +15,7 @@ import {GoalsService} from '../shared/services';
 
 @Component({
   selector: 'prs-edit-goals',
-  template: require('./edit-goals.html'),
+  template: <any>require('./edit-goals.html'),
   directives: [
     LoadingComponent,
     EditFooterComponent,

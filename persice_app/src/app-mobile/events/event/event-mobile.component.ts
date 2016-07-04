@@ -4,7 +4,7 @@ import {HeaderState} from '../../header/header.state';
 
 @Component({
   selector: 'prs-mobile-event',
-  template: require('./event-mobile.html'),
+  template: <any>require('./event-mobile.html'),
 })
 export class EventMobileComponent implements OnInit, OnDestroy {
 

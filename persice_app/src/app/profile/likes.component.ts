@@ -2,7 +2,7 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {SwiperDirective} from '../shared/directives';
 
 @Component({
-  template: require('./likes.html'),
+  template: <any>require('./likes.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'prs-profile-likes',
   directives: [SwiperDirective]

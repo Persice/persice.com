@@ -4,7 +4,7 @@ const SHOW_CHAR_LIMIT: number = 80;
 
 @Component({
   selector: 'prs-mobile-profile-about-me',
-  template: require('./about-mobile.html'),
+  template: <any>require('./about-mobile.html'),
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutMobileComponent {

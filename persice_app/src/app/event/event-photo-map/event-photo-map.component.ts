@@ -22,7 +22,7 @@ interface IMarker {
 
 @Component({
   selector: 'prs-event-photo-map',
-  template: require('./event-photo-map.html'),
+  template: <any>require('./event-photo-map.html'),
   directives: [
     ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
     CORE_DIRECTIVES,

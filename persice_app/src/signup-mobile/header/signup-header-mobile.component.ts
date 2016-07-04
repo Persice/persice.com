@@ -7,7 +7,7 @@ import {
 
 @Component({
   selector: 'prs-mobile-signup-header',
-  template: require('./signup-header-mobile.html')
+  template: <any>require('./signup-header-mobile.html')
 })
 export class SignupHeaderMobileComponent {
   @Input() counter;

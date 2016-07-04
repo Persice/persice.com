@@ -6,7 +6,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-political-views',
-  template: require('./political-views-mobile.html'),
+  template: <any>require('./political-views-mobile.html'),
   providers: [PoliticalViewsService],
 })
 export class PoliticalViewsMobileComponent implements OnInit {

@@ -10,7 +10,7 @@ import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../commo
 
 @Component({
   selector: 'persice-mobile-signup-interests',
-  template: require('./interests-mobile.html'),
+  template: <any>require('./interests-mobile.html'),
   directives: [
     LoadingComponent,
     AutocompleteDirective,

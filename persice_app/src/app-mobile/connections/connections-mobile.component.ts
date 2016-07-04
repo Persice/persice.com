@@ -17,7 +17,7 @@ const LIST_REFRESH_TIMEOUT: number = 0;
 
 @Component({
   selector: 'prs-mobile-connections',
-  template: require('./connections-mobile.html'),
+  template: <any>require('./connections-mobile.html'),
   providers: [ConnectionsService, NewConnectionsCounterService],
   directives: [
     LoadingComponent,

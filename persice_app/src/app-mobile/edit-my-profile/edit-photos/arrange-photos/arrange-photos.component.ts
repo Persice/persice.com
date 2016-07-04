@@ -9,7 +9,7 @@ import {HeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-arrange-photos',
-  template: require('./arrange-photos.html'),
+  template: <any>require('./arrange-photos.html'),
   directives: [EditPhotoThumbComponent, EditProfilePhotoComponent, LoadingComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
