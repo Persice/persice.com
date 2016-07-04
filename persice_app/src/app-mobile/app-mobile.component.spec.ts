@@ -18,7 +18,7 @@ import {routesAppMobile} from './app-mobile.routes';
 
 describe('App component mobile', () => {
 
-  var mockGeolocationService;
+  let mockGeolocationService;
 
   beforeEach(() => {
     mockGeolocationService = new MockGeolocationService();
