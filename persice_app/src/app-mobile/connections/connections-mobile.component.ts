@@ -1,5 +1,4 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Store} from '@ngrx/store';
 
 import {FilterService} from '../../app/shared/services';
 import {ConnectionsComponent, ConnectionsService} from '../../common/connections';
@@ -10,9 +9,6 @@ import {LoadingComponent} from '../../app/shared/components/loading';
 import {AppStateService} from '../shared/services';
 import {InfiniteScrollDirective} from '../../common/directives';
 import {UserProfileComponent} from '../user-profile';
-
-import {AppState} from '../../common/reducers';
-import {SelectedPersonActions} from '../../common/actions';
 import {HeaderState} from '../header';
 
 import {Subscription} from 'rxjs';
@@ -38,9 +34,7 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     protected listService: ConnectionsService,
     protected filterService: FilterService,
     public appStateService: AppStateService,
-    private newConnectionsCounterService: NewConnectionsCounterService,
-    private store: Store<AppState>,
-    private actions: SelectedPersonActions
+    private newConnectionsCounterService: NewConnectionsCounterService
   ) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
   }
