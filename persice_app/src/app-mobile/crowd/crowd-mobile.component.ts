@@ -34,7 +34,7 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
   constructor(
     protected listService: CrowdService,
     protected filterService: FilterService,
-    private appStateService: AppStateService,
+    private appStateService: AppStateService
   ) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
   }
