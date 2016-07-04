@@ -4,7 +4,7 @@ import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
 import {TestComponentBuilder} from '@angular/compiler/testing';
 import {Location} from '@angular/common';
 import {MockBackend} from '@angular/http/testing';
-import {provideTestRouter, advance} from '../common/test/mocks/router.mock';
+import {provideTestRouter, advance, createRoot} from '../common/test/app-mobile-test.helpers';
 import {AppMobileComponent} from './app-mobile.component';
 import {provideStore} from '@ngrx/store';
 import STORE_REDUCERS from '../common/reducers';
@@ -54,8 +54,7 @@ describe('App component mobile', () => {
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
         // given
-        const fixture = tcb.createFakeAsync(<any>AppMobileComponent);
-        advance(fixture);
+        const fixture = createRoot(tcb, router, AppMobileComponent);
 
         // when
         router.navigateByUrl('/crowd');
