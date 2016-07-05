@@ -100,13 +100,28 @@ export class Event {
     return this._endDate;
   }
 
+  get timezone(): string {
+    return DateUtil.localTimezone();
+  }
+
+  get attendeesPreview(): any {
+    let result = [];
+    let max = this.attendeesGoing.length < 6 ? this.attendeesGoing.length : 6;
+    for (let i =0; i < max; i++) {
+      result = [...result,
+        {first_name: this.attendeesGoing[i].first_name, image: this.attendeesGoing[i].image}];
+    }
+
+    return result;
+  }
+
   private _parseEventDateFromField(dateField: any): EventDate {
     return new EventDate(
-      DateUtil.format(dateField.starts_on, 'hA'),
-      DateUtil.format(dateField.starts_on, 'D'),
-      DateUtil.format(dateField.starts_on, 'dddd'),
-      DateUtil.format(dateField.starts_on, 'MMM'),
-      DateUtil.format(dateField.starts_on, 'YYYY')
+      DateUtil.format(dateField, 'hA'),
+      DateUtil.format(dateField, 'D'),
+      DateUtil.format(dateField, 'dddd'),
+      DateUtil.format(dateField, 'MMM'),
+      DateUtil.format(dateField, 'YYYY')
     );
   }
 }

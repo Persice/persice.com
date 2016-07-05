@@ -27,7 +27,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   public counterGoing$: Observable<number>;
   public counterMaybe$: Observable<number>;
   public counterNotGoing$: Observable<number>;
-  public activeTab: AttendeeTab = AttendeeTab.Maybe;
+  public activeTab: AttendeeTab = AttendeeTab.Going;
 
   private isLoading$: Observable<boolean>;
   private isLoadedSub: Subscription;
