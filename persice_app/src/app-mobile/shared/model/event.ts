@@ -12,6 +12,7 @@ export class Event {
   private _attendeesGoing: any[];
   private _attendeesMaybe: any[];
   private _attendeesNotGoing: any[];
+  private _attendeesPreview: any[];
   private _spotsRemaining: number;
   private _locationName: string;
   private _fullAddress: string;
@@ -33,6 +34,7 @@ export class Event {
     this._attendeesGoing = dto.attendees_yes;
     this._attendeesNotGoing = dto.attendees_no;
     this._attendeesMaybe = dto.attendees_maybe;
+    this._attendeesPreview = this._makeAttendeesPreview(this._attendeesGoing);
     this._spotsRemaining = dto.spots_remaining;
     this._locationName = dto.location_name;
     this._fullAddress = dto.full_address;
@@ -104,15 +106,8 @@ export class Event {
     return DateUtil.localTimezone();
   }
 
-  get attendeesPreview(): any {
-    let result = [];
-    let max = this.attendeesGoing.length < 6 ? this.attendeesGoing.length : 6;
-    for (let i =0; i < max; i++) {
-      result = [...result,
-        {first_name: this.attendeesGoing[i].first_name, image: this.attendeesGoing[i].image}];
-    }
-
-    return result;
+  get attendeesPreview(): any[] {
+    return this._attendeesPreview;
   }
 
   private _parseEventDateFromField(dateField: any): EventDate {
@@ -124,4 +119,16 @@ export class Event {
       DateUtil.format(dateField, 'YYYY')
     );
   }
+
+  private _makeAttendeesPreview(attendees: any[]): any {
+    let result = [];
+    let max = attendees.length < 6 ? attendees.length : 6;
+    for (let i = 0; i < max; i++) {
+      result = [...result,
+        { first_name: attendees[i].first_name, image: attendees[i].image }];
+    }
+
+    return result;
+  }
+
 }
