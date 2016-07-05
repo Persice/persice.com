@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/v1/event/.*"
+  },
+  "response": {
+    "status": 200,
+    "headers" : {
+      "Access-Control-Allow-Origin" : "*"
+    },
+    "bodyFileName": "event/event-angular.response.json",
+    "fixedDelayMilliseconds": 500
+  }
+}

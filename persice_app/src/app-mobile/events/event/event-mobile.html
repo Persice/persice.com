@@ -1,11 +1,11 @@
-<div class="event-hero">
+<div class="event-hero" *ngIf="isLoaded">
   <div class="event-hero__content">
-    <h1 class="event-hero__title">Python developers meetup</h1>
-    <h4 class="event-hero__hosted">Hosted by Mathew Pena <span class="event-hero__hosted__view">(public)</span></h4>
-    <p class="event-hero__about js-more"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt hic enim, dicta, voluptas dolorum quibusdam. Et sit eaque itaque accusamus blanditiis dolores, a adipisci, officiis, distinctio quam, similique dicta sint.</p>
+    <h1 class="event-hero__title">{{event.name}}</h1>
+    <h4 class="event-hero__hosted">Hosted by {{event.hostedBy}} <span class="event-hero__hosted__view">({{event.accessLevel}})</span></h4>
+    <p class="event-hero__about js-more">{{event.description}}</p>
   </div>
   <div class="event-hero-fake-bg-overlay"></div> <img src="/static/assets/images/event-image.jpg" alt="event image" class="event-hero-fake-bg"> </div>
-<div class="mob-event-details profile-box">
+<div class="mob-event-details profile-box" *ngIf="isLoaded">
   <div class="mob-event-details__item">
     <div class="flag flag--flush">
       <div class="flag__img">
@@ -27,8 +27,8 @@
         </svg>
       </div>
       <div class="flag__body">
-        <h5 class="mob-event-details__item__title">Pittsburg Marina</h5>
-        <p class="mob-event-details__item__value">Marina Boulevard 51, Pittsburg 94565</p>
+        <h5 class="mob-event-details__item__title">{{event.locationName}}</h5>
+        <p class="mob-event-details__item__value">{{event.fullAddress}}</p>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
         </svg>
       </div>
       <div class="flag__body">
-        <h5 class="mob-event-details__item__title">0&deg;</h5>
+        <h5 class="mob-event-details__item__title">{{event.similarity}}&deg;</h5>
         <p class="mob-event-details__item__value">Total similarity accross all attendees</p>
       </div>
     </div>
@@ -53,13 +53,14 @@
         </svg>
       </div>
       <div class="flag__body">
-        <h5 class="mob-event-details__item__title">0 people attending</h5>
-        <p class="mob-event-details__item__value">150 spots available</p>
+        <h5 class="mob-event-details__item__title">{{event.attendeesGoing.length}} people attending</h5>
+        <p class="mob-event-details__item__value">{{event.spotsRemaining}} spot(s) available</p>
       </div>
     </div>
   </div>
 </div>
-<div class="profile-connections profile-connections--bottom-fitted profile-connections--blankslate profile-box">
+<div class="profile-connections profile-connections--bottom-fitted profile-connections--blankslate profile-box"
+     *ngIf="isLoaded && (event.maxAttendees === event.spotsRemaining)">
   <svg role="img" class="icon profile-connections--blankslate__icon">
     <use xlink:href="/static/assets/icons/icons.svg#icon-user"></use>
   </svg>
@@ -70,23 +71,24 @@
     </svg>
   </a>
 </div>
-<div class="mob-event-invited-people profile-box">
+<div class="mob-event-invited-people profile-box" *ngIf="isLoaded">
   <div class="mob-event-invited-people__listed"></div>
   <div class="mob-event-invited-people__details">
     <div class="layout layout--flush">
       <div class="layout__item 1/5 mob-event-invited-people__details__value-label">
-        <div class="mob-event-invited-people__details__value">0</div>
+        <div class="mob-event-invited-people__details__value">{{event.attendeesGoing.length}}</div>
         <div class="mob-event-invited-people__details__label">going</div>
       </div>
       <div class="layout__item 1/5 mob-event-invited-people__details__value-label">
-        <div class="mob-event-invited-people__details__value">0</div>
+        <div class="mob-event-invited-people__details__value">{{event.attendeesMaybe.length}}</div>
         <div class="mob-event-invited-people__details__label">maybe</div>
       </div>
       <div class="layout__item 1/5 mob-event-invited-people__details__value-label">
-        <div class="mob-event-invited-people__details__value">0</div>
+        <div class="mob-event-invited-people__details__value">{{event.attendeesNotGoing.length}}</div>
         <div class="mob-event-invited-people__details__label">invited</div>
       </div>
       <div class="layout__item 2/5"> <a href="" class="btn btn--stretch">Invite people</a> </div>
     </div>
   </div>
 </div>
+<prs-loading [status]="!isLoaded"></prs-loading>
