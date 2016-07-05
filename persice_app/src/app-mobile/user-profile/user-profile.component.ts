@@ -1,26 +1,20 @@
 import {Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {Subscription, Observable} from 'rxjs';
 import {Location} from '@angular/common';
-
 import {OpenLeftMenuDirective} from '../shared/directives';
-import {RemodalDirective} from '../../app/shared/directives';
-
+import {RemodalDirective, CheckImageDirective} from '../../app/shared/directives';
 import {GenderPipe} from '../../app/shared/pipes';
-import {CheckImageDirective} from '../../app/shared/directives';
 import {Person} from '../shared/model';
 import {AboutMobileComponent} from './about';
 import {PhotosMobileComponent} from './photos';
 import {NetworkPreviewComponent} from './network-preview';
 import {NetworkComponent} from './network';
 import {ItemsListMobileComponent} from './items-list';
-
 import {AppStateService} from '../shared/services';
 import {LikesMobileComponent} from './likes/likes-mobile.component';
-import {FriendService} from '../../app/shared/services';
-import {MutualFriendsService} from '../../app/shared/services';
+import {FriendService, MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
 import {FriendUtil} from '../../app/shared/core';
-
 import {HeaderState} from '../header';
 import {AppState, getSelectedPersonState} from '../../common/reducers';
 import {Store} from '@ngrx/store';
@@ -110,15 +104,13 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   private accepted$: Observable<boolean>;
   private passed$: Observable<boolean>;
 
-  constructor(
-    private appStateService: AppStateService,
+  constructor(private appStateService: AppStateService,
     private friendService: FriendService,
     private mutualFriendService: MutualFriendsService,
     private connectionsService: ConnectionsService,
     private store: Store<AppState>,
     private actions: SelectedPersonActions,
-    private location: Location
-  ) {
+    private location: Location) {
     const store$ = store.let(getSelectedPersonState());
     this.accepted$ = store$.map((data) => data['accept']);
     this.passed$ = store$.map((data) => data['pass']);
@@ -143,7 +135,6 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
         this.showProfileView(undefined);
       }
     });
-
 
     // When going back from profile view, hide footer and clear selected person from Store
     this.backSubs = this.appStateService.backEmitter.subscribe(() => {
