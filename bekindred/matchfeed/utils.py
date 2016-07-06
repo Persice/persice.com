@@ -567,10 +567,11 @@ class MatchEvent(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id, is_filter=False, friends=False, exclude_ids=None):
+    def all(current_user_id, is_filter=False, friends=False, exclude_ids=None,
+            user_ids=None):
         hits = ElasticSearchMatchEngine.elastic_objects.\
             match(current_user_id, is_filter=is_filter, friends=friends,
-                  exclude_ids=exclude_ids)
+                  exclude_ids=exclude_ids, user_ids=user_ids)
         users = []
         for hit in hits:
             try:
@@ -586,6 +587,34 @@ class MatchQuerySet(object):
                 users.append(user)
             except FacebookCustomUserActive.DoesNotExist as er:
                 logger.error(er)
+        return users
+
+    @staticmethod
+    def filter(current_user, user_ids):
+        """
+        Get user model and filter user_ids from ElasticSearch
+        :param current_user:
+        :param user_ids:
+        :return:
+        """
+        hits = ElasticSearchMatchEngine.elastic_objects.filter(
+            current_user, user_ids
+        )
+        users = []
+        matched_users = []
+        for hit in hits:
+            try:
+                user = MatchUser(current_user.id, hit)
+                user.mutual = True
+                users.append(user)
+                matched_users.append(user.id)
+            except FacebookCustomUserActive.DoesNotExist as er:
+                logger.error(er)
+        non_matched_users = list(set(user_ids) - set(matched_users))
+        for non_matched_user in non_matched_users:
+            non_match = NonMatchUser(current_user.id, non_matched_user)
+            non_match.mutual = True
+            users.append(non_match)
         return users
 
     @staticmethod

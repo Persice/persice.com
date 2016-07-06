@@ -33,7 +33,7 @@ def photo_list(request):
     # Load documents for the list page
     documents = Photo.objects.filter(user=request.user)
     user = FacebookCustomUserActive.objects.get(pk=request.user.id)
-    facebook_photos = FacebookPhoto.objects.filter(user=request.user)
+    facebook_photos = FacebookPhoto.objects.filter(user_id=request.user)
     result_list = []
     for doc in documents:
         result_list.append(doc)
@@ -89,7 +89,7 @@ class CreateFacebookPhoto(CreateView):
         form.instance.user = user
 
         order = 0
-        max_order = FacebookPhoto.objects.filter(user=self.request.user).aggregate(Max("order"))['order__max']
+        max_order = FacebookPhoto.objects.filter(user_id=self.request.user).aggregate(Max("order"))['order__max']
         if max_order:
             order = max_order + 1
 

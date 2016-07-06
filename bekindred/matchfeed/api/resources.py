@@ -1,4 +1,5 @@
 import hashlib
+import logging
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.cache import cache
@@ -6,17 +7,20 @@ from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
+from tastypie.exceptions import BadRequest
 from tastypie.resources import Resource
 
 from events.models import FilterState
 from friends.models import FacebookFriendUser, Friend
-from goals.utils import get_mutual_linkedin_connections, get_mutual_twitter_friends, calculate_distance, calculate_age, \
-    social_extra_data, get_current_position, get_religious_views, \
-    get_political_views
-from matchfeed.models import MatchFeedManager
+from friends.utils import NeoFourJ
+from goals.utils import (get_mutual_linkedin_connections,
+                         get_mutual_twitter_friends,
+                         get_current_position, get_religious_views,
+                         get_political_views)
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
-from photos.models import FacebookPhoto
+
+logger = logging.getLogger(__name__)
 
 
 class A(object):
@@ -210,6 +214,108 @@ class MutualFriendsResource(Resource):
 
     def obj_get_list(self, bundle, **kwargs):
         # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+
+class MutualConnections(Resource):
+    id = fields.CharField(attribute='id')
+    first_name = fields.CharField(attribute='first_name')
+    last_name = fields.CharField(attribute='last_name')
+    facebook_id = fields.CharField(attribute='facebook_id')
+    username = fields.CharField(attribute='username')
+    image = fields.FileField(attribute="image", null=True, blank=True)
+    user_id = fields.CharField(attribute='user_id')
+    twitter_provider = fields.CharField(attribute='twitter_provider',
+                                        null=True)
+    twitter_username = fields.CharField(attribute='twitter_username',
+                                        null=True)
+    linkedin_provider = fields.CharField(attribute='linkedin_provider',
+                                         null=True)
+    age = fields.IntegerField(attribute='age')
+    distance = fields.ListField(attribute='distance')
+    about = fields.CharField(attribute='about', null=True)
+    gender = fields.CharField(attribute='gender', default=u'all')
+
+    photos = fields.ListField(attribute='photos', null=True)
+    goals = fields.ListField(attribute='goals', null=True)
+    offers = fields.ListField(attribute='offers', null=True)
+    interests = fields.ListField(attribute='interests', null=True)
+    top_interests = fields.ListField(attribute='top_interests', null=True)
+
+    score = fields.IntegerField(attribute='score', null=True)
+    mutual_likes_count = fields.IntegerField(attribute='mutual_likes_count',
+                                             null=True)
+    total_likes_count = fields.IntegerField(attribute='total_likes_count',
+                                            null=True)
+    es_score = fields.FloatField(attribute='es_score', null=True)
+    friends_score = fields.IntegerField(attribute='friends_score', null=True)
+    last_login = fields.DateField(attribute='last_login', null=True)
+    keywords = fields.ListField(attribute='keywords', null=True)
+    position = fields.DictField(attribute='position', null=True)
+    lives_in = fields.CharField(attribute='lives_in', null=True)
+    """
+    TODO:
+    -------------------------
+    mutual section
+    -------------------------
+    get_mutual_persice_connections
+    get_mutual_twitter_friends
+    get_mutual_twitter_followers
+    get_mutual_fb_friends
+    get_mutual_linkedin_connections
+    -------------------------
+    other section
+    -------------------------
+    calc other connections = user connections - get_mutual_connections
+    """
+
+    class Meta:
+        resource_name = 'mutual-connections'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def get_object_list(self, request):
+        results = []
+        current_user = request.user
+        user_id = request.GET.get('user_id')
+        if user_id is None:
+            logger.error('user_id is required')
+            raise BadRequest('user_id is required')
+        try:
+            user = FacebookCustomUserActive.objects.get(pk=user_id)
+        except FacebookCustomUserActive.DoesNotExist as err:
+            logging.exception(err)
+            raise BadRequest('incorrect user_id')
+        mutual_friends = NeoFourJ().get_mutual_friends(current_user.id,
+                                                       user.id)
+        if mutual_friends:
+            results = MatchQuerySet.filter(current_user, mutual_friends)
+            other_friends = MatchQuerySet.all(current_user, friends=True,
+                                              user_ids=mutual_friends)
+        else:
+            other_friends = MatchQuerySet.all(current_user, friends=True)
+
+        for of in other_friends:
+            of.mutual = False
+            results.append(of)
+        return sorted(results, key=lambda x: -x.mutual)
+
+    def obj_get_list(self, bundle, **kwargs):
         return self.get_object_list(bundle.request)
 
     def rollback(self, bundles):

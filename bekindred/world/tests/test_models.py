@@ -36,8 +36,9 @@ class GeoCoordinateTestCase(TestCase):
         self.assertEqual(len(coordinates), 16)
 
     def test_calculate_distance(self):
-        geo = UserLocation.objects.filter(user=self.user).order_by('-timestamp')[0]
-        distance = UserLocation.objects.distance(geo.geometry).filter(user=self.user1)[0].distance
+        geo = UserLocation.objects.filter(user_id=self.user).order_by('-timestamp')[0]
+        distance = UserLocation.objects.distance(geo.geometry).filter(
+            user_id=self.user1)[0].distance
         self.assertEqual(distance.mi, 6229.787089256057)
 
     def test_calculate_distance2(self):
@@ -45,7 +46,8 @@ class GeoCoordinateTestCase(TestCase):
         user1 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
         user_location1 = UserLocation.objects.create(user=user, position=[38.53, 77.02])
         user_location2 = UserLocation.objects.create(user=user1, position=[41.50, 87.37])
-        distance = UserLocation.objects.distance(user_location1.geometry).filter(user=self.user1)[0].distance
+        distance = UserLocation.objects.distance(user_location1.geometry).filter(
+            user_id=self.user1)[0].distance
         self.assertEqual(distance.mi, 7633.7030636078425)
 
     def test_calculate_distance_from_utils(self):

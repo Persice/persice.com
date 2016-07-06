@@ -9,6 +9,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from tastypie.test import ResourceTestCase
 from events.models import FilterState
+from friends.utils import NeoFourJ
 
 from goals.models import Subject, Goal, Offer
 from interests.models import Interest, InterestSubject
@@ -144,3 +145,53 @@ class TestProfileResource2(ResourceTestCase):
         self.response = self.login()
         resp = self.api_client.get('/api/v1/profile/', format='json')
         self.assertValidJSONResponse(resp)
+
+
+class TestMutualConnectionsResource(ResourceTestCase):
+    def setUp(self):
+        super(TestMutualConnectionsResource, self).setUp()
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a',
+            facebook_id=999234567,
+            password='test',
+            date_of_birth=date(1989, 5, 20)
+        )
+        self.user1 = FacebookCustomUser.objects.create_user(
+            username='user_b',
+            facebook_id=99923456709,
+            password='test',
+            date_of_birth=date(1979, 6, 21)
+        )
+        self.user2 = FacebookCustomUser.objects.create_user(
+            username='user_c',
+            facebook_id=99923456710,
+            password='test',
+            date_of_birth=date(1989, 6, 21)
+        )
+        self.resource_url = '/api/v2/mutual-connections/'
+        self.neo = NeoFourJ()
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        n3 = self.neo.create_person(self.neo.person(self.user2))
+        self.neo.add_to_friends(n1, n2)
+        self.neo.add_to_friends(n2, n1)
+        self.neo.add_to_friends(n1, n3)
+        self.neo.add_to_friends(n3, n1)
+        self.neo.add_to_friends(n3, n2)
+        self.neo.add_to_friends(n2, n3)
+
+    def tearDown(self):
+        self.neo.graph.delete_all()
+
+
+    def login(self):
+        return self.api_client.client.post(
+            '/login/', {'username': 'user_a', 'password': 'test'})
+
+    def test_get_mutual_connections(self):
+        self.response = self.login()
+        resp = self.api_client.get(self.resource_url, format='json',
+                                   data={"user_id": self.user1.id})
+        self.assertValidJSONResponse(resp)
+        data = self.deserialize(resp)
+        self.assertEqual(data, [])

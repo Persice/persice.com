@@ -23,7 +23,7 @@ from interests.api.resources import InterestResource, InterestSubjectResource,\
     PoliticalIndexResource
 from matchfeed.api.resources import (MatchedFeedResource,
                                      MutualFriendsResource,
-                                     ProfileResource)
+                                     ProfileResource, MutualConnections)
 from msgs.api.resources import (ChatMessageResource, InboxLastResource,
                                 InboxResource, MessageResource,
                                 UnreadMessageCounter)
@@ -78,6 +78,7 @@ v2_api.register(NeoFriendsResource())
 v2_api.register(NeoFriendsNewCounterResource())
 v2_api.register(NeoFriendsNewResource())
 v2_api.register(Attendees())
+v2_api.register(MutualConnections())
 
 urlpatterns = patterns('',
                        url(r'^signup/interests', 'goals.views.signup_page',

@@ -438,9 +438,10 @@ class AboutMeResource(ModelResource):
         bundle.data['position'] = get_current_position(bundle.obj)
         bundle.data['lives_in'] = get_lives_in(bundle.obj)
         bundle.data.update(raw_data)
-        bundle.data['goals_count'] = Goal.objects.filter(user=user_id).count()
+        bundle.data['goals_count'] = Goal.objects.filter(
+            user_id=user_id).count()
         bundle.data['offers_count'] = Offer.objects.\
-            filter(user=user_id).count()
+            filter(user_id=user_id).count()
         bundle.data['interest_count'] = Interest.objects.\
             filter(user=user_id).count()
         return bundle
