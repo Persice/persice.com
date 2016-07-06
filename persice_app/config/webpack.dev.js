@@ -33,7 +33,6 @@ module.exports = webpackMerge(commonConfig, {
   //
   // See: http://webpack.github.io/docs/configuration.html#debug
   debug: true,
-  cache: false,
 
   // Developer tool to enhance debugging
   //
