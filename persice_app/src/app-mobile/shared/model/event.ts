@@ -3,6 +3,7 @@ import {DateUtil} from '../../../app/shared/core/util';
 import {EventDate} from './event-date';
 export class Event {
   private _name: string;
+  private _image: string;
   private _hostedBy: string;
   private _description: string;
   private _accessLevel: string;
@@ -25,6 +26,7 @@ export class Event {
 
   constructor(dto: any) {
     this._name = dto.name;
+    this._image = dto.event_photo;
     this._hostedBy = dto.hosted_by;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
@@ -44,6 +46,10 @@ export class Event {
 
   get name(): string {
     return this._name;
+  }
+
+  get image(): string {
+    return this._image;
   }
 
   get hostedBy(): string {
