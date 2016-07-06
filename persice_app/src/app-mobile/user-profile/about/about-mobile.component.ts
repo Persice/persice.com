@@ -1,3 +1,4 @@
+// TOOD: make this component generic because it is used in more than one place throughout the app
 import {Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 const SHOW_CHAR_LIMIT: number = 80;
@@ -8,6 +9,7 @@ const SHOW_CHAR_LIMIT: number = 80;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutMobileComponent {
+  @Input() type: string;
   @Input() set about(value: string) {
     this._setValue(value);
   }
