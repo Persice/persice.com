@@ -1,4 +1,127 @@
-<p>
-  Events
-</p>
-
+<header class="mob-header">
+  <div class="layout layout--flush layout--middle">
+    <div class="layout__item 1/5">
+      <a class="mob-header__left-push">
+        <svg role="img" class="icon icon--small">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+        </svg>
+      </a>
+    </div>
+    <div (click)="clickHeader()" class="layout__item 3/5 text-center"> <a class="js-mob-header__profile-drop2-trigg mob-header__title mob-header__title--as-drop-triger"><span>{{eventsTypeLabel}}</span>
+      <svg role="img" class="icon icon--extratiny">
+        <use xlink:href="/static/assets/icons/icons.svg#icon-down-small"></use>
+      </svg>
+    </a>
+      <ul class="mob-header__drop mob-header__drop--center js-mob-header__drop2" [hidden]="!isEventsTypeDropdownVisible">
+        <li (click)="clickEventsTypeDropdownElement('all', $event)" data-val="All events" [ngClass]="{'is-current' : eventsType === 'all'}">All events
+          <svg role="img" class="icon icon--extratiny">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+          </svg>
+        </li>
+        <li (click)="clickEventsTypeDropdownElement('my', $event)" data-val="My events" [ngClass]="{'is-current' : eventsType === 'my'}">My events
+          <svg role="img" class="icon icon--extratiny">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+          </svg>
+        </li>
+        <li (click)="clickEventsTypeDropdownElement('network', $event)" data-val="My network" [ngClass]="{'is-current' : eventsType === 'network'}">My network
+          <svg role="img" class="icon icon--extratiny">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+          </svg>
+        </li>
+      </ul>
+    </div>
+    <div class="layout__item 1/5 text-right">
+      <a href="#">
+        <svg role="img" class="icon icon--small">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>
+<div class="content pb++" *ngIf="isLoaded">
+  <ul class="list-bare js-tabs profile-tabs__tabs profile-tabs__tabs--iconed">
+    <li class="is-active">
+      <svg role="img" class="icon ">
+        <use xlink:href="/static/assets/icons/icons.svg#icon-switch-cards"></use>
+      </svg>
+    </li>
+    <li>
+      <svg role="img" class="icon ">
+        <use xlink:href="/static/assets/icons/icons.svg#icon-switch-calendar"></use>
+      </svg>
+    </li>
+    <li>
+      <svg role="img" class="icon ">
+        <use xlink:href="/static/assets/icons/icons.svg#icon-switch-map"></use>
+      </svg>
+    </li>
+  </ul>
+  <div class="event-summary" *ngFor="let event of events">
+    <div class="event-summary__details js-image-liquid style='background-image: {{event.event_photo}}'">
+      <div class="event-summary__details__copy">
+        <h3 class="event-summary__title">{{event.name}}</h3>
+        <p class="event-summary__location">New York</p>
+        <p class="event-summary__date-n-time">Thursday, Nov 18, 10AM</p>
+        <div class="layout layout--flush event-summary__meta ml0">
+          <div class="layout__item 1/2">
+            <div class="event-summary__meta__value">$50</div>
+            <div class="event-summary__meta__label">Per person</div>
+          </div>
+          <div class="layout__item 1/2 text-right">
+            <div class="event-summary__meta__value">140</div>
+            <div class="event-summary__meta__label">Spots left</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-rsvp-drop-close"> <span href="" class="card-rsvp-drop-close__btn">
+  <svg role="img" class="icon ">
+    <use xlink:href="/static/assets/icons/icons.svg#icon-close"></use>
+  </svg>
+</span> </div> </div>
+    <div class="card__stat">
+      <div class="layout layout--flush layout--middle text-center">
+        <div class="layout__item 1/3">
+          <div class="card-stat__vert"> <span class="card-stat__value">27&deg;</span> <span class="card-stat__label">Similar</span> </div>
+        </div>
+        <div class="layout__item 1/3 separated-left separated-right">
+          <div class="card-stat__vert"> <span class="card-stat__value">8</span> <span class="card-stat__label">Connections</span> </div>
+        </div>
+        <div class="layout__item 1/3 has-event-summary__status js-has-event-summary__status">
+          <div class="event-summary__status event-summary__status--label">
+            <div class="card-stat__vert"> <span class="card-stat__value">RSVP</span> </div>
+          </div>
+          <div class="event-summary__status event-summary__status--cannotgo hidden">
+            <div class="event-summary__status__vert"> <span>Can't go</span> </div>
+          </div>
+          <div class="event-summary__status event-summary__status--maybe hidden">
+            <div class="event-summary__status__vert"> <span>Maybe</span>
+              <br> </div>
+          </div>
+          <div class="event-summary__status event-summary__status--going hidden">
+            <div class="event-summary__status__vert"> <span>Going</span> </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-rsvp-drop">
+        <div class="tableize tableize--middle">
+          <div class="tableize__cell 1/3">
+            <div class="tableize__content"> <a href="" class="btn btn-1 btn-1--tiny btn--full btn-1--red js-event-cannot">Can't go</a> </div>
+          </div>
+          <div class="tableize__cell 1/3">
+            <div class="tableize__content"> <a href="" class="btn btn-1 btn-1--tiny btn--full btn-1--darkblue js-event-maybe">Maybe</a> </div>
+          </div>
+          <div class="tableize__cell 1/3">
+            <div class="tableize__content"> <a href="" class="btn btn-1 btn-1--tiny btn--full btn-1--green js-event-going">Going</a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="" class="btn btn--add">
+    <svg role="img" class="icon ">
+      <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+    </svg>
+  </a>
+</div>
+<prs-loading [status]="isLoading"></prs-loading>
