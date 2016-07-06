@@ -31,7 +31,7 @@ export const rootRoutes: RouterConfig = [
     component: SettingsMobileComponent,
   },
   {
-    path: 'events',
+    path: 'events/:type',
     component: EventsMobileComponent,
   },
   {
