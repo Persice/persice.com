@@ -308,11 +308,23 @@ class MutualConnections(Resource):
             other_friends = MatchQuerySet.all(current_user, friends=True,
                                               user_ids=mutual_friends)
         else:
-            other_friends = MatchQuerySet.all(current_user, friends=True)
+            other_friends = MatchQuerySet.all(current_user.id, friends=True)
 
         for of in other_friends:
             of.mutual = False
             results.append(of)
+
+        # fb_mutual_friends = FacebookFriendUser.objects.mutual_friends(
+        #     current_user,
+        #     user_id
+        # )
+        #
+        # l = get_mutual_linkedin_connections(current_user, user)
+        # linkedin_mutual_connections = l['mutual_linkedin']
+        # t = get_mutual_twitter_friends(current_user, user)
+        # mutual_twitter_friends = t['mutual_twitter_friends']
+        # mutual_twitter_followers = t['mutual_twitter_followers']
+
         return sorted(results, key=lambda x: -x.mutual)
 
     def obj_get_list(self, bundle, **kwargs):
