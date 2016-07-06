@@ -305,7 +305,7 @@ class MutualConnections(Resource):
                                                        user.id)
         if mutual_friends:
             results = MatchQuerySet.filter(current_user, mutual_friends)
-            other_friends = MatchQuerySet.all(current_user, friends=True,
+            other_friends = MatchQuerySet.all(current_user.id, friends=True,
                                               user_ids=mutual_friends)
         else:
             other_friends = MatchQuerySet.all(current_user.id, friends=True)
