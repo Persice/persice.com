@@ -14,10 +14,9 @@ import {GenderPipe} from '../../../../app/shared/pipes/gender.pipe.ts';
 export class UserCardMobileComponent {
   isNewConnection: boolean = false;
 
-
   @Input() showSendMessage: boolean = false;
   @Input() isNewConnectionDisabled: boolean = false;
-  @Input() showPersiceIcon: boolean = false;
+  @Input() showIcon: boolean = false;
 
   @Input() set person(dto: any) {
     this.isNewConnection = dto.seen !== undefined && dto.seen === false ? true : false;

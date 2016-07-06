@@ -1,11 +1,8 @@
-import {Component, Input, OnInit}
-from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
-
 import {UserCardMobileComponent} from '../../shared/components/user-card';
-import {CheckImageDirective} from '../../../app/shared/directives';
 import {LoadingComponent} from '../../../app/shared/components/loading';
 import {InfiniteScrollDirective} from '../../../common/directives';
 import {ConnectionsService} from '../../../common/connections';
@@ -15,27 +12,17 @@ import {AppStateService} from '../../shared/services';
 import {HeaderState} from '../../header';
 
 @Component({
-  selector: 'prs-mobile-network',
-  template: <any>require('./network.html'),
+  selector: 'prs-mobile-network-connections',
+  template: <any>require('./network-connections.html'),
   directives: [
-    CheckImageDirective,
     LoadingComponent,
     UserCardMobileComponent,
     InfiniteScrollDirective
   ],
   providers: [ConnectionsService]
 })
-export class NetworkComponent implements OnInit {
-  @Input() type: string;
+export class NetworkConnectionsComponent implements OnInit {
   @Input() name: string = '';
-
-  // Mutual connections
-  @Input() mutualConnectionsCount: number = 0;
-  @Input() connectionsMutualPersice: any[] = [];
-  @Input() connectionsMutualFacebook: any[] = [];
-  @Input() connectionsMutualLinkedin: any[] = [];
-  @Input() connectionsMutualTwitterFollowers: any[] = [];
-  @Input() connectionsMutualTwitterFriends: any[] = [];
 
   public connections: Array<any> = [];
   public connectionsCount: number = 0;
@@ -51,7 +38,6 @@ export class NetworkComponent implements OnInit {
     private appStateService: AppStateService,
     private headerState: HeaderState
   ) {
-
   }
 
   ngOnInit(): any {
@@ -61,14 +47,13 @@ export class NetworkComponent implements OnInit {
       this.headerState.backWithTitle(pageTitle, HeaderState.actions.ShowUserProfile)
     );
 
-    if (this.type === 'my-profile') {
-      this.getConnections();
-    }
+    this.getConnections();
+
   }
 
   /**
-  * Load connections from backend
-  */
+   * Load connections from backend
+   */
   public getConnections() {
     if (this.loadingConnections) {
       return;
@@ -97,9 +82,9 @@ export class NetworkComponent implements OnInit {
   }
 
   /**
-  * Load more connections from backend
-  * @param {MouseEvent} event
-  */
+   * Load more connections from backend
+   * @param {MouseEvent} event
+   */
   public loadMoreConnections(event: MouseEvent) {
     if (this.connectionsNext && !this.loadingConnections) {
       this.getConnections();
