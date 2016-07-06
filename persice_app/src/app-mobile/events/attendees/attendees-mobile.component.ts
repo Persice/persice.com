@@ -96,7 +96,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
 
   public loadMoreData(event: MouseEvent) {
-    if (!!!this.isLoaded) {
+    if (!this.isLoaded) {
       this._loadData(this.activeTab, false);
     }
   }
