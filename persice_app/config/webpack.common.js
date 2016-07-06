@@ -117,12 +117,7 @@ module.exports = {
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
-        exclude: [/\.(spec|e2e)\.ts$/],
-        query: {
-          compilerOptions: {
-            "source-map": true
-          }
-        }
+        exclude: [/\.(spec|e2e)\.ts$/]
       },
 
       // Json loader support for *.json files.
