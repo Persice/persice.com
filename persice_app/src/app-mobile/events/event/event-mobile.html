@@ -1,3 +1,6 @@
+<div *ngIf="!!notFound">
+  <p>Event not found</p>
+</div>
 <div class="event-hero" *ngIf="isLoaded">
   <div class="event-hero__content">
     <h1 class="event-hero__title">{{event.name}}</h1>
@@ -21,8 +24,8 @@
       <div class="flag__body">
         <h5 class="mob-event-details__item__title">{{event.startDate.dayName}}, {{event.startDate.month}}
           {{event.startDate.day}}</h5>
-        <p class="mob-event-details__item__value">{{event.startDate.hour}} &ndash; {{event.endDate.hour}} /
-          {{event.timezone}}</p>
+        <p class="mob-event-details__item__value">{{event.startDate.hour}} &ndash; {{event.endDate.hour}} / {{event.timezone}}
+        </p>
       </div>
     </div>
   </div>
@@ -66,22 +69,17 @@
     </div>
   </div>
 </div>
-<div class="profile-connections profile-connections--bottom-fitted profile-connections--blankslate profile-box"
-     *ngIf="isLoaded" (click)="viewAttendees()">
-  <svg role="img" class="icon profile-connections--blankslate__icon"
-       *ngIf="event.maxAttendees === event.spotsRemaining">
+<div class="profile-connections profile-connections--bottom-fitted profile-connections--blankslate profile-box" *ngIf="isLoaded" (click)="viewAttendees()">
+  <svg role="img" class="icon profile-connections--blankslate__icon" *ngIf="event.maxAttendees === event.spotsRemaining">
     <use xlink:href="/static/assets/icons/icons.svg#icon-user"></use>
   </svg>
-  <p class="profile-connections--blankslate__text" *ngIf="event.maxAttendees === event.spotsRemaining">No one has been
-    invited yet</p>
-
+  <p class="profile-connections--blankslate__text" *ngIf="event.maxAttendees === event.spotsRemaining">No one has been invited yet</p>
   <div class="has-user-links" *ngIf="event.maxAttendees !== event.spotsRemaining">
     <div class="layout layout--small">
       <div class="layout__item 1/5" *ngFor="let item of event.attendeesPreview">
         <div class="user-link">
           <div class="avatar-place">
-            <div class="avatar avatar--small cover-background" checkimage="{{item.image}}"
-                 [suffix]="'.56x56_q100_crop.jpg'"></div>
+            <div class="avatar avatar--small cover-background" checkimage="{{item.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
           </div>
           <span class="user-link__username">{{item.first_name}}</span>
         </div>
@@ -114,4 +112,4 @@
     </div>
   </div>
 </div>
-<prs-loading [status]="!isLoaded"></prs-loading>
+<prs-loading [status]="isLoading"></prs-loading>

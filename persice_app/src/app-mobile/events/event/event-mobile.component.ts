@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
 import {AppStateService} from '../../shared/services/app-state.service';
 import {HeaderState} from '../../header/header.state';
 import {EventService} from '../../../app/shared/services/event.service';
@@ -14,11 +14,13 @@ import {AboutMobileComponent} from '../../user-profile/about/about-mobile.compon
   providers: [EventService],
   directives: [LoadingComponent, CheckImageDirective, AboutMobileComponent]
 })
-export class EventMobileComponent implements OnInit, OnDestroy {
+export class EventMobileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   event: Event;
   eventIdFromUrl: string;
   isLoaded = false;
+  isLoading = false;
+  notFound = false;
 
   constructor(
     private appStateService: AppStateService,
@@ -32,14 +34,31 @@ export class EventMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
     this.appStateService.headerStateEmitter.emit(HeaderState.event);
+    this.isLoading = true;
     this.eventService.findOneById(this.eventIdFromUrl).subscribe(response => {
       this.event = new Event(response);
+      this.isLoading = false;
+    }, (err) => {
+      this.isLoaded = false;
+      this.notFound = true;
+      this.appStateService.headerStateEmitter.emit(HeaderState.eventNotFound);
+      this.isLoading = false;
+    }, () => {
       this.isLoaded = true;
+      this.isLoading = false;
+    });
+  }
+
+  ngAfterViewInit(): any {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
     });
   }
 
   ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
   }
 
   viewAttendees(): void {
