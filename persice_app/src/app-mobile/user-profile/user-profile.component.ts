@@ -94,6 +94,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private accepted$: Observable<boolean>;
   private passed$: Observable<boolean>;
+  private acceptSub: Subscription;
+  private passSub: Subscription;
 
   constructor(private appStateService: AppStateService,
     private friendService: FriendService,
@@ -107,13 +109,13 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     this.accepted$ = store$.map((data) => data['accept']);
     this.passed$ = store$.map((data) => data['pass']);
 
-    this.accepted$.subscribe((status: boolean) => {
+    this.acceptSub = this.accepted$.subscribe((status: boolean) => {
       if (!!status) {
         this._saveFriendshipStatus(0);
       }
     });
 
-    this.passed$.subscribe((status: boolean) => {
+    this.passSub = this.passed$.subscribe((status: boolean) => {
       if (!!status) {
         this._saveFriendshipStatus(-1);
       }
@@ -157,6 +159,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     this.toggleFooterVisibility(false);
     this.isUserProfileVisibleSubs.unsubscribe();
     this.backSubs.unsubscribe();
+    this.acceptSub.unsubscribe();
+    this.passSub.unsubscribe();
   }
 
   clearSelectedPersonFromStore() {
