@@ -1,4 +1,4 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import {CheckImageDirective} from '../../../app/shared/directives';
 
 @Component({
@@ -8,21 +8,24 @@ import {CheckImageDirective} from '../../../app/shared/directives';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NetworkPreviewComponent {
-
-  // When [items] from Input property change, set internal state for our component
-  @Input() set items(itemsList: any[]) {
-    this.connections = itemsList;
+  @Input() set connections(data: any[]) {
+    this.items = data;
 
     // Fill array for displaying empty places
-    const length: number = 4 - this.connections.length;
+    const length: number = 4 - data.length;
     this.emptyPlacesArray = Array(length).fill(1).map((x, i) => i);
-  }
+  };
 
-  @Input() otherConnectionsCount: number = 0;
-  @Input() mutualConnectionsCount: number = 0;
+  @Input() connectionsTotalCount: number;
   @Input() type: string;
+  @Output() onClick: EventEmitter<any> = new EventEmitter();
 
-  // List and counter for all connections
-  public connections: any[];
+  public items: any[];
   public emptyPlacesArray: any[];
+
+  public openConnections(event: MouseEvent) {
+    if (this.items.length > 0) {
+      this.onClick.emit(event);
+    }
+  }
 }

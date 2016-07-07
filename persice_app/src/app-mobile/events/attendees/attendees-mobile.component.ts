@@ -47,6 +47,8 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray-3');
+
     this.appStateService.headerStateEmitter.emit(HeaderState.attendees);
 
     this.isLoading$ = this.attendeeService.isLoading$;
@@ -76,6 +78,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray-3');
     this.isLoadedSub.unsubscribe();
     this.routerSub.unsubscribe();
   }
@@ -96,7 +99,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
 
   public loadMoreData(event: MouseEvent) {
-    if (!!!this.isLoaded) {
+    if (!this.isLoaded) {
       this._loadData(this.activeTab, false);
     }
   }

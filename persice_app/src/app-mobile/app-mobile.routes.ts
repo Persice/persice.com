@@ -19,6 +19,11 @@ export const rootRoutes: RouterConfig = [
     terminal: true
   },
   {
+    path: 'events',
+    redirectTo: '/events/all',
+    terminal: true
+  },
+  {
     path: 'crowd',
     component: CrowdMobileComponent
   },

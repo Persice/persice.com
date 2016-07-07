@@ -74,6 +74,7 @@
   }
 }
 
+
 /* fix for navmain active link class */
 
 .mob-nav-main li a.router-link-active {
@@ -117,6 +118,7 @@
 .signup-step__warning {
   position: absolute;
 }
+
 
 /* fix for typeahead */
 
@@ -212,6 +214,7 @@
   cursor: pointer;
 }
 
+
 /* Notification */
 
 .notification {
@@ -296,13 +299,6 @@
 
 .match-profile__avatar {
   background-position: 50% 50%;
-}
-
-.filter-container {
-  width: 100%;
-  height: 100vh;
-  background: #eff4f6;
-  z-index: 9999;
 }
 
 .content-mask {
@@ -496,6 +492,7 @@ html {
   position: relative !important;
 }
 
+
 /* custom loading indicator inline*/
 
 .loader {
@@ -673,4 +670,13 @@ html.remodal-is-locked > body {
 #intercom-container .intercom-launcher {
   bottom: 72px !important;
   right: 5px !important;
+}
+
+.footer-button-container {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  height: 54px;
+  width: 54px;
+  z-index: 50;
 }

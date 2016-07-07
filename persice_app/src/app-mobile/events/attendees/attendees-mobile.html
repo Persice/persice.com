@@ -1,16 +1,14 @@
-<div class="content">
-  <div class="mob-sec-tabs">
-    <ul>
-      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 1}"><a (click)="activateTab(1)">Going ({{ counterGoing$ | async }})</a></li>
-      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 2}"><a (click)="activateTab(2)">Maybe ({{ counterMaybe$ | async }})</a></li>
-      <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 3}"><a (click)="activateTab(3)">Can't Go ({{ counterNotGoing$ | async }})</a></li>
-    </ul>
-  </div>
-  <div prs-infinite-scroll (scrolled)="loadMoreData($event)" [scrollEnabled]="!!!isLoaded" [bottomOffset]="60">
-    <div class="mob-user-card-title" *ngIf="(connectionsTotalCount$ | async) > 0"> Connections </div>
-    <prs-mobile-user-card (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)" [showPersiceIcon]="person.connected" [personEntity]="person" *ngFor="let person of connections$ | async" [showSendMessage]="true"></prs-mobile-user-card>
-    <div class="mob-user-card-title" *ngIf="(othersTotalCount$ | async) > 0"> Others </div>
-    <prs-mobile-user-card (onProfileTap)="viewProfile($event)" [personEntity]="person" *ngFor="let person of others$ | async"></prs-mobile-user-card>
-  </div>
-  <prs-loading [status]="!!(isLoading$ | async)"></prs-loading>
+<div class="mob-sec-tabs">
+  <ul>
+    <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 1}"><a (click)="activateTab(1)">Going ({{ counterGoing$ | async }})</a></li>
+    <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 2}"><a (click)="activateTab(2)">Maybe ({{ counterMaybe$ | async }})</a></li>
+    <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 3}"><a (click)="activateTab(3)">Can't Go ({{ counterNotGoing$ | async }})</a></li>
+  </ul>
 </div>
+<div prs-infinite-scroll (scrolled)="loadMoreData($event)" [scrollEnabled]="!isLoaded" [bottomOffset]="60">
+  <div class="mob-user-card-title" *ngIf="(connectionsTotalCount$ | async) > 0"> Connections </div>
+  <prs-mobile-user-card (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)" [showIcon]="person.connected" [personEntity]="person" *ngFor="let person of connections$ | async" [showSendMessage]="true"></prs-mobile-user-card>
+  <div class="mob-user-card-title" *ngIf="(othersTotalCount$ | async) > 0"> Others </div>
+  <prs-mobile-user-card (onProfileTap)="viewProfile($event)" [personEntity]="person" *ngFor="let person of others$ | async"></prs-mobile-user-card>
+</div>
+<prs-loading [status]="!!(isLoading$ | async)"></prs-loading>

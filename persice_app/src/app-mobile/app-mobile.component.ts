@@ -17,6 +17,7 @@ import {CloseLeftMenuDirective} from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
 import {HeaderComponent} from './header';
 import {ProfileFooterMobileComponent} from './user-profile';
+import {FooterButtonMobileComponent} from './footer-button';
 
 import {HeaderState} from './header';
 import {GeolocationService} from "../app/shared/services/geolocation.service";
@@ -45,7 +46,8 @@ import {FilterService, WebsocketService} from '../app/shared/services';
     NavigationMobileComponent,
     CloseLeftMenuDirective,
     HeaderComponent,
-    ProfileFooterMobileComponent
+    ProfileFooterMobileComponent,
+    FooterButtonMobileComponent
   ],
   encapsulation: ViewEncapsulation.None
 })

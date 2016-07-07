@@ -3,13 +3,13 @@
     "limit": 12,
     "next": null,
     "offset": 12,
-    "previous": "/api/v2/mutual-connections/?format=json&limit=12&offset=0",
+    "previous": "http://localhost:9999/api/v2/mutual-connections/?format=json&limit=12&offset=0",
     "total_count": 24
   },
   "objects": [
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -61,7 +61,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -113,7 +113,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -165,7 +165,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -217,7 +217,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -269,7 +269,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -321,7 +321,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -373,7 +373,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -425,7 +425,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -477,7 +477,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -529,7 +529,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -581,7 +581,7 @@
     },
     {
       "type": "persice",
-      "mutual": false,
+      "connected": false,
       "about": null,
       "age": 35,
       "distance": [

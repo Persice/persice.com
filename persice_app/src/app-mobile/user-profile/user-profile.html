@@ -2,17 +2,17 @@
   <div class="profile-hero">
     <div class="profile-hero__name">{{person.firstName}}</div>
     <div class="profile-hero__name-meta" *ngIf="type === 'crowd' || type === 'connection'">{{person.distance}} {{person.distanceUnit}} from you</div>
-    <div class="profile-avatarplace">
-      <div class="match-profile__avatar-place">
-        <div class="match-profile__avatar" (click)="showPhotosView($event)" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
-        <br>
-        <div class="match-percent-large"></div>
-      </div>
-    </div>
-    <prs-mobile-profile-about-me [about]="person.about"></prs-mobile-profile-about-me>
-    <div class="profile-hero-fake-bg-overlay"></div>
-    <img [src]="person.image" alt="User name" class="profile-hero-fake-bg">
+<div class="profile-avatarplace">
+  <div class="match-profile__avatar-place">
+    <div class="match-profile__avatar" (click)="showPhotosView($event)" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
+    <br>
+    <div class="match-percent-large"></div>
   </div>
+</div>
+<prs-mobile-profile-about-me [about]="person.about" [type]="'profile'"></prs-mobile-profile-about-me>
+<div class="profile-hero-fake-bg-overlay"></div>
+<img [src]="person.image" alt="User name" class="profile-hero-fake-bg">
+</div>
   <div class="profile-info profile-box">
     <div class="profile-box__sub">
       <div class="layout">
@@ -88,7 +88,7 @@
     </div>
   </div>
   <div class="profile-connections profile-box">
-    <prs-mobile-network-preview [type]="type" [items]="connectionsPreview" [otherConnectionsCount]="otherConnectionsCount" [mutualConnectionsCount]="mutualConnectionsCount" (click)="showNetworkView($event)"></prs-mobile-network-preview>
+    <prs-mobile-network-preview [type]="type" [connections]="connectionsPreview | async" [connectionsTotalCount]="connectionsPreviewTotalCount | async" (onClick)="showNetworkView($event)"></prs-mobile-network-preview>
   </div>
   <a class="profile-link profile-box" (click)="showLikesView($event)">
     <div class="layout layout--small layout--middle">
@@ -119,17 +119,12 @@
 </div>
 <prs-mobile-photos *ngIf="activeView === viewsType.Photos" [personId]="person.id">
 </prs-mobile-photos>
-<prs-mobile-network *ngIf="activeView === viewsType.Network"
-  [mutualConnectionsCount]="mutualConnectionsCount"
-  [connectionsMutualPersice]="connectionsMutualPersice"
-  [connectionsMutualFacebook]="connectionsMutualFacebook"
-  [connectionsMutualLinkedin]="connectionsMutualLinkedin"
-  [connectionsMutualTwitterFollowers]="connectionsMutualTwitterFollowers"
-  [connectionsMutualTwitterFriends]="connectionsMutualTwitterFriends"
-  [connectionsMutualTwitterFriends]="connectionsMutualTwitterFriends"
-  [type]="type"
+<prs-mobile-network-connections *ngIf="activeView === viewsType.Network && type === 'my-profile'"
   [name]="person.firstName">
-</prs-mobile-network>
+</prs-mobile-network-connections>
+<prs-mobile-network-mutual-connections *ngIf="activeView === viewsType.Network && type !== 'my-profile'"
+  [person]="person">
+</prs-mobile-network-mutual-connections>
 <prs-mobile-likes
   *ngIf="activeView === viewsType.Likes"
   [userId]="person.id"

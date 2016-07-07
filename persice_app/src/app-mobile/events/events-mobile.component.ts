@@ -1,57 +1,90 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppStateService} from '../shared/services/app-state.service';
-import {EventsService} from '../../app/shared/services/events.service';
+import {EventsMobileService} from './events-mobile.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LoadingComponent} from '../../app/shared/components/loading/loading.component';
+import {OpenLeftMenuDirective} from '../shared/directives/open-left-menu.directive';
+import {Subscription, Observable} from 'rxjs';
+import {Event} from '../shared/model/event';
+import {EventSummaryComponent} from './event-summary';
+import {InfiniteScrollDirective} from '../../common/directives';
 
 @Component({
   selector: 'prs-mobile-events',
   template: require('./events-mobile.html'),
-  directives: [LoadingComponent],
-  providers: [EventsService]
+  directives: [
+    LoadingComponent,
+    OpenLeftMenuDirective,
+    EventSummaryComponent,
+    InfiniteScrollDirective
+  ],
+  providers: [EventsMobileService]
 })
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
-  events: any[];
-  eventsType: string;
+  eventsType: EventsType;
   eventsTypeLabel: string;
-  isLoaded = false;
-  isLoading = true;
   isEventsTypeDropdownVisible = false;
+
+  private events$: Observable<Event[]>;
+  private isLoading$: Observable<boolean>;
+  private isLoadingInitial$: Observable<boolean>;
+  private isLoadedSub: Subscription;
+  private isLoaded: boolean = false;
+  private routerSub: Subscription;
 
   constructor(
     private appStateService: AppStateService,
-    private eventsService: EventsService,
+    private eventsService: EventsMobileService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.route.params.subscribe(params => {
+    this.routerSub = this.route.params.subscribe(params => {
       this.eventsType = params['type'];
     });
   }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray-2');
     this.appStateService.setHeaderVisibility(false);
-    this.loadEvents(this.eventsType);
+    this.appStateService.setFooterButtonVisibility(true);
+
+    this.events$ = this.eventsService.events$;
+    this.isLoading$ = this.eventsService.isLoading$;
+    this.isLoadingInitial$ = this.eventsService.isLoadingInitial$;
+    this.isLoadedSub = this.eventsService.isLoaded$.subscribe((state: boolean) => {
+      this.isLoaded = state;
+    });
+
+    this._loadEvents(this.eventsType, true);
   }
 
   ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray-2');
+    this.appStateService.setHeaderVisibility(true);
+    this.appStateService.setFooterButtonVisibility(false);
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
+    if (this.isLoadedSub) {
+      this.isLoadedSub.unsubscribe();
+    }
+  }
+
+  openEvent(event: Event) {
+    const eventUrl: string = `/event/${event.id}`;
+    this.router.navigateByUrl(eventUrl);
   }
 
   selectEventsType(type) {
     this.eventsType = type;
-    this.loadEvents(type);
+    this._loadEvents(type, true);
   }
 
-  loadEvents(type): void {
-    this.isLoading = true;
-    this.setEventsTypeLabel(type);
-    this.events = [];
-    this.eventsService.get('', 12, false, type).subscribe(response => {
-      this.events = response.objects;
-      this.isLoaded = true;
-      this.isLoading = true;
-    });
+  public loadMoreEvents(event: MouseEvent) {
+    if (!this.isLoaded) {
+      this._loadEvents(this.eventsType, false);
+    }
   }
 
   clickHeader(): void {
@@ -60,7 +93,7 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   clickEventsTypeDropdownElement(type, event): void {
     event.stopPropagation();
-    this.loadEvents(type);
+    this._loadEvents(type, true);
     this.isEventsTypeDropdownVisible = !this.isEventsTypeDropdownVisible;
     this.router.navigateByUrl(`/events/${type}`);
   }
@@ -70,12 +103,28 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
       this.eventsTypeLabel = 'All events';
     }
     if (type === 'my') {
-      this.eventsTypeLabel =  'My events';
+      this.eventsTypeLabel = 'My events';
     }
-    if (type === 'network') {
-      this.eventsTypeLabel =  'My network';
+    if (type === 'connections') {
+      this.eventsTypeLabel = 'My network';
     }
   }
+
+  /**
+   * Load events from EventsService
+   * @param {EventsType} type    Type of events to show
+   * @param {boolean}    initial Indicator whether loading events initially or loading more events
+   */
+  private _loadEvents(type: EventsType, initial: boolean) {
+    if (initial) {
+      this.setEventsTypeLabel(type);
+      this.eventsService.loadInitial(type);
+    } else {
+      this.eventsService.loadMore(type);
+    }
+
+  }
+
 }
 
-export type EventsType = 'all' | 'my' | 'network';
+export type EventsType = 'all' | 'my' | 'connections';

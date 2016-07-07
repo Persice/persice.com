@@ -194,6 +194,16 @@ export class HeaderState {
     title: ''
   };
 
+  public static eventNotFound = {
+    left: LeftHeaderState.Back,
+    leftAction: HeaderState.actions.Back,
+    center: CenterHeaderState.Title,
+    right: RightHeaderState.EventMenu,
+    rigthAction: HeaderState.actions.None,
+    transparent: false,
+    title: 'Persice'
+  };
+
   public static onlyMenu = {
     left: LeftHeaderState.Menu,
     center: CenterHeaderState.None,
