@@ -5,6 +5,7 @@ export class AppStateService {
 
   headerStateEmitter: EventEmitter<any> = new EventEmitter();
   isHeaderVisibleEmitter: EventEmitter<any> = new EventEmitter();
+  isFooterButtonVisibleEmitter: EventEmitter<any> = new EventEmitter();
   goBackToListViewEmitter: EventEmitter<any> = new EventEmitter();
   isFilterVisibleEmitter: EventEmitter<any> = new EventEmitter();
   isProfileFooterVisibleEmitter: EventEmitter<any> = new EventEmitter();
@@ -16,6 +17,10 @@ export class AppStateService {
 
   setHeaderVisibility(visible: boolean) {
     this.isHeaderVisibleEmitter.emit(visible);
+  }
+
+  setFooterButtonVisibility(visible: boolean) {
+    this.isFooterButtonVisibleEmitter.emit(visible);
   }
 
   setUserProfileVisibility(visible: boolean) {
