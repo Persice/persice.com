@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "urlPattern": "/api/v1/events2/.*&offset=0"
+    "urlPattern": "/api/v1/events2/.*&offset=12"
   },
   "response": {
     "status": 200,
@@ -9,7 +9,7 @@
       "Access-Control-Allow-Origin" : "*",
       "Content-Type": "application/json"
     },
-    "bodyFileName": "events/events.response.json",
+    "bodyFileName": "events/events-continued.response.json",
     "fixedDelayMilliseconds": 500
   }
 }
