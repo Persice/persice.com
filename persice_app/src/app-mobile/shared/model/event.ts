@@ -2,6 +2,7 @@ import {Distance} from './distance';
 import {DateUtil} from '../../../app/shared/core/util';
 import {EventDate} from './event-date';
 export class Event {
+  private _id: string;
   private _name: string;
   private _image: string;
   private _hostedBy: string;
@@ -9,6 +10,7 @@ export class Event {
   private _accessLevel: string;
   private _similarity: string;
   private _distance: Distance;
+  private _connectionsAttendeesCount: number;
   private _maxAttendees: number;
   private _attendeesGoing: any[];
   private _attendeesMaybe: any[];
@@ -25,6 +27,7 @@ export class Event {
   }
 
   constructor(dto: any) {
+    this._id = dto.id;
     this._name = dto.name;
     this._image = dto.event_photo;
     this._hostedBy = dto.hosted_by;
@@ -32,6 +35,7 @@ export class Event {
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
     this._distance = new Distance(dto.distance);
+    this._connectionsAttendeesCount = dto.friend_attendees_count;
     this._maxAttendees = dto.max_attendees;
     this._attendeesGoing = dto.attendees_yes;
     this._attendeesNotGoing = dto.attendees_no;
@@ -46,6 +50,10 @@ export class Event {
 
   get name(): string {
     return this._name;
+  }
+
+  get id(): string {
+    return this._id;
   }
 
   get image(): string {
@@ -70,6 +78,10 @@ export class Event {
 
   get distance(): Distance {
     return this._distance;
+  }
+
+  get connectionsAttendeesCount(): number {
+    return this._connectionsAttendeesCount;
   }
 
   get maxAttendees(): number {
