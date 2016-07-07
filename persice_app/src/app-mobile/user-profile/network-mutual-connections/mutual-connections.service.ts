@@ -29,7 +29,7 @@ interface ConnectionsPreviewMapped {
 
 @Injectable()
 export class MutualConnectionsService {
-  public static API_URL = 'http://localhost:9998/api/v2/mutual-connections/';
+  public static API_URL = '/api/v2/mutual-connections/';
 
   public connections$: Observable<Connections>;
   public preview$: Observable<ConnectionsPreview>;
