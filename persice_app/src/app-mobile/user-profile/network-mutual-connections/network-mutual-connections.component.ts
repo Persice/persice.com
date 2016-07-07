@@ -53,6 +53,7 @@ export class NetworkMutualConnectionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray-3');
     const pageTitle: string = `${this.name}'s network`;
     this.appStateService.headerStateEmitter.emit(
       this.headerState.backWithTitle(pageTitle, HeaderState.actions.ShowUserProfile)
@@ -72,7 +73,10 @@ export class NetworkMutualConnectionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
-    this.isLoadedSub.unsubscribe();
+    document.querySelector('html').classList.toggle('bg-gray-3');
+    if (this.isLoadedSub) {
+      this.isLoadedSub.unsubscribe();
+    }
   }
 
   public viewProfile(person: Person) {

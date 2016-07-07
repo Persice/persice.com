@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
@@ -21,7 +21,7 @@ import {HeaderState} from '../../header';
   ],
   providers: [ConnectionsService]
 })
-export class NetworkConnectionsComponent implements OnInit {
+export class NetworkConnectionsComponent implements OnInit, OnDestroy {
   @Input() name: string = '';
 
   public connections: Array<any> = [];
@@ -41,7 +41,7 @@ export class NetworkConnectionsComponent implements OnInit {
   }
 
   ngOnInit(): any {
-
+    document.querySelector('html').classList.toggle('bg-gray-3');
     const pageTitle: string = `${this.name}'s network`;
     this.appStateService.headerStateEmitter.emit(
       this.headerState.backWithTitle(pageTitle, HeaderState.actions.ShowUserProfile)
@@ -49,6 +49,10 @@ export class NetworkConnectionsComponent implements OnInit {
 
     this.getConnections();
 
+  }
+
+  ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray-3');
   }
 
   /**

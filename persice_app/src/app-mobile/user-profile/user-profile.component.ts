@@ -123,6 +123,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
     this.isUserProfileVisibleSubs = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
       if (!!visible) {
         this.showProfileView(undefined);
@@ -152,6 +153,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
     this.toggleFooterVisibility(false);
     this.isUserProfileVisibleSubs.unsubscribe();
     this.backSubs.unsubscribe();

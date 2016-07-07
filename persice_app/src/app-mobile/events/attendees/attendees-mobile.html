@@ -5,7 +5,7 @@
     <li class="mob-sec-tabs__item" [ngClass]="{'is-current': activeTab === 3}"><a (click)="activateTab(3)">Can't Go ({{ counterNotGoing$ | async }})</a></li>
   </ul>
 </div>
-<div prs-infinite-scroll (scrolled)="loadMoreData($event)" [scrollEnabled]="!!!isLoaded" [bottomOffset]="60">
+<div prs-infinite-scroll (scrolled)="loadMoreData($event)" [scrollEnabled]="!isLoaded" [bottomOffset]="60">
   <div class="mob-user-card-title" *ngIf="(connectionsTotalCount$ | async) > 0"> Connections </div>
   <prs-mobile-user-card (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)" [showIcon]="person.connected" [personEntity]="person" *ngFor="let person of connections$ | async" [showSendMessage]="true"></prs-mobile-user-card>
   <div class="mob-user-card-title" *ngIf="(othersTotalCount$ | async) > 0"> Others </div>
