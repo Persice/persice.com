@@ -1,6 +1,6 @@
-import {Component, ViewEncapsulation, OnInit} from '@angular/core';
+import {Component, ViewEncapsulation, OnInit, ApplicationRef} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES, Router, NavigationEnd} from '@angular/router';
 
 import {AppStateService} from './shared/services';
 import {
@@ -61,6 +61,8 @@ export class AppMobileComponent implements OnInit {
     private geolocationService: GeolocationService,
     private locationService: LocationService,
     private store: Store<AppState>,
+    private router: Router,
+    private ref: ApplicationRef,
     private unreadMessagesCounterService: UnreadMessagesCounterService,
     private newConnectionsCounterService: NewConnectionsCounterService
   ) {
@@ -70,6 +72,18 @@ export class AppMobileComponent implements OnInit {
 
     const newConnectionsCounterStore$ = store.let(getNewConnectionsCounterState());
     this.newConnectionsCounter = newConnectionsCounterStore$.map(state => state['counter']);
+
+    // Temporary fix for browser back button now working on IOS
+    // https://github.com/angular/angular/issues/9565
+    if (this.isMac()) {
+      router.events.subscribe(ev => {
+        if (ev instanceof NavigationEnd) {
+          setTimeout(() => {
+            ref.zone.run(() => ref.tick())
+          });
+        }
+      })
+    }
   }
 
   ngOnInit() {
@@ -108,6 +122,13 @@ export class AppMobileComponent implements OnInit {
       (err) => {
         console.log('Geolocation Error: ', err);
       });
+  }
+
+  isMac() {
+    if (navigator.userAgent.indexOf('Mac') > -1) {
+      return true
+    }
+    return false
   }
 
   /**
