@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AppStateService} from '../shared/services/app-state.service';
 import {EventsMobileService} from './events-mobile.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,8 +18,7 @@ import {InfiniteScrollDirective} from '../../common/directives';
     EventSummaryComponent,
     InfiniteScrollDirective
   ],
-  providers: [EventsMobileService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [EventsMobileService]
 })
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
