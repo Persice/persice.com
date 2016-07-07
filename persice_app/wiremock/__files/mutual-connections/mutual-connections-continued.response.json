@@ -9,7 +9,7 @@
   "objects": [
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -61,7 +61,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -113,7 +113,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -165,7 +165,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -217,7 +217,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -269,7 +269,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -321,7 +321,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -373,7 +373,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -425,7 +425,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -477,7 +477,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -529,7 +529,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [
@@ -581,7 +581,7 @@
     },
     {
       "type": "persice",
-      "connected": false,
+      "mutual": false,
       "about": null,
       "age": 35,
       "distance": [

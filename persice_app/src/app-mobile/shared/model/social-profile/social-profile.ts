@@ -3,11 +3,11 @@ export class SocialProfile {
   private _type: string;
   private _image: string;
   private _url: string;
-  private _connected: boolean;
+  private _mutual: boolean;
 
   constructor(dto: any) {
     this._type = dto.type;
-    this._connected = dto.connected;
+    this._mutual = dto.mutual;
     switch (dto.type) {
       case 'facebook':
         this._name = dto.first_name;
@@ -33,8 +33,8 @@ export class SocialProfile {
     return this._name;
   }
 
-  get connected(): boolean {
-    return this._connected;
+  get mutual(): boolean {
+    return this._mutual;
   }
 
   get image(): string {

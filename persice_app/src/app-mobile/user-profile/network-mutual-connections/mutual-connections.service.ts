@@ -172,11 +172,11 @@ export class MutualConnectionsService {
     let personsList: any[] = dto.objects.map((data) => this._toEntity(data));
 
     // Split persons in two lists (others and connections),
-    // based on value of "connected" attribute.
+    // based on value of "mutual" attribute.
     let mutualList: any[] = [];
     let othersList: any[] = [];
     for (let i = 0; i < personsList.length; i++) {
-      if (!!personsList[i].connected) {
+      if (!!personsList[i].mutual) {
         mutualList = [...mutualList, personsList[i]];
       } else {
         othersList = [...othersList, personsList[i]];
