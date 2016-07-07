@@ -259,6 +259,7 @@ class MutualConnections(Resource):
     keywords = fields.ListField(attribute='keywords', null=True)
     position = fields.DictField(attribute='position', null=True)
     lives_in = fields.CharField(attribute='lives_in', null=True)
+    mutual = fields.BooleanField(attribute='mutual', null=True)
     """
     TODO:
     -------------------------
