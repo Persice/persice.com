@@ -3,6 +3,7 @@ set -xe
 
 source .env
 
+git pull
 pushd persice_app
 npm install
 gulp
