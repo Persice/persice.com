@@ -80,7 +80,8 @@ export class NetworkMutualConnectionsComponent implements OnInit, OnDestroy {
   }
 
   public viewProfile(person: Person) {
-    this.router.navigateByUrl('/' + person.username);
+    console.log('viewing profile');
+    // this.router.navigateByUrl('/' + person.username);
   }
 
   public openNewConversation(person: Person) {
