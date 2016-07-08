@@ -84,7 +84,7 @@ export class AppMobileComponent implements OnInit {
             }
           });
         }
-      })
+      });
     }
   }
 
@@ -128,9 +128,9 @@ export class AppMobileComponent implements OnInit {
 
   isMac() {
     if (navigator.userAgent.indexOf('Mac') > -1) {
-      return true
+      return true;
     }
-    return false
+    return false;
   }
 
   /**
