@@ -666,8 +666,11 @@ class MatchQuerySet(object):
                 logger.error(er)
         non_matched_users = list(set(user_ids) - set(matched_users))
         for non_matched_user in non_matched_users:
-            non_match = NonMatchUser(current_user.id, non_matched_user)
-            users.append(non_match)
+            try:
+                non_match = NonMatchUser(current_user.id, non_matched_user)
+                users.append(non_match)
+            except FacebookCustomUserActive.DoesNotExist as err:
+                logger.error(err)
         return users
 
     @staticmethod
