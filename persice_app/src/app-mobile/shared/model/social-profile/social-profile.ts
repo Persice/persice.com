@@ -6,9 +6,9 @@ export class SocialProfile {
   private _mutual: boolean;
 
   constructor(dto: any) {
-    this._type = dto.type;
+    this._type = dto.user_type;
     this._mutual = dto.mutual;
-    switch (dto.type) {
+    switch (this.type) {
       case 'facebook':
         this._name = dto.first_name;
         this._image = `//graph.facebook.com/${dto.facebook_id}/picture?type=square`;

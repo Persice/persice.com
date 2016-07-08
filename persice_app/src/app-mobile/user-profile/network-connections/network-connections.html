@@ -5,6 +5,7 @@
   <prs-mobile-user-card
     [isNewConnectionDisabled]="1"
     [showSendMessage]="1"
+    (onProfileTap)="viewProfile($event)"
     (onOpenNewConversation)="openNewConversation($event)"
     [person]="person"
     *ngFor="let person of connections">

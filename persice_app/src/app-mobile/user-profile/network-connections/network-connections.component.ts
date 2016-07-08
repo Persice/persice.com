@@ -55,6 +55,10 @@ export class NetworkConnectionsComponent implements OnInit, OnDestroy {
     document.querySelector('html').classList.toggle('bg-gray-3');
   }
 
+  public viewProfile(person) {
+    this.router.navigateByUrl('/' + person.username);
+  }
+
   /**
    * Load connections from backend
    */

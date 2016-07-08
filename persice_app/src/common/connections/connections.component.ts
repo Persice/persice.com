@@ -14,7 +14,7 @@ export class ConnectionsComponent extends ListComponent {
   ) {
     super(listService, LIST_TYPE, LIST_LIMIT, 'username', listRefreshTimeout);
   }
-
+  // TODO: rewrite subscribing to filter updates
   subscribeToFilterServiceUpdates() {
 
     // Add observer for filter updates

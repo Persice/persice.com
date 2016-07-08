@@ -22,6 +22,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
   private isProfileNotFound: boolean = false;
   private isStandalonePage: boolean = false;
   private sub: any;
+  private userProfilesub: any;
 
   constructor(
     private profileService: ProfileService,
@@ -29,42 +30,47 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
-
-    this.sub = this.route.params.subscribe(params => {
-      this.usernameFromUrl = params['username'];
-    });
   }
 
   ngOnInit() {
-    let sub = this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
-      if (resp) {
-        this.me = resp;
-        this.isProfileLoaded = true;
-        this.isProfileNotFound = false;
-        if (this.usernameFromCookie === this.usernameFromUrl) {
-          this.type = 'my-profile';
-        } else {
-          this.isStandalonePage = true;
-          if (!!resp.connected) {
-            this.type = 'connection';
+    this.sub = this.route.params.subscribe(params => {
+      this.isProfileNotFound = false;
+      this.usernameFromUrl = params['username'];
+      this.userProfilesub = this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
+        if (resp) {
+          this.me = resp;
+          this.isProfileLoaded = true;
+          this.isProfileNotFound = false;
+          if (this.usernameFromCookie === this.usernameFromUrl) {
+            this.type = 'my-profile';
           } else {
-            this.type = 'crowd';
+            this.isStandalonePage = true;
+            if (!!resp.connected) {
+              this.type = 'connection';
+            } else {
+              this.type = 'crowd';
+            }
           }
+        } else {
+          this.isProfileNotFound = true;
+          // Redirect to crowd page if profile is not found
+          this.router.navigateByUrl('/crowd');
         }
-      } else {
+      }, (err) => {
         this.isProfileNotFound = true;
-        // Redirect to crowd page if profile is not found
-        this.router.navigateByUrl('/crowd');
-      }
-    }, (err) => {
-      this.isProfileNotFound = true;
-      console.log('Could not load profile', err);
-    }, () => {
-      sub.unsubscribe();
+        console.log('Could not load profile', err);
+      }, () => {
+      });
     });
+
   }
 
   ngOnDestroy(): any {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.userProfilesub) {
+      this.userProfilesub.unsubscribe();
+    }
   }
 }
