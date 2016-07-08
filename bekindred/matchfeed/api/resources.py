@@ -1,6 +1,7 @@
 import hashlib
 import logging
 
+import itertools
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.cache import cache
 from tastypie import fields
@@ -304,16 +305,21 @@ class MutualConnections(Resource):
             raise BadRequest('incorrect user_id')
         mutual_friends = NeoFourJ().get_mutual_friends(current_user.id,
                                                        user.id)
+        unique_users = {}
+
         if mutual_friends:
             results = MatchQuerySet.filter(current_user, mutual_friends)
-            other_friends = MatchQuerySet.all(current_user.id, friends=True,
+            other_friends = MatchQuerySet.all(user_id, friends=True,
                                               user_ids=mutual_friends)
         else:
-            other_friends = MatchQuerySet.all(current_user.id, friends=True)
+            other_friends = MatchQuerySet.all(user_id, friends=True)
 
         for of in other_friends:
             of.mutual = False
-            results.append(of)
+            unique_users[of.user_id] = of
+
+        for obj in results:
+            unique_users[obj.user_id] = obj
 
         # fb_mutual_friends = FacebookFriendUser.objects.mutual_friends(
         #     current_user,
@@ -326,7 +332,7 @@ class MutualConnections(Resource):
         # mutual_twitter_friends = t['mutual_twitter_friends']
         # mutual_twitter_followers = t['mutual_twitter_followers']
 
-        return sorted(results, key=lambda x: -x.mutual)
+        return sorted(unique_users.values(), key=lambda x: -x.mutual)
 
     def obj_get_list(self, bundle, **kwargs):
         return self.get_object_list(bundle.request)
