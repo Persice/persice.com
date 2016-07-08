@@ -15,6 +15,7 @@ export class ConnectionsComponent extends ListComponent {
     super(listService, LIST_TYPE, LIST_LIMIT, 'username', listRefreshTimeout);
   }
 
+  // TODO: rewrite subscribing to filter updates
   subscribeToFilterServiceUpdates() {
 
     // Add observer for filter updates
@@ -25,8 +26,9 @@ export class ConnectionsComponent extends ListComponent {
   }
 
   clearServicesSubscriptions() {
-    this.filterService.observer(LIST_TYPE).unsubscribe();
-    this.filterService.removeObserver(LIST_TYPE);
+    if (this.filterService.observer(LIST_TYPE)) {
+      this.filterService.observer(LIST_TYPE).unsubscribe();
+    }
     if (this.serviceInstance) {
       this.serviceInstance.unsubscribe();
     }
