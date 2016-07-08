@@ -79,7 +79,9 @@ export class AppMobileComponent implements OnInit {
       router.events.subscribe(ev => {
         if (ev instanceof NavigationEnd) {
           setTimeout(() => {
-            ref.zone.run(() => ref.tick())
+            if (ref.zone) {
+              ref.zone.run(() => ref.tick());
+            }
           });
         }
       })
