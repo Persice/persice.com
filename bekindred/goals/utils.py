@@ -304,8 +304,10 @@ def get_mutual_twitter_friends(user_id1, user_id2):
                   count_mutual_twitter_friends=0,
                   count_mutual_twitter_followers=0)
     try:
-        current_auth_user = UserSocialAuth.objects.filter(user_id=user_id1, provider='twitter')[0]
-        requested_auth_user = UserSocialAuth.objects.filter(user_id=user_id2, provider='twitter')[0]
+        current_auth_user = UserSocialAuth.objects.filter(user_id=user_id1,
+                                                          provider='twitter')[0]
+        requested_auth_user = UserSocialAuth.objects.filter(user_id=user_id2,
+                                                            provider='twitter')[0]
         tf2 = TwitterListFriends.objects.filter(twitter_id1=requested_auth_user.uid).values_list('twitter_id2',
                                                                                                  flat=True)
         tf1 = TwitterListFriends.objects.filter(twitter_id1=current_auth_user.uid,

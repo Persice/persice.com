@@ -20,7 +20,7 @@ from goals.utils import (get_mutual_linkedin_connections,
                          get_mutual_twitter_friends,
                          get_current_position, get_religious_views,
                          get_political_views)
-from matchfeed.utils import MatchQuerySet
+from matchfeed.utils import MatchQuerySet, NonMatchUser
 from members.models import FacebookCustomUserActive
 
 logger = logging.getLogger(__name__)
@@ -231,12 +231,18 @@ class Struct(object):
         self.__dict__.update(entries)
 
 
+FacebookMutualUser = namedtuple('FacebookMutualUser',
+                                ['id', 'mutual', 'user_type', 'user_id',
+                                 'distance', 'facebook_id', 'first_name',
+                                 'last_name'])
+
+
 class MutualConnections(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
     last_name = fields.CharField(attribute='last_name')
     facebook_id = fields.CharField(attribute='facebook_id')
-    username = fields.CharField(attribute='username')
+    username = fields.CharField(attribute='username', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
     user_id = fields.CharField(attribute='user_id')
     twitter_provider = fields.CharField(attribute='twitter_provider',
@@ -245,8 +251,8 @@ class MutualConnections(Resource):
                                         null=True)
     linkedin_provider = fields.CharField(attribute='linkedin_provider',
                                          null=True)
-    age = fields.IntegerField(attribute='age')
-    distance = fields.ListField(attribute='distance')
+    age = fields.IntegerField(attribute='age', null=True)
+    distance = fields.ListField(attribute='distance', null=True)
     about = fields.CharField(attribute='about', null=True)
     gender = fields.CharField(attribute='gender', default=u'all')
 
@@ -268,6 +274,7 @@ class MutualConnections(Resource):
     position = fields.DictField(attribute='position', null=True)
     lives_in = fields.CharField(attribute='lives_in', null=True)
     mutual = fields.BooleanField(attribute='mutual', null=True)
+    user_type = fields.CharField(attribute='user_type', null=True)
     """
     TODO:
     -------------------------
@@ -319,33 +326,25 @@ class MutualConnections(Resource):
         mutual_friends = MatchQuerySet.filter(current_user, mutual_friends_ids)
         for obj in mutual_friends:
             obj.mutual = True
+            obj.user_type = "persice"
             results[obj.user_id] = obj
+            results[obj.facebook_id] = FacebookMutualUser(
+                id=obj.facebook_id,
+                user_id=obj.user_id,
+                distance=obj.distance,
+                first_name=obj.first_name,
+                last_name=obj.last_name,
+                facebook_id=obj.facebook_id,
+                mutual=True,
+                user_type='facebook'
+            )
 
         other = MatchQuerySet.filter(current_user, other_ids)
         for obj1 in other:
             obj1.mutual = False
+            obj1.user_type = "persice"
             results[obj1.user_id] = obj1
 
-        # if mutual_friends:
-        #     results = MatchQuerySet.filter(current_user, mutual_friends)
-        #     other_friends = MatchQuerySet.all(user_id, friends=True,
-        #                                       user_ids=mutual_friends)
-        # else:
-        #     other_friends = MatchQuerySet.all(user_id, friends=True)
-        #
-        # for of in other_friends:
-        #     of.mutual = False
-        #     unique_users[of.user_id] = of
-        #
-        # for obj in results:
-        #     unique_users[obj.user_id] = obj
-
-        # fb_mutual_friends = FacebookFriendUser.objects.mutual_friends(
-        #     current_user.id,
-        #     user_id
-        # )
-        # fb_mutual_friends_struct = Struct(**fb_mutual_friends)
-        #
         # l = get_mutual_linkedin_connections(current_user, user)
         # linkedin_mutual_connections = l['mutual_linkedin']
         # t = get_mutual_twitter_friends(current_user, user)
