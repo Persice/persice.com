@@ -75,7 +75,7 @@ describe('App component mobile', () => {
     ]);
   });
 
-  xit('should navigate to Crowd page',
+  it('should navigate to Crowd page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -90,7 +90,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/crowd');
       })));
 
-  xit('should navigate to Connections page',
+  it('should navigate to Connections page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -106,7 +106,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/connections');
       })));
 
-  xit('should navigate to Mesages page',
+  it('should navigate to Mesages page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -122,7 +122,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/messages');
       })));
 
-  xit('should navigate to Events page',
+  it('should navigate to Events page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -138,7 +138,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/events/all');
       })));
 
-  xit('should navigate to Settings page',
+  it('should navigate to Settings page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -154,7 +154,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/settings');
       })));
 
-  xit('should navigate to Privacy page',
+  it('should navigate to Privacy page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -170,7 +170,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/privacy');
       })));
 
-  xit('should navigate to Terms page',
+  it('should navigate to Terms page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -186,7 +186,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/terms');
       })));
 
-  xit('should navigate to My profile page',
+  it('should navigate to My profile page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
