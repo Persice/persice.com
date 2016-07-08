@@ -132,25 +132,12 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       }
     });
 
-    if (this.type !== 'my-profile') {
-      this.connectionsPreview = this.mutualConnectionsService.preview$.map(data => data.connections);
-      this.connectionsPreviewTotalCount = this.mutualConnectionsService.preview$.map(data => data.connectionsTotalCount);
-    } else {
-      this.connectionsPreview = this.connectionsService.connections$.map(data => data.connections);
-      this.connectionsPreviewTotalCount = this.connectionsService.connections$.map(data => data.connectionsTotalCount);
-    }
-
     // When going back from profile view, hide footer and clear selected person from Store
     this.backSubs = this.appStateService.backEmitter.subscribe(() => {
       this.toggleFooterVisibility(false);
       this.clearSelectedPersonFromStore();
     });
 
-    this.makeProfileHeaderVisible();
-
-    if (this.type === 'crowd' || this.type === 'connection') {
-      this.toggleFooterVisibility(true);
-    }
 
   }
 
@@ -223,11 +210,6 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public showNetworkView(event): void {
-    // if (this.otherConnectionsCount + this.mutualConnectionsCount < 1) {
-    //   // Do nothing.
-    //   return;
-    // }
-
     this.activeView = this.viewsType.Network;
     this.toggleFooterVisibility(false);
   }
@@ -265,10 +247,20 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
 
   private _setState(user: any) {
     this.person = new Person(user);
+
+    if (this.type !== 'my-profile') {
+      this.connectionsPreview = this.mutualConnectionsService.preview$.map(data => data.connections);
+      this.connectionsPreviewTotalCount = this.mutualConnectionsService.preview$.map(data => data.connectionsTotalCount);
+    } else {
+      this.connectionsPreview = this.connectionsService.connections$.map(data => data.connections);
+      this.connectionsPreviewTotalCount = this.connectionsService.connections$.map(data => data.connectionsTotalCount);
+    }
+
     if (this.type === 'crowd' || this.type === 'connection') {
       // Set selected user only if profile is crowd or connection
       this.store.dispatch(this.actions.set(this.person, this.type));
       this.mutualConnectionsService.getForPreview(this.person.id, 4);
+      this.toggleFooterVisibility(true);
       if (this.username) {
         this.setBrowserLocationUrl(`/${this.username}`);
       } else if (user.username) {
@@ -278,6 +270,9 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     } else if (this.type === 'my-profile') {
       this.connectionsService.getForPreview(4);
     }
+
+    this.makeProfileHeaderVisible();
+    this.activeView = this.viewsType.Profile;
   }
 
   private setBrowserLocationUrl(path: string) {

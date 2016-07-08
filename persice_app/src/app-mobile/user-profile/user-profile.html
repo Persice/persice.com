@@ -4,7 +4,7 @@
     <div class="profile-hero__name-meta" *ngIf="type === 'crowd' || type === 'connection'">{{person.distance}} {{person.distanceUnit}} from you</div>
 <div class="profile-avatarplace">
   <div class="match-profile__avatar-place">
-    <div class="match-profile__avatar" (click)="showPhotosView($event)" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
+    <div class="match-profile__avatar" (click)="showPhotosView($event)" [onchanges]="1" checkimage="{{person.image}}" [suffix]="'.120x120_q100_crop.jpg'"></div>
     <br>
     <div class="match-percent-large"></div>
   </div>
