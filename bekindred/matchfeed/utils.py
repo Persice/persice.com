@@ -605,7 +605,6 @@ class MatchQuerySet(object):
         for hit in hits:
             try:
                 user = MatchUser(current_user.id, hit)
-                user.mutual = True
                 users.append(user)
                 matched_users.append(user.id)
             except FacebookCustomUserActive.DoesNotExist as er:
@@ -613,7 +612,6 @@ class MatchQuerySet(object):
         non_matched_users = list(set(user_ids) - set(matched_users))
         for non_matched_user in non_matched_users:
             non_match = NonMatchUser(current_user.id, non_matched_user)
-            non_match.mutual = True
             users.append(non_match)
         return users
 

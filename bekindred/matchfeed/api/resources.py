@@ -2,6 +2,8 @@ import hashlib
 import logging
 
 import itertools
+from collections import namedtuple
+
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.cache import cache
 from tastypie import fields
@@ -224,6 +226,11 @@ class MutualFriendsResource(Resource):
         pass
 
 
+class Struct(object):
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+
 class MutualConnections(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
@@ -292,7 +299,7 @@ class MutualConnections(Resource):
         return kwargs
 
     def get_object_list(self, request):
-        results = []
+        results = {}
         current_user = request.user
         user_id = request.GET.get('user_id')
         if user_id is None:
@@ -303,28 +310,41 @@ class MutualConnections(Resource):
         except FacebookCustomUserActive.DoesNotExist as err:
             logging.exception(err)
             raise BadRequest('incorrect user_id')
-        mutual_friends = NeoFourJ().get_mutual_friends(current_user.id,
+        mutual_friends_ids = NeoFourJ().get_mutual_friends(current_user.id,
                                                        user.id)
-        unique_users = {}
+        friends_ids = NeoFourJ().get_my_friends_ids(user.id)
 
-        if mutual_friends:
-            results = MatchQuerySet.filter(current_user, mutual_friends)
-            other_friends = MatchQuerySet.all(user_id, friends=True,
-                                              user_ids=mutual_friends)
-        else:
-            other_friends = MatchQuerySet.all(user_id, friends=True)
+        other_ids = list(set(friends_ids) - set(mutual_friends_ids))
 
-        for of in other_friends:
-            of.mutual = False
-            unique_users[of.user_id] = of
+        mutual_friends = MatchQuerySet.filter(current_user, mutual_friends_ids)
+        for obj in mutual_friends:
+            obj.mutual = True
+            results[obj.user_id] = obj
 
-        for obj in results:
-            unique_users[obj.user_id] = obj
+        other = MatchQuerySet.filter(current_user, other_ids)
+        for obj1 in other:
+            obj1.mutual = False
+            results[obj1.user_id] = obj1
+
+        # if mutual_friends:
+        #     results = MatchQuerySet.filter(current_user, mutual_friends)
+        #     other_friends = MatchQuerySet.all(user_id, friends=True,
+        #                                       user_ids=mutual_friends)
+        # else:
+        #     other_friends = MatchQuerySet.all(user_id, friends=True)
+        #
+        # for of in other_friends:
+        #     of.mutual = False
+        #     unique_users[of.user_id] = of
+        #
+        # for obj in results:
+        #     unique_users[obj.user_id] = obj
 
         # fb_mutual_friends = FacebookFriendUser.objects.mutual_friends(
-        #     current_user,
+        #     current_user.id,
         #     user_id
         # )
+        # fb_mutual_friends_struct = Struct(**fb_mutual_friends)
         #
         # l = get_mutual_linkedin_connections(current_user, user)
         # linkedin_mutual_connections = l['mutual_linkedin']
@@ -332,7 +352,7 @@ class MutualConnections(Resource):
         # mutual_twitter_friends = t['mutual_twitter_friends']
         # mutual_twitter_followers = t['mutual_twitter_followers']
 
-        return sorted(unique_users.values(), key=lambda x: -x.mutual)
+        return sorted(results.values(), key=lambda x: -x.mutual)
 
     def obj_get_list(self, bundle, **kwargs):
         return self.get_object_list(bundle.request)

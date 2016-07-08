@@ -102,6 +102,10 @@ class NeoFourJ(object):
         return result
 
     def get_my_friends(self, user_id):
+        try:
+            user_id = int(user_id)
+        except (ValueError, TypeError) as err:
+            logger.debug(err)
         return self.graph.cypher.execute("""
             MATCH (Person { user_id:{USER_ID} })-[:FRIENDS]->(n)
             -[:FRIENDS]->(Person { user_id:{USER_ID} })
