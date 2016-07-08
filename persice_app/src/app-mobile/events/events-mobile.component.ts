@@ -11,7 +11,7 @@ import {InfiniteScrollDirective} from '../../common/directives';
 
 @Component({
   selector: 'prs-mobile-events',
-  template: require('./events-mobile.html'),
+  template: <any>require('./events-mobile.html'),
   directives: [
     LoadingComponent,
     OpenLeftMenuDirective,
