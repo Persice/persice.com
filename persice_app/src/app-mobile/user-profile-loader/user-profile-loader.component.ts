@@ -33,9 +33,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('init called');
     this.sub = this.route.params.subscribe(params => {
-      console.log('param changed', params['username']);
       this.isProfileNotFound = false;
       this.usernameFromUrl = params['username'];
       this.userProfilesub = this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
