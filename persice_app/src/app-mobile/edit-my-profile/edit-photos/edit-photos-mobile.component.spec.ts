@@ -1,18 +1,14 @@
-import {expect, it, async, describe, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-import {provide, Provider} from '@angular/core';
+import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {Observable} from 'rxjs';
-
 import {EditPhotosMobileComponent} from './edit-photos-mobile.component';
 import {PhotosService, FacebookAlbumsService} from '../../../app/shared/services';
 import {AppStateService} from '../../shared/services/app-state.service';
 import {HttpClient} from '../../../app/shared/core';
-import {TestComponentBuilder} from '@angular/compiler/testing';
 import {PhotosGenerators} from './photos-generators';
 import {Photo} from '../../../common/models/photo';
-import {HeaderState} from "../../header/header.state";
+import {HeaderState} from '../../header/header.state';
 
 class MockPhotosService extends PhotosService {
   response: any = null;
@@ -25,8 +21,8 @@ class MockPhotosService extends PhotosService {
     this.response = response;
   }
 
-  public getProvider(): Provider {
-    return provide(PhotosService, { useValue: this });
+  public getProvider(): any {
+    return {provide: PhotosService, useValue: this};
   }
 
   public setEmptyResponse(): void {
@@ -67,10 +63,10 @@ let domElement: any;
 describe('Edit photos mobile component', () => {
   let mockPhotosService: MockPhotosService;
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mockPhotosService = new MockPhotosService(null);
 
-    return [
+    addProviders([
       HttpClient,
       FacebookAlbumsService,
       MockBackend,
@@ -78,21 +74,22 @@ describe('Edit photos mobile component', () => {
       BaseRequestOptions,
       HttpClient,
       HeaderState,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
-      }),
+      },
       mockPhotosService.getProvider(),
-    ];
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder],
     (tcb: TestComponentBuilder) => {
       return tcb
         .overrideProviders(
-        EditPhotosMobileComponent, [
-          provide(PhotosService, { useValue: mockPhotosService })
-        ])
+          EditPhotosMobileComponent, [
+            {provide: PhotosService, useValue: mockPhotosService}
+          ])
         .createAsync(EditPhotosMobileComponent)
         .then((componentFixture: any) => {
           this.componentFixture = componentFixture;

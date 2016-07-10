@@ -1,19 +1,9 @@
 // TODO(sasa): fix unit tests once @angular/router has testing exported
-import {
-  it,
-  xdescribe,
-  beforeEach,
-  expect,
-  inject,
-  beforeEachProviders
-} from '@angular/core/testing';
-import {provide} from '@angular/core';
+import {inject, addProviders, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
 import {SpyLocation} from '@angular/common/testing';
 import {Location} from '@angular/common';
-
 import {MockBackend} from '@angular/http/testing';
 import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
 import {HttpClient} from '../../app/shared/core/http-client';
 import {HeaderComponent} from './header.component';
 import {FilterService} from '../../app/shared/services/filter.service';
@@ -26,12 +16,13 @@ xdescribe('Headercomponent mobile', () => {
   let _tcb: TestComponentBuilder;
   let _instance: HeaderComponent;
 
-  beforeEachProviders(() => {
-    return [
+  beforeEach(() => {
+    addProviders([
       BaseRequestOptions,
       MockBackend,
       HttpClient,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (connectionBackend: ConnectionBackend,
                      defaultOptions: BaseRequestOptions) => {
           return new Http(connectionBackend, defaultOptions);
@@ -40,15 +31,15 @@ xdescribe('Headercomponent mobile', () => {
           MockBackend,
           BaseRequestOptions
         ]
-      }),
+      },
       FilterService,
       NotificationService,
-      provide(Location, { useClass: SpyLocation }),
+      {provide: Location, useClass: SpyLocation},
       AppStateService
-    ];
+    ]);
   });
 
-  beforeEach(inject([TestComponentBuilder], ( tcb) => {
+  beforeEach(inject([TestComponentBuilder], (tcb) => {
     _tcb = tcb;
   }));
 

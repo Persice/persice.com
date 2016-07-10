@@ -7,7 +7,7 @@ import {CheckImageDirective} from '../../shared/directives';
 
 @Component({
   selector: 'prs-search-connections',
-  template: require('./search-connections.html'),
+  template: <any>require('./search-connections.html'),
   directives: [CheckImageDirective]
 })
 export class SearchConnectionsComponent implements OnInit, AfterViewInit {

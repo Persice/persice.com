@@ -103,7 +103,7 @@ from './shared/services';
     NotificationsComponent
   ],
   encapsulation: ViewEncapsulation.None,
-  template: require('./app.html'),
+  template: <any>require('./app.html'),
   providers: [
     FilterService,
     UserService,

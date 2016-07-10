@@ -43,6 +43,7 @@ config.vm.provider "virtualbox" do |v|
   v.customize ["modifyvm", :id, "--memory", 1024*4]
 end
 config.vm.network "private_network", ip: "10.0.1.11"
+  config.vm.network "forwarded_port", guest: 22, host: 2201, id: "ssh"
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.network "forwarded_port", guest: 8888, host: 8888
   config.vm.network "forwarded_port", guest: 3000, host: 3000

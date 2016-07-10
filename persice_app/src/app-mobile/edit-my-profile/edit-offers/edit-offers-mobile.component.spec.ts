@@ -1,15 +1,10 @@
-import {expect, it, describe, async, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-
-import {TestComponentBuilder} from '@angular/compiler/testing';
-
-import {provide, Provider} from '@angular/core';
+import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
 import {Observable} from 'rxjs';
 import {EditOffersMobileComponent} from './edit-offers-mobile.component';
 import {OffersService} from '../../../app/shared/services/offers.service';
 import {AppStateService} from '../../shared/services/app-state.service';
 import {OffersGenerators} from './offers-generators';
-import {HeaderState} from "../../header/header.state";
+import {HeaderState} from '../../header/header.state';
 
 let component: EditOffersMobileComponent;
 let mock: OffersServiceMock;
@@ -54,26 +49,26 @@ class OffersServiceMock extends OffersService {
     };
   }
 
-  public getProvider(): Provider {
-    return provide(OffersService, { useValue: this });
+  public getProvider(): any {
+    return {provide: OffersService, useValue: this};
   }
 }
 
 describe('Edit offers mobile component', () => {
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mock = new OffersServiceMock(null);
-    return [
+    addProviders([
       mock.getProvider(),
       AppStateService,
       HeaderState
-    ];
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      EditOffersMobileComponent, [provide(OffersService, { useValue: mock })])
+        EditOffersMobileComponent, [{provide: OffersService, useValue: mock}])
       .createAsync(EditOffersMobileComponent)
       .then((componentFixture: any) => {
         component = componentFixture.componentInstance;

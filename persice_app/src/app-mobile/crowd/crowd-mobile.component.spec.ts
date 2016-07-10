@@ -1,29 +1,11 @@
-import {
-  expect,
-  it,
-  describe,
-  beforeEachProviders,
-  beforeEach,
-  inject,
-  async
-} from '@angular/core/testing';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
-
-import {Component, provide} from '@angular/core';
+import {inject, async, addProviders, ComponentFixture, TestComponentBuilder} from '@angular/core/testing';
+import {Component} from '@angular/core';
 import {BaseRequestOptions, Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-
 import {provideStore} from '@ngrx/store';
 import STORE_REDUCERS from '../../common/reducers';
 import STORE_ACTIONS from '../../common/actions';
-
-import {
-  MockCrowd,
-  MockCrowdEmpty,
-  MockCrowdService,
-  CrowdService
-} from '../../common/crowd';
-
+import {MockCrowd, MockCrowdEmpty, MockCrowdService, CrowdService} from '../../common/crowd';
 import {AppStateService} from '../shared/services';
 import {CrowdMobileComponent} from './crowd-mobile.component';
 import {FilterService, FriendService} from '../../app/shared/services';
@@ -36,7 +18,8 @@ import {HttpClient} from '../../app/shared/core/http-client';
     FilterService
   ]
 })
-class TestComponent { }
+class TestComponent {
+}
 
 let componentInstance: TestComponent;
 let componentElement: any;
@@ -44,9 +27,9 @@ let componentElement: any;
 describe('Crowd mobile component', () => {
   let mockCrowdService: MockCrowdService;
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mockCrowdService = new MockCrowdService(null);
-    return [
+    addProviders([
       provideStore(STORE_REDUCERS),
       STORE_ACTIONS,
       mockCrowdService.getProvider(),
@@ -56,17 +39,18 @@ describe('Crowd mobile component', () => {
       MockBackend,
       BaseRequestOptions,
       HttpClient,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
-      })
-    ];
+      }
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder], (tcb) => {
     return tcb
       .overrideProviders(
-      CrowdMobileComponent, [provide(CrowdService, { useValue: mockCrowdService })])
+        CrowdMobileComponent, [{provide: CrowdService, useValue: mockCrowdService}])
       .createAsync(TestComponent)
       .then((componentFixture: ComponentFixture<any>) => {
         this.componentFixture = componentFixture;

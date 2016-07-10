@@ -1,0 +1,14 @@
+<div class="network-container bg-gray-3" prs-infinite-scroll (scrolled)="loadMoreConnections($event)" [scrollEnabled]="!loadingConnections || connectionsNext === null" [bottomOffset]="60">
+  <div class="mob-user-card-title" *ngIf="connectionsCount > 0">
+    Connections ({{connectionsCount}})
+  </div>
+  <prs-mobile-user-card
+    [isNewConnectionDisabled]="1"
+    [showSendMessage]="1"
+    (onProfileTap)="viewProfile($event)"
+    (onOpenNewConversation)="openNewConversation($event)"
+    [person]="person"
+    *ngFor="let person of connections">
+  </prs-mobile-user-card>
+</div>
+<prs-loading [status]="loadingConnections"></prs-loading>

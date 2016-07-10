@@ -3,7 +3,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
   selector: 'prs-mobile-navigation',
-  template: require('./navigation-mobile.html'),
+  template: <any>require('./navigation-mobile.html'),
   directives: [ROUTER_DIRECTIVES]
 })
 export class NavigationMobileComponent {

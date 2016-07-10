@@ -1,13 +1,5 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  ElementRef,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-import { Observable } from 'rxjs';
+import {Component, Input, Output, EventEmitter, ElementRef, OnInit, OnDestroy} from '@angular/core';
+import {Observable} from 'rxjs';
 import {MyProfileService} from '../shared/services';
 
 @Component({
@@ -23,10 +15,9 @@ export class EditAboutComponent implements OnInit, OnDestroy {
   @Input() about;
   @Output() loading: EventEmitter<any> = new EventEmitter;
   observable;
-  constructor(
-    private service: MyProfileService,
-    private el: ElementRef
-  ) {
+
+  constructor(private service: MyProfileService,
+              private el: ElementRef) {
 
   }
 
@@ -35,19 +26,19 @@ export class EditAboutComponent implements OnInit, OnDestroy {
       .map((e: any) => e.target.value)
       .debounceTime(500)
       .do(() => this.loading.next(true))
-      .map((value: string) => this.service.update({ about_me: value }))
+      .map((value: string) => this.service.update({about_me: value}))
       .switch()
       .subscribe(
-      (res: any) => {
-        this.loading.next(false);
-      },
-      (err: any) => {
-        console.log(err);
-        this.loading.next(false);
-      },
-      () => {
-        this.loading.next(false);
-      }
+        (res: any) => {
+          this.loading.next(false);
+        },
+        (err: any) => {
+          console.log(err);
+          this.loading.next(false);
+        },
+        () => {
+          this.loading.next(false);
+        }
       );
   }
 

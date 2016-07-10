@@ -10,7 +10,7 @@ import {FilterService} from '../../services';
   selector: 'prs-filters',
   directives: [SelectDirective, SliderComponent],
   pipes: [NumeralPipe],
-  template: require('./filter-desktop.html')
+  template: <any>require('./filter-desktop.html')
 })
 export class FilterDesktopComponent extends FilterComponent {
   @Input() set type(value: string) {

@@ -1,10 +1,3 @@
-import {
-  it,
-  describe,
-  expect,
-  beforeEach
-} from '@angular/core/testing';
-
 import {GenderPipe} from './gender.pipe.ts';
 
 describe('GenderPipe', () => {

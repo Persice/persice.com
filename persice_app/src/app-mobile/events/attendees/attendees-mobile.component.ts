@@ -14,7 +14,7 @@ import {AppState} from '../../../common/reducers';
 
 @Component({
   selector: 'prs-mobile-attendees',
-  template: require('./attendees-mobile.html'),
+  template: <any>require('./attendees-mobile.html'),
   providers: [AttendeeService],
   directives: [UserCardMobileComponent, InfiniteScrollDirective, LoadingComponent]
 })
@@ -27,7 +27,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   public counterGoing$: Observable<number>;
   public counterMaybe$: Observable<number>;
   public counterNotGoing$: Observable<number>;
-  public activeTab: AttendeeTab = AttendeeTab.Maybe;
+  public activeTab: AttendeeTab = AttendeeTab.Going;
 
   private isLoading$: Observable<boolean>;
   private isLoadedSub: Subscription;
@@ -47,6 +47,8 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray-3');
+
     this.appStateService.headerStateEmitter.emit(HeaderState.attendees);
 
     this.isLoading$ = this.attendeeService.isLoading$;
@@ -76,6 +78,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray-3');
     this.isLoadedSub.unsubscribe();
     this.routerSub.unsubscribe();
   }
@@ -96,7 +99,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
 
   public loadMoreData(event: MouseEvent) {
-    if (!!!this.isLoaded) {
+    if (!this.isLoaded) {
       this._loadData(this.activeTab, false);
     }
   }

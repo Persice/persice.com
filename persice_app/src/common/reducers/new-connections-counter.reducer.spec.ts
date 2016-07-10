@@ -1,13 +1,5 @@
-import unreadMessagesCounterReducer from './new-connections-counter.reducer';
-import {NewConnectionsCounterState} from './new-connections-counter.reducer';
+import unreadMessagesCounterReducer, {NewConnectionsCounterState} from './new-connections-counter.reducer';
 import {NewConnectionsCounterActions} from '../actions';
-
-import {
-  it,
-  describe,
-  expect
-} from '@angular/core/testing';
-
 describe('New connections counter reducer', () => {
   let emptyState: NewConnectionsCounterState = {
     counter: 0
@@ -28,7 +20,7 @@ describe('New connections counter reducer', () => {
     // when
     let newState = unreadMessagesCounterReducer(
       emptyState,
-      { type: NewConnectionsCounterActions.LOAD_COUNTER_SUCCESS, payload: payload });
+      {type: NewConnectionsCounterActions.LOAD_COUNTER_SUCCESS, payload: payload});
 
     // then
     expect(newState).toEqual(stateWithCounter);
@@ -41,7 +33,7 @@ describe('New connections counter reducer', () => {
     // when
     let newState = unreadMessagesCounterReducer(
       stateWithCounter,
-      { type: NewConnectionsCounterActions.INCREASE_COUNTER, payload: payload });
+      {type: NewConnectionsCounterActions.INCREASE_COUNTER, payload: payload});
 
     // then
     expect(JSON.stringify(newState)).toBe(JSON.stringify(stateWithIncreasedCounter));

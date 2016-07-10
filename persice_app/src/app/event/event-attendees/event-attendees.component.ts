@@ -4,7 +4,7 @@ import {Router} from '@angular/router-deprecated';
 import {SwiperDirective, CheckImageDirective} from '../../shared/directives';
 
 @Component({
-  template: require('./event-attendees.html'),
+  template: <any>require('./event-attendees.html'),
   selector: 'prs-event-attendees',
   directives: [SwiperDirective, CheckImageDirective]
 })

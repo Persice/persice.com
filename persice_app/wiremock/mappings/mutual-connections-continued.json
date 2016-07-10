@@ -5,8 +5,9 @@
   },
   "response": {
     "status": 200,
-    "headers" : {
-      "Access-Control-Allow-Origin" : "*"
+    "headers": {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json"
     },
     "bodyFileName": "mutual-connections/mutual-connections-continued.response.json",
     "fixedDelayMilliseconds": 1000

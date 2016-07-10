@@ -13,7 +13,7 @@ import {LoadingComponent} from '../shared/components/loading';
 
 @Component({
   selector: 'prs-edit-profile',
-  template: require('./edit-profile.html'),
+  template: <any>require('./edit-profile.html'),
   directives: [
     EditPersonalInfoComponent,
     EditPhotosComponent,

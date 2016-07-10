@@ -1,19 +1,26 @@
 import {provideRouter, RouterConfig} from '@angular/router';
-
 import {CrowdMobileComponent} from './crowd';
 import {NoContentComponent} from './no-content';
 import {ConnectionsMobileComponent} from './connections';
 import {SettingsMobileComponent} from './settings';
 import {EventsMobileComponent} from './events';
+import {EventMobileComponent} from './events/event/event-mobile.component';
 import {AttendeesMobileComponent} from './events/attendees';
 import {UserProfileLoaderComponent} from './user-profile-loader';
 import {TermsOfServiceMobileComponent} from './info/terms-of-service';
 import {PrivacyPolicyMobileComponent} from './info/privacy-policy';
+import {routesMessagesMobile} from './messages/';
+import {routesEditMyProfile} from './edit-my-profile';
 
 export const rootRoutes: RouterConfig = [
   {
     path: '',
     redirectTo: '/crowd',
+    terminal: true
+  },
+  {
+    path: 'events',
+    redirectTo: '/events/all',
     terminal: true
   },
   {
@@ -29,8 +36,12 @@ export const rootRoutes: RouterConfig = [
     component: SettingsMobileComponent,
   },
   {
-    path: 'events',
+    path: 'events/:type',
     component: EventsMobileComponent,
+  },
+  {
+    path: 'event/:eventId',
+    component: EventMobileComponent,
   },
   {
     path: 'attendees/:eventId',
@@ -53,9 +64,6 @@ export const rootRoutes: RouterConfig = [
     component: NoContentComponent
   },
 ];
-
-import {routesMessagesMobile} from './messages/';
-import {routesEditMyProfile} from './edit-my-profile';
 
 export const routesAppMobile: RouterConfig = [
   ...routesMessagesMobile,

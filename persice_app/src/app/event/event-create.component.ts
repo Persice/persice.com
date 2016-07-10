@@ -26,7 +26,7 @@ import {
 
 @Component({
   selector: 'prs-event-create',
-  template: require('./event-form.html'),
+  template: <any>require('./event-form.html'),
   directives: [
     SelectDirective,
     NotificationComponent,

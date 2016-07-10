@@ -102,6 +102,10 @@ class NeoFourJ(object):
         return result
 
     def get_my_friends(self, user_id):
+        try:
+            user_id = int(user_id)
+        except (ValueError, TypeError) as err:
+            logger.debug(err)
         return self.graph.cypher.execute("""
             MATCH (Person { user_id:{USER_ID} })-[:FRIENDS]->(n)
             -[:FRIENDS]->(Person { user_id:{USER_ID} })
@@ -239,3 +243,16 @@ class NeoFourJ(object):
         self.add_to_friends(n1, n2)
         self.add_to_friends(n2, n1)
         update_index_delay()
+
+    def get_mutual_friends(self, user_id1, user_id2):
+        mutual_friends = self.graph.cypher.execute("""
+            MATCH (p1:Person{user_id:{USER_ID1}})-[:FRIENDS]->(n)
+                                                 -[:FRIENDS]->(p1),
+                  (p2:Person{user_id:{USER_ID2}})-[:FRIENDS]->(n)
+                                                 -[:FRIENDS]->(p2)
+            RETURN n.user_id AS user_id;
+            """, {'USER_ID1': user_id1, 'USER_ID2': user_id2})
+        results = []
+        for record in mutual_friends:
+            results.append(record.user_id)
+        return results

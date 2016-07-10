@@ -3,7 +3,7 @@ import {LoadingIndicatorComponent} from '../../../../common/loading-indicator';
 
 @Component({
   selector: 'prs-mobile-conversation-input',
-  template: require('./conversation-input-mobile.html'),
+  template: <any>require('./conversation-input-mobile.html'),
   directives: [LoadingIndicatorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

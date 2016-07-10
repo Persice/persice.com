@@ -6,7 +6,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-privacy-policy',
-  template: require('./privacy-policy-mobile.html'),
+  template: <any>require('./privacy-policy-mobile.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [TabNavigationComponent]
 })

@@ -5,7 +5,7 @@ import {CheckImageDirective} from '../../../../../app/shared/directives';
 
 @Component({
   selector: 'prs-mobile-edit-photo-thumb',
-  template: require('./edit-photo-thumb.html'),
+  template: <any>require('./edit-photo-thumb.html'),
   directives: [CheckImageDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

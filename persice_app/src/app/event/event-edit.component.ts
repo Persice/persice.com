@@ -23,7 +23,7 @@ import {
 
 @Component({
   selector: 'prs-event-edit',
-  template: require('./event-form.html'),
+  template: <any>require('./event-form.html'),
   directives: [
     SelectDirective,
     NotificationComponent,

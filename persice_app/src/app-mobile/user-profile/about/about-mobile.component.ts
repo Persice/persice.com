@@ -1,13 +1,15 @@
+// TOOD: make this component generic because it is used in more than one place throughout the app
 import {Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 const SHOW_CHAR_LIMIT: number = 80;
 
 @Component({
   selector: 'prs-mobile-profile-about-me',
-  template: require('./about-mobile.html'),
+  template: <any>require('./about-mobile.html'),
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutMobileComponent {
+  @Input() type: string;
   @Input() set about(value: string) {
     this._setValue(value);
   }

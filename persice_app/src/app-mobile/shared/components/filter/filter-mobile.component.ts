@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {FilterComponent} from '../../../../common/filter';
 import {SliderComponent} from '../../../../common/slider';
 import {FilterService} from '../../../../app/shared/services';
@@ -9,11 +9,11 @@ import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
 
 @Component({
   selector: 'prs-mobile-filter',
-  template: require('./filter-mobile.html'),
+  template: <any>require('./filter-mobile.html'),
   directives: [SelectDirective, SliderComponent, KeywordsComponentMobile],
   pipes: [NumeralPipe]
 })
-export class FilterMobileComponent extends FilterComponent {
+export class FilterMobileComponent extends FilterComponent implements OnInit, OnDestroy {
   @Input() showGender = true;
   @Input() set type(value: string) {
     this.checkIfEvents(value);
@@ -26,10 +26,18 @@ export class FilterMobileComponent extends FilterComponent {
     super(filterService);
   }
 
+  ngOnInit() {
+    document.querySelector('html').classList.toggle('bg-gray');
+  }
+
+  ngOnDestroy() {
+    document.querySelector('html').classList.toggle('bg-gray');
+  }
+
   save() {
     delete this.filters.state.keyword;
     let data = this.filters.state;
-    if (data.distance >= this.rangeSliderOptionsDistance.max)  {
+    if (data.distance >= this.rangeSliderOptionsDistance.max) {
       data.distance = this.rangeSliderOptionsDistance.unlimited;
     }
 

@@ -16,7 +16,8 @@ from django_facebook.models import FacebookLike
 from social_auth.db.django_models import UserSocialAuth
 
 from events import Event
-from friends.models import Friend, FacebookFriendUser
+from friends.models import Friend, FacebookFriendUser, TwitterListFriends, \
+    TwitterListFollowers
 from friends.utils import NeoFourJ
 from goals.models import Offer, Goal
 from goals.utils import calculate_age, calculate_distance, social_extra_data, \
@@ -93,6 +94,60 @@ def timeit(method):
         return result
 
     return timed
+
+
+def mutual_twitter_friends(user_id1, user_id2):
+    """
+    For Twitter, we should only display mutual followers.
+    Here are two examples:
+    If User A is following both User B and User C on Twitter, then User A
+    should be displayed as a mutual connection when User B is viewing User C's
+    profile (and vice versa). So, for example, since Thomas is following both
+    Andrii and Sasa, he should be displayed as a mutual connection when
+    Sasa and Andrii view each others' profiles. However, let's say that
+    User X and User Y are both following User Z on Twitter.
+    In this case, User Z should not be displayed as a mutual connection. So,
+    e.g, let's say that Thomas and Ljubomir are both following Barack Obama...
+    this relationship should not result in Barack Obama being displayed as a
+    mutual connection.
+    The purpose of this logic is to ensure that popular Twitter profiles like
+    Barack Obama and Justin Bieber don't show up as mutual connections.
+    :param user_id1:
+    :param user_id2:
+    :return:
+    """
+    mutual_twitter_friends_ = []
+    try:
+        current_auth_user = UserSocialAuth.objects.filter(
+            user_id=user_id1, provider='twitter')[0]
+        requested_auth_user = UserSocialAuth.objects.filter(
+            user_id=user_id2, provider='twitter')[0]
+
+        tf1 = TwitterListFriends.objects.filter(
+            twitter_id1=current_auth_user.uid).values_list(
+            'twitter_id2', flat=True
+        )
+        twitter_friends_u1 = TwitterListFollowers.objects.filter(
+            twitter_id1=current_auth_user.uid,
+            twitter_id2__in=tf1).values_list(
+            'twitter_id2', flat=True
+        )
+
+        tf2 = TwitterListFriends.objects.filter(
+            twitter_id1=requested_auth_user.uid).values_list(
+            'twitter_id2', flat=True
+        )
+        twitter_friends_u2 = TwitterListFollowers.objects.filter(
+            twitter_id1=requested_auth_user.uid,
+            twitter_id2__in=tf2).values_list(
+            'twitter_id2', flat=True
+        )
+
+        mutual_twitter_friends_ = list(set(twitter_friends_u1) -
+                                       set(twitter_friends_u2))
+    except Exception as err:
+        logger.error(err)
+    return mutual_twitter_friends_
 
 
 class MatchedUser(object):
@@ -567,10 +622,11 @@ class MatchEvent(object):
 
 class MatchQuerySet(object):
     @staticmethod
-    def all(current_user_id, is_filter=False, friends=False, exclude_ids=None):
+    def all(current_user_id, is_filter=False, friends=False, exclude_ids=None,
+            user_ids=None):
         hits = ElasticSearchMatchEngine.elastic_objects.\
             match(current_user_id, is_filter=is_filter, friends=friends,
-                  exclude_ids=exclude_ids)
+                  exclude_ids=exclude_ids, user_ids=user_ids)
         users = []
         for hit in hits:
             try:
@@ -586,6 +642,35 @@ class MatchQuerySet(object):
                 users.append(user)
             except FacebookCustomUserActive.DoesNotExist as er:
                 logger.error(er)
+        return users
+
+    @staticmethod
+    def filter(current_user, user_ids):
+        """
+        Get user model and filter user_ids from ElasticSearch
+        :param current_user:
+        :param user_ids:
+        :return:
+        """
+        hits = ElasticSearchMatchEngine.elastic_objects.filter(
+            current_user, user_ids
+        )
+        users = []
+        matched_users = []
+        for hit in hits:
+            try:
+                user = MatchUser(current_user.id, hit)
+                users.append(user)
+                matched_users.append(user.id)
+            except FacebookCustomUserActive.DoesNotExist as er:
+                logger.error(er)
+        non_matched_users = list(set(user_ids) - set(matched_users))
+        for non_matched_user in non_matched_users:
+            try:
+                non_match = NonMatchUser(current_user.id, non_matched_user)
+                users.append(non_match)
+            except FacebookCustomUserActive.DoesNotExist as err:
+                logger.error(err)
         return users
 
     @staticmethod

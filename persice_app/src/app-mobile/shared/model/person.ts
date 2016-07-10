@@ -15,6 +15,7 @@ export class Person {
   private _gender: Gender;
   private _age: number;
   private _connected: boolean;
+  private _mutual: boolean;
   private _distance: number;
   private _distanceUnit: string;
   private _topInterests: any[] = [];
@@ -48,6 +49,7 @@ export class Person {
     this._gender = new Gender(dto.gender);
     this._age = dto.age;
     this._connected = dto.connected;
+    this._mutual = dto.mutual;
 
     if (dto.distance) {
       this._distance = dto.distance[0];
@@ -123,6 +125,10 @@ export class Person {
 
   get connected(): boolean {
     return this._connected;
+  }
+
+  get mutual(): boolean {
+    return this._mutual;
   }
 
   get distance(): number {

@@ -9,7 +9,7 @@ import {SwiperDirective, CheckImageDirective} from '../shared/directives';
     SwiperDirective,
     CheckImageDirective
   ],
-  template: require('./avatar.html')
+  template: <any>require('./avatar.html')
 })
 export class AvatarComponent {
   @Input() type;

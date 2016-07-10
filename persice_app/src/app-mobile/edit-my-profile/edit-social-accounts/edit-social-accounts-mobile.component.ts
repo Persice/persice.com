@@ -7,7 +7,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-edit-social-accounts',
-  template: require('./edit-social-accounts-mobile.html'),
+  template: <any>require('./edit-social-accounts-mobile.html'),
   providers: [UserAuthService]
 })
 export class EditSocialAccountsMobileComponent implements OnInit {

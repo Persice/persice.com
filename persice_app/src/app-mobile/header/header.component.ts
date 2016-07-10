@@ -11,7 +11,7 @@ import {DROPDOWN_DIRECTIVES} from '../../common/directives/dropdown';
 
 @Component({
   selector: 'prs-mobile-header',
-  template: require('./header.html'),
+  template: <any>require('./header.html'),
   directives: [
     PageTitleComponent,
     PageTitleConversationsComponent,

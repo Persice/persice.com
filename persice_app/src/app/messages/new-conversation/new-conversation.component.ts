@@ -14,7 +14,7 @@ import {
 
 @Component({
   selector: 'prs-new-conversation',
-  template: require('./new-conversation.html'),
+  template: <any>require('./new-conversation.html'),
   directives: [
     NewConversationHeaderComponent,
     ConversationInputComponent

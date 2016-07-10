@@ -15,7 +15,7 @@ import {OffersService} from '../shared/services';
 
 @Component({
   selector: 'prs-edit-offers',
-  template: require('./edit-offers.html'),
+  template: <any>require('./edit-offers.html'),
   directives: [
     LoadingComponent,
     EditFooterComponent,

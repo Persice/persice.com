@@ -8,7 +8,7 @@ import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../commo
 
 @Component({
   selector: 'prs-mobile-offers',
-  template: require('./offers-mobile.html'),
+  template: <any>require('./offers-mobile.html'),
   directives: [
     LoadingComponent,
     AutocompleteDirective,

@@ -1,2 +1,10 @@
 #!/bin/bash
-java -jar ./wiremock.jar --port 9999 --verbose
+
+PORT=9999
+
+if [ -n "$1" ]
+then
+  PORT=$1
+fi
+
+java -jar ./wiremock.jar --port "${PORT}" --verbose

@@ -6,7 +6,7 @@ import {HeaderState} from '../../../header';
 
 @Component({
   selector: 'prs-mobile-crop-photo',
-  template: require('./crop-photo.html'),
+  template: <any>require('./crop-photo.html'),
   directives: [CropDirective]
 })
 export class CropPhotoComponent implements OnInit {

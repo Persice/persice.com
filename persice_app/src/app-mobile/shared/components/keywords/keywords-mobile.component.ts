@@ -5,7 +5,7 @@ import {AutocompleteDirective} from '../../../../common/directives';
 
 @Component({
   selector: 'prs-mobile-keywords',
-  template: require('./keywords-mobile.html'),
+  template: <any>require('./keywords-mobile.html'),
   providers: [FilterService],
   directives: [AutocompleteDirective]
 })

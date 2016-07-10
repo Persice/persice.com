@@ -1,12 +1,5 @@
-import unreadMessagesCounterReducer from './unread-messages-counter.reducer';
-import {UnreadMessagesCounterState} from './unread-messages-counter.reducer';
+import unreadMessagesCounterReducer, {UnreadMessagesCounterState} from './unread-messages-counter.reducer';
 import {UnreadMessagesCounterActions} from '../actions';
-
-import {
-  it,
-  describe,
-  expect
-} from '@angular/core/testing';
 
 describe('Unread Messages Counter reducer', () => {
   let emptyState: UnreadMessagesCounterState = {
@@ -28,7 +21,7 @@ describe('Unread Messages Counter reducer', () => {
     // when
     let newState = unreadMessagesCounterReducer(
       emptyState,
-      { type: UnreadMessagesCounterActions.LOAD_COUNTER_SUCCESS, payload: payload });
+      {type: UnreadMessagesCounterActions.LOAD_COUNTER_SUCCESS, payload: payload});
 
     // then
     expect(newState).toEqual(stateWithCounter);
@@ -41,7 +34,7 @@ describe('Unread Messages Counter reducer', () => {
     // when
     let newState = unreadMessagesCounterReducer(
       stateWithCounter,
-      { type: UnreadMessagesCounterActions.INCREASE_COUNTER, payload: payload });
+      {type: UnreadMessagesCounterActions.INCREASE_COUNTER, payload: payload});
 
     // then
     expect(JSON.stringify(newState)).toBe(JSON.stringify(stateWithIncreasedCounter));

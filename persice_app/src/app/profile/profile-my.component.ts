@@ -31,7 +31,7 @@ import {ConnectionsService} from '../../common/connections';
 
 @Component({
   selector: 'prs-profile-my',
-  template: require('./profile-my.html'),
+  template: <any>require('./profile-my.html'),
   directives: [
     AvatarComponent,
     AboutComponent,

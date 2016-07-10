@@ -14,7 +14,7 @@ import {CheckImageDirective} from '../../directives';
 @Component({
   selector: 'prs-user-card',
   pipes: [GenderPipe],
-  template: require('./user-card.html'),
+  template: <any>require('./user-card.html'),
   directives: [
     CheckImageDirective
   ]

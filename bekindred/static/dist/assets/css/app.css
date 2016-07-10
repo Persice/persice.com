@@ -1,8 +1,14 @@
 #loadingindicator {
-  margin: 20rem auto!important;
   font-size: 10px;
-  height: 40px;
+  height: 100vh;
 }
+
+#initial-loading-spinner {
+  position: absolute !important;
+  top: 35% !important;
+  margin: inherit !important;
+}
+
 
 .spinner {
   margin: 10rem auto;

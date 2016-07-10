@@ -1,20 +1,15 @@
-// TODO(sasa): fix unit tests once @angular/router has testing exported
-import {expect, it, xdescribe, async, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-import {TestComponentBuilder} from '@angular/compiler/testing';
-
-import {Component, provide} from '@angular/core';
-import {SpyLocation} from '@angular/common/testing';
-import {Location} from '@angular/common';
-import {Router, ActivatedRoute, ROUTER_DIRECTIVES} from '@angular/router';
-
+import {fakeAsync, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
+import {Component} from '@angular/core';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {NavigationMobileComponent} from './navigation-mobile.component';
-
-let component: TestComponent;
-let domElement: any;
-
-class MockRouter { }
-class MockActivatedRoute { }
+import {
+  provideTestRouter,
+  routesTestConfigAppMobile,
+  createRoot,
+  advance,
+  obtainElement,
+  obtainText
+} from '../../common/test/app-mobile-test.helpers';
 
 @Component({
   selector: 'prs-test-component',
@@ -24,9 +19,9 @@ class MockActivatedRoute { }
       [unreadMessagesCounter]="counter"
       [newConnectionsCounter]="counterConnections">
     </prs-mobile-navigation>
+    <router-outlet></router-outlet>
   `,
   directives: [NavigationMobileComponent, ROUTER_DIRECTIVES]
-
 })
 class TestComponent {
   username: string = '';
@@ -34,118 +29,116 @@ class TestComponent {
   counterConnections: number = 0;
 }
 
-xdescribe('Navigation mobile component', () => {
+describe('Navigation mobile component', () => {
 
-  beforeEachProviders(() => {
-    return [
-      provide(Location, { useClass: SpyLocation }),
-      provide(Router, { useClass: MockRouter }),
-      provide(ActivatedRoute, { useClass: MockActivatedRoute })
-    ];
+  beforeEach(() => {
+    addProviders([
+      provideTestRouter(TestComponent, routesTestConfigAppMobile)
+    ]);
   });
 
-  beforeEach(async(inject([Router, TestComponentBuilder], (router: Router, tcb: TestComponentBuilder) => {
-    return tcb
-      .createAsync(TestComponent)
-      .then((componentFixture: any) => {
-        this.componentFixture = componentFixture;
-        component = componentFixture.componentInstance;
-        domElement = componentFixture.nativeElement;
-      });
-  })));
+  it('should initialize', fakeAsync(
+    inject([Router, TestComponentBuilder],
+      (router: Router, tcb: TestComponentBuilder) => {
+        // given
+        const fixture = createRoot(tcb, router, TestComponent);
 
-  it('should render', () => {
-    // given
+        // when
+        advance(fixture);
 
-    // when
-    this.componentFixture.detectChanges();
+        // then
+        expect(fixture.nativeElement).not.toBeNull();
+      })));
 
-    // then
-    expect(domElement).not.toBeNull();
-  });
+  it('should have links', fakeAsync(
+    inject([Router, TestComponentBuilder],
+      (router: Router, tcb: TestComponentBuilder) => {
+        // given
+        const fixture = createRoot(tcb, router, TestComponent);
 
-  it('should have links', () => {
-    // given
+        // when
+        advance(fixture);
 
-    // when
-    this.componentFixture.detectChanges();
+        // then
+        const sidebarLinks: string[] = [
+          'crowd', 'messages', 'connections', 'accounts/logout/'];
+        for (let i = sidebarLinks.length - 1; i >= 0; i--) {
+          expect(fixture.nativeElement.querySelectorAll(`a[href="/${sidebarLinks[i]}"]`).length).toEqual(1);
+        }
+      })));
 
-    // then
-    var sidebarLinks = [
-      'crowd', 'messages', 'connections', 'accounts/logout/'];
-    for (var i = sidebarLinks.length - 1; i >= 0; i--) {
-      expect(domElement.querySelectorAll(`a[href="/${sidebarLinks[i]}"]`).length).toEqual(1);
-    }
+  it('should have a link for my profile page with username', fakeAsync(
+    inject([Router, TestComponentBuilder],
+      (router: Router, tcb: TestComponentBuilder) => {
+        // given
+        const fixture = createRoot(tcb, router, TestComponent);
+        const username = 'johndoe';
 
-  });
+        // when
+        fixture.componentInstance.username = username;
+        advance(fixture);
 
-  it('should have a link for my profile page with username', () => {
-    // given
-    const username = 'johndoe';
+        // then
+        let myProfileLink = fixture.nativeElement.querySelectorAll(`a[href="/${username}"]`);
+        expect(myProfileLink.length).toEqual(1);
+      })));
 
-    // when
-    component.username = username;
-    this.componentFixture.detectChanges();
+  it('should hide unread messages counter when counter is 0', fakeAsync(
+    inject([Router, TestComponentBuilder],
+      (router: Router, tcb: TestComponentBuilder) => {
+        // given
+        const fixture = createRoot(tcb, router, TestComponent);
+        fixture.componentInstance.counter = 0;
+        // when
+        advance(fixture);
 
-    // then
-    let myProfileLink = domElement.querySelectorAll(`a[href="/${username}"]`);
-    expect(myProfileLink.length).toEqual(1);
-  });
+        // then
+        let counterElement = obtainElement(fixture.nativeElement, '.mob-nav-main__value__messages.is-visible');
+        expect(counterElement).toBeNull();
+      })));
 
-  it('should hide unread messages counter when counter is 0', () => {
-    // given
-    component.counter = 0;
+  it('should display unread messages counter when counter is > 0', fakeAsync(
+    inject([Router, TestComponentBuilder],
+      (router: Router, tcb: TestComponentBuilder) => {
+        // given
+        const fixture = createRoot(tcb, router, TestComponent);
+        fixture.nativeElement.counter = 5;
 
-    // when
-    this.componentFixture.detectChanges();
+        // when
+        advance(fixture);
 
-    // then
-    let counterElement = obtainElement(domElement, '.mob-nav-main__value__messages.is-visible');
-    expect(counterElement).toBeNull();
-  });
+        // then
+        let counterValue = parseInt(obtainText(fixture.nativeElement, '.mob-nav-main__value__messages'), 10);
+        expect(counterValue).toEqual(fixture.componentInstance.counter);
+      })));
 
-  it('should display unread messages counter when counter is > 0', () => {
-    // given
-    component.counter = 5;
+  it('should hide new connections counter when counter is 0', fakeAsync(
+    inject([Router, TestComponentBuilder],
+      (router: Router, tcb: TestComponentBuilder) => {
+        // given
+        const fixture = createRoot(tcb, router, TestComponent);
+        fixture.componentInstance.counterConnections = 0;
+        // when
+        advance(fixture);
 
-    // when
-    this.componentFixture.detectChanges();
+        // then
+        let counterElement = obtainElement(fixture.nativeElement, '.mob-nav-main__value__connections.is-visible');
+        expect(counterElement).toBeNull();
+      })));
 
-    // then
-    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__messages'), 10);
-    expect(counterValue).toEqual(component.counter);
-  });
+  it('should display new connections counter when counter is > 0', fakeAsync(
+    inject([Router, TestComponentBuilder],
+      (router: Router, tcb: TestComponentBuilder) => {
+        // given
+        const fixture = createRoot(tcb, router, TestComponent);
+        fixture.nativeElement.counterConnections = 5;
 
-  it('should hide new connections counter when counter is 0', () => {
-    // given
-    component.counterConnections = 0;
+        // when
+        advance(fixture);
 
-    // when
-    this.componentFixture.detectChanges();
-
-    // then
-    let counterElement = obtainElement(domElement, '.mob-nav-main__value__connections.is-visible');
-    expect(counterElement).toBeNull();
-  });
-
-  it('should display new connections counter when counter is > 0', () => {
-    // given
-    component.counterConnections = 10;
-
-    // when
-    this.componentFixture.detectChanges();
-
-    // then
-    let counterValue = parseInt(obtainText(domElement, '.mob-nav-main__value__connections'), 10);
-    expect(counterValue).toEqual(component.counterConnections);
-  });
-
-  function obtainText(element, selector) {
-    return element.querySelector(selector).textContent;
-  }
-
-  function obtainElement(element, selector) {
-    return element.querySelector(selector);
-  }
+        // then
+        let counterValue = parseInt(obtainText(fixture.nativeElement, '.mob-nav-main__value__connections'), 10);
+        expect(counterValue).toEqual(fixture.componentInstance.counterConnections);
+      })));
 
 });

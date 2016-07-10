@@ -3,7 +3,7 @@ import {ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
 
 @Component({
   selector: 'prs-events-list-subnav',
-  template: require('./events-list-subnav.html'),
+  template: <any>require('./events-list-subnav.html'),
   directives: [ROUTER_DIRECTIVES]
 })
 

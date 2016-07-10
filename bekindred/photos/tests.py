@@ -139,7 +139,7 @@ class FacebookPhotoResourceTest(ResourceTestCase):
                                                     data=self.post_data))
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
-        bounds = FacebookPhoto.objects.filter(user=self.user, order=0)[0].bounds
+        bounds = FacebookPhoto.objects.filter(user_id=self.user, order=0)[0].bounds
         self.assertEqual(bounds, self.post_data['bounds'])
 
     def test_create_profile_photo(self):

@@ -13,7 +13,7 @@ import {InterestsService, KeywordsService} from '../shared/services';
 
 @Component({
   selector: 'prs-edit-interests',
-  template: require('./edit-interests.html'),
+  template: <any>require('./edit-interests.html'),
   directives: [
     LoadingComponent,
     EditFooterComponent,

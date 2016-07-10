@@ -3,7 +3,7 @@ import {Component, Input, AfterViewInit, OnDestroy} from '@angular/core';
 declare var Swiper: any;
 @Component({
   selector: 'prs-profile-gallery',
-  template: require('./gallery.html')
+  template: <any>require('./gallery.html')
 })
 export class GalleryComponent implements OnDestroy, AfterViewInit {
   @Input() photos;

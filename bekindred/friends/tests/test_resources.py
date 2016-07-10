@@ -346,6 +346,20 @@ class FriendUtilsTestCase(TestCase):
         self.assertEqual(self.neo.get_new_friends_count(n1['user_id']), 0)
         self.assertEqual(self.neo.get_new_friends_count(n2['user_id']), 1)
 
+    def test_mutual_friends(self):
+        n1 = self.neo.create_person(self.neo.person(self.user))
+        n2 = self.neo.create_person(self.neo.person(self.user1))
+        n3 = self.neo.create_person(self.neo.person(self.user2))
+        self.neo.add_to_friends(n1, n2)
+        self.neo.add_to_friends(n2, n1)
+        self.neo.add_to_friends(n1, n3)
+        self.neo.add_to_friends(n3, n1)
+        self.neo.add_to_friends(n3, n2)
+        self.neo.add_to_friends(n2, n3)
+        mutual_friends = self.neo.get_mutual_friends(self.user.id,
+                                                     self.user2.id)
+        self.assertEqual(mutual_friends, [self.user1.id])
+
 
 class NeoFriendsResourceTestCase(ResourceTestCase):
     def get_credentials(self):

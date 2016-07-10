@@ -1,13 +1,18 @@
 /* CUSTOM */
 
 #loadingindicator {
-  margin: 20rem auto!important;
   font-size: 10px;
-  height: 40px;
+  height: 100vh;
+}
+
+#initial-loading-spinner {
+  position: absolute !important;
+  top: 35% !important;
+  margin: inherit !important;
 }
 
 .spinner {
-  margin: 10rem auto;
+  margin: 2rem auto;
   width: 100%;
   height: 30px;
   text-align: center;
@@ -16,7 +21,7 @@
   position: relative;
 }
 
-.spinner> div {
+.spinner > div {
   background-color: #39c9f5;
   height: 100%;
   width: 6px;
@@ -126,21 +131,21 @@
 }
 
 .typeahead-search.search.search--remodal-tab .tt-menu {
-  left: 0px!important;
+  left: 0px !important;
 }
 
 .typeahead-search.search.search--remodal-tab .search__input.typeahead {
-  margin-left: 60px!important;
-  padding-left: 0px!important;
+  margin-left: 60px !important;
+  padding-left: 0px !important;
 }
 
 .typeahead-search .tt-menu {
-  width: 117.6%!important;
+  width: 117.6% !important;
   position: absolute;
-  z-index: 500!important;
-  background: #fff!important;
-  top: 101%!important;
-  box-shadow: 0 6px 13px 0 rgba(1, 2, 2, 0.047)!important;
+  z-index: 500 !important;
+  background: #fff !important;
+  top: 101% !important;
+  box-shadow: 0 6px 13px 0 rgba(1, 2, 2, 0.047) !important;
   max-height: 190px;
   overflow: auto;
   display: block;
@@ -149,16 +154,16 @@
   transition: all 0.5s ease-in-out;
 }
 
-.search--signup .search__top>.icon {
+.search--signup .search__top > .icon {
   z-index: 9999;
 }
 
 .search--signup .search__input {
-  padding-left: 40px!important;
+  padding-left: 40px !important;
 }
 
 .tt-highlight {
-  font-weight: bold!important;
+  font-weight: bold !important;
 }
 
 .typeahead-search .tt-suggestion.tt-selectable:hover {
@@ -171,7 +176,7 @@
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
   line-height: 3;
-  padding: 3px 30px!important;
+  padding: 3px 30px !important;
   border-top: 1px solid #fff;
   border-bottom: 1px solid #fff;
 }
@@ -247,17 +252,17 @@
 }
 
 .search-tag {
-  background: none!important;
-  border: 1px solid #bcc7cd!important;
+  background: none !important;
+  border: 1px solid #bcc7cd !important;
 }
 
 .search-tag.is-current {
-  background: #63727a!important;
-  border-color: #63727a!important;
+  background: #63727a !important;
+  border-color: #63727a !important;
 }
 
 .mob-header__sidelink.mob-header__sidelink--right.is-disabled {
-  color: #8498a3!important;
+  color: #8498a3 !important;
 }
 
 .mob-signup-connect-net .connect-media__username {
@@ -268,10 +273,10 @@
 }
 
 .mob-signup-connect-net li {
-  display: inline-block!important;
-  vertical-align: top!important;
-  width: 140px!important;
-  margin-top: 20px!important;
+  display: inline-block !important;
+  vertical-align: top !important;
+  width: 140px !important;
+  margin-top: 20px !important;
 }
 
 .mob-signup-connect-net {
@@ -280,7 +285,7 @@
 }
 
 .connect-media__username--activated {
-  color: #57646b!important;
+  color: #57646b !important;
 }
 
 .btn--connect__label {
@@ -296,15 +301,8 @@
   background-position: 50% 50%;
 }
 
-.filter-container {
-  width: 100%;
-  height: 100vh;
-  background: #eff4f6;
-  z-index: 9999;
-}
-
 .content-mask {
-  overflow: hidden!important;
+  overflow: hidden !important;
   z-index: 100;
   top: 0;
   left: 0;
@@ -326,7 +324,7 @@
 }
 
 body.disabled-scrolling {
-  overflow: hidden!important;
+  overflow: hidden !important;
 }
 
 .push-menu {
@@ -356,7 +354,7 @@ body.disabled-scrolling {
 }
 
 html {
-  overflow-x: hidden!important;
+  overflow-x: hidden !important;
 }
 
 .search__top.typeahead-search svg {
@@ -364,7 +362,7 @@ html {
 }
 
 #typeahead-search span .search__input {
-  padding-left: 45px!important;
+  padding-left: 45px !important;
 }
 
 .user-card__similarity__drop {
@@ -411,28 +409,28 @@ html {
 }
 
 .profile-tab__list li {
-  padding-left: 17px!important;
+  padding-left: 17px !important;
 }
 
 .pass-accept__pass.is-active {
-  background-color: #ec8672!important;
+  background-color: #ec8672 !important;
 }
 
 .pass-accept__pass.is-active .icon.red,
 .pass-accept__accept.is-active .icon.green {
-  fill: #ffffff!important;
+  fill: #ffffff !important;
 }
 
 .pass-accept__accept.is-active {
-  background-color: #a6e16c!important;
+  background-color: #a6e16c !important;
 }
 
 .match-profile__avatar {
-  background-size: cover!important;
+  background-size: cover !important;
 }
 
 .user-profile-container.my-profile {
-  padding-bottom: 1px!important;
+  padding-bottom: 1px !important;
 }
 
 .search__tags-wrapper {
@@ -441,7 +439,7 @@ html {
 
 .edit-info-list,
 .link-to-list {
-  height: calc(100vh - 40px)!important;
+  height: calc(100vh - 40px) !important;
 }
 
 .mob-nav-main li a.router-link-active .icon {
@@ -491,7 +489,7 @@ html {
 }
 
 .chat__send-message {
-  position: relative!important;
+  position: relative !important;
 }
 
 
@@ -515,7 +513,7 @@ html {
   text-align: center;
 }
 
-.chat__send-message__has-btn> a.is-hidden {
+.chat__send-message__has-btn > a.is-hidden {
   opacity: 0;
   visibility: hidden;
   transition: all .3s ease-in-out;
@@ -534,14 +532,14 @@ html {
 }
 
 .spinner.small {
-  margin: 10px auto!important;
+  margin: 10px auto !important;
 }
 
 .chat__messages--initial-loading .spinner.small {
-  margin: 10rem auto!important;
+  margin: 10rem auto !important;
 }
 
-.mob-tabs li> a.router-link-active {
+.mob-tabs li > a.router-link-active {
   box-shadow: inset 0px -3px 0px 0px #39c9f5;
   color: #374145;
 }
@@ -581,15 +579,15 @@ html {
 }
 
 .message__intro__1 {
-  float: left!important;
+  float: left !important;
   width: 100%;
-  display: block!important;
+  display: block !important;
 }
 
 .message__intro__2 {
-  float: left!important;
+  float: left !important;
   width: 100%;
-  display: block!important;
+  display: block !important;
 }
 
 .message__intro__1 .message__subject {
@@ -602,7 +600,7 @@ html {
 
 .message__intro__2 .message__excerpt {
   float: left;
-  line-height: 1.3!important;
+  line-height: 1.3 !important;
 }
 
 .message__intro__2 .message__intro__notif {
@@ -610,14 +608,14 @@ html {
 }
 
 .conversation-top__drop {
-  display: block!important;
+  display: block !important;
   max-height: 260px;
   overflow-y: scroll;
-  z-index: 999!important;
+  z-index: 999 !important;
 }
 
 .c-input--textarea--new-message--mobile {
-  height: calc(100vh - 90px)!important;
+  height: calc(100vh - 90px) !important;
 }
 
 .conversation-top--mobile {
@@ -633,14 +631,14 @@ html {
 
 .edit-info-list,
 .link-to-list {
-  height: calc(100vh - 50px)!important;
+  height: calc(100vh - 50px) !important;
 }
 
 html.remodal-is-locked,
 html.remodal-is-locked > body {
-  overflow: hidden!important;
-  -ms-touch-action: none!important;
-  touch-action: none!important;
+  overflow: hidden !important;
+  -ms-touch-action: none !important;
+  touch-action: none !important;
 }
 
 #show-network {
@@ -661,11 +659,28 @@ html.remodal-is-locked > body {
 }
 
 .network-preview {
-  left: 3px!important;
+  left: 3px !important;
 }
 
-
 .c-input--conversation-top.is-hidden {
-  visibility: hidden!important;
-  opacity: 0!important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+#intercom-container .intercom-launcher {
+  bottom: 72px !important;
+  right: 5px !important;
+}
+
+.footer-button-container {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  height: 54px;
+  width: 54px;
+  z-index: 50;
+}
+
+.content--main {
+  min-height: 250px;
 }

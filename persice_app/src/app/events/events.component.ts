@@ -35,7 +35,7 @@ import {
 
 @Component({
   selector: 'prs-events',
-  template: require('./events.html'),
+  template: <any>require('./events.html'),
   directives: [
     EventsListSubnavComponent,
     ROUTER_DIRECTIVES,

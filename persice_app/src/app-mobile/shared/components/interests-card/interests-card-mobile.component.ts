@@ -3,7 +3,7 @@ import {Person} from "../../model/person";
 
 @Component({
   selector: 'prs-mobile-interests-card',
-  template: require('./interests-card-mobile.html'),
+  template: <any>require('./interests-card-mobile.html'),
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InterestsCardMobileComponent {

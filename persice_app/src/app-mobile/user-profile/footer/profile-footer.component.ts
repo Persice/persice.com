@@ -9,7 +9,7 @@ import {AppStateService} from '../../shared/services';
 
 @Component({
   selector: 'prs-mobile-profile-footer',
-  template: require('./profile-footer.html'),
+  template: <any>require('./profile-footer.html'),
   directives: [ROUTER_DIRECTIVES]
 })
 export class ProfileFooterMobileComponent implements OnInit {
@@ -39,7 +39,7 @@ export class ProfileFooterMobileComponent implements OnInit {
   }
 
   ngOnInit() {
-     this.appStateService.isProfileFooterVisibleEmitter
+    this.appStateService.isProfileFooterVisibleEmitter
       .subscribe((state: any) => {
         this.isVisible = state.visibility;
       });
@@ -60,7 +60,10 @@ export class ProfileFooterMobileComponent implements OnInit {
     }
     this.timeoutPass = setTimeout(() => {
       this.passIsActive = false;
-      this.store.dispatch(this.actions.passed());
+      if (this.isVisible) {
+        this.store.dispatch(this.actions.passed());
+      }
+
     }, 1500);
 
   }
@@ -78,8 +81,10 @@ export class ProfileFooterMobileComponent implements OnInit {
       window.clearTimeout(this.timeoutAccept);
     }
     this.timeoutAccept = setTimeout(() => {
-       this.acceptIsActive = false;
-      this.store.dispatch(this.actions.accepted());
+      this.acceptIsActive = false;
+      if (this.isVisible) {
+        this.store.dispatch(this.actions.accepted());
+      }
     }, 1500);
   }
 }

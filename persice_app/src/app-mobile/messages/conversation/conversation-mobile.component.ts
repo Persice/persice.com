@@ -88,8 +88,6 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
     this.websocketServiceSubs = this.websocketService.on('messages:new').subscribe((data: any) => {
       this.messagesService.recievedMessageViaWebSocket(data, this.senderId);
     });
-
-    setTimeout(() => jQuery('#intercom-launcher').css('display', 'none'), 500);
   }
 
   ngOnDestroy() {
@@ -97,8 +95,6 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
     this.appStateService.setHeaderVisibility(true);
     this.websocketServiceSubs.unsubscribe();
     this.markConversationRead();
-    setTimeout(() => jQuery('#intercom-launcher').css('display', 'block'), 500);
-
   }
 
   public loadConversationMessages() {
@@ -114,7 +110,7 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
    */
   private markConversationRead(): void {
     let subs = this.messagesService.markConversationRead(this.senderId)
-      .subscribe((data) => {
+      .subscribe(() => {
         this.unreadMessagesCounterService.refresh();
         subs.unsubscribe();
       });

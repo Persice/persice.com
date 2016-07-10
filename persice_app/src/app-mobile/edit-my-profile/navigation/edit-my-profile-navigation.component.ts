@@ -7,7 +7,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-edit-my-profile-navigation',
-  template: require('./edit-my-profile-navigation.html'),
+  template: <any>require('./edit-my-profile-navigation.html'),
   providers: [InterestsService, GoalsService, OffersService, PhotosService]
 })
 export class EditMyProfileNavigationComponent implements OnInit {

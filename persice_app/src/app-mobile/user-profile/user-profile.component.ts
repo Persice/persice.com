@@ -1,26 +1,20 @@
 import {Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {Subscription, Observable} from 'rxjs';
 import {Location} from '@angular/common';
-
 import {OpenLeftMenuDirective} from '../shared/directives';
-import {RemodalDirective} from '../../app/shared/directives';
-
+import {RemodalDirective, CheckImageDirective} from '../../app/shared/directives';
 import {GenderPipe} from '../../app/shared/pipes';
-import {CheckImageDirective} from '../../app/shared/directives';
 import {Person} from '../shared/model';
 import {AboutMobileComponent} from './about';
 import {PhotosMobileComponent} from './photos';
 import {NetworkPreviewComponent} from './network-preview';
-import {NetworkComponent} from './network';
+import {NetworkConnectionsComponent} from './network-connections';
+import {NetworkMutualConnectionsComponent, MutualConnectionsService} from './network-mutual-connections';
 import {ItemsListMobileComponent} from './items-list';
-
 import {AppStateService} from '../shared/services';
 import {LikesMobileComponent} from './likes/likes-mobile.component';
 import {FriendService} from '../../app/shared/services';
-import {MutualFriendsService} from '../../app/shared/services';
 import {ConnectionsService} from '../../common/connections';
-import {FriendUtil} from '../../app/shared/core';
-
 import {HeaderState} from '../header';
 import {AppState, getSelectedPersonState} from '../../common/reducers';
 import {Store} from '@ngrx/store';
@@ -35,7 +29,7 @@ enum ViewsType {
 
 @Component({
   selector: 'prs-user-profile',
-  template: require('./user-profile.html'),
+  template: <any>require('./user-profile.html'),
   pipes: [GenderPipe],
   directives: [
     CheckImageDirective,
@@ -43,12 +37,13 @@ enum ViewsType {
     AboutMobileComponent,
     ItemsListMobileComponent,
     NetworkPreviewComponent,
-    NetworkComponent,
+    NetworkConnectionsComponent,
+    NetworkMutualConnectionsComponent,
     OpenLeftMenuDirective,
     PhotosMobileComponent,
     LikesMobileComponent
   ],
-  providers: [FriendService, MutualFriendsService, ConnectionsService]
+  providers: [FriendService, ConnectionsService, MutualConnectionsService]
 })
 export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   // Profile type, crowd or connection
@@ -66,7 +61,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  @Output() public profileClosedAfterActionEvent: EventEmitter<any> = new EventEmitter;
+  @Output() profileClosedAfterActionEvent: EventEmitter<any> = new EventEmitter;
 
   // Indicator for active view
   public activeView = ViewsType.Profile;
@@ -90,31 +85,22 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     closeOnOutsideClick: true
   });
 
-  // Counters for all connections and mutual connections
-  public otherConnectionsCount: number = 0;
-  public mutualConnectionsCount: number = 0;
-
-  // List for preview
-  public connectionsPreview: any[] = [];
-
-  // Lists for mutual friends
-  public connectionsMutualPersice: any[] = [];
-  public connectionsMutualFacebook: any[] = [];
-  public connectionsMutualLinkedin: any[] = [];
-  public connectionsMutualTwitterFollowers: any[] = [];
-  public connectionsMutualTwitterFriends: any[] = [];
+  // List for previewing connections
+  public connectionsPreview: Observable<any[]>;
+  public connectionsPreviewTotalCount: Observable<number>;
 
   private isUserProfileVisibleSubs;
   private backSubs;
 
   private accepted$: Observable<boolean>;
   private passed$: Observable<boolean>;
+  private acceptSub: Subscription;
+  private passSub: Subscription;
 
-  constructor(
-    private appStateService: AppStateService,
+  constructor(private appStateService: AppStateService,
     private friendService: FriendService,
-    private mutualFriendService: MutualFriendsService,
     private connectionsService: ConnectionsService,
+    private mutualConnectionsService: MutualConnectionsService,
     private store: Store<AppState>,
     private actions: SelectedPersonActions,
     private location: Location
@@ -123,27 +109,28 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     this.accepted$ = store$.map((data) => data['accept']);
     this.passed$ = store$.map((data) => data['pass']);
 
-    this.accepted$.subscribe((status: boolean) => {
+    this.acceptSub = this.accepted$.subscribe((status: boolean) => {
       if (!!status) {
         this._saveFriendshipStatus(0);
       }
     });
 
-    this.passed$.subscribe((status: boolean) => {
+    this.passSub = this.passed$.subscribe((status: boolean) => {
       if (!!status) {
         this._saveFriendshipStatus(-1);
       }
 
     });
+
   }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
     this.isUserProfileVisibleSubs = this.appStateService.isUserProfileVisibleEmitter.subscribe((visible: boolean) => {
       if (!!visible) {
         this.showProfileView(undefined);
       }
     });
-
 
     // When going back from profile view, hide footer and clear selected person from Store
     this.backSubs = this.appStateService.backEmitter.subscribe(() => {
@@ -151,18 +138,16 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       this.clearSelectedPersonFromStore();
     });
 
-    this.makeProfileHeaderVisible();
-
-    if (this.type === 'crowd' || this.type === 'connection') {
-      this.toggleFooterVisibility(true);
-    }
 
   }
 
   ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
     this.toggleFooterVisibility(false);
     this.isUserProfileVisibleSubs.unsubscribe();
     this.backSubs.unsubscribe();
+    this.acceptSub.unsubscribe();
+    this.passSub.unsubscribe();
   }
 
   clearSelectedPersonFromStore() {
@@ -225,11 +210,6 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public showNetworkView(event): void {
-    if (this.otherConnectionsCount + this.mutualConnectionsCount < 1) {
-      // Do nothing.
-      return;
-    }
-
     this.activeView = this.viewsType.Network;
     this.toggleFooterVisibility(false);
   }
@@ -265,51 +245,22 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     });
   }
 
-  private _getMutualConnections(id) {
-    let subs: Subscription = this.mutualFriendService.get('', 1, id)
-      .subscribe(data => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects[0];
-          this.mutualConnectionsCount += parseInt(items.mutual_bk_friends_count, 10);
-          this.mutualConnectionsCount += parseInt(items.mutual_fb_friends_count, 10);
-          this.mutualConnectionsCount += parseInt(items.mutual_linkedin_connections_count, 10);
-          this.mutualConnectionsCount += parseInt(items.mutual_twitter_followers_count, 10);
-          this.mutualConnectionsCount += parseInt(items.mutual_twitter_friends_count, 10);
-
-          this.connectionsMutualPersice = items.mutual_bk_friends;
-          this.connectionsMutualFacebook = items.mutual_fb_friends;
-          this.connectionsMutualLinkedin = items.mutual_linkedin_connections;
-          this.connectionsMutualTwitterFriends = items.mutual_twitter_friends;
-          this.connectionsMutualTwitterFollowers = items.mutual_twitter_followers;
-
-          // Pick four connections for preview
-          this.connectionsPreview = FriendUtil.pickFourFriendsforPreview(
-            this.connectionsMutualPersice, this.connectionsMutualFacebook, this.connectionsMutualLinkedin,
-            this.connectionsMutualTwitterFriends, this.connectionsMutualTwitterFollowers);
-          subs.unsubscribe();
-        }
-      });
-  }
-
-  private _getMyConnections() {
-    let subs: Subscription = this.connectionsService.get('', 4, false)
-      .subscribe((data) => {
-        if (data.meta.total_count > 0) {
-          let items = data.objects;
-          this.otherConnectionsCount = data.meta.total_count;
-          // Pick four connections for preview
-          this.connectionsPreview = FriendUtil.pickFourFriendsforPreview(items, [], [], [], []);
-          subs.unsubscribe();
-        }
-      });
-  }
-
   private _setState(user: any) {
     this.person = new Person(user);
+
+    if (this.type !== 'my-profile') {
+      this.connectionsPreview = this.mutualConnectionsService.preview$.map(data => data.connections);
+      this.connectionsPreviewTotalCount = this.mutualConnectionsService.preview$.map(data => data.connectionsTotalCount);
+    } else {
+      this.connectionsPreview = this.connectionsService.connections$.map(data => data.connections);
+      this.connectionsPreviewTotalCount = this.connectionsService.connections$.map(data => data.connectionsTotalCount);
+    }
+
     if (this.type === 'crowd' || this.type === 'connection') {
       // Set selected user only if profile is crowd or connection
       this.store.dispatch(this.actions.set(this.person, this.type));
-      this._getMutualConnections(this.person.id);
+      this.mutualConnectionsService.getForPreview(this.person.id, 4);
+      this.toggleFooterVisibility(true);
       if (this.username) {
         this.setBrowserLocationUrl(`/${this.username}`);
       } else if (user.username) {
@@ -317,8 +268,11 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       }
 
     } else if (this.type === 'my-profile') {
-      this._getMyConnections();
+      this.connectionsService.getForPreview(4);
     }
+
+    this.makeProfileHeaderVisible();
+    this.activeView = this.viewsType.Profile;
   }
 
   private setBrowserLocationUrl(path: string) {

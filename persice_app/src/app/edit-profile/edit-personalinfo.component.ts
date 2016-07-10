@@ -21,7 +21,7 @@ import {ReligiousViewsService, PoliticalViewsService} from '../shared/services';
 
 @Component({
   selector: 'prs-edit-personalinfo',
-  template: require('./edit-personalinfo.html'),
+  template: <any>require('./edit-personalinfo.html'),
   directives: [
     EditAboutComponent,
     EditFooterComponent

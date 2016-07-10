@@ -1,13 +1,4 @@
-import {
-  expect,
-  it,
-  describe,
-  async,
-  inject,
-  beforeEach,
-} from '@angular/core/testing';
-import {TestComponentBuilder, ComponentFixture} from '@angular/compiler/testing';
-
+import {async, inject, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
 import {Component} from '@angular/core';
 import {PageTitleComponent} from './page-title.component';
 

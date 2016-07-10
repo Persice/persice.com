@@ -30,6 +30,13 @@
         <i class="mob-nav-main__value mob-nav-main__value__connections" [ngClass]="{'is-visible': newConnectionsCounter > 0}">{{newConnectionsCounter}}</i>
       </a>
     </li>
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/events']">
+        <svg role="img" class="icon ">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-menu-events"></use>
+        </svg> <span>Events</span>
+      </a>
+    </li>
     <li>
       <a href="/accounts/logout/">
         <svg role="img" class="icon ">

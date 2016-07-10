@@ -10,7 +10,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'persice-mobile-edit-interests',
-  template: require('./edit-interests-mobile.html'),
+  template: <any>require('./edit-interests-mobile.html'),
   directives: [
     LoadingComponent,
     AutocompleteDirective,

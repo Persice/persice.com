@@ -9,7 +9,7 @@ import {HeaderState} from '../../header';
 
 @Component({
   selector: 'prs-mobile-goals',
-  template: require('./goals-mobile.html'),
+  template: <any>require('./goals-mobile.html'),
   providers: [GoalsService],
   directives: [
     LoadingComponent,

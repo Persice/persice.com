@@ -9,7 +9,7 @@ import {DropdownComponent} from './dropdown.component';
     DropdownComponent,
     SearchComponent
   ],
-  template: require('./header.html')
+  template: <any>require('./header.html')
 })
 export class HeaderComponent {
   @Input() image: string;

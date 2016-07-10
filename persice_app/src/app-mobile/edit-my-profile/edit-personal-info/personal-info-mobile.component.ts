@@ -1,31 +1,27 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
-import {Observable} from "rxjs";
-import {ProfileService} from "../../../app/shared/services/profile.service";
-import {LoadingComponent} from "../../../app/shared/components/loading/loading.component";
-import {Person} from "../../shared/model/person";
-import {AppStateService} from "../../shared/services/app-state.service";
-import {CookieUtil} from "../../../app/shared/core/util";
+import {Component, OnInit} from '@angular/core';
+import {ProfileService} from '../../../app/shared/services/profile.service';
+import {LoadingComponent} from '../../../app/shared/components/loading/loading.component';
+import {Person} from '../../shared/model/person';
+import {AppStateService} from '../../shared/services/app-state.service';
+import {CookieUtil} from '../../../app/shared/core/util';
 import {HeaderState} from '../../header';
+import {EditAboutMobileComponent} from './edit-about';
 
 @Component({
   selector: 'prs-mobile-personal-info',
-  template: require('./personal-info-mobile.html'),
+  template: <any>require('./personal-info-mobile.html'),
   providers: [ProfileService],
-  directives: [LoadingComponent]
+  directives: [LoadingComponent, EditAboutMobileComponent]
 })
 export class PersonalInfoMobileComponent implements OnInit {
 
   private me: Person;
   private usernameFromCookie: string;
   private isProfileLoaded: boolean = false;
-  private isDebouncerSet: boolean = false;
 
-  constructor(
-    private profileService: ProfileService,
-    private appStateService: AppStateService,
-    private headerState: HeaderState,
-    public element: ElementRef
-  ) {
+  constructor(private profileService: ProfileService,
+              private appStateService: AppStateService,
+              private headerState: HeaderState) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
   }
 
@@ -38,30 +34,13 @@ export class PersonalInfoMobileComponent implements OnInit {
       this.me = new Person(resp);
       this.isProfileLoaded = true;
     });
-    this.setupDebouncer();
+
   }
 
-  private save(): void {
-    this.profileService.updateAboutMe(this.me.about).subscribe(() => { });
+  public save(value: string): void {
+    this.me.about = value;
+    this.profileService.updateAboutMe(this.me.about).subscribe(() => {
+    });
   }
 
-  private setupDebouncer(): void {
-    // This method should be idempotent - calling it multiple times should cause no ill effect.
-    // Do nothing if input field is not initialized.
-    let inputElement = this.element.nativeElement.querySelector('#aboutMeInput');
-    if (!inputElement) {
-      return;
-    }
-
-    // Do nothing if we already registered a debouncer.
-    if (this.isDebouncerSet) {
-      return;
-    }
-
-    this.isDebouncerSet = true;
-    Observable.fromEvent(inputElement, 'keyup')
-      .debounceTime(500).subscribe(() => {
-        this.save();
-      });
-  }
 }

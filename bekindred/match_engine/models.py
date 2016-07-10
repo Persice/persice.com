@@ -867,7 +867,16 @@ class ElasticSearchMatchEngineManager(models.Manager):
         return query
 
     @staticmethod
-    def match(user_id, friends=False, is_filter=False, exclude_ids=None):
+    def match(user_id, friends=False, is_filter=False, exclude_ids=None,
+              user_ids=None):
+        """
+        :param user_id:
+        :param friends:
+        :param is_filter:
+        :param exclude_ids:
+        :param user_ids: use if you need limit friends list
+        :return:
+        """
         user = FacebookCustomUserActive.objects.get(pk=user_id)
         likes = list(FacebookLike.objects.filter(user_id=user.id).
                      values_list('facebook_id', flat=True))
@@ -891,11 +900,88 @@ class ElasticSearchMatchEngineManager(models.Manager):
             fids = neo.get_my_friends_ids(user_id)
             for f in fids:
                 friends_list.append('members.facebookcustomuseractive.%s' % f)
+
+        if user_ids is not None:
+            for user_id in user_ids:
+                friends_list.append('members.facebookcustomuseractive.%s'
+                                    % user_id)
         response = ElasticSearchMatchEngineManager. \
             query_builder(user, query, fields, exclude_user_ids, stop_words,
                           is_filter=is_filter, friends_list=friends_list,
                           friends=friends, likes=likes)
 
+        return response['hits']['hits']
+
+    @staticmethod
+    def filter(current_user, user_ids):
+        users = []
+        for user_id in user_ids:
+            users.append('members.facebookcustomuseractive.%s' % user_id)
+
+        likes = list(FacebookLike.objects.filter(user_id=current_user.id).
+                     values_list('facebook_id', flat=True))
+        stop_words = StopWords.objects.all().values_list('word', flat=True)
+        query = ElasticSearchMatchEngineManager.prepare_query(current_user, stop_words)
+        fields = ["goals", "offers", "interests"]
+        location = get_user_location(current_user.id)
+        client = Elasticsearch()
+        index = settings.HAYSTACK_CONNECTIONS['default']['INDEX_NAME']
+        fs = FilterState.objects.filter(user_id=current_user.id)
+        distance_unit = fs[0].distance_unit[:2] if fs else "mi"
+        likes_ids = likes if likes else []
+        multi_match_query = {
+            "bool":
+                {
+                    "should":
+                        [
+                            {
+                                "multi_match": {
+                                    "fields": fields,
+                                    "query": query}
+                            },
+                            {"terms": {"likes_fb_ids": likes_ids}}
+                        ]
+                }
+        }
+        body = {
+            "highlight": {
+                "fields": {
+                    "goals": {},
+                    "interests": {},
+                    "offers": {}
+                }
+            },
+            "query": {
+                "filtered": {
+                    "query": multi_match_query,
+                    "filter": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "ids": {
+                                        "type": "modelresult",
+                                        "values": users
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "sort": [
+                {
+                    "_geo_distance": {
+                        "location": {
+                            "lat": location.y,
+                            "lon": location.x
+                        },
+                        "order": "asc",
+                        "unit": distance_unit
+                    }
+                }
+            ]
+        }
+        response = client.search(index=index, body=body, size=100)
         return response['hits']['hits']
 
     @staticmethod

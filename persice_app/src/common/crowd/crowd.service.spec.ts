@@ -1,15 +1,9 @@
-import {Injector, provide, ReflectiveInjector} from '@angular/core';
-
-import {afterEach, beforeEach, describe, expect, it} from '@angular/core/testing';
-
-import {BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions}
-from '@angular/http';
-
+import {Injector, ReflectiveInjector} from '@angular/core';
+import {BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions, RequestMethod} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {RequestMethod} from '@angular/http';
 import {CrowdService} from './crowd.service';
 import {MockCrowd} from './crowd.mock';
-import {HttpClient} from "../../app/shared/core/http-client";
+import {HttpClient} from '../../app/shared/core/http-client';
 
 describe('Crowd service', () => {
 
@@ -22,26 +16,26 @@ describe('Crowd service', () => {
       BaseRequestOptions,
       MockBackend,
       HttpClient,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (connectionBackend: ConnectionBackend,
-          defaultOptions: BaseRequestOptions) => {
+                     defaultOptions: BaseRequestOptions) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [
           MockBackend,
           BaseRequestOptions
         ]
-      }),
-      provide(CrowdService, {
-        useFactory: (
-          http: HttpClient
-        ) => {
+      },
+      {
+        provide: CrowdService,
+        useFactory: (http: HttpClient) => {
           return new CrowdService(http);
         },
         deps: [
           Http
         ]
-      })
+      }
     ]);
 
     backend = injector.get(MockBackend);
@@ -63,7 +57,7 @@ describe('Crowd service', () => {
   function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
-      c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));
+      c.mockRespond(new Response(new ResponseOptions({body: expectedBody})));
     });
   }
 

@@ -38,7 +38,6 @@
     "pree2e": "npm run webdriver:update -- --standalone",
     "e2e": "npm run protractor",
     "e2e:live": "npm run e2e -- --elementExplorer",
-    "posttest": "remap-istanbul -i ./coverage/coverage-final.json -o coverage/html-report-with-ts-source -t html",
     "test": "node --max-old-space-size=4096 node_modules/karma/bin/karma start",
     "ci": "npm run e2e && npm run test",
     "docs": "npm run typedoc -- --options typedoc.json --exclude \"**/*.spec.ts\" ./src/",
@@ -85,7 +84,8 @@
     "zone.js": "0.6.12"
   },
   "devDependencies": {
-    "angular2-hmr": "~0.8.1",
+    "angular2-hmr": "~0.8.0",
+    "angular2-template-loader": "^0.4.0",
     "awesome-typescript-loader": "~1.1.1",
     "browser-sync": "^2.11.1",
     "codelyzer": "~0.0.24",
@@ -147,7 +147,7 @@
     "typescript": "^1.8.10",
     "typings": "^1.3.0",
     "url-loader": "^0.5.7",
-    "webpack": "^1.12.14",
+    "webpack": "^1.13.1",
     "webpack-bundle-tracker": "0.0.93",
     "webpack-dev-server": "^1.14.1",
     "webpack-md5-hash": "^0.0.5",

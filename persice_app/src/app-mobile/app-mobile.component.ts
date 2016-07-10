@@ -1,6 +1,6 @@
-import {Component, ViewEncapsulation, OnInit} from '@angular/core';
+import {Component, ViewEncapsulation, OnInit, ApplicationRef} from '@angular/core';
 import {Observable} from 'rxjs';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES, Router, NavigationEnd} from '@angular/router';
 
 import {AppStateService} from './shared/services';
 import {
@@ -17,6 +17,7 @@ import {CloseLeftMenuDirective} from './shared/directives';
 import {NavigationMobileComponent} from './navigation';
 import {HeaderComponent} from './header';
 import {ProfileFooterMobileComponent} from './user-profile';
+import {FooterButtonMobileComponent} from './footer-button';
 
 import {HeaderState} from './header';
 import {GeolocationService} from "../app/shared/services/geolocation.service";
@@ -29,7 +30,7 @@ import {FilterService, WebsocketService} from '../app/shared/services';
  */
 @Component({
   selector: 'persice-mobile-app',
-  template: require('./app-mobile.html'),
+  template: <any>require('./app-mobile.html'),
   providers: [
     FilterService,
     WebsocketService,
@@ -45,7 +46,8 @@ import {FilterService, WebsocketService} from '../app/shared/services';
     NavigationMobileComponent,
     CloseLeftMenuDirective,
     HeaderComponent,
-    ProfileFooterMobileComponent
+    ProfileFooterMobileComponent,
+    FooterButtonMobileComponent
   ],
   encapsulation: ViewEncapsulation.None
 })
@@ -59,6 +61,8 @@ export class AppMobileComponent implements OnInit {
     private geolocationService: GeolocationService,
     private locationService: LocationService,
     private store: Store<AppState>,
+    private router: Router,
+    private ref: ApplicationRef,
     private unreadMessagesCounterService: UnreadMessagesCounterService,
     private newConnectionsCounterService: NewConnectionsCounterService
   ) {
@@ -68,6 +72,20 @@ export class AppMobileComponent implements OnInit {
 
     const newConnectionsCounterStore$ = store.let(getNewConnectionsCounterState());
     this.newConnectionsCounter = newConnectionsCounterStore$.map(state => state['counter']);
+
+    // Temporary fix for browser back button now working on IOS
+    // https://github.com/angular/angular/issues/9565
+    if (this.isMac()) {
+      router.events.subscribe(ev => {
+        if (ev instanceof NavigationEnd) {
+          setTimeout(() => {
+            if (ref.zone) {
+              ref.zone.run(() => ref.tick());
+            }
+          });
+        }
+      });
+    }
   }
 
   ngOnInit() {
@@ -106,6 +124,13 @@ export class AppMobileComponent implements OnInit {
       (err) => {
         console.log('Geolocation Error: ', err);
       });
+  }
+
+  isMac() {
+    if (navigator.userAgent.indexOf('Mac') > -1) {
+      return true;
+    }
+    return false;
   }
 
   /**

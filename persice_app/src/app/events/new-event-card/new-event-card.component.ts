@@ -5,7 +5,7 @@ import {RemodalDirective} from '../../shared/directives';
 
 @Component({
   selector: 'prs-new-event-card',
-  template: require('./new-event-card.html'),
+  template: <any>require('./new-event-card.html'),
   directives: [
     EventCreateComponent,
     RemodalDirective

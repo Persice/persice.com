@@ -1,5 +1,4 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Store} from '@ngrx/store';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {CrowdService} from '../../common/crowd';
 import {CrowdComponent} from '../../common/crowd';
@@ -10,16 +9,13 @@ import {FriendService, FilterService} from '../../app/shared/services';
 import {AppStateService} from '../shared/services';
 import {InfiniteScrollDirective} from '../../common/directives';
 import {UserProfileComponent} from '../user-profile';
-
-import {AppState} from '../../common/reducers';
-import {SelectedPersonActions} from '../../common/actions';
 import {HeaderState} from '../header';
 
 const LIST_REFRESH_TIMEOUT: number = 0;
 
 @Component({
   selector: 'prs-mobile-crowd',
-  template: require('./crowd-mobile.html'),
+  template: <any>require('./crowd-mobile.html'),
   providers: [CrowdService, FriendService],
   directives: [
     ROUTER_DIRECTIVES,
@@ -37,11 +33,8 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
 
   constructor(
     protected listService: CrowdService,
-    protected friendService: FriendService,
     protected filterService: FilterService,
-    private appStateService: AppStateService,
-    private store: Store<AppState>,
-    private actions: SelectedPersonActions
+    private appStateService: AppStateService
   ) {
     super(listService, filterService, LIST_REFRESH_TIMEOUT);
   }
@@ -72,10 +65,6 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
 
   beforeItemSelected() {
     this.saveScrollPosition();
-
-    // TODO: think how to solve hiding intercom without using jQuery
-    // This is a temporary workaround to hide intercom icon when opening profile page
-    jQuery('#intercom-launcher').css('display', 'none');
   }
 
   acceptPassEvent(id: string) {
@@ -94,9 +83,5 @@ export class CrowdMobileComponent extends CrowdComponent implements OnDestroy, O
     this.restoreScrollPosition();
     this._setBrowserLocationUrl('/crowd');
 
-
-    // TODO: think how to solve showing intercom without using jQuery
-    // This is a temporary workaround to show intercom icon after profile page is closed
-    jQuery('#intercom-launcher').css('display', 'block');
   }
 }

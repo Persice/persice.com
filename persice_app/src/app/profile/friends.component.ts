@@ -3,7 +3,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
 import {SwiperDirective, CheckImageDirective} from '../shared/directives';
 
 @Component({
-  template: require('./friends.html'),
+  template: <any>require('./friends.html'),
   selector: 'prs-profile-friends',
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [SwiperDirective, ROUTER_DIRECTIVES, CheckImageDirective]

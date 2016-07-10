@@ -1,15 +1,10 @@
-import {expect, it, describe, async, inject, beforeEach, beforeEachProviders}
-from '@angular/core/testing';
-
-import {TestComponentBuilder} from '@angular/compiler/testing';
-
-import {provide, Provider} from '@angular/core';
+import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
 import {Observable} from 'rxjs';
 import {EditGoalsMobileComponent} from './edit-goals-mobile.component';
 import {GoalsService} from '../../../app/shared/services/goals.service';
 import {AppStateService} from '../../shared/services/app-state.service';
 import {GoalsGenerators} from './goals-generators';
-import {HeaderState} from "../../header/header.state";
+import {HeaderState} from '../../header/header.state';
 
 let component: EditGoalsMobileComponent;
 let mock: GoalsServiceMock;
@@ -54,26 +49,26 @@ class GoalsServiceMock extends GoalsService {
     };
   }
 
-  public getProvider(): Provider {
-    return provide(GoalsService, { useValue: this });
+  public getProvider(): any {
+    return {provide: GoalsService, useValue: this};
   }
 }
 
 describe('Edit goals mobile component', () => {
 
-  beforeEachProviders(() => {
+  beforeEach(() => {
     mock = new GoalsServiceMock(null);
-    return [
+    addProviders([
       mock.getProvider(),
       AppStateService,
       HeaderState
-    ];
+    ]);
   });
 
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      EditGoalsMobileComponent, [provide(GoalsService, { useValue: mock })])
+        EditGoalsMobileComponent, [{provide: GoalsService, useValue: mock}])
       .createAsync(EditGoalsMobileComponent)
       .then((componentFixture: any) => {
         component = componentFixture.componentInstance;

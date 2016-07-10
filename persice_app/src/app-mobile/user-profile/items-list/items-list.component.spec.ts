@@ -1,37 +1,35 @@
-import {expect, it, describe, async, inject, beforeEach}
-from '@angular/core/testing';
-import {TestComponentBuilder} from '@angular/compiler/testing';
-import {ItemsListMobileComponent} from "./items-list.component";
+import {async, inject, TestComponentBuilder} from '@angular/core/testing';
+import {ItemsListMobileComponent} from './items-list.component';
 
 let component: ItemsListMobileComponent;
 let domElement: any;
 
 describe('Items list mobile component', () => {
 
-  var givenEmptyList = function() {
+  var givenEmptyList = function () {
     return [];
   };
 
-  var givenListWithSevenItems = function() {
+  var givenListWithSevenItems = function () {
     return [
-      { value: 1 },
-      { value: 1 },
-      { value: 1 },
-      { value: 1 },
-      { value: 1 },
-      { value: 1 },
-      { value: 1 }
+      {value: 1},
+      {value: 1},
+      {value: 1},
+      {value: 1},
+      {value: 1},
+      {value: 1},
+      {value: 1}
     ];
   };
 
-  var numberOfVisibleElementsInList = function(): number {
+  var numberOfVisibleElementsInList = function (): number {
     return domElement.querySelectorAll('li').length - domElement.querySelectorAll('.hidden').length;
   };
 
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      ItemsListMobileComponent, [])
+        ItemsListMobileComponent, [])
       .createAsync(ItemsListMobileComponent)
       .then((componentFixture: any) => {
         this.componentFixture = componentFixture;

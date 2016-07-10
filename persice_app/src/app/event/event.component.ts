@@ -34,7 +34,7 @@ import {RemodalDirective} from '../shared/directives';
 
 @Component({
   selector: 'prs-event',
-  template: require('./event.html'),
+  template: <any>require('./event.html'),
   directives: [
     EventInfoComponent,
     EventHostComponent,

@@ -4,7 +4,7 @@ import {DropdownDirective} from '../../shared/directives';
 
 @Component({
   selector: 'prs-event-info',
-  template: require('./event-info.html'),
+  template: <any>require('./event-info.html'),
   directives: [DropdownDirective]
 })
 export class EventInfoComponent {

@@ -24,7 +24,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <!-- dev mode -->
-  <!-- <link rel="stylesheet" href="http://localhost:3002/css/mobile.css" /> -->
+<!--   <link rel="stylesheet" href="http://localhost:3002/css/mobile.css" />
+  <link rel="stylesheet" href="http://localhost:3002/css/app-mobile.css" /> -->
 
   <!-- prod mode -->
   <link rel="stylesheet" href="{% static 'dist/assets/css/vendor.mobile.min.css' %}" />
@@ -34,7 +35,7 @@
 <body class="bg-gray">
   <persice-signup-mobile-app>
     <div id="loadingindicator">
-      <div class="spinner">
+      <div class="spinner" id="initial-loading-spinner">
         <div class="rect1"></div>
         <div class="rect2"></div>
         <div class="rect3"></div>

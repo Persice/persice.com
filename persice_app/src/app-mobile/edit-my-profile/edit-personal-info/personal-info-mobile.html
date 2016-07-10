@@ -176,8 +176,7 @@
   </dt>
   <dd class="edit-info-list__value-preamp p0">
     <div class="edit-info-list__value">
-      <textarea id="aboutMeInput" [(ngModel)]="me.about" class="c-input c-input--textarea c-input--textarea-noborder">
-      </textarea>
+     <prs-mobile-edit-about (onChanged)="save($event)" [about]="me.about"></prs-mobile-edit-about>
     </div>
   </dd>
 </dl>

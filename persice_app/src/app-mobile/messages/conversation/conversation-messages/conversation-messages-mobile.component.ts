@@ -5,7 +5,7 @@ import {InfiniteScrollReverseDirective} from '../../../../common/directives';
 
 @Component({
   selector: 'prs-mobile-conversation-messages',
-  template: require('./conversation-messages-mobile.html'),
+  template: <any>require('./conversation-messages-mobile.html'),
   directives: [LoadingComponent, CheckImageDirective, InfiniteScrollReverseDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

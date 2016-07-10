@@ -2,7 +2,7 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'prs-mobile-conversation-header',
-  template: require('./conversation-header-mobile.html'),
+  template: <any>require('./conversation-header-mobile.html'),
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConversationHeaderMobileComponent {
