@@ -8,7 +8,7 @@
   },
   "objects": [
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -60,7 +60,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -112,7 +112,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -164,7 +164,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -216,7 +216,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -268,7 +268,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -320,7 +320,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -372,7 +372,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -424,7 +424,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -476,7 +476,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -528,7 +528,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -580,7 +580,7 @@
       "username": "plvndvh_dinglesky_1422048137"
     },
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,

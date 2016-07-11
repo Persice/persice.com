@@ -8,7 +8,7 @@
   },
   "objects": [
     {
-      "type": "persice",
+      "user_type": "persice",
       "mutual": false,
       "about": null,
       "age": 35,
@@ -61,21 +61,21 @@
     },
     {
       "mutual": true,
-      "type": "facebook",
+      "user_type": "facebook",
       "facebook_id": 784349768271537,
       "first_name": "Andrii",
       "last_name": "Soldatenko"
     },
     {
       "mutual": true,
-      "type": "twitter",
+      "user_type": "twitter",
       "name": "Andrii Soldatenko",
       "profile_image_url": "https://pbs.twimg.com/profile_images/602085130371354624/vncLc7uq_normal.jpg",
       "screen_name": "a_soldatenko"
     },
     {
       "mutual": true,
-      "type": "linkedin",
+      "user_type": "linkedin",
       "firstName": "Andrii",
       "lastName": "Soldatenko",
       "pictureUrls": {
