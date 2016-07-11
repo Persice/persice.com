@@ -15,7 +15,6 @@ const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplaceme
 const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const WebpackMd5Hash = require('webpack-md5-hash');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /**
@@ -113,11 +112,6 @@ module.exports = webpackMerge(commonConfig, {
   // See: http://webpack.github.io/docs/configuration.html#plugins
   plugins: [
 
-    // Plugin: WebpackMd5Hash
-    // Description: Plugin to replace a standard webpack hash with md5.
-    //
-    // See: https://www.npmjs.com/package/webpack-md5-hash
-    // new WebpackMd5Hash(),
 
     new CopyWebpackPlugin([{
       from: 'src/assets',
@@ -184,6 +178,7 @@ module.exports = webpackMerge(commonConfig, {
       warnings: false,
       comments: false //prod
     }),
+
 
     /**
      * Plugin: NormalModuleReplacementPlugin
