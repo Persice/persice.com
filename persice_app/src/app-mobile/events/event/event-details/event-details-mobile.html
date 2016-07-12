@@ -1,0 +1,30 @@
+<div class="mob-event-details profile-box">
+  <div class="mob-event-details__item">
+    <div class="flag flag--flush">
+      <div class="flag__img">
+        <svg role="img" class="icon ">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-time-event"></use>
+        </svg>
+      </div>
+      <div class="flag__body">
+        <h5 class="mob-event-details__item__title">{{event.startDate.dayName}}, {{event.startDate.month}}
+          {{event.startDate.day}}</h5>
+        <p class="mob-event-details__item__value">{{event.startDate.hour}} &ndash; {{event.endDate.hour}} / {{event.timezone}}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="mob-event-details__item">
+    <div class="flag flag--flush">
+      <div class="flag__img">
+        <svg role="img" class="icon ">
+          <use xlink:href="/static/assets/icons/icons.svg#icon-location"></use>
+        </svg>
+      </div>
+      <div class="flag__body">
+        <h5 class="mob-event-details__item__title">{{event.locationName}}</h5>
+        <p class="mob-event-details__item__value">{{event.fullAddress}}</p>
+      </div>
+    </div>
+  </div>
+</div>
