@@ -79,8 +79,12 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): any {
     document.querySelector('html').classList.toggle('bg-gray-3');
-    this.isLoadedSub.unsubscribe();
-    this.routerSub.unsubscribe();
+    if (this.isLoadedSub) {
+      this.isLoadedSub.unsubscribe();
+    }
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
   }
 
   public activateTab(index: number) {
