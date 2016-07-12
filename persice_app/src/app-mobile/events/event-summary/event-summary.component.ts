@@ -10,6 +10,8 @@ import {RsvpElementComponent} from '../rsvp-element/rsvp-element.component';
 })
 export class EventSummaryComponent {
   @Input() event: Event;
+  @Input() username: string;
+  @Input() userId: string;
   @Output() onOpenEvent: EventEmitter<any> = new EventEmitter();
 
   isRsvpElementVisible: boolean = false;

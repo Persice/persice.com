@@ -8,6 +8,8 @@ import {Subscription, Observable} from 'rxjs';
 import {Event} from '../shared/model/event';
 import {EventSummaryComponent} from './event-summary';
 import {InfiniteScrollDirective} from '../../common/directives';
+import {EventMembersService} from '../../app/shared/services/eventmembers.service';
+import {CookieUtil} from '../../app/shared/core/util';
 
 @Component({
   selector: 'prs-mobile-events',
@@ -18,7 +20,7 @@ import {InfiniteScrollDirective} from '../../common/directives';
     EventSummaryComponent,
     InfiniteScrollDirective
   ],
-  providers: [EventsMobileService]
+  providers: [EventsMobileService, EventMembersService]
 })
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
@@ -32,6 +34,10 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
   private isLoadedSub: Subscription;
   private isLoaded: boolean = false;
   private routerSub: Subscription;
+  private savingRsvp: boolean = false;
+  private rsvpStatus: any;
+  private usernameFromCookie: string;
+  private userIdFromCookie: string;
 
   constructor(
     private appStateService: AppStateService,
@@ -42,6 +48,8 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     this.routerSub = this.route.params.subscribe(params => {
       this.eventsType = params['type'];
     });
+    this.usernameFromCookie = CookieUtil.getValue('user_username');
+    this.userIdFromCookie = CookieUtil.getValue('userid');
   }
 
   ngOnInit(): any {
@@ -124,7 +132,6 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     }
 
   }
-
 }
 
 export type EventsType = 'all' | 'my' | 'connections';
