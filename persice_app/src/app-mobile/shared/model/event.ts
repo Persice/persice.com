@@ -168,7 +168,7 @@ export class Event {
     let result = [];
     let max = attendees.length < 6 ? attendees.length : 6;
     for (let i = 0; i < max; i++) {
-      result = [...result, {image: attendees[i].image }];
+      result = [...result, {image: attendees[i].image, organizer: attendees[i].is_organizer }];
     }
 
     return result;

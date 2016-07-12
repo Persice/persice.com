@@ -2,12 +2,12 @@
   <span class="profile-titleline">{{attendees.length}} Attending &middot; {{spotsRemaining}} spots available</span>
   <div class="has-user-links">
     <div class="layout layout--small">
-      <template ngFor let-person let-i="index" [ngForOf]="attendees">
+      <template ngFor let-person [ngForOf]="attendees">
         <div class="layout__item 1/5">
           <div class="user-link">
             <div class="avatar-place">
               <div class="avatar avatar--small cover-background" checkimage="{{person.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>
-              <svg *ngIf="i === 0" role="img" class="icon avatar-icon network-preview">
+              <svg *ngIf="!!person.organizer" role="img" class="icon avatar-icon network-preview">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-persice"></use>
               </svg>
             </div>
