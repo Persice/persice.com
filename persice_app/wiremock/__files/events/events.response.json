@@ -14,7 +14,8 @@
           "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/08/fb_image_10207269494316005_1.jpg",
           "is_connection": false,
           "match_score": 5,
-          "username": "minja10"
+          "username": "ljubomirsimin",
+	  "membership_id": 511
         },
         {
           "first_name": "Carol",
@@ -224,7 +225,8 @@
           "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/05/25/fb_image_560101450791647_1464153126.jpg",
           "is_connection": true,
           "match_score": 9,
-          "username": "sasamacakanja"
+          "username": "ljubomirsimin",
+	  "membership_id": 511
         },
         {
           "first_name": "Thomas",

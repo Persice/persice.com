@@ -59,7 +59,7 @@
     </li>
   </ul>
   <div class="events-list-container" prs-infinite-scroll (scrolled)="loadMoreEvents($event)" [scrollEnabled]="!isLoaded" [bottomOffset]="60">
-    <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" *ngFor="let event of events$ | async"></prs-mobile-event-summary>
+    <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" [username]="usernameFromCookie" [userId]="userIdFromCookie" *ngFor="let event of events$ | async"></prs-mobile-event-summary>
   </div>
 </div>
 <prs-loading [status]="isLoading$ | async"></prs-loading>

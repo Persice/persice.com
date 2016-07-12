@@ -9,21 +9,21 @@ import {Event} from '../shared/model/event';
 import {EventSummaryComponent} from './event-summary';
 import {EventsNotFoundMobileComponent} from './events-not-found';
 import {InfiniteScrollDirective} from '../../common/directives';
+import {EventMembersService} from '../../app/shared/services/eventmembers.service';
+import {CookieUtil} from '../../app/shared/core/util';
 
-@Component(
-  {
-    selector: 'prs-mobile-events',
-    template: <any>require('./events-mobile.html'),
-    directives: [
-      LoadingComponent,
-      OpenLeftMenuDirective,
-      EventSummaryComponent,
-      EventsNotFoundMobileComponent,
-      InfiniteScrollDirective
-    ],
-    providers: [EventsMobileService]
-  }
-)
+@Component({
+  selector: 'prs-mobile-events',
+  template: <any>require('./events-mobile.html'),
+  directives: [
+    LoadingComponent,
+    OpenLeftMenuDirective,
+    EventSummaryComponent,
+    EventsNotFoundMobileComponent,
+    InfiniteScrollDirective
+  ],
+  providers: [EventsMobileService, EventMembersService]
+})
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
   eventsType: EventsType;
@@ -37,13 +37,20 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
   private isLoadedSub: Subscription;
   private isLoaded: boolean = false;
   private routerSub: Subscription;
+  private savingRsvp: boolean = false;
+  private rsvpStatus: any;
+  private usernameFromCookie: string;
+  private userIdFromCookie: string;
 
   constructor(
     private appStateService: AppStateService,
     private eventsService: EventsMobileService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    this.usernameFromCookie = CookieUtil.getValue('user_username');
+    this.userIdFromCookie = CookieUtil.getValue('userid');
+  }
 
   ngOnInit(): any {
     document.querySelector('html').classList.toggle('bg-gray-2');
@@ -134,7 +141,6 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     }
 
   }
-
 }
 
 export type EventsType = 'all' | 'my' | 'connections';

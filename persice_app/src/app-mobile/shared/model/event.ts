@@ -21,6 +21,7 @@ export class Event {
   private _fullAddress: string;
   private _startDate: EventDate;
   private _endDate: EventDate;
+  private _resourceUri: string;
 
   public static fromDto(dto: any) {
     return new Event(dto);
@@ -49,6 +50,27 @@ export class Event {
     this._fullAddress = dto.full_address;
     this._startDate = this._parseEventDateFromField(dto.starts_on);
     this._endDate = this._parseEventDateFromField(dto.ends_on);
+    this._resourceUri = dto.resource_uri;
+  }
+
+  public rsvpOfUsername(username: string): any {
+    for (let user of this._attendeesGoing) {
+      if (user.username === username) {
+        return { rsvp: 'yes', member_id: user.membership_id};
+      }
+    }
+    for (let user of this._attendeesMaybe) {
+      if (user.username === username) {
+        return { rsvp: 'maybe', member_id: user.membership_id};
+      }
+    }
+    for (let user of this._attendeesNotGoing) {
+      if (user.username === username) {
+        return { rsvp: 'no', member_id: user.membership_id};
+      }
+    }
+
+    return {};
   }
 
   get name(): string {
@@ -129,6 +151,10 @@ export class Event {
 
   get attendeesPreview(): any[] {
     return this._attendeesPreview;
+  }
+
+  get resourceUri(): string {
+    return this._resourceUri;
   }
 
   private _parseEventDateFromField(dateField: any): EventDate {
