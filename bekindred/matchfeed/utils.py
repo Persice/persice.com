@@ -602,6 +602,7 @@ class MatchEvent(object):
         for attendee in attendees:
             d = dict()
             d['first_name'] = attendee.user.first_name
+            d['membership_id'] = attendee.id
             d['username'] = attendee.user.username
             d['is_connection'] = Friend.objects. \
                 checking_friendship(user_id, attendee.user.id)
