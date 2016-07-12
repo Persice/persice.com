@@ -17,11 +17,13 @@ export class EventsMobileService {
   public isLoading$: Observable<boolean>;
   public isLoadingInitial$: Observable<boolean>;
   public isLoaded$: Observable<boolean>;
+  public notFound$: Observable<boolean>;
 
   private _events$: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _isLoadingInitial$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _isLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _notFound$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _nextUrl: string = '';
 
   constructor(protected http: Http) {
@@ -29,6 +31,7 @@ export class EventsMobileService {
     this.isLoading$ = this._isLoading$.asObservable();
     this.isLoadingInitial$ = this._isLoadingInitial$.asObservable();
     this.isLoaded$ = this._isLoaded$.asObservable();
+    this.notFound$ = this._notFound$.asObservable();
   }
 
   public loadInitial(type: EventsType): void {
@@ -62,6 +65,7 @@ export class EventsMobileService {
       this._isLoading$.next(false);
       this._isLoaded$.next(false);
       this._isLoadingInitial$.next(true);
+      this._notFound$.next(false);
     }
 
     // If url param is set, use it for loading more events
@@ -81,6 +85,12 @@ export class EventsMobileService {
 
         this._events$.next(eventsList);
 
+        if (eventsList.length === 0) {
+          this._notFound$.next(true);
+        } else {
+          this._notFound$.next(false);
+        }
+
         if (this._nextUrl === null) {
           this._isLoaded$.next(true);
         }
@@ -90,6 +100,9 @@ export class EventsMobileService {
       }, (err) => { // Error handler
         console.log('Could not load events');
         console.log(err);
+        this._notFound$.next(true);
+        this._isLoading$.next(false);
+        this._isLoaded$.next(true);
       }, () => { // When finished
         this._isLoading$.next(false);
         subs$.unsubscribe();

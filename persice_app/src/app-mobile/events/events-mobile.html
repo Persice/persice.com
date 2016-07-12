@@ -63,3 +63,4 @@
   </div>
 </div>
 <prs-loading [status]="isLoading$ | async"></prs-loading>
+<prs-mobile-events-not-found *ngIf="!!(notFound$ | async)"></prs-mobile-events-not-found>

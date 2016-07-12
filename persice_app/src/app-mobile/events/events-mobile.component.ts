@@ -7,19 +7,23 @@ import {OpenLeftMenuDirective} from '../shared/directives/open-left-menu.directi
 import {Subscription, Observable} from 'rxjs';
 import {Event} from '../shared/model/event';
 import {EventSummaryComponent} from './event-summary';
+import {EventsNotFoundMobileComponent} from './events-not-found';
 import {InfiniteScrollDirective} from '../../common/directives';
 
-@Component({
-  selector: 'prs-mobile-events',
-  template: <any>require('./events-mobile.html'),
-  directives: [
-    LoadingComponent,
-    OpenLeftMenuDirective,
-    EventSummaryComponent,
-    InfiniteScrollDirective
-  ],
-  providers: [EventsMobileService]
-})
+@Component(
+  {
+    selector: 'prs-mobile-events',
+    template: <any>require('./events-mobile.html'),
+    directives: [
+      LoadingComponent,
+      OpenLeftMenuDirective,
+      EventSummaryComponent,
+      EventsNotFoundMobileComponent,
+      InfiniteScrollDirective
+    ],
+    providers: [EventsMobileService]
+  }
+)
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
   eventsType: EventsType;
@@ -28,6 +32,7 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   private events$: Observable<Event[]>;
   private isLoading$: Observable<boolean>;
+  private notFound$: Observable<boolean>;
   private isLoadingInitial$: Observable<boolean>;
   private isLoadedSub: Subscription;
   private isLoaded: boolean = false;
@@ -38,11 +43,7 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     private eventsService: EventsMobileService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.routerSub = this.route.params.subscribe(params => {
-      this.eventsType = params['type'];
-    });
-  }
+  ) { }
 
   ngOnInit(): any {
     document.querySelector('html').classList.toggle('bg-gray-2');
@@ -51,12 +52,21 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
     this.events$ = this.eventsService.events$;
     this.isLoading$ = this.eventsService.isLoading$;
+    this.notFound$ = this.eventsService.notFound$;
     this.isLoadingInitial$ = this.eventsService.isLoadingInitial$;
-    this.isLoadedSub = this.eventsService.isLoaded$.subscribe((state: boolean) => {
-      this.isLoaded = state;
-    });
+    this.isLoadedSub = this.eventsService.isLoaded$.subscribe(
+      (state: boolean) => {
+        this.isLoaded = state;
+      }
+    );
 
-    this._loadEvents(this.eventsType, true);
+    this.routerSub = this.route.params.subscribe(
+      params => {
+        this.eventsType = params['type'];
+        this._loadEvents(this.eventsType, true);
+      }
+    );
+
   }
 
   ngOnDestroy(): any {
