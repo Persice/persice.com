@@ -44,7 +44,7 @@ export const rootRoutes: RouterConfig = [
     component: EventMobileComponent,
   },
   {
-    path: 'attendees/:eventId',
+    path: 'event/:eventId/attendees',
     component: AttendeesMobileComponent,
   },
   {
