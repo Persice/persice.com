@@ -166,7 +166,7 @@ export class Event {
 
   private _makeAttendeesPreview(attendees: any[]): any {
     let result = [];
-    let max = attendees.length < 6 ? attendees.length : 6;
+    let max = attendees.length < 4 ? attendees.length : 4;
     for (let i = 0; i < max; i++) {
       result = [...result, {image: attendees[i].image, isHost: attendees[i].is_organizer }];
     }
