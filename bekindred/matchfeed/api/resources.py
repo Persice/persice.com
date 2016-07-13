@@ -326,6 +326,9 @@ class MutualConnections(Resource):
                                                        user.id)
         friends_ids = NeoFourJ().get_my_friends_ids(user.id)
 
+        # Remove current user from list ICE-2194
+        friends_ids.remove(current_user.id)
+
         other_ids = list(set(friends_ids) - set(mutual_friends_ids))
 
         mutual_friends = MatchQuerySet.filter(current_user, mutual_friends_ids)
