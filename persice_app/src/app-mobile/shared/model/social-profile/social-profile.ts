@@ -15,14 +15,14 @@ export class SocialProfile {
         this._url = `https://www.facebook.com/app_scoped_user_id/${dto.facebook_id}`;
         break;
       case 'twitter':
-        this._name = dto.name;
-        this._image = !!dto.profile_image_url ? dto.profile_image_url : '';
-        this._url = !!dto.screen_name ? `https://twitter.com/${dto.screen_name}` : '';
+        this._name = dto.first_name;
+        this._image = !!dto.image ? dto.image : '';
+        this._url = !!dto.twitter_username ? `https://twitter.com/${dto.twitter_username}` : '';
         break;
       case 'linkedin':
-        this._name = dto.firstName;
-        this._image = !!dto.pictureUrls.values[0] ? dto.pictureUrls.values[0] : '';
-        this._url = !!dto.public_profile_url ? dto.public_profile_url : '';
+        this._name = dto.first_name;
+        this._image = !!dto.image ? dto.image : '';
+        this._url = !!dto.linkedin_provider ? dto.linkedin_provider : '';
         break;
       default:
         break;
