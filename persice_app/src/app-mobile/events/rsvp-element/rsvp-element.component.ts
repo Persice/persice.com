@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {EventMembersService} from '../../../app/shared/services/eventmembers.service';
+import {Event} from '../../shared/model/event';
 
 @Component({
   selector: 'prs-rsvp-element',
@@ -10,7 +11,7 @@ export class RsvpElementComponent implements OnInit {
   @Input() username: string;
   @Input() userId: string;
   @Output() onToggleRsvpElement: EventEmitter<any> = new EventEmitter();
-  
+
   private savingRsvp: boolean = false;
   private oldRsvp: any = {};
   private authUserUri: string;
@@ -39,41 +40,29 @@ export class RsvpElementComponent implements OnInit {
     this.savingRsvp = true;
 
     let data = {
-      event: this.event.resourceUri,
+      event: `/api/v1/event/${this.event.id}/`,
       rsvp: newRsvp,
       user: this.authUserUri
     };
 
     if (this.oldRsvp.rsvp) {
       let memberResourceUri = `/api/v1/member/${this.oldRsvp.member_id}/`;
-
-      console.log('update', data);
-      console.log('uri', memberResourceUri);
       this.eventMembersService.updateOneByUri(memberResourceUri, data)
         .subscribe((res) => {
-          setTimeout(() => {
-            this.refreshEventStats(this.event.id);
-          }, 250);
+          this.oldRsvp = { rsvp: res.rsvp, member_id: res.id };
           this.savingRsvp = false;
-          console.log('got response', res);
-
+          this.hideRsvpElement();
         });
     } else {
-      console.log('create', data);
       this.eventMembersService.createOne(data)
         .subscribe((res) => {
-          this.oldRsvp = { rsvp: res.rsvp, member_id: res.resource_uri.replace('/api/v1/member/', '').replace('/', '') };
+          this.oldRsvp = { rsvp: res.rsvp, member_id: res.id };
           this.savingRsvp = false;
-          console.log('got response', res);
-          setTimeout(() => {
-            this.refreshEventStats(this.event.id);
-          }, 250);
+          this.hideRsvpElement();
         });
     }
   }
 
-  refreshEventStats(eventId) {
 
-  }
 }
 

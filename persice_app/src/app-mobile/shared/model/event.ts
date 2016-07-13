@@ -36,10 +36,7 @@ export class Event {
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
     this._distance = new Distance(dto.distance);
-
-    // Substract connectionsAttendeesCount by 1 because event organizer should not be counted in.
-    this._connectionsAttendeesCount = dto.friend_attendees_count - 1;
-
+    this._connectionsAttendeesCount = dto.friend_attendees_count;
     this._maxAttendees = dto.max_attendees;
     this._attendeesGoing = dto.attendees_yes;
     this._attendeesNotGoing = dto.attendees_no;
@@ -171,7 +168,7 @@ export class Event {
     let result = [];
     let max = attendees.length < 6 ? attendees.length : 6;
     for (let i = 0; i < max; i++) {
-      result = [...result, {image: attendees[i].image }];
+      result = [...result, {image: attendees[i].image, organizer: attendees[i].is_organizer }];
     }
 
     return result;
