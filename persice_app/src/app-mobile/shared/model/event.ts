@@ -1,5 +1,5 @@
 import {Distance} from './distance';
-import {DateUtil} from '../../../app/shared/core/util';
+import {DateUtil, ListUtil} from '../../../app/shared/core/util';
 import {EventDate} from './event-date';
 export class Event {
   private _id: string;
@@ -36,7 +36,7 @@ export class Event {
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
     this._distance = new Distance(dto.distance);
-    this._connectionsAttendeesCount = dto.friend_attendees_count;
+    this._connectionsAttendeesCount = dto.friend_attendees_count - 1;
     this._maxAttendees = dto.max_attendees;
     this._attendeesGoing = dto.attendees_yes;
     this._attendeesNotGoing = dto.attendees_no;
@@ -168,8 +168,10 @@ export class Event {
     let result = [];
     let max = attendees.length < 6 ? attendees.length : 6;
     for (let i = 0; i < max; i++) {
-      result = [...result, {image: attendees[i].image, organizer: attendees[i].is_organizer }];
+      result = [...result, {image: attendees[i].image, isHost: attendees[i].is_organizer }];
     }
+
+    result = ListUtil.orderBy(result, ['isHost'], 'desc');
 
     return result;
   }

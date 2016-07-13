@@ -681,52 +681,6 @@ html.remodal-is-locked > body {
   min-height: 250px;
 }
 
-/* Temporary styles for rsvp on event single page */
-
-.card__stat_single_event {
-  border: none !important;
+.event-summary__status.event-summary__status--going--inverted {
+  color: #395919 !important;
 }
-
-.card__stat_single_event .event-summary__status {
-  height: 65px !important;
-  line-height: 65px !important;
-  border: none;
-}
-
-.card__stat_single_event .layout__item {
-  height: 65px !important;
-  line-height: 65px !important;
-}
-
-.card__stat_single_event .event-summary__status.event-summary__status--going {
-  background-color: #fdfdfd;
-  color: #a6e16c !important;
-  border-left: 1px solid #f2f5f5 !important;
-}
-
-.card__stat_single_event .event-summary__status.event-summary__status--cannotgo {
-  background-color: #fff;
-  color: #ec8672;
-}
-
-.card__stat_single_event .event-summary__status.event-summary__status--maybe {
-  background-color: #fff;
-  color: #63727a;
-  border-left: 1px solid #f2f5f5 !important;
-}
-
-.card__stat_single_event .event-summary__status.event-summary__status--going.is-active {
-  background-color: #a6e16c;
-  color: #395919;
-}
-
-.card__stat_single_event .event-summary__status.event-summary__status--cannotgo.is-active {
-  background-color: #ec8672;
-  color: #fff;
-}
-
-.card__stat_single_event .event-summary__status.event-summary__status--maybe.is-active {
-  background-color: #63727a;
-  color: #fff;
-}
-
