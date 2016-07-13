@@ -46,23 +46,36 @@ export class RsvpElementComponent implements OnInit {
     };
 
     if (this.oldRsvp.rsvp) {
+      // When old response exists.
       let memberResourceUri = `/api/v1/member/${this.oldRsvp.member_id}/`;
-      this.eventMembersService.updateOneByUri(memberResourceUri, data)
-        .subscribe((res) => {
-          this.oldRsvp = { rsvp: res.rsvp, member_id: res.id };
-          this.savingRsvp = false;
-          this.hideRsvpElement();
-        });
+      if (this.oldRsvp.rsvp === newRsvp) {
+        // When user clicked the same response - toggle.
+        this.eventMembersService.deleteOneByUri(memberResourceUri)
+          .subscribe(() => {
+            this.oldRsvp = {};
+            this.savingRsvp = false;
+            this.hideRsvpElement();
+          });
+      } else {
+        // When user updated response.
+        this.eventMembersService.updateOneByUri(memberResourceUri, data)
+          .subscribe((res) => {
+            this.handleRsvpResponse(res);
+          });
+      }
     } else {
+      // When creating a new response.
       this.eventMembersService.createOne(data)
         .subscribe((res) => {
-          this.oldRsvp = { rsvp: res.rsvp, member_id: res.id };
-          this.savingRsvp = false;
-          this.hideRsvpElement();
+          this.handleRsvpResponse(res);
         });
     }
   }
 
-
+  private handleRsvpResponse(res) {
+    this.oldRsvp = {rsvp: res.rsvp, member_id: res.id};
+    this.savingRsvp = false;
+    this.hideRsvpElement();
+  }
 }
 

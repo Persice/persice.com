@@ -47,6 +47,10 @@ export class EventMembersService {
       .map((res: Response) => res.json());
   }
 
+  public deleteOneByUri(resourceUri: string): Observable<any> {
+    return this.http.delete(resourceUri).map((res: Response) => res.json());
+  }
+
 
 }
 export var eventMembersServiceInjectables: Array<any> = [
