@@ -12,9 +12,8 @@ const MAX_ATTENDEES: number = 5;
 export class EventAttendeesPreviewMobileComponent {
   @Input() set event(data: Event) {
     this.attendees = data.attendeesPreview;
-    this.score = data.similarity;
     this.spotsRemaining = data.spotsRemaining;
-    this.connectionsAttendeesCount = data.connectionsAttendeesCount;
+    this.attendeesGoingCount = data.attendeesGoing.length;
 
     // Fill array for displaying empty places
     const length: number = MAX_ATTENDEES - 1 - this.attendees.length;
@@ -25,9 +24,9 @@ export class EventAttendeesPreviewMobileComponent {
 
   public attendees: any[] = [];
   public emptyPlacesArray: any[];
-  public score: string;
+
   public spotsRemaining: number;
-  public connectionsAttendeesCount: number;
+  public attendeesGoingCount: number;
 
   public openAttendees(event: MouseEvent) {
     if (this.attendees.length > 0) {
