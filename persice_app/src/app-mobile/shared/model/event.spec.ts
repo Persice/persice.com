@@ -58,12 +58,10 @@ describe('Event', () => {
 
     // then
     expect(event.attendeesPreview).toEqual(
-      [{first_name: dto.attendees_yes[0].first_name, image: dto.attendees_yes[0].image},
-      {first_name: dto.attendees_yes[1].first_name, image: dto.attendees_yes[1].image},
-      {first_name: dto.attendees_yes[2].first_name, image: dto.attendees_yes[2].image},
-      {first_name: dto.attendees_yes[3].first_name, image: dto.attendees_yes[3].image},
-      {first_name: dto.attendees_yes[4].first_name, image: dto.attendees_yes[4].image},
-      {first_name: dto.attendees_yes[5].first_name, image: dto.attendees_yes[5].image}]
+      [{image: dto.attendees_yes[0].image, isHost: dto.attendees_yes[0].is_organizer},
+        {image: dto.attendees_yes[1].image, isHost: dto.attendees_yes[1].is_organizer},
+        {image: dto.attendees_yes[2].image, isHost: dto.attendees_yes[2].is_organizer},
+        {image: dto.attendees_yes[3].image, isHost: dto.attendees_yes[3].is_organizer}]
     );
   });
 });
