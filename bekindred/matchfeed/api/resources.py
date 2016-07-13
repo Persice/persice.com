@@ -6,6 +6,7 @@ from collections import namedtuple
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.cache import cache
+from social_auth.db.django_models import UserSocialAuth
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -237,9 +238,9 @@ FacebookMutualUser = namedtuple('FacebookMutualUser',
                                  'last_name'])
 
 TwitterMutualUser = namedtuple('TwitterMutualUser',
-                                ['id', 'mutual', 'user_type', 'user_id',
-                                 'distance', 'twitter_id', 'first_name',
-                                 'photos'])
+                               ['id', 'mutual', 'user_type', 'user_id',
+                                'distance', 'twitter_id', 'first_name',
+                                'image', 'username'])
 
 
 class MutualConnections(Resource):
@@ -323,11 +324,12 @@ class MutualConnections(Resource):
             logging.exception(err)
             raise BadRequest('incorrect user_id')
         mutual_friends_ids = NeoFourJ().get_mutual_friends(current_user.id,
-                                                       user.id)
+                                                           user.id)
         friends_ids = NeoFourJ().get_my_friends_ids(user.id)
 
         # Remove current user from list ICE-2194
-        friends_ids.remove(current_user.id)
+        if current_user.id in friends_ids:
+            friends_ids.remove(current_user.id)
 
         other_ids = list(set(friends_ids) - set(mutual_friends_ids))
 
@@ -362,7 +364,8 @@ class MutualConnections(Resource):
                 distance=[],
                 twitter_id=twitter.twitter_id2,
                 first_name=twitter.name2,
-                photos=[twitter.profile_image_url2],
+                image=twitter.profile_image_url2,
+                username=twitter.screen_name2,
                 mutual=True,
                 user_type='twitter'
             )
