@@ -74,7 +74,6 @@
   }
 }
 
-
 /* fix for navmain active link class */
 
 .mob-nav-main li a.router-link-active {
@@ -118,7 +117,6 @@
 .signup-step__warning {
   position: absolute;
 }
-
 
 /* fix for typeahead */
 
@@ -213,7 +211,6 @@
   border-bottom: 1px solid #eff1f1;
   cursor: pointer;
 }
-
 
 /* Notification */
 
@@ -492,7 +489,6 @@ html {
   position: relative !important;
 }
 
-
 /* custom loading indicator inline*/
 
 .loader {
@@ -683,4 +679,8 @@ html.remodal-is-locked > body {
 
 .content--main {
   min-height: 250px;
+}
+
+.event-summary__status.event-summary__status--going--inverted {
+  color: #395919 !important;
 }
