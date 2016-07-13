@@ -116,7 +116,6 @@ def mutual_twitter_friends(user_id1, user_id2):
     :param user_id2:
     :return:
     """
-    mutual_twitter_friends_ = []
     try:
         current_auth_user = UserSocialAuth.objects.filter(
             user_id=user_id1, provider='twitter')[0]
@@ -143,11 +142,15 @@ def mutual_twitter_friends(user_id1, user_id2):
             'twitter_id2', flat=True
         )
 
-        mutual_twitter_friends_ = list(set(twitter_friends_u1) -
+        mutual_twitter_friends_ = list(set(twitter_friends_u1) &
                                        set(twitter_friends_u2))
+        twitters = TwitterListFollowers.objects.filter(
+            twitter_id2__in=mutual_twitter_friends_
+        )
     except Exception as err:
         logger.error(err)
-    return mutual_twitter_friends_
+        return tuple()
+    return twitters
 
 
 class MatchedUser(object):

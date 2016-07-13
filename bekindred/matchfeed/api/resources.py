@@ -20,7 +20,7 @@ from goals.utils import (get_mutual_linkedin_connections,
                          get_mutual_twitter_friends,
                          get_current_position, get_religious_views,
                          get_political_views)
-from matchfeed.utils import MatchQuerySet, NonMatchUser
+from matchfeed.utils import MatchQuerySet, NonMatchUser, mutual_twitter_friends
 from members.models import FacebookCustomUserActive
 
 logger = logging.getLogger(__name__)
@@ -236,12 +236,17 @@ FacebookMutualUser = namedtuple('FacebookMutualUser',
                                  'distance', 'facebook_id', 'first_name',
                                  'last_name'])
 
+TwitterMutualUser = namedtuple('TwitterMutualUser',
+                                ['id', 'mutual', 'user_type', 'user_id',
+                                 'distance', 'twitter_id', 'first_name',
+                                 'photos'])
+
 
 class MutualConnections(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
-    last_name = fields.CharField(attribute='last_name')
-    facebook_id = fields.CharField(attribute='facebook_id')
+    last_name = fields.CharField(attribute='last_name', null=True)
+    facebook_id = fields.CharField(attribute='facebook_id', null=True)
     username = fields.CharField(attribute='username', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
     user_id = fields.CharField(attribute='user_id')
@@ -345,11 +350,19 @@ class MutualConnections(Resource):
             obj1.user_type = "persice"
             results[obj1.user_id] = obj1
 
-        # l = get_mutual_linkedin_connections(current_user, user)
-        # linkedin_mutual_connections = l['mutual_linkedin']
-        # t = get_mutual_twitter_friends(current_user, user)
-        # mutual_twitter_friends = t['mutual_twitter_friends']
-        # mutual_twitter_followers = t['mutual_twitter_followers']
+        twitters = mutual_twitter_friends(current_user, user_id)
+
+        for twitter in twitters:
+            results[twitter.twitter_id2] = TwitterMutualUser(
+                id=twitter.twitter_id2,
+                user_id=twitter.twitter_id2,
+                distance=[],
+                twitter_id=twitter.twitter_id2,
+                first_name=twitter.name2,
+                photos=[twitter.profile_image_url2],
+                mutual=True,
+                user_type='twitter'
+            )
 
         return sorted(results.values(), key=lambda x: -x.mutual)
 
