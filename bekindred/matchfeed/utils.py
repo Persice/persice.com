@@ -153,6 +153,10 @@ def mutual_twitter_friends(user_id1, user_id2):
     return twitters
 
 
+def mutual_linkedin_friends(user_id1, user_id2):
+    pass
+
+
 class MatchedUser(object):
     """
     user_id1 - original user
