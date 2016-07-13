@@ -17,7 +17,7 @@ export class SocialProfile {
       case 'twitter':
         this._name = dto.first_name;
         this._image = !!dto.image ? dto.image : '';
-        this._url = !!dto.twitter_username ? `https://twitter.com/${dto.twitter_username}` : '';
+        this._url = !!dto.username ? `https://twitter.com/${dto.username}` : '';
         break;
       case 'linkedin':
         this._name = dto.first_name;
