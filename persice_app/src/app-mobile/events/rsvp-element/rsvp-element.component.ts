@@ -49,13 +49,16 @@ export class RsvpElementComponent implements OnInit {
       // When old response exists.
       let memberResourceUri = `/api/v1/member/${this.oldRsvp.member_id}/`;
       if (this.oldRsvp.rsvp === newRsvp) {
-        // When user clicked the same response - toggle.
-        this.eventMembersService.deleteOneByUri(memberResourceUri)
-          .subscribe(() => {
-            this.oldRsvp = {};
-            this.savingRsvp = false;
-            this.hideRsvpElement();
-          });
+        // TODO: return un-rsvp functionality after backend work is finished in ticket ICE-2201
+        //   // When user clicked the same response - toggle.
+        //   this.eventMembersService.deleteOneByUri(memberResourceUri)
+        //     .subscribe(() => {
+        //       this.oldRsvp = {};
+        //       this.savingRsvp = false;
+        //       this.hideRsvpElement();
+        //     });
+        this.hideRsvpElement();
+        this.savingRsvp = false;
       } else {
         // When user updated response.
         this.eventMembersService.updateOneByUri(memberResourceUri, data)
