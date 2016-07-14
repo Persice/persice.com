@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {CookieUtil} from '../../../app/shared/core/util';
 import {GoalsService, OffersService, PhotosService, InterestsService}
 from '../../../app/shared/services';
@@ -8,7 +9,8 @@ import {HeaderState} from '../../header';
 @Component({
   selector: 'prs-mobile-edit-my-profile-navigation',
   template: <any>require('./edit-my-profile-navigation.html'),
-  providers: [InterestsService, GoalsService, OffersService, PhotosService]
+  providers: [InterestsService, GoalsService, OffersService, PhotosService],
+  directives: [ROUTER_DIRECTIVES]
 })
 export class EditMyProfileNavigationComponent implements OnInit {
 
