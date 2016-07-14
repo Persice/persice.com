@@ -1,26 +1,21 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Event} from '../../../shared/model/event';
+import {RsvpElementComponent} from '../../rsvp-element/rsvp-element.component';
+import {EventMembersService} from '../../../../app/shared/services/eventmembers.service';
 
 
 @Component({
   selector: 'prs-mobile-event-rsvp',
-  template: require('./event-rsvp-mobile.html')
+  template: require('./event-rsvp-mobile.html'),
+  providers: [EventMembersService]
 })
-export class EventRsvpMobileComponent {
+export class EventRsvpMobileComponent extends RsvpElementComponent {
   @Input() event: Event;
   @Input() username: string;
   @Input() userId: string;
-  @Output() onToggleRsvpElement: EventEmitter<any> = new EventEmitter();
 
-  private oldRsvp: any = {};
-
-  constructor() {
-
-  }
-
-  ngOnInit() {
-    this.oldRsvp = this.event.rsvpOfUsername(this.username);
-
+  constructor(private eventMembersService: EventMembersService) {
+    super(eventMembersService);
   }
 }
 
