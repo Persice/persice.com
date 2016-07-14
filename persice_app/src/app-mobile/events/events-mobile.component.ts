@@ -55,7 +55,8 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
   ngOnInit(): any {
     document.querySelector('html').classList.toggle('bg-gray-2');
     this.appStateService.setHeaderVisibility(false);
-    this.appStateService.setFooterButtonVisibility(true);
+    // TODO: enable add new event button
+    // this.appStateService.setFooterButtonVisibility(true);
 
     this.events$ = this.eventsService.events$;
     this.isLoading$ = this.eventsService.isLoading$;
@@ -79,7 +80,8 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): any {
     document.querySelector('html').classList.toggle('bg-gray-2');
     this.appStateService.setHeaderVisibility(true);
-    this.appStateService.setFooterButtonVisibility(false);
+    // TODO: enable add new event button
+    // this.appStateService.setFooterButtonVisibility(false);
     if (this.routerSub) {
       this.routerSub.unsubscribe();
     }
