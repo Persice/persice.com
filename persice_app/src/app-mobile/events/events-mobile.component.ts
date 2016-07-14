@@ -37,8 +37,6 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
   private isLoadedSub: Subscription;
   private isLoaded: boolean = false;
   private routerSub: Subscription;
-  private savingRsvp: boolean = false;
-  private rsvpStatus: any;
   private usernameFromCookie: string;
   private userIdFromCookie: string;
 

@@ -1,5 +1,3 @@
-import {EventGenerator} from './event-generator';
-import {Event} from './event';
 import {EventDate} from './event-date';
 
 describe('Even date', () => {

@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {SocialProfile} from '../../../shared/model/social-profile';
 
 @Component({
