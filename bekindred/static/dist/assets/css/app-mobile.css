@@ -680,7 +680,3 @@ html.remodal-is-locked > body {
 .content--main {
   min-height: 250px;
 }
-
-.event-summary__status.event-summary__status--going--inverted {
-  color: #395919 !important;
-}
