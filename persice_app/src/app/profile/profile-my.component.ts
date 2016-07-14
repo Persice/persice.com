@@ -1,22 +1,15 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-
-import {ListUtil} from '../shared/core/';
-
-
-import {AvatarComponent} from './avatar.component';
-import {AboutComponent} from './about.component';
-import {LikesComponent} from './likes.component';
-import {FriendsComponent} from './friends.component';
-import {NetworksComponent} from './networks.component';
-import {ItemsComponent} from './items.component';
-import {EditProfileComponent} from '../edit-profile';
-import {LoadingComponent} from '../shared/components/loading';
-import {RemodalDirective} from '../shared/directives';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { ListUtil } from '../shared/core/';
+import { AvatarComponent } from './avatar.component';
+import { AboutComponent } from './about.component';
+import { LikesComponent } from './likes.component';
+import { FriendsComponent } from './friends.component';
+import { NetworksComponent } from './networks.component';
+import { ItemsComponent } from './items.component';
+import { EditProfileComponent } from '../edit-profile';
+import { LoadingComponent } from '../shared/components/loading';
+import { RemodalDirective } from '../shared/directives';
 import {
   PhotosService,
   UserAuthService,
@@ -26,8 +19,7 @@ import {
   HistoryService,
   UserService
 } from '../shared/services';
-
-import {ConnectionsService} from '../../common/connections';
+import { ConnectionsService } from '../../common/connections';
 
 @Component({
   selector: 'prs-profile-my',
@@ -423,8 +415,8 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
 
   changeProfilePhoto(event) {
     this.loadingPhotos = true;
-    let srcIdx = ListUtil.findIndex(this.profilePhotos, { id: event.src });
-    let dstIdx = ListUtil.findIndex(this.profilePhotos, { id: event.dst });
+    let srcIdx = ListUtil.findIndex(this.profilePhotos, {id: event.src});
+    let dstIdx = ListUtil.findIndex(this.profilePhotos, {id: event.dst});
 
     let srcImg = JSON.parse(JSON.stringify(this.profilePhotos[srcIdx]));
     let dstImg = JSON.parse(JSON.stringify(this.profilePhotos[dstIdx]));
@@ -448,7 +440,7 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.photosService.updateOrder({ order: 0, resource_uri: profilePhoto.resource_uri },
+      this.photosService.updateOrder({order: 0, resource_uri: profilePhoto.resource_uri},
         profilePhoto.resource_uri, (res) => {
           if (res === -1) {
             this.loadingPhotos = false;

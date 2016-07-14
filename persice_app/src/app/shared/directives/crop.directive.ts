@@ -1,6 +1,4 @@
-import {Directive, ElementRef, Output, EventEmitter, OnChanges, AfterViewInit, OnDestroy}
-from '@angular/core';
-
+import { Directive, ElementRef, Output, EventEmitter, OnChanges, AfterViewInit, OnDestroy } from '@angular/core';
 
 
 @Directive({

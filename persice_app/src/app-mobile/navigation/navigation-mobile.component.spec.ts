@@ -1,7 +1,7 @@
-import {fakeAsync, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import {NavigationMobileComponent} from './navigation-mobile.component';
+import { fakeAsync, inject, TestComponentBuilder, addProviders } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { NavigationMobileComponent } from './navigation-mobile.component';
 import {
   provideTestRouter,
   routesTestConfigAppMobile,

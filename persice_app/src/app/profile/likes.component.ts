@@ -1,5 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {SwiperDirective} from '../shared/directives';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { SwiperDirective } from '../shared/directives';
 
 @Component({
   template: <any>require('./likes.html'),

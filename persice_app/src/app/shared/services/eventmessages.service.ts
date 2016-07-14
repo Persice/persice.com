@@ -1,8 +1,7 @@
-import {provide, Injectable} from '@angular/core';
-import {Response } from '@angular/http';
-import {Observable} from 'rxjs';
-
-import {HttpClient} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '../core';
 
 @Injectable()
 export class EventMessagesService {
@@ -52,5 +51,5 @@ export class EventMessagesService {
 }
 
 export var eventMessagesServiceInjectables: Array<any> = [
-  provide(EventMessagesService, { useClass: EventMessagesService })
+  provide(EventMessagesService, {useClass: EventMessagesService})
 ];

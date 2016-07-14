@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {DomSanitizationService} from '@angular/platform-browser';
-
-import {AppStateService} from '../../shared/services';
-import {UserAuthService} from '../../../app/shared/services';
-import {HeaderState} from '../../header';
+import { Component, OnInit } from '@angular/core';
+import { DomSanitizationService } from '@angular/platform-browser';
+import { AppStateService } from '../../shared/services';
+import { UserAuthService } from '../../../app/shared/services';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-edit-social-accounts',

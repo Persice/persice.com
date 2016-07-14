@@ -1,17 +1,9 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  OnInit
-} from '@angular/core';
-
-import {ManageGoalsOffersComponent} from '../../common/manage-goals-offers';
-import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../common/directives';
-
-import {LoadingComponent} from '../shared/components/loading';
-import {EditFooterComponent} from './edit-footer.component';
-
-import {OffersService} from '../shared/services';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { ManageGoalsOffersComponent } from '../../common/manage-goals-offers';
+import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
+import { LoadingComponent } from '../shared/components/loading';
+import { EditFooterComponent } from './edit-footer.component';
+import { OffersService } from '../shared/services';
 
 @Component({
   selector: 'prs-edit-offers',

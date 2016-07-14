@@ -1,6 +1,6 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {EventMembersService} from '../../../app/shared/services/eventmembers.service';
-import {Event} from '../../shared/model/event';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { EventMembersService } from '../../../app/shared/services/eventmembers.service';
+import { Event } from '../../shared/model/event';
 
 @Component({
   selector: 'prs-rsvp-element',

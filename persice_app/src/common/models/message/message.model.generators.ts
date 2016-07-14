@@ -1,4 +1,4 @@
-import {Message} from "./message.model";
+import { Message } from './message.model';
 export class MessageGenerators {
 
   public static givenAnyMessage() {

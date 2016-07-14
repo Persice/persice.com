@@ -1,10 +1,7 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-
-import {HttpClient} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
 
 @Injectable()
 export class UserAuthService {
@@ -136,5 +133,5 @@ export class UserAuthService {
 }
 
 export var userAuthServiceInjectables: Array<any> = [
-  provide(UserAuthService, { useClass: UserAuthService })
+  provide(UserAuthService, {useClass: UserAuthService})
 ];

@@ -1,34 +1,18 @@
-import {
-  Component,
-  ViewEncapsulation,
-  AfterViewInit,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
-import {
-  RouteConfig,
-  ROUTER_DIRECTIVES,
-  Router
-} from '@angular/router-deprecated';
-
-import {HeaderComponent} from './header';
-import {NavigationComponent} from './navigation';
-import {NotificationsComponent} from './notifications';
-
-import {LoadingComponent} from './shared/components/loading';
-import {NotificationComponent} from './shared/components/notification';
-
-import {CrowdDesktopComponent} from './crowd';
-import {ProfileLoader, ProfileFriendComponent} from './profile';
-import {MessagesComponent} from './messages';
-import {EventComponent} from './event';
-import {ConnectionsDesktopComponent} from './connections';
-import {EventsComponent} from './events';
-
-import {AuthUserModel, InterfaceNotification} from './shared/models';
-
-
+import { Component, ViewEncapsulation, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
+import { RouteConfig, ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
+import { HeaderComponent } from './header';
+import { NavigationComponent } from './navigation';
+import { NotificationsComponent } from './notifications';
+import { LoadingComponent } from './shared/components/loading';
+import { NotificationComponent } from './shared/components/notification';
+import { CrowdDesktopComponent } from './crowd';
+import { ProfileLoader, ProfileFriendComponent } from './profile';
+import { MessagesComponent } from './messages';
+import { EventComponent } from './event';
+import { ConnectionsDesktopComponent } from './connections';
+import { EventsComponent } from './events';
+import { AuthUserModel, InterfaceNotification } from './shared/models';
 import {
   FilterService,
   UserService,
@@ -41,8 +25,7 @@ import {
   ConnectionsCounterService,
   HistoryService,
   NotificationsService
-}
-from './shared/services';
+} from './shared/services';
 
 /*
  * Persice App Component
@@ -217,10 +200,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.notificationService.addObserver('app');
     this.notificationService.observer('app')
       .subscribe(
-      (data) => this.showNotification(data),
-      (err) => {
-        console.log('Notification error %s', err);
-      });
+        (data) => this.showNotification(data),
+        (err) => {
+          console.log('Notification error %s', err);
+        });
 
     // Get geolocation from the browser
     const GEOLOCATION_OPTS = {
@@ -231,26 +214,26 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.geolocationService.getLocation(GEOLOCATION_OPTS)
       .subscribe((res: any) => {
-        this.updateOrCreateLocation(res);
-      },
-      (err) => {
-        console.log('Geolocation Error: ', err);
-      },
-      () => {
-      });
+          this.updateOrCreateLocation(res);
+        },
+        (err) => {
+          console.log('Geolocation Error: ', err);
+        },
+        () => {
+        });
   }
 
   updateOrCreateLocation(loc) {
     this.locationService.updateOrCreate(loc)
       .subscribe((res) => {
-        this.locationService.updateLocation(res);
-      },
-      (err) => {
-        console.log('Location saving error: ', err);
-      },
-      () => {
+          this.locationService.updateLocation(res);
+        },
+        (err) => {
+          console.log('Location saving error: ', err);
+        },
+        () => {
 
-      });
+        });
   }
 
   ngOnDestroy() {

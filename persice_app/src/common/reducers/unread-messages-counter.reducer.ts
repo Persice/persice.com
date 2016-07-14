@@ -1,9 +1,10 @@
-import {Action} from '@ngrx/store';
-import {UnreadMessagesCounterActions} from '../actions';
+import { Action } from '@ngrx/store';
+import { UnreadMessagesCounterActions } from '../actions';
 
 export interface UnreadMessagesCounterState {
   counter: number;
-};
+}
+;
 
 let initialState: UnreadMessagesCounterState = {
   counter: 0

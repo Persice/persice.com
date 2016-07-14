@@ -4,7 +4,9 @@
   <p class="mob-connect-accounts__paragraph mb-">
     <svg role="img" class="icon icon--extratiny">
       <use xlink:href="/static/assets/icons/icons.svg#icon-lock_slim"></use>
-    </svg> Persice will never share your information or post on your behalf. </p>
+    </svg>
+    Persice will never share your information or post on your behalf.
+  </p>
 </div>
 <div class="pers-data pers-data--b-top mh--">
   <div class="tableize tableize--middle">
@@ -49,8 +51,10 @@
           </div>
           <div class="flag__body">
             <h5 class="social-label">Twitter</h5>
-            <p class="social-data social-data--unpopulated" *ngIf="!connectStatus.twitter.connected">Your Twitter account</p>
-            <a class="social-data link--lightgrey" [href]="sanitize(connectStatus.twitter.url)" *ngIf="connectStatus.twitter.connected">{{connectStatus.twitter.username}}</a>
+            <p class="social-data social-data--unpopulated" *ngIf="!connectStatus.twitter.connected">Your Twitter
+              account</p>
+            <a class="social-data link--lightgrey" [href]="sanitize(connectStatus.twitter.url)"
+               *ngIf="connectStatus.twitter.connected">{{connectStatus.twitter.username}}</a>
           </div>
         </div>
       </div>
@@ -58,7 +62,8 @@
     <div class="tableize__cell 2/4">
       <div class="tableize__content text-right">
         <a class="link-blank" (click)="connect('twitter')" *ngIf="!connectStatus.twitter.connected && username !== ''">Connect</a>
-        <svg (click)="disconnect('twitter')" role="img" class="icon icon--tiny icon--green" *ngIf="connectStatus.twitter.connected">
+        <svg (click)="disconnect('twitter')" role="img" class="icon icon--tiny icon--green"
+             *ngIf="connectStatus.twitter.connected">
           <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
         </svg>
       </div>
@@ -77,16 +82,20 @@
           </div>
           <div class="flag__body">
             <h5 class="social-label">Linkedin</h5>
-            <p class="social-data social-data--unpopulated" *ngIf="!connectStatus.linkedin.connected">Your Linkedin account</p>
-            <a class="social-data link--lightgrey" [href]="sanitize(connectStatus.linkedin.url)" *ngIf="connectStatus.linkedin.connected">{{connectStatus.linkedin.username}}</a>
+            <p class="social-data social-data--unpopulated" *ngIf="!connectStatus.linkedin.connected">Your Linkedin
+              account</p>
+            <a class="social-data link--lightgrey" [href]="sanitize(connectStatus.linkedin.url)"
+               *ngIf="connectStatus.linkedin.connected">{{connectStatus.linkedin.username}}</a>
           </div>
         </div>
       </div>
     </div>
     <div class="tableize__cell 2/4">
       <div class="tableize__content text-right">
-        <a class="link-blank" (click)="connect('linkedin')" *ngIf="!connectStatus.linkedin.connected && username !== ''">Connect</a>
-        <svg (click)="disconnect('linkedin')" role="img" class="icon icon--tiny icon--green" *ngIf="connectStatus.linkedin.connected">
+        <a class="link-blank" (click)="connect('linkedin')"
+           *ngIf="!connectStatus.linkedin.connected && username !== ''">Connect</a>
+        <svg (click)="disconnect('linkedin')" role="img" class="icon icon--tiny icon--green"
+             *ngIf="connectStatus.linkedin.connected">
           <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
         </svg>
       </div>

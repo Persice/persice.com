@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 // List of possible actions when clicking on buttons in header
 export enum HeaderActions {

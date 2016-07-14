@@ -1,8 +1,8 @@
-import {ObjectUtil} from '../../../app/shared/core/util';
-import {SocialNetworkFacebook} from './social-network/social-network-facebook';
-import {SocialNetworkLinkedin} from './social-network/social-network-linkedin';
-import {SocialNetworkTwitter} from './social-network/social-network-twitter';
-import {Gender} from './gender';
+import { ObjectUtil } from '../../../app/shared/core/util';
+import { SocialNetworkFacebook } from './social-network/social-network-facebook';
+import { SocialNetworkLinkedin } from './social-network/social-network-linkedin';
+import { SocialNetworkTwitter } from './social-network/social-network-twitter';
+import { Gender } from './gender';
 export class Person {
 
   public topInterestsFirstHalf: any[];
@@ -53,7 +53,7 @@ export class Person {
 
     if (dto.distance) {
       this._distance = dto.distance[0];
-      this._distanceUnit = dto.distance[1] ;
+      this._distanceUnit = dto.distance[1];
     }
     this._image = dto.image;
     this._score = dto.score;
@@ -252,7 +252,7 @@ export class Person {
       interests: this.interests,
       about: this.about,
       lives_in: this.livesIn,
-      position: { job: this.job, company: this.company },
+      position: {job: this.job, company: this.company},
       first_name: this.firstName,
       total_likes_count: this.likesCount,
       mutual_likes_count: this.likesMutualCount,

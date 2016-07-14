@@ -1,7 +1,6 @@
-import {Component, Input} from '@angular/core';
-
-import {SearchComponent} from './search.component';
-import {DropdownComponent} from './dropdown.component';
+import { Component, Input } from '@angular/core';
+import { SearchComponent } from './search.component';
+import { DropdownComponent } from './dropdown.component';
 
 @Component({
   selector: 'prs-header',

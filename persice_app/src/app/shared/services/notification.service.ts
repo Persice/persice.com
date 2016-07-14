@@ -1,7 +1,7 @@
-import {provide, Injectable } from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {InterfaceNotification, NotificationModel} from '../models';
-import {remove, find} from 'lodash';
+import { provide, Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { InterfaceNotification, NotificationModel } from '../models';
+import { remove, find } from 'lodash';
 
 @Injectable()
 export class NotificationService {
@@ -25,7 +25,7 @@ export class NotificationService {
   }
 
   addObserver(name): void {
-    let obs = { name: '', subject: null };
+    let obs = {name: '', subject: null};
     obs.name = name;
     obs.subject = new Subject(null);
     this.observers.push(obs);
@@ -58,5 +58,5 @@ export class NotificationService {
 
 }
 export var notificationServiceInjectables: Array<any> = [
-  provide(NotificationService, { useClass: NotificationService })
+  provide(NotificationService, {useClass: NotificationService})
 ];

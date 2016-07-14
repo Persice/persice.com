@@ -1,14 +1,14 @@
-import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {Observable} from 'rxjs';
-import {EditPhotosMobileComponent} from './edit-photos-mobile.component';
-import {PhotosService, FacebookAlbumsService} from '../../../app/shared/services';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {HttpClient} from '../../../app/shared/core';
-import {PhotosGenerators} from './photos-generators';
-import {Photo} from '../../../common/models/photo';
-import {HeaderState} from '../../header/header.state';
+import { async, inject, addProviders, TestComponentBuilder } from '@angular/core/testing';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { Observable } from 'rxjs';
+import { EditPhotosMobileComponent } from './edit-photos-mobile.component';
+import { PhotosService, FacebookAlbumsService } from '../../../app/shared/services';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { HttpClient } from '../../../app/shared/core';
+import { PhotosGenerators } from './photos-generators';
+import { Photo } from '../../../common/models/photo';
+import { HeaderState } from '../../header/header.state';
 
 class MockPhotosService extends PhotosService {
   response: any = null;

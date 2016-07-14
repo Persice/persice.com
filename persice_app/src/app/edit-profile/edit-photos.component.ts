@@ -1,16 +1,7 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges,
-  OnDestroy
-} from '@angular/core';
-
-import {ListUtil} from '../shared/core';
-
-import {EditFooterComponent} from './edit-footer.component';
-import {CheckImageDirective} from '../shared/directives';
+import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@angular/core';
+import { ListUtil } from '../shared/core';
+import { EditFooterComponent } from './edit-footer.component';
+import { CheckImageDirective } from '../shared/directives';
 
 
 @Component({

@@ -1,9 +1,9 @@
 const LIST_TYPE: string = 'connections';
 const LIST_LIMIT: number = 12;
 
-import {ListComponent} from '../list';
-import {FilterService} from '../../app/shared/services';
-import {ConnectionsService} from './connections.service';
+import { ListComponent } from '../list';
+import { FilterService } from '../../app/shared/services';
+import { ConnectionsService } from './connections.service';
 
 export class ConnectionsComponent extends ListComponent {
 
@@ -14,6 +14,7 @@ export class ConnectionsComponent extends ListComponent {
   ) {
     super(listService, LIST_TYPE, LIST_LIMIT, 'username', listRefreshTimeout);
   }
+
   // TODO: rewrite subscribing to filter updates
   subscribeToFilterServiceUpdates() {
 

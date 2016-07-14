@@ -1,20 +1,16 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-
-import {HttpClient} from '../core';
-
-import {CookieUtil, FormUtil} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, CookieUtil, FormUtil, OPTS_REQ_JSON_CSRF } from '../core';
 
 let validate = require('validate.js');
 const moment = require('moment');
 
 validate.extend(validate.validators.datetime, {
-  parse: function(value, options) {
+  parse: function (value, options) {
     return +moment.utc(value);
   },
-  format: function(value, options) {
+  format: function (value, options) {
     let format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DDThh:mm:ss';
     return moment.utc(value).format(format);
   }
@@ -166,7 +162,6 @@ export class EventService {
       }
 
 
-
     });
 
 
@@ -217,7 +212,6 @@ export class EventService {
       }
 
 
-
     });
 
 
@@ -257,8 +251,8 @@ export class EventService {
 
   public deleteByUri(resourceUri: string): Observable<any> {
     return this.http
-    .delete(`${resourceUri}?format=json`, OPTS_REQ_JSON_CSRF)
-    .map((res: Response) => res.json());
+      .delete(`${resourceUri}?format=json`, OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => res.json());
   }
 
   public validate(data): Observable<any> {
@@ -297,5 +291,5 @@ export class EventService {
 }
 
 export var eventServiceInjectables: Array<any> = [
-  provide(EventService, { useClass: EventService })
+  provide(EventService, {useClass: EventService})
 ];

@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 
 
 @Component({

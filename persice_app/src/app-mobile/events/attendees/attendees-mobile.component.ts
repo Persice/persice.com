@@ -1,16 +1,16 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {HeaderState} from '../../header/header.state';
-import {Person} from '../../shared/model/person';
-import {AttendeeService} from './attendee.service';
-import {UserCardMobileComponent} from '../../shared/components/user-card/user-card-mobile.component';
-import {InfiniteScrollDirective} from '../../../common/directives';
-import {LoadingComponent} from '../../../app/shared/components/loading';
-import {SelectedPersonActions} from '../../../common/actions';
-import {AppState} from '../../../common/reducers';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { HeaderState } from '../../header/header.state';
+import { Person } from '../../shared/model/person';
+import { AttendeeService } from './attendee.service';
+import { UserCardMobileComponent } from '../../shared/components/user-card/user-card-mobile.component';
+import { InfiniteScrollDirective } from '../../../common/directives';
+import { LoadingComponent } from '../../../app/shared/components/loading';
+import { SelectedPersonActions } from '../../../common/actions';
+import { AppState } from '../../../common/reducers';
 
 @Component({
   selector: 'prs-mobile-attendees',

@@ -1,7 +1,7 @@
-import conversationsReducer, {ConversationsState} from './conversations.reducer';
-import {ConversationActions} from '../actions';
-import {Conversation} from '../models';
-import {ConversationGenerators} from '../models/conversation/conversation.model.generators';
+import conversationsReducer, { ConversationsState } from './conversations.reducer';
+import { ConversationActions } from '../actions';
+import { Conversation } from '../models';
+import { ConversationGenerators } from '../models/conversation/conversation.model.generators';
 
 describe('Conversations reducer', () => {
   let emptyState: ConversationsState = {

@@ -92,13 +92,16 @@
       </div>
       <div class="tableize__cell 3/5">
         <div class="tableize__content text-right">
-          <div class="reselect"> <a href="" class="reselect__trigger js-reselect__trigger">Select Religious Views</a>
+          <div class="reselect"><a href="" class="reselect__trigger js-reselect__trigger">Select Religious Views</a>
             <div class="reselect__drop is-hidden js-reselect__drop">
               <header class="reselect__drop__head">
                 <button class="btn reselect__done js-reselect__done">Done</button>
               </header>
               <ul class="reselect__drop__list">
-                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'religious'})" [ngClass]="{'is-selected': item.selected}" *ngFor="let item of religiousViews;  let i = index">{{item.name}}</li>
+                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'religious'})"
+                    [ngClass]="{'is-selected': item.selected}" *ngFor="let item of religiousViews;  let i = index">
+                  {{item.name}}
+                </li>
               </ul>
             </div>
           </div>
@@ -115,13 +118,16 @@
       </div>
       <div class="tableize__cell 3/5">
         <div class="tableize__content text-right">
-          <div class="reselect"> <a href="" class="reselect__trigger js-reselect__trigger">Select Political Views</a>
+          <div class="reselect"><a href="" class="reselect__trigger js-reselect__trigger">Select Political Views</a>
             <div class="reselect__drop is-hidden js-reselect__drop">
               <header class="reselect__drop__head">
                 <button class="btn reselect__done js-reselect__done">Done</button>
               </header>
               <ul class="reselect__drop__list">
-                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'political'})" [ngClass]="{'is-selected': item.selected}" *ngFor="let item of politicalViews; let i = index">{{item.name}}</li>
+                <li class="reselect__drop__list__item" (click)="toggle({idx: i, list: 'political'})"
+                    [ngClass]="{'is-selected': item.selected}" *ngFor="let item of politicalViews; let i = index">
+                  {{item.name}}
+                </li>
               </ul>
             </div>
           </div>

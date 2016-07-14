@@ -1,4 +1,3 @@
-
 export interface InterfaceFilter {
   cumulative_match_score?: number;
   distance: number;
@@ -15,9 +14,10 @@ export interface InterfaceFilter {
 
 export class FilterModel {
   state: InterfaceFilter;
+
   constructor(
     state: InterfaceFilter
-    ) {
+  ) {
     this.state = state;
   }
 }

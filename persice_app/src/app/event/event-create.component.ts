@@ -1,27 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-
-import {
-  SelectDirective,
-  GeocompleteDirective,
-  DatepickerDirective,
-  TimepickerDirective
-} from '../shared/directives';
-
-import {BaseEventComponent} from './base-event.component';
-
-import {EventModel} from '../shared/models';
-
-import {NotificationComponent} from '../shared/components/notification';
-import {LoadingComponent} from '../shared/components/loading';
-
-import {DateUtil} from '../shared/core';
-
-import {
-  EventService,
-  NotificationService
-} from '../shared/services';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
+import { BaseEventComponent } from './base-event.component';
+import { EventModel } from '../shared/models';
+import { NotificationComponent } from '../shared/components/notification';
+import { LoadingComponent } from '../shared/components/loading';
+import { DateUtil } from '../shared/core';
+import { EventService, NotificationService } from '../shared/services';
 
 
 @Component({
@@ -80,7 +65,7 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
       this.validationErrors = {};
       this.loading = false;
       this._notifySuccess('Your event has been created.');
-      this.router.parent.navigate(['/EventDetails', { 'eventId': res.id }]);
+      this.router.parent.navigate(['/EventDetails', {'eventId': res.id}]);
     }, (err) => {
       this.loading = false;
       if ('validationErrors' in err) {

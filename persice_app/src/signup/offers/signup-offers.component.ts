@@ -1,11 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-
-import {ManageGoalsOffersComponent} from '../../common/manage-goals-offers';
-
-import {OffersService} from '../../app/shared/services';
-import {SignupStateService} from '../../common/services';
-import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../common/directives';
-import {LoadingComponent} from '../../app/shared/components/loading';
+import { Component, OnInit } from '@angular/core';
+import { ManageGoalsOffersComponent } from '../../common/manage-goals-offers';
+import { OffersService } from '../../app/shared/services';
+import { SignupStateService } from '../../common/services';
+import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
+import { LoadingComponent } from '../../app/shared/components/loading';
 
 @Component({
   selector: 'prs-signup-offers',

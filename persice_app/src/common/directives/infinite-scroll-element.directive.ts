@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, EventEmitter, Output, Input} from '@angular/core';
+import { Directive, ElementRef, HostListener, EventEmitter, Output, Input } from '@angular/core';
 
 @Directive({
   selector: '[prs-infinite-scroll-element]'

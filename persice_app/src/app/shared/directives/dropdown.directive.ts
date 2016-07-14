@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, OnDestroy} from '@angular/core';
+import { Directive, ElementRef, HostListener, OnDestroy } from '@angular/core';
 
 @Directive({
   selector: '[dropdown]',
@@ -16,7 +16,6 @@ export class DropdownDirective implements OnDestroy {
   ngOnDestroy() {
     jQuery(this.target).removeClass('is-active');
   }
-
 
 
 }

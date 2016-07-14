@@ -1,7 +1,7 @@
-import {ComponentResolver, Injector, Component} from '@angular/core';
-import {tick, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
-import {SpyLocation} from '@angular/common/testing';
-import {Location, LocationStrategy} from '@angular/common';
+import { ComponentResolver, Injector, Component } from '@angular/core';
+import { tick, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { SpyLocation } from '@angular/common/testing';
+import { Location, LocationStrategy } from '@angular/common';
 import {
   Router,
   RouterConfig,
@@ -11,16 +11,16 @@ import {
   ActivatedRoute,
   ROUTER_DIRECTIVES
 } from '@angular/router';
-import {CrowdMobileComponent} from '../../app-mobile/crowd';
-import {NoContentComponent} from '../../app-mobile/no-content';
-import {ConnectionsMobileComponent} from '../../app-mobile/connections';
-import {SettingsMobileComponent} from '../../app-mobile/settings';
-import {EventsMobileComponent} from '../../app-mobile/events';
-import {EventMobileComponent} from '../../app-mobile/events/event/event-mobile.component';
-import {AttendeesMobileComponent} from '../../app-mobile/events/attendees';
-import {UserProfileLoaderComponent} from '../../app-mobile/user-profile-loader';
-import {TermsOfServiceMobileComponent} from '../../app-mobile/info/terms-of-service';
-import {PrivacyPolicyMobileComponent} from '../../app-mobile/info/privacy-policy';
+import { CrowdMobileComponent } from '../../app-mobile/crowd';
+import { NoContentComponent } from '../../app-mobile/no-content';
+import { ConnectionsMobileComponent } from '../../app-mobile/connections';
+import { SettingsMobileComponent } from '../../app-mobile/settings';
+import { EventsMobileComponent } from '../../app-mobile/events';
+import { EventMobileComponent } from '../../app-mobile/events/event/event-mobile.component';
+import { AttendeesMobileComponent } from '../../app-mobile/events/attendees';
+import { UserProfileLoaderComponent } from '../../app-mobile/user-profile-loader';
+import { TermsOfServiceMobileComponent } from '../../app-mobile/info/terms-of-service';
+import { PrivacyPolicyMobileComponent } from '../../app-mobile/info/privacy-policy';
 
 export function provideTestRouter(RootCmp: any, config: RouterConfig): any[] {
   return [
@@ -30,8 +30,10 @@ export function provideTestRouter(RootCmp: any, config: RouterConfig): any[] {
     {provide: LocationStrategy, useClass: SpyLocation},
     {
       provide: Router,
-      useFactory: (resolver: ComponentResolver, urlSerializer: UrlSerializer, outletMap: RouterOutletMap,
-                   location: Location, injector: Injector) => {
+      useFactory: (
+        resolver: ComponentResolver, urlSerializer: UrlSerializer, outletMap: RouterOutletMap,
+        location: Location, injector: Injector
+      ) => {
         return new (<any>Router)(
           RootCmp, resolver, urlSerializer, outletMap, location, injector, config);
       },

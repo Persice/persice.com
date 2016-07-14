@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Subscription, BehaviorSubject, Observable} from 'rxjs';
-import {Event} from '../../shared/model/event';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Event } from '../../shared/model/event';
 
 @Injectable()
 export class EventMobileService {

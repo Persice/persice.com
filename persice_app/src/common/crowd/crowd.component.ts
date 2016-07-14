@@ -1,9 +1,9 @@
 const LIST_TYPE: string = 'crowd';
 const LIST_LIMIT: number = 12;
 
-import {ListComponent} from '../list';
-import {CrowdService} from './crowd.service';
-import {FilterService} from "../../app/shared/services/filter.service";
+import { ListComponent } from '../list';
+import { CrowdService } from './crowd.service';
+import { FilterService } from '../../app/shared/services/filter.service';
 
 export class CrowdComponent extends ListComponent {
 
@@ -33,6 +33,7 @@ export class CrowdComponent extends ListComponent {
   }
 
   protected accept(event) { }
+
   protected pass(event) { }
 
 }

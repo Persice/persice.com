@@ -1,15 +1,8 @@
-import {Component} from '@angular/core';
-import {Router, RouteParams} from '@angular/router-deprecated';
-
-
-import {ConversationInputComponent} from '../conversation-input';
-import {NewConversationHeaderComponent} from './new-conversation-header.component';
-
-import {
-  InboxService,
-  MessagesService,
-  UserAuthService
-} from '../../shared/services';
+import { Component } from '@angular/core';
+import { Router, RouteParams } from '@angular/router-deprecated';
+import { ConversationInputComponent } from '../conversation-input';
+import { NewConversationHeaderComponent } from './new-conversation-header.component';
+import { InboxService, MessagesService, UserAuthService } from '../../shared/services';
 
 
 @Component({
@@ -58,7 +51,7 @@ export class NewConversationComponent {
         .subscribe(data => {
           channel.unsubscribe();
           this.inboxService.addSender(this.tokens[0].friend_id);
-          this._router.parent.navigate(['/Messages', 'SingleConversation', { threadId: this.tokens[0].friend_id }]);
+          this._router.parent.navigate(['/Messages', 'SingleConversation', {threadId: this.tokens[0].friend_id}]);
         }, error => console.log('Could not create new message.'));
     }
 

@@ -1,8 +1,6 @@
-import {EventService, NotificationService} from '../shared/services';
-
-import {EventModel, EventOpenTo} from '../shared/models';
-import {GoogleUtil, ObjectUtil, DateUtil} from '../shared/core';
-
+import { EventService, NotificationService } from '../shared/services';
+import { EventModel, EventOpenTo } from '../shared/models';
+import { GoogleUtil, ObjectUtil, DateUtil } from '../shared/core';
 
 
 export abstract class BaseEventComponent {
@@ -111,9 +109,9 @@ export abstract class BaseEventComponent {
           this.model.ends_on_time = startDate.format('hh:mm');
 
           setTimeout(() => {
-             jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
-          jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
-        }, 400);
+            jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
+            jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+          }, 400);
 
         }
 

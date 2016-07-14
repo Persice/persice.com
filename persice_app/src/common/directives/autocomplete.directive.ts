@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy} from '@angular/core';
+import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 const RESULTS_LIMIT: number = 30;
 

@@ -1,7 +1,6 @@
-import {provide, Injectable} from '@angular/core';
-import {HttpClient} from '../core';
-import {StringUtil, DateUtil, ListUtil} from '../core';
-import {Subject} from 'rxjs';
+import { provide, Injectable } from '@angular/core';
+import { HttpClient, StringUtil, DateUtil, ListUtil } from '../core';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class InboxService {
@@ -72,44 +71,43 @@ export class InboxService {
     let channel = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((data: any) => {
-        let item = {
-          name: data.objects[0].first_name,
-          threadId: parseInt(data.objects[0].friend_id, 10),
-          facebookId: data.objects[0].facebook_id,
-          image: data.objects[0].image,
-          senderId: data.objects[0].sender_id !== null ? data.objects[0].sender_id : '/api/v1/auth/user/' + data.objects[0].friend_id + '/',
-          sentAt: data.objects[0].sent_at !== null ? (DateUtil.isBeforeToday(data.objects[0].sent_at) ? DateUtil.format(data.objects[0].sent_at, 'll') : DateUtil.fromNow(data.objects[0].sent_at)) : '',
-          date: data.objects[0].sent_at !== null ? data.objects[0].sent_at : '',
-          readAt: data.objects[0].read_at,
-          id: data.objects[0].id,
-          unread: data.objects[0].unread_counter !== null && data.objects[0].unread_counter > 0 ? true : false,
-          unreadCounter: data.objects[0].unread_counter,
-          body: data.objects[0].last_message_body !== null ? StringUtil.words(data.objects[0].last_message_body, 50) : ''
-        };
+          let item = {
+            name: data.objects[0].first_name,
+            threadId: parseInt(data.objects[0].friend_id, 10),
+            facebookId: data.objects[0].facebook_id,
+            image: data.objects[0].image,
+            senderId: data.objects[0].sender_id !== null ? data.objects[0].sender_id : '/api/v1/auth/user/' + data.objects[0].friend_id + '/',
+            sentAt: data.objects[0].sent_at !== null ? (DateUtil.isBeforeToday(data.objects[0].sent_at) ? DateUtil.format(data.objects[0].sent_at, 'll') : DateUtil.fromNow(data.objects[0].sent_at)) : '',
+            date: data.objects[0].sent_at !== null ? data.objects[0].sent_at : '',
+            readAt: data.objects[0].read_at,
+            id: data.objects[0].id,
+            unread: data.objects[0].unread_counter !== null && data.objects[0].unread_counter > 0 ? true : false,
+            unreadCounter: data.objects[0].unread_counter,
+            body: data.objects[0].last_message_body !== null ? StringUtil.words(data.objects[0].last_message_body, 50) : ''
+          };
 
-        let idx = ListUtil.findIndex(this._dataStore, { 'threadId': item.threadId });
-        if (idx === -1) {
-          this._dataStore = [item, ...this._dataStore];
-          this._counter = this._counter + 1;
-          this._updateCounter();
-        } else {
-          this._dataStore[idx] = item;
-        }
+          let idx = ListUtil.findIndex(this._dataStore, {'threadId': item.threadId});
+          if (idx === -1) {
+            this._dataStore = [item, ...this._dataStore];
+            this._counter = this._counter + 1;
+            this._updateCounter();
+          } else {
+            this._dataStore[idx] = item;
+          }
 
-        this._dataStore = ListUtil.orderBy(this._dataStore, ['date'], ['desc']);
+          this._dataStore = ListUtil.orderBy(this._dataStore, ['date'], ['desc']);
 
 
+          this._notify();
 
-        this._notify();
+          channel.unsubscribe();
+        },
+        (error) => {
+          console.log(`Could not load last message for one sender ${error}`);
+        },
+        () => {
 
-        channel.unsubscribe();
-      },
-      (error) => {
-        console.log(`Could not load last message for one sender ${error}`);
-      },
-      () => {
-
-      });
+        });
 
   }
 
@@ -120,22 +118,22 @@ export class InboxService {
       .map((res: any) => res.json())
       .subscribe((data: any) => {
 
-        for (var i = 0; i < this._dataStore.length; ++i) {
-          if (this._dataStore[i].threadId === parseInt(sender, 10)) {
-            this._dataStore[i].unread = false;
-            this._dataStore[i].unreadCounter = 0;
+          for (var i = 0; i < this._dataStore.length; ++i) {
+            if (this._dataStore[i].threadId === parseInt(sender, 10)) {
+              this._dataStore[i].unread = false;
+              this._dataStore[i].unreadCounter = 0;
+            }
           }
-        }
 
-        this._notify();
-        channel.unsubscribe();
-      },
-      (error) => {
-        console.log(`Could not mark message read ${error}`);
-      },
-      () => {
+          this._notify();
+          channel.unsubscribe();
+        },
+        (error) => {
+          console.log(`Could not mark message read ${error}`);
+        },
+        () => {
 
-      });
+        });
   }
 
   private _loadInbox(limit: number) {
@@ -163,25 +161,24 @@ export class InboxService {
     let channel = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((data: any) => {
-        try {
-          this._parseData(data);
-          this._notify();
-        } catch (e) {
-          console.log('error', e);
-          this._notify();
+          try {
+            this._parseData(data);
+            this._notify();
+          } catch (e) {
+            console.log('error', e);
+            this._notify();
+            channel.unsubscribe();
+            return;
+          }
           channel.unsubscribe();
-          return;
-        }
-        channel.unsubscribe();
-      },
-      (error) => {
-        console.log(`Could not load inbox ${error}`);
-      },
-      () => {
+        },
+        (error) => {
+          console.log(`Could not load inbox ${error}`);
+        },
+        () => {
 
-      });
+        });
   }
-
 
 
   private _parseData(data) {
@@ -201,7 +198,7 @@ export class InboxService {
         body: data.objects[i].last_message_body !== null ? StringUtil.words(data.objects[i].last_message_body, 50) : ''
       };
 
-      let idx = ListUtil.findIndex(this._dataStore, { 'threadId': item.threadId });
+      let idx = ListUtil.findIndex(this._dataStore, {'threadId': item.threadId});
       if (idx === -1) {
         this._dataStore = [...this._dataStore, item];
       } else {
@@ -241,5 +238,5 @@ export class InboxService {
 }
 
 export var inboxServiceInjectables: any[] = [
-  provide(InboxService, { useClass: InboxService })
+  provide(InboxService, {useClass: InboxService})
 ];

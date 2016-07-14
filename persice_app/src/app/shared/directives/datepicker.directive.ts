@@ -1,12 +1,5 @@
-import {
-  Directive,
-  ElementRef,
-  AfterViewInit,
-  EventEmitter,
-  Output
-} from '@angular/core';
-import {DateUtil} from '../core';
-
+import { Directive, ElementRef, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { DateUtil } from '../core';
 
 
 @Directive({

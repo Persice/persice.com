@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {DropdownDirective} from '../../shared/directives';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { DropdownDirective } from '../../shared/directives';
 
 
 @Component({

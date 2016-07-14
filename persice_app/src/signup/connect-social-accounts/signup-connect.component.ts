@@ -1,6 +1,5 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-
-import {UserAuthService} from '../../app/shared/services';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { UserAuthService } from '../../app/shared/services';
 
 
 @Component({

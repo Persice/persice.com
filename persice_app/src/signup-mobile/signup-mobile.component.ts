@@ -1,10 +1,7 @@
-import {Component, ViewEncapsulation, OnInit} from '@angular/core';
-
-import {Router, NavigationEnd} from '@angular/router';
-import {Location} from '@angular/common';
-
-import {SignupHeaderMobileComponent} from './header';
-
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { Location } from '@angular/common';
+import { SignupHeaderMobileComponent } from './header';
 import {
   InterestsService,
   KeywordsService,
@@ -13,8 +10,7 @@ import {
   UserAuthService,
   OnboardingService
 } from '../app/shared/services';
-
-import {SignupStateService} from '../common/services';
+import { SignupStateService } from '../common/services';
 
 @Component({
   selector: 'persice-signup-mobile-app',
@@ -215,13 +211,15 @@ export class SignupMobileComponent implements OnInit {
         this.cGoa = event.count;
         if (this.page === 2) {
           this.counter = this.cGoa;
-        };
+        }
+        ;
         break;
       case 'offers':
         this.cOff = event.count;
         if (this.page === 3) {
           this.counter = this.cOff;
-        };
+        }
+        ;
         break;
 
       default:

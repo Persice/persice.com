@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ManageGoalsOffersComponent} from '../../../common/manage-goals-offers/manage-goals-offers.component';
-import {InfiniteScrollElementDirective} from '../../../common/directives/infinite-scroll-element.directive';
-import {AutocompleteDirective} from '../../../common/directives/autocomplete.directive';
-import {LoadingComponent} from '../../../app/shared/components/loading/loading.component';
-import {OffersService} from '../../../app/shared/services/offers.service';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {HeaderState} from '../../header';
+import { Component, OnInit } from '@angular/core';
+import { ManageGoalsOffersComponent } from '../../../common/manage-goals-offers/manage-goals-offers.component';
+import { InfiniteScrollElementDirective } from '../../../common/directives/infinite-scroll-element.directive';
+import { AutocompleteDirective } from '../../../common/directives/autocomplete.directive';
+import { LoadingComponent } from '../../../app/shared/components/loading/loading.component';
+import { OffersService } from '../../../app/shared/services/offers.service';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-offers',

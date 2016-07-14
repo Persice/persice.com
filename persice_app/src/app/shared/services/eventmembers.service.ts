@@ -1,9 +1,7 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-import {HttpClient} from '../core';
-
-import {OPTS_REQ_JSON_CSRF} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
 
 @Injectable()
 export class EventMembersService {
@@ -54,5 +52,5 @@ export class EventMembersService {
 
 }
 export var eventMembersServiceInjectables: Array<any> = [
-  provide(EventMembersService, { useClass: EventMembersService })
+  provide(EventMembersService, {useClass: EventMembersService})
 ];

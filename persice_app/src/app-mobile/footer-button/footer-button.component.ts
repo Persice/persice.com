@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {AppStateService} from '../shared/services';
+import { Component, OnInit } from '@angular/core';
+import { AppStateService } from '../shared/services';
 
 @Component({
   selector: 'prs-mobile-footer-button',

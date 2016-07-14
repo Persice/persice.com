@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, AfterViewInit, Renderer, OnDestroy} from '@angular/core';
+import { Directive, ElementRef, Input, AfterViewInit, Renderer, OnDestroy } from '@angular/core';
 
 @Directive({
   selector: '[checkimage]',

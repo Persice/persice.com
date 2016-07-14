@@ -1,7 +1,6 @@
-import {Action} from '@ngrx/store';
-
-import {Conversation} from '../models';
-import {ConversationActions} from '../actions';
+import { Action } from '@ngrx/store';
+import { Conversation } from '../models';
+import { ConversationActions } from '../actions';
 
 export interface ConversationsState {
   entities: Conversation[];
@@ -9,7 +8,7 @@ export interface ConversationsState {
   count: number;
   loading: boolean;
   loaded: boolean;
-};
+}
 
 let initialState: ConversationsState = {
   entities: [],
@@ -19,7 +18,7 @@ let initialState: ConversationsState = {
   loaded: false
 };
 
-export default function(state = initialState, action: Action): ConversationsState {
+export default function (state = initialState, action: Action): ConversationsState {
   switch (action.type) {
 
     case ConversationActions.RESET_COLLECTION: {
@@ -28,7 +27,7 @@ export default function(state = initialState, action: Action): ConversationsStat
 
     case ConversationActions.SELECT_CONVERSATION: {
       const conversation: Conversation = action.payload;
-      return Object.assign({}, state, { selectedItem: conversation });
+      return Object.assign({}, state, {selectedItem: conversation});
     }
 
     case ConversationActions.LOAD_COLLECTION_SUCCESS: {
@@ -40,7 +39,7 @@ export default function(state = initialState, action: Action): ConversationsStat
       });
 
       let conversationsNew: Conversation[] = conversations.map((conversation: Conversation, index) => {
-        if (existingConversationsIDs.indexOf(conversation.id) === -1 ) {
+        if (existingConversationsIDs.indexOf(conversation.id) === -1) {
           return conversation;
         }
       });

@@ -1,10 +1,10 @@
-import {Pipe, ChangeDetectorRef, PipeTransform, OnDestroy} from '@angular/core';
+import { Pipe, ChangeDetectorRef, PipeTransform, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 
 // under systemjs, moment is actually exported as the default export, so we account for that
 const momentConstructor: (value?: any) => moment.Moment = (<any>moment).default || moment;
 
-@Pipe({ name: 'prsTimeAgo', pure: false })
+@Pipe({name: 'prsTimeAgo', pure: false})
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
   private _currentTimer: number;
 

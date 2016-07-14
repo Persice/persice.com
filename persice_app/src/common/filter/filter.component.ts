@@ -1,7 +1,6 @@
-import {findIndex, debounce} from 'lodash';
-
-import {FilterModel, InterfaceFilter} from '../../app/shared/models';
-import {FilterService} from '../../app/shared/services';
+import { findIndex, debounce } from 'lodash';
+import { FilterModel, InterfaceFilter } from '../../app/shared/models';
+import { FilterService } from '../../app/shared/services';
 
 export abstract class FilterComponent {
   showAge: boolean = true;
@@ -65,16 +64,16 @@ export abstract class FilterComponent {
   timeoutIdFiltersSave = null;
 
   constructor(protected filterService: FilterService) {
-    this.saveDebounced = debounce(this.save, 500, { 'leading': true, 'trailing': true });
+    this.saveDebounced = debounce(this.save, 500, {'leading': true, 'trailing': true});
 
     this.filterService.find()
       .subscribe(data => this.setFilters(data),
-      (err) => {
-        console.log(err);
-      },
-      () => {
+        (err) => {
+          console.log(err);
+        },
+        () => {
 
-      });
+        });
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
 
@@ -119,7 +118,7 @@ export abstract class FilterComponent {
   saveDistance(value) {
     this.filters.state.distance = value.from;
 
-    if (this.filters.state.distance >= this.rangeSliderOptionsDistance.max)  {
+    if (this.filters.state.distance >= this.rangeSliderOptionsDistance.max) {
       this.filters.state.distance = this.rangeSliderOptionsDistance.unlimited;
     }
 

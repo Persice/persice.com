@@ -1,9 +1,8 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable, BehaviorSubject, Subscription} from 'rxjs';
-import {Person} from '../../app-mobile/shared/model/person';
-
-import {HttpClient} from '../../app/shared/core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Person } from '../../app-mobile/shared/model/person';
+import { HttpClient } from '../../app/shared/core';
 
 interface Connections {
   connections: any[];
@@ -102,5 +101,5 @@ export class ConnectionsService {
 }
 
 export var connectionsServiceInjectables: Array<any> = [
-  provide(ConnectionsService, { useClass: ConnectionsService })
+  provide(ConnectionsService, {useClass: ConnectionsService})
 ];

@@ -1,4 +1,5 @@
-<div class="layout layout--flush content" [ngClass]="{'is-hidden': itemViewActive}" prs-infinite-scroll (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
+<div class="layout layout--flush content" [ngClass]="{'is-hidden': itemViewActive}" prs-infinite-scroll
+     (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
   <div class="layout__item 3/4 extralarge-and-up-4/5">
     <h3 *ngIf="!loading && emptyList">No results...</h3>
     <prs-users-list [showButtons]="0" [users]="items" (onClicked)="selectItem($event)"></prs-users-list>
@@ -14,5 +15,7 @@
     <prs-filters [type]="LIST_TYPE"></prs-filters>
   </div>
 </div>
-<prs-profile-friend [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousItem($event)" (nextEvent)="nextItem($event)" *ngIf="itemViewActive" [user]="selectedItem" (closeprofileEvent)="closeItemView($event)">
+<prs-profile-friend [currentIndex]="currentIndex" [count]="total_count" (previousEvent)="previousItem($event)"
+                    (nextEvent)="nextItem($event)" *ngIf="itemViewActive" [user]="selectedItem"
+                    (closeprofileEvent)="closeItemView($event)">
 </prs-profile-friend>

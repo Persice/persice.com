@@ -1,36 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {
-  RouteConfig,
-  RouterLink,
-  ROUTER_DIRECTIVES,
-  Router
-} from '@angular/router-deprecated';
-
-import {Location} from '@angular/common';
-
-import {StringUtil} from '../shared/core';
-
-import {FilterDesktopComponent} from '../shared/components/filter';
-
-import {EventsListSubnavComponent} from './events-list-subnav';
-
-import {
-  EventsMyListComponent,
-  EventsMyMapComponent,
-  EventsMyCalendarComponent
-} from './events-my';
-
+import { Component, OnInit } from '@angular/core';
+import { RouteConfig, RouterLink, ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
+import { Location } from '@angular/common';
+import { StringUtil } from '../shared/core';
+import { FilterDesktopComponent } from '../shared/components/filter';
+import { EventsListSubnavComponent } from './events-list-subnav';
+import { EventsMyListComponent, EventsMyMapComponent, EventsMyCalendarComponent } from './events-my';
 import {
   EventsNetworkListComponent,
   EventsNetworkMapComponent,
   EventsNetworkCalendarComponent
 } from './events-network';
-
-import {
-  EventsAllListComponent,
-  EventsAllMapComponent,
-  EventsAllCalendarComponent
-} from './events-all';
+import { EventsAllListComponent, EventsAllMapComponent, EventsAllCalendarComponent } from './events-all';
 
 
 @Component({
@@ -111,6 +91,7 @@ export class EventsComponent implements OnInit {
     this.location = location;
 
   }
+
   ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.checkUrl();
@@ -160,7 +141,6 @@ export class EventsComponent implements OnInit {
       this.markNav('all');
       this.markSubnav('calendar');
     }
-
 
 
   }
@@ -251,8 +231,6 @@ export class EventsComponent implements OnInit {
   }
 
 
-
-
   openNewEventModal(event) {
     console.log('opened new event modal');
   }
@@ -305,7 +283,6 @@ export class EventsComponent implements OnInit {
       this.router.parent.navigate(['./Events', 'NetworkEventsList']);
       return;
     }
-
 
 
   }

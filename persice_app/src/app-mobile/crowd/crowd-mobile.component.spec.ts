@@ -1,15 +1,15 @@
-import {inject, async, addProviders, ComponentFixture, TestComponentBuilder} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {provideStore} from '@ngrx/store';
+import { inject, async, addProviders, ComponentFixture, TestComponentBuilder } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { provideStore } from '@ngrx/store';
 import STORE_REDUCERS from '../../common/reducers';
 import STORE_ACTIONS from '../../common/actions';
-import {MockCrowd, MockCrowdEmpty, MockCrowdService, CrowdService} from '../../common/crowd';
-import {AppStateService} from '../shared/services';
-import {CrowdMobileComponent} from './crowd-mobile.component';
-import {FilterService, FriendService} from '../../app/shared/services';
-import {HttpClient} from '../../app/shared/core/http-client';
+import { MockCrowd, MockCrowdEmpty, MockCrowdService, CrowdService } from '../../common/crowd';
+import { AppStateService } from '../shared/services';
+import { CrowdMobileComponent } from './crowd-mobile.component';
+import { FilterService, FriendService } from '../../app/shared/services';
+import { HttpClient } from '../../app/shared/core/http-client';
 
 @Component({
   template: `<prs-mobile-crowd></prs-mobile-crowd>`,

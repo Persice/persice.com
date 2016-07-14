@@ -3,17 +3,20 @@
     <div class="filter__item" *ngIf="showGender">
       <h3 class="filter__item__title mb">Gender</h3>
       <label class="c-radio">
-        <input class="c-radio__input" #all type="radio" (click)="changeGender(all.value)" name="radio" value="m,f" [checked]="gender === 'm,f'">
+        <input class="c-radio__input" #all type="radio" (click)="changeGender(all.value)" name="radio" value="m,f"
+               [checked]="gender === 'm,f'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">All</span>
       </label>
       <label class="c-radio">
-        <input class="c-radio__input" type="radio" #male (click)="changeGender(male.value)" name="radio" value="m" [checked]="gender === 'm'">
+        <input class="c-radio__input" type="radio" #male (click)="changeGender(male.value)" name="radio" value="m"
+               [checked]="gender === 'm'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">Male</span>
       </label>
       <label class="c-radio">
-        <input class="c-radio__input" type="radio" #female (click)="changeGender(female.value)" name="radio" value="f" [checked]="gender === 'f'">
+        <input class="c-radio__input" type="radio" #female (click)="changeGender(female.value)" name="radio" value="f"
+               [checked]="gender === 'f'">
         <span class="c-radio__trigger"></span>
         <span class="c-radio__label">Female</span>
       </label>
@@ -27,7 +30,8 @@
           <span class="range-value">{{minAge}} - {{maxAge}}</span>
         </div>
       </div>
-      <prs-range-slider [renderSlider]="renderSlider" [options]="rangeSliderOptionsAge" (onChange)="ageChanged($event)" (onFinish)="saveAge($event)" [class]="'range'"></prs-range-slider>
+      <prs-range-slider [renderSlider]="renderSlider" [options]="rangeSliderOptionsAge" (onChange)="ageChanged($event)"
+                        (onFinish)="saveAge($event)" [class]="'range'"></prs-range-slider>
     </div>
     <div class="filter__item">
       <div class="layout layout--middle">
@@ -39,7 +43,9 @@
           <span class="range-value" *ngIf="distanceValue >= rangeSliderOptionsDistance.max">{{ rangeSliderOptionsDistance.max_value_display_name }}</span>
         </div>
       </div>
-      <prs-range-slider [renderSlider]="renderSlider" [options]="rangeSliderOptionsDistance" (onChange)="distanceChanged($event)" (onFinish)="saveDistance($event)" [class]="'range-to'"></prs-range-slider>
+      <prs-range-slider [renderSlider]="renderSlider" [options]="rangeSliderOptionsDistance"
+                        (onChange)="distanceChanged($event)" (onFinish)="saveDistance($event)"
+                        [class]="'range-to'"></prs-range-slider>
     </div>
     <div class="filter__item">
       <h3 class="filter__item__title mb">Order by</h3>

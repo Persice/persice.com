@@ -1,9 +1,7 @@
-import {Component, Output, Renderer, EventEmitter, OnInit, AfterViewInit, ViewChild, ElementRef}
-from '@angular/core';
-
-import {Observable} from 'rxjs';
-import {Http} from '@angular/http';
-import {CheckImageDirective} from '../../shared/directives';
+import { Component, Output, Renderer, EventEmitter, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Http } from '@angular/http';
+import { CheckImageDirective } from '../../shared/directives';
 
 @Component({
   selector: 'prs-search-connections',
@@ -81,8 +79,6 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
       default:
         break;
     }
-
-
 
 
   }

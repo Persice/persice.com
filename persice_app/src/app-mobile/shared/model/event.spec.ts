@@ -1,5 +1,5 @@
-import {EventGenerator} from './event-generator';
-import {Event} from './event';
+import { EventGenerator } from './event-generator';
+import { Event } from './event';
 
 describe('Event', () => {
 

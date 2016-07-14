@@ -1,11 +1,8 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-
-import {HttpClient} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil, ListUtil} from '../core';
-import {Photo} from '../../../common/models/photo';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil, ListUtil } from '../core';
+import { Photo } from '../../../common/models/photo';
 
 @Injectable()
 export class PhotosService {
@@ -21,7 +18,7 @@ export class PhotosService {
     let photosTemp: Photo[] = [];
 
     for (let i = 0; i <= limit - 1; i++) {
-      let emptyPhoto = new Photo({ order: i });
+      let emptyPhoto = new Photo({order: i});
       photosTemp = [...photosTemp, emptyPhoto];
     }
 
@@ -40,7 +37,8 @@ export class PhotosService {
     return photosTemp;
 
   }
-           /**
+
+  /**
    * Get photos count
    * @param {any} dtoJson [description]
    */
@@ -156,7 +154,7 @@ export class PhotosService {
       }];
     }
 
-    let body = JSON.stringify({ objects: photos });
+    let body = JSON.stringify({objects: photos});
 
     return this.http.patch(`${PhotosService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
@@ -166,5 +164,5 @@ export class PhotosService {
 }
 
 export var photosServiceInjectables: Array<any> = [
-  provide(PhotosService, { useClass: PhotosService })
+  provide(PhotosService, {useClass: PhotosService})
 ];

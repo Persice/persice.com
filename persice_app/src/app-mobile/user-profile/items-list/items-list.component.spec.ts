@@ -1,5 +1,5 @@
-import {async, inject, TestComponentBuilder} from '@angular/core/testing';
-import {ItemsListMobileComponent} from './items-list.component';
+import { async, inject, TestComponentBuilder } from '@angular/core/testing';
+import { ItemsListMobileComponent } from './items-list.component';
 
 let component: ItemsListMobileComponent;
 let domElement: any;

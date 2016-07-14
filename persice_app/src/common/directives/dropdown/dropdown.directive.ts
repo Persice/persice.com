@@ -1,6 +1,5 @@
-import {Directive, ElementRef, ContentChild, Renderer, Output, EventEmitter, OnDestroy}
-from '@angular/core';
-import {DropdownMenuDirective} from './dropdown-menu.directive';
+import { Directive, ElementRef, ContentChild, Renderer, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { DropdownMenuDirective } from './dropdown-menu.directive';
 
 @Directive({
   selector: '[prs-dropdown]'

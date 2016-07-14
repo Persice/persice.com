@@ -1,7 +1,7 @@
-import {ComponentInstruction, Router, RouteParams} from '@angular/router-deprecated';
-import {Location, LocationStrategy} from '@angular/common';
-import {ResolvedInstruction} from '@angular/router-deprecated/src/instruction';
-import {SpyObject} from './helper';
+import { ComponentInstruction, Router, RouteParams } from '@angular/router-deprecated';
+import { Location, LocationStrategy } from '@angular/common';
+import { ResolvedInstruction } from '@angular/router-deprecated/src/instruction';
+import { SpyObject } from './helper';
 
 export class MockRouteParams extends SpyObject {
   private ROUTE_PARAMS = {};

@@ -1,6 +1,6 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-import {CheckImageDirective} from '../../directives';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { CheckImageDirective } from '../../directives';
 
 @Component({
   selector: 'prs-message',
@@ -25,7 +25,7 @@ import {CheckImageDirective} from '../../directives';
     </div>
   </div>
   `,
-   changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageComponent {
   @Input() message;
@@ -35,6 +35,6 @@ export class MessageComponent {
   }
 
   openProfile(username) {
-    this._router.parent.parent.navigate(['./ProfileView', { username: username }]);
+    this._router.parent.parent.navigate(['./ProfileView', {username: username}]);
   }
 }

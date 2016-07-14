@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
 
 @Component({
   selector: 'prs-events-list-subnav',
@@ -10,6 +10,7 @@ import {ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
 
 export class EventsListSubnavComponent {
   router: Router;
+
   constructor(router: Router) {
     this.router = router;
   }

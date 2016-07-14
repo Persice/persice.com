@@ -1,7 +1,7 @@
-import {DebugElement} from '@angular/core/src/debug/debug_node';
-import {Response, ResponseOptions} from '@angular/http';
-import {By} from '@angular/platform-browser/src/dom/debug/by';
-import {StringMapWrapper} from '@angular/core/src/facade/collection';
+import { DebugElement } from '@angular/core/src/debug/debug_node';
+import { Response, ResponseOptions } from '@angular/http';
+import { By } from '@angular/platform-browser/src/dom/debug/by';
+import { StringMapWrapper } from '@angular/core/src/facade/collection';
 
 class MockResponse extends Response {
   _json: any;

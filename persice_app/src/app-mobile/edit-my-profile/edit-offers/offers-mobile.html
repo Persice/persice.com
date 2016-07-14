@@ -3,7 +3,10 @@
     <svg role="img" class="icon ">
       <use xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
     </svg>
-    <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text" class="search__input typeahead" placeholder="Enter a few offers here" id="typeaheadInput" persice-autocomplete [apiUrl]="AUTOCOMPLETE_API_ENDPOINT" [apiAttr]="AUTOCOMPLETE_API_ATTRIBUTE" [minLength]="MINIMUM_ITEM_LENGTH" (onSelected)="itemSelectedFromAutocomplete($event)">
+    <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text" class="search__input typeahead"
+           placeholder="Enter a few offers here" id="typeaheadInput" persice-autocomplete
+           [apiUrl]="AUTOCOMPLETE_API_ENDPOINT" [apiAttr]="AUTOCOMPLETE_API_ATTRIBUTE" [minLength]="MINIMUM_ITEM_LENGTH"
+           (onSelected)="itemSelectedFromAutocomplete($event)">
     <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
       <svg role="img" class="icon ">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
@@ -11,7 +14,8 @@
     </div>
     <div class="search__notification search__notification--succes" [ngClass]="{'is-visible': status === 'success'}">
       <svg role="img" class="icon ">
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink"
+             xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
       </svg>
     </div>
     <button class="btn">
@@ -21,7 +25,8 @@
     </button>
   </div>
 </div>
-<div class="search__tags-wrapper text-left is-visible" prs-infinite-scroll-element (scrolled)="loadMoreItems($event)" [scrollEnabled]="1" [bottomOffset]="60">
+<div class="search__tags-wrapper text-left is-visible" prs-infinite-scroll-element (scrolled)="loadMoreItems($event)"
+     [scrollEnabled]="1" [bottomOffset]="60">
   <div class="mob-signup-empty-state" *ngIf="isListEmpty">
     <svg role="img" class="icon mob-signup-empty-state__icon">
       <use xlink:href="/static/assets/icons/icons.svg#no-offers"></use>
@@ -38,5 +43,5 @@
       </svg>
     </a> {{ offer.subject }}
   </p>
-   <prs-loading [status]="loading"></prs-loading>
+  <prs-loading [status]="loading"></prs-loading>
 </div>

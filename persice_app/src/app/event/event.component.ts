@@ -1,16 +1,13 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from '@angular/core';
-import {RouteParams, Router} from '@angular/router-deprecated';
-
-import {EventDescriptionComponent} from './event-description';
-import {EventHostComponent} from './event-host';
-import {EventInfoComponent} from './event-info';
-import {EventPhotoMapComponent} from './event-photo-map';
-import {EventDiscussionComponent} from './event-discussion';
-import {EventEditComponent} from './event-edit.component';
-import {EventAttendeesComponent} from './event-attendees';
-
-import {LoadingComponent} from '../shared/components/loading';
-
+import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { RouteParams, Router } from '@angular/router-deprecated';
+import { EventDescriptionComponent } from './event-description';
+import { EventHostComponent } from './event-host';
+import { EventInfoComponent } from './event-info';
+import { EventPhotoMapComponent } from './event-photo-map';
+import { EventDiscussionComponent } from './event-discussion';
+import { EventEditComponent } from './event-edit.component';
+import { EventAttendeesComponent } from './event-attendees';
+import { LoadingComponent } from '../shared/components/loading';
 import {
   NotificationService,
   HistoryService,
@@ -19,17 +16,8 @@ import {
   EventMembersService,
   EventAttendeesService
 } from '../shared/services';
-
-
-import {
-  DateUtil,
-  EventUtil,
-  CookieUtil,
-  UserUtil
-} from '../shared/core';
-
-import {RemodalDirective} from '../shared/directives';
-
+import { DateUtil, EventUtil, CookieUtil, UserUtil } from '../shared/core';
+import { RemodalDirective } from '../shared/directives';
 
 
 @Component({
@@ -346,8 +334,6 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
         });
     }
   }
-
-
 
 
   activate(type) {

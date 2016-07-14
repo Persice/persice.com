@@ -1,4 +1,4 @@
-import {EventDate} from './event-date';
+import { EventDate } from './event-date';
 
 describe('Even date', () => {
 

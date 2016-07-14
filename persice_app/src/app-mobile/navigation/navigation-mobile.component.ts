@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
   selector: 'prs-mobile-navigation',

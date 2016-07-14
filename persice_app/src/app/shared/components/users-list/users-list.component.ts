@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-
-import {UserCardComponent} from './user-card.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { UserCardComponent } from './user-card.component';
 
 
 @Component({

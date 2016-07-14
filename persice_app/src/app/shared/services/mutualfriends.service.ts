@@ -1,12 +1,13 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-import {HttpClient} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '../core';
 
 @Injectable()
 export class MutualFriendsService {
   static API_URL_V1: string = '/api/v1/mutual/friends/';
   next: string = '';
+
   constructor(private http: HttpClient) {
 
   }
@@ -33,5 +34,5 @@ export class MutualFriendsService {
 }
 
 export var mutualfriendsServiceInjectables: Array<any> = [
-  provide(MutualFriendsService, { useClass: MutualFriendsService })
+  provide(MutualFriendsService, {useClass: MutualFriendsService})
 ];

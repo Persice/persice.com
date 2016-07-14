@@ -1,18 +1,18 @@
-import {Component, OnInit, OnDestroy, AfterViewInit} from '@angular/core';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {HeaderState} from '../../header/header.state';
-import {EventMobileService} from './event-mobile.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {LoadingComponent} from '../../../app/shared/components/loading/loading.component';
-import {Event} from '../../shared/model/event';
-import {EventHeroMobileComponent} from './event-hero';
-import {EventDetailsMobileComponent} from './event-details';
-import {EventDetailsBottomMobileComponent} from './event-details-bottom';
-import {EventAttendeesPreviewMobileComponent} from './event-attendees-preview';
-import {EventNotFoundMobileComponent} from './event-not-found';
-import {Observable, Subscription} from 'rxjs';
-import {EventRsvpMobileComponent} from './event-rsvp/event-rsvp-mobile.component';
-import {CookieUtil} from '../../../app/shared/core/util';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { HeaderState } from '../../header/header.state';
+import { EventMobileService } from './event-mobile.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingComponent } from '../../../app/shared/components/loading/loading.component';
+import { Event } from '../../shared/model/event';
+import { EventHeroMobileComponent } from './event-hero';
+import { EventDetailsMobileComponent } from './event-details';
+import { EventDetailsBottomMobileComponent } from './event-details-bottom';
+import { EventAttendeesPreviewMobileComponent } from './event-attendees-preview';
+import { EventNotFoundMobileComponent } from './event-not-found';
+import { Observable, Subscription } from 'rxjs';
+import { EventRsvpMobileComponent } from './event-rsvp/event-rsvp-mobile.component';
+import { CookieUtil } from '../../../app/shared/core/util';
 
 @Component({
   selector: 'prs-mobile-event',

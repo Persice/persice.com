@@ -1,6 +1,6 @@
-import {provide, Provider} from '@angular/core';
-import {ConnectionsService} from './connections.service';
-import {Observable} from 'rxjs';
+import { provide, Provider } from '@angular/core';
+import { ConnectionsService } from './connections.service';
+import { Observable } from 'rxjs';
 
 export class MockConnectionsService extends ConnectionsService {
   fakeResponse: any = null;
@@ -14,6 +14,6 @@ export class MockConnectionsService extends ConnectionsService {
   }
 
   public getProvider(): Provider {
-    return provide(ConnectionsService, { useValue: this });
+    return provide(ConnectionsService, {useValue: this});
   }
 }

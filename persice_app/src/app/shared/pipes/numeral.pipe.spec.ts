@@ -1,4 +1,4 @@
-import {NumeralPipe} from './numeral.pipe';
+import { NumeralPipe } from './numeral.pipe';
 
 describe('NumeralPipe', () => {
   let pipe: NumeralPipe;

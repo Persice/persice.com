@@ -1,9 +1,9 @@
-import {inject, async, addProviders, TestComponentBuilder} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {UserCardComponent} from './user-card.component';
-import {user} from './user-card.component.mock';
+import { inject, async, addProviders, TestComponentBuilder } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, ConnectionBackend, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { UserCardComponent } from './user-card.component';
+import { user } from './user-card.component.mock';
 
 // Create a test component to test directives
 @Component({
@@ -41,8 +41,10 @@ describe('UserCard component', () => {
       MockBackend,
       {
         provide: Http,
-        useFactory: (connectionBackend: ConnectionBackend,
-                     defaultOptions: BaseRequestOptions) => {
+        useFactory: (
+          connectionBackend: ConnectionBackend,
+          defaultOptions: BaseRequestOptions
+        ) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [

@@ -1,21 +1,17 @@
-import {async, inject, describe, TestComponentBuilder, addProviders} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {Observable} from 'rxjs';
-import {
-  provideTestRouter,
-  routesTestConfigAppMobile
-} from '../../../common/test/app-mobile-test.helpers';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-
-import {InterestsService} from '../../../app/shared/services/interests.service';
-import {GoalsService} from '../../../app/shared/services/goals.service';
-import {OffersService} from '../../../app/shared/services/offers.service';
-import {PhotosService} from '../../../app/shared/services/photos.service';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {HttpClient} from '../../../app/shared/core';
-import {EditMyProfileNavigationComponent} from './edit-my-profile-navigation.component';
+import { async, inject, describe, TestComponentBuilder, addProviders } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { Observable } from 'rxjs';
+import { provideTestRouter, routesTestConfigAppMobile } from '../../../common/test/app-mobile-test.helpers';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { InterestsService } from '../../../app/shared/services/interests.service';
+import { GoalsService } from '../../../app/shared/services/goals.service';
+import { OffersService } from '../../../app/shared/services/offers.service';
+import { PhotosService } from '../../../app/shared/services/photos.service';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { HttpClient } from '../../../app/shared/core';
+import { EditMyProfileNavigationComponent } from './edit-my-profile-navigation.component';
 
 class MockInterestsService extends InterestsService {
   fakeResponse: any = null;
@@ -29,7 +25,7 @@ class MockInterestsService extends InterestsService {
   }
 
   public getProvider(): any {
-    return { provide: InterestsService, useValue: this };
+    return {provide: InterestsService, useValue: this};
   }
 
 }
@@ -46,7 +42,7 @@ class MockPhotosService extends PhotosService {
   }
 
   public getProvider(): any {
-    return { provide: PhotosService, useValue: this };
+    return {provide: PhotosService, useValue: this};
   }
 
 }
@@ -63,7 +59,7 @@ class MockOffersService extends OffersService {
   }
 
   public getProvider(): any {
-    return { provide: OffersService, useValue: this };
+    return {provide: OffersService, useValue: this};
   }
 
 }
@@ -80,7 +76,7 @@ class MockGoalsService extends GoalsService {
   }
 
   public getProvider(): any {
-    return { provide: GoalsService, useValue: this };
+    return {provide: GoalsService, useValue: this};
   }
 
 }
@@ -94,7 +90,8 @@ class MockGoalsService extends GoalsService {
   `,
   directives: [EditMyProfileNavigationComponent, ROUTER_DIRECTIVES]
 })
-class TestComponent { }
+class TestComponent {
+}
 
 let component: TestComponent;
 let domElement: any;
@@ -134,12 +131,12 @@ describe('My profile edit navigation mobile component', () => {
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      EditMyProfileNavigationComponent, [
-        { provide: InterestsService, useValue: mockInterestsService },
-        { provide: OffersService, useValue: mockOffersService },
-        { provide: GoalsService, useValue: mockGoalsService },
-        { provide: PhotosService, useValue: mockPhotosService }
-      ])
+        EditMyProfileNavigationComponent, [
+          {provide: InterestsService, useValue: mockInterestsService},
+          {provide: OffersService, useValue: mockOffersService},
+          {provide: GoalsService, useValue: mockGoalsService},
+          {provide: PhotosService, useValue: mockPhotosService}
+        ])
       .createAsync(EditMyProfileNavigationComponent)
       .then((componentFixture: any) => {
         this.componentFixture = componentFixture;

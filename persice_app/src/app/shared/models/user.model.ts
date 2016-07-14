@@ -1,4 +1,3 @@
-
 interface InterfaceAuthUser {
   id: number;
   first_name: string;
@@ -9,6 +8,7 @@ interface InterfaceAuthUser {
 
 export class AuthUserModel {
   info: InterfaceAuthUser;
+
   constructor(
     info: InterfaceAuthUser
   ) {

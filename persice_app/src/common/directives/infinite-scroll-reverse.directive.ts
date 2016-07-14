@@ -1,4 +1,4 @@
-import {Directive, HostListener, EventEmitter, Output, Input, ElementRef} from '@angular/core';
+import { Directive, HostListener, EventEmitter, Output, Input, ElementRef } from '@angular/core';
 
 @Directive({
   selector: '[prs-infinite-scroll-reverse]'
@@ -6,6 +6,7 @@ import {Directive, HostListener, EventEmitter, Output, Input, ElementRef} from '
 export class InfiniteScrollReverseDirective {
   @Input() scrollEnabled: boolean;
   @Input() topOffset: number;
+
   @Input() set loadedCount(state: number) {
     if (state > 0 && !!this._previousScrollHeight) {
       // Scroll back to bottom according to scrollHeight change after new items loaded

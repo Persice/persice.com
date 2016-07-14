@@ -1,14 +1,12 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-
-import {EditPersonalInfoComponent} from './edit-personalinfo.component';
-import {EditPhotosComponent} from './edit-photos.component';
-import {EditInterestsComponent} from './edit-interests.component';
-import {EditGoalsComponent} from './edit-goals.component';
-import {EditOffersComponent}from './edit-offers.component';
-import {EditAlbumsComponent} from './edit-albums.component';
-import {EditCropComponent} from './edit-crop.component';
-import {LoadingComponent} from '../shared/components/loading';
-
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { EditPersonalInfoComponent } from './edit-personalinfo.component';
+import { EditPhotosComponent } from './edit-photos.component';
+import { EditInterestsComponent } from './edit-interests.component';
+import { EditGoalsComponent } from './edit-goals.component';
+import { EditOffersComponent } from './edit-offers.component';
+import { EditAlbumsComponent } from './edit-albums.component';
+import { EditCropComponent } from './edit-crop.component';
+import { LoadingComponent } from '../shared/components/loading';
 
 
 @Component({

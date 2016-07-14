@@ -1,9 +1,5 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-
-import {UserAuthService} from '../../app/shared/services';
+import { Component, OnInit } from '@angular/core';
+import { UserAuthService } from '../../app/shared/services';
 
 @Component({
   selector: 'prs-connect-social-accounts',

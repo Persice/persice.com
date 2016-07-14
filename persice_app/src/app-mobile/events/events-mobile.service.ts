@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Subscription, BehaviorSubject, Observable} from 'rxjs';
-import {Event} from '../shared/model/event';
-import {EventsType} from './events-mobile.component';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Event } from '../shared/model/event';
+import { EventsType } from './events-mobile.component';
 
 interface EventsMapped {
   events: Event[];

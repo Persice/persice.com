@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import {TabNavigationComponent} from '../tab-navigation';
-import {AppStateService} from '../../shared/services';
-import {HeaderState} from '../../header';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { TabNavigationComponent } from '../tab-navigation';
+import { AppStateService } from '../../shared/services';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-terms-of-service',

@@ -1,9 +1,9 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Subject, Observable} from 'rxjs';
-import {HttpClient} from '../core';
-import {CookieUtil} from "../core/util";
-import {OPTS_REQ_JSON_CSRF} from "../core/http-constants";
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Subject, Observable } from 'rxjs';
+import { HttpClient } from '../core';
+import { CookieUtil } from '../core/util';
+import { OPTS_REQ_JSON_CSRF } from '../core/http-constants';
 
 @Injectable()
 export class ProfileService {
@@ -99,5 +99,5 @@ export class ProfileService {
 }
 
 export var profileServiceInjectables: Array<any> = [
-  provide(ProfileService, { useClass: ProfileService })
+  provide(ProfileService, {useClass: ProfileService})
 ];

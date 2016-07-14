@@ -1,10 +1,5 @@
-import {findIndex} from 'lodash';
-
-import {
-  InterestsService,
-  KeywordsService
-}
-from '../../app/shared/services';
+import { findIndex } from 'lodash';
+import { InterestsService, KeywordsService } from '../../app/shared/services';
 
 /**
  *  Abstract class for managing user interests
@@ -83,9 +78,9 @@ export abstract class ManageInterestsComponent {
         return this.keywordsService.get(this.next, this.KEYWORDS_PER_PAGE, '');
       })
       .subscribe(data => this._assignList(data),
-      (err) => {
-        this.loading = false;
-      });
+        (err) => {
+          this.loading = false;
+        });
   }
 
   public itemSelectedFromAutocomplete(event) {
@@ -170,7 +165,7 @@ export abstract class ManageInterestsComponent {
     this.interestBeingSaved = true;
 
     // Try to find index of keyword
-    let idx = findIndex(this.items, { 'description': this.newItemText });
+    let idx = findIndex(this.items, {'description': this.newItemText});
 
     // If interest is found, check if it is already selected
     if (this.items[idx]) {

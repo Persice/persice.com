@@ -1,24 +1,24 @@
-import {inject, fakeAsync, addProviders, TestComponentBuilder} from '@angular/core/testing';
-import {ApplicationRef, NgZone, ComponentFactory, Injector, ComponentRef, Type} from '@angular/core';
-import {Router} from '@angular/router';
-import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
-import {Location} from '@angular/common';
-import {MockBackend} from '@angular/http/testing';
-import {provideTestRouter, advance, createRoot} from '../common/test/app-mobile-test.helpers';
-import {AppMobileComponent} from './app-mobile.component';
-import {provideStore} from '@ngrx/store';
+import { inject, fakeAsync, addProviders, TestComponentBuilder } from '@angular/core/testing';
+import { ApplicationRef, NgZone, ComponentFactory, Injector, ComponentRef, Type } from '@angular/core';
+import { Router } from '@angular/router';
+import { Http, ConnectionBackend, BaseRequestOptions } from '@angular/http';
+import { Location } from '@angular/common';
+import { MockBackend } from '@angular/http/testing';
+import { provideTestRouter, advance, createRoot } from '../common/test/app-mobile-test.helpers';
+import { AppMobileComponent } from './app-mobile.component';
+import { provideStore } from '@ngrx/store';
 import STORE_REDUCERS from '../common/reducers';
 import STORE_ACTIONS from '../common/actions';
-import {HttpClient} from '../app/shared/core/http-client';
-import {WebsocketService} from '../app/shared/services';
-import {AppStateService} from './shared/services';
-import {MockGeolocationService} from '../app/shared/services/mock-geolocation.service';
-import {UnreadMessagesCounterService, NewConnectionsCounterService} from '../common/services';
-import {routesAppMobile} from './app-mobile.routes';
+import { HttpClient } from '../app/shared/core/http-client';
+import { WebsocketService } from '../app/shared/services';
+import { AppStateService } from './shared/services';
+import { MockGeolocationService } from '../app/shared/services/mock-geolocation.service';
+import { UnreadMessagesCounterService, NewConnectionsCounterService } from '../common/services';
+import { routesAppMobile } from './app-mobile.routes';
 
- // TODO: remove temporary fix for running unit test with ApplicationRef
- // after router fixes bug with location.back() (OnInit and change detection not fired inside component
- // after)
+// TODO: remove temporary fix for running unit test with ApplicationRef
+// after router fixes bug with location.back() (OnInit and change detection not fired inside component
+// after)
 class MockApplicationRef {
   registerBootstrapListener(listener: (ref: ComponentRef<any>) => void): void { }
 
@@ -49,7 +49,7 @@ describe('App component mobile', () => {
     mockGeolocationService = new MockGeolocationService();
 
     addProviders([
-      { provide: ApplicationRef, useClass: MockApplicationRef },
+      {provide: ApplicationRef, useClass: MockApplicationRef},
       provideTestRouter(AppMobileComponent, routesAppMobile),
       AppStateService,
       UnreadMessagesCounterService,
@@ -62,8 +62,10 @@ describe('App component mobile', () => {
       HttpClient,
       {
         provide: Http,
-        useFactory: (connectionBackend: ConnectionBackend,
-          defaultOptions: BaseRequestOptions) => {
+        useFactory: (
+          connectionBackend: ConnectionBackend,
+          defaultOptions: BaseRequestOptions
+        ) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [

@@ -1,20 +1,7 @@
-import {
-  Component,
-  Output,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-
-import {
-  InboxService,
-  MessagesCounterService,
-  WebsocketService
-} from '../../shared/services';
-
-import {ThreadListComponent} from '../../shared/components/thread-list';
-import {LoadingComponent} from '../../shared/components/loading';
+import { Component, Output, ElementRef, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { InboxService, MessagesCounterService, WebsocketService } from '../../shared/services';
+import { ThreadListComponent } from '../../shared/components/thread-list';
+import { LoadingComponent } from '../../shared/components/loading';
 
 @Component({
   selector: 'prs-conversations',

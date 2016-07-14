@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class NewConnectionsCounterActions {
@@ -10,14 +10,14 @@ export class NewConnectionsCounterActions {
   public loadCounterSuccess(data: number): Action {
     return {
       type: NewConnectionsCounterActions.LOAD_COUNTER_SUCCESS,
-      payload: { counter: data }
+      payload: {counter: data}
     };
   }
 
   public increaseCounter(): Action {
     return {
       type: NewConnectionsCounterActions.INCREASE_COUNTER,
-      payload: { }
+      payload: {}
     };
   }
 

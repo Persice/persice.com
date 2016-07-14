@@ -1,6 +1,6 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {Event} from '../../shared/model/event';
-import {RsvpElementComponent} from '../rsvp-element/rsvp-element.component';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Event } from '../../shared/model/event';
+import { RsvpElementComponent } from '../rsvp-element/rsvp-element.component';
 
 @Component({
   selector: 'prs-mobile-event-summary',

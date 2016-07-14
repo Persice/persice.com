@@ -1,8 +1,8 @@
-import {TimeAgoPipe} from './time-ago.pipe';
+import { TimeAgoPipe } from './time-ago.pipe';
 
 describe('TimeAgoPipe', () => {
   describe('#transform', () => {
-    afterEach(function() {
+    afterEach(function () {
       jasmine.clock().uninstall();
     });
 

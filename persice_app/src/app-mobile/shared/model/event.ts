@@ -1,6 +1,6 @@
-import {Distance} from './distance';
-import {DateUtil, ListUtil} from '../../../app/shared/core/util';
-import {EventDate} from './event-date';
+import { Distance } from './distance';
+import { DateUtil, ListUtil } from '../../../app/shared/core/util';
+import { EventDate } from './event-date';
 export class Event {
   private _id: string;
   private _name: string;
@@ -30,7 +30,7 @@ export class Event {
   constructor(dto: any) {
     this._id = dto.id;
     this._name = dto.name;
-    this._image = !!dto.event_photo ? dto.event_photo :  '/static/img/placeholder-image.png';
+    this._image = !!dto.event_photo ? dto.event_photo : '/static/img/placeholder-image.png';
     this._hostedBy = dto.hosted_by;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
@@ -53,17 +53,17 @@ export class Event {
   public rsvpOfUsername(username: string): any {
     for (let user of this._attendeesGoing) {
       if (user.username === username) {
-        return { rsvp: 'yes', member_id: user.membership_id};
+        return {rsvp: 'yes', member_id: user.membership_id};
       }
     }
     for (let user of this._attendeesMaybe) {
       if (user.username === username) {
-        return { rsvp: 'maybe', member_id: user.membership_id};
+        return {rsvp: 'maybe', member_id: user.membership_id};
       }
     }
     for (let user of this._attendeesNotGoing) {
       if (user.username === username) {
-        return { rsvp: 'no', member_id: user.membership_id};
+        return {rsvp: 'no', member_id: user.membership_id};
       }
     }
 
@@ -168,7 +168,7 @@ export class Event {
     let result = [];
     let max = attendees.length < 4 ? attendees.length : 4;
     for (let i = 0; i < max; i++) {
-      result = [...result, {image: attendees[i].image, isHost: attendees[i].is_organizer }];
+      result = [...result, {image: attendees[i].image, isHost: attendees[i].is_organizer}];
     }
 
     result = ListUtil.orderBy(result, ['isHost'], 'desc');

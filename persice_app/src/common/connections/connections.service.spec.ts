@@ -1,15 +1,10 @@
-import {Injector, provide, ReflectiveInjector} from '@angular/core';
-
-import {afterEach, beforeEach, describe, expect, it} from '@angular/core/testing';
-
-import {BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions}
-from '@angular/http';
-
-import {MockBackend} from '@angular/http/testing';
-import {RequestMethod} from '@angular/http';
-import {ConnectionsService} from './connections.service';
-import {MockConnections} from './connections.mock';
-import {HttpClient} from "../../app/shared/core/http-client";
+import { Injector, provide, ReflectiveInjector } from '@angular/core';
+import { afterEach, beforeEach, describe, expect, it } from '@angular/core/testing';
+import { BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions, RequestMethod } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { ConnectionsService } from './connections.service';
+import { MockConnections } from './connections.mock';
+import { HttpClient } from '../../app/shared/core/http-client';
 
 describe('Connections service', () => {
 
@@ -23,8 +18,10 @@ describe('Connections service', () => {
       MockBackend,
       HttpClient,
       provide(Http, {
-        useFactory: (connectionBackend: ConnectionBackend,
-          defaultOptions: BaseRequestOptions) => {
+        useFactory: (
+          connectionBackend: ConnectionBackend,
+          defaultOptions: BaseRequestOptions
+        ) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [
@@ -63,7 +60,7 @@ describe('Connections service', () => {
   function ensureCommunication(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
-      c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));
+      c.mockRespond(new Response(new ResponseOptions({body: expectedBody})));
     });
   }
 

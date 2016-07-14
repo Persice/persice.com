@@ -1,9 +1,7 @@
-import {provide, Injectable} from '@angular/core';
-import {Response } from '@angular/http';
-import {HttpClient} from '../core';
-import {Observable} from 'rxjs';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { Observable } from 'rxjs';
 
 const USER_ID = CookieUtil.getValue('userid');
 
@@ -30,7 +28,7 @@ export class LocationService {
   public get(): Observable<any> {
 
     let params: string = [
-    `format=json`
+      `format=json`
     ].join('&');
 
     let url = `${LocationService.API_URL}?${params}`;
@@ -70,7 +68,7 @@ export class LocationService {
         } else {
           return this.update(res.objects[0].resource_uri, newLoc);
         }
-    });
+      });
 
   }
 
@@ -81,7 +79,7 @@ export class LocationService {
       `${resourceUri}?format=json`,
       body,
       OPTS_REQ_JSON_CSRF)
-    .map((res: Response) => res.json());
+      .map((res: Response) => res.json());
   }
 
   public create(data: any): Observable<any> {
@@ -90,11 +88,11 @@ export class LocationService {
       `${LocationService.API_URL}?format=json`,
       body,
       OPTS_REQ_JSON_CSRF)
-    .map((res: Response) => res.json());
+      .map((res: Response) => res.json());
   }
 }
 export var locationServiceInjectables: Array<any> = [
-provide(LocationService, { useClass: LocationService })
+  provide(LocationService, {useClass: LocationService})
 ];
 
 export interface UserLocation {

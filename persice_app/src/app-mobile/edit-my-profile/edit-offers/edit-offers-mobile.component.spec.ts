@@ -1,10 +1,10 @@
-import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
-import {Observable} from 'rxjs';
-import {EditOffersMobileComponent} from './edit-offers-mobile.component';
-import {OffersService} from '../../../app/shared/services/offers.service';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {OffersGenerators} from './offers-generators';
-import {HeaderState} from '../../header/header.state';
+import { async, inject, addProviders, TestComponentBuilder } from '@angular/core/testing';
+import { Observable } from 'rxjs';
+import { EditOffersMobileComponent } from './edit-offers-mobile.component';
+import { OffersService } from '../../../app/shared/services/offers.service';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { OffersGenerators } from './offers-generators';
+import { HeaderState } from '../../header/header.state';
 
 let component: EditOffersMobileComponent;
 let mock: OffersServiceMock;

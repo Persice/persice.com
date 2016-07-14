@@ -1,5 +1,5 @@
-import {Directive, HostListener} from '@angular/core';
-import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
+import { Directive, HostListener } from '@angular/core';
+import { BrowserDomAdapter } from '@angular/platform-browser/src/browser/browser_adapter';
 
 @Directive({
   selector: '[prs-open-left-menu]',

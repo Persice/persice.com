@@ -1,10 +1,11 @@
-import {remove, findIndex, debounce} from 'lodash';
+import { remove, findIndex, debounce } from 'lodash';
 
 const DEFAULT_LIST_LIMIT: number = 12;
 
 interface ListService {
   get: Function;
-};
+}
+;
 
 export abstract class ListComponent {
 
@@ -83,13 +84,13 @@ export abstract class ListComponent {
     }
     this.serviceInstance = this.listService.get(this.next, this.limit)
       .subscribe(
-      data => {
-        this._assignList(data);
-      },
-      (err) => {
-        this.loading = false;
-        this.loadingInitial = false;
-      });
+        data => {
+          this._assignList(data);
+        },
+        (err) => {
+          this.loading = false;
+          this.loadingInitial = false;
+        });
   }
 
   /**
@@ -101,7 +102,7 @@ export abstract class ListComponent {
     this.beforeItemSelected();
 
     // Find index of item with item.id === itemId in items collection
-    let index = findIndex(this.items, { id: itemId });
+    let index = findIndex(this.items, {id: itemId});
 
     // If item is found, select it and call afterItemSelected() function
     if (index !== -1) {
@@ -136,7 +137,7 @@ export abstract class ListComponent {
    * @param {DOM event} event
    */
   public previousItem(event: any): void {
-    let currentIndex = findIndex(this.items, { id: this.selectedItem.id });
+    let currentIndex = findIndex(this.items, {id: this.selectedItem.id});
     let newIndex = currentIndex - 1;
 
     if (newIndex < 0) {
@@ -158,7 +159,7 @@ export abstract class ListComponent {
    * @param {DOM event} event
    */
   public nextItem(event) {
-    let currentIndex = findIndex(this.items, { id: this.selectedItem.id });
+    let currentIndex = findIndex(this.items, {id: this.selectedItem.id});
     let newIndex = currentIndex + 1;
 
     if (!this.loading && newIndex > this.items.length - 13 && this.next) {

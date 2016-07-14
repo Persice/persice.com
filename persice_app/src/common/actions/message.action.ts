@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
-import {Message} from '../models';
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
+import { Message } from '../models';
 
 export interface MessagesData {
   messages: Message[];
@@ -23,7 +23,7 @@ export class MessageActions {
   public loadCollectionSuccess(data: MessagesData): Action {
     return {
       type: MessageActions.LOAD_COLLECTION_SUCCESS,
-      payload: { messages: data.messages, count: data.count }
+      payload: {messages: data.messages, count: data.count}
     };
   }
 

@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {CheckImageDirective} from '../../../app/shared/directives';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { CheckImageDirective } from '../../../app/shared/directives';
 
 @Component({
   selector: 'prs-mobile-network-preview',

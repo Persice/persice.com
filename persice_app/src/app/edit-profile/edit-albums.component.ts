@@ -1,15 +1,6 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-
-
-import {LoadingComponent} from '../shared/components/loading';
-import {FacebookAlbumsService} from '../shared/services';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { LoadingComponent } from '../shared/components/loading';
+import { FacebookAlbumsService } from '../shared/services';
 
 @Component({
   selector: 'prs-edit-albums',

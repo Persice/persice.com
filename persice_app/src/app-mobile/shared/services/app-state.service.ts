@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter, provide} from '@angular/core';
+import { Injectable, EventEmitter, provide } from '@angular/core';
 
 @Injectable()
 export class AppStateService {
@@ -45,5 +45,5 @@ export class AppStateService {
 
 }
 export var appsTateServiceInjectables: Array<any> = [
-  provide(AppStateService, { useClass: AppStateService })
+  provide(AppStateService, {useClass: AppStateService})
 ];

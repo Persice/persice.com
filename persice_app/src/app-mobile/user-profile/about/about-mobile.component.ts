@@ -1,5 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import {ViewMoreComponent} from '../../../common/view-more';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ViewMoreComponent } from '../../../common/view-more';
 
 @Component({
   selector: 'prs-mobile-profile-about-me',

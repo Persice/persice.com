@@ -1,5 +1,5 @@
-import {Action} from '@ngrx/store';
-import {SelectedPersonActions} from '../actions';
+import { Action } from '@ngrx/store';
+import { SelectedPersonActions } from '../actions';
 
 const CROWD_TYPE = 'crowd';
 const CONNECTION_TYPE = 'connection';
@@ -11,7 +11,8 @@ export interface SelectedPersonState {
   connected: boolean;
   accept: boolean;
   pass: boolean;
-};
+}
+;
 
 let initialState: SelectedPersonState = {
   person: {},
@@ -22,7 +23,7 @@ let initialState: SelectedPersonState = {
   pass: false
 };
 
-export default function(state = initialState, action: Action): SelectedPersonState {
+export default function (state = initialState, action: Action): SelectedPersonState {
   switch (action.type) {
     case SelectedPersonActions.SET: {
       const selectedPerson: any = action.payload.person;
@@ -48,10 +49,10 @@ export default function(state = initialState, action: Action): SelectedPersonSta
       return Object.assign({}, state, initialState);
     }
     case SelectedPersonActions.ACCEPTED: {
-      return Object.assign({}, state, { accept: true });
+      return Object.assign({}, state, {accept: true});
     }
     case SelectedPersonActions.PASSED: {
-      return Object.assign({}, state, { pass: true });
+      return Object.assign({}, state, {pass: true});
     }
     default: {
       return state;

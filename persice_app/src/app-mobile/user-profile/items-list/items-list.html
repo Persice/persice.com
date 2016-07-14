@@ -2,7 +2,8 @@
   <li [ngClass]="{'profile-tab__list__pro-item': item.match}" *ngFor="let item of itemsLess">
     <i *ngIf="item.match" class="similarity-bullet"></i>{{item.value}}
   </li>
-  <li [ngClass]="{'hidden': !itemsMoreVisible, 'profile-tab__list__pro-item': item.match}" *ngFor="let item of itemsMore">
+  <li [ngClass]="{'hidden': !itemsMoreVisible, 'profile-tab__list__pro-item': item.match}"
+      *ngFor="let item of itemsMore">
     <i *ngIf="item.match" class="similarity-bullet"></i>{{item.value}}
   </li>
 </ul>

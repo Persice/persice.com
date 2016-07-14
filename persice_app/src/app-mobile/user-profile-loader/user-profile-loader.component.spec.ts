@@ -1,22 +1,18 @@
-import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {
-  provideTestRouter,
-  routesTestConfigAppMobile
-} from '../../common/test/app-mobile-test.helpers';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {provideStore} from '@ngrx/store';
+import { async, inject, TestComponentBuilder, addProviders } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { provideTestRouter, routesTestConfigAppMobile } from '../../common/test/app-mobile-test.helpers';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { provideStore } from '@ngrx/store';
 import STORE_REDUCERS from '../../common/reducers';
 import STORE_ACTIONS from '../../common/actions';
-
-import {Observable} from 'rxjs';
-import {UserProfileLoaderComponent} from './user-profile-loader.component';
-import {ProfileService} from '../../app/shared/services/profile.service';
-import {PersonGenerator} from '../shared/model/person-generator';
-import {HttpClient} from '../../app/shared/core';
-import {AppStateService} from '../shared/services/app-state.service';
+import { Observable } from 'rxjs';
+import { UserProfileLoaderComponent } from './user-profile-loader.component';
+import { ProfileService } from '../../app/shared/services/profile.service';
+import { PersonGenerator } from '../shared/model/person-generator';
+import { HttpClient } from '../../app/shared/core';
+import { AppStateService } from '../shared/services/app-state.service';
 
 let component: UserProfileLoaderComponent;
 let mock: ProfileServiceMock;
@@ -30,7 +26,8 @@ let mock: ProfileServiceMock;
   `,
   directives: [UserProfileLoaderComponent, ROUTER_DIRECTIVES]
 })
-class TestComponent { }
+class TestComponent {
+}
 
 class ProfileServiceMock extends ProfileService {
   profileDto: any;
@@ -44,7 +41,7 @@ class ProfileServiceMock extends ProfileService {
   }
 
   public getProvider(): any {
-    return { provide: ProfileService, useValue: this };
+    return {provide: ProfileService, useValue: this};
   }
 }
 
@@ -73,7 +70,7 @@ describe('User profile loader', () => {
   beforeEach(async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     return tcb
       .overrideProviders(
-      UserProfileLoaderComponent, [{ provide: ProfileService, useValue: mock }])
+        UserProfileLoaderComponent, [{provide: ProfileService, useValue: mock}])
       .createAsync(UserProfileLoaderComponent)
       .then((componentFixture: any) => {
         fixture = componentFixture;

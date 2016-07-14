@@ -37,5 +37,5 @@ export class HistoryService {
 }
 
 export var historyServiceInjectables: Array<any> = [
-  provide(HistoryService, { useClass: HistoryService })
+  provide(HistoryService, {useClass: HistoryService})
 ];

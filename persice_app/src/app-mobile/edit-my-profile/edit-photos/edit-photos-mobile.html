@@ -1,20 +1,20 @@
 <prs-mobile-arrange-photos *ngIf="page === 1"
-  [photos]="photos"
-  [photosCount]="photosCount"
-  [loading]="loadingPhotos || savingNewPhoto"
-  (onDelete)="deletePhoto($event)">
+                           [photos]="photos"
+                           [photosCount]="photosCount"
+                           [loading]="loadingPhotos || savingNewPhoto"
+                           (onDelete)="deletePhoto($event)">
 </prs-mobile-arrange-photos>
 <prs-mobile-choose-album *ngIf="page === 2"
-  [albums]="albums"
-  [loading]="loadingFBAlbums"
-  (onLoadMoreFBAlbums)="loadMoreFBAlbums($event)">
+                         [albums]="albums"
+                         [loading]="loadingFBAlbums"
+                         (onLoadMoreFBAlbums)="loadMoreFBAlbums($event)">
 </prs-mobile-choose-album>
 <prs-mobile-choose-photo *ngIf="page === 3"
-  [photos]="selectedAlbumPhotos"
-  [loading]="loadingFBPhotos"
-  (onLoadMoreFBPhotos)="loadMoreFBPhotos($event)">
+                         [photos]="selectedAlbumPhotos"
+                         [loading]="loadingFBPhotos"
+                         (onLoadMoreFBPhotos)="loadMoreFBPhotos($event)">
 </prs-mobile-choose-photo>
 <prs-mobile-crop-photo *ngIf="page === 4"
-[photo]="selectedPhoto"
-(onPhotoCropped)="assignPhotoForSaving($event)">
+                       [photo]="selectedPhoto"
+                       (onPhotoCropped)="assignPhotoForSaving($event)">
 </prs-mobile-crop-photo>

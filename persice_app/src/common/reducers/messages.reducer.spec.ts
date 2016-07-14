@@ -1,7 +1,7 @@
-import messagesReducer, {MessagesState} from './messages.reducer';
-import {MessageActions} from '../actions';
-import {MessageGenerators} from '../models/message/message.model.generators';
-import {MessagesData} from '../actions/message.action';
+import messagesReducer, { MessagesState } from './messages.reducer';
+import { MessageActions } from '../actions';
+import { MessageGenerators } from '../models/message/message.model.generators';
+import { MessagesData } from '../actions/message.action';
 
 describe('Messages reducer', () => {
   let emptyState: MessagesState = {

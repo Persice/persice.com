@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AppStateService} from '../shared/services/app-state.service';
-import {EventsMobileService} from './events-mobile.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {LoadingComponent} from '../../app/shared/components/loading/loading.component';
-import {OpenLeftMenuDirective} from '../shared/directives/open-left-menu.directive';
-import {Subscription, Observable} from 'rxjs';
-import {Event} from '../shared/model/event';
-import {EventSummaryComponent} from './event-summary';
-import {EventsNotFoundMobileComponent} from './events-not-found';
-import {InfiniteScrollDirective} from '../../common/directives';
-import {EventMembersService} from '../../app/shared/services/eventmembers.service';
-import {CookieUtil} from '../../app/shared/core/util';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AppStateService } from '../shared/services/app-state.service';
+import { EventsMobileService } from './events-mobile.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingComponent } from '../../app/shared/components/loading/loading.component';
+import { OpenLeftMenuDirective } from '../shared/directives/open-left-menu.directive';
+import { Subscription, Observable } from 'rxjs';
+import { Event } from '../shared/model/event';
+import { EventSummaryComponent } from './event-summary';
+import { EventsNotFoundMobileComponent } from './events-not-found';
+import { InfiniteScrollDirective } from '../../common/directives';
+import { EventMembersService } from '../../app/shared/services/eventmembers.service';
+import { CookieUtil } from '../../app/shared/core/util';
 
 @Component({
   selector: 'prs-mobile-events',

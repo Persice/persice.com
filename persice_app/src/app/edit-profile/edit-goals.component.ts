@@ -1,17 +1,9 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  OnInit
-} from '@angular/core';
-
-import {ManageGoalsOffersComponent} from '../../common/manage-goals-offers';
-import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../common/directives';
-
-import {LoadingComponent} from '../shared/components/loading';
-import {EditFooterComponent} from './edit-footer.component';
-
-import {GoalsService} from '../shared/services';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { ManageGoalsOffersComponent } from '../../common/manage-goals-offers';
+import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
+import { LoadingComponent } from '../shared/components/loading';
+import { EditFooterComponent } from './edit-footer.component';
+import { GoalsService } from '../shared/services';
 
 @Component({
   selector: 'prs-edit-goals',
@@ -29,7 +21,7 @@ import {GoalsService} from '../shared/services';
 export class EditGoalsComponent extends ManageGoalsOffersComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-constructor(
+  constructor(
     protected goalsService: GoalsService
   ) {
     super(goalsService);

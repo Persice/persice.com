@@ -1,4 +1,4 @@
-import {Conversation} from "./conversation.model";
+import { Conversation } from './conversation.model';
 
 export class ConversationGenerators {
 

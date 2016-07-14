@@ -3,7 +3,6 @@
 // Â© 2013-2014 Denis Ineshin | IonDen.com
 // ===================================================================================================================*/
 
-
 /* =====================================================================================================================
 // RangeSlider */
 
@@ -76,11 +75,14 @@
   z-index: 1;
 }
 
-.irs-slider.single {}
+.irs-slider.single {
+}
 
-.irs-slider.from {}
+.irs-slider.from {
+}
 
-.irs-slider.to {}
+.irs-slider.to {
+}
 
 .irs-slider.type_last {
   z-index: 2;
@@ -189,12 +191,10 @@
   border-color: transparent !important;
 }
 
-
 /* Ion.RangeSlider, Nice Skin
 // css version 2.0.3
 // Â© Denis Ineshin, 2014    https://github.com/IonDen
 // ===================================================================================================================*/
-
 
 /* =====================================================================================================================
 // Skin details */
@@ -317,8 +317,8 @@
   color: #99a4ac;
 }
 
-.irs-disabled {}
-
+.irs-disabled {
+}
 
 /*
  *  Remodal - v1.0.6
@@ -329,11 +329,9 @@
  *  Under MIT License
  */
 
-
 /* ==========================================================================
    Remodal's necessary styles
    ========================================================================== */
-
 
 /* Hide scroll bar */
 
@@ -343,14 +341,12 @@ html.remodal-is-locked {
   touch-action: none;
 }
 
-
 /* Anti FOUC */
 
 .remodal,
 [data-remodal-id] {
   display: none;
 }
-
 
 /* Necessary styles of the overlay */
 
@@ -363,7 +359,6 @@ html.remodal-is-locked {
   left: -5000px;
   display: none;
 }
-
 
 /* Necessary styles of the wrapper */
 
@@ -387,7 +382,6 @@ html.remodal-is-locked {
   content: "";
 }
 
-
 /* Fix iPad, iPhone glitches */
 
 .remodal-overlay,
@@ -395,7 +389,6 @@ html.remodal-is-locked {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-
 
 /* Necessary styles of the modal dialog */
 
@@ -413,7 +406,6 @@ html.remodal-is-locked {
   display: inline-block;
 }
 
-
 /*
  *  Remodal - v1.0.6
  *  Responsive, lightweight, fast, synchronized with CSS animations, fully customizable modal window plugin with declarative configuration and hash tracking.
@@ -423,11 +415,9 @@ html.remodal-is-locked {
  *  Under MIT License
  */
 
-
 /* ==========================================================================
    Remodal's default mobile first theme
    ========================================================================== */
-
 
 /* Default theme styles for the background */
 
@@ -436,7 +426,6 @@ html.remodal-is-locked {
   -webkit-filter: blur(3px);
   filter: blur(3px);
 }
-
 
 /* Default theme styles of the overlay */
 
@@ -462,13 +451,11 @@ html.remodal-is-locked {
   animation-name: remodal-overlay-closing-keyframes;
 }
 
-
 /* Default theme styles of the wrapper */
 
 .remodal-wrapper {
   padding: 10px 10px 0;
 }
-
 
 /* Default theme styles of the modal dialog */
 
@@ -504,14 +491,12 @@ html.remodal-is-locked {
   opacity: 0;
 }
 
-
 /* Vertical align of the modal dialog */
 
 .remodal,
 .remodal-wrapper:after {
   vertical-align: middle;
 }
-
 
 /* Close button */
 
@@ -553,7 +538,6 @@ html.remodal-is-locked {
   text-align: center;
 }
 
-
 /* Dialog buttons */
 
 .remodal-confirm,
@@ -594,7 +578,6 @@ html.remodal-is-locked {
   background: #ef5350;
 }
 
-
 /* Remove inner padding and border in Firefox 4+ for the button tag. */
 
 .remodal-confirm::-moz-focus-inner,
@@ -603,7 +586,6 @@ html.remodal-is-locked {
   padding: 0;
   border: 0;
 }
-
 
 /* Keyframes
    ========================================================================== */
@@ -696,7 +678,6 @@ html.remodal-is-locked {
   }
 }
 
-
 /* Media queries
    ========================================================================== */
 
@@ -705,7 +686,6 @@ html.remodal-is-locked {
     max-width: 700px;
   }
 }
-
 
 /* IE8
    ========================================================================== */
@@ -718,11 +698,9 @@ html.remodal-is-locked {
   width: 700px;
 }
 
-
 /* ==========================================================================
    $BASE-PICKER
    ========================================================================== */
-
 
 /**
  * Note: the root picker element should *NOT* be styled more than whatâ€™s here.
@@ -741,7 +719,6 @@ html.remodal-is-locked {
   user-select: none;
 }
 
-
 /**
  * The picker input element.
  */
@@ -750,7 +727,6 @@ html.remodal-is-locked {
   cursor: default;
 }
 
-
 /**
  * When the picker is opened, the input element is â€œactivatedâ€.
  */
@@ -758,7 +734,6 @@ html.remodal-is-locked {
 .picker__input.picker__input--active {
   border-color: #0089ec;
 }
-
 
 /**
  * The holder is the only â€œscrollableâ€ top-level container element.
@@ -770,12 +745,10 @@ html.remodal-is-locked {
   -webkit-overflow-scrolling: touch;
 }
 
-
 /*!
  * Classic picker styling for pickadate.js
  * Demo: http://amsul.github.io/pickadate.js
  */
-
 
 /**
  * Note: the root picker element should *NOT* be styled more than whatâ€™s here.
@@ -784,7 +757,6 @@ html.remodal-is-locked {
 .picker {
   width: 100%;
 }
-
 
 /**
  * The holder is the base of the picker.
@@ -811,7 +783,6 @@ html.remodal-is-locked {
   transition: transform 0.15s ease-out, opacity 0.15s ease-out, max-height 0s 0.15s, border-width 0s 0.15s;
 }
 
-
 /**
  * The frame and wrap work together to ensure that
  * clicks within the picker donâ€™t reach the holder.
@@ -824,7 +795,6 @@ html.remodal-is-locked {
 .picker__wrap {
   margin: -1px;
 }
-
 
 /**
  * When the picker opens...
@@ -845,11 +815,9 @@ html.remodal-is-locked {
   box-shadow: 0 6px 18px 1px rgba(0, 0, 0, 0.12);
 }
 
-
 /* ==========================================================================
    $BASE-DATE-PICKER
    ========================================================================== */
-
 
 /**
  * The picker box.
@@ -858,7 +826,6 @@ html.remodal-is-locked {
 .picker__box {
   padding: 0 1em;
 }
-
 
 /**
  * The header containing the month and year stuff.
@@ -869,7 +836,6 @@ html.remodal-is-locked {
   position: relative;
   margin-top: .75em;
 }
-
 
 /**
  * The month and year labels.
@@ -888,7 +854,6 @@ html.remodal-is-locked {
   font-size: .8em;
   font-style: italic;
 }
-
 
 /**
  * The month and year selectors.
@@ -922,7 +887,6 @@ html.remodal-is-locked {
 .picker__select--year:focus {
   border-color: #0089ec;
 }
-
 
 /**
  * The month navigation buttons.
@@ -1001,7 +965,6 @@ html.remodal-is-locked {
   border-left-color: #f5f5f5;
 }
 
-
 /**
  * The calendar table of dates
  */
@@ -1028,7 +991,6 @@ html.remodal-is-locked {
   padding: 0;
 }
 
-
 /**
  * The weekday labels
  */
@@ -1047,7 +1009,6 @@ html.remodal-is-locked {
     padding-bottom: .5em;
   }
 }
-
 
 /**
  * The days on the calendar
@@ -1120,7 +1081,6 @@ html.remodal-is-locked {
 .picker__day--highlighted.picker__day--disabled:hover {
   background: #bbbbbb;
 }
-
 
 /**
  * The footer containing the "today", "clear", and "close" buttons.
@@ -1208,16 +1168,13 @@ html.remodal-is-locked {
   border-top-color: #aaaaaa;
 }
 
-
 /* ==========================================================================
    $CLASSIC-DATE-PICKER
    ========================================================================== */
 
-
 /* ==========================================================================
    $BASE-TIME-PICKER
    ========================================================================== */
-
 
 /**
  * The list of times.
@@ -1228,7 +1185,6 @@ html.remodal-is-locked {
   padding: 0.75em 0 4.2em;
   margin: 0;
 }
-
 
 /**
  * The times on the clock.
@@ -1249,7 +1205,6 @@ html.remodal-is-locked {
   }
 }
 
-
 /* Hovered time */
 
 .picker__list-item:hover {
@@ -1259,7 +1214,6 @@ html.remodal-is-locked {
   border-color: #0089ec;
   z-index: 10;
 }
-
 
 /* Highlighted and hovered/focused time */
 
@@ -1275,7 +1229,6 @@ html.remodal-is-locked {
   background: #b1dcfb;
 }
 
-
 /* Selected and hovered/focused time */
 
 .picker__list-item--selected,
@@ -1285,7 +1238,6 @@ html.remodal-is-locked {
   color: #ffffff;
   z-index: 10;
 }
-
 
 /* Disabled time */
 
@@ -1299,7 +1251,6 @@ html.remodal-is-locked {
   border-color: #dddddd;
   z-index: auto;
 }
-
 
 /**
  * The clear button
@@ -1343,11 +1294,9 @@ html.remodal-is-locked {
   border-color: #ffffff;
 }
 
-
 /* ==========================================================================
    $CLASSIC-TIME-PICKER
    ========================================================================== */
-
 
 /**
  * Note: the root picker element should __NOT__ be styled
@@ -1358,7 +1307,6 @@ html.remodal-is-locked {
   min-width: 256px;
   max-width: 320px;
 }
-
 
 /**
  * The holder is the base of the picker.
@@ -1373,7 +1321,6 @@ html.remodal-is-locked {
     font-size: .875em;
   }
 }
-
 
 /**
  * The box contains the list of times.
@@ -1433,7 +1380,6 @@ ul.tagit li.tagit-choice .tagit-close {
   line-height: 17px;
 }
 
-
 /* used for some custom themes that don't need image icons */
 
 ul.tagit li.tagit-choice .tagit-close .text-icon {
@@ -1460,7 +1406,6 @@ ul.tagit input[type="text"] {
   background-color: inherit;
   outline: none;
 }
-
 
 /* Optional scoped theme for tag-it which mimics the zendesk widget. */
 
@@ -1525,7 +1470,6 @@ ul.tagit input[type="text"] {
   font-size: 1.1em;
 }
 
-
 /* Forked from a jQuery UI theme, so that we don't require the jQuery UI CSS as a dependency. */
 
 .tagit-autocomplete.ui-autocomplete {
@@ -1536,7 +1480,6 @@ ul.tagit input[type="text"] {
 * html .tagit-autocomplete.ui-autocomplete {
   width: 1px;
 }
-
 
 /* without this, the menu expands to 100% in IE6 */
 
@@ -1609,7 +1552,6 @@ ul.tagit input[type="text"] {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);
 }
-
 
 /*!
  * bootstrap-tokenfield
@@ -1854,7 +1796,6 @@ ul.tagit input[type="text"] {
   padding-right: 4px;
 }
 
-
 /*!
  * FullCalendar v2.6.0 Stylesheet
  * Docs & License: http://fullcalendar.io/
@@ -1874,7 +1815,6 @@ body .fc {
   /* extra precedence to overcome jqui */
   font-size: 1em;
 }
-
 
 /* Colors
 --------------------------------------------------------------------------------------------------*/
@@ -1928,7 +1868,6 @@ body .fc {
   background: #d7d7d7;
 }
 
-
 /* Icons (inline elements with styled text that mock arrow icons)
 --------------------------------------------------------------------------------------------------*/
 
@@ -1949,7 +1888,6 @@ body .fc {
   -ms-user-select: none;
   user-select: none;
 }
-
 
 /*
 Acceptable font-family overrides for individual icons:
@@ -2019,7 +1957,6 @@ NOTE: use percentage font sizes or else old IE chokes
   top: 6%;
 }
 
-
 /* Buttons (styled <button> tags, normalized to work cross-browser)
 --------------------------------------------------------------------------------------------------*/
 
@@ -2038,7 +1975,6 @@ NOTE: use percentage font sizes or else old IE chokes
   white-space: nowrap;
   cursor: pointer;
 }
-
 
 /* Firefox has an annoying inner border */
 
@@ -2064,7 +2000,6 @@ NOTE: use percentage font sizes or else old IE chokes
   border-bottom-right-radius: 4px;
 }
 
-
 /* icons in buttons */
 
 .fc button .fc-icon {
@@ -2075,7 +2010,6 @@ NOTE: use percentage font sizes or else old IE chokes
   margin: 0 .2em;
   vertical-align: middle;
 }
-
 
 /*
   button states
@@ -2130,14 +2064,12 @@ NOTE: use percentage font sizes or else old IE chokes
   box-shadow: none;
 }
 
-
 /* Buttons Groups
 --------------------------------------------------------------------------------------------------*/
 
 .fc-button-group {
   display: inline-block;
 }
-
 
 /*
 every button that is not first in a button group should scootch over one pixel and cover the
@@ -2150,11 +2082,10 @@ previous button's border...
   margin: 0 0 0 -1px;
 }
 
-.fc .fc-button-group >:first-child {
+.fc .fc-button-group > :first-child {
   /* same */
   margin-left: 0;
 }
-
 
 /* Popover
 --------------------------------------------------------------------------------------------------*/
@@ -2187,7 +2118,6 @@ previous button's border...
   float: right;
 }
 
-
 /* unthemed */
 
 .fc-unthemed .fc-popover {
@@ -2200,14 +2130,12 @@ previous button's border...
   margin-top: 2px;
 }
 
-
 /* jqui themed */
 
 .fc-popover > .ui-widget-header + .ui-widget-content {
   border-top: 0;
   /* where they meet, let the header have the border */
 }
-
 
 /* Misc Reusable Components
 --------------------------------------------------------------------------------------------------*/
@@ -2250,7 +2178,6 @@ hr.fc-divider {
   /* strech bg to bottom edge */
 }
 
-
 /* Tables
 --------------------------------------------------------------------------------------------------*/
 
@@ -2280,7 +2207,6 @@ hr.fc-divider {
   /* overcome neighboring borders */
 }
 
-
 /* Fake Table Rows
 --------------------------------------------------------------------------------------------------*/
 
@@ -2305,7 +2231,6 @@ hr.fc-divider {
   /* no top border on first row */
 }
 
-
 /* Day Row (used within the header and the DayGrid)
 --------------------------------------------------------------------------------------------------*/
 
@@ -2316,7 +2241,6 @@ hr.fc-divider {
 .fc-row .fc-bg {
   z-index: 1;
 }
-
 
 /* highlighting cells & background event skeleton */
 
@@ -2344,7 +2268,6 @@ hr.fc-divider {
 .fc-row .fc-highlight-skeleton {
   z-index: 3;
 }
-
 
 /*
 row content (which contains day/week numbers and events) as well as "helper" (which contains
@@ -2374,13 +2297,12 @@ temporary rendered events).
 
 .fc-row .fc-content-skeleton tbody td,
 
-/* cells with events inside (so NOT the day number cell) */
+  /* cells with events inside (so NOT the day number cell) */
 
 .fc-row .fc-helper-skeleton tbody td {
   /* don't put a border between event cells */
   border-top: 0;
 }
-
 
 /* Scrolling Container
 --------------------------------------------------------------------------------------------------*/
@@ -2401,7 +2323,6 @@ temporary rendered events).
   /* don't let negative margins or absolute positioning create further scroll */
 }
 
-
 /* Global Event Styles
 --------------------------------------------------------------------------------------------------*/
 
@@ -2420,7 +2341,6 @@ temporary rendered events).
   font-weight: normal;
   /* undo jqui's ui-widget-header bold */
 }
-
 
 /* overpower some of bootstrap's and jqui's styles on <a> tags */
 
@@ -2441,7 +2361,7 @@ temporary rendered events).
 
 .fc-not-allowed,
 
-/* causes a "warning" cursor. applied on body */
+  /* causes a "warning" cursor. applied on body */
 
 .fc-not-allowed .fc-event {
   /* to override an event's custom cursor */
@@ -2467,10 +2387,8 @@ temporary rendered events).
   z-index: 3;
 }
 
-
 /* Horizontal Events
 --------------------------------------------------------------------------------------------------*/
-
 
 /* events that are continuing to/from another week. kill rounded corners and butt up against edge */
 
@@ -2494,7 +2412,6 @@ temporary rendered events).
   border-bottom-right-radius: 0;
 }
 
-
 /* resizer */
 
 .fc-h-event .fc-resizer {
@@ -2505,7 +2422,6 @@ temporary rendered events).
   right: -1px;
   width: 5px;
 }
-
 
 /* left resizer  */
 
@@ -2520,7 +2436,6 @@ temporary rendered events).
   cursor: w-resize;
 }
 
-
 /* right resizer */
 
 .fc-ltr .fc-h-event .fc-end-resizer,
@@ -2533,7 +2448,6 @@ temporary rendered events).
   /* ignore the left and only use the right */
   cursor: e-resize;
 }
-
 
 /* DayGrid events
 ----------------------------------------------------------------------------------------------------
@@ -2564,10 +2478,8 @@ be a descendant of the grid when it is being dragged.
   width: 7px;
 }
 
-
 /* Event Limiting
 --------------------------------------------------------------------------------------------------*/
-
 
 /* "more" link that represents hidden events */
 
@@ -2587,7 +2499,6 @@ a.fc-more:hover {
   display: none;
 }
 
-
 /* popover that appears when "more" link is clicked */
 
 .fc-day-grid .fc-row {
@@ -2604,7 +2515,6 @@ a.fc-more:hover {
   padding: 10px;
 }
 
-
 /* Now Indicator
 --------------------------------------------------------------------------------------------------*/
 
@@ -2612,7 +2522,6 @@ a.fc-more:hover {
   position: absolute;
   border: 0 solid red;
 }
-
 
 /* Toolbar
 --------------------------------------------------------------------------------------------------*/
@@ -2634,7 +2543,6 @@ a.fc-more:hover {
   display: inline-block;
 }
 
-
 /* the things within each left/right/center section */
 
 .fc .fc-toolbar > * > * {
@@ -2643,21 +2551,18 @@ a.fc-more:hover {
   margin-left: .75em;
 }
 
-
 /* the first thing within each left/center/right section */
 
-.fc .fc-toolbar > * >:first-child {
+.fc .fc-toolbar > * > :first-child {
   /* extra precedence to override button border margins */
   margin-left: 0;
 }
-
 
 /* title text */
 
 .fc-toolbar h2 {
   margin: 0;
 }
-
 
 /* button layering (for border precedence) */
 
@@ -2683,13 +2588,10 @@ a.fc-more:hover {
   z-index: 5;
 }
 
-
 /* View Structure
 --------------------------------------------------------------------------------------------------*/
 
-
 /* undo twitter bootstrap's box-sizing rules. normalizes positioning techniques */
-
 
 /* don't do this for the toolbar because we'll want bootstrap to style those buttons as some pt */
 
@@ -2703,7 +2605,7 @@ a.fc-more:hover {
 
 .fc-view,
 
-/* scope positioning and z-index's for everything within the view */
+  /* scope positioning and z-index's for everything within the view */
 
 .fc-view > table {
   /* so dragged elements can be above the view's main element */
@@ -2711,10 +2613,8 @@ a.fc-more:hover {
   z-index: 1;
 }
 
-
 /* BasicView
 --------------------------------------------------------------------------------------------------*/
-
 
 /* day row structure */
 
@@ -2732,7 +2632,6 @@ a.fc-more:hover {
   /* ensure that all rows are at least this tall */
 }
 
-
 /* a "rigid" row will take up a constant amount of height because content-skeleton is absolute */
 
 .fc-row.fc-rigid {
@@ -2745,7 +2644,6 @@ a.fc-more:hover {
   left: 0;
   right: 0;
 }
-
 
 /* week and day number styling */
 
@@ -2787,7 +2685,6 @@ a.fc-more:hover {
      making day-numbers bold also fixes the problem */
 }
 
-
 /* AgendaView all-day area
 --------------------------------------------------------------------------------------------------*/
 
@@ -2808,7 +2705,6 @@ a.fc-more:hover {
   padding-bottom: 1em;
   /* give space underneath events for clicking/selecting days */
 }
-
 
 /* TimeGrid axis running down the side (for both the all-day area and the slot area)
 --------------------------------------------------------------------------------------------------*/
@@ -2833,13 +2729,12 @@ a.fc-more:hover {
   /* overcome jqui theme making it bold */
 }
 
-
 /* TimeGrid Structure
 --------------------------------------------------------------------------------------------------*/
 
 .fc-time-grid-container,
 
-/* so scroll container's z-index is below all-day */
+  /* so scroll container's z-index is below all-day */
 
 .fc-time-grid {
   /* so slats/bg/content/etc positions get scoped within here */
@@ -2881,7 +2776,6 @@ a.fc-more:hover {
   right: 0;
 }
 
-
 /* divs within a cell within the fc-content-skeleton */
 
 .fc-time-grid .fc-business-container {
@@ -2914,7 +2808,6 @@ a.fc-more:hover {
   z-index: 6;
 }
 
-
 /* TimeGrid Slats (lines that run horizontally)
 --------------------------------------------------------------------------------------------------*/
 
@@ -2934,7 +2827,6 @@ a.fc-more:hover {
   /* see through to fc-bg */
 }
 
-
 /* TimeGrid Highlighting Slots
 --------------------------------------------------------------------------------------------------*/
 
@@ -2950,7 +2842,6 @@ a.fc-more:hover {
   right: 0;
   /* top and bottom will be in by JS */
 }
-
 
 /* TimeGrid Event Containment
 --------------------------------------------------------------------------------------------------*/
@@ -2978,7 +2869,6 @@ a.fc-more:hover {
   right: 0;
 }
 
-
 /* Generic Vertical Event
 --------------------------------------------------------------------------------------------------*/
 
@@ -3001,7 +2891,6 @@ a.fc-more:hover {
   border-bottom-right-radius: 0;
 }
 
-
 /* TimeGrid Event Styling
 ----------------------------------------------------------------------------------------------------
 We use the full "fc-time-grid-event" class instead of using descendants because the event won't
@@ -3022,7 +2911,6 @@ be a descendant of the grid when it is being dragged.
   font-size: .85em;
   white-space: nowrap;
 }
-
 
 /* short mode, where time and title are on the same line */
 
@@ -3060,7 +2948,6 @@ be a descendant of the grid when it is being dragged.
   /* undo padding from above */
 }
 
-
 /* resizer */
 
 .fc-time-grid-event .fc-resizer {
@@ -3080,7 +2967,6 @@ be a descendant of the grid when it is being dragged.
   content: "=";
 }
 
-
 /* Now Indicator
 --------------------------------------------------------------------------------------------------*/
 
@@ -3089,7 +2975,6 @@ be a descendant of the grid when it is being dragged.
   left: 0;
   right: 0;
 }
-
 
 /* arrow on axis */
 
@@ -3113,7 +2998,6 @@ be a descendant of the grid when it is being dragged.
   border-top-color: transparent;
   border-bottom-color: transparent;
 }
-
 
 /**
  * Swiper 3.3.0
@@ -3205,7 +3089,6 @@ be a descendant of the grid when it is being dragged.
   position: relative;
 }
 
-
 /* Auto Height */
 
 .swiper-container-autoheight,
@@ -3225,7 +3108,6 @@ be a descendant of the grid when it is being dragged.
   transition-property: transform, height;
 }
 
-
 /* a11y */
 
 .swiper-container .swiper-notification {
@@ -3236,7 +3118,6 @@ be a descendant of the grid when it is being dragged.
   opacity: 0;
   z-index: -1000;
 }
-
 
 /* IE10 Windows Phone 8 Fixes */
 
@@ -3249,7 +3130,6 @@ be a descendant of the grid when it is being dragged.
   -ms-touch-action: pan-x;
   touch-action: pan-x;
 }
-
 
 /* Arrows */
 
@@ -3310,7 +3190,6 @@ be a descendant of the grid when it is being dragged.
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
 }
 
-
 /* Pagination Styles */
 
 .swiper-pagination {
@@ -3331,7 +3210,6 @@ be a descendant of the grid when it is being dragged.
   opacity: 0;
 }
 
-
 /* Common Styles */
 
 .swiper-pagination-fraction,
@@ -3341,7 +3219,6 @@ be a descendant of the grid when it is being dragged.
   left: 0;
   width: 100%;
 }
-
 
 /* Bullets */
 
@@ -3405,7 +3282,6 @@ button.swiper-pagination-bullet {
   margin: 0 5px;
 }
 
-
 /* Progress */
 
 .swiper-pagination-progress {
@@ -3464,7 +3340,6 @@ button.swiper-pagination-bullet {
 .swiper-pagination-progress.swiper-pagination-black .swiper-pagination-progressbar {
   background: #000;
 }
-
 
 /* 3D Container */
 
@@ -3553,7 +3428,6 @@ button.swiper-pagination-bullet {
   /* Firefox 16+, IE10, Opera 12.50+ */
 }
 
-
 /* Coverflow */
 
 .swiper-container-coverflow .swiper-wrapper,
@@ -3561,7 +3435,6 @@ button.swiper-pagination-bullet {
   /* Windows 8 IE 10 fix */
   -ms-perspective: 1200px;
 }
-
 
 /* Cube + Flip */
 
@@ -3607,7 +3480,6 @@ button.swiper-pagination-bullet {
   backface-visibility: hidden;
 }
 
-
 /* Cube */
 
 .swiper-container-cube .swiper-slide {
@@ -3648,7 +3520,6 @@ button.swiper-pagination-bullet {
   z-index: 0;
 }
 
-
 /* Fade */
 
 .swiper-container-fade.swiper-container-free-mode .swiper-slide {
@@ -3675,7 +3546,6 @@ button.swiper-pagination-bullet {
 .swiper-container-fade .swiper-slide-active .swiper-slide-active {
   pointer-events: auto;
 }
-
 
 /* Scrollbar */
 
@@ -3717,7 +3587,6 @@ button.swiper-pagination-bullet {
 .swiper-scrollbar-cursor-drag {
   cursor: move;
 }
-
 
 /* Preloader */
 
@@ -3824,18 +3693,13 @@ button.swiper-pagination-bullet {
   position: absolute;
 }
 
-
 /*************************************/
-
 
 /***** STYLING RANGE INPUT ***********/
 
-
 /*************************************/
 
-
 /*http://brennaobrien.com/blog/2014/05/style-input-type-range-in-every-browser.html */
-
 
 /*************************************/
 
@@ -3871,7 +3735,6 @@ button.swiper-pagination-bullet {
   outline: none;
 }
 
-
 /*
 .cr-slider:focus::-webkit-slider-runnable-track {
     background: #ccc;
@@ -3894,7 +3757,6 @@ button.swiper-pagination-bullet {
   background: #ddd;
   margin-top: -6px;
 }
-
 
 /*hide the outline behind the border*/
 
@@ -3941,9 +3803,7 @@ button.swiper-pagination-bullet {
   background: rgba(0, 0, 0, 0.5);
 }
 
-
 /*******************************************/
-
 
 /* Just cross hairs for debugging - can be removed upon release */
 
@@ -3994,7 +3854,6 @@ button.swiper-pagination-bullet {
   filter: alpha(opacity=20);
 }
 
-
 /*!
  * inuitcss, by @csswizardry
  *
@@ -4016,7 +3875,6 @@ button.swiper-pagination-bullet {
 @viewport {
   width: device-width
 }
-
 
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
@@ -4417,12 +4275,12 @@ h6 {
   font-weight: 400
 }
 
-h1>a,
-h2>a,
-h3>a,
-h4>a,
-h5>a,
-h6>a {
+h1 > a,
+h2 > a,
+h3 > a,
+h4 > a,
+h5 > a,
+h6 > a {
   color: inherit
 }
 
@@ -4480,8 +4338,8 @@ img[height] {
   max-width: none
 }
 
-li>ul,
-li>ol {
+li > ul,
+li > ol {
   margin-bottom: 0
 }
 
@@ -5181,11 +5039,11 @@ li>ol {
   width: 100%
 }
 
-.tableize--middle>.tableize__cell {
+.tableize--middle > .tableize__cell {
   vertical-align: middle
 }
 
-.tableize--bottom>.tableize__cell {
+.tableize--bottom > .tableize__cell {
   vertical-align: bottom
 }
 
@@ -5197,8 +5055,8 @@ li>ol {
   height: 100%
 }
 
-.tableize--full>.tableize__cell,
-.tableize--full>.tableize__cell>.tableize__content {
+.tableize--full > .tableize__cell,
+.tableize--full > .tableize__cell > .tableize__content {
   height: inherit
 }
 
@@ -5244,7 +5102,7 @@ li>ol {
   padding-right: 30px
 }
 
-.flag__img>img {
+.flag__img > img {
   display: block;
   max-width: none
 }
@@ -5254,42 +5112,42 @@ li>ol {
 }
 
 .flag__body,
-.flag__body>:last-child {
+.flag__body > :last-child {
   margin-bottom: 0
 }
 
-.flag--tiny>.flag__img {
+.flag--tiny > .flag__img {
   padding-right: 8px
 }
 
-.flag--tiny.flag--rev>.flag__img {
+.flag--tiny.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 8px
 }
 
-.flag--small>.flag__img {
+.flag--small > .flag__img {
   padding-right: 15px
 }
 
-.flag--small.flag--rev>.flag__img {
+.flag--small.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 15px
 }
 
-.flag--large>.flag__img {
+.flag--large > .flag__img {
   padding-right: 60px
 }
 
-.flag--large.flag--rev>.flag__img {
+.flag--large.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 60px
 }
 
-.flag--huge>.flag__img {
+.flag--huge > .flag__img {
   padding-right: 120px
 }
 
-.flag--huge.flag--rev>.flag__img {
+.flag--huge.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 120px
 }
@@ -5298,28 +5156,28 @@ li>ol {
   direction: rtl
 }
 
-.flag--rev>.flag__img,
-.flag--rev>.flag__body {
+.flag--rev > .flag__img,
+.flag--rev > .flag__body {
   direction: ltr
 }
 
-.flag--rev>.flag__img {
+.flag--rev > .flag__img {
   padding-right: 0;
   padding-left: 30px
 }
 
-.flag--flush>.flag__img {
+.flag--flush > .flag__img {
   padding-right: 0;
   padding-left: 0
 }
 
-.flag--top>.flag__img,
-.flag--top>.flag__body {
+.flag--top > .flag__img,
+.flag--top > .flag__body {
   vertical-align: top
 }
 
-.flag--bottom>.flag__img,
-.flag--bottom>.flag__body {
+.flag--bottom > .flag__img,
+.flag--bottom > .flag__body {
   vertical-align: bottom
 }
 
@@ -5327,32 +5185,38 @@ li>ol {
   .flag--responsive {
     direction: ltr
   }
+
   .flag--responsive,
-  .flag--responsive>.flag__img,
-  .flag--responsive>.flag__body {
+  .flag--responsive > .flag__img,
+  .flag--responsive > .flag__body {
     display: block
   }
-  .flag--responsive>.flag__img {
+
+  .flag--responsive > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 30px
   }
-  .flag--responsive.flag--tiny>.flag__img {
+
+  .flag--responsive.flag--tiny > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 8px
   }
-  .flag--responsive.flag--small>.flag__img {
+
+  .flag--responsive.flag--small > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 15px
   }
-  .flag--responsive.flag--large>.flag__img {
+
+  .flag--responsive.flag--large > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 60px
   }
-  .flag--responsive.flag--huge>.flag__img {
+
+  .flag--responsive.flag--huge > .flag__img {
     padding-right: 0;
     padding-left: 0;
     margin-bottom: 120px
@@ -5368,7 +5232,7 @@ li>ol {
   margin-right: 30px
 }
 
-.media__img>img {
+.media__img > img {
   display: block
 }
 
@@ -5378,80 +5242,84 @@ li>ol {
 }
 
 .media__body,
-.media__body>:last-child {
+.media__body > :last-child {
   margin-bottom: 0
 }
 
-.media--tiny>.media__img {
+.media--tiny > .media__img {
   margin-right: 8px
 }
 
-.media--tiny.media--rev>.media__img {
+.media--tiny.media--rev > .media__img {
   margin-right: 0;
   margin-left: 8px
 }
 
-.media--small>.media__img {
+.media--small > .media__img {
   margin-right: 15px
 }
 
-.media--small.media--rev>.media__img {
+.media--small.media--rev > .media__img {
   margin-right: 0;
   margin-left: 15px
 }
 
-.media--large>.media__img {
+.media--large > .media__img {
   margin-right: 60px
 }
 
-.media--large.media--rev>.media__img {
+.media--large.media--rev > .media__img {
   margin-right: 0;
   margin-left: 60px
 }
 
-.media--huge>.media__img {
+.media--huge > .media__img {
   margin-right: 120px
 }
 
-.media--huge.media--rev>.media__img {
+.media--huge.media--rev > .media__img {
   margin-right: 0;
   margin-left: 120px
 }
 
-.media--rev>.media__img {
+.media--rev > .media__img {
   float: right;
   margin-right: 0;
   margin-left: 30px
 }
 
-.media--flush>.media__img {
+.media--flush > .media__img {
   margin-right: 0;
   margin-left: 0
 }
 
 @media screen and (max-width: 720px) {
-  .media--responsive>.media__img {
+  .media--responsive > .media__img {
     float: none;
     margin-right: 0;
     margin-bottom: 30px;
     margin-left: 0
   }
-  .media--responsive.media--tiny>.media__img {
+
+  .media--responsive.media--tiny > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 8px
   }
-  .media--responsive.media--small>.media__img {
+
+  .media--responsive.media--small > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 15px
   }
-  .media--responsive.media--large>.media__img {
+
+  .media--responsive.media--large > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 60px
   }
-  .media--responsive.media--huge>.media__img {
+
+  .media--responsive.media--huge > .media__img {
     margin-right: 0;
     margin-left: 0;
     margin-bottom: 120px
@@ -5568,7 +5436,7 @@ li>ol {
   transition: ease 0.25s all
 }
 
-.link-blank>span {
+.link-blank > span {
   color: #bcc7cd
 }
 
@@ -5841,7 +5709,7 @@ li>ol {
   list-style: none
 }
 
-.list-inline>li {
+.list-inline > li {
   display: inline-block
 }
 
@@ -5850,7 +5718,7 @@ li>ol {
   padding: 30px
 }
 
-.box>:last-child {
+.box > :last-child {
   margin-bottom: 0
 }
 
@@ -5872,7 +5740,7 @@ li>ol {
   margin-left: -8px
 }
 
-.layout--tiny>.layout__item {
+.layout--tiny > .layout__item {
   padding-left: 8px
 }
 
@@ -5880,7 +5748,7 @@ li>ol {
   margin-left: -15px
 }
 
-.layout--small>.layout__item {
+.layout--small > .layout__item {
   padding-left: 15px
 }
 
@@ -5888,7 +5756,7 @@ li>ol {
   margin-left: -60px
 }
 
-.layout--large>.layout__item {
+.layout--large > .layout__item {
   padding-left: 60px
 }
 
@@ -5896,7 +5764,7 @@ li>ol {
   margin-left: -120px
 }
 
-.layout--huge>.layout__item {
+.layout--huge > .layout__item {
   padding-left: 120px
 }
 
@@ -5904,7 +5772,7 @@ li>ol {
   margin-left: 0
 }
 
-.layout--flush>.layout__item {
+.layout--flush > .layout__item {
   padding-left: 0
 }
 
@@ -5913,16 +5781,16 @@ li>ol {
   text-align: left
 }
 
-.layout--rev>.layout__item {
+.layout--rev > .layout__item {
   direction: ltr;
   text-align: left
 }
 
-.layout--middle>.layout__item {
+.layout--middle > .layout__item {
   vertical-align: middle
 }
 
-.layout--bottom>.layout__item {
+.layout--bottom > .layout__item {
   vertical-align: bottom
 }
 
@@ -5930,7 +5798,7 @@ li>ol {
   text-align: right
 }
 
-.layout--right>.layout__item {
+.layout--right > .layout__item {
   text-align: left
 }
 
@@ -5938,11 +5806,11 @@ li>ol {
   text-align: center
 }
 
-.layout--center>.layout__item {
+.layout--center > .layout__item {
   text-align: left
 }
 
-.layout--auto>.layout__item {
+.layout--auto > .layout__item {
   width: auto
 }
 
@@ -5969,7 +5837,7 @@ li>ol {
   margin-top: -8px
 }
 
-.layout--tiny>.layout__item {
+.layout--tiny > .layout__item {
   margin-bottom: 8px
 }
 
@@ -5977,7 +5845,7 @@ li>ol {
   margin-top: -15px
 }
 
-.layout--small>.layout__item {
+.layout--small > .layout__item {
   margin-bottom: 15px
 }
 
@@ -5985,7 +5853,7 @@ li>ol {
   margin-top: -60px
 }
 
-.layout--large>.layout__item {
+.layout--large > .layout__item {
   margin-bottom: 60px
 }
 
@@ -5993,7 +5861,7 @@ li>ol {
   margin-top: -120px
 }
 
-.layout--huge>.layout__item {
+.layout--huge > .layout__item {
   margin-bottom: 120px
 }
 
@@ -6001,7 +5869,7 @@ li>ol {
   margin-top: 0
 }
 
-.layout--flush>.layout__item {
+.layout--flush > .layout__item {
   margin-bottom: 0
 }
 
@@ -6945,7 +6813,7 @@ li>ol {
   position: absolute
 }
 
-.c-radio__input+.c-radio__trigger {
+.c-radio__input + .c-radio__trigger {
   background-color: #fff;
   border: 1px solid #bcc7cd;
   border-radius: 50px;
@@ -6957,7 +6825,7 @@ li>ol {
   margin: 0 13px -5px 0
 }
 
-.c-radio__input+.c-radio__trigger.c-radio__trigger--transparent {
+.c-radio__input + .c-radio__trigger.c-radio__trigger--transparent {
   background: transparent
 }
 
@@ -6965,14 +6833,14 @@ li>ol {
   outline: 1px solid #bcc7cd
 }
 
-.c-radio__input:checked+.c-radio__trigger {
+.c-radio__input:checked + .c-radio__trigger {
   background-color: #39c9f5;
   width: 18px;
   height: 18px;
   border-color: #39c9f5
 }
 
-.c-radio__input:checked+.c-radio__trigger:after {
+.c-radio__input:checked + .c-radio__trigger:after {
   background: #fff;
   border-radius: 50px;
   content: " ";
@@ -6983,7 +6851,7 @@ li>ol {
   width: 6px
 }
 
-.c-radio .c-radio__input:disabled+.c-radio__trigger {
+.c-radio .c-radio__input:disabled + .c-radio__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
@@ -6993,17 +6861,17 @@ li>ol {
   border-color: #bcc7cd
 }
 
-.c-radio:hover .c-radio__input:disabled+.c-radio__trigger {
+.c-radio:hover .c-radio__input:disabled + .c-radio__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
 
-.c-radio__input:checked+.c-radio__trigger {
+.c-radio__input:checked + .c-radio__trigger {
   background-color: #39c9f5;
   border-color: #39c9f5
 }
 
-.c-checkbox__input+.c-checkbox__trigger {
+.c-checkbox__input + .c-checkbox__trigger {
   background-color: #eff4f6;
   border: 1px solid #bcc7cd;
   border-radius: 2px;
@@ -7014,7 +6882,7 @@ li>ol {
   margin: 0 13px -5px 0
 }
 
-.c-checkbox__input+.c-checkbox__trigger.c-radio__trigger--transparent {
+.c-checkbox__input + .c-checkbox__trigger.c-radio__trigger--transparent {
   border: 1px solid #bec5c9;
   background: transparent
 }
@@ -7023,7 +6891,7 @@ li>ol {
   outline: 1px solid #bcc7cd
 }
 
-.c-checkbox .c-checkbox__input:disabled+.c-checkbox__trigger {
+.c-checkbox .c-checkbox__input:disabled + .c-checkbox__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
@@ -7033,17 +6901,17 @@ li>ol {
   border-color: #bcc7cd
 }
 
-.c-checkbox:hover .c-checkbox__input:disabled+.c-checkbox__trigger {
+.c-checkbox:hover .c-checkbox__input:disabled + .c-checkbox__trigger {
   background: #eff4f6;
   border-color: #ced4d7
 }
 
-.c-checkbox__input:checked+.c-checkbox__trigger {
+.c-checkbox__input:checked + .c-checkbox__trigger {
   background-color: #39c9f5;
   border-color: #39c9f5
 }
 
-.c-checkbox__input:checked+.c-checkbox__trigger:after {
+.c-checkbox__input:checked + .c-checkbox__trigger:after {
   color: #fff;
   content: url("../images/checker.svg");
   width: 13px;
@@ -7452,16 +7320,16 @@ li>ol {
   padding-left: 75px
 }
 
-.search--signup .search__input:focus+.btn {
+.search--signup .search__input:focus + .btn {
   color: #39c9f5
 }
 
-.search--signup .search__top>.icon {
+.search--signup .search__top > .icon {
   top: 17px;
   left: 20px
 }
 
-.search--signup .search__top>.btn {
+.search--signup .search__top > .btn {
   position: absolute;
   right: 20px;
   top: 50%;
@@ -7514,16 +7382,16 @@ li>ol {
   color: #292e30
 }
 
-.search--remodal-tab .search__input:focus+.btn .icon {
+.search--remodal-tab .search__input:focus + .btn .icon {
   fill: #39c9f5
 }
 
-.search--remodal-tab .search__top>.icon {
+.search--remodal-tab .search__top > .icon {
   left: 13px !important;
   fill: #63727a !important
 }
 
-.search--remodal-tab .search__top>.btn {
+.search--remodal-tab .search__top > .btn {
   position: absolute;
   right: 16px;
   top: 50%;
@@ -7612,7 +7480,7 @@ li>ol {
   fill: #39c9f5
 }
 
-.search__top>.icon {
+.search__top > .icon {
   position: absolute;
   top: 22px;
   left: 30px;
@@ -9414,7 +9282,7 @@ li>ol {
   box-shadow: 0px 1px 3px 0px rgba(1, 2, 2, 0.051)
 }
 
-.remodal .search .search__top>.icon {
+.remodal .search .search__top > .icon {
   left: 24px
 }
 
@@ -9777,7 +9645,7 @@ li>ol {
   outline: none
 }
 
-.picker--opened+.icon {
+.picker--opened + .icon {
   fill: #39c9f5
 }
 
@@ -11069,7 +10937,7 @@ ul.tagit li.tagit-choice .tagit-close {
   border-right: none !important
 }
 
-.fc-body>tr>.fc-widget-content {
+.fc-body > tr > .fc-widget-content {
   border-left: none !important;
   border-right: none !important
 }
@@ -12186,6 +12054,7 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="medium-1/1"] {
     width: 100% !important
   }
+
   [class~="medium-1/2"],
   [class~="medium-2/4"],
   [class~="medium-3/6"],
@@ -12194,103 +12063,131 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="medium-6/12"] {
     width: 50% !important
   }
+
   [class~="medium-1/3"],
   [class~="medium-2/6"],
   [class~="medium-3/9"],
   [class~="medium-4/12"] {
     width: 33.3333333% !important
   }
+
   [class~="medium-2/3"],
   [class~="medium-4/6"],
   [class~="medium-6/9"],
   [class~="medium-8/12"] {
     width: 66.6666666% !important
   }
+
   [class~="medium-1/4"],
   [class~="medium-2/8"],
   [class~="medium-3/12"] {
     width: 25% !important
   }
+
   [class~="medium-3/4"],
   [class~="medium-6/8"],
   [class~="medium-9/12"] {
     width: 75% !important
   }
+
   [class~="medium-1/5"],
   [class~="medium-2/10"] {
     width: 20% !important
   }
+
   [class~="medium-2/5"],
   [class~="medium-4/10"] {
     width: 40% !important
   }
+
   [class~="medium-3/5"],
   [class~="medium-6/10"] {
     width: 60% !important
   }
+
   [class~="medium-4/5"],
   [class~="medium-8/10"] {
     width: 80% !important
   }
+
   [class~="medium-1/6"],
   [class~="medium-2/12"] {
     width: 16.6666666% !important
   }
+
   [class~="medium-5/6"],
   [class~="medium-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="medium-1/8"] {
     width: 12.5% !important
   }
+
   [class~="medium-3/8"] {
     width: 37.5% !important
   }
+
   [class~="medium-5/8"] {
     width: 62.5% !important
   }
+
   [class~="medium-7/8"] {
     width: 87.5% !important
   }
+
   [class~="medium-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="medium-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="medium-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="medium-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="medium-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="medium-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="medium-1/10"] {
     width: 10% !important
   }
+
   [class~="medium-3/10"] {
     width: 30% !important
   }
+
   [class~="medium-7/10"] {
     width: 70% !important
   }
+
   [class~="medium-9/10"] {
     width: 90% !important
   }
+
   [class~="medium-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="medium-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="medium-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="medium-11/12"] {
     width: 91.6666666% !important
   }
@@ -12300,6 +12197,7 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="medium-and-up-1/1"] {
     width: 100% !important
   }
+
   [class~="medium-and-up-1/2"],
   [class~="medium-and-up-2/4"],
   [class~="medium-and-up-3/6"],
@@ -12308,103 +12206,131 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="medium-and-up-6/12"] {
     width: 50% !important
   }
+
   [class~="medium-and-up-1/3"],
   [class~="medium-and-up-2/6"],
   [class~="medium-and-up-3/9"],
   [class~="medium-and-up-4/12"] {
     width: 33.3333333% !important
   }
+
   [class~="medium-and-up-2/3"],
   [class~="medium-and-up-4/6"],
   [class~="medium-and-up-6/9"],
   [class~="medium-and-up-8/12"] {
     width: 66.6666666% !important
   }
+
   [class~="medium-and-up-1/4"],
   [class~="medium-and-up-2/8"],
   [class~="medium-and-up-3/12"] {
     width: 25% !important
   }
+
   [class~="medium-and-up-3/4"],
   [class~="medium-and-up-6/8"],
   [class~="medium-and-up-9/12"] {
     width: 75% !important
   }
+
   [class~="medium-and-up-1/5"],
   [class~="medium-and-up-2/10"] {
     width: 20% !important
   }
+
   [class~="medium-and-up-2/5"],
   [class~="medium-and-up-4/10"] {
     width: 40% !important
   }
+
   [class~="medium-and-up-3/5"],
   [class~="medium-and-up-6/10"] {
     width: 60% !important
   }
+
   [class~="medium-and-up-4/5"],
   [class~="medium-and-up-8/10"] {
     width: 80% !important
   }
+
   [class~="medium-and-up-1/6"],
   [class~="medium-and-up-2/12"] {
     width: 16.6666666% !important
   }
+
   [class~="medium-and-up-5/6"],
   [class~="medium-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="medium-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="medium-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="medium-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="medium-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="medium-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="medium-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="medium-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="medium-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="medium-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="medium-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="medium-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="medium-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="medium-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="medium-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="medium-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="medium-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="medium-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="medium-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -12414,6 +12340,7 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="large-1/1"] {
     width: 100% !important
   }
+
   [class~="large-1/2"],
   [class~="large-2/4"],
   [class~="large-3/6"],
@@ -12422,103 +12349,131 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="large-6/12"] {
     width: 50% !important
   }
+
   [class~="large-1/3"],
   [class~="large-2/6"],
   [class~="large-3/9"],
   [class~="large-4/12"] {
     width: 33.3333333% !important
   }
+
   [class~="large-2/3"],
   [class~="large-4/6"],
   [class~="large-6/9"],
   [class~="large-8/12"] {
     width: 66.6666666% !important
   }
+
   [class~="large-1/4"],
   [class~="large-2/8"],
   [class~="large-3/12"] {
     width: 25% !important
   }
+
   [class~="large-3/4"],
   [class~="large-6/8"],
   [class~="large-9/12"] {
     width: 75% !important
   }
+
   [class~="large-1/5"],
   [class~="large-2/10"] {
     width: 20% !important
   }
+
   [class~="large-2/5"],
   [class~="large-4/10"] {
     width: 40% !important
   }
+
   [class~="large-3/5"],
   [class~="large-6/10"] {
     width: 60% !important
   }
+
   [class~="large-4/5"],
   [class~="large-8/10"] {
     width: 80% !important
   }
+
   [class~="large-1/6"],
   [class~="large-2/12"] {
     width: 16.6666666% !important
   }
+
   [class~="large-5/6"],
   [class~="large-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="large-1/8"] {
     width: 12.5% !important
   }
+
   [class~="large-3/8"] {
     width: 37.5% !important
   }
+
   [class~="large-5/8"] {
     width: 62.5% !important
   }
+
   [class~="large-7/8"] {
     width: 87.5% !important
   }
+
   [class~="large-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="large-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="large-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="large-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="large-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="large-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="large-1/10"] {
     width: 10% !important
   }
+
   [class~="large-3/10"] {
     width: 30% !important
   }
+
   [class~="large-7/10"] {
     width: 70% !important
   }
+
   [class~="large-9/10"] {
     width: 90% !important
   }
+
   [class~="large-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="large-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="large-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="large-11/12"] {
     width: 91.6666666% !important
   }
@@ -12528,6 +12483,7 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="large-and-up-1/1"] {
     width: 100% !important
   }
+
   [class~="large-and-up-1/2"],
   [class~="large-and-up-2/4"],
   [class~="large-and-up-3/6"],
@@ -12536,103 +12492,131 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="large-and-up-6/12"] {
     width: 50% !important
   }
+
   [class~="large-and-up-1/3"],
   [class~="large-and-up-2/6"],
   [class~="large-and-up-3/9"],
   [class~="large-and-up-4/12"] {
     width: 33.3333333% !important
   }
+
   [class~="large-and-up-2/3"],
   [class~="large-and-up-4/6"],
   [class~="large-and-up-6/9"],
   [class~="large-and-up-8/12"] {
     width: 66.6666666% !important
   }
+
   [class~="large-and-up-1/4"],
   [class~="large-and-up-2/8"],
   [class~="large-and-up-3/12"] {
     width: 25% !important
   }
+
   [class~="large-and-up-3/4"],
   [class~="large-and-up-6/8"],
   [class~="large-and-up-9/12"] {
     width: 75% !important
   }
+
   [class~="large-and-up-1/5"],
   [class~="large-and-up-2/10"] {
     width: 20% !important
   }
+
   [class~="large-and-up-2/5"],
   [class~="large-and-up-4/10"] {
     width: 40% !important
   }
+
   [class~="large-and-up-3/5"],
   [class~="large-and-up-6/10"] {
     width: 60% !important
   }
+
   [class~="large-and-up-4/5"],
   [class~="large-and-up-8/10"] {
     width: 80% !important
   }
+
   [class~="large-and-up-1/6"],
   [class~="large-and-up-2/12"] {
     width: 16.6666666% !important
   }
+
   [class~="large-and-up-5/6"],
   [class~="large-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="large-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="large-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="large-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="large-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="large-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="large-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="large-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="large-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="large-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="large-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="large-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="large-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="large-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="large-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="large-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="large-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="large-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="large-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -12642,6 +12626,7 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="extralarge-and-up-1/1"] {
     width: 100% !important
   }
+
   [class~="extralarge-and-up-1/2"],
   [class~="extralarge-and-up-2/4"],
   [class~="extralarge-and-up-3/6"],
@@ -12650,103 +12635,131 @@ ul.tagit li.tagit-choice .tagit-close {
   [class~="extralarge-and-up-6/12"] {
     width: 50% !important
   }
+
   [class~="extralarge-and-up-1/3"],
   [class~="extralarge-and-up-2/6"],
   [class~="extralarge-and-up-3/9"],
   [class~="extralarge-and-up-4/12"] {
     width: 33.3333333% !important
   }
+
   [class~="extralarge-and-up-2/3"],
   [class~="extralarge-and-up-4/6"],
   [class~="extralarge-and-up-6/9"],
   [class~="extralarge-and-up-8/12"] {
     width: 66.6666666% !important
   }
+
   [class~="extralarge-and-up-1/4"],
   [class~="extralarge-and-up-2/8"],
   [class~="extralarge-and-up-3/12"] {
     width: 25% !important
   }
+
   [class~="extralarge-and-up-3/4"],
   [class~="extralarge-and-up-6/8"],
   [class~="extralarge-and-up-9/12"] {
     width: 75% !important
   }
+
   [class~="extralarge-and-up-1/5"],
   [class~="extralarge-and-up-2/10"] {
     width: 20% !important
   }
+
   [class~="extralarge-and-up-2/5"],
   [class~="extralarge-and-up-4/10"] {
     width: 40% !important
   }
+
   [class~="extralarge-and-up-3/5"],
   [class~="extralarge-and-up-6/10"] {
     width: 60% !important
   }
+
   [class~="extralarge-and-up-4/5"],
   [class~="extralarge-and-up-8/10"] {
     width: 80% !important
   }
+
   [class~="extralarge-and-up-1/6"],
   [class~="extralarge-and-up-2/12"] {
     width: 16.6666666% !important
   }
+
   [class~="extralarge-and-up-5/6"],
   [class~="extralarge-and-up-10/12"] {
     width: 83.3333333% !important
   }
+
   [class~="extralarge-and-up-1/8"] {
     width: 12.5% !important
   }
+
   [class~="extralarge-and-up-3/8"] {
     width: 37.5% !important
   }
+
   [class~="extralarge-and-up-5/8"] {
     width: 62.5% !important
   }
+
   [class~="extralarge-and-up-7/8"] {
     width: 87.5% !important
   }
+
   [class~="extralarge-and-up-1/9"] {
     width: 11.1111111% !important
   }
+
   [class~="extralarge-and-up-2/9"] {
     width: 22.2222222% !important
   }
+
   [class~="extralarge-and-up-4/9"] {
     width: 44.4444444% !important
   }
+
   [class~="extralarge-and-up-5/9"] {
     width: 55.5555555% !important
   }
+
   [class~="extralarge-and-up-7/9"] {
     width: 77.7777777% !important
   }
+
   [class~="extralarge-and-up-8/9"] {
     width: 88.8888888% !important
   }
+
   [class~="extralarge-and-up-1/10"] {
     width: 10% !important
   }
+
   [class~="extralarge-and-up-3/10"] {
     width: 30% !important
   }
+
   [class~="extralarge-and-up-7/10"] {
     width: 70% !important
   }
+
   [class~="extralarge-and-up-9/10"] {
     width: 90% !important
   }
+
   [class~="extralarge-and-up-1/12"] {
     width: 8.3333333% !important
   }
+
   [class~="extralarge-and-up-5/12"] {
     width: 41.6666666% !important
   }
+
   [class~="extralarge-and-up-7/12"] {
     width: 58.3333333% !important
   }
+
   [class~="extralarge-and-up-11/12"] {
     width: 91.6666666% !important
   }
@@ -12898,16 +12911,20 @@ ul.tagit li.tagit-choice .tagit-close {
     box-shadow: none !important;
     text-shadow: none !important
   }
+
   a,
   a:visited {
     text-decoration: underline
   }
+
   a[href]:after {
     content: " (" attr(href) ")"
   }
+
   abbr[title]:after {
     content: " (" attr(title) ")"
   }
+
   a[href^="#"]:after,
   a[href^="javascript:"]:after {
     content: ""

@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {CookieUtil} from '../../../app/shared/core/util';
-import {GoalsService, OffersService, PhotosService, InterestsService}
-from '../../../app/shared/services';
-import {AppStateService} from '../../shared/services';
-import {HeaderState} from '../../header';
+import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { CookieUtil } from '../../../app/shared/core/util';
+import { GoalsService, OffersService, PhotosService, InterestsService } from '../../../app/shared/services';
+import { AppStateService } from '../../shared/services';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-edit-my-profile-navigation',

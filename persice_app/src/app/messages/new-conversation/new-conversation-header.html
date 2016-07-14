@@ -4,7 +4,8 @@
       <div class="has-input-left-labeled has-input-left-labeled--big">
         <label class="left-labeled-label" for="">To:&nbsp;</label>
         <div class="tokenfield" *ngIf="tokens.length > 0">
-          <div class="token" *ngFor="let token of tokens; let i = index;" (click)="activeToken = i" [ngClass]="{'active': activeToken === i}">
+          <div class="token" *ngFor="let token of tokens; let i = index;" (click)="activeToken = i"
+               [ngClass]="{'active': activeToken === i}">
             <span class="token-label">{{token.first_name}}</span>
             <a (click)="removeToken(i)" class="close">×</a>
           </div>

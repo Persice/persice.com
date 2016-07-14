@@ -1,17 +1,15 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-import {FilterService} from '../../app/shared/services';
-import {ConnectionsComponent, ConnectionsService} from '../../common/connections';
-import {NewConnectionsCounterService} from '../../common/services';
-import {FilterMobileComponent} from '../shared/components/filter';
-import {UserCardMobileComponent} from '../shared/components/user-card';
-import {LoadingComponent} from '../../app/shared/components/loading';
-import {AppStateService} from '../shared/services';
-import {InfiniteScrollDirective} from '../../common/directives';
-import {UserProfileComponent} from '../user-profile';
-import {HeaderState} from '../header';
-
-import {Subscription} from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FilterService } from '../../app/shared/services';
+import { ConnectionsComponent, ConnectionsService } from '../../common/connections';
+import { NewConnectionsCounterService } from '../../common/services';
+import { FilterMobileComponent } from '../shared/components/filter';
+import { UserCardMobileComponent } from '../shared/components/user-card';
+import { LoadingComponent } from '../../app/shared/components/loading';
+import { AppStateService } from '../shared/services';
+import { InfiniteScrollDirective } from '../../common/directives';
+import { UserProfileComponent } from '../user-profile';
+import { HeaderState } from '../header';
+import { Subscription } from 'rxjs';
 
 const LIST_REFRESH_TIMEOUT: number = 0;
 
@@ -60,7 +58,7 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     this.clearServicesSubscriptions();
   }
 
-   selectPerson(person) {
+  selectPerson(person) {
     this.selectItem(person.id);
   }
 
@@ -73,7 +71,7 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     // If newly formed connection profile is being selected, mark it as 'seen'
     // and refresh new connections counter.
     if (!!!this.selectedItem.seen) {
-      this.items[index] = Object.assign({}, this.items[index], { seen: true });
+      this.items[index] = Object.assign({}, this.items[index], {seen: true});
       let subs: Subscription = this.listService.markNewConnectionsAsSeen(this.selectedItem.id)
         .subscribe((dto) => {
           subs.unsubscribe();

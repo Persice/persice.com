@@ -1,9 +1,9 @@
-import {Injector, ReflectiveInjector} from '@angular/core';
-import {BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions, RequestMethod} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {CrowdService} from './crowd.service';
-import {MockCrowd} from './crowd.mock';
-import {HttpClient} from '../../app/shared/core/http-client';
+import { Injector, ReflectiveInjector } from '@angular/core';
+import { BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions, RequestMethod } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { CrowdService } from './crowd.service';
+import { MockCrowd } from './crowd.mock';
+import { HttpClient } from '../../app/shared/core/http-client';
 
 describe('Crowd service', () => {
 
@@ -18,8 +18,10 @@ describe('Crowd service', () => {
       HttpClient,
       {
         provide: Http,
-        useFactory: (connectionBackend: ConnectionBackend,
-                     defaultOptions: BaseRequestOptions) => {
+        useFactory: (
+          connectionBackend: ConnectionBackend,
+          defaultOptions: BaseRequestOptions
+        ) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [

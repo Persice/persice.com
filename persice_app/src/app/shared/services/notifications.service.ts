@@ -1,4 +1,4 @@
-import {Injectable, provide, EventEmitter} from '@angular/core';
+import { Injectable, provide, EventEmitter } from '@angular/core';
 
 
 @Injectable()
@@ -7,7 +7,7 @@ export class NotificationsService {
 
 
   set(notification: any, flag: boolean) {
-    this._emitter.emit({ notification: notification, add: flag });
+    this._emitter.emit({notification: notification, add: flag});
   };
 
   getChangeEmitter() {
@@ -22,5 +22,5 @@ export class NotificationsService {
 
 
 export var notificationsServiceInjectables: any[] = [
-  provide(NotificationsService, { useClass: NotificationsService })
+  provide(NotificationsService, {useClass: NotificationsService})
 ];

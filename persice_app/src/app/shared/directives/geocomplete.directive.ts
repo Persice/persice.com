@@ -1,8 +1,5 @@
-import {Directive, ElementRef, EventEmitter, Output, OnInit, OnDestroy} from '@angular/core';
-
-import {
-  MapsAPILoader
-} from '../components/map/services/maps-api-loader/maps-api-loader';
+import { Directive, ElementRef, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { MapsAPILoader } from '../components/map/services/maps-api-loader/maps-api-loader';
 
 require('geocomplete');
 
@@ -16,6 +13,7 @@ export class GeocompleteDirective implements OnInit, OnDestroy {
   @Output() selectedValue: EventEmitter<any> = new EventEmitter();
   location;
   instance;
+
   constructor(private el: ElementRef, private _loader: MapsAPILoader) { }
 
   ngOnInit() {
@@ -47,8 +45,6 @@ export class GeocompleteDirective implements OnInit, OnDestroy {
     }
 
   }
-
-
 
 
 }

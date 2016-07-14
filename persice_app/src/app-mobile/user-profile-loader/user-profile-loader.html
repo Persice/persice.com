@@ -1,3 +1,4 @@
-<prs-user-profile *ngIf="isProfileLoaded" [user]="person" [type]="type" [isStandalonePage]="isStandalonePage" [username]="usernameFromUrl">
+<prs-user-profile *ngIf="isProfileLoaded" [user]="person" [type]="type" [isStandalonePage]="isStandalonePage"
+                  [username]="usernameFromUrl">
 </prs-user-profile>
- <prs-loading [status]="!isProfileLoaded && !isProfileNotFound"></prs-loading>
+<prs-loading [status]="!isProfileLoaded && !isProfileNotFound"></prs-loading>

@@ -1,7 +1,7 @@
 import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import {Observable} from 'rxjs';
-import {HttpClient} from '../core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '../core';
 
 @Injectable()
 export class EventConnectionsService {
@@ -34,5 +34,5 @@ export class EventConnectionsService {
 }
 
 export var eventConnectionsServiceInjectables: Array<any> = [
-  provide(EventConnectionsService, { useClass: EventConnectionsService })
+  provide(EventConnectionsService, {useClass: EventConnectionsService})
 ];
