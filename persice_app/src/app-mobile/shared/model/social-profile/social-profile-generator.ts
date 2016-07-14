@@ -1,4 +1,4 @@
-import {SocialProfile} from './social-profile';
+import { SocialProfile } from './social-profile';
 
 export class SocialProfileGenerator {
 

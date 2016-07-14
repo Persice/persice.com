@@ -1,4 +1,4 @@
-import {SocialNetwork} from "./social-network";
+import { SocialNetwork } from './social-network';
 export class SocialNetworkFacebook extends SocialNetwork {
 
   private networkName: string = 'facebook';

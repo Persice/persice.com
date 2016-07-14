@@ -1,8 +1,7 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
-
-import {CheckImageDirective} from '../../../../app/shared/directives';
-import {EventDescriptionMobileComponent} from './event-description';
-import {Event} from '../../../shared/model/event';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { CheckImageDirective } from '../../../../app/shared/directives';
+import { EventDescriptionMobileComponent } from './event-description';
+import { Event } from '../../../shared/model/event';
 
 @Component({
   selector: 'prs-mobile-event-hero',

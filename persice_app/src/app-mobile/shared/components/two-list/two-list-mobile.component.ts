@@ -1,6 +1,6 @@
-import {OnInit, OnDestroy} from '@angular/core';
-import {TwoListService} from "../../services/two-list.service";
-import {ScrollableList} from "./scrollable-list";
+import { OnInit, OnDestroy } from '@angular/core';
+import { TwoListService } from '../../services/two-list.service';
+import { ScrollableList } from './scrollable-list';
 
 const STEP_SIZE: number = 20;
 
@@ -14,7 +14,8 @@ export class TwoListMobileComponent implements OnInit, OnDestroy {
   secondList: ScrollableList = new ScrollableList();
 
   constructor(
-    protected twoListService: TwoListService) {
+    protected twoListService: TwoListService
+  ) {
   }
 
   public ngOnInit(): any {

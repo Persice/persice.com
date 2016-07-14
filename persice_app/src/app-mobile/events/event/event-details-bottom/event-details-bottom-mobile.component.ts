@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, ChangeDetectionStrategy} from '@angular/core';
-import {Event} from '../../../shared/model/event';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Event } from '../../../shared/model/event';
 
 @Component({
   selector: 'prs-mobile-event-details-bottom',

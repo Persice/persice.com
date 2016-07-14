@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-
 import { MessageComponent } from './message.component';
 
 @Component({

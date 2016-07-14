@@ -1,14 +1,14 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observer} from 'rxjs/Observer';
-import {Observable} from 'rxjs/Observable';
-import {GoogleMapMarker} from '../directives/google-map-marker';
-import {GoogleMapsAPIWrapper} from './google-maps-api-wrapper';
-import {Marker} from './google-maps-types';
+import { Injectable, NgZone } from '@angular/core';
+import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { GoogleMapMarker } from '../directives/google-map-marker';
+import { GoogleMapsAPIWrapper } from './google-maps-api-wrapper';
+import { Marker } from './google-maps-types';
 
 @Injectable()
 export class MarkerManager {
   private _markers: Map<GoogleMapMarker, Promise<Marker>> =
-      new Map<GoogleMapMarker, Promise<Marker>>();
+    new Map<GoogleMapMarker, Promise<Marker>>();
 
   constructor(private _mapsWrapper: GoogleMapsAPIWrapper, private _zone: NgZone) {}
 
@@ -28,7 +28,7 @@ export class MarkerManager {
 
   updateMarkerPosition(marker: GoogleMapMarker): Promise<void> {
     return this._markers.get(marker).then(
-        (m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
+      (m: Marker) => m.setPosition({lat: marker.latitude, lng: marker.longitude}));
   }
 
   updateTitle(marker: GoogleMapMarker): Promise<void> {

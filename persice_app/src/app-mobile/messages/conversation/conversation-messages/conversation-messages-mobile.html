@@ -1,11 +1,14 @@
-<div class="chat-wrapper" prs-infinite-scroll-reverse [loadedCount]="loadedCount" [totalCount]="totalCount" [scrollEnabled]="!loaded" [topOffset]="60" (scrolled)="onScrollTop.emit($event)">
+<div class="chat-wrapper" prs-infinite-scroll-reverse [loadedCount]="loadedCount" [totalCount]="totalCount"
+     [scrollEnabled]="!loaded" [topOffset]="60" (scrolled)="onScrollTop.emit($event)">
   <div class="chat__messages-wrapper">
     <div class="chat__messages">
-      <prs-loading [ngClass]="{'chat__messages--initial-loading': loading && totalCount === 0}" [type]="2" [status]="loading"></prs-loading>
+      <prs-loading [ngClass]="{'chat__messages--initial-loading': loading && totalCount === 0}" [type]="2"
+                   [status]="loading"></prs-loading>
       <div class="message" *ngFor="let message of messages; trackBy: i; let i = index">
         <div class="flag flag--middle flag--small mb--">
           <div class="flag__img">
-            <div class="avatar avatar--small avatar--messages" checkimage="{{message.image}}" [suffix]="'.56x56_q100_crop.jpg'">
+            <div class="avatar avatar--small avatar--messages" checkimage="{{message.image}}"
+                 [suffix]="'.56x56_q100_crop.jpg'">
             </div>
           </div>
           <div class="flag__body">

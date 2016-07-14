@@ -1,8 +1,8 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {CheckImageDirective} from '../../../../app/shared/directives';
-import {Person} from '../../model/person';
-import {InterestsCardMobileComponent} from '../interests-card/interests-card-mobile.component';
-import {GenderPipe} from '../../../../app/shared/pipes/gender.pipe.ts';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { CheckImageDirective } from '../../../../app/shared/directives';
+import { Person } from '../../model/person';
+import { InterestsCardMobileComponent } from '../interests-card/interests-card-mobile.component';
+import { GenderPipe } from '../../../../app/shared/pipes/gender.pipe.ts';
 
 @Component({
   selector: 'prs-mobile-user-card',
@@ -26,6 +26,7 @@ export class UserCardMobileComponent {
   @Input() set personEntity(entity: any) {
     this._person = entity;
   }
+
   @Output() onProfileTap: EventEmitter<any> = new EventEmitter();
   @Output() onOpenNewConversation: EventEmitter<any> = new EventEmitter();
 

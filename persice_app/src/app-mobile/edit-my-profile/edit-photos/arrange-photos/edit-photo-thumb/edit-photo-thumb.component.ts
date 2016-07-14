@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {AppStateService} from '../../../../shared/services';
-import {Photo} from '../../../../../common/models/photo';
-import {CheckImageDirective} from '../../../../../app/shared/directives';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { AppStateService } from '../../../../shared/services';
+import { Photo } from '../../../../../common/models/photo';
+import { CheckImageDirective } from '../../../../../app/shared/directives';
 
 @Component({
   selector: 'prs-mobile-edit-photo-thumb',
@@ -16,7 +16,7 @@ export class EditPhotoThumbComponent {
   constructor(private appStateService: AppStateService) { }
 
   public openChooseAlbum(event) {
-    this.appStateService.setEditPhotosState({ page: 2});
+    this.appStateService.setEditPhotosState({page: 2});
   }
 
 }

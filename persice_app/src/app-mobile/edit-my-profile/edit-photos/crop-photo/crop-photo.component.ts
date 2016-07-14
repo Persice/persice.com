@@ -1,8 +1,7 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-
-import {AppStateService} from '../../../shared/services/app-state.service';
-import {CropDirective} from '../../../../app/shared/directives';
-import {HeaderState} from '../../../header';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AppStateService } from '../../../shared/services/app-state.service';
+import { CropDirective } from '../../../../app/shared/directives';
+import { HeaderState } from '../../../header';
 
 @Component({
   selector: 'prs-mobile-crop-photo',

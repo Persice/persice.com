@@ -1,5 +1,4 @@
-
-import {SocialNetworkTwitter} from "./social-network-twitter";
+import { SocialNetworkTwitter } from './social-network-twitter';
 describe('Twitter', () => {
 
   it('instantiates with valid data', () => {

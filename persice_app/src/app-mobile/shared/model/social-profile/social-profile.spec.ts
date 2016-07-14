@@ -1,5 +1,5 @@
-import {SocialProfile} from './social-profile';
-import {SocialProfileGenerator} from './social-profile-generator';
+import { SocialProfile } from './social-profile';
+import { SocialProfileGenerator } from './social-profile-generator';
 
 describe('Social Profile', () => {
   it('instantiates facebook profile from dto', () => {

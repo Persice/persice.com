@@ -1,5 +1,5 @@
-import {Injectable, Optional} from '@angular/core';
-import {MapsAPILoader} from './maps-api-loader';
+import { Injectable, Optional } from '@angular/core';
+import { MapsAPILoader } from './maps-api-loader';
 
 export enum GoogleMapsScriptProtocol {
   HTTP,
@@ -87,7 +87,7 @@ export class LazyMapsAPILoader extends MapsAPILoader {
 
   private _getScriptSrc(callbackName: string): string {
     let protocolType: GoogleMapsScriptProtocol =
-        (this._config && this._config.protocol) || DEFAULT_CONFIGURATION.protocol;
+      (this._config && this._config.protocol) || DEFAULT_CONFIGURATION.protocol;
     let protocol: string;
 
     switch (protocolType) {
@@ -124,11 +124,11 @@ export class LazyMapsAPILoader extends MapsAPILoader {
       queryParams['language'] = language;
     }
     const params: string = Object.keys(queryParams)
-                               .map((k: string, i: number) => {
-                                 let param = (i === 0) ? '?' : '&';
-                                 return param += `${k}=${queryParams[k]}`;
-                               })
-                               .join('');
+      .map((k: string, i: number) => {
+        let param = (i === 0) ? '?' : '&';
+        return param += `${k}=${queryParams[k]}`;
+      })
+      .join('');
     return `${protocol}//${hostAndPath}${params}`;
   }
 }

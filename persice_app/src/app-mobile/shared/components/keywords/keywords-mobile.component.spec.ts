@@ -1,7 +1,7 @@
-import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
-import {KeywordsComponentMobile} from './keywords-mobile.component';
-import {FilterService} from '../../../../app/shared/services/filter.service';
-import {Observable} from 'rxjs';
+import { async, inject, TestComponentBuilder, addProviders } from '@angular/core/testing';
+import { KeywordsComponentMobile } from './keywords-mobile.component';
+import { FilterService } from '../../../../app/shared/services/filter.service';
+import { Observable } from 'rxjs';
 
 let component: KeywordsComponentMobile;
 let mock: FilterServiceMock;

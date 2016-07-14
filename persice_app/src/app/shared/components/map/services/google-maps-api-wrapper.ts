@@ -1,8 +1,7 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Observer} from 'rxjs/Observer';
-import {Observable} from 'rxjs/Observable';
-
-import {MapsAPILoader} from './maps-api-loader/maps-api-loader';
+import { Injectable, NgZone } from '@angular/core';
+import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { MapsAPILoader } from './maps-api-loader/maps-api-loader';
 import * as mapTypes from './google-maps-types';
 
 // todo: add types for this
@@ -19,7 +18,7 @@ export class GoogleMapsAPIWrapper {
 
   constructor(private _loader: MapsAPILoader, private _zone: NgZone) {
     this._map =
-        new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
+      new Promise<mapTypes.GoogleMap>((resolve: () => void) => { this._mapResolver = resolve; });
   }
 
   createMap(el: HTMLElement, mapOptions: mapTypes.MapOptions): Promise<void> {
@@ -37,8 +36,7 @@ export class GoogleMapsAPIWrapper {
   /**
    * Creates a google map marker with the map context
    */
-  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}):
-      Promise<mapTypes.Marker> {
+  createMarker(options: mapTypes.MarkerOptions = <mapTypes.MarkerOptions>{}): Promise<mapTypes.Marker> {
     return this._map.then((map: mapTypes.GoogleMap) => {
       options.map = map;
       return new google.maps.Marker(options);

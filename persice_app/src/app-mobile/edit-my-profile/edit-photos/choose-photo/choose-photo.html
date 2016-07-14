@@ -1,4 +1,5 @@
-<div class="mob-photo-grid" prs-infinite-scroll (scrolled)="onLoadMoreFBPhotos.emit($event)" [scrollEnabled]="1" [bottomOffset]="60">
+<div class="mob-photo-grid" prs-infinite-scroll (scrolled)="onLoadMoreFBPhotos.emit($event)" [scrollEnabled]="1"
+     [bottomOffset]="60">
   <div class="layout layout--flush text-center">
     <div class="layout__item 1/3" *ngFor="let photo of photos">
       <a (click)="openCropPhoto(photo)">

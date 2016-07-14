@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, Input, Output, EventEmitter} from '@angular/core';
-import {LoadingIndicatorComponent} from '../../../../common/loading-indicator';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { LoadingIndicatorComponent } from '../../../../common/loading-indicator';
 
 @Component({
   selector: 'prs-mobile-conversation-input',

@@ -1,8 +1,8 @@
-import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter} from '@angular/core';
-import {LoadingComponent} from '../../../../app/shared/components/loading';
-import {CheckImageDirective} from '../../../../app/shared/directives';
-import {InfiniteScrollDirective} from '../../../../common/directives';
-import {TimeAgoPipe} from '../../../../common/pipes';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { LoadingComponent } from '../../../../app/shared/components/loading';
+import { CheckImageDirective } from '../../../../app/shared/directives';
+import { InfiniteScrollDirective } from '../../../../common/directives';
+import { TimeAgoPipe } from '../../../../common/pipes';
 
 @Component({
   selector: 'prs-mobile-conversations-list',

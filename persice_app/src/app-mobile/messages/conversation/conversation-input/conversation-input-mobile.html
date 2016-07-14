@@ -7,7 +7,8 @@
     </div>
     <div class="tableize__cell">
       <div class="tableize__content chat__send-message__has-btn">
-        <a (click)="sendMessage($event)" [ngClass]="{'is-hidden': isNewMessageBeingSent}" class="btn btn-1 btn-1--full btn-1--filled btn-1--blue">Send</a>
+        <a (click)="sendMessage($event)" [ngClass]="{'is-hidden': isNewMessageBeingSent}"
+           class="btn btn-1 btn-1--full btn-1--filled btn-1--blue">Send</a>
         <prs-loading-indicator [show]="isNewMessageBeingSent"></prs-loading-indicator>
       </div>
     </div>
