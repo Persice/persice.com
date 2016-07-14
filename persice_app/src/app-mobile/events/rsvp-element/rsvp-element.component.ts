@@ -16,7 +16,7 @@ export class RsvpElementComponent implements OnInit {
   private oldRsvp: any = {};
   private authUserUri: string;
 
-  constructor(private eventMembersService: EventMembersService) {
+  constructor(protected eventMembersService: EventMembersService) {
 
   }
 

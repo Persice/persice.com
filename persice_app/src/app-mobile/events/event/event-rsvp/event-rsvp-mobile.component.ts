@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Event} from '../../../shared/model/event';
 import {RsvpElementComponent} from '../../rsvp-element/rsvp-element.component';
 import {EventMembersService} from '../../../../app/shared/services/eventmembers.service';
@@ -14,7 +14,7 @@ export class EventRsvpMobileComponent extends RsvpElementComponent {
   @Input() username: string;
   @Input() userId: string;
 
-  constructor(private eventMembersService: EventMembersService) {
+  constructor(protected eventMembersService: EventMembersService) {
     super(eventMembersService);
   }
 }
