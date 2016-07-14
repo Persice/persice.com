@@ -1,5 +1,5 @@
-import {PersonGenerator} from "./person-generator";
-import {Person} from "./person";
+import {PersonGenerator} from './person-generator';
+import {Person} from './person';
 
 describe('Person', () => {
 
