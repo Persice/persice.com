@@ -94,11 +94,7 @@ class MockGoalsService extends GoalsService {
   `,
   directives: [EditMyProfileNavigationComponent, ROUTER_DIRECTIVES]
 })
-class TestComponent {
-  username: string = '';
-  counter: number = 0;
-  counterConnections: number = 0;
-}
+class TestComponent { }
 
 let component: TestComponent;
 let domElement: any;
@@ -154,7 +150,6 @@ describe('My profile edit navigation mobile component', () => {
 
   it('should render', () => {
     this.componentFixture.detectChanges();
-    console.log(domElement);
     expect(domElement).not.toBeNull();
   });
 

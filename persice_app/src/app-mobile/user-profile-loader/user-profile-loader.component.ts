@@ -14,7 +14,7 @@ import {CookieUtil} from '../../app/shared/core';
 })
 export class UserProfileLoaderComponent implements OnInit, OnDestroy {
 
-  private me: Person;
+  private person: Person;
   private type: String;
   private usernameFromCookie: string;
   private usernameFromUrl: string;
@@ -38,7 +38,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
       this.usernameFromUrl = params['username'];
       this.userProfilesub = this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
         if (resp) {
-          this.me = resp;
+          this.person = resp;
           this.isProfileLoaded = true;
           this.isProfileNotFound = false;
           if (this.usernameFromCookie === this.usernameFromUrl) {
