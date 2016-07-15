@@ -652,6 +652,7 @@ class Attendees(ModelResource):
     position = fields.DictField(attribute='position', null=True)
     lives_in = fields.CharField(attribute='lives_in', null=True)
     connected = fields.BooleanField(attribute='connected', default=False)
+    is_organizer = fields.BooleanField(attribute='is_organizer', default=False)
 
     class Meta:
         # max_limit = 10
@@ -677,9 +678,11 @@ class Attendees(ModelResource):
         if rsvp not in ('yes', 'no', 'maybe'):
             logger.error('rsvp is incorrect rsvp: {}'.format(rsvp))
             raise BadRequest('Please use correct rsvp: yes, no or maybe')
-        attendees_ids = Membership.objects.filter(rsvp=rsvp, event_id=event_id,
-                                                  is_organizer=False).\
-            values_list('user_id', flat=True)
+        attendees_ids = Membership.objects.filter(
+            rsvp=rsvp, event_id=event_id
+        ).order_by('-is_organizer').values_list('user_id', flat=True)
+
+        event_organizer_user_id = attendees_ids[0] if attendees_ids else None
 
         match_users = MatchQuerySet.all(request.user.id,
                                         is_filter=False, exclude_ids=())
@@ -687,18 +690,26 @@ class Attendees(ModelResource):
         matched_attendees_ids = []
         for match_user in match_users:
             if match_user.id in attendees_ids:
+                if match_user.id == event_organizer_user_id:
+                    match_user.is_organizer = True
+                else:
+                    match_user.is_organizer = False
                 attendees.append(match_user)
                 matched_attendees_ids.append(match_user.id)
         non_match_attendees = set(attendees_ids) - set(matched_attendees_ids)
         for non_match_attendee in non_match_attendees:
             try:
-                attendees.append(
-                    NonMatchUser(request.user.id, non_match_attendee)
-                )
+                non_match_user = NonMatchUser(request.user.id,
+                                              non_match_attendee)
+                if non_match_user.id == event_organizer_user_id:
+                    non_match_user.is_organizer = True
+                else:
+                    non_match_user.is_organizer = False
+                attendees.append(non_match_user)
             except FacebookCustomUserActive.DoesNotExist as er:
                 logger.error(er)
 
-        return sorted(attendees, key=lambda x: -x.connected)
+        return sorted(attendees, key=lambda x: (-x.is_organizer, -x.connected))
 
     def obj_get_list(self, bundle, **kwargs):
         return self.get_object_list(bundle.request)
