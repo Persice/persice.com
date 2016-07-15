@@ -471,6 +471,7 @@ class NonMatchUser(MatchUser):
         self.id = self.user.id
         self.user_id = self.user.id
         self.username = self.user.username
+        self.score = 0
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.facebook_id = self.user.facebook_id
