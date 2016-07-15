@@ -709,7 +709,9 @@ class Attendees(ModelResource):
             except FacebookCustomUserActive.DoesNotExist as er:
                 logger.error(er)
 
-        return sorted(attendees, key=lambda x: (-x.is_organizer, -x.connected))
+        return sorted(attendees, key=lambda x: (-x.is_organizer,
+                                                -x.score,
+                                                -x.connected))
 
     def obj_get_list(self, bundle, **kwargs):
         return self.get_object_list(bundle.request)
