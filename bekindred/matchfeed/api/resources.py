@@ -452,7 +452,7 @@ class ProfileResource(Resource):
         bundle.data['political_views'] = get_political_views(
             bundle.obj.id
         )
-        bundle.data['connected'] = Friend.objects.checking_friendship(
+        bundle.data['connected'] = NeoFourJ().check_friendship_rel(
             bundle.request.user.id,
             bundle.obj.id
         )
