@@ -56,12 +56,11 @@ export class ConnectionsService {
   }
 
   public get(url: string, limit: number, filter?: boolean): Observable<any> {
-
     if (url === '') {
       let params: string = [
         `format=json`,
         `limit=${limit}`,
-        `filter=${filter ? filter : true}`,
+        `filter=${filter !== undefined ? filter : true}`,
         `offset=0`,
       ].join('&');
 
