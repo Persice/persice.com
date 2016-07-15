@@ -377,7 +377,8 @@ class ConnectionsResource(LoggingMixin, Resource):
         cache_match_users = None
         filter_updated_sha = None
 
-        is_filter = bool(request.GET.get('filter'))
+        raw_filter = request.GET.get('filter')
+        is_filter = True if (raw_filter and raw_filter in ['true']) else False
 
         if is_filter:
             if fs:
