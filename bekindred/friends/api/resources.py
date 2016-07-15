@@ -373,35 +373,44 @@ class ConnectionsResource(LoggingMixin, Resource):
         logger.info('Get connections for user_id {}'.format(request.user.id))
         fs = FilterState.objects.filter(user=request.user.id)
 
+        cache_match_users_with_filter = None
         cache_match_users = None
         filter_updated_sha = None
-        if fs:
-            try:
-                attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
-                         fs[0].distance, fs[0].distance_unit,
-                         fs[0].order_criteria, fs[0].keyword]
-                filter_updated = '.'.join(map(str, attrs))
-                filter_updated_sha = hashlib.sha1(filter_updated).hexdigest()
-                cache_match_users = cache.get('c_%s_%s' %
-                                              (request.user.id,
-                                               filter_updated_sha))
-            except AttributeError as err:
-                logger.error(err)
-        if cache_match_users:
-            match_users = cache_match_users
+
+        raw_filter = request.GET.get('filter')
+        is_filter = True if (raw_filter and raw_filter in ['true']) else False
+
+        if is_filter:
+            if fs:
+                try:
+                    attrs = [fs[0].gender, fs[0].min_age, fs[0].max_age,
+                             fs[0].distance, fs[0].distance_unit,
+                             fs[0].order_criteria, fs[0].keyword]
+                    filter_updated = '.'.join(map(str, attrs))
+                    filter_updated_sha = hashlib.sha1(
+                        filter_updated).hexdigest()
+                    cache_match_users_with_filter = cache.get(
+                        'c_%s_%s' % (request.user.id, filter_updated_sha)
+                    )
+                except AttributeError as err:
+                    logger.error(err)
+            if cache_match_users_with_filter:
+                match_users = cache_match_users_with_filter
+            else:
+                match_users = MatchQuerySet. \
+                    all(request.user.id, is_filter=True, friends=True)
+                cache.set('c_%s_%s' % (request.user.id,
+                                       filter_updated_sha), match_users)
+
         else:
-            match_users = MatchQuerySet. \
-                all(request.user.id, is_filter=True, friends=True)
-            cache.set('c_%s_%s' % (request.user.id,
-                                   filter_updated_sha), match_users)
-        if fs:
-            if fs[0].order_criteria == 'match_score':
-                return sorted(match_users, key=lambda x: -x.score)
-            elif fs[0].order_criteria == 'mutual_friends':
-                return sorted(match_users, key=lambda x: -x.friends_score)
-            elif fs[0].order_criteria == 'date':
-                return sorted(match_users, key=lambda x: x.last_login,
-                              reverse=True)
+            if cache_match_users:
+                match_users = cache_match_users
+            else:
+                match_users = MatchQuerySet. \
+                    all(request.user.id, friends=True)
+                match_users = sorted(match_users, key=lambda x: -x.score)
+                cache.set('c_%s' % (request.user.id, ), match_users)
+
         return match_users
 
     def obj_get_list(self, bundle, **kwargs):
