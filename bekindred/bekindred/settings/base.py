@@ -106,6 +106,8 @@ THUMBNAIL_ALIASES = {
     'events': {
         '56x56': {'size': (56, 56), 'crop': True, 'quality': 100},
         '300x200': {'size': (300, 200), 'crop': True, 'quality': 100},
+        '375x145': {'size': (375, 145), 'crop': True, 'quality': 100},
+        '640x480': {'size': (640, 480), 'crop': True, 'quality': 100},
         '1000x364': {'size': (1000, 364), 'crop': True, 'quality': 100},
     }
 }
