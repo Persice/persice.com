@@ -686,6 +686,10 @@ class Attendees(ModelResource):
             rsvp='yes', event_id=event_id, is_organizer=True
         ).first()
 
+        if rsvp == 'yes':
+            attendees_ids = list(attendees_ids)
+            attendees_ids.append(event_organizer.user_id)
+
         match_users = MatchQuerySet.all(request.user.id,
                                         is_filter=False, exclude_ids=())
         attendees = []
