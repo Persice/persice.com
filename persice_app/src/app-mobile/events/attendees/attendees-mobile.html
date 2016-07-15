@@ -8,6 +8,13 @@
       counterNotGoing$ | async }})</a></li>
   </ul>
 </div>
+<div *ngIf="!!((host$ | async).isEventOrganizer)">
+  <div class="mob-user-card-title">Host</div>
+  <prs-mobile-user-card (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)"
+                        [showIcon]="!!((host$ | async).connected)" [personEntity]="host$ | async"
+                        [showSendMessage]="!!((host$ | async).connected)">
+  </prs-mobile-user-card>
+</div>
 <div prs-infinite-scroll (scrolled)="loadMoreData($event)" [scrollEnabled]="!isLoaded" [bottomOffset]="60">
   <div class="mob-user-card-title" *ngIf="(connectionsTotalCount$ | async) > 0"> Connections</div>
   <prs-mobile-user-card (onOpenNewConversation)="openNewConversation($event)" (onProfileTap)="viewProfile($event)"

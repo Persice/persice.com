@@ -22,6 +22,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
   public connections$: Observable<Person[]>;
   public connectionsTotalCount$: Observable<number>;
+  public host$: Observable<Person>;
   public others$: Observable<Person[]>;
   public othersTotalCount$: Observable<number>;
   public counterGoing$: Observable<number>;
@@ -62,6 +63,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     });
 
     this.connections$ = this.attendeeService.attendees$.map(data => data.connections);
+    this.host$ = this.attendeeService.attendees$.map(data => data.host);
     this.connectionsTotalCount$ = this.attendeeService.attendees$.map(data => data.connectionsTotalCount);
     this.others$ = this.attendeeService.attendees$.map(data => data.others);
     this.othersTotalCount$ = this.attendeeService.attendees$.map(data => data.othersTotalCount);
