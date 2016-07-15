@@ -52,6 +52,7 @@ config.vm.network "private_network", ip: "10.0.1.11"
   config.vm.network "forwarded_port", guest: 9999, host: 9999
   config.vm.network "forwarded_port", guest: 5432, host: 5433
   config.vm.network "forwarded_port", guest: 7474, host: 7475
+  config.vm.network "forwarded_port", guest: 7687, host: 7687
 end
 
 
