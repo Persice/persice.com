@@ -679,10 +679,12 @@ class Attendees(ModelResource):
             logger.error('rsvp is incorrect rsvp: {}'.format(rsvp))
             raise BadRequest('Please use correct rsvp: yes, no or maybe')
         attendees_ids = Membership.objects.filter(
-            rsvp=rsvp, event_id=event_id
-        ).order_by('-is_organizer').values_list('user_id', flat=True)
+            rsvp=rsvp, event_id=event_id, is_organizer=False
+        ).values_list('user_id', flat=True)
 
-        event_organizer_user_id = attendees_ids[0] if attendees_ids else None
+        event_organizer = Membership.objects.filter(
+            rsvp='yes', event_id=event_id, is_organizer=True
+        ).first()
 
         match_users = MatchQuerySet.all(request.user.id,
                                         is_filter=False, exclude_ids=())
@@ -690,7 +692,7 @@ class Attendees(ModelResource):
         matched_attendees_ids = []
         for match_user in match_users:
             if match_user.id in attendees_ids:
-                if match_user.id == event_organizer_user_id:
+                if match_user.id == event_organizer.user_id:
                     match_user.is_organizer = True
                 else:
                     match_user.is_organizer = False
@@ -701,7 +703,7 @@ class Attendees(ModelResource):
             try:
                 non_match_user = NonMatchUser(request.user.id,
                                               non_match_attendee)
-                if non_match_user.id == event_organizer_user_id:
+                if non_match_user.id == event_organizer.user_id:
                     non_match_user.is_organizer = True
                 else:
                     non_match_user.is_organizer = False
