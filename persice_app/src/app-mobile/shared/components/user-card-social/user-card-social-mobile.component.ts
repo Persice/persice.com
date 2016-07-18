@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {SocialProfile} from '../../../shared/model/social-profile';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { SocialProfile } from '../../../shared/model/social-profile';
 
 @Component({
   selector: 'prs-mobile-user-card-social',

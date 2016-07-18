@@ -1,16 +1,14 @@
-import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription, Observable} from 'rxjs';
-import {Http} from '@angular/http';
-import {Store} from '@ngrx/store';
-import {SelectedPersonActions} from '../../../common/actions';
-import {AppState, getSelectedPersonState} from '../../../common/reducers';
-
-import {AppStateService} from '../../shared/services';
-import {HeaderState} from '../../header';
-import {NewConversationMobileService} from './new-conversation-mobile.service';
-
-import {CheckImageDirective} from '../../../app/shared/directives';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription, Observable } from 'rxjs';
+import { Http } from '@angular/http';
+import { Store } from '@ngrx/store';
+import { SelectedPersonActions } from '../../../common/actions';
+import { AppState, getSelectedPersonState } from '../../../common/reducers';
+import { AppStateService } from '../../shared/services';
+import { HeaderState } from '../../header';
+import { NewConversationMobileService } from './new-conversation-mobile.service';
+import { CheckImageDirective } from '../../../app/shared/directives';
 
 @Component({
   selector: 'prs-mobile-new-conversation',

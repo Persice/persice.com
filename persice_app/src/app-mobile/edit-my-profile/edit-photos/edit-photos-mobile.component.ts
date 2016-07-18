@@ -1,12 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-import {AppStateService} from '../../shared/services/app-state.service';
-import {PhotosService, FacebookAlbumsService} from '../../../app/shared/services';
-import {Photo} from '../../../common/models/photo';
-import {ArrangePhotosComponent} from './arrange-photos';
-import {ChooseAlbumComponent} from './choose-album';
-import {ChoosePhotoComponent} from './choose-photo';
-import {CropPhotoComponent} from './crop-photo';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { PhotosService, FacebookAlbumsService } from '../../../app/shared/services';
+import { Photo } from '../../../common/models/photo';
+import { ArrangePhotosComponent } from './arrange-photos';
+import { ChooseAlbumComponent } from './choose-album';
+import { ChoosePhotoComponent } from './choose-photo';
+import { CropPhotoComponent } from './crop-photo';
 
 @Component({
   selector: 'prs-mobile-edit-photos',
@@ -47,7 +46,7 @@ export class EditPhotosMobileComponent implements OnInit, OnDestroy {
   public selectedAlbumPhotos: any[] = [];
   public selectedPhoto: any;
 
-  public photoForSaving: any = { order: null, cropped: {}, original: '' };
+  public photoForSaving: any = {order: null, cropped: {}, original: ''};
 
   public savingNewPhoto: boolean;
 

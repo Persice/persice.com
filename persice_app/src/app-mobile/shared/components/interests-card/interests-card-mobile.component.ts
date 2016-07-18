@@ -1,5 +1,5 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {Person} from "../../model/person";
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Person } from '../../model/person';
 
 @Component({
   selector: 'prs-mobile-interests-card',
@@ -7,7 +7,7 @@ import {Person} from "../../model/person";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InterestsCardMobileComponent {
-  @Input() set person (person: Person) {
+  @Input() set person(person: Person) {
     this._person = person;
   };
 

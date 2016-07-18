@@ -1,0 +1,10 @@
+<div class="event-hero__about">
+  <span [ngClass]="{'event-hero__about__text': type === 'profile'}">{{lessText}}<span class="moreellipses"
+                                                                                      [ngClass]="{'is-visible': moreText.length > 0 && !showMore}">...</span>
+    <span class="morecontent" *ngIf="moreText.length > 0">
+      <span [ngClass]="{'is-visible': showMore}">{{moreText}}</span>&nbsp;&nbsp;
+      <a (click)="toggleMore(true)" class="morelink" *ngIf="!showMore">View more</a>
+      <a (click)="toggleMore(false)" class="morelink less" *ngIf="showMore">View less</a>
+    </span>
+  </span>
+</div>

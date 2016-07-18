@@ -1,6 +1,6 @@
-import {NumberGenerators} from "../generators/number-generators";
-import {StringGenerators} from "../generators/string-generators";
-import {NotificationModel} from "./notification.model";
+import { NumberGenerators } from '../generators/number-generators';
+import { StringGenerators } from '../generators/string-generators';
+import { NotificationModel } from './notification.model';
 
 describe('Notification model', () => {
 

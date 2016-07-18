@@ -1,4 +1,4 @@
-import {DateUtil} from '../core/util';
+import { DateUtil } from '../core/util';
 
 export class EventModel {
   constructor(

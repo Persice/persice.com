@@ -4,34 +4,67 @@
     "next": null,
     "offset": 12,
     "previous": "http://localhost:9999/api/v2/mutual-connections/?format=json&limit=12&offset=0",
-    "total_count": 24
+    "total_count": 25
   },
   "objects": [
     {
-      "type": "persice",
-      "mutual": false,
       "about": null,
-      "age": 35,
+      "age": 28,
       "distance": [
-        21,
-        "meters"
+        5309,
+        "miles"
       ],
       "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
+      "facebook_id": "10103059755896455",
+      "first_name": "Zoe",
+      "friends_score": 2,
+      "gender": "f",
       "goals": [
-        {}
+        {
+          "learn how to invest": 0,
+          "meditate": 0
+        }
       ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
+      "id": "121",
+      "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/05/26/fb_image_10103059755896455_1464225802.jpg",
       "interests": [
-        {}
+        {
+          "foodie": 0,
+          "health": 0,
+          "investing": 0,
+          "live music": 0,
+          "meditation": 0,
+          "paleo diet": 0,
+          "philosophy": 0,
+          "psychology": 0,
+          "reading": 0,
+          "skiing": 0,
+          "technology": 1,
+          "travel": 0,
+          "wine": 0
+        }
       ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
+      "keywords": [
+        "paleo",
+        "philosophy",
+        "foodie",
+        "psychology",
+        "investing",
+        "investing",
+        "traveling",
+        "skiing",
+        "dieting",
+        "meditating",
+        "music",
+        "health",
+        "meditation",
+        "technology"
+      ],
+      "last_login": "2016-05-28T20:19:37.204690",
+      "last_name": "Black",
       "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
+      "lives_in": "New York, New York",
+      "mutual": false,
       "mutual_likes_count": 0,
       "offers": [
         {}
@@ -41,595 +74,24 @@
         "company": null,
         "job": null
       },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
+      "resource_uri": "/api/v2/mutual-connections/121/",
+      "score": 1,
       "top_interests": [
         {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
+          "health": 0,
+          "investing": 0,
+          "meditating": 0,
+          "paleo diet": 0,
+          "technology": 1,
+          "water skiing": 0
         }
       ],
-      "total_likes_count": 0,
+      "total_likes_count": 34,
       "twitter_provider": null,
       "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
-    },
-    {
-      "type": "persice",
-      "mutual": false,
-      "about": null,
-      "age": 35,
-      "distance": [
-        21,
-        "meters"
-      ],
-      "es_score": null,
-      "facebook_id": "1385153378458664",
-      "first_name": "Mike",
-      "gender": "m",
-      "goals": [
-        {}
-      ],
-      "id": "3",
-      "image": "/static/assets/images/empty_avatar.png",
-      "interests": [
-        {}
-      ],
-      "last_login": "2016-06-26T01:54:56.167756",
-      "last_name": "Dinglesky",
-      "linkedin_provider": null,
-      "lives_in": "San Francisco, California",
-      "mutual_likes_count": 0,
-      "offers": [
-        {}
-      ],
-      "photos": [],
-      "position": {
-        "company": null,
-        "job": null
-      },
-      "resource_uri": "/api/v1/connections/3/",
-      "score": 5,
-      "top_interests": [
-        {
-          "acting": 1,
-          "animals": 1,
-          "art": 1,
-          "astronomy": 1,
-          "atvs": 1,
-          "bar": 0
-        }
-      ],
-      "total_likes_count": 0,
-      "twitter_provider": null,
-      "twitter_username": null,
-      "user_id": "3",
-      "username": "plvndvh_dinglesky_1422048137"
+      "user_id": "121",
+      "user_type": "persice",
+      "username": "zlb2"
     }
   ]
 }

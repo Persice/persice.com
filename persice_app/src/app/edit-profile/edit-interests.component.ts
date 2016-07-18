@@ -1,15 +1,9 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  OnInit
-} from '@angular/core';
-
-import {ManageInterestsComponent} from '../../common/manage-interests';
-import {LoadingComponent} from '../shared/components/loading';
-import {EditFooterComponent} from './edit-footer.component';
-import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../common/directives';
-import {InterestsService, KeywordsService} from '../shared/services';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { ManageInterestsComponent } from '../../common/manage-interests';
+import { LoadingComponent } from '../shared/components/loading';
+import { EditFooterComponent } from './edit-footer.component';
+import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
+import { InterestsService, KeywordsService } from '../shared/services';
 
 @Component({
   selector: 'prs-edit-interests',

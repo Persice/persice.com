@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Subscription, BehaviorSubject, Observable} from 'rxjs';
-import {Person} from '../../shared/model/person';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Person } from '../../shared/model/person';
 
 enum RsvpStatus {
   yes = 1,
@@ -10,6 +10,7 @@ enum RsvpStatus {
 }
 
 interface Attendees {
+  host: Person;
   connections: Person[];
   connectionsTotalCount: number;
   others: Person[];
@@ -17,6 +18,7 @@ interface Attendees {
 }
 
 interface AttendeesMapped {
+  host: Person;
   connections: Person[];
   others: Person[];
   nextUrl: string;
@@ -33,6 +35,7 @@ export class AttendeeService {
   public counters$: Observable<number[]>;
 
   private _attendees$: BehaviorSubject<Attendees> = new BehaviorSubject({
+    host: <Person>{},
     connections: [],
     connectionsTotalCount: 0,
     others: [],
@@ -117,6 +120,7 @@ export class AttendeeService {
     if (!!loadingInitial) {
       this._nextUrl = '';
       this._attendees$.next({
+        host: <Person>{},
         connections: [],
         connectionsTotalCount: 0,
         others: [],
@@ -141,8 +145,10 @@ export class AttendeeService {
 
         const connectionsList: Person[] = [...this._attendees$.getValue().connections, ...data.connections];
         const othersList: Person[] = [...this._attendees$.getValue().others, ...data.others];
+        const hostPerson: Person = data.host;
 
         this._attendees$.next({
+          host: hostPerson,
           connections: connectionsList,
           connectionsTotalCount: connectionsList.length,
           others: othersList,
@@ -173,15 +179,24 @@ export class AttendeeService {
     // based on value of "connected" attribute.
     let connectionsList: Person[] = [];
     let othersList: Person[] = [];
+    let hostPerson: Person = <Person>{};
+
     for (let i = 0; i < personsList.length; i++) {
-      if (!!personsList[i].connected) {
-        connectionsList = [...connectionsList, personsList[i]];
+
+      if (!!personsList[i].isEventOrganizer) {
+        hostPerson = personsList[i];
       } else {
-        othersList = [...othersList, personsList[i]];
+        if (!!personsList[i].connected) {
+          connectionsList = [...connectionsList, personsList[i]];
+        } else {
+          othersList = [...othersList, personsList[i]];
+        }
       }
+
     }
 
     let data: AttendeesMapped = {
+      host: hostPerson,
       connections: connectionsList,
       others: othersList,
       nextUrl: next

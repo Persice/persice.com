@@ -1,11 +1,8 @@
-import {Component, DynamicComponentLoader, OnInit, ViewContainerRef}
-from '@angular/core';
-import {RouteParams} from '@angular/router-deprecated';
-
-import {ProfileViewComponent} from './profile-view.component';
-import {ProfileMyComponent} from './profile-my.component';
-
-import {CookieUtil} from '../shared/core';
+import { Component, DynamicComponentLoader, OnInit, ViewContainerRef } from '@angular/core';
+import { RouteParams } from '@angular/router-deprecated';
+import { ProfileViewComponent } from './profile-view.component';
+import { ProfileMyComponent } from './profile-my.component';
+import { CookieUtil } from '../shared/core';
 
 @Component({
   selector: 'prs-profile-loader',

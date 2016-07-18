@@ -1,26 +1,26 @@
 /*
  * Providers provided by Angular
  */
-import {bootstrap} from '@angular/platform-browser-dynamic';
+import { bootstrap } from '@angular/platform-browser-dynamic';
+import { PLATFORM_PROVIDERS_MAIN_MOBILE } from './platform/browser';
+import { ENV_PROVIDERS } from './platform/environment';
+import { provideStore } from '@ngrx/store';
+import STORE_REDUCERS from './common/reducers';
+import STORE_ACTIONS from './common/actions';
+import { AppMobileComponent, APP_PROVIDERS } from './app-mobile';
 /*
-* Platform and Environment
-* our providers/directives/pipes
-*/
-import {PLATFORM_PROVIDERS_MAIN_MOBILE} from './platform/browser';
-import {ENV_PROVIDERS} from './platform/environment';
+ * Platform and Environment
+ * our providers/directives/pipes
+ */
 
 /**
  * RxJS Redux store and reducers
  */
-import {provideStore} from '@ngrx/store';
-import STORE_REDUCERS from './common/reducers';
-import STORE_ACTIONS from './common/actions';
 
 /*
-* App Component
-* our top level component that holds all of our components
-*/
-import {AppMobileComponent, APP_PROVIDERS} from './app-mobile';
+ * App Component
+ * our top level component that holds all of our components
+ */
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection

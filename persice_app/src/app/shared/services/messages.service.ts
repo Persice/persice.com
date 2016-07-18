@@ -1,9 +1,6 @@
-import {provide, Injectable} from '@angular/core';
-import {HttpClient} from '../core';
-import {DateUtil, ListUtil} from '../core';
-import {Observable, Subject} from 'rxjs';
-import {CookieUtil} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { HttpClient, DateUtil, ListUtil, CookieUtil, OPTS_REQ_JSON_CSRF } from '../core';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class MessagesService {
@@ -25,7 +22,7 @@ export class MessagesService {
 
   constructor(
     private http: HttpClient
-    ) {
+  ) {
     let userId = CookieUtil.getValue('userid');
     this._myUri = `/api/v1/auth/user/${userId}/`;
   }
@@ -144,25 +141,24 @@ export class MessagesService {
     let channel = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((data: any) => {
-        try {
-          this._parseData(data);
-          this._notify();
-        } catch (e) {
-          console.log('error', e);
-          this._notify();
+          try {
+            this._parseData(data);
+            this._notify();
+          } catch (e) {
+            console.log('error', e);
+            this._notify();
+            channel.unsubscribe();
+            return;
+          }
           channel.unsubscribe();
-          return;
-        }
-        channel.unsubscribe();
-      },
-      (error) => {
-        console.log(`Could not load messages ${error}`);
-      },
-      () => {
+        },
+        (error) => {
+          console.log(`Could not load messages ${error}`);
+        },
+        () => {
 
-      });
+        });
   }
-
 
 
   private _parseData(data) {
@@ -173,7 +169,7 @@ export class MessagesService {
       let date = DateUtil.format(m[i].sent_at, 'L');
       let time = DateUtil.format(m[i].sent_at, 'LT');
 
-      let idx = ListUtil.findIndex(this._dataStore, { date: date });
+      let idx = ListUtil.findIndex(this._dataStore, {date: date});
 
       if (idx === -1) {
         this._dataStore = [...this._dataStore, {
@@ -227,9 +223,8 @@ export class MessagesService {
   }
 
 
-
 }
 
 export var messagesServiceInjectables: any[] = [
-  provide(MessagesService, { useClass: MessagesService })
+  provide(MessagesService, {useClass: MessagesService})
 ];

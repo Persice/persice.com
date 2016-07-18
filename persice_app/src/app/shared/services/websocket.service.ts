@@ -1,5 +1,5 @@
-import {provide, Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import { provide, Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 import * as io from 'socket.io-client';
 
 const HOSTNAME: string = window.location.hostname;
@@ -42,5 +42,5 @@ export class WebsocketService {
 }
 
 export let websocketServiceInjectables: Array<any> = [
-  provide(WebsocketService, { useClass: WebsocketService })
+  provide(WebsocketService, {useClass: WebsocketService})
 ];

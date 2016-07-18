@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ProfileService} from '../../../app/shared/services/profile.service';
-import {LoadingComponent} from '../../../app/shared/components/loading/loading.component';
-import {Person} from '../../shared/model/person';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {CookieUtil} from '../../../app/shared/core/util';
-import {HeaderState} from '../../header';
-import {EditAboutMobileComponent} from './edit-about';
+import { Component, OnInit } from '@angular/core';
+import { ProfileService } from '../../../app/shared/services/profile.service';
+import { LoadingComponent } from '../../../app/shared/components/loading/loading.component';
+import { Person } from '../../shared/model/person';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { CookieUtil } from '../../../app/shared/core/util';
+import { HeaderState } from '../../header';
+import { EditAboutMobileComponent } from './edit-about';
 
 @Component({
   selector: 'prs-mobile-personal-info',
@@ -19,9 +19,11 @@ export class PersonalInfoMobileComponent implements OnInit {
   private usernameFromCookie: string;
   private isProfileLoaded: boolean = false;
 
-  constructor(private profileService: ProfileService,
-              private appStateService: AppStateService,
-              private headerState: HeaderState) {
+  constructor(
+    private profileService: ProfileService,
+    private appStateService: AppStateService,
+    private headerState: HeaderState
+  ) {
     this.usernameFromCookie = CookieUtil.getValue('user_username');
   }
 

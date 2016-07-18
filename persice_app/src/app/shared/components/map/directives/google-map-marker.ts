@@ -1,14 +1,6 @@
-import {
-  Directive,
-  SimpleChange,
-  OnDestroy,
-  OnChanges,
-  EventEmitter,
-  Input,
-  Output
-} from '@angular/core';
-import {MarkerManager} from '../services/marker-manager';
-import {MouseEvent} from '../events';
+import { Directive, SimpleChange, OnDestroy, OnChanges, EventEmitter, Input, Output } from '@angular/core';
+import { MarkerManager } from '../services/marker-manager';
+import { MouseEvent } from '../events';
 import * as mapTypes from '../services/google-maps-types';
 
 let markerId = 0;
@@ -108,7 +100,6 @@ export class GoogleMapMarker implements OnDestroy, OnChanges {
   }
 
 
-
   /** @internal */
   id(): string { return this._id; }
 
@@ -124,7 +115,7 @@ export class GoogleMapMarker implements OnDestroy, OnChanges {
     });
     this._markerManager.createEventObservable<mapTypes.MouseEvent>('dragend', this)
       .subscribe((e: mapTypes.MouseEvent) => {
-        this.dragEnd.next({ coords: { lat: e.latLng.lat(), lng: e.latLng.lng() } });
+        this.dragEnd.next({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
       });
   }
 }

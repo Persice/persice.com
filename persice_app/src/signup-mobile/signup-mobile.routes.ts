@@ -1,9 +1,8 @@
-import {provideRouter, RouterConfig} from '@angular/router';
-
-import {SignupInterestsMobileComponent} from './interests';
-import {SignupOffersMobileComponent} from './offers';
-import {SignupGoalsMobileComponent} from './goals';
-import {SignupConnectSocialAccountsMobileComponent} from './connect-social-accounts';
+import { provideRouter, RouterConfig } from '@angular/router';
+import { SignupInterestsMobileComponent } from './interests';
+import { SignupOffersMobileComponent } from './offers';
+import { SignupGoalsMobileComponent } from './goals';
+import { SignupConnectSocialAccountsMobileComponent } from './connect-social-accounts';
 
 const rootRoutes: RouterConfig = [
   {

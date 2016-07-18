@@ -12,10 +12,10 @@ import '@angular/forms';
 import '@angular/http';
 import '@angular/router';
 import '@angular/router-deprecated';
-
-// RxJS
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
+
+// RxJS
 
 if ('production' === ENV) {
   // Production

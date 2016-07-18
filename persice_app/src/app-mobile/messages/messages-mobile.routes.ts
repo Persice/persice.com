@@ -1,9 +1,8 @@
-import {RouterConfig} from '@angular/router';
-
-import {ConversationsMobileComponent} from './conversations';
-import {ConversationMobileComponent} from './conversation';
-import {NewConversationMobileComponent} from './new-conversation';
-import {MessagesMobileComponent} from './messages-mobile.component';
+import { RouterConfig } from '@angular/router';
+import { ConversationsMobileComponent } from './conversations';
+import { ConversationMobileComponent } from './conversation';
+import { NewConversationMobileComponent } from './new-conversation';
+import { MessagesMobileComponent } from './messages-mobile.component';
 export const routesMessagesMobile: RouterConfig = [
   {
     path: 'messages',

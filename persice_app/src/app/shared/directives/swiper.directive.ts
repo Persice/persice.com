@@ -1,4 +1,4 @@
-import {Directive, ElementRef, NgZone, AfterViewInit, OnDestroy} from '@angular/core';
+import { Directive, ElementRef, NgZone, AfterViewInit, OnDestroy } from '@angular/core';
 
 
 declare var Swiper: any;

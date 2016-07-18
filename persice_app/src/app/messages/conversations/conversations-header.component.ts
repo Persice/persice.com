@@ -1,7 +1,6 @@
-import {Component, Input, OnDestroy} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-
-import {InboxService} from '../../shared/services';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { InboxService } from '../../shared/services';
 
 @Component({
   selector: 'prs-conversations-header',
@@ -28,6 +27,7 @@ import {InboxService} from '../../shared/services';
 export class ConversationsHeaderComponent implements OnDestroy {
   @Input() counter;
   inboxServiceObserver;
+
   constructor(private inboxService: InboxService) {
     this.inboxServiceObserver = this.inboxService.serviceCounterObserver()
       .subscribe(data => {

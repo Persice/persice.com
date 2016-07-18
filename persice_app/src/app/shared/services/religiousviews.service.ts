@@ -1,9 +1,7 @@
-import {provide, Injectable, EventEmitter} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core';
-import {HttpClient} from '../core';
+import { provide, Injectable, EventEmitter } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { OPTS_REQ_JSON_CSRF, CookieUtil, HttpClient } from '../core';
 
 @Injectable()
 export class ReligiousViewsService {
@@ -58,7 +56,7 @@ export class ReligiousViewsService {
 
       for (let i = 0; i < items.length; i++) {
         for (let j = 0; j < result.length; j++) {
-          if (result[j].index_url ===  items[i].religious_index) {
+          if (result[j].index_url === items[i].religious_index) {
             result[j].selected = true;
             result[j].view_url = items[i].resource_uri;
           }
@@ -130,5 +128,5 @@ export class ReligiousViewsService {
 }
 
 export var religiousViewsServiceInjectables: Array<any> = [
-  provide(ReligiousViewsService, { useClass: ReligiousViewsService })
+  provide(ReligiousViewsService, {useClass: ReligiousViewsService})
 ];

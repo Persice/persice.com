@@ -1,7 +1,6 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {findIndex} from 'lodash';
-
-import {SearchConnectionsComponent} from './search-connections.component';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { findIndex } from 'lodash';
+import { SearchConnectionsComponent } from './search-connections.component';
 
 
 const TOKEN_LIMIT: number = 1;
@@ -31,7 +30,7 @@ export class NewConversationHeaderComponent implements OnChanges {
     //check if limit is reached
     if (this.tokens.length < TOKEN_LIMIT) {
       //check if token already exists
-      let i = findIndex(this.tokens, { friend_id: token.friend_id });
+      let i = findIndex(this.tokens, {friend_id: token.friend_id});
       if (i === -1) {
         this.tokens = [...this.tokens, token];
         this.activeToken = -1;

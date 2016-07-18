@@ -1,13 +1,7 @@
-import {Component, ElementRef, AfterViewInit} from '@angular/core';
-
-import {FilterModel} from '../shared/models';
-import {
-  KeywordsService,
-  NotificationService,
-  FilterService
-} from '../shared/services';
-
-import {map} from 'lodash';
+import { Component, ElementRef, AfterViewInit } from '@angular/core';
+import { FilterModel } from '../shared/models';
+import { KeywordsService, NotificationService, FilterService } from '../shared/services';
+import { map } from 'lodash';
 
 
 declare var Bloodhound: any;

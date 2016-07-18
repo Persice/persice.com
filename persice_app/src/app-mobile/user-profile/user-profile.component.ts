@@ -1,24 +1,24 @@
-import {Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter} from '@angular/core';
-import {Subscription, Observable} from 'rxjs';
-import {Location} from '@angular/common';
-import {OpenLeftMenuDirective} from '../shared/directives';
-import {RemodalDirective, CheckImageDirective} from '../../app/shared/directives';
-import {GenderPipe} from '../../app/shared/pipes';
-import {Person} from '../shared/model';
-import {AboutMobileComponent} from './about';
-import {PhotosMobileComponent} from './photos';
-import {NetworkPreviewComponent} from './network-preview';
-import {NetworkConnectionsComponent} from './network-connections';
-import {NetworkMutualConnectionsComponent, MutualConnectionsService} from './network-mutual-connections';
-import {ItemsListMobileComponent} from './items-list';
-import {AppStateService} from '../shared/services';
-import {LikesMobileComponent} from './likes/likes-mobile.component';
-import {FriendService} from '../../app/shared/services';
-import {ConnectionsService} from '../../common/connections';
-import {HeaderState} from '../header';
-import {AppState, getSelectedPersonState} from '../../common/reducers';
-import {Store} from '@ngrx/store';
-import {SelectedPersonActions} from '../../common/actions';
+import { Component, Input, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Subscription, Observable } from 'rxjs';
+import { Location } from '@angular/common';
+import { OpenLeftMenuDirective } from '../shared/directives';
+import { RemodalDirective, CheckImageDirective } from '../../app/shared/directives';
+import { GenderPipe } from '../../app/shared/pipes';
+import { Person } from '../shared/model';
+import { AboutMobileComponent } from './about';
+import { PhotosMobileComponent } from './photos';
+import { NetworkPreviewComponent } from './network-preview';
+import { NetworkConnectionsComponent } from './network-connections';
+import { NetworkMutualConnectionsComponent, MutualConnectionsService } from './network-mutual-connections';
+import { ItemsListMobileComponent } from './items-list';
+import { AppStateService } from '../shared/services';
+import { LikesMobileComponent } from './likes/likes-mobile.component';
+import { FriendService } from '../../app/shared/services';
+import { ConnectionsService } from '../../common/connections';
+import { HeaderState } from '../header';
+import { AppState, getSelectedPersonState } from '../../common/reducers';
+import { Store } from '@ngrx/store';
+import { SelectedPersonActions } from '../../common/actions';
 
 enum ViewsType {
   Profile,
@@ -97,7 +97,8 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   private acceptSub: Subscription;
   private passSub: Subscription;
 
-  constructor(private appStateService: AppStateService,
+  constructor(
+    private appStateService: AppStateService,
     private friendService: FriendService,
     private connectionsService: ConnectionsService,
     private mutualConnectionsService: MutualConnectionsService,

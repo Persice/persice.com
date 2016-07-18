@@ -1,14 +1,10 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {HttpClient} from '../core';
-
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
 import * as Rx from 'rxjs';
-import {Observable} from 'rxjs';
-
-import {InterfaceFilter} from '../models';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-
-import {remove, find} from 'lodash';
+import { Observable } from 'rxjs';
+import { InterfaceFilter } from '../models';
+import { remove, find } from 'lodash';
 
 @Injectable()
 export class FilterService {
@@ -33,7 +29,7 @@ export class FilterService {
   }
 
   addObserver(name: string) {
-    let obs = { name: '', subject: null };
+    let obs = {name: '', subject: null};
     obs.name = name;
     obs.subject = new Rx.Subject(null);
     this.observers.push(obs);
@@ -90,5 +86,5 @@ export class FilterService {
 
 }
 export var filterServiceInjectables: Array<any> = [
-  provide(FilterService, { useClass: FilterService })
+  provide(FilterService, {useClass: FilterService})
 ];

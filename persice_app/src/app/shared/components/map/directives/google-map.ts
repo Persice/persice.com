@@ -1,17 +1,8 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnChanges,
-  OnInit,
-  SimpleChange,
-  Input,
-  Output
-} from '@angular/core';
-import {GoogleMapsAPIWrapper} from '../services/google-maps-api-wrapper';
-import {MarkerManager} from '../services/marker-manager';
-import {LatLng} from '../services/google-maps-types';
-import {MouseEvent} from '../events';
+import { Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange, Input, Output } from '@angular/core';
+import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
+import { MarkerManager } from '../services/marker-manager';
+import { LatLng } from '../services/google-maps-types';
+import { MouseEvent } from '../events';
 
 /**
  * GoogleMap renders a Google Map.
@@ -65,7 +56,6 @@ export class GoogleMap implements OnChanges, OnInit {
   @Input() disableDefaultUI: boolean = false;
 
 
-
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
@@ -102,11 +92,10 @@ export class GoogleMap implements OnChanges, OnInit {
   }
 
 
-
   /** @internal */
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
     if (GoogleMap._containsMapOptionsChange(Object.keys(changes))) {
-      this._mapsWrapper.setMapOptions({ disableDoubleClickZoom: this.disableDoubleClickZoom });
+      this._mapsWrapper.setMapOptions({disableDoubleClickZoom: this.disableDoubleClickZoom});
     }
   }
 
@@ -135,7 +124,6 @@ export class GoogleMap implements OnChanges, OnInit {
     this._latitude = this._convertToDecimal(value);
     this._updateCenter();
   }
-
 
 
   private _convertToDecimal(value: string | number, defaultValue: number = null): number {
@@ -179,14 +167,14 @@ export class GoogleMap implements OnChanges, OnInit {
     type Event = { name: string, emitter: Emitter };
 
     const events: Event[] = [
-      { name: 'click', emitter: this.mapClick }, { name: 'rightclick', emitter: this.mapRightClick },
-      { name: 'dblclick', emitter: this.mapDblClick }
+      {name: 'click', emitter: this.mapClick}, {name: 'rightclick', emitter: this.mapRightClick},
+      {name: 'dblclick', emitter: this.mapDblClick}
     ];
 
     events.forEach((e: Event) => {
       this._mapsWrapper.subscribeToMapEvent<{ latLng: LatLng }>(e.name).subscribe(
         (event: { latLng: LatLng }) => {
-          const value = <MouseEvent>{ coords: { lat: event.latLng.lat(), lng: event.latLng.lng() } };
+          const value = <MouseEvent>{coords: {lat: event.latLng.lat(), lng: event.latLng.lng()}};
           e.emitter.emit(value);
         });
     });
@@ -194,7 +182,7 @@ export class GoogleMap implements OnChanges, OnInit {
 
   private _initMapInstance(el: HTMLElement) {
     this._mapsWrapper.createMap(el, {
-      center: { lat: this._latitude, lng: this._longitude },
+      center: {lat: this._latitude, lng: this._longitude},
       zoom: this._zoom,
       disableDefaultUI: this.disableDefaultUI
     });

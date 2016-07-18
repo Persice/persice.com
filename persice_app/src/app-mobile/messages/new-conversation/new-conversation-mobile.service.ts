@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, CookieUtil, OPTS_REQ_JSON_CSRF} from '../../../app/shared/core';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, CookieUtil, OPTS_REQ_JSON_CSRF } from '../../../app/shared/core';
 
 @Injectable()
 export class NewConversationMobileService {

@@ -1,17 +1,17 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
-import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {UserCardMobileComponent} from '../../shared/components/user-card';
-import {UserCardSocialMobileComponent} from '../../shared/components/user-card-social';
-import {LoadingComponent} from '../../../app/shared/components/loading';
-import {InfiniteScrollDirective} from '../../../common/directives';
-import {MutualConnectionsService} from './mutual-connections.service';
-import {SelectedPersonActions} from '../../../common/actions';
-import {AppState} from '../../../common/reducers';
-import {AppStateService} from '../../shared/services';
-import {HeaderState} from '../../header';
-import {Person} from '../../shared/model/person';
-import {Observable, Subscription} from 'rxjs';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { UserCardMobileComponent } from '../../shared/components/user-card';
+import { UserCardSocialMobileComponent } from '../../shared/components/user-card-social';
+import { LoadingComponent } from '../../../app/shared/components/loading';
+import { InfiniteScrollDirective } from '../../../common/directives';
+import { MutualConnectionsService } from './mutual-connections.service';
+import { SelectedPersonActions } from '../../../common/actions';
+import { AppState } from '../../../common/reducers';
+import { AppStateService } from '../../shared/services';
+import { HeaderState } from '../../header';
+import { Person } from '../../shared/model/person';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'prs-mobile-network-mutual-connections',

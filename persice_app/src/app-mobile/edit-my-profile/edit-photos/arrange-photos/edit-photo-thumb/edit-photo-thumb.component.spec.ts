@@ -1,11 +1,11 @@
-import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
-import {Component, EventEmitter} from '@angular/core';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {EditPhotoThumbComponent} from './edit-photo-thumb.component';
-import {AppStateService} from '../../../../shared/services/app-state.service';
-import {PhotosGenerators} from '../../photos-generators';
-import {Photo} from '../../../../../common/models/photo';
+import { async, inject, addProviders, TestComponentBuilder } from '@angular/core/testing';
+import { Component, EventEmitter } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { EditPhotoThumbComponent } from './edit-photo-thumb.component';
+import { AppStateService } from '../../../../shared/services/app-state.service';
+import { PhotosGenerators } from '../../photos-generators';
+import { Photo } from '../../../../../common/models/photo';
 
 @Component({
   template: `

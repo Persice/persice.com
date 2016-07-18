@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-
-import {EventCardComponent} from './event-card.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { EventCardComponent } from './event-card.component';
 
 @Component({
   selector: 'prs-events-list',

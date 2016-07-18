@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {Location} from '@angular/common';
-import {CookieUtil} from '../../app/shared/core';
-import {PageTitleComponent} from './page-title';
-import {PageTitleConversationsComponent} from './page-title-conversations';
-import {OpenLeftMenuDirective} from '../shared/directives';
-import {AppStateService} from '../shared/services';
-import {HeaderState} from './header.state';
-import {DROPDOWN_DIRECTIVES} from '../../common/directives/dropdown';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { CookieUtil } from '../../app/shared/core';
+import { PageTitleComponent } from './page-title';
+import { PageTitleConversationsComponent } from './page-title-conversations';
+import { OpenLeftMenuDirective } from '../shared/directives';
+import { AppStateService } from '../shared/services';
+import { HeaderState } from './header.state';
+import { DROPDOWN_DIRECTIVES } from '../../common/directives/dropdown';
 
 @Component({
   selector: 'prs-mobile-header',
@@ -71,15 +71,15 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.EditPhotos:
-        this.appStateService.setEditPhotosState({ page: 1 });
+        this.appStateService.setEditPhotosState({page: 1});
         break;
 
       case this.actions.ChooseAlbum:
-        this.appStateService.setEditPhotosState({ page: 2 });
+        this.appStateService.setEditPhotosState({page: 2});
         break;
 
       case this.actions.ChoosePhoto:
-        this.appStateService.setEditPhotosState({ page: 3 });
+        this.appStateService.setEditPhotosState({page: 3});
         break;
 
       case this.actions.SendMessage:
@@ -87,7 +87,7 @@ export class HeaderComponent implements OnInit {
         break;
 
       case this.actions.SaveCroppedPhoto:
-        this.appStateService.setEditPhotosState({ page: 1, savePhotoAndRefresh: true });
+        this.appStateService.setEditPhotosState({page: 1, savePhotoAndRefresh: true});
         break;
 
       case this.actions.ShowUserProfile:

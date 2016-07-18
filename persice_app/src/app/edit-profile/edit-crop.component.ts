@@ -1,6 +1,5 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-
-import {CropDirective} from '../shared/directives';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { CropDirective } from '../shared/directives';
 
 @Component({
   selector: 'prs-edit-crop',

@@ -1,23 +1,15 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-import {Http} from '@angular/http';
-
-import {AvatarComponent} from './avatar.component';
-import {AboutComponent} from './about.component';
-import {LikesComponent} from './likes.component';
-import {FriendsComponent} from './friends.component';
-import {NetworksComponent} from './networks.component';
-import {ItemsComponent} from './items.component';
-import {AcceptPassComponent} from './acceptpass.component';
-import {GalleryComponent} from './gallery.component';
-
-import {LoadingComponent} from '../shared/components/loading';
-
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { Http } from '@angular/http';
+import { AvatarComponent } from './avatar.component';
+import { AboutComponent } from './about.component';
+import { LikesComponent } from './likes.component';
+import { FriendsComponent } from './friends.component';
+import { NetworksComponent } from './networks.component';
+import { ItemsComponent } from './items.component';
+import { AcceptPassComponent } from './acceptpass.component';
+import { GalleryComponent } from './gallery.component';
+import { LoadingComponent } from '../shared/components/loading';
 import {
   ProfileService,
   MutualFriendsService,
@@ -26,10 +18,8 @@ import {
   HistoryService,
   ConnectionsCounterService
 } from '../shared/services';
-
-import {DropdownDirective, RemodalDirective} from '../shared/directives';
-
-import {ObjectUtil, ListUtil} from '../shared/core';
+import { DropdownDirective, RemodalDirective } from '../shared/directives';
+import { ObjectUtil, ListUtil } from '../shared/core';
 
 
 @Component({
@@ -137,7 +127,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   }
 
 
-
   ngOnInit() {
 
     //listen for event when gallery modal is closed
@@ -236,7 +225,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
       }];
     }
     this.profilePoliticalViews = political_views;
-
 
 
     this.getMutualFriends(data.id);

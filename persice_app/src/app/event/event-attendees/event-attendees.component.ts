@@ -1,7 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-
-import {SwiperDirective, CheckImageDirective} from '../../shared/directives';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { SwiperDirective, CheckImageDirective } from '../../shared/directives';
 
 @Component({
   template: <any>require('./event-attendees.html'),
@@ -30,7 +29,7 @@ export class EventAttendeesComponent {
   }
 
   openProfile(username) {
-    this._router.parent.navigate(['./ProfileView', { username: username }]);
+    this._router.parent.navigate(['./ProfileView', {username: username}]);
   }
 
 }

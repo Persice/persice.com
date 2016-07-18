@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
-
-import {EventsMapComponent} from '../events-map';
+import { Component } from '@angular/core';
+import { EventsMapComponent } from '../events-map';
 
 
 @Component({

@@ -1,8 +1,7 @@
-import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-
-import {MessagesCounterComponent} from './messages-counter.component';
-import {ConnectionsCounterComponent} from './connections-counter.component';
+import { Component } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { MessagesCounterComponent } from './messages-counter.component';
+import { ConnectionsCounterComponent } from './connections-counter.component';
 
 @Component({
   selector: 'prs-navigation',

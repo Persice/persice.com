@@ -1,6 +1,6 @@
-import {Directive, HostListener, OnInit} from '@angular/core';
-import {BrowserDomAdapter} from '@angular/platform-browser/src/browser/browser_adapter';
-import {Router, NavigationStart, Event} from '@angular/router';
+import { Directive, HostListener, OnInit } from '@angular/core';
+import { BrowserDomAdapter } from '@angular/platform-browser/src/browser/browser_adapter';
+import { Router, NavigationStart, Event } from '@angular/router';
 
 @Directive({
   selector: '[prs-close-left-menu]',

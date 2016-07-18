@@ -1,19 +1,19 @@
-import {inject, async, addProviders, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
+import { inject, async, addProviders, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import {
   MockConnections,
   MockConnectionsEmpty,
   MockConnectionsService,
   ConnectionsService
 } from '../../common/connections';
-import {AppStateService} from '../shared/services';
-import {ConnectionsMobileComponent} from './connections-mobile.component';
-import {FilterService, FriendService} from '../../app/shared/services';
-import {NewConnectionsCounterService} from '../../common/services';
-import {HttpClient} from '../../app/shared/core/http-client';
-import {provideStore} from '@ngrx/store';
+import { AppStateService } from '../shared/services';
+import { ConnectionsMobileComponent } from './connections-mobile.component';
+import { FilterService, FriendService } from '../../app/shared/services';
+import { NewConnectionsCounterService } from '../../common/services';
+import { HttpClient } from '../../app/shared/core/http-client';
+import { provideStore } from '@ngrx/store';
 import STORE_REDUCERS from '../../common/reducers';
 import STORE_ACTIONS from '../../common/actions';
 

@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Subscription, BehaviorSubject, Observable} from 'rxjs';
-import {Person} from '../../shared/model/person';
-import {SocialProfile} from '../../shared/model/social-profile';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Subscription, BehaviorSubject, Observable } from 'rxjs';
+import { Person } from '../../shared/model/person';
+import { SocialProfile } from '../../shared/model/social-profile';
 
 interface Connections {
   mutual: any[];
@@ -212,7 +212,7 @@ export class MutualConnectionsService {
   private _toEntity(dto: any): any {
     let person: any;
 
-    if (!!dto.id) {
+    if (!!(dto.user_type === 'persice')) {
       person = this._toPerson(dto);
     } else {
       person = this._toSocialProfile(dto);

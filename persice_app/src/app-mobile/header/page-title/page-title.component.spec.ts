@@ -1,6 +1,6 @@
-import {async, inject, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {PageTitleComponent} from './page-title.component';
+import { async, inject, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { PageTitleComponent } from './page-title.component';
 
 @Component({
   selector: 'prs-test-component',

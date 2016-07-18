@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {Photo} from '../../../../../common/models/photo';
-import {AppStateService} from '../../../../shared/services';
-import {CheckImageDirective} from '../../../../../app/shared/directives';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Photo } from '../../../../../common/models/photo';
+import { AppStateService } from '../../../../shared/services';
+import { CheckImageDirective } from '../../../../../app/shared/directives';
 
 @Component({
   selector: 'prs-mobile-edit-profile-photo',
@@ -17,6 +17,6 @@ export class EditProfilePhotoComponent {
   constructor(private appStateService: AppStateService) { }
 
   openChooseAlbum(event) {
-    this.appStateService.setEditPhotosState({ page: 2});
+    this.appStateService.setEditPhotosState({page: 2});
   }
 }

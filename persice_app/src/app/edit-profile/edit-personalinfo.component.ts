@@ -1,22 +1,9 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges,
-  AfterViewInit
-} from '@angular/core';
-
-import {ListUtil} from '../shared/core';
-import {GenderPipe} from '../shared/pipes';
-
-import {EditAboutComponent} from './edit-about.component';
-import {EditFooterComponent} from './edit-footer.component';
-
-
-import {ReligiousViewsService, PoliticalViewsService} from '../shared/services';
-
-
+import { Component, Input, Output, EventEmitter, OnChanges, AfterViewInit } from '@angular/core';
+import { ListUtil } from '../shared/core';
+import { GenderPipe } from '../shared/pipes';
+import { EditAboutComponent } from './edit-about.component';
+import { EditFooterComponent } from './edit-footer.component';
+import { ReligiousViewsService, PoliticalViewsService } from '../shared/services';
 
 
 @Component({
@@ -69,7 +56,7 @@ export class EditPersonalInfoComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit() {
     //Reselect
-    jQuery('.js-reselect__trigger').on('click', function(e) {
+    jQuery('.js-reselect__trigger').on('click', function (e) {
       e.preventDefault();
       jQuery('.js-reselect__drop').addClass('is-hidden');
       jQuery(this)
@@ -78,7 +65,7 @@ export class EditPersonalInfoComponent implements OnChanges, AfterViewInit {
         .removeClass('is-hidden');
     });
 
-    jQuery('.js-reselect__done').on('click', function() {
+    jQuery('.js-reselect__done').on('click', function () {
       jQuery('.js-reselect__drop').addClass('is-hidden');
     });
 

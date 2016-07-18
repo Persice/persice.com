@@ -1,11 +1,11 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {FilterComponent} from '../../../../common/filter';
-import {SliderComponent} from '../../../../common/slider';
-import {FilterService} from '../../../../app/shared/services';
-import {AppStateService} from '../../services';
-import {SelectDirective} from '../../../../app/shared/directives';
-import {NumeralPipe} from '../../../../app/shared/pipes';
-import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { FilterComponent } from '../../../../common/filter';
+import { SliderComponent } from '../../../../common/slider';
+import { FilterService } from '../../../../app/shared/services';
+import { AppStateService } from '../../services';
+import { SelectDirective } from '../../../../app/shared/directives';
+import { NumeralPipe } from '../../../../app/shared/pipes';
+import { KeywordsComponentMobile } from '../keywords/keywords-mobile.component';
 
 @Component({
   selector: 'prs-mobile-filter',
@@ -15,6 +15,7 @@ import {KeywordsComponentMobile} from "../keywords/keywords-mobile.component";
 })
 export class FilterMobileComponent extends FilterComponent implements OnInit, OnDestroy {
   @Input() showGender = true;
+
   @Input() set type(value: string) {
     this.checkIfEvents(value);
   };

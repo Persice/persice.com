@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
-
-import {ThreadComponent} from './thread.component';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ThreadComponent } from './thread.component';
 
 @Component({
   selector: 'prs-thread-list',

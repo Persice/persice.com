@@ -1,24 +1,11 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-
-import {
-  SelectDirective,
-  GeocompleteDirective,
-  DatepickerDirective,
-  TimepickerDirective
-} from '../shared/directives';
-
-import {BaseEventComponent} from './base-event.component';
-import {NotificationComponent} from '../shared/components/notification';
-import {LoadingComponent} from '../shared/components/loading';
-
-import {DateUtil} from '../shared/core';
-
-import {
-  EventService,
-  NotificationService
-} from '../shared/services';
-
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
+import { BaseEventComponent } from './base-event.component';
+import { NotificationComponent } from '../shared/components/notification';
+import { LoadingComponent } from '../shared/components/loading';
+import { DateUtil } from '../shared/core';
+import { EventService, NotificationService } from '../shared/services';
 
 
 @Component({

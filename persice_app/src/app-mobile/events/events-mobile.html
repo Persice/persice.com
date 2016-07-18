@@ -13,18 +13,22 @@
           <use xlink:href="/static/assets/icons/icons.svg#icon-down-small"></use>
         </svg>
       </a>
-      <ul class="mob-header__drop mob-header__drop--center js-mob-header__drop2" [hidden]="!isEventsTypeDropdownVisible">
-        <li (click)="clickEventsTypeDropdownElement('all', $event)" data-val="All events" [ngClass]="{'is-current' : eventsType === 'all'}">All events
+      <ul class="mob-header__drop mob-header__drop--center js-mob-header__drop2"
+          [hidden]="!isEventsTypeDropdownVisible">
+        <li (click)="clickEventsTypeDropdownElement('all', $event)" data-val="All events"
+            [ngClass]="{'is-current' : eventsType === 'all'}">All events
           <svg role="img" class="icon icon--extratiny">
             <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
           </svg>
         </li>
-        <li (click)="clickEventsTypeDropdownElement('my', $event)" data-val="My events" [ngClass]="{'is-current' : eventsType === 'my'}">My events
+        <li (click)="clickEventsTypeDropdownElement('my', $event)" data-val="My events"
+            [ngClass]="{'is-current' : eventsType === 'my'}">My events
           <svg role="img" class="icon icon--extratiny">
             <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
           </svg>
         </li>
-        <li (click)="clickEventsTypeDropdownElement('connections', $event)" data-val="My network" [ngClass]="{'is-current' : eventsType === 'connections'}">My network
+        <li (click)="clickEventsTypeDropdownElement('connections', $event)" data-val="My network"
+            [ngClass]="{'is-current' : eventsType === 'connections'}">My network
           <svg role="img" class="icon icon--extratiny">
             <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
           </svg>
@@ -32,11 +36,6 @@
       </ul>
     </div>
     <div class="layout__item 1/5 text-right">
-      <a>
-        <svg role="img" class="icon icon--small">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
-        </svg>
-      </a>
     </div>
   </div>
 </header>
@@ -58,8 +57,12 @@
       </svg>
     </li>
   </ul>
-  <div class="events-list-container" prs-infinite-scroll (scrolled)="loadMoreEvents($event)" [scrollEnabled]="!isLoaded" [bottomOffset]="60">
-    <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" *ngFor="let event of events$ | async"></prs-mobile-event-summary>
+  <div class="events-list-container" prs-infinite-scroll (scrolled)="loadMoreEvents($event)" [scrollEnabled]="!isLoaded"
+       [bottomOffset]="60">
+    <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" [username]="usernameFromCookie"
+                              [userId]="userIdFromCookie"
+                              *ngFor="let event of events$ | async"></prs-mobile-event-summary>
   </div>
 </div>
 <prs-loading [status]="isLoading$ | async"></prs-loading>
+<prs-mobile-events-not-found *ngIf="!!(notFound$ | async)"></prs-mobile-events-not-found>

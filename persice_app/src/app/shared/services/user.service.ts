@@ -1,10 +1,8 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable, Subject} from 'rxjs';
-
-import {AuthUserModel} from '../models';
-import {HttpClient} from '../core';
-import {CookieUtil} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable, Subject } from 'rxjs';
+import { AuthUserModel } from '../models';
+import { HttpClient, CookieUtil } from '../core';
 
 @Injectable()
 export class UserService {
@@ -14,6 +12,7 @@ export class UserService {
   image: string = UserService.DEFAULT_IMAGE;
   name: string = '';
   _observer: Subject<any> = new Subject(null);
+
   constructor(private http: HttpClient) {
 
   }
@@ -25,7 +24,7 @@ export class UserService {
   public getProfileUpdates() {
 
 
-     let params = [
+    let params = [
       `format=json`
     ].join('&');
 
@@ -35,18 +34,18 @@ export class UserService {
     let channel = this.http.get(url)
       .map((res: Response) => res.json())
       .subscribe((data) => {
-        this.user = new AuthUserModel(data);
-        this.image = this.user.info.image;
-        this.name = this.user.info.first_name;
-        this._observer.next({
-          user: this.user
+          this.user = new AuthUserModel(data);
+          this.image = this.user.info.image;
+          this.name = this.user.info.first_name;
+          this._observer.next({
+            user: this.user
+          });
+          channel.unsubscribe();
+        },
+        (err) => {
+          console.log('could not fetch user profile', err);
+          channel.unsubscribe();
         });
-        channel.unsubscribe();
-      },
-      (err) => {
-        console.log('could not fetch user profile', err);
-        channel.unsubscribe();
-      });
   }
 
   public get(): Observable<any> {
@@ -87,5 +86,5 @@ export class UserService {
 }
 
 export var userServiceInjectables: Array<any> = [
-  provide(UserService, { useClass: UserService })
+  provide(UserService, {useClass: UserService})
 ];

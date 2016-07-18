@@ -1,25 +1,17 @@
-<div class="event-summary">
-  <div (click)="onOpenEvent.emit($event)" class="event-summary__details cover-background" [ngStyle]="{'background-image': 'url(' + event.image + ')'}">
+<div class="event-summary" [ngClass]="{'is-open' : isRsvpElementVisible}">
+  <div (click)="onOpenEvent.emit($event)" class="event-summary__details cover-background"
+       [ngStyle]="{'background-image': 'url(' + event.image + ')'}">
     <div class="event-summary__details__copy">
       <h3 class="event-summary__title">{{event.name}}</h3>
       <p class="event-summary__location">{{event.locationName}}</p>
       <p class="event-summary__date-n-time">
-        {{event.startDate.dayName}}, {{event.startDate.month}} {{event.startDate.day}}, {{event.startDate.hour}} {{event.timezone}}
+        {{event.startDate.dayName}}, {{event.startDate.month}} {{event.startDate.day}}, {{event.startDate.hour}}
+        {{event.timezone}}
       </p>
       <div class="layout layout--flush event-summary__meta ml0">
-        <div class="layout__item 1/2">
-          <!-- TODO: temporarily hide payment info
-            <div class="event-summary__meta__value">$50</div>
-            <div class="event-summary__meta__label">Per person</div>
-            -->
-        </div>
-        <div class="layout__item 1/2 text-right">
-          <div class="event-summary__meta__value">{{event.spotsRemaining}}</div>
-          <div class="event-summary__meta__label">Spots left</div>
-        </div>
       </div>
     </div>
-    <div class="card-rsvp-drop-close">
+    <div class="card-rsvp-drop-close" (click)="handleRsvpButtonVisibility(false, $event)">
       <span href="" class="card-rsvp-drop-close__btn">
           <svg role="img" class="icon ">
             <use xlink:href="/static/assets/icons/icons.svg#icon-close"></use>
@@ -27,49 +19,6 @@
         </span>
     </div>
   </div>
-  <div class="card__stat">
-    <div class="layout layout--flush layout--middle text-center">
-      <div class="layout__item 1/3">
-        <div class="card-stat__vert"><span class="card-stat__value">{{event.similarity}}&deg;</span> <span class="card-stat__label">Similar</span>
-        </div>
-      </div>
-      <div class="layout__item 1/3 separated-left separated-right">
-        <div class="card-stat__vert"><span class="card-stat__value">{{event.connectionsAttendeesCount}}</span> <span class="card-stat__label">Connections</span>
-        </div>
-      </div>
-      <div class="layout__item 1/3 has-event-summary__status js-has-event-summary__status">
-        <div class="event-summary__status event-summary__status--label">
-          <div class="card-stat__vert"><span class="card-stat__value">RSVP</span></div>
-        </div>
-        <div class="event-summary__status event-summary__status--cannotgo hidden">
-          <div class="event-summary__status__vert"><span>Can't go</span></div>
-        </div>
-        <div class="event-summary__status event-summary__status--maybe hidden">
-          <div class="event-summary__status__vert"><span>Maybe</span>
-            <br>
-          </div>
-        </div>
-        <div class="event-summary__status event-summary__status--going hidden">
-          <div class="event-summary__status__vert"><span>Going</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="card-rsvp-drop">
-      <div class="tableize tableize--middle">
-        <div class="tableize__cell 1/3">
-          <div class="tableize__content">
-            <a href="" class="btn btn-1 btn-1--tiny btn--full btn-1--red js-event-cannot">Can't go</a>
-          </div>
-        </div>
-        <div class="tableize__cell 1/3">
-          <div class="tableize__content"><a class="btn btn-1 btn-1--tiny btn--full btn-1--darkblue js-event-maybe">Maybe</a>
-          </div>
-        </div>
-        <div class="tableize__cell 1/3">
-          <div class="tableize__content"><a class="btn btn-1 btn-1--tiny btn--full btn-1--green js-event-going">Going</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <prs-rsvp-element [event]="event" [username]="username" [userId]="userId"
+                    (onToggleRsvpElement)="handleRsvpButtonVisibility($event)"></prs-rsvp-element>
 </div>

@@ -1,5 +1,5 @@
-export {MapsAPILoader} from './services/maps-api-loader/maps-api-loader';
-export {NoOpMapsAPILoader} from './services/maps-api-loader/noop-maps-api-loader';
+export { MapsAPILoader } from './services/maps-api-loader/maps-api-loader';
+export { NoOpMapsAPILoader } from './services/maps-api-loader/noop-maps-api-loader';
 export {
   LazyMapsAPILoader,
   LazyMapsAPILoaderConfig,

@@ -115,7 +115,23 @@ module.exports = webpackMerge(commonConfig, {
       aggregateTimeout: 300,
       poll: 1000
     },
-    outputPath: helpers.root('dist')
+    outputPath: helpers.root('dist'),
+    stats: {
+      colors: true,
+      hash: false,
+      version: false,
+      timings: true,
+      assets: true,
+      chunks: false,
+      modules: false,
+      reasons: false,
+      children: false,
+      source: false,
+      errors: true,
+      errorDetails: true,
+      warnings: true,
+      publicPath: true
+    }
   },
 
   node: {

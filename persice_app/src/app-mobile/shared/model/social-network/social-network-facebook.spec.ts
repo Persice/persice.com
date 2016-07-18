@@ -1,5 +1,4 @@
-
-import {SocialNetworkFacebook} from "./social-network-facebook";
+import { SocialNetworkFacebook } from './social-network-facebook';
 describe('Facebook', () => {
 
   it('instantiates with valid data', () => {

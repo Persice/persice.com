@@ -1,19 +1,19 @@
 /*
  * Providers provided by Angular
  */
-import {bootstrap} from '@angular/platform-browser-dynamic';
+import { bootstrap } from '@angular/platform-browser-dynamic';
+import { PLATFORM_PROVIDERS_SIGNUP } from './platform/browser';
+import { ENV_PROVIDERS } from './platform/environment';
+import { SignupComponent, APP_PROVIDERS } from './signup';
 /*
-* Platform and Environment
-* our providers/directives/pipes
-*/
-import {PLATFORM_PROVIDERS_SIGNUP} from './platform/browser';
-import {ENV_PROVIDERS} from './platform/environment';
+ * Platform and Environment
+ * our providers/directives/pipes
+ */
 
 /*
-* App Component
-* our top level component that holds all of our components
-*/
-import {SignupComponent, APP_PROVIDERS} from './signup';
+ * App Component
+ * our top level component that holds all of our components
+ */
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
@@ -29,9 +29,6 @@ export function main(initialHmrState?: any): Promise<any> {
     .catch(err => console.error(err));
 
 }
-
-
-
 
 
 /*

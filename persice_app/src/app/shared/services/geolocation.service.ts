@@ -1,5 +1,5 @@
-import {Injectable, provide} from '@angular/core';
-import {Observable} from 'rxjs';
+import { Injectable, provide } from '@angular/core';
+import { Observable } from 'rxjs';
 
 const GEOLOCATION_ERRORS = {
   'errors.location.unsupportedBrowser': 'Browser does not support location services',
@@ -60,10 +60,9 @@ export class GeolocationService {
     return obs.share();
 
 
-
   }
 }
 
 export var geolocationServiceInjectables: Array<any> = [
-  provide(GeolocationService, { useClass: GeolocationService })
+  provide(GeolocationService, {useClass: GeolocationService})
 ];

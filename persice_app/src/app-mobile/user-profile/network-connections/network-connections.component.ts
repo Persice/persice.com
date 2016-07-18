@@ -1,15 +1,15 @@
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {Subscription} from 'rxjs';
-import {UserCardMobileComponent} from '../../shared/components/user-card';
-import {LoadingComponent} from '../../../app/shared/components/loading';
-import {InfiniteScrollDirective} from '../../../common/directives';
-import {ConnectionsService} from '../../../common/connections';
-import {SelectedPersonActions} from '../../../common/actions';
-import {AppState} from '../../../common/reducers';
-import {AppStateService} from '../../shared/services';
-import {HeaderState} from '../../header';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { UserCardMobileComponent } from '../../shared/components/user-card';
+import { LoadingComponent } from '../../../app/shared/components/loading';
+import { InfiniteScrollDirective } from '../../../common/directives';
+import { ConnectionsService } from '../../../common/connections';
+import { SelectedPersonActions } from '../../../common/actions';
+import { AppState } from '../../../common/reducers';
+import { AppStateService } from '../../shared/services';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-network-connections',
@@ -76,17 +76,17 @@ export class NetworkConnectionsComponent implements OnInit, OnDestroy {
 
     let subs: Subscription = this.connectionsService.get(this.connectionsNext, 12, false)
       .subscribe(
-      (data: any) => {
-        this.assignConnectionsList(data);
-        this.loadingConnections = false;
-        this.loadingConnectionsInitial = false;
-        subs.unsubscribe();
-      },
-      (err) => {
-        this.loadingConnections = false;
-        this.loadingConnectionsInitial = false;
-        subs.unsubscribe();
-      });
+        (data: any) => {
+          this.assignConnectionsList(data);
+          this.loadingConnections = false;
+          this.loadingConnectionsInitial = false;
+          subs.unsubscribe();
+        },
+        (err) => {
+          this.loadingConnections = false;
+          this.loadingConnectionsInitial = false;
+          subs.unsubscribe();
+        });
   }
 
   /**

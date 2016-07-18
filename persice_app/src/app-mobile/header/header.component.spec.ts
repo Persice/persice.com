@@ -1,15 +1,15 @@
 // TODO(sasa): fix unit tests once @angular/router has testing exported
-import {inject, addProviders, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
-import {SpyLocation} from '@angular/common/testing';
-import {Location} from '@angular/common';
-import {MockBackend} from '@angular/http/testing';
-import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
-import {HttpClient} from '../../app/shared/core/http-client';
-import {HeaderComponent} from './header.component';
-import {FilterService} from '../../app/shared/services/filter.service';
-import {NotificationService} from '../../app/shared/services/notification.service';
-import {AppStateService} from '../shared/services/app-state.service';
-import {HeaderState} from './header.state';
+import { inject, addProviders, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { SpyLocation } from '@angular/common/testing';
+import { Location } from '@angular/common';
+import { MockBackend } from '@angular/http/testing';
+import { Http, ConnectionBackend, BaseRequestOptions } from '@angular/http';
+import { HttpClient } from '../../app/shared/core/http-client';
+import { HeaderComponent } from './header.component';
+import { FilterService } from '../../app/shared/services/filter.service';
+import { NotificationService } from '../../app/shared/services/notification.service';
+import { AppStateService } from '../shared/services/app-state.service';
+import { HeaderState } from './header.state';
 
 xdescribe('Headercomponent mobile', () => {
 
@@ -23,8 +23,10 @@ xdescribe('Headercomponent mobile', () => {
       HttpClient,
       {
         provide: Http,
-        useFactory: (connectionBackend: ConnectionBackend,
-                     defaultOptions: BaseRequestOptions) => {
+        useFactory: (
+          connectionBackend: ConnectionBackend,
+          defaultOptions: BaseRequestOptions
+        ) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [

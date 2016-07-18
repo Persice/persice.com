@@ -6,6 +6,7 @@ from collections import namedtuple
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.cache import cache
+from social_auth.db.django_models import UserSocialAuth
 from tastypie import fields
 from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
@@ -20,7 +21,7 @@ from goals.utils import (get_mutual_linkedin_connections,
                          get_mutual_twitter_friends,
                          get_current_position, get_religious_views,
                          get_political_views)
-from matchfeed.utils import MatchQuerySet, NonMatchUser
+from matchfeed.utils import MatchQuerySet, NonMatchUser, mutual_twitter_friends
 from members.models import FacebookCustomUserActive
 
 logger = logging.getLogger(__name__)
@@ -236,12 +237,17 @@ FacebookMutualUser = namedtuple('FacebookMutualUser',
                                  'distance', 'facebook_id', 'first_name',
                                  'last_name'])
 
+TwitterMutualUser = namedtuple('TwitterMutualUser',
+                               ['id', 'mutual', 'user_type', 'user_id',
+                                'distance', 'twitter_id', 'first_name',
+                                'image', 'username'])
+
 
 class MutualConnections(Resource):
     id = fields.CharField(attribute='id')
     first_name = fields.CharField(attribute='first_name')
-    last_name = fields.CharField(attribute='last_name')
-    facebook_id = fields.CharField(attribute='facebook_id')
+    last_name = fields.CharField(attribute='last_name', null=True)
+    facebook_id = fields.CharField(attribute='facebook_id', null=True)
     username = fields.CharField(attribute='username', null=True)
     image = fields.FileField(attribute="image", null=True, blank=True)
     user_id = fields.CharField(attribute='user_id')
@@ -318,8 +324,12 @@ class MutualConnections(Resource):
             logging.exception(err)
             raise BadRequest('incorrect user_id')
         mutual_friends_ids = NeoFourJ().get_mutual_friends(current_user.id,
-                                                       user.id)
+                                                           user.id)
         friends_ids = NeoFourJ().get_my_friends_ids(user.id)
+
+        # Remove current user from list ICE-2194
+        if current_user.id in friends_ids:
+            friends_ids.remove(current_user.id)
 
         other_ids = list(set(friends_ids) - set(mutual_friends_ids))
 
@@ -345,11 +355,20 @@ class MutualConnections(Resource):
             obj1.user_type = "persice"
             results[obj1.user_id] = obj1
 
-        # l = get_mutual_linkedin_connections(current_user, user)
-        # linkedin_mutual_connections = l['mutual_linkedin']
-        # t = get_mutual_twitter_friends(current_user, user)
-        # mutual_twitter_friends = t['mutual_twitter_friends']
-        # mutual_twitter_followers = t['mutual_twitter_followers']
+        twitters = mutual_twitter_friends(current_user, user_id)
+
+        for twitter in twitters:
+            results[twitter.twitter_id2] = TwitterMutualUser(
+                id=twitter.twitter_id2,
+                user_id=twitter.twitter_id2,
+                distance=[],
+                twitter_id=twitter.twitter_id2,
+                first_name=twitter.name2,
+                image=twitter.profile_image_url2,
+                username=twitter.screen_name2,
+                mutual=True,
+                user_type='twitter'
+            )
 
         return sorted(results.values(), key=lambda x: -x.mutual)
 
@@ -433,7 +452,7 @@ class ProfileResource(Resource):
         bundle.data['political_views'] = get_political_views(
             bundle.obj.id
         )
-        bundle.data['connected'] = Friend.objects.checking_friendship(
+        bundle.data['connected'] = NeoFourJ().check_friendship_rel(
             bundle.request.user.id,
             bundle.obj.id
         )

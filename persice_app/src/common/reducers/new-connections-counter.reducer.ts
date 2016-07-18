@@ -1,9 +1,10 @@
-import {Action} from '@ngrx/store';
-import {NewConnectionsCounterActions} from '../actions';
+import { Action } from '@ngrx/store';
+import { NewConnectionsCounterActions } from '../actions';
 
 export interface NewConnectionsCounterState {
   counter: number;
-};
+}
+;
 
 let initialState: NewConnectionsCounterState = {
   counter: 0

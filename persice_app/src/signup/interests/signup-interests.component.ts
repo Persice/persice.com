@@ -1,12 +1,9 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-import {ManageInterestsComponent} from '../../common/manage-interests';
-
-import {InterestsService, KeywordsService, WarningService} from '../../app/shared/services';
-import {SignupStateService} from '../../common/services';
-
-import {AutocompleteDirective, InfiniteScrollElementDirective} from '../../common/directives';
-import {LoadingComponent} from '../../app/shared/components/loading';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ManageInterestsComponent } from '../../common/manage-interests';
+import { InterestsService, KeywordsService, WarningService } from '../../app/shared/services';
+import { SignupStateService } from '../../common/services';
+import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
+import { LoadingComponent } from '../../app/shared/components/loading';
 
 @Component({
   selector: 'prs-signup-interests',
@@ -17,8 +14,7 @@ import {LoadingComponent} from '../../app/shared/components/loading';
     InfiniteScrollElementDirective
   ]
 })
-export class SignupInterestsComponent extends ManageInterestsComponent
-  implements OnInit, OnDestroy {
+export class SignupInterestsComponent extends ManageInterestsComponent implements OnInit, OnDestroy {
   // Show warning message if at least three interests are not selected
   showWarning: boolean = false;
 

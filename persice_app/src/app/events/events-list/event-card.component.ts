@@ -1,8 +1,7 @@
-import {Component, ChangeDetectionStrategy, Input, OnInit} from '@angular/core';
-import {RouterLink} from '@angular/router-deprecated';
-
-import {DateUtil} from '../../shared/core';
-import {CheckImageDirective} from '../../shared/directives';
+import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router-deprecated';
+import { DateUtil } from '../../shared/core';
+import { CheckImageDirective } from '../../shared/directives';
 
 @Component({
   selector: 'prs-event-card',
@@ -11,7 +10,7 @@ import {CheckImageDirective} from '../../shared/directives';
   directives: [RouterLink, CheckImageDirective]
 })
 export class EventCardComponent implements OnInit {
-  @Input () event: any;
+  @Input() event: any;
   photo: string = '/static/img/placeholder-image.png';
   date: string = '';
   distanceValue = '';

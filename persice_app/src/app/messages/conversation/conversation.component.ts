@@ -1,6 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RouteParams, Router} from '@angular/router-deprecated';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { RouteParams, Router } from '@angular/router-deprecated';
 import {
   InboxService,
   UserAuthService,
@@ -8,13 +7,10 @@ import {
   MessagesCounterService,
   WebsocketService
 } from '../../shared/services';
-
-
-import {MessagesListComponent} from '../../shared/components/messages-list';
-import {ConversationInputComponent} from '../conversation-input';
-import {ConversationHeaderComponent} from './conversation-header.component';
-
-import {LoadingComponent} from '../../shared/components/loading';
+import { MessagesListComponent } from '../../shared/components/messages-list';
+import { ConversationInputComponent } from '../conversation-input';
+import { ConversationHeaderComponent } from './conversation-header.component';
+import { LoadingComponent } from '../../shared/components/loading';
 
 @Component({
   selector: 'prs-conversation',
@@ -96,7 +92,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
         let prevCount = this.messages.length;
 
         if (res.total === 0 && res.initialLoadingFinished) {
-          this._router.parent.navigate(['/Messages', 'ConversationNewSelected', { friendId: this.threadId }]);
+          this._router.parent.navigate(['/Messages', 'ConversationNewSelected', {friendId: this.threadId}]);
         }
 
         //when first loading messages, scroll to bottom
@@ -109,7 +105,6 @@ export class ConversationComponent implements OnInit, OnDestroy {
         }
 
 
-
         //if receieved new message scroll to bottom
         if (this.hasNew && !this.loadingMessages) {
           let elem = jQuery('#messages')[0];
@@ -120,7 +115,6 @@ export class ConversationComponent implements OnInit, OnDestroy {
         }
 
         this.messages = res.data;
-
 
 
         //when loading more messages finishes, scroll to bottom

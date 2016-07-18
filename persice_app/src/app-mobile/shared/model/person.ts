@@ -1,14 +1,15 @@
-import {ObjectUtil} from '../../../app/shared/core/util';
-import {SocialNetworkFacebook} from './social-network/social-network-facebook';
-import {SocialNetworkLinkedin} from './social-network/social-network-linkedin';
-import {SocialNetworkTwitter} from './social-network/social-network-twitter';
-import {Gender} from './gender';
+import { ObjectUtil } from '../../../app/shared/core/util';
+import { SocialNetworkFacebook } from './social-network/social-network-facebook';
+import { SocialNetworkLinkedin } from './social-network/social-network-linkedin';
+import { SocialNetworkTwitter } from './social-network/social-network-twitter';
+import { Gender } from './gender';
 export class Person {
 
   public topInterestsFirstHalf: any[];
   public topInterestsSecondHalf: any[];
 
   private _id: string;
+  private _isEventOrganizer: boolean;
   private _username: string;
   private _firstName: string;
   private _lastName: string;
@@ -43,6 +44,7 @@ export class Person {
 
   constructor(dto: any) {
     this._id = dto.id;
+    this._isEventOrganizer = !!dto.is_organizer ? true : false;
     this._username = dto.username;
     this._firstName = dto.first_name;
     this._lastName = dto.last_name;
@@ -53,7 +55,7 @@ export class Person {
 
     if (dto.distance) {
       this._distance = dto.distance[0];
-      this._distanceUnit = dto.distance[1] ;
+      this._distanceUnit = dto.distance[1];
     }
     this._image = dto.image;
     this._score = dto.score;
@@ -97,6 +99,10 @@ export class Person {
 
   get id(): string {
     return this._id;
+  }
+
+  get isEventOrganizer(): boolean {
+    return this._isEventOrganizer;
   }
 
   get username(): string {
@@ -252,7 +258,7 @@ export class Person {
       interests: this.interests,
       about: this.about,
       lives_in: this.livesIn,
-      position: { job: this.job, company: this.company },
+      position: {job: this.job, company: this.company},
       first_name: this.firstName,
       total_likes_count: this.likesCount,
       mutual_likes_count: this.likesMutualCount,

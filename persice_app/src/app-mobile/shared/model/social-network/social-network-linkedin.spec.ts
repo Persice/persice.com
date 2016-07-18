@@ -1,5 +1,4 @@
-
-import {SocialNetworkLinkedin} from "./social-network-linkedin";
+import { SocialNetworkLinkedin } from './social-network-linkedin';
 describe('Linkedin', () => {
 
   it('instantiates with valid data', () => {

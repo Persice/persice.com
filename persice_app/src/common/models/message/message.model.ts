@@ -1,4 +1,4 @@
-import {DateUtil} from '../../../app/shared/core';
+import { DateUtil } from '../../../app/shared/core';
 
 export class Message {
 

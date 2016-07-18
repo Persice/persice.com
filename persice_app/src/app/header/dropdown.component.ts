@@ -1,9 +1,8 @@
-import {Component, Input} from '@angular/core';
-import {RouterLink, Router} from '@angular/router-deprecated';
-
-import {DropdownDirective} from '../shared/directives/dropdown.directive';
-import {CheckImageDirective} from '../shared/directives/checkimage.directive';
-import {CookieUtil} from '../shared/core';
+import { Component, Input } from '@angular/core';
+import { RouterLink, Router } from '@angular/router-deprecated';
+import { DropdownDirective } from '../shared/directives/dropdown.directive';
+import { CheckImageDirective } from '../shared/directives/checkimage.directive';
+import { CookieUtil } from '../shared/core';
 
 declare var jQuery;
 @Component({
@@ -39,7 +38,7 @@ export class DropdownComponent {
   }
 
   openMyProfile() {
-    this.router.navigate(['/ProfileView', { username: CookieUtil.getValue('user_username')}]);
+    this.router.navigate(['/ProfileView', {username: CookieUtil.getValue('user_username')}]);
     jQuery('#profileDropdown').removeClass('is-active');
   }
 }

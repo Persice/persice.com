@@ -1,5 +1,5 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {MessagesCounterService} from '../shared/services';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MessagesCounterService } from '../shared/services';
 
 @Component({
   selector: 'prs-messages-counter',

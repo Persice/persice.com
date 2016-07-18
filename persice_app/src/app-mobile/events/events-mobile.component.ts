@@ -1,13 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AppStateService} from '../shared/services/app-state.service';
-import {EventsMobileService} from './events-mobile.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {LoadingComponent} from '../../app/shared/components/loading/loading.component';
-import {OpenLeftMenuDirective} from '../shared/directives/open-left-menu.directive';
-import {Subscription, Observable} from 'rxjs';
-import {Event} from '../shared/model/event';
-import {EventSummaryComponent} from './event-summary';
-import {InfiniteScrollDirective} from '../../common/directives';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AppStateService } from '../shared/services/app-state.service';
+import { EventsMobileService } from './events-mobile.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingComponent } from '../../app/shared/components/loading/loading.component';
+import { OpenLeftMenuDirective } from '../shared/directives/open-left-menu.directive';
+import { Subscription, Observable } from 'rxjs';
+import { Event } from '../shared/model/event';
+import { EventSummaryComponent } from './event-summary';
+import { EventsNotFoundMobileComponent } from './events-not-found';
+import { InfiniteScrollDirective } from '../../common/directives';
+import { EventMembersService } from '../../app/shared/services/eventmembers.service';
+import { CookieUtil } from '../../app/shared/core/util';
 
 @Component({
   selector: 'prs-mobile-events',
@@ -16,9 +19,10 @@ import {InfiniteScrollDirective} from '../../common/directives';
     LoadingComponent,
     OpenLeftMenuDirective,
     EventSummaryComponent,
+    EventsNotFoundMobileComponent,
     InfiniteScrollDirective
   ],
-  providers: [EventsMobileService]
+  providers: [EventsMobileService, EventMembersService]
 })
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
@@ -28,10 +32,13 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   private events$: Observable<Event[]>;
   private isLoading$: Observable<boolean>;
+  private notFound$: Observable<boolean>;
   private isLoadingInitial$: Observable<boolean>;
   private isLoadedSub: Subscription;
   private isLoaded: boolean = false;
   private routerSub: Subscription;
+  private usernameFromCookie: string;
+  private userIdFromCookie: string;
 
   constructor(
     private appStateService: AppStateService,
@@ -39,30 +46,40 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.routerSub = this.route.params.subscribe(params => {
-      this.eventsType = params['type'];
-    });
+    this.usernameFromCookie = CookieUtil.getValue('user_username');
+    this.userIdFromCookie = CookieUtil.getValue('userid');
   }
 
   ngOnInit(): any {
     document.querySelector('html').classList.toggle('bg-gray-2');
     this.appStateService.setHeaderVisibility(false);
-    this.appStateService.setFooterButtonVisibility(true);
+    // TODO: enable add new event button
+    // this.appStateService.setFooterButtonVisibility(true);
 
     this.events$ = this.eventsService.events$;
     this.isLoading$ = this.eventsService.isLoading$;
+    this.notFound$ = this.eventsService.notFound$;
     this.isLoadingInitial$ = this.eventsService.isLoadingInitial$;
-    this.isLoadedSub = this.eventsService.isLoaded$.subscribe((state: boolean) => {
-      this.isLoaded = state;
-    });
+    this.isLoadedSub = this.eventsService.isLoaded$.subscribe(
+      (state: boolean) => {
+        this.isLoaded = state;
+      }
+    );
 
-    this._loadEvents(this.eventsType, true);
+    this.routerSub = this.route.params.subscribe(
+      params => {
+        this.eventsType = params['type'];
+        this._loadEvents(this.eventsType, true);
+      }
+    );
+
   }
 
   ngOnDestroy(): any {
     document.querySelector('html').classList.toggle('bg-gray-2');
     this.appStateService.setHeaderVisibility(true);
-    this.appStateService.setFooterButtonVisibility(false);
+    // TODO: enable add new event button
+    // this.appStateService.setFooterButtonVisibility(false);
     if (this.routerSub) {
       this.routerSub.unsubscribe();
     }
@@ -124,7 +141,6 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     }
 
   }
-
 }
 
 export type EventsType = 'all' | 'my' | 'connections';

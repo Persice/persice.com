@@ -1,7 +1,7 @@
-import {Component, AfterViewInit, OnDestroy} from '@angular/core';
-import {FilterModel} from '../../../../app/shared/models';
-import {FilterService} from '../../../../app/shared/services';
-import {AutocompleteDirective} from '../../../../common/directives';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { FilterModel } from '../../../../app/shared/models';
+import { FilterService } from '../../../../app/shared/services';
+import { AutocompleteDirective } from '../../../../common/directives';
 
 @Component({
   selector: 'prs-mobile-keywords',
@@ -165,7 +165,7 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
   }
 
   private exceedsMaximumLengthOfItems(items: any[], newItem: string): boolean {
-    return  [...items, newItem].join(',').length > this.MAXIMUM_LENGTH_OF_ITEMS;
+    return [...items, newItem].join(',').length > this.MAXIMUM_LENGTH_OF_ITEMS;
   };
 
   private hasMinimumLength(item: string): boolean {

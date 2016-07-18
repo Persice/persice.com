@@ -1,9 +1,7 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-import {StringUtil} from '../shared/core';
-
-import {NotificationSingleComponent} from './notification-single.component';
-import {NotificationsService} from '../shared/services/notifications.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { StringUtil } from '../shared/core';
+import { NotificationSingleComponent } from './notification-single.component';
+import { NotificationsService } from '../shared/services/notifications.service';
 
 @Component({
   selector: 'prs-notifications',
@@ -31,7 +29,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   constructor(
     private _service: NotificationsService
-    ) {
+  ) {
 
   }
 
@@ -60,7 +58,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     if (this.options.lastOnBottom) {
       if (this.notifications.length >= this.options.limit) {
         this.notifications.splice(0, 1);
-      };
+      }
+      ;
       this.notifications.push(item);
     } else {
       if (this.notifications.length >= this.options.limit) {

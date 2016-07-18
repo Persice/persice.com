@@ -1,6 +1,6 @@
-import {Component, Input, Output, EventEmitter, ElementRef, OnInit, OnDestroy} from '@angular/core';
-import {Observable} from 'rxjs';
-import {MyProfileService} from '../shared/services';
+import { Component, Input, Output, EventEmitter, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MyProfileService } from '../shared/services';
 
 @Component({
   selector: 'prs-edit-about',
@@ -16,8 +16,10 @@ export class EditAboutComponent implements OnInit, OnDestroy {
   @Output() loading: EventEmitter<any> = new EventEmitter;
   observable;
 
-  constructor(private service: MyProfileService,
-              private el: ElementRef) {
+  constructor(
+    private service: MyProfileService,
+    private el: ElementRef
+  ) {
 
   }
 

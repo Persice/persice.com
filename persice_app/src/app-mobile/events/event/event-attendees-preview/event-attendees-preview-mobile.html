@@ -1,0 +1,28 @@
+<div class="profile-connections profile-box--bottom-sticked profile-box mb0" (click)="openAttendees($event)">
+  <span class="profile-titleline">{{attendeesGoingCount}}  <span class="profile-titleline__value">Attending </span>
+    <!-- · {{spotsRemaining}} <span class="profile-titleline__value">spots available</span> -->
+  </span>
+  <div class="has-user-links">
+    <div class="layout layout--small">
+      <template ngFor let-person [ngForOf]="attendees">
+        <div class="layout__item 1/5">
+          <div class="user-link">
+            <div class="avatar-place">
+              <div class="avatar avatar--small cover-background" checkimage="{{person.image}}"
+                   [suffix]="'.56x56_q100_crop.jpg'"></div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <div class="layout__item 1/5" *ngFor="let empty of emptyPlacesArray">
+      </div>
+      <div class="layout__item 1/5 text-center">
+        <a>
+          <svg role="img" class="icon">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

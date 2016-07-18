@@ -1,9 +1,10 @@
-import {findIndex} from 'lodash';
+import { findIndex } from 'lodash';
 
 class Item {
   id: number;
   subject: string;
   resource_uri: string;
+
   constructor(id: number, subject: string, resource_uri: string) {
     this.id = id;
     this.subject = subject;
@@ -62,15 +63,15 @@ export abstract class ManageGoalsOffersComponent {
     this.loading = true;
     this.listService.get(this.next, this.ITEMS_PER_PAGE)
       .subscribe(data => this._assignList(data),
-      () => {
-        this.loading = false;
-      });
+        () => {
+          this.loading = false;
+        });
   }
 
   /**
-  * Load more items
-  * @param {DOM event} event
-  */
+   * Load more items
+   * @param {DOM event} event
+   */
   public loadMoreItems(event) {
     if (this.next && !this.loading) {
       this.getList();
@@ -78,8 +79,8 @@ export abstract class ManageGoalsOffersComponent {
   }
 
   /**
-  * Add the current item to the item collection and save on the backend.
-  */
+   * Add the current item to the item collection and save on the backend.
+   */
   public add() {
     let item: string = this.newItemText;
     if (!this.hasMinimumLength(item)) {
@@ -203,7 +204,7 @@ export abstract class ManageGoalsOffersComponent {
   };
 
   private exists(subject: string): boolean {
-    let idx = findIndex(this.items, { 'subject': subject });
+    let idx = findIndex(this.items, {'subject': subject});
     if (idx > -1) {
       return true;
     } else {

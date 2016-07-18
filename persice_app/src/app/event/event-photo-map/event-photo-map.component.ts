@@ -1,13 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-
-import {EventService, NotificationService} from '../../shared/services';
-import {CheckImageDirective} from '../../shared/directives';
-import {FileUtil} from '../../shared/core';
-
-import {
-  ANGULAR2_GOOGLE_MAPS_DIRECTIVES
-} from '../../shared/components/map/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { CORE_DIRECTIVES } from '@angular/common';
+import { EventService, NotificationService } from '../../shared/services';
+import { CheckImageDirective } from '../../shared/directives';
+import { FileUtil } from '../../shared/core';
+import { ANGULAR2_GOOGLE_MAPS_DIRECTIVES } from '../../shared/components/map/core';
 
 
 // just an interface for type safety.
@@ -16,8 +12,6 @@ interface IMarker {
   lng: number;
   label?: string;
 }
-
-
 
 
 @Component({
@@ -109,8 +103,6 @@ export class EventPhotoMapComponent implements OnChanges {
         });
       }
     }
-
-
 
 
   }

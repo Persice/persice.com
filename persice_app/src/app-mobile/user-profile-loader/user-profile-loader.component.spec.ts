@@ -1,21 +1,33 @@
-// TODO(sasa): fix unit tests once @angular/router has testing exported
-import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
-import {RouteParams, ROUTER_PRIMARY_COMPONENT, Router, RouteRegistry} from '@angular/router-deprecated';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {SpyLocation} from '@angular/common/testing';
-import {RootRouter} from '@angular/router-deprecated/src/router';
-import {Location} from '@angular/common';
-import {AppMobileComponent} from '../app-mobile.component';
-import {Observable} from 'rxjs';
-import {UserProfileLoaderComponent} from './user-profile-loader.component';
-import {ProfileService} from '../../app/shared/services/profile.service';
-import {PersonGenerator} from '../shared/model/person-generator';
-import {HttpClient} from '../../app/shared/core';
-import {AppStateService} from '../shared/services/app-state.service';
+import { async, inject, TestComponentBuilder, addProviders } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { provideTestRouter, routesTestConfigAppMobile } from '../../common/test/app-mobile-test.helpers';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { provideStore } from '@ngrx/store';
+import STORE_REDUCERS from '../../common/reducers';
+import STORE_ACTIONS from '../../common/actions';
+import { Observable } from 'rxjs';
+import { UserProfileLoaderComponent } from './user-profile-loader.component';
+import { ProfileService } from '../../app/shared/services/profile.service';
+import { PersonGenerator } from '../shared/model/person-generator';
+import { HttpClient } from '../../app/shared/core';
+import { AppStateService } from '../shared/services/app-state.service';
 
 let component: UserProfileLoaderComponent;
 let mock: ProfileServiceMock;
+
+@Component({
+  selector: 'prs-test-component',
+  template: `
+    <prs-mobile-user-profile>
+    </prs-mobile-user-profile>
+    <router-outlet></router-outlet>
+  `,
+  directives: [UserProfileLoaderComponent, ROUTER_DIRECTIVES]
+})
+class TestComponent {
+}
 
 class ProfileServiceMock extends ProfileService {
   profileDto: any;
@@ -33,12 +45,14 @@ class ProfileServiceMock extends ProfileService {
   }
 }
 
-xdescribe('My profile mobile component', () => {
+describe('User profile loader', () => {
   let fixture: any;
 
   beforeEach(() => {
     mock = new ProfileServiceMock(null);
     addProviders([
+      provideStore(STORE_REDUCERS),
+      STORE_ACTIONS,
       mock.getProvider(),
       MockBackend,
       BaseRequestOptions,
@@ -49,14 +63,7 @@ xdescribe('My profile mobile component', () => {
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
       },
-      {
-        provide: RouteParams,
-        useValue: new RouteParams({username: PersonGenerator.givenAnyFirstName()})
-      },
-      RouteRegistry,
-      {provide: Location, useClass: SpyLocation},
-      {provide: Router, useClass: RootRouter},
-      {provide: ROUTER_PRIMARY_COMPONENT, useValue: AppMobileComponent}
+      provideTestRouter(TestComponent, routesTestConfigAppMobile),
     ]);
   });
 

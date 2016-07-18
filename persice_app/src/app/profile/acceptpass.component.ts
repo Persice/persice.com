@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'prs-acceptpass',
@@ -63,7 +57,7 @@ export class AcceptPassComponent implements OnChanges {
       window.clearTimeout(this.timeoutPass);
     }
     this.timeoutPass = setTimeout(() => {
-      this.passEvent.next({ user: this.user, next: true });
+      this.passEvent.next({user: this.user, next: true});
     }, 1500);
 
   }
@@ -81,7 +75,7 @@ export class AcceptPassComponent implements OnChanges {
       window.clearTimeout(this.timeoutAccept);
     }
     this.timeoutAccept = setTimeout(() => {
-      this.acceptEvent.next({ user: this.user, next: true });
+      this.acceptEvent.next({user: this.user, next: true});
     }, 1500);
   }
 

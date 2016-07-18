@@ -1,17 +1,17 @@
-// TODO(sasa): fix unit tests once @angular/router has testing exported
-
-import {async, inject, TestComponentBuilder, addProviders} from '@angular/core/testing';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {Observable} from 'rxjs';
-import {MockRouterProvider} from '../../../common/test/mocks/routes';
-import {InterestsService} from '../../../app/shared/services/interests.service';
-import {GoalsService} from '../../../app/shared/services/goals.service';
-import {OffersService} from '../../../app/shared/services/offers.service';
-import {PhotosService} from '../../../app/shared/services/photos.service';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {HttpClient} from '../../../app/shared/core';
-import {EditMyProfileNavigationComponent} from './edit-my-profile-navigation.component';
+import { async, inject, describe, TestComponentBuilder, addProviders } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { Observable } from 'rxjs';
+import { provideTestRouter, routesTestConfigAppMobile } from '../../../common/test/app-mobile-test.helpers';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { InterestsService } from '../../../app/shared/services/interests.service';
+import { GoalsService } from '../../../app/shared/services/goals.service';
+import { OffersService } from '../../../app/shared/services/offers.service';
+import { PhotosService } from '../../../app/shared/services/photos.service';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { HttpClient } from '../../../app/shared/core';
+import { EditMyProfileNavigationComponent } from './edit-my-profile-navigation.component';
 
 class MockInterestsService extends InterestsService {
   fakeResponse: any = null;
@@ -81,18 +81,29 @@ class MockGoalsService extends GoalsService {
 
 }
 
-let component: EditMyProfileNavigationComponent;
+@Component({
+  selector: 'prs-test-component',
+  template: `
+    <prs-mobile-edit-my-profile-navigation>
+    </prs-mobile-edit-my-profile-navigation>
+    <router-outlet></router-outlet>
+  `,
+  directives: [EditMyProfileNavigationComponent, ROUTER_DIRECTIVES]
+})
+class TestComponent {
+}
+
+let component: TestComponent;
 let domElement: any;
 
-xdescribe('My profile edit navigation mobile component', () => {
-  var mockRouterProvider: MockRouterProvider;
+describe('My profile edit navigation mobile component', () => {
   let mockInterestsService: MockInterestsService;
   let mockOffersService: MockOffersService;
   let mockPhotosService: MockPhotosService;
   let mockGoalsService: MockGoalsService;
 
   beforeEach(() => {
-    mockRouterProvider = new MockRouterProvider();
+
     mockInterestsService = new MockInterestsService(null);
     mockOffersService = new MockOffersService(null);
     mockGoalsService = new MockGoalsService(null);
@@ -109,7 +120,7 @@ xdescribe('My profile edit navigation mobile component', () => {
         useFactory: (backend, options) => new Http(backend, options),
         deps: [MockBackend, BaseRequestOptions]
       },
-      mockRouterProvider.getProviders(),
+      provideTestRouter(TestComponent, routesTestConfigAppMobile),
       mockInterestsService.getProvider(),
       mockGoalsService.getProvider(),
       mockOffersService.getProvider(),
@@ -142,10 +153,16 @@ xdescribe('My profile edit navigation mobile component', () => {
   it('should have links', () => {
     this.componentFixture.detectChanges();
 
-    var links = [
-      'edit-profile', 'interests'];
-    for (var link in links) {
-      expect(domElement.querySelectorAll(`a[href='/${link}']`)).not.toBeNull();
+    const sidebarLinks: string[] = [
+      '/edit-profile/personal',
+      '/edit-profile/interests',
+      '/edit-profile/photos',
+      '/edit-profile/goals',
+      '/edit-profile/offers',
+      '/edit-profile/accounts'
+    ];
+    for (let i = sidebarLinks.length - 1; i >= 0; i--) {
+      expect(domElement.querySelectorAll(`a[href="${sidebarLinks[i]}"]`).length).toEqual(1);
     }
   });
 

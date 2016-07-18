@@ -1,9 +1,8 @@
-import {provide, Injectable} from '@angular/core';
-import {Response } from '@angular/http';
-import {Observable} from 'rxjs';
-import {HttpClient} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core/util';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
+import { CookieUtil } from '../core/util';
 
 @Injectable()
 export class OffersService {
@@ -63,5 +62,5 @@ export class OffersService {
 }
 
 export var offersServiceInjectables: Array<any> = [
-  provide(OffersService, { useClass: OffersService })
+  provide(OffersService, {useClass: OffersService})
 ];

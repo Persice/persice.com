@@ -1,8 +1,8 @@
-import {async, inject, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {InterestsCardMobileComponent} from './interests-card-mobile.component';
-import {PersonGenerator} from '../../model/person-generator';
-import {Person} from '../../model/person';
+import { async, inject, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { InterestsCardMobileComponent } from './interests-card-mobile.component';
+import { PersonGenerator } from '../../model/person-generator';
+import { Person } from '../../model/person';
 
 @Component({
   template: `<prs-mobile-interests-card [person]="person"></prs-mobile-interests-card>`,

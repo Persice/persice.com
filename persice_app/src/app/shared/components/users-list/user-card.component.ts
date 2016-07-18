@@ -1,15 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  AfterContentInit
-} from '@angular/core';
-
-import {GenderPipe} from '../../pipes';
-import {ObjectUtil} from '../../core';
-
-import {CheckImageDirective} from '../../directives';
+import { Component, EventEmitter, Input, Output, AfterContentInit } from '@angular/core';
+import { GenderPipe } from '../../pipes';
+import { ObjectUtil } from '../../core';
+import { CheckImageDirective } from '../../directives';
 
 @Component({
   selector: 'prs-user-card',
@@ -45,7 +37,7 @@ export class UserCardComponent implements AfterContentInit {
       window.clearTimeout(this.timeoutPass);
     }
     this.timeoutPass = setTimeout(() => {
-      this.passEvent.next({ user: this.user.id, next: false });
+      this.passEvent.next({user: this.user.id, next: false});
     }, 1500);
 
   }
@@ -63,7 +55,7 @@ export class UserCardComponent implements AfterContentInit {
       window.clearTimeout(this.timeoutAccept);
     }
     this.timeoutAccept = setTimeout(() => {
-      this.acceptEvent.next({ user: this.user.id, next: false });
+      this.acceptEvent.next({user: this.user.id, next: false});
     }, 1500);
   }
 

@@ -1,11 +1,10 @@
-import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter, OnInit} from '@angular/core';
-
-import {EditPhotoThumbComponent} from './edit-photo-thumb';
-import {EditProfilePhotoComponent} from './edit-profile-photo';
-import {LoadingComponent} from '../../../../app/shared/components/loading';
-import {Photo} from '../../../../common/models/photo';
-import {AppStateService} from '../../../shared/services/app-state.service';
-import {HeaderState} from '../../../header';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter, OnInit } from '@angular/core';
+import { EditPhotoThumbComponent } from './edit-photo-thumb';
+import { EditProfilePhotoComponent } from './edit-profile-photo';
+import { LoadingComponent } from '../../../../app/shared/components/loading';
+import { Photo } from '../../../../common/models/photo';
+import { AppStateService } from '../../../shared/services/app-state.service';
+import { HeaderState } from '../../../header';
 
 @Component({
   selector: 'prs-mobile-arrange-photos',
@@ -26,14 +25,14 @@ export class ArrangePhotosComponent implements OnInit {
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter();
 
-  private profilePhoto: Photo = new Photo({ order: -1 });
+  private profilePhoto: Photo = new Photo({order: -1});
   private thumbs: Photo[] = [];
   private isProfilePhotoDeletable: boolean = true;
 
   constructor(
     private appStateService: AppStateService,
     private headerState: HeaderState
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.appStateService.headerStateEmitter.emit(

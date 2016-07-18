@@ -1,4 +1,4 @@
-import {take, slice, keysIn, forEach, merge, filter, orderBy, find, findIndex} from 'lodash';
+import { take, slice, keysIn, forEach, merge, filter, orderBy, find, findIndex } from 'lodash';
 
 const moment = require('moment');
 require('moment-timezone/builds/moment-timezone-with-data.min');
@@ -180,7 +180,6 @@ export class ObjectUtil {
   }
 
 
-
   static transformToArray(data) {
 
     return keysIn(data);
@@ -238,7 +237,6 @@ export class GoogleUtil {
 
     if (loc !== null && typeof loc === 'object' && loc.hasOwnProperty('address_components') && loc.hasOwnProperty('geometry')) {
       let location = loc.address_components;
-
 
 
       model.street = GoogleUtil.extractFromAddress(location, 'route', 'long_name') + ' ' + GoogleUtil.extractFromAddress(location, 'street_number', 'long_name');
@@ -450,7 +448,6 @@ export class DateUtil {
     let tzName = tz.name();
     return moment(date).tz(tzName).fromNow();
   }
-
 
 
 }

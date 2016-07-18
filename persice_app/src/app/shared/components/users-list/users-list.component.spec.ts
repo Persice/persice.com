@@ -1,9 +1,9 @@
-import {inject, async, addProviders, TestComponentBuilder} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {UsersListComponent} from './users-list.component';
-import {users} from './users-list.component.mock';
+import { inject, async, addProviders, TestComponentBuilder } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, ConnectionBackend, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { UsersListComponent } from './users-list.component';
+import { users } from './users-list.component.mock';
 
 // Create a test component to test directives
 @Component({
@@ -26,8 +26,10 @@ describe('UsersList component', () => {
       MockBackend,
       {
         provide: Http,
-        useFactory: (connectionBackend: ConnectionBackend,
-                     defaultOptions: BaseRequestOptions) => {
+        useFactory: (
+          connectionBackend: ConnectionBackend,
+          defaultOptions: BaseRequestOptions
+        ) => {
           return new Http(connectionBackend, defaultOptions);
         },
         deps: [

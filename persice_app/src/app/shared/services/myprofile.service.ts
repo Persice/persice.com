@@ -1,14 +1,12 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-
-import {HttpClient} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
 
 @Injectable()
 export class MyProfileService {
   static API_URL: string = '/api/v1/user_profile/';
+
   constructor(private http: HttpClient) {
 
   }
@@ -37,5 +35,5 @@ export class MyProfileService {
 }
 
 export var myProfileServiceInjectables: Array<any> = [
-  provide(MyProfileService, { useClass: MyProfileService })
+  provide(MyProfileService, {useClass: MyProfileService})
 ];

@@ -6,7 +6,9 @@
   </a>
   <div class="tableize tableize--fixed tableize--full content">
     <div class="tableize__cell 3/12 my-profile">
-      <prs-profile-avatar (openPhotos)="openEdit($event)" [loading]="loadingPhotos" [type]="profileType" [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore" [count]="profilePhotosCount"></prs-profile-avatar>
+      <prs-profile-avatar (openPhotos)="openEdit($event)" [loading]="loadingPhotos" [type]="profileType"
+                          [avatar]="profileAvatar" [images]="profilePhotos" [score]="profileScore"
+                          [count]="profilePhotosCount"></prs-profile-avatar>
       <div class="layout layout--flush pt- ph pl+ unselectable">
         <div class="layout__item 1/3">
           <h2 class="module-title mb0">gender</h2>
@@ -45,7 +47,9 @@
             </span>
           </a>
         </h4>
-        <div class="profile-feature" *ngFor="let rel of profileReligiousViews"><a (click)="openEdit('religious')" class="edit-link">{{rel.religious_view}}</a></div>
+        <div class="profile-feature" *ngFor="let rel of profileReligiousViews"><a (click)="openEdit('religious')"
+                                                                                  class="edit-link">{{rel.religious_view}}</a>
+        </div>
       </div>
       <hr class="hr --mh mb0">
       <div class="pt ph+ pb has-edit-link">
@@ -58,14 +62,17 @@
             </span>
           </a>
         </h4>
-        <div class="profile-feature" *ngFor="let rel of profilePoliticalViews"><a (click)="openEdit('political')" class="edit-link">{{rel.political_view}}</a></div>
+        <div class="profile-feature" *ngFor="let rel of profilePoliticalViews"><a (click)="openEdit('political')"
+                                                                                  class="edit-link">{{rel.political_view}}</a>
+        </div>
       </div>
       <hr class="hr --mh mb0">
       <div class="pt ph+ pb has-edit-link">
         <prs-profile-about (openEdit)="openEdit($event)" [editable]="1" [about]="profileAbout"></prs-profile-about>
       </div>
       <hr class="hr --mh mb0">
-      <div class="pt ph+ pb has-edit-link profile-networks" (openEdit)="openEdit($event)" [editable]="1" [url]="profileNetworks">
+      <div class="pt ph+ pb has-edit-link profile-networks" (openEdit)="openEdit($event)" [editable]="1"
+           [url]="profileNetworks">
       </div>
     </div>
     <div class="tableize__cell 6/10">
@@ -83,24 +90,33 @@
         <hr class="hr mb0">
         <div class="match-profile__features">
           <div class="ph+ pb+ pt has-edit-link">
-            <prs-profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Interests'" [items]="profileInterests" [itemsCount]="profileInterestsCount"></prs-profile-items>
+            <prs-profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Interests'"
+                               [items]="profileInterests" [itemsCount]="profileInterestsCount"></prs-profile-items>
           </div>
           <hr class="hr mb0">
           <div class="ph+ pb+ pt has-edit-link">
-            <prs-profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Goals'" [items]="profileGoals" [itemsCount]="profileGoalsCount"></prs-profile-items>
+            <prs-profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Goals'" [items]="profileGoals"
+                               [itemsCount]="profileGoalsCount"></prs-profile-items>
           </div>
           <hr class="hr mb0">
           <div class="ph+ pb+ pt has-edit-link">
-            <prs-profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Offers'" [items]="profileOffers" [itemsCount]="profileOffersCount"></prs-profile-items>
+            <prs-profile-items [editable]="1" (openEdit)="openEdit($event)" [title]="'Offers'" [items]="profileOffers"
+                               [itemsCount]="profileOffersCount"></prs-profile-items>
           </div>
         </div>
         <prs-profile-likes *ngIf="!loadingLikes" [likes]="profileLikes" [count]="profileLikesCount"></prs-profile-likes>
-        <prs-profile-friends *ngIf="!loadingConnections" [type]="profileType" [title]="friendsTitle" [friends]="profileFriends" [count]="profileFriendsCount"></prs-profile-friends>
+        <prs-profile-friends *ngIf="!loadingConnections" [type]="profileType" [title]="friendsTitle"
+                             [friends]="profileFriends" [count]="profileFriendsCount"></prs-profile-friends>
         <prs-loading [status]="loadingLikes || loadingConnections"></prs-loading>
       </div>
     </div>
   </div>
 </div>
 <div class="remodal remodal--common remodal--medium-large profile-edit" data-remodal-id="profile-edit" remodal>
-  <prs-edit-profile *ngIf="active" [loadingPhotosAction]="loadingPhotosAction" (changeProfilePhoto)="changeProfilePhoto($event)" (reorderPhoto)="reorderPhoto($event)" (deletePhoto)="deletePhoto($event)" (cropAndSavePhoto)="cropAndSavePhoto($event)" (refreshUser)="refreshUser($event)" [activeSection]="section" [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex" [loadingPhotos]="loadingPhotos" [photos]="profilePhotos" [user]="userEdit"></prs-edit-profile>
+  <prs-edit-profile *ngIf="active" [loadingPhotosAction]="loadingPhotosAction"
+                    (changeProfilePhoto)="changeProfilePhoto($event)" (reorderPhoto)="reorderPhoto($event)"
+                    (deletePhoto)="deletePhoto($event)" (cropAndSavePhoto)="cropAndSavePhoto($event)"
+                    (refreshUser)="refreshUser($event)" [activeSection]="section"
+                    [politicalViews]="profilePoliticalIndex" [religiousViews]="profileReligiousIndex"
+                    [loadingPhotos]="loadingPhotos" [photos]="profilePhotos" [user]="userEdit"></prs-edit-profile>
 </div>

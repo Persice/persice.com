@@ -5,7 +5,7 @@ export class EventDate {
   private _month: string;
   private _year: string;
 
-  constructor(hour: string, day:string, dayName: string, month: string, year: string) {
+  constructor(hour: string, day: string, dayName: string, month: string, year: string) {
     this._hour = hour;
     this._day = day;
     this._dayName = dayName;

@@ -1,11 +1,5 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
-
-import {CheckImageDirective} from '../../directives';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CheckImageDirective } from '../../directives';
 
 @Component({
   selector: 'prs-thread',

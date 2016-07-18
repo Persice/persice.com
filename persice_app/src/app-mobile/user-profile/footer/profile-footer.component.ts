@@ -1,11 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-
-import {SelectedPersonActions} from '../../../common/actions';
-import {AppState, getSelectedPersonState} from '../../../common/reducers';
-import {AppStateService} from '../../shared/services';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { SelectedPersonActions } from '../../../common/actions';
+import { AppState, getSelectedPersonState } from '../../../common/reducers';
+import { AppStateService } from '../../shared/services';
 
 @Component({
   selector: 'prs-mobile-profile-footer',

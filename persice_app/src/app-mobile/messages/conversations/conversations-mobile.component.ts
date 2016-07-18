@@ -1,14 +1,13 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
-
-import {ConversationsMobileService} from './conversations-mobile.service';
-import {WebsocketService} from './../../../app/shared/services';
-import {ConversationsListMobileComponent} from './conversations-list';
-import {Conversation} from '../../../common/models';
-import {UnreadMessagesCounterService} from './../../../common/services';
-import {AppStateService} from '../../shared/services';
-import {HeaderState} from '../../header';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { ConversationsMobileService } from './conversations-mobile.service';
+import { WebsocketService } from './../../../app/shared/services';
+import { ConversationsListMobileComponent } from './conversations-list';
+import { Conversation } from '../../../common/models';
+import { UnreadMessagesCounterService } from './../../../common/services';
+import { AppStateService } from '../../shared/services';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-conversations',

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {AppStateService} from "../../shared/services/app-state.service";
-import {CookieUtil} from "../../../app/shared/core/util";
-import {ReligiousViewsService} from "../../../app/shared/services/religiousviews.service";
-import {HeaderState} from '../../header';
+import { Component, OnInit } from '@angular/core';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { CookieUtil } from '../../../app/shared/core/util';
+import { ReligiousViewsService } from '../../../app/shared/services/religiousviews.service';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-religious-views',

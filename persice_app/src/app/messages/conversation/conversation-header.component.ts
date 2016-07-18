@@ -1,6 +1,5 @@
-import {Component, Input} from '@angular/core';
-
-import {DropdownDirective} from '../../shared/directives';
+import { Component, Input } from '@angular/core';
+import { DropdownDirective } from '../../shared/directives';
 
 @Component({
   selector: 'prs-conversation-header',

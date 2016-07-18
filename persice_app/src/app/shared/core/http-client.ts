@@ -1,10 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Http, RequestOptionsArgs, Response} from '@angular/http';
-
-import {Subject} from 'rxjs';
-import {Observable} from 'rxjs';
-
-import {Notification} from './dto';
+import { Injectable } from '@angular/core';
+import { Http, RequestOptionsArgs, Response } from '@angular/http';
+import { Subject, Observable } from 'rxjs';
+import { Notification } from './dto';
 
 @Injectable()
 export class HttpClient {
@@ -14,12 +11,12 @@ export class HttpClient {
   constructor(private http: Http) { }
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    this._notify({ type: 'start' });
+    this._notify({type: 'start'});
     return this.http.get(url, options)
       .map(this._mapResponse)
-      .do(res => this._notify({ type: 'done' }),
-      err => this._notify({ type: 'error', data: err }),
-      () => this._notify({ type: 'complete' }));
+      .do(res => this._notify({type: 'done'}),
+        err => this._notify({type: 'error', data: err}),
+        () => this._notify({type: 'complete'}));
   }
 
   post(
@@ -27,12 +24,12 @@ export class HttpClient {
     body: string,
     options?: RequestOptionsArgs
   ): Observable<Response> {
-    this._notify({ type: 'start' });
+    this._notify({type: 'start'});
     return this.http.post(url, body, options)
       .map(this._mapResponse)
-      .do(res => this._notify({ type: 'done' }),
-      err => this._notify({ type: 'error', data: err }),
-      () => this._notify({ type: 'complete' }));
+      .do(res => this._notify({type: 'done'}),
+        err => this._notify({type: 'error', data: err}),
+        () => this._notify({type: 'complete'}));
   }
 
   put(
@@ -40,45 +37,46 @@ export class HttpClient {
     body: string,
     options?: RequestOptionsArgs
   ): Observable<Response> {
-    this._notify({ type: 'start' });
+    this._notify({type: 'start'});
     return this.http.put(url, body, options)
       .map(this._mapResponse)
-      .do(res => this._notify({ type: 'done' }),
-      err => this._notify({ type: 'error', data: err }),
-      () => this._notify({ type: 'complete' }));
+      .do(res => this._notify({type: 'done'}),
+        err => this._notify({type: 'error', data: err}),
+        () => this._notify({type: 'complete'}));
   }
 
   delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    this._notify({ type: 'start' });
+    this._notify({type: 'start'});
     return this.http.delete(url, options)
       .map(this._mapResponse)
-      .do(res => this._notify({ type: 'done' }),
-      err => this._notify({ type: 'error', data: err }),
-      () => this._notify({ type: 'complete' }));
+      .do(res => this._notify({type: 'done'}),
+        err => this._notify({type: 'error', data: err}),
+        () => this._notify({type: 'complete'}));
   }
 
-  patch(url: string,
+  patch(
+    url: string,
     body: string,
     options?: RequestOptionsArgs
   ): Observable<Response> {
-    this._notify({ type: 'start' });
+    this._notify({type: 'start'});
     return this.http.patch(url, body, options)
       .map(this._mapResponse)
-      .do(res => this._notify({ type: 'done' }),
-      err => this._notify({ type: 'error', data: err }),
-      () => this._notify({ type: 'complete' }));
+      .do(res => this._notify({type: 'done'}),
+        err => this._notify({type: 'error', data: err}),
+        () => this._notify({type: 'complete'}));
   }
 
   /**
    * Performs a request with `head` http method.
    */
   head(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    this._notify({ type: 'start' });
+    this._notify({type: 'start'});
     return this.http.head(url, options)
       .map(this._mapResponse)
-      .do(res => this._notify({ type: 'done' }),
-      err => this._notify({ type: 'error', data: err }),
-      () => this._notify({ type: 'complete' }));
+      .do(res => this._notify({type: 'done'}),
+        err => this._notify({type: 'error', data: err}),
+        () => this._notify({type: 'complete'}));
   }
 
   private _notify(data: Notification) {
@@ -101,7 +99,8 @@ export class HttpClient {
     console.log(error);
     if (response.status === 401) {
       window.location.href = '/accounts/logout';
-    };
+    }
+    ;
 
     throw error;
   }

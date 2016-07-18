@@ -1,5 +1,5 @@
-import unreadMessagesCounterReducer, {UnreadMessagesCounterState} from './unread-messages-counter.reducer';
-import {UnreadMessagesCounterActions} from '../actions';
+import unreadMessagesCounterReducer, { UnreadMessagesCounterState } from './unread-messages-counter.reducer';
+import { UnreadMessagesCounterActions } from '../actions';
 
 describe('Unread Messages Counter reducer', () => {
   let emptyState: UnreadMessagesCounterState = {

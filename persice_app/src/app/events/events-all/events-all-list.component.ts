@@ -1,11 +1,9 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-import {EventsBaseComponent} from '../events-base.component';
-import {EventsListComponent} from '../events-list';
-import {LoadingComponent} from '../../shared/components/loading';
-import {NewEventCardComponent} from '../new-event-card';
-
-import {EventsService, FilterService} from '../../shared/services';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { EventsBaseComponent } from '../events-base.component';
+import { EventsListComponent } from '../events-list';
+import { LoadingComponent } from '../../shared/components/loading';
+import { NewEventCardComponent } from '../new-event-card';
+import { EventsService, FilterService } from '../../shared/services';
 
 @Component({
   selector: 'prs-events-all-list',
@@ -32,9 +30,9 @@ export class EventsAllListComponent extends EventsBaseComponent implements OnIni
     this.filterService.addObserver(`events${this.type}`);
     this.filterService.observer(`events${this.type}`)
       .subscribe(
-      (data) => this.refreshList(),
-      (err) => console.log(err),
-      () => console.log('event completed')
+        (data) => this.refreshList(),
+        (err) => console.log(err),
+        () => console.log('event completed')
       );
   }
 

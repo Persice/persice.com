@@ -2449,8 +2449,8 @@ body .fc { /* extra precedence to overcome jqui */
 
 /*
 Acceptable font-family overrides for individual icons:
-  "Arial", sans-serif
-  "Times New Roman", serif
+	"Arial", sans-serif
+	"Times New Roman", serif
 
 NOTE: use percentage font sizes or else old IE chokes
 */
@@ -2761,7 +2761,7 @@ hr.fc-divider {
 
 .fc-row table {
   /* don't put left/right border on anything within a fake row.
-     the outer tbody will worry about this */
+       the outer tbody will worry about this */
   border-left: 0 hidden transparent;
   border-right: 0 hidden transparent;
 
@@ -3172,8 +3172,8 @@ a.fc-more:hover {
   opacity: 0.3;
   filter: alpha(opacity=30); /* for IE */
   /* opacity with small font can sometimes look too faded
-     might want to set the 'color' property instead
-     making day-numbers bold also fixes the problem */
+       might want to set the 'color' property instead
+       making day-numbers bold also fixes the problem */
 }
 
 /* AgendaView all-day area
@@ -3461,8 +3461,13 @@ be a descendant of the grid when it is being dragged.
   border-bottom-color: transparent;
 }
 
+/*!
+ * inuitcss, by @csswizardry
+ *
+ * github.com/inuitcss | inuitcss.com
+ */
 @-webkit-viewport {
-  width: device -width
+  width: device-width
 }
 
 @-moz-viewport {
@@ -3477,8 +3482,7 @@ be a descendant of the grid when it is being dragged.
   width: device-width
 }
 
-/
-
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -4392,6 +4396,20 @@ li > ul, li > ol {
   padding: 0 5px !important;
   border-radius: 40px;
   font-size: 12px
+}
+
+.btn-mob-wrapp .btn-1--mob-centered {
+  margin: 11px auto !important;
+  max-width: 140px !important;
+  display: block !important
+}
+
+.btn-1--mob-tiny {
+  line-height: 30px !important;
+  padding: 0 20px !important;
+  border-radius: 40px;
+  font-size: 11px;
+  letter-spacing: 0
 }
 
 .btn-1--small {
@@ -5909,7 +5927,7 @@ li > ul, li > ol {
 }
 
 .push-menu--right {
-  right: -270px
+  /*right: -270px*/
 }
 
 .push-menu--right.is-open {
@@ -7274,6 +7292,10 @@ input[type=date] {
   border-top: none
 }
 
+.profile-box.profile-box--bottom-sticked {
+  border-bottom: none
+}
+
 .profile-box__sub {
   border-bottom: 1px solid #dadee0;
   padding: 25px 30px
@@ -7387,7 +7409,7 @@ input[type=date] {
 .profile-titleline {
   text-transform: uppercase;
   color: #63727a;
-  font-size: 12px;
+  font-size: 11px;
   padding: 0 15px;
   font-weight: 700;
   white-space: nowrap;
@@ -7402,6 +7424,11 @@ input[type=date] {
 .profile-titleline__subvalue {
   text-transform: lowercase;
   font-size: 12px
+}
+
+.profile-titleline__notif {
+  text-transform: uppercase;
+  color: #a6e16c
 }
 
 .profile-footer {
@@ -8549,6 +8576,19 @@ input[type=date] {
   margin-top: 30px
 }
 
+.event-summary.event-summary--revealed {
+  margin: 0
+}
+
+.event-summary.event-summary--revealed .event-summary__status {
+  border-left: 1px solid #e8edee
+}
+
+.event-summary.event-summary--revealed .card__stat {
+  border: none !important;
+  background: #fafdfe
+}
+
 .event-summary.event-summary--smaller {
   box-shadow: none
 }
@@ -8760,7 +8800,25 @@ input[type=date] {
   color: #395919
 }
 
+.event-summary__status.event-summary__status--going--inverted {
+  color: #8ebf5c
+}
+
+.event-summary__status.event-summary__status--going--inverted.is-current {
+  background: #a6e16c;
+  color: #395919
+}
+
 .event-summary__status.event-summary__status--cannotgo {
+  background: #ec8672;
+  color: #fff
+}
+
+.event-summary__status.event-summary__status--cannotgo--inverted {
+  color: #ec8672
+}
+
+.event-summary__status.event-summary__status--cannotgo--inverted.is-current {
   background: #ec8672;
   color: #fff
 }
@@ -8770,7 +8828,25 @@ input[type=date] {
   color: #fff
 }
 
+.event-summary__status.event-summary__status--maybe--inverted {
+  color: #63727a
+}
+
+.event-summary__status.event-summary__status--maybe--inverted.is-current {
+  background: #63727a;
+  color: #fff
+}
+
 .event-summary__status.event-summary__status--soldout {
+  background: #bcc7cd;
+  color: #63727a
+}
+
+.event-summary__status.event-summary__status--soldout--inverted {
+  color: #63727a
+}
+
+.event-summary__status.event-summary__status--soldout--inverted.is-current {
   background: #bcc7cd;
   color: #63727a
 }
@@ -10079,6 +10155,24 @@ input[type=date] {
 
 .mob-event-invited-people__details__value-label:last-child:after {
   display: none
+}
+
+.mob-event-details__item__paid .icon {
+  display: block;
+  margin: 0 auto;
+  height: 14px;
+  fill: #a6e16c
+}
+
+.mob-event-details__item__paid .mob-event-details__item__paid__in {
+  font-size: 10px;
+  float: right;
+  text-align: center;
+  margin-right: 20px;
+  text-transform: uppercase;
+  color: #a6e16c;
+  font-weight: 700;
+  line-height: 1
 }
 
 .mob-event-invited-people__details__value {

@@ -1,10 +1,8 @@
-import {Response} from '@angular/http';
-
-import {Observable} from 'rxjs/Observable';
-
-import {OPTS_REQ_JSON} from './http-constants';
-import {BaseDto} from './dto';
-import {HttpClient} from './http-client';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { OPTS_REQ_JSON } from './http-constants';
+import { BaseDto } from './dto';
+import { HttpClient } from './http-client';
 
 
 export abstract class BaseService<T extends BaseDto> {

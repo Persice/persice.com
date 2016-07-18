@@ -1,7 +1,7 @@
-import {provide, Injectable} from '@angular/core';
-import {HttpClient} from '../core';
-import {CookieUtil} from '../core/util';
-import {Subject} from 'rxjs';
+import { provide, Injectable } from '@angular/core';
+import { HttpClient } from '../core';
+import { CookieUtil } from '../core/util';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class FacebookAlbumsService {
@@ -85,25 +85,25 @@ export class FacebookAlbumsService {
     let channel = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((data: any) => {
-        try {
-          this._dataStore[index].photos.data = [...this._dataStore[index].photos.data, ...data.data];
-          this._dataStore[index].photos.paging = data.paging;
-          this._loadingMorePhotos = false;
-          this._notify();
-        } catch (e) {
-          console.log('error', e);
-          this._notify();
+          try {
+            this._dataStore[index].photos.data = [...this._dataStore[index].photos.data, ...data.data];
+            this._dataStore[index].photos.paging = data.paging;
+            this._loadingMorePhotos = false;
+            this._notify();
+          } catch (e) {
+            console.log('error', e);
+            this._notify();
+            channel.unsubscribe();
+            return;
+          }
           channel.unsubscribe();
-          return;
-        }
-        channel.unsubscribe();
-      },
-      (error) => {
-        console.log(`Could not load facebook album photos ${error}`);
-      },
-      () => {
+        },
+        (error) => {
+          console.log(`Could not load facebook album photos ${error}`);
+        },
+        () => {
 
-      });
+        });
   }
 
   private _loadAlbums() {
@@ -134,32 +134,32 @@ export class FacebookAlbumsService {
     let channel = this.http.get(url)
       .map((res: any) => res.json())
       .subscribe((data: any) => {
-        try {
-          this._loading = false;
-          this._isListEmpty = false;
-          if (this._dataStore.length === 0) {
-            this._dataStore = data.albums.data;
-            this._next = data.albums.paging.hasOwnProperty('next') ? data.albums.paging.next : null;
+          try {
+            this._loading = false;
+            this._isListEmpty = false;
+            if (this._dataStore.length === 0) {
+              this._dataStore = data.albums.data;
+              this._next = data.albums.paging.hasOwnProperty('next') ? data.albums.paging.next : null;
 
-          } else {
-            this._dataStore = [...this._dataStore, ...data.data];
-            this._next = data.paging.hasOwnProperty('next') ? data.paging.next : null;
+            } else {
+              this._dataStore = [...this._dataStore, ...data.data];
+              this._next = data.paging.hasOwnProperty('next') ? data.paging.next : null;
+            }
+            this._notify();
+          } catch (e) {
+            console.log('error', e);
+            this._notify();
+            channel.unsubscribe();
+            return;
           }
-          this._notify();
-        } catch (e) {
-          console.log('error', e);
-          this._notify();
           channel.unsubscribe();
-          return;
-        }
-        channel.unsubscribe();
-      },
-      (error) => {
-        console.log(`Could not load facebook albums ${error}`);
-      },
-      () => {
+        },
+        (error) => {
+          console.log(`Could not load facebook albums ${error}`);
+        },
+        () => {
 
-      });
+        });
   }
 
   private _notify() {
@@ -176,5 +176,5 @@ export class FacebookAlbumsService {
 }
 
 export var facebookAlbumsServiceInjectables: any[] = [
-  provide(FacebookAlbumsService, { useClass: FacebookAlbumsService })
+  provide(FacebookAlbumsService, {useClass: FacebookAlbumsService})
 ];

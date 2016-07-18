@@ -1,8 +1,8 @@
-import {Router, RouteRegistry, ROUTER_PRIMARY_COMPONENT, RootRouter} from '@angular/router-deprecated';
-import {inject, addProviders} from '@angular/core/testing';
-import {Location} from '@angular/common';
-import {AppComponent} from './app.component';
-import {SpyLocation} from '@angular/common/testing';
+import { Router, RouteRegistry, ROUTER_PRIMARY_COMPONENT, RootRouter } from '@angular/router-deprecated';
+import { inject, addProviders } from '@angular/core/testing';
+import { Location } from '@angular/common';
+import { AppComponent } from './app.component';
+import { SpyLocation } from '@angular/common/testing';
 
 describe('App component', () => {
   var location, router;

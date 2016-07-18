@@ -1,16 +1,16 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {HeaderState} from '../../header/header.state';
-import {Person} from '../../shared/model/person';
-import {AttendeeService} from './attendee.service';
-import {UserCardMobileComponent} from '../../shared/components/user-card/user-card-mobile.component';
-import {InfiniteScrollDirective} from '../../../common/directives';
-import {LoadingComponent} from '../../../app/shared/components/loading';
-import {SelectedPersonActions} from '../../../common/actions';
-import {AppState} from '../../../common/reducers';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { HeaderState } from '../../header/header.state';
+import { Person } from '../../shared/model/person';
+import { AttendeeService } from './attendee.service';
+import { UserCardMobileComponent } from '../../shared/components/user-card/user-card-mobile.component';
+import { InfiniteScrollDirective } from '../../../common/directives';
+import { LoadingComponent } from '../../../app/shared/components/loading';
+import { SelectedPersonActions } from '../../../common/actions';
+import { AppState } from '../../../common/reducers';
 
 @Component({
   selector: 'prs-mobile-attendees',
@@ -22,6 +22,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
   public connections$: Observable<Person[]>;
   public connectionsTotalCount$: Observable<number>;
+  public host$: Observable<Person>;
   public others$: Observable<Person[]>;
   public othersTotalCount$: Observable<number>;
   public counterGoing$: Observable<number>;
@@ -62,6 +63,7 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     });
 
     this.connections$ = this.attendeeService.attendees$.map(data => data.connections);
+    this.host$ = this.attendeeService.attendees$.map(data => data.host);
     this.connectionsTotalCount$ = this.attendeeService.attendees$.map(data => data.connectionsTotalCount);
     this.others$ = this.attendeeService.attendees$.map(data => data.others);
     this.othersTotalCount$ = this.attendeeService.attendees$.map(data => data.othersTotalCount);
@@ -79,8 +81,12 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): any {
     document.querySelector('html').classList.toggle('bg-gray-3');
-    this.isLoadedSub.unsubscribe();
-    this.routerSub.unsubscribe();
+    if (this.isLoadedSub) {
+      this.isLoadedSub.unsubscribe();
+    }
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
   }
 
   public activateTab(index: number) {

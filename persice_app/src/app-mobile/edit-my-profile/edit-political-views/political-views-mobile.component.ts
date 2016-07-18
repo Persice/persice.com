@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {AppStateService} from "../../shared/services/app-state.service";
-import {CookieUtil} from "../../../app/shared/core/util";
-import {PoliticalViewsService} from "../../../app/shared/services/politicalviews.service";
-import {HeaderState} from '../../header';
+import { Component, OnInit } from '@angular/core';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { CookieUtil } from '../../../app/shared/core/util';
+import { PoliticalViewsService } from '../../../app/shared/services/politicalviews.service';
+import { HeaderState } from '../../header';
 
 @Component({
   selector: 'prs-mobile-political-views',

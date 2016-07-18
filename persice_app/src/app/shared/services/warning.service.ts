@@ -6,8 +6,8 @@ export class WarningService {
   event: EventEmitter<any> = new EventEmitter;
 
   push(content: any): void {
-     this.event.next(content);
-   }
+    this.event.next(content);
+  }
 
 
   observer(): EventEmitter<any> {
@@ -17,5 +17,5 @@ export class WarningService {
 
 }
 export var warningServiceInjectables: Array<any> = [
-  provide(WarningService, { useClass: WarningService })
+  provide(WarningService, {useClass: WarningService})
 ];

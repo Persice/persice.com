@@ -1,6 +1,6 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-import {SwiperDirective, CheckImageDirective} from '../shared/directives';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { SwiperDirective, CheckImageDirective } from '../shared/directives';
 
 @Component({
   template: <any>require('./friends.html'),

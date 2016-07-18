@@ -1,13 +1,12 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable}  from 'rxjs';
-import {HttpClient} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
 
 @Injectable()
 export class OnboardingService {
   static API_URL: string = '/api/v1/onboardingflow/';
+
   constructor(private http: HttpClient) {
 
   }
@@ -29,6 +28,6 @@ export class OnboardingService {
 }
 
 export var onboardingServiceInjectables: Array<any> = [
-  provide(OnboardingService, { useClass: OnboardingService })
+  provide(OnboardingService, {useClass: OnboardingService})
 ];
 

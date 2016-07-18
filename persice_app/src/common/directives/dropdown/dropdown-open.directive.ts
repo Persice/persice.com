@@ -1,5 +1,5 @@
-import {Directive, Host, HostListener} from '@angular/core';
-import {DropdownDirective} from './dropdown.directive';
+import { Directive, Host, HostListener } from '@angular/core';
+import { DropdownDirective } from './dropdown.directive';
 
 @Directive({
   selector: '[prs-dropdown-open]'
@@ -11,6 +11,6 @@ export class DropdownOpenDirective {
     return false;
   }
 
-  constructor( @Host() private dropdown: DropdownDirective) { }
+  constructor(@Host() private dropdown: DropdownDirective) { }
 
 }

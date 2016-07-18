@@ -1,13 +1,14 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-import {OPTS_REQ_JSON_CSRF, HttpClient} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { OPTS_REQ_JSON_CSRF, HttpClient } from '../core';
 
 @Injectable()
 export class FriendService {
   static API_URL: string = '/api/v1/friends/';
   static API_URLv2: string = '/api/v2/friends/';
   next: string = '';
+
   constructor(private http: HttpClient) {
 
   }
@@ -52,9 +53,9 @@ export class FriendService {
   public disconnect(friendId: string): Observable<any> {
 
     let friendshipState = {
-        user_id: friendId,
-        action: 'disconnect'
-      };
+      user_id: friendId,
+      action: 'disconnect'
+    };
 
     let body = JSON.stringify(friendshipState);
     return this.http.post(`${FriendService.API_URLv2}?format=json`, body, OPTS_REQ_JSON_CSRF)
@@ -63,5 +64,5 @@ export class FriendService {
 }
 
 export var friendServiceInjectables: Array<any> = [
-  provide(FriendService, { useClass: FriendService })
+  provide(FriendService, {useClass: FriendService})
 ];

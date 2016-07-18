@@ -1,7 +1,6 @@
-import {Action} from '@ngrx/store';
-
-import {Message} from '../models';
-import {MessageActions} from '../actions';
+import { Action } from '@ngrx/store';
+import { Message } from '../models';
+import { MessageActions } from '../actions';
 
 export interface MessagesState {
   entities: Message[];
@@ -11,7 +10,8 @@ export interface MessagesState {
   loading: boolean;
   loaded: boolean;
   isNewMessageBeingSent: boolean;
-};
+}
+;
 
 let initialState: MessagesState = {
   entities: [],
@@ -23,7 +23,7 @@ let initialState: MessagesState = {
   isNewMessageBeingSent: false
 };
 
-export default function(state = initialState, action: Action): MessagesState {
+export default function (state = initialState, action: Action): MessagesState {
   switch (action.type) {
 
     case MessageActions.RESET_COLLECTION: {

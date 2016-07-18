@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
   selector: 'prs-mobile-tab-navigation',
@@ -16,4 +16,5 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   directives: [ROUTER_DIRECTIVES]
 })
-export class TabNavigationComponent { }
+export class TabNavigationComponent {
+}

@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
-import {Store} from '@ngrx/store';
-import {HttpClient, CookieUtil, OPTS_REQ_JSON_CSRF} from '../../../app/shared/core';
-import {Message, Conversation} from '../../../common/models';
-import {MessageActions} from '../../../common/actions';
-import {AppState, getMessagesState, getConversationsState} from '../../../common/reducers';
+import { Injectable } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { HttpClient, CookieUtil, OPTS_REQ_JSON_CSRF } from '../../../app/shared/core';
+import { Message, Conversation } from '../../../common/models';
+import { MessageActions } from '../../../common/actions';
+import { AppState, getMessagesState, getConversationsState } from '../../../common/reducers';
 
 const PER_PAGE_LIMIT: number = 12;
 

@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-
-import {NotificationsService} from '../shared/services/notifications.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { NotificationsService } from '../shared/services/notifications.service';
 
 @Component({
   selector: 'prs-notification-single',
@@ -39,7 +38,7 @@ export class NotificationSingleComponent implements OnInit {
   constructor(
     private _service: NotificationsService,
     private _router: Router
-    ) {
+  ) {
 
   }
 
@@ -65,11 +64,11 @@ export class NotificationSingleComponent implements OnInit {
   performAction(event) {
     switch (this.notification.type) {
       case 'message':
-        this._router.navigate(['Messages', 'SingleConversation', { 'threadId': this.notification.data.sender_id }]);
+        this._router.navigate(['Messages', 'SingleConversation', {'threadId': this.notification.data.sender_id}]);
         this.removeSelf(true);
         break;
       case 'connection':
-        this._router.navigate(['ProfileView', { 'username': this.notification.data.username }]);
+        this._router.navigate(['ProfileView', {'username': this.notification.data.username}]);
         this.removeSelf(true);
         break;
       default:

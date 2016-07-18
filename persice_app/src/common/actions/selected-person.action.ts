@@ -1,18 +1,18 @@
-import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class SelectedPersonActions {
 
   public static SET = '[Selected Person] Set';
-  public static CLEAR= '[Selected Person] Clear';
+  public static CLEAR = '[Selected Person] Clear';
   public static ACCEPTED = '[Selected Person] Accepted';
   public static PASSED = '[Selected Person] Passed';
 
   public set(person: any, profileType: string): Action {
     return {
       type: SelectedPersonActions.SET,
-      payload: { person: person, type: profileType }
+      payload: {person: person, type: profileType}
     };
   }
 

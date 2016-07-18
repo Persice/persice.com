@@ -1,15 +1,14 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {CrowdService} from '../../common/crowd';
-import {CrowdComponent} from '../../common/crowd';
-import {FilterMobileComponent} from '../shared/components/filter';
-import {UserCardMobileComponent} from '../shared/components/user-card';
-import {LoadingComponent} from '../../app/shared/components/loading';
-import {FriendService, FilterService} from '../../app/shared/services';
-import {AppStateService} from '../shared/services';
-import {InfiniteScrollDirective} from '../../common/directives';
-import {UserProfileComponent} from '../user-profile';
-import {HeaderState} from '../header';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { CrowdService, CrowdComponent } from '../../common/crowd';
+import { FilterMobileComponent } from '../shared/components/filter';
+import { UserCardMobileComponent } from '../shared/components/user-card';
+import { LoadingComponent } from '../../app/shared/components/loading';
+import { FriendService, FilterService } from '../../app/shared/services';
+import { AppStateService } from '../shared/services';
+import { InfiniteScrollDirective } from '../../common/directives';
+import { UserProfileComponent } from '../user-profile';
+import { HeaderState } from '../header';
 
 const LIST_REFRESH_TIMEOUT: number = 0;
 

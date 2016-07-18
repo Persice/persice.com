@@ -1,12 +1,5 @@
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  AfterViewInit,
-  Output
-} from '@angular/core';
-import {DateUtil} from '../core';
-
+import { Directive, ElementRef, EventEmitter, AfterViewInit, Output } from '@angular/core';
+import { DateUtil } from '../core';
 
 
 @Directive({
@@ -18,7 +11,7 @@ export class TimepickerDirective implements AfterViewInit {
   @Output() selectedValue: EventEmitter<any> = new EventEmitter();
   value: any;
 
-  constructor(el: ElementRef)  {
+  constructor(el: ElementRef) {
     this.el = el;
   }
 

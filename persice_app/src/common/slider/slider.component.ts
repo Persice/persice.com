@@ -1,14 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  OnChanges,
-  OnDestroy,
-  Input,
-  Output
-} from '@angular/core';
-
+import { Component, ElementRef, EventEmitter, OnInit, OnChanges, OnDestroy, Input, Output } from '@angular/core';
 
 
 @Component({

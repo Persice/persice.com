@@ -1,15 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {RouteConfig, ROUTER_DIRECTIVES, Router} from '@angular/router-deprecated';
-
-import {InboxService} from '../shared/services';
-
-import {
-  ConversationsComponent,
-  ConversationsHeaderComponent
-} from './conversations';
-
-import {ConversationComponent} from './conversation';
-import {NewConversationComponent} from './new-conversation';
+import { Component, OnInit } from '@angular/core';
+import { RouteConfig, ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
+import { InboxService } from '../shared/services';
+import { ConversationsComponent, ConversationsHeaderComponent } from './conversations';
+import { ConversationComponent } from './conversation';
+import { NewConversationComponent } from './new-conversation';
 
 
 @Component({
@@ -44,10 +38,11 @@ import {NewConversationComponent} from './new-conversation';
 ])
 export class MessagesComponent implements OnInit {
   counter: number = 0;
+
   constructor(
     private inboxService: InboxService,
     private _router: Router
-    ) {
+  ) {
 
   }
 
@@ -56,7 +51,7 @@ export class MessagesComponent implements OnInit {
   }
 
   navigateToConversation(id) {
-    this._router.navigate(['SingleConversation', { threadId: id }]);
+    this._router.navigate(['SingleConversation', {threadId: id}]);
   }
 
 }

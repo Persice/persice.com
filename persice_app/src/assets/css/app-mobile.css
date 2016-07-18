@@ -74,7 +74,6 @@
   }
 }
 
-
 /* fix for navmain active link class */
 
 .mob-nav-main li a.router-link-active {
@@ -118,7 +117,6 @@
 .signup-step__warning {
   position: absolute;
 }
-
 
 /* fix for typeahead */
 
@@ -213,7 +211,6 @@
   border-bottom: 1px solid #eff1f1;
   cursor: pointer;
 }
-
 
 /* Notification */
 
@@ -491,7 +488,6 @@ html {
 .chat__send-message {
   position: relative !important;
 }
-
 
 /* custom loading indicator inline*/
 

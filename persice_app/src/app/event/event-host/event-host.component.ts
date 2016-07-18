@@ -1,7 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router-deprecated';
-
-import {CheckImageDirective} from '../../shared/directives';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router-deprecated';
+import { CheckImageDirective } from '../../shared/directives';
 
 @Component({
   selector: 'prs-event-host',
@@ -31,7 +30,7 @@ export class EventHostComponent {
   }
 
   openProfile(username) {
-    this._router.parent.navigate(['./ProfileView', { username: username }]);
+    this._router.parent.navigate(['./ProfileView', {username: username}]);
   }
 
 }

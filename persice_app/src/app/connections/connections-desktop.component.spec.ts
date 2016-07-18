@@ -1,13 +1,13 @@
-import {inject, async, addProviders, TestComponentBuilder, ComponentFixture} from '@angular/core/testing';
-import {Component} from '@angular/core';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {FriendService, FilterService} from '../shared/services';
-import {ConnectionsDesktopComponent} from './connections-desktop.component';
-import {ConnectionsService} from '../../common/connections/connections.service';
-import {MockConnections, MockConnectionsEmpty} from '../../common/connections/connections.mock';
-import {MockConnectionsService} from '../../common/connections/connections.service.mock';
-import {HttpClient} from '../shared/core/http-client';
+import { inject, async, addProviders, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { FriendService, FilterService } from '../shared/services';
+import { ConnectionsDesktopComponent } from './connections-desktop.component';
+import { ConnectionsService } from '../../common/connections/connections.service';
+import { MockConnections, MockConnectionsEmpty } from '../../common/connections/connections.mock';
+import { MockConnectionsService } from '../../common/connections/connections.service.mock';
+import { HttpClient } from '../shared/core/http-client';
 
 // Create a test component to test directives.
 @Component({

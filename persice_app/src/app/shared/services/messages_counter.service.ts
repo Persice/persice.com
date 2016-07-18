@@ -1,6 +1,6 @@
-import {provide, Injectable} from '@angular/core';
-import {HttpClient} from '../core';
-import {Subject} from 'rxjs';
+import { provide, Injectable } from '@angular/core';
+import { HttpClient } from '../core';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class MessagesCounterService {
@@ -46,5 +46,5 @@ export class MessagesCounterService {
 }
 
 export var messagesCounterServiceInjectables: any[] = [
-  provide(MessagesCounterService, { useClass: MessagesCounterService })
+  provide(MessagesCounterService, {useClass: MessagesCounterService})
 ];

@@ -1,35 +1,17 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnChanges,
-  OnDestroy
-} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router-deprecated';
-
-import {AvatarComponent} from './avatar.component';
-import {AboutComponent} from './about.component';
-import {LikesComponent} from './likes.component';
-import {FriendsComponent} from './friends.component';
-import {NetworksComponent} from './networks.component';
-import {ItemsComponent} from './items.component';
-import {AcceptPassComponent} from './acceptpass.component';
-import {GalleryComponent} from './gallery.component';
-
-import {LoadingComponent} from '../shared/components/loading';
-import {RemodalDirective} from '../shared/directives';
-
-import {
-  MutualFriendsService,
-  PhotosService,
-  ReligiousViewsService,
-  PoliticalViewsService
-} from '../shared/services';
-
-
-import {ObjectUtil, ListUtil} from '../shared/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { AvatarComponent } from './avatar.component';
+import { AboutComponent } from './about.component';
+import { LikesComponent } from './likes.component';
+import { FriendsComponent } from './friends.component';
+import { NetworksComponent } from './networks.component';
+import { ItemsComponent } from './items.component';
+import { AcceptPassComponent } from './acceptpass.component';
+import { GalleryComponent } from './gallery.component';
+import { LoadingComponent } from '../shared/components/loading';
+import { RemodalDirective } from '../shared/directives';
+import { MutualFriendsService, PhotosService, ReligiousViewsService, PoliticalViewsService } from '../shared/services';
+import { ObjectUtil, ListUtil } from '../shared/core';
 
 
 @Component({
@@ -217,9 +199,9 @@ export class ProfileCrowdComponent implements OnChanges, OnInit, OnDestroy {
   getPoliticalViews(id) {
     this.politicalviewsService.getByUser('', 100, id)
       .subscribe(
-      data => this.assignPoliticalViews(data),
-      (err) => console.log('Error fetching political views'),
-      () => { }
+        data => this.assignPoliticalViews(data),
+        (err) => console.log('Error fetching political views'),
+        () => { }
       );
   }
 

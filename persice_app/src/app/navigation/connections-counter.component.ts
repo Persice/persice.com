@@ -1,6 +1,5 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-
-import {ConnectionsCounterService} from '../shared/services';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ConnectionsCounterService } from '../shared/services';
 
 @Component({
   selector: 'prs-connections-counter',

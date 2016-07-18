@@ -1,16 +1,16 @@
-import {provideRouter, RouterConfig} from '@angular/router';
-import {CrowdMobileComponent} from './crowd';
-import {NoContentComponent} from './no-content';
-import {ConnectionsMobileComponent} from './connections';
-import {SettingsMobileComponent} from './settings';
-import {EventsMobileComponent} from './events';
-import {EventMobileComponent} from './events/event/event-mobile.component';
-import {AttendeesMobileComponent} from './events/attendees';
-import {UserProfileLoaderComponent} from './user-profile-loader';
-import {TermsOfServiceMobileComponent} from './info/terms-of-service';
-import {PrivacyPolicyMobileComponent} from './info/privacy-policy';
-import {routesMessagesMobile} from './messages/';
-import {routesEditMyProfile} from './edit-my-profile';
+import { provideRouter, RouterConfig } from '@angular/router';
+import { CrowdMobileComponent } from './crowd';
+import { NoContentComponent } from './no-content';
+import { ConnectionsMobileComponent } from './connections';
+import { SettingsMobileComponent } from './settings';
+import { EventsMobileComponent } from './events';
+import { EventMobileComponent } from './events/event/event-mobile.component';
+import { AttendeesMobileComponent } from './events/attendees';
+import { UserProfileLoaderComponent } from './user-profile-loader';
+import { TermsOfServiceMobileComponent } from './info/terms-of-service';
+import { PrivacyPolicyMobileComponent } from './info/privacy-policy';
+import { routesMessagesMobile } from './messages/';
+import { routesEditMyProfile } from './edit-my-profile';
 
 export const rootRoutes: RouterConfig = [
   {
@@ -44,7 +44,7 @@ export const rootRoutes: RouterConfig = [
     component: EventMobileComponent,
   },
   {
-    path: 'attendees/:eventId',
+    path: 'event/:eventId/attendees',
     component: AttendeesMobileComponent,
   },
   {

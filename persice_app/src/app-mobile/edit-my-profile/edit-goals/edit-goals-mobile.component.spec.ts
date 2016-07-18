@@ -1,10 +1,10 @@
-import {async, inject, addProviders, TestComponentBuilder} from '@angular/core/testing';
-import {Observable} from 'rxjs';
-import {EditGoalsMobileComponent} from './edit-goals-mobile.component';
-import {GoalsService} from '../../../app/shared/services/goals.service';
-import {AppStateService} from '../../shared/services/app-state.service';
-import {GoalsGenerators} from './goals-generators';
-import {HeaderState} from '../../header/header.state';
+import { async, inject, addProviders, TestComponentBuilder } from '@angular/core/testing';
+import { Observable } from 'rxjs';
+import { EditGoalsMobileComponent } from './edit-goals-mobile.component';
+import { GoalsService } from '../../../app/shared/services/goals.service';
+import { AppStateService } from '../../shared/services/app-state.service';
+import { GoalsGenerators } from './goals-generators';
+import { HeaderState } from '../../header/header.state';
 
 let component: EditGoalsMobileComponent;
 let mock: GoalsServiceMock;

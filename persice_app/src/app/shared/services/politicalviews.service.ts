@@ -1,10 +1,7 @@
-import {provide, Injectable, EventEmitter} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-
-import {HttpClient} from '../core';
-import {OPTS_REQ_JSON_CSRF} from '../core';
-import {CookieUtil} from '../core';
+import { provide, Injectable, EventEmitter } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
 
 @Injectable()
 export class PoliticalViewsService {
@@ -58,7 +55,7 @@ export class PoliticalViewsService {
 
       for (let i = 0; i < items.length; i++) {
         for (let j = 0; j < result.length; j++) {
-          if (result[j].index_url ===  items[i].political_index) {
+          if (result[j].index_url === items[i].political_index) {
             result[j].selected = true;
             result[j].view_url = items[i].resource_uri;
           }
@@ -130,5 +127,5 @@ export class PoliticalViewsService {
 }
 
 export var politicalViewsServiceInjectables: Array<any> = [
-  provide(PoliticalViewsService, { useClass: PoliticalViewsService })
+  provide(PoliticalViewsService, {useClass: PoliticalViewsService})
 ];

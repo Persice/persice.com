@@ -1,6 +1,6 @@
-import {Distance} from './distance';
-import {DateUtil} from '../../../app/shared/core/util';
-import {EventDate} from './event-date';
+import { Distance } from './distance';
+import { DateUtil, ListUtil } from '../../../app/shared/core/util';
+import { EventDate } from './event-date';
 export class Event {
   private _id: string;
   private _name: string;
@@ -21,6 +21,7 @@ export class Event {
   private _fullAddress: string;
   private _startDate: EventDate;
   private _endDate: EventDate;
+  private _resourceUri: string;
 
   public static fromDto(dto: any) {
     return new Event(dto);
@@ -29,7 +30,7 @@ export class Event {
   constructor(dto: any) {
     this._id = dto.id;
     this._name = dto.name;
-    this._image = dto.event_photo;
+    this._image = !!dto.event_photo ? dto.event_photo : '/static/img/placeholder-image.png';
     this._hostedBy = dto.hosted_by;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
@@ -46,6 +47,27 @@ export class Event {
     this._fullAddress = dto.full_address;
     this._startDate = this._parseEventDateFromField(dto.starts_on);
     this._endDate = this._parseEventDateFromField(dto.ends_on);
+    this._resourceUri = dto.resource_uri;
+  }
+
+  public rsvpOfUsername(username: string): any {
+    for (let user of this._attendeesGoing) {
+      if (user.username === username) {
+        return {rsvp: 'yes', member_id: user.membership_id};
+      }
+    }
+    for (let user of this._attendeesMaybe) {
+      if (user.username === username) {
+        return {rsvp: 'maybe', member_id: user.membership_id};
+      }
+    }
+    for (let user of this._attendeesNotGoing) {
+      if (user.username === username) {
+        return {rsvp: 'no', member_id: user.membership_id};
+      }
+    }
+
+    return {};
   }
 
   get name(): string {
@@ -128,6 +150,10 @@ export class Event {
     return this._attendeesPreview;
   }
 
+  get resourceUri(): string {
+    return this._resourceUri;
+  }
+
   private _parseEventDateFromField(dateField: any): EventDate {
     return new EventDate(
       DateUtil.format(dateField, 'hA'),
@@ -140,11 +166,12 @@ export class Event {
 
   private _makeAttendeesPreview(attendees: any[]): any {
     let result = [];
-    let max = attendees.length < 6 ? attendees.length : 6;
+    let max = attendees.length < 4 ? attendees.length : 4;
     for (let i = 0; i < max; i++) {
-      result = [...result,
-        { first_name: attendees[i].first_name, image: attendees[i].image }];
+      result = [...result, {image: attendees[i].image, isHost: attendees[i].is_organizer}];
     }
+
+    result = ListUtil.orderBy(result, ['isHost'], 'desc');
 
     return result;
   }

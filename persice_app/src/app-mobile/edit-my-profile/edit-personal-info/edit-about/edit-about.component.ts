@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, ElementRef, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+import { Component, OnInit, Input, ElementRef, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'prs-mobile-edit-about',

@@ -1,22 +1,11 @@
-import {
-  Component,
-  ViewEncapsulation,
-  OnInit
-} from '@angular/core';
-
-import {
-  RouteConfig,
-  Router,
-  ROUTER_DIRECTIVES
-} from '@angular/router-deprecated';
-import {Location} from '@angular/common';
-
-import {SignupInterestsComponent} from './interests';
-import {SignupGoalsComponent} from './goals';
-import {SignupOffersComponent} from './offers';
-import {SignupConnectComponent} from './connect-social-accounts';
-import {SignupHeaderComponent} from './header';
-
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { RouteConfig, Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { Location } from '@angular/common';
+import { SignupInterestsComponent } from './interests';
+import { SignupGoalsComponent } from './goals';
+import { SignupOffersComponent } from './offers';
+import { SignupConnectComponent } from './connect-social-accounts';
+import { SignupHeaderComponent } from './header';
 import {
   InterestsService,
   KeywordsService,
@@ -26,7 +15,7 @@ import {
   OnboardingService,
   WarningService
 } from '../app/shared/services';
-import {SignupStateService} from '../common/services';
+import { SignupStateService } from '../common/services';
 
 @Component({
   template: <any>require('./signup.html'),
@@ -56,25 +45,25 @@ import {SignupStateService} from '../common/services';
     path: '/interests',
     component: SignupInterestsComponent,
     name: 'SignupInterests',
-    data: { page: 1 }
+    data: {page: 1}
   },
   {
     path: '/goals',
     component: SignupGoalsComponent,
     name: 'SignupGoals',
-    data: { page: 2 }
+    data: {page: 2}
   },
   {
     path: '/offers',
     component: SignupOffersComponent,
     name: 'SignupOffers',
-    data: { page: 3 }
+    data: {page: 3}
   },
   {
     path: '/connect',
     component: SignupConnectComponent,
     name: 'SignupConnect',
-    data: { page: 4 }
+    data: {page: 4}
   }
 ])
 export class SignupComponent implements OnInit {

@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Person} from '../shared/model/person';
-import {ProfileService} from '../../app/shared/services';
-import {UserProfileComponent} from '../user-profile';
-import {LoadingComponent} from '../../app/shared/components/loading';
-import {CookieUtil} from '../../app/shared/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Person } from '../shared/model/person';
+import { ProfileService } from '../../app/shared/services';
+import { UserProfileComponent } from '../user-profile';
+import { LoadingComponent } from '../../app/shared/components/loading';
+import { CookieUtil } from '../../app/shared/core';
 
 @Component({
   selector: 'prs-mobile-user-profile',
@@ -14,7 +14,7 @@ import {CookieUtil} from '../../app/shared/core';
 })
 export class UserProfileLoaderComponent implements OnInit, OnDestroy {
 
-  private me: Person;
+  private person: Person;
   private type: String;
   private usernameFromCookie: string;
   private usernameFromUrl: string;
@@ -38,7 +38,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
       this.usernameFromUrl = params['username'];
       this.userProfilesub = this.profileService.ofUsername(this.usernameFromUrl).subscribe(resp => {
         if (resp) {
-          this.me = resp;
+          this.person = resp;
           this.isProfileLoaded = true;
           this.isProfileNotFound = false;
           if (this.usernameFromCookie === this.usernameFromUrl) {

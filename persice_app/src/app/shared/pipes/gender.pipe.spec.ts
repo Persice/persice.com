@@ -1,4 +1,4 @@
-import {GenderPipe} from './gender.pipe.ts';
+import { GenderPipe } from './gender.pipe.ts';
 
 describe('GenderPipe', () => {
   let pipe: GenderPipe;

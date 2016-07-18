@@ -1,6 +1,6 @@
-import {provide, Provider} from '@angular/core';
-import {CrowdService} from './crowd.service';
-import {Observable} from 'rxjs';
+import { provide, Provider } from '@angular/core';
+import { CrowdService } from './crowd.service';
+import { Observable } from 'rxjs';
 
 export class MockCrowdService extends CrowdService {
   fakeResponse: any = null;
@@ -14,6 +14,6 @@ export class MockCrowdService extends CrowdService {
   }
 
   public getProvider(): Provider {
-    return provide(CrowdService, { useValue: this });
+    return provide(CrowdService, {useValue: this});
   }
 }

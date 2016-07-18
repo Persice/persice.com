@@ -1,6 +1,5 @@
-import {Component, Input} from '@angular/core';
-
-import {MessageComponent} from './message.component';
+import { Component, Input } from '@angular/core';
+import { MessageComponent } from './message.component';
 
 @Component({
   selector: 'prs-message-list',

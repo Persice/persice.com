@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
-import {Conversation} from '../models';
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
+import { Conversation } from '../models';
 
 interface ConversationsData {
   conversations: Conversation[];

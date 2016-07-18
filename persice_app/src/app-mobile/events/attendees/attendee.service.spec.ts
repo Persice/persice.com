@@ -1,7 +1,7 @@
-import {addProviders} from '@angular/core/testing';
-import {MockBackend} from '@angular/http/testing';
-import {Http, ConnectionBackend, BaseRequestOptions} from '@angular/http';
-import {AttendeeService} from './attendee.service';
+import { addProviders } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { Http, ConnectionBackend, BaseRequestOptions } from '@angular/http';
+import { AttendeeService } from './attendee.service';
 
 
 describe('Attendee service', () => {

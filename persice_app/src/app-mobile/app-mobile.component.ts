@@ -1,28 +1,19 @@
-import {Component, ViewEncapsulation, OnInit, ApplicationRef} from '@angular/core';
-import {Observable} from 'rxjs';
-import {ROUTER_DIRECTIVES, Router, NavigationEnd} from '@angular/router';
-
-import {AppStateService} from './shared/services';
-import {
-  AppState,
-  getUnreadMessagesCounterState,
-  getNewConnectionsCounterState
-} from '../common/reducers';
-import {Store} from '@ngrx/store';
-import {CookieUtil} from '../app/shared/core';
-import {UnreadMessagesCounterService, NewConnectionsCounterService} from '../common/services';
-
-import {CloseLeftMenuDirective} from './shared/directives';
-
-import {NavigationMobileComponent} from './navigation';
-import {HeaderComponent} from './header';
-import {ProfileFooterMobileComponent} from './user-profile';
-import {FooterButtonMobileComponent} from './footer-button';
-
-import {HeaderState} from './header';
-import {GeolocationService} from "../app/shared/services/geolocation.service";
-import {LocationService, UserLocation} from "../app/shared/services/location.service";
-import {FilterService, WebsocketService} from '../app/shared/services';
+import { Component, ViewEncapsulation, OnInit, ApplicationRef } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ROUTER_DIRECTIVES, Router, NavigationEnd } from '@angular/router';
+import { AppStateService } from './shared/services';
+import { AppState, getUnreadMessagesCounterState, getNewConnectionsCounterState } from '../common/reducers';
+import { Store } from '@ngrx/store';
+import { CookieUtil } from '../app/shared/core';
+import { UnreadMessagesCounterService, NewConnectionsCounterService } from '../common/services';
+import { CloseLeftMenuDirective } from './shared/directives';
+import { NavigationMobileComponent } from './navigation';
+import { HeaderComponent, HeaderState } from './header';
+import { ProfileFooterMobileComponent } from './user-profile';
+import { FooterButtonMobileComponent } from './footer-button';
+import { GeolocationService } from '../app/shared/services/geolocation.service';
+import { LocationService, UserLocation } from '../app/shared/services/location.service';
+import { FilterService, WebsocketService } from '../app/shared/services';
 
 /*
  * Persice App Component
@@ -119,11 +110,11 @@ export class AppMobileComponent implements OnInit {
     // Get geolocation using JavaScript browser API.
     this.geolocationService.getLocation(GEOLOCATION_OPTS)
       .subscribe((res: UserLocation) => {
-        this._updateOrCreateLocation(res);
-      },
-      (err) => {
-        console.log('Geolocation Error: ', err);
-      });
+          this._updateOrCreateLocation(res);
+        },
+        (err) => {
+          console.log('Geolocation Error: ', err);
+        });
   }
 
   isMac() {
@@ -141,10 +132,10 @@ export class AppMobileComponent implements OnInit {
   private _updateOrCreateLocation(location: UserLocation) {
     this.locationService.updateOrCreate(location)
       .subscribe((res: UserLocation) => {
-        this.locationService.updateLocation(res);
-      },
-      (err) => {
-        console.log('Location saving error: ', err);
-      });
+          this.locationService.updateLocation(res);
+        },
+        (err) => {
+          console.log('Location saving error: ', err);
+        });
   }
 }

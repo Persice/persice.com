@@ -1,5 +1,4 @@
-import {EventsService, FilterService} from '../shared/services';
-
+import { EventsService, FilterService } from '../shared/services';
 
 
 export abstract class EventsBaseComponent {
@@ -23,7 +22,7 @@ export abstract class EventsBaseComponent {
     public service: EventsService,
     public filterService: FilterService,
     public type: string
-    ) {
+  ) {
     this.type = type;
   }
 
@@ -45,13 +44,13 @@ export abstract class EventsBaseComponent {
     }
     this.service.get(this.next, this.limit, this.filter, this.type)
       .subscribe(data => this.assignList(data),
-      (err) => {
-        console.log(err);
-        this.loading = false;
-      },
-      () => {
+        (err) => {
+          console.log(err);
+          this.loading = false;
+        },
+        () => {
 
-      });
+        });
 
   }
 

@@ -1,5 +1,5 @@
-import unreadMessagesCounterReducer, {NewConnectionsCounterState} from './new-connections-counter.reducer';
-import {NewConnectionsCounterActions} from '../actions';
+import unreadMessagesCounterReducer, { NewConnectionsCounterState } from './new-connections-counter.reducer';
+import { NewConnectionsCounterActions } from '../actions';
 describe('New connections counter reducer', () => {
   let emptyState: NewConnectionsCounterState = {
     counter: 0

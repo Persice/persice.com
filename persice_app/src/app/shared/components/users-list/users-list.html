@@ -1,7 +1,8 @@
 <div class="listed-users p">
   <div class="layout">
     <div class="layout__item large-1/3 extralarge-and-up-1/4" *ngFor="let user of users; trackBy:id">
-      <prs-user-card (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" [showButtons]="showButtons" [user]="user" (onClick)="onUserClicked($event)"></prs-user-card>
+      <prs-user-card (passEvent)="passUser($event)" (acceptEvent)="acceptUser($event)" [showButtons]="showButtons"
+                     [user]="user" (onClick)="onUserClicked($event)"></prs-user-card>
     </div>
   </div>
 </div>

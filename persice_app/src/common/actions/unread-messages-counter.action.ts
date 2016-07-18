@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Action} from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
 
 @Injectable()
 export class UnreadMessagesCounterActions {
@@ -10,14 +10,14 @@ export class UnreadMessagesCounterActions {
   public loadCounterSuccess(data: number): Action {
     return {
       type: UnreadMessagesCounterActions.LOAD_COUNTER_SUCCESS,
-      payload: { counter: data }
+      payload: {counter: data}
     };
   }
 
   public increaseCounter(): Action {
     return {
       type: UnreadMessagesCounterActions.INCREASE_COUNTER,
-      payload: { }
+      payload: {}
     };
   }
 

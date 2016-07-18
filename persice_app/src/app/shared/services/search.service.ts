@@ -1,7 +1,7 @@
-import {provide, Injectable} from '@angular/core';
-import {Response} from '@angular/http';
-import {Observable} from 'rxjs';
-import {HttpClient} from '../core';
+import { provide, Injectable } from '@angular/core';
+import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '../core';
 
 @Injectable()
 export class SearchService {
@@ -39,5 +39,5 @@ export class SearchService {
 }
 
 export var searchServiceInjectables: Array<any> = [
-  provide(SearchService, { useClass: SearchService })
+  provide(SearchService, {useClass: SearchService})
 ];
