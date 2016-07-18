@@ -1,6 +1,8 @@
 <div class="event-summary" [ngClass]="{'is-open' : isRsvpElementVisible}">
   <div (click)="onOpenEvent.emit($event)" class="event-summary__details cover-background"
-       [ngStyle]="{'background-image': 'url(' + event.image + ')'}">
+       [onchanges]="false"
+       default="/static/img/placeholder-image.png"
+       checkimage="{{event.image}}" [suffix]="'.375x145_q100_crop.jpg'">
     <div class="event-summary__details__copy">
       <h3 class="event-summary__title">{{event.name}}</h3>
       <p class="event-summary__location">{{event.locationName}}</p>

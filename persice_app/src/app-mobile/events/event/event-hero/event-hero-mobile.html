@@ -6,5 +6,5 @@
     <prs-mobile-event-description [description]="event.description"></prs-mobile-event-description>
   </div>
   <div class="event-hero-fake-bg-overlay"></div>
-  <img [src]="event.image" alt="event image" class="event-hero-fake-bg">
+  <img default="{{event.image}}" src="{{event.image + '.375x145_q100_crop.jpg'}}" alt="event image" class="event-hero-fake-bg">
 </div>

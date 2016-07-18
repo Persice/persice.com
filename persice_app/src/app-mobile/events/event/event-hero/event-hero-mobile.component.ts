@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CheckImageDirective } from '../../../../app/shared/directives';
 import { EventDescriptionMobileComponent } from './event-description';
 import { Event } from '../../../shared/model/event';
+import { DefaultImageDirective } from '../../../../common/directives/default-image.directive';
 
 @Component({
   selector: 'prs-mobile-event-hero',
   template: <any>require('./event-hero-mobile.html'),
-  directives: [CheckImageDirective, EventDescriptionMobileComponent],
+  directives: [EventDescriptionMobileComponent, DefaultImageDirective],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EventHeroMobileComponent implements OnInit {
