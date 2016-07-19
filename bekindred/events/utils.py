@@ -1,6 +1,6 @@
 from guardian.shortcuts import assign_perm
 
-from events.models import Membership, CumulativeMatchScore, Event
+from events.models import Membership, Event
 from match_engine.models import MatchEngineManager
 from members.models import FacebookCustomUserActive
 
@@ -23,16 +23,6 @@ def calc_score(user_id, event_id):
             count_common_goals_and_offers(user_id, attendee_id)
 
     return cumulative_match_score
-
-
-def get_cum_score(event_id, user_id):
-    m = CumulativeMatchScore.objects.\
-        filter(event=event_id,
-               user=user_id)
-    if m:
-        return m[0].score
-    else:
-        return 0
 
 
 class ResourseObject(object):
