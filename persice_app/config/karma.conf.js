@@ -45,6 +45,9 @@ module.exports = function(config) {
       pattern: './lib/js/ion.rangeSlider.js',
       watched: false
     }, {
+      pattern: './lib/js/viewport-units-buggyfill.js',
+      watched: false
+    }, {
       pattern: './lib/js/jquery.minimalect.js',
       watched: false
     }, {
