@@ -34,6 +34,9 @@ def refresh_cache2(user_id=None):
 
 
 def update_index_delay(*args, **kwargs):
+    logger.info('update_index_delay triggered by {}'.format(
+        kwargs.get('instance'))
+    )
     user_id = None
     if kwargs.get('instance') and hasattr(kwargs.get('instance'), 'user_id'):
         user_id = kwargs.get('instance').user_id

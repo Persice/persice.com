@@ -1,19 +1,17 @@
 import json
-import re
 import logging
-
-from django.contrib.humanize.templatetags.humanize import intcomma
-from guardian.shortcuts import assign_perm, get_objects_for_user, remove_perm
 from datetime import datetime
+
+import re
 import redis
 from django.conf.urls import url
-from django.contrib.gis.measure import D
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.core.paginator import InvalidPage, Paginator
 from django.db import IntegrityError
-from django.db.models import Q
 from django.forms import model_to_dict
 from django.http import Http404
 from django.utils.timezone import now
+from guardian.shortcuts import assign_perm, remove_perm
 from haystack.backends import SQ
 from haystack.query import SearchQuerySet
 from tastypie import fields
@@ -26,24 +24,22 @@ from tastypie.http import HttpUnauthorized
 from tastypie.resources import ModelResource, Resource
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
-from events.authorization import GuardianAuthorization
 
-from events.models import (CumulativeMatchScore, Event, EventFilterState,
-                           Membership, FilterState)
-from events.utils import ResourseObject, Struct, get_cum_score
+from events.authorization import GuardianAuthorization
+from events.tasks import assign_perm_task, remove_perm_task, \
+    publish_to_redis_channel
+from events.models import (Event, Membership, FilterState)
+from events.utils import ResourseObject
 from friends.models import Friend
 from friends.utils import NeoFourJ
-from goals.models import MatchFilterState, Goal, Offer
-from goals.utils import (calculate_age, calculate_distance_events,
-                         get_user_location, calculate_distance_user_event,
-                         get_current_position, get_lives_in)
+from goals.models import Goal, Offer
+from goals.utils import (calculate_age, get_current_position, get_lives_in)
 from interests import Interest
 from matchfeed.utils import MatchQuerySet, MatchEvent, NonMatchUser
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
 from postman.api import pm_write
-
 
 logger = logging.getLogger(__name__)
 
@@ -245,16 +241,14 @@ class EventResource(MultiPartResource, ModelResource):
         if bundle.obj.access_level == 'public':
             users = FacebookCustomUserActive.objects.all(). \
                 exclude(pk=bundle.request.user.id)
-            for user in users:
-                assign_perm('view_event', user, bundle.obj)
+            assign_perm_task.delay('view_event', users, bundle.obj)
         elif bundle.obj.access_level == 'private':
             if bundle.obj.access_user_list:
                 try:
                     user_ids = map(int, bundle.obj.access_user_list.split(','))
                     users = FacebookCustomUserActive.objects.\
                         filter(pk__in=user_ids)
-                    for user in users:
-                        assign_perm('view_event', user, bundle.obj)
+                    assign_perm_task.delay('view_event', users, bundle.obj)
                 except TypeError as e:
                     logger.error(e)
         elif bundle.obj.access_level == 'connections':
@@ -268,8 +262,7 @@ class EventResource(MultiPartResource, ModelResource):
                 user_ids = NeoFourJ().get_my_friends_ids(bundle.request.user.id)
 
             users = FacebookCustomUserActive.objects.filter(pk__in=user_ids)
-            for user in users:
-                assign_perm('view_event', user, bundle.obj)
+            assign_perm_task.delay('view_event', users, bundle.obj)
 
         return bundle
 
@@ -281,14 +274,12 @@ class EventResource(MultiPartResource, ModelResource):
             if new_access_level == 'public':
                 users = FacebookCustomUserActive.objects.all(). \
                     exclude(pk=bundle.request.user.id)
-                for user in users:
-                    assign_perm('view_event', user, bundle.obj)
+                assign_perm_task.delay('view_event', users, bundle.obj)
 
             elif new_access_level == 'private':
                 users = FacebookCustomUserActive.objects.all(). \
                     exclude(pk=bundle.request.user.id)
-                for user in users:
-                    remove_perm('view_event', user, bundle.obj)
+                remove_perm_task.delay('view_event', users, bundle.obj)
 
                 if bundle.obj.access_user_list:
                     try:
@@ -296,16 +287,14 @@ class EventResource(MultiPartResource, ModelResource):
                                        bundle.obj.access_user_list.split(','))
                         users_ = FacebookCustomUserActive.objects. \
                             filter(pk__in=user_ids)
-                        for user in users_:
-                            assign_perm('view_event', user, bundle.obj)
+                        assign_perm_task.delay('view_event', users_, bundle.obj)
                     except TypeError as e:
                         logger.error(e)
 
             elif new_access_level == 'connections':
                 users = FacebookCustomUserActive.objects.all(). \
                     exclude(pk=bundle.request.user.id)
-                for user in users:
-                    remove_perm('view_event', user, bundle.obj)
+                remove_perm_task.delay('view_event', users, bundle.obj)
 
                 user_ids = []
                 if bundle.obj.access_user_list:
@@ -315,13 +304,13 @@ class EventResource(MultiPartResource, ModelResource):
                     except TypeError as e:
                         logger.error(e)
                 else:
-                    user_ids = Friend.objects.\
-                        all_my_friends(bundle.request.user)
+                    user_ids = NeoFourJ().get_my_friends_ids(
+                        bundle.request.user.id
+                    )
 
                 users_ = FacebookCustomUserActive.objects. \
                     filter(pk__in=user_ids)
-                for user in users_:
-                    assign_perm('view_event', user, bundle.obj)
+                assign_perm_task.delay('view_event', users_, bundle.obj)
         return bundle
 
     def obj_delete(self, bundle, **kwargs):
@@ -382,6 +371,28 @@ class EventResource(MultiPartResource, ModelResource):
             )
         return super(EventResource, self).update_in_place(
             request, original_bundle, new_data
+        )
+
+
+class EventResourceSmall(ModelResource):
+    members = fields.OneToManyField('events.api.resources.MembershipResource',
+                                    attribute=lambda bundle:
+                                    bundle.obj.membership_set.all(),
+                                    full=True, null=True)
+
+    class Meta:
+        always_return_data = True
+        queryset = Event.objects.all().order_by('-starts_on')
+        resource_name = 'event'
+        excludes = ['search_index']
+
+        filtering = {
+            'description': ALL
+        }
+        validation = EventValidation()
+        authentication = SessionAuthentication()
+        authorization = GuardianAuthorization(
+            view_permission_code='view_event'
         )
 
 
@@ -448,7 +459,7 @@ class AboutMeResource(ModelResource):
 
 
 class MembershipResource(ModelResource):
-    event = fields.ToOneField(EventResource, 'event')
+    event = fields.ToOneField(EventResourceSmall, 'event')
     user = fields.ToOneField(UserResourceShort, 'user')
 
     class Meta:
@@ -466,9 +477,9 @@ class MembershipResource(ModelResource):
         #  'is_invited': False,
         #  'user': u'/api/v1/auth/user/2/'
         # }
-        if not bundle.data.get('is_invited', True) and \
-                        bundle.data.get('is_invited') is not None:
-            r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        bundle.data.get('event')
+        if not bundle.data.get('is_invited', True) \
+                and bundle.data.get('is_invited') is not None:
             event_id = re.findall(r'/(\d+)/', bundle.data['event'])[0]
             event = Event.objects.get(pk=int(event_id))
 
@@ -492,7 +503,7 @@ class MembershipResource(ModelResource):
                         """.format(**data)}
             pm_write(bundle.request.user, recipient, '',
                      body=message_data['body'])
-            r.publish('message.%s' % recipient.id, json.dumps(message_data))
+            publish_to_redis_channel.delay(recipient, message_data)
         return super(MembershipResource, self).obj_create(bundle, **kwargs)
 
     def obj_delete_list(self, bundle, **kwargs):

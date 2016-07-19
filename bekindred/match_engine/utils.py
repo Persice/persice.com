@@ -49,5 +49,5 @@ def find_collocations(keywords):
 
     result.extend(d.keys())
     logger.debug("Time find_collocations: {} {}".format(now - time.time(),
-                                                   keywords))
+                                                        keywords))
     return result

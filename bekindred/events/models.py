@@ -1,4 +1,7 @@
 from __future__ import absolute_import
+
+import logging
+
 from django.db.models.signals import post_save
 from django.utils.timezone import now
 from geoposition.fields import GeopositionField
@@ -9,6 +12,8 @@ from django.contrib.gis.db import models
 from django.contrib.gis.geos import fromstr
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.contrib.gis.db.models.query import GeoQuerySet
+
+logger = logging.getLogger(__name__)
 
 
 class GeoPgFullTextQuerySet(GeoQuerySet, SearchQuerySet):
@@ -100,29 +105,6 @@ class Membership(models.Model):
         return '%s - %s' % (self.user.get_full_name(),
                             self.event.name)
 
-    # def save(self, *args, **kwargs):
-    #     from events.tasks import cum_score
-    #     cum_score.apply_async(self.event_id)
-    #     super(Membership, self).save(*args, **kwargs)
-
-
-class CumulativeMatchScore(models.Model):
-    user = models.ForeignKey(FacebookCustomUser)
-    event = models.ForeignKey(Event)
-    score = models.IntegerField(default=0)
-
-    class Meta:
-        unique_together = ('user', 'event')
-
-
-# class CumulativeMatchScoreUser(models.Model):
-#     user1 = models.ForeignKey(FacebookCustomUser, related_name='user1')
-#     user2 = models.ForeignKey(FacebookCustomUser, related_name='user2')
-#     score = models.IntegerField(default=0)
-#
-#     class Meta:
-#         unique_together = ('user', 'event')
-
 
 class EventFilterState(models.Model):
     user = models.ForeignKey(FacebookCustomUser)
@@ -146,6 +128,7 @@ class FilterState(models.Model):
 
 
 def create_user_profile(sender, instance, created, **kwargs):
+    logger.info('create_user_profile signal triggered')
     if created:
         EventFilterState.objects.get_or_create(user=instance)
         FilterState.objects.get_or_create(user=instance)
