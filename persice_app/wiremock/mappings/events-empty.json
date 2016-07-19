@@ -9,7 +9,7 @@
       "Access-Control-Allow-Origin" : "*",
       "Content-Type": "application/json"
     },
-    "bodyFileName": "events/events-empty.response.json",
+    "bodyFileName": "empty/empty.response.json",
     "fixedDelayMilliseconds": 500
   }
 }
