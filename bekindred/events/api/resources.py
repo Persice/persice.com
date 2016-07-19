@@ -269,6 +269,10 @@ class EventResource(MultiPartResource, ModelResource):
     def obj_update(self, bundle, skip_errors=False, **kwargs):
         new_access_level = bundle.data.get('access_level', '')
         current_access_level = bundle.obj.access_level
+
+        event_photo = bundle.data.get('event_photo')
+        if isinstance(event_photo, unicode):
+            bundle.data.pop('event_photo')
         bundle = super(EventResource, self).obj_update(bundle, **kwargs)
         if current_access_level != new_access_level:
             if new_access_level == 'public':
