@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ROUTER_DIRECTIVES } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { MessagesMobileService } from './messages-mobile.service';
 import { UnreadMessagesCounterService } from './../../../common/services';
@@ -30,7 +30,8 @@ import { ConversationInputMobileComponent } from './conversation-input';
   directives: [
     ConversationHeaderMobileComponent,
     ConversationInputMobileComponent,
-    ConversationMessagesMobileComponent
+    ConversationMessagesMobileComponent,
+    ROUTER_DIRECTIVES
   ],
   providers: [MessagesMobileService, UnreadMessagesCounterService]
 })
@@ -51,7 +52,6 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
 
   constructor(
     private messagesService: MessagesMobileService,
-    private router: Router,
     private route: ActivatedRoute,
     private appStateService: AppStateService,
     private websocketService: WebsocketService,
@@ -88,9 +88,13 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
     this.appStateService.setHeaderVisibility(true);
-    this.websocketServiceSubs.unsubscribe();
+    if (this.websocketServiceSubs) {
+      this.websocketServiceSubs.unsubscribe();
+    }
     this.markConversationRead();
   }
 
@@ -109,7 +113,9 @@ export class ConversationMobileComponent implements OnInit, OnDestroy {
     let subs = this.messagesService.markConversationRead(this.senderId)
       .subscribe(() => {
         this.unreadMessagesCounterService.refresh();
-        subs.unsubscribe();
+        if (subs) {
+          subs.unsubscribe();
+        }
       });
   }
 
