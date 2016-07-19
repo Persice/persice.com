@@ -18,6 +18,7 @@ export class NetworkPreviewComponent {
 
   @Input() connectionsTotalCount: number;
   @Input() type: string;
+  @Input() ownerName: string;
   @Output() onClick: EventEmitter<any> = new EventEmitter();
 
   public items: any[];

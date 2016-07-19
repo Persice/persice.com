@@ -1,5 +1,5 @@
 <div class="connections-preview-container" (click)="openConnections($event)">
-  <span class="profile-titleline">Connections ({{connectionsTotalCount}})</span>
+  <span class="profile-titleline">{{ownerName}}'s Network ({{connectionsTotalCount}})</span>
   <div class="has-user-links">
     <div class="layout layout--small">
       <template ngFor let-person [ngForOf]="items">
