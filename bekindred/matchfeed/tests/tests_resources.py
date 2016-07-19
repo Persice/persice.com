@@ -183,7 +183,6 @@ class TestMutualConnectionsResource(ResourceTestCase):
     def tearDown(self):
         self.neo.graph.delete_all()
 
-
     def login(self):
         return self.api_client.client.post(
             '/login/', {'username': 'user_a', 'password': 'test'})

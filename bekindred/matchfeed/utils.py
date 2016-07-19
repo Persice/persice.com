@@ -475,8 +475,8 @@ class NonMatchUser(MatchUser):
         self.first_name = self.user.first_name
         self.last_name = self.user.last_name
         self.facebook_id = self.user.facebook_id
-        self.image = FacebookPhoto.objects.profile_photo(user_id) or \
-                     '/media/{}'.format(self.user.image)
+        self.image = FacebookPhoto.objects.profile_photo(
+            user_id) or '/media/{}'.format(self.user.image)
         self.age = calculate_age(self.user.date_of_birth)
         self.gender = self.user.gender or 'm,f'
         self.about = self.user.about_me

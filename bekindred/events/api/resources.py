@@ -478,8 +478,8 @@ class MembershipResource(ModelResource):
         #  'user': u'/api/v1/auth/user/2/'
         # }
         bundle.data.get('event')
-        if not bundle.data.get('is_invited', True) and \
-                        bundle.data.get('is_invited') is not None:
+        if not bundle.data.get('is_invited', True) \
+                and bundle.data.get('is_invited') is not None:
             event_id = re.findall(r'/(\d+)/', bundle.data['event'])[0]
             event = Event.objects.get(pk=int(event_id))
 
