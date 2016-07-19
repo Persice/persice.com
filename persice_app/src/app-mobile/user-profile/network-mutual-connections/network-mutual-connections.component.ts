@@ -70,6 +70,8 @@ export class NetworkMutualConnectionsComponent implements OnInit, OnDestroy {
     this.others$ = this.mutualConnectionsService.connections$.map(data => data.others);
     this.othersTotalCount$ = this.mutualConnectionsService.connections$.map(data => data.othersTotalCount);
 
+    // Start inital loading of mutual connections
+    this._loadData(true);
   }
 
   ngOnDestroy(): any {
