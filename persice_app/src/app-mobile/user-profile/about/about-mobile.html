@@ -1,6 +1,6 @@
 <div class="profile-about">
-  <span [ngClass]="{'profile-about__text': type === 'profile'}">{{lessText}}<span class="moreellipses"
-                                                                                  [ngClass]="{'is-visible': moreText.length > 0 && !showMore}">...</span>
+  <span [ngClass]="{'profile-about__text': type === 'profile'}">{{lessText}}
+    <span class="moreellipses" [ngClass]="{'is-visible': moreText.length > 0 && !showMore}">...</span>
     <span class="morecontent" *ngIf="moreText.length > 0">
       <span [ngClass]="{'is-visible': showMore}">{{moreText}}</span>&nbsp;&nbsp;
       <a (click)="toggleMore(true)" class="morelink" *ngIf="!showMore">View more</a>
