@@ -677,6 +677,6 @@ html.remodal-is-locked > body {
   z-index: 50;
 }
 
-.content--main {
-  min-height: 250px;
+.content--main, .content__noresult {
+  min-height: calc(100vh - 40px);
 }

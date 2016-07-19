@@ -6,7 +6,7 @@
                    [status]="loading"></prs-loading>
       <div class="message" *ngFor="let message of messages; trackBy: i; let i = index">
         <div class="flag flag--middle flag--small mb--">
-          <div class="flag__img">
+          <div class="flag__img" [routerLink]="'/' + message.senderUsername">
             <div class="avatar avatar--small avatar--messages" checkimage="{{message.image}}"
                  [suffix]="'.56x56_q100_crop.jpg'">
             </div>

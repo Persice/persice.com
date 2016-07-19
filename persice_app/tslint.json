@@ -52,10 +52,11 @@
     "no-unreachable": true,
     "no-use-before-declare": true,
     "one-line": [
-      true,
+      false,
       "check-open-brace",
       "check-catch",
       "check-else",
+      "check-finally",
       "check-whitespace"
     ],
     "quotemark": [

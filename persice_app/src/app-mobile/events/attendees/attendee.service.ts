@@ -57,13 +57,17 @@ export class AttendeeService {
   }
 
   public getCounters(eventId: number): void {
-    let subs: Subscription = Observable.forkJoin(
+    let subs$: Subscription = Observable.forkJoin(
       this._getCounters(RsvpStatus.yes, eventId),
       this._getCounters(RsvpStatus.maybe, eventId),
       this._getCounters(RsvpStatus.no, eventId))
       .subscribe((data: number[]) => {
         this._counters$.next(data);
-        subs.unsubscribe();
+
+      }, (err) => {
+
+      }, () => {
+        subs$.unsubscribe();
       });
   }
 
@@ -160,8 +164,8 @@ export class AttendeeService {
         }
 
       }, (err) => { // Error handler
-        console.log('Could not load attendees');
-        console.log(err);
+        this._isLoading$.next(false);
+        this._isLoaded$.next(false);
       }, () => { // When finished
         this._isLoading$.next(false);
         subs$.unsubscribe();

@@ -17,7 +17,7 @@ export class ListUtil {
   }
 
   static filter(arr: any[], property, value): any[] {
-    return filter(arr, property, value);
+    return filter(arr, {property: value});
   }
 
   static findIndex(arr: any[], props): number {
@@ -29,7 +29,7 @@ export class ListUtil {
   }
 
   static filterAndCount(arr: any[], property, value): number {
-    return filter(arr, property, value).length;
+    return filter(arr, {property: value}).length;
   }
 
 }
@@ -138,8 +138,7 @@ export class ObjectUtil {
         });
       }
     }
-    let sliced = slice(keys, n);
-    return sliced;
+    return slice(keys, n);
   }
 
   //transform and items from '{key: value, key: value}' to [{value: VALUE, match: 1|0}]
@@ -179,7 +178,6 @@ export class ObjectUtil {
     return orderBy(keys, ['match'], ['desc']);
   }
 
-
   static transformToArray(data) {
 
     return keysIn(data);
@@ -191,11 +189,7 @@ export class ObjectUtil {
 export class FileUtil {
   static isImage(filename: string) {
     let regex = new RegExp('(.*?)\.(gif|jpg|jpeg|tiff|png)$');
-    if (!(regex.test(filename))) {
-      return false;
-    } else {
-      return true;
-    }
+    return regex.test(filename);
   }
 }
 
@@ -294,11 +288,7 @@ export class StringUtil {
       return false;
     }
 
-    if (data.indexOf(substring) !== -1) {
-      return true;
-    } else {
-      return false;
-    }
+    return data.indexOf(substring) !== -1;
   }
 
   static words(text: string, maxLength: number, options?: any): string {
@@ -366,20 +356,12 @@ export class DateUtil {
 
   static isBeforeToday(date): boolean {
     let dayDiff = moment.utc().diff(date, 'days');
-    if (dayDiff > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return dayDiff > 0;
   }
 
   static isWithinLastWeek(date): boolean {
     let dayDiff = moment.utc().diff(date, 'days');
-    if (dayDiff <= 7) {
-      return true;
-    } else {
-      return false;
-    }
+    return dayDiff <= 7;
   }
 
   static convertTo24Hour(time: any): any {
