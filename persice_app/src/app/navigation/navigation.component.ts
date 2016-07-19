@@ -35,7 +35,7 @@ import { ConnectionsCounterComponent } from './connections-counter.component';
           <svg role="img" class="icon">
             <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
           </svg>
-          <span>Connections</span>
+          <span>Pals</span>
           <prs-connections-counter></prs-connections-counter>
         </a>
       </li>

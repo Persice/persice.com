@@ -135,7 +135,7 @@ export class HeaderState {
     right: RightHeaderState.Search,
     rightAction: HeaderActions.FiltersOpen,
     transparent: false,
-    title: 'Connections'
+    title: 'Pals'
   };
 
   public static messages = {
