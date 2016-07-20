@@ -41,23 +41,6 @@
   </div>
 </header>
 <div class="content pb++ events-content--main" *ngIf="!(isLoadingInitial$ | async)">
-  <ul class="list-bare js-tabs profile-tabs__tabs profile-tabs__tabs--iconed">
-    <li class="is-active">
-      <svg role="img" class="icon ">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-switch-cards"></use>
-      </svg>
-    </li>
-    <li>
-      <svg role="img" class="icon ">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-switch-calendar"></use>
-      </svg>
-    </li>
-    <li>
-      <svg role="img" class="icon ">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-switch-map"></use>
-      </svg>
-    </li>
-  </ul>
   <div class="events-list-container" prs-infinite-scroll (scrolled)="loadMoreEvents($event)" [scrollEnabled]="!isLoaded"
        [bottomOffset]="60">
     <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" [username]="usernameFromCookie"
