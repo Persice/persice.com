@@ -63,7 +63,6 @@ export class DropdownDirective implements OnDestroy {
           this.close();
         }
       }
-      console.log('Pero ', this.preventDefault);
       // PreventDefault is applied on the DOM event.
       if (!!this.preventDefault) {
         event.preventDefault();
