@@ -3,7 +3,7 @@ require('ts-node/register');
 var helpers = require('./helpers');
 
 exports.config = {
-  baseUrl: 'http://localhost:3000/',
+  baseUrl: 'http://test1.com:8000/',
 
   // use `npm run e2e`
   specs: [
@@ -30,7 +30,7 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome',
     'chromeOptions': {
-      'args': ['show-fps-counter=true']
+      'args': ['show-fps-counter=true', 'user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 8_0_2 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12A405 Safari/600.1.4']
     }
   },
 
