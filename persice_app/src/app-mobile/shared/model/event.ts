@@ -10,6 +10,9 @@ export class Event {
   private _accessLevel: string;
   private _similarity: string;
   private _distance: Distance;
+  private _latitude: string;
+  private _longitude: string;
+  private _mapUrl: string;
   private _connectionsAttendeesCount: number;
   private _maxAttendees: number;
   private _attendeesGoing: any[];
@@ -48,6 +51,9 @@ export class Event {
     this._startDate = this._parseEventDateFromField(dto.starts_on);
     this._endDate = this._parseEventDateFromField(dto.ends_on);
     this._resourceUri = dto.resource_uri;
+    this._latitude = dto.location.split(',')[0];
+    this._longitude = dto.location.split(',')[1];
+    this._mapUrl = `http://maps.google.com/maps/place/${this._locationName}/${this._latitude},${this._longitude},15z`;
   }
 
   public rsvpOfUsername(username: string): any {
@@ -152,6 +158,18 @@ export class Event {
 
   get resourceUri(): string {
     return this._resourceUri;
+  }
+
+  get latitude(): string {
+    return this._latitude;
+  }
+
+  get longitude(): string {
+    return this._longitude;
+  }
+
+  get mapUrl(): string {
+    return this._mapUrl;
   }
 
   private _parseEventDateFromField(dateField: any): EventDate {
