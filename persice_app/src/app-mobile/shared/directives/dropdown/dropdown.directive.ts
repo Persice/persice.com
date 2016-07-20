@@ -1,8 +1,9 @@
-import { Directive, ElementRef, ContentChild, Renderer, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, ContentChild, Renderer, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { DropdownMenuDirective } from './dropdown-menu.directive';
 
 @Directive({
-  selector: '[prs-dropdown]'
+  selector: '[prs-dropdown]',
+  properties: ['preventDefault']
 })
 export class DropdownDirective implements OnDestroy {
   opened: boolean = false;
@@ -13,6 +14,8 @@ export class DropdownDirective implements OnDestroy {
   @Output() onOpen: EventEmitter<any> = new EventEmitter();
 
   @Output() onClose: EventEmitter<any> = new EventEmitter();
+
+  @Input() preventDefault: boolean;
 
   constructor(private elementRef: ElementRef, private renderer: Renderer) { }
 
@@ -29,37 +32,44 @@ export class DropdownDirective implements OnDestroy {
     }
   }
 
-  private open() {
+  public open() {
     this.opened = true;
     this.dropdownMenu.open();
     this.onOpen.emit(undefined);
     this.listenGlobalClick();
+    document.querySelector('.content--main').classList.add('overlay');
   }
 
-  private close() {
+  public close() {
     this.opened = false;
     this.dropdownMenu.close();
     this.onClose.emit(undefined);
     this.removeGlobalClickListener();
+    document.querySelector('.content--main').classList.remove('overlay');
   }
 
   /**
    * Listen to global "click" event on Document
    */
   private listenGlobalClick(): void {
-    this.globalListenFunc = this.renderer.listenGlobal('document', 'click', (event) => {
 
+    this.globalListenFunc = this.renderer.listenGlobal('document', 'touchend', (event) => {
       const targetElement: HTMLElement = event.target;
       // Check if clicking inside dropdown.
       // When clicked outside of dropdown, close it.
       if (targetElement && targetElement !== this.elementRef.nativeElement) {
         const clickedInside: boolean = this.elementRef.nativeElement.contains(targetElement);
-        if (!!!clickedInside) {
+        if (!clickedInside) {
           this.close();
         }
       }
+      console.log('Pero ', this.preventDefault);
       // PreventDefault is applied on the DOM event.
-      return false;
+      if (!!this.preventDefault) {
+        event.preventDefault();
+      }
+
+
     });
   }
 

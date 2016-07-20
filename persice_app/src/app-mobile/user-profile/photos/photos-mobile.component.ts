@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PhotosService } from '../../../app/shared/services';
 import { SwiperDirective } from '../../../app/shared/directives';
@@ -14,7 +14,7 @@ import { HeaderState } from '../../header';
   providers: [PhotosService],
   directives: [SwiperDirective]
 })
-export class PhotosMobileComponent implements OnInit {
+export class PhotosMobileComponent implements OnInit, OnDestroy {
   @Input() personId: number;
 
   public photos: string[] = [];
@@ -30,6 +30,9 @@ export class PhotosMobileComponent implements OnInit {
   constructor(private photosService: PhotosService, private appStateService: AppStateService) { }
 
   ngOnInit(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
+    document.querySelector('html').classList.toggle('gallery');
+
     this.appStateService.headerStateEmitter.emit(HeaderState.photoGallery);
 
     // Get person photos from backend
@@ -40,6 +43,11 @@ export class PhotosMobileComponent implements OnInit {
       }
       subs.unsubscribe();
     });
+  }
+
+  ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray');
+    document.querySelector('html').classList.toggle('gallery');
   }
 
 }

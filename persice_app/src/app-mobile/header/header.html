@@ -62,8 +62,8 @@
       <a *ngIf="headerState.right === rightState.Send" (click)="onAction(headerState.rightAction)"
          class="mob-header__right-push">Send</a>
 
-      <div *ngIf="headerState.right === rightState.ConnectionMenu" prs-dropdown>
-        <a class="js-mob-header__profile-drop-trigg" prs-dropdown-open>
+      <div *ngIf="headerState.right === rightState.ConnectionMenu" prs-dropdown [preventDefault]="false">
+        <a class="js-mob-header__profile-drop-trigg" prs-dropdown-toggle>
           <svg role="img" class="icon icon--small">
             <use xmlns:xlink="http://www.w3.org/1999/xlink"
                  xlink:href="/static/assets/icons/icons.svg#icon-mobile_menu"></use>

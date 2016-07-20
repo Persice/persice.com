@@ -11,6 +11,7 @@ import { EventsNotFoundMobileComponent } from './events-not-found';
 import { InfiniteScrollDirective } from '../../common/directives';
 import { EventMembersService } from '../../app/shared/services/eventmembers.service';
 import { CookieUtil } from '../../app/shared/core/util';
+import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown/index';
 
 @Component({
   selector: 'prs-mobile-events',
@@ -20,7 +21,8 @@ import { CookieUtil } from '../../app/shared/core/util';
     OpenLeftMenuDirective,
     EventSummaryComponent,
     EventsNotFoundMobileComponent,
-    InfiniteScrollDirective
+    InfiniteScrollDirective,
+    DROPDOWN_DIRECTIVES
   ],
   providers: [EventsMobileService, EventMembersService]
 })
@@ -28,7 +30,6 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   eventsType: EventsType;
   eventsTypeLabel: string;
-  isEventsTypeDropdownVisible = false;
 
   private events$: Observable<Event[]>;
   private isLoading$: Observable<boolean>;
@@ -104,14 +105,9 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     }
   }
 
-  clickHeader(): void {
-    this.isEventsTypeDropdownVisible = !this.isEventsTypeDropdownVisible;
-  }
-
   clickEventsTypeDropdownElement(type, event): void {
     event.stopPropagation();
     this._loadEvents(type, true);
-    this.isEventsTypeDropdownVisible = !this.isEventsTypeDropdownVisible;
     this.router.navigateByUrl(`/events/${type}`);
   }
 
