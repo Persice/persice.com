@@ -1,7 +1,7 @@
 // App
 export * from './app-mobile.component';
 
-import { ANGULAR2_GOOGLE_MAPS_PROVIDERS } from '../app/shared/components/map/core';
+import { GOOGLE_MAPS_PROVIDERS } from '../common/google-map';
 import { HttpClient } from '../app/shared/core';
 
 // import {provideStore} from '@ngrx/store';
@@ -10,7 +10,7 @@ require('hammerjs');
 
 // Application wide providers
 export const APP_PROVIDERS = [
-  ...ANGULAR2_GOOGLE_MAPS_PROVIDERS,
+  ...GOOGLE_MAPS_PROVIDERS,
   HttpClient
 ];
 

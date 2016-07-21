@@ -1,9 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
-import { GoogleMapMarker } from '../directives/google-map-marker';
-import { GoogleMapsAPIWrapper } from './google-maps-api-wrapper';
-import { Marker } from './google-maps-types';
+import { Observer } from 'rxjs/Observer';
+import { GoogleMapMarker } from '../../directives/google-map-marker';
+import { GoogleMapsAPIWrapper } from './../google-maps-api-wrapper';
+import { Marker } from './../google-maps-types';
 
 @Injectable()
 export class MarkerManager {
@@ -43,13 +43,22 @@ export class MarkerManager {
     return this._markers.get(marker).then((m: Marker) => m.setDraggable(marker.draggable));
   }
 
+  updateIcon(marker: GoogleMapMarker): Promise<void> {
+    return this._markers.get(marker).then((m: Marker) => m.setIcon(marker.iconUrl));
+  }
+
   addMarker(marker: GoogleMapMarker) {
     const markerPromise = this._mapsWrapper.createMarker({
       position: {lat: marker.latitude, lng: marker.longitude},
       label: marker.label,
-      draggable: marker.draggable
+      draggable: marker.draggable,
+      icon: marker.iconUrl
     });
     this._markers.set(marker, markerPromise);
+  }
+
+  getNativeMarker(marker: GoogleMapMarker): Promise<Marker> {
+    return this._markers.get(marker);
   }
 
   createEventObservable<T>(eventName: string, marker: GoogleMapMarker): Observable<T> {
