@@ -53,7 +53,7 @@ export class Event {
     this._resourceUri = dto.resource_uri;
     this._latitude = dto.location.split(',')[0];
     this._longitude = dto.location.split(',')[1];
-    this._mapUrl = `http://maps.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
+    this._mapUrl = `https://www.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
   }
 
   public rsvpOfUsername(username: string): any {
