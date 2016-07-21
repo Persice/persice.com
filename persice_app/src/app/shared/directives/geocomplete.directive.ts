@@ -20,7 +20,6 @@ export class GeocompleteDirective implements OnInit, OnDestroy {
     // lazy load google maps api
     if (!(typeof google === 'object' && typeof google.maps === 'object')) {
       this._loader.load().then(() => {
-        console.log('maps api loading...');
         this.loadAutocomplete();
       });
     } else {
