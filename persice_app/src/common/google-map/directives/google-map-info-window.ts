@@ -76,24 +76,24 @@ export class GoogleMapInfoWindow implements OnInit, OnDestroy, OnChanges {
    * according to their latitude, with InfoWindows of lower latitudes appearing in front of
    * InfoWindows at higher latitudes. InfoWindows are always displayed in front of markers.
    */
-  @Input() zIndex: number;
+  zIndex: number;
 
   /**
    * Maximum width of the infowindow, regardless of content's width. This value is only considered
    * if it is set before a call to open. To change the maximum width when changing content, call
    * close, update maxWidth, and then open.
    */
-  @Input() maxWidth: number;
+  maxWidth: number;
 
   /**
    * Holds the marker that is the host of the info window (if available)
    */
-  @Input() hostMarker: GoogleMapMarker;
+  hostMarker: GoogleMapMarker;
 
   /**
    * Holds the native element that is used for the info window content.
    */
-  @Input() content: Node;
+  content: Node;
 
   /**
    * Sets the open state for the InfoWindow. You can also call the open() and close() methods.

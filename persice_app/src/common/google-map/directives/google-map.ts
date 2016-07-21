@@ -70,7 +70,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
     'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom'
   ];
 
-  @HostBinding('class.google-map-container') private static get googleMapContainer() {
+  @HostBinding('class.google-map-container') get googleMapContainer() {
     return 'true';
   };
 
