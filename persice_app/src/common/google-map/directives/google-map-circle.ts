@@ -32,7 +32,7 @@ export class GoogleMapCircle implements OnInit, OnChanges, OnDestroy {
   /**
    * If set to true, the user can drag this circle over the map. Defaults to false.
    */
-  @Input('draggable') circleDraggable: boolean = false;
+  @Input('circleDraggable') draggable: boolean = false;
 
   /**
    * If set to true, the user can edit this circle by dragging the control points shown at
