@@ -1,4 +1,14 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnChanges,
+  OnInit,
+  SimpleChange,
+  Input,
+  Output,
+  HostBinding, OnDestroy
+} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MouseEvent } from '../map-types';
 import { GoogleMapsAPIWrapper } from '../services/google-maps-api-wrapper';
@@ -35,13 +45,6 @@ import { MarkerManager } from '../services/managers/marker-manager';
 @Component({
   selector: 'google-map',
   providers: [GoogleMapsAPIWrapper, MarkerManager, InfoWindowManager, CircleManager],
-  inputs: [
-    'longitude', 'latitude', 'zoom', 'disableDoubleClickZoom', 'disableDefaultUI', 'scrollwheel',
-    'backgroundColor', 'draggableCursor', 'draggingCursor', 'keyboardShortcuts', 'zoomControl',
-    'styles', 'usePanning', 'streetViewControl', 'fitBounds', 'scaleControl'
-  ],
-  outputs: ['mapClick', 'mapRightClick', 'mapDblClick', 'centerChange', 'idle', 'boundsChange'],
-  host: {'[class.google-map-container]': 'true'},
   styles: [`
     .google-map-container-inner {
       width: inherit;
@@ -58,101 +61,7 @@ import { MarkerManager } from '../services/managers/marker-manager';
     </div>
   `
 })
-export class GoogleMap implements OnChanges, OnInit {
-  /**
-   * The longitude that defines the center of the map.
-   */
-  longitude: number = 0;
-
-  /**
-   * The latitude that defines the center of the map.
-   */
-  latitude: number = 0;
-
-  /**
-   * The zoom level of the map. The default zoom level is 8.
-   */
-  zoom: number = 8;
-
-  /**
-   * Enables/disables zoom and center on double click. Enabled by default.
-   */
-  disableDoubleClickZoom: boolean = false;
-
-  /**
-   * Enables/disables all default UI of the Google map. Please note: When the map is created, this
-   * value cannot get updated.
-   */
-  disableDefaultUI: boolean = false;
-
-  /**
-   * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
-   */
-  scrollwheel: boolean = true;
-
-  /**
-   * Color used for the background of the Map div. This color will be visible when tiles have not
-   * yet loaded as the user pans. This option can only be set when the map is initialized.
-   */
-  backgroundColor: string;
-
-  /**
-   * The name or url of the cursor to display when mousing over a draggable map. This property uses
-   * the css  * cursor attribute to change the icon. As with the css property, you must specify at
-   * least one fallback cursor that is not a URL. For example:
-   * [draggableCursor]="'url(http://www.example.com/icon.png), auto;'"
-   */
-  draggableCursor: string;
-
-  /**
-   * The name or url of the cursor to display when the map is being dragged. This property uses the
-   * css cursor attribute to change the icon. As with the css property, you must specify at least
-   * one fallback cursor that is not a URL. For example:
-   * [draggingCursor]="'url(http://www.example.com/icon.png), auto;'"
-   */
-  draggingCursor: string;
-
-  /**
-   * If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are
-   * enabled by default.
-   */
-  keyboardShortcuts: boolean = true;
-
-  /**
-   * The enabled/disabled state of the Zoom control.
-   */
-  zoomControl: boolean = true;
-
-  /**
-   * Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain
-   * modes, these styles will only apply to labels and geometry.
-   */
-  styles: MapTypeStyle[] = [];
-
-  /**
-   * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
-   * used to
-   * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
-   */
-  usePanning: boolean = false;
-
-  /**
-   * The initial enabled/disabled state of the Street View Pegman control.
-   * This control is part of the default UI, and should be set to false when displaying a map type
-   * on which the Street View road overlay should not appear (e.g. a non-Earth map type).
-   */
-  streetViewControl: boolean = true;
-
-  /**
-   * Sets the viewport to contain the given bounds.
-   */
-  fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
-
-  /**
-   * The initial enabled/disabled state of the Scale control. This is disabled by default.
-   */
-  scaleControl: boolean = false;
-
+export class GoogleMap implements OnChanges, OnInit, OnDestroy {
   /**
    * Map option attributes that can change over time
    */
@@ -161,40 +70,138 @@ export class GoogleMap implements OnChanges, OnInit {
     'keyboardShortcuts', 'zoomControl', 'styles', 'streetViewControl', 'zoom'
   ];
 
-  private _observableSubscriptions: Subscription[] = [];
+  @HostBinding('class.google-map-container') private static get googleMapContainer() {
+    return 'true';
+  };
+
+  /**
+   * The longitude that defines the center of the map.
+   */
+  @Input() longitude: number = 0;
+
+  /**
+   * The latitude that defines the center of the map.
+   */
+  @Input() latitude: number = 0;
+
+  /**
+   * The zoom level of the map. The default zoom level is 8.
+   */
+  @Input() zoom: number = 8;
+
+  /**
+   * Enables/disables zoom and center on double click. Enabled by default.
+   */
+  @Input() disableDoubleClickZoom: boolean = false;
+
+  /**
+   * Enables/disables all default UI of the Google map. Please note: When the map is created, this
+   * value cannot get updated.
+   */
+  @Input() disableDefaultUI: boolean = false;
+
+  /**
+   * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
+   */
+  @Input() scrollwheel: boolean = true;
+
+  /**
+   * Color used for the background of the Map div. This color will be visible when tiles have not
+   * yet loaded as the user pans. This option can only be set when the map is initialized.
+   */
+  @Input() backgroundColor: string;
+
+  /**
+   * The name or url of the cursor to display when mousing over a draggable map. This property uses
+   * the css  * cursor attribute to change the icon. As with the css property, you must specify at
+   * least one fallback cursor that is not a URL. For example:
+   * [draggableCursor]="'url(http://www.example.com/icon.png), auto;'"
+   */
+  @Input() draggableCursor: string;
+
+  /**
+   * The name or url of the cursor to display when the map is being dragged. This property uses the
+   * css cursor attribute to change the icon. As with the css property, you must specify at least
+   * one fallback cursor that is not a URL. For example:
+   * [draggingCursor]="'url(http://www.example.com/icon.png), auto;'"
+   */
+  @Input() draggingCursor: string;
+
+  /**
+   * If false, prevents the map from being controlled by the keyboard. Keyboard shortcuts are
+   * enabled by default.
+   */
+  @Input() keyboardShortcuts: boolean = true;
+
+  /**
+   * The enabled/disabled state of the Zoom control.
+   */
+  @Input() zoomControl: boolean = true;
+
+  /**
+   * Styles to apply to each of the default map types. Note that for Satellite/Hybrid and Terrain
+   * modes, these styles will only apply to labels and geometry.
+   */
+  @Input() styles: MapTypeStyle[] = [];
+
+  /**
+   * When true and the latitude and/or longitude values changes, the Google Maps panTo method is
+   * used to
+   * center the map. See: https://developers.google.com/maps/documentation/javascript/reference#Map
+   */
+  @Input() usePanning: boolean = false;
+
+  /**
+   * The initial enabled/disabled state of the Street View Pegman control.
+   * This control is part of the default UI, and should be set to false when displaying a map type
+   * on which the Street View road overlay should not appear (e.g. a non-Earth map type).
+   */
+  @Input() streetViewControl: boolean = true;
+
+  /**
+   * Sets the viewport to contain the given bounds.
+   */
+  @Input() fitBounds: LatLngBoundsLiteral|LatLngBounds = null;
+
+  /**
+   * The initial enabled/disabled state of the Scale control. This is disabled by default.
+   */
+  @Input() scaleControl: boolean = false;
 
   /**
    * This event emitter gets emitted when the user clicks on the map (but not when they click on a
    * marker or infoWindow).
    */
-  mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user right-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapRightClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter gets emitted when the user double-clicks on the map (but not when they click
    * on a marker or infoWindow).
    */
-  mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() mapDblClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * This event emitter is fired when the map center changes.
    */
-  centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
+  @Output() centerChange: EventEmitter<LatLngLiteral> = new EventEmitter<LatLngLiteral>();
 
   /**
    * This event is fired when the viewport bounds have changed.
    */
-  boundsChange: EventEmitter<LatLngBounds> = new EventEmitter<LatLngBounds>();
+  @Output() boundsChange: EventEmitter<LatLngBounds> = new EventEmitter<LatLngBounds>();
 
   /**
    * This event is fired when the map becomes idle after panning or zooming.
    */
-  idle: EventEmitter<void> = new EventEmitter<void>();
+  @Output() idle: EventEmitter<void> = new EventEmitter<void>();
+
+  private _observableSubscriptions: Subscription[] = [];
 
   constructor(private _elem: ElementRef, private _mapsWrapper: GoogleMapsAPIWrapper) {}
 
@@ -203,6 +210,31 @@ export class GoogleMap implements OnChanges, OnInit {
     // todo: this should be solved with a new component and a viewChild decorator
     const container = this._elem.nativeElement.querySelector('.google-map-container-inner');
     this._initMapInstance(container);
+  }
+
+  ngOnDestroy() {
+    // unsubscribe all registered observable subscriptions
+    this._observableSubscriptions.forEach((s) => s.unsubscribe());
+  }
+
+  /* @internal */
+  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+    this._updateMapOptionsChanges(changes);
+    this._updatePosition(changes);
+  }
+
+  /**
+   * Triggers a resize event on the google map instance.
+   * Returns a promise that gets resolved after the event was triggered.
+   */
+  triggerResize(): Promise<void> {
+    // Note: When we would trigger the resize event and show the map in the same turn (which is a
+    // common case for triggering a resize event), then the resize event would not
+    // work (to show the map), so we trigger the event in a timeout.
+    return new Promise<void>((resolve) => {
+      setTimeout(
+        () => { return this._mapsWrapper.triggerMapEvent('resize').then(() => resolve()); });
+    });
   }
 
   private _initMapInstance(el: HTMLElement) {
@@ -229,37 +261,12 @@ export class GoogleMap implements OnChanges, OnInit {
   }
 
   /** @internal */
-  ngOnDestroy() {
-    // unsubscribe all registered observable subscriptions
-    this._observableSubscriptions.forEach((s) => s.unsubscribe());
-  }
-
-  /* @internal */
-  ngOnChanges(changes: {[propName: string]: SimpleChange}) {
-    this._updateMapOptionsChanges(changes);
-    this._updatePosition(changes);
-  }
-
   private _updateMapOptionsChanges(changes: {[propName: string]: SimpleChange}) {
     let options: {[propName: string]: any} = {};
     let optionKeys =
       Object.keys(changes).filter(k => GoogleMap._mapOptionsAttributes.indexOf(k) !== -1);
     optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
     this._mapsWrapper.setMapOptions(options);
-  }
-
-  /**
-   * Triggers a resize event on the google map instance.
-   * Returns a promise that gets resolved after the event was triggered.
-   */
-  triggerResize(): Promise<void> {
-    // Note: When we would trigger the resize event and show the map in the same turn (which is a
-    // common case for triggering a resize event), then the resize event would not
-    // work (to show the map), so we trigger the event in a timeout.
-    return new Promise<void>((resolve) => {
-      setTimeout(
-        () => { return this._mapsWrapper.triggerMapEvent('resize').then(() => resolve()); });
-    });
   }
 
   private _updatePosition(changes: {[propName: string]: SimpleChange}) {

@@ -1,4 +1,14 @@
-import { Component, ElementRef, EventEmitter, OnChanges, OnDestroy, SimpleChange } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnChanges,
+  OnDestroy,
+  SimpleChange,
+  Input,
+  Output,
+  OnInit
+} from '@angular/core';
 import { InfoWindowManager } from '../services/managers/info-window-manager';
 import { GoogleMapMarker } from './google-map-marker';
 
@@ -35,31 +45,30 @@ let infoWindowId = 0;
  */
 @Component({
   selector: 'google-map-info-window',
-  inputs: ['latitude', 'longitude', 'disableAutoPan', 'isOpen'],
-  outputs: ['infoWindowClose'],
   template: `<div class='google-map-info-window-content'>
       <ng-content></ng-content>
     </div>
   `
 })
-export class GoogleMapInfoWindow implements OnDestroy, OnChanges {
+export class GoogleMapInfoWindow implements OnInit, OnDestroy, OnChanges {
+  private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth'];
   /**
    * The latitude position of the info window (only usefull if you use it ouside of a {@link
     * GoogleMapMarker}).
    */
-  latitude: number;
+  @Input() latitude: number;
 
   /**
    * The longitude position of the info window (only usefull if you use it ouside of a {@link
     * GoogleMapMarker}).
    */
-  longitude: number;
+  @Input() longitude: number;
 
   /**
    * Disable auto-pan on open. By default, the info window will pan the map so that it is fully
    * visible when it opens.
    */
-  disableAutoPan: boolean;
+  @Input() disableAutoPan: boolean;
 
   /**
    * All InfoWindows are displayed on the map in order of their zIndex, with higher values
@@ -67,36 +76,35 @@ export class GoogleMapInfoWindow implements OnDestroy, OnChanges {
    * according to their latitude, with InfoWindows of lower latitudes appearing in front of
    * InfoWindows at higher latitudes. InfoWindows are always displayed in front of markers.
    */
-  zIndex: number;
+  @Input() zIndex: number;
 
   /**
    * Maximum width of the infowindow, regardless of content's width. This value is only considered
    * if it is set before a call to open. To change the maximum width when changing content, call
    * close, update maxWidth, and then open.
    */
-  maxWidth: number;
+  @Input() maxWidth: number;
 
   /**
    * Holds the marker that is the host of the info window (if available)
    */
-  hostMarker: GoogleMapMarker;
+  @Input() hostMarker: GoogleMapMarker;
 
   /**
    * Holds the native element that is used for the info window content.
    */
-  content: Node;
+  @Input() content: Node;
 
   /**
    * Sets the open state for the InfoWindow. You can also call the open() and close() methods.
    */
-  isOpen: boolean = false;
+  @Input() isOpen: boolean = false;
 
   /**
    * Emits an event when the info window is closed.
    */
-  infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
+  @Output() infoWindowClose: EventEmitter<void> = new EventEmitter<void>();
 
-  private static _infoWindowOptionsInputs: string[] = ['disableAutoPan', 'maxWidth'];
   private _infoWindowAddedToManager: boolean = false;
   private _id: string = (infoWindowId++).toString();
 
@@ -127,18 +135,6 @@ export class GoogleMapInfoWindow implements OnDestroy, OnChanges {
     this._setInfoWindowOptions(changes);
   }
 
-  private _updateOpenState() {
-    this.isOpen ? this._infoWindowManager.open(this) : this._infoWindowManager.close(this);
-  }
-
-  private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
-    let options: {[propName: string]: any} = {};
-    let optionKeys = Object.keys(changes).filter(
-      k => GoogleMapInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
-    optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
-    this._infoWindowManager.setOptions(this, options);
-  }
-
   /**
    * Opens the info window.
    */
@@ -159,4 +155,18 @@ export class GoogleMapInfoWindow implements OnDestroy, OnChanges {
 
   /** @internal */
   ngOnDestroy() { this._infoWindowManager.deleteInfoWindow(this); }
+
+  private _updateOpenState() {
+    this.isOpen ? this._infoWindowManager.open(this) : this._infoWindowManager.close(this);
+  }
+
+  private _setInfoWindowOptions(changes: {[key: string]: SimpleChange}) {
+    let options: {[propName: string]: any} = {};
+    let optionKeys = Object.keys(changes).filter(
+      k => GoogleMapInfoWindow._infoWindowOptionsInputs.indexOf(k) !== -1);
+    optionKeys.forEach((k) => { options[k] = changes[k].currentValue; });
+    this._infoWindowManager.setOptions(this, options);
+  }
+
+
 }

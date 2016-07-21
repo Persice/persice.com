@@ -5,7 +5,9 @@ import {
   EventEmitter,
   OnChanges,
   OnDestroy,
-  SimpleChange
+  SimpleChange,
+  Input,
+  Output
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MouseEvent } from '../map-types';
@@ -41,58 +43,53 @@ let markerId = 0;
  * ```
  */
 @Directive({
-  selector: 'google-map-marker',
-  inputs: [
-    'latitude', 'longitude', 'title', 'label', 'draggable: markerDraggable', 'iconUrl',
-    'openInfoWindow', 'fitBounds'
-  ],
-  outputs: ['markerClick', 'dragEnd']
+  selector: 'google-map-marker'
 })
 export class GoogleMapMarker implements OnDestroy, OnChanges, AfterContentInit {
   /**
    * The latitude position of the marker.
    */
-  latitude: number;
+  @Input() latitude: number;
 
   /**
    * The longitude position of the marker.
    */
-  longitude: number;
+  @Input() longitude: number;
 
   /**
    * The title of the marker.
    */
-  title: string;
+  @Input() title: string;
 
   /**
    * The label (a single uppercase character) for the marker.
    */
-  label: string;
+  @Input() label: string;
 
   /**
    * If true, the marker can be dragged. Default value is false.
    */
-  draggable: boolean = false;
+  @Input() draggable: boolean = false;
 
   /**
    * Icon (the URL of the image) for the foreground.
    */
-  iconUrl: string;
+  @Input() iconUrl: string;
 
   /**
    * Whether to automatically open the child info window when the marker is clicked.
    */
-  openInfoWindow: boolean = true;
+  @Input() openInfoWindow: boolean = true;
 
   /**
    * This event emitter gets emitted when the user clicks on the marker.
    */
-  markerClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() markerClick: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * This event is fired when the user stops dragging the marker.
    */
-  dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  @Output() dragEnd: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   @ContentChild(GoogleMapInfoWindow) private _infoWindow: GoogleMapInfoWindow;
 
@@ -137,6 +134,19 @@ export class GoogleMapMarker implements OnDestroy, OnChanges, AfterContentInit {
     }
   }
 
+  /** @internal */
+  id(): string { return this._id; }
+
+  /** @internal */
+  toString(): string { return 'GoogleMapMarker-' + this._id.toString(); }
+
+  /** @internal */
+  ngOnDestroy() {
+    this._markerManager.deleteMarker(this);
+    // unsubscribe all registered observable subscriptions
+    this._observableSubscriptions.forEach((s) => s.unsubscribe());
+  }
+
   private _addEventListeners() {
     const cs = this._markerManager.createEventObservable('click', this).subscribe(() => {
       if (this.openInfoWindow && this._infoWindow != null) {
@@ -151,18 +161,5 @@ export class GoogleMapMarker implements OnDestroy, OnChanges, AfterContentInit {
         this.dragEnd.emit({coords: {lat: e.latLng.lat(), lng: e.latLng.lng()}});
       });
     this._observableSubscriptions.push(ds);
-  }
-
-  /** @internal */
-  id(): string { return this._id; }
-
-  /** @internal */
-  toString(): string { return 'GoogleMapMarker-' + this._id.toString(); }
-
-  /** @internal */
-  ngOnDestroy() {
-    this._markerManager.deleteMarker(this);
-    // unsubscribe all registered observable subscriptions
-    this._observableSubscriptions.forEach((s) => s.unsubscribe());
   }
 }
