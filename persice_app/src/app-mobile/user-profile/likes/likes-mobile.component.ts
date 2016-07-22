@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { LikesMobileService } from '../../shared/services/likes-mobile.service';
 import { TwoListMobileComponent } from '../../shared/components/two-list/two-list-mobile.component';
 import { InfiniteScrollDirective } from '../../../common/directives/infinite-scroll.directive';
@@ -12,7 +12,7 @@ import { HeaderState } from '../../header';
   providers: [LikesMobileService],
   directives: [InfiniteScrollDirective, LoadingComponent]
 })
-export class LikesMobileComponent extends TwoListMobileComponent implements OnInit, OnDestroy {
+export class LikesMobileComponent extends TwoListMobileComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Input() userId: string;
   @Input() hideMutualLikesTitle: boolean;
@@ -25,7 +25,7 @@ export class LikesMobileComponent extends TwoListMobileComponent implements OnIn
     super(likesService);
   }
 
-  public ngOnInit(): any {
+  ngOnInit(): any {
 
     this.appStateService.headerStateEmitter.emit(
       this.headerState.backWithTitle('likes', HeaderState.actions.ShowUserProfile)
@@ -39,7 +39,14 @@ export class LikesMobileComponent extends TwoListMobileComponent implements OnIn
     super.ngOnInit();
   }
 
-  public ngOnDestroy(): any {
+  ngOnDestroy(): any {
     super.ngOnDestroy();
   }
+
+  ngAfterViewInit(): any {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    });
+  }
+
 }
