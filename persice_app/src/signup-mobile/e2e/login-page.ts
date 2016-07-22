@@ -1,6 +1,7 @@
 import { Utilities } from './lib/utilities';
+import { PageInterface } from './lib/page-interface';
 
-export class LoginPage {
+export class LoginPage implements PageInterface {
 
   protected path: string = undefined;
 

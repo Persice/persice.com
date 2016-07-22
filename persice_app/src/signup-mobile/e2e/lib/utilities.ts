@@ -1,7 +1,7 @@
 export class Utilities {
 
   /**
-   * Check if currently opened URL contains provided text.
+   * Check if currently opened URL contains provided text and is not served by the backend.
    *
    * @param {string} urlText String to compare.
    *
@@ -11,7 +11,7 @@ export class Utilities {
     var deferred = protractor.promise.defer();
 
     browser.getCurrentUrl().then(function(url) {
-      deferred.fulfill(url.indexOf(urlText) > -1);
+      deferred.fulfill((url.indexOf(urlText) > -1) && (url.indexOf('?next') === -1));
     });
 
     return deferred;
