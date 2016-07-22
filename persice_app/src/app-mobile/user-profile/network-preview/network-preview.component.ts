@@ -17,6 +17,7 @@ export class NetworkPreviewComponent {
   };
 
   @Input() connectionsTotalCount: number;
+  @Input() mutualConnectionsTotalCount: number = 0;
   @Input() type: string;
   @Input() ownerName: string;
   @Output() onClick: EventEmitter<any> = new EventEmitter();

@@ -9,7 +9,8 @@ import { AboutMobileComponent } from './about';
 import { PhotosMobileComponent } from './photos';
 import { NetworkPreviewComponent } from './network-preview';
 import { NetworkConnectionsComponent } from './network-connections';
-import { NetworkMutualConnectionsComponent, MutualConnectionsService } from './network-mutual-connections';
+import { NetworkMutualConnectionsComponent, MutualConnectionsService, MutualConnectionsCountService }
+from './network-mutual-connections';
 import { ItemsListMobileComponent } from './items-list';
 import { AppStateService } from '../shared/services';
 import { LikesMobileComponent } from './likes/likes-mobile.component';
@@ -43,7 +44,12 @@ enum ViewsType {
     PhotosMobileComponent,
     LikesMobileComponent
   ],
-  providers: [FriendService, ConnectionsService, MutualConnectionsService]
+  providers: [
+    FriendService,
+    ConnectionsService,
+    MutualConnectionsService,
+    MutualConnectionsCountService
+  ]
 })
 export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   // Profile type, crowd or connection
@@ -88,6 +94,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
   // List for previewing connections
   public connectionsPreview: Observable<any[]>;
   public connectionsPreviewTotalCount: Observable<number>;
+  public mutualConnectionsPreviewTotalCount: Observable<number>;
 
   private isUserProfileVisibleSubs;
   private backSubs;
@@ -102,6 +109,7 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     private friendService: FriendService,
     private connectionsService: ConnectionsService,
     private mutualConnectionsService: MutualConnectionsService,
+    private mutualConnectionsCountService: MutualConnectionsCountService,
     private store: Store<AppState>,
     private actions: SelectedPersonActions,
     private location: Location
@@ -252,23 +260,23 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
     if (this.type !== 'my-profile') {
       this.connectionsPreview = this.mutualConnectionsService.preview$.map(data => data.connections);
       this.connectionsPreviewTotalCount = this.mutualConnectionsService.preview$.map(data => data.connectionsTotalCount);
-    } else {
-      this.connectionsPreview = this.connectionsService.connections$.map(data => data.connections);
-      this.connectionsPreviewTotalCount = this.connectionsService.connections$.map(data => data.connectionsTotalCount);
-    }
+      this.mutualConnectionsPreviewTotalCount = this.mutualConnectionsCountService.totalCount$;
 
-    if (this.type === 'crowd' || this.type === 'connection') {
       // Set selected user only if profile is crowd or connection
       this.store.dispatch(this.actions.set(this.person, this.type));
       this.mutualConnectionsService.getForPreview(this.person.id, 4);
+      this.mutualConnectionsCountService.getTotalCount(this.person.id);
       this.toggleFooterVisibility(true);
+
       if (this.username) {
         this.setBrowserLocationUrl(`/${this.username}`);
       } else if (user.username) {
         this.setBrowserLocationUrl(`/${user.username}`);
       }
 
-    } else if (this.type === 'my-profile') {
+    } else {
+      this.connectionsPreview = this.connectionsService.connections$.map(data => data.connections);
+      this.connectionsPreviewTotalCount = this.connectionsService.connections$.map(data => data.connectionsTotalCount);
       this.connectionsService.getForPreview(4);
     }
 
