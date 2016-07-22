@@ -31,6 +31,7 @@ describe('Login', function() {
     loginPage.setPassword('testing1234');
     loginPage.submit();
 
+    crowdPage.waitForHeaderToLoad();
     expect(header.currentTitle()).toBe(crowdPage.title);
     expect(crowdPage.isOpen()).toBeTruthy();
   });
