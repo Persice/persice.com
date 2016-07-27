@@ -9,7 +9,9 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0 minimal-ui">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <title>Persice</title>
   <!-- base url -->
   <base href="/">
@@ -24,7 +26,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <!-- dev mode -->
- <!--  <link rel="stylesheet" href="http://localhost:3002/css/mobile.css" />
+<!--   <link rel="stylesheet" href="http://localhost:3002/css/mobile.css" />
   <link rel="stylesheet" href="http://localhost:3002/css/app-mobile.css" /> -->
   <!-- prod mode -->
   <link rel="stylesheet" href="{% static 'dist/assets/css/vendor.mobile.min.css' %}" />
@@ -46,13 +48,12 @@
   <!-- Theme scripts -->
 
 
-  <script src="{% static 'dist/assets/js/plugins.min.js' %}"></script>
+  <script src="{% static 'dist/assets/js/plugins-mobile.min.js' %}"></script>
   {% render_bundle 'polyfills' %}
   {% render_bundle 'vendor' %}
   {% render_bundle 'main-mobile' %}
 
   {% include "base.scripts.footer.html" %}
-
 
  <!-- <script async src="http://localhost:3002/browser-sync/browser-sync-client.js"></script> -->
 </body>

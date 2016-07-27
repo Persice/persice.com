@@ -3,8 +3,7 @@ import { CORE_DIRECTIVES } from '@angular/common';
 import { EventService, NotificationService } from '../../shared/services';
 import { CheckImageDirective } from '../../shared/directives';
 import { FileUtil } from '../../shared/core';
-import { ANGULAR2_GOOGLE_MAPS_DIRECTIVES } from '../../shared/components/map/core';
-
+import { GOOGLE_MAPS_DIRECTIVES } from '../../../common/google-map/directives';
 
 // just an interface for type safety.
 interface IMarker {
@@ -18,7 +17,7 @@ interface IMarker {
   selector: 'prs-event-photo-map',
   template: <any>require('./event-photo-map.html'),
   directives: [
-    ANGULAR2_GOOGLE_MAPS_DIRECTIVES,
+    GOOGLE_MAPS_DIRECTIVES,
     CORE_DIRECTIVES,
     CheckImageDirective
   ],
@@ -89,7 +88,7 @@ export class EventPhotoMapComponent implements OnChanges {
     if (file !== undefined) {
       if (FileUtil.isImage(event.event_photo.type)) {
         this.service.updateImageByUri(event, this.uri).subscribe((res) => {
-          this.refreshEvent.next(true);
+          this.refreshEvent.emit(true);
         }, (err) => {
           console.log(err);
         }, () => {

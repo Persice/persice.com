@@ -535,3 +535,50 @@ class NeoFriendsNewResource(Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+
+class MutualFriendsCountResource(Resource):
+    user_id = fields.IntegerField(attribute='user_id')
+    friend_id = fields.IntegerField(attribute='friend_id')
+    count = fields.IntegerField(attribute='count')
+
+    class Meta:
+        resource_name = 'mutual-friends/count'
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+
+    def get_object_list(self, request):
+        result = list()
+        new_obj = A()
+        new_obj.user_id = request.user.id
+        raw_friend_id = request.GET.get('friend_id')
+        if raw_friend_id:
+            friend_id = int(raw_friend_id)
+            new_obj.friend_id = friend_id
+            user = FacebookCustomUserActive.objects.get(id=request.user.id)
+            try:
+                fb_obj = FacebookCustomUserActive.objects.get(id=friend_id)
+                try:
+                    mutual_friends = NeoFourJ().get_mutual_friends(user.id,
+                                                                   fb_obj.id)
+                    new_obj.count = len(mutual_friends)
+                    result.append(new_obj)
+                except Exception as err:
+                    new_obj.count = 0
+                    result.append(new_obj)
+                    logger.error(err)
+            except FacebookCustomUserActive.DoesNotExist as err:
+                new_obj.count = 0
+                result.append(new_obj)
+
+        return result
+
+    def obj_get_list(self, bundle, **kwargs):
+        # Filtering disabled for brevity...
+        return self.get_object_list(bundle.request)
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass

@@ -46,7 +46,7 @@
             class="profile-info__value" *ngFor="let view of person.politicalViews">{{view}}</span></div>
         </div>
       </div>
-      <div class="profile-box__sub"><span class="profile-info__label mb--">Networks</span>
+      <div class="profile-box__sub"><span class="profile-info__label mb--">Social Accounts</span>
         <div class="layout">
           <div class="layout__item 1/3 text-center" *ngIf="person.twitterUrl.length > 0">
             <a href="{{person.twitterUrl}}" target="_new">
@@ -107,6 +107,8 @@
   <div class="profile-connections profile-box">
     <prs-mobile-network-preview [type]="type" [connections]="connectionsPreview | async"
                                 [connectionsTotalCount]="connectionsPreviewTotalCount | async"
+                                [mutualConnectionsTotalCount]="mutualConnectionsPreviewTotalCount | async"
+                                [ownerName]="person.firstName"
                                 (onClick)="showNetworkView($event)"></prs-mobile-network-preview>
   </div>
   <a class="profile-link profile-box" (click)="showLikesView($event)">

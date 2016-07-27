@@ -212,11 +212,7 @@ export class MutualConnectionsService {
   private _toEntity(dto: any): any {
     let person: any;
 
-    if (!!(dto.user_type === 'persice')) {
-      person = this._toPerson(dto);
-    } else {
-      person = this._toSocialProfile(dto);
-    }
+    person = (dto.user_type === 'persice') ? this._toPerson(dto) : this._toSocialProfile(dto);
     return person;
   }
 

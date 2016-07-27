@@ -7,7 +7,7 @@ import { PageTitleConversationsComponent } from './page-title-conversations';
 import { OpenLeftMenuDirective } from '../shared/directives';
 import { AppStateService } from '../shared/services';
 import { HeaderState } from './header.state';
-import { DROPDOWN_DIRECTIVES } from '../../common/directives/dropdown';
+import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown';
 
 @Component({
   selector: 'prs-mobile-header',

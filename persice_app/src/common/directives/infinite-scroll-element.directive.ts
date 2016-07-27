@@ -24,7 +24,7 @@ export class InfiniteScrollElementDirective {
     let scrollOffset = this._element.scrollTop + this._element.offsetHeight;
     let threshold = this._element.scrollHeight - this.bottomOffset;
     if (scrollOffset >= threshold) {
-      this.scrolled.next(true);
+      this.scrolled.emit(true);
     }
   }
 }

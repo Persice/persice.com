@@ -28,6 +28,19 @@ var jsFiles = [
   './lib/js/dragula.js'
 ];
 
+var jsFilesMobile = [
+  './lib/js/jquery-2.1.4.min.js',
+  './lib/js/jstz.js',
+  './lib/js/croppie.js',
+  './lib/js/swiper.js',
+  './lib/js/jquery.minimalect.js',
+  './lib/js/ion.rangeSlider.js',
+  './lib/js/viewport-units-buggyfill.js',
+  './lib/js/remodal.js',
+  './lib/js/typeahead.js',
+  './lib/js/init-mobile.js'
+];
+
 var cssFilesAll = [
   './src/assets/css/mobile.css',
   './src/assets/css/app-mobile.css',
@@ -48,6 +61,13 @@ var cssFilesMobile = [
 gulp.task('js', function() {
   gulp.src(jsFiles)
     .pipe(concat('plugins.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./src/assets/js/'))
+});
+
+gulp.task('js-mobile', function() {
+  gulp.src(jsFilesMobile)
+    .pipe(concat('plugins-mobile.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./src/assets/js/'))
 });
@@ -115,5 +135,5 @@ gulp.task('watch', function(gulpCallback) {
 });
 
 
-gulp.task('default', ['js', 'css', 'css-mobile']);
+gulp.task('default', ['js', 'js-mobile', 'css', 'css-mobile']);
 gulp.task('js-lint', ['jshint', 'jscs']);

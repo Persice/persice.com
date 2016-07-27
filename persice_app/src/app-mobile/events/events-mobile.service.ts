@@ -116,17 +116,15 @@ export class EventsMobileService {
     let next: string = dto.meta.next;
     let eventsList: Event[] = dto.objects.map((data) => this._toEvent(data));
 
-    let data: EventsMapped = {
+    return {
       events: eventsList,
       nextUrl: next
     };
 
-    return data;
-
   }
 
+  //noinspection JSMethodCanBeStatic
   private _toEvent(dto: any): Event {
-    let event: Event = new Event(dto);
-    return event;
+    return new Event(dto);
   }
 }

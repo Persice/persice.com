@@ -16,7 +16,7 @@ import { CookieUtil } from '../../../app/shared/core/util';
 
 @Component({
   selector: 'prs-mobile-event',
-  template: require('./event-mobile.html'),
+  template: <any>require('./event-mobile.html'),
   providers: [EventMobileService],
   directives: [
     LoadingComponent,
@@ -95,10 +95,6 @@ export class EventMobileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openAttendees(event: MouseEvent): void {
     this.router.navigateByUrl(`event/${this.eventIdFromUrl}/attendees`);
-  }
-
-  public changeRsvp(event: Event) {
-    console.log('changing rsvp');
   }
 
   private _getEvent(eventId: string): void {

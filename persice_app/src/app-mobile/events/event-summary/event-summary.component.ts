@@ -1,12 +1,13 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Event } from '../../shared/model/event';
 import { RsvpElementComponent } from '../rsvp-element/rsvp-element.component';
+import { CheckImageDirective } from '../../../app/shared/directives/checkimage.directive';
 
 @Component({
   selector: 'prs-mobile-event-summary',
   template: <any>require('./event-summary.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [RsvpElementComponent]
+  directives: [RsvpElementComponent, CheckImageDirective]
 })
 export class EventSummaryComponent {
   @Input() event: Event;

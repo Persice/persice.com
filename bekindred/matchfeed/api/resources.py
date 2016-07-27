@@ -341,7 +341,7 @@ class MutualConnections(Resource):
             results[obj.facebook_id] = FacebookMutualUser(
                 id=obj.facebook_id,
                 user_id=obj.user_id,
-                distance=obj.distance,
+                distance=getattr(obj, 'distance', []),
                 first_name=obj.first_name,
                 last_name=obj.last_name,
                 facebook_id=obj.facebook_id,

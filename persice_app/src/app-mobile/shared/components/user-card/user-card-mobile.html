@@ -12,8 +12,8 @@
       </div>
     </div>
     <div class="flag__body">
-      <div class="user-card__name"> {{_person.firstName}}</div>
-      <div class="user-card__user-details"> {{_person.gender}} / Age {{_person.age}} / {{_person.distance}}
+      <div class="user-card__name" (click)="selectPerson($event)"> {{_person.firstName}}</div>
+      <div class="user-card__user-details" (click)="selectPerson($event)"> {{_person.gender}} / Age {{_person.age}} / {{_person.distance}}
         {{_person.distanceUnit}}
       </div>
       <a (click)="toggleInterestsVisible($event)" class="user-card__similarity js-user-card__similarity"

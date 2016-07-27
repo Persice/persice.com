@@ -1,7 +1,6 @@
 /*
  * These are globally available services in any component or any other service
  */
-import { provide } from '@angular/core';
 import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HTTP_PROVIDERS, JSONP_PROVIDERS } from '@angular/http';
 import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
@@ -26,8 +25,8 @@ export const APPLICATION_PROVIDERS_MAIN = [
   ...HTTP_PROVIDERS,
   ...JSONP_PROVIDERS,
   ...ROUTER_PROVIDERS,
-  provide(LocationStrategy, {useClass: PathLocationStrategy}),
-  provide(APP_BASE_HREF, {useValue: '/'})
+  {provide: LocationStrategy, useClass: PathLocationStrategy},
+  {provide: APP_BASE_HREF, useValue: '/'}
 ];
 
 export const APPLICATION_PROVIDERS_MAIN_MOBILE = [
@@ -37,7 +36,7 @@ export const APPLICATION_PROVIDERS_MAIN_MOBILE = [
   ...HTTP_PROVIDERS,
   ...JSONP_PROVIDERS,
   ...APP_MOBILE_ROUTER_PROVIDERS,
-  provide(LocationStrategy, {useClass: PathLocationStrategy})
+  {provide: LocationStrategy, useClass: PathLocationStrategy}
 ];
 
 
@@ -48,8 +47,8 @@ export const APPLICATION_PROVIDERS_SIGNUP = [
   ...HTTP_PROVIDERS,
   ...JSONP_PROVIDERS,
   ...ROUTER_PROVIDERS,
-  provide(LocationStrategy, {useClass: PathLocationStrategy}),
-  provide(APP_BASE_HREF, {useValue: '/signup'})
+  {provide: LocationStrategy, useClass: PathLocationStrategy},
+  {provide: APP_BASE_HREF, useValue: '/signup'}
 ];
 
 export const APPLICATION_PROVIDERS_SIGNUP_MOBILE = [
@@ -59,8 +58,8 @@ export const APPLICATION_PROVIDERS_SIGNUP_MOBILE = [
   ...HTTP_PROVIDERS,
   ...JSONP_PROVIDERS,
   ...SIGNUP_MOBILE_ROUTER_PROVIDERS,
-  provide(LocationStrategy, {useClass: PathLocationStrategy}),
-  provide(APP_BASE_HREF, {useValue: '/signup'})
+  {provide: LocationStrategy, useClass: PathLocationStrategy},
+  {provide: APP_BASE_HREF, useValue: '/signup'}
 ];
 
 export const PROVIDERS_MAIN = [

@@ -13,7 +13,7 @@
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
     "no-attribute-parameter-decorator": true,
-    "no-input-rename": true,
+    "no-input-rename": false,
     "no-output-rename": true,
     "no-forward-ref": true,
     "use-life-cycle-interface": true,
@@ -52,10 +52,11 @@
     "no-unreachable": true,
     "no-use-before-declare": true,
     "one-line": [
-      true,
+      false,
       "check-open-brace",
       "check-catch",
       "check-else",
+      "check-finally",
       "check-whitespace"
     ],
     "quotemark": [

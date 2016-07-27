@@ -81,7 +81,7 @@ export class SignupMobileComponent implements OnInit {
   ngOnInit() {
 
     this.userAuthService.findOneByUri('me').subscribe((data) => {
-      let res = data;
+      let res: any = data;
       this.cGoa = res.goals.length;
       this.cOff = res.offers.length;
       this.cInt = res.interests.length;
@@ -200,11 +200,7 @@ export class SignupMobileComponent implements OnInit {
         this.cInt = event.count;
         if (this.page === 1) {
           this.counter = this.cInt;
-          if (this.cInt < 3) {
-            this.isNextDisabled = true;
-          } else {
-            this.isNextDisabled = false;
-          }
+          this.isNextDisabled = this.cInt < 3;
         }
         break;
       case 'goals':
@@ -212,14 +208,12 @@ export class SignupMobileComponent implements OnInit {
         if (this.page === 2) {
           this.counter = this.cGoa;
         }
-        ;
         break;
       case 'offers':
         this.cOff = event.count;
         if (this.page === 3) {
           this.counter = this.cOff;
         }
-        ;
         break;
 
       default:

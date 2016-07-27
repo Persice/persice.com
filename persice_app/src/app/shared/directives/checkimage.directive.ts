@@ -1,10 +1,10 @@
-import { Directive, ElementRef, Input, AfterViewInit, Renderer, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input, AfterViewInit, Renderer } from '@angular/core';
 
 @Directive({
   selector: '[checkimage]',
-  properties: ['image: checkimage', 'suffix', 'onchanges']
+  properties: ['image: checkimage', 'suffix', 'onchanges', 'default']
 })
-export class CheckImageDirective implements AfterViewInit, OnDestroy {
+export class CheckImageDirective implements AfterViewInit {
   @Input() set checkimage(value: string) {
     if (this.onchanges) {
       this.image = value;
@@ -12,10 +12,14 @@ export class CheckImageDirective implements AfterViewInit, OnDestroy {
     }
   };
 
+  @Input() set default(value: string) {
+    this.defaultImage = value;
+  };
+
+  defaultImage: string = '/static/assets/images/empty_avatar.png';
   image: string;
   suffix: string;
   onchanges: boolean;
-  serviceInstance: any;
 
   constructor(private el: ElementRef, private renderer: Renderer) { }
 
@@ -23,19 +27,13 @@ export class CheckImageDirective implements AfterViewInit, OnDestroy {
     this._displayImage();
   }
 
-  ngOnDestroy() {
-    if (this.serviceInstance) {
-      this.serviceInstance.unsubscribe();
-    }
-  }
-
   private _displayImage(): void {
     let imageUrl = this.image + this.suffix;
 
     // If image is empty or default avatar
-    if (this.image === '/static/assets/images/empty_avatar.png'
+    if (this.image === this.defaultImage
       || this.image === '' || this.image === null) {
-      this._setBackgroundImage(`url(/static/assets/images/empty_avatar.png)`);
+      this._setBackgroundImage(`url(${this.defaultImage})`);
     } else {
       // Try to load image with suffix
       if (this._isCached(imageUrl)) {

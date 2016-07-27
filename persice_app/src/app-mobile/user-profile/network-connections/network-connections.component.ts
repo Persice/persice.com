@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ import { HeaderState } from '../../header';
   ],
   providers: [ConnectionsService]
 })
-export class NetworkConnectionsComponent implements OnInit, OnDestroy {
+export class NetworkConnectionsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() name: string = '';
 
   public connections: Array<any> = [];
@@ -49,6 +49,12 @@ export class NetworkConnectionsComponent implements OnInit, OnDestroy {
 
     this.getConnections();
 
+  }
+
+  ngAfterViewInit(): any {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    });
   }
 
   ngOnDestroy(): any {

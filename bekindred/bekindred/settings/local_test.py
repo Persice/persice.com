@@ -187,11 +187,36 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
             },
-        'friends': {
+        'goals': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
             },
+        'interests': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'core': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'events': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'members': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'friends': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'match_engine': {
             'handlers': ['console'],
             'level': 'DEBUG',

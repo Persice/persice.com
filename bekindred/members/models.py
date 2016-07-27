@@ -18,6 +18,10 @@ from goals.models import MatchFilterState
 from interests.models import Interest
 from photos.models import FacebookPhoto
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
 
@@ -132,11 +136,17 @@ def delete_user_sessions(user):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
+        logger.info('create_user_profile is triggered {} {}'.format(
+            sender, instance
+        ))
         MatchFilterState.objects.get_or_create(user=instance)
 
 
 def create_default_photo(sender, instance, created, **kwargs):
     if created:
+        logger.info('create_default_photo triggered by {} {}'.format(
+            sender, instance
+        ))
         facebook = OpenFacebook(instance.user.access_token)
         data = facebook.get('me', fields='picture.hight(1000).width(1000)')
         image_url = data.get('picture', {}).get('data', {}).get('url', {})
