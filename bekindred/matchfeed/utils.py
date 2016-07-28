@@ -721,8 +721,8 @@ class MatchQuerySet(object):
         for hit in hits:
             try:
                 matched_event_id = int(hit['_id'].split('.')[-1])
-                cached_event_key = '{}_{}'.format(current_user_id,
-                                                  matched_event_id)
+                cached_event_key = '{}_{}_e'.format(current_user_id,
+                                                    matched_event_id)
                 cached_event = cache.get(cached_event_key)
                 if cached_event:
                     event = cached_event

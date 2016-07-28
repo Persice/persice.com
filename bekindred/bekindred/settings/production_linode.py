@@ -108,13 +108,6 @@ POSTMAN_AUTOCOMPLETER_APP = {
 INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
 
 
-RAVEN_CONFIG = {
-    'dsn': 'https://4626cd002fbb4ea9be20e8042a7226a6:75fbcaf7711f4183b6842424c64d3ee5@app.getsentry.com/66639',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(ROOT_DIR),
-}
-
 MIDDLEWARE_CLASSES = (
                          'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
                      ) + MIDDLEWARE_CLASSES
@@ -131,8 +124,7 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
-        'level': 'INFO',
-        'handlers': ['sentry'],
+        'level': 'INFO'
     },
     'formatters': {
         'verbose': {
@@ -145,11 +137,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'sentry': {
-            'level': 'INFO',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-            'tags': {'custom-tag': 'x'},
-        },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
@@ -162,11 +149,6 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        'raven': {
-            'level': 'INFO',
-            'handlers': ['console'],
-            'propagate': True,
-        },
         'friends': {
             'handlers': ['console'],
             'level': 'INFO',
@@ -176,12 +158,7 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
-        },
-        'sentry.errors': {
-            'level': 'INFO',
-            'handlers': ['console'],
-            'propagate': False,
-        },
+        }
     },
 }
 
