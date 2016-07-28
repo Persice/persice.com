@@ -148,11 +148,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'elasticsearch.trace': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
+        # 'elasticsearch.trace': {
+        #     'handlers': ['console'],
+        #     'level': 'INFO',
+        #     'propagate': True,
+        # },
         'django.db.backends': {
             'level': 'INFO',
             'handlers': ['console'],

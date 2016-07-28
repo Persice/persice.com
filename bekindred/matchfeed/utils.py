@@ -1,5 +1,6 @@
 import functools
 import hashlib
+import json
 from random import sample
 import string
 import logging
@@ -256,7 +257,7 @@ class MatchUser(object):
         self.top_interests = \
             self.get_top_interests(user_object) if include_top_interests else []
         self.last_login = self.user.last_login
-        self.keywords = self.get_keywords(user_object)
+        self.keywords = None  # self.get_keywords(user_object)
         self.position = get_current_position(self.user)
         self.lives_in = get_lives_in(self.user)
         self.linkedin_provider = self.get_linkedin_data()
@@ -301,9 +302,16 @@ class MatchUser(object):
             for h in h_objects:
                 new_h = re.findall(r'<em>(.*?)</em>', h)
                 interests.append(new_h[0])
-        # now_k = time.time()
-        keywords = self.get_keywords(user_object)
-        # logger.info("keywords: {}".format(time.time() - now_k))
+
+        user_object_key = hashlib.sha1(json.dumps(user_object)).hexdigest()
+        cached_keywords = cache.get(user_object_key)
+        if cached_keywords:
+            keywords = cached_keywords
+            logger.info("get keywords from cache: {}".format(user_object_key))
+        else:
+            keywords = self.get_keywords(user_object)
+            cache.set(user_object_key, user_object)
+            logger.info("set keywords to cache: {}".format(user_object_key))
 
         text_keywords = u','.join(sorted(keywords))
         unique_key = hashlib.sha1(text_keywords).hexdigest()
@@ -377,7 +385,7 @@ class MatchUser(object):
                     keywords.append(gerund)
                 else:
                     keywords.append(word.lower())
-        logger.debug("Time get_keywords: {} {} {}".format(now - time.time(),
+        logger.debug("Time get_keywords: {} {} {}".format(time.time() - now,
                                                           self.current_user_id,
                                                           self.user_id))
         return keywords
@@ -417,13 +425,12 @@ class MatchUser(object):
         objects = user_object['_source'].get(target)
         for obj in objects:
             result[obj.lower()] = 0
-        try:
-            h_objects = user_object['highlight'].get(target, [])
-            for h in h_objects:
-                new_h = h.replace('<em>', '').replace('</em>', '')
-                result[new_h] = 1
-        except KeyError as er:
-            logger.error(er)
+
+        h_objects = user_object.get('highlight', {}).get(target, [])
+        for h in h_objects:
+            new_h = h.replace('<em>', '').replace('</em>', '')
+            result[new_h] = 1
+
         return [result]
 
     def likes_images(self, user_object):
@@ -570,13 +577,12 @@ class MatchEvent(object):
         objects = event_object['_source'].get(target)
         if objects:
             result[objects.lower()] = 0
-        try:
-            h_objects = event_object['highlight'].get(target, [])
-            h = ' '.join(h_objects)
-            new_h = h.replace('<em>', '').replace('</em>', '')
-            result[new_h.lower()] = h.count('<em>')
-        except KeyError as er:
-            logger.error(er)
+
+        h_objects = event_object.get('highlight', {}).get(target, [])
+        h = ' '.join(h_objects)
+        new_h = h.replace('<em>', '').replace('</em>', '')
+        result[new_h.lower()] = h.count('<em>')
+
         return [result]
 
     @staticmethod
@@ -651,7 +657,7 @@ class MatchQuerySet(object):
                                          matched_user_id), user, 600)
                 users.append(user)
             except FacebookCustomUserActive.DoesNotExist as er:
-                logger.error(er)
+                logger.error('user_id {} DoesNotExist'.format(matched_user_id))
         return users
 
     @staticmethod
@@ -691,10 +697,18 @@ class MatchQuerySet(object):
         users = []
         for hit in hits:
             try:
-                user = ShortMatchUser(current_user_id, hit)
+                matched_user_id = int(hit['_id'].split('.')[-1])
+                cached_user = cache.get('%s_%s' % (current_user_id,
+                                                   matched_user_id))
+                if cached_user:
+                    user = cached_user
+                else:
+                    user = MatchUser(current_user_id, hit)
+                    cache.set('%s_%s' % (current_user_id,
+                                         matched_user_id), user, 600)
                 users.append(user)
             except FacebookCustomUserActive.DoesNotExist as er:
-                logger.error(er)
+                logger.error('user_id {} DoesNotExist'.format(matched_user_id))
         return users
 
     @staticmethod
@@ -703,8 +717,17 @@ class MatchQuerySet(object):
             match_events(current_user_id, is_filter=is_filter, feed=feed)
         events = []
         matched_users = MatchQuerySet.attendees(current_user_id)
+
         for hit in hits:
-            event = MatchEvent(current_user_id, hit, matched_users)
+            matched_event_id = int(hit['_id'].split('.')[-1])
+            cached_event_key = '{}_{}'.format(current_user_id,
+                                              matched_event_id)
+            cached_event = cache.get(cached_event_key)
+            if cached_event:
+                event = cached_event
+            else:
+                event = MatchEvent(current_user_id, hit, matched_users)
+                cache.set(cached_event_key, event)
             events.append(event)
         return events
 
