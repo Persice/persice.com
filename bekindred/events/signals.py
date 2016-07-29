@@ -1,21 +1,18 @@
 import json
-import string
-import uuid
 import logging
+import string
 
 from django.db import models
-from django.db.models import signals
 from django.db.models.signals import post_save
-from django_facebook.models import FacebookCustomUser
 from guardian.shortcuts import assign_perm
 
-from events.models import Membership, Event
 from core.tasks import update_index_delay
+from events.models import Membership, Event
 from friends import Friend
 from friends.utils import NeoFourJ
 from interests.models import PoliticalIndex, PoliticalView, ReligiousIndex, \
     ReligiousView
-from members.models import OnBoardingFlow, FacebookCustomUserActive
+from members.models import OnBoardingFlow
 
 remove_punctuation_map = dict((ord(char), None) for char in string.punctuation)
 
@@ -99,4 +96,5 @@ def update_connections_permissions(sender, **kwargs):
 post_save.connect(update_connections_permissions, sender=Friend)
 
 models.signals.post_save.connect(update_index_delay, sender=Event)
+models.signals.post_save.connect(update_index_delay, sender=Membership)
 models.signals.post_delete.connect(update_index_delay, sender=Event)

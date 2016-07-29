@@ -535,6 +535,8 @@ class ShortMatchUser(MatchUser):
 class MatchEvent(object):
     def __init__(self, current_user_id, event_object, matched_users):
         self.event = MatchEvent.get_event_info(event_object)
+        self.current_user_id = current_user_id
+        self.matched_users = matched_users
         self.names = self.highlight(event_object, 'name')
         self.descriptions = self.highlight(event_object, 'description')
         self.id = self.event.id
@@ -565,6 +567,17 @@ class MatchEvent(object):
         self.ends_on = self.event.ends_on
         self.distance = calculate_distance_es(current_user_id, event_object)
         self.event_photo = self.event.event_photo.url
+
+    def refresh_event(self):
+        event = Event.objects.get(pk=self.id)
+        self.event = event
+        self.event_photo = self.event.event_photo.url
+        self.attendees_yes = MatchEvent.get_attendees(
+            self.current_user_id, self.event, self.matched_users, rsvp='yes')
+        self.attendees_no = MatchEvent.get_attendees(
+            self.current_user_id, self.event, self.matched_users, rsvp='no')
+        self.attendees_maybe = MatchEvent.get_attendees(
+            self.current_user_id, self.event, self.matched_users, rsvp='maybe')
 
     def match_score(self):
         return sum(self.names[0].values()) + sum(self.descriptions[0].values())
@@ -609,8 +622,7 @@ class MatchEvent(object):
 
     @staticmethod
     def get_attendees(user_id, event, matched_users, rsvp='yes'):
-        attendees = Event.objects.get(pk=event.id). \
-            membership_set.filter(rsvp=rsvp)
+        attendees = event.membership_set.filter(rsvp=rsvp)
         results = []
         matched_users_scores = {elem.user_id: elem.score for elem in matched_users}
         for attendee in attendees:

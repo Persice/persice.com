@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 @task
-def update_index_elastic(user_id=None):
+def update_index_elastic(user_id=None, event_id=None):
     update_index.Command().handle(interactive=False)
     if user_id is not None:
         # Crowd
@@ -23,6 +23,11 @@ def update_index_elastic(user_id=None):
         # pairs
         cache.delete_pattern("*_{}".format(user_id))
         logger.info("delete from cache: KEYS *_{}".format(user_id))
+    elif user_id and event_id:
+        # clear events cache
+        cache.delete_pattern("{}_{}_e".format(user_id, event_id))
+        logger.info("delete from cache: KEYS {}_{}_e".format(user_id,
+                                                             event_id))
     else:
         cache.clear()
 
@@ -38,7 +43,13 @@ def update_index_delay(*args, **kwargs):
         kwargs.get('instance'))
     )
     user_id = None
+    event_id = None
     if kwargs.get('instance') and hasattr(kwargs.get('instance'), 'user_id'):
         user_id = kwargs.get('instance').user_id
-    update_index_elastic.delay(user_id=user_id)
+    if kwargs.get('instance') and hasattr(kwargs.get('instance'), 'event_id'):
+        event_id = kwargs.get('instance').event_id
+    if kwargs.get('instance') \
+            and kwargs.get('instance').__class__.__name__ == 'Event':
+        event_id = kwargs.get('instance').id
+    update_index_elastic.delay(user_id=user_id, event_id=event_id)
     refresh_cache2.delay(user_id)
