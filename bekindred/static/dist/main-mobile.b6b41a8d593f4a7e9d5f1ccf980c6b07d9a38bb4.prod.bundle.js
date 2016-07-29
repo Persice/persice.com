@@ -1,0 +1,2 @@
+webpackJsonp([5],[function(n,t,e){"use strict";function o(n){return r.bootstrap(p.AppMobileComponent,c.PLATFORM_PROVIDERS_MAIN_MOBILE.concat(u.ENV_PROVIDERS,p.APP_PROVIDERS,[a.provideStore(i.default),d.default])).catch(function(n){return console.error(n)})}var r=e(155),c=e(228),u=e(229),a=e(49),i=e(71),d=e(42),p=e(511);t.main=o;document.addEventListener("DOMContentLoaded",function(){return o()})}]);
+//# sourceMappingURL=main-mobile.b6b41a8d593f4a7e9d5f1ccf980c6b07d9a38bb4.prod.bundle.map
