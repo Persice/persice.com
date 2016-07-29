@@ -700,7 +700,7 @@ class Attendees(ModelResource):
         ).values_list('user_id', flat=True)
 
         event_organizer = Membership.objects.filter(
-            rsvp='yes', event_id=event_id, is_organizer=True
+            event_id=event_id, is_organizer=True
         ).first()
 
         if rsvp == 'yes':
