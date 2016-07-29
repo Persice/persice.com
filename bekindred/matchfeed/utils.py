@@ -564,7 +564,7 @@ class MatchEvent(object):
         self.starts_on = self.event.starts_on
         self.ends_on = self.event.ends_on
         self.distance = calculate_distance_es(current_user_id, event_object)
-        self.event_photo = self.event.event_photo
+        self.event_photo = self.event.event_photo.url
 
     def match_score(self):
         return sum(self.names[0].values()) + sum(self.descriptions[0].values())
