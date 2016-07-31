@@ -310,7 +310,7 @@ class MatchUser(object):
             logger.info("get keywords from cache: {}".format(user_object_key))
         else:
             keywords = self.get_keywords(user_object)
-            cache.set(user_object_key, user_object)
+            cache.set(user_object_key, keywords)
             logger.info("set keywords to cache: {}".format(user_object_key))
 
         text_keywords = u','.join(sorted(keywords))
