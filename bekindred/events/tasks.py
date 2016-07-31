@@ -36,15 +36,15 @@ def update_index_delay(*args, **kwargs):
 
 
 @task
-def assign_perm_task(users, bundle, perm_name='view_event'):
+def assign_perm_task(perm_name, users, bundle_obj):
     for user in users:
-        assign_perm(perm_name, user, bundle.obj)
+        assign_perm(perm_name, user, bundle_obj)
 
 
 @task
-def remove_perm_task(users, bundle, perm_name='view_event'):
+def remove_perm_task(perm_name, users, bundle_obj):
     for user in users:
-        remove_perm(perm_name, user, bundle.obj)
+        remove_perm(perm_name, user, bundle_obj)
 
 
 @task

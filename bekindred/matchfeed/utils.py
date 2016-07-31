@@ -566,7 +566,8 @@ class MatchEvent(object):
         self.starts_on = self.event.starts_on
         self.ends_on = self.event.ends_on
         self.distance = calculate_distance_es(current_user_id, event_object)
-        self.event_photo = self.event.event_photo.url
+        self.event_photo = self.event.event_photo.url \
+            if self.event.event_photo else None
 
     def refresh_event(self):
         event = Event.objects.get(pk=self.id)
