@@ -70,14 +70,14 @@ def create_fb_religion_view(sender, instance, created, **kwargs):
 post_save.connect(create_fb_religion_view, sender=OnBoardingFlow)
 
 
-# def add_permissions(sender, **kwargs):
-#     user = kwargs["instance"]
-#     if kwargs["created"]:
-#         public_events = Event.objects.filter(access_level='public')
-#         for event in public_events:
-#             assign_perm('view_event', user, event)
-#
-# post_save.connect(add_permissions, sender=FacebookCustomUser)
+def add_permissions(sender, instance, created, **kwargs):
+    if created:
+        user = instance.user
+        public_events = Event.objects.filter(access_level='public')
+        for event in public_events:
+            assign_perm('view_event', user, event)
+
+post_save.connect(add_permissions, sender=OnBoardingFlow)
 
 
 def update_connections_permissions(sender, **kwargs):
