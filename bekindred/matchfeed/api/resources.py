@@ -151,6 +151,15 @@ class MatchedFeedResource(Resource):
         bundle.data['position'] = get_current_position(bundle.data['id'])
         return bundle.data['distance']
 
+    def dehydrate(self, bundle):
+        bundle.data['religious_views'] = get_religious_views(
+            bundle.obj.id
+        )
+        bundle.data['political_views'] = get_political_views(
+            bundle.obj.id
+        )
+        return bundle
+
 
 class MutualFriendsResource(Resource):
     id = fields.CharField(attribute='id')

@@ -1,3 +1,4 @@
+import time
 import json
 import logging
 from datetime import datetime
@@ -685,6 +686,7 @@ class Attendees(ModelResource):
         return kwargs
 
     def get_object_list(self, request):
+        now = time.time()
         rsvp = request.GET.get('rsvp')
         event_id = request.GET.get('event_id')
         if rsvp is None and event_id is None:
@@ -698,7 +700,7 @@ class Attendees(ModelResource):
         ).values_list('user_id', flat=True)
 
         event_organizer = Membership.objects.filter(
-            rsvp='yes', event_id=event_id, is_organizer=True
+            event_id=event_id, is_organizer=True
         ).first()
 
         if rsvp == 'yes':
@@ -730,6 +732,7 @@ class Attendees(ModelResource):
             except FacebookCustomUserActive.DoesNotExist as er:
                 logger.error(er)
 
+        logger.info('/api/v2/attendees/: {}'.format(time.time() - now))
         return sorted(attendees, key=lambda x: (-x.is_organizer,
                                                 -x.score,
                                                 -x.connected))

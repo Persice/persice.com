@@ -1,9 +1,9 @@
 import hashlib
 import json
+import logging
 
 import re
 import redis
-from django.conf.urls import url
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db.models import Q
@@ -15,17 +15,18 @@ from tastypie.bundle import Bundle
 from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
-from tastypie.utils import trailing_slash
 
 from events.models import FilterState
 from friends.models import Friend
 from friends.utils import NeoFourJ
+from goals.utils import get_religious_views, get_political_views
 from matchfeed.api.resources import A
 from matchfeed.utils import MatchQuerySet
 from members.models import FacebookCustomUserActive
 from photos.api.resources import UserResource
 from photos.models import FacebookPhoto
-import logging
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -422,6 +423,15 @@ class ConnectionsResource(LoggingMixin, Resource):
 
     def obj_get(self, bundle, **kwargs):
         pass
+
+    def dehydrate(self, bundle):
+        bundle.data['religious_views'] = get_religious_views(
+            bundle.obj.id
+        )
+        bundle.data['political_views'] = get_political_views(
+            bundle.obj.id
+        )
+        return bundle
 
 
 class FriendsNewResource(Resource):
