@@ -210,14 +210,14 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
       distance: resp.distance,
       openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
-        hour: DateUtil.format(resp.starts_on, 'hA'),
+        hour: DateUtil.format(resp.starts_on, 'h:mmA'),
         day: DateUtil.format(resp.starts_on, 'D'),
         dayName: DateUtil.format(resp.starts_on, 'dddd'),
         month: DateUtil.format(resp.starts_on, 'MMM'),
         year: DateUtil.format(resp.starts_on, 'YYYY')
       },
       endDate: {
-        hour: DateUtil.format(resp.ends_on, 'hA'),
+        hour: DateUtil.format(resp.ends_on, 'h:mmA'),
         day: DateUtil.format(resp.ends_on, 'D'),
         dayName: DateUtil.format(resp.ends_on, 'dddd'),
         month: DateUtil.format(resp.ends_on, 'MMM'),
