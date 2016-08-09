@@ -36,7 +36,7 @@ export class DropdownComponent {
   }
 
   openMyProfile() {
+    setTimeout(() => jQuery('#profileDropdown').removeClass('is-active'));
     this.router.navigate(['/ProfileView', {username: CookieUtil.getValue('user_username')}]);
-    jQuery('#profileDropdown').removeClass('is-active');
   }
 }
