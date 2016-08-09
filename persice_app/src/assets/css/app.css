@@ -991,3 +991,7 @@ li.features-list__match {
   color: #8296a1;
   line-height: 28px
 }
+
+.user-profile {
+  cursor: pointer!important;
+}
