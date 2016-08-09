@@ -1,0 +1,44 @@
+<nav class="nav-main">
+  <ul>
+    <li>
+      <a [routerLink]="['./Crowd']">
+        <svg role="img" class="icon">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-crowd"></use>
+          </svg>
+        <span>Crowd</span>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['./Messages']">
+        <svg role="img" class="icon">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
+          </svg>
+        <span>Messages</span>
+        <prs-messages-counter></prs-messages-counter>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['./Connections']">
+        <svg role="img" class="icon">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
+          </svg>
+        <span>Pals</span>
+        <prs-connections-counter></prs-connections-counter>
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['./Events', 'AllEventsList']">
+        <svg role="img" class="icon">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-events"></use>
+          </svg>
+        <span>Events</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="nav-submain-container">
+  <ul class="nav-submain">
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/terms">Terms</a></li>
+  </ul>
+</div>
