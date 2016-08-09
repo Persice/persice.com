@@ -945,3 +945,9 @@ li.features-list__match {
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+
+#intercom-container .intercom-launcher {
+  right: auto!important;
+  left: 20px!important;
+  bottom: 50px!important;
+}
