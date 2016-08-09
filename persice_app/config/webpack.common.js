@@ -212,6 +212,7 @@ module.exports = {
   node: {
     global: 'window',
     crypto: 'empty',
+    process: true,
     module: false,
     clearImmediate: false,
     setImmediate: false
