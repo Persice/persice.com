@@ -5,9 +5,7 @@ import { EventsMapComponent } from '../events-map';
 @Component({
   selector: 'prs-events-all-map',
   directives: [EventsMapComponent],
-  template: `
-    map
-  `
+  template: <any>require('../under-construction.html')
 })
 export class EventsAllMapComponent {
 

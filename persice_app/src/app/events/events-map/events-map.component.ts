@@ -3,9 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'prs-events-map',
   directives: [],
-  template: `
-    map
-  `
+  template: <any>require('../under-construction.html')
 })
 export class EventsMapComponent {
 

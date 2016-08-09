@@ -995,3 +995,7 @@ li.features-list__match {
 .user-profile {
   cursor: pointer!important;
 }
+
+.under-construction {
+  justify-content: flex-start!important;
+}
