@@ -32,7 +32,6 @@
       <prs-event-attendees [people]="peopleMaybe" [count]="peopleMaybecounter"
                            *ngIf="selected === 'maybe'"></prs-event-attendees>
     </div>
-    <!-- TODO {% include "02-organisms/organism.invite-connections.html" %}  -->
     <div class="event-desc-and-host">
       <div class="layout layout--large">
         <div class="layout__item 1/2">
@@ -47,5 +46,5 @@
   </div>
 </div>
 <div class="remodal--common" data-remodal-id="edit-event" remodal>
-  <prs-event-edit [type]="'edit-event'" [event]="event" (refreshEvent)="refreshEvent($event)"></prs-event-edit>
+  <prs-event-edit *ngIf="event" [type]="'edit-event'" [event]="event" (refreshEvent)="refreshEvent($event)"></prs-event-edit>
 </div>

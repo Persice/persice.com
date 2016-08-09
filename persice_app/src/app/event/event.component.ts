@@ -40,7 +40,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
   remodalId: string = 'edit-event';
   selected = 'yes';
   savingRsvp: boolean = false;
-  event = {};
+  event = null;
   isHost: boolean = false;
   rsvpStatus: string;
   authUserUri: string;
