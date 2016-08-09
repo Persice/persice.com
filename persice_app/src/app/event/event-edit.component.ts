@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router-deprecated';
 import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
 import { BaseEventComponent } from './base-event.component';
@@ -6,7 +6,6 @@ import { NotificationComponent } from '../shared/components/notification';
 import { LoadingComponent } from '../shared/components/loading';
 import { DateUtil } from '../shared/core';
 import { EventService, NotificationService } from '../shared/services';
-
 
 @Component({
   selector: 'prs-event-edit',
@@ -25,11 +24,14 @@ import { EventService, NotificationService } from '../shared/services';
 export class EventEditComponent extends BaseEventComponent {
 
   @Input() set event(data: any) {
+    this.eventOriginal = data;
     this.setEvent(data);
   }
+
   @Input() type;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
 
+  eventOriginal: any;
   eventId: number = null;
   resourceUri: string = null;
 
@@ -50,6 +52,13 @@ export class EventEditComponent extends BaseEventComponent {
     this.router = router;
   }
 
+  resetEvent(event: MouseEvent) {
+    this.setEvent(this.eventOriginal);
+    jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
+    jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
+    jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
+    jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+  }
 
   setEvent(data) {
     let ev = data;
@@ -106,6 +115,7 @@ export class EventEditComponent extends BaseEventComponent {
     this.model.ends_on_date = endDate.format('MM/DD/YYYY');
     this.model.starts_on_time = startDate.format('hh:mm');
     this.model.ends_on_time = endDate.format('hh:mm');
+
   }
 
   saveEvent(event) {
