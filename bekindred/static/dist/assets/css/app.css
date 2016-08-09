@@ -945,3 +945,57 @@ li.features-list__match {
   background-position: 50% 50%;
   background-repeat: no-repeat;
 }
+
+#intercom-container .intercom-launcher {
+  right: auto!important;
+  left: 20px!important;
+  bottom: 50px!important;
+}
+
+.nav-submain {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0
+}
+
+.nav-submain-container {
+  position: absolute;
+  bottom: 0px;
+  width: 220px;
+}
+
+.nav-submain li {
+  display: inline-block;
+  position: relative;
+  padding: 0 15px;
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+
+.nav-submain li:after {
+  content: "";
+  height: 2px;
+  width: 2px;
+  background: #8296a1;
+  position: absolute;
+  right: -1px;
+  top: 13px;
+}
+
+.nav-submain li:last-child:after {
+  display: none
+}
+
+.nav-submain a {
+  color: #8296a1;
+  line-height: 28px
+}
+
+.user-profile {
+  cursor: pointer!important;
+}
+
+.under-construction {
+  justify-content: flex-start!important;
+}
