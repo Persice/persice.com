@@ -32,8 +32,6 @@ export abstract class BaseEventComponent {
     this.action = action;
   }
 
-  resetEvent(event: MouseEvent) { }
-
   changeOpenTo(event) {
     this.model.access_level = event;
   }

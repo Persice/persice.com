@@ -52,14 +52,6 @@ export class EventEditComponent extends BaseEventComponent {
     this.router = router;
   }
 
-  resetEvent(event: MouseEvent) {
-    this.setEvent(this.eventOriginal);
-    jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
-    jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
-    jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
-    jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
-  }
-
   setEvent(data) {
     let ev = data;
     this.eventId = ev.id;
