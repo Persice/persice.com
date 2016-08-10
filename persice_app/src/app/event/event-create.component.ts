@@ -65,7 +65,7 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
       this.validationErrors = {};
       this.loading = false;
       this._notifySuccess('Your event has been created.');
-      this.router.parent.navigate(['/EventDetails', { 'eventId': res.id }]);
+      this.router.parent.navigate(['/EventDetails', {'eventId': res.id}]);
     }, (err) => {
       this.loading = false;
       if ('validationErrors' in err) {
