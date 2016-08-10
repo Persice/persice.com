@@ -73,10 +73,10 @@ export class EventEditComponent extends BaseEventComponent {
     this.model.location_name = ev.location_name;
     this.model.event_location = ev.full_address !== '' ? ev.full_address : ev.location_name;
 
-    if (this.model.event_location.indexOf(ev.location_name) === -1 ) {
-      this.model.event_location =  ev.location_name + ', ' + this.model.event_location;
+    if (this.model.event_location.indexOf(ev.location_name) === -1) {
+      this.model.event_location = ev.location_name + ', ' + this.model.event_location;
     }
-    
+
     this.model.max_attendees = ev.max_attendees;
     this.model.access_level = ev.access_level;
 
