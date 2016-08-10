@@ -174,7 +174,7 @@ export class Event {
 
   private _parseEventDateFromField(dateField: any): EventDate {
     return new EventDate(
-      DateUtil.format(dateField, 'hA'),
+      DateUtil.format(dateField, 'h:mmA'),
       DateUtil.format(dateField, 'D'),
       DateUtil.format(dateField, 'dddd'),
       DateUtil.format(dateField, 'MMM'),
