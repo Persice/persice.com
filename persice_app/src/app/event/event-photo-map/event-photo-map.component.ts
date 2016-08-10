@@ -4,6 +4,7 @@ import { EventService, NotificationService } from '../../shared/services';
 import { CheckImageDirective } from '../../shared/directives';
 import { FileUtil } from '../../shared/core';
 import { GOOGLE_MAPS_DIRECTIVES } from '../../../common/google-map/directives';
+import { LoadingComponent } from '../../shared/components/loading';
 
 // just an interface for type safety.
 interface IMarker {
@@ -12,14 +13,14 @@ interface IMarker {
   label?: string;
 }
 
-
 @Component({
   selector: 'prs-event-photo-map',
   template: <any>require('./event-photo-map.html'),
   directives: [
     GOOGLE_MAPS_DIRECTIVES,
     CORE_DIRECTIVES,
-    CheckImageDirective
+    CheckImageDirective,
+    LoadingComponent
   ],
   providers: [EventService]
 })
@@ -30,7 +31,6 @@ export class EventPhotoMapComponent implements OnChanges {
   @Input() host;
   @Input() uri;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
-
 
   showMap: boolean = false;
   showPhoto: boolean = true;
@@ -43,6 +43,8 @@ export class EventPhotoMapComponent implements OnChanges {
   lng: number;
 
   markers: IMarker[] = [];
+
+  isPhotoLoading: boolean = false;
 
   constructor(
     private service: EventService,
@@ -87,9 +89,12 @@ export class EventPhotoMapComponent implements OnChanges {
 
     if (file !== undefined) {
       if (FileUtil.isImage(event.event_photo.type)) {
+        this.isPhotoLoading = true;
         this.service.updateImageByUri(event, this.uri).subscribe((res) => {
           this.refreshEvent.emit(true);
+          this.isPhotoLoading = false;
         }, (err) => {
+          this.isPhotoLoading = false;
           console.log(err);
         }, () => {
         });
