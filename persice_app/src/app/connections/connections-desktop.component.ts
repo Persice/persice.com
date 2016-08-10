@@ -51,7 +51,7 @@ export class ConnectionsDesktopComponent extends ConnectionsComponent implements
   }
 
   afterItemClosed() {
-    this.setLocation(this.listType);
+    this.setLocation('pals');
     this.restoreScrollPosition();
   }
 
