@@ -53,7 +53,7 @@ import {
     name: 'EventDetails'
   },
   {
-    path: '/connections',
+    path: '/pals',
     component: ConnectionsDesktopComponent,
     name: 'Connections'
   },

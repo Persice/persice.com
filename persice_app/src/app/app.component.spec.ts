@@ -29,9 +29,9 @@ describe('App component', () => {
     }).catch(e => done.fail(e));
   });
 
-  it('Should be able to navigate to Connections', done => {
+  it('Should be able to navigate to Pals', done => {
     router.navigate(['Connections']).then(() => {
-      expect(location.path()).toBe('/connections');
+      expect(location.path()).toBe('/pals');
       done();
     }).catch(e => done.fail(e));
   });
