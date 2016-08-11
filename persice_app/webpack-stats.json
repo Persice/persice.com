@@ -3,74 +3,74 @@
   "chunks": {
     "polyfills": [
       {
-        "name": "polyfills.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/polyfills.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/polyfills.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js"
+        "name": "polyfills.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/polyfills.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/polyfills.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js"
       },
       {
-        "name": "polyfills.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/polyfills.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/polyfills.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map"
+        "name": "polyfills.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/polyfills.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/polyfills.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map"
       }
     ],
     "vendor": [
       {
-        "name": "vendor.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/vendor.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/vendor.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js"
+        "name": "vendor.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/vendor.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/vendor.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js"
       },
       {
-        "name": "vendor.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/vendor.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/vendor.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map"
+        "name": "vendor.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/vendor.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/vendor.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map"
       }
     ],
     "main": [
       {
-        "name": "main.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/main.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js"
+        "name": "main.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/main.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js"
       },
       {
-        "name": "main.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/main.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map"
+        "name": "main.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/main.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map"
       }
     ],
     "signup": [
       {
-        "name": "signup.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js"
+        "name": "signup.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js"
       },
       {
-        "name": "signup.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map"
+        "name": "signup.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map"
       }
     ],
     "signup-mobile": [
       {
-        "name": "signup-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js"
+        "name": "signup-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js"
       },
       {
-        "name": "signup-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map"
+        "name": "signup-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/signup-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/signup-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map"
       }
     ],
     "main-mobile": [
       {
-        "name": "main-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.js"
+        "name": "main-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.js"
       },
       {
-        "name": "main-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.216f354255b52e2417dd57f980327a286b446ffd.prod.bundle.map"
+        "name": "main-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/dist/main-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map",
+        "path": "/home/vagrant/bekindred/bekindred/static/dist/main-mobile.c6f0ef0564feb76cf786ea375f5a59afcf30a7f1.prod.bundle.map"
       }
     ]
   },
