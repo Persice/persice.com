@@ -26,6 +26,8 @@ import {
   HistoryService,
   NotificationsService
 } from './shared/services';
+import { TermsOfServiceComponent } from './info/terms-of-service/terms-of-service.component';
+import { PrivacyPolicyComponent } from './info/privacy-policy/privacy-policy.component';
 
 /*
  * Persice App Component
@@ -71,6 +73,15 @@ import {
     path: '/:username',
     component: ProfileLoader,
     name: 'ProfileView'
+  }, {
+    path: 'privacy',
+    component: PrivacyPolicyComponent,
+    name: 'Privacy'
+  },
+  {
+    path: 'terms',
+    component: TermsOfServiceComponent,
+    name: 'Terms'
   }
 ])
 @Component({
