@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 import { SwiperDirective, CheckImageDirective } from '../../shared/directives';
 
 @Component({
@@ -29,7 +29,7 @@ export class EventAttendeesComponent {
   }
 
   openProfile(username) {
-    this._router.parent.navigate(['./ProfileView', {username: username}]);
+    this._router.navigateByUrl('/' + username);
   }
 
 }

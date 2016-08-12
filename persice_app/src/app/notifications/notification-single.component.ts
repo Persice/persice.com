@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 import { NotificationsService } from '../shared/services/notifications.service';
 
 @Component({
@@ -64,11 +64,11 @@ export class NotificationSingleComponent implements OnInit {
   performAction(event) {
     switch (this.notification.type) {
       case 'message':
-        this._router.navigate(['Messages', 'SingleConversation', {'threadId': this.notification.data.sender_id}]);
+        this._router.navigateByUrl('/messages/' + this.notification.data.sender_id);
         this.removeSelf(true);
         break;
       case 'connection':
-        this._router.navigate(['ProfileView', {'username': this.notification.data.username}]);
+        this._router.navigateByUrl('/' + this.notification.data.username);
         this.removeSelf(true);
         break;
       default:

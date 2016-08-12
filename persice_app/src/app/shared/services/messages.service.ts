@@ -27,6 +27,18 @@ export class MessagesService {
     this._myUri = `/api/v1/auth/user/${userId}/`;
   }
 
+  public reset() {
+    this._loading = false;
+    this._dataStore = [];
+    this._next = '';
+    this._total_count = 0;
+    this._offset = 0;
+    this._isListEmpty = true;
+    this._newMessage = false;
+    this._initialLoadingFinished = false;
+    this._notify();
+  }
+
   public startLoadingMessages(id) {
     this._senderUri = `/api/v1/auth/user/${id}/`;
     this._loadMessages(this._limit, id, false);

@@ -1,12 +1,11 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { UserAuthService } from '../../app/shared/services';
 
-
 @Component({
   selector: 'prs-signup-connect',
-  template: <any>require('./signup-connect.html')
+  template: <any>require('./connect-social-accounts.html')
 })
-export class SignupConnectComponent implements OnInit {
+export class SignupConnectSocialAccountsComponent implements OnInit {
 
   connectStatus = {
     twitter: {
@@ -21,8 +20,7 @@ export class SignupConnectComponent implements OnInit {
     }
   };
 
-  constructor(private service: UserAuthService, private _ngZone: NgZone) {
-  }
+  constructor(private service: UserAuthService, private _ngZone: NgZone) { }
 
   ngOnInit() {
     this.getConnectStatus();

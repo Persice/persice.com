@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import { InboxService } from '../../shared/services';
 
 @Component({
@@ -14,7 +14,7 @@ import { InboxService } from '../../shared/services';
         <h3 class="chat-sidebar-header__title">Conversation <span class="chat-sidebar-header__title__value">({{counter}})</span></h3>
       </div>
       <div class="layout__item 1/4 text-right">
-        <a [routerLink]="['/Messages']" class="btn btn-1 btn-1--blue btn--icon-circle-small js-share mr-">
+        <a [routerLink]="['/messages/new']" class="btn btn-1 btn-1--blue btn--icon-circle-small js-share mr-">
           <svg role="img" class="icon icon--tiny">
             <use xlink:href="/static/assets/icons/icons.svg#icon-new-message"></use>
           </svg>

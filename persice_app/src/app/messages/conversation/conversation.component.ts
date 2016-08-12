@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouteParams, Router } from '@angular/router-deprecated';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   InboxService,
   UserAuthService,
@@ -52,35 +52,21 @@ export class ConversationComponent implements OnInit, OnDestroy {
   websocketServiceInstance;
   threadId;
   scrollOffset = null;
+  sub;
 
   constructor(
-    private _params: RouteParams,
     private inboxService: InboxService,
     private messagesService: MessagesService,
     private userService: UserAuthService,
     private messagesCounterService: MessagesCounterService,
     private websocketService: WebsocketService,
-    private _router: Router
+    private _router: Router,
+    private _route: ActivatedRoute
   ) {
-    this.threadId = this._params.get('threadId');
+
   }
 
-
   ngOnInit() {
-    let url = `/api/v1/auth/user/${this.threadId}/`;
-    let channel = this.userService.findByUri(url)
-      .subscribe((data) => {
-        this.name = data.first_name;
-        channel.unsubscribe();
-      }, (err) => console.log('User could not be loaded'));
-
-    this.inboxService.select(this.threadId);
-
-    setTimeout(() => {
-      this.messagesCounterService.refreshCounter();
-    }, 500);
-
-    //subscribe to messages service updates
     this.messagesServiceInstance = this.messagesService.serviceObserver()
       .subscribe((res) => {
         this.loadingMessages = res.loading;
@@ -92,7 +78,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
         let prevCount = this.messages.length;
 
         if (res.total === 0 && res.initialLoadingFinished) {
-          this._router.parent.navigate(['/Messages', 'ConversationNewSelected', {friendId: this.threadId}]);
+          this._router.navigateByUrl('/messages/new/' + this.threadId);
         }
 
         //when first loading messages, scroll to bottom
@@ -103,7 +89,6 @@ export class ConversationComponent implements OnInit, OnDestroy {
             elem.scrollTop = elem.scrollHeight;
           });
         }
-
 
         //if receieved new message scroll to bottom
         if (this.hasNew && !this.loadingMessages) {
@@ -135,8 +120,30 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
       });
 
-    //start loading messages
-    this.messagesService.startLoadingMessages(this.threadId);
+    this.sub = this._route.params.subscribe((params) => {
+      console.log('params changed', params['threadId']);
+      this.threadId = params['threadId'];
+      let url = `/api/v1/auth/user/${this.threadId}/`;
+      let channel = this.userService.findByUri(url)
+        .subscribe((data) => {
+          this.name = data.first_name;
+          channel.unsubscribe();
+        }, (err) => console.log('User could not be loaded'));
+
+      this.inboxService.select(this.threadId);
+
+      this.messagesService.reset();
+
+      this.messagesService.startLoadingMessages(this.threadId);
+      setTimeout(() => {
+        this.messagesCounterService.refreshCounter();
+      }, 500);
+
+    });
+
+    setTimeout(() => {
+      this.messagesCounterService.refreshCounter();
+    }, 500);
 
     //subscribe to webscoket service updates
     this.websocketServiceInstance = this.websocketService.on('messages:new').subscribe((data: any) => {
@@ -144,6 +151,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
         this.messagesService.recievedMessage(data);
       }
     });
+
   }
 
   handleScrollEvent(event) {
@@ -169,6 +177,10 @@ export class ConversationComponent implements OnInit, OnDestroy {
 
     if (this.websocketServiceInstance) {
       this.websocketServiceInstance.unsubscribe();
+    }
+
+    if (this.sub) {
+      this.sub.unsubscribe();
     }
 
   }

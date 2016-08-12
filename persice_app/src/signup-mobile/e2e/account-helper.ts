@@ -38,7 +38,7 @@ export class AccountHelper {
     let crowdPage = new CrowdPage();
     crowdPage.get();
 
-    crowdPage.isOpen().then(function(open) {
+    crowdPage.isOpen().then(function (open) {
       deferred.fulfill(open);
     });
 
@@ -48,13 +48,13 @@ export class AccountHelper {
   public static ensureCrowdOpen(email: string, password: string): void {
     let crowdPage = new CrowdPage();
 
-    AccountHelper.isLoggedIn().then(function(loggedIn) {
+    AccountHelper.isLoggedIn().then(function (loggedIn) {
       if (loggedIn) {
         crowdPage.get();
       } else {
         AccountHelper.loginAndViewCrowd(email, password);
       }
-    })
+    });
   }
 
   public static ensureCrowdOpenForTestUser(): void {

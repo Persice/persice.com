@@ -6,7 +6,7 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TermsOfServiceComponent implements OnInit {
-  
+
   ngOnInit(): any {
     setTimeout(() => {
       window.scrollTo(0, 0);

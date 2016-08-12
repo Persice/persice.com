@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
 import { ListUtil } from '../shared/core/';
 import { AvatarComponent } from './avatar.component';
 import { AboutComponent } from './about.component';
@@ -16,7 +15,6 @@ import {
   LikesService,
   ReligiousViewsService,
   PoliticalViewsService,
-  HistoryService,
   UserService
 } from '../shared/services';
 import { ConnectionsService } from '../../common/connections';
@@ -63,7 +61,6 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
   profileJob = '';
   profileReligiousViews = [];
   profilePoliticalViews = [];
-  profileActiveAgo = '2h ago';
   profileDistance = '';
   profileAbout: string = '';
   profileAvatar: string = '';
@@ -113,9 +110,7 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
     public likesService: LikesService,
     public religiousviewsService: ReligiousViewsService,
     public politicalviewsService: PoliticalViewsService,
-    private historyService: HistoryService,
-    private userMeService: UserService,
-    private _router: Router
+    private userMeService: UserService
   ) {
 
   }
@@ -281,13 +276,7 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
   }
 
   closeProfile(event) {
-    let uri = this.historyService.getPrev();
-    if (uri !== '') {
-      window.history.back(-1);
-    } else {
-      window.history.back(-2);
-    }
-
+    window.history.back(-1);
   }
 
   openEdit(section) {

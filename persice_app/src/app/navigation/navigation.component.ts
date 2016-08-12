@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import { MessagesCounterComponent } from './messages-counter.component';
 import { ConnectionsCounterComponent } from './connections-counter.component';
 

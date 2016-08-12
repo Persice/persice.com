@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { RouterLink, Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 import { DropdownDirective } from '../shared/directives/dropdown.directive';
 import { CheckImageDirective } from '../shared/directives/checkimage.directive';
 import { CookieUtil } from '../shared/core';
@@ -7,7 +7,7 @@ import { CookieUtil } from '../shared/core';
 declare var jQuery;
 @Component({
   selector: 'prs-dropdown',
-  directives: [DropdownDirective, RouterLink, CheckImageDirective],
+  directives: [DropdownDirective, CheckImageDirective],
   template: `
   <div class="user-profile" dropdown="#profileDropdown">
     <div class="user-profile__avatar">
@@ -37,6 +37,6 @@ export class DropdownComponent {
 
   openMyProfile() {
     setTimeout(() => jQuery('#profileDropdown').removeClass('is-active'));
-    this.router.navigate(['/ProfileView', {username: CookieUtil.getValue('user_username')}]);
+    this.router.navigateByUrl('/' + CookieUtil.getValue('user_username'));
   }
 }

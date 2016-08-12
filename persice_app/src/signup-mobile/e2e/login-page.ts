@@ -5,10 +5,10 @@ export class LoginPage implements PageInterface {
 
   protected path: string = undefined;
 
-  private emailInput =  element(by.name('email'));
-  private passwordInput =  element(by.name('pass'));
+  private emailInput = element(by.name('email'));
+  private passwordInput = element(by.name('pass'));
   private navigateToFacebookButton = element(by.id('loginButton'));
-  private facebookLoginButton =  element(by.name('login'));
+  private facebookLoginButton = element(by.name('login'));
 
   constructor() {
     this.path = '/accounts/login/';

@@ -1,36 +1,36 @@
 <nav class="nav-main">
   <ul>
-    <li>
-      <a [routerLink]="['./Crowd']">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/crowd']">
         <svg role="img" class="icon">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-crowd"></use>
-          </svg>
+          <use xlink:href="/static/assets/icons/icons.svg#icon-menu-crowd"></use>
+        </svg>
         <span>Crowd</span>
       </a>
     </li>
-    <li>
-      <a [routerLink]="['./Messages']">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/messages']">
         <svg role="img" class="icon">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
-          </svg>
+          <use xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
+        </svg>
         <span>Messages</span>
         <prs-messages-counter></prs-messages-counter>
       </a>
     </li>
-    <li>
-      <a [routerLink]="['./Connections']">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/pals']">
         <svg role="img" class="icon">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
-          </svg>
+          <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
+        </svg>
         <span>Pals</span>
         <prs-connections-counter></prs-connections-counter>
       </a>
     </li>
-    <li>
-      <a [routerLink]="['./Events', 'AllEventsList']">
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/events/all/list']">
         <svg role="img" class="icon">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-events"></use>
-          </svg>
+          <use xlink:href="/static/assets/icons/icons.svg#icon-menu-events"></use>
+        </svg>
         <span>Events</span>
       </a>
     </li>
@@ -38,7 +38,7 @@
 </nav>
 <div class="nav-submain-container">
   <ul class="nav-submain">
-    <li><a [routerLink]="['./Privacy']">Privacy</a></li>
-    <li><a [routerLink]="['./Terms']">Terms</a></li>
+    <li [routerLinkActive]="['is-current']"><a [routerLink]="['/privacy']">Privacy</a></li>
+    <li [routerLinkActive]="['is-current']"><a [routerLink]="['/terms']">Terms</a></li>
   </ul>
 </div>

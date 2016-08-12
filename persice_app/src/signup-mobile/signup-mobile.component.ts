@@ -43,9 +43,6 @@ export class SignupMobileComponent implements OnInit {
   is_complete = null;
   isNextDisabled = true;
 
-  router: Router;
-  location: Location;
-
   notificationMain = {
     body: '',
     title: '',
@@ -54,8 +51,8 @@ export class SignupMobileComponent implements OnInit {
   };
 
   constructor(
-    router: Router,
-    location: Location,
+    private router: Router,
+    private location: Location,
     private goalsService: GoalsService,
     private offersService: OffersService,
     private interestsService: InterestsService,
@@ -63,8 +60,10 @@ export class SignupMobileComponent implements OnInit {
     private onboardingService: OnboardingService,
     private signupStateService: SignupStateService
   ) {
-    this.router = router;
-    this.location = location;
+
+  }
+
+  ngOnInit() {
 
     this.signupStateService.counterEmitter.subscribe((state) => {
       this.onCounterChanged(state);
@@ -74,11 +73,7 @@ export class SignupMobileComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.onRouteChanged(event.url);
       }
-
     });
-  }
-
-  ngOnInit() {
 
     this.userAuthService.findOneByUri('me').subscribe((data) => {
       let res: any = data;

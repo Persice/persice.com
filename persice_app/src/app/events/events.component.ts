@@ -1,76 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { RouteConfig, RouterLink, ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { StringUtil } from '../shared/core';
 import { FilterDesktopComponent } from '../shared/components/filter';
-import { EventsListSubnavComponent } from './events-list-subnav';
-import { EventsMyListComponent, EventsMyMapComponent, EventsMyCalendarComponent } from './events-my';
-import {
-  EventsNetworkListComponent,
-  EventsNetworkMapComponent,
-  EventsNetworkCalendarComponent
-} from './events-network';
-import { EventsAllListComponent, EventsAllMapComponent, EventsAllCalendarComponent } from './events-all';
-
 
 @Component({
   selector: 'prs-events',
   template: <any>require('./events.html'),
   directives: [
-    EventsListSubnavComponent,
     ROUTER_DIRECTIVES,
-    RouterLink,
     FilterDesktopComponent
   ]
 })
-@RouteConfig([
-  {
-    path: '/my/list',
-    component: EventsMyListComponent,
-    name: 'MyEventsList'
-  },
-  {
-    path: '/my/map',
-    component: EventsMyMapComponent,
-    name: 'MyEventsMap'
-  },
-  {
-    path: '/my/calendar',
-    component: EventsMyCalendarComponent,
-    name: 'MyEventsCalendar'
-  },
-  {
-    path: '/all/list',
-    component: EventsAllListComponent,
-    name: 'AllEventsList'
-  },
-  {
-    path: '/all/map',
-    component: EventsAllMapComponent,
-    name: 'AllEventsMap'
-  },
-  {
-    path: '/all/calendar',
-    component: EventsAllCalendarComponent,
-    name: 'AllEventsCalendar'
-  },
-  {
-    path: '/network/list',
-    component: EventsNetworkListComponent,
-    name: 'NetworkEventsList'
-  },
-  {
-    path: '/network/map',
-    component: EventsNetworkMapComponent,
-    name: 'NetworkEventsMap'
-  },
-  {
-    path: '/network/calendar',
-    component: EventsNetworkCalendarComponent,
-    name: 'NetworkEventsCalendar'
-  }
-])
-
 export class EventsComponent implements OnInit {
   showGender: Boolean = false;
   activeRoute = {
@@ -83,14 +24,8 @@ export class EventsComponent implements OnInit {
     network: false,
     all: true
   };
-  router: Router;
-  location: Location;
 
-  constructor(router: Router, location: Location) {
-    this.router = router;
-    this.location = location;
-
-  }
+  constructor(private router: Router, private location: Location) { }
 
   ngOnInit() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -133,20 +68,19 @@ export class EventsComponent implements OnInit {
       this.markNav('my');
       this.markSubnav('calendar');
     }
+
     if (StringUtil.contains(path, 'network/calendar')) {
       this.markNav('network');
       this.markSubnav('calendar');
     }
+
     if (StringUtil.contains(path, 'all/calendar')) {
       this.markNav('all');
       this.markSubnav('calendar');
     }
-
-
   }
 
   markNav(type) {
-
     switch (type) {
       case 'my':
         this.activeRouteNav = {
@@ -210,29 +144,23 @@ export class EventsComponent implements OnInit {
     }
   }
 
-
   activateMain(path) {
-
-    if (path === 'AllEventsList') {
+    if (path === '/all/list') {
       this.markNav('all');
       this.markSubnav('list');
     }
-    if (path === 'MyEventsList') {
+
+    if (path === '/my/list') {
       this.markNav('my');
       this.markSubnav('list');
     }
-    if (path === 'NetworkEventsList') {
+
+    if (path === '/network/list') {
       this.markNav('network');
       this.markSubnav('list');
     }
 
-    this.router.parent.navigate(['./Events', path]);
-
-  }
-
-
-  openNewEventModal(event) {
-    console.log('opened new event modal');
+    this.router.navigateByUrl('/events' + path);
   }
 
   activateMap() {
@@ -240,21 +168,21 @@ export class EventsComponent implements OnInit {
     if (StringUtil.contains(path, 'my')) {
       this.markNav('my');
       this.markSubnav('map');
-      this.router.parent.navigate(['./Events', 'MyEventsMap']);
+      this.router.navigateByUrl('/events/my/map');
       return;
     }
 
     if (StringUtil.contains(path, 'all')) {
       this.markNav('all');
       this.markSubnav('map');
-      this.router.parent.navigate(['./Events', 'AllEventsMap']);
+      this.router.navigateByUrl('/events/all/map');
       return;
     }
 
     if (StringUtil.contains(path, 'network')) {
       this.markNav('network');
       this.markSubnav('map');
-      this.router.parent.navigate(['./Events', 'NetworkEventsMap']);
+      this.router.navigateByUrl('/events/network/map');
       return;
     }
   }
@@ -265,28 +193,24 @@ export class EventsComponent implements OnInit {
     if (StringUtil.contains(path, 'my')) {
       this.markNav('my');
       this.markSubnav('list');
-      this.router.parent.navigate(['./Events', 'MyEventsList']);
+      this.router.navigateByUrl('/events/my/list');
       return;
     }
 
     if (StringUtil.contains(path, 'all')) {
       this.markNav('all');
       this.markSubnav('list');
-      this.router.parent.navigate(['./Events', 'AllEventsList']);
+      this.router.navigateByUrl('/events/all/list');
       return;
     }
-
 
     if (StringUtil.contains(path, 'network')) {
       this.markNav('network');
       this.markSubnav('list');
-      this.router.parent.navigate(['./Events', 'NetworkEventsList']);
+      this.router.navigateByUrl('/events/network/list');
       return;
     }
-
-
   }
-
 
   activateCalendar() {
     let path = this.location.path();
@@ -294,26 +218,23 @@ export class EventsComponent implements OnInit {
     if (StringUtil.contains(path, 'my')) {
       this.markNav('my');
       this.markSubnav('calendar');
-      this.router.parent.navigate(['./Events', 'MyEventsCalendar']);
+      this.router.navigateByUrl('/events/my/calendar');
       return;
     }
 
     if (StringUtil.contains(path, 'all')) {
       this.markNav('all');
       this.markSubnav('calendar');
-      this.router.parent.navigate(['./Events', 'AllEventsCalendar']);
+      this.router.navigateByUrl('/events/all/calendar');
       return;
     }
-
 
     if (StringUtil.contains(path, 'network')) {
       this.markNav('network');
       this.markSubnav('calendar');
-      this.router.parent.navigate(['./Events', 'NetworkEventsCalendar']);
+      this.router.navigateByUrl('/events/network/calendar');
       return;
     }
-
   }
-
 
 }

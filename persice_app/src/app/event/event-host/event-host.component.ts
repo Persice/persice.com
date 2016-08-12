@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 import { CheckImageDirective } from '../../shared/directives';
 
 @Component({
@@ -18,19 +18,15 @@ import { CheckImageDirective } from '../../shared/directives';
     </div>
     <p class="module-type">{{host?.description}}</p>
   `,
-  directives: [
-    CheckImageDirective
-  ]
+  directives: [CheckImageDirective]
 })
 export class EventHostComponent {
   @Input() host;
 
-  constructor(private _router: Router) {
-
-  }
+  constructor(private _router: Router) { }
 
   openProfile(username) {
-    this._router.parent.navigate(['./ProfileView', {username: username}]);
+    this._router.navigateByUrl('/' + username);
   }
 
 }

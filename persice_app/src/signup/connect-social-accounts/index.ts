@@ -1,1 +1,1 @@
-export * from './signup-connect.component';
+export * from './connect-social-accounts.component';

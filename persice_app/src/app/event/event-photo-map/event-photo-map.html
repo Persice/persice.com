@@ -22,8 +22,8 @@
         <div [ngClass]="{'is-current': showPhoto}" *ngIf="showPhoto"
              class="event-photo-map__content js-image-liquid tab-content imgLiquid_bgSize imgLiquid_ready is-current"
              id="js-photo" checkimage="{{photo}}" [suffix]="'.1000x364_q100_crop.jpg'">
-             <prs-loading [status]="isPhotoLoading"></prs-loading>
-             <div *ngIf="isPhotoLoading" class="overlay"></div>
+          <prs-loading [status]="isPhotoLoading"></prs-loading>
+          <div *ngIf="isPhotoLoading" class="overlay"></div>
         </div>
         <div [ngClass]="{'is-current': showMap}" *ngIf="showMap" class="event-photo-map__content tab-content"
              id="js-map">

@@ -8,7 +8,7 @@ export class CrowdPage implements PageInterface {
 
   private _path: string = undefined;
   private _title: string = undefined;
-  private _peopleList =  element.all(by.className('user-card'));
+  private _peopleList = element.all(by.className('user-card'));
   private _peopleListContainer = element(by.tagName('prs-mobile-user-card'));
   private _header: Header;
 

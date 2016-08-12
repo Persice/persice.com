@@ -9,8 +9,11 @@ import { AboutMobileComponent } from './about';
 import { PhotosMobileComponent } from './photos';
 import { NetworkPreviewComponent } from './network-preview';
 import { NetworkConnectionsComponent } from './network-connections';
-import { NetworkMutualConnectionsComponent, MutualConnectionsService, MutualConnectionsCountService }
-from './network-mutual-connections';
+import {
+  NetworkMutualConnectionsComponent,
+  MutualConnectionsService,
+  MutualConnectionsCountService
+} from './network-mutual-connections';
 import { ItemsListMobileComponent } from './items-list';
 import { AppStateService } from '../shared/services';
 import { LikesMobileComponent } from './likes/likes-mobile.component';

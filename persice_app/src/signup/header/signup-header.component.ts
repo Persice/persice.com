@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
-
+import { ROUTER_DIRECTIVES } from '@angular/router';
 
 @Component({
   selector: 'prs-signup-header',

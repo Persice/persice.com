@@ -1,5 +1,5 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { CheckImageDirective } from '../../directives';
 
 @Component({
@@ -24,8 +24,7 @@ import { CheckImageDirective } from '../../directives';
       </div>
     </div>
   </div>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  `
 })
 export class MessageComponent {
   @Input() message;
@@ -35,6 +34,6 @@ export class MessageComponent {
   }
 
   openProfile(username) {
-    this._router.parent.parent.navigate(['./ProfileView', {username: username}]);
+    this._router.navigateByUrl('/' + username);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
 import { BaseEventComponent } from './base-event.component';
 import { NotificationComponent } from '../shared/components/notification';
@@ -49,7 +49,6 @@ export class EventEditComponent extends BaseEventComponent {
     public router: Router
   ) {
     super(service, notificationService, 'edit');
-    this.router = router;
   }
 
   setEvent(data) {
@@ -149,13 +148,12 @@ export class EventEditComponent extends BaseEventComponent {
     });
   }
 
-
   deleteEvent(event) {
     this.showValidationError = false;
     this.service.deleteByUri(this.resourceUri).subscribe((res) => {
       this.showValidationError = false;
       this._notifySuccess(`Your event ${this.model.name} has been deleted.`);
-      this.router.parent.navigate(['./Events', 'AllEventsList']);
+      this.router.navigateByUrl('/events/all/list');
     }, (err) => {
       if ('status' in err) {
         this.notification.body = 'Your event could not be deleted.';
