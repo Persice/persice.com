@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Router } from '@angular/router';
 import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
 import { BaseEventComponent } from './base-event.component';
 import { EventModel } from '../shared/models';
@@ -7,7 +7,6 @@ import { NotificationComponent } from '../shared/components/notification';
 import { LoadingComponent } from '../shared/components/loading';
 import { DateUtil } from '../shared/core';
 import { EventService, NotificationService } from '../shared/services';
-
 
 @Component({
   selector: 'prs-event-create',
@@ -25,11 +24,8 @@ import { EventService, NotificationService } from '../shared/services';
 export class EventCreateComponent extends BaseEventComponent implements OnInit {
   @Input() type;
   loading: boolean = false;
-
-
   START_DATE = DateUtil.todayRoundUp().unix() * 1000;
   END_DATE = DateUtil.todayAddHourRoundUp().unix() * 1000;
-
   START_TIME = DateUtil.todayRoundUp().hour() * 60 + DateUtil.todayRoundUp().minute();
   END_TIME = DateUtil.todayAddHourRoundUp().hour() * 60 + DateUtil.todayAddHourRoundUp().minute();
 
@@ -39,9 +35,7 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
     public router: Router
   ) {
     super(service, notificationService, 'create');
-    this.router = router;
     this.model = new EventModel();
-
   }
 
   ngOnInit(): any {
@@ -65,7 +59,7 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
       this.validationErrors = {};
       this.loading = false;
       this._notifySuccess('Your event has been created.');
-      this.router.parent.navigate(['/EventDetails', {'eventId': res.id}]);
+      this.router.navigateByUrl('/event/' + res.id);
     }, (err) => {
       this.loading = false;
       if ('validationErrors' in err) {
@@ -81,8 +75,6 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
         this.showValidationError = true;
 
       }
-
-    }, () => {
     });
   }
 

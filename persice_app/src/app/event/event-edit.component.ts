@@ -1,12 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { Router } from '@angular/router-deprecated';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
 import { BaseEventComponent } from './base-event.component';
 import { NotificationComponent } from '../shared/components/notification';
 import { LoadingComponent } from '../shared/components/loading';
 import { DateUtil } from '../shared/core';
 import { EventService, NotificationService } from '../shared/services';
-
 
 @Component({
   selector: 'prs-event-edit',
@@ -22,12 +21,17 @@ import { EventService, NotificationService } from '../shared/services';
   providers: [EventService]
 
 })
-export class EventEditComponent extends BaseEventComponent implements OnChanges {
+export class EventEditComponent extends BaseEventComponent {
 
-  @Input() event;
+  @Input() set event(data: any) {
+    this.eventOriginal = data;
+    this.setEvent(data);
+  }
+
   @Input() type;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
 
+  eventOriginal: any;
   eventId: number = null;
   resourceUri: string = null;
 
@@ -45,72 +49,69 @@ export class EventEditComponent extends BaseEventComponent implements OnChanges 
     public router: Router
   ) {
     super(service, notificationService, 'edit');
-    this.router = router;
   }
 
+  setEvent(data) {
+    let ev = data;
+    this.eventId = ev.id;
+    this.resourceUri = ev.resource_uri;
+    this.model.name = ev.name;
+    this.model.description = ev.description;
+    this.model.starts_on = ev.starts_on;
+    this.model.ends_on = ev.ends_on;
+    this.model.event_photo = ev.event_photo;
+    this.model.location = ev.location;
+    this.model.location_name = ev.location_name;
+    this.model.event_location = ev.full_address !== '' ? ev.full_address : ev.location_name;
 
-  ngOnChanges(values) {
-    if ('event' in values && Object.keys(values.event.currentValue).length > 0) {
-      let ev = values.event.currentValue;
-      this.eventId = ev.id;
-      this.resourceUri = ev.resource_uri;
-      this.model.name = ev.name;
-      this.model.description = ev.description;
-      this.model.starts_on = ev.starts_on;
-      this.model.ends_on = ev.ends_on;
-      this.model.event_photo = ev.event_photo;
-      this.model.location = ev.location;
-      this.model.location_name = ev.location_name;
-      this.model.event_location = ev.location_name;
-      this.model.max_attendees = ev.max_attendees;
-      this.model.access_level = ev.access_level;
-
-      let selectOpenTo = [
-        {
-          'label': 'Only my connections (default)',
-          'value': 'connections',
-          'selected': false
-        },
-        {
-          'label': 'Public (all Persice users)',
-          'value': 'public',
-          'selected': false
-        },
-        {
-          'label': 'Private (only invited)',
-          'value': 'private',
-          'selected': false
-        }
-      ];
-
-      for (var i = 0; i < selectOpenTo.length; ++i) {
-        if (selectOpenTo[i].value === this.model.access_level) {
-          selectOpenTo[i].selected = true;
-        }
-      }
-
-      this.openTo = selectOpenTo;
-
-      //assing dates
-      let startDate = DateUtil.convertToLocal(this.model.starts_on);
-
-      let endDate = DateUtil.convertToLocal(this.model.ends_on);
-
-      this.START_DATE = startDate.unix() * 1000;
-      this.END_DATE = endDate.unix() * 1000;
-      this.START_TIME = startDate.hour() * 60 + startDate.minute();
-      this.END_TIME = endDate.hour() * 60 + endDate.minute();
-
-      this.model.starts_on_date = startDate.format('MM/DD/YYYY');
-      this.model.ends_on_date = endDate.format('MM/DD/YYYY');
-      this.model.starts_on_time = startDate.format('hh:mm');
-      this.model.ends_on_time = endDate.format('hh:mm');
-
-      jQuery('#starts_on_date').pickadate('picker').set('select', this.START_DATE);
-      jQuery('#ends_on_date').pickadate('picker').set('select', this.END_DATE);
-      jQuery('#starts_on_time').pickatime('picker').set('select', this.START_TIME);
-      jQuery('#ends_on_time').pickatime('picker').set('select', this.END_TIME);
+    if (this.model.event_location.indexOf(ev.location_name) === -1) {
+      this.model.event_location = ev.location_name + ', ' + this.model.event_location;
     }
+
+    this.model.max_attendees = ev.max_attendees;
+    this.model.access_level = ev.access_level;
+
+    let selectOpenTo = [
+      {
+        'label': 'Only my connections (default)',
+        'value': 'connections',
+        'selected': false
+      },
+      {
+        'label': 'Public (all Persice users)',
+        'value': 'public',
+        'selected': false
+      },
+      {
+        'label': 'Private (only invited)',
+        'value': 'private',
+        'selected': false
+      }
+    ];
+
+    for (var i = 0; i < selectOpenTo.length; ++i) {
+      if (selectOpenTo[i].value === this.model.access_level) {
+        selectOpenTo[i].selected = true;
+      }
+    }
+
+    this.openTo = selectOpenTo;
+
+    //assign dates
+    let startDate = DateUtil.convertToLocal(this.model.starts_on);
+
+    let endDate = DateUtil.convertToLocal(this.model.ends_on);
+
+    this.START_DATE = startDate.unix() * 1000;
+    this.END_DATE = endDate.unix() * 1000;
+    this.START_TIME = startDate.hour() * 60 + startDate.minute();
+    this.END_TIME = endDate.hour() * 60 + endDate.minute();
+
+    this.model.starts_on_date = startDate.format('MM/DD/YYYY');
+    this.model.ends_on_date = endDate.format('MM/DD/YYYY');
+    this.model.starts_on_time = startDate.format('hh:mm');
+    this.model.ends_on_time = endDate.format('hh:mm');
+
   }
 
   saveEvent(event) {
@@ -147,20 +148,17 @@ export class EventEditComponent extends BaseEventComponent implements OnChanges 
     });
   }
 
-
   deleteEvent(event) {
     this.showValidationError = false;
     this.service.deleteByUri(this.resourceUri).subscribe((res) => {
       this.showValidationError = false;
       this._notifySuccess(`Your event ${this.model.name} has been deleted.`);
-      this.router.parent.navigate(['./Events', 'AllEventsList']);
+      this.router.navigateByUrl('/events/all/list');
     }, (err) => {
       if ('status' in err) {
         this.notification.body = 'Your event could not be deleted.';
         this.showValidationError = true;
       }
-
-    }, () => {
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, OnDestroy } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import { AvatarComponent } from './avatar.component';
 import { AboutComponent } from './about.component';
 import { LikesComponent } from './likes.component';
@@ -58,7 +58,6 @@ export class ProfileCrowdComponent implements OnChanges, OnInit, OnDestroy {
   profileJob = '';
   profileReligiousViews = [];
   profilePoliticalViews = [];
-  profileActiveAgo = '2h ago';
   profileDistance = '';
   profileAbout: string = '';
   profileAvatar: string = '';

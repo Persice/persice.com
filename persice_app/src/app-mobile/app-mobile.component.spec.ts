@@ -92,7 +92,7 @@ describe('App component mobile', () => {
         expect(location.path()).toEqual('/crowd');
       })));
 
-  it('should navigate to Connections page',
+  it('should navigate to Pals page',
     fakeAsync(inject(
       [Router, TestComponentBuilder, Location],
       (router: Router, tcb: TestComponentBuilder, location: Location) => {
@@ -101,11 +101,11 @@ describe('App component mobile', () => {
         advance(fixture);
 
         // when
-        router.navigateByUrl('/connections');
+        router.navigateByUrl('/pals');
         advance(fixture);
 
         // then
-        expect(location.path()).toEqual('/connections');
+        expect(location.path()).toEqual('/pals');
       })));
 
   it('should navigate to Mesages page',

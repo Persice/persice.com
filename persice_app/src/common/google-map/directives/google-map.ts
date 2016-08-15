@@ -7,7 +7,8 @@ import {
   SimpleChange,
   Input,
   Output,
-  HostBinding, OnDestroy
+  HostBinding,
+  OnDestroy
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { MouseEvent } from '../map-types';

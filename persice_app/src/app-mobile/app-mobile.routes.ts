@@ -28,7 +28,7 @@ export const rootRoutes: RouterConfig = [
     component: CrowdMobileComponent
   },
   {
-    path: 'connections',
+    path: 'pals',
     component: ConnectionsMobileComponent,
   },
   {

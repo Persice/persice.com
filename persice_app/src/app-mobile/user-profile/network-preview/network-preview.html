@@ -1,7 +1,8 @@
 <div class="connections-preview-container" (click)="openConnections($event)">
   <span class="profile-titleline">{{ownerName}}'s Network
     <span class="profile-titleline__value">({{connectionsTotalCount}})</span>
-    <span class="profile-titleline__subvalue" *ngIf="type !== 'my-profile'"> - {{mutualConnectionsTotalCount}} mutual</span>
+    <span class="profile-titleline__subvalue"
+          *ngIf="type !== 'my-profile'"> - {{mutualConnectionsTotalCount}} mutual</span>
   </span>
   <div class="has-user-links">
     <div class="layout layout--small">

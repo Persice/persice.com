@@ -1,4 +1,4 @@
-import { Component, Output, ElementRef, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { InboxService, MessagesCounterService, WebsocketService } from '../../shared/services';
 import { ThreadListComponent } from '../../shared/components/thread-list';
 import { LoadingComponent } from '../../shared/components/loading';
@@ -30,8 +30,7 @@ export class ConversationsComponent implements OnInit, OnDestroy {
   constructor(
     private inboxService: InboxService,
     private messagesCounterService: MessagesCounterService,
-    private websocketService: WebsocketService,
-    private element: ElementRef
+    private websocketService: WebsocketService
   ) {
 
   }
@@ -80,7 +79,7 @@ export class ConversationsComponent implements OnInit, OnDestroy {
 
   onSelect(thread) {
     this.inboxService.select(thread.threadId);
-    this.selected.next(thread.threadId);
+    this.selected.emit(thread.threadId);
   }
 
   handleScrollEvent(event) {

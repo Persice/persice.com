@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import { DateUtil } from '../../shared/core';
 import { CheckImageDirective } from '../../shared/directives';
 
@@ -7,7 +7,7 @@ import { CheckImageDirective } from '../../shared/directives';
   selector: 'prs-event-card',
   template: <any>require('./event-card.html'),
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: [RouterLink, CheckImageDirective]
+  directives: [ROUTER_DIRECTIVES, CheckImageDirective]
 })
 export class EventCardComponent implements OnInit {
   @Input() event: any;
@@ -25,7 +25,6 @@ export class EventCardComponent implements OnInit {
       this.distanceValue = parseFloat(this.event.distance[0]).toFixed(0);
       this.distanceUnit = this.event.distance[1];
     }
-
 
     this.date = DateUtil.format(this.event.starts_on, 'ddd, D MMM YYYY');
   }

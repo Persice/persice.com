@@ -1,6 +1,9 @@
 // App
 export * from './app-mobile.component';
 
+// Routes
+export * from './app-mobile.routes';
+
 import { GOOGLE_MAPS_PROVIDERS } from '../common/google-map';
 import { HttpClient } from '../app/shared/core';
 
@@ -14,4 +17,4 @@ export const APP_PROVIDERS = [
   HttpClient
 ];
 
-export * from './app-mobile.routes';
+

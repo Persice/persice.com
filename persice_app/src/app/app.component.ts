@@ -1,17 +1,11 @@
-import { Component, ViewEncapsulation, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { CORE_DIRECTIVES, FORM_DIRECTIVES } from '@angular/common';
-import { RouteConfig, ROUTER_DIRECTIVES, Router } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES, NavigationEnd, Router } from '@angular/router';
 import { HeaderComponent } from './header';
 import { NavigationComponent } from './navigation';
 import { NotificationsComponent } from './notifications';
 import { LoadingComponent } from './shared/components/loading';
 import { NotificationComponent } from './shared/components/notification';
-import { CrowdDesktopComponent } from './crowd';
-import { ProfileLoader, ProfileFriendComponent } from './profile';
-import { MessagesComponent } from './messages';
-import { EventComponent } from './event';
-import { ConnectionsDesktopComponent } from './connections';
-import { EventsComponent } from './events';
 import { AuthUserModel, InterfaceNotification } from './shared/models';
 import {
   FilterService,
@@ -23,7 +17,6 @@ import {
   LocationService,
   MessagesCounterService,
   ConnectionsCounterService,
-  HistoryService,
   NotificationsService
 } from './shared/services';
 
@@ -31,48 +24,7 @@ import {
  * Persice App Component
  * Top Level Component
  */
-@RouteConfig([
-  {
-    path: '/',
-    redirectTo: ['Crowd']
-  },
-  {
-    path: '/crowd',
-    component: CrowdDesktopComponent,
-    name: 'Crowd',
-    useAsDefault: true
-  },
-  {
-    path: '/messages/...',
-    component: MessagesComponent,
-    name: 'Messages'
-  },
-  {
-    path: '/event/:eventId',
-    component: EventComponent,
-    name: 'EventDetails'
-  },
-  {
-    path: '/connections',
-    component: ConnectionsDesktopComponent,
-    name: 'Connections'
-  },
-  {
-    path: '/connections/:friendId',
-    component: ProfileFriendComponent,
-    name: 'ProfileFriend'
-  },
-  {
-    path: '/events/...',
-    component: EventsComponent,
-    name: 'Events'
-  },
-  {
-    path: '/:username',
-    component: ProfileLoader,
-    name: 'ProfileView'
-  }
-])
+
 @Component({
   selector: 'persice-app',
   directives: [
@@ -96,12 +48,11 @@ import {
     LocationService,
     UserAuthService,
     MessagesCounterService,
-    HistoryService,
     ConnectionsCounterService,
     NotificationsService
   ]
 })
-export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
+export class AppComponent implements OnInit, OnDestroy {
   activeRoute: string = '';
   user: AuthUserModel;
   image: string;
@@ -114,22 +65,28 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   timeoutId = null;
-  appRoutes: string[][];
   userServiceObserver;
 
   constructor(
-    private _router: Router,
     private userService: UserService,
-    private userAuthService: UserAuthService,
     private notificationService: NotificationService,
     private websocketService: WebsocketService,
     private locationService: LocationService,
     private geolocationService: GeolocationService,
     private messagesCounterService: MessagesCounterService,
     private connectionsCounterService: ConnectionsCounterService,
-    private historyService: HistoryService,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private router: Router
   ) {
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.activeRoute = event.url;
+      }
+    });
+
     this.image = this.userService.getDefaultImage();
 
     this.userServiceObserver = this.userService.serviceObserver()
@@ -137,16 +94,48 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.image = data.user.info.image;
       });
 
-  }
-
-  ngAfterViewInit() {
-
     //websocket initialise
     this.websocketService.connect();
     this.initWebsocket('messages:new');
     this.initWebsocket('messages:event');
     this.initWebsocket('connections:new');
     this.initWebsocket('event:deleted');
+
+    // Get AuthUser info for the app
+    this.userService.get()
+      .subscribe(data => this.assignAuthUser(data));
+
+    //create new observer and subscribe for notification service
+    this.notificationService.addObserver('app');
+    this.notificationService.observer('app')
+      .subscribe(
+        (data) => this.showNotification(data),
+        (err) => {
+          console.log('Notification error %s', err);
+        });
+
+    // Get geolocation from the browser
+    const GEOLOCATION_OPTS = {
+      enableHighAccuracy: true,
+      timeout: 60000,
+      maximumAge: 0
+    };
+
+    this.geolocationService.getLocation(GEOLOCATION_OPTS)
+      .subscribe((res: any) => {
+          this.updateOrCreateLocation(res);
+        },
+        (err) => {
+          console.log('Geolocation Error: ', err);
+        },
+        () => {
+        });
+  }
+
+  ngOnDestroy() {
+    this.notificationService.observer('app').unsubscribe();
+    this.notificationService.removeObserver('app');
+    this.userServiceObserver.unsubscribe();
   }
 
   initWebsocket(channel: string) {
@@ -185,44 +174,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  ngOnInit() {
-    this._router.subscribe((next) => {
-      this.activeRoute = next.instruction.urlPath;
-      this.historyService.setRoute(next);
-    });
-
-
-    // Get AuthUser info for the app
-    this.userService.get()
-      .subscribe(data => this.assignAuthUser(data));
-
-    //create new observer and subscribe for notification service
-    this.notificationService.addObserver('app');
-    this.notificationService.observer('app')
-      .subscribe(
-        (data) => this.showNotification(data),
-        (err) => {
-          console.log('Notification error %s', err);
-        });
-
-    // Get geolocation from the browser
-    const GEOLOCATION_OPTS = {
-      enableHighAccuracy: true,
-      timeout: 60000,
-      maximumAge: 0
-    };
-
-    this.geolocationService.getLocation(GEOLOCATION_OPTS)
-      .subscribe((res: any) => {
-          this.updateOrCreateLocation(res);
-        },
-        (err) => {
-          console.log('Geolocation Error: ', err);
-        },
-        () => {
-        });
-  }
-
   updateOrCreateLocation(loc) {
     this.locationService.updateOrCreate(loc)
       .subscribe((res) => {
@@ -234,12 +185,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         () => {
 
         });
-  }
-
-  ngOnDestroy() {
-    this.notificationService.observer('app').unsubscribe();
-    this.notificationService.removeObserver('app');
-    this.userServiceObserver.unsubscribe();
   }
 
   showNotification(data: InterfaceNotification) {

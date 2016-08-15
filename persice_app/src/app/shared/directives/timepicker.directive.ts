@@ -36,6 +36,9 @@ export class TimepickerDirective implements AfterViewInit {
       },
       onStart: () => {
         jQuery(this.el.nativeElement).pickatime('picker').set('select', parseInt(this.value, 10));
+      },
+      onOpen: () => {
+        jQuery(this.el.nativeElement).pickatime('picker').set('view', parseInt(this.value, 10));
       }
     });
 

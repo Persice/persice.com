@@ -72,14 +72,14 @@
             <div class="layout__item" [ngClass]="{'1/2': profileType === 'crowd', '6/10': profileType === 'friend' }">
               <h2 class="single-title">{{profileName}}</h2>
               <div class="single-title-status mt-">
-                Active {{profileActiveAgo}} • {{profileDistance}} from you
+                {{profileDistance}} from you
               </div>
             </div>
             <div class="layout__item text-right"
                  [ngClass]="{'1/2': profileType === 'crowd', '4/10': profileType === 'friend' }">
               <prs-acceptpass *ngIf="profileType === 'crowd'" [user]="profileId" (acceptEvent)="acceptUser($event)"
                               (passEvent)="passUser($event)"></prs-acceptpass>
-              <a class="user-messages mr-" [routerLink]="['/Messages', 'SingleConversation', {threadId: profileId} ]"
+              <a class="user-messages mr-" [routerLink]="['/messages/' + profileId]"
                  *ngIf="profileType === 'friend'">
                 <svg role="img" class="icon ">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"

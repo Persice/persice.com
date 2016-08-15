@@ -1,4 +1,4 @@
 export interface PageInterface {
   get(): void;
-  isOpen(): webdriver.promise.Deferred<boolean>
+  isOpen(): webdriver.promise.Deferred<boolean>;
 }

@@ -94,6 +94,6 @@ export class ConnectionsMobileComponent extends ConnectionsComponent implements 
     this.appStateService.headerStateEmitter.emit(HeaderState.connections);
 
     this.restoreScrollPosition();
-    this._setBrowserLocationUrl('/connections');
+    this._setBrowserLocationUrl('/pals');
   }
 }

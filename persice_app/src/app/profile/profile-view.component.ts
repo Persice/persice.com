@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Http } from '@angular/http';
 import { AvatarComponent } from './avatar.component';
 import { AboutComponent } from './about.component';
@@ -15,7 +15,6 @@ import {
   MutualFriendsService,
   FriendService,
   PhotosService,
-  HistoryService,
   ConnectionsCounterService
 } from '../shared/services';
 import { DropdownDirective, RemodalDirective } from '../shared/directives';
@@ -64,7 +63,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   profileJob = '';
   profileReligiousViews = [];
   profilePoliticalViews = [];
-  profileActiveAgo = '2h ago';
   profileDistance = '';
   profileAbout: string = '';
   profileAvatar: string = '';
@@ -114,10 +112,8 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private friendService: FriendService,
     private photosService: PhotosService,
-    private historyService: HistoryService,
     private http: Http,
-    private counterService: ConnectionsCounterService,
-    private _router: Router
+    private counterService: ConnectionsCounterService
   ) {
 
   }
@@ -283,13 +279,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
 
 
   closeProfile(event) {
-    let uri = this.historyService.getPrev();
-    if (uri !== '') {
-      window.history.back(-1);
-    } else {
-      window.history.back(-2);
-    }
-
+    window.history.back(-1);
   }
 
   acceptUser(event) {

@@ -61,7 +61,7 @@ describe('Navigation mobile component', () => {
 
         // then
         const sidebarLinks: string[] = [
-          'crowd', 'messages', 'connections', 'accounts/logout/'];
+          'crowd', 'messages', 'pals', 'accounts/logout/'];
         for (let i = sidebarLinks.length - 1; i >= 0; i--) {
           expect(fixture.nativeElement.querySelectorAll(`a[href="/${sidebarLinks[i]}"]`).length).toEqual(1);
         }

@@ -1,10 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { RouteConfig, Router, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { Router, ROUTER_DIRECTIVES, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
-import { SignupInterestsComponent } from './interests';
-import { SignupGoalsComponent } from './goals';
-import { SignupOffersComponent } from './offers';
-import { SignupConnectComponent } from './connect-social-accounts';
 import { SignupHeaderComponent } from './header';
 import {
   InterestsService,
@@ -36,36 +32,6 @@ import { SignupStateService } from '../common/services';
     SignupStateService
   ]
 })
-@RouteConfig([
-  {
-    path: '/',
-    redirectTo: ['SignupInterests']
-  },
-  {
-    path: '/interests',
-    component: SignupInterestsComponent,
-    name: 'SignupInterests',
-    data: {page: 1}
-  },
-  {
-    path: '/goals',
-    component: SignupGoalsComponent,
-    name: 'SignupGoals',
-    data: {page: 2}
-  },
-  {
-    path: '/offers',
-    component: SignupOffersComponent,
-    name: 'SignupOffers',
-    data: {page: 3}
-  },
-  {
-    path: '/connect',
-    component: SignupConnectComponent,
-    name: 'SignupConnect',
-    data: {page: 4}
-  }
-])
 export class SignupComponent implements OnInit {
   page: number = 1;
   cGoa: number = 0;
@@ -76,9 +42,6 @@ export class SignupComponent implements OnInit {
   nextTitle = 'Next';
   is_complete = null;
 
-  router: Router;
-  location: Location;
-
   notificationMain = {
     body: '',
     title: '',
@@ -87,8 +50,8 @@ export class SignupComponent implements OnInit {
   };
 
   constructor(
-    router: Router,
-    location: Location,
+    private router: Router,
+    private location: Location,
     private goalsService: GoalsService,
     private offersService: OffersService,
     private interestsService: InterestsService,
@@ -97,19 +60,18 @@ export class SignupComponent implements OnInit {
     private warningService: WarningService,
     private signupStateService: SignupStateService
   ) {
-    this.router = router;
-    this.location = location;
+  }
 
+  ngOnInit() {
     this.signupStateService.counterEmitter.subscribe((state) => {
       this.onCounterChanged(state);
     });
 
-    this.router.subscribe((path) => {
-      this.onRouteChanged(path);
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.onRouteChanged(event.url);
+      }
     });
-  }
-
-  ngOnInit() {
 
     this.userAuthService.findOneByUri('me').subscribe((data) => {
       let res = data;
@@ -120,28 +82,27 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  onRouteChanged(path) {
-    const urlPath: string = path.instruction.urlPath;
-    switch (urlPath) {
-      case 'interests':
+  onRouteChanged(url: string) {
+    switch (url) {
+      case '/interests':
         this.page = 1;
         this.showSkip = false;
-        this.nextStep = 'SignupGoals';
+        this.nextStep = '/goals';
         this.nextTitle = 'Next';
         break;
-      case 'goals':
+      case '/goals':
         this.page = 2;
         this.showSkip = true;
-        this.nextStep = 'SignupOffers';
+        this.nextStep = '/offers';
         this.nextTitle = 'Next';
         break;
-      case 'offers':
+      case '/offers':
         this.page = 3;
         this.showSkip = true;
-        this.nextStep = 'SignupConnect';
+        this.nextStep = '/connect';
         this.nextTitle = 'Next';
         break;
-      case 'connect':
+      case '/connect':
         this.page = 4;
         this.showSkip = true;
         this.nextStep = null;
@@ -150,17 +111,16 @@ export class SignupComponent implements OnInit {
       default:
         this.page = 1;
         this.showSkip = false;
-        this.nextStep = 'SignupGoals';
+        this.nextStep = '/goals';
         this.nextTitle = 'Next';
         break;
     }
   }
 
-
   next(event) {
     if (this.nextStep) {
       switch (this.nextStep) {
-        case 'SignupGoals':
+        case '/goals':
           //check if user selected less than 3 interests
           if (this.cInt < 3) {
             this.warningService.push(true);
@@ -173,12 +133,10 @@ export class SignupComponent implements OnInit {
         default:
           break;
       }
-
       this.router.navigate([this.nextStep]);
     } else {
       window.location.href = '/crowd/';
     }
-
   }
 
   skip(event) {
@@ -189,7 +147,6 @@ export class SignupComponent implements OnInit {
     }
 
   }
-
 
   completeOnboarding() {
     if (this.is_complete === null) {

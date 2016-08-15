@@ -11,7 +11,7 @@
   <div class="swiper-container js-profile-swiper-3 pt" *ngIf="count > 0" swiper="{{swiperOptions}}">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="let item of friends.mutual_bk_friends">
-        <a class="user-listed user-listed--1" [routerLink]="['/ProfileView', {username: item.username}]">
+        <a class="user-listed user-listed--1" [routerLink]="['/' + item.username]">
           <div class="listed-user-avatar-place">
             <div class="avatar avatar--medium">
               <div class="avatar-holder" checkimage="{{item.image}}" [suffix]="'.56x56_q100_crop.jpg'"></div>

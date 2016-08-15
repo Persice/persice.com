@@ -10,7 +10,7 @@ export class Utilities {
   public static currentUrlContains(urlText: string): webdriver.promise.Deferred<boolean> {
     var deferred = protractor.promise.defer();
 
-    browser.getCurrentUrl().then(function(url) {
+    browser.getCurrentUrl().then(function (url) {
       deferred.fulfill((url.indexOf(urlText) > -1) && (url.indexOf('?next') === -1));
     });
 

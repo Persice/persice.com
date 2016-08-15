@@ -3,16 +3,11 @@
  */
 import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HTTP_PROVIDERS, JSONP_PROVIDERS } from '@angular/http';
-import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { APP_MOBILE_ROUTER_PROVIDERS } from '../app-mobile';
+import { APP_ROUTER_PROVIDERS } from '../app';
 import { SIGNUP_MOBILE_ROUTER_PROVIDERS } from '../signup-mobile';
-
-// Angular 2
-
-// Angular 2 Http
-// Old Angular 2 Router
-// New Angular 2 forms
+import { SIGNUP_ROUTER_PROVIDERS } from '../signup';
 
 /*
  * Application Providers/Directives/Pipes
@@ -24,7 +19,7 @@ export const APPLICATION_PROVIDERS_MAIN = [
   provideForms(),
   ...HTTP_PROVIDERS,
   ...JSONP_PROVIDERS,
-  ...ROUTER_PROVIDERS,
+  ...APP_ROUTER_PROVIDERS,
   {provide: LocationStrategy, useClass: PathLocationStrategy},
   {provide: APP_BASE_HREF, useValue: '/'}
 ];
@@ -46,7 +41,7 @@ export const APPLICATION_PROVIDERS_SIGNUP = [
   provideForms(),
   ...HTTP_PROVIDERS,
   ...JSONP_PROVIDERS,
-  ...ROUTER_PROVIDERS,
+  ...SIGNUP_ROUTER_PROVIDERS,
   {provide: LocationStrategy, useClass: PathLocationStrategy},
   {provide: APP_BASE_HREF, useValue: '/signup'}
 ];

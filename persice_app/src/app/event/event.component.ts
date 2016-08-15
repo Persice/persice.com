@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
-import { RouteParams, Router } from '@angular/router-deprecated';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EventDescriptionComponent } from './event-description';
 import { EventHostComponent } from './event-host';
 import { EventInfoComponent } from './event-info';
@@ -10,7 +10,6 @@ import { EventAttendeesComponent } from './event-attendees';
 import { LoadingComponent } from '../shared/components/loading';
 import {
   NotificationService,
-  HistoryService,
   UserService,
   EventService,
   EventMembersService,
@@ -18,7 +17,6 @@ import {
 } from '../shared/services';
 import { DateUtil, EventUtil, CookieUtil, UserUtil } from '../shared/core';
 import { RemodalDirective } from '../shared/directives';
-
 
 @Component({
   selector: 'prs-event',
@@ -40,7 +38,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
   remodalId: string = 'edit-event';
   selected = 'yes';
   savingRsvp: boolean = false;
-  event = {};
+  event = null;
   isHost: boolean = false;
   rsvpStatus: string;
   authUserUri: string;
@@ -99,22 +97,24 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
   eventId;
   eventDoesntExist: boolean = false;
   loading: boolean = false;
+  sub: any;
 
   constructor(
-    params: RouteParams,
+    private route: ActivatedRoute,
     private service: EventService,
     private serviceMembers: EventMembersService,
     private serviceUser: UserService,
     private serviceAttendees: EventAttendeesService,
     private notificationService: NotificationService,
-    private historyService: HistoryService,
     private router: Router
-  ) {
-    this.eventId = params.get('eventId');
-  }
+  ) { }
 
   ngOnInit() {
-    this.getEventDetails(this.eventId);
+    this.sub = this.route.params.subscribe(params => {
+      this.eventId = params['eventId'];
+      this.getEventDetails(this.eventId);
+    });
+
   }
 
   ngAfterViewInit() {
@@ -125,6 +125,10 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
 
   ngOnDestroy() {
     jQuery('select.js-select-rep-create-event').minimalect('destroy');
+
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   refreshEvent(event) {
@@ -146,7 +150,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
         body: 'This event doesn\'t exist',
         autoclose: 4000
       });
-      this.router.parent.navigate(['./Events', 'AllEventsList']);
+      this.router.navigateByUrl('/events/all/list');
 
     }, () => {
     });
@@ -210,14 +214,14 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
       distance: resp.distance,
       openTo: EventUtil.accessLevel(resp.access_level),
       startDate: {
-        hour: DateUtil.format(resp.starts_on, 'hA'),
+        hour: DateUtil.format(resp.starts_on, 'h:mmA'),
         day: DateUtil.format(resp.starts_on, 'D'),
         dayName: DateUtil.format(resp.starts_on, 'dddd'),
         month: DateUtil.format(resp.starts_on, 'MMM'),
         year: DateUtil.format(resp.starts_on, 'YYYY')
       },
       endDate: {
-        hour: DateUtil.format(resp.ends_on, 'hA'),
+        hour: DateUtil.format(resp.ends_on, 'h:mmA'),
         day: DateUtil.format(resp.ends_on, 'D'),
         dayName: DateUtil.format(resp.ends_on, 'dddd'),
         month: DateUtil.format(resp.ends_on, 'MMM'),
@@ -291,12 +295,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   goBack(event) {
-    let uri: any = this.historyService.getPrev();
-    if (uri !== '') {
-      window.history.back(-1);
-    } else {
-      window.history.back(-2);
-    }
+    window.history.back(-1);
   }
 
   changeRsvpStatus(event) {

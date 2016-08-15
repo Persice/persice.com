@@ -12,9 +12,9 @@
         </div>
         <div class="layout__item">
           <ul class="header-signup__steps">
-            <li *ngIf="page >= 1"><a [routerLink]="['./SignupInterests']"><b>{{counterInterests}}</b> interests</a></li>
-            <li *ngIf="page >= 2"><a [routerLink]="['./SignupGoals']"><b>{{counterGoals}}</b> goals</a></li>
-            <li *ngIf="page >= 3"><a [routerLink]="['./SignupOffers']"><b>{{counterOffers}}</b> offers</a></li>
+            <li *ngIf="page >= 1"><a [routerLink]="['/interests']"><b>{{counterInterests}}</b> interests</a></li>
+            <li *ngIf="page >= 2"><a [routerLink]="['/goals']"><b>{{counterGoals}}</b> goals</a></li>
+            <li *ngIf="page >= 3"><a [routerLink]="['/offers']"><b>{{counterOffers}}</b> offers</a></li>
           </ul>
         </div>
       </div>

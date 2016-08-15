@@ -1,4 +1,4 @@
-<a class="card card--event" [routerLink]="['/EventDetails', {eventId: event.id}]">
+<a class="card card--event" [routerLink]="['/event/' + event.id]">
   <div class="card--event__inside js-match-height-1">
     <div class="card--event__img">
       <div class="card--event__img__holder js-image-liquid" checkimage="{{photo}}" [suffix]="'.300x200_q100_crop.jpg'">

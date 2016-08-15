@@ -6,15 +6,15 @@
           <nav class="sub-nav">
             <ul class="list-bare">
               <li class="sub-nav__item">
-                <a [class.is-active]="activeRouteNav.all" (click)="activateMain('AllEventsList')" class="sub-nav__link">All
+                <a [class.is-active]="activeRouteNav.all" (click)="activateMain('/all/list')" class="sub-nav__link">All
                   events</a>
               </li>
               <li class="sub-nav__item">
-                <a [class.is-active]="activeRouteNav.my" (click)="activateMain('MyEventsList')" class="sub-nav__link">My
+                <a [class.is-active]="activeRouteNav.my" (click)="activateMain('/my/list')" class="sub-nav__link">My
                   events</a>
               </li>
               <li class="sub-nav__item">
-                <a [class.is-active]="activeRouteNav.network" (click)="activateMain('NetworkEventsList')"
+                <a [class.is-active]="activeRouteNav.network" (click)="activateMain('/network/list')"
                    class="sub-nav__link">My network</a>
               </li>
             </ul>
