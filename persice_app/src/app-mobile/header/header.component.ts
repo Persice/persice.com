@@ -8,6 +8,9 @@ import { OpenLeftMenuDirective } from '../shared/directives';
 import { AppStateService } from '../shared/services';
 import { HeaderState } from './header.state';
 import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown';
+import { AppState, getUnreadMessagesCounterState, getNewConnectionsCounterState } from '../../common/reducers/index';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'prs-mobile-header',
@@ -26,12 +29,31 @@ export class HeaderComponent implements OnInit {
   public centerState = HeaderState.center;
   public rightState = HeaderState.right;
 
+  unreadMessagesCounter: number;
+  newConnectionsCounter: number;
+
   // Header state set with inital values
   public headerState = HeaderState.initial;
 
   public username = CookieUtil.getValue('user_username');
 
-  constructor(private router: Router, private location: Location, private appStateService: AppStateService) { }
+  constructor(
+    private router: Router,
+    private location: Location,
+    private appStateService: AppStateService,
+    private store: Store<AppState>
+  ) {
+    const unreadMessagesCounterStore$ = store.let(getUnreadMessagesCounterState());
+    unreadMessagesCounterStore$.map(state => state['counter']).subscribe((count) => {
+      this.unreadMessagesCounter = count;
+    });
+
+    const newConnectionsCounterStore$ = store.let(getNewConnectionsCounterState());
+    newConnectionsCounterStore$.map(state => state['counter']).subscribe((count) => {
+      this.newConnectionsCounter = count;
+    });
+
+  }
 
   ngOnInit(): any {
     this.appStateService.headerStateEmitter.subscribe((state: any) => {
