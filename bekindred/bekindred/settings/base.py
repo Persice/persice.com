@@ -239,6 +239,7 @@ BROKER_URL = 'redis://localhost:6379/0'
 FACEBOOK_CELERY_STORE = False
 FACEBOOK_CELERY_TOKEN_EXTEND = False
 
+FACEBOOK_REGISTRATION_BACKEND = 'members.registration_backends.FacebookRegistrationBackend'
 # Django-postman settings
 POSTMAN_DISALLOW_ANONYMOUS = True  # default is False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True  # default is False
