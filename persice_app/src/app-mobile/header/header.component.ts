@@ -52,7 +52,6 @@ export class HeaderComponent implements OnInit {
     newConnectionsCounterStore$.map(state => state['counter']).subscribe((count) => {
       this.newConnectionsCounter = count;
     });
-
   }
 
   ngOnInit(): any {
