@@ -5,10 +5,11 @@
   </a>
   <prs-navigation></prs-navigation>
 </header>
-<div class="page-content" [ngClass]="{'page-content--white': activeRoute.indexOf('messages') > -1}">
+<div class="page-content">
   <prs-notifications></prs-notifications>
   <prs-header [image]="image"></prs-header>
   <prs-notification [main]="1" [title]="notificationMain.title" [body]="notificationMain.body"
                     [active]="notificationMain.active" [type]="notificationMain.type"></prs-notification>
   <router-outlet></router-outlet>
 </div>
+

@@ -1014,3 +1014,7 @@ li.features-list__match {
   display: block;
   cursor: pointer !important;
 }
+
+.background-white {
+  background: #FFF;
+}

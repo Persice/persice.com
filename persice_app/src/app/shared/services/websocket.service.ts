@@ -25,6 +25,7 @@ export class WebsocketService {
 
   public on(evt: string): Subject<any> {
     let subj = new Subject<any>();
+    subj.next('pero');
     WebsocketService._socket.on(evt, (res) => {
       subj.next(res);
     });

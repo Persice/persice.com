@@ -49,8 +49,7 @@ module.exports = {
     'vendor': './src/vendor.browser.ts', // our vendor (angular2, rxjs)
     'main': './src/main.browser.ts', // persice main desktop app
     'main-mobile': './src/main-mobile.browser.ts', // persice main mobile app
-    'signup': './src/signup.browser.ts', // persice signup app
-    'signup-mobile': './src/signup-mobile.browser.ts' // persice mobile signup app
+    // 'signup-mobile': './src/signup-mobile.browser.ts' // persice mobile signup app
   },
 
   // Options affecting the resolving of modules.

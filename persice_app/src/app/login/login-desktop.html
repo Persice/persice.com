@@ -1,0 +1,16 @@
+<div class="signup-landing">
+  <div class="translate-50">
+    <a class="site-logo" href="/login"> <img alt="#" src="/static/assets/images/logo.svg" class="site-logo__mark">
+      <h1 class="site-logo__type">Persice</h1> </a>
+    <h2 class="signup-title">Real world connections</h2>
+    <p class="signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
+    <div class="layout">
+      <div class="layout__item">
+        <form action="/auth/facebook" method="post">
+          <input type="hidden" value="/" name="next" />
+          <a (click)="authenticate('facebook')" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

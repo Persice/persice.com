@@ -3,7 +3,7 @@ export * from './browser-pipes';
 export * from './browser-providers';
 
 import { PIPES } from './browser-pipes';
-import { PROVIDERS_MAIN, PROVIDERS_MAIN_MOBILE, PROVIDERS_SIGNUP, PROVIDERS_SIGNUP_MOBILE } from './browser-providers';
+import { PROVIDERS_MAIN, PROVIDERS_MAIN_MOBILE, PROVIDERS_SIGNUP_MOBILE } from './browser-providers';
 import { DIRECTIVES } from './browser-directives';
 
 export const PLATFORM_PROVIDERS_MAIN = [
@@ -18,11 +18,6 @@ export const PLATFORM_PROVIDERS_MAIN_MOBILE = [
   ...PIPES
 ];
 
-export const PLATFORM_PROVIDERS_SIGNUP = [
-  ...PROVIDERS_SIGNUP,
-  ...DIRECTIVES,
-  ...PIPES
-];
 
 export const PLATFORM_PROVIDERS_SIGNUP_MOBILE = [
   ...PROVIDERS_SIGNUP_MOBILE,

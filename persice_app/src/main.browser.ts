@@ -5,6 +5,10 @@ import { bootstrap } from '@angular/platform-browser-dynamic';
 import { PLATFORM_PROVIDERS_MAIN } from './platform/browser';
 import { ENV_PROVIDERS } from './platform/environment';
 import { AppComponent, APP_PROVIDERS } from './app';
+import { NG2_UI_AUTH_PROVIDERS } from 'ng2-ui-auth';
+import { AuthGuard } from './app/auth.guard';
+const FACEBOOK_ID = '634990373263225';
+
 /*
  * Platform and Environment
  * our providers/directives/pipes
@@ -24,7 +28,19 @@ export function main(initialHmrState?: any): Promise<any> {
   return bootstrap(AppComponent, [
     ...PLATFORM_PROVIDERS_MAIN,
     ...ENV_PROVIDERS,
-    ...APP_PROVIDERS
+    ...APP_PROVIDERS,
+    AuthGuard,
+    NG2_UI_AUTH_PROVIDERS({
+      tokenPrefix: 'persice',
+      providers: {
+        facebook: {
+          clientId: FACEBOOK_ID,
+          display: 'page',
+          authorizationEndpoint: 'https://www.facebook.com/v2.6/dialog/oauth',
+          scope: ["email", "user_about_me", "user_birthday", "user_likes", "user_friends", "user_managed_groups", "user_photos", "user_work_history", "user_religion_politics", "user_location"]
+        },
+      }
+    })
   ])
     .catch(err => console.error(err));
 
