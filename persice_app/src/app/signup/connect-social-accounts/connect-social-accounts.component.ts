@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { UserAuthService } from '../../app/shared/services';
+import { UserAuthService } from '../../shared/services';
 
 @Component({
   selector: 'prs-signup-connect',

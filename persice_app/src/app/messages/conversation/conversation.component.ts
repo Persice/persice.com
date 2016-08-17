@@ -121,6 +121,7 @@ export class ConversationComponent implements OnInit, OnDestroy {
       });
 
     this.sub = this._route.params.subscribe((params) => {
+      console.log('params changed', params['threadId']);
       this.threadId = params['threadId'];
       let url = `/api/v1/auth/user/${this.threadId}/`;
       let channel = this.userService.findByUri(url)

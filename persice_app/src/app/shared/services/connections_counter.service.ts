@@ -26,7 +26,7 @@ export class ConnectionsCounterService {
     let channel = this.http.get(url)
       .map((res) => res.json())
       .subscribe((res) => {
-        if (res.meta.total_count === 1) {
+        if (!!res.meta && res.meta.total_count === 1) {
           this._state = res.objects[0].new_connection_counter;
         }
         this._notify();

@@ -34,11 +34,13 @@ export class SearchComponent implements AfterViewInit {
   }
 
   setKeywords(data) {
-    this.filters = new FilterModel(data.objects[0]);
-    if (this.filters.state.keyword.length > 0) {
-      this.keywords = this.filters.state.keyword.split(',');
+    if (!!data.objects && !!data.objects[0]) {
+      this.filters = new FilterModel(data.objects[0]);
+      if (this.filters.state.keyword.length > 0) {
+        this.keywords = this.filters.state.keyword.split(',');
+      }
+      this.initializeTokenInput(this.filters.state.keyword);
     }
-    this.initializeTokenInput(this.filters.state.keyword);
   }
 
   initializeTokenInput(initialTokens) {

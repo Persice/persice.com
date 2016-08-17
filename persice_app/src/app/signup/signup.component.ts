@@ -10,8 +10,8 @@ import {
   UserAuthService,
   OnboardingService,
   WarningService
-} from '../app/shared/services';
-import { SignupStateService } from '../common/services';
+} from '../shared/services';
+import { SignupStateService } from '../../common/services';
 
 @Component({
   template: <any>require('./signup.html'),
@@ -74,35 +74,37 @@ export class SignupComponent implements OnInit {
     });
 
     this.userAuthService.findOneByUri('me').subscribe((data) => {
-      let res = data;
-      this.cGoa = res.goals.length;
-      this.cOff = res.offers.length;
-      this.cInt = res.interests.length;
-      this.is_complete = res.onboardingflow;
+      if (!!data) {
+        this.cGoa = data.goals.length;
+        this.cOff = data.offers.length;
+        this.cInt = data.interests.length;
+        this.is_complete = data.onboardingflow;
+      }
+
     });
   }
 
   onRouteChanged(url: string) {
     switch (url) {
-      case '/interests':
+      case '/signup/interests':
         this.page = 1;
         this.showSkip = false;
         this.nextStep = '/goals';
         this.nextTitle = 'Next';
         break;
-      case '/goals':
+      case '/signup/goals':
         this.page = 2;
         this.showSkip = true;
         this.nextStep = '/offers';
         this.nextTitle = 'Next';
         break;
-      case '/offers':
+      case '/signup/offers':
         this.page = 3;
         this.showSkip = true;
         this.nextStep = '/connect';
         this.nextTitle = 'Next';
         break;
-      case '/connect':
+      case '/signup/connect':
         this.page = 4;
         this.showSkip = true;
         this.nextStep = null;
@@ -122,28 +124,28 @@ export class SignupComponent implements OnInit {
       switch (this.nextStep) {
         case '/goals':
           //check if user selected less than 3 interests
-          if (this.cInt < 3) {
-            this.warningService.push(true);
-            return;
-          } else {
-            this.completeOnboarding();
-            this.warningService.push(false);
-          }
+          // if (this.cInt < 3) {
+          //   this.warningService.push(true);
+          //   return;
+          // } else {
+          //   this.completeOnboarding();
+          //   this.warningService.push(false);
+          // }
           break;
         default:
           break;
       }
-      this.router.navigate([this.nextStep]);
+      this.router.navigateByUrl('/signup' + this.nextStep);
     } else {
-      window.location.href = '/crowd/';
+      this.router.navigateByUrl('/crowd');
     }
   }
 
   skip(event) {
     if (this.nextStep) {
-      this.router.navigate([this.nextStep]);
+      this.router.navigateByUrl('/signup' + this.nextStep);
     } else {
-      window.location.href = '/crowd/';
+      this.router.navigateByUrl('/crowd');
     }
 
   }
@@ -152,8 +154,6 @@ export class SignupComponent implements OnInit {
     if (this.is_complete === null) {
       this.onboardingService.complete().subscribe((data) => {
       }, (err) => {
-      }, () => {
-
       });
     }
 

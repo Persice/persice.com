@@ -20,7 +20,7 @@ import { FilterService, WebsocketService } from '../app/shared/services';
  * Top Level Component
  */
 @Component({
-  selector: 'persice-mobile-app',
+  selector: 'persice-app',
   template: <any>require('./app-mobile.html'),
   providers: [
     FilterService,

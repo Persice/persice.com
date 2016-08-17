@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { DropdownDirective } from '../shared/directives/dropdown.directive';
 import { CheckImageDirective } from '../shared/directives/checkimage.directive';
 import { CookieUtil } from '../shared/core';
+import { Auth } from 'ng2-ui-auth';
 
-declare var jQuery;
 @Component({
   selector: 'prs-dropdown',
   directives: [DropdownDirective, CheckImageDirective],
@@ -22,7 +22,7 @@ declare var jQuery;
     <div class="dropdown-basic" id="profileDropdown">
       <ul class="list-bare">
         <li><a (click)="openMyProfile($event)">My profile</a></li>
-        <li><a href="/accounts/logout/">Logout</a></li>
+        <li><a (click)="logout($event)">Logout</a></li>
       </ul>
     </div>
   </div>
@@ -31,12 +31,19 @@ declare var jQuery;
 export class DropdownComponent {
   @Input() image;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: Auth) {
     this.router = router;
   }
 
-  openMyProfile() {
+  public openMyProfile(event: MouseEvent) {
     setTimeout(() => jQuery('#profileDropdown').removeClass('is-active'));
     this.router.navigateByUrl('/' + CookieUtil.getValue('user_username'));
+  }
+
+  public logout(event: MouseEvent) {
+    this.auth.logout().subscribe(() => {
+      this.router.navigateByUrl('/login');
+    });
+
   }
 }

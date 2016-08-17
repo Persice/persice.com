@@ -42,6 +42,7 @@
  *
  */
 
+declare var FB: any;
 declare var jstz: any;
 declare var jQuery: any;
 declare var dragula: any;

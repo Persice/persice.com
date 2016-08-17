@@ -7,7 +7,6 @@ import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { APP_MOBILE_ROUTER_PROVIDERS } from '../app-mobile';
 import { APP_ROUTER_PROVIDERS } from '../app';
 import { SIGNUP_MOBILE_ROUTER_PROVIDERS } from '../signup-mobile';
-import { SIGNUP_ROUTER_PROVIDERS } from '../signup';
 
 /*
  * Application Providers/Directives/Pipes
@@ -34,18 +33,6 @@ export const APPLICATION_PROVIDERS_MAIN_MOBILE = [
   {provide: LocationStrategy, useClass: PathLocationStrategy}
 ];
 
-
-export const APPLICATION_PROVIDERS_SIGNUP = [
-  // new Angular 2 forms
-  disableDeprecatedForms(),
-  provideForms(),
-  ...HTTP_PROVIDERS,
-  ...JSONP_PROVIDERS,
-  ...SIGNUP_ROUTER_PROVIDERS,
-  {provide: LocationStrategy, useClass: PathLocationStrategy},
-  {provide: APP_BASE_HREF, useValue: '/signup'}
-];
-
 export const APPLICATION_PROVIDERS_SIGNUP_MOBILE = [
   // new Angular 2 forms
   disableDeprecatedForms(),
@@ -65,9 +52,6 @@ export const PROVIDERS_MAIN_MOBILE = [
   ...APPLICATION_PROVIDERS_MAIN_MOBILE
 ];
 
-export const PROVIDERS_SIGNUP = [
-  ...APPLICATION_PROVIDERS_SIGNUP
-];
 
 export const PROVIDERS_SIGNUP_MOBILE = [
   ...APPLICATION_PROVIDERS_SIGNUP_MOBILE

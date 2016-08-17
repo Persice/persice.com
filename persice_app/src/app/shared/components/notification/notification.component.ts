@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 export class NotificationComponent {
   @Input() body;
   @Input() title;
-  @Input() active;
+  @Input() active = false;
   @Input() type;
   @Input() main;
   @Input() full;
