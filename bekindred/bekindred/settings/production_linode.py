@@ -1,6 +1,7 @@
-import raven
-
 from .base import *
+
+DEBUG = True
+TEMPLATE_DEBUG = True
 
 ROOT_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..'))
 
@@ -158,8 +159,18 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
+        },
+        'open_facebook': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django_facebook': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
         }
-    },
+    }
 }
 
 AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN',

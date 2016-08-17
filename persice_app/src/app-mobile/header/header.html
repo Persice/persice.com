@@ -3,7 +3,15 @@
     <!-- LEFT -->
     <div class="layout__item 1/5 text-left">
       <a prs-open-left-menu *ngIf="headerState.left === leftState.Menu" class="mob-header__left-push" id="showLeftPush">
-        <svg role="img" class="icon icon--small">
+
+        <div *ngIf="unreadMessagesCounter > 0 || newConnectionsCounter > 0">
+          <svg role="img" class="icon icon--small">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
+          </svg>
+          <div class="message__intro__notif" style="position: absolute; top: 5px; left: 5px; height: 10px; padding: 0 5px;"></div>
+        </div>
+
+        <svg *ngIf="unreadMessagesCounter < 1 && newConnectionsCounter < 1" role="img" class="icon icon--small">
           <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
         </svg>
       </a>
