@@ -1,5 +1,5 @@
 import { provideRouter, RouterConfig } from '@angular/router';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from '../common/guards/auth.guard';
 
 import { NoContentComponent } from '../app-mobile/no-content/no-content.component';
 import { CrowdDesktopComponent } from './crowd';
