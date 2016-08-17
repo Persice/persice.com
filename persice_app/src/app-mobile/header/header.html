@@ -8,9 +8,7 @@
           <svg role="img" class="icon icon--small">
             <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
           </svg>
-          <div class="message__intro__notif"
-            style="position: absolute; top: 0; left: 0;"
-          > {{ unreadMessagesCounter + newConnectionsCounter}} </div>
+          <div class="message__intro__notif" style="position: absolute; top: 5px; left: 5px; height: 10px; padding: 0 5px;"></div>
         </div>
 
         <svg *ngIf="unreadMessagesCounter < 1 && newConnectionsCounter < 1" role="img" class="icon icon--small">
