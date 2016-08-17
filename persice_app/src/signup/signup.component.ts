@@ -38,7 +38,7 @@ export class SignupComponent implements OnInit {
   cOff: number = 0;
   cInt: number = 0;
   showSkip = false;
-  nextStep = 'SignupGoals';
+  nextStep = '/goals';
   nextTitle = 'Next';
   is_complete = null;
 
