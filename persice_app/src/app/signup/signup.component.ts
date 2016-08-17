@@ -124,13 +124,13 @@ export class SignupComponent implements OnInit {
       switch (this.nextStep) {
         case '/goals':
           //check if user selected less than 3 interests
-          // if (this.cInt < 3) {
-          //   this.warningService.push(true);
-          //   return;
-          // } else {
-          //   this.completeOnboarding();
-          //   this.warningService.push(false);
-          // }
+          if (this.cInt < 3) {
+            this.warningService.push(true);
+            return;
+          } else {
+            this.completeOnboarding();
+            this.warningService.push(false);
+          }
           break;
         default:
           break;
