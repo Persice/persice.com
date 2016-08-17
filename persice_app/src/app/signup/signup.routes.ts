@@ -1,5 +1,5 @@
 import { RouterConfig } from '@angular/router';
-import { AuthGuard } from '../auth.guard';
+import { AuthGuard } from '../../common/guards/auth.guard';
 import { SignupInterestsComponent } from './interests';
 import { SignupOffersComponent } from './offers';
 import { SignupGoalsComponent } from './goals';
