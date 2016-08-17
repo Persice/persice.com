@@ -947,9 +947,9 @@ li.features-list__match {
 }
 
 #intercom-container .intercom-launcher {
-  right: auto!important;
-  left: 20px!important;
-  bottom: 50px!important;
+  right: auto !important;
+  left: 20px !important;
+  bottom: 50px !important;
 }
 
 .nav-submain {
@@ -993,24 +993,24 @@ li.features-list__match {
 }
 
 .user-profile {
-  cursor: pointer!important;
+  cursor: pointer !important;
 }
 
 .under-construction {
-  justify-content: flex-start!important;
+  justify-content: flex-start !important;
 }
 
 .overlay:after {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #434f54;
-    opacity: .5;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    content: "";
-    display: block;
-    cursor: pointer !important;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #434f54;
+  opacity: .5;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  content: "";
+  display: block;
+  cursor: pointer !important;
 }
