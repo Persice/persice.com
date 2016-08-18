@@ -9,7 +9,7 @@ export class MarkupPipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizationService) {}
 
-  transform(value: string, args: any[]): SafeHtml {
+  public transform(value: string, args: any[]): SafeHtml {
     let message: string = value;
 
     message = this.sanitizeInput(message);
@@ -18,7 +18,7 @@ export class MarkupPipe implements PipeTransform {
     return this.markAsSafeHtml(message);
   }
 
-  sanitizeInput(value: string) {
+  public sanitizeInput(value: string) {
     let input: string = value;
 
     input = input.replace(/<+.+?>+/, '');
@@ -28,10 +28,12 @@ export class MarkupPipe implements PipeTransform {
     return input;
   }
 
-  applyMarkup(value: string): string {
+  public applyMarkup(value: string): string {
     let message = value;
     message = this.applyBold(message);
     message = this.applyItalic(message);
+    message = this.applyLinks(message);
+    // this.replaceEventUrlWithTitleAndLink(message);
 
     return message;
   }
@@ -48,6 +50,29 @@ export class MarkupPipe implements PipeTransform {
     message = message.replace(/_([^\s-].*?)_/g, '<i>$1</i>');
 
     return message;
+  }
+
+  private applyLinks(value: string) {
+    let message = value;
+    message = message.replace(/(https?:\/\/[^\s-]+)/g, '<a href="$1">$1</a>');
+
+    return message;
+  }
+
+  private replaceEventUrlWithTitleAndLink(value: string) {
+    let message: string = value;
+    let match: any[];
+    let eventMessageId: string;
+
+    let regExp: RegExp = /https?:\/\/persice.com\/event\/(\d+)\/?/g;
+    match = regExp.exec(message);
+
+    if (!!match) {
+      eventMessageId =  match[1];
+      console.log('found event with ID', eventMessageId);
+    }
+
+    return '';
   }
 
   private markAsSafeHtml(message: string): SafeHtml {

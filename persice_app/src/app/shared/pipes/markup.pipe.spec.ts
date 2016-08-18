@@ -25,8 +25,11 @@ describe('MarkupPipe', () => {
   it('applies italics', () => {
     expect(pipe.applyMarkup('hi _Dave_')).toBe('hi <i>Dave</i>');
     expect(pipe.applyMarkup('this is _important_ text :*')).toBe('this is <i>important</i> text :*');
-    expect(pipe.applyMarkup('_italic_ test')).toBe('<i>i</i> test');
+    expect(pipe.applyMarkup('_italic_ test')).toBe('<i>italic</i> test');
     expect(pipe.applyMarkup('lolololo _ lo_ lololo_')).toBe('lolololo _ lo_ lololo_');
   });
 
+  it('applies links', () => {
+    expect(pipe.applyMarkup('link http://google.com')).toBe('link <a href="http://google.com">http://google.com</a>');
+  });
 });
