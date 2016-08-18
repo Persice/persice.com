@@ -57,7 +57,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   timeoutId = null;
   userServiceObserver;
-  public isLoginVisible: boolean = true;
+  routerSub;
 
   constructor(
     private userService: UserService,
@@ -73,7 +73,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.router.events.subscribe((event) => {
+    this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activeRoute = event.url;
       }
@@ -125,6 +125,9 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
     this.notificationService.observer('app').unsubscribe();
     this.notificationService.removeObserver('app');
     this.userServiceObserver.unsubscribe();

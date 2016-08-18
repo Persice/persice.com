@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { SignupHeaderMobileComponent } from './header';
 import {
@@ -9,8 +9,8 @@ import {
   OffersService,
   UserAuthService,
   OnboardingService
-} from '../app/shared/services';
-import { SignupStateService } from '../common/services';
+} from '../../app/shared/services';
+import { SignupStateService } from '../../common/services';
 
 @Component({
   selector: 'persice-signup-mobile-app',
@@ -29,14 +29,14 @@ import { SignupStateService } from '../common/services';
     SignupStateService
   ]
 })
-export class SignupMobileComponent implements OnInit {
+export class SignupMobileComponent implements OnInit, OnDestroy {
   cGoa: number = 0;
   cOff: number = 0;
   cInt: number = 0;
   counter: number = 0;
   page: number = 0;
   showBack = false;
-  nextStep = 'SignupGoals';
+  nextStep = '/goals';
   prevStep = null;
   title = 'Interests';
   nextTitle = 'Next';
@@ -50,12 +50,11 @@ export class SignupMobileComponent implements OnInit {
     type: ''
   };
 
+  routerSub;
+
   constructor(
     private router: Router,
     private location: Location,
-    private goalsService: GoalsService,
-    private offersService: OffersService,
-    private interestsService: InterestsService,
     private userAuthService: UserAuthService,
     private onboardingService: OnboardingService,
     private signupStateService: SignupStateService
@@ -64,13 +63,13 @@ export class SignupMobileComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.onRouteChanged(this.location.path());
     this.signupStateService.counterEmitter.subscribe((state) => {
       this.onCounterChanged(state);
     });
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
+    this.routerSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
         this.onRouteChanged(event.url);
       }
     });
@@ -96,9 +95,16 @@ export class SignupMobileComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
+  }
+
   onRouteChanged(url: string) {
+    console.log('route changed', url);
     switch (url) {
-      case '/interests':
+      case '/signup/interests':
         this.showBack = false;
         this.nextStep = '/goals';
         this.prevStep = null;
@@ -107,7 +113,7 @@ export class SignupMobileComponent implements OnInit {
         this.counter = this.cInt;
         this.page = 1;
         break;
-      case '/goals':
+      case '/signup/goals':
         this.showBack = true;
         this.nextStep = '/offers';
         this.prevStep = '/interests';
@@ -117,7 +123,7 @@ export class SignupMobileComponent implements OnInit {
         this.page = 2;
         this.isNextDisabled = false;
         break;
-      case '/offers':
+      case '/signup/offers':
         this.showBack = true;
         this.nextStep = '/connect';
         this.prevStep = '/goals';
@@ -127,7 +133,7 @@ export class SignupMobileComponent implements OnInit {
         this.page = 3;
         this.isNextDisabled = false;
         break;
-      case '/connect':
+      case '/signup/connect':
         this.showBack = true;
         this.nextStep = null;
         this.prevStep = '/offers';
@@ -149,7 +155,6 @@ export class SignupMobileComponent implements OnInit {
     }
   }
 
-
   next(event) {
     if (this.nextStep) {
       switch (this.nextStep) {
@@ -167,16 +172,16 @@ export class SignupMobileComponent implements OnInit {
           break;
       }
 
-      this.router.navigateByUrl(this.nextStep);
+      this.router.navigateByUrl('/signup' + this.nextStep);
     } else {
-      window.location.href = '/crowd/';
+      this.router.navigateByUrl('/crowd');
     }
 
   }
 
   back(event) {
     if (this.prevStep) {
-      this.router.navigateByUrl(this.prevStep);
+      this.router.navigateByUrl('/signup' + this.prevStep);
     }
   }
 

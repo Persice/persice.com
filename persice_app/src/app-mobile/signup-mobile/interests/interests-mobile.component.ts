@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ManageInterestsComponent } from '../../common/manage-interests';
-import { InterestsService, KeywordsService } from '../../app/shared/services';
-import { SignupStateService } from '../../common/services';
-import { LoadingComponent } from '../../app/shared/components/loading';
-import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
+import { ManageInterestsComponent } from '../../../common/manage-interests';
+import { InterestsService, KeywordsService } from '../../../app/shared/services';
+import { SignupStateService } from '../../../common/services';
+import { LoadingComponent } from '../../../app/shared/components/loading';
+import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../../common/directives';
 
 @Component({
   selector: 'persice-mobile-signup-interests',

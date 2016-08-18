@@ -9,10 +9,13 @@ import { EditPhotosMobileComponent } from './edit-photos';
 import { EditGoalsMobileComponent } from './edit-goals';
 import { EditOffersMobileComponent } from './edit-offers';
 import { EditSocialAccountsMobileComponent } from './edit-social-accounts';
+import { AuthGuard } from '../../common/guards/auth.guard';
+
 export const routesEditMyProfile: RouterConfig = [
   {
     path: 'edit-profile',
     component: EditMyProfileMobileComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
