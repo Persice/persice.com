@@ -1,4 +1,4 @@
-import { Directive, HostListener, OnInit } from '@angular/core';
+import { Directive, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { BrowserDomAdapter } from '@angular/platform-browser/src/browser/browser_adapter';
 import { Router, NavigationStart, Event } from '@angular/router';
 
@@ -6,7 +6,7 @@ import { Router, NavigationStart, Event } from '@angular/router';
   selector: '[prs-close-left-menu]',
   providers: [BrowserDomAdapter]
 })
-export class CloseLeftMenuDirective implements OnInit {
+export class CloseLeftMenuDirective implements OnInit, OnDestroy {
   @HostListener('swipeleft') onSwipeLeft() {
     this._closeMenu();
   }
@@ -15,17 +15,25 @@ export class CloseLeftMenuDirective implements OnInit {
     this._closeMenu();
   }
 
+  private routerSub;
+
   constructor(
     private _dom: BrowserDomAdapter,
     private _router: Router
   ) { }
 
   ngOnInit() {
-    this._router.events.subscribe((event: Event) => {
+    this.routerSub = this._router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         this._closeMenu();
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
   }
 
   private _closeMenu() {

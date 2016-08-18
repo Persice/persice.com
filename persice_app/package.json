@@ -12,7 +12,7 @@
     "webdriver-manager": "webdriver-manager",
     "protractor": "protractor",
     "clean": "npm cache clean && npm run rimraf -- node_modules doc typings coverage dist",
-    "clean:dist": "npm run rimraf -- ../bekindred/static/dist",
+    "clean:dist": "npm run rimraf -- ../persice_app_server/public/dist",
     "clean:dist:local": "npm run rimraf -- /dist",
     "preclean:install": "npm run clean",
     "clean:install": "npm set progress=false && npm install",

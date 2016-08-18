@@ -24,13 +24,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.set('trust proxy', 'loopback'); 
+
 // enable user agent capture and helpers for views (e.g. is_phone inside layout)
 app.use(device.capture());
 device.enableDeviceHelpers(app);
 
 app.use('/', routes);
-// app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

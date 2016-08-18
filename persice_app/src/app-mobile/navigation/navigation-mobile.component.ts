@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { Router, ROUTER_DIRECTIVES } from '@angular/router';
+import { Auth } from 'ng2-ui-auth';
 
 @Component({
   selector: 'prs-mobile-navigation',
@@ -10,4 +11,12 @@ export class NavigationMobileComponent {
   @Input() username: string;
   @Input() unreadMessagesCounter: number;
   @Input() newConnectionsCounter: number;
+
+  constructor(private router: Router, private auth: Auth) { }
+
+  public logout(event: MouseEvent) {
+    this.auth.logout().subscribe(() => {
+      this.router.navigateByUrl('/login');
+    });
+  }
 }

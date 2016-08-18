@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { SignupHeaderComponent } from './header';
@@ -32,7 +32,7 @@ import { SignupStateService } from '../../common/services';
     SignupStateService
   ]
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   page: number = 1;
   cGoa: number = 0;
   cOff: number = 0;
@@ -49,12 +49,11 @@ export class SignupComponent implements OnInit {
     type: ''
   };
 
+  routerSub;
+
   constructor(
     private router: Router,
     private location: Location,
-    private goalsService: GoalsService,
-    private offersService: OffersService,
-    private interestsService: InterestsService,
     private userAuthService: UserAuthService,
     private onboardingService: OnboardingService,
     private warningService: WarningService,
@@ -63,11 +62,12 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.onRouteChanged(this.location.path());
     this.signupStateService.counterEmitter.subscribe((state) => {
       this.onCounterChanged(state);
     });
 
-    this.router.events.subscribe((event) => {
+    this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.onRouteChanged(event.url);
       }
@@ -82,6 +82,12 @@ export class SignupComponent implements OnInit {
       }
 
     });
+  }
+
+  ngOnDestroy() {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
   }
 
   onRouteChanged(url: string) {
