@@ -32,8 +32,9 @@ export class MarkupPipe implements PipeTransform {
     let message = value;
     message = this.applyBold(message);
     message = this.applyItalic(message);
+    message = this.applyLineBreaks(message);
     message = this.applyLinks(message);
-    // this.replaceEventUrlWithTitleAndLink(message);
+    message = this.formatEventInfo(message);
 
     return message;
   }
@@ -45,9 +46,16 @@ export class MarkupPipe implements PipeTransform {
     return message;
   }
 
-  private  applyItalic(value: string): string {
+  private applyItalic(value: string): string {
     let message = value;
     message = message.replace(/_([^\s-].*?)_/g, '<i>$1</i>');
+
+    return message;
+  }
+
+  private applyLineBreaks(value: string): string {
+    let message = value;
+    message = message.replace(/\n/g, '<br>');
 
     return message;
   }
@@ -59,20 +67,24 @@ export class MarkupPipe implements PipeTransform {
     return message;
   }
 
-  private replaceEventUrlWithTitleAndLink(value: string) {
-    let message: string = value;
+  private formatEventInfo(value: string) {
+    let message = value;
+
     let match: any[];
-    let eventMessageId: string;
+    let eventInfoRegex = /\[\s*event:\s*(\d+)\s*\|\|\s*(.+?)\s*?\|\|\s*(.+?)\s*\|\|\s*(.+?)\s*\]/g;
+    // let regExp: RegExp = /\[\s*?event:/g;
+    match = eventInfoRegex.exec(message);
 
-    let regExp: RegExp = /https?:\/\/persice.com\/event\/(\d+)\/?/g;
-    match = regExp.exec(message);
-
-    if (!!match) {
-      eventMessageId =  match[1];
-      console.log('found event with ID', eventMessageId);
+    if (!match) {
+      // Remove incomplete markup in case we failed to pass all values correctly.
+      return message.replace(/\[\s*event.+\]/g, '');
     }
 
-    return '';
+    message = message.replace(
+      eventInfoRegex,
+      '<a href="https://persice.com/event/$1">$2</a> in $4<br>Event hosted by $3');
+
+    return message;
   }
 
   private markAsSafeHtml(message: string): SafeHtml {
