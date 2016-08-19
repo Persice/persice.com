@@ -80,9 +80,18 @@ export class MarkupPipe implements PipeTransform {
       return message.replace(/\[\s*event.+\]/g, '');
     }
 
+    let eventId = match[1];
+    let eventName = match[2];
+    let hostedBy = match[3];
+    let locationName = match[4];
+
+    // Format event info.
     message = message.replace(
       eventInfoRegex,
-      '<a href="https://persice.com/event/$1">$2</a> in $4<br>Event hosted by $3');
+      `<br><a href="https://persice.com/event/${eventId}">${eventName}</a> in ${locationName}<br>Event hosted by ${hostedBy}`);
+
+    // Replace the text in the existing event link so it looks more presentable.
+    message = message.replace(/>https?:\/\/persice.com\/event\/(\d+)\/?</g, `">${eventName}<`);
 
     return message;
   }
