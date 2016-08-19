@@ -13,9 +13,10 @@ const FACEBOOK_ID = '634990373263225';
 const AUTH_PROVIDERS = [
   AuthGuard,
   NG2_UI_AUTH_PROVIDERS({
-    tokenPrefix: 'persice',
+    tokenPrefix: 'persice_token',
     providers: {
       facebook: {
+        authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',
         redirectUri: 'http://test-local.com:8000/auth/facebook/callback/',
         clientId: FACEBOOK_ID,
         display: 'popup',
