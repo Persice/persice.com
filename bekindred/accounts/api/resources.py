@@ -75,11 +75,15 @@ class SocialLoginResource(Resource):
                 response_class=BadRequest('code is required'))
             logger.error('code is required')
 
+        # TODO: Add catch errors
         token_response = FacebookAuthorization.convert_code(
             code, redirect_uri=redirect_uri)
 
+        # TODO: Add access_token to cache
         access_token = token_response['access_token']
         action, user = connect_user(bundle.request, access_token=access_token)
 
+        # TODO: Add exp
         bundle.obj.token = jwt_encode_handler({'user_id': user.id})
+        # TODO: clean up response
         return bundle
