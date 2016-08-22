@@ -55,14 +55,16 @@ export class MarkupPipe implements PipeTransform {
 
   private applyLineBreaks(value: string): string {
     let message = value;
-    message = message.replace(/\n/g, '<br>');
+    message = message.replace(/\n/g, ' <br>');
 
     return message;
   }
 
   private applyLinks(value: string) {
     let message = value;
+
     message = message.replace(/(https?:\/\/[^\s-]+)/g, '<a href="$1">$1</a>');
+    message = message.replace(/([^\/])(www\.[^\s-]+)/g, '$1<a href="http://$2">$2</a>');
 
     return message;
   }
@@ -88,7 +90,11 @@ export class MarkupPipe implements PipeTransform {
     // Format event info.
     message = message.replace(
       eventInfoRegex,
-      `<br><a href="https://persice.com/event/${eventId}">${eventName}</a> in ${locationName}<br>Event hosted by ${hostedBy}`);
+      `<br>
+      <div style="background-color: lightgrey">
+        <a href="https://persice.com/event/${eventId}">${eventName}</a> in ${locationName}<br>
+        Event hosted by ${hostedBy}
+      </div>`);
 
     // Replace the text in the existing event link so it looks more presentable.
     message = message.replace(/>https?:\/\/persice.com\/event\/(\d+)\/?</g, `">${eventName}<`);

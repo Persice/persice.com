@@ -31,5 +31,14 @@ describe('MarkupPipe', () => {
 
   it('applies links', () => {
     expect(pipe.applyMarkup('link http://google.com')).toBe('link <a href="http://google.com">http://google.com</a>');
+    expect(pipe.applyMarkup('link http://google.com/?query=1&param=2'))
+      .toBe('link <a href="http://google.com/?query=1&param=2">http://google.com/?query=1&param=2</a>');
+    expect(pipe.applyMarkup('link www.google.com')).toBe('link <a href="http://www.google.com">www.google.com</a>');
+    expect(pipe.applyMarkup('link www.google.com/?query=1&param=2'))
+      .toBe('link <a href="http://www.google.com/?query=1&param=2">www.google.com/?query=1&param=2</a>');
+    expect(pipe.applyMarkup('link http://www.google.com'))
+      .toBe('link <a href="http://www.google.com">http://www.google.com</a>');
+    expect(pipe.applyMarkup('link http://www.google.com google.com another http://persice.com'))
+      .toBe('link <a href="http://www.google.com">http://www.google.com</a> google.com another <a href="http://persice.com">http://persice.com</a>');
   });
 });
