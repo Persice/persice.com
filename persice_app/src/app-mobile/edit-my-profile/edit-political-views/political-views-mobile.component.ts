@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStateService } from '../../shared/services/app-state.service';
-import { CookieUtil } from '../../../app/shared/core/util';
+import { TokenUtil } from '../../../app/shared/core/util';
 import { PoliticalViewsService } from '../../../app/shared/services/politicalviews.service';
 import { HeaderState } from '../../header';
 
@@ -11,7 +11,7 @@ import { HeaderState } from '../../header';
 })
 export class PoliticalViewsMobileComponent implements OnInit {
 
-  private usernameFromCookie: string;
+  private usernameFromToken: string;
   private politicalViews: any[];
 
   constructor(
@@ -19,7 +19,7 @@ export class PoliticalViewsMobileComponent implements OnInit {
     private politicalViewsService: PoliticalViewsService,
     private headerState: HeaderState
   ) {
-    this.usernameFromCookie = CookieUtil.getValue('user_username');
+    this.usernameFromToken = TokenUtil.getValue('username');
     this.politicalViewsService.getAllPoliticalViewsWithStatus();
   }
 

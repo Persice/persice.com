@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DropdownDirective } from '../shared/directives/dropdown.directive';
 import { CheckImageDirective } from '../shared/directives/checkimage.directive';
-import { CookieUtil } from '../shared/core';
+import { TokenUtil } from '../shared/core';
 import { Auth } from '../../common/ng2-ui-auth/auth';
 
 @Component({
@@ -37,7 +37,7 @@ export class DropdownComponent {
 
   public openMyProfile(event: MouseEvent) {
     setTimeout(() => jQuery('#profileDropdown').removeClass('is-active'));
-    this.router.navigateByUrl('/' + CookieUtil.getValue('user_username'));
+    this.router.navigateByUrl('/' + TokenUtil.getValue('username'));
   }
 
   public logout(event: MouseEvent) {

@@ -125,6 +125,14 @@ export class Shared {
     return null;
   }
 
+  getAttribute(attributeName: string) {
+    let payload = this.getPayload();
+    if (payload[attributeName]) {
+      return payload[attributeName];
+    }
+    return null;
+  }
+
   logout(): Observable<any> {
     this.storage.remove(this.tokenName);
     return Observable.create((observer: Subscriber<any>) => {

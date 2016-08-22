@@ -252,7 +252,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
     };
 
 
-    let authUserId = CookieUtil.getValue('userid');
+    let authUserId = TokenUtil.getValue('user_id');
     this.authUserUri = `/api/v1/auth/user/${authUserId}/`;
 
     // check if the user is host and member

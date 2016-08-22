@@ -1,5 +1,5 @@
 import { Headers } from '@angular/http';
-import { CookieUtil } from './util';
+import { TokenUtil, CookieUtil } from './util';
 
 let csrfToken = CookieUtil.getValue('csrftoken');
 

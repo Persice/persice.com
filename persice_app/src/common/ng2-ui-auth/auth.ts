@@ -113,6 +113,10 @@ export class Auth {
     return this.shared.getPayload();
   }
 
+  getAttribute(attributeName: string): string {
+    return this.shared.getAttribute(attributeName);
+  }
+
   setStorageType(type: string): void {
     this.shared.setStorageType(type);
   }

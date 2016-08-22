@@ -2,6 +2,7 @@ import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { HttpClient, CookieUtil, FormUtil, OPTS_REQ_JSON_CSRF } from '../core';
+import { TokenUtil } from '../core/util';
 
 let validate = require('validate.js');
 const moment = require('moment');
@@ -100,7 +101,6 @@ export class EventService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-
   public findOneByUri(resourceUri: string): Observable<any> {
     return this.http.get(resourceUri).map((res: Response) => res.json());
   }
@@ -116,10 +116,9 @@ export class EventService {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
-
   public create(data): Observable<any> {
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
 
@@ -161,15 +160,13 @@ export class EventService {
         });
       }
 
-
     });
-
 
   }
 
   public updateByUri(data, resourceUri): Observable<any> {
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
 
@@ -211,15 +208,13 @@ export class EventService {
         });
       }
 
-
     });
-
 
   }
 
   public updateImageByUri(data, resourceUri): Observable<any> {
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
     let body = FormUtil.formData(event);
@@ -245,9 +240,7 @@ export class EventService {
       });
     });
 
-
   }
-
 
   public deleteByUri(resourceUri: string): Observable<any> {
     return this.http
@@ -272,12 +265,10 @@ export class EventService {
 
   }
 
-
   private _validateData(data): boolean {
     this.validationErrors = {};
 
     let errors = validate(data, this.constraints, EventService.VALIDATION_OPTIONS);
-
 
     this.validationErrors = errors;
 

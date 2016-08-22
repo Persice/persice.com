@@ -1,7 +1,8 @@
 import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class OnboardingService {
@@ -12,7 +13,7 @@ export class OnboardingService {
   }
 
   public complete(): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let body = {
       user: '/api/v1/auth/user/' + userId + '/',
       is_complete: true

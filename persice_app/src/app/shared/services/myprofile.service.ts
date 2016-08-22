@@ -1,7 +1,8 @@
 import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class MyProfileService {
@@ -12,7 +13,7 @@ export class MyProfileService {
   }
 
   public get(): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = this.buildUrl(userId);
     return this.http.get(url)
       .map((res: Response) => {
@@ -21,7 +22,7 @@ export class MyProfileService {
   }
 
   public update(data): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = this.buildUrl(userId);
     let body = JSON.stringify(data);
 

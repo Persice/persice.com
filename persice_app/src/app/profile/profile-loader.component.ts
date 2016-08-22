@@ -41,7 +41,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ProfileViewComponent } from './profile-view.component';
 import { ProfileMyComponent } from './profile-my.component';
-import { CookieUtil } from '../shared/core';
+import { TokenUtil } from '../shared/core';
 
 @Component({
   selector: 'prs-profile-loader',
@@ -59,7 +59,7 @@ export class ProfileLoader implements AfterViewInit, OnDestroy {
   constructor(private resolver: ComponentResolver, private _route: ActivatedRoute) { }
 
   ngAfterViewInit() {
-    this.username = CookieUtil.getValue('user_username');
+    this.username = TokenUtil.getValue('username');
     this.isViewInitialized = true;
     this.sub = this._route.params.subscribe((params) => {
       this.usernameParam = params['username'];

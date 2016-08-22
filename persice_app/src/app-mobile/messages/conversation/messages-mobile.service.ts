@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { HttpClient, CookieUtil, OPTS_REQ_JSON_CSRF } from '../../../app/shared/core';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../../../app/shared/core';
 import { Message, Conversation } from '../../../common/models';
 import { MessageActions } from '../../../common/actions';
 import { AppState, getMessagesState, getConversationsState } from '../../../common/reducers';
+import { TokenUtil } from '../../../app/shared/core/util';
 
 const PER_PAGE_LIMIT: number = 12;
 
@@ -34,7 +35,7 @@ export class MessagesMobileService {
     private http: HttpClient,
     private actions: MessageActions
   ) {
-    const userId: string = CookieUtil.getValue('userid');
+    const userId: string = TokenUtil.getValue('user_id');
     this._me = `/api/v1/auth/user/${userId}/`;
 
     const storeMessages$ = store.let(getMessagesState());

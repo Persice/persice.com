@@ -200,6 +200,32 @@ export class CookieUtil {
   }
 }
 
+export class TokenUtil {
+
+  static getValue(attributeName: string): string {
+
+    let payload = TokenUtil.getPayload();
+    if (payload[attributeName]) {
+      return payload[attributeName];
+    }
+    return null;
+  }
+
+  static getPayload() {
+    let token: string = window['localStorage'].getItem('persice_token');
+
+    if (token && token.split('.').length === 3) {
+      try {
+        let base64Url = token.split('.')[1];
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(decodeURIComponent(encodeURIComponent(window.atob(base64))));
+      } catch (e) {
+        return undefined;
+      }
+    }
+  }
+}
+
 export class GoogleUtil {
   static extractFromAddress(components, type, type2) {
     for (var i = 0; i < components.length; i++) {

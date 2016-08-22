@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { CookieUtil } from '../../app/shared/core';
+import { TokenUtil } from '../../app/shared/core';
 import { PageTitleComponent } from './page-title';
 import { PageTitleConversationsComponent } from './page-title-conversations';
 import { OpenLeftMenuDirective } from '../shared/directives';
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
   // Header state set with inital values
   public headerState = HeaderState.initial;
 
-  public username = CookieUtil.getValue('user_username');
+  public username = TokenUtil.getValue('username');
 
   constructor(
     private router: Router,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { CookieUtil } from '../../../app/shared/core/util';
+import { TokenUtil } from '../../../app/shared/core/util';
 import { GoalsService, OffersService, PhotosService, InterestsService } from '../../../app/shared/services';
 import { AppStateService } from '../../shared/services';
 import { HeaderState } from '../../header';
@@ -17,7 +17,7 @@ export class EditMyProfileNavigationComponent implements OnInit {
   public offersCounter: number = 0;
   public goalsCounter: number = 0;
   public photosCounter: number = 0;
-  private usernameFromCookie: string;
+  private usernameFromToken: string;
 
   constructor(
     private interestsService: InterestsService,
@@ -26,7 +26,7 @@ export class EditMyProfileNavigationComponent implements OnInit {
     private photosService: PhotosService,
     private appStateService: AppStateService
   ) {
-    this.usernameFromCookie = CookieUtil.getValue('user_username');
+    this.usernameFromToken = TokenUtil.getValue('username');
   }
 
   ngOnInit() {
