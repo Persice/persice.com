@@ -10,7 +10,7 @@ import { HeaderState } from './header.state';
 import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown';
 import { AppState, getUnreadMessagesCounterState, getNewConnectionsCounterState } from '../../common/reducers/index';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'prs-mobile-header',

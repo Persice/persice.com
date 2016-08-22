@@ -1,4 +1,4 @@
-import { Injectable, provide } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { HttpClient } from '../../app/shared/core';
@@ -39,5 +39,5 @@ export class NewConnectionsCounterService {
 }
 
 export var newConnectionsCounterServiceInjectables: any[] = [
-  provide(NewConnectionsCounterService, {useClass: NewConnectionsCounterService})
+  {provide: NewConnectionsCounterService, useClass: NewConnectionsCounterService}
 ];

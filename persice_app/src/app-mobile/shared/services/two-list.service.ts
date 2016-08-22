@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 export abstract class TwoListService {
   public abstract firstList(firstParam?: any, secondParam?: any, thirdParam?: any): Observable<any>;

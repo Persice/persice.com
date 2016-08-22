@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs/Rx';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class MutualConnectionsCountService {
