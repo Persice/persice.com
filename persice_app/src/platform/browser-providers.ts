@@ -9,13 +9,18 @@ import { APP_ROUTER_PROVIDERS } from '../app';
 import { NG2_UI_AUTH_PROVIDERS } from '../common/ng2-ui-auth/auth';
 import { AuthGuard } from '../common/guards/auth.guard';
 const FACEBOOK_ID = '634990373263225';
+const DEFAULT_POST_HEADER: {[name: string]: string} = {
+  'Content-Type': 'application/json'
+};
 
 const AUTH_PROVIDERS = [
   AuthGuard,
   NG2_UI_AUTH_PROVIDERS({
     tokenPrefix: 'persice',
+    defaultHeaders: DEFAULT_POST_HEADER,
     providers: {
       facebook: {
+        url: '/api/v2/accounts/facebook/login/',
         authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',
         redirectUri: 'http://test-local.com:8000/auth/facebook/callback/',
         clientId: FACEBOOK_ID,
