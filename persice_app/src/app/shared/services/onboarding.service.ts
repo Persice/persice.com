@@ -1,4 +1,4 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
@@ -10,6 +10,27 @@ export class OnboardingService {
 
   constructor(private http: HttpClient) {
 
+  }
+
+  public isOnboardingFinished(): Observable<boolean> {
+
+    return this.http.get(
+      `${OnboardingService.API_URL}?format=json`,
+      OPTS_REQ_JSON_CSRF)
+      .map((res: Response) => {
+        let result = res.json();
+        let onboardingFinished: boolean = true;
+
+        try {
+          onboardingFinished = result.objects[0].is_complete;
+        }
+        catch (err) {
+
+        }
+
+        return onboardingFinished;
+
+      });
   }
 
   public complete(): Observable<any> {
@@ -29,6 +50,6 @@ export class OnboardingService {
 }
 
 export var onboardingServiceInjectables: Array<any> = [
-  provide(OnboardingService, {useClass: OnboardingService})
+  {provide: OnboardingService, useClass: OnboardingService}
 ];
 
