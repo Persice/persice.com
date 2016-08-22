@@ -15,8 +15,9 @@ import {
   EventMembersService,
   EventAttendeesService
 } from '../shared/services';
-import { DateUtil, EventUtil, CookieUtil, UserUtil } from '../shared/core';
+import { DateUtil, EventUtil, UserUtil } from '../shared/core';
 import { RemodalDirective } from '../shared/directives';
+import { TokenUtil } from '../shared/core/util';
 
 @Component({
   selector: 'prs-event',
@@ -135,7 +136,6 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
     this.getEventDetails(this.eventId);
   }
 
-
   getEventDetails(id) {
     this.loading = true;
     this.service.findOneById(id).subscribe((data) => {
@@ -183,7 +183,6 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
       this.peopleMaybecounter = data.attendees_maybe.length;
 
       this.selected = 'yes';
-
 
     });
   }
@@ -244,13 +243,11 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
       };
     }
 
-
     this.stats = {
       maxAttendees: resp.max_attendees,
       friendsCount: resp.total_attendees,
       score: resp.cumulative_match_score
     };
-
 
     let authUserId = TokenUtil.getValue('user_id');
     this.authUserUri = `/api/v1/auth/user/${authUserId}/`;
@@ -290,7 +287,6 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
           };
         });
     }
-
 
   }
 
@@ -334,13 +330,11 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-
   activate(type) {
     if (type !== this.selected) {
       this.selected = type;
     }
 
   }
-
 
 }

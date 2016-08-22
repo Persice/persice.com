@@ -124,7 +124,7 @@ export class EventEditComponent extends BaseEventComponent {
       this.loading = false;
       this.validationErrors = {};
       this._notifySuccess('Event has been updated.');
-      this.refreshEvent.next(true);
+      this.refreshEvent.emit(true);
       let remodal = jQuery('[data-remodal-id=edit-event]').remodal();
       remodal.close();
     }, (err) => {
@@ -161,6 +161,5 @@ export class EventEditComponent extends BaseEventComponent {
       }
     });
   }
-
 
 }
