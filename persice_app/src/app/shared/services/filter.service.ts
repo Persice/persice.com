@@ -1,8 +1,7 @@
 import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
-import * as Rx from 'rxjs';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { InterfaceFilter } from '../models';
 import { remove, find } from 'lodash';
 
@@ -31,7 +30,7 @@ export class FilterService {
   addObserver(name: string) {
     let obs = {name: '', subject: null};
     obs.name = name;
-    obs.subject = new Rx.Subject(null);
+    obs.subject = new Subject(null);
     this.observers.push(obs);
   };
 

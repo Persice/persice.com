@@ -8,10 +8,6 @@ import { Config } from './config';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 
-/**
- * Created by Ron on 17/12/2015.
- */
-
 @Injectable()
 export class Oauth {
   constructor(

@@ -1,7 +1,3 @@
-/**
- * Created by Ron on 17/12/2015.
- */
-
 export function assign(target: any, ...src: any[]): any {
   if (target == null) {
     throw new TypeError('Cannot convert undefined or null to object');

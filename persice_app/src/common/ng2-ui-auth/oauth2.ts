@@ -6,10 +6,7 @@ import { Config, IOauth2Options } from './config';
 import { Popup } from './popup';
 import { Storage } from './storage';
 import 'rxjs/add/operator/concatMap';
-
-/**
- * Created by Ron on 17/12/2015.
- */
+import { Shared } from './shared';
 
 @Injectable()
 export class Oauth2 {
@@ -28,6 +25,7 @@ export class Oauth2 {
   constructor(
     private http: Http,
     private popup: Popup,
+    private shared: Shared,
     private storage: Storage,
     private config: Config
   ) {
@@ -47,6 +45,8 @@ export class Oauth2 {
     }
 
     url = [this.defaults.authorizationEndpoint, this.buildQueryString()].join('?');
+
+    this.shared.isLoggingIn.next(false);
 
     if (this.config.cordova) {
       openPopup = this.popup
@@ -80,7 +80,7 @@ export class Oauth2 {
     let data: any = assign({}, this.defaults, oauthData, userData);
 
     let exchangeForTokenUrl = this.config.baseUrl ? joinUrl(this.config.baseUrl, this.defaults.url) : this.defaults.url;
-
+    this.shared.isLoggingIn.next(true);
     return this.http.post(exchangeForTokenUrl, JSON.stringify(data), {withCredentials: this.config.withCredentials});
   }
 

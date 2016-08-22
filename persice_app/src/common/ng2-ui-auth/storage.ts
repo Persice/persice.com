@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from './config';
 
-/**
- * Created by Ron on 17/12/2015.
- */
 @Injectable()
 export class Storage {
   private store = {};

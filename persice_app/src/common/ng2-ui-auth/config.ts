@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 
-/**
- * Created by Ron on 17/12/2015.
- */
-
 export interface IPopupOptions {
   width?: number;
   height?: number;

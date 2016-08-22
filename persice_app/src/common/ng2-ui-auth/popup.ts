@@ -8,10 +8,6 @@ import 'rxjs/add/operator/concatMap';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/takeWhile';
 
-/**
- * Created by Ron on 17/12/2015.
- */
-
 @Injectable()
 export class Popup {
   url = '';
@@ -103,7 +99,10 @@ export class Popup {
         return [];
       })
       .take(1)
-      .takeWhile((response) => response !== 'Popup Window Closed');
+      .takeWhile((response) => {
+        console.log('res', response);
+        return response !== 'Popup Window Closed';
+      });
   }
 
   pollPopup() {
@@ -111,7 +110,8 @@ export class Popup {
       .interval(50)
       .concatMap(() => {
         if (!this.popupWindow || this.popupWindow.closed) {
-          return ['Popup Window Closed'];
+          return Observable.throw('popup_closed');
+          // return ['Popup Window Closed'];
         }
         let documentOrigin = document.location.host;
         let popupWindowOrigin = '';

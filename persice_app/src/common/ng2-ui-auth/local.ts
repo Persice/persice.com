@@ -6,10 +6,6 @@ import { joinUrl } from './utils';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 
-/**
- * Created by Ron on 17/12/2015.
- */
-
 function getFullOpts(user: string | Object, userOpts?: RequestOptionsArgs) {
   const opts = userOpts || {};
   if (user) {

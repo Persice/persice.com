@@ -12,3 +12,14 @@
     </div>
   </div>
 </div>
+
+<div id="loading_container" *ngIf="isInfoVisible">
+  <div id="loading_shade"></div>
+  <div id="loading_wrapper">
+    <div id="loading_lightbox">
+      <div id="loading_message">{{message}}</div>
+      <img id="loading_image" src="/static/img/loading.gif" alt="..." *ngIf="isLoading">
+      <div id="loading_close" (click)="closeInfo($event)" *ngIf="!isLoading"></div>
+    </div>
+  </div>
+</div>

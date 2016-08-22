@@ -1,21 +1,20 @@
-/**
- * Created by Ron on 17/12/2015.
- */
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Config } from './config';
 import { Storage } from './storage';
-/**
- * Created by Ron on 17/12/2015.
- */
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class Shared {
   tokenName = this.config.tokenPrefix ? [this.config.tokenPrefix, this.config.tokenName].join(this.config.tokenSeparator) : this.config.tokenName;
+  isLoggingIn: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isLoggingIn$: Observable<boolean>;
 
-  constructor(private storage: Storage, private config: Config) {}
+  constructor(private storage: Storage, private config: Config) {
+    this.isLoggingIn$ = this.isLoggingIn.asObservable();
+  }
 
   getToken() {
     return this.storage.get(this.tokenName);

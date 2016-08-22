@@ -6,10 +6,6 @@ import { Config, IOauth1Options } from './config';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/concatMap';
 
-/**
- * Created by Ron on 17/12/2015.
- */
-
 @Injectable()
 export class Oauth1 {
   private static base: IOauth1Options = {

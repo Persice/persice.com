@@ -11,10 +11,6 @@ import { ICustomConfig, Config } from './config';
 import { Observable } from 'rxjs/Observable';
 import { JwtHttp } from './jwtHttp';
 
-/**
- * Created by Ron on 17/12/2015.
- */
-
 export function NG2_UI_AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
   return [{provide: Config, useFactory: () => { return new Config(config);}},
     {provide: Storage, useFactory: (providedConfig) => { return new Storage(providedConfig);}, deps: [Config]},
@@ -41,8 +37,8 @@ export function NG2_UI_AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
     },
     {
       provide: Oauth2,
-      useFactory: (http, popup, storage, providedConfig) => { return new Oauth2(http, popup, storage, providedConfig);},
-      deps: [JwtHttp, Popup, Storage, Config]
+      useFactory: (http, popup, shared, storage, providedConfig) => { return new Oauth2(http, popup, shared storage, providedConfig);},
+      deps: [JwtHttp, Popup, Shared, Storage, Config]
     },
     {
       provide: Local,
@@ -75,6 +71,14 @@ export class Auth {
 
   logout(): Observable<void> {
     return this.shared.logout();
+  }
+
+  isLoading(): Observable<void> {
+    return this.shared.logout();
+  }
+
+  isLoggingIn(): Observable<boolean> {
+    return this.shared.isLoggingIn$;
   }
 
   authenticate(name: string, userData?: any): Observable<Response> {

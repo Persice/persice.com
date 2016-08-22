@@ -12,9 +12,6 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Config } from './config';
 import { Shared } from './shared';
-/**
- * Created by Ron on 06/01/2016.
- */
 
 @Injectable()
 export class JwtHttp extends Http {
