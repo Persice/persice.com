@@ -9,11 +9,15 @@ export class MarkupPipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizationService) {}
 
+  private eventInfoRegex = /\[eventStart\].+?\[eventEnd\]/g;
+
   public transform(value: string, args: any[]): SafeHtml {
-    let message: string = value;
+    let message: string = value.replace(this.eventInfoRegex, '');
+    let eventInfo: string[] = this.eventInfoRegex.exec(value);
 
     message = this.sanitizeInput(message);
     message = this.applyMarkup(message);
+    message = this.formatEventInfoFromJson(message, eventInfo);
 
     return this.markAsSafeHtml(message);
   }
@@ -34,7 +38,7 @@ export class MarkupPipe implements PipeTransform {
     message = this.applyItalic(message);
     message = this.applyLineBreaks(message);
     message = this.applyLinks(message);
-    message = this.formatEventInfo(message);
+    // message = this.formatEventInfoFromJson(message);
 
     return message;
   }
@@ -69,37 +73,37 @@ export class MarkupPipe implements PipeTransform {
     return message;
   }
 
-  private formatEventInfo(value: string) {
-    let message = value;
+  private formatEventInfoFromJson(message: string, eventPart: string[]) {
+    if (eventPart === undefined || eventPart === null || eventPart.length === 0) {
+      return message;
+    }
+
+    let result = eventPart[0];
 
     let match: any[];
-    let eventInfoRegex = /\[\s*event:\s*(\d+)\s*\|\|\s*(.+?)\s*?\|\|\s*(.+?)\s*\|\|\s*(.+?)\s*\]/g;
-    // let regExp: RegExp = /\[\s*?event:/g;
-    match = eventInfoRegex.exec(message);
+    let eventInfoRegex = /\[eventStart\](.+?)\[eventEnd\]/g;
+    match = eventInfoRegex.exec(result);
 
     if (!match) {
       // Remove incomplete markup in case we failed to pass all values correctly.
-      return message.replace(/\[\s*event.+\]/g, '');
+      return message;
     }
 
-    let eventId = match[1];
-    let eventName = match[2];
-    let hostedBy = match[3];
-    let locationName = match[4];
+    let event = JSON.parse(match[1]);
 
     // Format event info.
-    message = message.replace(
-      eventInfoRegex,
+    result = message + result.replace(
+      /\[eventStart\].+?\[eventEnd\]/g,
       `<br>
       <div style="background-color: lightgrey">
-        <a href="https://persice.com/event/${eventId}">${eventName}</a> in ${locationName}<br>
-        Event hosted by ${hostedBy}
+        <a href="https://persice.com/event/${event.id}">${event.name}</a> in ${event.location_name}<br>
+        Event hosted by ${event.hosted_by}
       </div>`);
 
     // Replace the text in the existing event link so it looks more presentable.
-    message = message.replace(/>https?:\/\/persice.com\/event\/(\d+)\/?</g, `">${eventName}<`);
+    result = result.replace(/>https?:\/\/persice.com\/event\/(\d+)\/?</g, `>"${event.name}"<`);
 
-    return message;
+    return result;
   }
 
   private markAsSafeHtml(message: string): SafeHtml {
