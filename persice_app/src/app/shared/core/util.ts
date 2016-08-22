@@ -185,14 +185,12 @@ export class ObjectUtil {
 
 }
 
-
 export class FileUtil {
   static isImage(filename: string) {
     let regex = new RegExp('(.*?)\.(gif|jpg|jpeg|tiff|png)$');
     return regex.test(filename);
   }
 }
-
 
 export class CookieUtil {
   static getValue(name: any): string {
@@ -201,7 +199,6 @@ export class CookieUtil {
     if (parts.length === 2) return parts.pop().split(';').shift();
   }
 }
-
 
 export class GoogleUtil {
   static extractFromAddress(components, type, type2) {
@@ -231,7 +228,6 @@ export class GoogleUtil {
 
     if (loc !== null && typeof loc === 'object' && loc.hasOwnProperty('address_components') && loc.hasOwnProperty('geometry')) {
       let location = loc.address_components;
-
 
       model.street = GoogleUtil.extractFromAddress(location, 'route', 'long_name') + ' ' + GoogleUtil.extractFromAddress(location, 'street_number', 'long_name');
       model.zipcode = GoogleUtil.extractFromAddress(location, 'postal_code', 'long_name');
@@ -281,7 +277,6 @@ export class FormUtil {
   }
 }
 
-
 export class StringUtil {
   static contains<T extends string>(data: T, substring): boolean {
     if (data === null || substring === null) {
@@ -328,7 +323,6 @@ export class StringUtil {
   }
 }
 
-
 export class DateUtil {
 
   static moment<S extends string>(timestamp: S): any {
@@ -338,7 +332,6 @@ export class DateUtil {
   static convertFromUnixToDate<S extends string, N extends number>(timestamp: N): S {
     return moment.unix(timestamp).format('MM/DD/YYYY');
   }
-
 
   static convertToHours(mins: number): string {
     let hours = Math.trunc(mins / 60);
@@ -383,7 +376,6 @@ export class DateUtil {
     return formatedDate;
   }
 
-
   static formatUTC<A extends any[], S extends string>(data: A, format: S): S {
     let formatedDate = moment(data).utc().format(format);
 
@@ -397,7 +389,6 @@ export class DateUtil {
 
     return localDate;
   }
-
 
   static localTimezone<S extends string>(): S {
     let tz = jstz.determine();
@@ -423,7 +414,6 @@ export class DateUtil {
     return moment(datetime).tz(tzName).add(2, 'hours').startOf('hour');
   }
 
-
   //time ago
   static fromNow(date): any {
     let tz = jstz.determine();
@@ -431,9 +421,7 @@ export class DateUtil {
     return moment(date).tz(tzName).fromNow();
   }
 
-
 }
-
 
 export class EventUtil {
   static accessLevel(data: string): string {

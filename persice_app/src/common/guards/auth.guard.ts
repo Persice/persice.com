@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Auth } from 'ng2-ui-auth';
+import { Auth } from '../ng2-ui-auth/auth';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
