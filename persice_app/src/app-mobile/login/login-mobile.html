@@ -1,8 +1,8 @@
 <div class="mob-signup-landing">
-  <a class="site-logo "  href="/">
+  <a class="site-logo " href="/">
     <img alt="#" src="/static/assets/images/logo.svg" class="site-logo__mark">
-    <h1 class="site-logo__type">Persice</h1></a>
-
+    <h1 class="site-logo__type">Persice</h1>
+  </a>
   <h2 class="mob-signup-title">Real world connections</h2>
   <p class="mob-signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
   <div class="layout">
@@ -15,6 +15,17 @@
         </svg>
         We don't post anything to Facebook
       </p>
+    </div>
+  </div>
+</div>
+
+<div id="loading_container" *ngIf="isInfoVisible">
+  <div id="loading_shade"></div>
+  <div id="loading_wrapper">
+    <div id="loading_lightbox">
+      <div id="loading_message">{{message}}</div>
+      <img id="loading_image" src="/static/img/loading.gif" alt="..." *ngIf="isLoading">
+      <div id="loading_close" (click)="closeInfo($event)" *ngIf="!isLoading"></div>
     </div>
   </div>
 </div>
