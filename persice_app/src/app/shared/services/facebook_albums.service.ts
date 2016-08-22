@@ -21,7 +21,7 @@ export class FacebookAlbumsService {
   _loadingMorePhotos = false;
 
   constructor(private http: HttpClient) {
-    this._token = TokenUtil.getValue('user_id');
+    this._token = TokenUtil.getValue('access_token');
   }
 
   public startLoadingAlbums(limitAlbums?: number, limitPhotos?: number) {
