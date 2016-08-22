@@ -6,14 +6,14 @@ import { HTTP_PROVIDERS, JSONP_PROVIDERS } from '@angular/http';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { APP_MOBILE_ROUTER_PROVIDERS } from '../app-mobile';
 import { APP_ROUTER_PROVIDERS } from '../app';
-import { NG2_UI_AUTH_PROVIDERS } from 'ng2-ui-auth';
+import { NG2_UI_AUTH_PROVIDERS } from '../common/ng2-ui-auth/auth';
 import { AuthGuard } from '../common/guards/auth.guard';
 const FACEBOOK_ID = '634990373263225';
 
 const AUTH_PROVIDERS = [
   AuthGuard,
   NG2_UI_AUTH_PROVIDERS({
-    tokenPrefix: 'persice_token',
+    tokenPrefix: 'persice',
     providers: {
       facebook: {
         authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { DropdownDirective } from '../shared/directives/dropdown.directive';
 import { CheckImageDirective } from '../shared/directives/checkimage.directive';
 import { CookieUtil } from '../shared/core';
-import { Auth } from 'ng2-ui-auth';
+import { Auth } from '../../common/ng2-ui-auth/auth';
 
 @Component({
   selector: 'prs-dropdown',
