@@ -2,6 +2,7 @@
  * @author: @Persice
  */
 
+var dotenv = require('dotenv');
 var path = require('path');
 var crypto = require('crypto');
 // Helper functions
@@ -37,3 +38,4 @@ exports.generateHash = generateHash;
 exports.isWebpackDevServer = isWebpackDevServer;
 exports.checkNodeImport = checkNodeImport;
 exports.root = root;
+exports.dotenv = dotenv;

@@ -54,10 +54,14 @@ declare module "*"
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
 declare var HMR: boolean;
+declare var FACEBOOK_ID: string;
+declare var FACEBOOK_SCOPE: string;
 
 interface GlobalEnvironment {
   ENV;
   HMR;
+  FACEBOOK_ID;
+  FACEBOOK_SCOPE;
 }
 
 interface Es6PromiseLoader {

@@ -5,6 +5,7 @@
 const webpack = require('webpack');
 const helpers = require('./helpers');
 
+helpers.dotenv.config({path: './.env.settings'});
 /**
  * Webpack Plugins
  */
@@ -12,6 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const BundleTracker  = require('webpack-bundle-tracker');
+
 /**
  * Webpack Constants
  */
@@ -200,7 +202,7 @@ module.exports = {
     //   template: 'src/index.html',
     //   chunksSortMode: 'none'
     // })
-    new BundleTracker({indent: 2, path: __dirname, filename: '../webpack-stats.json'})
+    new BundleTracker({indent: 2, path: __dirname, filename: '../webpack-stats.json'}),
 
   ],
 

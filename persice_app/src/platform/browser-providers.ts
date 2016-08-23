@@ -6,26 +6,26 @@ import { HTTP_PROVIDERS, JSONP_PROVIDERS } from '@angular/http';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { APP_MOBILE_ROUTER_PROVIDERS } from '../app-mobile';
 import { APP_ROUTER_PROVIDERS } from '../app';
-import { NG2_UI_AUTH_PROVIDERS } from '../common/ng2-ui-auth/auth';
+import { AUTH_PROVIDERS } from '../common/auth/auth';
 import { AuthGuard } from '../common/guards/auth.guard';
-const FACEBOOK_ID = '634990373263225';
+
 const DEFAULT_POST_HEADER: {[name: string]: string} = {
   'Content-Type': 'application/json'
 };
 
-const AUTH_PROVIDERS = [
+const AUTH = [
   AuthGuard,
-  NG2_UI_AUTH_PROVIDERS({
+  AUTH_PROVIDERS({
     tokenPrefix: 'persice',
     defaultHeaders: DEFAULT_POST_HEADER,
     providers: {
       facebook: {
         url: '/api/v2/accounts/facebook/login/',
         authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',
-        redirectUri: 'http://test-local.com:8000/auth/facebook/callback/',
+        redirectUri: window.location.origin + '/auth/facebook/callback/',
         clientId: FACEBOOK_ID,
         display: 'popup',
-        scope: ["email", "user_about_me", "user_birthday", "user_likes", "user_friends", "user_managed_groups", "user_photos", "user_work_history", "user_religion_politics", "user_location"]
+        scope: FACEBOOK_SCOPE.split(',')
       },
     }
   })
@@ -56,11 +56,11 @@ export const APPLICATION_PROVIDERS_MAIN_MOBILE = [
 ];
 
 export const PROVIDERS_MAIN = [
-  ...AUTH_PROVIDERS,
+  ...AUTH,
   ...APPLICATION_PROVIDERS_MAIN
 ];
 
 export const PROVIDERS_MAIN_MOBILE = [
-  ...AUTH_PROVIDERS,
+  ...AUTH,
   ...APPLICATION_PROVIDERS_MAIN_MOBILE
 ];
