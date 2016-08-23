@@ -28,8 +28,6 @@ export abstract class LoginComponent {
     this.message = MESSAGE_POPUP_OPENED;
     this.auth.authenticate(provider)
       .subscribe((res) => {
-        this.message = MESSAGE_LOGIN_SUCCESS;
-        this.isLoading = false;
         this.checkOnboardingAndRedirect();
       }, (err) => {
         this.isInfoVisible = true;
@@ -46,11 +44,17 @@ export abstract class LoginComponent {
   private checkOnboardingAndRedirect() {
     this.onboardingService.isOnboardingFinished()
       .subscribe((onboardingFinished: boolean) => {
+        this.message = MESSAGE_LOGIN_SUCCESS;
+        this.isLoading = false;
         if (!onboardingFinished) {
           this.router.navigateByUrl('/signup');
         } else {
           this.router.navigateByUrl('/');
         }
+      }, (err) => {
+        this.message = MESSAGE_LOGIN_SUCCESS;
+        this.isLoading = false;
+        this.router.navigateByUrl('/');
       });
   }
 
