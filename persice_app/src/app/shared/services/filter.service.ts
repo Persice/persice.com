@@ -1,4 +1,4 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
 import { Observable, Subject } from 'rxjs';
@@ -85,5 +85,5 @@ export class FilterService {
 
 }
 export var filterServiceInjectables: Array<any> = [
-  provide(FilterService, {useClass: FilterService})
+  {provide: FilterService, useClass: FilterService}
 ];

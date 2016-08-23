@@ -12,6 +12,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { Config } from './config';
 import { Shared } from './shared';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class JwtHttp extends Http {
@@ -19,7 +20,8 @@ export class JwtHttp extends Http {
     _backend: ConnectionBackend,
     _defaultOptions: RequestOptions,
     private _shared: Shared,
-    private _config: Config
+    private _config: Config,
+    private _router: Router
   ) {
     super(_backend, _defaultOptions);
   }
@@ -32,7 +34,9 @@ export class JwtHttp extends Http {
       options = options || {};
       this.setHeaders(options);
     }
-    return super.request(url, options);
+
+    return super.request(url, options)
+      .catch((err) => this.handleError(err));
   }
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
@@ -87,4 +91,22 @@ export class JwtHttp extends Http {
       obj.headers.set(this._config.authHeader, this._config.authToken + ' ' + this._shared.getToken());
     }
   }
+
+  private handleError(error: any) {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    console.log(error.status);
+    // If user is NOT authenticated, logout and clear token from local storage
+    if (error.status === 401) {
+
+      console.log('Error 401: Not Authenticated ', errMsg);
+      this._shared.logout().subscribe((res) => {
+        this._router.navigateByUrl('/login');
+      });
+    }
+
+    return Observable.throw(errMsg);
+
+  }
+
 }

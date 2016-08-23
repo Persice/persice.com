@@ -211,6 +211,11 @@ export class TokenUtil {
     return null;
   }
 
+  static getPersiceToken(): string {
+    let token: string = window['localStorage'].getItem('persice_token');
+    return token;
+  }
+
   static getPayload() {
     let token: string = window['localStorage'].getItem('persice_token');
 

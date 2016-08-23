@@ -115,7 +115,7 @@ export class Shared {
     return false;
   }
 
-  getExpirationDate() {
+  getExpirationDate(): any {
     let payload = this.getPayload();
     if (payload.exp && Math.round(new Date().getTime() / 1000) < payload.exp) {
       let date = new Date(0);
@@ -125,7 +125,7 @@ export class Shared {
     return null;
   }
 
-  getAttribute(attributeName: string) {
+  getAttribute(attributeName: string): any {
     let payload = this.getPayload();
     if (payload[attributeName]) {
       return payload[attributeName];

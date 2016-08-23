@@ -83,7 +83,7 @@ export class Config implements ICustomConfig {
   unlinkUrl = '/auth/unlink/';
   tokenName = 'token';
   tokenSeparator = '_';
-  tokenPrefix = 'ng2-ui-auth';
+  tokenPrefix = 'persice';
   authHeader = 'Authorization';
   authToken = 'Bearer';
   storageType = 'localStorage';
@@ -92,7 +92,7 @@ export class Config implements ICustomConfig {
     facebook: {
       name: 'facebook',
       url: '/auth/facebook',
-      authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
+      authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['display', 'scope'],
       scope: ['email'],

@@ -1,4 +1,4 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { HttpClient } from '../../app/shared/core/http-client';
@@ -29,5 +29,5 @@ export class CrowdService {
 }
 
 export var crowdServiceInjectables: Array<any> = [
-  provide(CrowdService, {useClass: CrowdService})
+  {provide: CrowdService, useClass: CrowdService}
 ];

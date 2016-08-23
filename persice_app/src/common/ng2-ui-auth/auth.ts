@@ -10,6 +10,7 @@ import { Storage } from './storage';
 import { ICustomConfig, Config } from './config';
 import { Observable } from 'rxjs/Observable';
 import { JwtHttp } from './jwtHttp';
+import { Router } from '@angular/router';
 
 export function NG2_UI_AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
   return [{provide: Config, useFactory: () => { return new Config(config);}},
@@ -21,8 +22,8 @@ export function NG2_UI_AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
     },
     {
       provide: JwtHttp,
-      useFactory: (xhrBackend, requestOptions, shared, config, router) => new JwtHttp(xhrBackend, requestOptions, shared, config),
-      deps: [XHRBackend, RequestOptions, Shared, Config]
+      useFactory: (xhrBackend, requestOptions, shared, config, router) => new JwtHttp(xhrBackend, requestOptions, shared, config, router),
+      deps: [XHRBackend, RequestOptions, Shared, Config, Router]
     },
     {
       provide: Oauth,
@@ -37,7 +38,9 @@ export function NG2_UI_AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
     },
     {
       provide: Oauth2,
-      useFactory: (http, popup, shared, storage, providedConfig) => { return new Oauth2(http, popup, shared storage, providedConfig);},
+      useFactory: (http, popup, shared, storage, providedConfig) => {
+        return new Oauth2(http, popup, shared, storage, providedConfig);
+      },
       deps: [JwtHttp, Popup, Shared, Storage, Config]
     },
     {
