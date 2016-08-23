@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
-import { Auth } from '../../common/ng2-ui-auth/auth';
+import { Auth } from '../../common/auth/auth';
 
 @Component({
   selector: 'prs-mobile-navigation',

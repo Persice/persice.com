@@ -12,8 +12,9 @@ import { Observable } from 'rxjs/Observable';
 import { JwtHttp } from './jwtHttp';
 import { Router } from '@angular/router';
 
-export function NG2_UI_AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
-  return [{provide: Config, useFactory: () => { return new Config(config);}},
+export function AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
+  return [
+    {provide: Config, useFactory: () => { return new Config(config);}},
     {provide: Storage, useFactory: (providedConfig) => { return new Storage(providedConfig);}, deps: [Config]},
     {
       provide: Shared,

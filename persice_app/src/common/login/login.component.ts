@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Auth } from '../ng2-ui-auth/auth';
+import { Auth } from '../auth/auth';
 import { OnboardingService } from '../../app/shared/services/onboarding.service';
 
 const MESSAGE_POPUP_OPENED = 'A Facebook pop-up window has opened, please follow the instructions to sign in.';

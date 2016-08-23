@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth } from '../../common/ng2-ui-auth/auth';
+import { Auth } from '../../common/auth/auth';
 import { LoginComponent } from '../../common/login/login.component';
 import { OnboardingService } from '../../app/shared/services/onboarding.service';
 

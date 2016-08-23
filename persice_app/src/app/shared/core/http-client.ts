@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { Auth } from '../../../common/ng2-ui-auth/auth';
+import { Auth } from '../../../common/auth/auth';
 
 @Injectable()
 export class HttpClient {
@@ -40,7 +40,7 @@ export class HttpClient {
     return this.http.patch(url, body, options)
       .catch((err) => this.handleError(err));
   }
-  
+
   head(url: string, options?: RequestOptionsArgs): Observable<Response> {
     options = this.setHeaders(options || {});
     return this.http.head(url, options)
