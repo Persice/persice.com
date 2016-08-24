@@ -2,7 +2,6 @@ import re
 import json
 
 from django.utils.timezone import now
-from django_facebook.models import FacebookCustomUser
 import redis
 from django.db.models import Q, Count
 from tastypie.bundle import Bundle
@@ -11,10 +10,11 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.constants import ALL_WITH_RELATIONS
 from tastypie.resources import ModelResource, Resource
+
+from accounts.api.authentication import JSONWebTokenAuthentication
 from events.api.resources import EventResource
 from events.models import Event, Membership
 
-from friends.models import Friend
 from friends.utils import NeoFourJ
 from matchfeed.api.resources import A
 from msgs.models import ChatMessage
@@ -35,7 +35,7 @@ class MessageResource(ModelResource):
         ordering = ['sent_at']
         always_return_data = True
         fields = ['sender', 'recipient', 'body', 'sent_at']
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -99,7 +99,7 @@ class InboxLastResource(Resource):
 
     class Meta:
         resource_name = 'inbox/last'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -188,7 +188,7 @@ class InboxLastResource(Resource):
 class InboxResource(Resource):
     class Meta:
         resource_name = 'inbox/reat_at'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -216,7 +216,7 @@ class UnreadMessageCounter(Resource):
 
     class Meta:
         resource_name = 'inbox/unread_counter'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -252,7 +252,7 @@ class ChatMessageResource(ModelResource):
         always_return_data = True
         fields = ['sender', 'body', 'sent_at']
         filtering = {'event': ALL_WITH_RELATIONS}
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def dehydrate(self, bundle):
