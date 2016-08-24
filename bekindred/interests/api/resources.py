@@ -6,6 +6,8 @@ from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.resources import ModelResource
 from tastypie.validation import Validation
+
+from accounts.api.authentication import JSONWebTokenAuthentication
 from photos.api.resources import UserResource
 from interests.models import Interest, InterestSubject, ReligiousView, \
     ReligiousIndex, PoliticalIndex, PoliticalView
@@ -49,7 +51,7 @@ class InterestSubjectResource(ModelResource):
         filtering = {
             'description': ALL
         }
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def dehydrate_description(self, bundle):
@@ -65,7 +67,7 @@ class InterestResource(ModelResource):
         fields = ['user', 'interest', 'id']
         always_return_data = True
         resource_name = 'interest'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
         validation = InterestValidation()
 
@@ -112,7 +114,7 @@ class ReligiousIndexResource(ModelResource, AbstractIndex):
         filtering = {
             'name': ALL
         }
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
 
@@ -126,7 +128,7 @@ class ReligiousViewResource(ModelResource):
         fields = ['user', 'religious_index', 'id']
         always_return_data = True
         resource_name = 'religious_view'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -177,7 +179,7 @@ class PoliticalIndexResource(ModelResource, AbstractIndex):
         filtering = {
             'name': ALL
         }
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
 
@@ -191,7 +193,7 @@ class PoliticalViewResource(ModelResource):
         fields = ['user', 'political_index', 'id']
         always_return_data = True
         resource_name = 'political_view'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
