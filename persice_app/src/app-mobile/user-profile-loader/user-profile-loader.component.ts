@@ -4,7 +4,7 @@ import { Person } from '../shared/model/person';
 import { ProfileService } from '../../app/shared/services';
 import { UserProfileComponent } from '../user-profile';
 import { LoadingComponent } from '../../app/shared/components/loading';
-import { CookieUtil } from '../../app/shared/core';
+import { TokenUtil } from '../../app/shared/core';
 
 @Component({
   selector: 'prs-mobile-user-profile',
@@ -16,7 +16,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
 
   private person: Person;
   private type: String;
-  private usernameFromCookie: string;
+  private usernameFromToken: string;
   private usernameFromUrl: string;
   private isProfileLoaded: boolean = false;
   private isProfileNotFound: boolean = false;
@@ -29,7 +29,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.usernameFromCookie = CookieUtil.getValue('user_username');
+    this.usernameFromToken = TokenUtil.getValue('username');
   }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
           this.person = resp;
           this.isProfileLoaded = true;
           this.isProfileNotFound = false;
-          if (this.usernameFromCookie === this.usernameFromUrl) {
+          if (this.usernameFromToken === this.usernameFromUrl) {
             this.type = 'my-profile';
           } else {
             this.isStandalonePage = true;

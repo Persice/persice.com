@@ -2,7 +2,7 @@ import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
-import { CookieUtil } from '../core/util';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class GoalsService {
@@ -13,7 +13,7 @@ export class GoalsService {
   }
 
   public get(url: string, limit: number): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     if (url === '') {
       let params: string = [
         `format=json`,
@@ -31,7 +31,7 @@ export class GoalsService {
   }
 
   public getCount(): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
 
     let params: string = [
       `format=json`,
@@ -44,7 +44,7 @@ export class GoalsService {
   }
 
   public save(subject: string): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let interest = {
       goal_subject: subject.trim(),
       user: '/api/v1/auth/user/' + userId + '/'

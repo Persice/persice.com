@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DropdownDirective } from '../shared/directives/dropdown.directive';
 import { CheckImageDirective } from '../shared/directives/checkimage.directive';
-import { CookieUtil } from '../shared/core';
-import { Auth } from 'ng2-ui-auth';
+import { TokenUtil } from '../shared/core';
+import { Auth } from '../../common/auth/auth';
 
 @Component({
   selector: 'prs-dropdown',
@@ -37,7 +37,7 @@ export class DropdownComponent {
 
   public openMyProfile(event: MouseEvent) {
     setTimeout(() => jQuery('#profileDropdown').removeClass('is-active'));
-    this.router.navigateByUrl('/' + CookieUtil.getValue('user_username'));
+    this.router.navigateByUrl('/' + TokenUtil.getValue('username'));
   }
 
   public logout(event: MouseEvent) {

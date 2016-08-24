@@ -1,7 +1,8 @@
 import { provide, Injectable, EventEmitter } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { OPTS_REQ_JSON_CSRF, CookieUtil, HttpClient } from '../core';
+import { OPTS_REQ_JSON_CSRF, HttpClient } from '../core';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class ReligiousViewsService {
@@ -9,7 +10,6 @@ export class ReligiousViewsService {
   static API_URL_INDEX: string = '/api/v1/religious_index/';
   next: string = '';
   public emitter: EventEmitter<any> = new EventEmitter();
-
 
   constructor(private http: HttpClient) {
 
@@ -103,7 +103,7 @@ export class ReligiousViewsService {
   }
 
   public create(data: any): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let it = {
       religious_index: data,
       user: `/api/v1/auth/user/${userId}/`
@@ -123,7 +123,6 @@ export class ReligiousViewsService {
       OPTS_REQ_JSON_CSRF)
       .map((res: Response) => res.json());
   }
-
 
 }
 

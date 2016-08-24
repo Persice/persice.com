@@ -1,7 +1,8 @@
 import { Headers } from '@angular/http';
-import { CookieUtil } from './util';
+import { TokenUtil, CookieUtil } from './util';
 
 let csrfToken = CookieUtil.getValue('csrftoken');
+let jwt = TokenUtil.getPersiceToken();
 
 export const OPTS_REQ_JSON = {
 
@@ -18,11 +19,13 @@ export const OPTS_REQ_JSON_CSRF = {
   })
 };
 
+
 export const OPTS_REQ_UNDEFINED_CSRF = {
 
   headers: new Headers({
     'Content-Type': 'undefined',
-    'X-CSRFToken': csrfToken
+    'X-CSRFToken': csrfToken,
+    'Authorization': 'Bearer' + jwt
   })
 };
 

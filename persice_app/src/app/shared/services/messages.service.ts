@@ -1,6 +1,7 @@
 import { provide, Injectable } from '@angular/core';
-import { HttpClient, DateUtil, ListUtil, CookieUtil, OPTS_REQ_JSON_CSRF } from '../core';
+import { HttpClient, DateUtil, ListUtil, OPTS_REQ_JSON_CSRF } from '../core';
 import { Observable, Subject } from 'rxjs';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class MessagesService {
@@ -23,7 +24,7 @@ export class MessagesService {
   constructor(
     private http: HttpClient
   ) {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     this._myUri = `/api/v1/auth/user/${userId}/`;
   }
 
@@ -108,7 +109,6 @@ export class MessagesService {
     this._notify();
   }
 
-
   private _checkImage(field) {
     if (!field) {
       return '';
@@ -172,7 +172,6 @@ export class MessagesService {
         });
   }
 
-
   private _parseData(data) {
     let m = data.objects;
 
@@ -233,7 +232,6 @@ export class MessagesService {
     });
     this._newMessage = false;
   }
-
 
 }
 

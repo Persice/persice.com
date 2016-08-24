@@ -4,7 +4,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import { AppStateService } from './shared/services';
 import { AppState, getUnreadMessagesCounterState, getNewConnectionsCounterState } from '../common/reducers';
 import { Store } from '@ngrx/store';
-import { CookieUtil } from '../app/shared/core';
+import { TokenUtil } from '../app/shared/core';
 import { UnreadMessagesCounterService, NewConnectionsCounterService } from '../common/services';
 import { CloseLeftMenuDirective } from './shared/directives';
 import { NavigationMobileComponent } from './navigation';
@@ -52,7 +52,7 @@ export class MainMobileComponent implements OnInit, OnDestroy {
     private unreadMessagesCounterService: UnreadMessagesCounterService,
     private newConnectionsCounterService: NewConnectionsCounterService
   ) {
-    this.username = CookieUtil.getValue('user_username');
+    this.username = TokenUtil.getValue('username');
     const unreadMessagesCounterStore$ = store.let(getUnreadMessagesCounterState());
     this.unreadMessagesCounter = unreadMessagesCounterStore$.map(state => state['counter']);
 

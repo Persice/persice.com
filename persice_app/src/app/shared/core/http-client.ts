@@ -1,108 +1,76 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, Response } from '@angular/http';
-import { Subject, Observable } from 'rxjs';
-import { Notification } from './dto';
+import { Http, RequestOptionsArgs, Response, Headers } from '@angular/http';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Auth } from '../../../common/auth/auth';
 
 @Injectable()
 export class HttpClient {
 
-  requestNotifier = new Subject();
+  constructor(private http: Http, private router: Router, private auth: Auth) {
 
-  constructor(private http: Http) { }
+  }
 
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    this._notify({type: 'start'});
+    options = this.setHeaders(options || {});
     return this.http.get(url, options)
-      .map(this._mapResponse)
-      .do(res => this._notify({type: 'done'}),
-        err => this._notify({type: 'error', data: err}),
-        () => this._notify({type: 'complete'}));
+      .catch((err) => this.handleError(err));
   }
 
-  post(
-    url: string,
-    body: string,
-    options?: RequestOptionsArgs
-  ): Observable<Response> {
-    this._notify({type: 'start'});
+  post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+    options = options || {};
     return this.http.post(url, body, options)
-      .map(this._mapResponse)
-      .do(res => this._notify({type: 'done'}),
-        err => this._notify({type: 'error', data: err}),
-        () => this._notify({type: 'complete'}));
+      .catch((err) => this.handleError(err));
   }
 
-  put(
-    url: string,
-    body: string,
-    options?: RequestOptionsArgs
-  ): Observable<Response> {
-    this._notify({type: 'start'});
+  put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+    options = this.setHeaders(options || {});
     return this.http.put(url, body, options)
-      .map(this._mapResponse)
-      .do(res => this._notify({type: 'done'}),
-        err => this._notify({type: 'error', data: err}),
-        () => this._notify({type: 'complete'}));
+      .catch((err) => this.handleError(err));
   }
 
   delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    this._notify({type: 'start'});
+    options = this.setHeaders(options || {});
     return this.http.delete(url, options)
-      .map(this._mapResponse)
-      .do(res => this._notify({type: 'done'}),
-        err => this._notify({type: 'error', data: err}),
-        () => this._notify({type: 'complete'}));
+      .catch((err) => this.handleError(err));
   }
 
-  patch(
-    url: string,
-    body: string,
-    options?: RequestOptionsArgs
-  ): Observable<Response> {
-    this._notify({type: 'start'});
+  patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+    options = this.setHeaders(options || {});
     return this.http.patch(url, body, options)
-      .map(this._mapResponse)
-      .do(res => this._notify({type: 'done'}),
-        err => this._notify({type: 'error', data: err}),
-        () => this._notify({type: 'complete'}));
+      .catch((err) => this.handleError(err));
   }
 
-  /**
-   * Performs a request with `head` http method.
-   */
   head(url: string, options?: RequestOptionsArgs): Observable<Response> {
-    this._notify({type: 'start'});
+    options = this.setHeaders(options || {});
     return this.http.head(url, options)
-      .map(this._mapResponse)
-      .do(res => this._notify({type: 'done'}),
-        err => this._notify({type: 'error', data: err}),
-        () => this._notify({type: 'complete'}));
+      .catch((err) => this.handleError(err));
   }
 
-  private _notify(data: Notification) {
-    this.requestNotifier.next(data);
+  private setHeaders(obj: { headers?: Headers, [index: string]: any }) {
+    obj.headers = obj.headers || new Headers();
+
+    if (this.auth.isAuthenticated()) {
+      obj.headers.set('Authentication', 'Bearer ' + this.auth.getToken());
+    }
+
+    return obj;
   }
 
-  // TODO remove this function once the angular2's http provider
-  // throw errors accordingly to http codes.
-  private _mapResponse(response: Response): Response {
-    if (response.status >= 200 && response.status < 300) {
-      //prevent empty response;
-      if (response['_body'] === '') {
-        response['_body'] = '{}';
-      }
-      return response;
-    }
-    const error = new Error(response['_body'] ? response['_body'] : response.statusText);
-    error['response'] = response;
-    console.log('HTTP error');
-    console.log(error);
-    if (response.status === 401) {
-      window.location.href = '/accounts/logout';
-    }
-    ;
+  private handleError(error: any) {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
-    throw error;
+    // If user is NOT authenticated, logout and clear token from local storage
+    if (error.status === 401) {
+
+      console.log('Error 401: Not Authenticated ', errMsg);
+      this.auth.logout().subscribe((res) => {
+        this.router.navigateByUrl('/login');
+      });
+    }
+
+    return Observable.throw(errMsg);
   }
 
 }

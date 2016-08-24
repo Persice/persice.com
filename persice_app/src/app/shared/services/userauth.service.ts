@@ -1,7 +1,8 @@
 import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class UserAuthService {
@@ -51,7 +52,7 @@ export class UserAuthService {
   public findOneByUri(resourceUri: string): Observable<any> {
     let uri = '';
     if (resourceUri === 'me') {
-      let userId = CookieUtil.getValue('userid');
+      let userId = TokenUtil.getValue('user_id');
       uri = '/api/v1/auth/user/' + userId + '/';
     } else {
       uri = resourceUri;
@@ -80,7 +81,7 @@ export class UserAuthService {
     const body = JSON.stringify(data);
     let uri = '';
     if (resourceUri === 'me') {
-      let userId = CookieUtil.getValue('userid');
+      let userId = TokenUtil.getValue('user_id');
       uri = '/api/v1/auth/user/' + userId + '/';
     } else {
       uri = resourceUri;
@@ -106,7 +107,7 @@ export class UserAuthService {
   }
 
   public updateMe(data): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = `${UserAuthService.API_URL}${userId}/?format=json`;
     let body = JSON.stringify(data);
     return this.http.patch(url, body, OPTS_REQ_JSON_CSRF)

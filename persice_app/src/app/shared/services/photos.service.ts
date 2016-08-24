@@ -1,8 +1,9 @@
 import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil, ListUtil } from '../core';
+import { HttpClient, OPTS_REQ_JSON_CSRF, ListUtil } from '../core';
 import { Photo } from '../../../common/models/photo';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class PhotosService {
@@ -72,7 +73,7 @@ export class PhotosService {
   }
 
   public getCount(): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let params: string = [
       `format=json`,
       `limit=1`,
@@ -84,7 +85,7 @@ export class PhotosService {
   }
 
   public getMyPhotos(limit: number): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let params: string = [
       `format=json`,
       `limit=${limit}`,
@@ -108,7 +109,7 @@ export class PhotosService {
   }
 
   public save(image, cb: (status: number) => void) {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let photo = {
       bounds: image.cropped,
       order: image.order,

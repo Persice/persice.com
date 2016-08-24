@@ -2,7 +2,8 @@ import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 import { AuthUserModel } from '../models';
-import { HttpClient, CookieUtil } from '../core';
+import { HttpClient } from '../core';
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class UserService {
@@ -23,12 +24,11 @@ export class UserService {
 
   public getProfileUpdates() {
 
-
     let params = [
       `format=json`
     ].join('&');
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = `${UserService.API_URL}${userId}/?${params}`;
 
     let channel = this.http.get(url)
@@ -54,7 +54,7 @@ export class UserService {
       `format=json`
     ].join('&');
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = `${UserService.API_URL}${userId}/?${params}`;
 
     return this.http.get(url)

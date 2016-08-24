@@ -16,11 +16,19 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HMR = helpers.hasProcessFlag('hot');
+const HOST = 'localhost';
+const PORT = 8080;
+
+const FACEBOOK_ID = process.env.FACEBOOK_ID_DEVELOPMENT;
+const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
+
 const METADATA = webpackMerge(commonConfig.metadata, {
-  host: 'localhost',
-  port: 8080,
+  host: HOST,
+  port: PORT,
   ENV: ENV,
-  HMR: HMR
+  HMR: HMR,
+  FACEBOOK_ID: FACEBOOK_ID,
+  FACEBOOK_SCOPE: FACEBOOK_SCOPE
 });
 
 /**
@@ -83,10 +91,14 @@ module.exports = webpackMerge(commonConfig, {
     new DefinePlugin({
       'ENV': JSON.stringify(METADATA.ENV),
       'HMR': METADATA.HMR,
+      'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+      'FACEBOOK_SCOPE': JSON.stringify(METADATA.FACEBOOK_SCOPE),
       'process.env': {
         'ENV': JSON.stringify(METADATA.ENV),
         'NODE_ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
+        'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+        'FACEBOOK_SCOPE': JSON.stringify(process.env.FACEBOOK_SCOPE)
       }
     }),
   ],

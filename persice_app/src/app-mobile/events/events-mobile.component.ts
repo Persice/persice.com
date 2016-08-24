@@ -10,7 +10,7 @@ import { EventSummaryComponent } from './event-summary';
 import { EventsNotFoundMobileComponent } from './events-not-found';
 import { InfiniteScrollDirective } from '../../common/directives';
 import { EventMembersService } from '../../app/shared/services/eventmembers.service';
-import { CookieUtil } from '../../app/shared/core/util';
+import { TokenUtil } from '../../app/shared/core/util';
 import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown/index';
 
 @Component({
@@ -38,8 +38,8 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
   private isLoadedSub: Subscription;
   private isLoaded: boolean = false;
   private routerSub: Subscription;
-  private usernameFromCookie: string;
-  private userIdFromCookie: string;
+  private usernameFromToken: string;
+  private userIdFromToken: string;
 
   constructor(
     private appStateService: AppStateService,
@@ -47,8 +47,8 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.usernameFromCookie = CookieUtil.getValue('user_username');
-    this.userIdFromCookie = CookieUtil.getValue('userid');
+    this.usernameFromToken = TokenUtil.getValue('username');
+    this.userIdFromToken = TokenUtil.getValue('user_id');
   }
 
   ngOnInit(): any {

@@ -1,4 +1,4 @@
-import { Injectable, provide } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { HttpClient } from '../../app/shared/core';
@@ -39,5 +39,5 @@ export class UnreadMessagesCounterService {
 }
 
 export var unreadMessagesCounterServiceInjectables: any[] = [
-  provide(UnreadMessagesCounterService, {useClass: UnreadMessagesCounterService})
+  {provide: UnreadMessagesCounterService, useClass: UnreadMessagesCounterService}
 ];

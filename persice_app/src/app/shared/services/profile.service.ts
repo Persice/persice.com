@@ -2,7 +2,7 @@ import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Subject, Observable } from 'rxjs';
 import { HttpClient } from '../core';
-import { CookieUtil } from '../core/util';
+import { TokenUtil } from '../core/util';
 import { OPTS_REQ_JSON_CSRF } from '../core/http-constants';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class ProfileService {
 
   public update(data: any): Observable<any> {
     const body = JSON.stringify(data);
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let uri = this.buildUpdateUrl(userId);
 
     return this.http.patch(

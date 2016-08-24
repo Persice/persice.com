@@ -232,6 +232,7 @@ FACEBOOK_DEFAULT_SCOPE = ['email',
                           'user_photos',
                           'user_work_history',
                           'user_religion_politics',
+                          'user_hometown',
                           'user_location']
 
 FACEBOOK_STORE_LOCAL_IMAGE = False

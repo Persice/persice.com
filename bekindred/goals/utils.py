@@ -403,6 +403,8 @@ def get_lives_in(user):
     try:
         raw_data = json.loads(user.raw_data)
         lives_in = raw_data.get('location', {}).get('name')
+        if lives_in is None:
+            lives_in = raw_data.get('hometown', {}).get('name')
     except TypeError as e:
         pass
     return lives_in

@@ -2,6 +2,7 @@ import { Component, Output, Renderer, EventEmitter, OnInit, AfterViewInit, ViewC
 import { Observable } from 'rxjs';
 import { Http } from '@angular/http';
 import { CheckImageDirective } from '../../shared/directives';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'prs-search-connections',
@@ -10,7 +11,9 @@ import { CheckImageDirective } from '../../shared/directives';
 })
 export class SearchConnectionsComponent implements OnInit, AfterViewInit {
   @Output() selected: EventEmitter<any> = new EventEmitter();
-  @ViewChild('searchTerm') searchTerm: ElementRef;
+  @ViewChild('term') term: ElementRef;
+
+  searchTerm = new FormControl();
   results: Observable<any[]>;
   resultsVisible: boolean = false;
   selectedIndex: number = -1;
@@ -21,7 +24,7 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): any {
-    const eventStream = Observable.fromEvent(this.searchTerm.nativeElement, 'keyup');
+    const eventStream = this.searchTerm.valueChanges;
     this.results = this._search(eventStream);
   }
 
@@ -90,11 +93,11 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
   public select(result) {
     this.resultsVisible = false;
     this.resultsCache = [];
-    this.renderer.setElementProperty(this.searchTerm.nativeElement, 'value', '');
+    this.renderer.setElementProperty(this.term.nativeElement, 'value', '');
     this.selected.emit(result);
   }
 
-  private _search(terms: Observable<any>, debounceDuration = 400): Observable<any[]> {
+  private _search(terms: Observable<string>, debounceDuration = 400): Observable<any[]> {
     return terms
       .debounceTime(debounceDuration)
       .distinctUntilChanged()

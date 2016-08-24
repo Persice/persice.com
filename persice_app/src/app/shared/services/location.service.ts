@@ -1,29 +1,18 @@
 import { provide, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
 import { Observable } from 'rxjs';
-
-const USER_ID = CookieUtil.getValue('userid');
+import { TokenUtil } from '../core/util';
 
 @Injectable()
 export class LocationService {
   static API_URL: string = '/api/v1/location/';
-
-  static DEFAULT_LOCATION = {
-    altitude: null,
-    altitude_accuracy: null,
-    heading: null,
-    position: '0,0',
-    speed: null,
-    user: `/api/v1/auth/user/${USER_ID}/`
-  };
 
   _location = {};
 
   constructor(private http: HttpClient) {
 
   }
-
 
   public get(): Observable<any> {
 
@@ -58,7 +47,7 @@ export class LocationService {
       heading: loc.coords.heading,
       position: `${loc.coords.latitude},${loc.coords.longitude}`,
       speed: loc.coords.speed,
-      user: `/api/v1/auth/user/${USER_ID}/`
+      user: `/api/v1/auth/user/${TokenUtil.getValue('user_id')}/`
     };
 
     return this.get()
@@ -71,7 +60,6 @@ export class LocationService {
       });
 
   }
-
 
   public update(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
