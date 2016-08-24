@@ -136,7 +136,7 @@ def delete_user_sessions(user):
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        logger.info('create_user_profile is triggered {} {}'.format(
+        logger.debug('create_user_profile is triggered {} {}'.format(
             sender, instance
         ))
         MatchFilterState.objects.get_or_create(user=instance)

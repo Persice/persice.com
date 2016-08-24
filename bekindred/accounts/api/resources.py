@@ -1,7 +1,7 @@
 import logging
 
 from django_facebook.connect import connect_user
-from jwt_auth.utils import jwt_encode_handler
+from jwt_auth.utils import jwt_encode_handler, jwt_payload_handler
 from open_facebook.api import FacebookAuthorization
 from tastypie import fields
 from tastypie.bundle import Bundle
@@ -83,7 +83,6 @@ class SocialLoginResource(Resource):
         access_token = token_response['access_token']
         action, user = connect_user(bundle.request, access_token=access_token)
 
-        # TODO: Add exp
-        bundle.obj.token = jwt_encode_handler({'user_id': user.id})
+        bundle.obj.token = jwt_encode_handler(jwt_payload_handler(user))
         # TODO: clean up response
         return bundle
