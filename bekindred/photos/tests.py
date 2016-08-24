@@ -7,6 +7,8 @@ from django.utils.encoding import filepath_to_uri
 from tastypie.test import ResourceTestCase
 
 from django_facebook.models import FacebookCustomUser
+
+from accounts.tests.test_resources import JWTResourceTestCase
 from members.models import OnBoardingFlow
 from photos.models import FacebookPhoto
 
@@ -27,7 +29,8 @@ class TestFacebookPhoto(TestCase):
             photo=PHOTO_LINK
         )
         self.assertEqual(FacebookPhoto.objects.all().count(), 1)
-        self.assertIsNotNone(FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
+        self.assertIsNotNone(
+            FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
 
     def test_update_order_photo(self):
         pk = FacebookPhoto.objects.create(
@@ -37,54 +40,51 @@ class TestFacebookPhoto(TestCase):
             photo=PHOTO_LINK
         )
         self.assertEqual(FacebookPhoto.objects.all().count(), 1)
-        self.assertIsNotNone(FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
+        self.assertIsNotNone(
+            FacebookPhoto.objects.get(pk=pk.id).cropped_photo.url)
 
 
-class TestUserResource(ResourceTestCase):
-    def get_credentials(self):
-        pass
-
+class TestUserResource(JWTResourceTestCase):
     def setUp(self):
         super(TestUserResource, self).setUp()
         self.user = FacebookCustomUser.objects. \
             create_user(username='user_a', password='test', about_me='test')
         self.detail_url = '/api/v1/user_profile/{}/'.format(self.user.pk)
 
-    def login(self):
-        # Just for post login form
-        return self.api_client.client.post('/login/', {'username': 'user_a',
-                                                       'password': 'test'})
-
     def test_put_detail(self):
-        # Grab the current data & modify it slightly.
-        self.login()
-        original_data = self.deserialize(
-                self.api_client.get(self.detail_url, format='json')
-        )
+        original_data = self.deserialize(self.api_client.get(
+            self.detail_url,
+            authentication=self.get_credentials(),
+            format='json'
+        ))
         new_data = original_data.copy()
         new_data['about_me'] = 'Updated: about me'
 
         self.assertEqual(FacebookCustomUser.objects.count(), 2)
         self.assertHttpAccepted(
-                self.api_client.put(self.detail_url, format='json',
-                                    data=new_data)
+                self.api_client.put(
+                    self.detail_url, format='json',
+                    authentication=self.get_credentials(),
+                    data=new_data)
         )
         # Make sure the count hasn't changed & we did an update.
         self.assertEqual(FacebookCustomUser.objects.count(), 2)
         # Check for updated data.
-        self.assertEqual(FacebookCustomUser.objects.get(pk=self.user.pk).about_me, 'Updated: about me')
+        self.assertEqual(
+            FacebookCustomUser.objects.get(pk=self.user.pk).about_me,
+            'Updated: about me')
 
 
-class FacebookPhotoResourceTest(ResourceTestCase):
+class FacebookPhotoResourceTest(JWTResourceTestCase):
     def setUp(self):
         super(FacebookPhotoResourceTest, self).setUp()
         self.PHOTO_URL = PHOTO_LINK
 
         self.PHOTO_URL1 = PHOTO_LINK
 
-        self.user = FacebookCustomUser.objects.create_user(username='user_a',
-                                                           password='test',
-                                                           image=self.PHOTO_URL)
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a',  password='test',
+            image=self.PHOTO_URL)
         self.photo = FacebookPhoto.objects.create(user=self.user,
                                                   photo=self.PHOTO_URL,
                                                   order=0)
@@ -99,22 +99,16 @@ class FacebookPhotoResourceTest(ResourceTestCase):
                                   'right': 468, 'lower': 468})
         }
 
-    def login(self):
-        # Just for post login form
-        return self.api_client.client.post(
-            '/login/', {'username': 'user_a', 'password': 'test'})
-
     def test_get_list_unauthorzied(self):
         self.assertHttpUnauthorized(self.api_client.get('/api/v1/photo/',
                                                         format='json'))
 
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
-
     def test_get_list_json_photo(self):
-        self.response = self.login()
-        resp = self.api_client.get('/api/v1/photo/', format='json')
+        resp = self.api_client.get(
+            '/api/v1/photo/',
+            authentication=self.get_credentials(),
+            format='json'
+        )
         self.assertValidJSONResponse(resp)
 
         # Scope out the data for correctness.
@@ -132,34 +126,38 @@ class FacebookPhotoResourceTest(ResourceTestCase):
         })
 
     def test_post_list(self):
-        self.response = self.login()
-        # Check how many are there first.
         self.assertEqual(FacebookPhoto.objects.count(), 1)
-        self.assertHttpCreated(self.api_client.post('/api/v1/photo/', format='json',
-                                                    data=self.post_data))
+        self.assertHttpCreated(self.api_client.post(
+            '/api/v1/photo/',
+            authentication=self.get_credentials(),
+            format='json',
+            data=self.post_data))
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
         bounds = FacebookPhoto.objects.filter(user_id=self.user, order=0)[0].bounds
         self.assertEqual(bounds, self.post_data['bounds'])
 
     def test_create_profile_photo(self):
-        self.response = self.login()
         # Check how many are there first.
         original_image = FacebookCustomUser.objects.get(pk=self.user.id).image
         self.assertTrue(bool(original_image))
         self.assertEqual(FacebookPhoto.objects.count(), 1)
-        self.assertHttpCreated(self.api_client.post('/api/v1/photo/',
-                                                    format='json',
-                                                    data=self.post_data))
+        self.assertHttpCreated(self.api_client.post(
+            '/api/v1/photo/',
+            authentication=self.get_credentials(),
+            format='json',
+            data=self.post_data))
         # Verify a new one has been added.
         self.assertEqual(FacebookPhoto.objects.count(), 2)
         image = FacebookCustomUser.objects.get(pk=self.user.id).image
         self.assertIsNotNone(image.url)
 
     def test_delete_detail(self):
-        self.response = self.login()
         self.assertEqual(FacebookPhoto.objects.count(), 1)
         # Yo can't delete last photo by design
-        self.assertHttpUnauthorized(self.api_client.delete(self.detail_url,
-                                                           format='json'))
+        self.assertHttpUnauthorized(self.api_client.delete(
+            self.detail_url,
+            authentication=self.get_credentials(),
+            format='json'
+        ))
         self.assertEqual(FacebookPhoto.objects.count(), 1)

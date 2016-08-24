@@ -21,6 +21,8 @@ from tastypie.constants import ALL
 from tastypie.exceptions import Unauthorized
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
+
+from accounts.api.authentication import JSONWebTokenAuthentication
 from friends.models import Friend
 
 from goals.utils import calculate_age, social_extra_data, calculate_distance, \
@@ -45,7 +47,7 @@ class OnBoardingFlowResource(ModelResource):
         resource_name = 'onboardingflow'
         fields = ['is_complete']
         always_return_data = True
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -83,7 +85,7 @@ class UserResource(ModelResource):
         filtering = {
             'facebook_id': ALL
         }
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def dehydrate(self, bundle):
@@ -175,7 +177,7 @@ class FacebookPhotoResource(ModelResource):
         resource_name = 'photo'
         ordering = ['order']
         always_return_data = True
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
