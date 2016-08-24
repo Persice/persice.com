@@ -30,6 +30,7 @@ describe('MarkupPipe', () => {
   });
 
   it('applies links', () => {
+    expect(pipe.applyMarkup('http://google.com')).toBe('<a href="http://google.com">http://google.com</a>');
     expect(pipe.applyMarkup('link http://google.com')).toBe('link <a href="http://google.com">http://google.com</a>');
     expect(pipe.applyMarkup('link http://google.com/?query=1&param=2'))
       .toBe('link <a href="http://google.com/?query=1&param=2">http://google.com/?query=1&param=2</a>');
@@ -40,5 +41,9 @@ describe('MarkupPipe', () => {
       .toBe('link <a href="http://www.google.com">http://www.google.com</a>');
     expect(pipe.applyMarkup('link http://www.google.com google.com another http://persice.com'))
       .toBe('link <a href="http://www.google.com">http://www.google.com</a> google.com another <a href="http://persice.com">http://persice.com</a>');
+    expect(pipe.applyMarkup('link [http://google.com google]')).toBe('link <a href="http://google.com">google</a>');
+    expect(pipe.applyMarkup('[http://google.com google]')).toBe('<a href="http://google.com">google</a>');
+    expect(pipe.applyMarkup('[http://google.com google] is the best search engine, http://google.com'))
+      .toBe('<a href="http://google.com">google</a> is the best search engine, <a href="http://google.com">http://google.com</a>');
   });
 });

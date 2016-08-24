@@ -3,12 +3,13 @@ import { LoadingComponent } from '../../../../app/shared/components/loading';
 import { CheckImageDirective } from '../../../../app/shared/directives';
 import { InfiniteScrollDirective } from '../../../../common/directives';
 import { TimeAgoPipe } from '../../../../common/pipes';
+import { MarkupPipe } from '../../../../app/shared/pipes/markup.pipe';
 
 @Component({
   selector: 'prs-mobile-conversations-list',
   template: <any>require('./conversations-list-mobile.html'),
   directives: [LoadingComponent, CheckImageDirective, InfiniteScrollDirective],
-  pipes: [TimeAgoPipe],
+  pipes: [TimeAgoPipe, MarkupPipe],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConversationsListMobileComponent {

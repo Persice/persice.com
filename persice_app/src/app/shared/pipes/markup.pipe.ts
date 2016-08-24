@@ -1,5 +1,6 @@
 import { Pipe, Injectable, PipeTransform } from '@angular/core';
 import { DomSanitizationService, SafeHtml } from '@angular/platform-browser';
+import { eventWidgetAsHtml } from './html/event.html';
 
 @Injectable()
 @Pipe({
@@ -9,15 +10,34 @@ export class MarkupPipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizationService) {}
 
-  private eventInfoRegex = /\[eventStart\].+?\[eventEnd\]/g;
+  private eventInfoRegex = /\[eventStart\].+?\[eventEnd\]/g; // anything inside [eventStart][eventEnd] tags
 
-  public transform(value: string, args: any[]): SafeHtml {
+  /**
+   * Replace special markup with HTML equivalents. Supported markup is:
+   *
+   * - text enclosed in asterisks is made bold (wrapped in 'strong' tags)
+   * - text enclose in underscores is italicized (wrapped in 'i' tags)
+   * - line breaks are preserved (changed to 'br' tags)
+   * - text links are changed to 'a' tags
+   * - links in format '[http://example.com Page title]' are changed to 'a' tags
+   * - if formatEventInfo is true change tags [eventStart]json data[eventEnd] into event widget, otherwise remove tags
+   * from output text
+   *
+   * @param value to be parsed
+   * @param formatEventInfo whether to insert Event info widget
+   *
+   * @returns {SafeHtml}
+   */
+  public transform(value: string, formatEventInfo: boolean): SafeHtml {
     let message: string = value.replace(this.eventInfoRegex, '');
     let eventInfo: string[] = this.eventInfoRegex.exec(value);
 
     message = this.sanitizeInput(message);
     message = this.applyMarkup(message);
-    message = this.formatEventInfoFromJson(message, eventInfo);
+
+    if (formatEventInfo) {
+      message = this.formatEventInfoFromJson(message, eventInfo);
+    }
 
     return this.markAsSafeHtml(message);
   }
@@ -25,9 +45,9 @@ export class MarkupPipe implements PipeTransform {
   public sanitizeInput(value: string) {
     let input: string = value;
 
-    input = input.replace(/<+.+?>+/, '');
-    input = input.replace(/<+\/.+?>+/, '');
-    input = input.replace(/javascript:\/*[^\s-]*/, '');
+    input = input.replace(/<+.+?>+/, ''); // tags
+    input = input.replace(/<+\/.+?>+/, ''); // tags inside tags
+    input = input.replace(/javascript:\/*[^\s-]*/, ''); // 'javascript:' text followed by non-space
 
     return input;
   }
@@ -37,38 +57,58 @@ export class MarkupPipe implements PipeTransform {
     message = this.applyBold(message);
     message = this.applyItalic(message);
     message = this.applyLineBreaks(message);
-    message = this.applyLinks(message);
-    // message = this.formatEventInfoFromJson(message);
+    message = this.applyAutodetectedLinks(message);
+    message = this.applyMarkupLinks(message);
 
     return message;
   }
 
   private applyBold(value: string): string {
     let message = value;
-    message = message.replace(/\*([^\s-].*?)\*/g, '<strong>$1</strong>');
+    message = message.replace(/\*([^\s-].*?)\*/g, '<strong>$1</strong>'); // text enclosed in asterisks without space padding on the left side
 
     return message;
   }
 
   private applyItalic(value: string): string {
     let message = value;
-    message = message.replace(/_([^\s-].*?)_/g, '<i>$1</i>');
+    message = message.replace(/_([^\s-].*?)_/g, '<i>$1</i>'); // text enclosed in underscores without space padding in the left side
 
     return message;
   }
 
   private applyLineBreaks(value: string): string {
     let message = value;
-    message = message.replace(/\n/g, ' <br>');
+    message = message.replace(/\n/g, ' <br>'); // newlines
 
     return message;
   }
 
-  private applyLinks(value: string) {
+  private applyAutodetectedLinks(value: string) {
     let message = value;
 
-    message = message.replace(/(https?:\/\/[^\s-]+)/g, '<a href="$1">$1</a>');
-    message = message.replace(/([^\/])(www\.[^\s-]+)/g, '$1<a href="http://$2">$2</a>');
+    message = message.replace(/([^\[]|^)(https?:\/\/[^\s-]+)/g, '$1<a href="$2">$2</a>'); // http(s) not starting with [ followed by non-spaces
+    message = message.replace(/([^\/])(www\.[^\s-]+)/g, '$1<a href="http://$2">$2</a>'); // www. not starting with / followed by non-spaces
+
+    return message;
+  }
+
+  private applyMarkupLinks(value: string) {
+    let message = value;
+
+    let regExp : RegExp = /\[(https?:\/\/)(.+?)\s+(.*)\]/g; // [http(s) followed by text, space, text and closed by ]
+
+    let match: string[] = regExp.exec(message);
+
+    if (match === undefined || match === null || match.length === 0) {
+      return message;
+    }
+
+    let schema: string = match[1];
+    let link: string = match[2];
+    let title: string = match[3];
+
+    message = message.replace(regExp, `<a href="${schema}${link}">${title}</a>`);
 
     return message;
   }
@@ -81,7 +121,7 @@ export class MarkupPipe implements PipeTransform {
     let result = eventPart[0];
 
     let match: any[];
-    let eventInfoRegex = /\[eventStart\](.+?)\[eventEnd\]/g;
+    let eventInfoRegex = /\[eventStart\](.+?)\[eventEnd\]/g; // anything inside [eventStart][eventEnd] tags
     match = eventInfoRegex.exec(result);
 
     if (!match) {
@@ -92,13 +132,7 @@ export class MarkupPipe implements PipeTransform {
     let event = JSON.parse(match[1]);
 
     // Format event info.
-    result = message + result.replace(
-      /\[eventStart\].+?\[eventEnd\]/g,
-      `<br>
-      <div style="background-color: lightgrey">
-        <a href="https://persice.com/event/${event.id}">${event.name}</a> in ${event.location_name}<br>
-        Event hosted by ${event.hosted_by}
-      </div>`);
+    result = message + result.replace(/\[eventStart\].+?\[eventEnd\]/g, eventWidgetAsHtml(event));
 
     // Replace the text in the existing event link so it looks more presentable.
     result = result.replace(/>https?:\/\/persice.com\/event\/(\d+)\/?</g, `>"${event.name}"<`);

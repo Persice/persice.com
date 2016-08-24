@@ -15,7 +15,7 @@
             <div class="message__intro__time">{{conversation.sentAt | prsTimeAgo}}</div>
           </div>
           <div class="message__intro__2">
-            <div class="message__excerpt">{{conversation.body}}</div>
+            <div class="message__excerpt" [innerHTML]="conversation.body | markup:false">{{conversation.body}}</div>
             <div class="message__intro__notif" *ngIf="conversation.unreadCounter > 0">{{conversation.unreadCounter}}
             </div>
           </div>
