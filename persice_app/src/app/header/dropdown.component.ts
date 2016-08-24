@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DropdownDirective } from '../shared/directives/dropdown.directive';
 import { CheckImageDirective } from '../shared/directives/checkimage.directive';
-import { TokenUtil } from '../shared/core';
+import { TokenUtil } from '../../common/core';
 import { Auth } from '../../common/auth/auth';
 
 @Component({

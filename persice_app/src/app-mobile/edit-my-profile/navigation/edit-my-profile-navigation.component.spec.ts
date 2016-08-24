@@ -10,7 +10,7 @@ import { GoalsService } from '../../../app/shared/services/goals.service';
 import { OffersService } from '../../../app/shared/services/offers.service';
 import { PhotosService } from '../../../app/shared/services/photos.service';
 import { AppStateService } from '../../shared/services/app-state.service';
-import { HttpClient } from '../../../app/shared/core';
+import { HttpClient } from '../../../common/core';
 import { EditMyProfileNavigationComponent } from './edit-my-profile-navigation.component';
 
 class MockInterestsService extends InterestsService {
@@ -114,7 +114,6 @@ describe('My profile edit navigation mobile component', () => {
       HttpClient,
       MockBackend,
       BaseRequestOptions,
-      HttpClient,
       {
         provide: Http,
         useFactory: (backend, options) => new Http(backend, options),
@@ -181,7 +180,6 @@ describe('My profile edit navigation mobile component', () => {
     }
 
   });
-
 
   it('should display counter for photos', () => {
     // given

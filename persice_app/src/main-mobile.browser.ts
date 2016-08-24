@@ -38,7 +38,6 @@ export function main(initialHmrState?: any): Promise<any> {
 
 }
 
-
 /*
  * Vendors
  * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
@@ -54,7 +53,6 @@ export function main(initialHmrState?: any): Promise<any> {
 if ('development' === ENV && HMR === true) {
   // activate hot module reload
   let ngHmr = require('angular2-hmr');
-
 
   ngHmr.hotModuleReplacement(main, module);
 

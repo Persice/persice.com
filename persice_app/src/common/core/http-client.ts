@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { Auth } from '../../../common/auth/auth';
+import { Auth } from '../auth/auth';
 
 @Injectable()
 export class HttpClient {
@@ -50,6 +50,8 @@ export class HttpClient {
   private setHeaders(obj: { headers?: Headers, [index: string]: any }) {
     obj.headers = obj.headers || new Headers();
 
+    obj.headers.set('Content-Type', 'application/json');
+
     if (this.auth.isAuthenticated()) {
       obj.headers.set('Authentication', 'Bearer ' + this.auth.getToken());
     }
@@ -61,14 +63,16 @@ export class HttpClient {
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
+    console.log('Server Response Error: ', errMsg);
+
     // If user is NOT authenticated, logout and clear token from local storage
     if (error.status === 401) {
-
-      console.log('Error 401: Not Authenticated ', errMsg);
       this.auth.logout().subscribe((res) => {
         this.router.navigateByUrl('/login');
       });
     }
+
+    // console.log('API Response Error: ', errMsg);
 
     return Observable.throw(errMsg);
   }

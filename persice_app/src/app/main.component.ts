@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-
 import { HeaderComponent } from './header';
 import { NavigationComponent } from './navigation';
 import { NotificationsComponent } from './notifications';
@@ -101,10 +100,10 @@ export class MainComponent implements OnInit, OnDestroy {
     this.notificationService.addObserver('app');
     this.notificationService.observer('app')
       .subscribe(
-      (data) => this.showNotification(data),
-      (err) => {
-        console.log('Notification error %s', err);
-      });
+        (data) => this.showNotification(data),
+        (err) => {
+          console.log('Notification error %s', err);
+        });
 
     // Get geolocation from the browser
     const GEOLOCATION_OPTS = {
@@ -115,13 +114,13 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.geolocationService.getLocation(GEOLOCATION_OPTS)
       .subscribe((res: any) => {
-        this.updateOrCreateLocation(res);
-      },
-      (err) => {
-        console.log('Geolocation Error: ', err);
-      },
-      () => {
-      });
+          this.updateOrCreateLocation(res);
+        },
+        (err) => {
+          console.log('Geolocation Error: ', err);
+        },
+        () => {
+        });
   }
 
   ngOnDestroy() {
@@ -172,14 +171,14 @@ export class MainComponent implements OnInit, OnDestroy {
   updateOrCreateLocation(loc) {
     this.locationService.updateOrCreate(loc)
       .subscribe((res) => {
-        this.locationService.updateLocation(res);
-      },
-      (err) => {
-        console.log('Location saving error: ', err);
-      },
-      () => {
+          this.locationService.updateLocation(res);
+        },
+        (err) => {
+          console.log('Location saving error: ', err);
+        },
+        () => {
 
-      });
+        });
   }
 
   showNotification(data: InterfaceNotification) {

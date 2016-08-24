@@ -12,7 +12,7 @@ import { EventAttendeesPreviewMobileComponent } from './event-attendees-preview'
 import { EventNotFoundMobileComponent } from './event-not-found';
 import { Observable, Subscription } from 'rxjs';
 import { EventRsvpMobileComponent } from './event-rsvp/event-rsvp-mobile.component';
-import { TokenUtil } from '../../../app/shared/core/util';
+import { TokenUtil } from '../../../common/core/util';
 
 @Component({
   selector: 'prs-mobile-event',

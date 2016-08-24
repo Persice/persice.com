@@ -10,7 +10,7 @@ import { EventSummaryComponent } from './event-summary';
 import { EventsNotFoundMobileComponent } from './events-not-found';
 import { InfiniteScrollDirective } from '../../common/directives';
 import { EventMembersService } from '../../app/shared/services/eventmembers.service';
-import { TokenUtil } from '../../app/shared/core/util';
+import { TokenUtil } from '../../common/core/util';
 import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown/index';
 
 @Component({

@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@angular/core';
-import { ListUtil } from '../shared/core';
+import { ListUtil } from '../../common/core';
 import { EditFooterComponent } from './edit-footer.component';
 import { CheckImageDirective } from '../shared/directives';
-
 
 @Component({
   selector: 'prs-edit-photos',
@@ -116,7 +115,6 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
     }
   }
 
-
   initializeDragAndDrop() {
 
     if (this.drakeInstance) {
@@ -147,11 +145,9 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
       // Cancel default behavior
       this.drakeInstance.cancel(true);
 
-
       if (sibling === null) {
         sibling = jQuery(target).children().last()[0];
       }
-
 
       // replace main profile background image
       let styleEl = jQuery(`#${el.id}`).css('background-image');
@@ -159,12 +155,10 @@ export class EditPhotosComponent implements OnChanges, OnDestroy {
       jQuery(`#${el.id}`).css('background-image', styleSibling);
       jQuery(`#${sibling.id}`).css('background-image', styleEl);
 
-
       this.changeProfilePhoto.emit({
         src: parseInt(el.id.match(/\d+/g)[0], 10),
         dst: parseInt(sibling.id.match(/\d+/g)[0], 10)
       });
-
 
     });
 

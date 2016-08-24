@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { Person } from '../../shared/model/person';
+import { HttpClient } from '../../../common/core/http-client';
 
 enum RsvpStatus {
   yes = 1,
@@ -47,7 +48,7 @@ export class AttendeeService {
 
   private _counters$: BehaviorSubject<number[]> = new BehaviorSubject([0, 0, 0]);
 
-  constructor(protected http: Http) {
+  constructor(protected http: HttpClient) {
     this.attendees$ = this._attendees$.asObservable();
     this.isLoading$ = this._isLoading$.asObservable();
     this.isLoaded$ = this._isLoaded$.asObservable();

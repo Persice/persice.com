@@ -29,7 +29,6 @@ export class SocialProfileGenerator {
     };
   }
 
-
   public static givenSocialProfile(type: string): SocialProfile {
     return new SocialProfile(this.givenSocialProfileDto(type));
   }

@@ -41,7 +41,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ProfileViewComponent } from './profile-view.component';
 import { ProfileMyComponent } from './profile-my.component';
-import { TokenUtil } from '../shared/core';
+import { TokenUtil } from '../../common/core';
 
 @Component({
   selector: 'prs-profile-loader',

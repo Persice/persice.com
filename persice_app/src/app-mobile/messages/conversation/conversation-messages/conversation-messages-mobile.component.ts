@@ -1,6 +1,4 @@
-import {
-  Component, Input, ChangeDetectionStrategy, Output, EventEmitter
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { LoadingComponent } from '../../../../app/shared/components/loading';
 import { CheckImageDirective } from '../../../../app/shared/directives';
 import { InfiniteScrollReverseDirective } from '../../../../common/directives';

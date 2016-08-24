@@ -67,16 +67,9 @@ export abstract class FilterComponent {
     this.saveDebounced = debounce(this.save, 500, {'leading': true, 'trailing': true});
 
     this.filterService.find()
-      .subscribe(data => this.setFilters(data),
-        (err) => {
-          console.log(err);
-        },
-        () => {
-
-        });
+      .subscribe(data => this.setFilters(data));
     this.defaultState = this.filterService.getDefaultState();
     this.filters = new FilterModel(this.defaultState);
-
 
   }
 
@@ -159,7 +152,7 @@ export abstract class FilterComponent {
       .updateOne(this.filters.state.resource_uri, this.filters.state)
       .subscribe(res => {
         this.filterService.publishObservers();
-      });
+      }, (err) => { });
   }
 
   checkIfEvents(value: string): void {
@@ -175,6 +168,5 @@ export abstract class FilterComponent {
       this.orderBy[2]['label'] = 'Recently Active';
     }
   }
-
 
 }

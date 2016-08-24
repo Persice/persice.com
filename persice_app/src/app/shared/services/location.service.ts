@@ -1,8 +1,8 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
+import { HttpClient } from '../../../common/core';
 import { Observable } from 'rxjs';
-import { TokenUtil } from '../core/util';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class LocationService {
@@ -65,8 +65,7 @@ export class LocationService {
     const body = JSON.stringify(data);
     return this.http.patch(
       `${resourceUri}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF)
+      body)
       .map((res: Response) => res.json());
   }
 
@@ -74,13 +73,12 @@ export class LocationService {
     const body = JSON.stringify(data);
     return this.http.post(
       `${LocationService.API_URL}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF)
+      body)
       .map((res: Response) => res.json());
   }
 }
 export var locationServiceInjectables: Array<any> = [
-  provide(LocationService, {useClass: LocationService})
+  {provide: LocationService, useClass: LocationService}
 ];
 
 export interface UserLocation {

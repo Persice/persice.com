@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
-import { ListUtil } from '../shared/core';
+import { ListUtil } from '../../common/core';
 
 const LEFT_COUNT = 4;
 const RIGHT_COUNT = 3;

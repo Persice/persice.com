@@ -39,5 +39,4 @@ describe('New connections counter reducer', () => {
     expect(JSON.stringify(newState)).toBe(JSON.stringify(stateWithIncreasedCounter));
   });
 
-
 });

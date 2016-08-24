@@ -1,6 +1,5 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 import { AuthGuard } from '../common/guards/auth.guard';
-
 import { NoContentComponent } from '../app-mobile/no-content/no-content.component';
 import { CrowdDesktopComponent } from './crowd';
 import { ProfileLoader } from './profile';
@@ -10,17 +9,18 @@ import { PrivacyPolicyComponent } from './info/privacy-policy/privacy-policy.com
 import { EventComponent } from './event';
 import { LoginDesktopComponent } from './login';
 import { MainComponent } from './main.component';
-
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './messages/conversation';
 import { NewConversationComponent } from './messages/new-conversation';
-
 import { EventsComponent } from './events/events.component';
 import { EventsMyListComponent, EventsMyMapComponent, EventsMyCalendarComponent } from './events/events-my';
-import { EventsNetworkListComponent, EventsNetworkMapComponent, EventsNetworkCalendarComponent } from './events/events-network';
+import {
+  EventsNetworkListComponent,
+  EventsNetworkMapComponent,
+  EventsNetworkCalendarComponent
+} from './events/events-network';
 import { EventsAllListComponent, EventsAllMapComponent, EventsAllCalendarComponent } from './events/events-all';
-
-import {signupRoutes} from './signup';
+import { signupRoutes } from './signup';
 
 export const rootRoutes: RouterConfig = [
   {

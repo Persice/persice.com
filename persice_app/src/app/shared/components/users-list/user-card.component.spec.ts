@@ -66,7 +66,6 @@ describe('UserCard component', () => {
     });
   })));
 
-
   it('should display user interests', async(inject([TestComponentBuilder], (tcb) => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {
       fixture.detectChanges();
@@ -88,7 +87,6 @@ describe('UserCard component', () => {
 
     });
   })));
-
 
   it('should display user information', async(inject([TestComponentBuilder], (tcb) => {
     return tcb.createAsync(TestComponent).then((fixture: any) => {

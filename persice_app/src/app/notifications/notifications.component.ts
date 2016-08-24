@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { StringUtil } from '../shared/core';
+import { StringUtil } from '../../common/core';
 import { NotificationSingleComponent } from './notification-single.component';
 import { NotificationsService } from '../shared/services/notifications.service';
 

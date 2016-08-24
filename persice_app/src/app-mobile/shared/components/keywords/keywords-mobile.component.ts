@@ -42,7 +42,6 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
   // Way to keep track whether we add item from typeahead
   itemBeingAddedFromTypeahead: boolean = false;
 
-
   // Filter service instance
   serviceInstance;
 
@@ -159,7 +158,6 @@ export class KeywordsComponentMobile implements AfterViewInit, OnDestroy {
         this.filtersSaving = false;
         this.status = 'failure';
       });
-
 
     this.newItemText = '';
   }

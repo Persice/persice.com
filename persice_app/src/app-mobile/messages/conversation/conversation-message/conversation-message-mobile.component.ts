@@ -1,6 +1,4 @@
-import {
-  Component, Input, OnInit, ChangeDetectorRef
-} from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoadingComponent } from '../../../../app/shared/components/loading';
 import { CheckImageDirective } from '../../../../app/shared/directives';
 import { InfiniteScrollReverseDirective } from '../../../../common/directives';
@@ -30,7 +28,7 @@ export class ConversationMessageMobileComponent implements OnInit {
     match = regExp.exec(this.message);
 
     if (!!match) {
-      eventId =  match[1];
+      eventId = match[1];
       this.eventService.findOneById(eventId).subscribe(event => {
         this.message = this.message + `\n[event: ${event.id}||${event.name}||${event.hosted_by}||${event.location_name}]`;
 

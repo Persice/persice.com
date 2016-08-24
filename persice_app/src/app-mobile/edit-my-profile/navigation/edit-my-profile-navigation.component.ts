@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { TokenUtil } from '../../../app/shared/core/util';
+import { TokenUtil } from '../../../common/core/util';
 import { GoalsService, OffersService, PhotosService, InterestsService } from '../../../app/shared/services';
 import { AppStateService } from '../../shared/services';
 import { HeaderState } from '../../header';

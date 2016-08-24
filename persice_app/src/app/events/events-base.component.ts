@@ -1,6 +1,5 @@
 import { EventsService, FilterService } from '../shared/services';
 
-
 export abstract class EventsBaseComponent {
   items: Array<any> = [];
   loading: boolean = false;

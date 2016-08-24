@@ -1,13 +1,13 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, CookieUtil, FormUtil, OPTS_REQ_JSON_CSRF } from '../core';
-import { TokenUtil } from '../core/util';
+import { HttpClient, CookieUtil, FormUtil } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
-let validate = require('validate.js');
+let validate: any = <any>require('validate.js');
 const moment = require('moment');
 
-validate.extend(validate.validators.datetime, {
+validate.extend(<any>validate.validators.datetime, {
   parse: function (value, options) {
     return +moment.utc(value);
   },
@@ -80,8 +80,7 @@ export class EventService {
     }
   };
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   public get(url: string, limit: number): Observable<any> {
 
@@ -141,7 +140,7 @@ export class EventService {
           validationErrors: this.validationErrors
         });
       } else {
-        jQuery.ajax({
+        jQuery.ajax(<any>{
           url: `${EventService.API_URL}?format=json`,
           data: body,
           processData: false,
@@ -189,7 +188,7 @@ export class EventService {
           validationErrors: this.validationErrors
         });
       } else {
-        jQuery.ajax({
+        jQuery.ajax(<any>{
           url: `${resourceUri}?format=json`,
           data: body,
           processData: false,
@@ -221,7 +220,7 @@ export class EventService {
     let csrftoken = CookieUtil.getValue('csrftoken');
 
     return Observable.create(observer => {
-      jQuery.ajax({
+      jQuery.ajax(<any>{
         url: `${resourceUri}?format=json`,
         data: body,
         processData: false,
@@ -244,7 +243,7 @@ export class EventService {
 
   public deleteByUri(resourceUri: string): Observable<any> {
     return this.http
-      .delete(`${resourceUri}?format=json`, OPTS_REQ_JSON_CSRF)
+      .delete(`${resourceUri}?format=json`)
       .map((res: Response) => res.json());
   }
 
@@ -282,5 +281,5 @@ export class EventService {
 }
 
 export var eventServiceInjectables: Array<any> = [
-  provide(EventService, {useClass: EventService})
+  {provide: EventService, useClass: EventService}
 ];

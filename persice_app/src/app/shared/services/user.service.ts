@@ -1,9 +1,9 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 import { AuthUserModel } from '../models';
-import { HttpClient } from '../core';
-import { TokenUtil } from '../core/util';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class UserService {
@@ -86,5 +86,5 @@ export class UserService {
 }
 
 export var userServiceInjectables: Array<any> = [
-  provide(UserService, {useClass: UserService})
+  {provide: UserService, useClass: UserService}
 ];

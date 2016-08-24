@@ -1,6 +1,5 @@
 import { Directive, ElementRef, Output, EventEmitter, OnChanges, AfterViewInit, OnDestroy } from '@angular/core';
 
-
 @Directive({
   selector: '[croppie]',
   properties: ['options: croppie', 'image', 'crop']

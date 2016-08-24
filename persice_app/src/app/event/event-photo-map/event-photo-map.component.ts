@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
 import { CORE_DIRECTIVES } from '@angular/common';
 import { EventService, NotificationService } from '../../shared/services';
 import { CheckImageDirective } from '../../shared/directives';
-import { FileUtil } from '../../shared/core';
+import { FileUtil } from '../../../common/core';
 import { GOOGLE_MAPS_DIRECTIVES } from '../../../common/google-map/directives';
 import { LoadingComponent } from '../../shared/components/loading';
 
@@ -107,7 +107,6 @@ export class EventPhotoMapComponent implements OnChanges {
         });
       }
     }
-
 
   }
 

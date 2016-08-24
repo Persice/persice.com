@@ -83,7 +83,6 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
         break;
     }
 
-
   }
 
   ngOnInit() {
@@ -121,6 +120,5 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
         return this.resultsCache;
       });
   }
-
 
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { HttpClient } from '../../../common/core/http-client';
 
 @Injectable()
 export class MutualConnectionsCountService {
@@ -8,7 +9,7 @@ export class MutualConnectionsCountService {
   public totalCount$: Observable<number>;
   private _totalCount$: BehaviorSubject<number> = new BehaviorSubject(0);
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.totalCount$ = this._totalCount$.asObservable();
   }
 

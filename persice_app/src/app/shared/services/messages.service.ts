@@ -1,7 +1,7 @@
-import { provide, Injectable } from '@angular/core';
-import { HttpClient, DateUtil, ListUtil, OPTS_REQ_JSON_CSRF } from '../core';
+import { Injectable } from '@angular/core';
+import { HttpClient, DateUtil, ListUtil } from '../../../common/core';
 import { Observable, Subject } from 'rxjs';
-import { TokenUtil } from '../core/util';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class MessagesService {
@@ -21,9 +21,7 @@ export class MessagesService {
   _newMessage = false;
   _initialLoadingFinished = false;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {
     let userId = TokenUtil.getValue('user_id');
     this._myUri = `/api/v1/auth/user/${userId}/`;
   }
@@ -55,7 +53,7 @@ export class MessagesService {
       recipient: this._senderUri,
       sender: this._myUri
     };
-    let channel = this.http.post(url, JSON.stringify(sendData), OPTS_REQ_JSON_CSRF)
+    let channel = this.http.post(url, JSON.stringify(sendData))
       .map(response => response.json())
       .subscribe(data => {
         this._appendMessage(data);
@@ -73,7 +71,7 @@ export class MessagesService {
       recipient: this._senderUri,
       sender: this._myUri
     };
-    return this.http.post(url, JSON.stringify(sendData), OPTS_REQ_JSON_CSRF)
+    return this.http.post(url, JSON.stringify(sendData))
       .map(response => response.json());
   }
 
@@ -236,5 +234,5 @@ export class MessagesService {
 }
 
 export var messagesServiceInjectables: any[] = [
-  provide(MessagesService, {useClass: MessagesService})
+  {provide: MessagesService, useClass: MessagesService}
 ];

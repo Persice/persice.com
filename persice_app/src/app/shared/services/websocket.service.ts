@@ -1,4 +1,4 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as io from 'socket.io-client';
 
@@ -22,7 +22,6 @@ export class WebsocketService {
     WebsocketService._socket.disconnect();
   }
 
-
   public on(evt: string): Subject<any> {
     let subj = new Subject<any>();
     subj.next('pero');
@@ -43,5 +42,5 @@ export class WebsocketService {
 }
 
 export let websocketServiceInjectables: Array<any> = [
-  provide(WebsocketService, {useClass: WebsocketService})
+  {provide: WebsocketService, useClass: WebsocketService}
 ];

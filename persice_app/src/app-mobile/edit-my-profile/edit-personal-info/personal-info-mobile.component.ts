@@ -3,7 +3,7 @@ import { ProfileService } from '../../../app/shared/services/profile.service';
 import { LoadingComponent } from '../../../app/shared/components/loading/loading.component';
 import { Person } from '../../shared/model/person';
 import { AppStateService } from '../../shared/services/app-state.service';
-import { TokenUtil } from '../../../app/shared/core/util';
+import { TokenUtil } from '../../../common/core/util';
 import { HeaderState } from '../../header';
 import { EditAboutMobileComponent } from './edit-about';
 

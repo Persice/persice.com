@@ -17,7 +17,7 @@ import {
   PoliticalViewsService,
   ConnectionsCounterService
 } from '../shared/services';
-import { ObjectUtil, ListUtil } from '../shared/core';
+import { ObjectUtil, ListUtil } from '../../common/core';
 
 @Component({
   selector: 'prs-profile-friend',
@@ -126,7 +126,6 @@ export class ProfileFriendComponent implements OnChanges, OnInit, OnDestroy {
       this.galleryActive = false;
     });
 
-
     setTimeout(() => {
       jQuery('#userprofile').focus();
       window.scrollTo(0, 0);
@@ -150,14 +149,12 @@ export class ProfileFriendComponent implements OnChanges, OnInit, OnDestroy {
       this.counterService.refreshCounter();
     });
 
-
     this.profileId = this.user.id;
     this.profileName = this.user.first_name;
     this.profileAge = this.user.age;
     this.profileGender = this.user.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${this.user.distance[0]} ${this.user.distance[1]}`;
     this.profileLocation = this.user.lives_in ? this.user.lives_in : '';
-
 
     setTimeout(() => {
       this.profileLikesCount = 0;
@@ -272,7 +269,6 @@ export class ProfileFriendComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-
   closeProfile(event) {
     this.closeprofileEvent.next(event);
   }
@@ -301,6 +297,5 @@ export class ProfileFriendComponent implements OnChanges, OnInit, OnDestroy {
     remodal.open();
     this.galleryActive = true;
   }
-
 
 }

@@ -1,6 +1,5 @@
 import { Directive, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
 
-
 @Directive({
   selector: '[minimalect]'
 })

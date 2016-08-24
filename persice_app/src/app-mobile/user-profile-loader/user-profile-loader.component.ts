@@ -4,7 +4,7 @@ import { Person } from '../shared/model/person';
 import { ProfileService } from '../../app/shared/services';
 import { UserProfileComponent } from '../user-profile';
 import { LoadingComponent } from '../../app/shared/components/loading';
-import { TokenUtil } from '../../app/shared/core';
+import { TokenUtil } from '../../common/core';
 
 @Component({
   selector: 'prs-mobile-user-profile',

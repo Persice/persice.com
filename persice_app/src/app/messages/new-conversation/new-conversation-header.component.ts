@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
 import { findIndex } from 'lodash';
 import { SearchConnectionsComponent } from './search-connections.component';
 
-
 const TOKEN_LIMIT: number = 1;
 
 @Component({

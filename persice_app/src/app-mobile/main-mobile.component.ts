@@ -4,7 +4,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import { AppStateService } from './shared/services';
 import { AppState, getUnreadMessagesCounterState, getNewConnectionsCounterState } from '../common/reducers';
 import { Store } from '@ngrx/store';
-import { TokenUtil } from '../app/shared/core';
+import { TokenUtil } from '../common/core';
 import { UnreadMessagesCounterService, NewConnectionsCounterService } from '../common/services';
 import { CloseLeftMenuDirective } from './shared/directives';
 import { NavigationMobileComponent } from './navigation';
@@ -59,7 +59,6 @@ export class MainMobileComponent implements OnInit, OnDestroy {
     const newConnectionsCounterStore$ = store.let(getNewConnectionsCounterState());
     this.newConnectionsCounter = newConnectionsCounterStore$.map(state => state['counter']);
 
-
   }
 
   ngOnInit() {
@@ -104,7 +103,6 @@ export class MainMobileComponent implements OnInit, OnDestroy {
       this.routerSub.unsubscribe();
     }
   }
-
 
   /**
    * Update the current user's location. If no record for the user exists on the backend, create a new one.

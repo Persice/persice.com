@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { HttpClient } from '../../../app/shared/core';
+import { HttpClient } from '../../../common/core';
 import { Conversation } from '../../../common/models';
 import { ConversationActions } from '../../../common/actions';
 import { AppState, getConversationsState } from '../../../common/reducers';
@@ -19,11 +19,7 @@ export class ConversationsMobileService {
   private _next: string = '';
   private _loading: boolean;
 
-  constructor(
-    private store: Store<AppState>,
-    private http: HttpClient,
-    private actions: ConversationActions
-  ) {
+  constructor(private store: Store<AppState>, private http: HttpClient, private actions: ConversationActions) {
     const store$ = store.let(getConversationsState());
 
     this.conversations$ = store$.map(state => state['entities']);
