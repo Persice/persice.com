@@ -48,6 +48,11 @@ class OnBoardingFlowResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = Authorization()
 
+    def get_object_list(self, request):
+        user = request.GET.get('user_id', request.user.id)
+        return super(OnBoardingFlowResource, self).get_object_list(request). \
+            filter(user_id=user)
+
 
 class UserResource(ModelResource):
     goals = fields.OneToManyField('goals.api.resources.GoalResource',
