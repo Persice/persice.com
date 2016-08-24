@@ -83,6 +83,8 @@ class SocialLoginResource(Resource):
         access_token = token_response['access_token']
         action, user = connect_user(bundle.request, access_token=access_token)
 
-        bundle.obj.token = jwt_encode_handler(jwt_payload_handler(user))
+        payload = jwt_payload_handler(user)
+        payload['access_token'] = user.access_token
+        bundle.obj.token = jwt_encode_handler(payload)
         # TODO: clean up response
         return bundle
