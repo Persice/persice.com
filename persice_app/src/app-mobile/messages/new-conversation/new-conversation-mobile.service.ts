@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../../../app/shared/core';
-import { TokenUtil } from '../../../app/shared/core/util';
+import { HttpClient, TokenUtil } from '../../../common/core';
 
 @Injectable()
 export class NewConversationMobileService {
@@ -29,7 +28,7 @@ export class NewConversationMobileService {
       sender: this._me
     };
     this.sendingInProgress = true;
-    return this.http.post(url, JSON.stringify(data), OPTS_REQ_JSON_CSRF)
+    return this.http.post(url, JSON.stringify(data))
       .map((res: any) => res.json());
   }
 

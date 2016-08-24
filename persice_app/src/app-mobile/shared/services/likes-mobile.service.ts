@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { TwoListService } from './two-list.service';
-import { HttpClient } from '../../../app/shared/core/http-client';
+import { HttpClient } from '../../../common/core/http-client';
 
 @Injectable()
 export class LikesMobileService extends TwoListService {

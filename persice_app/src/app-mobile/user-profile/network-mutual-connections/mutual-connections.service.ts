@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { Person } from '../../shared/model/person';
 import { SocialProfile } from '../../shared/model/social-profile';
+import { HttpClient } from '../../../common/core/http-client';
 
 interface Connections {
   mutual: any[];
@@ -52,8 +53,7 @@ export class MutualConnectionsService {
   private _isLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _nextUrl: string = '';
 
-
-  constructor(protected http: Http) {
+  constructor(protected http: HttpClient) {
     this.connections$ = this._connections$.asObservable();
     this.preview$ = this._preview$.asObservable();
     this.isLoading$ = this._isLoading$.asObservable();

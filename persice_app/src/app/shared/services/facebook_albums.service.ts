@@ -1,6 +1,6 @@
-import { provide, Injectable } from '@angular/core';
-import { HttpClient } from '../core';
-import { TokenUtil } from '../core/util';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 import { Subject } from 'rxjs';
 
 @Injectable()
@@ -176,5 +176,5 @@ export class FacebookAlbumsService {
 }
 
 export var facebookAlbumsServiceInjectables: any[] = [
-  provide(FacebookAlbumsService, {useClass: FacebookAlbumsService})
+  {provide: FacebookAlbumsService, useClass: FacebookAlbumsService}
 ];

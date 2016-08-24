@@ -1,8 +1,8 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
-import { TokenUtil } from '../core/util';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class UserAuthService {
@@ -87,10 +87,7 @@ export class UserAuthService {
       uri = resourceUri;
     }
 
-    return this.http.patch(
-      `${uri}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF)
+    return this.http.patch(`${uri}?format=json`, body)
       .map((res: Response) => res.json());
   }
 
@@ -110,11 +107,11 @@ export class UserAuthService {
     let userId = TokenUtil.getValue('user_id');
     let url = `${UserAuthService.API_URL}${userId}/?format=json`;
     let body = JSON.stringify(data);
-    return this.http.patch(url, body, OPTS_REQ_JSON_CSRF)
+    return this.http.patch(url, body)
       .map((res: Response) => res.json());
   }
 
-  private assignConnectStatus(data) {
+  private assignConnectStatus(data: any) {
     this.connectStatus.twitter.connected = data.twitter_provider !== null ? true : false;
     this.connectStatus.twitter.username = data.twitter_username ? '@' + data.twitter_username : 'Your twitter account';
     this.connectStatus.twitter.url = data.twitter_username ? 'https://twitter.com/' + data.twitter_username : 'Your twitter account';
@@ -134,5 +131,5 @@ export class UserAuthService {
 }
 
 export var userAuthServiceInjectables: Array<any> = [
-  provide(UserAuthService, {useClass: UserAuthService})
+  {provide: UserAuthService, useClass: UserAuthService}
 ];

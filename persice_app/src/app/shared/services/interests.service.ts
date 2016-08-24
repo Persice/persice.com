@@ -1,8 +1,8 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
-import { TokenUtil } from '../core/util';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class InterestsService {
@@ -63,17 +63,17 @@ export class InterestsService {
       user: '/api/v1/auth/user/' + userId + '/'
     };
     let body = JSON.stringify(interest);
-    return this.http.post(`${InterestsService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+    return this.http.post(`${InterestsService.API_URL}?format=json`, body)
       .map((res: Response) => res.json());
   }
 
   public delete(url: string): Observable<any> {
-    return this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF)
+    return this.http.delete(`${url}?format=json`)
       .map((res: Response) => res.json());
   }
 
 }
 
 export var interestsServiceInjectables: Array<any> = [
-  provide(InterestsService, {useClass: InterestsService})
+  {provide: InterestsService, useClass: InterestsService}
 ];

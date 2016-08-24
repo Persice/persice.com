@@ -17,5 +17,4 @@ export class DropdownDirective implements OnDestroy {
     jQuery(this.target).removeClass('is-active');
   }
 
-
 }

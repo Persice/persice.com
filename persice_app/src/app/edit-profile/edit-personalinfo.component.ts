@@ -1,10 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnChanges, AfterViewInit } from '@angular/core';
-import { ListUtil } from '../shared/core';
+import { ListUtil } from '../../common/core';
 import { GenderPipe } from '../shared/pipes';
 import { EditAboutComponent } from './edit-about.component';
 import { EditFooterComponent } from './edit-footer.component';
 import { ReligiousViewsService, PoliticalViewsService } from '../shared/services';
-
 
 @Component({
   selector: 'prs-edit-personalinfo',

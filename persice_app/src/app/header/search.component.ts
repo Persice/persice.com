@@ -3,7 +3,6 @@ import { FilterModel } from '../shared/models';
 import { KeywordsService, NotificationService, FilterService } from '../shared/services';
 import { map } from 'lodash';
 
-
 declare var Bloodhound: any;
 
 @Component({
@@ -73,7 +72,6 @@ export class SearchComponent implements AfterViewInit {
     });
 
     jQuery('input.tt-input').attr('placeholder', 'Search by interest...');
-
 
     //save keywords to backend after token created
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {

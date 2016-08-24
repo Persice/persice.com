@@ -68,7 +68,6 @@ export class DropdownDirective implements OnDestroy {
         event.preventDefault();
       }
 
-
     });
   }
 

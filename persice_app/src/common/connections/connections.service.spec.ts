@@ -4,7 +4,7 @@ import { BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions,
 import { MockBackend } from '@angular/http/testing';
 import { ConnectionsService } from './connections.service';
 import { MockConnections } from './connections.mock';
-import { HttpClient } from '../../app/shared/core/http-client';
+import { HttpClient } from '../core/http-client';
 
 describe('Connections service', () => {
 

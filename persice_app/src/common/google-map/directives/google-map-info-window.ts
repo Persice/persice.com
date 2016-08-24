@@ -168,5 +168,4 @@ export class GoogleMapInfoWindow implements OnInit, OnDestroy, OnChanges {
     this._infoWindowManager.setOptions(this, options);
   }
 
-
 }

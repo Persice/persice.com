@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { TokenUtil } from '../../app/shared/core';
+import { TokenUtil } from '../../common/core';
 import { PageTitleComponent } from './page-title';
 import { PageTitleConversationsComponent } from './page-title-conversations';
 import { OpenLeftMenuDirective } from '../shared/directives';
@@ -10,7 +10,6 @@ import { HeaderState } from './header.state';
 import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown';
 import { AppState, getUnreadMessagesCounterState, getNewConnectionsCounterState } from '../../common/reducers/index';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'prs-mobile-header',

@@ -79,7 +79,6 @@ export class NewConversationMobileComponent implements OnInit, OnDestroy, AfterV
 
   }
 
-
   // Send a message.
   public send() {
     if (this.tokens.length === 1 && this.messageText.length > 0) {

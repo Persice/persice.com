@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient } from '../../app/shared/core/http-client';
+import { HttpClient } from '../core/http-client';
 
 @Injectable()
 export class CrowdService {

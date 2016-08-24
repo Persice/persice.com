@@ -1,5 +1,5 @@
 import { Distance } from './distance';
-import { DateUtil, ListUtil } from '../../../app/shared/core/util';
+import { DateUtil, ListUtil } from '../../../common/core/util';
 import { EventDate } from './event-date';
 export class Event {
   private _id: string;

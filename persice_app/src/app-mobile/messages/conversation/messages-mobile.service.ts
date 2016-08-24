@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../../../app/shared/core';
+import { HttpClient, TokenUtil } from '../../../common/core';
 import { Message, Conversation } from '../../../common/models';
 import { MessageActions } from '../../../common/actions';
 import { AppState, getMessagesState, getConversationsState } from '../../../common/reducers';
-import { TokenUtil } from '../../../app/shared/core/util';
 
 const PER_PAGE_LIMIT: number = 12;
 
@@ -30,11 +29,7 @@ export class MessagesMobileService {
 
   private _me: string;
 
-  constructor(
-    private store: Store<AppState>,
-    private http: HttpClient,
-    private actions: MessageActions
-  ) {
+  constructor(private store: Store<AppState>, private http: HttpClient, private actions: MessageActions) {
     const userId: string = TokenUtil.getValue('user_id');
     this._me = `/api/v1/auth/user/${userId}/`;
 
@@ -130,7 +125,7 @@ export class MessagesMobileService {
       sender: this._me
     };
     this.store.dispatch(this.actions.sendingNewMessage());
-    let subs: Subscription = this.http.post(url, JSON.stringify(data), OPTS_REQ_JSON_CSRF)
+    let subs: Subscription = this.http.post(url, JSON.stringify(data))
       .map((res: any) => res.json())
       .subscribe((dto: any) => {
         const data = new Message(dto);

@@ -150,7 +150,6 @@ export class UserProfileComponent implements AfterViewInit, OnInit, OnDestroy {
       this.clearSelectedPersonFromStore();
     });
 
-
   }
 
   ngOnDestroy(): any {

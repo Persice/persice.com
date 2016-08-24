@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { Event } from '../shared/model/event';
 import { EventsType } from './events-mobile.component';
+import { HttpClient } from '../../common/core/http-client';
 
 interface EventsMapped {
   events: Event[];
@@ -26,7 +27,7 @@ export class EventsMobileService {
   private _notFound$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _nextUrl: string = '';
 
-  constructor(protected http: Http) {
+  constructor(protected http: HttpClient) {
     this.events$ = this._events$.asObservable();
     this.isLoading$ = this._isLoading$.asObservable();
     this.isLoadingInitial$ = this._isLoadingInitial$.asObservable();

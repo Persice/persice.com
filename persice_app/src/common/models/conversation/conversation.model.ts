@@ -1,4 +1,4 @@
-import { StringUtil } from '../../../app/shared/core';
+import { StringUtil } from '../../../common/core';
 
 const BODY_LENGTH_LIMIT: number = 30;
 

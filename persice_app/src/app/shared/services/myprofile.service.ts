@@ -1,8 +1,8 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
-import { TokenUtil } from '../core/util';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class MyProfileService {
@@ -26,7 +26,7 @@ export class MyProfileService {
     let url = this.buildUrl(userId);
     let body = JSON.stringify(data);
 
-    return this.http.patch(url, body, OPTS_REQ_JSON_CSRF)
+    return this.http.patch(url, body)
       .map((res: Response) => res.json());
   }
 
@@ -36,5 +36,5 @@ export class MyProfileService {
 }
 
 export var myProfileServiceInjectables: Array<any> = [
-  provide(MyProfileService, {useClass: MyProfileService})
+  {provide: MyProfileService, useClass: MyProfileService}
 ];

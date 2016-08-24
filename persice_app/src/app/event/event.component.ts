@@ -15,9 +15,9 @@ import {
   EventMembersService,
   EventAttendeesService
 } from '../shared/services';
-import { DateUtil, EventUtil, UserUtil } from '../shared/core';
+import { DateUtil, EventUtil, UserUtil } from '../../common/core';
 import { RemodalDirective } from '../shared/directives';
-import { TokenUtil } from '../shared/core/util';
+import { TokenUtil } from '../../common/core/util';
 
 @Component({
   selector: 'prs-event',

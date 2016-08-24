@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
-import { TokenUtil } from '../core/util';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class OnboardingService {
@@ -15,8 +15,7 @@ export class OnboardingService {
   public isOnboardingFinished(): Observable<boolean> {
 
     return this.http.get(
-      `${OnboardingService.API_URL}?format=json`,
-      OPTS_REQ_JSON_CSRF)
+      `${OnboardingService.API_URL}?format=json`)
       .map((res: Response) => {
         let result = res.json();
         let onboardingFinished: boolean = true;
@@ -41,9 +40,7 @@ export class OnboardingService {
     };
 
     return this.http.post(
-      `${OnboardingService.API_URL}?format=json`,
-      JSON.stringify(body),
-      OPTS_REQ_JSON_CSRF)
+      `${OnboardingService.API_URL}?format=json`, JSON.stringify(body))
       .map((res: Response) => res.json());
   }
 

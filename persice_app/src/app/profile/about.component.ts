@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
-
 @Component({
   selector: 'prs-profile-about',
   template: `

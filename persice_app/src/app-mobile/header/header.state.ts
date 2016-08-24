@@ -119,7 +119,6 @@ export class HeaderState {
     title: ''
   };
 
-
   public static crowd = {
     left: LeftHeaderState.Menu,
     center: CenterHeaderState.Title,

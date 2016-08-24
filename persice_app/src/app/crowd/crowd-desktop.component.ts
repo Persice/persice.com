@@ -7,7 +7,6 @@ import { InfiniteScrollDirective } from '../../common/directives';
 import { FriendService, FilterService } from '../shared/services';
 import { CrowdService, CrowdComponent } from '../../common/crowd';
 
-
 // Refresh list timeout in miliseconds (when filters change, list must refresh)
 const LIST_REFRESH_TIMEOUT: number = 300;
 

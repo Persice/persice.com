@@ -1,9 +1,9 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, ListUtil } from '../core';
+import { HttpClient, ListUtil } from '../../../common/core';
 import { Photo } from '../../../common/models/photo';
-import { TokenUtil } from '../core/util';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class PhotosService {
@@ -98,7 +98,7 @@ export class PhotosService {
   }
 
   public delete(url: string, cb: (status: number) => void) {
-    let channel = this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF).map((res: Response) => res.json())
+    let channel = this.http.delete(`${url}?format=json`).map((res: Response) => res.json())
       .subscribe((data) => {
         cb(1);
         channel.unsubscribe();
@@ -117,7 +117,7 @@ export class PhotosService {
       user: '/api/v1/auth/user/' + userId + '/'
     };
     let body = JSON.stringify(photo);
-    let channel = this.http.post(`${PhotosService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+    let channel = this.http.post(`${PhotosService.API_URL}?format=json`, body)
       .map((res: Response) => res.json())
       .subscribe((data) => {
         cb(1);
@@ -135,7 +135,7 @@ export class PhotosService {
     };
 
     let body = JSON.stringify(photo);
-    let channel = this.http.patch(`${url}?format=json`, body, OPTS_REQ_JSON_CSRF)
+    let channel = this.http.patch(`${url}?format=json`, body)
       .map((res: Response) => res.json())
       .subscribe((data) => {
         cb(1);
@@ -157,7 +157,7 @@ export class PhotosService {
 
     let body = JSON.stringify({objects: photos});
 
-    return this.http.patch(`${PhotosService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+    return this.http.patch(`${PhotosService.API_URL}?format=json`, body)
       .map((res: Response) => res.json());
 
   }
@@ -165,5 +165,5 @@ export class PhotosService {
 }
 
 export var photosServiceInjectables: Array<any> = [
-  provide(PhotosService, {useClass: PhotosService})
+  {provide: PhotosService, useClass: PhotosService}
 ];

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common';
 import { SignupHeaderMobileComponent } from './header';
 import {

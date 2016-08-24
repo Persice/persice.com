@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, AfterContentInit } from '@angular/core';
 import { GenderPipe } from '../../pipes';
-import { ObjectUtil } from '../../core';
+import { ObjectUtil } from '../../../../common/core';
 import { CheckImageDirective } from '../../directives';
 
 @Component({
@@ -59,7 +59,6 @@ export class UserCardComponent implements AfterContentInit {
     }, 1500);
   }
 
-
   userClicked() {
     this.onClick.next(this.user.id);
   }
@@ -70,7 +69,6 @@ export class UserCardComponent implements AfterContentInit {
     if (!this.user.image || this.user.image === '') {
       this.user.image = '/static/assets/images/empty_avatar.png';
     }
-
 
   }
 

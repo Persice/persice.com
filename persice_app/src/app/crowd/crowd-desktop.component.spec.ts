@@ -7,7 +7,7 @@ import { CrowdDesktopComponent } from './crowd-desktop.component';
 import { CrowdService } from '../../common/crowd/crowd.service';
 import { MockCrowd, MockCrowdEmpty } from '../../common/crowd/crowd.mock';
 import { MockCrowdService } from '../../common/crowd/crowd.service.mock';
-import { HttpClient } from '../shared/core/http-client';
+import { HttpClient } from '../../common/core/http-client';
 
 // Create a test component to test directives.
 @Component({

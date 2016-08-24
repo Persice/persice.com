@@ -8,7 +8,6 @@ import { EditAlbumsComponent } from './edit-albums.component';
 import { EditCropComponent } from './edit-crop.component';
 import { LoadingComponent } from '../shared/components/loading';
 
-
 @Component({
   selector: 'prs-edit-profile',
   template: <any>require('./edit-profile.html'),

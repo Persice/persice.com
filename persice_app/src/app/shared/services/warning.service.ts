@@ -1,6 +1,5 @@
 import { provide, Injectable, EventEmitter } from '@angular/core';
 
-
 @Injectable()
 export class WarningService {
   event: EventEmitter<any> = new EventEmitter;
@@ -9,11 +8,9 @@ export class WarningService {
     this.event.next(content);
   }
 
-
   observer(): EventEmitter<any> {
     return this.event;
   }
-
 
 }
 export var warningServiceInjectables: Array<any> = [

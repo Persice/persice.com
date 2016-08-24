@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
+import { HttpClient } from '../../../common/core';
 import { Observable, Subject } from 'rxjs';
 import { InterfaceFilter } from '../models';
 import { remove, find } from 'lodash';
@@ -58,6 +58,7 @@ export class FilterService {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
+  //noinspection JSMethodCanBeStatic
   public getDefaultState(): InterfaceFilter {
     return FilterService.DEFAULT_FILTERS;
   }
@@ -68,10 +69,7 @@ export class FilterService {
 
   public updateOne(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
-    return this.http.patch(
-      `${resourceUri}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF)
+    return this.http.patch(`${resourceUri}?format=json`, body)
       .map((res: Response) => res.json());
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ListUtil } from '../shared/core/';
+import { ListUtil } from '../../common/core/';
 import { AvatarComponent } from './avatar.component';
 import { AboutComponent } from './about.component';
 import { LikesComponent } from './likes.component';
@@ -101,7 +101,6 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
   active = false;
   photosServiceSubscriberUpdate;
   loadingPhotosAction: boolean = false;
-
 
   constructor(
     public connectionsService: ConnectionsService,
@@ -220,7 +219,6 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
         }
       });
   }
-
 
   transformData(arr, prop) {
     let res = [];
@@ -447,6 +445,5 @@ export class ProfileMyComponent implements OnInit, OnDestroy {
       this.photosServiceSubscriberUpdate.unsubscribe();
     }
   }
-
 
 }

@@ -136,5 +136,4 @@ export class SpyObject {
     return newSpy;
   }
 
-
 }

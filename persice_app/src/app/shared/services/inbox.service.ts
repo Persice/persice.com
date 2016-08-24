@@ -1,5 +1,5 @@
-import { provide, Injectable } from '@angular/core';
-import { HttpClient, StringUtil, DateUtil, ListUtil } from '../core';
+import { Injectable } from '@angular/core';
+import { HttpClient, StringUtil, DateUtil, ListUtil } from '../../../common/core';
 import { Subject } from 'rxjs';
 
 @Injectable()
@@ -44,7 +44,6 @@ export class InboxService {
     this._selectedThread = parseInt(id, 10);
     this.markRead(parseInt(id, 10));
   }
-
 
   public deselectThreads() {
     this._selectedThread = null;
@@ -96,7 +95,6 @@ export class InboxService {
           }
 
           this._dataStore = ListUtil.orderBy(this._dataStore, ['date'], ['desc']);
-
 
           this._notify();
 
@@ -180,7 +178,6 @@ export class InboxService {
         });
   }
 
-
   private _parseData(data) {
     for (var i = 0; i < data.objects.length; ++i) {
       let item = {
@@ -238,5 +235,5 @@ export class InboxService {
 }
 
 export var inboxServiceInjectables: any[] = [
-  provide(InboxService, {useClass: InboxService})
+  {provide: InboxService, useClass: InboxService}
 ];

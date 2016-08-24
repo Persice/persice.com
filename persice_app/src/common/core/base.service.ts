@@ -1,9 +1,7 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { OPTS_REQ_JSON } from './http-constants';
 import { BaseDto } from './dto';
 import { HttpClient } from './http-client';
-
 
 export abstract class BaseService<T extends BaseDto> {
 
@@ -13,33 +11,33 @@ export abstract class BaseService<T extends BaseDto> {
     this.url = `/api/${resourceName}`;
   }
 
-  createOne(data: T): Observable<T> {
+  createOne(data: T): Observable<Response> {
     const body = JSON.stringify(data);
-    return this.http.post(this.url, body, OPTS_REQ_JSON).map((res: Response) => res.json());
+    return this.http.post(this.url, body).map((res) => res.json());
   }
 
-  updateOne(data: T): Observable<T> {
+  updateOne(data: T): Observable<Response> {
     const body = JSON.stringify(data);
-    return this.http.put(`${this.url}/${data._id}`, body, OPTS_REQ_JSON).map((res: Response) => res.json());
+    return this.http.put(`${this.url}/${data._id}`, body).map((res: Response) => res.json());
   }
 
-  removeOneById(id: string): Observable<T> {
+  removeOneById(id: string): Observable<Response> {
     return this.http.delete(`${this.url}/${id}`).map((res: Response) => res.json());
   }
 
-  removeOneByUri(uri: string): Observable<T> {
+  removeOneByUri(uri: string): Observable<Response> {
     return this.http.delete(`${uri}`).map((res: Response) => res.json());
   }
 
-  findOneById(id: string): Observable<T> {
+  findOneById(id: string): Observable<Response> {
     return this.http.get(`${this.url}/${id}`).map((res: Response) => res.json());
   }
 
-  findOneByUri(uri: string): Observable<T> {
+  findOneByUri(uri: string): Observable<Response> {
     return this.http.get(`${uri}`).map((res: Response) => res.json());
   }
 
-  find(): Observable<T[]> {
+  find(): Observable<Response> {
     return this.http.get(`${this.url}`).map((res: Response) => res.json());
   }
 

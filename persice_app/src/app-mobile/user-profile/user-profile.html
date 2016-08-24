@@ -87,10 +87,12 @@
         class="profile-titleline">Interests <span
         class="profile-titleline__value">({{person.interestsCount}})</span></span>
       </li>
-      <li (click)="activateTab(1)" [ngClass]="{'is-active': activeTab === 1}"><span class="profile-titleline">Goals <span
+      <li (click)="activateTab(1)" [ngClass]="{'is-active': activeTab === 1}"><span
+        class="profile-titleline">Goals <span
         class="profile-titleline__value">({{person.goalsCount}})</span></span>
       </li>
-      <li (click)="activateTab(2)" [ngClass]="{'is-active': activeTab === 2}"><span class="profile-titleline">Offers <span
+      <li (click)="activateTab(2)" [ngClass]="{'is-active': activeTab === 2}"><span
+        class="profile-titleline">Offers <span
         class="profile-titleline__value">({{person.offersCount}})</span></span>
       </li>
     </ul>

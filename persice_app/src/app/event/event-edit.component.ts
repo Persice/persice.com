@@ -4,7 +4,7 @@ import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerD
 import { BaseEventComponent } from './base-event.component';
 import { NotificationComponent } from '../shared/components/notification';
 import { LoadingComponent } from '../shared/components/loading';
-import { DateUtil } from '../shared/core';
+import { DateUtil } from '../../common/core';
 import { EventService, NotificationService } from '../shared/services';
 
 @Component({

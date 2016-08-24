@@ -59,7 +59,6 @@ export class GeolocationService {
 
     return obs.share();
 
-
   }
 }
 

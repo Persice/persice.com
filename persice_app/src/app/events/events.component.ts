@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { StringUtil } from '../shared/core';
+import { StringUtil } from '../../common/core';
 import { FilterDesktopComponent } from '../shared/components/filter';
 
 @Component({

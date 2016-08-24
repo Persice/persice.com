@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { Event } from '../../shared/model/event';
+import { HttpClient } from '../../../common/core/http-client';
 
 @Injectable()
 export class EventMobileService {
@@ -17,7 +18,7 @@ export class EventMobileService {
   private _isLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _notFound$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(protected http: Http) {
+  constructor(protected http: HttpClient) {
     this.event$ = this._event$.asObservable();
     this.isLoading$ = this._isLoading$.asObservable();
     this.isLoaded$ = this._isLoaded$.asObservable();

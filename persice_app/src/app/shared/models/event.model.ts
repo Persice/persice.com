@@ -1,4 +1,4 @@
-import { DateUtil } from '../core/util';
+import { DateUtil } from '../../../common/core/util';
 
 export class EventModel {
   constructor(
@@ -27,7 +27,6 @@ export class EventModel {
 
   }
 }
-
 
 export const EventOpenTo: Object[] = [
   {

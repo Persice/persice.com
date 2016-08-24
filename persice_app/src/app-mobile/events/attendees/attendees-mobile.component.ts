@@ -103,7 +103,6 @@ export class AttendeesMobileComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/messages/new');
   }
 
-
   public loadMoreData(event: MouseEvent) {
     if (!this.isLoaded) {
       this._loadData(this.activeTab, false);

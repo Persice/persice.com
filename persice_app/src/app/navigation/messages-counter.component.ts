@@ -28,5 +28,4 @@ export class MessagesCounterComponent implements OnInit, OnDestroy {
     }
   }
 
-
 }
