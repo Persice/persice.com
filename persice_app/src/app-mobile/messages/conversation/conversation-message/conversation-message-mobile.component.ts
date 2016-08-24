@@ -9,7 +9,7 @@ import { EventService } from '../../../../app/shared/services/event.service';
 
 @Component({
   selector: 'prs-mobile-conversation-message',
-  template: '<div class="message__text" [innerHTML]="message | markup">',
+  template: '<div class="message__text" [innerHTML]="message | markup:true">',
   directives: [LoadingComponent, CheckImageDirective, InfiniteScrollReverseDirective],
   providers: [EventService],
   pipes: [MarkupPipe]

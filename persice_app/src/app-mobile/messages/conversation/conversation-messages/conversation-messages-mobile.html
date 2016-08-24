@@ -1,5 +1,5 @@
 <div class="chat-wrapper" prs-infinite-scroll-reverse [loadedCount]="loadedCount" [totalCount]="totalCount"
-     [scrollEnabled]="!loaded" [topOffset]="60" (scrolled)="onScrollTop.emit($event)">
+     [scrollEnabled]="!loaded" [topOffset]="60" (scrolled)="onScrollTop.emit($event)" #scrollContainer>
   <div class="chat__messages-wrapper">
     <div class="chat__messages">
       <prs-loading [ngClass]="{'chat__messages--initial-loading': loading && totalCount === 0}" [type]="2"
