@@ -66,6 +66,30 @@ export function eventWidgetAsHtml(event) {
       line-height: 76px;
       font-size: 13px;
     }
+ 
+    .message__text-list li {
+      position: relative;
+      list-style-type: none;
+    }
+     
+    .message__text-list {
+      font-weight: 400;
+      font-size: 14px;
+      color: #434f54;
+      margin-left: 16px;
+    }
+    
+    .message__text-list li:after {
+      content: "";
+      display: block;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #39c9f5;
+      position: absolute;
+      top: 8px;
+      left: -13px;
+    }
   </style>
   <div class="mb-">
     <div class="event-summary">
