@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // enable gzip compression
 app.use(compression());
 app.use(logger('dev'));
@@ -28,6 +28,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 // enable user agent capture and helpers for views (e.g. is_phone inside layout)
 app.use(device.capture());
 device.enableDeviceHelpers(app);
+
+app.locals.env = app.settings.env;
+
+// Set flags for loading js bundles in template
+if (app.settings.env === 'development') {
+  app.locals.is_development = true;
+}
+
+switch(app.settings.env) {
+  case 'development':
+    app.locals.is_development = true;
+  case 'webpack':
+    app.locals.is_webpack = true;
+  case 'production':
+    app.locals.is_production = true;
+  default:
+    app.locals.is_webpack = false;
+    app.locals.is_development = true;
+    app.locals.is_production = false;
+}
 
 app.use('/', routes);
 

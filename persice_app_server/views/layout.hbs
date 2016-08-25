@@ -16,7 +16,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
   {{/if}}
 
-  <title>Persice</title>
+  <title>Persice - {{env}}</title>
 
   <base href="/">
 
@@ -44,10 +44,9 @@
 <body>
   {{{body}}}
 
-
-  {{!-- Development with hot reload Webpack dev server  --}}
-
-  {{!-- {{#if is_phone}}
+  {{#if is_webpack }}
+  {{!-- Development with hot reload Webpack dev server (nginx serves static files, webpack serves js bundles) --}}
+  {{#if is_phone}}
   <script src="/assets/js/plugins-mobile.min.js"></script>
   <script src="//localhost:8080/polyfills.bundle.js"></script>
   <script src="//localhost:8080/vendor.bundle.js"></script>
@@ -57,10 +56,12 @@
   <script src="//localhost:8080/polyfills.bundle.js"></script>
   <script src="//localhost:8080/vendor.bundle.js"></script>
   <script src="//localhost:8080/main.bundle.js"></script>
-  {{/if}} --}}
+  {{/if}}
+  {{/if}}
 
+  {{#if is_development }}
 
-  {{!-- Development with built js files  --}}
+  {{!-- Development with built js files (nginx serves static files)  --}}
 
   {{#if is_phone}}
   <script src="/assets/js/plugins-mobile.min.js"></script>
@@ -74,10 +75,13 @@
   <script src="/assets/js/main.bundle.js"></script>
   {{/if}}
 
+  {{/if}}
+
+  {{#if is_production }}
 
   {{!-- Production with built js files (nginx serves static files) --}}
 
-  {{!-- {{#if is_phone}}
+  {{#if is_phone}}
   <script src="/assets/js/plugins-mobile.min.js"></script>
   <script src="/assets/js/polyfills.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
   <script src="/assets/js/vendor.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
@@ -87,9 +91,9 @@
   <script src="/assets/js/polyfills.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
   <script src="/assets/js/vendor.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
   <script src="/assets/js/main.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
-  {{/if}} --}}
+  {{/if}}
 
-
+  {{/if}}
 
   <script>
     function refreshConnect() {
