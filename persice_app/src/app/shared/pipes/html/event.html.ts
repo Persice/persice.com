@@ -1,5 +1,73 @@
 export function eventWidgetAsHtml(event) {
-  return `<div class="mb-">
+  return `
+  <style type="text/css">
+    .message__text a {
+      color: #39c9f5;
+      font-weight: 600;
+    }
+    
+    .event-summary__meta {
+      border-top: 1px solid hsla(0,0%,100%,.4);
+      padding-top: 7px;
+      font-family: Montserrat,sans-serif;
+    }
+    
+    .event-summary__status {
+      line-height: 79px;
+      display: block;
+      font-weight: 700;
+      position: relative;
+      z-index: 4;
+      margin-left: -1px;
+      // margin-right: -1px;
+    }
+   
+   .event-summary__status.event-summary__status--label {
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+      margin-left: 0;
+      font-family: Montserrat,sans-serif;
+    }
+    
+    .event-summary__status.event-summary__status--cannotgo {
+      background: #ec8672;
+      color: #fff;
+    }
+    
+    .event-summary__status.event-summary__status--maybe {
+      background: #63727a;
+      color: #fff;
+    }
+    
+    .event-summary__status.event-summary__status--going {
+      background: #a6e16c;
+      color: #395919;
+    }
+    
+    .has-event-summary__status {
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .card__stat .event-summary__status .event-summary__status__vert span {
+      font-size: 14px;
+      font-family: Montserrat,sans-serif;
+    }
+    
+    .card__stat .event-summary__status .event-summary__status__vert {
+      display: inline-block;
+      line-height: 15px;
+      vertical-align: middle;
+    }
+    
+    .card__stat .event-summary__status {
+      height: 76px;
+      line-height: 76px;
+      font-size: 13px;
+    }
+  </style>
+  <div class="mb-">
     <div class="event-summary">
       <div class="event-summary__details js-image-liquid imgLiquid_bgSize imgLiquid_ready" style="background-image: url(&quot;images/event-image.jpg&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat;">
         <div class="event-summary__details__copy">
@@ -26,9 +94,9 @@ export function eventWidgetAsHtml(event) {
             <div class="card-stat__vert"> <span class="card-stat__value">${event.friend_attendees_count}</span> <span class="card-stat__label">Connections</span> </div>
           </div>
           <div class="layout__item 1/3 has-event-summary__status">
-            <div class="event-summary__status event-summary__status--label">
-              <div class="card-stat__vert"> <span class="card-stat__value">RSVP</span> </div>
-            </div>
+            <!--<div class="event-summary__status event-summary__status&#45;&#45;label">-->
+              <!--<div class="card-stat__vert"> <span class="card-stat__value">RSVP</span> </div>-->
+            <!--</div>-->
             <div class="event-summary__status event-summary__status--cannotgo hidden">
               <div class="event-summary__status__vert"> <span>Can't go</span> </div>
             </div>
