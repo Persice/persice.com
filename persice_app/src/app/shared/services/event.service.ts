@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, CookieUtil, FormUtil } from '../../../common/core';
+import { HttpClient, FormUtil } from '../../../common/core';
 import { TokenUtil } from '../../../common/core/util';
 
 let validate: any = <any>require('validate.js');
@@ -9,7 +9,7 @@ const moment = require('moment');
 
 validate.extend(<any>validate.validators.datetime, {
   parse: function (value, options) {
-    return +moment.utc(value);
+    return moment.utc(value);
   },
   format: function (value, options) {
     let format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DDThh:mm:ss';
@@ -116,7 +116,6 @@ export class EventService {
   }
 
   public create(data): Observable<any> {
-
     let userId = TokenUtil.getValue('user_id');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
@@ -131,7 +130,6 @@ export class EventService {
     this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
 
     let body = FormUtil.formData(event);
-    let csrftoken = CookieUtil.getValue('csrftoken');
 
     return Observable.create(observer => {
 
@@ -140,23 +138,15 @@ export class EventService {
           validationErrors: this.validationErrors
         });
       } else {
-        jQuery.ajax(<any>{
-          url: `${EventService.API_URL}?format=json`,
-          data: body,
-          processData: false,
-          type: 'POST',
-          beforeSend: (xhr, settings) => {
-            xhr.setRequestHeader('X-CSRFToken', csrftoken);
-          },
-          contentType: false,
-          success: (data) => {
-            observer.next(data);
+        let options = {headers: new Headers()};
+        options.headers.set('Content-Type', 'multipart/form-data');
+        this.http.post(`${EventService.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
+          .subscribe((res) => {
+            observer.next(res);
             observer.complete();
-          },
-          error: (error) => {
-            observer.error(error);
-          }
-        });
+          }, (err) => {
+            observer.error(err);
+          });
       }
 
     });
@@ -179,7 +169,6 @@ export class EventService {
     this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
 
     let body = FormUtil.formData(event);
-    let csrftoken = CookieUtil.getValue('csrftoken');
 
     return Observable.create(observer => {
 
@@ -188,23 +177,15 @@ export class EventService {
           validationErrors: this.validationErrors
         });
       } else {
-        jQuery.ajax(<any>{
-          url: `${resourceUri}?format=json`,
-          data: body,
-          processData: false,
-          type: 'PUT',
-          beforeSend: (xhr, settings) => {
-            xhr.setRequestHeader('X-CSRFToken', csrftoken);
-          },
-          contentType: false,
-          success: (data) => {
-            observer.next(data);
+        let options = {headers: new Headers()};
+        options.headers.set('Content-Type', 'multipart/form-data');
+        this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
+          .subscribe((res) => {
+            observer.next(res);
             observer.complete();
-          },
-          error: (error) => {
-            observer.error(error);
-          }
-        });
+          }, (err) => {
+            observer.error(err);
+          });
       }
 
     });
@@ -217,26 +198,17 @@ export class EventService {
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
     let body = FormUtil.formData(event);
-    let csrftoken = CookieUtil.getValue('csrftoken');
 
     return Observable.create(observer => {
-      jQuery.ajax(<any>{
-        url: `${resourceUri}?format=json`,
-        data: body,
-        processData: false,
-        type: 'PUT',
-        beforeSend: (xhr, settings) => {
-          xhr.setRequestHeader('X-CSRFToken', csrftoken);
-        },
-        contentType: false,
-        success: (data) => {
-          observer.next(data);
+      let options = {headers: new Headers()};
+      options.headers.set('Content-Type', 'multipart/form-data');
+      this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
+        .subscribe((res) => {
+          observer.next(res);
           observer.complete();
-        },
-        error: (error) => {
-          observer.error(error);
-        }
-      });
+        }, (err) => {
+          observer.error(err);
+        });
     });
 
   }
