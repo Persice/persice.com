@@ -52,7 +52,7 @@ export abstract class LoginComponent {
           this.router.navigateByUrl('/');
         }
       }, (err) => {
-        this.message = MESSAGE_LOGIN_SUCCESS;
+        this.message = MESSAGE_LOGIN_ERROR;
         this.isLoading = false;
         this.router.navigateByUrl('/');
       });

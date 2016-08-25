@@ -18,7 +18,7 @@ export class HttpClient {
   }
 
   post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
-    options = options || {};
+    options = this.setHeaders(options || {});
     return this.http.post(url, body, options)
       .catch((err) => this.handleError(err));
   }
@@ -50,10 +50,18 @@ export class HttpClient {
   private setHeaders(obj: { headers?: Headers, [index: string]: any }) {
     obj.headers = obj.headers || new Headers();
 
-    obj.headers.set('Content-Type', 'application/json');
+    // Check 'Content-Type' header is set and set default to 'application/json'
+    if (obj.headers.has('Content-Type')) {
+      // Unset 'Content-Type' header when uploading a file via multipart/form-data
+      if (obj.headers.get('Content-Type') === 'multipart/form-data') {
+        obj.headers.delete('Content-Type');
+      }
+    } else {
+      obj.headers.set('Content-Type', 'application/json');
+    }
 
     if (this.auth.isAuthenticated()) {
-      obj.headers.set('Authentication', 'Bearer ' + this.auth.getToken());
+      obj.headers.set('Authorization', 'Bearer ' + this.auth.getToken());
     }
 
     return obj;

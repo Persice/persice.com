@@ -18,7 +18,7 @@ export class OnboardingService {
       `${OnboardingService.API_URL}?format=json`)
       .map((res: Response) => {
         let result = res.json();
-        let onboardingFinished: boolean = true;
+        let onboardingFinished: boolean = false;
 
         try {
           onboardingFinished = result.objects[0].is_complete;
