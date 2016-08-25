@@ -33,7 +33,7 @@ export class Event {
   constructor(dto: any) {
     this._id = dto.id;
     this._name = dto.name;
-    this._image = !!dto.event_photo ? dto.event_photo : '/static/img/placeholder-image.png';
+    this._image = !!dto.event_photo ? dto.event_photo : '/assets/images/placeholder-image.png';
     this._hostedBy = dto.hosted_by;
     this._description = dto.description;
     this._accessLevel = dto.access_level;

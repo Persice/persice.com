@@ -15,7 +15,7 @@ const RIGHT_COUNT = 3;
     <a (click)="openEdit.next(title)" class="edit-link">{{title}} <span>({{itemsCount}})</span>
      <span class="edit-link__icon">
       <svg role="img" class="icon ">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-edit_info"></use>
+        <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
       </svg>
       </span>
     </a>

@@ -8,7 +8,7 @@ import { TokenUtil } from '../../../common/core/util';
 export class ProfileService {
   static API_URL: string = '/api/v1/profile';
   static UPDATE_API_URL: string = '/api/v1/user_profile/';
-  static DEFAULT_IMAGE: string = '/static/assets/images/empty_avatar.png';
+  static DEFAULT_IMAGE: string = '/assets/images/empty_avatar.png';
 
   _observer: Subject<any> = new Subject(null);
 

@@ -88,7 +88,7 @@ export class EventComponent implements AfterViewInit, OnInit, OnDestroy {
   peopleNocounter = 0;
   peopleMaybecounter = 0;
 
-  photo: string = '/static/img/placeholder-image.png';
+  photo: string = '/assets/images/placeholder-image.png';
   location = {};
   stats = {
     maxAttendees: 0,

@@ -738,6 +738,6 @@ html.remodal-is-locked > body {
   top: 10px !important;
   width: 16px !important;
   height: 16px !important;
-  background: url(/static/img/close.png) !important;
+  background: url("../images/close.png") !important;
   cursor: pointer !important
 }

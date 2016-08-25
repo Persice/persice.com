@@ -3,7 +3,7 @@
     <div class="layout__item 1/5">
       <a prs-open-left-menu class="mob-header__left-push">
         <svg role="img" class="icon icon--small">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-hamburger"></use>
         </svg>
       </a>
     </div>
@@ -12,26 +12,26 @@
          class="js-mob-header__profile-drop2-trigg mob-header__title mob-header__title--as-drop-triger">
         <span>{{eventsTypeLabel}}</span>
         <svg role="img" class="icon icon--extratiny">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-down-small"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-down-small"></use>
         </svg>
       </a>
       <ul class="mob-header__drop hidden mob-header__drop--center js-mob-header__drop2" prs-dropdown-menu>
         <li prs-dropdown-toggle (touchend)="clickEventsTypeDropdownElement('all', $event)"
             [ngClass]="{'is-current' : eventsType === 'all'}">All events
           <svg role="img" class="icon icon--extratiny">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+            <use xlink:href="/assets/icons/icons.svg#icon-checker"></use>
           </svg>
         </li>
         <li prs-dropdown-toggle (touchend)="clickEventsTypeDropdownElement('my', $event)"
             [ngClass]="{'is-current' : eventsType === 'my'}">My events
           <svg role="img" class="icon icon--extratiny">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+            <use xlink:href="/assets/icons/icons.svg#icon-checker"></use>
           </svg>
         </li>
         <li prs-dropdown-toggle (touchend)="clickEventsTypeDropdownElement('connections', $event)"
             [ngClass]="{'is-current' : eventsType === 'connections'}">My network
           <svg role="img" class="icon icon--extratiny">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-checker"></use>
+            <use xlink:href="/assets/icons/icons.svg#icon-checker"></use>
           </svg>
         </li>
       </ul>

@@ -16,6 +16,7 @@ const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 /**
  * Webpack Constants
  */
@@ -54,8 +55,8 @@ module.exports = webpackMerge(commonConfig, {
     // The output directory as absolute path (required).
     //
     // See: http://webpack.github.io/docs/configuration.html#output-path
-    path: helpers.root('../persice_app_server/public/dist'),
-    publicPath: 'http://test-local.com:8000/static/dist/',
+    path: helpers.root('dist'),
+    publicPath: 'http://test-local.com:8000/assets/js/',
     // publicPath: 'http://test1.com:8000/static/dist/',
 
     // Specifies the name of each output file on disk.
@@ -138,11 +139,6 @@ module.exports = webpackMerge(commonConfig, {
       }
     }),
 
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
-
     // Plugin: DedupePlugin
     // Description: Prevents the inclusion of duplicate code into your bundle
     // and instead applies a copy of the function at runtime.
@@ -150,7 +146,6 @@ module.exports = webpackMerge(commonConfig, {
     // See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
     // See: https://github.com/webpack/docs/wiki/optimization#deduplication
     new DedupePlugin(),
-
 
     // Plugin: UglifyJsPlugin
     // Description: Minimize all JavaScript output of chunks.
@@ -174,19 +169,10 @@ module.exports = webpackMerge(commonConfig, {
       // comments: true, //debug
 
       beautify: false, //prod
-      // dead_code: false,
-      // unused: false,
-      mangle: {screw_ie8: true}, //prod
-      // mangle: false,
-      compress: {
-        screw_ie8: true,
-        warnings: false,
-
-      }, //prod
-      warnings: false,
+      mangle: { screw_ie8 : true }, //prod
+      compress: { screw_ie8: true, warnings: false }, //prod
       comments: false //prod
     }),
-
 
     /**
      * Plugin: NormalModuleReplacementPlugin
@@ -208,7 +194,29 @@ module.exports = webpackMerge(commonConfig, {
     new CompressionPlugin({
       regExp: /\.css$|\.html$|\.js$|\.map$/,
       threshold: 2 * 1024
-    })
+    }),
+
+    // Plugin: HtmlWebpackPlugin
+    // Description: Simplifies creation of HTML files to serve your webpack bundles.
+    // This is especially useful for webpack bundles that include a hash in the filename
+    // which changes every compilation.
+    //
+    // See: https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      filename: 'index.html',
+      chunks: ['polyfills', 'vendor', 'main'],
+      chunksSortMode: 'dependency',
+      minify: false
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index_mobile.html',
+      filename: 'index_mobile.html',
+      chunks: ['polyfills', 'vendor', 'main-mobile'],
+      chunksSortMode: 'dependency',
+      minify: false
+    }),
+
   ],
 
   // Static analysis linter for TypeScript advanced options configuration

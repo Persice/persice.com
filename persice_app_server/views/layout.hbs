@@ -22,14 +22,10 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" type="image/png" href="/favicon.png"/>
-  <!-- dev mode -->
-  <!-- <link rel="stylesheet" href="http://localhost:3002/css/screen.css" />
-  <link rel="stylesheet" href="http://localhost:3002/css/app.css" /> -->
-  <!-- prod mode -->
   {{#if is_phone}}
-  <link rel="stylesheet" href="/dist/assets/css/vendor.mobile.min.css"/>
+  <link rel="stylesheet" href="/assets/css/vendor.mobile.min.css"/>
   {{else}}
-  <link rel="stylesheet" href="/dist/assets/css/vendor.min.css"/>
+  <link rel="stylesheet" href="/assets/css/vendor.min.css"/>
   {{/if}}
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800' rel='stylesheet' type='text/css'>
 </head>
@@ -37,23 +33,55 @@
 <body>
   {{{body}}}
 
+
+  {{!-- Development with hot reload Webpack dev server  --}}
+
   {{#if is_phone}}
-  <script src="/dist/assets/js/plugins-mobile.min.js"></script>
+  <script src="/assets/js/plugins-mobile.min.js"></script>
   <script src="//localhost:8080/polyfills.bundle.js"></script>
   <script src="//localhost:8080/vendor.bundle.js"></script>
   <script src="//localhost:8080/main-mobile.bundle.js"></script>
   {{else}}
-  <script src="/dist/assets/js/plugins.min.js"></script>
+  <script src="/assets/js/plugins.min.js"></script>
   <script src="//localhost:8080/polyfills.bundle.js"></script>
   <script src="//localhost:8080/vendor.bundle.js"></script>
   <script src="//localhost:8080/main.bundle.js"></script>
   {{/if}}
+
+  {{!-- Development with built js files  --}}
+
+  {{!-- {{#if is_phone}}
+  <script src="/assets/js/plugins-mobile.min.js"></script>
+  <script src="/assets/js/polyfills.bundle.js"></script>
+  <script src="/assets/js/vendor.bundle.js"></script>
+  <script src="/assets/js/main-mobile.bundle.js"></script>
+  {{else}}
+  <script src="/assets/js/plugins.min.js"></script>
+  <script src="/assets/js/polyfills.bundle.js"></script>
+  <script src="/assets/js/vendor.bundle.js"></script>
+  <script src="/assets/js/main.bundle.js"></script>
+  {{/if}} --}}
+
+
+  {{!-- Production with built js files (nginx serves static files) --}}
+
+  {{!-- {{#if is_phone}}
+  <script src="/assets/js/plugins-mobile.min.js"></script>
+  <script src="/assets/js/polyfills.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
+  <script src="/assets/js/vendor.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
+  <script src="/assets/js/main-mobile.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
+  {{else}}
+  <script src="/assets/js/plugins.min.js"></script>
+  <script src="/assets/js/polyfills.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
+  <script src="/assets/js/vendor.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
+  <script src="/assets/js/main.12a19d772684ef7b855a8cd0baf5fd9d7b6f9e4a.prod.bundle.js"></script>
+  {{/if}} --}}
+
+
 
   <script>
     function refreshConnect() {
       $('.connect-media').trigger('persice:refreshConnect');
     }
   </script>
-
- <!-- <script async src="http://localhost:3002/browser-sync/browser-sync-client.js"></script> -->
 </body>

@@ -10,7 +10,7 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
           [ngClass]="{'is-active': passIsActive}">
             <div class="btn--activate__label">Pass</div>
             <svg role="img" class="icon ">
-              <use xlink:href="/static/assets/icons/icons.svg#icon-pass"></use>
+              <use xlink:href="/assets/icons/icons.svg#icon-pass"></use>
             </svg>
           </a>
         </div>
@@ -19,7 +19,7 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
             [ngClass]="{'is-active': acceptIsActive}">
             <div class="btn--activate__label">Connect</div>
             <svg role="img" class="icon ">
-              <use xlink:href="/static/assets/icons/icons.svg#icon-accepted"></use>
+              <use xlink:href="/assets/icons/icons.svg#icon-accepted"></use>
             </svg>
           </a>
         </div>

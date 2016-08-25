@@ -10,9 +10,9 @@ helpers.dotenv.config({path: './.env.settings'});
  * Webpack Plugins
  */
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const BundleTracker  = require('webpack-bundle-tracker');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -145,7 +145,7 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'raw-loader',
-        exclude: [helpers.root('src/index.html')]
+        exclude: [helpers.root('src/index.html'), helpers.root('src/index_mobile.html')]
       },
 
     ]
@@ -187,21 +187,10 @@ module.exports = {
     // Copies project static assets.
     //
     // See: https://www.npmjs.com/package/copy-webpack-plugin
-    // new CopyWebpackPlugin([{
-    //   from: 'src/assets',
-    //   to: 'assets'
-    // }]),
-
-    // Plugin: HtmlWebpackPlugin
-    // Description: Simplifies creation of HTML files to serve your webpack bundles.
-    // This is especially useful for webpack bundles that include a hash in the filename
-    // which changes every compilation.
-    //
-    // See: https://github.com/ampedandwired/html-webpack-plugin
-    // new HtmlWebpackPlugin({
-    //   template: 'src/index.html',
-    //   chunksSortMode: 'none'
-    // })
+    new CopyWebpackPlugin([{
+      from: 'src/assets',
+      to: 'assets'
+    }]),
     new BundleTracker({indent: 2, path: __dirname, filename: '../webpack-stats.json'}),
 
   ],

@@ -16,7 +16,7 @@ export class CheckImageDirective implements AfterViewInit {
     this.defaultImage = value;
   };
 
-  defaultImage: string = '/static/assets/images/empty_avatar.png';
+  defaultImage: string = '/assets/images/empty_avatar.png';
   image: string;
   suffix: string;
   onchanges: boolean;

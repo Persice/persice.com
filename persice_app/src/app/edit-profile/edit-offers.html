@@ -1,7 +1,7 @@
 <div class="search search--remodal-tab typeahead-search">
   <div class="search__top">
     <svg role="img" class="icon">
-      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-search"></use>
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-search"></use>
     </svg>
     <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text" class="search__input typeahead"
            placeholder="Enter a few goals here" id="typeaheadInput" persice-autocomplete
@@ -9,18 +9,18 @@
            (onSelected)="itemSelectedFromAutocomplete($event)">
     <div class="search__notification search__notification--error" [ngClass]="{'is-visible': status === 'failure'}">
       <svg role="img" class="icon ">
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-failure"></use>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-failure"></use>
       </svg>
     </div>
     <div class="search__notification search__notification--succes" [ngClass]="{'is-visible': status === 'success'}">
       <svg role="img" class="icon ">
         <use xmlns:xlink="http://www.w3.org/1999/xlink"
-             xlink:href="/static/assets/icons/icons.svg#icon-success-2"></use>
+             xlink:href="/assets/icons/icons.svg#icon-success-2"></use>
       </svg>
     </div>
     <button class="btn">
       <svg role="img" class="icon" (click)="add($event)">
-        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-plus-big"></use>
       </svg>
     </button>
   </div>
@@ -30,14 +30,14 @@
   <span class="search-tag-secondary" *ngFor="let item of items">
       <a (click)="remove(item)">
         <svg role="img" class="icon icon--tiny">
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-delete"></use>
         </svg>
       </a>
       {{item.subject}}
     </span>
   <div class="signup-empty-state is-visible" *ngIf="isListEmpty">
     <svg role="img" class="icon signup-empty-state__icon">
-      <use xlink:href="/static/assets/icons/icons.svg#no-offers"></use>
+      <use xlink:href="/assets/icons/icons.svg#no-offers"></use>
     </svg>
     <h3 class="signup-empty-state__title">"Offers" are things you can help other people achieve.</h3>
     <p class="signup-empty-state__par signup-empty-state__par--prom">For example:</p>

@@ -7,7 +7,7 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
   <h4 class="module-title mb0" *ngIf="editable">
   <a (click)="openEdit.next('about')" class="edit-link">About <span class="edit-link__icon">
     <svg role="img" class="icon ">
-      <use xlink:href="/static/assets/icons/icons.svg#icon-edit_info"></use>
+      <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
     </svg>
     </span></a>
   </h4>

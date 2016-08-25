@@ -16,7 +16,7 @@ import { Auth } from '../../common/auth/auth';
     </div>
     <div class="user-profile__arrow">
       <svg role="img" class="icon">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_down"></use>
+        <use xlink:href="/assets/icons/icons.svg#icon-arrow_down"></use>
       </svg>
     </div>
     <div class="dropdown-basic" id="profileDropdown">

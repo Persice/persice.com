@@ -10,6 +10,7 @@ const commonConfig = require('./webpack.common.js'); //The settings that are com
  * Webpack Plugins
  */
 const DefinePlugin = require('webpack/lib/DefinePlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -57,7 +58,7 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: http://webpack.github.io/docs/configuration.html#output-path
     path: helpers.root('dist'),
-    publicPath: '//' + METADATA.host + ':' + METADATA.port + '/',
+    publicPath: '',
 
     // Specifies the name of each output file on disk.
     // IMPORTANT: You must not specify an absolute path here!
@@ -101,6 +102,26 @@ module.exports = webpackMerge(commonConfig, {
         'FACEBOOK_SCOPE': JSON.stringify(process.env.FACEBOOK_SCOPE)
       }
     }),
+    // Plugin: HtmlWebpackPlugin
+    // Description: Simplifies creation of HTML files to serve your webpack bundles.
+    // This is especially useful for webpack bundles that include a hash in the filename
+    // which changes every compilation.
+    //
+    // See: https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      filename: 'index.html',
+      chunks: ['polyfills', 'vendor', 'main'],
+      chunksSortMode: 'dependency',
+      minify: false
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index_mobile.html',
+      filename: 'index_mobile.html',
+      chunks: ['polyfills', 'vendor', 'main-mobile'],
+      chunksSortMode: 'dependency',
+      minify: false
+    }),
   ],
 
   // Static analysis linter for TypeScript advanced options configuration
@@ -126,6 +147,24 @@ module.exports = webpackMerge(commonConfig, {
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
+    },
+    proxy: {
+      '/api': {
+        target: 'http://test-local.com:8000',
+        secure: false
+      },
+      '/auth/facebook/callback': {
+        target: 'http://test-local.com:8000',
+        secure: false
+      },
+      '/socket.io': {
+        target: 'http://test-local.com:8000',
+        secure: false
+      },
+      '/media': {
+        target: 'http://test-local.com:8000',
+        secure: false
+      }
     },
     outputPath: helpers.root('dist'),
     stats: {
