@@ -29,6 +29,20 @@ describe('MarkupPipe', () => {
     expect(pipe.applyMarkup('lolololo _ lo_ lololo_')).toBe('lolololo _ lo_ lololo_');
   });
 
+  it('applies line breaks', () => {
+    expect(pipe.applyMarkup('hi\nDave')).toBe('hi <br>Dave');
+  });
+
+  it('applies unordered lists', () => {
+    expect(pipe.applyMarkup('checklist: \n- one\n- two\n- three'))
+      .toBe('checklist: <ul class="message__text-list pt-"><li>one</li><li>two</li><li>three</li></ul>');
+  });
+
+  it('applies headings', () => {
+    expect(pipe.applyMarkup('[title]title[title]\nmessage'))
+      .toBe('<h4 class="message__system__title">title</h4> <br>message');
+  });
+
   it('applies links', () => {
     expect(pipe.applyMarkup('http://google.com')).toBe('<a href="http://google.com">http://google.com</a>');
     expect(pipe.applyMarkup('link http://google.com')).toBe('link <a href="http://google.com">http://google.com</a>');

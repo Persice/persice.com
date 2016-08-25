@@ -56,6 +56,8 @@ export class MarkupPipe implements PipeTransform {
     let message = value;
     message = this.applyBold(message);
     message = this.applyItalic(message);
+    message = this.applyHeadings(message);
+    message = this.applyUnorderedLists(message);
     message = this.applyLineBreaks(message);
     message = this.applyAutodetectedLinks(message);
     message = this.applyMarkupLinks(message);
@@ -80,6 +82,21 @@ export class MarkupPipe implements PipeTransform {
   private applyLineBreaks(value: string): string {
     let message = value;
     message = message.replace(/\n/g, ' <br>'); // newlines
+
+    return message;
+  }
+
+  private applyHeadings(value: string): string {
+    let message = value;
+    message = message.replace(/\[title\](.*?)\[title\]/g, '<h4 class="message__system__title">$1</h4>');
+
+    return message;
+  }
+
+  private applyUnorderedLists(value: string): string {
+    let message = value;
+    message = message.replace(/\n-\s(.+)/g, '<li>$1</li>');
+    message = message.replace(/(<li>.+<\/li>)/g, '<ul class="message__text-list pt-">$1</ul>');
 
     return message;
   }
