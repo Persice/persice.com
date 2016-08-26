@@ -29,8 +29,7 @@ describe('New conversation mobile service', () => {
         ]
       },
       {
-        provide:
-        NewConversationMobileService,
+        provide: NewConversationMobileService,
         useFactory: (
           http: HttpClient
         ) => {
@@ -84,7 +83,7 @@ describe('New conversation mobile service', () => {
   function mockResponse(backend: MockBackend, reqMethod: RequestMethod, expectedBody: string | Object) {
     backend.connections.subscribe((c: any) => {
       expect(c.request.method).toBe(reqMethod);
-      c.mockRespond(new Response(new ResponseOptions({ body: expectedBody })));
+      c.mockRespond(new Response(new ResponseOptions({body: expectedBody})));
     });
   }
 });
