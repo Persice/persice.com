@@ -1,8 +1,10 @@
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 
+from accounts.tests.test_resources import JWTResourceTestCase
 
-class TestAboutMeResource(ResourceTestCase):
+
+class TestAboutMeResource(JWTResourceTestCase):
     def setUp(self):
         super(TestAboutMeResource, self).setUp()
         self.user = FacebookCustomUser.objects. \
@@ -10,24 +12,15 @@ class TestAboutMeResource(ResourceTestCase):
                         first_name='Andrii', last_name='Soldatenko')
         self.detail_url = '/api/v1/me/'
 
-    def get_credentials(self):
-        pass
-
-    def login(self, username='user_a', password='test'):
-        return self.api_client.client.post('/login/', {'username': username,
-                                                       'password': password})
-
-    def test_get_list_unauthorzied(self):
+    def test_get_list_unauthorized(self):
         self.assertHttpUnauthorized(self.api_client.get(self.detail_url,
                                                         format='json'))
 
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
-
     def test_get_list_json(self):
-        self.response = self.login()
-        resp = self.api_client.get(self.detail_url, format='json')
+        resp = self.api_client.get(
+            self.detail_url, format='json',
+            authentication=self.get_credentials()
+        )
         self.assertValidJSONResponse(resp)
 
         data = self.deserialize(resp)

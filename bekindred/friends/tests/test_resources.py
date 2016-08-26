@@ -128,7 +128,7 @@ class TestFriendResource(JWTResourceTestCase):
         self.assertHttpCreated(resp)
         resp = self.api_client.post(
             '/api/v1/friends/', format='json', data=post_data2,
-            authentication = self.get_credentials()
+            authentication=self.get_credentials()
         )
         self.assertHttpCreated(resp)
         self.assertFalse(Friend.objects.checking_friendship(

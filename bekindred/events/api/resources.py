@@ -16,7 +16,6 @@ from guardian.shortcuts import assign_perm, remove_perm
 from haystack.backends import SQ
 from haystack.query import SearchQuerySet
 from tastypie import fields
-from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
@@ -107,7 +106,7 @@ class FilterStateResource(ModelResource):
         always_return_data = True
         queryset = FilterState.objects.all()
         resource_name = 'filter/state2'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -146,7 +145,7 @@ class EventResource(MultiPartResource, ModelResource):
             'description': ALL
         }
         validation = EventValidation()
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = GuardianAuthorization(
             view_permission_code='view_event',
             # create_permission_code='add_event',
@@ -396,7 +395,7 @@ class EventResourceSmall(ModelResource):
             'description': ALL
         }
         validation = EventValidation()
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = GuardianAuthorization(
             view_permission_code='view_event'
         )
