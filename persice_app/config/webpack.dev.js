@@ -47,7 +47,7 @@ module.exports = webpackMerge(commonConfig, {
   //
   // See: http://webpack.github.io/docs/configuration.html#devtool
   // See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval',
 
   // Options affecting the output of the compilation.
   //
@@ -58,7 +58,7 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: http://webpack.github.io/docs/configuration.html#output-path
     path: helpers.root('dist'),
-    publicPath: '',
+    publicPath: '/assets/js/',
 
     // Specifies the name of each output file on disk.
     // IMPORTANT: You must not specify an absolute path here!
@@ -109,19 +109,19 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: 'templates/index.html',
       filename: 'index.html',
       chunks: ['polyfills', 'vendor', 'main'],
       chunksSortMode: 'dependency',
       minify: false
     }),
     new HtmlWebpackPlugin({
-      template: 'src/index_mobile.html',
+      template: 'templates/index_mobile.html',
       filename: 'index_mobile.html',
       chunks: ['polyfills', 'vendor', 'main-mobile'],
       chunksSortMode: 'dependency',
       minify: false
-    }),
+    })
   ],
 
   // Static analysis linter for TypeScript advanced options configuration

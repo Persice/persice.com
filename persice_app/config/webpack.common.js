@@ -11,7 +11,7 @@ helpers.dotenv.config({path: './.env.settings'});
  */
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
-const BundleTracker  = require('webpack-bundle-tracker');
+const BundleTracker = require('webpack-bundle-tracker');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
@@ -147,6 +147,10 @@ module.exports = {
         loader: 'raw-loader',
         exclude: [helpers.root('src/index.html'), helpers.root('src/index_mobile.html')]
       },
+      {
+        test: /\.ejs$/,
+        loader: 'ejs'
+      }
 
     ]
 

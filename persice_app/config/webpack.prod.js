@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 8080;
 const FACEBOOK_ID = process.env.FACEBOOK_ID_PRODUCTION;
 const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
 
-const AWS_S3_CUSTOM_DOMAIN = JSON.stringify(process.env.AWS_S3_CUSTOM_DOMAIN);
+const AWS_S3_CUSTOM_DOMAIN = process.env.AWS_S3_CUSTOM_DOMAIN;
 
 const METADATA = webpackMerge(commonConfig.metadata, {
   host: HOST,
@@ -58,7 +58,7 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: http://webpack.github.io/docs/configuration.html#output-path
     path: helpers.root('dist'),
-    publicPath: 'https://' + AWS_S3_CUSTOM_DOMAIN + '/assets/js/',
+    publicPath: AWS_S3_CUSTOM_DOMAIN + '/assets/js/',
     // publicPath: 'http://test-local.com:8000/assets/js/',
 
     // Specifies the name of each output file on disk.
