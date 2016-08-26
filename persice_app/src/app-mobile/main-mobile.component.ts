@@ -14,6 +14,8 @@ import { FooterButtonMobileComponent } from './footer-button';
 import { GeolocationService } from '../app/shared/services/geolocation.service';
 import { LocationService, UserLocation } from '../app/shared/services/location.service';
 import { FilterService, WebsocketService } from '../app/shared/services';
+import { UserService } from '../app/shared/services/user.service';
+import { IntercomUtil } from '../common/core/util';
 
 @Component({
   selector: 'persice-app-main-mobile',
@@ -26,7 +28,8 @@ import { FilterService, WebsocketService } from '../app/shared/services';
     GeolocationService,
     LocationService,
     UnreadMessagesCounterService,
-    NewConnectionsCounterService
+    NewConnectionsCounterService,
+    UserService,
   ],
   directives: [
     ROUTER_DIRECTIVES,
@@ -45,6 +48,7 @@ export class MainMobileComponent implements OnInit, OnDestroy {
   routerSub;
 
   constructor(
+    private userService: UserService,
     private websocketService: WebsocketService,
     private geolocationService: GeolocationService,
     private locationService: LocationService,
@@ -62,6 +66,12 @@ export class MainMobileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Get AuthUser info for the app
+    this.userService.get()
+      .subscribe(data => {
+        IntercomUtil.boot(data);
+      });
+
     // Initialize and connect to socket.io websocket
     this.websocketService.connect();
 
