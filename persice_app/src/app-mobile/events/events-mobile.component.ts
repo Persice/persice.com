@@ -12,6 +12,8 @@ import { InfiniteScrollDirective } from '../../common/directives';
 import { EventMembersService } from '../../app/shared/services/eventmembers.service';
 import { CookieUtil } from '../../app/shared/core/util';
 import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown/index';
+import { FilterMobileComponent } from '../shared/components/filter/filter-mobile.component';
+import { FilterService } from '../../app/shared/services/filter.service';
 
 @Component({
   selector: 'prs-mobile-events',
@@ -22,6 +24,7 @@ import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown/index';
     EventSummaryComponent,
     EventsNotFoundMobileComponent,
     InfiniteScrollDirective,
+    FilterMobileComponent,
     DROPDOWN_DIRECTIVES
   ],
   providers: [EventsMobileService, EventMembersService]
@@ -30,6 +33,7 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   eventsType: EventsType;
   eventsTypeLabel: string;
+  filtersActive: boolean;
 
   private events$: Observable<Event[]>;
   private isLoading$: Observable<boolean>;
@@ -44,6 +48,7 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
   constructor(
     private appStateService: AppStateService,
     private eventsService: EventsMobileService,
+    protected filterService: FilterService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -53,6 +58,23 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   ngOnInit(): any {
     document.querySelector('html').classList.toggle('bg-gray-2');
+    this.init();
+  }
+
+  ngOnDestroy(): any {
+    document.querySelector('html').classList.toggle('bg-gray-2');
+    this.appStateService.setHeaderVisibility(true);
+    // TODO: enable add new event button
+    // this.appStateService.setFooterButtonVisibility(false);
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
+    if (this.isLoadedSub) {
+      this.isLoadedSub.unsubscribe();
+    }
+  }
+
+  init() {
     this.appStateService.setHeaderVisibility(false);
     // TODO: enable add new event button
     // this.appStateService.setFooterButtonVisibility(true);
@@ -73,20 +95,6 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
         this._loadEvents(this.eventsType, true);
       }
     );
-
-  }
-
-  ngOnDestroy(): any {
-    document.querySelector('html').classList.toggle('bg-gray-2');
-    this.appStateService.setHeaderVisibility(true);
-    // TODO: enable add new event button
-    // this.appStateService.setFooterButtonVisibility(false);
-    if (this.routerSub) {
-      this.routerSub.unsubscribe();
-    }
-    if (this.isLoadedSub) {
-      this.isLoadedSub.unsubscribe();
-    }
   }
 
   openEvent(event: Event) {
@@ -121,6 +129,11 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
     if (type === 'connections') {
       this.eventsTypeLabel = 'My network';
     }
+  }
+
+  hideFilters(loadNewData: boolean) {
+    this.filtersActive = false;
+    this.init();
   }
 
   /**
