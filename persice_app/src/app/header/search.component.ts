@@ -2,6 +2,7 @@ import { Component, ElementRef, AfterViewInit } from '@angular/core';
 import { FilterModel } from '../shared/models';
 import { KeywordsService, NotificationService, FilterService } from '../shared/services';
 import { map } from 'lodash';
+import { Auth } from '../../common/auth/auth';
 
 declare var Bloodhound: any;
 
@@ -16,13 +17,16 @@ export class SearchComponent implements AfterViewInit {
   keywords: any[];
   filters: FilterModel;
   timeoutIdFiltersSave = null;
+  token;
 
   constructor(
     public el: ElementRef,
     public filterService: FilterService,
     public keywordsService: KeywordsService,
-    public notificationService: NotificationService
+    public notificationService: NotificationService,
+    private auth: Auth
   ) {
+    this.token = this.auth.getToken();
   }
 
   ngAfterViewInit() {
@@ -46,6 +50,14 @@ export class SearchComponent implements AfterViewInit {
     let keywordsEngine = new Bloodhound({
       remote: {
         url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
+        prepare: (query, settings) => {
+          settings.headers = {
+            'Authorization': 'Bearer ' + this.token
+          };
+          settings.data = JSON.stringify(query);
+          settings.url = settings.url.replace('%QUERY', query);
+          return settings;
+        },
         filter: (x: any) => {
           return jQuery.map(x.objects, (item) => {
             return item.description;
