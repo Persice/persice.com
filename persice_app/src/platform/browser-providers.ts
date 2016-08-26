@@ -22,7 +22,7 @@ const AUTH = [
       facebook: {
         url: '/api/v2/accounts/facebook/login/',
         authorizationEndpoint: 'https://www.facebook.com/v2.7/dialog/oauth',
-        redirectUri: window.location.origin + '/auth/facebook/callback/',
+        redirectUri: window.location.origin + '/goals/close_popup/',
         clientId: FACEBOOK_ID,
         display: 'popup',
         scope: FACEBOOK_SCOPE.split(',')
