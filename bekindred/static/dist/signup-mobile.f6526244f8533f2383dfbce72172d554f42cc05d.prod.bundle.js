@@ -1,2 +1,0 @@
-webpackJsonp([3],[function(n,t,o){"use strict";function e(n){return r.bootstrap(i.SignupMobileComponent,c.PLATFORM_PROVIDERS_SIGNUP_MOBILE.concat(u.ENV_PROVIDERS,i.APP_PROVIDERS)).catch(function(n){return console.error(n)})}var r=o(149),c=o(220),u=o(221),i=o(556);t.main=e;document.addEventListener("DOMContentLoaded",function(){return e()})}]);
-//# sourceMappingURL=signup-mobile.f6526244f8533f2383dfbce72172d554f42cc05d.prod.bundle.map

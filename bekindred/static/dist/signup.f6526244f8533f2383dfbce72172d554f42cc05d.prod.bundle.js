@@ -1,2 +1,0 @@
-webpackJsonp([2],[function(n,t,o){"use strict";function e(n){return r.bootstrap(a.SignupComponent,c.PLATFORM_PROVIDERS_SIGNUP.concat(u.ENV_PROVIDERS,a.APP_PROVIDERS)).catch(function(n){return console.error(n)})}var r=o(149),c=o(220),u=o(221),a=o(557);t.main=e;document.addEventListener("DOMContentLoaded",function(){return e()})}]);
-//# sourceMappingURL=signup.f6526244f8533f2383dfbce72172d554f42cc05d.prod.bundle.map
