@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html class=" no-js  is-scrollable-y ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>
+<html class=" no-js  is-scrollable-y ie9 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" no-js is-scrollable-y " lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>Persice</title>
+  <base href="/">
+  <link rel="dns-prefetch" href="//ajax.googleapis.com">
+  <link rel="dns-prefetch" href="//maps.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//themes.googleusercontent.com">
+  <link rel="dns-prefetch" href="//www.google-analytics.com">
+  <link rel="dns-prefetch" href="//widget.intercom.io">
+  <link rel="dns-prefetch" href="//cdn.heapanalytics.com">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="stylesheet" href="https://d2v6m3k9ul63ej.cloudfront.net/assets/css/vendor.mobile.min.css"/>
+  <link
+    href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,300,700,600,400italic,300italic,600italic,800"
+    rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="https://d2v6m3k9ul63ej.cloudfront.net/assets/js/analytics.js"></script>
+</head>
+<body>
+
+<persice-app>
+  <div id="loadingIndicator">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+</persice-app>
+
+<script src="https://d2v6m3k9ul63ej.cloudfront.net/assets/js/plugins-mobile.min.js"></script>
+
+<script>
+  function refreshConnect() {
+    $('.connect-media').trigger('persice:refreshConnect');
+  }
+</script>
+
+</body>
+</html>

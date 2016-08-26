@@ -205,14 +205,14 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: 'templates/production/index.html',
       filename: 'index.html',
       chunks: ['polyfills', 'vendor', 'main'],
       chunksSortMode: 'dependency',
       minify: false
     }),
     new HtmlWebpackPlugin({
-      template: 'src/index_mobile.html',
+      template: 'templates/production/index_mobile.html',
       filename: 'index_mobile.html',
       chunks: ['polyfills', 'vendor', 'main-mobile'],
       chunksSortMode: 'dependency',
