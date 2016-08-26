@@ -1,8 +1,8 @@
 import { Component, Output, Renderer, EventEmitter, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Http } from '@angular/http';
 import { CheckImageDirective } from '../../shared/directives';
 import { FormControl } from '@angular/forms';
+import { HttpClient } from '../../../common/core/http-client';
 
 @Component({
   selector: 'prs-search-connections',
@@ -20,7 +20,7 @@ export class SearchConnectionsComponent implements OnInit, AfterViewInit {
   resultsCount: number = 0;
   resultsCache: any[] = [];
 
-  constructor(public http: Http, private renderer: Renderer) {
+  constructor(public http: HttpClient, private renderer: Renderer) {
   }
 
   ngAfterViewInit(): any {

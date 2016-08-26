@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { Http } from '@angular/http';
 import { AvatarComponent } from './avatar.component';
 import { AboutComponent } from './about.component';
 import { LikesComponent } from './likes.component';
@@ -18,6 +17,7 @@ import {
   ConnectionsCounterService
 } from '../shared/services';
 import { ObjectUtil, ListUtil } from '../../common/core';
+import { HttpClient } from '../../common/core/http-client';
 
 @Component({
   selector: 'prs-profile-friend',
@@ -110,7 +110,7 @@ export class ProfileFriendComponent implements OnChanges, OnInit, OnDestroy {
     private religiousviewsService: ReligiousViewsService,
     private politicalviewsService: PoliticalViewsService,
     private counterService: ConnectionsCounterService,
-    private http: Http
+    private http: HttpClient
   ) {
 
   }

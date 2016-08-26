@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { Http } from '@angular/http';
 import { AvatarComponent } from './avatar.component';
 import { AboutComponent } from './about.component';
 import { LikesComponent } from './likes.component';
@@ -19,6 +18,7 @@ import {
 } from '../shared/services';
 import { DropdownDirective, RemodalDirective } from '../shared/directives';
 import { ObjectUtil, ListUtil } from '../../common/core';
+import { HttpClient } from '../../common/core/http-client';
 
 @Component({
   selector: 'prs-profile-view',
@@ -111,7 +111,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private friendService: FriendService,
     private photosService: PhotosService,
-    private http: Http,
+    private http: HttpClient,
     private counterService: ConnectionsCounterService
   ) {
 
