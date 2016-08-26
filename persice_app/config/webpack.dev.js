@@ -58,7 +58,7 @@ module.exports = webpackMerge(commonConfig, {
     //
     // See: http://webpack.github.io/docs/configuration.html#output-path
     path: helpers.root('dist'),
-    publicPath: '/assets/js/',
+    publicPath: METADATA.isDevServer ? 'http://localhost:8080/assets/js/' : '/assets/js/',
 
     // Specifies the name of each output file on disk.
     // IMPORTANT: You must not specify an absolute path here!
