@@ -29,7 +29,7 @@
     "prebuild:prod": "npm run clean:dist",
     "build:prod": "webpack --config config/webpack.prod.js  --progress --profile --colors --display-error-details --display-cached --bail",
     "postbuild:prod": "mv dist/*.js dist/*.map dist/*.gz dist/assets/js/",
-    "postbuild:dev": "mv dist/*.js dist/*.map dist/assets/js/",
+    "postbuild:dev": "mv dist/*.js dist/assets/js/",
     "server": "npm run server:dev",
     "server:dev": "webpack-dev-server --config config/webpack.dev.js --compress --progress --profile --colors --watch --display-error-details --display-cached --content-base src/",
     "server:dev:hmr": "npm run server:dev -- --inline --hot",
