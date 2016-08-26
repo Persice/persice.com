@@ -36,6 +36,8 @@ describe('MarkupPipe', () => {
   it('applies unordered lists', () => {
     expect(pipe.applyMarkup('checklist: \n- one\n- two\n- three'))
       .toBe('checklist: <ul class="message__text-list pt-"><li>one</li><li>two</li><li>three</li></ul>');
+    expect(pipe.applyMarkup('- one\n- two\n- three'))
+      .toBe('<ul class="message__text-list pt-"><li>one</li><li>two</li><li>three</li></ul>');
   });
 
   it('applies headings', () => {

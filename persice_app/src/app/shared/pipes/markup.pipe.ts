@@ -95,7 +95,7 @@ export class MarkupPipe implements PipeTransform {
 
   private applyUnorderedLists(value: string): string {
     let message = value;
-    message = message.replace(/\n-\s(.+)/g, '<li>$1</li>');
+    message = message.replace(/(?:^|\n)-\s(.+)/g, '<li>$1</li>'); // newline or string start, followed by dash and space
     message = message.replace(/(<li>.+<\/li>)/g, '<ul class="message__text-list pt-">$1</ul>');
 
     return message;
