@@ -16,6 +16,7 @@ export class AuthGuard implements CanActivate {
 
     //Redirect the user before denying them access to this route
     this.router.navigateByUrl('/login');
+    (<any>window).Intercom('shutdown');
     return Observable.of(false);
   }
 

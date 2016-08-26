@@ -4,8 +4,6 @@ import { KeywordsService, NotificationService, FilterService } from '../shared/s
 import { map } from 'lodash';
 import { Auth } from '../../common/auth/auth';
 
-declare var Bloodhound: any;
-
 @Component({
   selector: 'prs-search',
   providers: [KeywordsService],

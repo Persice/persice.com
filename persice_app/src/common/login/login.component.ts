@@ -2,12 +2,14 @@ import { Router } from '@angular/router';
 import { Auth } from '../auth/auth';
 import { OnboardingService } from '../../app/shared/services/onboarding.service';
 
-const MESSAGE_POPUP_OPENED = 'A Facebook pop-up window has opened, please follow the instructions to sign in.';
-const MESSAGE_LOGIN_IN_PROGRESS = 'Please wait. Logging you into Persice.'
-const MESSAGE_LOGIN_ERROR = 'Sorry, we couldn\'t log you in. Please try again.';
-const MESSAGE_LOGIN_SUCCESS = 'Login to Persice is successfull.';
+
 
 export abstract class LoginComponent {
+  protected static MESSAGE_POPUP_OPENED = 'A Facebook pop-up window has opened, please follow the instructions to sign in.';
+  protected static MESSAGE_LOGIN_IN_PROGRESS = 'Please wait. Logging you into Persice.'
+  protected static MESSAGE_LOGIN_ERROR = 'Sorry, we couldn\'t log you in. Please try again.';
+  protected static MESSAGE_LOGIN_SUCCESS = 'Login to Persice is successfull.';
+
   public isInfoVisible: boolean = false;
   public isLoading: boolean = false;
   public message: string = '';
@@ -16,7 +18,7 @@ export abstract class LoginComponent {
 
     this.auth.isLoggingIn().subscribe((loginInProgress: boolean) => {
       if (!!loginInProgress) {
-        this.message = MESSAGE_LOGIN_IN_PROGRESS;
+        this.message = LoginComponent.MESSAGE_LOGIN_IN_PROGRESS;
       }
     });
 
@@ -25,14 +27,14 @@ export abstract class LoginComponent {
   public authenticate(provider: string) {
     this.isInfoVisible = true;
     this.isLoading = true;
-    this.message = MESSAGE_POPUP_OPENED;
+    this.message = LoginComponent.MESSAGE_POPUP_OPENED;
     this.auth.authenticate(provider)
       .subscribe((res) => {
         this.checkOnboardingAndRedirect();
       }, (err) => {
         this.isInfoVisible = true;
         this.isLoading = false;
-        this.message = MESSAGE_LOGIN_ERROR;
+        this.message = LoginComponent.MESSAGE_LOGIN_ERROR;
       });
   }
 
@@ -41,10 +43,10 @@ export abstract class LoginComponent {
     this.message = '';
   }
 
-  private checkOnboardingAndRedirect() {
+  protected checkOnboardingAndRedirect() {
     this.onboardingService.isOnboardingFinished()
       .subscribe((onboardingFinished: boolean) => {
-        this.message = MESSAGE_LOGIN_SUCCESS;
+        this.message = LoginComponent.MESSAGE_LOGIN_SUCCESS;
         this.isLoading = false;
         if (!onboardingFinished) {
           this.router.navigateByUrl('/signup');
@@ -52,7 +54,7 @@ export abstract class LoginComponent {
           this.router.navigateByUrl('/');
         }
       }, (err) => {
-        this.message = MESSAGE_LOGIN_ERROR;
+        this.message = LoginComponent.MESSAGE_LOGIN_ERROR;
         this.isLoading = false;
         this.router.navigateByUrl('/');
       });

@@ -16,6 +16,7 @@ export class NavigationMobileComponent {
 
   public logout(event: MouseEvent) {
     this.auth.logout().subscribe(() => {
+      (<any>window).Intercom('shutdown');
       this.router.navigateByUrl('/login');
     });
   }

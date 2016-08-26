@@ -76,6 +76,7 @@ export class HttpClient {
     // If user is NOT authenticated, logout and clear token from local storage
     if (error.status === 401) {
       this.auth.logout().subscribe((res) => {
+        (<any>window).Intercom('shutdown');
         this.router.navigateByUrl('/login');
       });
     }
