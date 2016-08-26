@@ -29,6 +29,7 @@ popd
 
 pushd bekindred/persice_app
   npm install
+  npm run build
 popd
 
 # Script to configure persice backend
