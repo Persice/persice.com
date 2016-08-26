@@ -16,6 +16,7 @@ from tastypie.constants import ALL
 from tastypie.exceptions import BadRequest
 from tastypie.resources import ModelResource, Resource
 
+from accounts.api.authentication import JSONWebTokenAuthentication
 from events.models import FilterState
 from friends.models import Friend
 from friends.utils import NeoFourJ
@@ -87,7 +88,7 @@ class NeoFriendsResource(Resource):
         resource_name = 'friends'
         object_class = NeoObject
         always_return_data = True
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     # Specific to this resource, just to get the needed Riak bits.
@@ -217,7 +218,7 @@ class FriendsResource(ModelResource):
         filtering = {'friend1': ALL,
                      'friend2': ALL,
                      'status': ALL}
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -272,7 +273,7 @@ class ConnectionsSearchResource(Resource):
 
     class Meta:
         resource_name = 'connectionssearch'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -358,7 +359,7 @@ class ConnectionsResource(LoggingMixin, Resource):
 
     class Meta:
         resource_name = 'connections'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -437,7 +438,7 @@ class ConnectionsResource(LoggingMixin, Resource):
 class FriendsNewResource(Resource):
     class Meta:
         resource_name = 'new_connections/updated_at'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -468,7 +469,7 @@ class FriendsNewCounterResource(Resource):
 
     class Meta:
         resource_name = 'new_connections/counter'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -496,7 +497,7 @@ class NeoFriendsNewCounterResource(Resource):
 
     class Meta:
         resource_name = 'new_connections/counter'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -521,7 +522,7 @@ class NeoFriendsNewCounterResource(Resource):
 class NeoFriendsNewResource(Resource):
     class Meta:
         resource_name = 'new_connections/updated_at'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -554,7 +555,7 @@ class MutualFriendsCountResource(Resource):
 
     class Meta:
         resource_name = 'mutual-friends/count'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):

@@ -4,7 +4,6 @@ from django.utils.timezone import now
 from django_facebook.models import FacebookCustomUser
 from postman.api import pm_write
 from postman.models import Message
-from tastypie.test import ResourceTestCase
 
 from accounts.tests.test_resources import JWTResourceTestCase
 from events.models import Event, Membership
