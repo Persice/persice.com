@@ -81,7 +81,7 @@ class UserResource(ModelResource):
         resource_name = 'auth/user'
         fields = ['username', 'first_name', 'last_name', 'last_login',
                   'about_me', 'facebook_id', 'id', 'date_of_birth',
-                  'facebook_profile_url', 'gender', 'image']
+                  'facebook_profile_url', 'gender', 'image', 'email', 'date_joined']
         filtering = {
             'facebook_id': ALL
         }
