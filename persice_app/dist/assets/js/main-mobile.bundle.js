@@ -2,64 +2,7 @@ webpackJsonp([3],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-	/*
-	 * Providers provided by Angular
-	 */
-	var platform_browser_dynamic_1 = __webpack_require__(316);
-	var browser_1 = __webpack_require__(565);
-	var environment_1 = __webpack_require__(566);
-	var store_1 = __webpack_require__(44);
-	var reducers_1 = __webpack_require__(62);
-	var actions_1 = __webpack_require__(41);
-	var app_mobile_1 = __webpack_require__(496);
-	/*
-	 * Platform and Environment
-	 * our providers/directives/pipes
-	 */
-	/**
-	 * RxJS Redux store and reducers
-	 */
-	/*
-	 * App Component
-	 * our top level component that holds all of our components
-	 */
-	/*
-	 * Bootstrap our Angular app with a top level component `App` and inject
-	 * our Services and Providers into Angular's dependency injection
-	 */
-	function main(initialHmrState) {
-	    return platform_browser_dynamic_1.bootstrap(app_mobile_1.AppMobileComponent, browser_1.PLATFORM_PROVIDERS_MAIN_MOBILE.concat(environment_1.ENV_PROVIDERS, app_mobile_1.APP_PROVIDERS, [
-	        store_1.provideStore(reducers_1.default),
-	        actions_1.default
-	    ]))
-	        .catch(function (err) { return console.error(err); });
-	}
-	exports.main = main;
-	/*
-	 * Vendors
-	 * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
-	 * You can also import them in vendors to ensure that they are bundled in one file
-	 * Also see custom-typings.d.ts as you also need to do `typings install x` where `x` is your module
-	 */
-	/*
-	 * Hot Module Reload
-	 * experimental version
-	 */
-	if (false) {
-	    // activate hot module reload
-	    var ngHmr = require('angular2-hmr');
-	    ngHmr.hotModuleReplacement(main, module);
-	    // fix for closing remodal after hot reload
-	    jQuery('.remodal-overlay').remove();
-	    jQuery('.remodal-wrapper').remove();
-	}
-	else {
-	    // bootstrap when documetn is ready
-	    document.addEventListener('DOMContentLoaded', function () { return main(); });
-	}
-	
+	eval("\"use strict\";\n/*\n * Providers provided by Angular\n */\nvar platform_browser_dynamic_1 = __webpack_require__(316);\nvar browser_1 = __webpack_require__(565);\nvar environment_1 = __webpack_require__(566);\nvar store_1 = __webpack_require__(44);\nvar reducers_1 = __webpack_require__(62);\nvar actions_1 = __webpack_require__(41);\nvar app_mobile_1 = __webpack_require__(497);\n/*\n * Platform and Environment\n * our providers/directives/pipes\n */\n/**\n * RxJS Redux store and reducers\n */\n/*\n * App Component\n * our top level component that holds all of our components\n */\n/*\n * Bootstrap our Angular app with a top level component `App` and inject\n * our Services and Providers into Angular's dependency injection\n */\nfunction main(initialHmrState) {\n    return platform_browser_dynamic_1.bootstrap(app_mobile_1.AppMobileComponent, browser_1.PLATFORM_PROVIDERS_MAIN_MOBILE.concat(environment_1.ENV_PROVIDERS, app_mobile_1.APP_PROVIDERS, [\n        store_1.provideStore(reducers_1.default),\n        actions_1.default\n    ]))\n        .catch(function (err) { return console.error(err); });\n}\nexports.main = main;\n/*\n * Vendors\n * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app\n * You can also import them in vendors to ensure that they are bundled in one file\n * Also see custom-typings.d.ts as you also need to do `typings install x` where `x` is your module\n */\n/*\n * Hot Module Reload\n * experimental version\n */\nif (false) {\n    // activate hot module reload\n    var ngHmr = require('angular2-hmr');\n    ngHmr.hotModuleReplacement(main, module);\n    // fix for closing remodal after hot reload\n    jQuery('.remodal-overlay').remove();\n    jQuery('.remodal-wrapper').remove();\n}\nelse {\n    // bootstrap when documetn is ready\n    document.addEventListener('DOMContentLoaded', function () { return main(); });\n}\n\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/main-mobile.browser.ts\n ** module id = 0\n ** module chunks = 3\n **/\n//# sourceURL=webpack:///./src/main-mobile.browser.ts?");
 
 /***/ }
 ]);
-//# sourceMappingURL=main-mobile.map

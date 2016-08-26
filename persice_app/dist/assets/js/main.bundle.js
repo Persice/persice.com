@@ -2,55 +2,7 @@ webpackJsonp([2],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-	/*
-	 * Providers provided by Angular
-	 */
-	var platform_browser_dynamic_1 = __webpack_require__(316);
-	var browser_1 = __webpack_require__(565);
-	var environment_1 = __webpack_require__(566);
-	var app_1 = __webpack_require__(511);
-	/*
-	 * Platform and Environment
-	 * our providers/directives/pipes
-	 */
-	/*
-	 * App Component
-	 * our top level component that holds all of our components
-	 */
-	/*
-	 * Bootstrap our Angular app with a top level component `App` and inject
-	 * our Services and Providers into Angular's dependency injection
-	 */
-	function main(initialHmrState) {
-	    return platform_browser_dynamic_1.bootstrap(app_1.AppComponent, browser_1.PLATFORM_PROVIDERS_MAIN.concat(environment_1.ENV_PROVIDERS, app_1.APP_PROVIDERS))
-	        .catch(function (err) { return console.error(err); });
-	}
-	exports.main = main;
-	/*
-	 * Vendors
-	 * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app
-	 * You can also import them in vendors to ensure that they are bundled in one file
-	 * Also see custom-typings.d.ts as you also need to do `typings install x` where `x` is your module
-	 */
-	/*
-	 * Hot Module Reload
-	 * experimental version
-	 */
-	if (false) {
-	    // activate hot module reload
-	    var ngHmr = require('angular2-hmr');
-	    ngHmr.hotModuleReplacement(main, module);
-	    // fix for closing remodal after hot reload
-	    jQuery('.remodal-overlay').remove();
-	    jQuery('.remodal-wrapper').remove();
-	}
-	else {
-	    // bootstrap when documetn is ready
-	    document.addEventListener('DOMContentLoaded', function () { return main(); });
-	}
-	
+	eval("\"use strict\";\n/*\n * Providers provided by Angular\n */\nvar platform_browser_dynamic_1 = __webpack_require__(316);\nvar browser_1 = __webpack_require__(565);\nvar environment_1 = __webpack_require__(566);\nvar app_1 = __webpack_require__(512);\n/*\n * Platform and Environment\n * our providers/directives/pipes\n */\n/*\n * App Component\n * our top level component that holds all of our components\n */\n/*\n * Bootstrap our Angular app with a top level component `App` and inject\n * our Services and Providers into Angular's dependency injection\n */\nfunction main(initialHmrState) {\n    return platform_browser_dynamic_1.bootstrap(app_1.AppComponent, browser_1.PLATFORM_PROVIDERS_MAIN.concat(environment_1.ENV_PROVIDERS, app_1.APP_PROVIDERS))\n        .catch(function (err) { return console.error(err); });\n}\nexports.main = main;\n/*\n * Vendors\n * For vendors for example jQuery, Lodash, angular2-jwt just import them anywhere in your app\n * You can also import them in vendors to ensure that they are bundled in one file\n * Also see custom-typings.d.ts as you also need to do `typings install x` where `x` is your module\n */\n/*\n * Hot Module Reload\n * experimental version\n */\nif (false) {\n    // activate hot module reload\n    var ngHmr = require('angular2-hmr');\n    ngHmr.hotModuleReplacement(main, module);\n    // fix for closing remodal after hot reload\n    jQuery('.remodal-overlay').remove();\n    jQuery('.remodal-wrapper').remove();\n}\nelse {\n    // bootstrap when documetn is ready\n    document.addEventListener('DOMContentLoaded', function () { return main(); });\n}\n\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/main.browser.ts\n ** module id = 0\n ** module chunks = 2\n **/\n//# sourceURL=webpack:///./src/main.browser.ts?");
 
 /***/ }
 ]);
-//# sourceMappingURL=main.map
