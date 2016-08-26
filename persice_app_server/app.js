@@ -32,21 +32,21 @@ device.enableDeviceHelpers(app);
 app.locals.env = app.settings.env;
 
 // Set flags for loading js bundles in template
-if (app.settings.env === 'development') {
-  app.locals.is_development = true;
-}
-
-switch(app.settings.env) {
+switch (app.settings.env) {
   case 'development':
     app.locals.is_development = true;
+    break;
   case 'webpack':
     app.locals.is_webpack = true;
+    break;
   case 'production':
     app.locals.is_production = true;
+    break;
   default:
     app.locals.is_webpack = false;
     app.locals.is_development = true;
     app.locals.is_production = false;
+    break;
 }
 
 app.use('/', routes);
