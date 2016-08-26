@@ -116,8 +116,7 @@ export class PoliticalViewsService {
   }
 
   public delete(uri): Observable<any> {
-    return this.http.delete(`${uri}?format=json`)
-      .map((res: Response) => res.json());
+    return this.http.delete(`${uri}?format=json`);
   }
 
 }

@@ -41,7 +41,7 @@ export class EventMembersService {
   }
 
   public deleteOneByUri(resourceUri: string): Observable<any> {
-    return this.http.delete(resourceUri).map((res: Response) => res.json());
+    return this.http.delete(resourceUri);
   }
 
 }

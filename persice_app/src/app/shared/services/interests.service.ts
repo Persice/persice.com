@@ -68,8 +68,7 @@ export class InterestsService {
   }
 
   public delete(url: string): Observable<any> {
-    return this.http.delete(`${url}?format=json`)
-      .map((res: Response) => res.json());
+    return this.http.delete(`${url}?format=json`);
   }
 
 }

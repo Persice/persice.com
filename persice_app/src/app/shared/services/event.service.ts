@@ -215,8 +215,7 @@ export class EventService {
 
   public deleteByUri(resourceUri: string): Observable<any> {
     return this.http
-      .delete(`${resourceUri}?format=json`)
-      .map((res: Response) => res.json());
+      .delete(`${resourceUri}?format=json`);
   }
 
   public validate(data): Observable<any> {

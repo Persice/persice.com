@@ -98,7 +98,7 @@ export class PhotosService {
   }
 
   public delete(url: string, cb: (status: number) => void) {
-    let channel = this.http.delete(`${url}?format=json`).map((res: Response) => res.json())
+    let channel = this.http.delete(`${url}?format=json`)
       .subscribe((data) => {
         cb(1);
         channel.unsubscribe();
