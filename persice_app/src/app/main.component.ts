@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from './header';
 import { NavigationComponent } from './navigation';
@@ -18,6 +19,7 @@ import {
   ConnectionsCounterService,
   NotificationsService
 } from './shared/services';
+import { IntercomUtil } from '../common/core/util';
 
 @Component({
   selector: 'prs-main-cmp',
@@ -67,8 +69,10 @@ export class MainComponent implements OnInit, OnDestroy {
     private messagesCounterService: MessagesCounterService,
     private connectionsCounterService: ConnectionsCounterService,
     private notificationsService: NotificationsService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
+    this.activeRoute = this.location.path();
   }
 
   ngOnInit() {
@@ -94,7 +98,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
     // Get AuthUser info for the app
     this.userService.get()
-      .subscribe(data => this.assignAuthUser(data));
+      .subscribe(data => {
+        this.assignAuthUser(data);
+        IntercomUtil.boot(data);
+      });
 
     //create new observer and subscribe for notification service
     this.notificationService.addObserver('app');
@@ -136,7 +143,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.websocketService.on(channel).subscribe((data: any) => {
       switch (channel) {
         case 'messages:new':
-          if (this.activeRoute.indexOf('messages') === -1) {
+          if (!!this.activeRoute && this.activeRoute.indexOf('messages') === -1) {
             this.messagesCounterService.refreshCounter();
             this.notificationsService.set({
               title: `1 new message from ${data.sender_name}`,
@@ -175,9 +182,6 @@ export class MainComponent implements OnInit, OnDestroy {
         },
         (err) => {
           console.log('Location saving error: ', err);
-        },
-        () => {
-
         });
   }
 

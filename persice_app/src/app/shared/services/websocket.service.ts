@@ -1,21 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as io from 'socket.io-client';
-
-const HOSTNAME: string = window.location.hostname;
+import { Auth } from '../../../common/auth/auth';
 
 @Injectable()
 export class WebsocketService {
 
-  static API_URL: string = '//' + HOSTNAME;
   static _socket: any;
 
-  constructor() {
-    WebsocketService._socket = io();
+  private token: string;
+
+  constructor(private auth: Auth) {
+    this.token = auth.getToken();
   }
 
   public connect() {
-    WebsocketService._socket.connect(WebsocketService.API_URL);
+    WebsocketService._socket = io('/', {
+      query: 'token=' + this.token
+    });
+    WebsocketService._socket.connect();
+
+    WebsocketService._socket.on('unauthorized', (error) => {
+      console.log('Websocket is not authorized: ', error);
+
+      if (error.data.type == 'UnauthorizedError' || error.data.code == 'invalid_token') {
+        // redirect user to login page perhaps?
+        console.log('User\'s token has expired');
+      }
+
+    });
   }
 
   public disconnect() {
@@ -24,7 +37,6 @@ export class WebsocketService {
 
   public on(evt: string): Subject<any> {
     let subj = new Subject<any>();
-    subj.next('pero');
     WebsocketService._socket.on(evt, (res) => {
       subj.next(res);
     });
