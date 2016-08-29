@@ -6,7 +6,7 @@
     <input [(ngModel)]="newItemText" (keyup)="inputChanged($event)" type="text"
            class="search__input typeahead"
            id="typeaheadInput"
-           placeholder="Enter or select at least three interests"
+           placeholder="Select or type at least 3 interests"
            persice-autocomplete
            [apiUrl]="AUTOCOMPLETE_API_ENDPOINT"
            [apiAttr]="AUTOCOMPLETE_API_ATTRIBUTE"
