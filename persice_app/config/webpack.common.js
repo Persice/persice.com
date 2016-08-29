@@ -9,10 +9,8 @@ helpers.dotenv.config({path: './.env.settings'});
 /**
  * Webpack Plugins
  */
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const BundleTracker = require('webpack-bundle-tracker');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -41,18 +39,6 @@ module.exports = {
   //
   // See: http://webpack.github.io/docs/configuration.html#cache
   // cache: false,
-
-  // The entry point for the bundle
-  // Our Angular.js app
-  //
-  // See: http://webpack.github.io/docs/configuration.html#entry
-  entry: {
-    'polyfills': './src/polyfills.browser.ts', // our browser polyfills (es6-promise, etc)
-    'vendor': './src/vendor.browser.ts', // our vendor (angular2, rxjs)
-    'main': './src/main.browser.ts', // persice main desktop app
-    'main-mobile': './src/main-mobile.browser.ts', // persice main mobile app
-    // 'signup-mobile': './src/signup-mobile.browser.ts' // persice mobile signup app
-  },
 
   // Options affecting the resolving of modules.
   //
@@ -185,16 +171,6 @@ module.exports = {
       name: ['polyfills', 'vendor'].reverse()
     }),
 
-    // Plugin: CopyWebpackPlugin
-    // Description: Copy files and directories in webpack.
-    //
-    // Copies project static assets.
-    //
-    // See: https://www.npmjs.com/package/copy-webpack-plugin
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
     new BundleTracker({indent: 2, path: __dirname, filename: '../webpack-stats.json'}),
 
   ],

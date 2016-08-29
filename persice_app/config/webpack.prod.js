@@ -49,6 +49,13 @@ module.exports = webpackMerge(commonConfig, {
   // See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
   devtool: 'source-map',
 
+  entry: {
+    'polyfills': './src/polyfills.browser.ts', // our browser polyfills (es6-promise, etc)
+    'vendor': './src/vendor.browser.ts', // our vendor (angular2, rxjs)
+    'main': './src/main.browser.ts', // persice main desktop app
+    'main-mobile': './src/main-mobile.browser.ts', // persice main mobile app
+  },
+
   // Options affecting the output of the compilation.
   //
   // See: http://webpack.github.io/docs/configuration.html#output
@@ -171,7 +178,7 @@ module.exports = webpackMerge(commonConfig, {
       // comments: true, //debug
 
       beautify: false, //prod
-      mangle: { screw_ie8 : true }, //prod
+      mangle: { screw_ie8: true }, //prod
       compress: { screw_ie8: true, warnings: false }, //prod
       comments: false //prod
     }),
@@ -218,7 +225,16 @@ module.exports = webpackMerge(commonConfig, {
       chunksSortMode: 'dependency',
       minify: false
     }),
-
+    // Plugin: CopyWebpackPlugin
+    // Description: Copy files and directories in webpack.
+    //
+    // Copies project static assets.
+    //
+    // See: https://www.npmjs.com/package/copy-webpack-plugin
+    new CopyWebpackPlugin([{
+      from: 'src/assets',
+      to: 'assets'
+    }])
   ],
 
   // Static analysis linter for TypeScript advanced options configuration
