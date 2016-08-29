@@ -4,8 +4,8 @@
   <div class="translate-50">
     <a class="site-logo" href="/accounts/login"> <img alt="#" src="{% static 'assets/images/logo.svg' %}" class="site-logo__mark">
       <h1 class="site-logo__type">Persice</h1> </a>
-    <h2 class="signup-title">Real world connections</h2>
-    <p class="signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
+    <h2 class="signup-title">Real Life Connections</h2>
+    <p class="signup-subtitle">Discover people and events that match your interests.</p>
     {% if hide %}
     <p class="signup-subtitle">Persice is only available on mobile devices at this time. Please login via your smartphone</p>
     {% endif %}
@@ -16,6 +16,11 @@
           {% csrf_token %}
           <input type="hidden" value="/" name="next" />
           <a onclick="login(this.parentNode); return false;" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+          <p style="margin-top: 40px;">
+            <svg role="img" class="icon ">
+              <use xlink:href="{{ STATIC_URL }}assets/icons/icons.svg#icon-lock"></use>
+            </svg> Persice will never share your data or post on your behalf.
+          </p>
         </form>
       </div>
     </div>
