@@ -29,7 +29,24 @@ describe('MarkupPipe', () => {
     expect(pipe.applyMarkup('lolololo _ lo_ lololo_')).toBe('lolololo _ lo_ lololo_');
   });
 
+  it('applies line breaks', () => {
+    expect(pipe.applyMarkup('hi\nDave')).toBe('hi <br>Dave');
+  });
+
+  it('applies unordered lists', () => {
+    expect(pipe.applyMarkup('checklist: \n- one\n- two\n- three'))
+      .toBe('checklist: <ul class="message__text-list pt-"><li>one</li><li>two</li><li>three</li></ul>');
+    expect(pipe.applyMarkup('- one\n- two\n- three'))
+      .toBe('<ul class="message__text-list pt-"><li>one</li><li>two</li><li>three</li></ul>');
+  });
+
+  it('applies headings', () => {
+    expect(pipe.applyMarkup('[title]title[title]\nmessage'))
+      .toBe('<h4 class="message__system__title">title</h4> <br>message');
+  });
+
   it('applies links', () => {
+    expect(pipe.applyMarkup('http://google.com')).toBe('<a href="http://google.com">http://google.com</a>');
     expect(pipe.applyMarkup('link http://google.com')).toBe('link <a href="http://google.com">http://google.com</a>');
     expect(pipe.applyMarkup('link http://google.com/?query=1&param=2'))
       .toBe('link <a href="http://google.com/?query=1&param=2">http://google.com/?query=1&param=2</a>');
@@ -40,5 +57,9 @@ describe('MarkupPipe', () => {
       .toBe('link <a href="http://www.google.com">http://www.google.com</a>');
     expect(pipe.applyMarkup('link http://www.google.com google.com another http://persice.com'))
       .toBe('link <a href="http://www.google.com">http://www.google.com</a> google.com another <a href="http://persice.com">http://persice.com</a>');
+    expect(pipe.applyMarkup('link [http://google.com google]')).toBe('link <a href="http://google.com">google</a>');
+    expect(pipe.applyMarkup('[http://google.com google]')).toBe('<a href="http://google.com">google</a>');
+    expect(pipe.applyMarkup('[http://google.com google] is the best search engine, http://google.com'))
+      .toBe('<a href="http://google.com">google</a> is the best search engine, <a href="http://google.com">http://google.com</a>');
   });
 });

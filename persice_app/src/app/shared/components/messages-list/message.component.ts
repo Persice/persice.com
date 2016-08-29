@@ -1,10 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckImageDirective } from '../../directives';
+import { MarkupPipe } from '../../pipes/markup.pipe';
 
 @Component({
   selector: 'prs-message',
   directives: [CheckImageDirective],
+  pipes: [
+    MarkupPipe
+  ],
   template: `
   <div class="message is-open">
     <div class="flag flag--top flag--small">
@@ -20,7 +24,7 @@ import { CheckImageDirective } from '../../directives';
           <span (click)="openProfile(message.username)">{{message?.name}}</span>
           <span (click)="openProfile(message.username)" class="message__timestamp">{{message?.time}}</span>
         </div>
-        <div class="message__text">{{message?.body}}</div>
+        <div [innerHTML]="message?.body | markup:true" class="message__text"></div>
       </div>
     </div>
   </div>

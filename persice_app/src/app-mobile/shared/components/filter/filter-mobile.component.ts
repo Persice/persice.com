@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FilterComponent } from '../../../../common/filter';
 import { SliderComponent } from '../../../../common/slider';
 import { FilterService } from '../../../../app/shared/services';
@@ -15,10 +15,14 @@ import { KeywordsComponentMobile } from '../keywords/keywords-mobile.component';
 })
 export class FilterMobileComponent extends FilterComponent implements OnInit, OnDestroy {
   @Input() showGender = true;
+  @Input() showAge = true;
+  @Input() showHeaderOnBack: boolean = true;
 
   @Input() set type(value: string) {
     this.checkIfEvents(value);
   };
+
+  @Output() onCloseFilters: EventEmitter<any> = new EventEmitter();
 
   filtersVisible: boolean = true;
   keywordsVisible: boolean = false;
@@ -63,16 +67,21 @@ export class FilterMobileComponent extends FilterComponent implements OnInit, On
   }
 
   public onBack() {
+    this.onCloseFilters.emit({ data: ''});
     this._hideFiltersAndShowMainHeader();
   }
 
   public onGo() {
+    this.onCloseFilters.emit({ data: ''});
     this._hideFiltersAndShowMainHeader();
     this.filterService.publishObservers();
   }
 
   private _hideFiltersAndShowMainHeader() {
     this.appStateService.setFilterVisibility(false);
-    this.appStateService.setHeaderVisibility(true);
+
+    if (this.showHeaderOnBack) {
+      this.appStateService.setHeaderVisibility(true);
+    }
   }
 }
