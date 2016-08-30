@@ -2,10 +2,13 @@
      [ngClass]="{'is-removed': !active, 'warning': type === 'warning', 'error': type === 'error', 'notification-main': main, 'notification-full': full}">
   <div class="layout layout--auto layout--middle layout--flush">
     <div class="layout__item 3/4">
-      <div class="flag flag--small">
+      <div class="flag flag--small" style="text-align: left;">
         <div class="flag__img">
           <svg role="img" class="icon" *ngIf="type === 'success'">
             <use xlink:href="/assets/icons/icons.svg#icon-success"></use>
+          </svg>
+          <svg role="img" class="icon" *ngIf="type === 'warning'">
+            <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
           </svg>
         </div>
         <div class="flag__body">

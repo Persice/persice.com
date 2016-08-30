@@ -1,5 +1,6 @@
 <h2 class="signup-step__title">What interests you?</h2>
-<p class="signup-step__subtitle signup-step__subtitle__warning search__notification--error" *ngIf="showWarning">Please select at least three.</p>
+<prs-notification [type]="'warning'" [body]="'Please select at least 3 interests.'" [full]="true" [title]="'Warning'"
+                  [active]="showWarning"></prs-notification>
 <div class="search-signup-wrapper">
   <div class="search search--signup typeahead-search">
     <div class="search__top" id="interestsSearch">
