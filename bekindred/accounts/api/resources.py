@@ -175,5 +175,5 @@ class TwitterSocialConnectResource(Resource):
             )
             bundle.data['request_token'] = oauth_client.fetch_request_token(
                 REQUEST_TOKEN_URL
-            )
+            )['oauth_token_secret']
         return bundle
