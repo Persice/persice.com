@@ -27,6 +27,11 @@ const AUTH = [
         display: 'popup',
         scope: FACEBOOK_SCOPE.split(',')
       },
+      twitter: {
+        url: '/api/v2/accounts/twitter/connect/',
+        authorizationEndpoint: 'https://api.twitter.com/oauth/authorize',
+        redirectUri: window.location.origin + '/signup/connect/',
+      }
     }
   })
 ];

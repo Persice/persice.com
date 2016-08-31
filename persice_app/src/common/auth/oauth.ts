@@ -19,8 +19,8 @@ export class Oauth {
 
   authenticate(name: string, userData?: any): Observable<any> {
     // var injector = Injector.resolveAndCreate([Oauth1, Oauth2]);
-    let provider: Oauth1 | Oauth2 = this.config.providers[name].type === '1.0' ? this.injector.get(Oauth1) : this.injector.get(Oauth2);
-    return provider.open(this.config.providers[name], userData || {})
+    let provider: any | Oauth1 | Oauth2 = this.config.providers[name].type === '1.0' ? this.injector.get(Oauth1) : this.injector.get(Oauth2);
+    return <any> provider.open(this.config.providers[name], userData || {})
       .do((response: Response) => {
         // this is for a scenario when someone wishes to opt out from
         // satellizer's magic by doing authorization code exchange and

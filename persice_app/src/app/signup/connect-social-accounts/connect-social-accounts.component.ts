@@ -1,5 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { UserAuthService } from '../../shared/services';
+import { Auth } from '../../../common/auth';
 
 @Component({
   selector: 'prs-signup-connect',
@@ -20,7 +21,7 @@ export class SignupConnectSocialAccountsComponent implements OnInit {
     }
   };
 
-  constructor(private service: UserAuthService, private _ngZone: NgZone) { }
+  constructor(private service: UserAuthService, private _ngZone: NgZone, private auth: Auth) { }
 
   ngOnInit() {
     this.getConnectStatus();
@@ -50,25 +51,31 @@ export class SignupConnectSocialAccountsComponent implements OnInit {
   }
 
   connect(provider) {
-    let w = 400;
-    let h = 300;
 
-    let dualScreenLeft = window.screenLeft;
-    let dualScreenTop = window.screenTop;
 
-    let width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    let height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+    this.auth.authenticate(provider).subscribe((res) => {
+      console.log(res);
+    });
 
-    let left = ((width / 2) - (w / 2)) + dualScreenLeft;
-    let top = ((height / 2) - (h / 2)) + dualScreenTop;
+    // let w = 400;
+    // let h = 300;
 
-    let settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
-    let url = '/social/associate/' + provider + '/?next=/goals/close_login_popup/';
-    let newWindow = window.open(url, `Connecting your ${provider} account...`, settings);
+    // let dualScreenLeft = window.screenLeft;
+    // let dualScreenTop = window.screenTop;
 
-    if (window.focus) {
-      newWindow.focus();
-    }
+    // let width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    // let height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    // let left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    // let top = ((height / 2) - (h / 2)) + dualScreenTop;
+
+    // let settings = 'height=' + h + ',width=' + w + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=yes,directories=no,status=yes';
+    // let url = '/social/associate/' + provider + '/?next=/goals/close_login_popup/';
+    // let newWindow = window.open(url, `Connecting your ${provider} account...`, settings);
+
+    // if (window.focus) {
+    //   newWindow.focus();
+    // }
   }
 
   disconnect(provider) {
