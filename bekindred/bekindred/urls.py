@@ -3,7 +3,8 @@ from django.conf.urls import include, patterns, url
 from django.contrib import admin
 from tastypie.api import Api
 
-from accounts.api.resources import SocialLoginResource
+from accounts.api.resources import SocialLoginResource, \
+    TwitterSocialConnectResource
 from events.api.resources import (AboutMeResource, EventAttendees,
                                   EventConnections, EventResource,
                                   MembershipResource, EventFeedResource,
@@ -83,6 +84,8 @@ v2_api.register(Attendees())
 v2_api.register(MutualConnections())
 v2_api.register(MutualFriendsCountResource())
 v2_api.register(SocialLoginResource())
+v2_api.register(TwitterSocialConnectResource())
+
 
 urlpatterns = patterns('',
                        url(r'^signup/interests', 'goals.views.signup_page',
