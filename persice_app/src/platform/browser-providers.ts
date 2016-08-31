@@ -30,7 +30,7 @@ const AUTH = [
       twitter: {
         url: '/api/v2/accounts/twitter/connect/',
         authorizationEndpoint: 'https://api.twitter.com/oauth/authorize',
-        redirectUri: window.location.origin + '/signup/connect/',
+        redirectUri: window.location.origin + '/public/close_popup/',
       }
     }
   })
