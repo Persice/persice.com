@@ -3,52 +3,32 @@
   "chunks": {
     "polyfills": [
       {
-        "name": "polyfills.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/polyfills.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/polyfills.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js"
-      },
-      {
-        "name": "polyfills.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/polyfills.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/polyfills.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map"
+        "name": "polyfills0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "publicPath": "/assets/js/polyfills0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "path": "/Users/sasha/Documents/repos/persice.com/persice_app/dist/polyfills0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js"
       }
     ],
     "vendor": [
       {
-        "name": "vendor.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/vendor.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/vendor.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js"
-      },
-      {
-        "name": "vendor.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/vendor.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/vendor.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map"
+        "name": "vendor0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "publicPath": "/assets/js/vendor0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "path": "/Users/sasha/Documents/repos/persice.com/persice_app/dist/vendor0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js"
       }
     ],
     "main": [
       {
-        "name": "main.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js"
-      },
-      {
-        "name": "main.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map"
+        "name": "main0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "publicPath": "/assets/js/main0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "path": "/Users/sasha/Documents/repos/persice.com/persice_app/dist/main0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js"
       }
     ],
     "main-mobile": [
       {
-        "name": "main-mobile.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main-mobile.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.js"
-      },
-      {
-        "name": "main-mobile.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main-mobile.ed468418b4a946dd7ea279689ee9de819d68b334.prod.bundle.map"
+        "name": "main-mobile0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "publicPath": "/assets/js/main-mobile0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js",
+        "path": "/Users/sasha/Documents/repos/persice.com/persice_app/dist/main-mobile0b2859d10eda2ea9f841598f9e5c2c9d4e963473.bundle.js"
       }
     ]
   },
-  "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/"
+  "publicPath": "/assets/js/"
 }
