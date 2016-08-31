@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ManageInterestsComponent } from '../../common/manage-interests';
-import { InterestsService, KeywordsService, WarningService } from '../../app/shared/services';
-import { SignupStateService } from '../../common/services';
-import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../common/directives';
-import { LoadingComponent } from '../../app/shared/components/loading';
-import { NotificationComponent } from '../../app/shared/components/notification/notification.component';
+import { ManageInterestsComponent } from '../../../common/manage-interests';
+import { InterestsService, KeywordsService, WarningService } from '../../shared/services';
+import { SignupStateService } from '../../../common/services';
+import { AutocompleteDirective, InfiniteScrollElementDirective } from '../../../common/directives';
+import { LoadingComponent } from '../../shared/components/loading';
+import { NotificationComponent } from '../../shared/components/notification/notification.component';
 
 @Component({
   selector: 'prs-signup-interests',
