@@ -97,7 +97,6 @@ class SocialLoginResource(Resource):
 
 class TwitterSocialConnectResource(Resource):
     id = fields.CharField(attribute='id')
-    token = fields.CharField(attribute='token')
 
     class Meta:
         resource_name = 'accounts/twitter/connect'
@@ -174,6 +173,7 @@ class TwitterSocialConnectResource(Resource):
                 consumer_key,
                 client_secret=consumer_secret,
             )
-            resp = oauth_client.fetch_request_token(REQUEST_TOKEN_URL)
-            bundle.data['request_token'] = resp
+            bundle.data['request_token'] = oauth_client.fetch_request_token(
+                REQUEST_TOKEN_URL
+            )
         return bundle
