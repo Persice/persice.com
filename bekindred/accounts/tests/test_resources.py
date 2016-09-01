@@ -16,3 +16,15 @@ class JWTResourceTestCase(ResourceTestCase):
         })
 
         return '%s %s' % (settings.JWT_AUTH_HEADER_PREFIX, jwt)
+
+
+class TestTwitterConnectResource(ResourceTestCase):
+    def get_credentials(self):
+        pass
+
+    def test_simple_login_json(self):
+        data = {
+        }
+        resp = self.api_client.post('/api/v2/accounts/twitter/connect/',
+                                    format='json', data=data)
+        self.assertEqual(self.deserialize(resp), {})
