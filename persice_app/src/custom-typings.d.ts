@@ -56,12 +56,14 @@ declare var ENV: string;
 declare var HMR: boolean;
 declare var FACEBOOK_ID: string;
 declare var FACEBOOK_SCOPE: string;
+declare var LINKEDIN_ID: string;
 
 interface GlobalEnvironment {
   ENV;
   HMR;
   FACEBOOK_ID;
   FACEBOOK_SCOPE;
+  LINKEDIN_ID;
 }
 
 interface Es6PromiseLoader {

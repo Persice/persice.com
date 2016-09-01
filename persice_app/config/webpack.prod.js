@@ -24,6 +24,7 @@ const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
 const FACEBOOK_ID = process.env.FACEBOOK_ID_PRODUCTION;
+const LINKEDIN_ID = process.env.LINKEDIN_ID_PRODUCTION;
 const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
 
 const AWS_S3_CUSTOM_DOMAIN = process.env.AWS_S3_CUSTOM_DOMAIN;
@@ -34,6 +35,7 @@ const METADATA = webpackMerge(commonConfig.metadata, {
   ENV: ENV,
   HMR: false,
   FACEBOOK_ID: FACEBOOK_ID,
+  LINKEDIN_ID: LINKEDIN_ID,
   FACEBOOK_SCOPE: FACEBOOK_SCOPE
 });
 
@@ -138,12 +140,14 @@ module.exports = webpackMerge(commonConfig, {
       'ENV': JSON.stringify(METADATA.ENV),
       'HMR': METADATA.HMR,
       'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+      'LINKEDIN_ID': JSON.stringify(METADATA.LINKEDIN_ID),
       'FACEBOOK_SCOPE': JSON.stringify(METADATA.FACEBOOK_SCOPE),
       'process.env': {
         'ENV': JSON.stringify(METADATA.ENV),
         'NODE_ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
         'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+        'LINKEDIN_ID': JSON.stringify(METADATA.LINKEDIN_ID),
         'FACEBOOK_SCOPE': JSON.stringify(process.env.FACEBOOK_SCOPE)
       }
     }),

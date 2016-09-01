@@ -25,12 +25,21 @@ const AUTH = [
         redirectUri: window.location.origin + '/public/close_popup/',
         clientId: FACEBOOK_ID,
         display: 'popup',
+        state: '9gF50kZvzXkt1Pvh',
         scope: FACEBOOK_SCOPE.split(',')
       },
       twitter: {
         url: '/api/v2/accounts/twitter/connect/',
         authorizationEndpoint: 'https://api.twitter.com/oauth/authorize',
+        redirectUri: window.location.origin + '/public/close_popup/'
+      },
+      linkedin: {
+        clientId: LINKEDIN_ID,
+        url: '/api/v2/accounts/linkedin/connect/',
         redirectUri: window.location.origin + '/public/close_popup/',
+        scope: ['r_basicprofile', 'rw_company_admin', 'r_emailaddress', 'w_share'],
+        scopeDelimiter: ',',
+        state: 'ZjUV40DdytBHaLPj'
       }
     }
   })
