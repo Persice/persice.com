@@ -16,6 +16,8 @@ from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest
 from tastypie.resources import Resource
 
+from core.utils import load_twitter_user_friends
+
 logger = logging.getLogger(__name__)
 
 
@@ -172,6 +174,7 @@ class TwitterSocialConnectResource(Resource):
                     bundle.request.user, uid, 'twitter')
                 social_user.extra_data = response
                 social_user.save()
+                load_twitter_user_friends(social_user)
 
             try:
                 url = 'https://api.twitter.com/1.1/account/' \
