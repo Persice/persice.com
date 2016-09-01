@@ -102,7 +102,6 @@ export class SignupMobileComponent implements OnInit, OnDestroy {
   }
 
   onRouteChanged(url: string) {
-    console.log('route changed', url);
     switch (url) {
       case '/signup/interests':
         this.showBack = false;
