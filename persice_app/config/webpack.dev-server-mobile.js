@@ -20,6 +20,7 @@ const HOST = 'localhost';
 const PORT = 8080;
 
 const FACEBOOK_ID = process.env.FACEBOOK_ID_DEVELOPMENT;
+const LINKENDIN_ID = process.env.LINKENDIN_ID_DEVELOPMENT;
 const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
 
 const METADATA = webpackMerge(commonConfig.metadata, {
@@ -28,6 +29,7 @@ const METADATA = webpackMerge(commonConfig.metadata, {
   ENV: ENV,
   HMR: HMR,
   FACEBOOK_ID: FACEBOOK_ID,
+  LINKEDIN_ID: LINKEDIN_ID,
   FACEBOOK_SCOPE: FACEBOOK_SCOPE
 });
 
@@ -98,12 +100,14 @@ module.exports = webpackMerge(commonConfig, {
       'ENV': JSON.stringify(METADATA.ENV),
       'HMR': METADATA.HMR,
       'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+      'LINKEDIN_ID': JSON.stringify(METADATA.LINKEDIN_ID),
       'FACEBOOK_SCOPE': JSON.stringify(METADATA.FACEBOOK_SCOPE),
       'process.env': {
         'ENV': JSON.stringify(METADATA.ENV),
         'NODE_ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
         'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+        'LINKEDIN_ID': JSON.stringify(METADATA.LINKEDIN_ID),
         'FACEBOOK_SCOPE': JSON.stringify(process.env.FACEBOOK_SCOPE)
       }
     })
