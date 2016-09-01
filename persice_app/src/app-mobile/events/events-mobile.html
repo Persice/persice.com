@@ -48,8 +48,8 @@
   <div class="content pb++ events-content--main" *ngIf="!(isLoadingInitial$ | async)">
     <div class="events-list-container" prs-infinite-scroll (scrolled)="loadMoreEvents($event)" [scrollEnabled]="!isLoaded"
          [bottomOffset]="60">
-      <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" [username]="usernameFromCookie"
-                                [userId]="userIdFromCookie"
+      <prs-mobile-event-summary (onOpenEvent)="openEvent(event)" [event]="event" [username]="usernameFromToken"
+                                [userId]="userIdFromToken"
                                 *ngFor="let event of events$ | async"></prs-mobile-event-summary>
     </div>
   </div>
