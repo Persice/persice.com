@@ -20,7 +20,7 @@ const HOST = 'localhost';
 const PORT = 8080;
 
 const FACEBOOK_ID = process.env.FACEBOOK_ID_DEVELOPMENT;
-const LINKENDIN_ID = process.env.LINKENDIN_ID_DEVELOPMENT;
+const LINKEDIN_ID = process.env.LINKEDIN_ID_DEVELOPMENT;
 const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
 
 const METADATA = webpackMerge(commonConfig.metadata, {
