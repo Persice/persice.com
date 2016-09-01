@@ -16,6 +16,7 @@ import { KeywordsComponentMobile } from '../keywords/keywords-mobile.component';
 export class FilterMobileComponent extends FilterComponent implements OnInit, OnDestroy {
   @Input() showGender = true;
   @Input() showAge = true;
+  @Input() showDateRange: boolean = false;
   @Input() showHeaderOnBack: boolean = true;
 
   @Input() set type(value: string) {

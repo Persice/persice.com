@@ -1,6 +1,8 @@
 import { findIndex, debounce } from 'lodash';
 import { FilterModel, InterfaceFilter } from '../../app/shared/models';
 import { FilterService } from '../../app/shared/services';
+import { DateUtil } from '../../app/shared/core/util';
+import { STATUS_CODES } from 'http';
 
 export abstract class FilterComponent {
   showAge: boolean = true;
@@ -61,6 +63,13 @@ export abstract class FilterComponent {
   };
   saveDebounced: Function;
 
+  START_DATE_ISO = DateUtil.format(DateUtil.todayRoundUp(), 'YYYY-MM-DD');
+  START_DATE_MS = DateUtil.todayRoundUp().unix() * 1000;
+  END_DATE_MS = DateUtil.nextMonth().unix() * 1000;
+
+  selectedStartDate = this.START_DATE_ISO;
+  selectedEndDate = null;
+
   timeoutIdFiltersSave = null;
 
   constructor(protected filterService: FilterService) {
@@ -113,6 +122,16 @@ export abstract class FilterComponent {
 
   distanceChanged(value) {
     this.distanceValue = value.from;
+  }
+
+  startDateChanged(data: any) {
+    this.selectedStartDate = data;
+    console.log('setting start date to', data);
+  }
+
+  endDateChanged(data: any) {
+    this.selectedEndDate = data;
+    console.log('setting end date to', data);
   }
 
   saveDistance(value) {

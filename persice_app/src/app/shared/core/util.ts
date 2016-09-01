@@ -339,6 +339,10 @@ export class DateUtil {
     return moment.unix(timestamp).format('MM/DD/YYYY');
   }
 
+  static convertFromUnixToIsoDate<S extends string, N extends number>(timestamp: N): S {
+    return moment.unix(timestamp).format('YYYY-MM-DD');
+  }
+
 
   static convertToHours(mins: number): string {
     let hours = Math.trunc(mins / 60);
@@ -423,17 +427,40 @@ export class DateUtil {
     return moment(datetime).tz(tzName).add(2, 'hours').startOf('hour');
   }
 
+  // tomorrow
+  static tomorrow(): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
 
-  //time ago
+    let datetime = new Date();
+    return moment(datetime).tz(tzName).add(1, 'days').startOf('day');
+  }
+
+  // next month
+  static nextMonth(): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+
+    let datetime = new Date();
+    return moment(datetime).tz(tzName).add(1, 'months').startOf('day');
+  }
+
+  // next year
+  static nextYear(): any {
+    let tz = jstz.determine();
+    let tzName = tz.name();
+
+    let datetime = new Date();
+    return moment(datetime).tz(tzName).add(1, 'years');
+  }
+
+    //time ago
   static fromNow(date): any {
     let tz = jstz.determine();
     let tzName = tz.name();
     return moment(date).tz(tzName).fromNow();
   }
-
-
 }
-
 
 export class EventUtil {
   static accessLevel(data: string): string {
