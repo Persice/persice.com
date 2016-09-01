@@ -2,49 +2,53 @@ from django.contrib.gis.geos import Point, fromstr
 from django_facebook.models import FacebookCustomUser
 from tastypie.test import ResourceTestCase
 
+from accounts.tests.test_resources import JWTResourceTestCase
 from goals.models import Goal
 from world.models import UserLocation
 
 
-class TestUserLocationResource(ResourceTestCase):
+class TestUserLocationResource(JWTResourceTestCase):
     def setUp(self):
         super(TestUserLocationResource, self).setUp()
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
-        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
-        self.location = UserLocation.objects.create(user=self.user, position=[7000, 22965.83])
-        self.location1 = UserLocation.objects.create(user=self.user1, position=[0.5, 32000])
-        location_data = [('NicNonnalds', '-87.627675', '41.881925'),
-                         ('Boundaries Books', '-87.6281729688', '41.881849562'),
-                         ('Field Marshal Department Store', '-87.62839', '41.88206'),
-                         ('RadioShock', '-87.6269801114', '41.8814058757'),
-                         ('CAN Insurance', '-87.6266873845', '41.8818595588'),
-                         ('SuperWay Sandwiches', '-87.6266580795', '41.8813617549'),
-                         ('911 Convenience Store', '-87.6285777569', '41.8810785557'),
-                         ('Nobel Barnes Books', '-87.627834', '41.880856'),
-                         ('Decade Park', '-87.62929387', '41.88207029'),
-                         ('Burrito Bell', '-87.6282415079', '41.8830285557'),
-                         ('Seals Tower', '-87.627696', '41.880745'), ('Lake Hotel', '-87.627696', '41.880745'),
-                         ('Weekly Plaza', '-87.627696', '41.880745'),
-                         ('Forest Museum', '-87.62749695', '41.88316957'), ]
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(
+            username='user_b', password='test')
+        self.location = UserLocation.objects.create(
+            user=self.user, position=[7000, 22965.83])
+        self.location1 = UserLocation.objects.create(
+            user=self.user1, position=[0.5, 32000])
+        location_data = [
+            ('NicNonnalds', '-87.627675', '41.881925'),
+            ('Boundaries Books', '-87.6281729688', '41.881849562'),
+            ('Field Marshal Department Store', '-87.62839', '41.88206'),
+            ('RadioShock', '-87.6269801114', '41.8814058757'),
+            ('CAN Insurance', '-87.6266873845', '41.8818595588'),
+            ('SuperWay Sandwiches', '-87.6266580795', '41.8813617549'),
+            ('911 Convenience Store', '-87.6285777569', '41.8810785557'),
+            ('Nobel Barnes Books', '-87.627834', '41.880856'),
+            ('Decade Park', '-87.62929387', '41.88207029'),
+            ('Burrito Bell', '-87.6282415079', '41.8830285557'),
+            ('Seals Tower', '-87.627696', '41.880745'),
+            ('Lake Hotel', '-87.627696', '41.880745'),
+            ('Weekly Plaza', '-87.627696', '41.880745'),
+            ('Forest Museum', '-87.62749695', '41.88316957')
+        ]
 
         for location in location_data:
             point = [location[1], location[2]]
             location_obj = UserLocation(user=self.user, position=point)
             location_obj.save()
 
-    def login(self):
-        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
-
     def test_get_list_unauthorzied(self):
-        self.assertHttpUnauthorized(self.api_client.get('/api/v1/location/', format='json'))
-
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/location/',
+                                                        format='json'))
 
     def test_get_list_json(self):
         self.response = self.login()
-        resp = self.api_client.get('/api/v1/location/', format='json')
+        resp = self.api_client.get('/api/v1/location/',
+                                   authentication=self.get_credentials(),
+                                   format='json')
         self.assertValidJSONResponse(resp)
 
         # Scope out the data for correctness.
@@ -66,11 +70,15 @@ class TestUserLocationResource(ResourceTestCase):
             'user': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'position': u'7000.0,22965.8300000000017462',
         }
-        self.response = self.login()
-        self.assertHttpCreated(self.api_client.post('/api/v1/location/', format='json', data=post_data))
+        self.assertHttpCreated(self.api_client.post(
+            '/api/v1/location/', format='json', data=post_data,
+            authentication=self.get_credentials()
+        ))
 
     def test_delete_detail(self):
-        self.response = self.login()
         self.assertEqual(UserLocation.objects.count(), 16)
-        self.assertHttpAccepted(self.api_client.delete('/api/v1/location/%s/' % self.location.pk, format='json'))
+        self.assertHttpAccepted(self.api_client.delete(
+            '/api/v1/location/%s/' % self.location.pk, format='json',
+            authentication=self.get_credentials()
+        ))
         self.assertEqual(UserLocation.objects.count(), 15)
