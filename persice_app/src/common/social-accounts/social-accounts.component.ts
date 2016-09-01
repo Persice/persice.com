@@ -35,7 +35,7 @@ export abstract class SocialAccountsComponent {
     });
   }
 
-  getConnectStatus() {
+  public getConnectStatus() {
     this.connectStatus = this.service.getConnectStatus();
   }
 

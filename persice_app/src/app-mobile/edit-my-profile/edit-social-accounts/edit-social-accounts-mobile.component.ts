@@ -28,6 +28,7 @@ export class EditSocialAccountsMobileComponent extends SocialAccountsComponent i
       this.headerState.backDoneWithTitle('accounts', HeaderState.actions.EditMyProfile)
     );
     this.onInit();
+    this.refreshConnectInfo();
   }
 
   sanitize(url: string) {
