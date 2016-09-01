@@ -31,7 +31,8 @@ const AUTH = [
       twitter: {
         url: '/api/v2/accounts/twitter/connect/',
         authorizationEndpoint: 'https://api.twitter.com/oauth/authorize',
-        redirectUri: window.location.origin + '/public/close_popup/'
+        redirectUri: window.location.origin + '/public/close_popup/',
+        unlinkUrl: '/api/v2/accounts/twitter/disconnect/'
       },
       linkedin: {
         clientId: LINKEDIN_ID,
@@ -39,7 +40,8 @@ const AUTH = [
         redirectUri: window.location.origin + '/public/close_popup/',
         scope: ['r_basicprofile', 'rw_company_admin', 'r_emailaddress', 'w_share'],
         scopeDelimiter: ',',
-        state: 'ZjUV40DdytBHaLPj'
+        state: 'ZjUV40DdytBHaLPj',
+        unlinkUrl: '/api/v2/accounts/linkedin/disconnect/'
       }
     }
   })
@@ -56,7 +58,6 @@ export const APPLICATION_PROVIDERS_MAIN = [
   ...JSONP_PROVIDERS,
   ...APP_ROUTER_PROVIDERS,
   {provide: LocationStrategy, useClass: PathLocationStrategy},
-  {provide: APP_BASE_HREF, useValue: '/'}
 ];
 
 export const APPLICATION_PROVIDERS_MAIN_MOBILE = [

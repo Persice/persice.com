@@ -33,6 +33,7 @@ export interface IOauth2Options extends IOauth1Options {
   optionalUrlParams?: string[];
   scope?: string[];
   display?: string;
+  unlinkUrl?: string;
 }
 export interface IProviders {
   [provider: string]: IOauth2Options;

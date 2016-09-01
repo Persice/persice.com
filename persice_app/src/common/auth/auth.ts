@@ -34,8 +34,8 @@ export function AUTH_PROVIDERS(config: ICustomConfig): Array<any> {
     {provide: Popup, useFactory: (providedConfig) => { return new Popup(providedConfig);}, deps: [Config]},
     {
       provide: Oauth1,
-      useFactory: (http, popup, providedConfig) => { return new Oauth1(http, popup, providedConfig);},
-      deps: [JwtHttp, Popup, Config]
+      useFactory: (http, popup, shared, providedConfig) => { return new Oauth1(http, popup, shared, providedConfig);},
+      deps: [JwtHttp, Popup, Shared, Config]
     },
     {
       provide: Oauth2,

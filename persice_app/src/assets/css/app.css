@@ -966,6 +966,13 @@ li.features-list__match {
 
 /* Login loading */
 
+#loading_container {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 #loading_shade {
   position: fixed !important;
   height: 100% !important;

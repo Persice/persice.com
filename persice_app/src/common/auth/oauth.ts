@@ -33,8 +33,8 @@ export class Oauth {
 
   unlink(provider: string, opts: RequestOptionsArgs) {
     opts = opts || {};
-    let url = opts.url ? opts.url : joinUrl(this.config.baseUrl, this.config.unlinkUrl);
-    opts.body = JSON.stringify({provider: provider}) || opts.body;
+    let url = this.config.providers[provider].unlinkUrl;
+    opts.body = JSON.stringify({}) || opts.body;
     opts.method = opts.method || 'POST';
 
     return this.http.request(url, opts);

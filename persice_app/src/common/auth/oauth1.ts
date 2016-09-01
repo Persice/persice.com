@@ -5,6 +5,7 @@ import { joinUrl, assign } from './utils';
 import { Config, IOauth1Options } from './config';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/concatMap';
+import { Shared } from './shared';
 
 @Injectable()
 export class Oauth1 {
@@ -17,12 +18,14 @@ export class Oauth1 {
   };
   private defaults: IOauth1Options;
 
-  constructor(private http: Http, private popup: Popup, private config: Config) {}
+  constructor(private http: Http, private popup: Popup, private shared: Shared, private config: Config) {}
 
   open(options?: IOauth1Options, userData?: any): Observable<Response> {
     this.defaults = assign({}, Oauth1.base, options);
     let popupWindow;
     let serverUrl = this.config.baseUrl ? joinUrl(this.config.baseUrl, this.defaults.url) : this.defaults.url;
+
+    this.shared.isLoggingIn.next(false);
 
     if (!this.config.cordova) {
       popupWindow = this.popup.open('', this.defaults.name, this.defaults.popupOptions/*, this.defaults.redirectUri*/);
@@ -43,6 +46,10 @@ export class Oauth1 {
         return this.config.cordova ? popupWindow.eventListener(this.defaults.redirectUri) : popupWindow.pollPopup();
       })
       .concatMap((response) => {
+
+        if (response.hasOwnProperty('denied')) {
+          return Observable.throw('user_denied_access');
+        }
         return this.exchangeForToken(response, userData);
       });
   }
@@ -50,6 +57,7 @@ export class Oauth1 {
   private exchangeForToken(oauthData, userData?: any) {
     let data = assign({}, oauthData, userData);
     let exchangeForTokenUrl = this.config.baseUrl ? joinUrl(this.config.baseUrl, this.defaults.url) : this.defaults.url;
+    this.shared.isLoggingIn.next(true);
     return this.http.post(exchangeForTokenUrl, data, {withCredentials: this.config.withCredentials});
   }
 
