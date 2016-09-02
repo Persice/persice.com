@@ -7,8 +7,7 @@
   <p class="mob-signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
   <div class="layout">
     <div class="layout__item">
-      <a (click)="authenticate('facebook')" id="loginButton"
-         class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+      <a (click)="authenticate('facebook')" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
       <p class="mob-signup-subtitle mb0">
         <svg role="img" class="icon ">
           <use xlink:href="/assets/icons/icons.svg#icon-lock"></use>
@@ -17,8 +16,11 @@
       </p>
     </div>
   </div>
+  <ul class="mob-nav-submain position-bottom" style="left: 50%; transform: translate(-50%,-50%);">
+    <li><a [routerLink]="['/privacy']">Privacy</a></li>
+    <li><a [routerLink]="['/terms']">Terms</a></li>
+  </ul>
 </div>
-
 <div id="loading_container" *ngIf="isInfoVisible">
   <div id="loading_shade"></div>
   <div id="loading_wrapper">

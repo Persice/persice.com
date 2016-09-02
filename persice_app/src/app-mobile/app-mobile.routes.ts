@@ -22,6 +22,14 @@ export const rootRoutes: RouterConfig = [
     component: LoginMobileComponent
   },
   {
+    path: 'privacy',
+    component: PrivacyPolicyMobileComponent
+  },
+  {
+    path: 'terms',
+    component: TermsOfServiceMobileComponent
+  },
+  {
     path: '',
     component: MainMobileComponent,
     canActivate: [AuthGuard],
@@ -59,14 +67,6 @@ export const rootRoutes: RouterConfig = [
       {
         path: 'event/:eventId/attendees',
         component: AttendeesMobileComponent,
-      },
-      {
-        path: 'privacy',
-        component: PrivacyPolicyMobileComponent
-      },
-      {
-        path: 'terms',
-        component: TermsOfServiceMobileComponent
       },
       ...routesMessagesMobile,
       ...routesEditMyProfile,

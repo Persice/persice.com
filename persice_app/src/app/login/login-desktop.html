@@ -6,13 +6,17 @@
     <p class="signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
     <div class="layout">
       <div class="layout__item">
-        <a (click)="authenticate('facebook')" id="loginButton"
-           class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+        <a (click)="authenticate('facebook')" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
       </div>
     </div>
   </div>
+  <div class="position-bottom" style="left: 50%; transform: translate(-50%,-50%);">
+    <ul class="nav-submain">
+      <li style="font-size: 12px; font-weight: bold; color: #434f54;"><a [routerLink]="['/privacy']">Privacy</a></li>
+      <li style="font-size: 12px; font-weight: bold; color: #434f54;"><a [routerLink]="['/terms']">Terms</a></li>
+    </ul>
+  </div>
 </div>
-
 <div id="loading_container" *ngIf="isInfoVisible">
   <div id="loading_shade"></div>
   <div id="loading_wrapper">

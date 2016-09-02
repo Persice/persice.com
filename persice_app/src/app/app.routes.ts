@@ -28,6 +28,14 @@ export const rootRoutes: RouterConfig = [
     component: LoginDesktopComponent
   },
   {
+    path: 'privacy',
+    component: PrivacyPolicyComponent
+  },
+  {
+    path: 'terms',
+    component: TermsOfServiceComponent
+  },
+  {
     path: '',
     component: MainComponent,
     canActivate: [AuthGuard],
@@ -46,16 +54,8 @@ export const rootRoutes: RouterConfig = [
         component: ConnectionsDesktopComponent
       },
       {
-        path: 'privacy',
-        component: PrivacyPolicyComponent
-      },
-      {
         path: 'event/:eventId',
         component: EventComponent
-      },
-      {
-        path: 'terms',
-        component: TermsOfServiceComponent
       },
       {
         path: 'messages',

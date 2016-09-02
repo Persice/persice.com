@@ -137,6 +137,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.notificationService.observer('app').unsubscribe();
     this.notificationService.removeObserver('app');
     this.userServiceObserver.unsubscribe();
+    this.websocketService.disconnect();
   }
 
   initWebsocket(channel: string) {

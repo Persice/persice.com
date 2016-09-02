@@ -112,6 +112,7 @@ export class MainMobileComponent implements OnInit, OnDestroy {
     if (this.routerSub) {
       this.routerSub.unsubscribe();
     }
+    this.websocketService.disconnect();
   }
 
   /**
