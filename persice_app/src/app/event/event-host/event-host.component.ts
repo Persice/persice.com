@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckImageDirective } from '../../shared/directives';
+import { MarkupPipe } from '../../shared/pipes/markup.pipe';
 
 @Component({
   selector: 'prs-event-host',
@@ -16,9 +17,10 @@ import { CheckImageDirective } from '../../shared/directives';
         <p class="single-title-subinfo single-title-subinfo--small">{{host?.gender}} / Age {{host?.age}} {{host?.distance}}</p>
       </div>
     </div>
-    <p class="module-type">{{host?.description}}</p>
+    <p class="module-type" [innerHTML]="host?.description | markup">{{host?.description}}</p>
   `,
-  directives: [CheckImageDirective]
+  directives: [CheckImageDirective],
+  pipes: [MarkupPipe]
 })
 export class EventHostComponent {
   @Input() host;

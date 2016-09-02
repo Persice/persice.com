@@ -1,12 +1,14 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { MarkupPipe } from '../../shared/pipes/markup.pipe';
 
 @Component({
   selector: 'prs-event-description',
   template: `
     <h3 class="module-title">Description</h3>
-    <p class="module-type">{{descriptionMore}}</p>
+    <p class="module-type" [innerHTML]="descriptionMore | markup:false">{{descriptionMore}}</p>
     <a (click)="showMore($event)" *ngIf="!hideMoreLink" class="link-blank">View more</a>
-  `
+  `,
+  pipes: [MarkupPipe]
 })
 export class EventDescriptionComponent implements OnChanges {
   @Input() description;
