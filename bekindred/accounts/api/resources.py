@@ -183,7 +183,7 @@ class TwitterSocialConnectResource(Resource):
                 load_twitter_user_friends(social_user)
             else:
                 raise ImmediateHttpResponse(
-                    HttpForbidden("Coleman?! There is no Coleman here.")
+                    HttpForbidden("Twitter already associated")
                 )
 
             try:
@@ -369,6 +369,9 @@ class LinkedinSocialConnectResource(Resource):
                 bundle.request.user, uid, 'linkedin')
             social_user.extra_data = data
             social_user.save()
+        else:
+            raise ImmediateHttpResponse(
+                HttpForbidden("Linkedin already associated"))
 
         extra_data = params
 
