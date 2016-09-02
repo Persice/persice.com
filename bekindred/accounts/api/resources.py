@@ -4,6 +4,7 @@ import logging
 import oauth2 as oauth
 import re
 import requests
+from tastypie.http import HttpForbidden
 
 from accounts.api.authentication import JSONWebTokenAuthentication
 from django_facebook.connect import connect_user
@@ -16,7 +17,7 @@ from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
-from tastypie.exceptions import BadRequest
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
 from tastypie.resources import Resource
 from django.conf import settings
 
@@ -180,6 +181,10 @@ class TwitterSocialConnectResource(Resource):
                 social_user.extra_data = response
                 social_user.save()
                 load_twitter_user_friends(social_user)
+            else:
+                raise ImmediateHttpResponse(
+                    HttpForbidden("Coleman?! There is no Coleman here.")
+                )
 
             try:
                 url = 'https://api.twitter.com/1.1/account/' \
