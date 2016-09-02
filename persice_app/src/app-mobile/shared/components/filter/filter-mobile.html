@@ -4,7 +4,7 @@
       <div class="layout__item 1/5">
         <a (click)="onBack($event)" class="mob-header__left-push">
           <svg role="img" class="icon icon--small">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+            <use xlink:href="/assets/icons/icons.svg#icon-mobile_back"></use>
           </svg>
         </a>
       </div>
@@ -79,6 +79,15 @@
                           (onChange)="distanceChanged($event)" (onFinish)="saveDistance($event)"
                           [class]="'range-to'"></prs-range-slider>
       </div>
+
+      <div class="filter__item" *ngIf="showDateRange">
+        <h3 class="filter__item__title mb-">Date Range</h3>
+        <div class="layout layout--middle to-input">
+          <div class="layout__item 1/2 mb0"> <input [(ngModel)]="selectedStartDate" class="c-input c-input--prominent datePickerPlaceHolder text-center" type="date" > </div>
+          <div class="layout__item 1/2 mb0"> <input [(ngModel)]="selectedEndDate" class="c-input c-input--prominent datePickerPlaceHolder text-center" type="date"> </div>
+        </div>
+      </div>
+
       <div class="filter__item">
         <h3 class="filter__item__title mb-">Order by</h3>
         <select minimalect (selectedValue)="changeOrder($event)">

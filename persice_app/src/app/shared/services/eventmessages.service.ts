@@ -1,16 +1,14 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient } from '../core';
+import { HttpClient } from '../../../common/core';
 
 @Injectable()
 export class EventMessagesService {
   static API_URL: string = '/api/v1/chat/';
   next: string = '';
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) { }
 
   public get(url: string, limit: number, event: number): Observable<any> {
 
@@ -31,7 +29,6 @@ export class EventMessagesService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-
   public findOneByUri(resourceUri: string): Observable<any> {
     return this.http.get(resourceUri).map((res: Response) => res.json());
   }
@@ -47,9 +44,8 @@ export class EventMessagesService {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
-
 }
 
 export var eventMessagesServiceInjectables: Array<any> = [
-  provide(EventMessagesService, {useClass: EventMessagesService})
+  {provide: EventMessagesService, useClass: EventMessagesService}
 ];

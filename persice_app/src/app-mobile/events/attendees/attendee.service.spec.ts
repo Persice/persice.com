@@ -3,7 +3,6 @@ import { MockBackend } from '@angular/http/testing';
 import { Http, ConnectionBackend, BaseRequestOptions } from '@angular/http';
 import { AttendeeService } from './attendee.service';
 
-
 describe('Attendee service', () => {
 
   let service: AttendeeService;

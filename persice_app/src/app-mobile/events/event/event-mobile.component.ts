@@ -12,7 +12,7 @@ import { EventAttendeesPreviewMobileComponent } from './event-attendees-preview'
 import { EventNotFoundMobileComponent } from './event-not-found';
 import { Observable, Subscription } from 'rxjs';
 import { EventRsvpMobileComponent } from './event-rsvp/event-rsvp-mobile.component';
-import { CookieUtil } from '../../../app/shared/core/util';
+import { TokenUtil } from '../../../common/core/util';
 
 @Component({
   selector: 'prs-mobile-event',
@@ -39,8 +39,8 @@ export class EventMobileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private routerSubs: Subscription;
   private notFoundSubs: Subscription;
-  private usernameFromCookie: string;
-  private userIdFromCookie: string;
+  private usernameFromToken: string;
+  private userIdFromToken: string;
 
   constructor(
     private appStateService: AppStateService,
@@ -48,8 +48,8 @@ export class EventMobileComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.usernameFromCookie = CookieUtil.getValue('user_username');
-    this.userIdFromCookie = CookieUtil.getValue('userid');
+    this.usernameFromToken = TokenUtil.getValue('username');
+    this.userIdFromToken = TokenUtil.getValue('user_id');
   }
 
   ngOnInit(): any {

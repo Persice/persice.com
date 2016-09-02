@@ -7,7 +7,6 @@ export class ScrollableList {
   private _loading: boolean;
   private _nextUrl: string;
 
-
   constructor() {
     this._items = [];
   }

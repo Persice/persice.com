@@ -2,9 +2,7 @@ import { Component, ElementRef, AfterViewInit } from '@angular/core';
 import { FilterModel } from '../shared/models';
 import { KeywordsService, NotificationService, FilterService } from '../shared/services';
 import { map } from 'lodash';
-
-
-declare var Bloodhound: any;
+import { Auth } from '../../common/auth/auth';
 
 @Component({
   selector: 'prs-search',
@@ -17,13 +15,16 @@ export class SearchComponent implements AfterViewInit {
   keywords: any[];
   filters: FilterModel;
   timeoutIdFiltersSave = null;
+  token;
 
   constructor(
     public el: ElementRef,
     public filterService: FilterService,
     public keywordsService: KeywordsService,
-    public notificationService: NotificationService
+    public notificationService: NotificationService,
+    private auth: Auth
   ) {
+    this.token = this.auth.getToken();
   }
 
   ngAfterViewInit() {
@@ -34,17 +35,27 @@ export class SearchComponent implements AfterViewInit {
   }
 
   setKeywords(data) {
-    this.filters = new FilterModel(data.objects[0]);
-    if (this.filters.state.keyword.length > 0) {
-      this.keywords = this.filters.state.keyword.split(',');
+    if (!!data.objects && !!data.objects[0]) {
+      this.filters = new FilterModel(data.objects[0]);
+      if (this.filters.state.keyword.length > 0) {
+        this.keywords = this.filters.state.keyword.split(',');
+      }
+      this.initializeTokenInput(this.filters.state.keyword);
     }
-    this.initializeTokenInput(this.filters.state.keyword);
   }
 
   initializeTokenInput(initialTokens) {
     let keywordsEngine = new Bloodhound({
       remote: {
         url: '/api/v1/interest_subject/?format=json&description__icontains=%QUERY',
+        prepare: (query, settings) => {
+          settings.headers = {
+            'Authorization': 'Bearer ' + this.token
+          };
+          settings.data = JSON.stringify(query);
+          settings.url = settings.url.replace('%QUERY', query);
+          return settings;
+        },
         filter: (x: any) => {
           return jQuery.map(x.objects, (item) => {
             return item.description;
@@ -71,7 +82,6 @@ export class SearchComponent implements AfterViewInit {
     });
 
     jQuery('input.tt-input').attr('placeholder', 'Search by interest...');
-
 
     //save keywords to backend after token created
     jQuery(this.el.nativeElement).on('tokenfield:createdtoken', (event) => {

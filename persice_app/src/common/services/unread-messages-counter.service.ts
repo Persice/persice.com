@@ -1,7 +1,7 @@
-import { Injectable, provide } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { HttpClient } from '../../app/shared/core';
+import { HttpClient } from '../core';
 import { UnreadMessagesCounterActions } from '../actions';
 import { AppState, getUnreadMessagesCounterState } from '../reducers';
 
@@ -10,11 +10,7 @@ export class UnreadMessagesCounterService {
   static API_URL = '/api/v1/inbox/unread_counter/';
   public counter$: Observable<number>;
 
-  constructor(
-    private http: HttpClient,
-    private store: Store<AppState>,
-    private actions: UnreadMessagesCounterActions
-  ) {
+  constructor(private http: HttpClient, private store: Store<AppState>, private actions: UnreadMessagesCounterActions) {
     const store$ = store.let(getUnreadMessagesCounterState());
     this.counter$ = store$.map(state => state['counter']);
   }
@@ -39,5 +35,5 @@ export class UnreadMessagesCounterService {
 }
 
 export var unreadMessagesCounterServiceInjectables: any[] = [
-  provide(UnreadMessagesCounterService, {useClass: UnreadMessagesCounterService})
+  {provide: UnreadMessagesCounterService, useClass: UnreadMessagesCounterService}
 ];

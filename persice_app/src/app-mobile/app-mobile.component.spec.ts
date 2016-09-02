@@ -9,7 +9,7 @@ import { AppMobileComponent } from './app-mobile.component';
 import { provideStore } from '@ngrx/store';
 import STORE_REDUCERS from '../common/reducers';
 import STORE_ACTIONS from '../common/actions';
-import { HttpClient } from '../app/shared/core/http-client';
+import { HttpClient } from '../common/core/http-client';
 import { WebsocketService } from '../app/shared/services';
 import { AppStateService } from './shared/services';
 import { MockGeolocationService } from '../app/shared/services/mock-geolocation.service';

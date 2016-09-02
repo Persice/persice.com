@@ -1,13 +1,14 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable, Subject } from 'rxjs';
 import { AuthUserModel } from '../models';
-import { HttpClient, CookieUtil } from '../core';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class UserService {
   static API_URL: string = '/api/v1/auth/user/';
-  static DEFAULT_IMAGE: string = '/static/assets/images/empty_avatar.png';
+  static DEFAULT_IMAGE: string = '/assets/images/empty_avatar.png';
   user: AuthUserModel;
   image: string = UserService.DEFAULT_IMAGE;
   name: string = '';
@@ -23,12 +24,11 @@ export class UserService {
 
   public getProfileUpdates() {
 
-
     let params = [
       `format=json`
     ].join('&');
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = `${UserService.API_URL}${userId}/?${params}`;
 
     let channel = this.http.get(url)
@@ -54,7 +54,7 @@ export class UserService {
       `format=json`
     ].join('&');
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = `${UserService.API_URL}${userId}/?${params}`;
 
     return this.http.get(url)
@@ -86,5 +86,5 @@ export class UserService {
 }
 
 export var userServiceInjectables: Array<any> = [
-  provide(UserService, {useClass: UserService})
+  {provide: UserService, useClass: UserService}
 ];

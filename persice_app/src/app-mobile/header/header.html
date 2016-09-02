@@ -6,20 +6,21 @@
 
         <div *ngIf="unreadMessagesCounter > 0 || newConnectionsCounter > 0">
           <svg role="img" class="icon icon--small">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
+            <use xlink:href="/assets/icons/icons.svg#icon-hamburger"></use>
           </svg>
-          <div class="message__intro__notif" style="position: absolute; top: 5px; left: 5px; height: 10px; padding: 0 5px;"></div>
+          <div class="message__intro__notif"
+               style="position: absolute; top: 5px; left: 5px; height: 10px; padding: 0 5px;"></div>
         </div>
 
         <svg *ngIf="unreadMessagesCounter < 1 && newConnectionsCounter < 1" role="img" class="icon icon--small">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-hamburger"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-hamburger"></use>
         </svg>
       </a>
 
       <a (click)="onAction(headerState.leftAction)" *ngIf="headerState.left === leftState.Back"
          class="mob-header__left-push">
         <svg role="img" class="icon icon--small">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_back"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-mobile_back"></use>
         </svg>
       </a>
 
@@ -47,20 +48,20 @@
       <a *ngIf="headerState.right ===  rightState.Add" (click)="onAction(headerState.rightAction)">
         <svg role="img" class="icon ">
           <use xmlns:xlink="http://www.w3.org/1999/xlink"
-               xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+               xlink:href="/assets/icons/icons.svg#icon-plus-big"></use>
         </svg>
       </a>
       <a *ngIf="headerState.right ===  rightState.Search" (click)="onAction(headerState.rightAction)">
         <svg role="img" class="icon icon--small">
           <use xmlns:xlink="http://www.w3.org/1999/xlink"
-               xlink:href="/static/assets/icons/icons.svg#icon-search-mobile"></use>
+               xlink:href="/assets/icons/icons.svg#icon-search-mobile"></use>
         </svg>
       </a>
       <a *ngIf="headerState.right === rightState.Edit" (click)="onAction(headerState.rightAction)"
          class="mob-header__right-push">
         <svg role="img" class="icon icon--small">
           <use xmlns:xlink="http://www.w3.org/1999/xlink"
-               xlink:href="/static/assets/icons/icons.svg#icon-mobile_edit"></use>
+               xlink:href="/assets/icons/icons.svg#icon-mobile_edit"></use>
         </svg>
       </a>
       <a *ngIf="headerState.right === rightState.Go" (click)="onAction(headerState.rightAction)"
@@ -74,7 +75,7 @@
         <a class="js-mob-header__profile-drop-trigg" prs-dropdown-toggle>
           <svg role="img" class="icon icon--small">
             <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                 xlink:href="/static/assets/icons/icons.svg#icon-mobile_menu"></use>
+                 xlink:href="/assets/icons/icons.svg#icon-mobile_menu"></use>
           </svg>
         </a>
         <ul prs-dropdown-menu class="mob-header__drop hidden">

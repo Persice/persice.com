@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, AfterContentInit } from '@angular/core';
 import { GenderPipe } from '../../pipes';
-import { ObjectUtil } from '../../core';
+import { ObjectUtil } from '../../../../common/core';
 import { CheckImageDirective } from '../../directives';
 
 @Component({
@@ -37,7 +37,7 @@ export class UserCardComponent implements AfterContentInit {
       window.clearTimeout(this.timeoutPass);
     }
     this.timeoutPass = setTimeout(() => {
-      this.passEvent.next({user: this.user.id, next: false});
+      this.passEvent.emit({user: this.user.id, next: false});
     }, 1500);
 
   }
@@ -55,22 +55,20 @@ export class UserCardComponent implements AfterContentInit {
       window.clearTimeout(this.timeoutAccept);
     }
     this.timeoutAccept = setTimeout(() => {
-      this.acceptEvent.next({user: this.user.id, next: false});
+      this.acceptEvent.emit({user: this.user.id, next: false});
     }, 1500);
   }
 
-
   userClicked() {
-    this.onClick.next(this.user.id);
+    this.onClick.emit(this.user.id);
   }
 
   ngAfterContentInit() {
     this.interests = ObjectUtil.firstSorted(this.user.top_interests[0], 3);
 
     if (!this.user.image || this.user.image === '') {
-      this.user.image = '/static/assets/images/empty_avatar.png';
+      this.user.image = '/assets/images/empty_avatar.png';
     }
-
 
   }
 

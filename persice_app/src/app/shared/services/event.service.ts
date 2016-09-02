@@ -1,14 +1,15 @@
-import { provide, Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, CookieUtil, FormUtil, OPTS_REQ_JSON_CSRF } from '../core';
+import { HttpClient, FormUtil } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
-let validate = require('validate.js');
+let validate: any = <any>require('validate.js');
 const moment = require('moment');
 
-validate.extend(validate.validators.datetime, {
+validate.extend(<any>validate.validators.datetime, {
   parse: function (value, options) {
-    return +moment.utc(value);
+    return moment.utc(value);
   },
   format: function (value, options) {
     let format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DDThh:mm:ss';
@@ -79,8 +80,7 @@ export class EventService {
     }
   };
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) { }
 
   public get(url: string, limit: number): Observable<any> {
 
@@ -100,7 +100,6 @@ export class EventService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-
   public findOneByUri(resourceUri: string): Observable<any> {
     return this.http.get(resourceUri).map((res: Response) => res.json());
   }
@@ -116,10 +115,8 @@ export class EventService {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
-
   public create(data): Observable<any> {
-
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
 
@@ -133,7 +130,6 @@ export class EventService {
     this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
 
     let body = FormUtil.formData(event);
-    let csrftoken = CookieUtil.getValue('csrftoken');
 
     return Observable.create(observer => {
 
@@ -142,34 +138,24 @@ export class EventService {
           validationErrors: this.validationErrors
         });
       } else {
-        jQuery.ajax({
-          url: `${EventService.API_URL}?format=json`,
-          data: body,
-          processData: false,
-          type: 'POST',
-          beforeSend: (xhr, settings) => {
-            xhr.setRequestHeader('X-CSRFToken', csrftoken);
-          },
-          contentType: false,
-          success: (data) => {
-            observer.next(data);
+        let options = {headers: new Headers()};
+        options.headers.set('Content-Type', 'multipart/form-data');
+        this.http.post(`${EventService.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
+          .subscribe((res) => {
+            observer.next(res);
             observer.complete();
-          },
-          error: (error) => {
-            observer.error(error);
-          }
-        });
+          }, (err) => {
+            observer.error(err);
+          });
       }
 
-
     });
-
 
   }
 
   public updateByUri(data, resourceUri): Observable<any> {
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
 
@@ -183,7 +169,6 @@ export class EventService {
     this.constraints.ends_on.datetime.earliest = moment.utc(data.starts_on).add(30, 'minutes');
 
     let body = FormUtil.formData(event);
-    let csrftoken = CookieUtil.getValue('csrftoken');
 
     return Observable.create(observer => {
 
@@ -192,67 +177,45 @@ export class EventService {
           validationErrors: this.validationErrors
         });
       } else {
-        jQuery.ajax({
-          url: `${resourceUri}?format=json`,
-          data: body,
-          processData: false,
-          type: 'PUT',
-          beforeSend: (xhr, settings) => {
-            xhr.setRequestHeader('X-CSRFToken', csrftoken);
-          },
-          contentType: false,
-          success: (data) => {
-            observer.next(data);
+        let options = {headers: new Headers()};
+        options.headers.set('Content-Type', 'multipart/form-data');
+        this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
+          .subscribe((res) => {
+            observer.next(res);
             observer.complete();
-          },
-          error: (error) => {
-            observer.error(error);
-          }
-        });
+          }, (err) => {
+            observer.error(err);
+          });
       }
 
-
     });
-
 
   }
 
   public updateImageByUri(data, resourceUri): Observable<any> {
 
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let event = data;
     event.user = '/api/v1/auth/user/' + userId + '/';
     let body = FormUtil.formData(event);
-    let csrftoken = CookieUtil.getValue('csrftoken');
 
     return Observable.create(observer => {
-      jQuery.ajax({
-        url: `${resourceUri}?format=json`,
-        data: body,
-        processData: false,
-        type: 'PUT',
-        beforeSend: (xhr, settings) => {
-          xhr.setRequestHeader('X-CSRFToken', csrftoken);
-        },
-        contentType: false,
-        success: (data) => {
-          observer.next(data);
+      let options = {headers: new Headers()};
+      options.headers.set('Content-Type', 'multipart/form-data');
+      this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
+        .subscribe((res) => {
+          observer.next(res);
           observer.complete();
-        },
-        error: (error) => {
-          observer.error(error);
-        }
-      });
+        }, (err) => {
+          observer.error(err);
+        });
     });
-
 
   }
 
-
   public deleteByUri(resourceUri: string): Observable<any> {
     return this.http
-      .delete(`${resourceUri}?format=json`, OPTS_REQ_JSON_CSRF)
-      .map((res: Response) => res.json());
+      .delete(`${resourceUri}?format=json`);
   }
 
   public validate(data): Observable<any> {
@@ -272,12 +235,10 @@ export class EventService {
 
   }
 
-
   private _validateData(data): boolean {
     this.validationErrors = {};
 
     let errors = validate(data, this.constraints, EventService.VALIDATION_OPTIONS);
-
 
     this.validationErrors = errors;
 
@@ -291,5 +252,5 @@ export class EventService {
 }
 
 export var eventServiceInjectables: Array<any> = [
-  provide(EventService, {useClass: EventService})
+  {provide: EventService, useClass: EventService}
 ];

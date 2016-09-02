@@ -14,6 +14,7 @@ from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest
 from tastypie.resources import Resource
 
+from accounts.api.authentication import JSONWebTokenAuthentication
 from events.models import FilterState
 from friends.models import FacebookFriendUser, Friend
 from friends.utils import NeoFourJ
@@ -71,7 +72,7 @@ class MatchedFeedResource(Resource):
     class Meta:
         # max_limit = 10
         resource_name = 'matchfeed'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -182,7 +183,7 @@ class MutualFriendsResource(Resource):
     class Meta:
         max_limit = 1
         resource_name = 'mutual/friends'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -308,7 +309,7 @@ class MutualConnections(Resource):
 
     class Meta:
         resource_name = 'mutual-connections'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -434,7 +435,7 @@ class ProfileResource(Resource):
 
     class Meta:
         resource_name = 'profile'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):

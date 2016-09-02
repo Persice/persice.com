@@ -1,4 +1,5 @@
 import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Auth } from '../auth/auth';
 
 const RESULTS_LIMIT: number = 30;
 
@@ -15,9 +16,11 @@ export class AutocompleteDirective implements OnInit, OnDestroy {
   @Output() onSelected: EventEmitter<any> = new EventEmitter();
 
   inputElement;
+  token;
 
-  constructor(private _el: ElementRef) {
+  constructor(private _el: ElementRef, private auth: Auth) {
     this.inputElement = jQuery(this._el.nativeElement);
+    this.token = this.auth.getToken();
   }
 
   ngOnInit() {
@@ -32,6 +35,14 @@ export class AutocompleteDirective implements OnInit, OnDestroy {
     let keywordsEngine = new Bloodhound({
       remote: {
         url: `${this.apiUrl}?format=json&${this.apiAttr}__icontains=%QUERY`,
+        prepare: (query, settings) => {
+          settings.headers = {
+            'Authorization': 'Bearer ' + this.token
+          };
+          settings.data = JSON.stringify(query);
+          settings.url = settings.url.replace('%QUERY', query);
+          return settings;
+        },
         filter: (x: any) => {
           return jQuery.map(x.objects, (item) => {
             return item[this.apiAttr];

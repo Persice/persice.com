@@ -5,8 +5,8 @@ from django.core.management import call_command
 from django_facebook.models import FacebookCustomUser, FacebookLike
 import haystack
 from guardian.shortcuts import assign_perm
-from tastypie.test import ResourceTestCase
 
+from accounts.tests.test_resources import JWTResourceTestCase
 from events.models import FilterState, Event, Membership
 from friends.utils import NeoFourJ
 from goals.models import Subject, Offer, Goal
@@ -28,7 +28,7 @@ class BaseTestCase(TestCase):
         call_command('clear_index', interactive=False, verbosity=0)
 
 
-class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
+class TestMatchQuerySet(BaseTestCase, JWTResourceTestCase):
     fixtures = ['initial_data.json']
 
     def setUp(self):
@@ -497,10 +497,6 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         self.assertEqual(len(match_users), 1)
         self.assertEqual(match_users[0].first_name, 'Sasa')
 
-    def login(self):
-        return self.api_client.client.post('/login/', {'username': 'user_a',
-                                                       'password': 'test'})
-
     def test_order_mutual_friends(self):
         Goal.objects.get_or_create(user=self.user, goal=self.subject)
         Goal.objects.get_or_create(user=self.user1, goal=self.subject5)
@@ -519,8 +515,9 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         update_index.Command().handle(interactive=False)
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
         self.assertEqual(len(match_users), 3)
-        self.response = self.login()
-        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
+        resp = self.api_client.get('/api/v1/matchfeed/',
+                                   authentication=self.get_credentials(),
+                                   format='json')
         self.assertValidJSONResponse(resp)
         data = self.deserialize(resp)['objects']
         self.assertEqual(data[0]['friends_score'], 2)
@@ -535,7 +532,7 @@ class TestMatchQuerySet(BaseTestCase, ResourceTestCase):
         match_users = MatchQuerySet.all(self.user.id, is_filter=True)
 
 
-class TestMatchEvents(BaseTestCase, ResourceTestCase):
+class TestMatchEvents(BaseTestCase, JWTResourceTestCase):
     def setUp(self):
         super(TestMatchEvents, self).setUp()
         haystack.connections.reload('default')

@@ -4,10 +4,11 @@ import { SliderComponent } from '../../../../common/slider';
 import { SelectDirective } from '../../directives';
 import { NumeralPipe } from '../../pipes';
 import { FilterService } from '../../services';
+import { DatepickerDirective } from '../../directives/datepicker.directive';
 
 @Component({
   selector: 'prs-filters',
-  directives: [SelectDirective, SliderComponent],
+  directives: [SelectDirective, SliderComponent, DatepickerDirective],
   pipes: [NumeralPipe],
   template: <any>require('./filter-desktop.html')
 })

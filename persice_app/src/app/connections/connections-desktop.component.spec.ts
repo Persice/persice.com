@@ -7,7 +7,7 @@ import { ConnectionsDesktopComponent } from './connections-desktop.component';
 import { ConnectionsService } from '../../common/connections/connections.service';
 import { MockConnections, MockConnectionsEmpty } from '../../common/connections/connections.mock';
 import { MockConnectionsService } from '../../common/connections/connections.service.mock';
-import { HttpClient } from '../shared/core/http-client';
+import { HttpClient } from '../../common/core/http-client';
 
 // Create a test component to test directives.
 @Component({

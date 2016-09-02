@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStateService } from '../../shared/services/app-state.service';
-import { CookieUtil } from '../../../app/shared/core/util';
+import { TokenUtil } from '../../../common/core/util';
 import { ReligiousViewsService } from '../../../app/shared/services/religiousviews.service';
 import { HeaderState } from '../../header';
 
@@ -11,7 +11,7 @@ import { HeaderState } from '../../header';
 })
 export class ReligiousViewsMobileComponent implements OnInit {
 
-  private usernameFromCookie: string;
+  private usernameFromToken: string;
   private religiousViews: any[];
 
   constructor(
@@ -19,7 +19,7 @@ export class ReligiousViewsMobileComponent implements OnInit {
     private religiousViewsService: ReligiousViewsService,
     private headerState: HeaderState
   ) {
-    this.usernameFromCookie = CookieUtil.getValue('user_username');
+    this.usernameFromToken = TokenUtil.getValue('username');
     this.religiousViewsService.getAllReligiousViewsWithStatus();
   }
 

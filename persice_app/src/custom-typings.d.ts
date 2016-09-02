@@ -42,6 +42,7 @@
  *
  */
 
+declare var FB: any;
 declare var jstz: any;
 declare var jQuery: any;
 declare var dragula: any;
@@ -53,10 +54,16 @@ declare module "*"
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
 declare var HMR: boolean;
+declare var FACEBOOK_ID: string;
+declare var FACEBOOK_SCOPE: string;
+declare var LINKEDIN_ID: string;
 
 interface GlobalEnvironment {
   ENV;
   HMR;
+  FACEBOOK_ID;
+  FACEBOOK_SCOPE;
+  LINKEDIN_ID;
 }
 
 interface Es6PromiseLoader {
@@ -72,7 +79,6 @@ type AsyncRoutes = {
     FactoryEs6PromiseLoader |
     FactoryPromise
 };
-
 
 type IdleCallbacks = Es6PromiseLoader |
   Function |
@@ -95,7 +101,6 @@ interface WebpackModule {
   };
 }
 
-
 interface WebpackRequire {
   (id: string): any;
   (paths: string[], callback: (...modules: any[]) => void): void;
@@ -110,7 +115,6 @@ interface WebpackContext extends WebpackRequire {
 interface ErrorStackTraceLimit {
   stackTraceLimit: number;
 }
-
 
 // Extend typings
 interface NodeRequire extends WebpackRequire {}

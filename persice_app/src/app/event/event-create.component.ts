@@ -5,7 +5,7 @@ import { BaseEventComponent } from './base-event.component';
 import { EventModel } from '../shared/models';
 import { NotificationComponent } from '../shared/components/notification';
 import { LoadingComponent } from '../shared/components/loading';
-import { DateUtil } from '../shared/core';
+import { DateUtil } from '../../common/core';
 import { EventService, NotificationService } from '../shared/services';
 
 @Component({

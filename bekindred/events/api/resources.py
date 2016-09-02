@@ -16,7 +16,6 @@ from guardian.shortcuts import assign_perm, remove_perm
 from haystack.backends import SQ
 from haystack.query import SearchQuerySet
 from tastypie import fields
-from tastypie.authentication import SessionAuthentication
 from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
@@ -26,6 +25,7 @@ from tastypie.resources import ModelResource, Resource
 from tastypie.utils import trailing_slash
 from tastypie.validation import Validation
 
+from accounts.api.authentication import JSONWebTokenAuthentication
 from events.authorization import GuardianAuthorization
 from events.tasks import assign_perm_task, remove_perm_task, \
     publish_to_redis_channel
@@ -106,7 +106,7 @@ class FilterStateResource(ModelResource):
         always_return_data = True
         queryset = FilterState.objects.all()
         resource_name = 'filter/state2'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -145,7 +145,7 @@ class EventResource(MultiPartResource, ModelResource):
             'description': ALL
         }
         validation = EventValidation()
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = GuardianAuthorization(
             view_permission_code='view_event',
             # create_permission_code='add_event',
@@ -395,7 +395,7 @@ class EventResourceSmall(ModelResource):
             'description': ALL
         }
         validation = EventValidation()
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = GuardianAuthorization(
             view_permission_code='view_event'
         )
@@ -408,7 +408,7 @@ class UserResourceShort(ModelResource):
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'auth/user'
         fields = ['first_name', 'last_name', 'facebook_id', 'image', 'about_me']
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
         filtering = {
             'first_name': ALL
@@ -422,7 +422,7 @@ class UserProfileResource(ModelResource):
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'user_profile'
         fields = ['first_name', 'last_name', 'facebook_id', 'image', 'about_me']
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
         filtering = {
             'first_name': ALL
@@ -436,7 +436,7 @@ class AboutMeResource(ModelResource):
         queryset = FacebookCustomUserActive.objects.all()
         resource_name = 'me'
         fields = ['id', 'first_name', 'last_name', 'facebook_id', 'image']
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
         filtering = {
             'first_name': ALL
@@ -471,7 +471,7 @@ class MembershipResource(ModelResource):
         always_return_data = True
         queryset = Membership.objects.all()
         resource_name = 'member'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def obj_create(self, bundle, **kwargs):
@@ -537,7 +537,7 @@ class EventConnections(Resource):
     class Meta:
         resource_name = 'events/connections'
         object_class = ResourseObject
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -601,7 +601,7 @@ class EventAttendees(ModelResource):
         resource_name = 'attendees'
         queryset = Membership.objects.all()
         list_allowed_methods = ['get']
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
         filtering = {
             'rsvp': ALL,
@@ -673,7 +673,7 @@ class Attendees(ModelResource):
     class Meta:
         # max_limit = 10
         resource_name = 'attendees'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):
@@ -804,7 +804,7 @@ class EventFeedResource(Resource):
     class Meta:
         resource_name = 'events2'
         list_allowed_methods = ['get']
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = GuardianAuthorization()
 
     def detail_uri_kwargs(self, bundle_or_obj):

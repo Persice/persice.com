@@ -1,7 +1,7 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient } from '../core';
+import { HttpClient } from '../../../common/core';
 
 @Injectable()
 export class MutualFriendsService {
@@ -30,9 +30,8 @@ export class MutualFriendsService {
     return this.http.get(this.next).map((res: Response) => res.json());
   }
 
-
 }
 
 export var mutualfriendsServiceInjectables: Array<any> = [
-  provide(MutualFriendsService, {useClass: MutualFriendsService})
+  {provide: MutualFriendsService, useClass: MutualFriendsService}
 ];

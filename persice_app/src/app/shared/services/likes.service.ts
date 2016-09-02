@@ -1,7 +1,7 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient } from '../core';
+import { HttpClient } from '../../../common/core';
 
 @Injectable()
 export class LikesService {
@@ -51,5 +51,5 @@ export class LikesService {
 }
 
 export var likesServiceInjectables: Array<any> = [
-  provide(LikesService, {useClass: LikesService})
+  {provide: LikesService, useClass: LikesService}
 ];

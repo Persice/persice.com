@@ -40,5 +40,4 @@ describe('Unread Messages Counter reducer', () => {
     expect(JSON.stringify(newState)).toBe(JSON.stringify(stateWithIncreasedCounter));
   });
 
-
 });

@@ -67,7 +67,6 @@ export class ConversationsComponent implements OnInit, OnDestroy {
         this.inboxService.markRead(this.activeThread);
       }
 
-
       setTimeout(() => {
         this.inboxService.addSender(data.friend_id);
         this.messagesCounterService.refreshCounter();

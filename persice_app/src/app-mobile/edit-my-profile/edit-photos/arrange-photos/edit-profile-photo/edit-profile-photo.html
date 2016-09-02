@@ -3,14 +3,14 @@
      [suffix]="'.387x387_q100_crop.jpg'">
   <a (click)="onDelete.emit(photo)" *ngIf="isDeletionEnabled" class="profile-edit__photos__main-photo__delete">
     <svg role="img" class="icon icon--notsotiny">
-      <use xlink:href="/static/assets/icons/icons.svg#icon-delete"></use>
+      <use xlink:href="/assets/icons/icons.svg#icon-delete"></use>
     </svg>
   </a>
 </div>
 <a class="profile-edit__photos__main-photo-upload" *ngIf="photo.id === -1" (click)="openChooseAlbum($event)">
   <span>
     <svg role="img" class="icon ">
-      <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+      <use xlink:href="/assets/icons/icons.svg#icon-plus-big"></use>
     </svg>
   </span>
 </a>

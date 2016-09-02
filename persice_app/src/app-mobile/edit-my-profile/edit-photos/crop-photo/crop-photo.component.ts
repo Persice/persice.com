@@ -12,7 +12,7 @@ export class CropPhotoComponent implements OnInit {
 
   @Input() set photo(data: any) {
     if (!!data.images && data.images.length > 0) {
-      this._imageUri = data.images[2].source;
+      this._imageUri = <any>data.images[2].source;
     }
   };
 
@@ -20,7 +20,7 @@ export class CropPhotoComponent implements OnInit {
 
   public set croppedImage(data: any) {
     this._croppedImage = data;
-    this.onPhotoCropped.next({
+    this.onPhotoCropped.emit({
       cropped: data,
       original: this._imageUri,
       order: null

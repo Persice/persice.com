@@ -64,6 +64,9 @@ export class RsvpElementComponent implements OnInit {
         this.eventMembersService.updateOneByUri(memberResourceUri, data)
           .subscribe((res) => {
             this.handleRsvpResponse(res);
+          }, (err) => {
+            this.hideRsvpElement();
+            this.savingRsvp = false;
           });
       }
     } else {
@@ -71,12 +74,15 @@ export class RsvpElementComponent implements OnInit {
       this.eventMembersService.createOne(data)
         .subscribe((res) => {
           this.handleRsvpResponse(res);
+        }, (err) => {
+          this.hideRsvpElement();
+          this.savingRsvp = false;
         });
     }
   }
 
   private handleRsvpResponse(res) {
-    this.oldRsvp = {rsvp: res.rsvp, member_id: res.id};
+    this.oldRsvp = { rsvp: res.rsvp, member_id: res.id };
     this.savingRsvp = false;
     this.hideRsvpElement();
   }

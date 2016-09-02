@@ -1,7 +1,8 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class InterestsService {
@@ -12,7 +13,7 @@ export class InterestsService {
   }
 
   public get(url: string, limit: number): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     if (url === '') {
       let params: string = [
         `format=json`,
@@ -30,7 +31,7 @@ export class InterestsService {
   }
 
   public getCount(): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
 
     let params: string = [
       `format=json`,
@@ -56,23 +57,22 @@ export class InterestsService {
   }
 
   public save(subject: string): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let interest = {
       interest_subject: subject.trim(),
       user: '/api/v1/auth/user/' + userId + '/'
     };
     let body = JSON.stringify(interest);
-    return this.http.post(`${InterestsService.API_URL}?format=json`, body, OPTS_REQ_JSON_CSRF)
+    return this.http.post(`${InterestsService.API_URL}?format=json`, body)
       .map((res: Response) => res.json());
   }
 
   public delete(url: string): Observable<any> {
-    return this.http.delete(`${url}?format=json`, OPTS_REQ_JSON_CSRF)
-      .map((res: Response) => res.json());
+    return this.http.delete(`${url}?format=json`);
   }
 
 }
 
 export var interestsServiceInjectables: Array<any> = [
-  provide(InterestsService, {useClass: InterestsService})
+  {provide: InterestsService, useClass: InterestsService}
 ];

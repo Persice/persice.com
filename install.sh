@@ -119,7 +119,7 @@ fi
 
 apt-get install -y build-essential curl openssl libssl-dev
 
-# Add nginx and test1.com nginx conf
+# Add nginx and test-local.com nginx conf
 
 if ! which nginx > /dev/null 2>&1; then
     add-apt-repository ppa:nginx/stable
@@ -128,10 +128,10 @@ if ! which nginx > /dev/null 2>&1; then
     service nginx start
 fi
 
-if [ ! -f /etc/nginx/sites-available/test1.com ]; then
-    cp /home/vagrant/bekindred/test1.com /etc/nginx/sites-available/test1.com
-    chmod 644 /etc/nginx/sites-available/test1.com
-    ln -s /etc/nginx/sites-available/test1.com /etc/nginx/sites-enabled/test1.com
+if [ ! -f /etc/nginx/sites-available/test-local.com ]; then
+    cp /home/vagrant/bekindred/nginx/test-local.com.conf /etc/nginx/sites-available/test-local.com
+    chmod 644 /etc/nginx/sites-available/test-local.com
+    ln -s /etc/nginx/sites-available/test-local.com /etc/nginx/sites-enabled/test-local.com
     service nginx restart
 fi
 

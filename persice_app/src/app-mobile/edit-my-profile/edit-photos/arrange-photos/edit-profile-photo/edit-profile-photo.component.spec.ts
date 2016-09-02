@@ -83,7 +83,6 @@ describe('Edit profile photo mobile component', () => {
     expect(addProfilePhotoLength).toEqual(1);
   });
 
-
   it('should show delete button if deletion is enabled', () => {
     //given
     component.profilePhoto = new Photo(PhotosGenerators.givenPhotoWithDataDto(0));

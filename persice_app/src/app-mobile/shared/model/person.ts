@@ -1,4 +1,4 @@
-import { ObjectUtil } from '../../../app/shared/core/util';
+import { ObjectUtil } from '../../../common/core/util';
 import { SocialNetworkFacebook } from './social-network/social-network-facebook';
 import { SocialNetworkLinkedin } from './social-network/social-network-linkedin';
 import { SocialNetworkTwitter } from './social-network/social-network-twitter';

@@ -5,8 +5,7 @@ export * from './app-mobile.component';
 export * from './app-mobile.routes';
 
 import { GOOGLE_MAPS_PROVIDERS } from '../common/google-map';
-import { HttpClient } from '../app/shared/core';
-
+import { HttpClient } from '../common/core';
 // import {provideStore} from '@ngrx/store';
 // import * as devtools from '@ngrx/devtools';
 require('hammerjs');

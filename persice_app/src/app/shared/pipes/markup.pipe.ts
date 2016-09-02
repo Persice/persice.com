@@ -29,6 +29,10 @@ export class MarkupPipe implements PipeTransform {
    * @returns {SafeHtml}
    */
   public transform(value: string, formatEventInfo: boolean): SafeHtml {
+    if (!value) {
+      return value;
+    }
+
     let message: string = value.replace(this.eventInfoRegex, '');
     let eventInfo: string[] = this.eventInfoRegex.exec(value);
 
@@ -104,8 +108,8 @@ export class MarkupPipe implements PipeTransform {
   private applyAutodetectedLinks(value: string) {
     let message = value;
 
-    message = message.replace(/([^\[]|^)(https?:\/\/[^\s-]+)/g, '$1<a href="$2">$2</a>'); // http(s) not starting with [ followed by non-spaces
-    message = message.replace(/([^\/])(www\.[^\s-]+)/g, '$1<a href="http://$2">$2</a>'); // www. not starting with / followed by non-spaces
+    message = message.replace(/([^\[]|^)(https?:\/\/[^\s-]+)/g, '$1<a href="$2" style="color:#6ad6f7">$2</a>'); // http(s) not starting with [ followed by non-spaces
+    message = message.replace(/([^\/])(www\.[^\s-]+)/g, '$1<a href="http://$2" style="color:#6ad6f7">$2</a>'); // www. not starting with / followed by non-spaces
 
     return message;
   }
@@ -125,7 +129,7 @@ export class MarkupPipe implements PipeTransform {
     let link: string = match[2];
     let title: string = match[3];
 
-    message = message.replace(regExp, `<a href="${schema}${link}">${title}</a>`);
+    message = message.replace(regExp, `<a href="${schema}${link}" style="color:#6ad6f7">${title}</a>`);
 
     return message;
   }

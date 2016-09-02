@@ -1,7 +1,8 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class UserAuthService {
@@ -51,7 +52,7 @@ export class UserAuthService {
   public findOneByUri(resourceUri: string): Observable<any> {
     let uri = '';
     if (resourceUri === 'me') {
-      let userId = CookieUtil.getValue('userid');
+      let userId = TokenUtil.getValue('user_id');
       uri = '/api/v1/auth/user/' + userId + '/';
     } else {
       uri = resourceUri;
@@ -80,16 +81,13 @@ export class UserAuthService {
     const body = JSON.stringify(data);
     let uri = '';
     if (resourceUri === 'me') {
-      let userId = CookieUtil.getValue('userid');
+      let userId = TokenUtil.getValue('user_id');
       uri = '/api/v1/auth/user/' + userId + '/';
     } else {
       uri = resourceUri;
     }
 
-    return this.http.patch(
-      `${uri}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF)
+    return this.http.patch(`${uri}?format=json`, body)
       .map((res: Response) => res.json());
   }
 
@@ -106,14 +104,14 @@ export class UserAuthService {
   }
 
   public updateMe(data): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let url = `${UserAuthService.API_URL}${userId}/?format=json`;
     let body = JSON.stringify(data);
-    return this.http.patch(url, body, OPTS_REQ_JSON_CSRF)
+    return this.http.patch(url, body)
       .map((res: Response) => res.json());
   }
 
-  private assignConnectStatus(data) {
+  private assignConnectStatus(data: any) {
     this.connectStatus.twitter.connected = data.twitter_provider !== null ? true : false;
     this.connectStatus.twitter.username = data.twitter_username ? '@' + data.twitter_username : 'Your twitter account';
     this.connectStatus.twitter.url = data.twitter_username ? 'https://twitter.com/' + data.twitter_username : 'Your twitter account';
@@ -133,5 +131,5 @@ export class UserAuthService {
 }
 
 export var userAuthServiceInjectables: Array<any> = [
-  provide(UserAuthService, {useClass: UserAuthService})
+  {provide: UserAuthService, useClass: UserAuthService}
 ];

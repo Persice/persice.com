@@ -52,7 +52,7 @@
             <a href="{{person.twitterUrl}}" target="_new">
               <svg role="img" class="icon icon--medium">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                     xlink:href="/static/assets/icons/icons.svg#icon-twitter_middle"></use>
+                     xlink:href="/assets/icons/icons.svg#icon-twitter_middle"></use>
               </svg>
             </a>
           </div>
@@ -60,7 +60,7 @@
             <a href="{{person.linkedinUrl}}" target="_new">
               <svg role="img" class="icon icon--medium">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                     xlink:href="/static/assets/icons/icons.svg#icon-linkedin_middle"></use>
+                     xlink:href="/assets/icons/icons.svg#icon-linkedin_middle"></use>
               </svg>
             </a>
           </div>
@@ -68,29 +68,31 @@
             <a href="{{person.facebookUrl}}" target="_new">
               <svg role="img" class="icon icon--medium">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                     xlink:href="/static/assets/icons/icons.svg#icon-facebook_middle"></use>
+                     xlink:href="/assets/icons/icons.svg#icon-facebook_middle"></use>
               </svg>
             </a>
           </div>
         </div>
       </div>
     </div>
-    <a class="js-profile-box__toggle profile-box__toggle" (tap)="toggleProfileExtraInfoVisibility($event)">
+    <a class="js-profile-box__toggle profile-box__toggle" (click)="toggleProfileExtraInfoVisibility($event)">
       <svg role="img" class="icon icon--small profile-box__toggle-icon">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-mobile_menu"></use>
+        <use xlink:href="/assets/icons/icons.svg#icon-mobile_menu"></use>
       </svg>
     </a>
   </div>
   <div class="profile-tabs profile-box">
     <ul class="list-bare js-tabs profile-tabs__tabs side-nav">
-      <li (tap)="activateTab(0)" [ngClass]="{'is-active': activeTab === 0}"><span
+      <li (click)="activateTab(0)" [ngClass]="{'is-active': activeTab === 0}"><span
         class="profile-titleline">Interests <span
         class="profile-titleline__value">({{person.interestsCount}})</span></span>
       </li>
-      <li (tap)="activateTab(1)" [ngClass]="{'is-active': activeTab === 1}"><span class="profile-titleline">Goals <span
+      <li (click)="activateTab(1)" [ngClass]="{'is-active': activeTab === 1}"><span
+        class="profile-titleline">Goals <span
         class="profile-titleline__value">({{person.goalsCount}})</span></span>
       </li>
-      <li (tap)="activateTab(2)" [ngClass]="{'is-active': activeTab === 2}"><span class="profile-titleline">Offers <span
+      <li (click)="activateTab(2)" [ngClass]="{'is-active': activeTab === 2}"><span
+        class="profile-titleline">Offers <span
         class="profile-titleline__value">({{person.offersCount}})</span></span>
       </li>
     </ul>
@@ -120,7 +122,7 @@
       </div>
       <div class="layout__item 1/5 text-center">
         <svg role="img" class="icon " *ngIf="person.likesCount + person.likesMutualCount > 0">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-arrow_swipe_right"></use>
         </svg>
       </div>
     </div>

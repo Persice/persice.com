@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SwiperDirective, CheckImageDirective } from '../shared/directives';
 
-
 @Component({
   selector: 'prs-profile-avatar',
   directives: [

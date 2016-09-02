@@ -1,6 +1,7 @@
-import { provide, Injectable } from '@angular/core';
-import { HttpClient, DateUtil, ListUtil, CookieUtil, OPTS_REQ_JSON_CSRF } from '../core';
+import { Injectable } from '@angular/core';
+import { HttpClient, DateUtil, ListUtil } from '../../../common/core';
 import { Observable, Subject } from 'rxjs';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class MessagesService {
@@ -20,10 +21,8 @@ export class MessagesService {
   _newMessage = false;
   _initialLoadingFinished = false;
 
-  constructor(
-    private http: HttpClient
-  ) {
-    let userId = CookieUtil.getValue('userid');
+  constructor(private http: HttpClient) {
+    let userId = TokenUtil.getValue('user_id');
     this._myUri = `/api/v1/auth/user/${userId}/`;
   }
 
@@ -54,7 +53,7 @@ export class MessagesService {
       recipient: this._senderUri,
       sender: this._myUri
     };
-    let channel = this.http.post(url, JSON.stringify(sendData), OPTS_REQ_JSON_CSRF)
+    let channel = this.http.post(url, JSON.stringify(sendData))
       .map(response => response.json())
       .subscribe(data => {
         this._appendMessage(data);
@@ -72,7 +71,7 @@ export class MessagesService {
       recipient: this._senderUri,
       sender: this._myUri
     };
-    return this.http.post(url, JSON.stringify(sendData), OPTS_REQ_JSON_CSRF)
+    return this.http.post(url, JSON.stringify(sendData))
       .map(response => response.json());
   }
 
@@ -107,7 +106,6 @@ export class MessagesService {
     this._newMessage = true;
     this._notify();
   }
-
 
   private _checkImage(field) {
     if (!field) {
@@ -172,7 +170,6 @@ export class MessagesService {
         });
   }
 
-
   private _parseData(data) {
     let m = data.objects;
 
@@ -234,9 +231,8 @@ export class MessagesService {
     this._newMessage = false;
   }
 
-
 }
 
 export var messagesServiceInjectables: any[] = [
-  provide(MessagesService, {useClass: MessagesService})
+  {provide: MessagesService, useClass: MessagesService}
 ];

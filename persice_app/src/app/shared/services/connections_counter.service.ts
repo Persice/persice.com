@@ -1,5 +1,5 @@
-import { provide, Injectable } from '@angular/core';
-import { HttpClient } from '../core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '../../../common/core';
 import { Subject } from 'rxjs';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class ConnectionsCounterService {
     let channel = this.http.get(url)
       .map((res) => res.json())
       .subscribe((res) => {
-        if (res.meta.total_count === 1) {
+        if (!!res.meta && res.meta.total_count === 1) {
           this._state = res.objects[0].new_connection_counter;
         }
         this._notify();
@@ -46,5 +46,5 @@ export class ConnectionsCounterService {
 }
 
 export var connectionsCounterServiceInjectables: any[] = [
-  provide(ConnectionsCounterService, {useClass: ConnectionsCounterService})
+  {provide: ConnectionsCounterService, useClass: ConnectionsCounterService}
 ];

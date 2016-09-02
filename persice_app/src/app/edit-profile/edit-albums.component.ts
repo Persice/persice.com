@@ -48,10 +48,8 @@ export class EditAlbumsComponent implements OnDestroy, OnInit {
 
       });
 
-
     this.facebookAlbumsService.startLoadingAlbums();
   }
-
 
   loadMorePhotos(albumId) {
     if (this.loadingPhotos) {
@@ -59,7 +57,6 @@ export class EditAlbumsComponent implements OnDestroy, OnInit {
     }
     this.facebookAlbumsService.loadMorePhotos(albumId);
   }
-
 
   handleScrollEvent(event) {
     let scrollOffset = jQuery('#photoAlbums').scrollTop();

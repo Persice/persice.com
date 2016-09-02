@@ -1,11 +1,11 @@
 import logging
 
 from tastypie.authorization import DjangoAuthorization
-from tastypie.exceptions import Unauthorized
+from tastypie.exceptions import Unauthorized, ImmediateHttpResponse
 
 from guardian.shortcuts import get_objects_for_user
 from guardian.core import ObjectPermissionChecker
-
+from tastypie.http import HttpForbidden
 
 logger = logging.getLogger(__name__)
 
@@ -60,22 +60,31 @@ class GuardianAuthorization(DjangoAuthorization):
         """
         klass = self.base_checks(bundle.request, object_list.model)
         if klass is False:
-            raise Unauthorized("You are not allowed to access that resource.")
+            raise ImmediateHttpResponse(
+                HttpForbidden("You are not allowed to access that resource.")
+            )
         return True
 
     def generic_item_check(self, object_list, bundle, permission):
         if not self.generic_base_check(object_list, bundle):
-            raise Unauthorized("You are not allowed to access that resource.")
+            raise ImmediateHttpResponse(
+                HttpForbidden("You are not allowed to access that resource.")
+            )
 
         checker = ObjectPermissionChecker(bundle.request.user)
         if not checker.has_perm(permission, bundle.obj):
-            raise Unauthorized("You are not allowed to access that resource.")
+            raise ImmediateHttpResponse(
+                HttpForbidden("You are not allowed to access that resource.")
+            )
 
         return True
 
     def generic_list_check(self, object_list, bundle, permission):
         if not self.generic_base_check(object_list, bundle):
-            raise Unauthorized("You are not allowed to access that resource.")
+            raise ImmediateHttpResponse(
+                HttpForbidden("You are not allowed to access that resource.")
+            )
+            # raise Unauthorized("You are not allowed to access that resource.")
 
         return get_objects_for_user(bundle.request.user, permission, object_list)
 

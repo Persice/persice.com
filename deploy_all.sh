@@ -10,7 +10,7 @@ gulp
 npm run build:prod
 popd
 
-git ls-files . | grep -E '(\.js$)|(\.css$)|(\.gz$)|(\.map$)|(\.svg$)' | xargs git add
+git ls-files . | grep -E '(\.gif$)|(\.png$)|(\.jpg$)|(\.html$)|(\.js$)|(\.css$)|(\.gz$)|(\.map$)|(\.svg$)' | xargs git add
 git add .
 
 git commit -am 'Automatic commit before deploying frontend' || true

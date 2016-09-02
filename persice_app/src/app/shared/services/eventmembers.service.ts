@@ -1,15 +1,13 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
+import { HttpClient } from '../../../common/core';
 
 @Injectable()
 export class EventMembersService {
   static API_URL: string = '/api/v1/member/';
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) { }
 
   public find(): Observable<any> {
 
@@ -22,7 +20,6 @@ export class EventMembersService {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
-
   public findOneByUri(resourceUri: string): Observable<any> {
     return this.http.get(resourceUri).map((res: Response) => res.json());
   }
@@ -31,8 +28,7 @@ export class EventMembersService {
     const body = JSON.stringify(data);
     return this.http.patch(
       resourceUri,
-      body,
-      OPTS_REQ_JSON_CSRF)
+      body)
       .map((res: Response) => res.json());
   }
 
@@ -40,17 +36,15 @@ export class EventMembersService {
     const body = JSON.stringify(data);
     return this.http.post(
       EventMembersService.API_URL,
-      body,
-      OPTS_REQ_JSON_CSRF)
+      body)
       .map((res: Response) => res.json());
   }
 
   public deleteOneByUri(resourceUri: string): Observable<any> {
-    return this.http.delete(resourceUri).map((res: Response) => res.json());
+    return this.http.delete(resourceUri);
   }
-
 
 }
 export var eventMembersServiceInjectables: Array<any> = [
-  provide(EventMembersService, {useClass: EventMembersService})
+  {provide: EventMembersService, useClass: EventMembersService}
 ];

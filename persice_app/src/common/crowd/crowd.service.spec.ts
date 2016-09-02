@@ -3,7 +3,7 @@ import { BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions,
 import { MockBackend } from '@angular/http/testing';
 import { CrowdService } from './crowd.service';
 import { MockCrowd } from './crowd.mock';
-import { HttpClient } from '../../app/shared/core/http-client';
+import { HttpClient } from '../core/http-client';
 
 describe('Crowd service', () => {
 

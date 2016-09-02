@@ -33,5 +33,4 @@ export class Gender {
     return this._value;
   }
 
-
 }

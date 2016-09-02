@@ -10,10 +10,10 @@ import { NotificationsService } from '../shared/services/notifications.service';
       <div class="flag__img">
         <div class="icon-round-holder">
           <svg role="img" class="icon icon--message" *ngIf="notification.type === 'message'">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
+            <use xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
           </svg>
           <svg role="img" class="icon icon--connectoin" *ngIf="notification.type === 'connection'">
-            <use xlink:href="/static/assets/icons/icons.svg#icon-menu-connections"></use>
+            <use xlink:href="/assets/icons/icons.svg#icon-menu-connections"></use>
           </svg>
         </div>
       </div>
@@ -24,7 +24,7 @@ import { NotificationsService } from '../shared/services/notifications.service';
     </div>
     <a class="notification-new__close" (click)="removeSelf($event)">
       <svg role="img" class="icon ">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-close-small"></use>
+        <use xlink:href="/assets/icons/icons.svg#icon-close-small"></use>
       </svg>
     </a>
   </div>

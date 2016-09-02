@@ -1,7 +1,8 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class OnboardingService {
@@ -11,23 +12,41 @@ export class OnboardingService {
 
   }
 
+  public isOnboardingFinished(): Observable<boolean> {
+
+    return this.http.get(
+      `${OnboardingService.API_URL}?format=json`)
+      .map((res: Response) => {
+        let result = res.json();
+        let onboardingFinished: boolean = false;
+
+        try {
+          onboardingFinished = result.objects[0].is_complete;
+        }
+        catch (err) {
+
+        }
+
+        return onboardingFinished;
+
+      });
+  }
+
   public complete(): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let body = {
       user: '/api/v1/auth/user/' + userId + '/',
       is_complete: true
     };
 
     return this.http.post(
-      `${OnboardingService.API_URL}?format=json`,
-      JSON.stringify(body),
-      OPTS_REQ_JSON_CSRF)
+      `${OnboardingService.API_URL}?format=json`, JSON.stringify(body))
       .map((res: Response) => res.json());
   }
 
 }
 
 export var onboardingServiceInjectables: Array<any> = [
-  provide(OnboardingService, {useClass: OnboardingService})
+  {provide: OnboardingService, useClass: OnboardingService}
 ];
 

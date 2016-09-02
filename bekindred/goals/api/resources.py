@@ -12,6 +12,7 @@ from tastypie.resources import ModelResource
 
 from tastypie.validation import Validation
 
+from accounts.api.authentication import JSONWebTokenAuthentication
 from goals.models import Subject, MatchFilterState, Goal, Offer
 from photos.api.resources import UserResource
 
@@ -30,7 +31,7 @@ class SubjectResource(ModelResource):
         }
         limit = 30
         max_limit = limit
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def dehydrate_description(self, bundle):
@@ -121,7 +122,7 @@ class GoalResource(ModelResource):
         fields = ['user', 'goal', 'id']
         always_return_data = True
         resource_name = 'goal'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
         validation = GoalValidation()
 
@@ -170,7 +171,7 @@ class OfferResource(ModelResource):
         resource_name = 'offer'
         always_return_data = True
         validation = OfferValidation()
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -215,7 +216,7 @@ class FacebookLikeResource(ModelResource):
                   'created_time']
         list_allowed_methods = ['get']
         resource_name = 'likes'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -231,7 +232,7 @@ class FacebookMutualLikeResource(ModelResource):
                   'created_time']
         list_allowed_methods = ['get']
         resource_name = 'mutual_likes'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):
@@ -252,7 +253,7 @@ class FacebookOtherLikeResource(ModelResource):
                   'created_time']
         list_allowed_methods = ['get']
         resource_name = 'other_likes'
-        authentication = SessionAuthentication()
+        authentication = JSONWebTokenAuthentication()
         authorization = Authorization()
 
     def get_object_list(self, request):

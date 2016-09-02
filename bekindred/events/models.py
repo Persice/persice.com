@@ -128,7 +128,7 @@ class FilterState(models.Model):
 
 
 def create_user_profile(sender, instance, created, **kwargs):
-    logger.info('create_user_profile signal triggered')
+    logger.debug('create_user_profile signal triggered')
     if created:
         EventFilterState.objects.get_or_create(user=instance)
         FilterState.objects.get_or_create(user=instance)

@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { UserProfileLoaderComponent } from './user-profile-loader.component';
 import { ProfileService } from '../../app/shared/services/profile.service';
 import { PersonGenerator } from '../shared/model/person-generator';
-import { HttpClient } from '../../app/shared/core';
+import { HttpClient } from '../../common/core';
 import { AppStateService } from '../shared/services/app-state.service';
 
 let component: UserProfileLoaderComponent;

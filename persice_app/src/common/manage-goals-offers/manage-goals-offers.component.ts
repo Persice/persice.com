@@ -161,7 +161,7 @@ export abstract class ManageGoalsOffersComponent {
     let idx = findIndex(this.items, item);
     if (this.items[idx]) {
       this.listService.delete(item.resource_uri)
-        .subscribe((res) => {
+        .subscribe(() => {
           this.items.splice(idx, 1);
           this.total_count--;
           this.afterCounterChanged();

@@ -1,15 +1,14 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Subject, Observable } from 'rxjs';
-import { HttpClient } from '../core';
-import { CookieUtil } from '../core/util';
-import { OPTS_REQ_JSON_CSRF } from '../core/http-constants';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class ProfileService {
   static API_URL: string = '/api/v1/profile';
   static UPDATE_API_URL: string = '/api/v1/user_profile/';
-  static DEFAULT_IMAGE: string = '/static/assets/images/empty_avatar.png';
+  static DEFAULT_IMAGE: string = '/assets/images/empty_avatar.png';
 
   _observer: Subject<any> = new Subject(null);
 
@@ -42,13 +41,10 @@ export class ProfileService {
 
   public update(data: any): Observable<any> {
     const body = JSON.stringify(data);
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let uri = this.buildUpdateUrl(userId);
 
-    return this.http.patch(
-      `${uri}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF);
+    return this.http.patch(`${uri}?format=json`, body);
   }
 
   private _findByUri(username: string) {
@@ -99,5 +95,5 @@ export class ProfileService {
 }
 
 export var profileServiceInjectables: Array<any> = [
-  provide(ProfileService, {useClass: ProfileService})
+  {provide: ProfileService, useClass: ProfileService}
 ];

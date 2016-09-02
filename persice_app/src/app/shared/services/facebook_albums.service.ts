@@ -1,11 +1,11 @@
-import { provide, Injectable } from '@angular/core';
-import { HttpClient } from '../core';
-import { CookieUtil } from '../core/util';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 import { Subject } from 'rxjs';
 
 @Injectable()
 export class FacebookAlbumsService {
-  static API_URL = 'https://graph.facebook.com/v2.6/me/?fields=albums.limit(4){picture, count, name, photos.limit(6){name,images,picture}}';
+  static API_URL = 'https://graph.facebook.com/v2.7/me/?fields=albums.limit(4){picture, count, name, photos.limit(6){name,images,picture}}';
 
   _limitPhotos: number = 6;
   _limitAlbums: number = 4;
@@ -21,7 +21,7 @@ export class FacebookAlbumsService {
   _loadingMorePhotos = false;
 
   constructor(private http: HttpClient) {
-    this._token = CookieUtil.getValue('user_token');
+    this._token = TokenUtil.getValue('access_token');
   }
 
   public startLoadingAlbums(limitAlbums?: number, limitPhotos?: number) {
@@ -122,7 +122,7 @@ export class FacebookAlbumsService {
         `access_token=${this._token}`
       ].join('&');
 
-      let urlFB = `https://graph.facebook.com/v2.6/me/?fields=albums.limit(${this._limitAlbums}){picture, count, name, photos.limit(${this._limitPhotos}){name,images,picture}}`;
+      let urlFB = `https://graph.facebook.com/v2.7/me/?fields=albums.limit(${this._limitAlbums}){picture, count, name, photos.limit(${this._limitPhotos}){name,images,picture}}`;
       url = `${urlFB}&${params}`;
 
     } else {
@@ -176,5 +176,5 @@ export class FacebookAlbumsService {
 }
 
 export var facebookAlbumsServiceInjectables: any[] = [
-  provide(FacebookAlbumsService, {useClass: FacebookAlbumsService})
+  {provide: FacebookAlbumsService, useClass: FacebookAlbumsService}
 ];

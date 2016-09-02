@@ -1,8 +1,7 @@
-import { provide, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { HttpClient, OPTS_REQ_JSON_CSRF } from '../core';
-import * as Rx from 'rxjs';
-import { Observable } from 'rxjs';
+import { HttpClient } from '../../../common/core';
+import { Observable, Subject } from 'rxjs';
 import { InterfaceFilter } from '../models';
 import { remove, find } from 'lodash';
 
@@ -31,7 +30,7 @@ export class FilterService {
   addObserver(name: string) {
     let obs = {name: '', subject: null};
     obs.name = name;
-    obs.subject = new Rx.Subject(null);
+    obs.subject = new Subject(null);
     this.observers.push(obs);
   };
 
@@ -59,6 +58,7 @@ export class FilterService {
     return this.http.get(url).map((res: Response) => res.json());
   }
 
+  //noinspection JSMethodCanBeStatic
   public getDefaultState(): InterfaceFilter {
     return FilterService.DEFAULT_FILTERS;
   }
@@ -69,10 +69,7 @@ export class FilterService {
 
   public updateOne(resourceUri: string, data: any): Observable<any> {
     const body = JSON.stringify(data);
-    return this.http.patch(
-      `${resourceUri}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF)
+    return this.http.patch(`${resourceUri}?format=json`, body)
       .map((res: Response) => res.json());
   }
 
@@ -86,5 +83,5 @@ export class FilterService {
 
 }
 export var filterServiceInjectables: Array<any> = [
-  provide(FilterService, {useClass: FilterService})
+  {provide: FilterService, useClass: FilterService}
 ];

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { Http } from '@angular/http';
 import { AvatarComponent } from './avatar.component';
 import { AboutComponent } from './about.component';
 import { LikesComponent } from './likes.component';
@@ -18,8 +17,8 @@ import {
   ConnectionsCounterService
 } from '../shared/services';
 import { DropdownDirective, RemodalDirective } from '../shared/directives';
-import { ObjectUtil, ListUtil } from '../shared/core';
-
+import { ObjectUtil, ListUtil } from '../../common/core';
+import { HttpClient } from '../../common/core/http-client';
 
 @Component({
   selector: 'prs-profile-view',
@@ -112,7 +111,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private friendService: FriendService,
     private photosService: PhotosService,
-    private http: Http,
+    private http: HttpClient,
     private counterService: ConnectionsCounterService
   ) {
 
@@ -122,14 +121,12 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     this.username = username;
   }
 
-
   ngOnInit() {
 
     //listen for event when gallery modal is closed
     jQuery(document).on('closed', '.remodal', (e) => {
       this.galleryActive = false;
     });
-
 
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -176,7 +173,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     this.profileDistance = `${data.distance[0]} ${data.distance[1]}`;
     this.profileLocation = data.lives_in ? data.lives_in : '';
 
-
     setTimeout(() => {
       this.profileLikesCount = 0;
       this.profileLikes = [];
@@ -204,7 +200,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     this.profileOffersCount = ObjectUtil.count(data.offers[0]);
     this.profileGoalsCount = ObjectUtil.count(data.goals[0]);
 
-
     let religious_views = [];
     for (var i = 0; i < data.religious_views.length; ++i) {
       religious_views = [...religious_views, {
@@ -212,7 +207,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
       }];
     }
     this.profileReligiousViews = religious_views;
-
 
     let political_views = [];
     for (var i = 0; i < data.political_views.length; ++i) {
@@ -222,11 +216,9 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     }
     this.profilePoliticalViews = political_views;
 
-
     this.getMutualFriends(data.id);
     this.getPhotos(data.id);
   }
-
 
   getPhotos(id) {
     this.photosService.get('', 6, id)
@@ -277,7 +269,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
     });
   }
 
-
   closeProfile(event) {
     window.history.back(-1);
   }
@@ -297,7 +288,6 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
       });
 
   }
-
 
   ngOnDestroy() {
     if (this.profileServiceInstance) {

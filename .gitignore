@@ -4,6 +4,7 @@ geodjango*.sql
 *.sublime-project
 *.sublime-workspace
 test_reports/*.xml
+test_reports
 elastic/
 media/
 .DS_Store

@@ -4,30 +4,33 @@ from django.test import TestCase
 from django_facebook.models import FacebookCustomUser
 from py2neo import Node
 from tastypie.test import ResourceTestCase
+
+from accounts.tests.test_resources import JWTResourceTestCase
 from friends.models import Friend
 from friends.utils import NeoFourJ
 
 
-class TestFriendResource(ResourceTestCase):
+class TestFriendResource(JWTResourceTestCase):
     def setUp(self):
         super(TestFriendResource, self).setUp()
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
-        self.user1 = FacebookCustomUser.objects.create_user(username='user_b', password='test')
-        self.user2 = FacebookCustomUser.objects.create_user(username='user_c', password='test')
-        self.user3 = FacebookCustomUser.objects.create_user(username='user_d', password='test')
-        self.user4 = FacebookCustomUser.objects.create_user(username='user_e', password='test')
-        self.user5 = FacebookCustomUser.objects.create_user(username='user_f', password='test')
-        self.user6 = FacebookCustomUser.objects.create_user(username='user_g', password='test')
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a', password='test')
+        self.user1 = FacebookCustomUser.objects.create_user(
+            username='user_b', password='test')
+        self.user2 = FacebookCustomUser.objects.create_user(
+            username='user_c', password='test')
+        self.user3 = FacebookCustomUser.objects.create_user(
+            username='user_d', password='test')
+        self.user4 = FacebookCustomUser.objects.create_user(
+            username='user_e', password='test')
+        self.user5 = FacebookCustomUser.objects.create_user(
+            username='user_f', password='test')
+        self.user6 = FacebookCustomUser.objects.create_user(
+            username='user_g', password='test')
 
-    def login(self):
-        return self.api_client.client.post('/login/', {'username': 'user_a', 'password': 'test'})
-
-    def test_get_list_unauthorzied(self):
-        self.assertHttpUnauthorized(self.api_client.get('/api/v1/friends/', format='json'))
-
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
+    def test_get_list_unauthorized(self):
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/friends/',
+                                                        format='json'))
 
     def test_request_friend_request(self):
         post_data = {
@@ -35,10 +38,13 @@ class TestFriendResource(ResourceTestCase):
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 0,
         }
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        self.assertFalse(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
+        self.assertFalse(Friend.objects.checking_friendship(self.user.pk,
+                                                            self.user1.pk))
 
     def test_request_friend_request_swap(self):
         post_data = {
@@ -46,10 +52,13 @@ class TestFriendResource(ResourceTestCase):
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': 0,
         }
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        self.assertFalse(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
+        self.assertFalse(Friend.objects.checking_friendship(
+            self.user.pk, self.user1.pk))
 
     def test_accept_friend_request(self):
         post_data1 = {
@@ -62,12 +71,18 @@ class TestFriendResource(ResourceTestCase):
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': 1,
         }
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data1,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data2)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data2,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        self.assertTrue(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
+        self.assertTrue(Friend.objects.checking_friendship(
+            self.user.pk, self.user1.pk))
 
     def test_accept_friend_request_swap(self):
         post_data1 = {
@@ -80,13 +95,20 @@ class TestFriendResource(ResourceTestCase):
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': 1,
         }
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data1,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data2)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data2,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        self.assertTrue(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
-        self.assertTrue(Friend.objects.checking_friendship(self.user1.pk, self.user.pk))
+        self.assertTrue(Friend.objects.checking_friendship(
+            self.user.pk, self.user1.pk))
+        self.assertTrue(Friend.objects.checking_friendship(
+            self.user1.pk, self.user.pk))
 
     def test_decline_friend_request(self):
         post_data1 = {
@@ -99,13 +121,20 @@ class TestFriendResource(ResourceTestCase):
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user1.pk),
             'status': -1,
         }
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data1,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data2)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data2,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        self.assertFalse(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
-        self.assertFalse(Friend.objects.checking_friendship(self.user1.pk, self.user.pk))
+        self.assertFalse(Friend.objects.checking_friendship(
+            self.user.pk, self.user1.pk))
+        self.assertFalse(Friend.objects.checking_friendship(
+            self.user1.pk, self.user.pk))
 
     def test_decline_friend_request_swap(self):
         post_data1 = {
@@ -118,13 +147,20 @@ class TestFriendResource(ResourceTestCase):
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': -1,
         }
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data1,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data2)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data2,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        self.assertFalse(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
-        self.assertFalse(Friend.objects.checking_friendship(self.user1.pk, self.user.pk))
+        self.assertFalse(Friend.objects.checking_friendship(
+            self.user.pk, self.user1.pk))
+        self.assertFalse(Friend.objects.checking_friendship(
+            self.user1.pk, self.user.pk))
 
     def test_more_difficult(self):
         post_data1 = {
@@ -147,25 +183,37 @@ class TestFriendResource(ResourceTestCase):
             'friend2': '/api/v1/auth/user/{0}/'.format(self.user.pk),
             'status': 1,
         }
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data1)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data1,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data2)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data2,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data3)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data3,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        resp = self.api_client.post('/api/v1/friends/', format='json', data=post_data4)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data4,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
-        self.assertTrue(Friend.objects.checking_friendship(self.user.pk, self.user1.pk))
-        self.assertTrue(Friend.objects.checking_friendship(self.user1.pk, self.user.pk))
-        self.assertTrue(Friend.objects.checking_friendship(self.user2.pk, self.user.pk))
-        self.assertTrue(Friend.objects.checking_friendship(self.user.pk, self.user2.pk))
+        self.assertTrue(Friend.objects.checking_friendship(
+            self.user.pk, self.user1.pk))
+        self.assertTrue(Friend.objects.checking_friendship(
+            self.user1.pk, self.user.pk))
+        self.assertTrue(Friend.objects.checking_friendship(
+            self.user2.pk, self.user.pk))
+        self.assertTrue(Friend.objects.checking_friendship(
+            self.user.pk, self.user2.pk))
 
 
-class TestFriendsNewResource(ResourceTestCase):
-    def get_credentials(self):
-        pass
-
+class TestFriendsNewResource(JWTResourceTestCase):
     def setUp(self):
         super(TestFriendsNewResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(username='user_a',
@@ -175,18 +223,10 @@ class TestFriendsNewResource(ResourceTestCase):
         self.user2 = FacebookCustomUser.objects.create_user(username='user_c',
                                                             password='test')
 
-    def login(self):
-        return self.api_client.client.post(
-            '/login/', {'username': 'user_a', 'password': 'test'})
-
-    def test_get_list_unauthorzied(self):
+    def test_get_list_unauthorized(self):
         self.assertHttpUnauthorized(
             self.api_client.get('/api/v1/new_connections/counter/',
                                 format='json'))
-
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
 
     def test_request_friend_request(self):
         Friend.objects.create(friend1=self.user,
@@ -197,14 +237,17 @@ class TestFriendsNewResource(ResourceTestCase):
             'status': 1,
         }
 
-        self.response = self.login()
-        resp = self.api_client.post('/api/v1/friends/', format='json',
-                                    data=post_data)
+        resp = self.api_client.post(
+            '/api/v1/friends/', format='json', data=post_data,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
         self.assertTrue(Friend.objects.checking_friendship(self.user.pk,
                                                            self.user1.pk))
-        resp = self.api_client.get('/api/v1/new_connections/counter/',
-                                   format='json')
+        resp = self.api_client.get(
+            '/api/v1/new_connections/counter/', format='json',
+            authentication=self.get_credentials(),
+        )
         self.assertEqual(self.deserialize(resp)['objects'],
                          [{u'new_connection_counter': 2,
                            u'resource_uri': u''}])
@@ -361,10 +404,7 @@ class FriendUtilsTestCase(TestCase):
         self.assertEqual(mutual_friends, [self.user1.id])
 
 
-class NeoFriendsResourceTestCase(ResourceTestCase):
-    def get_credentials(self):
-        pass
-
+class NeoFriendsResourceTestCase(JWTResourceTestCase):
     def setUp(self):
         super(NeoFriendsResourceTestCase, self).setUp()
         self.neo = NeoFourJ()
@@ -387,22 +427,16 @@ class NeoFriendsResourceTestCase(ResourceTestCase):
         self.neo.add_to_friends(self.n1, self.n2)
         self.neo.add_to_friends(self.n2, self.n1)
 
-    def login(self):
-        return self.api_client.client.post(
-            '/login/', {'username': 'user_a', 'password': 'test'})
-
     def test_get_list_unauthorzied(self):
         self.assertHttpUnauthorized(
             self.api_client.get('/api/v2/friends/',
                                 format='json'))
 
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
-
     def test_get_my_friends(self):
-        self.response = self.login()
-        resp = self.api_client.get('/api/v2/friends/', format='json')
+        resp = self.api_client.get(
+            '/api/v2/friends/', format='json',
+            authentication=self.get_credentials()
+        )
         deserialized_resp = self.deserialize(resp)
         self.assertEqual(
             deserialized_resp['objects'],
@@ -413,37 +447,39 @@ class NeoFriendsResourceTestCase(ResourceTestCase):
         )
 
     def test_add_to_friends(self):
-        self.response = self.login()
         self.data = {'user_id': self.user2.id}
-        resp = self.api_client.post('/api/v2/friends/', format='json',
-                                    data=self.data)
+        resp = self.api_client.post(
+            '/api/v2/friends/', format='json', data=self.data,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
         deserialized_resp = self.deserialize(resp)
         self.assertEqual(deserialized_resp['user_id'], self.user2.id)
 
     def test_pass_friend(self):
-        self.response = self.login()
         self.data = {'user_id': self.user2.id, 'action': 'pass'}
-        resp = self.api_client.post('/api/v2/friends/', format='json',
-                                    data=self.data)
+        resp = self.api_client.post(
+            '/api/v2/friends/', format='json', data=self.data,
+            authentication=self.get_credentials()
+        )
         self.assertHttpCreated(resp)
         deserialized_resp = self.deserialize(resp)
         self.assertEqual(deserialized_resp['user_id'], self.user2.id)
 
     def test_remove_from_friends(self):
-        self.response = self.login()
         resp = self.api_client.delete(
             '/api/v2/friends/', format='json',
+            authentication=self.get_credentials(),
             data=json.dumps({'user_id': self.user1.id})
         )
         self.assertHttpAccepted(resp)
         self.assertEqual(self.neo.get_my_friends_ids(self.user.id), [])
 
     def test_disconnect_friend(self):
-        self.response = self.login()
         self.data = {'user_id': self.user1.id, 'action': 'disconnect'}
         resp = self.api_client.post(
             '/api/v2/friends/', format='json',
+            authentication=self.get_credentials(),
             data=self.data
         )
         self.assertHttpCreated(resp)

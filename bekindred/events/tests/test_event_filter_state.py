@@ -5,7 +5,8 @@ from events.models import EventFilterState
 
 class TestEventFilterState(TestCase):
     def setUp(self):
-        self.user = FacebookCustomUser.objects.create_user(username='user_a', password='test')
+        self.user = FacebookCustomUser.objects.create_user(
+            username='user_a', password='test')
 
     def test_simple_save(self):
         self.assertEqual(EventFilterState.objects.

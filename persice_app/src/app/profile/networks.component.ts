@@ -8,7 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     <a (click)="openEdit.next('profile')" class="edit-link">Networks
       <span class="edit-link__icon">
         <svg role="img" class="icon ">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-edit_info"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
         </svg>
       </span>
     </a>
@@ -16,17 +16,17 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   <div>
     <a target="_new" class="mr-" href="{{url.facebook}}" *ngIf="url.facebook !== ''">
       <svg role="img" class="icon icon--medium">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-facebook_middle"></use>
+        <use xlink:href="/assets/icons/icons.svg#icon-facebook_middle"></use>
       </svg>
     </a>
     <a target="_new" class="mr-" href="{{url.twitter}}" *ngIf="url.twitter !== ''">
       <svg role="img" class="icon icon--medium">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-twitter_middle"></use>
+        <use xlink:href="/assets/icons/icons.svg#icon-twitter_middle"></use>
       </svg>
     </a>
     <a target="_new" class="mr-" href="{{url.linkedin}}" *ngIf="url.linkedin !== ''">
       <svg role="img" class="icon icon--medium">
-        <use xlink:href="/static/assets/icons/icons.svg#icon-linkedin_middle"></use>
+        <use xlink:href="/assets/icons/icons.svg#icon-linkedin_middle"></use>
       </svg>
     </a>
   </div>

@@ -82,9 +82,8 @@ module.exports = function(config) {
 
     proxies: {
       '/media/images/': '/base/src/assets/images/',
-      '/static/assets/images/': '/base/src/assets/images/',
-      '/static/assets/icons/': '/base/src/assets/icons/',
-      '/static/img/': '/base/src/assets/images/'
+      '/assets/images/': '/base/src/assets/images/',
+      '/assets/icons/': '/base/src/assets/icons/'
     },
 
     // preprocess matching files before serving them to the browser

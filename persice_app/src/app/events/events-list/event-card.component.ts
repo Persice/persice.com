@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
-import { DateUtil } from '../../shared/core';
+import { DateUtil } from '../../../common/core';
 import { CheckImageDirective } from '../../shared/directives';
 
 @Component({
@@ -11,7 +11,7 @@ import { CheckImageDirective } from '../../shared/directives';
 })
 export class EventCardComponent implements OnInit {
   @Input() event: any;
-  photo: string = '/static/img/placeholder-image.png';
+  photo: string = '/assets/images/placeholder-image.png';
   date: string = '';
   distanceValue = '';
   distanceUnit = '';

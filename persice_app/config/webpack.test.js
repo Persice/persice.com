@@ -28,6 +28,13 @@ module.exports = {
   // See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
   devtool: 'source-map',
 
+  entry: {
+    'polyfills': './src/polyfills.browser.ts', // our browser polyfills (es6-promise, etc)
+    'vendor': './src/vendor.browser.ts', // our vendor (angular2, rxjs)
+    'main': './src/main.browser.ts', // persice main desktop app
+    'main-mobile': './src/main-mobile.browser.ts', // persice main mobile app
+  },
+
   // Options affecting the resolving of modules.
   //
   // See: http://webpack.github.io/docs/configuration.html#resolve

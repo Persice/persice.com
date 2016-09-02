@@ -1,7 +1,8 @@
-import { provide, Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { HttpClient, OPTS_REQ_JSON_CSRF, CookieUtil } from '../core';
+import { HttpClient } from '../../../common/core';
+import { TokenUtil } from '../../../common/core/util';
 
 @Injectable()
 export class PoliticalViewsService {
@@ -102,7 +103,7 @@ export class PoliticalViewsService {
   }
 
   public create(data: any): Observable<any> {
-    let userId = CookieUtil.getValue('userid');
+    let userId = TokenUtil.getValue('user_id');
     let it = {
       political_index: data,
       user: `/api/v1/auth/user/${userId}/`
@@ -110,22 +111,16 @@ export class PoliticalViewsService {
 
     const body = JSON.stringify(it);
     return this.http.post(
-      `${PoliticalViewsService.API_URL}?format=json`,
-      body,
-      OPTS_REQ_JSON_CSRF)
+      `${PoliticalViewsService.API_URL}?format=json`, body)
       .map((res: Response) => res.json());
   }
 
   public delete(uri): Observable<any> {
-    return this.http.delete(
-      `${uri}?format=json`,
-      OPTS_REQ_JSON_CSRF)
-      .map((res: Response) => res.json());
+    return this.http.delete(`${uri}?format=json`);
   }
-
 
 }
 
 export var politicalViewsServiceInjectables: Array<any> = [
-  provide(PoliticalViewsService, {useClass: PoliticalViewsService})
+  {provide: PoliticalViewsService, useClass: PoliticalViewsService}
 ];

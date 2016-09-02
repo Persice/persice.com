@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { EditPhotosMobileComponent } from './edit-photos-mobile.component';
 import { PhotosService, FacebookAlbumsService } from '../../../app/shared/services';
 import { AppStateService } from '../../shared/services/app-state.service';
-import { HttpClient } from '../../../app/shared/core';
+import { HttpClient } from '../../../common/core';
 import { PhotosGenerators } from './photos-generators';
 import { Photo } from '../../../common/models/photo';
 import { HeaderState } from '../../header/header.state';
@@ -72,7 +72,6 @@ describe('Edit photos mobile component', () => {
       MockBackend,
       AppStateService,
       BaseRequestOptions,
-      HttpClient,
       HeaderState,
       {
         provide: Http,

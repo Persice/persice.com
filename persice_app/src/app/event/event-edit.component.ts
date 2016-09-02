@@ -4,7 +4,7 @@ import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerD
 import { BaseEventComponent } from './base-event.component';
 import { NotificationComponent } from '../shared/components/notification';
 import { LoadingComponent } from '../shared/components/loading';
-import { DateUtil } from '../shared/core';
+import { DateUtil } from '../../common/core';
 import { EventService, NotificationService } from '../shared/services';
 
 @Component({
@@ -19,7 +19,6 @@ import { EventService, NotificationService } from '../shared/services';
     LoadingComponent
   ],
   providers: [EventService]
-
 })
 export class EventEditComponent extends BaseEventComponent {
 
@@ -124,7 +123,7 @@ export class EventEditComponent extends BaseEventComponent {
       this.loading = false;
       this.validationErrors = {};
       this._notifySuccess('Event has been updated.');
-      this.refreshEvent.next(true);
+      this.refreshEvent.emit(true);
       let remodal = jQuery('[data-remodal-id=edit-event]').remodal();
       remodal.close();
     }, (err) => {
@@ -161,6 +160,5 @@ export class EventEditComponent extends BaseEventComponent {
       }
     });
   }
-
 
 }

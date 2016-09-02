@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-
 @Component({
   selector: 'prs-send-message',
   template: `
@@ -27,7 +26,7 @@ export class ConversationInputComponent {
 
   sendMessage(event) {
     if (this.message.length > 0 && !this.disabled) {
-      this.newMessage.next(this.message);
+      this.newMessage.emit(this.message);
       this.message = '';
     }
 

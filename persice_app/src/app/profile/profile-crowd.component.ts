@@ -11,8 +11,7 @@ import { GalleryComponent } from './gallery.component';
 import { LoadingComponent } from '../shared/components/loading';
 import { RemodalDirective } from '../shared/directives';
 import { MutualFriendsService, PhotosService, ReligiousViewsService, PoliticalViewsService } from '../shared/services';
-import { ObjectUtil, ListUtil } from '../shared/core';
-
+import { ObjectUtil, ListUtil } from '../../common/core';
 
 @Component({
   selector: 'prs-profile-crowd',
@@ -124,7 +123,6 @@ export class ProfileCrowdComponent implements OnChanges, OnInit, OnDestroy {
 
   }
 
-
   ngOnDestroy() {
     jQuery(document).off('closed', '.remodal');
   }
@@ -147,7 +145,6 @@ export class ProfileCrowdComponent implements OnChanges, OnInit, OnDestroy {
     this.profileGender = this.user.gender === 'm' ? 'Male' : 'Female';
     this.profileDistance = `${this.user.distance[0]} ${this.user.distance[1]}`;
     this.profileLocation = this.user.lives_in ? this.user.lives_in : '';
-
 
     setTimeout(() => {
       this.profileLikesCount = 0;
@@ -262,7 +259,6 @@ export class ProfileCrowdComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-
   passUser(event) {
     this.passEvent.next(event);
   }
@@ -295,6 +291,5 @@ export class ProfileCrowdComponent implements OnChanges, OnInit, OnDestroy {
     remodal.open();
     this.galleryActive = true;
   }
-
 
 }

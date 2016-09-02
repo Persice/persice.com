@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 
 import logging
+from urlparse import parse_qs
 
 from celery import task
 from django.core.cache import cache

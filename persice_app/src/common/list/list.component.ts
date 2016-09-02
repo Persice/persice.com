@@ -45,7 +45,6 @@ export abstract class ListComponent {
   // wait milliseconds have elapsed since the last time the debounced function was invoked.
   onRefreshList: Function;
 
-
   // Way to temporarily remember scroll position before item is selected
   // and restore it after item view is closed.
   windowScrollPosition: number = 0;

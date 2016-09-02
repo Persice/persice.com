@@ -9,7 +9,7 @@ import { MockCrowd, MockCrowdEmpty, MockCrowdService, CrowdService } from '../..
 import { AppStateService } from '../shared/services';
 import { CrowdMobileComponent } from './crowd-mobile.component';
 import { FilterService, FriendService } from '../../app/shared/services';
-import { HttpClient } from '../../app/shared/core/http-client';
+import { HttpClient } from '../../common/core/http-client';
 
 @Component({
   template: `<prs-mobile-crowd></prs-mobile-crowd>`,

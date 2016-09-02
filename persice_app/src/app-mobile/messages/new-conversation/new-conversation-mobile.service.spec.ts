@@ -1,5 +1,5 @@
-import { provide, Injector, ReflectiveInjector } from '@angular/core';
-import { HttpClient } from '../../../app/shared/core';
+import { Injector, ReflectiveInjector } from '@angular/core';
+import { HttpClient } from '../../../common/core';
 import { Http, ConnectionBackend, BaseRequestOptions, RequestMethod, ResponseOptions, Response } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { NewConversationMobileService } from './new-conversation-mobile.service';
@@ -15,7 +15,8 @@ describe('New conversation mobile service', () => {
       BaseRequestOptions,
       MockBackend,
       HttpClient,
-      provide(Http, {
+      {
+        provide: Http,
         useFactory: (
           connectionBackend: ConnectionBackend,
           defaultOptions: BaseRequestOptions
@@ -26,8 +27,9 @@ describe('New conversation mobile service', () => {
           MockBackend,
           BaseRequestOptions
         ]
-      }),
-      provide(NewConversationMobileService, {
+      },
+      {
+        provide: NewConversationMobileService,
         useFactory: (
           http: HttpClient
         ) => {
@@ -36,7 +38,7 @@ describe('New conversation mobile service', () => {
         deps: [
           Http
         ]
-      })
+      }
     ]);
 
     backend = injector.get(MockBackend);

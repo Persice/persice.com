@@ -5,6 +5,7 @@ import { bootstrap } from '@angular/platform-browser-dynamic';
 import { PLATFORM_PROVIDERS_MAIN } from './platform/browser';
 import { ENV_PROVIDERS } from './platform/environment';
 import { AppComponent, APP_PROVIDERS } from './app';
+
 /*
  * Platform and Environment
  * our providers/directives/pipes
@@ -29,7 +30,6 @@ export function main(initialHmrState?: any): Promise<any> {
     .catch(err => console.error(err));
 
 }
-
 
 /*
  * Vendors

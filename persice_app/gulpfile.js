@@ -38,7 +38,8 @@ var jsFilesMobile = [
   './lib/js/viewport-units-buggyfill.js',
   './lib/js/remodal.js',
   './lib/js/typeahead.js',
-  './lib/js/init-mobile.js'
+  './lib/js/init-mobile.js',
+  './lib/js/fakeLocalStorage.js'
 ];
 
 var cssFilesAll = [

@@ -1,6 +1,5 @@
 import { Directive, ElementRef, EventEmitter, AfterViewInit, Output } from '@angular/core';
-import { DateUtil } from '../core';
-
+import { DateUtil } from '../../../common/core';
 
 @Directive({
   selector: '[timepicker]',

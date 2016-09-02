@@ -111,6 +111,5 @@ export class NetworkMutualConnectionsComponent implements OnInit, AfterViewInit,
 
   }
 
-
 }
 

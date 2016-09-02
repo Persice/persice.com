@@ -1,26 +1,14 @@
-from datetime import date, datetime
-import os
-from django.conf import settings
-from django.utils import unittest
-from django.utils.timezone import now
+from datetime import date
 
-from django_facebook.models import FacebookCustomUser, FacebookLike
-from django.core.files.uploadedfile import SimpleUploadedFile
+from django_facebook.models import FacebookCustomUser
 
-from tastypie.test import ResourceTestCase
-from events.models import FilterState
+from accounts.tests.test_resources import JWTResourceTestCase
 from friends.utils import NeoFourJ
-
-from goals.models import Subject, Goal, Offer
-from interests.models import Interest, InterestSubject
+from goals.models import Subject
 from world.models import UserLocation
 
 
-class TestMatchFeedResource2(ResourceTestCase):
-
-    def get_credentials(self):
-        pass
-
+class TestMatchFeedResource2(JWTResourceTestCase):
     def setUp(self):
         super(TestMatchFeedResource2, self).setUp()
         self.user = FacebookCustomUser.objects.\
@@ -67,52 +55,39 @@ class TestMatchFeedResource2(ResourceTestCase):
         self.subject8 = Subject.objects.create(description=self.description8)
         self.subject9 = Subject.objects.create(description=self.description9)
 
-        user_location = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user, position=[-87.627696, 41.880745])
-        user_location1 = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user1, position=[-87.627675, 41.881925])
-        user_location2 = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user2, position=[-87.6281729688, 41.881849562])
-        user_location3 = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user3, position=[-87.62839, 41.88206])
-        user_location4 = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user4, position=[-87.6269801114, 41.8814058757])
-        user_location5 = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user5, position=[38.53, 77.02])
-        user_location6 = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user6, position=[41.50, 87.37])
-        user_location7 = UserLocation.objects.\
+        UserLocation.objects.\
             create(user=self.user7, position=[-87.62749695, 41.88316957])
 
         self.resource_url = '/api/v1/matchfeed/'
-
-    def login(self):
-        return self.api_client.client.post('/login/',
-                                           {'username': 'user_a',
-                                            'password': 'test'})
 
     def test_get_matchfeed_list(self):
         self.assertHttpUnauthorized(self.api_client.get(self.resource_url,
                                                         format='json'))
 
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
-
-    @unittest.skip("elastic")
     def test_get_list_json(self):
-        self.response = self.login()
-        resp = self.api_client.get('/api/v1/matchfeed/', format='json')
+        resp = self.api_client.get(
+            '/api/v1/matchfeed/', format='json',
+            authentication=self.get_credentials()
+        )
         self.assertValidJSONResponse(resp)
-
-        # Scope out the data for correctness.
         self.assertEqual(len(self.deserialize(resp)), 2)
 
 
-class TestProfileResource2(ResourceTestCase):
-    def get_credentials(self):
-        pass
-
+class TestProfileResource2(JWTResourceTestCase):
     def setUp(self):
         super(TestProfileResource2, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(
@@ -129,25 +104,19 @@ class TestProfileResource2(ResourceTestCase):
         )
         self.resource_url = '/api/v1/profile/'
 
-    def login(self):
-        return self.api_client.client.post(
-            '/login/', {'username': 'user_a', 'password': 'test'})
-
     def test_get_profile_list(self):
         self.assertHttpUnauthorized(
             self.api_client.get(self.resource_url, format='json'))
 
-    def test_login(self):
-        self.response = self.login()
-        self.assertEqual(self.response.status_code, 302)
-
     def test_get_empty_list_json(self):
-        self.response = self.login()
-        resp = self.api_client.get('/api/v1/profile/', format='json')
+        resp = self.api_client.get(
+            '/api/v1/profile/', format='json',
+            authentication=self.get_credentials()
+        )
         self.assertValidJSONResponse(resp)
 
 
-class TestMutualConnectionsResource(ResourceTestCase):
+class TestMutualConnectionsResource(JWTResourceTestCase):
     def setUp(self):
         super(TestMutualConnectionsResource, self).setUp()
         self.user = FacebookCustomUser.objects.create_user(
@@ -183,14 +152,11 @@ class TestMutualConnectionsResource(ResourceTestCase):
     def tearDown(self):
         self.neo.graph.delete_all()
 
-    def login(self):
-        return self.api_client.client.post(
-            '/login/', {'username': 'user_a', 'password': 'test'})
-
     def test_get_mutual_connections(self):
-        self.response = self.login()
-        resp = self.api_client.get(self.resource_url, format='json',
-                                   data={"user_id": self.user1.id})
+        resp = self.api_client.get(
+            self.resource_url, format='json', data={"user_id": self.user1.id},
+            authentication=self.get_credentials()
+        )
         self.assertValidJSONResponse(resp)
         data = self.deserialize(resp)
         self.assertEqual(data, [])

@@ -1,0 +1,35 @@
+<div class="signup-landing">
+  <div class="translate-50">
+    <a class="site-logo" href="/login"> <img alt="#" src="/assets/images/logo.svg" class="site-logo__mark">
+      <h1 class="site-logo__type">Persice</h1></a>
+    <h2 class="signup-title">Real Life Connections</h2>
+    <p class="signup-subtitle">Discover people and events that match your interests.</p>
+    <div class="layout">
+      <div class="layout__item">
+        <a style="margin-bottom: 10px!important" (click)="authenticate('facebook')" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+        <p class="mb0">
+          <svg style="margin: 0 -10px 0 0;" role="img" class="icon ">
+            <use xlink:href="/assets/icons/icons.svg#icon-lock"></use>
+          </svg>
+          Persice will never share your data or post on your behalf.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="position-bottom" style="left: 50%; transform: translate(-50%,-50%);">
+    <ul class="nav-submain">
+      <li style="font-size: 12px; font-weight: bold; color: #434f54;"><a [routerLink]="['/privacy']">Privacy</a></li>
+      <li style="font-size: 12px; font-weight: bold; color: #434f54;"><a [routerLink]="['/terms']">Terms</a></li>
+    </ul>
+  </div>
+</div>
+<div id="loading_container" *ngIf="isInfoVisible">
+  <div id="loading_shade"></div>
+  <div id="loading_wrapper">
+    <div id="loading_lightbox">
+      <div id="loading_message">{{message}}</div>
+      <img id="loading_image" src="/assets/images/loading.gif" alt="..." *ngIf="isLoading">
+      <div id="loading_close" (click)="closeInfo($event)" *ngIf="!isLoading"></div>
+    </div>
+  </div>
+</div>

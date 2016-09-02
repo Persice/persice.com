@@ -1,6 +1,5 @@
 import { Directive, ElementRef, AfterViewInit, EventEmitter, Output } from '@angular/core';
-import { DateUtil } from '../core';
-
+import { DateUtil } from '../../../common/core';
 
 @Directive({
   selector: '[datepicker]',
@@ -29,7 +28,7 @@ export class DatepickerDirective implements AfterViewInit {
           dateString = DateUtil.convertFromUnixToDate(context.select / 1000);
         }
 
-        this.selectedValue.next(dateString);
+        this.selectedValue.emit(dateString);
       },
       onStart: () => {
         jQuery(this.el.nativeElement).pickadate('picker').set('select', parseInt(this.value, 10));

@@ -3,7 +3,6 @@ import { MapsAPILoader } from '../../../common/google-map';
 
 require('geocomplete');
 
-
 declare var google: any;
 
 @Directive({
@@ -29,7 +28,6 @@ export class GeocompleteDirective implements OnInit, OnDestroy {
 
   }
 
-
   ngOnDestroy() {
     if (!!this.instance) {
       jQuery(this.el.nativeElement).geocomplete('destroy');
@@ -48,6 +46,5 @@ export class GeocompleteDirective implements OnInit, OnDestroy {
 
     }
   }
-
 
 }

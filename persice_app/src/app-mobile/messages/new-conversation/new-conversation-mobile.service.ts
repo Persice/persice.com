@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, CookieUtil, OPTS_REQ_JSON_CSRF } from '../../../app/shared/core';
+import { HttpClient, TokenUtil } from '../../../common/core';
 
 @Injectable()
 export class NewConversationMobileService {
@@ -11,9 +11,8 @@ export class NewConversationMobileService {
   public sendingInProgress: boolean = false;
   private _me: string;
 
-
   constructor(private http: HttpClient) {
-    const userId: string = CookieUtil.getValue('userid');
+    const userId: string = TokenUtil.getValue('user_id');
     this._me = `/api/v1/auth/user/${userId}/`;
   }
 
@@ -29,7 +28,7 @@ export class NewConversationMobileService {
       sender: this._me
     };
     this.sendingInProgress = true;
-    return this.http.post(url, JSON.stringify(data), OPTS_REQ_JSON_CSRF)
+    return this.http.post(url, JSON.stringify(data))
       .map((res: any) => res.json());
   }
 

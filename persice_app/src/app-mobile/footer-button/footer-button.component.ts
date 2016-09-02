@@ -7,7 +7,7 @@ import { AppStateService } from '../shared/services';
     <div class="footer-button-container" *ngIf="isVisible">
       <a class="btn btn--add">
         <svg role="img" class="icon ">
-          <use xlink:href="/static/assets/icons/icons.svg#icon-plus-big"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-plus-big"></use>
         </svg>
       </a>
     </div>

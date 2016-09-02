@@ -10,24 +10,33 @@ const HASH = helpers.generateHash(); // Generate unique hash used for cache bust
  * Webpack Plugins
  */
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const DefinePlugin = require('webpack/lib/DefinePlugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 /**
  * Webpack Constants
  */
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
+const FACEBOOK_ID = process.env.FACEBOOK_ID_PRODUCTION;
+const LINKEDIN_ID = process.env.LINKEDIN_ID_PRODUCTION;
+const FACEBOOK_SCOPE = process.env.FACEBOOK_SCOPE;
+
+const AWS_S3_CUSTOM_DOMAIN = process.env.AWS_S3_CUSTOM_DOMAIN;
+
 const METADATA = webpackMerge(commonConfig.metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false
+  HMR: false,
+  FACEBOOK_ID: FACEBOOK_ID,
+  LINKEDIN_ID: LINKEDIN_ID,
+  FACEBOOK_SCOPE: FACEBOOK_SCOPE
 });
 
 module.exports = webpackMerge(commonConfig, {
@@ -42,6 +51,13 @@ module.exports = webpackMerge(commonConfig, {
   // See: https://github.com/webpack/docs/wiki/build-performance#sourcemaps
   devtool: 'source-map',
 
+  entry: {
+    'polyfills': './src/polyfills.browser.ts', // our browser polyfills (es6-promise, etc)
+    'vendor': './src/vendor.browser.ts', // our vendor (angular2, rxjs)
+    'main': './src/main.browser.ts', // persice main desktop app
+    'main-mobile': './src/main-mobile.browser.ts', // persice main mobile app
+  },
+
   // Options affecting the output of the compilation.
   //
   // See: http://webpack.github.io/docs/configuration.html#output
@@ -50,9 +66,9 @@ module.exports = webpackMerge(commonConfig, {
     // The output directory as absolute path (required).
     //
     // See: http://webpack.github.io/docs/configuration.html#output-path
-    path: helpers.root('../bekindred/static/dist'),
-    publicPath: 'https://d2v6m3k9ul63ej.cloudfront.net/dist/',
-    // publicPath: 'http://test1.com:8000/static/dist/',
+    path: helpers.root('dist'),
+    publicPath: AWS_S3_CUSTOM_DOMAIN + '/assets/js/',
+    // publicPath: 'http://test-local.com:8000/assets/js/',
 
     // Specifies the name of each output file on disk.
     // IMPORTANT: You must not specify an absolute path here!
@@ -112,20 +128,6 @@ module.exports = webpackMerge(commonConfig, {
   // See: http://webpack.github.io/docs/configuration.html#plugins
   plugins: [
 
-
-    new CopyWebpackPlugin([{
-      from: 'src/assets',
-      to: 'assets'
-    }]),
-
-    // Plugin: DedupePlugin
-    // Description: Prevents the inclusion of duplicate code into your bundle
-    // and instead applies a copy of the function at runtime.
-    //
-    // See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
-    // See: https://github.com/webpack/docs/wiki/optimization#deduplication
-    new DedupePlugin(),
-
     // Plugin: DefinePlugin
     // Description: Define free variables.
     // Useful for having development builds with debug logging or adding global constants.
@@ -137,12 +139,26 @@ module.exports = webpackMerge(commonConfig, {
     new DefinePlugin({
       'ENV': JSON.stringify(METADATA.ENV),
       'HMR': METADATA.HMR,
+      'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+      'LINKEDIN_ID': JSON.stringify(METADATA.LINKEDIN_ID),
+      'FACEBOOK_SCOPE': JSON.stringify(METADATA.FACEBOOK_SCOPE),
       'process.env': {
         'ENV': JSON.stringify(METADATA.ENV),
         'NODE_ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
+        'FACEBOOK_ID': JSON.stringify(METADATA.FACEBOOK_ID),
+        'LINKEDIN_ID': JSON.stringify(METADATA.LINKEDIN_ID),
+        'FACEBOOK_SCOPE': JSON.stringify(process.env.FACEBOOK_SCOPE)
       }
     }),
+
+    // Plugin: DedupePlugin
+    // Description: Prevents the inclusion of duplicate code into your bundle
+    // and instead applies a copy of the function at runtime.
+    //
+    // See: https://webpack.github.io/docs/list-of-plugins.html#defineplugin
+    // See: https://github.com/webpack/docs/wiki/optimization#deduplication
+    new DedupePlugin(),
 
     // Plugin: UglifyJsPlugin
     // Description: Minimize all JavaScript output of chunks.
@@ -166,19 +182,10 @@ module.exports = webpackMerge(commonConfig, {
       // comments: true, //debug
 
       beautify: false, //prod
-      // dead_code: false,
-      // unused: false,
       mangle: { screw_ie8: true }, //prod
-      // mangle: false,
-      compress: {
-        screw_ie8: true,
-        warnings: false,
-
-      }, //prod
-      warnings: false,
+      compress: { screw_ie8: true, warnings: false }, //prod
       comments: false //prod
     }),
-
 
     /**
      * Plugin: NormalModuleReplacementPlugin
@@ -200,7 +207,38 @@ module.exports = webpackMerge(commonConfig, {
     new CompressionPlugin({
       regExp: /\.css$|\.html$|\.js$|\.map$/,
       threshold: 2 * 1024
-    })
+    }),
+
+    // Plugin: HtmlWebpackPlugin
+    // Description: Simplifies creation of HTML files to serve your webpack bundles.
+    // This is especially useful for webpack bundles that include a hash in the filename
+    // which changes every compilation.
+    //
+    // See: https://github.com/ampedandwired/html-webpack-plugin
+    new HtmlWebpackPlugin({
+      template: 'templates/production/index.html',
+      filename: 'index.html',
+      chunks: ['polyfills', 'vendor', 'main'],
+      chunksSortMode: 'dependency',
+      minify: false
+    }),
+    new HtmlWebpackPlugin({
+      template: 'templates/production/index_mobile.html',
+      filename: 'index_mobile.html',
+      chunks: ['polyfills', 'vendor', 'main-mobile'],
+      chunksSortMode: 'dependency',
+      minify: false
+    }),
+    // Plugin: CopyWebpackPlugin
+    // Description: Copy files and directories in webpack.
+    //
+    // Copies project static assets.
+    //
+    // See: https://www.npmjs.com/package/copy-webpack-plugin
+    new CopyWebpackPlugin([{
+      from: 'src/assets',
+      to: 'assets'
+    }])
   ],
 
   // Static analysis linter for TypeScript advanced options configuration

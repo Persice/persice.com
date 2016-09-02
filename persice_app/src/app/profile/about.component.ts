@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-
+import { IgnoreMarkupPipe } from '../shared/pipes/ignore_markup.pipe';
 
 @Component({
   selector: 'prs-profile-about',
@@ -8,21 +8,22 @@ import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core
   <h4 class="module-title mb0" *ngIf="editable">
   <a (click)="openEdit.next('about')" class="edit-link">About <span class="edit-link__icon">
     <svg role="img" class="icon ">
-      <use xlink:href="/static/assets/icons/icons.svg#icon-edit_info"></use>
+      <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
     </svg>
     </span></a>
   </h4>
 
   <div class="profile-feature" *ngIf="!editable">
-    {{aboutMore}}
+    {{aboutMore | ignoreMarkup}}
     <a (click)="showMore($event)" *ngIf="!hideMoreLink" class="link-blank">View all</a>
   </div>
 
   <div class="profile-feature" *ngIf="editable">
-    <a (click)="openEdit.next('about')" class="edit-link">{{aboutMore}}</a>
+    <a (click)="openEdit.next('about')" class="edit-link">{{aboutMore | ignoreMarkup}}</a>
     <a (click)="showMore($event)" *ngIf="!hideMoreLink" class="link-blank">View all</a>
   </div>
-  `
+  `,
+  pipes: [IgnoreMarkupPipe]
 })
 export class AboutComponent implements OnChanges {
   @Input() about;

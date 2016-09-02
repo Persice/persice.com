@@ -1,18 +1,18 @@
 <a class="page-arrow page-arrow--prev" *ngIf="currentIndex !== 0 && count > 1" (click)="previousEvent.next($event)">
   <svg role="img" class="icon ">
-    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-arrow_left"></use>
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-arrow_left"></use>
   </svg>
 </a>
 <a class="page-arrow page-arrow--next" *ngIf="currentIndex < count - 1 && count > 1" (click)="nextEvent.next($event)">
   <svg role="img" class="icon ">
-    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/static/assets/icons/icons.svg#icon-arrow_right"></use>
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-arrow_right"></use>
   </svg>
 </a>
 <div class="platform m" id="userprofile" *ngIf="!loading && !notFound" (keyup)="eventHandler($event.keyCode)"
      tabindex="1">
   <a (click)="closeProfile($event)" class="platform__back">
     <svg role="img" class="icon ">
-      <use xlink:href="/static/assets/icons/icons.svg#icon-close"></use>
+      <use xlink:href="/assets/icons/icons.svg#icon-close"></use>
     </svg>
   </a>
   <div class="tableize tableize--fixed tableize--full content">
@@ -83,14 +83,14 @@
                  *ngIf="profileType === 'friend'">
                 <svg role="img" class="icon ">
                   <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                       xlink:href="/static/assets/icons/icons.svg#icon-menu-messages"></use>
+                       xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
                 </svg>
               </a>
               <div class="event-share" *ngIf="profileType === 'friend'">
                 <a class="btn btn-1 btn-1--blue btn--icon-circle js-share" dropdown="#friendDropdown">
                   <svg role="img" class="icon icon--tiny">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                         xlink:href="/static/assets/icons/icons.svg#icon-more"></use>
+                         xlink:href="/assets/icons/icons.svg#icon-more"></use>
                   </svg>
                 </a>
                 <!-- TODO insert dropdown component -->
@@ -135,7 +135,7 @@
   <p class="no-results__par">Page not found
     <br>
   </p>
-  <img src="/static/assets/images/polar-bear.png" alt="Polar Bear">
+  <img src="/assets/images/polar-bear.png" alt="Polar Bear">
 </div>
 <prs-loading [status]="loading"></prs-loading>
 <div class="remodal modal-gallery" data-remodal-id="modal-gallery" remodal="{{galleryOptions}}">

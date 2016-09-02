@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DropdownDirective } from '../../shared/directives';
 
-
 @Component({
   selector: 'prs-event-info',
   template: <any>require('./event-info.html'),
