@@ -2,11 +2,17 @@
   <div class="translate-50">
     <a class="site-logo" href="/login"> <img alt="#" src="/assets/images/logo.svg" class="site-logo__mark">
       <h1 class="site-logo__type">Persice</h1></a>
-    <h2 class="signup-title">Real world connections</h2>
-    <p class="signup-subtitle">Join Persice to find people with similar goals and interests as you.</p>
+    <h2 class="signup-title">Real Life Connections</h2>
+    <p class="signup-subtitle">Discover people and events that match your interests.</p>
     <div class="layout">
       <div class="layout__item">
-        <a (click)="authenticate('facebook')" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+        <a style="margin-bottom: 10px!important" (click)="authenticate('facebook')" id="loginButton" class="btn btn-1 btn-1--large btn-1--filled btn-1--darkest-blue">Login with facebook</a>
+        <p class="mb0">
+          <svg style="margin: 0 -10px 0 0;" role="img" class="icon ">
+            <use xlink:href="/assets/icons/icons.svg#icon-lock"></use>
+          </svg>
+          Persice will never share your data or post on your behalf.
+        </p>
       </div>
     </div>
   </div>
