@@ -25,7 +25,6 @@ const AUTH = [
         redirectUri: window.location.origin + '/public/close_popup/',
         clientId: FACEBOOK_ID,
         display: 'popup',
-        state: '9gF50kZvzXkt1Pvh',
         scope: FACEBOOK_SCOPE.split(',')
       },
       twitter: {
