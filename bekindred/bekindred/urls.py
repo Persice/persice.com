@@ -4,7 +4,8 @@ from django.contrib import admin
 from tastypie.api import Api
 
 from accounts.api.resources import SocialLoginResource, \
-    TwitterSocialConnectResource
+    TwitterSocialConnectResource, LinkedinSocialConnectResource, \
+    TwitterSocialDisconnectResource, LinkedinSocialDisconnectResource
 from events.api.resources import (AboutMeResource, EventAttendees,
                                   EventConnections, EventResource,
                                   MembershipResource, EventFeedResource,
@@ -85,6 +86,9 @@ v2_api.register(MutualConnections())
 v2_api.register(MutualFriendsCountResource())
 v2_api.register(SocialLoginResource())
 v2_api.register(TwitterSocialConnectResource())
+v2_api.register(TwitterSocialDisconnectResource())
+v2_api.register(LinkedinSocialConnectResource())
+v2_api.register(LinkedinSocialDisconnectResource())
 
 
 urlpatterns = patterns('',

@@ -2,6 +2,9 @@ import json
 import logging
 
 import oauth2 as oauth
+import re
+import requests
+
 from accounts.api.authentication import JSONWebTokenAuthentication
 from django_facebook.connect import connect_user
 from jwt_auth.utils import jwt_encode_handler, jwt_payload_handler
@@ -15,8 +18,10 @@ from tastypie.authorization import Authorization
 from tastypie.bundle import Bundle
 from tastypie.exceptions import BadRequest
 from tastypie.resources import Resource
+from django.conf import settings
 
 from core.utils import load_twitter_user_friends
+from friends.models import TwitterListFriends, TwitterListFollowers
 
 logger = logging.getLogger(__name__)
 
@@ -204,4 +209,222 @@ class TwitterSocialConnectResource(Resource):
             bundle.data['oauth_token'] = oauth_client.fetch_request_token(
                 REQUEST_TOKEN_URL
             ).get('oauth_token')
+        return bundle
+
+
+class TwitterSocialDisconnectResource(Resource):
+    id = fields.CharField(attribute='id')
+
+    class Meta:
+        resource_name = 'accounts/twitter/disconnect'
+        always_return_data = True
+        authentication = JSONWebTokenAuthentication()
+        authorization = Authorization()
+        allowed_methods = ['post']
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_delete(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list_for_update(self, bundle, **kwargs):
+        pass
+
+    def obj_get_list(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list(self, bundle, **kwargs):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+    def get_object_list(self, request):
+        pass
+
+    def obj_update(self, bundle, **kwargs):
+        pass
+
+    def apply_filters(self, request, applicable_filters):
+        pass
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        bundle.obj = Obj()
+        bundle.obj.id = 1
+        social_user = UserSocialAuth.objects.filter(
+            provider='twitter', user_id=bundle.request.user.id).first()
+        if social_user:
+            TwitterListFriends.objects.filter(
+                twitter_id1=social_user.uid).delete()
+            TwitterListFollowers.objects.filter(
+                twitter_id1=social_user.uid).delete()
+            social_user.delete()
+        return bundle
+
+
+class LinkedinSocialConnectResource(Resource):
+    id = fields.CharField(attribute='id')
+
+    class Meta:
+        resource_name = 'accounts/linkedin/connect'
+        always_return_data = True
+        authentication = JSONWebTokenAuthentication()
+        authorization = Authorization()
+        allowed_methods = ['post']
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_delete(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list_for_update(self, bundle, **kwargs):
+        pass
+
+    def obj_get_list(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list(self, bundle, **kwargs):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+    def get_object_list(self, request):
+        pass
+
+    def obj_update(self, bundle, **kwargs):
+        pass
+
+    def apply_filters(self, request, applicable_filters):
+        pass
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def convert(self, name):
+        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        bundle.obj = Obj()
+        bundle.obj.id = 1
+        backend = get_backend('linkedin', bundle.request, bundle.request.path)
+        backend.name = 'linkedin'
+        access_token_url = 'https://www.linkedin.com/uas/oauth2/accessToken'
+        names = getattr(settings, 'LINKEDIN_EXTRA_DATA')
+
+        extra = ','.join(dict(names).keys())
+        people_api_url = 'https://api.linkedin.com/v1/people/' \
+                         '~:({})'.format(extra)
+
+        payload = dict(client_id=bundle.data['clientId'],
+                       redirect_uri=bundle.data['redirectUri'],
+                       client_secret=backend.consumer.secret,
+                       code=bundle.data['code'],
+                       grant_type='authorization_code')
+
+        # Step 1. Exchange authorization code for access token.
+        r = requests.post(access_token_url, data=payload)
+        response = json.loads(r.text)
+        params = dict(oauth2_access_token=response['access_token'],
+                      format='json')
+
+        # Step 2. Retrieve information about the current user.
+        r = requests.get(people_api_url, params=params)
+        profile = json.loads(r.text)
+
+        data = {}
+        for key in profile.keys():
+            value = profile.get(key)
+            alias = self.convert(key)
+            data[alias] = value
+
+        uid = data.get('id')
+
+        social_user = UserSocialAuth.get_social_auth('linkedin', uid)
+        if social_user is None:
+            social_user = UserSocialAuth.create_social_auth(
+                bundle.request.user, uid, 'linkedin')
+            social_user.extra_data = data
+            social_user.save()
+
+        extra_data = params
+
+        if extra_data and social_user.extra_data != extra_data:
+            if social_user.extra_data:
+                social_user.extra_data.update(extra_data)
+            else:
+                social_user.extra_data = extra_data
+            social_user.save()
+        return bundle
+
+
+class LinkedinSocialDisconnectResource(Resource):
+    id = fields.CharField(attribute='id')
+
+    class Meta:
+        resource_name = 'accounts/linkedin/disconnect'
+        always_return_data = True
+        authentication = JSONWebTokenAuthentication()
+        authorization = Authorization()
+        allowed_methods = ['post']
+
+    def rollback(self, bundles):
+        pass
+
+    def obj_delete(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list_for_update(self, bundle, **kwargs):
+        pass
+
+    def obj_get_list(self, bundle, **kwargs):
+        pass
+
+    def obj_delete_list(self, bundle, **kwargs):
+        pass
+
+    def obj_get(self, bundle, **kwargs):
+        pass
+
+    def get_object_list(self, request):
+        pass
+
+    def obj_update(self, bundle, **kwargs):
+        pass
+
+    def apply_filters(self, request, applicable_filters):
+        pass
+
+    def detail_uri_kwargs(self, bundle_or_obj):
+        kwargs = {}
+        if isinstance(bundle_or_obj, Bundle):
+            kwargs['pk'] = bundle_or_obj.obj.id
+        else:
+            kwargs['pk'] = bundle_or_obj.id
+
+        return kwargs
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        bundle.obj = Obj()
+        bundle.obj.id = 1
+        UserSocialAuth.objects.filter(
+            provider='linkedin', user_id=bundle.request.user.id).delete()
         return bundle
