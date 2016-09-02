@@ -19,7 +19,6 @@ import { EventService, NotificationService } from '../shared/services';
     LoadingComponent
   ],
   providers: [EventService]
-
 })
 export class EventEditComponent extends BaseEventComponent {
 
