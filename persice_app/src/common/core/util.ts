@@ -294,7 +294,6 @@ export class GoogleUtil {
 export class IntercomUtil {
 
   static boot(user: any) {
-
     (<any>window).Intercom('boot', {
       app_id: 'd1rhvojk',
       email: user.email,
@@ -304,6 +303,10 @@ export class IntercomUtil {
         activator: '#IntercomDefaultWidget'
       }
     });
+  }
+
+  static shutdown() {
+    (<any>window).Intercom('shutdown');
   }
 }
 

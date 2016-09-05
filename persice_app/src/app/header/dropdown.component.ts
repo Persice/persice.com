@@ -4,6 +4,7 @@ import { DropdownDirective } from '../shared/directives/dropdown.directive';
 import { CheckImageDirective } from '../shared/directives/checkimage.directive';
 import { TokenUtil } from '../../common/core';
 import { Auth } from '../../common/auth/auth';
+import { IntercomUtil } from '../../common/core/util';
 
 @Component({
   selector: 'prs-dropdown',
@@ -42,7 +43,7 @@ export class DropdownComponent {
 
   public logout(event: MouseEvent) {
     this.auth.logout().subscribe(() => {
-      (<any>window).Intercom('shutdown');
+      IntercomUtil.shutdown();
       this.router.navigateByUrl('/login');
     });
 

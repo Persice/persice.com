@@ -3,6 +3,7 @@ import { Http, RequestOptionsArgs, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Auth } from '../auth/auth';
+import { IntercomUtil } from '../core/util';
 
 @Injectable()
 export class HttpClient {
@@ -71,12 +72,10 @@ export class HttpClient {
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
-    console.log('Server Response Error: ', errMsg);
-
     // If user is NOT authenticated, logout and clear token from local storage
     if (error.status === 401) {
       this.auth.logout().subscribe((res) => {
-        (<any>window).Intercom('shutdown');
+        IntercomUtil.shutdown();
         this.router.navigateByUrl('/login');
       });
     }

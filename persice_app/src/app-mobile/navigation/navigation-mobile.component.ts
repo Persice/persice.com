@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router, ROUTER_DIRECTIVES } from '@angular/router';
 import { Auth } from '../../common/auth/auth';
+import { IntercomUtil } from '../../common/core/util';
 
 @Component({
   selector: 'prs-mobile-navigation',
@@ -16,7 +17,7 @@ export class NavigationMobileComponent {
 
   public logout(event: MouseEvent) {
     this.auth.logout().subscribe(() => {
-      (<any>window).Intercom('shutdown');
+      IntercomUtil.shutdown();
       this.router.navigateByUrl('/login');
     });
   }
