@@ -54,7 +54,7 @@ export class UserProfileLoaderComponent implements OnInit, OnDestroy {
         } else {
           this.isProfileNotFound = true;
           // Redirect to crowd page if profile is not found
-          this.router.navigateByUrl('/crowd');
+          this.router.navigateByUrl('/events/all');
         }
       }, (err) => {
         this.isProfileNotFound = true;
