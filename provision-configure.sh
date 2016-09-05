@@ -15,7 +15,7 @@ npm -v
 node -v
 
 npm set progress=false
-npm install --global pm2 gulp tslint typescript typings webpack-dev-server rimraf webpack
+npm install --global pm2 gulp tslint typescript@2.0 webpack-dev-server rimraf webpack
 
 # NPM Install socket.io
 
