@@ -118,12 +118,10 @@ export abstract class FilterComponent {
 
   startDateChanged(data: any) {
     this.selectedStartDate = data;
-    console.log('setting start date to', data);
   }
 
   endDateChanged(data: any) {
     this.selectedEndDate = data;
-    console.log('setting end date to', data);
   }
 
   saveDistance(value) {
