@@ -1,20 +1,19 @@
 <nav class="nav-main">
   <ul>
     <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/events/all/list']">
+        <svg role="img" class="icon">
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-events"></use>
+        </svg>
+        <span>Events</span>
+      </a>
+    </li>
+    <li [routerLinkActive]="['is-current']">
       <a [routerLink]="['/crowd']">
         <svg role="img" class="icon">
           <use xlink:href="/assets/icons/icons.svg#icon-menu-crowd"></use>
         </svg>
         <span>Crowd</span>
-      </a>
-    </li>
-    <li [routerLinkActive]="['is-current']">
-      <a [routerLink]="['/messages']">
-        <svg role="img" class="icon">
-          <use xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
-        </svg>
-        <span>Messages</span>
-        <prs-messages-counter></prs-messages-counter>
       </a>
     </li>
     <li [routerLinkActive]="['is-current']">
@@ -27,11 +26,12 @@
       </a>
     </li>
     <li [routerLinkActive]="['is-current']">
-      <a [routerLink]="['/events/all/list']">
+      <a [routerLink]="['/messages']">
         <svg role="img" class="icon">
-          <use xlink:href="/assets/icons/icons.svg#icon-menu-events"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
         </svg>
-        <span>Events</span>
+        <span>Messages</span>
+        <prs-messages-counter></prs-messages-counter>
       </a>
     </li>
   </ul>

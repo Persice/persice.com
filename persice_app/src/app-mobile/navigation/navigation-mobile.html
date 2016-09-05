@@ -1,11 +1,11 @@
 <nav class="mob-nav-main">
   <ul>
     <li [routerLinkActive]="['is-current']">
-      <a [routerLink]="['/' + username]">
+      <a [routerLink]="['/events']">
         <svg role="img" class="icon ">
-          <use xlink:href="/assets/icons/icons.svg#icon-menu-profile"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-events"></use>
         </svg>
-        <span>My Profile</span>
+        <span>Events</span>
       </a>
     </li>
     <li [routerLinkActive]="['is-current']">
@@ -14,16 +14,6 @@
           <use xlink:href="/assets/icons/icons.svg#icon-menu-crowd"></use>
         </svg>
         <span>Crowd</span>
-      </a>
-    </li>
-    <li [routerLinkActive]="['is-current']">
-      <a [routerLink]="['/messages']">
-        <svg role="img" class="icon ">
-          <use xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
-        </svg>
-        <span>Messages</span>
-        <i class="mob-nav-main__value mob-nav-main__value__messages"
-           [ngClass]="{'is-visible': unreadMessagesCounter > 0}">{{unreadMessagesCounter}}</i>
       </a>
     </li>
     <li [routerLinkActive]="['is-current']">
@@ -37,11 +27,21 @@
       </a>
     </li>
     <li [routerLinkActive]="['is-current']">
-      <a [routerLink]="['/events']">
+      <a [routerLink]="['/messages']">
         <svg role="img" class="icon ">
-          <use xlink:href="/assets/icons/icons.svg#icon-menu-events"></use>
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-messages"></use>
         </svg>
-        <span>Events</span>
+        <span>Messages</span>
+        <i class="mob-nav-main__value mob-nav-main__value__messages"
+           [ngClass]="{'is-visible': unreadMessagesCounter > 0}">{{unreadMessagesCounter}}</i>
+      </a>
+    </li>
+    <li [routerLinkActive]="['is-current']">
+      <a [routerLink]="['/' + username]">
+        <svg role="img" class="icon ">
+          <use xlink:href="/assets/icons/icons.svg#icon-menu-profile"></use>
+        </svg>
+        <span>My Profile</span>
       </a>
     </li>
     <li>
