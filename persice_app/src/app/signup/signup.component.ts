@@ -143,7 +143,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       }
       this.router.navigateByUrl('/signup' + this.nextStep);
     } else {
-      this.router.navigateByUrl('/crowd');
+      this.router.navigateByUrl('/events');
     }
   }
 
@@ -151,7 +151,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     if (this.nextStep) {
       this.router.navigateByUrl('/signup' + this.nextStep);
     } else {
-      this.router.navigateByUrl('/crowd');
+      this.router.navigateByUrl('/events');
     }
 
   }

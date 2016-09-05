@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { Auth } from '../auth/auth';
+import { IntercomUtil } from '../core/util';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -16,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
     //Redirect the user before denying them access to this route
     this.router.navigateByUrl('/login');
-    (<any>window).Intercom('shutdown');
+    IntercomUtil.shutdown();
     return Observable.of(false);
   }
 

@@ -36,17 +36,20 @@ export const rootRoutes: RouterConfig = [
     children: [
       {
         path: '',
-        redirectTo: '/crowd',
+        redirectTo: '/events/all',
         terminal: true
+      },
+      {
+        path: 'events/:type',
+        component: EventsMobileComponent,
+      },
+      {
+        path: 'events',
+        redirectTo: '/events/all'
       },
       {
         path: 'crowd',
         component: CrowdMobileComponent
-      },
-      {
-        path: 'events',
-        redirectTo: '/events/all',
-        terminal: true
       },
       {
         path: 'pals',
@@ -55,10 +58,6 @@ export const rootRoutes: RouterConfig = [
       {
         path: 'settings',
         component: SettingsMobileComponent,
-      },
-      {
-        path: 'events/:type',
-        component: EventsMobileComponent,
       },
       {
         path: 'event/:eventId',

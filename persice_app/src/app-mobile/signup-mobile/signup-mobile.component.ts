@@ -173,7 +173,7 @@ export class SignupMobileComponent implements OnInit, OnDestroy {
 
       this.router.navigateByUrl('/signup' + this.nextStep);
     } else {
-      this.router.navigateByUrl('/crowd');
+      this.router.navigateByUrl('/events');
     }
 
   }

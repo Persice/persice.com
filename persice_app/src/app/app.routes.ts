@@ -42,7 +42,7 @@ export const rootRoutes: RouterConfig = [
     children: [
       {
         path: '',
-        redirectTo: '/crowd',
+        redirectTo: '/events/all/list',
         terminal: true
       },
       {
