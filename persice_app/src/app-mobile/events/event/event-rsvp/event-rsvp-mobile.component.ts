@@ -5,7 +5,8 @@ import { EventMembersService } from '../../../../app/shared/services/eventmember
 
 @Component({
   selector: 'prs-mobile-event-rsvp',
-  template: require('./event-rsvp-mobile.html')
+  template: require('./event-rsvp-mobile.html'),
+  providers: [EventMembersService]
 })
 export class EventRsvpMobileComponent extends RsvpElementComponent {
   @Input() event: Event;
