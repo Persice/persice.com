@@ -2,8 +2,6 @@ import { Router } from '@angular/router';
 import { Auth } from '../auth/auth';
 import { OnboardingService } from '../../app/shared/services/onboarding.service';
 
-
-
 export abstract class LoginComponent {
   protected static MESSAGE_POPUP_OPENED = 'A Facebook pop-up window has opened, please follow the instructions to sign in.';
   protected static MESSAGE_LOGIN_IN_PROGRESS = 'Please wait. Logging you into Persice.'

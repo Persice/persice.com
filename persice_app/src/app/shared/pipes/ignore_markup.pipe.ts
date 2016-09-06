@@ -1,6 +1,5 @@
 import { Pipe, Injectable, PipeTransform } from '@angular/core';
-import { DomSanitizationService, SafeHtml } from '@angular/platform-browser';
-import { eventWidgetAsHtml } from './html/event.html';
+import { DomSanitizationService } from '@angular/platform-browser';
 
 @Injectable()
 @Pipe({

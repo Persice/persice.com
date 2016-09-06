@@ -117,7 +117,7 @@ export class MarkupPipe implements PipeTransform {
   private applyMarkupLinks(value: string) {
     let message = value;
 
-    let regExp : RegExp = /\[(https?:\/\/)(.+?)\s+(.*)\]/g; // [http(s) followed by text, space, text and closed by ]
+    let regExp: RegExp = /\[(https?:\/\/)(.+?)\s+(.*)\]/g; // [http(s) followed by text, space, text and closed by ]
 
     let match: string[] = regExp.exec(message);
 

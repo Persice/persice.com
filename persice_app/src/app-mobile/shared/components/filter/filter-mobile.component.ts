@@ -69,12 +69,12 @@ export class FilterMobileComponent extends FilterComponent implements OnInit, On
   }
 
   public onBack() {
-    this.onCloseFilters.emit({ data: ''});
+    this.onCloseFilters.emit({data: ''});
     this._hideFiltersAndShowMainHeader();
   }
 
   public onGo() {
-    this.onCloseFilters.emit({ data: ''});
+    this.onCloseFilters.emit({data: ''});
     this._hideFiltersAndShowMainHeader();
     this.filterService.publishObservers();
   }
