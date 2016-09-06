@@ -31,6 +31,7 @@ import { FilterService } from '../../app/shared/services/filter.service';
 })
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
+  LIST_TYPE: string = 'events';
   eventsType: EventsType;
   eventsTypeLabel: string;
   filtersActive: boolean;

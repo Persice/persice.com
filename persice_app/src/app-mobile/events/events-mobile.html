@@ -55,13 +55,9 @@
   </div>
   <prs-loading [status]="isLoading$ | async"></prs-loading>
 </div>
-<!--<prs-mobile-events-filters *ngIf="filtersActive" (onCloseFilters)="hideFilters()"></prs-mobile-events-filters>-->
 <prs-mobile-filter
   *ngIf="filtersActive"
   (onCloseFilters)="hideFilters()"
-  [showGender]="false"
-  [showAge]="false"
-  [showDateRange]="true"
   [showHeaderOnBack]="false"
   [type]="LIST_TYPE">
 </prs-mobile-filter>
