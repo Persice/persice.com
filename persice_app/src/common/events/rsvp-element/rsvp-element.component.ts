@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { EventMembersService } from '../../../app/shared/services/eventmembers.service';
-import { Event } from '../../shared/model/event';
+import { Event } from '../../../app-mobile/shared/model/event';
 
 @Component({
   selector: 'prs-rsvp-element',
-  template: require('./rsvp-element.html')
+  template: <any>require('./rsvp-element.html'),
+  providers: [EventMembersService]
 })
 export class RsvpElementComponent implements OnInit {
   @Input() event: Event;
@@ -82,7 +83,7 @@ export class RsvpElementComponent implements OnInit {
   }
 
   private handleRsvpResponse(res) {
-    this.oldRsvp = { rsvp: res.rsvp, member_id: res.id };
+    this.oldRsvp = {rsvp: res.rsvp, member_id: res.id};
     this.savingRsvp = false;
     this.hideRsvpElement();
   }

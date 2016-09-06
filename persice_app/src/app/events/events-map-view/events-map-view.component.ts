@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'prs-events-my-calendar',
+  selector: 'prs-events-map',
+  directives: [],
   template: <any>require('../under-construction.html')
 })
-export class EventsMyCalendarComponent {
+export class EventsMapViewComponent {
 
 }

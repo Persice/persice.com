@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AppStateService } from '../shared/services/app-state.service';
-import { EventsMobileService } from './events-mobile.service';
+import { EventsService } from '../../common/events/events.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingComponent } from '../../app/shared/components/loading/loading.component';
 import { OpenLeftMenuDirective } from '../shared/directives/open-left-menu.directive';
 import { Subscription, Observable } from 'rxjs';
-import { Event } from '../shared/model/event';
+import { Event, EventsType } from '../shared/model/event';
 import { EventSummaryComponent } from './event-summary';
 import { EventsNotFoundMobileComponent } from './events-not-found';
 import { InfiniteScrollDirective } from '../../common/directives';
@@ -27,7 +27,7 @@ import { FilterService } from '../../app/shared/services/filter.service';
     FilterMobileComponent,
     DROPDOWN_DIRECTIVES
   ],
-  providers: [EventsMobileService, EventMembersService]
+  providers: [EventsService, EventMembersService]
 })
 export class EventsMobileComponent implements OnInit, OnDestroy {
 
@@ -48,7 +48,7 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   constructor(
     private appStateService: AppStateService,
-    private eventsService: EventsMobileService,
+    private eventsService: EventsService,
     protected filterService: FilterService,
     private route: ActivatedRoute,
     private router: Router
@@ -152,5 +152,3 @@ export class EventsMobileComponent implements OnInit, OnDestroy {
 
   }
 }
-
-export type EventsType = 'all' | 'my' | 'connections';

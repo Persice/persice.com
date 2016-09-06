@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-import { Event } from '../shared/model/event';
-import { EventsType } from './events-mobile.component';
-import { HttpClient } from '../../common/core/http-client';
+import { Event, EventsType } from '../../app-mobile/shared/model/event';
+import { HttpClient } from '../core/http-client';
 
 interface EventsMapped {
   events: Event[];
@@ -11,7 +10,7 @@ interface EventsMapped {
 }
 
 @Injectable()
-export class EventsMobileService {
+export class EventsService {
   public static API_URL = '/api/v1/events2/';
 
   public events$: Observable<Event[]>;
@@ -58,7 +57,7 @@ export class EventsMobileService {
       `offset=0`,
     ].join('&');
 
-    let apiUrl = `${EventsMobileService.API_URL}?${params}`;
+    let apiUrl = `${EventsService.API_URL}?${params}`;
 
     if (!!loadingInitial) {
       this._nextUrl = '';

@@ -177,6 +177,7 @@ export class Event {
       DateUtil.format(dateField, 'h:mmA'),
       DateUtil.format(dateField, 'D'),
       DateUtil.format(dateField, 'dddd'),
+      DateUtil.format(dateField, 'ddd'),
       DateUtil.format(dateField, 'MMM'),
       DateUtil.format(dateField, 'YYYY')
     );
@@ -195,3 +196,5 @@ export class Event {
   }
 
 }
+
+export type EventsType = 'all' | 'my' | 'connections';

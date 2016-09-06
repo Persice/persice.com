@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Event } from '../../shared/model/event';
-import { RsvpElementComponent } from '../rsvp-element/rsvp-element.component';
+import { RsvpElementComponent } from '../../../common/events/rsvp-element/rsvp-element.component';
 import { CheckImageDirective } from '../../../app/shared/directives/checkimage.directive';
 
 @Component({
