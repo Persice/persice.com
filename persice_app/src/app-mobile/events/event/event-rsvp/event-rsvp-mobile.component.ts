@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Event } from '../../../shared/model/event';
-import { RsvpElementComponent } from '../../rsvp-element/rsvp-element.component';
+import { RsvpElementComponent } from '../../../../common/events/rsvp-element/rsvp-element.component';
 import { EventMembersService } from '../../../../app/shared/services/eventmembers.service';
 
 @Component({

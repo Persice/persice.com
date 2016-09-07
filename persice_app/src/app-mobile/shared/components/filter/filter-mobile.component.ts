@@ -14,7 +14,8 @@ import { KeywordsComponentMobile } from '../keywords/keywords-mobile.component';
   pipes: [NumeralPipe]
 })
 export class FilterMobileComponent extends FilterComponent implements OnInit, OnDestroy {
-  @Input() showGender = true;
+  // hide gender filter for now
+  @Input() showGender: boolean = false;
   @Input() showAge = true;
   @Input() showDateRange: boolean = false;
   @Input() showHeaderOnBack: boolean = true;
@@ -68,12 +69,12 @@ export class FilterMobileComponent extends FilterComponent implements OnInit, On
   }
 
   public onBack() {
-    this.onCloseFilters.emit({ data: ''});
+    this.onCloseFilters.emit({data: ''});
     this._hideFiltersAndShowMainHeader();
   }
 
   public onGo() {
-    this.onCloseFilters.emit({ data: ''});
+    this.onCloseFilters.emit({data: ''});
     this._hideFiltersAndShowMainHeader();
     this.filterService.publishObservers();
   }

@@ -36,16 +36,16 @@ export const rootRoutes: RouterConfig = [
     children: [
       {
         path: '',
-        redirectTo: '/events/all',
+        redirectTo: '/events/all/list',
         terminal: true
       },
       {
-        path: 'events/:type',
+        path: 'events/:type/list',
         component: EventsMobileComponent,
       },
       {
         path: 'events',
-        redirectTo: '/events/all'
+        redirectTo: '/events/all/list'
       },
       {
         path: 'crowd',

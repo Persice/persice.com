@@ -5,7 +5,9 @@ import { DateUtil } from '../core/util';
 
 export abstract class FilterComponent {
   showAge: boolean = true;
-  showGender: boolean = true;
+  // hide gender filter for now
+  showGender: boolean = false;
+  showDateRange: boolean = false;
   filters: FilterModel;
   defaultState: InterfaceFilter;
   gender: string = 'm,f';
@@ -175,6 +177,7 @@ export abstract class FilterComponent {
     if (value === 'events') {
       this.showAge = false;
       this.showGender = false;
+      this.showDateRange = true;
       this.orderBy = [...this.orderBy, {
         'label': 'Event score',
         'value': 'event_score',

@@ -12,15 +12,11 @@ import { MainComponent } from './main.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ConversationComponent } from './messages/conversation';
 import { NewConversationComponent } from './messages/new-conversation';
-import { EventsComponent } from './events/events.component';
-import { EventsMyListComponent, EventsMyMapComponent, EventsMyCalendarComponent } from './events/events-my';
-import {
-  EventsNetworkListComponent,
-  EventsNetworkMapComponent,
-  EventsNetworkCalendarComponent
-} from './events/events-network';
-import { EventsAllListComponent, EventsAllMapComponent, EventsAllCalendarComponent } from './events/events-all';
+import { EventsDesktopComponent } from './events/events-desktop.component';
 import { signupRoutes } from './signup';
+import { EventsListViewComponent } from './events/events-list-view/events-list-view.component';
+import { EventsMapViewComponent } from './events/events-map-view/events-map-view.component';
+import { EventsCalendarViewComponent } from './events/events-calendar-view/events-calendar-view.component';
 
 export const rootRoutes: RouterConfig = [
   {
@@ -44,6 +40,30 @@ export const rootRoutes: RouterConfig = [
         path: '',
         redirectTo: '/events/all/list',
         terminal: true
+      },
+      {
+        path: 'events',
+        component: EventsDesktopComponent,
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            redirectTo: '/events/all/list',
+            terminal: true
+          },
+          {
+            path: ':type/list',
+            component: EventsListViewComponent
+          },
+          {
+            path: ':type/map',
+            component: EventsMapViewComponent
+          },
+          {
+            path: ':type/calendar',
+            component: EventsCalendarViewComponent
+          }
+        ]
       },
       {
         path: 'crowd',
@@ -80,54 +100,6 @@ export const rootRoutes: RouterConfig = [
             component: ConversationComponent
           },
 
-        ]
-      },
-      {
-        path: 'events',
-        component: EventsComponent,
-        canActivate: [AuthGuard],
-        children: [
-          {
-            path: '',
-            redirectTo: '/events/all/list',
-            terminal: true
-          },
-          {
-            path: 'all/list',
-            component: EventsAllListComponent
-          },
-          {
-            path: 'all/map',
-            component: EventsAllMapComponent
-          },
-          {
-            path: 'all/calendar',
-            component: EventsAllCalendarComponent
-          },
-          {
-            path: 'my/list',
-            component: EventsMyListComponent
-          },
-          {
-            path: 'my/map',
-            component: EventsMyMapComponent
-          },
-          {
-            path: 'my/calendar',
-            component: EventsMyCalendarComponent
-          },
-          {
-            path: 'network/list',
-            component: EventsNetworkListComponent
-          },
-          {
-            path: 'network/map',
-            component: EventsNetworkMapComponent
-          },
-          {
-            path: 'network/calendar',
-            component: EventsNetworkCalendarComponent
-          }
         ]
       },
       {

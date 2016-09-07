@@ -1,6 +1,12 @@
 import {
-  Component, Input, ChangeDetectionStrategy, Output, EventEmitter, AfterContentChecked, AfterViewInit, AfterViewChecked,
-  ElementRef, ViewChild
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+  AfterViewChecked,
+  ElementRef,
+  ViewChild
 } from '@angular/core';
 import { LoadingComponent } from '../../../../app/shared/components/loading';
 import { CheckImageDirective } from '../../../../app/shared/directives';

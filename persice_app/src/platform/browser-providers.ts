@@ -1,7 +1,7 @@
 /*
  * These are globally available services in any component or any other service
  */
-import { APP_BASE_HREF, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { HTTP_PROVIDERS, JSONP_PROVIDERS } from '@angular/http';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { APP_MOBILE_ROUTER_PROVIDERS } from '../app-mobile';

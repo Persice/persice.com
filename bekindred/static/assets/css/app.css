@@ -1027,3 +1027,7 @@ li.features-list__match {
   background: url("../images/close.png") !important;
   cursor: pointer !important
 }
+
+.card--event__inside {
+  display: block;
+}

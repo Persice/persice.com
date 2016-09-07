@@ -167,6 +167,10 @@ module.exports = webpackMerge(commonConfig, {
       '/media': {
         target: 'http://test-local.com:8000',
         secure: false
+      },
+      '/static': {
+        target: 'http://test-local.com:8000',
+        secure: false
       }
     },
     outputPath: helpers.root('dist'),

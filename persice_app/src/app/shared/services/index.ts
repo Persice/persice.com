@@ -3,7 +3,6 @@ import { eventConnectionsServiceInjectables } from './eventconnections.service';
 import { eventMembersServiceInjectables } from './eventmembers.service';
 import { eventMessagesServiceInjectables } from './eventmessages.service';
 import { eventServiceInjectables } from './event.service';
-import { eventsServiceInjectables } from './events.service';
 import { facebookAlbumsServiceInjectables } from './facebook_albums.service';
 import { filterServiceInjectables } from './filter.service';
 import { friendServiceInjectables } from './friend.service';
@@ -38,7 +37,6 @@ export * from './eventattendees.service';
 export * from './eventconnections.service';
 export * from './eventmembers.service';
 export * from './eventmessages.service';
-export * from './events.service';
 export * from './facebook_albums.service';
 export * from './filter.service';
 export * from './friend.service';
@@ -75,7 +73,6 @@ export var APP_SERVICES_PROVIDERS: Array<any> = [
   eventServiceInjectables,
   eventMembersServiceInjectables,
   eventMessagesServiceInjectables,
-  eventsServiceInjectables,
   facebookAlbumsServiceInjectables,
   filterServiceInjectables,
   friendServiceInjectables,

@@ -1,5 +1,6 @@
 import { EventGenerator } from './event-generator';
 import { Event } from './event';
+import { ddescribe, iit } from '@angular/core/testing';
 
 describe('Event', () => {
 
@@ -27,7 +28,7 @@ describe('Event', () => {
   });
 
   // TODO: Check startDate.hour and endDate.hour in jenkins
-  it('instantiates parses dates from dto', () => {
+  iit('instantiates parses dates from dto', () => {
     // given
     let dto: any = EventGenerator.givenAnyEventDto();
     dto.starts_on = '2016-07-23T16:00:00';

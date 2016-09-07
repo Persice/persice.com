@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TabNavigationComponent } from '../tab-navigation';
 import { InfoHeaderMobileComponent } from '../header';
 

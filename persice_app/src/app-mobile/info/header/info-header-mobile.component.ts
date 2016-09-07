@@ -4,4 +4,5 @@ import { Component } from '@angular/core';
   selector: 'prs-mobile-info-header',
   template: <any>require('./info-header-mobile.html')
 })
-export class InfoHeaderMobileComponent { }
+export class InfoHeaderMobileComponent {
+}
