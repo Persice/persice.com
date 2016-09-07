@@ -1,6 +1,8 @@
 import { Distance } from './distance';
 import { DateUtil, ListUtil } from '../../../common/core/util';
 import { EventDate } from './event-date';
+import { EventHost } from './event-host';
+
 export class Event {
   private _id: string;
   private _name: string;
@@ -25,6 +27,7 @@ export class Event {
   private _startDate: EventDate;
   private _endDate: EventDate;
   private _resourceUri: string;
+  private _eventHost: EventHost;
 
   public static fromDto(dto: any) {
     return new Event(dto);
@@ -54,6 +57,7 @@ export class Event {
     this._latitude = dto.location.split(',')[0];
     this._longitude = dto.location.split(',')[1];
     this._mapUrl = `https://www.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
+    this._eventHost = this._getHostForEvent(dto);
   }
 
   public rsvpOfUsername(username: string): any {
@@ -172,6 +176,10 @@ export class Event {
     return this._mapUrl;
   }
 
+  get eventHost(): EventHost {
+    return this._eventHost;
+  }
+
   private _parseEventDateFromField(dateField: any): EventDate {
     return new EventDate(
       DateUtil.format(dateField, 'h:mmA'),
@@ -193,6 +201,15 @@ export class Event {
     result = ListUtil.orderBy(result, ['isHost'], 'desc');
 
     return result;
+  }
+
+  private _getHostForEvent(dto: any): EventHost {
+    let attendees = [...dto.attendees_yes, ...dto.attendees_maybe, ...dto.attendees_no];
+    let host = attendees.find(function (attendee) {
+      return attendee.is_organizer;
+    });
+
+    return new EventHost(host.first_name, host.image);
   }
 
 }
