@@ -4,6 +4,8 @@
          checkimage="{{event.image}}" [suffix]="'.300x200_q100_crop.jpg'">
     </div>
   </div>
+
+
   <div class="card--event__info">
     <div class="layout">
       <div class="layout__item 1/2 text-left eventdate"> {{event.startDate.dayNameShort}}, {{event.startDate.day}}
@@ -15,19 +17,3 @@
   <h4 class="card-title mb- eventname">{{event.name}}</h4>
   <p class="card-subtitle mb eventlocation">{{event.locationName}}</p>
 </a>
-<div class="card__stat">
-  <div class="layout layout--flush layout--middle">
-    <div class="layout__item 1/2">
-      <div class="card-stat__vert">
-        <span class="card-stat__value">{{event.similarity}}&deg;</span>
-        <span class="card-stat__label">Similar</span>
-      </div>
-    </div>
-    <div class="layout__item 1/2 separated-left">
-      <div class="card-stat__vert">
-        <span class="card-stat__value">{{event.connectionsAttendeesCount}}</span>
-        <span class="card-stat__label">Connections</span>
-      </div>
-    </div>
-  </div>
-</div>
