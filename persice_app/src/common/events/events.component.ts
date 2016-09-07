@@ -52,6 +52,8 @@ export abstract class EventsComponent {
     }
   }
 
+  protected afterLoadEvents(type: EventsType) { }
+
   public selectEventsType(type) {
     this.eventsType = type;
     this._loadEvents(type, true);
@@ -67,18 +69,6 @@ export abstract class EventsComponent {
     }
   }
 
-  setEventsTypeLabel(type) {
-    if (type === 'all') {
-      this.eventsTypeLabel = 'All events';
-    }
-    if (type === 'my') {
-      this.eventsTypeLabel = 'My events';
-    }
-    if (type === 'connections') {
-      this.eventsTypeLabel = 'My network';
-    }
-  }
-
   /**
    * Load events from EventsService
    * @param {EventsType} type    Type of events to show
@@ -86,7 +76,7 @@ export abstract class EventsComponent {
    */
   private _loadEvents(type: EventsType, initial: boolean) {
     if (initial) {
-      this.setEventsTypeLabel(type);
+      this.afterLoadEvents(type);
       this.eventsService.loadInitial(type);
     } else {
       this.eventsService.loadMore(type);
