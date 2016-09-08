@@ -81,8 +81,8 @@ def _store_fb_events(user):
             location_gp = None
             if location:
                 location_gp = Geoposition(
-                    location.get('latitude'),
-                    location.get('longitude')
+                    location.get('latitude', 0),
+                    location.get('longitude', 0)
                 )
             description = event.get('description')
             description_text = description[:1000] if description else None
