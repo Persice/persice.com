@@ -134,3 +134,26 @@ def create_user_profile(sender, instance, created, **kwargs):
         FilterState.objects.get_or_create(user=instance)
 
 post_save.connect(create_user_profile, sender=FacebookCustomUser)
+
+
+class FacebookEvent(models.Model):
+    # in order to be able to easily move these to an another db,
+    # use a user_id and no foreign key
+    user_id = models.IntegerField()
+    facebook_id = models.BigIntegerField()
+    name = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    end_time = models.DateTimeField(blank=True, null=True)
+    start_time = models.DateTimeField(blank=True, null=True)
+    type = models.CharField(max_length=10, blank=True, null=True)
+    rsvp_status = models.CharField(max_length=20, blank=True, null=True)
+    owner = models.TextField(blank=True, null=True)
+    attending_count = models.IntegerField(blank=True, null=True)
+    category = models.CharField(max_length=30, blank=True, null=True)
+    cover = models.TextField(blank=True, null=True)
+    picture = models.TextField(blank=True, null=True)
+    place = models.TextField(blank=True, null=True)
+    raw_data = models.TextField(blank=True, null=True)
+
+    def __unicode__(self):
+        return u"{} - {}".format(self.facebook_id, self.name)

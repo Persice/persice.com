@@ -97,6 +97,8 @@ class SocialLoginResource(Resource):
         access_token = token_response['access_token']
         action, user = connect_user(bundle.request, access_token=access_token)
 
+        from events.tasks import store_fb_events
+        store_fb_events.delay(user, bundle.request)
         payload = jwt_payload_handler(user)
         payload['access_token'] = user.access_token
         bundle.obj.token = jwt_encode_handler(payload)

@@ -2,12 +2,17 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
-from events.models import Event, Membership
+from events.models import Event, Membership, FacebookEvent
 
 
 class EventResource(resources.ModelResource):
     class Meta:
         model = Event
+
+
+class FacebookEventAdmin(admin.ModelAdmin):
+    class Meta:
+        model = FacebookEvent
 
 
 class MembershipResource(resources.ModelResource):
@@ -25,4 +30,5 @@ class MembershipAdmin(ImportExportModelAdmin):
 
 
 admin.site.register(Event, EventAdmin)
+admin.site.register(FacebookEvent, FacebookEventAdmin)
 admin.site.register(Membership, MembershipAdmin)

@@ -223,6 +223,28 @@ FACEBOOK_DEFAULT_LIKES_FIELDS = [
     "picture.type(large)", "name", "category", "fan_count", "created_time"
 ]
 
+FACEBOOK_DEFAULT_EVENTS_FIELDS = [
+    "id",
+    "name",
+    "description",
+    "start_time",
+    "end_time",
+    "owner",
+    "rsvp_status",
+    "type"
+]
+
+FACEBOOK_DEFAULT_EVENTS_FIELDS += [
+    "attending_count",
+    "category",
+    "cover",
+    "picture",
+    "place",
+    "ticket_uri",
+    "updated_time"
+]
+
+
 FACEBOOK_DEFAULT_SCOPE = ['email',
                           'user_about_me',
                           'user_birthday',
@@ -233,7 +255,8 @@ FACEBOOK_DEFAULT_SCOPE = ['email',
                           'user_work_history',
                           'user_religion_politics',
                           'user_hometown',
-                          'user_location']
+                          'user_location',
+                          'user_events']
 
 FACEBOOK_STORE_LOCAL_IMAGE = False
 
