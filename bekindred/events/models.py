@@ -43,15 +43,16 @@ class Event(models.Model):
             ("view_event", "View event"),
         )
 
-    description = models.CharField(max_length=1000, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     name = models.CharField(max_length=300)
-    location = GeopositionField()
+    location = GeopositionField(default="0,0",
+                                blank=True, null=True)
     point = models.PointField(null=True)
     location_name = models.CharField(max_length=255, null=True)
     country = models.CharField(max_length=255, null=True)
     full_address = models.CharField(max_length=255, null=True)
-    starts_on = models.DateTimeField()
-    ends_on = models.DateTimeField()
+    starts_on = models.DateTimeField(null=True, blank=True)
+    ends_on = models.DateTimeField(null=True, blank=True)
     repeat = models.CharField(max_length=1, choices=REPEAT_CHOICES)
     street = models.CharField(max_length=300, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
@@ -65,6 +66,7 @@ class Event(models.Model):
     access_user_list = models.TextField(null=True, blank=True)
     event_photo = ThumbnailerImageField(null=True,
                                         upload_to='event_photos/%Y/%m/%d')
+    eid = models.BigIntegerField(blank=True, null=True)
 
     search_index = VectorField()
 
@@ -80,8 +82,10 @@ class Event(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        point = fromstr("POINT(%s %s)" % (self.location.longitude, self.location.latitude))
-        self.point = point
+        if self.location:
+            point = fromstr("POINT(%s %s)" % (self.location.longitude,
+                                              self.location.latitude))
+            self.point = point
         super(Event, self).save(*args, **kwargs)
 
 
@@ -152,6 +156,7 @@ class FacebookEvent(models.Model):
     category = models.CharField(max_length=30, blank=True, null=True)
     cover = models.TextField(blank=True, null=True)
     picture = models.TextField(blank=True, null=True)
+    location = GeopositionField(blank=True, null=True)
     place = models.TextField(blank=True, null=True)
     raw_data = models.TextField(blank=True, null=True)
 

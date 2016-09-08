@@ -24,16 +24,61 @@ class Migration(SchemaMigration):
             ('category', self.gf('django.db.models.fields.CharField')(max_length=30, null=True, blank=True)),
             ('cover', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('picture', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('location', self.gf('geoposition.fields.GeopositionField')(max_length=42, null=True, blank=True)),
             ('place', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('raw_data', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'events', ['FacebookEvent'])
 
+        # Adding field 'Event.eid'
+        db.add_column(u'events_event', 'eid',
+                      self.gf('django.db.models.fields.BigIntegerField')(null=True, blank=True),
+                      keep_default=False)
+
+
+        # Changing field 'Event.description'
+        db.alter_column(u'events_event', 'description', self.gf('django.db.models.fields.TextField')(null=True))
+
+        # Changing field 'Event.starts_on'
+        db.alter_column(u'events_event', 'starts_on', self.gf('django.db.models.fields.DateTimeField')(null=True))
+
+        # Changing field 'Event.ends_on'
+        db.alter_column(u'events_event', 'ends_on', self.gf('django.db.models.fields.DateTimeField')(null=True))
+
+        # Changing field 'Event.location'
+        db.alter_column(u'events_event', 'location', self.gf('geoposition.fields.GeopositionField')(max_length=42, null=True))
 
     def backwards(self, orm):
         # Deleting model 'FacebookEvent'
         db.delete_table(u'events_facebookevent')
 
+        # Deleting field 'Event.eid'
+        db.delete_column(u'events_event', 'eid')
+
+
+        # Changing field 'Event.description'
+        db.alter_column(u'events_event', 'description', self.gf('django.db.models.fields.CharField')(max_length=1000, null=True))
+
+        # User chose to not deal with backwards NULL issues for 'Event.starts_on'
+        raise RuntimeError("Cannot reverse this migration. 'Event.starts_on' and its values cannot be restored.")
+        
+        # The following code is provided here to aid in writing a correct migration
+        # Changing field 'Event.starts_on'
+        db.alter_column(u'events_event', 'starts_on', self.gf('django.db.models.fields.DateTimeField')())
+
+        # User chose to not deal with backwards NULL issues for 'Event.ends_on'
+        raise RuntimeError("Cannot reverse this migration. 'Event.ends_on' and its values cannot be restored.")
+        
+        # The following code is provided here to aid in writing a correct migration
+        # Changing field 'Event.ends_on'
+        db.alter_column(u'events_event', 'ends_on', self.gf('django.db.models.fields.DateTimeField')())
+
+        # User chose to not deal with backwards NULL issues for 'Event.location'
+        raise RuntimeError("Cannot reverse this migration. 'Event.location' and its values cannot be restored.")
+        
+        # The following code is provided here to aid in writing a correct migration
+        # Changing field 'Event.location'
+        db.alter_column(u'events_event', 'location', self.gf('geoposition.fields.GeopositionField')(max_length=42))
 
     models = {
         u'auth.group': {
@@ -92,12 +137,13 @@ class Migration(SchemaMigration):
             'access_user_list': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'city': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'country': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
-            'description': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'null': 'True', 'blank': 'True'}),
-            'ends_on': ('django.db.models.fields.DateTimeField', [], {}),
+            'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'eid': ('django.db.models.fields.BigIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'ends_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'event_photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True'}),
             'full_address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'location': ('geoposition.fields.GeopositionField', [], {'max_length': '42'}),
+            'location': ('geoposition.fields.GeopositionField', [], {'default': '(0, 0)', 'max_length': '42', 'null': 'True', 'blank': 'True'}),
             'location_name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True'}),
             'max_attendees': ('django.db.models.fields.IntegerField', [], {'default': '10'}),
             'members': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['django_facebook.FacebookCustomUser']", 'through': u"orm['events.Membership']", 'symmetrical': 'False'}),
@@ -105,7 +151,7 @@ class Migration(SchemaMigration):
             'point': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True'}),
             'repeat': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             'search_index': ('djorm_pgfulltext.fields.VectorField', [], {'default': "''", 'null': 'True', 'db_index': 'True'}),
-            'starts_on': ('django.db.models.fields.DateTimeField', [], {}),
+            'starts_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'state': ('django.db.models.fields.CharField', [], {'max_length': '3', 'null': 'True', 'blank': 'True'}),
             'street': ('django.db.models.fields.CharField', [], {'max_length': '300', 'null': 'True', 'blank': 'True'}),
             'zipcode': ('django.db.models.fields.CharField', [], {'max_length': '7', 'null': 'True', 'blank': 'True'})
@@ -128,6 +174,7 @@ class Migration(SchemaMigration):
             'end_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'facebook_id': ('django.db.models.fields.BigIntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'location': ('geoposition.fields.GeopositionField', [], {'max_length': '42', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'owner': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'picture': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),

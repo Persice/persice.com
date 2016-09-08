@@ -8,8 +8,12 @@ from django.db.utils import IntegrityError
 from django.db import transaction
 from django_facebook.utils import mass_get_or_create
 from open_facebook.api import OpenFacebook
+from geoposition import Geoposition
+from django.utils.timezone import now
 
-from events.models import FacebookEvent
+from events.models import FacebookEvent, Event, Membership
+from members.models import FacebookCustomUserActive
+
 try:
     from dateutil.parser import parse as parse_date
 except ImportError:
@@ -70,20 +74,34 @@ def _store_fb_events(user):
             picture = event.get('picture')
             picture_text = json.dumps(picture) if picture else None
 
+            place = event.get('place')
+            place_text = json.dumps(place) if place else None
+
+            location = event.get('place', {}).get('location')
+            location_gp = None
+            if location:
+                location_gp = Geoposition(
+                    location.get('latitude'),
+                    location.get('longitude')
+                )
+            description = event.get('description')
+            description_text = description[:1000] if description else None
+
             default_dict[event['id']] = dict(
                 name=event.get('name'),
-                description=event.get('description'),
+                description=description_text,
                 rsvp_status=event.get('rsvp_status'),
                 attending_count=event.get('attending_count'),
                 category=event.get('category'),
                 owner=owner_text,
                 cover=cover_text,
                 picture=picture_text,
-                place=json.dumps(event.get('place')),
+                place=place_text,
                 raw_data=raw_data,
                 start_time=start_time,
                 end_time=end_time,
-                type=event.get('type')
+                type=event.get('type'),
+                location=location_gp
             )
         current_events, inserted_events = mass_get_or_create(
             FacebookEvent, base_queryset, id_field, default_dict,
@@ -92,7 +110,7 @@ def _store_fb_events(user):
                      len(current_events), len(inserted_events))
 
 
-def store_events(user, request):
+def store_events(user):
     # store likes and friends if configured
     sid = transaction.savepoint()
     try:
@@ -102,9 +120,30 @@ def store_events(user, request):
         logger.warn(u'Integrity error encountered during save events, '
                     'probably a double submission %s' % e,
                     exc_info=sys.exc_info(), extra={
-                'request': request,
                 'data': {
                     'body': unicode(e),
                 }
             })
         transaction.savepoint_rollback(sid)
+
+
+def refresh_events(user):
+    fb_events = FacebookEvent.objects.filter(
+        type='public', start_time__gt=now()
+    )
+    for fb_event in fb_events:
+        event, created = Event.objects.get_or_create(
+            eid=fb_event.facebook_id,
+            name=fb_event.name,
+            description=fb_event.description,
+            access_level='public',
+            starts_on=fb_event.start_time,
+            ends_on=fb_event.end_time
+        )
+        if created:
+            Membership.objects.create(user=user, event=event,
+                                      is_organizer=True, rsvp=u'yes')
+            users = FacebookCustomUserActive.objects.all()
+            from events.tasks import assign_perm_task
+            assign_perm_task.delay('view_event', users, event)
+

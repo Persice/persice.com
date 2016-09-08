@@ -18,4 +18,7 @@ class EventIndex(indexes.SearchIndex, indexes.Indexable):
         return self.get_model().objects.all()
 
     def prepare_location(self, obj):
-        return {"lat": obj.point.y, "lon": obj.point.x}
+        if obj.point:
+            return {"lat": obj.point.y, "lon": obj.point.x}
+        else:
+            return {"lat": 0, "lon": 0}

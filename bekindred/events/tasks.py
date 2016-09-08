@@ -9,7 +9,7 @@ from django.core.cache import cache
 from guardian.shortcuts import assign_perm, remove_perm
 from haystack.management.commands import update_index
 
-from accounts.utils import store_events
+from accounts.utils import store_events, refresh_events
 
 logger = logging.getLogger(__name__)
 
@@ -56,5 +56,9 @@ def publish_to_redis_channel(recipient, message_data):
 
 
 @task
-def store_fb_events(user, request):
-    store_events(user, request)
+def store_fb_events(user):
+    store_events(user)
+
+@task
+def refresh_fb_events(user):
+    refresh_events(user)
