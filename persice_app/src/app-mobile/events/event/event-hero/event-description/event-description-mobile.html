@@ -1,11 +1,9 @@
 <div class="event-hero__about">
-  <span [ngClass]="{'event-hero__about__text': type === 'profile'}">{{lessText | ignoreMarkup}}<span
-    class="moreellipses"
-    [ngClass]="{'is-visible': moreText.length > 0 && !showMore}">...</span>
-    <span class="morecontent" *ngIf="moreText.length > 0">
-      <span [ngClass]="{'is-visible': showMore}">{{moreText | ignoreMarkup}}</span>&nbsp;&nbsp;
-      <a (click)="toggleMore(true)" class="morelink" *ngIf="!showMore">View more</a>
-      <a (click)="toggleMore(false)" class="morelink less" *ngIf="showMore">View less</a>
+  <span [ngClass]="{'event-hero__about__text': type === 'profile'}">{{displayedText | ignoreMarkup}}
+    <span class="moreellipses" [ngClass]="{'is-visible': moreText.length > 0 && !moreVisible}">...</span>
+    <span *ngIf="moreText.length > 0">
+      <a (click)="toggleMore(true)" class="morelink" *ngIf="!moreVisible">View more</a>
+      <a (click)="toggleMore(false)" class="morelink less" *ngIf="moreVisible">View less</a>
     </span>
   </span>
 </div>

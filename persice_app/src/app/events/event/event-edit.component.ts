@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SelectDirective,
   GeocompleteDirective,
   DatepickerDirective,
-  TimepickerDirective }
-from '../../shared/directives';
+  TimepickerDirective
+} from '../../shared/directives';
 import { BaseEventComponent } from './base-event.component';
 import { NotificationComponent } from '../../shared/components/notification';
 import { LoadingComponent } from '../../shared/components/loading';
@@ -25,7 +25,7 @@ import { EventServiceTemp, NotificationService } from '../../shared/services';
   ],
   providers: [EventServiceTemp]
 })
-export class EventEditComponent extends BaseEventComponent {
+export class EventEditComponent extends BaseEventComponent implements OnDestroy {
 
   @Input() set event(data: any) {
     this.eventOriginal = data;
@@ -55,25 +55,29 @@ export class EventEditComponent extends BaseEventComponent {
     super(service, notificationService, 'edit');
   }
 
+  ngOnDestroy(): void {
+    // jQuery('select.js-select-rep-create-event').minimalect('destroy');
+  }
+
   setEvent(data) {
     let ev = data;
     this.eventId = ev.id;
-    this.resourceUri = ev.resource_uri;
+    this.resourceUri = ev.resourceUri;
     this.model.name = ev.name;
     this.model.description = ev.description;
-    this.model.starts_on = ev.starts_on;
-    this.model.ends_on = ev.ends_on;
-    this.model.event_photo = ev.event_photo;
-    this.model.location = ev.location;
-    this.model.location_name = ev.location_name;
-    this.model.event_location = ev.full_address !== '' ? ev.full_address : ev.location_name;
+    this.model.starts_on = ev.startDateRaw;
+    this.model.ends_on = ev.endDateRaw;
+    this.model.event_photo = ev.image;
+    this.model.location = ev.locationRaw;
+    this.model.location_name = ev.locationName;
+    this.model.event_location = ev.fullAddress !== '' ? ev.fullAddress : ev.locationName;
 
-    if (this.model.event_location.indexOf(ev.location_name) === -1) {
-      this.model.event_location = ev.location_name + ', ' + this.model.event_location;
+    if (this.model.event_location && this.model.event_location.indexOf(ev.locationName) === -1) {
+      this.model.event_location = ev.locationName + ', ' + this.model.event_location;
     }
 
-    this.model.max_attendees = ev.max_attendees;
-    this.model.access_level = ev.access_level;
+    this.model.max_attendees = ev.maxAttendees;
+    this.model.access_level = ev.accessLevel;
 
     let selectOpenTo = [
       {
@@ -96,6 +100,7 @@ export class EventEditComponent extends BaseEventComponent {
     for (var i = 0; i < selectOpenTo.length; ++i) {
       if (selectOpenTo[i].value === this.model.access_level) {
         selectOpenTo[i].selected = true;
+        this.selectedOpenTo = selectOpenTo[i].label;
       }
     }
 

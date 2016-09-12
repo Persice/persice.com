@@ -1,32 +1,19 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { MarkupPipe } from '../../../shared/pipes/markup.pipe';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { ViewMoreComponent } from '../../../../common/view-more/view-more.component';
+import { IgnoreMarkupPipe } from '../../../shared/pipes/ignore_markup.pipe';
 
 @Component({
   selector: 'prs-event-description',
-  template: `
-    <h3 class="module-title">Description</h3>
-    <p class="module-type" [innerHTML]="descriptionMore | markup:false">{{descriptionMore}}</p>
-    <a (click)="showMore($event)" *ngIf="!hideMoreLink" class="link-blank">View more</a>
-  `,
-  pipes: [MarkupPipe]
+  template: <any>require('./event-description.html'),
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  pipes: [IgnoreMarkupPipe]
 })
-export class EventDescriptionComponent implements OnChanges {
-  @Input() description: string;
-  private descriptionMore: string = '';
-  private hideMoreLink: boolean = true;
-
-  ngOnChanges(values): void {
-    if (values.currentValue && values.description.currentValue.length > 200) {
-      this.descriptionMore = values.description.currentValue.substring(0, 199) + '...';
-      this.hideMoreLink = false;
-    } else {
-      this.descriptionMore = values.description.currentValue;
-      this.hideMoreLink = true;
-    }
+export class EventDescriptionComponent extends ViewMoreComponent {
+  @Input() set description(value: string) {
+    this.setInitialState(value);
   }
 
-  showMore() {
-    this.hideMoreLink = true;
-    this.descriptionMore = this.description;
+  constructor() {
+    super(200);
   }
 }

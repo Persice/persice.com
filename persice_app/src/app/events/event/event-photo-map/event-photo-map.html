@@ -14,14 +14,16 @@
             </svg>
           </li>
         </ul>
-        <div *ngIf="showPhoto" class="event-photo-map__change-photo">
+        <div *ngIf="event.isHost && showPhoto && !(isImageUploading$ | async)" class="event-photo-map__change-photo">
           <a (click)="openFileDialog($event)" class="btn btn-1 btn-1--small btn-1--white btn-1--filled--dark">Change
             photo</a>
           <input (change)="changeListener($event)" type="file" style="display:none;" id="inputfile"/>
         </div>
         <div [ngClass]="{'is-current': showPhoto}" *ngIf="showPhoto"
              class="event-photo-map__content js-image-liquid tab-content imgLiquid_bgSize imgLiquid_ready is-current"
-             id="js-photo" checkimage="{{event.image}}" [suffix]="'.1000x364_q100_crop.jpg'">
+             id="js-photo" checkimage="{{event.image}}" [onchanges]="1" [suffix]="'.1000x364_q100_crop.jpg'">
+          <prs-loading [status]="isImageUploading$ | async"></prs-loading>
+          <div *ngIf="isImageUploading$ | async" class="overlay"></div>
         </div>
         <div [ngClass]="{'is-current': showMap}" *ngIf="showMap" class="event-photo-map__content tab-content"
              id="js-map">

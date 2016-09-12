@@ -160,9 +160,12 @@
     </div>
     <div class="layout__item 1/2">
       <label class="c-label mb--">Open to</label>
-      <select class="js-select-rep-create-event" minimalect (selectedValue)="changeOpenTo($event)">
-        <option *ngFor="let order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>
-      </select>
+      <!--<select class="js-select-rep-create-event" minimalect (selectedValue)="changeOpenTo($event)">-->
+      <!--<option *ngFor="let order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>-->
+      <!--</select>-->
+      <div class="minict_wrapper preselected">
+        <span>{{selectedOpenTo}}</span>
+      </div>
     </div>
     <div class="layout__item layout--alignbottom 1/2">
       <label class="c-checkbox mb--">

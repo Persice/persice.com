@@ -6,7 +6,8 @@
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/icons.svg#icon-close"></use>
       </svg>
     </a>
-    <prs-event-info [event]="(event$ | async)" [username]="usernameFromToken" [userId]="userIdFromToken"></prs-event-info>
+    <prs-event-info [event]="(event$ | async)" [username]="usernameFromToken"
+                    [userId]="userIdFromToken"></prs-event-info>
     <prs-event-photo-map [event]="(event$ | async)"></prs-event-photo-map>
     <div class="event-people">
       <div class="layout layout--middle mb" id="single-event-peoplenav">
@@ -22,7 +23,7 @@
              [ngClass]="{'btn-1--blank': selected !== 'no'}">
             <span>Can't go <i>({{(event$ | async).attendeesNotGoing.length}})</i></span></a>
         </div>
-        <div class="layout__item 1/3 text-right" *ngIf="isHost">
+        <div class="layout__item 1/3 text-right" *ngIf="(event$ | async).isHost">
           <!--<a data-remodal-target="invite-connections" href="#" class="btn btn-1 btn-1--small btn-1--filled btn-1--blue">Invite
             connections</a>-->
         </div>
@@ -48,6 +49,6 @@
   </div>
 </div>
 <div class="remodal--common" data-remodal-id="edit-event" remodal>
-  <prs-event-edit *ngIf="event" [type]="'edit-event'" [event]="(event$ | async)"
+  <prs-event-edit *ngIf="(event$ | async).isHost" [type]="'edit-event'" [event]="(event$ | async)"
                   (refreshEvent)="refreshEvent($event)"></prs-event-edit>
 </div>

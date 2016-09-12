@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EventDescriptionComponent } from './event-description';
 import { EventHostComponent } from './event-host';
@@ -12,11 +13,11 @@ import { EventMembersService, EventAttendeesService } from '../../shared/service
 import { EventService } from '../../../common/events/event.service';
 import { RemodalDirective } from '../../shared/directives';
 import { EventComponent } from '../../../common/events/event.component';
-import { AppStateService } from '../../../app-mobile/shared/services/app-state.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'prs-event',
-  template: <any>require('./event.html'),
+  template: <any>require('./event-desktop.html'),
   directives: [
     EventInfoComponent,
     EventHostComponent,
@@ -28,39 +29,42 @@ import { AppStateService } from '../../../app-mobile/shared/services/app-state.s
     RemodalDirective,
     LoadingComponent
   ],
-  providers: [EventService, EventMembersService, EventAttendeesService, AppStateService]
+  providers: [EventService, EventMembersService, EventAttendeesService]
 })
-export class EventDesktopComponent extends EventComponent implements AfterViewInit, OnInit, OnDestroy {
+export class EventDesktopComponent extends EventComponent implements OnInit, OnDestroy {
 
   private selected = 'yes';
-  private isHost: boolean = false;
 
   constructor(
-    appStateService: AppStateService,
     eventService: EventService,
-    route: ActivatedRoute
+    route: ActivatedRoute,
+    private notificationService: NotificationService,
+    private location: Location
   ) {
-    super(appStateService, eventService, route);
+    super(eventService, route);
   }
 
   ngOnInit() {
     this.ngInit();
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
-  }
-
   ngOnDestroy() {
-    jQuery('select.js-select-rep-create-event').minimalect('destroy');
-
     this.ngDestroy();
   }
 
+  onEventNotFound() {
+    this.notificationService.push({
+      type: 'error',
+      title: 'Error',
+      body: 'This event doesn\'t exist.',
+      autoclose: 4000
+    });
+    this.goBack();
+  }
+
   private goBack() {
-    window.history.back(-1);
+    // window.history.back(-1);
+    this.location.back();
   }
 
   private activate(type) {

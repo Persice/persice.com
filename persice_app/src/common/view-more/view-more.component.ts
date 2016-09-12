@@ -1,27 +1,46 @@
-const SHOW_CHAR_LIMIT: number = 80;
+const DEFAULT_CHAR_LIMIT: number = 80;
 
 export abstract class ViewMoreComponent {
-
+  protected static SHOW_CHAR_LIMIT = DEFAULT_CHAR_LIMIT;
   lessText: string = '';
   moreText: string = '';
+  displayedText: string = '';
 
-  // Flag for showing more about me
-  showMore: boolean = false;
+  // Flag for showing more text
+  moreVisible: boolean = false;
 
-  constructor() {
+  constructor(limit?: number) {
+    if (limit) {
+      ViewMoreComponent.SHOW_CHAR_LIMIT = limit;
+    }
   }
 
-  public toggleMore(value) {
-    this.showMore = value;
-  }
+  public toggleMore(isMoreVisible: boolean): void {
+    this.moreVisible = isMoreVisible;
 
-  protected setInitialState(value: string) {
-    let contents = value !== null ? value : '';
-    if (contents.length > SHOW_CHAR_LIMIT) {
-      this.lessText = contents.substring(0, SHOW_CHAR_LIMIT);
-      this.moreText = contents.substring(SHOW_CHAR_LIMIT, contents.length).trim();
+    if (!!isMoreVisible) {
+      this.displayedText = this.lessText + this.moreText;
     } else {
+      this.displayedText = this.lessText;
+    }
+  }
+
+  protected setInitialState(value: string): void {
+    this.lessText = '';
+    this.moreText = '';
+    this.displayedText = '';
+    this.moreVisible = false;
+
+    let contents = value !== null ? value : '';
+    if (contents.length > ViewMoreComponent.SHOW_CHAR_LIMIT) {
+      this.lessText = contents.substring(0, ViewMoreComponent.SHOW_CHAR_LIMIT);
+      this.moreText = contents.substring(ViewMoreComponent.SHOW_CHAR_LIMIT, contents.length).trim();
+      this.moreVisible = false;
+    } else {
+      this.moreVisible = true;
       this.lessText = contents;
     }
+
+    this.displayedText = this.lessText;
   }
 }

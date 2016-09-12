@@ -37,23 +37,23 @@
       <div class="layout layout--middle">
         <div class="layout__item 1/1">
           <h2 class="single-title mb-">{{event.name}}</h2>
-          <p class="single-title-subinfo">{{event.locationName}} <span>{{event.fullAddress}}</span></p>
+          <p class="single-title-subinfo">{{event.fullAddress}}</p>
           <p class="single-title-subinfo">{{event.distance.amount}} {{event.distance.unit}} from you</p>
           <div class="event-status-cropper"
                [ngClass]="{'is-visible': event.maxAttendees === event.attendeesGoing.length}">
             <span class="event-status">Sold out</span>
           </div>
         </div>
-        <div class="layout__item" [ngClass]="{'2/5': !host, '7/9': host}">
+        <div class="layout__item" [ngClass]="{'2/5': !event.isHost, '7/9': event.isHost}">
           <p class="opento-label">Open to</p>
           <p class="opento-value">{{accessLevelText(event.accessLevel)}}</p>
         </div>
-        <div class="layout__item 2/9 text-right" *ngIf="host">
+        <div class="layout__item 2/9 text-right" *ngIf="event.isHost">
           <div class="flag event-info__controls">
             <a data-remodal-target="edit-event" class="btn btn-1 btn-1--blue">Edit event</a>
           </div>
         </div>
-        <div class="layout__item 3/5" *ngIf="!host">
+        <div class="layout__item 3/5" *ngIf="!event.isHost">
           <div class="flag event-info__controls">
             <div class="flag__body">
               <div class="layout layout--small">

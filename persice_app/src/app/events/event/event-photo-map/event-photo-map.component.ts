@@ -7,6 +7,7 @@ import { GOOGLE_MAPS_DIRECTIVES } from '../../../../common/google-map/directives
 import { LoadingComponent } from '../../../shared/components/loading';
 import { Event } from '../../../../common/models/event/index';
 import { EventService } from '../../../../common/events/event.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'prs-event-photo-map',
@@ -24,11 +25,14 @@ export class EventPhotoMapComponent {
   private showMap: boolean = false;
   private showPhoto: boolean = true;
   private zoom: number = 8;
+  private isImageUploading$: Observable<boolean>;
 
   constructor(
     private eventService: EventService,
     private notificationService: NotificationService
-  ) { }
+  ) {
+    this.isImageUploading$ = this.eventService.isImageUploading$;
+  }
 
   private openFileDialog() {
     document.getElementById('inputfile').click();
@@ -41,12 +45,12 @@ export class EventPhotoMapComponent {
   private readThis(inputValue: any): void {
     let file: File = inputValue.files[0];
     let photo = {
-      photo: file
+      event_photo: file
     };
 
     if (file !== undefined) {
-      if (FileUtil.isImage(photo.photo.type)) {
-        this.eventService.updateImageByUri(event, this.event.resourceUri);
+      if (FileUtil.isImage(photo.event_photo.type)) {
+        this.eventService.updateImageByUri(photo, this.event.resourceUri);
       } else {
         this.notificationService.push({
           type: 'error',

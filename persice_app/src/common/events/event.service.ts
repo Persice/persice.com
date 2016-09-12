@@ -12,17 +12,20 @@ export class EventService {
 
   public event$: Observable<Event>;
   public isLoading$: Observable<boolean>;
+  public isImageUploading$: Observable<boolean>;
   public isLoaded$: Observable<boolean>;
   public notFound$: Observable<boolean>;
 
   private _event$: BehaviorSubject<Event> = new BehaviorSubject(<Event>{});
   private _isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _isLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _isImageUploading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _notFound$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(protected http: HttpClient, private serviceUser: UserService) {
     this.event$ = this._event$.asObservable();
     this.isLoading$ = this._isLoading$.asObservable();
+    this.isImageUploading$ = this._isImageUploading$.asObservable();
     this.isLoaded$ = this._isLoaded$.asObservable();
     this.notFound$ = this._notFound$.asObservable();
   }
@@ -72,9 +75,11 @@ export class EventService {
     options.headers.set('Content-Type', 'multipart/form-data');
     let body = FormUtil.formData(event);
 
+    this._isImageUploading$.next(true);
     this.http.put(`${resourceUri}?format=json`, <any>body, options)
       .map((res: Response) => this._toEvent(res))
       .subscribe((data: Event) => {
+        this._isImageUploading$.next(false);
         this._event$.next(data);
       }, (err) => {
         console.log('Image upload went wrong')

@@ -3,6 +3,9 @@ import { EventModel, EventOpenTo } from '../../shared/models';
 import { GoogleUtil, ObjectUtil, DateUtil } from '../../../common/core';
 
 export abstract class BaseEventComponent {
+
+  selectedOpenTo: string = 'Public (all Persice users)';
+
   model;
   action: string;
   validationErrors = {};

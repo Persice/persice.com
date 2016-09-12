@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppStateService } from '../../shared/services/app-state.service';
 import { EventService } from '../../../common/events/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +9,8 @@ import { EventDetailsBottomMobileComponent } from './event-details-bottom';
 import { EventAttendeesPreviewMobileComponent } from './event-attendees-preview';
 import { EventNotFoundMobileComponent } from './event-not-found';
 import { EventRsvpMobileComponent } from './event-rsvp/event-rsvp-mobile.component';
-import { EventComponent } from "../../../common/events/event.component";
+import { EventComponent } from '../../../common/events/event.component';
+import { HeaderState } from '../../header/header.state';
 
 @Component({
   selector: 'prs-mobile-event',
@@ -25,32 +26,33 @@ import { EventComponent } from "../../../common/events/event.component";
     EventNotFoundMobileComponent
   ]
 })
-export class EventMobileComponent extends EventComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EventMobileComponent extends EventComponent implements OnInit, OnDestroy {
 
   constructor(
-    appStateService: AppStateService,
     eventService: EventService,
     route: ActivatedRoute,
+    private appStateService: AppStateService,
     private router: Router
   ) {
-    super(appStateService, eventService, route);
+    super(eventService, route);
   }
 
   ngOnInit(): any {
     document.querySelector('html').classList.toggle('bg-gray');
-
     this.ngInit();
-  }
-
-  ngAfterViewInit(): any {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    });
   }
 
   ngOnDestroy(): any {
     document.querySelector('html').classList.toggle('bg-gray');
     this.ngDestroy();
+  }
+
+  onEventNotFound() {
+    this.appStateService.headerStateEmitter.emit(HeaderState.eventNotFound);
+  }
+
+  onEventFound() {
+    this.appStateService.headerStateEmitter.emit(HeaderState.event);
   }
 
   public openAttendees(event: MouseEvent): void {

@@ -1,9 +1,7 @@
 import { Observable, Subscription } from 'rxjs';
 import { EventService } from './event.service';
 import { Event } from './../models/event/index';
-import { ActivatedRoute } from "@angular/router";
-import { HeaderState } from '../../app-mobile/header/header.state';
-import { AppStateService } from '../../app-mobile/shared/services/app-state.service';
+import { ActivatedRoute } from '@angular/router';
 import { TokenUtil } from '../core/util';
 
 export abstract class EventComponent {
@@ -22,12 +20,15 @@ export abstract class EventComponent {
   private notFoundSubs: Subscription;
 
   constructor(
-    protected appStateService: AppStateService,
     protected eventService: EventService,
     protected route: ActivatedRoute
   ) { }
 
   protected ngInit(): void {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    });
+
     // Subscribe to event service observables
     this.event$ = this.eventService.event$;
     this.isLoading$ = this.eventService.isLoading$;
@@ -39,7 +40,6 @@ export abstract class EventComponent {
     this.userIdFromToken = TokenUtil.getValue('user_id');
 
     // Subscribe to router param observable
-    console.log(this.eventIdFromUrl);
     this.routerSubs = this.route.params.subscribe(params => {
       this.eventIdFromUrl = params['eventId'];
       this._getEvent(this.eventIdFromUrl);
@@ -47,9 +47,9 @@ export abstract class EventComponent {
 
     this.notFoundSubs = this.notFound$.subscribe((notFoundState: boolean) => {
       if (!!notFoundState) {
-        this.appStateService.headerStateEmitter.emit(HeaderState.eventNotFound);
+        this.onEventNotFound();
       } else {
-        this.appStateService.headerStateEmitter.emit(HeaderState.event);
+        this.onEventFound();
       }
     });
   }
@@ -62,6 +62,10 @@ export abstract class EventComponent {
       this.notFoundSubs.unsubscribe();
     }
   }
+
+  protected onEventNotFound(): void {}
+
+  protected onEventFound(): void {}
 
   private _getEvent(eventId: string): void {
     this.eventService.load(eventId);

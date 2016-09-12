@@ -20,7 +20,8 @@ export class EventAttendeesComponent {
         spaceBetween: 5
       }
     },
-    lazyLoading: true
+    lazyLoading: true,
+    observer: true
   });
 
   constructor(private _router: Router) { }

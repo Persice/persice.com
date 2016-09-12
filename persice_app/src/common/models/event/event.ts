@@ -1,5 +1,5 @@
 import { Distance } from '../distance';
-import { DateUtil, ListUtil } from '../../core/util';
+import { DateUtil, ListUtil, TokenUtil } from '../../core/util';
 import { EventDate } from './event-date';
 import { EventHost } from './event-host';
 
@@ -23,11 +23,15 @@ export class Event {
   private _attendeesPreview: any[];
   private _spotsRemaining: number;
   private _locationName: string;
+  private _locationRaw: string;
   private _fullAddress: string;
   private _startDate: EventDate;
   private _endDate: EventDate;
+  private _startDateRaw: string;
+  private _endDateRaw: string;
   private _resourceUri: string;
   private _eventHost: EventHost;
+  private _isHost: boolean;
 
   public static fromDto(dto: any) {
     return new Event(dto);
@@ -53,11 +57,15 @@ export class Event {
     this._fullAddress = dto.full_address;
     this._startDate = this._parseEventDateFromField(dto.starts_on);
     this._endDate = this._parseEventDateFromField(dto.ends_on);
+    this._startDateRaw = dto.starts_on;
+    this._endDateRaw = dto.ends_on;
+    this._locationRaw = dto.location;
     this._resourceUri = dto.resource_uri;
     this._latitude = dto.location.split(',')[0];
     this._longitude = dto.location.split(',')[1];
     this._mapUrl = `https://www.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
     this._eventHost = this._getHostForEvent(dto);
+    this._isHost = this._eventHost.username === TokenUtil.getValue('username') ? true : false;
   }
 
   public rsvpOfUsername(username: string): any {
@@ -82,6 +90,10 @@ export class Event {
 
   public host(eventHost: EventHost): void {
     this._eventHost = eventHost;
+  }
+
+  public get isHost(): boolean {
+    return this._isHost;
   }
 
   get name(): string {
@@ -154,6 +166,18 @@ export class Event {
 
   get endDate(): EventDate {
     return this._endDate;
+  }
+
+  get startDateRaw(): string {
+    return this._startDateRaw;
+  }
+
+  get endDateRaw(): string {
+    return this._endDateRaw;
+  }
+
+  get locationRaw(): string {
+    return this._locationRaw;
   }
 
   get timezone(): string {
