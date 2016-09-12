@@ -1,0 +1,350 @@
+{
+  "meta": {
+    "limit": 12,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total_count": 8
+  },
+  "objects": [
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 12,
+          "membership_id": 617,
+          "username": "thomasetracey"
+        },
+        {
+          "first_name": "Andrii",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/04/fb_image_784349768271537.jpg",
+          "is_connection": true,
+          "is_organizer": false,
+          "match_score": 9,
+          "membership_id": 626,
+          "username": "soldatenkoandrey"
+        }
+      ],
+      "city": null,
+      "country": null,
+      "cumulative_match_score": 21,
+      "description": "Barkitecture is a custom doghouse design show, contest, silent auction and, most importantly, fundraiser! From its inception in 2005, Barkitecture has become an Austin favorite and gained national exposure. Hosted by Animal Lovers of Austin, Inc. (a 501(c)3 organization) this architectural dog-centric event showcases doghouses created by Austin’s best and\nbrightest architects, interior designers and builders. A fair that’s fun for all ages drawing in pooches and people alike, Barkitecture attendees and their dogs get to check\nout and bid on these one-of-a-kind doghouses, learn about adoption opportunities from Austin Pets Alive!, shop local vendor booths, enjoy a Fashound Show, hit the\nphoto booth with your pooch and check out face painting for the kiddos! This year we are delighted to be partnering with Austin Pets Alive! as our sole beneficiary for funds raised and are excited to hold the event in the heart of SOCO, thanks to Jo’s Coffee and Hotel San Jose. The event is FREE to enjoy",
+      "distance": [
+        3315,
+        "miles"
+      ],
+      "ends_on": "2016-11-12T22:00:00",
+      "event_photo": null,
+      "event_score": 2,
+      "friend_attendees_count": 2,
+      "full_address": null,
+      "id": "208",
+      "location": "0,0",
+      "location_name": null,
+      "max_attendees": 10,
+      "name": "Barkitecture Austin 2016 - Free EVENT",
+      "repeat": "",
+      "resource_uri": "/api/v1/events2/208/",
+      "starts_on": "2016-11-12T18:00:00",
+      "state": null,
+      "street": null,
+      "zipcode": null
+    },
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 12,
+          "membership_id": 606,
+          "username": "thomasetracey"
+        }
+      ],
+      "city": null,
+      "country": null,
+      "cumulative_match_score": 12,
+      "description": "The 30th annual AIA Austin Homes Tour highlights 12 homes that all show the value of using an architect. Showcasing design excellence, quality craftsmanship, and innovative use of materials, each project demonstrates the relationship between the owner and the architect and the results of their collaborative process.\n\nThis year's tour features the incredible work of Burton Baldridge Architects, Faye and Walker Architecture, Furman + Keil Architects, Lake|Flato Architects, McKinney York Architects, Mell Lawrence Architects, Nick Deaver Architect, Rauser Design, Rick & Cindy Black Architects, Tom Hurt Architecture, Tornbjerg Design, LLC, and Webber + Studio, Architects.\n\n*Tickets will go on sale September 15th and will be available to purchase online, and at AIA Austin, Nannie Inez, NEST Modern, and Zinger Hardware. $35 in advance; $40 day of the Tour at the four listed locations only.",
+      "distance": [
+        3315,
+        "miles"
+      ],
+      "ends_on": "2016-10-16T23:00:00",
+      "event_photo": null,
+      "event_score": 2,
+      "friend_attendees_count": 1,
+      "full_address": null,
+      "id": "197",
+      "location": "0,0",
+      "location_name": null,
+      "max_attendees": 10,
+      "name": "AIA Austin Homes Tour 2016",
+      "repeat": "",
+      "resource_uri": "/api/v1/events2/197/",
+      "starts_on": "2016-10-15T05:00:00",
+      "state": null,
+      "street": null,
+      "zipcode": null
+    },
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 12,
+          "membership_id": 611,
+          "username": "thomasetracey"
+        }
+      ],
+      "city": null,
+      "country": null,
+      "cumulative_match_score": 12,
+      "description": "Food Moves is hosting The Free Food Crawl, where participating food trucks around Austin will activate for one hour at a time and offer free meals to Food Moves users. \n\nTo join the hunt for free food, simply download the Food Moves app for iOS (http://apple.co/1Xy3jdA) or Andriod (http://bit.ly/2bfU1Tq) and present your unique code when ordering to receive a free meal.\n\nSponsored by: TBD",
+      "distance": [
+        3315,
+        "miles"
+      ],
+      "ends_on": "2016-10-22T23:00:00",
+      "event_photo": null,
+      "event_score": 1,
+      "friend_attendees_count": 1,
+      "full_address": null,
+      "id": "202",
+      "location": "0,0",
+      "location_name": null,
+      "max_attendees": 10,
+      "name": "The Free Food Crawl",
+      "repeat": "",
+      "resource_uri": "/api/v1/events2/202/",
+      "starts_on": "2016-10-22T16:00:00",
+      "state": null,
+      "street": null,
+      "zipcode": null
+    },
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Ljubomir",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/04/20/fb_image_10153499968741198_1461156893.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 1,
+          "membership_id": 596,
+          "username": "ljubomirsimin"
+        }
+      ],
+      "city": "",
+      "country": "",
+      "cumulative_match_score": 1,
+      "description": "[title]Super Cool Event[title]\r\nWill have:\r\n- snacks\r\n- beer\r\n\r\nwww.google.com",
+      "distance": [
+        3315,
+        "miles"
+      ],
+      "ends_on": "2016-11-04T02:00:00",
+      "event_photo": "https://d2v6m3k9ul63ej.cloudfront.net/null",
+      "event_score": 1,
+      "friend_attendees_count": 1,
+      "full_address": "",
+      "id": "188",
+      "location": "0,0",
+      "location_name": "Novi sad",
+      "max_attendees": 1,
+      "name": "A private event",
+      "repeat": "w",
+      "resource_uri": "/api/v1/events2/188/",
+      "starts_on": "2016-11-04T01:00:00",
+      "state": "",
+      "street": "",
+      "zipcode": ""
+    },
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 12,
+          "membership_id": 619,
+          "username": "thomasetracey"
+        }
+      ],
+      "city": null,
+      "country": null,
+      "cumulative_match_score": 12,
+      "description": "18th Annual Oktoberfest &\n\n2016 Heart of Texas Tour Final Championships\n\nA PDGA B-tier\n\nOctober 1st - 2nd 2016\n\n at MOODY’S DISC GOLF COUNTRY CLUB\n\nin RED ROCK, TX\n\nThe 2016 Heart of Texas Tour Final Event\n\nA TeamJustice Production\n\nTournament Director:  Patty Justice (830-385-3661)\n\n$500 added cash to the Pro Payout\n\nAll HOTT Bonus money collected throughout the year\n\nwill be paid out to the Bonus Qualifiers using the standard \n\nPDGA payout scales and the HOTT Point System.\n\n \n\nCHECK  OUR FACEBOOK PAGE FOR ANNOUNCEMENTS AND UPDATES\n\n \n\nFORMAT:  Shotgun start\n3 Rounds of 18 holes for all divisions.  Final 9 for top 1/2 (plus ties)\n\nMANDATORY CHECK IN FOR THIS EVENT - YOU MUST CHECK IN\n\nAT TOURNAMENT HEADQUARTERS.\n\nDivisions:\n\nOpen Pro, Pro Women, Pro Masters, Pro Grand Masters,\n\nAdvanced Men, Adv. Women, Adv. Masters,\n\nAdv. Grand Masters, Adv. Senior Grand Masters,\n\nIntermediate Men, Int. Women,\n\nRecreational Men, and Rec. Women\n\nFriday Doubles:  Flex start from 11:00 a.m. – 5:00 p.m.\n",
+      "distance": [
+        3315,
+        "miles"
+      ],
+      "ends_on": "2016-10-02T23:00:00",
+      "event_photo": null,
+      "event_score": 1,
+      "friend_attendees_count": 1,
+      "full_address": null,
+      "id": "210",
+      "location": "0,0",
+      "location_name": null,
+      "max_attendees": 10,
+      "name": "18th Annual Oktoberfest & 2016 HOTT Final",
+      "repeat": "",
+      "resource_uri": "/api/v1/events2/210/",
+      "starts_on": "2016-10-01T12:00:00",
+      "state": null,
+      "street": null,
+      "zipcode": null
+    },
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 12,
+          "membership_id": 618,
+          "username": "thomasetracey"
+        }
+      ],
+      "city": null,
+      "country": null,
+      "cumulative_match_score": 12,
+      "description": "Come one, come all! The 11th annual Carnival O’ Pizza is back for an afternoon of pizza-themed fun that’s bigger and better than before! \n\nA celebration of Home Slice’s love for all things pizza, this year’s carnival will take place on Saturday, September 24 from noon to 7 p.m. at the iconic South Congress location. Our free family-friendly event will have over-the-top pizza-themed activities and exciting prizes, with all proceeds to benefit this year's non-profit recipient: Austin Bat Cave! \n\nJoin in on the fun with carnival-inspired games, dancing, a photo booth and raffles to win one of 60 prizes, including a YETI Die Hard Pack, two Sound on Sound Fest Festival passes, and even the chance for one lucky raffle winner to be the only person in the world who can make a reservation at Home Slice for the next year! \n\nThe 2016 Carnival-O-Pizza promises fun for all ages with:\n\n- Kid themed games and booths, including our own invention: Pee Wee Pizzaioli\n\n- Size and speed dough throwing cont",
+      "distance": [
+        3315,
+        "miles"
+      ],
+      "ends_on": "2016-09-26T00:00:00",
+      "event_photo": null,
+      "event_score": 1,
+      "friend_attendees_count": 1,
+      "full_address": null,
+      "id": "209",
+      "location": "0,0",
+      "location_name": null,
+      "max_attendees": 10,
+      "name": "Home Slice Carnival O Pizza 2016",
+      "repeat": "",
+      "resource_uri": "/api/v1/events2/209/",
+      "starts_on": "2016-09-24T17:00:00",
+      "state": null,
+      "street": null,
+      "zipcode": null
+    },
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 12,
+          "membership_id": 607,
+          "username": "thomasetracey"
+        },
+        {
+          "first_name": "Saša",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/05/25/fb_image_560101450791647_1464153126.jpg",
+          "is_connection": false,
+          "is_organizer": false,
+          "match_score": 0,
+          "membership_id": 630,
+          "username": "sasamacakanja"
+        }
+      ],
+      "city": null,
+      "country": null,
+      "cumulative_match_score": 12,
+      "description": "Don't miss the state's largest beer event focused exclusively on Texas-brewed craft beer!\n\nThe Texas Craft Brewers Festival returns to East Austin's Fiesta Gardens September 24th, featuring 65+ Texas craft breweries & nearly 200 handcrafted beers available for sampling. \n\nOrganized by Texas Craft Brewers Guild\n\nTICKET OPTIONS \n\n•GENERAL ADMISSION: $35 (☆2PM access☆)\nIncludes: Commemorative tasting cup | 8 sample tickets\nEach sample ticket is redeemable for a 3-ounce pour. \n\n•DESIGNATED DRIVER: $10 (☆2PM access☆)\n12PM access permitted if accompanying a VIP ticket holder\nIncludes complimentary non-alcoholic beverages & snacks. \n\n•VIP: $75 (☆12PM access☆) --SOLD OUT!\nIncludes: Commemorative tasting cup | 8 sample tickets | Commemorative festival T-shirt | Souvenir festival glassware |  Two hours early entry for first access to beers & quality mingle time with the brewers. \nEach sample ticket is redeemable for a 3-ounce pour.\n\nVisit https://www.eventbrite.com/e/2016-texas-craft-brewers-fes",
+      "distance": [
+        3315,
+        "miles"
+      ],
+      "ends_on": "2016-09-24T23:30:00",
+      "event_photo": null,
+      "event_score": 0,
+      "friend_attendees_count": 1,
+      "full_address": null,
+      "id": "198",
+      "location": "0,0",
+      "location_name": null,
+      "max_attendees": 10,
+      "name": "Texas Craft Brewers Festival 2016",
+      "repeat": "",
+      "resource_uri": "/api/v1/events2/198/",
+      "starts_on": "2016-09-24T19:00:00",
+      "state": null,
+      "street": null,
+      "zipcode": null
+    },
+    {
+      "attendees_maybe": [],
+      "attendees_no": [],
+      "attendees_yes": [
+        {
+          "first_name": "Thomas",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/03/17/fb_image_10152489084433844_1.jpg",
+          "is_connection": true,
+          "is_organizer": true,
+          "match_score": 12,
+          "membership_id": 595,
+          "username": "thomasetracey"
+        },
+        {
+          "first_name": "Saša",
+          "image": "https://d2v6m3k9ul63ej.cloudfront.net/images/facebook_profiles/2016/05/25/fb_image_560101450791647_1464153126.jpg",
+          "is_connection": false,
+          "is_organizer": false,
+          "match_score": 0,
+          "membership_id": 598,
+          "username": "sasamacakanja"
+        }
+      ],
+      "city": "",
+      "country": "",
+      "cumulative_match_score": 12,
+      "description": "This is a fantastic opportunity to get visibility in the Austin startup community, launch your product, practice your pitch, and recruit talent. The *ATX Startup Crawl* is a celebration of technology and entrepreneurship in Austin! ",
+      "distance": [
+        5743,
+        "miles"
+      ],
+      "ends_on": "2016-10-07T03:30:00",
+      "event_photo": "https://d2v6m3k9ul63ej.cloudfront.net/event_photos/2016/08/27/atx-startup-crawl.jpg",
+      "event_score": 0,
+      "friend_attendees_count": 1,
+      "full_address": "",
+      "id": "187",
+      "location": "30.2689941,-97.74054409999997",
+      "location_name": "Capital Factory",
+      "max_attendees": 10000,
+      "name": "ATX Startup Crawl",
+      "repeat": "w",
+      "resource_uri": "/api/v1/events2/187/",
+      "starts_on": "2016-10-06T22:00:00",
+      "state": "",
+      "street": "",
+      "zipcode": ""
+    }
+  ]
+}
