@@ -7,11 +7,12 @@ describe('Even date', () => {
     var anyHour = '10pm';
     var anyDay = '13';
     var anyDayName = 'Monday';
+    var anyDayNameShort = 'Mon'
     var anyMonth = 'July';
     var anyYear = '2016';
 
     // when
-    let eventDate: EventDate = new EventDate(anyHour, anyDay, anyDayName, anyMonth, anyYear);
+    let eventDate: EventDate = new EventDate(anyHour, anyDay, anyDayName, anyDayNameShort, anyMonth, anyYear);
 
     // then
     expect(eventDate.hour).toEqual(anyHour);

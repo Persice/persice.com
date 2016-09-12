@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Person } from '../shared/model/person';
+import { Person } from '../../common/models/person/index';
 import { ProfileService } from '../../app/shared/services';
 import { UserProfileComponent } from '../user-profile';
 import { LoadingComponent } from '../../app/shared/components/loading';

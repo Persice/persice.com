@@ -6,7 +6,7 @@ import { ProfileLoader } from './profile';
 import { ConnectionsDesktopComponent } from './connections';
 import { TermsOfServiceComponent } from './info/terms-of-service/terms-of-service.component';
 import { PrivacyPolicyComponent } from './info/privacy-policy/privacy-policy.component';
-import { EventComponent } from './event';
+import { EventDesktopComponent } from './events/event';
 import { LoginDesktopComponent } from './login';
 import { MainComponent } from './main.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -75,7 +75,7 @@ export const rootRoutes: RouterConfig = [
       },
       {
         path: 'event/:eventId',
-        component: EventComponent
+        component: EventDesktopComponent
       },
       {
         path: 'messages',

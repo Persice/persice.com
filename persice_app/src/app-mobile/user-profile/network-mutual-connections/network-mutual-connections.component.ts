@@ -10,7 +10,7 @@ import { SelectedPersonActions } from '../../../common/actions';
 import { AppState } from '../../../common/reducers';
 import { AppStateService } from '../../shared/services';
 import { HeaderState } from '../../header';
-import { Person } from '../../shared/model/person';
+import { Person } from '../../../common/models/person/index';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({

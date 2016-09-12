@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Event } from '../../../shared/model/event';
+import { Event } from '../../../../common/models/event/index';
 import { RsvpElementComponent } from '../../../../common/events/rsvp-element/rsvp-element.component';
 import { EventMembersService } from '../../../../app/shared/services/eventmembers.service';
 
@@ -17,4 +17,3 @@ export class EventRsvpMobileComponent extends RsvpElementComponent {
     super(eventMembersService);
   }
 }
-

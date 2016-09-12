@@ -1,6 +1,6 @@
-import { EventService, NotificationService } from '../shared/services';
-import { EventModel, EventOpenTo } from '../shared/models';
-import { GoogleUtil, ObjectUtil, DateUtil } from '../../common/core';
+import { EventServiceTemp, NotificationService } from '../../shared/services';
+import { EventModel, EventOpenTo } from '../../shared/models';
+import { GoogleUtil, ObjectUtil, DateUtil } from '../../../common/core';
 
 export abstract class BaseEventComponent {
   model;
@@ -23,7 +23,7 @@ export abstract class BaseEventComponent {
   full = true;
 
   constructor(
-    public service: EventService,
+    public service: EventServiceTemp,
     public notificationService: NotificationService,
     action: string
   ) {

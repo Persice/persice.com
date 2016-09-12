@@ -1,5 +1,5 @@
-import { Distance } from './distance';
-import { DateUtil, ListUtil } from '../../../common/core/util';
+import { Distance } from '../distance';
+import { DateUtil, ListUtil } from '../../core/util';
 import { EventDate } from './event-date';
 import { EventHost } from './event-host';
 
@@ -78,6 +78,10 @@ export class Event {
     }
 
     return {};
+  }
+
+  public host(eventHost: EventHost): void {
+    this._eventHost = eventHost;
   }
 
   get name(): string {
@@ -168,6 +172,14 @@ export class Event {
     return this._latitude;
   }
 
+  get latitudeNumber(): number {
+    return +this.latitude;
+  }
+
+  get longitudeNumber(): number {
+    return +this.longitude;
+  }
+
   get longitude(): string {
     return this._longitude;
   }
@@ -178,6 +190,10 @@ export class Event {
 
   get eventHost(): EventHost {
     return this._eventHost;
+  }
+
+  set eventHost(eventHost: EventHost) {
+    this._eventHost = eventHost;
   }
 
   private _parseEventDateFromField(dateField: any): EventDate {
@@ -209,7 +225,7 @@ export class Event {
       return attendee.is_organizer;
     });
 
-    return new EventHost(host.first_name, host.image);
+    return new EventHost(host);
   }
 
 }

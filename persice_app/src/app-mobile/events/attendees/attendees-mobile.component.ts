@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AppStateService } from '../../shared/services/app-state.service';
 import { HeaderState } from '../../header/header.state';
-import { Person } from '../../shared/model/person';
+import { Person } from '../../../common/models/person/index';
 import { AttendeeService } from './attendee.service';
 import { UserCardMobileComponent } from '../../shared/components/user-card/user-card-mobile.component';
 import { InfiniteScrollDirective } from '../../../common/directives';

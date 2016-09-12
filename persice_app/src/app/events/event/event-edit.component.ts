@@ -1,11 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
+import {
+  SelectDirective,
+  GeocompleteDirective,
+  DatepickerDirective,
+  TimepickerDirective }
+from '../../shared/directives';
 import { BaseEventComponent } from './base-event.component';
-import { NotificationComponent } from '../shared/components/notification';
-import { LoadingComponent } from '../shared/components/loading';
-import { DateUtil } from '../../common/core';
-import { EventService, NotificationService } from '../shared/services';
+import { NotificationComponent } from '../../shared/components/notification';
+import { LoadingComponent } from '../../shared/components/loading';
+import { DateUtil } from '../../../common/core';
+import { EventServiceTemp, NotificationService } from '../../shared/services';
 
 @Component({
   selector: 'prs-event-edit',
@@ -18,7 +23,7 @@ import { EventService, NotificationService } from '../shared/services';
     TimepickerDirective,
     LoadingComponent
   ],
-  providers: [EventService]
+  providers: [EventServiceTemp]
 })
 export class EventEditComponent extends BaseEventComponent {
 
@@ -27,7 +32,7 @@ export class EventEditComponent extends BaseEventComponent {
     this.setEvent(data);
   }
 
-  @Input() type;
+  @Input() type: string;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
 
   eventOriginal: any;
@@ -43,7 +48,7 @@ export class EventEditComponent extends BaseEventComponent {
   loading: boolean = false;
 
   constructor(
-    public service: EventService,
+    public service: EventServiceTemp,
     public notificationService: NotificationService,
     public router: Router
   ) {

@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
-import { EventCreateComponent } from '../../event';
 import { RemodalDirective } from '../../shared/directives';
+import { EventCreateComponent } from '../event/event-create.component';
 
 @Component({
   selector: 'prs-new-event-card',

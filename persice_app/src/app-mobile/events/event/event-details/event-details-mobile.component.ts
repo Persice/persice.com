@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Event } from '../../../shared/model/event';
+import { Event } from '../../../../common/models/event/index';
 
 @Component({
   selector: 'prs-mobile-event-details',

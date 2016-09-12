@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { EventDescriptionMobileComponent } from './event-description';
-import { Event } from '../../../shared/model/event';
+import { Event } from '../../../../common/models/event/index';
 import { DefaultImageDirective } from '../../../../common/directives/default-image.directive';
 
 @Component({

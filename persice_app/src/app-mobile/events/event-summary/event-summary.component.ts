@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Event } from '../../shared/model/event';
+import { Event } from '../../../common/models/event/index';
 import { RsvpElementComponent } from '../../../common/events/rsvp-element/rsvp-element.component';
 import { CheckImageDirective } from '../../../app/shared/directives/checkimage.directive';
 
@@ -17,7 +17,7 @@ export class EventSummaryComponent {
 
   isRsvpElementVisible: boolean = false;
 
-  handleRsvpButtonVisibility(status: boolean, event) {
+  handleRsvpButtonVisibility(status: boolean, event: MouseEvent) {
     if (event) {
       event.stopPropagation();
     }

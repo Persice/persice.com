@@ -1,15 +1,14 @@
 import { Subscription, Observable } from 'rxjs';
 import { TokenUtil } from '../../common/core/util';
-import { FilterService } from '../../app/shared/services/filter.service';
 import { EventsService } from './events.service';
-import { EventsType, Event } from '../../app-mobile/shared/model/event';
+import { EventsType, Event } from '../models/event/index';
 
 export abstract class EventsComponent {
 
-  LIST_TYPE: string = 'events';
-  eventsType: EventsType;
-  eventsTypeLabel: string;
-  filtersActive: boolean;
+  protected LIST_TYPE: string = 'events';
+  protected eventsType: EventsType;
+  protected eventsTypeLabel: string;
+  protected filtersActive: boolean;
 
   protected events$: Observable<Event[]>;
   protected isLoading$: Observable<boolean>;
@@ -22,14 +21,13 @@ export abstract class EventsComponent {
   protected userId: string;
 
   constructor(
-    protected eventsService: EventsService,
-    protected filterService: FilterService
+    protected eventsService: EventsService
   ) {
     this.username = TokenUtil.getValue('username');
     this.userId = TokenUtil.getValue('user_id');
   }
 
-  protected onInit() {
+  protected onInit(): void {
 
     this.events$ = this.eventsService.events$;
     this.isLoading$ = this.eventsService.isLoading$;
@@ -43,7 +41,7 @@ export abstract class EventsComponent {
 
   }
 
-  protected onDestroy() {
+  protected onDestroy(): void {
     if (this.routeSub) {
       this.routeSub.unsubscribe();
     }
@@ -52,18 +50,18 @@ export abstract class EventsComponent {
     }
   }
 
-  protected afterLoadEvents(type: EventsType) { }
+  protected afterLoadEvents(type: EventsType): void { }
 
-  public selectEventsType(type) {
+  protected selectEventsType(type: EventsType): void {
     this.eventsType = type;
     this._loadEvents(type, true);
   }
 
-  public loadEvents() {
+  protected loadEvents(): void {
     this._loadEvents(this.eventsType, true);
   }
 
-  public loadMoreEvents(event: MouseEvent) {
+  protected loadMoreEvents(event: MouseEvent): void {
     if (!this.isLoaded) {
       this._loadEvents(this.eventsType, false);
     }
@@ -74,7 +72,7 @@ export abstract class EventsComponent {
    * @param {EventsType} type    Type of events to show
    * @param {boolean}    initial Indicator whether loading events initially or loading more events
    */
-  private _loadEvents(type: EventsType, initial: boolean) {
+  private _loadEvents(type: EventsType, initial: boolean): void {
     if (initial) {
       this.afterLoadEvents(type);
       this.eventsService.loadInitial(type);

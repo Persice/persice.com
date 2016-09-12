@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { SwiperDirective, CheckImageDirective } from '../../shared/directives';
+import { SwiperDirective, CheckImageDirective } from '../../../shared/directives';
 
 @Component({
   template: <any>require('./event-attendees.html'),
@@ -8,8 +8,7 @@ import { SwiperDirective, CheckImageDirective } from '../../shared/directives';
   directives: [SwiperDirective, CheckImageDirective]
 })
 export class EventAttendeesComponent {
-  @Input() people;
-  @Input() count;
+  @Input() people: any[];
   swiperOptions = JSON.stringify({
     slidesPerView: 9,
     spaceBetween: 5,
@@ -24,9 +23,7 @@ export class EventAttendeesComponent {
     lazyLoading: true
   });
 
-  constructor(private _router: Router) {
-
-  }
+  constructor(private _router: Router) { }
 
   openProfile(username) {
     this._router.navigateByUrl('/' + username);

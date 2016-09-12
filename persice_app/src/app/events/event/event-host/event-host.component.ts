@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { CheckImageDirective } from '../../shared/directives';
-import { MarkupPipe } from '../../shared/pipes/markup.pipe';
+import { CheckImageDirective } from '../../../shared/directives';
+import { MarkupPipe } from '../../../shared/pipes/markup.pipe';
+import { EventHost } from '../../../../common/models/event/event-host';
 
 @Component({
   selector: 'prs-event-host',
@@ -23,7 +24,7 @@ import { MarkupPipe } from '../../shared/pipes/markup.pipe';
   pipes: [MarkupPipe]
 })
 export class EventHostComponent {
-  @Input() host;
+  @Input() host: EventHost;
 
   constructor(private _router: Router) { }
 
