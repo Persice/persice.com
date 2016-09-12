@@ -3,50 +3,50 @@
   "chunks": {
     "polyfills": [
       {
-        "name": "polyfills.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/polyfills.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/polyfills.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js"
+        "name": "polyfills.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/polyfills.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/polyfills.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js"
       },
       {
-        "name": "polyfills.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/polyfills.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/polyfills.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map"
+        "name": "polyfills.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/polyfills.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/polyfills.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map"
       }
     ],
     "vendor": [
       {
-        "name": "vendor.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/vendor.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/vendor.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js"
+        "name": "vendor.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/vendor.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/vendor.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js"
       },
       {
-        "name": "vendor.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/vendor.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/vendor.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map"
+        "name": "vendor.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/vendor.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/vendor.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map"
       }
     ],
     "main": [
       {
-        "name": "main.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js"
+        "name": "main.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/main.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js"
       },
       {
-        "name": "main.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map"
+        "name": "main.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/main.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map"
       }
     ],
     "main-mobile": [
       {
-        "name": "main-mobile.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main-mobile.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.js"
+        "name": "main-mobile.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/main-mobile.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.js"
       },
       {
-        "name": "main-mobile.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map",
-        "path": "/home/vagrant/bekindred/persice_app/dist/main-mobile.91e82a4001a1755f2267e06a16c18349578af07d.prod.bundle.map"
+        "name": "main-mobile.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "publicPath": "https://d2v6m3k9ul63ej.cloudfront.net/assets/js/main-mobile.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map",
+        "path": "/Users/andrii/work/persice.com/persice_app/dist/main-mobile.8bfb1b483d2b93ee5361b4829760829178f61a2d.prod.bundle.map"
       }
     ]
   },
