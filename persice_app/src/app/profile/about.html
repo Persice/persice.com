@@ -1,0 +1,16 @@
+<h4 class="module-title mb0" *ngIf="!editable">About</h4>
+<h4 class="module-title mb0" *ngIf="editable">
+  <a (click)="openEdit.next('about')" class="edit-link">About <span class="edit-link__icon">
+    <svg role="img" class="icon ">
+      <use xlink:href="/assets/icons/icons.svg#icon-edit_info"></use>
+    </svg>
+    </span>
+  </a>
+</h4>
+<div class="profile-feature">
+  <span *ngIf="!editable">{{displayedText}}</span>
+  <a *ngIf="editable" (click)="openEdit.next('about')">{{displayedText}}</a>
+  <span *ngIf="moreText.length > 0 && !showMore">...</span>
+  <a class="link-blank" (click)="toggleMore(true)" *ngIf="!moreVisible && moreText.length > 0">View more</a>
+  <a class="link-blank" (click)="toggleMore(false)" *ngIf="moreVisible && moreText.length > 0">View less</a>
+</div>
