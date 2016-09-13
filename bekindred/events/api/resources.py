@@ -792,7 +792,8 @@ class EventFeedResource(Resource):
     friend_attendees_count = fields.IntegerField(
         attribute='friend_attendees_count')
     description = fields.CharField(attribute='description', null=True)
-    ends_on = fields.DateTimeField(attribute='ends_on')
+    ends_on = fields.DateTimeField(attribute='ends_on', null=True)
+    event_type = fields.CharField(attribute='event_type', null=True)
     starts_on = fields.DateTimeField(attribute='starts_on')
     distance = fields.ListField(attribute='distance')
     attendees_yes = fields.ListField(attribute='attendees_yes')

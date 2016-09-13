@@ -6,6 +6,7 @@ import json
 from django.conf import settings
 from django.db.utils import IntegrityError
 from django.db import transaction
+from django_facebook.connect import _update_image
 from django_facebook.utils import mass_get_or_create
 from open_facebook.api import OpenFacebook
 from geoposition import Geoposition
@@ -132,18 +133,32 @@ def refresh_events(user):
         type='public', start_time__gt=now()
     )
     for fb_event in fb_events:
-        event, created = Event.objects.get_or_create(
+        event = Event.objects.filter(eid=fb_event.facebook_id).first()
+        if event:
+            continue
+        image_name, image_file = (None, None)
+        try:
+            cover = json.loads(fb_event.cover)
+            if cover.get('source'):
+                image_name, image_file = _update_image(
+                    fb_event.facebook_id,
+                    cover.get('source'))
+        except (ValueError, TypeError) as err:
+            logger.error(err.msg)
+
+        event = Event.objects.create(
             eid=fb_event.facebook_id,
             name=fb_event.name,
             description=fb_event.description,
             access_level='public',
             starts_on=fb_event.start_time,
-            ends_on=fb_event.end_time
+            ends_on=fb_event.end_time,
+            event_photo=image_file,
+            event_type='facebook'
         )
-        if created:
+        if event:
             Membership.objects.create(user=user, event=event,
                                       is_organizer=True, rsvp=u'yes')
             users = FacebookCustomUserActive.objects.all()
             from events.tasks import assign_perm_task
             assign_perm_task.delay('view_event', users, event)
-
