@@ -1,9 +1,9 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { DropdownDirective } from '../../../shared/directives';
 import { Event } from '../../../../common/models/event/index';
 import { EventMembersService } from '../../../shared/services/eventmembers.service';
 import { RsvpElementComponent } from '../../../../common/events/rsvp-element/rsvp-element.component';
-import {EventUtil} from "../../../../common/core/util";
+import { EventUtil } from "../../../../common/core/util";
 
 @Component({
   selector: 'prs-event-info',
@@ -16,6 +16,7 @@ export class EventInfoComponent extends RsvpElementComponent {
   @Input() event: Event;
   @Input() username: string;
   @Input() userId: string;
+  @Output() refreshEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(protected eventMembersService: EventMembersService) {
     super(eventMembersService);
@@ -23,5 +24,10 @@ export class EventInfoComponent extends RsvpElementComponent {
 
   private accessLevelText(accessLevel: string): string {
     return EventUtil.accessLevel(accessLevel);
+  }
+
+  private switchRsvp(status: string): void {
+    this.changeRsvpStatus(status);
+    this.refreshEvent.emit(true);
   }
 }

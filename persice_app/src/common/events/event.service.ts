@@ -4,7 +4,6 @@ import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { Event } from '../models/event/index';
 import { HttpClient } from '../core/http-client';
 import { TokenUtil, FormUtil } from '../core/util';
-import { UserService } from '../../app/shared/services/user.service';
 
 @Injectable()
 export class EventService {
@@ -22,7 +21,7 @@ export class EventService {
   private _isImageUploading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private _notFound$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(protected http: HttpClient, private serviceUser: UserService) {
+  constructor(protected http: HttpClient) {
     this.event$ = this._event$.asObservable();
     this.isLoading$ = this._isLoading$.asObservable();
     this.isImageUploading$ = this._isImageUploading$.asObservable();
@@ -68,12 +67,14 @@ export class EventService {
   }
 
   public updateImageByUri(data, resourceUri): void {
+
+    let image = data;
     let userId = TokenUtil.getValue('user_id');
-    let event = data;
-    event.user = '/api/v1/auth/user/' + userId + '/';
+    image.user = '/api/v1/auth/user/' + userId + '/';
+    let body = FormUtil.formData(image);
+
     let options = {headers: new Headers()};
     options.headers.set('Content-Type', 'multipart/form-data');
-    let body = FormUtil.formData(event);
 
     this._isImageUploading$.next(true);
     this.http.put(`${resourceUri}?format=json`, <any>body, options)
@@ -82,7 +83,7 @@ export class EventService {
         this._isImageUploading$.next(false);
         this._event$.next(data);
       }, (err) => {
-        console.log('Image upload went wrong')
+        console.log('Image upload went wrong');
         console.log(err);
       });
   }

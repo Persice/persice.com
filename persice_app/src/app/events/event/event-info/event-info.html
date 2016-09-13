@@ -58,15 +58,15 @@
             <div class="flag__body">
               <div class="layout layout--small">
                 <div class="layout__item 1/3">
-                  <a (click)="changeRsvpStatus('yes')" class="btn btn-1 btn--full btn-1--green"
+                  <a (click)="switchRsvp('yes')" class="btn btn-1 btn--full btn-1--green"
                      [ngClass]="{'btn-1--filled': oldRsvp.rsvp === 'yes'}">Going</a>
                 </div>
                 <div class="layout__item 1/3">
-                  <a (click)="changeRsvpStatus('maybe')" class="btn btn-1 btn--full btn-1--darkblue"
+                  <a (click)="switchRsvp('maybe')" class="btn btn-1 btn--full btn-1--darkblue"
                      [ngClass]="{'btn-1--filled': oldRsvp.rsvp === 'maybe'}">Maybe</a>
                 </div>
                 <div class="layout__item 1/3">
-                  <a (click)="changeRsvpStatus('no')" class="btn btn-1 btn--full btn-1--red"
+                  <a (click)="switchRsvp('no')" class="btn btn-1 btn--full btn-1--red"
                      [ngClass]="{'btn-1--filled': oldRsvp.rsvp === 'no'}">Can't go</a>
                 </div>
               </div>

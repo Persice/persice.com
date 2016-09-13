@@ -1,5 +1,5 @@
 <div class="content p">
-  <prs-loading [status]="(isLoading$ | async)"></prs-loading>
+  <prs-loading [status]="(isLoading$ | async) && !(isLoaded$ | async)"></prs-loading>
   <div class="platform event-content is-visible" *ngIf="(isLoaded$ | async)">
     <a (click)="goBack()" class="platform__back">
       <svg role="img" class="icon ">
@@ -7,7 +7,7 @@
       </svg>
     </a>
     <prs-event-info [event]="(event$ | async)" [username]="usernameFromToken"
-                    [userId]="userIdFromToken"></prs-event-info>
+                    [userId]="userIdFromToken" (refreshEvent)="refreshEvent()"></prs-event-info>
     <prs-event-photo-map [event]="(event$ | async)"></prs-event-photo-map>
     <div class="event-people">
       <div class="layout layout--middle mb" id="single-event-peoplenav">
