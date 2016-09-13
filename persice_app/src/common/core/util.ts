@@ -426,24 +426,35 @@ export class DateUtil {
     return time.replace(/(AM|PM)/, '');
   }
 
-  static format<T extends Date, S extends string>(data: T, format: S): S {
-    let tz = jstz.determine();
-    let tzName = tz.name();
-    let formatedDate = moment.utc(data).tz(tzName).format(format);
+  static format(data: any, format: string): string {
+    let formatedDate: string = '';
+
+    if (!!data) {
+      let tz = <any>jstz.determine();
+      let tzName = tz.name();
+      formatedDate = moment.utc(data).tz(tzName).format(format);
+    }
 
     return formatedDate;
   }
 
-  static formatUTC<A extends any[], S extends string>(data: A, format: S): S {
-    let formatedDate = moment(data).utc().format(format);
+  static formatUTC(data: any, format: string): string {
+    let formatedDate: string = '';
 
+    if (!!data) {
+      let formatedDate = moment(data).utc().format(format);
+    }
     return formatedDate;
   }
 
-  static convertToLocal(data): any {
-    let tz = jstz.determine();
-    let tzName = tz.name();
-    let localDate = moment.utc(data).tz(tzName);
+  static convertToLocal(data: any): any {
+    let localDate: any = '';
+
+    if (!!data) {
+      let tz = jstz.determine();
+      let tzName = tz.name();
+      localDate = moment.utc(data).tz(tzName);
+    }
 
     return localDate;
   }

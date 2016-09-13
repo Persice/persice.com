@@ -108,14 +108,14 @@ export class EventEditComponent extends BaseEventComponent implements OnDestroy 
     let endDate = DateUtil.convertToLocal(this.model.ends_on);
 
     this.START_DATE = startDate.unix() * 1000;
-    this.END_DATE = endDate.unix() * 1000;
+    this.END_DATE = endDate && endDate.unix() * 1000;
     this.START_TIME = startDate.hour() * 60 + startDate.minute();
-    this.END_TIME = endDate.hour() * 60 + endDate.minute();
+    this.END_TIME = endDate && (endDate.hour() * 60 + endDate.minute());
 
     this.model.starts_on_date = startDate.format('MM/DD/YYYY');
-    this.model.ends_on_date = endDate.format('MM/DD/YYYY');
+    this.model.ends_on_date = endDate && endDate.format('MM/DD/YYYY');
     this.model.starts_on_time = startDate.format('hh:mm');
-    this.model.ends_on_time = endDate.format('hh:mm');
+    this.model.ends_on_time = endDate && endDate.format('hh:mm');
 
   }
 
