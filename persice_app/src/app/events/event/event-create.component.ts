@@ -26,7 +26,7 @@ import { EventServiceTemp, NotificationService } from '../../shared/services';
   ],
   providers: [EventServiceTemp]
 })
-export class EventCreateComponent extends BaseEventComponent implements OnInit {
+export class EventCreateComponent extends BaseEventComponent {
   @Input() type;
   loading: boolean = false;
   START_DATE = DateUtil.todayRoundUp().unix() * 1000;
@@ -40,17 +40,12 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
     public router: Router
   ) {
     super(service, notificationService, 'create');
-    this.model = new EventModel();
-  }
-
-  ngOnInit(): any {
     setTimeout(() => {
       this.model.starts_on_date = DateUtil.todayRoundUp().format('MM/DD/YYYY');
       this.model.ends_on_date = DateUtil.todayAddHourRoundUp().format('MM/DD/YYYY');
       this.model.starts_on_time = DateUtil.todayRoundUp().format('hh:mm');
       this.model.ends_on_time = DateUtil.todayAddHourRoundUp().format('hh:mm');
     });
-
   }
 
   saveEvent(event) {

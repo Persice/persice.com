@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SelectDirective,
@@ -11,6 +11,7 @@ import { NotificationComponent } from '../../shared/components/notification';
 import { LoadingComponent } from '../../shared/components/loading';
 import { DateUtil } from '../../../common/core';
 import { EventServiceTemp, NotificationService } from '../../shared/services';
+import { EventModel } from '../../shared/models';
 
 @Component({
   selector: 'prs-event-edit',
@@ -25,7 +26,7 @@ import { EventServiceTemp, NotificationService } from '../../shared/services';
   ],
   providers: [EventServiceTemp]
 })
-export class EventEditComponent extends BaseEventComponent implements OnDestroy {
+export class EventEditComponent extends BaseEventComponent {
 
   @Input() set event(data: any) {
     this.eventOriginal = data;
@@ -53,10 +54,6 @@ export class EventEditComponent extends BaseEventComponent implements OnDestroy 
     public router: Router
   ) {
     super(service, notificationService, 'edit');
-  }
-
-  ngOnDestroy(): void {
-    // jQuery('select.js-select-rep-create-event').minimalect('destroy');
   }
 
   setEvent(data) {

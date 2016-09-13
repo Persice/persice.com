@@ -56,7 +56,7 @@ export class Event {
     this._spotsRemaining = dto.spots_remaining;
     this._locationName = dto.location_name ? dto.location_name : '';
     this._fullAddress = dto.full_address ? dto.full_address : '';
-    this._mergedAddress = this._fullAddress;
+    this._mergedAddress = this._fullAddress ? this._fullAddress : this._locationName;
 
     if (this._fullAddress && this._locationName && this._fullAddress.indexOf(this._locationName) === -1) {
       this._mergedAddress = this._locationName + ', ' + this._fullAddress;

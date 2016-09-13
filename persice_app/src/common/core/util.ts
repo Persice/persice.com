@@ -17,7 +17,7 @@ export class ListUtil {
   }
 
   static filter(arr: any[], property, value): any[] {
-    return filter(arr, {property: value});
+    return filter(arr, { property: value });
   }
 
   static findIndex(arr: any[], props): number {
@@ -29,7 +29,7 @@ export class ListUtil {
   }
 
   static filterAndCount(arr: any[], property, value): number {
-    return filter(arr, {property: value}).length;
+    return filter(arr, { property: value }).length;
   }
 
 }
@@ -429,7 +429,7 @@ export class DateUtil {
   static format(data: any, format: string): string {
     let formatedDate: string = '';
 
-    if (!!data) {
+    if (data !== null) {
       let tz = <any>jstz.determine();
       let tzName = tz.name();
       formatedDate = moment.utc(data).tz(tzName).format(format);
@@ -441,16 +441,17 @@ export class DateUtil {
   static formatUTC(data: any, format: string): string {
     let formatedDate: string = '';
 
-    if (!!data) {
-      let formatedDate = moment(data).utc().format(format);
+    if (data !== null) {
+      formatedDate = moment(data).utc().format(format);
     }
+
     return formatedDate;
   }
 
   static convertToLocal(data: any): any {
     let localDate: any = '';
 
-    if (!!data) {
+    if (data !== null) {
       let tz = jstz.determine();
       let tzName = tz.name();
       localDate = moment.utc(data).tz(tzName);
