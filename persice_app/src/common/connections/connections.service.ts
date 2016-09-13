@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { Person } from '../../app-mobile/shared/model/person';
+import { Person } from '../models/person/index';
 import { HttpClient } from '../core';
 
 interface Connections {

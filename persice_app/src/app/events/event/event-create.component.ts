@@ -1,12 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SelectDirective, GeocompleteDirective, DatepickerDirective, TimepickerDirective } from '../shared/directives';
+import {
+  SelectDirective,
+  GeocompleteDirective,
+  DatepickerDirective,
+  TimepickerDirective }
+from '../../shared/directives';
 import { BaseEventComponent } from './base-event.component';
-import { EventModel } from '../shared/models';
-import { NotificationComponent } from '../shared/components/notification';
-import { LoadingComponent } from '../shared/components/loading';
-import { DateUtil } from '../../common/core';
-import { EventService, NotificationService } from '../shared/services';
+import { EventModel } from '../../shared/models';
+import { NotificationComponent } from '../../shared/components/notification';
+import { LoadingComponent } from '../../shared/components/loading';
+import { DateUtil } from '../../../common/core';
+import { EventServiceTemp, NotificationService } from '../../shared/services';
 
 @Component({
   selector: 'prs-event-create',
@@ -19,7 +24,7 @@ import { EventService, NotificationService } from '../shared/services';
     TimepickerDirective,
     LoadingComponent
   ],
-  providers: [EventService]
+  providers: [EventServiceTemp]
 })
 export class EventCreateComponent extends BaseEventComponent implements OnInit {
   @Input() type;
@@ -30,7 +35,7 @@ export class EventCreateComponent extends BaseEventComponent implements OnInit {
   END_TIME = DateUtil.todayAddHourRoundUp().hour() * 60 + DateUtil.todayAddHourRoundUp().minute();
 
   constructor(
-    public service: EventService,
+    public service: EventServiceTemp,
     public notificationService: NotificationService,
     public router: Router
   ) {

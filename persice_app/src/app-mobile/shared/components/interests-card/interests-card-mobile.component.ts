@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Person } from '../../model/person';
+import { Person } from '../../../../common/models/person/index';
 
 @Component({
   selector: 'prs-mobile-interests-card',

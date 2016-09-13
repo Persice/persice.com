@@ -1,8 +1,8 @@
-import { ObjectUtil } from '../../../common/core/util';
-import { SocialNetworkFacebook } from './social-network/social-network-facebook';
-import { SocialNetworkLinkedin } from './social-network/social-network-linkedin';
-import { SocialNetworkTwitter } from './social-network/social-network-twitter';
-import { Gender } from './gender';
+import { ObjectUtil } from '../../core/util';
+import { SocialNetworkFacebook } from '../../../app-mobile/shared/model/social-network/social-network-facebook';
+import { SocialNetworkLinkedin } from '../../../app-mobile/shared/model/social-network/social-network-linkedin';
+import { SocialNetworkTwitter } from '../../../app-mobile/shared/model/social-network/social-network-twitter';
+import { Gender } from '../event/gender';
 export class Person {
 
   public topInterestsFirstHalf: any[];

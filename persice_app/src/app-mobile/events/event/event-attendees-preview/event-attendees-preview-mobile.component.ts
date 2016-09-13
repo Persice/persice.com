@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CheckImageDirective } from '../../../../app/shared/directives';
-import { Event } from '../../../shared/model/event';
+import { Event } from '../../../../common/models/event/index';
 const MAX_ATTENDEES: number = 5;
 
 @Component({

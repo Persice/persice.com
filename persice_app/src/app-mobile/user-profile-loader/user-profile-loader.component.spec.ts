@@ -10,7 +10,7 @@ import STORE_ACTIONS from '../../common/actions';
 import { Observable } from 'rxjs';
 import { UserProfileLoaderComponent } from './user-profile-loader.component';
 import { ProfileService } from '../../app/shared/services/profile.service';
-import { PersonGenerator } from '../shared/model/person-generator';
+import { PersonGenerator } from '../../common/models/person/person-generator';
 import { HttpClient } from '../../common/core';
 import { AppStateService } from '../shared/services/app-state.service';
 

@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { CheckImageDirective } from '../../shared/directives';
-import { Event } from '../../../app-mobile/shared/model/event';
+import { Event } from '../../../common/models/event/event';
 
 @Component({
   selector: 'prs-event-card-inside',

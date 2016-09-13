@@ -4,14 +4,13 @@ import { EventsService } from '../../common/events/events.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingComponent } from '../../app/shared/components/loading/loading.component';
 import { OpenLeftMenuDirective } from '../shared/directives/open-left-menu.directive';
-import { Event, EventsType } from '../shared/model/event';
+import { Event, EventsType } from '../../common/models/event/index';
 import { EventSummaryComponent } from './event-summary';
 import { EventsNotFoundMobileComponent } from './events-not-found';
 import { InfiniteScrollDirective } from '../../common/directives';
 import { EventMembersService } from '../../app/shared/services/eventmembers.service';
 import { DROPDOWN_DIRECTIVES } from '../shared/directives/dropdown/index';
 import { FilterMobileComponent } from '../shared/components/filter/filter-mobile.component';
-import { FilterService } from '../../app/shared/services/filter.service';
 import { EventsComponent } from '../../common/events/events.component';
 
 @Component({
@@ -31,13 +30,12 @@ import { EventsComponent } from '../../common/events/events.component';
 export class EventsMobileComponent extends EventsComponent implements OnInit, OnDestroy {
 
   constructor(
-    protected eventsService: EventsService,
-    protected filterService: FilterService,
+    eventsService: EventsService,
     private appStateService: AppStateService,
     private route: ActivatedRoute,
     private router: Router
   ) {
-    super(eventsService, filterService);
+    super(eventsService);
   }
 
   ngOnInit(): any {
@@ -63,21 +61,21 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
     this.onDestroy();
   }
 
-  protected afterLoadEvents(type: EventsType) {
+  protected afterLoadEvents(type: EventsType): void {
     this.setEventsTypeLabel(type);
   }
 
-  public openEvent(event: Event) {
+  private openEvent(event: Event): void {
     const eventUrl: string = `/event/${event.id}`;
     this.router.navigateByUrl(eventUrl);
   }
 
-  public clickEventsTypeDropdownElement(type, event): void {
+  private clickEventsTypeDropdownElement(type: string, event: MouseEvent): void {
     event.stopPropagation();
     this.router.navigateByUrl(`/events/${type}/list`);
   }
 
-  public setEventsTypeLabel(type) {
+  private setEventsTypeLabel(type): void {
     if (type === 'all') {
       this.eventsTypeLabel = 'All events';
     }
@@ -89,9 +87,8 @@ export class EventsMobileComponent extends EventsComponent implements OnInit, On
     }
   }
 
-  public hideFilters(loadNewData: boolean) {
+  private hideFilters(): void {
     this.filtersActive = false;
     this.loadEvents();
   }
-
 }

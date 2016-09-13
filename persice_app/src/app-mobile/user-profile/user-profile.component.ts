@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { OpenLeftMenuDirective } from '../shared/directives';
 import { RemodalDirective, CheckImageDirective } from '../../app/shared/directives';
 import { GenderPipe } from '../../app/shared/pipes';
-import { Person } from '../shared/model';
+import { Person } from '../../common/models/person/index';
 import { AboutMobileComponent } from './about';
 import { PhotosMobileComponent } from './photos';
 import { NetworkPreviewComponent } from './network-preview';

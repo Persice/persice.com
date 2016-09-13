@@ -3,13 +3,13 @@ import { LoadingComponent } from '../../../../app/shared/components/loading';
 import { CheckImageDirective } from '../../../../app/shared/directives';
 import { InfiniteScrollReverseDirective } from '../../../../common/directives';
 import { MarkupPipe } from '../../../../app/shared/pipes/markup.pipe';
-import { EventService } from '../../../../app/shared/services/event.service';
+import { EventServiceTemp } from '../../../../app/shared/services/event.service';
 
 @Component({
   selector: 'prs-mobile-conversation-message',
   template: '<div class="message__text" [innerHTML]="message | markup:true">',
   directives: [LoadingComponent, CheckImageDirective, InfiniteScrollReverseDirective],
-  providers: [EventService],
+  providers: [EventServiceTemp],
   pipes: [MarkupPipe]
 })
 export class ConversationMessageMobileComponent implements OnInit {
@@ -20,7 +20,7 @@ export class ConversationMessageMobileComponent implements OnInit {
   private parseEvents = false;
 
   constructor(
-    private eventService: EventService,
+    private eventService: EventServiceTemp,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 

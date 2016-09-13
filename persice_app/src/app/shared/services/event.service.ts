@@ -18,7 +18,7 @@ validate.extend(<any>validate.validators.datetime, {
 });
 
 @Injectable()
-export class EventService {
+export class EventServiceTemp {
   static API_URL: string = '/api/v1/event/';
   static VALIDATION_OPTIONS = {
     fullMessages: true
@@ -91,7 +91,7 @@ export class EventService {
         `offset=0`,
       ].join('&');
 
-      let apiUrl = `${EventService.API_URL}`;
+      let apiUrl = `${EventServiceTemp.API_URL}`;
       this.next = `${apiUrl}?${params}`;
     } else {
       this.next = url;
@@ -110,7 +110,7 @@ export class EventService {
       `format=json`,
     ].join('&');
 
-    let apiUrl = `${EventService.API_URL}${id}/`;
+    let apiUrl = `${EventServiceTemp.API_URL}${id}/`;
     let url = `${apiUrl}?${params}`;
     return this.http.get(url).map((res: Response) => res.json());
   }
@@ -140,7 +140,7 @@ export class EventService {
       } else {
         let options = {headers: new Headers()};
         options.headers.set('Content-Type', 'multipart/form-data');
-        this.http.post(`${EventService.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
+        this.http.post(`${EventServiceTemp.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
           .subscribe((res) => {
             observer.next(res);
             observer.complete();
@@ -238,7 +238,7 @@ export class EventService {
   private _validateData(data): boolean {
     this.validationErrors = {};
 
-    let errors = validate(data, this.constraints, EventService.VALIDATION_OPTIONS);
+    let errors = validate(data, this.constraints, EventServiceTemp.VALIDATION_OPTIONS);
 
     this.validationErrors = errors;
 
@@ -252,5 +252,5 @@ export class EventService {
 }
 
 export var eventServiceInjectables: Array<any> = [
-  {provide: EventService, useClass: EventService}
+  {provide: EventServiceTemp, useClass: EventServiceTemp}
 ];

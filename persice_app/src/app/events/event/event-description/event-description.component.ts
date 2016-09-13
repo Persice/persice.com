@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MarkupPipe } from '../../shared/pipes/markup.pipe';
+import { MarkupPipe } from '../../../shared/pipes/markup.pipe';
 
 @Component({
   selector: 'prs-event-description',
@@ -11,19 +11,17 @@ import { MarkupPipe } from '../../shared/pipes/markup.pipe';
   pipes: [MarkupPipe]
 })
 export class EventDescriptionComponent implements OnChanges {
-  @Input() description;
-  descriptionMore: string = '';
-  hideMoreLink: boolean = true;
+  @Input() description: string;
+  private descriptionMore: string = '';
+  private hideMoreLink: boolean = true;
 
-  ngOnChanges(values) {
-    if (values.description && values.description.currentValue) {
-      if (values.description.currentValue.length > 200) {
-        this.descriptionMore = values.description.currentValue.substring(0, 199) + '...';
-        this.hideMoreLink = false;
-      } else {
-        this.descriptionMore = values.description.currentValue;
-        this.hideMoreLink = true;
-      }
+  ngOnChanges(values): void {
+    if (values.currentValue && values.description.currentValue.length > 200) {
+      this.descriptionMore = values.description.currentValue.substring(0, 199) + '...';
+      this.hideMoreLink = false;
+    } else {
+      this.descriptionMore = values.description.currentValue;
+      this.hideMoreLink = true;
     }
   }
 

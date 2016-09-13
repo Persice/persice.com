@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-import { Person } from '../../shared/model/person';
+import { Person } from '../../../common/models/person/index';
 import { SocialProfile } from '../../shared/model/social-profile';
 import { HttpClient } from '../../../common/core/http-client';
 

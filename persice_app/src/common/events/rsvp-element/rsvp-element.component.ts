@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { EventMembersService } from '../../../app/shared/services/eventmembers.service';
-import { Event } from '../../../app-mobile/shared/model/event';
+import { Event } from '../../models/event/index';
 
 @Component({
   selector: 'prs-rsvp-element',
@@ -17,9 +17,7 @@ export class RsvpElementComponent implements OnInit {
   private oldRsvp: any = {};
   private authUserUri: string;
 
-  constructor(protected eventMembersService: EventMembersService) {
-
-  }
+  constructor(protected eventMembersService: EventMembersService) { }
 
   ngOnInit() {
     this.oldRsvp = this.event.rsvpOfUsername(this.username);
@@ -35,6 +33,7 @@ export class RsvpElementComponent implements OnInit {
   }
 
   changeRsvpStatus(newRsvp: string) {
+
     if (this.savingRsvp) {
       return;
     }
