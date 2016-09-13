@@ -1,0 +1,2 @@
+webpackJsonp([2],[function(n,t,o){"use strict";function e(n){return r.bootstrap(a.AppComponent,c.PLATFORM_PROVIDERS_MAIN.concat(u.ENV_PROVIDERS,a.APP_PROVIDERS)).catch(function(n){return console.error(n)})}var r=o(317),c=o(574),u=o(575),a=o(516);t.main=e;document.addEventListener("DOMContentLoaded",function(){return e()})}]);
+//# sourceMappingURL=main.8fe4f524af510c84440e7854dea4626ab4a9e948.prod.bundle.map
