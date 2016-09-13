@@ -1,7 +1,7 @@
 <h3 class="module-title">Description</h3>
 <p class="module-type">
   <span>{{displayedText | ignoreMarkup}}</span>
-  <span *ngIf="moreText.length > 0 && !showMore">...</span>
+  <span *ngIf="moreText.length > 0 && !moreVisible">...</span>
 </p>
 <a class="link-blank" (click)="toggleMore(true)" *ngIf="!moreVisible && moreText.length > 0">View more</a>
 <a class="link-blank" (click)="toggleMore(false)" *ngIf="moreVisible && moreText.length > 0">View less</a>
