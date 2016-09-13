@@ -1080,10 +1080,13 @@ class ElasticSearchMatchEngineManager(models.Manager):
         stop_words = StopWords.objects.all().values_list('word', flat=True)
 
         if feed == 'my':
-            events = Event.objects.filter(membership__user=user_id,
-                                          ends_on__gt=now())
+            events = Event.objects.filter(
+                membership__user=user_id
+            ).filter(Q_(ends_on__gt=now()) | Q_(ends_on__isnull=True))
         elif feed == 'all':
-            events = Event.objects.filter(ends_on__gt=now())
+            events = Event.objects.filter(
+                Q_(ends_on__gt=now()) | Q_(ends_on__isnull=True)
+            )
 
         elif feed == 'connections':
             friends = NeoFourJ().get_my_friends_ids(user_id)
@@ -1091,8 +1094,12 @@ class ElasticSearchMatchEngineManager(models.Manager):
                 Q_(membership__user_id__in=friends,
                    membership__rsvp__in=['yes', 'maybe'], ends_on__gt=now()) |
                 Q_(membership__user_id__in=friends,
-                   membership__is_organizer=True, ends_on__gt=now())). \
-                distinct()
+                   membership__rsvp__in=['yes', 'maybe'], ends_on__isnull=True) |
+                Q_(membership__user_id__in=friends,
+                   membership__is_organizer=True, ends_on__gt=now()) |
+                Q_(membership__user_id__in=friends,
+                   membership__is_organizer=True, ends_on__isnull=True)
+            ).distinct()
         event_ids_types = []
         for event in events:
             event_ids_types.append('events.event.%s' % event.id)

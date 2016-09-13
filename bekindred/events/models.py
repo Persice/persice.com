@@ -45,11 +45,14 @@ class Event(models.Model):
 
     description = models.TextField(null=True, blank=True)
     name = models.CharField(max_length=300)
+    event_type = models.CharField(max_length=50, default='persice')
     location = GeopositionField(default="0,0",
                                 blank=True, null=True)
     point = models.PointField(null=True)
+    # "name": "Guadalupe St & W 17th St (outside of Dive Bar & Lounge)"
     location_name = models.CharField(max_length=255, null=True)
     country = models.CharField(max_length=255, null=True)
+    # "name": "Guadalupe St & W 17th St (outside of Dive Bar & Lounge)"
     full_address = models.CharField(max_length=255, null=True)
     starts_on = models.DateTimeField(null=True, blank=True)
     ends_on = models.DateTimeField(null=True, blank=True)
