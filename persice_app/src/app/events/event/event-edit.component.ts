@@ -68,6 +68,7 @@ export class EventEditComponent extends BaseEventComponent {
     this.model.location = ev.locationRaw;
     this.model.location_name = ev.locationName;
     this.model.event_location = ev.mergedAddress;
+    this.model.full_address = ev.fullAddress;
 
     this.model.max_attendees = ev.maxAttendees;
     this.model.access_level = ev.accessLevel;
