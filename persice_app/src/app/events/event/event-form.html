@@ -147,18 +147,6 @@
       </div>
     </div>
     <div class="layout__item 1/2">
-      <label class="c-label mb--">Max number of attendees</label>
-      <input [ngModel]="model.max_attendees" (ngModelChange)="model.max_attendees = $event;" class="c-input" type="text"
-             placeholder="0" [ngClass]="{'c-input--error': validationErrors.max_attendees}">
-      <div class="c-message c-message--error pt-- pl-">
-        <p *ngFor="let e of validationErrors.max_attendees">{{e}}</p>
-      </div>
-    </div>
-    <div class="layout__item 1/2">
-      <label class="c-label mb--">Cost</label>
-      <input class="c-input" type="text" placeholder="00.0">
-    </div>
-    <div class="layout__item 1/2">
       <label class="c-label mb--">Open to</label>
       <!--<select class="js-select-rep-create-event" minimalect (selectedValue)="changeOpenTo($event)">-->
       <!--<option *ngFor="let order of openTo" [value]="order.value" [selected]="order.selected">{{order.label}}</option>-->
@@ -167,11 +155,13 @@
         <span>{{selectedOpenTo}}</span>
       </div>
     </div>
-    <div class="layout__item layout--alignbottom 1/2">
-      <label class="c-checkbox mb--">
-        <input class="c-checkbox__input" type="checkbox" name="checkbox" value="99"> <span
-        class="c-checkbox__trigger c-radio__trigger--transparent"></span> <span
-        class="c-checkbox__label c-checkbox__label--unprominent">Guest can invite friends</span> </label>
+    <div class="layout__item 1/2">
+      <label class="c-label mb--">Max number of attendees</label>
+      <input [ngModel]="model.max_attendees" (ngModelChange)="model.max_attendees = $event;" class="c-input" type="text"
+             placeholder="0" [ngClass]="{'c-input--error': validationErrors.max_attendees}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ngFor="let e of validationErrors.max_attendees">{{e}}</p>
+      </div>
     </div>
   </div>
 </div>
