@@ -39,6 +39,14 @@
         <p *ngFor="let e of validationErrors.description">{{e}}</p>
       </div>
     </div>
+    <div class="layout__item 1/1">
+      <label class="c-label mb--">Link</label>
+      <input [ngModel]="model.event_url" (ngModelChange)="model.event_url = $event;" class="c-input" type="text"
+             placeholder="http://" [ngClass]="{'c-input--error': validationErrors.event_url}">
+      <div class="c-message c-message--error pt-- pl-">
+        <p *ngFor="let e of validationErrors.event_url">{{e}}</p>
+      </div>
+    </div>
     <div class="layout__item layout--alignbottom layout--datetimeevent 1/2">
       <div class="layout layout--small">
         <div class="layout__item 1/2">

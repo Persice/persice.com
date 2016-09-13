@@ -15,6 +15,7 @@ export class Event {
   private _latitude: string;
   private _longitude: string;
   private _mapUrl: string;
+  private _eventUrl: string;
   private _connectionsAttendeesCount: number;
   private _maxAttendees: number;
   private _attendeesGoing: any[];
@@ -43,6 +44,7 @@ export class Event {
     this._name = dto.name;
     this._image = !!dto.event_photo && dto.event_photo !== 'https://d2v6m3k9ul63ej.cloudfront.net/null' ? dto.event_photo : '/assets/images/placeholder-image.png';
     this._hostedBy = dto.hosted_by;
+    this._eventUrl = dto.event_url;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
@@ -105,6 +107,10 @@ export class Event {
 
   get name(): string {
     return this._name;
+  }
+
+  get eventUrl(): string {
+    return this._eventUrl;
   }
 
   get id(): string {

@@ -65,6 +65,7 @@ export class EventEditComponent extends BaseEventComponent {
     this.model.starts_on = ev.startDateRaw;
     this.model.ends_on = ev.endDateRaw;
     this.model.event_photo = ev.image;
+    this.model.event_url = ev.eventUrl;
     this.model.location = ev.locationRaw;
     this.model.location_name = ev.locationName;
     this.model.event_location = ev.mergedAddress;

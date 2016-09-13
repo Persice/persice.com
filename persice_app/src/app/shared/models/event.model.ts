@@ -3,6 +3,7 @@ import { DateUtil } from '../../../common/core/util';
 export class EventModel {
   constructor(
     public name: string = '',
+    public event_url: string = '',
     public description: string = '',
     public access_level: string = 'public',
     public starts_on: string = DateUtil.todayRoundUp().utc().format(),

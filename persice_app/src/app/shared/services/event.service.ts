@@ -8,10 +8,10 @@ let validate: any = <any>require('validate.js');
 const moment = require('moment');
 
 validate.extend(<any>validate.validators.datetime, {
-  parse: function (value, options) {
+  parse: function(value, options) {
     return moment.utc(value);
   },
-  format: function (value, options) {
+  format: function(value, options) {
     let format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DDThh:mm:ss';
     return moment.utc(value).format(format);
   }
@@ -32,6 +32,15 @@ export class EventServiceTemp {
       length: {
         maximum: 300
       }
+    },
+    event_url: {
+      presence: false,
+      length: {
+        maximum: 1024
+      },
+      url: {
+        message: '^Please enter a valid url.'
+      },
     },
     max_attendees: {
       presence: true,
@@ -138,7 +147,7 @@ export class EventServiceTemp {
           validationErrors: this.validationErrors
         });
       } else {
-        let options = {headers: new Headers()};
+        let options = { headers: new Headers() };
         options.headers.set('Content-Type', 'multipart/form-data');
         this.http.post(`${EventServiceTemp.API_URL}?format=json`, <any>body, options).map((res: Response) => res.json())
           .subscribe((res) => {
@@ -177,7 +186,7 @@ export class EventServiceTemp {
           validationErrors: this.validationErrors
         });
       } else {
-        let options = {headers: new Headers()};
+        let options = { headers: new Headers() };
         options.headers.set('Content-Type', 'multipart/form-data');
         this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
           .subscribe((res) => {
@@ -200,7 +209,7 @@ export class EventServiceTemp {
     let body = FormUtil.formData(event);
 
     return Observable.create(observer => {
-      let options = {headers: new Headers()};
+      let options = { headers: new Headers() };
       options.headers.set('Content-Type', 'multipart/form-data');
       this.http.put(`${resourceUri}?format=json`, <any>body, options).map((res: Response) => res.json())
         .subscribe((res) => {
@@ -252,5 +261,5 @@ export class EventServiceTemp {
 }
 
 export var eventServiceInjectables: Array<any> = [
-  {provide: EventServiceTemp, useClass: EventServiceTemp}
+  { provide: EventServiceTemp, useClass: EventServiceTemp }
 ];
