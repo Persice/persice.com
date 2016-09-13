@@ -70,11 +70,7 @@ export class EventEditComponent extends BaseEventComponent implements OnDestroy 
     this.model.event_photo = ev.image;
     this.model.location = ev.locationRaw;
     this.model.location_name = ev.locationName;
-    this.model.event_location = ev.fullAddress !== '' ? ev.fullAddress : ev.locationName;
-
-    if (this.model.event_location && this.model.event_location.indexOf(ev.locationName) === -1) {
-      this.model.event_location = ev.locationName + ', ' + this.model.event_location;
-    }
+    this.model.event_location = ev.mergedAddress;
 
     this.model.max_attendees = ev.maxAttendees;
     this.model.access_level = ev.accessLevel;

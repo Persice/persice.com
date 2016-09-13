@@ -25,6 +25,7 @@ export class Event {
   private _locationName: string;
   private _locationRaw: string;
   private _fullAddress: string;
+  private _mergedAddress: string;
   private _startDate: EventDate;
   private _endDate: EventDate;
   private _startDateRaw: string;
@@ -53,16 +54,22 @@ export class Event {
     this._attendeesMaybe = dto.attendees_maybe;
     this._attendeesPreview = this._makeAttendeesPreview(this._attendeesGoing);
     this._spotsRemaining = dto.spots_remaining;
-    this._locationName = dto.location_name;
-    this._fullAddress = dto.full_address;
+    this._locationName = dto.location_name ? dto.location_name : '';
+    this._fullAddress = dto.full_address ? dto.full_address : '';
+    this._mergedAddress = this._fullAddress;
+
+    if (this._fullAddress && this._locationName && this._fullAddress.indexOf(this._locationName) === -1) {
+      this._mergedAddress = this._locationName + ', ' + this._fullAddress;
+    }
+
     this._startDate = this._parseEventDateFromField(dto.starts_on);
     this._endDate = this._parseEventDateFromField(dto.ends_on);
     this._startDateRaw = dto.starts_on;
     this._endDateRaw = dto.ends_on;
-    this._locationRaw = dto.location;
+    this._locationRaw = dto.location ? dto.location : '0,0';
     this._resourceUri = dto.resource_uri;
-    this._latitude = dto.location.split(',')[0];
-    this._longitude = dto.location.split(',')[1];
+    this._latitude = dto.location ? dto.location.split(',')[0] : '0';
+    this._longitude = dto.location ? dto.location.split(',')[1] : '0';
     this._mapUrl = `https://www.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
     this._eventHost = this._getHostForEvent(dto);
     this._isHost = this._eventHost.username === TokenUtil.getValue('username') ? true : false;
@@ -158,6 +165,10 @@ export class Event {
 
   get fullAddress(): string {
     return this._fullAddress;
+  }
+
+  get mergedAddress(): string {
+    return this._mergedAddress;
   }
 
   get startDate(): EventDate {

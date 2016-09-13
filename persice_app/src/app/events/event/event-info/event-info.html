@@ -37,7 +37,7 @@
       <div class="layout layout--middle">
         <div class="layout__item 1/1">
           <h2 class="single-title mb-">{{event.name}}</h2>
-          <p class="single-title-subinfo">{{event.fullAddress}}</p>
+          <p class="single-title-subinfo">{{event.mergedAddress}}</p>
           <p class="single-title-subinfo">{{event.distance.amount}} {{event.distance.unit}} from you</p>
           <div class="event-status-cropper"
                [ngClass]="{'is-visible': event.maxAttendees === event.attendeesGoing.length}">
