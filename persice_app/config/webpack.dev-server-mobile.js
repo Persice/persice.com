@@ -140,14 +140,6 @@ module.exports = webpackMerge(commonConfig, {
       poll: 1000
     },
     proxy: {
-      '/api/v1/event/197/': {
-        target: 'http://test-local.com:8889',
-        secure: false
-      },
-      '/api/v1/events2': {
-        target: 'http://test-local.com:8889',
-        secure: false
-      },
       '/api': {
         target: 'http://test-local.com:8000',
         secure: false
