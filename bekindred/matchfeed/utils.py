@@ -542,19 +542,29 @@ def get_attendee_photo(user):
     return image
 
 
+def persice_organizer(user):
+    return {
+        'name': user.facebook_name,
+        'image': get_attendee_photo(user),
+        'username': user.username,
+        'age': calculate_age(user.date_of_birth),
+        'gender': user.gender,
+        'about_me': user.about_me,
+        'link': None
+    }
+
+
 def build_organizer(event):
     if event.event_type == 'persice':
-        return {
-            'name': event.organizer.facebook_name,
-            'image': get_attendee_photo(event.organizer),
-            'username': event.organizer.username,
-            'age': calculate_age(event.organizer.date_of_birth),
-            'gender': event.organizer.gender,
-            'about_me': event.organizer.about_me,
-            'link': None
-        }
+        return persice_organizer(event.organizer)
     else:
         fb_event = FacebookEvent.objects.get(facebook_id=event.eid)
+        prs_user = FacebookCustomUserActive.objects.filter(
+            facebook_id=event.eid
+        ).first()
+
+        if prs_user:
+            return persice_organizer(prs_user)
         return {
             'name': fb_event.owner_info.get('name'),
             'image': None,
