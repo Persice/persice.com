@@ -24,7 +24,7 @@ export class EventHostComponent {
       }
     } else {
       // Open outside link for event host
-      if (this.host.link) {
+      if (!!this.host.link) {
         let win = window.open(this.host.link, '_blank');
         win.focus();
       }

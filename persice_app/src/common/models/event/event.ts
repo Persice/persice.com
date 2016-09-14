@@ -42,10 +42,10 @@ export class Event {
 
   constructor(dto: any) {
     this._id = dto.id;
-    this._type = dto.type ? dto.type : 'persice';
+    this._type = dto.event_type ? dto.event_type : 'persice';
     this._name = dto.name;
     this._image = !!dto.event_photo && dto.event_photo !== 'https://d2v6m3k9ul63ej.cloudfront.net/null' ? dto.event_photo : '/assets/images/placeholder-image.png';
-    this._eventUrl = dto.event_url;
+    this._eventUrl = 'https://www.facebook.com/events/204468889966075/';  //dto.event_url;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
@@ -74,7 +74,8 @@ export class Event {
     this._latitude = dto.location ? dto.location.split(',')[0] : '0';
     this._longitude = dto.location ? dto.location.split(',')[1] : '0';
     this._mapUrl = `https://www.google.com/maps/place/${this._latitude}+${this._longitude}/@${this._latitude},${this._longitude},15z`;
-    this._eventHost = dto.owner ? new EventHost(dto.owner) : null;
+
+    this._eventHost = dto.organizer ? new EventHost(dto.organizer) : null;
     this._hostedBy = this._eventHost ? this._eventHost.name : '';
     this._isHost = this._eventHost ? (this._eventHost.username === TokenUtil.getValue('username') ? true : false) : false;
   }

@@ -1,4 +1,3 @@
-import { Distance } from '../distance';
 import { Gender } from './gender';
 export class EventHost {
 
@@ -9,7 +8,6 @@ export class EventHost {
   private _username: string;
   private _age: number;
   private _gender: Gender;
-  private _distance: Distance;
   private _description: string;
   private _link: string;
 
@@ -19,7 +17,6 @@ export class EventHost {
     this._username = dto.username;
     this._age = dto.age;
     this._gender = dto.gender ? new Gender(dto.gender) : null;
-    this._distance = dto.distance ? new Distance(dto.distance) : null;
     this._description = dto.about_me || '';
     this._link = dto.link;
   }
@@ -42,10 +39,6 @@ export class EventHost {
 
   get gender(): Gender {
     return this._gender;
-  }
-
-  get distance(): Distance {
-    return this._distance;
   }
 
   get description(): string {

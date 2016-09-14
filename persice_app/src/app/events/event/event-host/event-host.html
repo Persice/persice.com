@@ -7,8 +7,7 @@
   <div class="flag__body">
     <h5 class="host-name">{{host?.name}}</h5>
     <p class="single-title-subinfo single-title-subinfo--small">{{host?.gender?.value}} <span
-      *ngIf="host?.age">/ Age</span> {{host?.age}} <span *ngIf="host?.distance">/</span> {{host?.distance?.amount}}
-      {{host?.distance?.unit}}</p>
+      *ngIf="host?.age">/ Age</span> {{host?.age}}</p>
   </div>
 </div>
 <p class="module-type" [innerHTML]="host?.description | markup"></p>
