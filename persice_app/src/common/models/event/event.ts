@@ -45,7 +45,7 @@ export class Event {
     this._type = dto.event_type ? dto.event_type : 'persice';
     this._name = dto.name;
     this._image = !!dto.event_photo && dto.event_photo !== 'https://d2v6m3k9ul63ej.cloudfront.net/null' ? dto.event_photo : '/assets/images/placeholder-image.png';
-    this._eventUrl = 'https://www.facebook.com/events/204468889966075/';  //dto.event_url;
+    this._eventUrl = dto.event_url;
     this._description = dto.description;
     this._accessLevel = dto.access_level;
     this._similarity = dto.cumulative_match_score;
