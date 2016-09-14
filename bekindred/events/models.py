@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import logging
 
+import json
 from django.db.models.signals import post_save
 from django.utils.timezone import now
 from geoposition.fields import GeopositionField
@@ -91,6 +92,11 @@ class Event(models.Model):
             self.point = point
         super(Event, self).save(*args, **kwargs)
 
+    @property
+    def organizer(self):
+        organizer = self.membership_set.filter(is_organizer=True).first()
+        return organizer.user if organizer else None
+
 
 class Membership(models.Model):
     RSVP_CHOICES = (
@@ -165,3 +171,11 @@ class FacebookEvent(models.Model):
 
     def __unicode__(self):
         return u"{} - {}".format(self.facebook_id, self.name)
+
+    @property
+    def owner_info(self):
+        try:
+            owner_info = json.loads(self.owner)
+        except (ValueError, TypeError):
+            owner_info = {}
+        return owner_info

@@ -130,7 +130,7 @@ def store_events(user):
 
 def refresh_events(user):
     fb_events = FacebookEvent.objects.filter(
-        type='public', start_time__gt=now()
+        type='public', start_time__gt=now(), user_id=user.id
     )
     for fb_event in fb_events:
         event = Event.objects.filter(eid=fb_event.facebook_id).first()

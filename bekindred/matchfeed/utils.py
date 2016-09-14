@@ -17,6 +17,7 @@ from django_facebook.models import FacebookLike
 from social_auth.db.django_models import UserSocialAuth
 
 from events import Event
+from events.models import FacebookEvent
 from friends.models import Friend, FacebookFriendUser, TwitterListFriends, \
     TwitterListFollowers
 from friends.utils import NeoFourJ
@@ -537,6 +538,7 @@ class MatchEvent(object):
         self.event = MatchEvent.get_event_info(event_object)
         self.current_user_id = current_user_id
         self.matched_users = matched_users
+        self.organizer = self.build_organizer()
         self.names = self.highlight(event_object, 'name')
         self.descriptions = self.highlight(event_object, 'description')
         self.id = self.event.id
@@ -647,6 +649,39 @@ class MatchEvent(object):
                 d['match_score'] = 0
             results.append(d)
         return sorted(results, key=lambda r: r['match_score'], reverse=True)
+
+    def get_attendee_photo(self, user):
+        try:
+            image = FacebookPhoto.objects.filter(
+                user_id=user.id, order=0)[0].cropped_photo.url
+        except IndexError:
+            image = None
+        return image
+
+    def build_organizer(self):
+        if self.event.event_type == 'persice':
+            return {
+                'name': self.event.organizer.facebook_name,
+                'image': self.get_attendee_photo(self.event.organizer),
+                'username': self.event.organizer.username,
+                'age': calculate_age(self.event.organizer.date_of_birth),
+                'gender': self.event.organizer.gender,
+                'about_me': self.event.organizer.about_me,
+                'link': None
+            }
+        else:
+            fb_event = FacebookEvent.objects.get(facebook_id=self.event.eid)
+            return {
+                'name': fb_event.owner_info.get('name'),
+                'image': None,
+                'link': 'https://www.facebook.com/{}/'.format(
+                    fb_event.owner_info.get('id')
+                ),
+                'username': None,
+                'age': None,
+                'gender': None,
+                'about_me': None
+            }
 
 
 class MatchQuerySet(object):

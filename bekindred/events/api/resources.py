@@ -801,6 +801,7 @@ class EventFeedResource(Resource):
     attendees_maybe = fields.ListField(attribute='attendees_maybe')
     event_photo = fields.FileField(attribute="event_photo", null=True,
                                    blank=True)
+    organizer = fields.DictField(null=True, attribute='organizer')
 
     class Meta:
         resource_name = 'events2'
