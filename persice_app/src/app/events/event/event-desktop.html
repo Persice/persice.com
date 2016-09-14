@@ -41,7 +41,7 @@
           <prs-event-description [description]="(event$ | async).description"></prs-event-description>
         </div>
         <div class="layout__item 1/2">
-          <prs-event-host [host]="(event$ | async).eventHost"></prs-event-host>
+          <prs-event-host [host]="(event$ | async).eventHost" [eventType]="(event$ | async).type"></prs-event-host>
         </div>
         <div class="layout__item" *ngIf="!!(event$ | async).eventUrl">
           <h3 class="module-title">More info</h3>
