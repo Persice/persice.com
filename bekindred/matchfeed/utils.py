@@ -558,24 +558,26 @@ def build_organizer(event):
     if event.event_type == 'persice':
         return persice_organizer(event.organizer)
     else:
-        fb_event = FacebookEvent.objects.get(facebook_id=event.eid)
+        fb_event = FacebookEvent.objects.filter(facebook_id=event.eid).first()
         prs_user = FacebookCustomUserActive.objects.filter(
             facebook_id=event.eid
         ).first()
 
         if prs_user:
             return persice_organizer(prs_user)
-        return {
-            'name': fb_event.owner_info.get('name'),
-            'image': None,
-            'link': 'https://www.facebook.com/{}/'.format(
-                fb_event.owner_info.get('id')
-            ),
-            'username': None,
-            'age': None,
-            'gender': None,
-            'about_me': None
-        }
+        elif fb_event:
+            return {
+                'name': fb_event.owner_info.get('name'),
+                'image': None,
+                'link': 'https://www.facebook.com/{}/'.format(
+                    fb_event.owner_info.get('id')
+                ),
+                'username': None,
+                'age': None,
+                'gender': None,
+                'about_me': None
+            }
+        return None
 
 
 class MatchEvent(object):
